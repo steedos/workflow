@@ -38,14 +38,14 @@ Package.onUse(function(api) {
     api.use('tap:i18n@1.7.0');
     api.use('meteorhacks:subs-manager');
 
-    
+
     api.addFiles('lib/modals/room.coffee');
     api.addFiles('lib/modals/subscription.coffee');
 
     api.addFiles('server/methods/username_init.coffee', 'server');
-    api.addFiles('server/publications/publication.coffee', 'server');
+    api.addFiles('server/publications/subscription.coffee', 'server');
 
-	api.addFiles('client/subscribe.coffee', 'client');    
+	api.addFiles('client/subcribe.coffee', 'client');  
 });
 
 Package.onTest(function(api) {

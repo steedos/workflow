@@ -79,6 +79,7 @@ steedos:lib
 steedos:workflow
 steedos:api
 steedos:cms
+steedos:chat
 peppelg:bootstrap-3-modal
 
 perak:markdown
