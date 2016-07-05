@@ -77,9 +77,11 @@
     "workflow_export_lastmonth": "上月",
     "workflow_export_thisyear": "当年",
     "workflow_export_all": "所有",
+    "workflow_export_filter": "按流程过滤",
 
-    "workflow_export_search":"按流程查看申请单",
-    "workflow_export_data":"导出申请单",
+
+    "workflow_export_search": "按流程查看申请单",
+    "workflow_export_data": "导出申请单",
 
     // inbox
     "Inbox Suggestion NextSteps Label":"下一步骤: ",
