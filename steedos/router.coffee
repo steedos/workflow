@@ -139,7 +139,14 @@ FlowRouter.route '/app/:app_id',
 			FlowRouter.go(app.url)
 			return
 
-		url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?spaceId=" + Steedos.getSpaceId());
+
+		authToken = {};
+		authToken["spaceId"] = Steedos.getSpaceId()
+		if Steedos.isMobile()
+	  		authToken["X-User-Id"] = Meteor.userId();
+	  		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+
+		url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken);
 
 		Steedos.openWindow(url);
 		
