@@ -28,7 +28,7 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 		userId = cookies.get("X-User-Id")
 		authToken = cookies.get("X-Auth-Token")
 
-	if req.params
+	if !userId and !authToken
 		userId = req.params["X-User-Id"]
 		authToken = req.params["X-Auth-Token"]
 
