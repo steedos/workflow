@@ -29,9 +29,8 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 		authToken = cookies.get("X-Auth-Token")
 
 	if !userId and !authToken
-		userId = req.params["X-User-Id"]
-		authToken = req.params["X-Auth-Token"]
-
+		userId = req.query["X-User-Id"]
+		authToken = req.query["X-Auth-Token"]
 
 	if userId and authToken
 		hashedToken = Accounts._hashLoginToken(authToken)
