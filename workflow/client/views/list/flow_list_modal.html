@@ -13,28 +13,16 @@
                             <a data-toggle='collapse' data-parent='#flow_accordion'>
                                 <div class='box-header with-border' style='border-bottom:0'>
                                     <h4 class='box-title'>
-                                        <div class='panel-collapse collapse in' id="#0">
+                                        <div class='panel-collapse collapse in' id="categories_">
                                             <div class='weui_cells_weui_cells_access'>
-                                                <!--
-                                                <a class='weui_cell all' data-flow=''>
+                                                <a class='weui_cell' data-flow='{{_id}}'>
                                                     <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;&nbsp;{{_ "All flows"}}
-                                                </a>  
-                                                -->
-                                                {{#if isChecked _id}}
-                                                    <a class='weui_cell all checked' data-flow=''>
-                                                         <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;&nbsp;{{_ "All flows"}}
-                                                    </a>
-                                                {{else}}
-                                                    <a class='weui_cell' data-flow='{{_id}}'>
-                                                         <i class="fa fa-bars" aria-hidden="true"></i>&nbsp;&nbsp;{{_ "All flows"}}
-                                                    </a>
-                                                {{/if}}
-                                            </div>
+                                                </a>
+                                           </div>
                                         </div>
                                     </h4>
                                 </div>
                             </a>
-
                         </div>
                         <div class='box-group item-boxs' id='flow_accordion'>
                             {{#each flow_list_data.categories}}
@@ -46,50 +34,25 @@
                                                     {{name}}
                                                 </h4>
                                             </div>
-                                        </a>
-                                        {{#if equals 0 @index}}
-                                            <div class='panel-collapse collapse in' id="categories_{{_id}}">
-                                                <div class='weui_cells_weui_cells_access'>
-                                                    {{#each forms}}
-                                                        {{#each flows}}
-                                                            {{#if isChecked _id}}
-                                                                <a class='weui_cell checked' data-flow='{{_id}}'>
-                                                                    <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
-                                                                </a>
-                                                            {{else}}
-                                                                <a class='weui_cell' data-flow='{{_id}}'>
-                                                                    <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
-                                                                </a>
-                                                            {{/if}}
-                                                        {{/each}}
-                                                    {{/each}}
-                                                </div>
-                                            </div>
-                                        {{else}}
-                                            <div class='panel-collapse collapse' id="categories_{{_id}}">
-                                                <div class='weui_cells_weui_cells_access'>
-                                                    {{#each forms}}
-                                                        {{#each flows}}
-                                                            <!--
-                                                            <a class='weui_cell' data-flow='{{_id}}'>
-                                                              <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+                                        </a>   
+                                        <div class='panel-collapse collapse {{getCategorieClass _id}}' id ="categories_{{_id}}">
+                                            <div class='weui_cells_weui_cells_access'> 
+                                                {{#each forms}}
+                                                    {{#each flows}}
+                                                        {{#if isChecked _id}}
+                                                            <a class='weui_cell checked' data-flow='{{_id}}'>
+                                                                <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
                                                             </a>
-                                                             -->
-                                                            {{#if isChecked _id}}
-                                                                <a class='weui_cell checked' data-flow='{{_id}}'>
-                                                                    <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
-                                                                </a>
-                                                            {{else}}
-                                                                <a class='weui_cell' data-flow='{{_id}}'>
-                                                                    <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
-                                                                </a>
-                                                            {{/if}}
-                                                        {{/each}}
+                                                        {{else}}
+                                                            <a class='weui_cell' data-flow='{{_id}}'>
+                                                                <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+                                                            </a>
+                                                        {{/if}}
                                                     {{/each}}
-                                                </div>
+                                                {{/each}}
                                             </div>
-                                        {{/if}}
-                                    </div>
+                                        </div> 
+                                    </div>   
                                 {{/if}}
                             {{/each}}
                         </div>
@@ -99,3 +62,4 @@
         </div>
     </div>
 </template>
+

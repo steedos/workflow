@@ -13,6 +13,14 @@ Template.flow_list_modal.helpers
     isChecked: (a)->
         return Session.get("flowId") == a;
 
+    isChoose: (a)->
+        return Session.get("categorie_id") == ("categories_" + a);
+
+    getCategorieClass : (id)->
+        if Session.get("categorie_id") == ("categories_" + id)
+            return "in"
+
+        return "";
 
 
 Template.flow_list_modal.events
@@ -21,7 +29,20 @@ Template.flow_list_modal.events
         flow = event.currentTarget.dataset.flow;
         
         Modal.hide('flow_list_modal');  
+        
         if !flow 
             Session.set("flowId", undefined);
         else    
-            Session.set("flowId", flow);  
+            Session.set("flowId", flow);
+
+        categorie = event.currentTarget.parentElement.parentElement.id;
+        
+        if !categorie
+            Session.set("categorie_id", undefined);
+        else    
+            Session.set("categorie_id", categorie); 
+       
+
+
+
+
