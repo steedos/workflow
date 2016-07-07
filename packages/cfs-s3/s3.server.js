@@ -119,7 +119,7 @@ FS.Store.S3 = function(name, options) {
       var filenameInStore = fileObj.name({store: name});
 
       // If no store key found we resolve / generate a key
-      return fileObj.collectionName + '/' + fileObj._id + '-' + (filenameInStore || filename);
+      return fileObj.collectionName + '/' + fileObj.collectionName + "-" + fileObj._id + '-' + (filenameInStore || filename);
     },
     createReadStream: function(fileKey, options) {
 

@@ -45,6 +45,9 @@
         "status" : "active",
         "url" : "https://www.steedos.com:443"
       }
+    },
+    "cfs" : {
+      "store" : "OSS"
     }
   },
   "push" : {
@@ -63,5 +66,22 @@
       "apiKey" : "xxxxxxx"
     }
 
+  },
+  "cfs" : {
+    "aliyun" : {
+      "region" : "xxxxxx",
+      "internal" : false,
+      "bucket" : "xxxxxx",
+      "folder" : "xxxxxx",
+      "accessKeyId" : "xxxxxx",
+      "secretAccessKey" : "xxxxxx"
+    },
+    "aws" : {
+      "region" : "xxxxxx",
+      "bucket" : "xxxxxx",
+      "folder" : "xxxxxx",
+      "accessKeyId" : "xxxxxx",
+      "secretAccessKey" : "xxxxxx"
+    }
   }
 }

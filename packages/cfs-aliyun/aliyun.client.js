@@ -28,5 +28,5 @@ FS.Store.OSS = function(name, options) {
  * @return {String}           File Name
  */
 FS.Store.OSS.prototype.fileKey = function(fileObj) {
-  return fileObj.collectionName + '/' + fileObj._id + '-' + fileObj.name();
+  return fileObj.collectionName + '/' + fileObj.collectionName + '-' + fileObj._id + '-' + fileObj.name();
 };
