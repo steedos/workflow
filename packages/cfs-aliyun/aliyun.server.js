@@ -84,7 +84,7 @@ FS.Store.OSS = function(name, options) {
       var filenameInStore = fileObj.name({store: name});
 
       // If no store key found we resolve / generate a key
-      return fileObj.collectionName + '/' +
+      return fileObj.collectionName + '/' + fileObj.collectionName + "-" +
              fileObj._id + '-' + (filenameInStore || filename);
     },
 
