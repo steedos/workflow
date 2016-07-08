@@ -382,23 +382,12 @@ InstanceManager.getInstanceValuesByAutoForm = function(){
         if (!autoFormValue[field.code])
           return ;
         autoFormValue[field.code].forEach(function(t_row_value){
-
-          var is_invalid_tr = false;
-          if(_.size(t_row_value) == 1){
-            for(var k in t_row_value){
-              if(t_row_value[k].toString() == 'false' || t_row_value[k].toString() == 'true'){
-                is_invalid_tr = true;
-              }
-            }
-          }
-          if(!is_invalid_tr){
-            field.sfields.forEach(function(sfield){
-              //if(sfield.type == 'checkbox'){
-              t_row_value[sfield.code] = adjustFieldValue(sfield, t_row_value[sfield.code]);
-              //}
-            });
-            t_values.push(t_row_value);
-          }
+          field.sfields.forEach(function(sfield){
+            //if(sfield.type == 'checkbox'){
+            t_row_value[sfield.code] = adjustFieldValue(sfield, t_row_value[sfield.code]);
+            //}
+          });
+          t_values.push(t_row_value);
         });
       }
       values[field.code] = t_values;
