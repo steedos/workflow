@@ -73,6 +73,15 @@
 
     "instance_attachments_uploading": "Uploading...",
 
+    "workflow_export_thismonth": "This Month",
+    "workflow_export_lastmonth": "Last Month",
+    "workflow_export_thisyear": "This Year",
+    "workflow_export_all": "All",
+    "workflow_export_filter": "Tilter according to process",
+
+    "workflow_export_search":"Search for instances according to the flow",
+    "workflow_export_data":"Export Data",
+
     // inbox
     "Inbox Suggestion NextSteps Label":"Next step: ",
     "Inbox Suggestion NextSteps Handler Label":"Assignee: ",

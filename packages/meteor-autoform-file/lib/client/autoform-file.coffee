@@ -67,9 +67,9 @@ Template.afFileUpload.onRendered ->
     self.value.set false
 Template.afFileUpload.helpers
   label: ->
-    @atts.label or 'meteor_autoform_choose_file'
+    @atts.label or TAPi18n.__ 'meteor_autoform_choose_file'
   removeLabel: ->
-    @atts.removeLabel or 'meteor_autoform_remove'
+    @atts.removeLabel or TAPi18n.__ 'meteor_autoform_remove'
   value: ->
     doc = undefined
     doc = getDocument(this)
