@@ -7,7 +7,14 @@
     </a>
     <ul class="nav dropdown-menu dropdown-space">
       {{#each spaces}}
-        <li class="switchSpace"><a href="#"><i class="fa fa-globe"></i>{{name}}</a></li>
+        <li class="switchSpace">
+          <a href="#">
+            <i class="fa fa-globe"></i><span>{{name}}</span>
+            <i class="pull-right">
+              <span class="label bg-red">{{getBadge "workflow" _id}}</span>
+            </i>
+          </a>
+        </li>
       {{/each}}
     </ul>
   </span>
