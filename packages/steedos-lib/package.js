@@ -65,6 +65,8 @@ Package.onUse(function(api) {
 	api.addFiles('lib/publications/apps.coffee');
 
 	api.addFiles('client/helpers.coffee', 'client');
+
+	api.addFiles('lib/methods/emial_templates_reset.js');
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');
