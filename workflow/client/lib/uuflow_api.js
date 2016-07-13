@@ -408,7 +408,7 @@ UUflow_api.get_export = function (spaceId, flowId, type) {
   uobj.timezoneoffset = new Date().getTimezoneOffset();
   uobj.type = type;
   var url = Steedos.settings.webservices.uuflow.url + "/uf/export/excel?" + $.param(uobj);
-  window.open(url, '_blank', 'EnableViewPortScale=yes');
+  window.open(url, '_parent', 'EnableViewPortScale=yes');
 }
 
 // 打印
