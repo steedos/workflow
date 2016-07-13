@@ -1,7 +1,7 @@
 Template.reassign_modal.helpers({
     
     fields: function(){
-        return new SimpleSchema({reassign_users:{autoform:{type:"selectuser"},optional:true,type:String,label:"处理人"}});
+        return new SimpleSchema({reassign_users:{autoform:{type:"selectuser"},optional:true,type:String,label:TAPi18n.__("instance_reassign_user")}});
     },
     
     values: function(){
@@ -35,13 +35,13 @@ Template.reassign_modal.events({
     'click #reassign_modal_ok': function (event, template) {
         var val = AutoForm.getFieldValue("reassign_users","reassign");
         if (!val) {
-            toastr.error("请指定处理人。");
+            toastr.error(TAPi18n.__("instance_reassign_error_users_required"));
             return;
         }
 
         var reason = $("#reassign_modal_text").val();
         if (!reason) {
-            toastr.error("请填写转签核的理由。");
+            toastr.error(TAPi18n.__("instance_reassign_error_reason_required"));
             return;
         }
 

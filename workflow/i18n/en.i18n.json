@@ -40,7 +40,7 @@
     "Deleted successfully": "Deleted successfully!",
     "Submitted successfully": "Submitted successfully!",
     "Canceled successfully": "Canceled successfully!",
-    "Reasigned successfully": "Reasigned successfully!",
+    "Reassigned successfully": "Reassigned successfully!",
     "Relocated successfully": "Relocated successfully!",
 
     "Attachments": "Attachments",
@@ -59,10 +59,24 @@
 
     "Instance Relocate Hint": "Enter your comments here.",
     "Instance Relocate Title": "Relocate",
-    "Instance Relocate Reason": "Comments is required.",
+    "Instance Relocate Reason": "Comments are required.",
     "Instance Relocate NewInboxUsers": "Please select a user.",
     "Instance Relocate Ok": "Relocated successfully.",
     "Instance Relocate CurStep": "Current Step: ",
+
+    "instance_reassign_title": "Reassign",
+    "instance_reassign_curstep": "Current Step: ",
+    "instance_reassign_reason": "Enter your comments here.",
+    "instance_reassign_ok": "Reassigned successfully.",
+    "instance_reassign_user": "Select User(s)",
+
+    "instance_cancel_title": "Cancel Request",
+    "instance_cancel_reason": "Enter your comments here",
+
+    "instance_reassign_error_reason_required": "Comments are required.",
+    "instance_reassign_error_users_required": "Please select a user.",
+
+    "instance_cancel_error_reason_required": "Comments are required.",
 
     "instance_select_next_step": "Please select next step",
     "instance_next_step_user": "Please select next step user(s)",

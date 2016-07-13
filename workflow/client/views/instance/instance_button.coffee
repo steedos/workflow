@@ -144,8 +144,8 @@ Template.instance_button.events
 
     'click #instance_force_end': (event)->
         swal {
-            title: "取消申请", 
-            text: "请输入取消申请的理由", 
+            title: t("instance_cancel_title"), 
+            text: t("instance_cancel_reason"), 
             type: "input",
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel'),
@@ -157,7 +157,7 @@ Template.instance_button.events
                 return false;
 
             if (reason == "") 
-                swal.showInputError("请输入取消申请的理由");
+                swal.showInputError(t("instance_cancel_error_reason_required"));
                 return false;
             
             InstanceManager.terminateIns(reason);

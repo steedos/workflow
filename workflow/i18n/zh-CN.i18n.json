@@ -64,6 +64,20 @@
     "Instance Relocate Ok": "重定位提交成功。",
     "Instance Relocate CurStep": "当前步骤: ",
 
+    "instance_reassign_title": "转签核",
+    "instance_reassign_curstep": "当前步骤: ",
+    "instance_reassign_reason": "请填写转签核的理由。",
+    "instance_reassign_ok": "转签核提交成功。",
+    "instance_reassign_user": "处理人",
+
+    "instance_cancel_title": "取消申请",
+    "instance_cancel_reason": "请填写取消申请的理由",
+
+    "instance_reassign_error_reason_required": "请填写转签核的理由。",
+    "instance_reassign_error_users_required": "请指定处理人。",
+
+    "instance_cancel_error_reason_required": "请填写取消申请的理由。", 
+
     "instance_select_next_step": "请选择下一步步骤",
     "instance_next_step_user": "请选择下一步处理人",
     "instance_reasons_reject": "驳回时必须填写意见",

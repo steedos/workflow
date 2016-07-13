@@ -4,16 +4,16 @@
       <div class="modal-content ins-modal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="modalLabel2">转签核</h4>
+          <h4 class="modal-title" id="modalLabel2">{{_ "instance_reassign_title"}}</h4>
         </div>
 
         <div class="modal-body">
           {{#autoForm id='reassign' schema=fields doc=values }}
-            <p><span>当前步骤：</span><label id="reassign_currentStepName"></label></p>
+            <p><span>{{_ "instance_reassign_curstep"}}</span><label id="reassign_currentStepName"></label></p>
             <p data-required="true">
               {{> afFormGroup name="reassign_users"}}
             </p>
-            <textarea class="form-control" id="reassign_modal_text" placeholder="请填写转签核的理由。"></textarea>
+            <textarea class="form-control" id="reassign_modal_text" placeholder={{_ "instance_reassign_reason"}}></textarea>
           {{/autoForm}}
         </div>
         <div class="modal-footer">
