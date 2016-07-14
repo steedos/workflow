@@ -159,12 +159,13 @@ FS.Store.S3 = function(name, options) {
     },
     remove: function(fileKey, callback) {
 
-      S3.deleteObject({
-        Bucket: bucket,
-        Key: folder + fileKey
-      }, function(error) {
-        callback(error, !error);
-      });
+      // S3.deleteObject({
+      //   Bucket: bucket,
+      //   Key: folder + fileKey
+      // }, function(error) {
+      //   callback(error, !error);
+      // });
+      callback(null, true);
     },
     watch: function() {
       throw new Error("S3 storage adapter does not support the sync option");

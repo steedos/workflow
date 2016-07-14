@@ -118,12 +118,15 @@ FS.Store.OSS = function(name, options) {
       return ossStore.createWriteStream(options);
     },
     remove: function(fileKey, callback) {
-      ossStore.deleteObject({
-        Bucket: bucket,
-        Key: fileKey
-      }, function(error) {
-        callback(error, !error);
-      });
+
+      // ossStore.deleteObject({
+      //   Bucket: bucket,
+      //   Key: fileKey
+      // }, function(error) {
+      //   console.log(error);
+      //   callback(error, !error);
+      // });
+      callback(null, true);
     },
     watch: function() {
       throw new Error('OSS does not support watch.');
