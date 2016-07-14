@@ -196,7 +196,8 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
 
   // Inform clients about length (or chunk length in case of ranges)
   self.addHeader('Content-Length', range.length);
-
+  
+  // Inform clients for browser cache
   self.addHeader('cache-control', 'public, max-age=31536000');
 
   var modiFied = copyInfo.updatedAt;
@@ -207,7 +208,8 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
       self.setStatusCode(304);
       return;
     }
-  }   
+  }  
+  // Last modified header (updatedAt from file info) 
   self.addHeader('Last-Modified', copyInfo.updatedAt.toUTCString());
 
   // Inform clients that we accept ranges for resumable chunked downloads
