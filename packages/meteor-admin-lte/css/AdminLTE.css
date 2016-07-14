@@ -916,6 +916,11 @@ a:focus {
 .dropdown-menu > li > a > .ion {
   margin-right: 10px;
 }
+.dropdown-menu > li > a > .pull-right {
+  position: absolute; 
+  margin-top: -2px; 
+  right: 5px;
+}
 .dropdown-menu > li > a:hover {
   background-color: #e1e3e9;
   color: #333;

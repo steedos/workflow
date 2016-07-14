@@ -32,3 +32,5 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("categories", spaceId)
 		Steedos.subsSpace.subscribe("forms", spaceId)
 		Steedos.subsSpace.subscribe("flows", spaceId)
+
+	Steedos.subsSpace.subscribe("steedos_keyvalues")

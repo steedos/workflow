@@ -142,6 +142,15 @@
     "users_error_steedos_id_readonly": "登录账户无法修改",
     "users_error_cloud_admin_required": "您无权删除该用户",
 
+    "users_email_create_account":"已为您创建华炎云账号",
+    "users_email_start_service":"请点击以下链接，填写相关信息。",
+    "users_email_verify_account":"您已注册华炎云账号,请点击以下链接进行验证。",
+    "users_email_verify_email":"验证您的登录邮箱",
+    "users_email_reset_password":"重新设置您的密码",
+    "users_email_reset_password_body":"请点击以下链接，重新设置您的登录密码。",
+    "users_email_hello":"您好",
+    "users_email_thanks":"谢谢！",
+
 
 
 	"users_error": {

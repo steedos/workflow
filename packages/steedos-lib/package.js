@@ -54,6 +54,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/organizations.coffee');
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/apps.coffee');
+	api.addFiles('lib/models/steedos_keyvalue.coffee');
 
 	api.addFiles('lib/methods/apps_init.coffee', 'server');
 	api.addFiles('lib/methods/utc_offset.coffee');
@@ -64,6 +65,8 @@ Package.onUse(function(api) {
 	api.addFiles('lib/publications/apps.coffee');
 
 	api.addFiles('client/helpers.coffee', 'client');
+
+	api.addFiles('lib/methods/emial_templates_reset.js');
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');

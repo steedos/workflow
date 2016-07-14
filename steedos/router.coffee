@@ -116,7 +116,14 @@ FlowRouter.route '/designer',
         
         Steedos.openWindow(url);
         
-        #FlowRouter.go "/steedos/springboard"
+        FlowRouter.go "/designer/opened"
+
+FlowRouter.route '/designer/opened', 
+    action: (params, queryParams)->
+        if !Meteor.userId()
+            FlowRouter.go "/steedos/sign-in";
+            return true
+
 
 FlowRouter.route '/app/:app_id', 
 
@@ -150,4 +157,13 @@ FlowRouter.route '/app/:app_id',
 
         Steedos.openWindow(url);
         
-        #FlowRouter.go "/steedos/springboard"
+        FlowRouter.go "/app/#{params.app_id}/opened"
+
+FlowRouter.route '/app/:app_id/opened', 
+
+    action: (params, queryParams)->
+        if !Meteor.userId()
+            FlowRouter.go "/steedos/sign-in";
+            return true
+        
+

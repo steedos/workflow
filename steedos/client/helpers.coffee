@@ -115,16 +115,13 @@ TemplateHelpers =
 				badge = badge + s.unread
 		else 
 			if spaceId
-				space_user = db.space_users.findOne({user: Meteor.userId(), space: spaceId}, {fields: {apps: 1}})
-				b = space_user?.apps?[appId]?.badge 
+				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: spaceId, key: "badge"})
 				if b
-					badge = b 
+					badge = b.value?[appId]
 			else
-				space_users = db.space_users.find({user: Meteor.userId()}, {fields: {apps: 1}})
-				space_users.forEach (su)->
-					b = su.apps?[appId]?.badge
-					if b
-						badge += b
+				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: null, key: "badge"})
+				if b
+					badge = b.value?[appId]
 		if badge 
 			return badge
 

@@ -144,6 +144,15 @@
     "users_error_steedos_id_readonly": "Steedos ID can not be modified",
     "users_error_cloud_admin_required": "Cloud admin required", 
 
+    "users_email_create_account":"An account has been created for you on Steedos",
+    "users_email_start_service":"To start using the service,simply click the link below.",
+    "users_email_verify_account":"To verify your account email,simply click the link below.",
+    "users_email_verify_email":"How to verify email address on Steedos",
+    "users_email_reset_password":"How to reset your password on Steedos",
+    "users_email_reset_password_body":"To reset your password, simply click the link below.",
+    "users_email_hello":"Hello",
+    "users_email_thanks":"Thanks.",
+
   
 
 	"users_error": {

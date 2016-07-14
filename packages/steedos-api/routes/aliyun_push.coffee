@@ -31,6 +31,7 @@ Meteor.startup ->
                 keyData: Meteor.settings.push?.apn?.keyData
                 certData: Meteor.settings.push?.apn?.certData
         gcm:
+                projectNumber: Meteor.settings.push?.gcm?.projectNumber
                 apiKey: Meteor.settings.push?.gcm?.apiKey
         keepNotifications: true
         sendInterval: 1000

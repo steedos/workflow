@@ -63,6 +63,7 @@
         "certData" : "xxxxxxx"
     },
     "gcm" : {
+      "projectNumber":"xxxxxx",
       "apiKey" : "xxxxxxx"
     }
 
