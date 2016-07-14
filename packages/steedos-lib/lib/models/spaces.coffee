@@ -189,7 +189,12 @@ if Meteor.isServer
 		modifier.$set = modifier.$set || {}
 		# 工作区修改后，该工作区的根部门的name也要修改，根部门和子部门的fullname也要修改
 		if modifier.$set.name
-			db.organizations.update({space: doc._id,is_company: true},{$set:{name: doc.name}})
+			# 直接修改根部门名字，跳过验证
+			db.organizations.direct.update({space: doc._id,is_company: true},{$set:{name: doc.name,fullname:doc.name}})
+			rootOrg = db.organizations.findOne({space: doc._id,is_company: true})
+			children = db.organizations.find({parents: rootOrg._id});
+			children.forEach (child) ->
+		    db.organizations.direct.update(child._id, {$set: {fullname: child.calculateFullname()}})
 
 
 	db.spaces.before.remove (userId, doc) ->
