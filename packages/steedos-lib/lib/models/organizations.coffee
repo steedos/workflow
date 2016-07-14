@@ -161,14 +161,15 @@ if (Meteor.isServer)
 				nameOrg = db.organizations.find({_id: {$in: parentOrg.children}, name: doc.name}).count()
 				if nameOrg>0
 					throw new Meteor.Error(400, "organizations_error_organizations_name_exists") 
-		else			
-			existed = db.organizations.find({name: doc.name, space: doc.space,fullname:doc.name}).count()				
-			if existed>0
-				throw new Meteor.Error(400, "organizations_error_organizations_name_exists")
+		else
+			# 新增部门时不允许创建根部门
+			broexisted = db.organizations.find({space:doc.space}).count()
+			if broexisted > 0
+				throw new Meteor.Error(400, "organizations_error_organizations_parent_required")
 
-		# 无法创建根部门
-		if !doc.parent
-			throw new Meteor.Error(400, "organizations_error_organizations_parent_required")
+			orgexisted = db.organizations.find({name: doc.name, space: doc.space,fullname:doc.name}).count()				
+			if orgexisted > 0
+				throw new Meteor.Error(400, "organizations_error_organizations_name_exists")
 
 		
 

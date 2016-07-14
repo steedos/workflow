@@ -4,16 +4,16 @@
       <div class="modal-content ins-modal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="modalLabel2">{{_ "instance_cancel"}}</h4>
+          <h4 class="modal-title" id="modalLabel2">{{_ "instance_cancel_title"}}</h4>
         </div>
 
         <div class="modal-body">
           
-          <textarea class="form-control" id="force_end_modal_text" placeholder="请填写取消申请的理由。"></textarea>
+          <textarea class="form-control" id="force_end_modal_text" placeholder={{_ "instance_cancel_reason"}}></textarea>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="force_end_modal_ok">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Close"}}</button>
+          <button type="button" class="btn btn-primary" id="force_end_modal_ok">{{_ "OK"}}</button>
         </div>
       </div>
     </div>

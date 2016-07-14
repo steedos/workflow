@@ -56,12 +56,7 @@ db.space_users._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			omit: true
-	apps:
-		type: Object
-		optional: true,
-		blackbox: true
-		autoform:
-			omit: true
+
 
 if Meteor.isClient
 	db.space_users._simpleSchema.i18n("space_users")

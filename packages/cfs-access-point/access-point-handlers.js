@@ -161,7 +161,7 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
   }
 
   // Set the content type for file
-  if (typeof copyInfo.type === "string") {
+  if (typeof copyInfo.type === "string" ) {
     self.setContentType(copyInfo.type);
   } else {
     self.setContentType('application/octet-stream');
@@ -196,15 +196,26 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
 
   // Inform clients about length (or chunk length in case of ranges)
   self.addHeader('Content-Length', range.length);
+  
+  // Inform clients for browser cache
+  self.addHeader('cache-control', 'public, max-age=31536000');
 
-  // Last modified header (updatedAt from file info)
+  var modiFied = copyInfo.updatedAt;
+  var reqModifiedHeader = self.requestHeaders['if-modified-since'];
+  if (reqModifiedHeader != null){
+    if (reqModifiedHeader == modiFied.toUTCString()){
+      self.addHeader('Last-Modified', reqModifiedHeader);
+      self.setStatusCode(304);
+      return;
+    }
+  }  
+  // Last modified header (updatedAt from file info) 
   self.addHeader('Last-Modified', copyInfo.updatedAt.toUTCString());
 
   // Inform clients that we accept ranges for resumable chunked downloads
   self.addHeader('Accept-Ranges', range.unit);
 
   if (FS.debug) console.log('Read file "' + (ref.filename || copyInfo.name) + '" ' + range.unit + ' ' + range.start + '-' + range.end + '/' + range.size);
-
   var readStream = storage.adapter.createReadStream(ref.file, {start: range.start, end: range.end});
 
   readStream.on('error', function(err) {

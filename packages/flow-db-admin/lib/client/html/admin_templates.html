@@ -63,7 +63,9 @@
 		{{/with}}
 	{{else}}
 		{{#if hasDocuments}}
-			{{> tabular table=admin_table class="table dataTable" selector=admin_table.selector}}
+			{{#if admin_table}}
+				{{> tabular table=admin_table class="table dataTable" selector=admin_table.selector}}
+			{{/if}}
 		{{else}}
 			<div class="alert alert-info">
 				<p>There are no visible items in this collection.</p>

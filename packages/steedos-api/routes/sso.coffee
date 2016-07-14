@@ -28,6 +28,10 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 		userId = cookies.get("X-User-Id")
 		authToken = cookies.get("X-Auth-Token")
 
+	if !userId and !authToken
+		userId = req.query["X-User-Id"]
+		authToken = req.query["X-Auth-Token"]
+
 	if userId and authToken
 		hashedToken = Accounts._hashLoginToken(authToken)
 		user = Meteor.users.findOne
