@@ -9,8 +9,8 @@ if Meteor.isServer
         unless this.userId
             return this.ready()
 
-        appName = "workflow"
+        # appName = "workflow"
         
-        query = {query: "{\"userId\":\"" + this.userId + "\",\"appName\":\"" + appName + "\"}"}
+        query = {query: {$regex:"{\"userId\":\"" + this.userId + "\","},sent:{$ne:true},sending:{$ne:true}}
 
         return db.raix_push_notifications.find(query, {fields: {createdAt:1, createdBy:1, from:1, title: 1, text:1}, sort:{createdAt:-1},limit:5})

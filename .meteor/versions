@@ -146,6 +146,7 @@ steedos:ionicons@0.1.7
 steedos:lib@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:ui@0.0.1
+steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
 tap:i18n@1.7.0
 templating@1.1.5

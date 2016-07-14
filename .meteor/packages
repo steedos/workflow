@@ -80,6 +80,7 @@ steedos:workflow
 steedos:api
 steedos:cms
 steedos:chat
+steedos:webkit-notification
 peppelg:bootstrap-3-modal
 
 perak:markdown
