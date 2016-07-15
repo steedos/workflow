@@ -11,6 +11,8 @@ Meteor.startup ->
             console.log("init notification observeChanges")
 
         query = db.raix_push_notifications.find();
+        #发起获取发送通知权限请求
+        $.notification.requestPermission ->
 
         handle = query.observeChanges(added: (id, notification) ->
             
