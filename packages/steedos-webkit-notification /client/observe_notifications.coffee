@@ -1,7 +1,7 @@
 Steedos.pushSpace = new SubsManager();
 
 Tracker.autorun (c)->
-    Steedos.pushSpace.reset();
+    # Steedos.pushSpace.reset();
     Steedos.pushSpace.subscribe("raix_push_notifications");
 
 Meteor.startup ->
