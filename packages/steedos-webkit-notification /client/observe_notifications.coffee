@@ -1,13 +1,14 @@
 Steedos.pushSpace = new SubsManager();
 
 Tracker.autorun (c)->
-    # Steedos.pushSpace.reset();
+    Steedos.pushSpace.reset();
     Steedos.pushSpace.subscribe("raix_push_notifications");
 
 Meteor.startup ->
     if !Steedos.isMobile()
-
-        # console.log("init notification observeChanges")
+        
+        if Push.debug
+            console.log("init notification observeChanges")
 
         query = db.raix_push_notifications.find();
 
@@ -27,8 +28,9 @@ Meteor.startup ->
                 appName = notification.from
 
             options.iconUrl = Meteor.absoluteUrl() + "images/apps/" + appName + "/AppIcon48x48.png"
-
-            # console.log(options)
+            
+            if Push.debug
+                console.log(options)
 
             notification = $.notification(options)
             
