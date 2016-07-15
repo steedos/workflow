@@ -31,7 +31,12 @@
 <template name="instance_attachment" >
     <tr>
         <td class="ins-attach-view">
-            <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
+            {{#if isAndroidApp}}
+                <a href="#" data-downloadurl="{{getUrl current}}" name="ins_attach_mobile">{{filename}}</a>
+            {{else}}
+                <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
+            {{/if}}
+            
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" id="{{_id}}" >{{_ "Versions"}}</a>
             {{#if can_delete current.approve historys}}
                 {{> _file_DeleteButton file_id=current._rev}}
