@@ -7,7 +7,7 @@ Package.describe({
 });
 
 Npm.depends({
-  'aliyun-sdk': '1.6.3',
+  'aliyun-sdk': '1.9.2',
 });
 
 Package.onUse(function(api) {
