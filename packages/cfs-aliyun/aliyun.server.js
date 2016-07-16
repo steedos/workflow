@@ -34,15 +34,16 @@ FS.Store.OSS = function(name, options) {
   // Those ACL values are allowed: 'private', 'public-read', 'public-read-write'
   var defaultAcl = options.ACL || 'private';
 
-  var region = options.region || 'oss-cn-hangzhou';
-  var regionList = ['oss-cn-hangzhou', 'oss-cn-beijing', 'oss-cn-qingdao',
-                    'oss-cn-shenzhen', 'oss-cn-hongkong'];
-  if (regionList.indexOf(region) === -1) {
-    throw new Error('FS.Store.OSS invalid region');
-  }
+  var region = options.region || 'oss-cn-beijing';
+  // var regionList = ['oss-cn-hangzhou', 'oss-cn-beijing', 'oss-cn-qingdao',
+  //                   'oss-cn-shenzhen', 'oss-cn-hongkong'];
+  // if (regionList.indexOf(region) === -1) {
+  //   throw new Error('FS.Store.OSS invalid region');
+  // }
 
-  var endpoint = 'http://' + region + (options.internal ? '-internal' : '') +
-                 '.aliyuncs.com';
+  // var endpoint = 'http://' + region + (options.internal ? '-internal' : '') +
+  //                '.aliyuncs.com';
+  var endpoint = 'http://' + region + '.aliyuncs.com';
 
   var serviceParams = FS.Utility.extend({
     accessKeyId: null, // Required
