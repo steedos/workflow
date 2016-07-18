@@ -7,9 +7,9 @@ var stream = Npm.require('stream');
  * @return {[type]}        [description]
  */
 Aliyun.OSS.prototype.createReadStream = function(params, option) {
-  stream = this.getObject(params).createReadStream();
-  stream._maxListeners = 100;
-  return stream;
+  s = this.getObject(params).createReadStream();
+  s._maxListeners = 100;
+  return s;
 };
 
 /**
