@@ -850,7 +850,7 @@
                 // case of calling setValue(null or false)
                 if (!targetMoment) {
                     unset = true;
-                    input.val('');
+                    input.val('').trigger('change');
                     element.data('date', '');
                     notifyEvent({
                         type: 'dp.change',
@@ -870,7 +870,7 @@
                 if (isValid(targetMoment)) {
                     date = targetMoment;
                     viewDate = date.clone();
-                    input.val(date.format(actualFormat));
+                    input.val(date.format(actualFormat)).trigger('change');
                     element.data('date', date.format(actualFormat));
                     unset = false;
                     update();
@@ -881,7 +881,7 @@
                     });
                 } else {
                     if (!options.keepInvalid) {
-                        input.val(unset ? '' : date.format(actualFormat));
+                        input.val(unset ? '' : date.format(actualFormat)).trigger('change');
                     }
                     notifyEvent({
                         type: 'dp.error',
@@ -1312,7 +1312,6 @@
 
             attachDatePickerElementEvents = function () {
                 input.on({
-                    'change': change,
                     'blur': options.debug ? '' : hide,
                     'keydown': keydown,
                     'keyup': keyup,
@@ -1331,7 +1330,6 @@
 
             detachDatePickerElementEvents = function () {
                 input.off({
-                    'change': change,
                     'blur': blur,
                     'keydown': keydown,
                     'keyup': keyup,
