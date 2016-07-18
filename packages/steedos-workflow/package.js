@@ -33,6 +33,8 @@ Package.onUse(function(api) {
     api.use('cfs:standard-packages@0.5.9');
     api.use('kadira:blaze-layout@2.3.0');
     api.use('kadira:flow-router@2.10.1');
+    api.use('iyyang:cfs-aliyun')
+    api.use('cfs:s3');
 
     api.use('meteorhacks:ssr@2.2.0');
     api.use('tap:i18n@1.7.0');
@@ -66,6 +68,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/cfs/core.coffee');
 
+    api.addFiles('client/lib/cfs/instances.coffee', 'client');
     api.addFiles('client/lib/1_form_formula.js', 'client');
     api.addFiles('client/lib/2_steedos_data_format.js', 'client');
     api.addFiles('client/lib/approve_manager.js', 'client');
@@ -150,6 +153,7 @@ Package.onUse(function(api) {
     api.addFiles('client/subscribe.coffee', 'client');
 
     //add server file
+    api.addFiles('server/lib/cfs/instances.coffee', 'server');
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
 
