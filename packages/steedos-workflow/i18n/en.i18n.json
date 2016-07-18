@@ -1,24 +1,139 @@
 {
-	"Steedos Workflow": "Steedos Workflow",
+    "Steedos Workflow": "Steedos Workflow",
+    "inbox": "Inbox",
+    "outbox": "Outbox",
+    "draft": "Draft",
+    "pending": "In Progress",
+    "completed": "Finished",
+    "monitor": "Monitor",
+    "FlowName": "FlowName",
+    "Search": "Search",
+    "My Approval":"My Approval",
+    "My Applications":"My Applications",
+    "Submit":"Submit",
 
-        "instances": "Instances",
-        "instances_name": "Title",
-        "instances_applicant_name": "Applicant",
-        "instances_modified": "Modified",
-        "instances_applicant_organization_name": "Organization",
+    "Workflow": "Workflow",
 
-        "flow_roles": "Flow Roles",
-        "flow_roles_name": "Name",
+    "instances": "Instances",
+    "instances_name": "Title",
+    "instances_applicant_name": "Applicant",
+    "instances_modified": "Modified",
+    "instances_applicant_organization_name": "Organization",
 
-        "flow_positions": "Flow Positions",
-        "flow_positions_role": "Role",
-        "flow_positions_org": "Organization",
-        "flow_positions_users": "Users",
-        "flow_positions_role_name()": "Role",
-        "flow_positions_org_name()": "Organization",
-        "flow_positions_users_name()": "Users",
+    "instance_approve": "Approve",
+    "instance_reject": "Reject",
+    "instance_next_step": "Next Step",
+    "instance_next_step_users": "Next Step User(s)",
+    "instance_initiator": "Initiator",
+    "instance_approval_history": "Approval History",
+    "instance_in_progress": "In Progress",
 
-        "space_users_error_space_required": "Space required",
-        
-        "flow_roles_error_positions_exists": "Users exised in the role"
+    "instance_submit": "Submit",
+    "instance_save": "Save",
+    "instance_delete": "Delete",
+    "instance_attachment": "Attachment",
+    "instance_cancel": "Cancel Request",
+    "instance_reassign": "Reassign",
+    "instance_relocate": "Relocate",
+    "instance_print": "Print",
+
+    "flow_roles": "Flow Roles",
+    "flow_roles_name": "Name",
+
+    "flow_positions": "Flow Positions",
+    "flow_positions_role": "Role",
+    "flow_positions_org": "Organization",
+    "flow_positions_users": "Users",
+    "flow_positions_role_name()": "Role",
+    "flow_positions_org_name()": "Organization",
+    "flow_positions_users_name()": "Users",
+
+    "workflow_table_confirm":"OK",
+
+    "Attachment deleted successfully": "Attachment deleted successfully!",
+    "Attachment was added successfully": "Attachment was added successfully!",
+
+    "Saved successfully": "Saved successfully!",
+    "Added successfully": "Added successfully!",
+    "Deleted successfully": "Deleted successfully!",
+    "Submitted successfully": "Submitted successfully!",
+    "Canceled successfully": "Canceled successfully!",
+    "Reassigned successfully": "Reassigned successfully!",
+    "Relocated successfully": "Relocated successfully!",
+
+    "Attachments": "Attachments",
+    "Versions": "Versions",
+    "Current Version": "（Current Version）",
+    "workflow_attachment_free_size_limit": "Sorry, Attachment larger than 1M is not accepted for free version.",
+    "workflow_attachment_paid_size_limit": "Failed to upload, because attachment size is over 100 MB.",
+
+    "Instance State approved": " Approved",
+    "Instance State rejected": " Rejected",
+    "Instance State terminated": "Cancelled",
+    "Instance State finished": "Completed",
+    "Instance State pending": "In Progress",
+    "Instance State reassigned": "Reassigned",
+    "Instance State relocated": "Relocated",
+
+    "Instance Relocate Hint": "Enter your comments here.",
+    "Instance Relocate Title": "Relocate",
+    "Instance Relocate Reason": "Comments are required.",
+    "Instance Relocate NewInboxUsers": "Please select a user.",
+    "Instance Relocate Ok": "Relocated successfully.",
+    "Instance Relocate CurStep": "Current Step: ",
+
+    "instance_reassign_title": "Reassign",
+    "instance_reassign_curstep": "Current Step: ",
+    "instance_reassign_reason": "Enter your comments here.",
+    "instance_reassign_ok": "Reassigned successfully.",
+    "instance_reassign_user": "Select User(s)",
+
+    "instance_cancel_title": "Cancel Request",
+    "instance_cancel_reason": "Enter your comments here",
+
+    "instance_reassign_error_reason_required": "Comments are required.",
+    "instance_reassign_error_users_required": "Please select a user.",
+
+    "instance_cancel_error_reason_required": "Comments are required.",
+
+    "instance_select_next_step": "Please select next step",
+    "instance_next_step_user": "Please select next step user(s)",
+    "instance_reasons_reject": "Reasons necessary when reject the application",
+    "instance_field": "The field",
+    "instance_is_required": "is required",
+    "instance_email_format_error": "Format error of the email address",
+
+    "instance_attachments_uploading": "Uploading...",
+
+    "workflow_export_thismonth": "This Month",
+    "workflow_export_lastmonth": "Last Month",
+    "workflow_export_thisyear": "This Year",
+    "workflow_export_all": "All",
+    "workflow_export_filter": "Tilter according to process",
+
+    "workflow_export_search":"Search for instances according to the flow",
+    "workflow_export_data":"Export Data",
+
+    // inbox
+    "Inbox Suggestion NextSteps Label":"Next step: ",
+    "Inbox Suggestion NextSteps Handler Label":"Assignee: ",
+
+    "Workflow Designer": "Workflow Designer",
+    "User Management": "User Management",
+
+    "All flows": "All flows",
+    "Select a flow": "Select a flow",
+
+    "Flow upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
+
+    "Are you sure?": "Are you sure?",
+
+    "Select placeholder": "Please select",
+
+    "workflow_no_category": "No category",
+
+    "space_users_error_space_required": "Space required",
+
+    "flow_roles_error_positions_exists": "Users exised in the role"
+
 }
