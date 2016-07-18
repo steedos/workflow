@@ -80,6 +80,7 @@ steedos:workflow
 steedos:api
 steedos:cms
 steedos:chat
+steedos:webkit-notification
 peppelg:bootstrap-3-modal
 
 perak:markdown
@@ -89,3 +90,5 @@ yogiben:autoform-tags
 
 simple:json-routes
 meteorhacks:subs-manager
+iyyang:cfs-aliyun
+cfs:s3

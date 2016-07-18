@@ -149,6 +149,13 @@ TemplateHelpers =
 			if space?.apps_paid?.length >0
 				return _.indexOf(space.apps_paid, app)>=0 
 
+	isAndroidApp: ()->
+		if Meteor.isCordova
+			if device?.platform == "Android"
+				return true
+
+		return false
+
 
 _.extend Steedos, TemplateHelpers
 
