@@ -71,7 +71,7 @@ Template.profile.events
     Meteor.call "users_add_email", inputValue, (error, result)->
         if result?.error
             $(document.body).removeClass('loading')
-            toastr.error result.message
+            toastr.error t(result.message)
         else
             $(document.body).removeClass('loading')
             swal t("primary_email_updated"), "", "success"
