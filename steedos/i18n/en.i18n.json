@@ -96,5 +96,13 @@
     "Password_changed_successfully": "Password changed successfully",
     "Confirm_Password_Not_Match": "Confirm password not match",
     "saved_successfully": "Saved successfully",
-    "Language_changed_reloading": "Language changed reloading"
+    "Language_changed_reloading": "Language changed reloading",
+
+    "email": "Emails",
+    "email_setting": "Setting Emails",
+    "email_login_required": "Login Required",
+    "email_required": "Email Required",
+    "email_format_error": "Email format error",
+    "email_exists": "Email exists",
+    "email_at_least_one": "At least one email address"
 }

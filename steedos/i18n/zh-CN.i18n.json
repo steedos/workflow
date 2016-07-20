@@ -108,8 +108,13 @@
     "Password_changed_successfully": "密码修改成功",
     "Confirm_Password_Not_Match": "请确认两次输入的密码是否一致",
     "saved_successfully": "保存成功",
-    "Language_changed_reloading": "语言已修改，重新载入中"
+    "Language_changed_reloading": "语言已修改，重新载入中",
 
-
-
+    "email": "邮件",
+    "email_setting": "设置邮件",
+    "email_login_required": "请登录",
+    "email_required": "邮件为空",
+    "email_format_error": "邮件格式错误",
+    "email_exists": "邮件已存在",
+    "email_at_least_one": "需要至少一个邮件地址"
 }

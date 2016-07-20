@@ -1,35 +1,59 @@
 if Meteor.isServer
-	Meteor.methods
-		users_add_email: (email) ->
-			if not @userId?
-				return {error: true, message: "Login required."}
-			if not email?
-				return {error: true, message: "Email required."}
-			if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-				return {error: true, message: "Email format error."}
-			if db.users.find({"emails.address": email}).count()>0
-				return {error: true, message: "Email exists."}
+  Meteor.methods
+    users_add_email: (email) ->
+      if not @userId?
+        return {error: true, message: "email_login_required"}
+      if not email
+        return {error: true, message: "email_required"}
+      if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+        return {error: true, message: "email_format_error"}
+      if db.users.find({"emails.address": email}).count()>0
+        return {error: true, message: "email_exists"}
 
-			user = db.users.findOne(_id: this.userId)
-			if user.emails? and user.emails.length > 0 
-				db.users.direct.update {_id: this.userId}, 
-					$push: 
-						emails: 
-							address: email
-							verified: false
-			else
-				db.users.direct.update {_id: this.userId}, 
-					$set: 
-						steedos_id: email
-						emails: [
-							address: email
-							verified: false
-						]
+      user = db.users.findOne(_id: this.userId)
+      if user.emails? and user.emails.length > 0 
+        db.users.direct.update {_id: this.userId}, 
+          $push: 
+            emails: 
+              address: email
+              verified: false
+      else
+        db.users.direct.update {_id: this.userId}, 
+          $set: 
+            steedos_id: email
+            emails: [
+              address: email
+              verified: false
+            ]
 
-			Accounts.sendVerificationEmail(this.userId, email);
+      Accounts.sendVerificationEmail(this.userId, email);
 
-			console.log("add email " + email + " for user " + this.userId)
-			return {}
+      console.log("add email " + email + " for user " + this.userId)
+      return {}
+
+    users_remove_email: (email) ->
+      if not @userId?
+        return {error: true, message: "email_login_required"}
+      if not email
+        return {error: true, message: "email_required"}
+
+      user = db.users.findOne(_id: this.userId)
+      if user.emails? and user.emails.length >= 2
+        p = null
+        user.emails.forEach (e)->
+          if e.address == email
+            p = e
+            return
+        
+        db.users.direct.update {_id: this.userId}, 
+          $pull: 
+            emails: 
+              p
+      else
+        return {error: true, message: "email_at_least_one"}
+
+      console.log("remove email " + email + " for user " + this.userId)
+      return {}
 
 
 if Meteor.isClient

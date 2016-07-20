@@ -32,6 +32,7 @@
               <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">{{_ "Profile"}}</a></li>
               <li class=""><a href="#avatar" data-toggle="tab" aria-expanded="false">{{_ "Avatar"}}</a></li>
               <li class=""><a href="#password" data-toggle="tab" aria-expanded="false">{{_ "Password"}}</a></li>
+              <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="profile">
@@ -68,6 +69,33 @@
                   <input type="text" name="confirmPassword" required="" id="confirmPassword" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm change-password">{{_ 'Change Password'}}</button>
+
+              </div>
+
+              <div class="tab-pane" id="emails">
+
+                <h4>{{_ "email_setting"}}</h4>
+                <div class="list-group">
+                  {{#each emails}}
+                    <li class="list-group-item">
+                      <span>{{this.address}}</span>
+                      <span class="pull-right">
+                        <i class="fa fa-trash-o cursor-pointer" data-email="{{address}}" aria-hidden="true"></i>
+                      </span>
+                    </li>
+                  {{/each}}
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="newEmail" required="" id="newEmail">
+                      <span class="input-group-btn">
+                        <button class="btn btn-primary add-email" type="button">{{_ 'Add'}}</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
               </div>
             </div>
