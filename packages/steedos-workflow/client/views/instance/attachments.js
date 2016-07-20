@@ -66,30 +66,7 @@ Template.instance_attachment.events({
     "click [name='ins_attach_mobile']": function (event, template) {
         var url = event.target.dataset.downloadurl;
         var fileName = template.data.current.filename;
-        window.resolveLocalFileSystemURL(cordova.file.externalCacheDirectory, function(directoryEntry) {
-            directoryEntry.getFile(fileName, {
-                create: true,
-                exclusive: false
-            }, function(fileEntry) {
-                var sPath = fileEntry.toURL();
-                var fileTransfer = new FileTransfer();
-                fileEntry.remove();
-                fileTransfer.download(url, sPath, function(theFile) {
-                    console.log("download complete: " + theFile.toURL());
-                    window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
-                }, function(error) {
-                    console.log("download error source " + error.source);
-                    console.log("download error target " + error.target);
-                    console.log("upload error code: " + error.code);
-                })
-            }, function(error) {
-                console.log("get directoryEntry error source " + error.source);
-                console.log("get directoryEntry error target " + error.target);
-                console.log("get directoryEntry error code: " + error.code);
-            })
-        }, function(error) {
-            console.log("resolveLocalFileSystemURL error code: " + error.code);
-        })
+        WorkflowManager.androidDownload(url, fileName);
     }
 })
 
@@ -198,6 +175,11 @@ Template.ins_attach_version_modal.events({
             event.stopPropagation()
             return false;
         }
+    },
+    "click [name='ins_attach_mobile']": function (event, template) {
+        var url = event.target.dataset.downloadurl;
+        var fileName = event.target.dataset.filename;
+        WorkflowManager.androidDownload(url, fileName);
     }
 })
 
