@@ -783,7 +783,7 @@ WorkflowManager.isPaidSpace = function (spaceId) {
 
 WorkflowManager.androidDownload = function (url, filename, rev, length) {
   $(document.body).addClass("loading");
-  
+
   var fileName = rev + "-" + filename;
   var size = length;
   if (typeof(length) == "string")
@@ -795,7 +795,7 @@ WorkflowManager.androidDownload = function (url, filename, rev, length) {
           exclusive: false
       }, function(fileEntry) {
           fileEntry.file(function(file){
-            if (file.size = size) {
+            if (file.size == size) {
               $(document.body).removeClass('loading');
               window.open(fileEntry.toURL(), "_system", "EnableViewPortScale=yes");
             }
