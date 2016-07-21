@@ -65,7 +65,7 @@ Template.instance_attachment.events({
     },
     "click [name='ins_attach_mobile']": function (event, template) {
         var url = event.target.dataset.downloadurl;
-        var fileName = template.data.current.filename;
+        var fileName = template.data.current._rev + "-" + template.data.current.filename;
         WorkflowManager.androidDownload(url, fileName);
     }
 })
@@ -178,7 +178,7 @@ Template.ins_attach_version_modal.events({
     },
     "click [name='ins_attach_mobile']": function (event, template) {
         var url = event.target.dataset.downloadurl;
-        var fileName = event.target.dataset.filename;
+        var fileName = event.target.dataset.rev + "-" + event.target.dataset.filename;
         WorkflowManager.androidDownload(url, fileName);
     }
 })

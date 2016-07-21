@@ -782,28 +782,40 @@ WorkflowManager.isPaidSpace = function (spaceId) {
 };
 
 WorkflowManager.androidDownload = function (url, fileName) {
+  $(document.body).addClass("loading");
   window.resolveLocalFileSystemURL(cordova.file.externalCacheDirectory, function(directoryEntry) {
       directoryEntry.getFile(fileName, {
           create: true,
           exclusive: false
       }, function(fileEntry) {
-          var sPath = fileEntry.toURL();
-          var fileTransfer = new FileTransfer();
-          fileEntry.remove();
-          fileTransfer.download(url, sPath, function(theFile) {
-              console.log("download complete: " + theFile.toURL());
-              window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
-          }, function(error) {
-              console.log("download error source " + error.source);
-              console.log("download error target " + error.target);
-              console.log("upload error code: " + error.code);
-          })
+          var file = fileEntry.file();
+          if (file.size > 0) {
+            $(document.body).removeClass('loading');
+            window.open(fileEntry.toURL(), "_system", "EnableViewPortScale=yes");
+          }
+          else {
+            var sPath = fileEntry.toURL();
+            var fileTransfer = new FileTransfer();
+            fileEntry.remove();
+            fileTransfer.download(url, sPath, function(theFile) {
+                $(document.body).removeClass('loading');
+                console.log("download complete: " + theFile.toURL());
+                window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
+            }, function(error) {
+                $(document.body).removeClass('loading');
+                console.log("download error source " + error.source);
+                console.log("download error target " + error.target);
+                console.log("upload error code: " + error.code);
+            })
+          }
       }, function(error) {
+          $(document.body).removeClass('loading');
           console.log("get directoryEntry error source " + error.source);
           console.log("get directoryEntry error target " + error.target);
           console.log("get directoryEntry error code: " + error.code);
       })
   }, function(error) {
+      $(document.body).removeClass('loading');
       console.log("resolveLocalFileSystemURL error code: " + error.code);
   })
 }
