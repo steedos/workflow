@@ -781,33 +781,44 @@ WorkflowManager.isPaidSpace = function (spaceId) {
   return is_paid;
 };
 
-WorkflowManager.androidDownload = function (url, fileName) {
+WorkflowManager.androidDownload = function (url, filename, rev, length) {
   $(document.body).addClass("loading");
+  
+  var fileName = rev + "-" + filename;
+  var size = length;
+  if (typeof(length) == "string")
+    size = length.to_float();
+
   window.resolveLocalFileSystemURL(cordova.file.externalCacheDirectory, function(directoryEntry) {
       directoryEntry.getFile(fileName, {
           create: true,
           exclusive: false
       }, function(fileEntry) {
-          var file = fileEntry.file();
-          if (file.size > 0) {
+          fileEntry.file(function(file){
+            if (file.size = size) {
+              $(document.body).removeClass('loading');
+              window.open(fileEntry.toURL(), "_system", "EnableViewPortScale=yes");
+            }
+            else {
+              var sPath = fileEntry.toURL();
+              var fileTransfer = new FileTransfer();
+              fileEntry.remove();
+              fileTransfer.download(url, sPath, function(theFile) {
+                  $(document.body).removeClass('loading');
+                  console.log("download complete: " + theFile.toURL());
+                  window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
+              }, function(error) {
+                  $(document.body).removeClass('loading');
+                  console.log("download error source " + error.source);
+                  console.log("download error target " + error.target);
+                  console.log("upload error code: " + error.code);
+              })
+            }
+          }, function(error){
             $(document.body).removeClass('loading');
-            window.open(fileEntry.toURL(), "_system", "EnableViewPortScale=yes");
-          }
-          else {
-            var sPath = fileEntry.toURL();
-            var fileTransfer = new FileTransfer();
-            fileEntry.remove();
-            fileTransfer.download(url, sPath, function(theFile) {
-                $(document.body).removeClass('loading');
-                console.log("download complete: " + theFile.toURL());
-                window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
-            }, function(error) {
-                $(document.body).removeClass('loading');
-                console.log("download error source " + error.source);
-                console.log("download error target " + error.target);
-                console.log("upload error code: " + error.code);
-            })
-          }
+            console.log("upload error code: " + error.code);
+          });
+            
       }, function(error) {
           $(document.body).removeClass('loading');
           console.log("get directoryEntry error source " + error.source);
