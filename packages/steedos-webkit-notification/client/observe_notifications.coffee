@@ -36,5 +36,9 @@ Meteor.startup ->
 
             notification = $.notification(options)
             
+            # add sound
+            msg = new Audio("/sound/notification.mp3")
+            msg.play();
+
             return;
         )
