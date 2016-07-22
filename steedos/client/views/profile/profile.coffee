@@ -16,6 +16,10 @@ Template.profile.helpers
   emails: ()->
     return Meteor.user()?.emails
 
+  more_than_one_address: ()->
+    if Meteor.user()?.emails.length > 1
+      return true
+    return false
 
 Template.profile.onRendered ->
 
@@ -94,6 +98,17 @@ Template.profile.events
                 toastr.error t(result.message)
             else
                 $(document.body).removeClass('loading')
+
+  'click .send-verify-email': (event, template)->
+    $(document.body).addClass("loading")
+    email = event.target.dataset.email
+    Meteor.call "users_verify_email", email, (error, result)->
+            if result?.error
+                $(document.body).removeClass('loading')
+                toastr.error t(result.message)
+            else
+                $(document.body).removeClass('loading')
+                swal t("email_verify_sent"), "", "success"
 
 
 Meteor.startup ->

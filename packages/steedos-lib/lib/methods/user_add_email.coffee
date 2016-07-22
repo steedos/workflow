@@ -55,6 +55,20 @@ if Meteor.isServer
       console.log("remove email " + email + " for user " + this.userId)
       return {}
 
+    users_verify_email: (email) ->
+      if not @userId?
+        return {error: true, message: "email_login_required"}
+      if not email
+        return {error: true, message: "email_required"}
+      if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+        return {error: true, message: "email_format_error"}
+      
+
+      Accounts.sendVerificationEmail(this.userId, email);
+
+      console.log("verify email " + email + " for user " + this.userId)
+      return {}
+
 
 if Meteor.isClient
     Steedos.users_add_email = ()->
