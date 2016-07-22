@@ -216,7 +216,8 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
   self.addHeader('Accept-Ranges', range.unit);
 
   if (FS.debug) console.log('Read file "' + (ref.filename || copyInfo.name) + '" ' + range.unit + ' ' + range.start + '-' + range.end + '/' + range.size);
-  var readStream = storage.adapter.createReadStream(ref.file, {start: range.start, end: range.end});
+  
+  readStream = storage.adapter.createReadStream(ref.file, {start: range.start, end: range.end});
 
   readStream.on('error', function(err) {
     // Send proper error message on get error
@@ -227,7 +228,17 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
     }
   });
 
-  readStream.pipe(self.createWriteStream());
+  writeStream = self.createWriteStream()
+
+  self.request.on('aborted', function() {
+    console.log("request aborted")
+    if (readStream._aliyunObject){
+      readStream._aliyunObject.httpRequest._abortCallback = function(){}
+      readStream._aliyunObject.abort();
+    }
+  });
+
+  readStream.pipe(writeStream);
 };
 
 /**
