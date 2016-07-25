@@ -168,8 +168,9 @@ if Meteor.isServer
 				admins: [doc._id]
 
 		try
-			# 发送让用户设置密码的邮件
-			Accounts.sendEnrollmentEmail(doc._id, doc.emails[0].address)
+			if !doc.services || !doc.services.password || !doc.services.password.bcrypt
+				# 发送让用户设置密码的邮件
+				Accounts.sendEnrollmentEmail(doc._id, doc.emails[0].address)
 		catch e
 			console.log "after insert user: sendEnrollmentEmail, id: " + doc._id + ", " + e
 
