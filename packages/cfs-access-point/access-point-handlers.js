@@ -227,7 +227,17 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
     }
   });
 
-  readStream.pipe(self.createWriteStream());
+  writeStream = self.createWriteStream()
+
+  self.request.on('aborted', function() {
+    console.log("request aborted")
+    if (readStream._aliyunObject){
+      readStream._aliyunObject.httpRequest._abortCallback = function(){}
+      readStream._aliyunObject.abort();
+    }
+  });
+
+  readStream.pipe(writeStream);
 };
 
 /**
