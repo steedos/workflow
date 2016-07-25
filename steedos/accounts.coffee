@@ -51,6 +51,22 @@ AccountsTemplates.configureRoute 'verifyEmail',
 AccountsTemplates.configureRoute 'enrollAccount',
   path: '/steedos/enroll-account'
 
+# add fields within sign-up form
+AccountsTemplates.addFields([
+  {
+    _id: 'name',
+    type: 'text'
+  },
+  {
+    _id: 'company',
+    type: 'text'
+  },
+  {
+    _id: 'mobile',
+    type: 'text'
+  }
+]);
+
 
 if Meteor.isServer
   Accounts.emailTemplates.siteName = "Steedos";

@@ -137,6 +137,12 @@ if Meteor.isServer
 		if (doc.profile?.locale && !doc.locale)
 			doc.locale = doc.profile.locale
 
+		if (doc.profile?.company && !doc.company)
+			doc.company = doc.profile.company
+
+		if (doc.profile?.mobile && !doc.mobile)
+			doc.mobile = doc.profile.mobile
+
 		# if !doc.steedos_id
 		# 	doc._id = db.users._makeNewID()
 		# 	doc.steedos_id = doc._id 
