@@ -213,6 +213,31 @@ Dingtalk.userListGet = (access_token, department_id) ->
   catch err
     throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
 
+# 获取access_token
+Dingtalk.getToken = (corpid, corpsecret) ->
+  console.log '===Dingtalk.getToken==='
+  console.log corpid
+  console.log corpsecret
+  try
+    response = HTTP.get(
+      "https://oapi.dingtalk.com/gettoken", 
+      {
+        params: 
+          corpid: corpid,
+          corpsecret: corpsecret
+      }
+    );
+    # console.log response
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.errcode > 0 
+      throw response.data.errmsg
+
+    return response.data.access_token
+
+  catch err
+    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
 
 
 Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->

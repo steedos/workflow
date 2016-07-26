@@ -119,3 +119,27 @@ Dingtalk._jsonWrapper = function(timestamp, nonce, text) {
     nonce: nonce
   };
 }
+
+// 手动初始化
+JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
+
+  console.log(req.query);
+  console.log(req.body);
+  var corpid = req.query.corpid;
+  var corpsecret = req.query.corpsecret;
+  var corp_name = req.query.corp_name;
+
+  var access_token = Dingtalk.getToken(corpid, corpsecret);
+
+  if (access_token) {
+    var auth_corp_info = {};
+    auth_corp_info.corpid = corpid;
+    auth_corp_info.corp_name = corp_name;
+    Dingtalk.syncCompany(access_token, auth_corp_info);
+  }
+
+  JsonRoutes.sendResult(res, {
+    data: "success"
+  });
+  
+});
