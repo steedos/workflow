@@ -218,19 +218,19 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
   if (FS.debug) console.log('Read file "' + (ref.filename || copyInfo.name) + '" ' + range.unit + ' ' + range.start + '-' + range.end + '/' + range.size);
   var readStream = storage.adapter.createReadStream(ref.file, {start: range.start, end: range.end});
 
-  readStream.on('error', function(err) {
-    // Send proper error message on get error
-    if (err.message && err.statusCode) {
-      self.Error(new Meteor.Error(err.statusCode, err.message));
-    } else {
-      self.Error(new Meteor.Error(503, 'Service unavailable'));
-    }
-  });
-
   writeStream = self.createWriteStream()
 
+  readStream.on('error', function(err) {
+    // Send proper error message on get error
+    // if (err.message && err.statusCode) {
+    //   self.Error(new Meteor.Error(err.statusCode, err.message));
+    // } else {
+    //   self.Error(new Meteor.Error(503, 'Service unavailable'));
+    // }
+    writeStream.end();
+  });
+
   self.request.on('aborted', function() {
-    console.log("request aborted")
     if (readStream._aliyunObject){
       readStream._aliyunObject.httpRequest._abortCallback = function(){}
       readStream._aliyunObject.abort();
