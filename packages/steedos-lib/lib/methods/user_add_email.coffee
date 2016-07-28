@@ -69,6 +69,28 @@ if Meteor.isServer
       console.log("verify email " + email + " for user " + this.userId)
       return {}
 
+    users_set_primary_email: (email) ->
+      if not @userId?
+        return {error: true, message: "email_login_required"}
+      if not email
+        return {error: true, message: "email_required"}
+
+      user = db.users.findOne(_id: this.userId)
+      emails = user.emails
+      emails.forEach (e)->
+        if e.address == email
+          e.primary = true
+        else
+          e.primary = false
+
+      db.users.direct.update {_id: this.userId},
+        $set:
+          emails: emails
+
+
+      return {}
+
+
 
 if Meteor.isClient
     Steedos.users_add_email = ()->

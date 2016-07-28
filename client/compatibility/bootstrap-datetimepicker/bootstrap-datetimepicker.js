@@ -881,7 +881,7 @@
                     });
                 } else {
                     if (!options.keepInvalid) {
-                        input.val(unset ? '' : date.format(actualFormat)).trigger('change');
+                        input.val(unset ? '' : date.format(actualFormat));
                     }
                     notifyEvent({
                         type: 'dp.error',

@@ -105,7 +105,11 @@
     "email_format_error": "Email format error",
     "email_exists": "Email exists",
     "email_at_least_one": "At least one email address",
-    "email_verify_sent": "Verify email has been sent",
+    "email_verify_sent": "Verification email sent.",
     "email_vrified": "Verified",
-    "email_send_verify": "Send verify email"
+    "email_unvrified": "Unverified",
+    "email_send_verify": "Resend",
+    "email_set_primary": "set primary email",
+    "email_is_primary": "Primary",
+    "email_set_primary_success": "set primary email success"
 }

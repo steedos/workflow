@@ -21,6 +21,16 @@ Template.profile.helpers
       return true
     return false
 
+  isPrimary: (email)->
+    isPrimary = false
+    if Meteor.user()?.emails.length > 0
+      Meteor.user().emails.forEach (e)->
+        if e.address == email && e.primary == true
+          isPrimary = true
+          return
+
+    return isPrimary
+
 Template.profile.onRendered ->
 
 
@@ -109,6 +119,17 @@ Template.profile.events
             else
                 $(document.body).removeClass('loading')
                 swal t("email_verify_sent"), "", "success"
+
+  'click .set-primary-email': (event, template)->
+    $(document.body).addClass("loading")
+    email = event.target.dataset.email
+    Meteor.call "users_set_primary_email", email, (error, result)->
+            if result?.error
+                $(document.body).removeClass('loading')
+                toastr.error t(result.message)
+            else
+                $(document.body).removeClass('loading')
+                swal t("email_set_primary_success"), "", "success"
 
 
 Meteor.startup ->

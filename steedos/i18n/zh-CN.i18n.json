@@ -117,7 +117,11 @@
     "email_format_error": "邮件格式错误",
     "email_exists": "邮件已存在",
     "email_at_least_one": "需要至少一个邮件地址",
-    "email_verify_sent": "验证邮件已发送",
+    "email_verify_sent": "验证邮件已发送.",
     "email_vrified": "已验证",
-    "email_send_verify": "发送验证邮件"
+    "email_unvrified": "未验证",
+    "email_send_verify": "重新发送",
+    "email_set_primary": "设置为主要邮件",
+    "email_is_primary": "主要邮件",
+    "email_set_primary_success": "已设置为主要邮件"
 }

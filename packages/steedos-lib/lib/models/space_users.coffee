@@ -13,6 +13,7 @@ db.space_users._simpleSchema = new SimpleSchema
 	email:
 		type: String,
 		regEx: SimpleSchema.RegEx.Email,
+		optional: true
 	user:
 		type: String,
 		optional: true,
@@ -84,6 +85,12 @@ if (Meteor.isServer)
 
 		if !doc.space
 			throw new Meteor.Error(400, "space_users_error_space_required");
+
+		if !doc.email
+			throw new Meteor.Error(400, "email_required");
+
+		if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(doc.email)
+      throw new Meteor.Error(400, "email_format_error");
 
 		# check space exists
 		space = db.spaces.findOne(doc.space)
