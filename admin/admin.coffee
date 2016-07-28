@@ -59,8 +59,8 @@ db.space_users.adminConfig =
 		{name: "user_accepted"}
 	]
 	extraFields: ["space", "user", 'organization', "manager"]
-	newFormFields: "space,email"
-	editFormFields: "space,name,manager,user_accepted"
+	newFormFields: "space,name,email,organization,manager,user_accepted"
+	editFormFields: "space,name,organization,manager,user_accepted"
 	selector: {space: "-1"}
 	pageLength: 100
 	routerAdmin: "/steedos/admin"
