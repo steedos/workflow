@@ -21,11 +21,11 @@ Template.profile.helpers
       return true
     return false
 
-  isPrimary: ()->
+  isPrimary: (email)->
     isPrimary = false
     if Meteor.user()?.emails.length > 0
       Meteor.user().emails.forEach (e)->
-        if e.primary == true
+        if e.address == email && e.primary == true
           isPrimary = true
           return
 

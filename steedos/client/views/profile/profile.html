@@ -80,7 +80,7 @@
                     <li class="list-group-item">
                       <span>{{this.address}}</span>
                       {{#if this.verified}}
-                        {{#if isPrimary}}
+                        {{#if isPrimary this.address}}
                           <span>{{_ 'email_is_primary'}}</span>
                         {{/if}}
                       {{else}}
@@ -89,7 +89,7 @@
                       
                         <span class="pull-right">
                           {{#if this.verified}}
-                            {{#unless isPrimary}}
+                            {{#unless isPrimary this.address}}
                               <span><button class="set-primary-email btn-link" data-email="{{address}}">{{_ 'email_set_primary'}}</button></span>
                             {{/unless}}
                           {{else}}
