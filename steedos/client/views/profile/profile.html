@@ -80,15 +80,25 @@
                     <li class="list-group-item">
                       <span>{{this.address}}</span>
                       {{#if this.verified}}
-                        <span>{{_ 'email_vrified'}}</span>
+                        {{#if isPrimary}}
+                          <span>{{_ 'email_is_primary'}}</span>
+                        {{/if}}
                       {{else}}
-                        <span><a href="#" class="send-verify-email cursor-pointer" data-email="{{address}}">{{_ 'email_send_verify'}}</a></span>
+                        <span>{{_ 'email_unvrified'}}</span>
                       {{/if}}
-                      {{#if more_than_one_address}}
+                      
                         <span class="pull-right">
-                          <i class="fa fa-trash-o cursor-pointer" data-email="{{address}}" aria-hidden="true"></i>
+                          {{#if this.verified}}
+                            {{#unless isPrimary}}
+                              <span><button class="set-primary-email btn-link" data-email="{{address}}">{{_ 'email_set_primary'}}</button></span>
+                            {{/unless}}
+                          {{else}}
+                            <span>{{_ 'email_verify_sent'}}<button class="send-verify-email btn-link" data-email="{{address}}">{{_ 'email_send_verify'}}</button></span>
+                          {{/if}}
+
+                          
                         </span>
-                      {{/if}}
+                      
                     </li>
                   {{/each}}
                 </div>
