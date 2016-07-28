@@ -185,6 +185,11 @@ var exports = function (options) {
             }, false)
         }
 
+        if (options.onclick && typeof(options.onclick) === 'function'){
+            instance.payload = options.payload
+            instance.addEventListener('click', options.onclick ,false)
+        }
+
         dfd.resolve(instance);
     });
 

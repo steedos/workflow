@@ -21,8 +21,25 @@ Meteor.startup ->
                 title: notification.title
                 body: notification.text
                 timeout: 6 * 1000
-                onclick: ->
-                    console.log 'Pewpew'
+
+            if notification.payload
+
+                options.payload = notification.payload
+
+                options.onclick = (event) ->
+                    debugger;
+                    console.log 'notification click...'
+
+                    # instance_state = event.target.payload.instance_state
+
+                    # instance_final = event.target.payload.instance_final
+
+                    box = "inbox" # inbox、outbox、draft、pending、completed
+
+                    #FlowRouter.go("/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance);
+
+                    window.open("/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance);
+                    
 
             appName = "steedos"
 
