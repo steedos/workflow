@@ -80,6 +80,8 @@ if Meteor.isServer
       emails.forEach (e)->
         if e.address == email
           e.primary = true
+        else
+          e.primary = false
 
       db.users.direct.update {_id: this.userId},
         $set:
