@@ -1312,6 +1312,7 @@
 
             attachDatePickerElementEvents = function () {
                 input.on({
+                    'change': change,
                     'blur': options.debug ? '' : hide,
                     'keydown': keydown,
                     'keyup': keyup,
@@ -1330,6 +1331,7 @@
 
             detachDatePickerElementEvents = function () {
                 input.off({
+                    'change': change,
                     'blur': blur,
                     'keydown': keydown,
                     'keyup': keyup,
