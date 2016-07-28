@@ -23,7 +23,7 @@ Template.profile.helpers
 
   isPrimary: ()->
     isPrimary = false
-    if Meteor.user()?.emails.length > 1
+    if Meteor.user()?.emails.length > 0
       Meteor.user().emails.forEach (e)->
         if e.primary == true
           isPrimary = true
