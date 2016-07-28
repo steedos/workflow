@@ -98,16 +98,4 @@ if Meteor.isClient
 					column.title = t("" + table.collection._name + "_" + column.data);
 				table.options.language = datatables_i18n[lang]
 				
-				
-	Tracker.autorun (c) ->
-		user = Meteor.user()
-		locale = Steedos.getLocale();
-
-		if locale == "zh-cn"
-			TAPi18n.setLanguage("zh-CN")
-			moment.locale("zh-cn")
-		else 
-			TAPi18n.setLanguage("en")
-			moment.locale("en")
-
 		
