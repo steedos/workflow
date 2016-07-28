@@ -881,7 +881,7 @@
                     });
                 } else {
                     if (!options.keepInvalid) {
-                        input.val(unset ? '' : date.format(actualFormat)).trigger('change');
+                        input.val(unset ? '' : date.format(actualFormat));
                     }
                     notifyEvent({
                         type: 'dp.error',
@@ -1312,7 +1312,6 @@
 
             attachDatePickerElementEvents = function () {
                 input.on({
-                    'change': change,
                     'blur': options.debug ? '' : hide,
                     'keydown': keydown,
                     'keyup': keyup,
@@ -1331,7 +1330,6 @@
 
             detachDatePickerElementEvents = function () {
                 input.off({
-                    'change': change,
                     'blur': blur,
                     'keydown': keydown,
                     'keyup': keyup,
