@@ -218,8 +218,8 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
   if (FS.debug) console.log('Read file "' + (ref.filename || copyInfo.name) + '" ' + range.unit + ' ' + range.start + '-' + range.end + '/' + range.size);
   var readStream = storage.adapter.createReadStream(ref.file, {start: range.start, end: range.end});
 
-  writeStream = self.createWriteStream()
-
+  var writeStream = self.createWriteStream();
+  
   readStream.on('error', function(err) {
     // Send proper error message on get error
     // if (err.message && err.statusCode) {
@@ -227,7 +227,10 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
     // } else {
     //   self.Error(new Meteor.Error(503, 'Service unavailable'));
     // }
+
+    console.log(err);
     writeStream.end();
+    
   });
 
   self.request.on('aborted', function() {

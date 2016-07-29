@@ -49,7 +49,9 @@ FS.Store.OSS = function(name, options) {
     accessKeyId: null, // Required
     secretAccessKey: null, // Required
     endpoint: endpoint,
-    timeout: 60000,
+    httpOptions: {
+      timeout: 6000
+    },
     apiVersion: '2013-10-15' // Required, DO NOT UPDATE
   }, options);
   // Create S3 service
