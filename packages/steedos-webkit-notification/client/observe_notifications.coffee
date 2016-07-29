@@ -27,12 +27,7 @@ Meteor.startup ->
                 options.payload = notification.payload
 
                 options.onclick = (event) ->
-                    debugger;
                     console.log 'notification click...'
-
-                    # instance_state = event.target.payload.instance_state
-
-                    # instance_final = event.target.payload.instance_final
 
                     box = "inbox" # inbox、outbox、draft、pending、completed
 
