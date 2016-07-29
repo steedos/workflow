@@ -11,7 +11,7 @@ ApproveManager.isReadOnly = function(){
     if (!flow)
         return true;
 
-    if ((Session.get("box")=="draft"&&flow.state=="enabled") || Session.get("box")=="inbox")
+    if (ins.state != 'completed' && ((Session.get("box")=="draft"&&flow.state=="enabled") || Session.get("box")=="inbox"))
         return false;
     else
         return true;

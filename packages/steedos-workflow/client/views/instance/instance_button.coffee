@@ -6,8 +6,7 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
-
-        if (Session.get("box")=="draft"&&flow.state=="enabled") || Session.get("box")=="inbox"
+        if !ApproveManager.isReadOnly()
             return "";
         else
             return "display: none;";
@@ -20,7 +19,7 @@ Template.instance_button.helpers
         if !flow
             return "display: none;";
 
-        if (Session.get("box")=="draft"&&flow.state=="enabled") || Session.get("box")=="inbox"
+        if !ApproveManager.isReadOnly()
             return "";
         else
             return "display: none;";
@@ -53,7 +52,7 @@ Template.instance_button.helpers
 
 
     enabled_add_attachment: -> 
-        if Session.get("box")=="draft" || Session.get("box")=="inbox"
+        if !ApproveManager.isReadOnly()
             return "";
         else
             return "display: none;";
