@@ -34,7 +34,7 @@
             {{#if isAndroidApp}}
                 <a href="#" data-downloadurl="{{getUrl current}}" name="ins_attach_mobile">{{filename}}</a>
             {{else}}
-                <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
+                <a href="{{getUrl current}}" class="ins_attach_href" target="_blank">{{filename}}</a>
             {{/if}}
             
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" id="{{_id}}" >{{_ "Versions"}}</a>
@@ -76,7 +76,7 @@
                                     {{#if isAndroidApp}}
                                         <a href="#" data-downloadurl="{{getUrl current}}" data-filename="{{filename}}" data-rev="{{current._rev}}" data-length="{{current.length}}" name="ins_attach_mobile">{{filename}} {{_ "Current Version"}}</a>
                                     {{else}}
-                                        <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}} {{_ "Current Version"}}</a>
+                                        <a href="{{getUrl current}}" class="ins_attach_href" target="_blank">{{filename}} {{_ "Current Version"}}</a>
                                     {{/if}}
                                     <br/>
                                     <label style="margin-bottom:0px;">{{attach_version_info current}}</label>
@@ -92,7 +92,7 @@
                                         {{#if isAndroidApp}}
                                             <a href="#" data-downloadurl="{{getUrl this}}" data-filename="{{filename}}" data-rev="{{this._rev}}" data-length="{{this.length}}" name="ins_attach_mobile">{{filename}}</a>
                                         {{else}}
-                                            <a href="{{getUrl this}}" class="ins_attach_href" target="_parent">{{filename}}</a>
+                                            <a href="{{getUrl this}}" class="ins_attach_href" target="_blank">{{filename}}</a>
                                         {{/if}}
                                         <br/>
                                         <label style="margin-bottom:0px;">{{attach_version_info this}}</label>
