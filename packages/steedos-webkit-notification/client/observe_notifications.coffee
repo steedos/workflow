@@ -31,10 +31,14 @@ Meteor.startup ->
 
                     box = "inbox" # inbox、outbox、draft、pending、completed
 
-                    #FlowRouter.go("/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance);
-
-                    window.open("/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance);
+                    instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
                     
+                    if window.cos && typeof(window.cos) == 'object'
+                        if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'
+                            window.cos.win_focus();
+                        FlowRouter.go(instance_url);    
+                    else
+                        window.open(instance_url);
 
             appName = "steedos"
 
