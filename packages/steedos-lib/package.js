@@ -28,6 +28,8 @@ Package.onUse(function(api) {
 	api.use('aldeed:autoform');
 	api.use('matb33:collection-hooks');
     api.use('cfs:standard-packages@0.5.9');
+    api.use('iyyang:cfs-aliyun')
+    api.use('cfs:s3');
 
 
 	api.use(['webapp'], 'server');
