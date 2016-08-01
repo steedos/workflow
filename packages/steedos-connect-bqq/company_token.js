@@ -9,7 +9,7 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
         params: {
           code: req.query.code,
           app_id: config.clientId,
-          redirect_uri: "https://cn.steedos.com/workflow/api/bqq/companyToken", //OAuth._redirectUri("bqq", config),
+          redirect_uri: "https://cn.steedos.com/api/bqq/companyToken", //OAuth._redirectUri("bqq", config),
           app_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
         }
@@ -22,7 +22,7 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
       throw response.data.msg;
 
   } catch (err) {
-    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err.message),
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err),
                    {response: err.response});
   }
 
