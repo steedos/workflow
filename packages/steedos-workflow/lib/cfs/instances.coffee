@@ -1,21 +1,27 @@
 fs_store
 
 if Meteor.settings.public.cfs?.store == "OSS"
-    fs_store = new FS.Store.OSS 'instances',
-        region: Meteor.settings.cfs.aliyun.region
-        internal: Meteor.settings.cfs.aliyun.internal
-        bucket: Meteor.settings.cfs.aliyun.bucket
-        folder: Meteor.settings.cfs.aliyun.folder
-        accessKeyId: Meteor.settings.cfs.aliyun.accessKeyId
-        secretAccessKey: Meteor.settings.cfs.aliyun.secretAccessKey
+    if Meteor.isClient
+        fs_store = new FS.Store.OSS('instances')
+    else if Meteor.isServer
+        fs_store = new FS.Store.OSS 'instances',
+            region: Meteor.settings.cfs.aliyun.region
+            internal: Meteor.settings.cfs.aliyun.internal
+            bucket: Meteor.settings.cfs.aliyun.bucket
+            folder: Meteor.settings.cfs.aliyun.folder
+            accessKeyId: Meteor.settings.cfs.aliyun.accessKeyId
+            secretAccessKey: Meteor.settings.cfs.aliyun.secretAccessKey
 
 else if Meteor.settings.public.cfs?.store == "S3"
-    fs_store = new FS.Store.S3 "instances",
-        region: Meteor.settings.cfs.aws.region
-        bucket: Meteor.settings.cfs.aws.bucket
-        folder: Meteor.settings.cfs.aws.folder
-        accessKeyId: Meteor.settings.cfs.aws.accessKeyId
-        secretAccessKey: Meteor.settings.cfs.aws.secretAccessKey
+    if Meteor.isClient
+        fs_store = new FS.Store.S3("instances")
+    else if Meteor.isServer
+        fs_store = new FS.Store.S3 "instances",
+            region: Meteor.settings.cfs.aws.region
+            bucket: Meteor.settings.cfs.aws.bucket
+            folder: Meteor.settings.cfs.aws.folder
+            accessKeyId: Meteor.settings.cfs.aws.accessKeyId
+            secretAccessKey: Meteor.settings.cfs.aws.secretAccessKey
 else
     fs_store = new FS.Store.FileSystem("instances")
 
