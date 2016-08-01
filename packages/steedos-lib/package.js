@@ -27,6 +27,7 @@ Package.onUse(function(api) {
 	api.use('aldeed:tabular');
 	api.use('aldeed:autoform');
 	api.use('matb33:collection-hooks');
+    api.use('cfs:standard-packages@0.5.9');
 
 
 	api.use(['webapp'], 'server');
@@ -55,6 +56,9 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
+
+	api.addFiles('lib/cfs/core.coffee');
+	api.addFiles('lib/cfs/avatars.coffee');
 
 	api.addFiles('lib/methods/apps_init.coffee', 'server');
 	api.addFiles('lib/methods/utc_offset.coffee');

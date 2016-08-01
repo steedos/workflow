@@ -67,8 +67,8 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/spaces.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
+    api.addFiles('lib/cfs/instances.coffee');
 
-    api.addFiles('client/lib/cfs/instances.coffee', 'client');
     api.addFiles('client/lib/1_form_formula.js', 'client');
     api.addFiles('client/lib/2_steedos_data_format.js', 'client');
     api.addFiles('client/lib/approve_manager.js', 'client');
@@ -153,7 +153,6 @@ Package.onUse(function(api) {
     api.addFiles('client/subscribe.coffee', 'client');
 
     //add server file
-    api.addFiles('server/lib/cfs/instances.coffee', 'server');
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
 

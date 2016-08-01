@@ -68,7 +68,7 @@
                           "version": "0.4.1"
                         },
                         "concat-map": {
-                          "version": "0.0.1"
+                          "version": "https://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz"
                         }
                       }
                     }

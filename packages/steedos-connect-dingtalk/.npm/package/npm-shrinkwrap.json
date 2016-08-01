@@ -81,7 +81,7 @@
               "version": "0.1.11"
             },
             "ctype": {
-              "version": "0.5.3"
+              "version": "https://registry.npm.taobao.org/ctype/download/ctype-0.5.3.tgz"
             }
           }
         },
