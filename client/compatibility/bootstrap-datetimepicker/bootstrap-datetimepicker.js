@@ -416,6 +416,8 @@
                     vertical = options.widgetPositioning.vertical,
                     horizontal = options.widgetPositioning.horizontal,
                     parent;
+                
+                vertical = "bottom";
 
                 if (options.widgetParent) {
                     parent = options.widgetParent.append(widget);
