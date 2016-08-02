@@ -461,7 +461,7 @@ SteedosTable.getTDValue = function(field, value){
                 }
                 break;
             case 'number':
-                if(value){
+                if(value || value == 0){
                     if(typeof(value) == 'string'){
                         value = parseFloat(value)
                     }
