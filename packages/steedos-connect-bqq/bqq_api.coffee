@@ -251,7 +251,11 @@ BQQ.syncCompany = (oauth) ->
     if s_doc.hasOwnProperty('name') || s_doc.hasOwnProperty('owner') || s_doc.hasOwnProperty('admins')
       s_doc.modified = now
       s_doc.modified_by = owner_id
-    s_doc['services.bqq'] = { expires_in: oauth.expires_in, refresh_token: oauth.refresh_token, company_id: oauth.company_id, company_token: oauth.company_token }
+    s_bqq = s.services.bqq
+    s_bqq.expires_in = oauth.expires_in
+    s_bqq.refresh_token = oauth.refresh_token
+    s_bqq.company_token = oauth.company_token
+    s_doc['services.bqq'] = s_bqq
     db.spaces.direct.update(space_id, {$set: s_doc})
   else
 

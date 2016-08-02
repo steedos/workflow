@@ -23,7 +23,7 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
 
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err),
-                   {response: err.response});
+                   {response: err});
   }
 
   console.log(response.data);
@@ -41,9 +41,6 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
 // 从企业QQ跳转入口和事件通知
 JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
   var config = ServiceConfiguration.configurations.findOne({service: 'bqq'});
-
-  console.log("/api/bqq/notify");
-  console.log(req.query);
 
   var query = req.query;
   
@@ -89,7 +86,7 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
     } catch (err) {
       console.log(err);
       throw _.extend(new Error("Failed to verify hashskey with QQ. " + err),
-                     {response: err.response});
+                     {response: err});
     }
 
     var user = db.users.findOne({"services.bqq.id": open_id});
@@ -112,7 +109,26 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
       },
       code: 301
     });
-  } else {
+  }
+  // 6）用户关闭应用
+  else if (notify_type_id == 6) {
+    var space = db.spaces.findOne({'services.bqq.company_id': company_id});
+    if (space) {
+      var s_bqq = space.services.bqq;
+      s_bqq.expires_in = undefined;
+      s_bqq.refresh_token = undefined;
+      s_bqq.company_token = undefined;
+      db.spaces.direct.update({_id: space._id}, {$set: {'services.bqq': s_bqq}});
+    }
+
+    JsonRoutes.sendResult(res, {
+      data: {
+        ret: 0,
+        msg: "成功"
+      }
+    });
+  }
+  else {
     var now_time = new Date().getTime();
     var space = db.spaces.findOne({"services.bqq.company_id": company_id});
     if (space) {
@@ -130,7 +146,7 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
 
 // 自动同步接口
 JsonRoutes.add("post", "/api/bqq/sync", function (req, res, next) {
-  var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}});
+  var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}, "services.bqq.company_token": {$exists: true}});
   var result = [];
 
   spaces.forEach(function(s){
