@@ -1,15 +1,52 @@
-# BQQ.app =
-#   app_id: "200626779",
-#   app_secret: "UkQ6G6gFJwJBfYuv"
-
-
-BQQ.company =      
-  company_id: 'c4609934c326caf9fd0053823bb99947',
-  company_token: '07ded6f5c4c31706018434f88a94b461',
-  refresh_token: '8cfbcf279c61028750ad5bcec13d8b03',
-
 
 config = ServiceConfiguration.configurations.findOne({service: 'bqq'});
+
+# 校验company_token是否过期
+BQQ.loginCheckGet = (oauth)->
+  try
+    response = HTTP.get(
+      "https://openapi.b.qq.com/api/login/check", 
+      {
+        params: 
+          app_id: config.clientId,
+          company_id: oauth.company_id,
+          company_token: oauth.company_token,
+          client_ip: "0.0.0.0",
+          oauth_version: 2
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    return response.data
+
+  catch err
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. BQQ.loginCheckGet: " + err), {response: err});
+
+
+BQQ.companyRefreshGet = (oauth)->
+  try
+    response = HTTP.get(
+      "https://openapi.b.qq.com/oauth2/companyRefresh", 
+      {
+        params: 
+          app_id: config.clientId,
+          app_secret: OAuth.openSecret(config.secret),
+          refresh_token: oauth.refresh_token
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.ret > 0 
+      throw response.data.msg
+
+    return response.data.data
+
+  catch err
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. BQQ.companyRefreshGet: " + err), {response: err});
 
 BQQ.corporationGet = (oauth)->
   try
@@ -36,7 +73,7 @@ BQQ.corporationGet = (oauth)->
     return response.data.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err.message), {response: err.response});
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. BQQ.corporationGet: " + err), {response: err});
 
 
 BQQ.deptGet = (oauth, timestamp)->
@@ -64,7 +101,7 @@ BQQ.deptGet = (oauth, timestamp)->
     return response.data.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err.message), {response: err.response});
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. BQQ.deptGet: " + err), {response: err});
 
 
 BQQ.userGet = (oauth, timestamp)->
@@ -92,7 +129,7 @@ BQQ.userGet = (oauth, timestamp)->
     return response.data.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err.message), {response: err.response});
+    throw _.extend(new Error("Failed to complete OAuth handshake with QQ. BQQ.userGet: " + err), {response: err});
 
 # BQQ.syncCompany({ expires_in: 7776000,refresh_token: '8cfbcf279c61028750ad5bcec13d8b03',company_id: 'c4609934c326caf9fd0053823bb99947',company_token: '07ded6f5c4c31706018434f88a94b461' })
 BQQ.syncCompany = (oauth) ->
@@ -106,7 +143,6 @@ BQQ.syncCompany = (oauth) ->
   #   "company_duedate": "1970-01-01"
   # }
   space_data = BQQ.corporationGet(oauth)
-  console.log(JSON.stringify(space_data))
   space_id = null
 
   # 部门
@@ -131,7 +167,6 @@ BQQ.syncCompany = (oauth) ->
   #   ]
   # }
   org_data = BQQ.deptGet(oauth)
-  console.log(JSON.stringify(org_data))
 
   # 用户
   # {
@@ -155,7 +190,6 @@ BQQ.syncCompany = (oauth) ->
   #   ]
   # }
   user_data = BQQ.userGet(oauth)
-  console.log(JSON.stringify(user_data))
   owner_id = null
   owner_ids = []
   admin_ids = []
@@ -171,12 +205,10 @@ BQQ.syncCompany = (oauth) ->
         doc.name = u.realname
 
       if doc.hasOwnProperty('name')
-        console.log('修改用户: ' + u.realname)
-        console.log(doc)
+      
         doc.modified = now
         db.users.direct.update(user_id, {$set: doc})
     else
-      console.log('用户不存在')
       doc = {}
       doc._id = db.users._makeNewID()
       doc.steedos_id = doc._id
@@ -186,7 +218,6 @@ BQQ.syncCompany = (oauth) ->
       doc.created = now
       doc.modified = now
       doc.services = {bqq:{id: u.open_id}}
-      console.log(doc)
       user_id = db.users.direct.insert(doc)
 
     if u.role_id == 0
@@ -218,13 +249,11 @@ BQQ.syncCompany = (oauth) ->
       s_doc.admins = admin_ids
 
     if s_doc.hasOwnProperty('name') || s_doc.hasOwnProperty('owner') || s_doc.hasOwnProperty('admins')
-      console.log('修改工作区')
-      console.log(s_doc)
       s_doc.modified = now
       s_doc.modified_by = owner_id
-      db.spaces.direct.update(space_id, {$set: s_doc})
+    s_doc['services.bqq'] = { expires_in: oauth.expires_in, refresh_token: oauth.refresh_token, company_id: oauth.company_id, company_token: oauth.company_token }
+    db.spaces.direct.update(space_id, {$set: s_doc})
   else
-    console.log('新建工作区')
 
     s_doc = {}
     s_doc._id = s_id
@@ -237,7 +266,6 @@ BQQ.syncCompany = (oauth) ->
     s_doc.modified = now
     s_doc.modified_by = owner_id
     s_doc.services = { bqq:{ expires_in: oauth.expires_in, refresh_token: oauth.refresh_token, company_id: oauth.company_id, company_token: oauth.company_token }}
-    console.log(s_doc)
     space_id = db.spaces.direct.insert(s_doc)
 
 
@@ -262,7 +290,6 @@ BQQ.syncCompany = (oauth) ->
       deleted_org_ids.push(o._id)
 
   db.space_users.find({_id: {$in: deleted_su_ids}}).forEach (su) ->
-    console.log("删除space_user: " + su.name)
     db.space_users.direct.remove({_id: su._id})
 
     organizationObj = db.organizations.findOne(su.organization)
@@ -283,7 +310,6 @@ BQQ.syncCompany = (oauth) ->
     db.users_changelogs.direct.insert(ucl_doc)
 
   db.organizations.find({_id: {$in: deleted_org_ids}}).forEach (o) ->
-    console.log("删除部门: " + o.name)
     db.organizations.direct.remove({_id: o._id})
 
 
@@ -296,7 +322,6 @@ BQQ.syncCompany = (oauth) ->
     su_id = "bqq-" + u.open_id
     suq = db.space_users.find({_id: su_id})
     if suq.count() == 0
-      console.log('新建space_user')
       su_doc = {}
       su_doc._id = su_id
       su_doc.user = u.user_id
@@ -311,7 +336,6 @@ BQQ.syncCompany = (oauth) ->
         p_dept_id = u.p_dept_id[0]
       if p_dept_id
         su_doc.organization = "bqq-" + space_data.company_id + "-" + p_dept_id
-      console.log(su_doc)
       space_user_id = db.space_users.direct.insert(su_doc)
       if space_user_id
         # update org users
@@ -331,7 +355,6 @@ BQQ.syncCompany = (oauth) ->
 
         count = db.space_users.direct.find({space: space_id}).count()
         ucl_doc.user_count = count
-        console.log(ucl_doc)
         db.users_changelogs.direct.insert(ucl_doc)
     else if suq.count() > 0
       su = suq.fetch()[0]
@@ -349,7 +372,6 @@ BQQ.syncCompany = (oauth) ->
           su_doc.organization = new_org_id
 
       if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization')
-        console.log('修改space_user')
         r = db.space_users.direct.update(su._id, {$set: su_doc})
         if r && su_doc.organization
           organizationObj = db.organizations.findOne(su_doc.organization)
@@ -360,8 +382,6 @@ BQQ.syncCompany = (oauth) ->
   # 更新space_user直属上级
   user_data.items.forEach (u) ->
     if u.p_open_id
-      console.log('更新space_user直属上级')
-      console.log(u.realname)
       manager = db.space_users.findOne("bqq-"+u.p_open_id, {fields: {user: 1}})
       db.space_users.direct.update("bqq-"+u.open_id, {$set:{manager: manager.user}})
     else
@@ -370,7 +390,6 @@ BQQ.syncCompany = (oauth) ->
 
   # 更新 org
   db.organizations.find({space: space_id}).forEach (org) ->
-    console.log('更新部门 parents fullname children')
     updateFields = {}
     updateFields.parents = org.calculateParents()
     updateFields.fullname = org.calculateFullname()
@@ -413,14 +432,11 @@ BQQ.createOrg = (depts, p_dept_id, space_id, company_id, owner_id) ->
           org_doc.name = o.dept_name
 
         if org_doc.hasOwnProperty('name')
-          console.log('修改部门: ' + o.dept_name)
-          console.log(org_doc)
           org_doc.modified = now
           org_doc.modified_by = owner_id
           db.organizations.direct.update(org._id, {$set: org_doc})
 
       else
-        console.log('新增部门')
         org_doc = {}
         org_doc._id = o_id
         org_doc.space = space_id
@@ -433,7 +449,6 @@ BQQ.createOrg = (depts, p_dept_id, space_id, company_id, owner_id) ->
         org_doc.created_by = owner_id
         org_doc.modified = now
         org_doc.modified_by = owner_id
-        console.log(org_doc)
         org_id = db.organizations.direct.insert(org_doc)
       if org_id
         BQQ.createOrg(depts, o.dept_id, space_id, company_id, owner_id)

@@ -9,7 +9,7 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
         params: {
           code: req.query.code,
           app_id: config.clientId,
-          redirect_uri: "https://cn.steedos.com/api/bqq/companyToken", //OAuth._redirectUri("bqq", config),
+          redirect_uri: Meteor.absoluteUrl() + "api/bqq/companyToken", //OAuth._redirectUri("bqq", config),
           app_secret: OAuth.openSecret(config.secret),
           grant_type: 'authorization_code'
         }
@@ -119,8 +119,6 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
       db.spaces.direct.update(space._id, {$set:{"services.bqq.modified": now_time}});
     }
 
-
-
     JsonRoutes.sendResult(res, {
       data: {
         ret: 0,
@@ -128,21 +126,51 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
       }
     });
   }
+});
 
+// 自动同步接口
+JsonRoutes.add("post", "/api/bqq/sync", function (req, res, next) {
+  var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}});
+  var result = [];
 
+  spaces.forEach(function(s){
+    try {
+      var auth = s.services.bqq;
+      var c = BQQ.loginCheckGet(auth);
+      if (c.ret > 0) {
+        var r = BQQ.companyRefreshGet(auth);
+        auth.company_token = r.company_token;
+        auth.expires_in = r.expires_in;
+        auth.refresh_token = r.refresh_token;
+        db.spaces.direct.update({_id: s._id}, {$set: {'services.bqq': auth}});
+      } 
 
+      BQQ.syncCompany(auth);
+    }
+    catch (err) {
+      console.error(err);
+      e = {};
+      e._id = s._id;
+      e.services = s.services;
+      e.err = err;
+      result.push(e);
+    }
+  })
 
+  if (result.length > 0) {
+    var Email = Package.email.Email;
+    Email.send({
+      to: 'support@steedos.com',
+      from: Accounts.emailTemplates.from,
+      subject: 'bqq sync result',
+      text: JSON.stringify({'result': result})
+    });
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-  
+  JsonRoutes.sendResult(res, {
+    data: {
+      ret: 0,
+      msg: result
+    }
+  });
 });

@@ -281,37 +281,49 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
   admin_ids = []
   user_data.forEach (u) ->
     user_id = null
-    uq = db.users.find({"services.dingtalk.id": u.dingId})
-    if uq.count() > 0
-      
-      user = uq.fetch()[0]
-      user_id = user._id
-      doc = {}
-      if user.name != u.name
-        doc.name = u.name
+    exists_user = null
+    if u.email
+      exists_user = db.users.direct.findOne({"emails.address": u.email}, {fields: {_id: 1}})
 
-      if user.avatarURL != u.avatar
-        user.avatarURL = u.avatar
-
-      if doc.hasOwnProperty('name') || doc.hasOwnProperty('avatarURL')
-        console.log('修改用户: ' + u.name)
-        console.log(doc)
-        doc.modified = now
-        db.users.direct.update(user_id, {$set: doc})
+    if exists_user
+      user_id = exists_user._id
     else
-      console.log('用户不存在')
-      doc = {}
-      doc._id = db.users._makeNewID()
-      doc.steedos_id = doc._id
-      doc.name = u.name
-      doc.locale = "zh-cn"
-      doc.is_deleted = false
-      doc.created = now
-      doc.modified = now
-      doc.services = {dingtalk:{id: u.dingId}}
-      doc.avatarURL = u.avatar
-      console.log(doc)
-      user_id = db.users.direct.insert(doc)
+      uq = db.users.find({"services.dingtalk.id": u.dingId})
+      if uq.count() > 0
+        
+        user = uq.fetch()[0]
+        user_id = user._id
+        doc = {}
+        if user.name != u.name
+          doc.name = u.name
+
+        if user.avatarURL != u.avatar
+          doc.avatarURL = u.avatar
+
+        if user.mobile != u.mobile
+          doc.mobile = u.mobile
+
+        if doc.hasOwnProperty('name') || doc.hasOwnProperty('avatarURL') || doc.hasOwnProperty('mobile')
+          console.log('修改用户: ' + u.name)
+          console.log(doc)
+          doc.modified = now
+          db.users.direct.update(user_id, {$set: doc})
+
+      else
+        console.log('用户不存在')
+        doc = {}
+        doc._id = db.users._makeNewID()
+        doc.steedos_id = doc._id
+        doc.name = u.name
+        doc.locale = "zh-cn"
+        doc.is_deleted = false
+        doc.created = now
+        doc.modified = now
+        doc.services = {dingtalk:{id: u.dingId}}
+        doc.avatarURL = u.avatar
+        doc.mobile = u.mobile
+        console.log(doc)
+        user_id = db.users.direct.insert(doc)
 
     if u.isBoss
       if !admin_ids.includes(user_id)

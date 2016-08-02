@@ -123,11 +123,27 @@ Dingtalk._jsonWrapper = function(timestamp, nonce, text) {
 // 手动初始化
 JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
 
+  res.reply = function(result) {
+    JsonRoutes.sendResult(res, {
+      data: result
+    });
+  }
+
   console.log(req.query);
   console.log(req.body);
   var corpid = req.query.corpid;
   var corpsecret = req.query.corpsecret;
   var corp_name = req.query.corp_name;
+
+  if (!corpid)
+      res.reply("need corpid!");
+
+  if (!corpsecret)
+      res.reply("need corpsecret!");
+
+  if (!corp_name)
+      res.reply("need corp_name!");
+
 
   var access_token = Dingtalk.getToken(corpid, corpsecret);
 
