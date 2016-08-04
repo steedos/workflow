@@ -57,8 +57,8 @@ getUserQuerySelector = (user) ->
 
   # Add a new auth token to the user's account
   authToken = Accounts._generateStampedLoginToken()
-  hashedToken = Accounts._hashLoginToken authToken.token
-  Accounts._insertHashedLoginToken authenticatingUser._id, {hashedToken}
+  hashedToken = Accounts._hashStampedToken authToken
+  Accounts._insertHashedLoginToken authenticatingUser._id, hashedToken
 
   space_users = db.space_users.find({user: authenticatingUser._id}).fetch()
   spaces = []

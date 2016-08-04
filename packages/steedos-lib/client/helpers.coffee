@@ -161,6 +161,29 @@ TemplateHelpers =
 
         return false
 
+    loginWithCookie: (onSuccess) ->
+        userId = Steedos.getCookie("X-User-Id")
+        authToken = Steedos.getCookie("X-Auth-Token")
+        if userId and authToken
+            if Meteor.userId() != userId
+                Accounts.connection.setUserId(userId);
+                Accounts.loginWithToken authToken,  (err) ->
+                    if (err) 
+                        Meteor._debug("Error logging in with token: " + err);
+                        Accounts.makeClientLoggedOut();
+                    else if onSuccess
+                        onSuccess();
+            else
+                onSuccess()
+
+    getCookie: (name)->
+        pattern = RegExp(name + "=.[^;]*")
+        matched = document.cookie.match(pattern)
+        if(matched)
+            cookie = matched[0].split('=')
+            return cookie[1]
+        return false
+
 
 _.extend Steedos, TemplateHelpers
 

@@ -167,3 +167,12 @@ FlowRouter.route '/app/:app_id/opened',
             return true
         
 
+FlowRouter.route '/steedos/sso', 
+    action: (params, queryParams)->
+        returnurl = queryParams.returnurl
+
+        Steedos.loginWithCookie ()->
+            Meteor._debug("cookie login success");
+            FlowRouter.go(returnurl);
+
+

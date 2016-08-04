@@ -108,8 +108,8 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 
 
 	authToken = Accounts._generateStampedLoginToken()
-	hashedToken = Accounts._hashLoginToken authToken.token
-	Accounts._insertHashedLoginToken user._id, {hashedToken}
+	hashedToken = Accounts._hashStampedToken authToken
+	Accounts._insertHashedLoginToken user._id, hashedToken
 
 	# set cookie to response
 	# maxAge 3 month

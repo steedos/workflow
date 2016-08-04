@@ -96,16 +96,15 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
     var userId = user._id;
 
     var authToken = Accounts._generateStampedLoginToken();
-    var hashedToken = Accounts._hashLoginToken(authToken.token);
-    Accounts._insertHashedLoginToken(userId, {hashedToken: hashedToken});
+    var hashedToken = Accounts._hashStampedToken(authToken);
+    Accounts._insertHashedLoginToken(userId, hashedToken);
 
     Setup.setAuthCookies(req, res, userId, authToken.token);
-
-    //var sso_url = '/workflow/sso?userId=' + userId + '&authToken=' + authToken.token + '&redirect=' + returnurl;
+    var sso_url = '/steedos/sso?returnurl=' + returnurl;
 
     JsonRoutes.sendResult(res, {
       headers: {
-        'Location': returnurl,
+        'Location': sso_url,
       },
       code: 301
     });
