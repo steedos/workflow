@@ -170,7 +170,7 @@ FS.HTTP.Handlers.Get = function httpGetHandler(ref) {
   // Add 'Content-Disposition' header if requested a download/attachment URL
   if (typeof ref.download !== "undefined") {
     var filename = ref.filename || copyInfo.name;
-    self.addHeader('Content-Disposition', 'attachment; filename="' + encodeURIComponent(filename) + '"');
+    self.addHeader('Content-Disposition', "attachment; filename*=UTF-8''" + encodeURIComponent(filename) );
   } else {
     self.addHeader('Content-Disposition', 'inline');
   }
