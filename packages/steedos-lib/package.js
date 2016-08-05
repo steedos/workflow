@@ -5,6 +5,10 @@ Package.describe({
 	git: ''
 });
 
+Npm.depends({
+	"node-schedule": "1.1.1"
+});
+
 Package.onUse(function(api) { 
 	api.versionsFrom('1.0');
 
@@ -75,6 +79,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/language.coffee', 'client');
 
 	api.addFiles('lib/methods/emial_templates_reset.js');
+	api.addFiles('lib/methods/steedos_statics.js', 'server');
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');
