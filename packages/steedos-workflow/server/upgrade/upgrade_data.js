@@ -14,9 +14,9 @@ JsonRoutes.add("get", "/api/organizations/upgrade/", function (req, res, next) {
 
   	JsonRoutes.sendResult(res, {
     	data: {
-      	ret: 0,
-      	msg: "成功"
-    }
-  });
+	      	ret: 0,
+	      	msg: "成功"
+    	}
+  	});
 });
 
