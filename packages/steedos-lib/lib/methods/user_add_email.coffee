@@ -86,6 +86,7 @@ if Meteor.isServer
       db.users.direct.update {_id: this.userId},
         $set:
           emails: emails
+          email: email
 
 
       return {}
