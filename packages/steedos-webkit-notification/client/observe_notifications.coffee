@@ -58,3 +58,28 @@ Meteor.startup ->
 
             return;
         )
+    else
+
+        if Push.debug
+            console.log("add addListener")
+
+        Push.onNotification = (data) ->
+            box = 'inbox'# inbox、outbox、draft、pending、completed
+            if data && data.payload
+                if data.payload.space and data.payload.instance
+                    instance_url = '/workflow/space/' + data.payload.space + '/' + box + '/' + data.payload.instance
+                    window.open instance_url
+            return
+
+        #后台运行时，点击推送消息
+        Push.addListener 'startup', (data) ->
+            if Push.debug
+                console.log 'Push.Startup: Got message while app was closed/in background:', data
+            Push.onNotification data
+
+        #关闭进程时，点击推送消息
+        Push.addListener 'message', (data) ->
+            if Push.debug
+                console.log 'Push.Message: Got message while app is open:', data
+            Push.onNotification data
+            return
