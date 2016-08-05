@@ -14,6 +14,11 @@ Tracker.autorun (c)->
 				space = db.spaces.findOne()
 				if space
 					Steedos.setSpaceId(space._id)
+		# 默认选中第一个space
+		else
+			space = db.spaces.findOne()
+			if space
+				Steedos.setSpaceId(space._id)
 
 
 
