@@ -137,7 +137,8 @@ Template.instance_button.events
 
     'click #instance_submit': (event)->
         if WorkflowManager.isArrearageSpace()
-            if Session.get("box")=="draft"
+            ins = WorkflowManager.getInstance();
+            if ins.state=="draft"
                 toastr.error(t("spaces_isarrearageSpace"));
                 return
         
