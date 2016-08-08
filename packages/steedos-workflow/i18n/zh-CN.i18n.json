@@ -114,6 +114,8 @@
     "workflow_export_search": "按流程查看申请单",
     "workflow_export_data": "导出申请单",
 
+    "spaces_isarrearageSpace": "您的工作区已欠费",
+
     // inbox
     "Inbox Suggestion NextSteps Label":"下一步骤: ",
     "Inbox Suggestion NextSteps Handler Label":"处理人: ",

@@ -780,6 +780,21 @@ WorkflowManager.isPaidSpace = function (spaceId) {
   }
   return is_paid;
 };
+// 判断是否为欠费工作区
+WorkflowManager.isArrearageSpace = function(){
+  var spaceId = Session.get("spaceId");
+  var space = db.spaces.findOne({'_id': spaceId});
+  if (space) {
+    if(space.is_paid){
+
+      return space.balance <= 0.00 ?  true:false;
+
+    }else{
+      return false;
+    }
+  }
+  return true;
+}
 
 WorkflowManager.androidDownload = function (url, filename, rev, length) {
   $(document.body).addClass("loading");

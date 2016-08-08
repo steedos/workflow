@@ -136,6 +136,11 @@ Template.instance_button.events
             InstanceManager.deleteIns()
 
     'click #instance_submit': (event)->
+        if WorkflowManager.isArrearageSpace()
+            if Session.get("box")=="draft"
+                toastr.error(t("spaces_isarrearageSpace"));
+                return
+        
         InstanceManager.checkFormValue();
         if($(".has-error").length == 0)
             InstanceManager.submitIns();

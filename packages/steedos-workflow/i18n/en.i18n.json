@@ -114,6 +114,8 @@
     "workflow_export_search":"Search for instances according to the flow",
     "workflow_export_data":"Export Data",
 
+    "spaces_isarrearageSpace": "your space is arrearage",
+
     // inbox
     "Inbox Suggestion NextSteps Label":"Next step: ",
     "Inbox Suggestion NextSteps Handler Label":"Assignee: ",
