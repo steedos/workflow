@@ -79,7 +79,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/language.coffee', 'client');
 
 	api.addFiles('lib/methods/emial_templates_reset.js');
-	api.addFiles('lib/methods/steedos_statics.js', 'server');
+	api.addFiles('lib/methods/steedos_statistics.js', 'server');
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');
