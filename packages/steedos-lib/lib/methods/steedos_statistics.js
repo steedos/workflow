@@ -1,4 +1,4 @@
-JsonRoutes.add("get", "/api/steedos/staticscount/", function (req, res, next) {
+JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	
 	db.steedos_statistics = new Meteor.Collection('steedos_statistics');
 	// 日期格式化 
