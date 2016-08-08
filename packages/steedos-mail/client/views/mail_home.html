@@ -1,0 +1,22 @@
+<template name="mail_home">
+  <section class="content-header">
+    <h1>
+      Mailbox
+      <small>13 new messages</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Mailbox</li>
+    </ol>
+  </section>
+  <section class="content steedos-mail">
+    <div class="row">
+      <div class="col-md-3">
+        {{> layout_left}}
+      </div>
+      <div class="col-md-9">
+        {{> layout_right}}
+      </div>
+    </div>
+  </section>
+</template>

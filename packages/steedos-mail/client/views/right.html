@@ -1,0 +1,14 @@
+<template name="layout_right">
+<div class="right">
+    
+    {{#if isComPose}}
+    	{{> compose}}
+    {{else}}
+    	{{#if isRead}}
+    		{{> read_mail}}
+    	{{else}}
+    		{{> mail_list}}
+    	{{/if}}
+    {{/if}}
+  </div>
+</template>

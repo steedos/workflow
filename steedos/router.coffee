@@ -146,6 +146,9 @@ FlowRouter.route '/app/:app_id',
             FlowRouter.go(app.url)
             return
 
+        if  params.app_id == 'mail'
+            FlowRouter.go("/mail")
+            return
 
         authToken = {};
         authToken["spaceId"] = Steedos.getSpaceId()
