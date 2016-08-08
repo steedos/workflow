@@ -123,7 +123,7 @@ JsonRoutes.add("get", "/api/steedos/staticscount/", function (req, res, next) {
 	JsonRoutes.sendResult(res, {
     	data: {
       	ret: 0,
-      	msg: "成功"
+      	msg: "Successfully"
     	}
   	});
 })
