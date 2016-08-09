@@ -12,16 +12,16 @@ mailRoutes.route '/',
 		BlazeLayout.render 'masterLayout',
 			main: "mail_home"
 
-mailRoutes.route '/:box/', 
+mailRoutes.route '/b/:mailBox/', 
 	action: (params, queryParams)->
-		Session.set("box", params.box); 
-		Session.set("messageId", null); 
+		Session.set("mailBox", params.mailBox); 
+		Session.set("mailMessageId", null); 
 		BlazeLayout.render 'masterLayout',
 			main: "mail_home"
 
-mailRoutes.route '/:box/read/:messageId', 
+mailRoutes.route '/b/:mailBox/:mailMessageId', 
 	action: (params, queryParams)->
-		Session.set("box", params.box); 
-		Session.set("messageId", params.messageId); 
+		Session.set("mailBox", params.mailBox); 
+		Session.set("mailMessageId", params.mailMessageId); 
 		BlazeLayout.render 'masterLayout',
 			main: "mail_home"

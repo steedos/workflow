@@ -1,5 +1,5 @@
 Template.layout_right.helpers
 	isComPose: ->
-		return Session.get("box") == "compose"
+		return Session.get("mailBox") == "compose"
 	isRead: ->
-		return Session.get("messageId")
+		return Session.get("mailMessageId")

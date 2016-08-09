@@ -61,7 +61,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/mail_list.html', 'client');
 	api.addFiles('client/views/mail_list.coffee', 'client');
 
-	api.addFiles('client/views/compose.html', 'client');
+	api.addFiles('client/views/mail_compose.html', 'client');
+	api.addFiles('client/views/mail_compose.coffee', 'client');
+
 	api.addFiles('client/views/read_mail.html', 'client');
 
 	api.addFiles('client/views/left.html', 'client');
