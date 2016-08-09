@@ -135,3 +135,35 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 			webservices:
 				Steedos.settings.webservices
 
+
+
+JsonRoutes.add "get", "/api/login/validate", (req, res, next) ->
+	email = req.query.email
+	password = req.query.password
+	console.log req.query
+
+	if !email || !password
+		res.statusCode = 401;
+		res.end();
+		return
+
+	bcryptPassword = SHA256(password);
+
+	user = Meteor.users.findOne
+		"emails.address": email
+
+	if !user
+		res.statusCode = 401;
+		res.end();
+		return
+
+	if (!bcryptCompare(bcryptPassword, user.services.password.bcrypt)) 
+		res.statusCode = 401;
+		res.end();
+		return
+
+	JsonRoutes.sendResult res, 
+		code: 200,
+		data: 
+			"success": true
+
