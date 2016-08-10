@@ -56,6 +56,8 @@ Package.onUse(function(api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, 'client');
 
+	api.addFiles('client/libs/mail_collection.js', 'client');
+
 	api.addFiles('client/libs/mail_manager.js', 'client');
 
 	api.addFiles('client/views/mail.less', 'client');
@@ -77,6 +79,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/mail_home.html', 'client');
 	api.addFiles('client/views/mail_home.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
+
+	api.export('MailCollection');
 });
 
 Package.onTest(function(api) {
