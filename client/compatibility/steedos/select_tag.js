@@ -439,7 +439,7 @@ Handlebars.registerHelper('userList', function(items, tagType, options) {
     }else{
       out = out + " style ='margin-top:0;vertical-align:middle'";
     }
-    out = out +"><span style='vertical-align:middle;padding-left:4px'><img src='" + Meteor.absoluteUrl("/avatar/"+items[i].user) +"' class='selectTag-profile img-circle'>" + options.fn(items[i]) + "</span></label></a></td></tr>";
+    out = out +"><span style='vertical-align:middle;padding-left:4px'><img src='" + Meteor.absoluteUrl("/avatar/"+items[i].user+"?w=30&h=30&fs=14") +"' class='selectTag-profile img-circle'>" + options.fn(items[i]) + "</span></label></a></td></tr>";
   }
 	
   return new Handlebars.SafeString(out);

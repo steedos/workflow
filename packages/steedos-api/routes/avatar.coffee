@@ -3,6 +3,15 @@ Meteor.startup ->
 	JsonRoutes.add 'get', '/avatar/:userId', (req, res, next) ->
 		# this.params =
 		# 	userId: decodeURI(req.url).replace(/^\//, '').replace(/\?.*$/, '')
+		width = 50 ;
+		height = 50 ;
+		fontSize = 28 ;
+		if req.query.w
+		    width = req.query.w ;
+		if req.query.h
+		    height = req.query.h ;
+		if req.query.fs
+            fontSize = req.query.fs ;
 
 		user = db.users.findOne(req.params.userId);
 		if !user
@@ -47,8 +56,8 @@ Meteor.startup ->
 
 			svg = """
 			<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-			<svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" width="50" height="50" style="width: 50px; height: 50px; background-color: #{color};">
-				<text text-anchor="middle" y="50%" x="50%" dy="0.36em" pointer-events="auto" fill="#ffffff" font-family="Helvetica, Arial, Lucida Grande, sans-serif" style="font-weight: 400; font-size: 28px;">
+			<svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" width="#{width}" height="#{height}" style="width: #{width}px; height: #{height}px; background-color: #{color};">
+				<text text-anchor="middle" y="50%" x="50%" dy="0.36em" pointer-events="auto" fill="#ffffff" font-family="Helvetica, Arial, Lucida Grande, sans-serif" style="font-weight: 400; font-size: #{fontSize}px;">
 					#{initials}
 				</text>
 			</svg>
