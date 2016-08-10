@@ -6,11 +6,6 @@ Template.mail_list.helpers
         return "1234567890"
 
     boxName: ->
-        if MailManager
-            MailManager.getInboxMail();
-        else
-            return ;
-        debugger;
         if Session.get("mailBox")
             console.log("mail_" + Session.get("mailBox"));
             console.log(t("mail_" + Session.get("mailBox")));
