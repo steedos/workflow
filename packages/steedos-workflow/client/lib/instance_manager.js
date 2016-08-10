@@ -877,9 +877,10 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
         type: "warning",
         confirmButtonText: t('OK'),
         closeOnConfirm: true
+      }, function(){
+        $(document.body).removeClass('loading');
+        $('.loading-text').text("");
       });
-      $(document.body).removeClass('loading');
-      $('.loading-text').text("");
       return;
     }
 
