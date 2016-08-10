@@ -1,6 +1,5 @@
 JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	
-	db.steedos_statistics = new Meteor.Collection('steedos_statistics');
 	// 日期格式化 
 	dateFormat = function(date){
 		var datekey = ""+date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate());
@@ -57,9 +56,10 @@ JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	postsAttachments = function(collection,space){
 		var attSize = 0;
 		var sizeSum = 0;
-		var posts = collection.find({"space":space["_id"]});
-		posts.forEach(function(post){
-			var atts = db.cfs.posts.filerecord.find({"post":post["_id"]});
+		var cposts = collection.find({"space":space["_id"]});
+		cposts.forEach(function(post){
+			var atts = cfs.posts.find({"post":post["_id"]});
+			// var atts = eval(collection);
 			atts.forEach(function(att){
 				attSize = att.original.size;
 				sizeSum += attSize;
@@ -71,9 +71,10 @@ JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	dailyPostsAttachments = function(collection,space){
 		var attSize = 0;
 		var sizeSum = 0;
-		var posts = collection.find({"space":space["_id"]});
-		posts.forEach(function(post){
-			var atts = db.cfs.posts.filerecord.find({"post":post["_id"],"uploadedAt":{$gt: yesterDay()}});
+		var cposts = collection.find({"space":space["_id"]});
+		cposts.forEach(function(post){
+			var atts = cfs.posts.find({"post":post["_id"],"uploadedAt":{$gt: yesterDay()}});
+			// var atts = eval(collection);
 			atts.forEach(function(att){
 				attSize = att.original.size;
 				sizeSum += attSize;
@@ -81,8 +82,12 @@ JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 		})
 		return sizeSum;
 	}
+	// var postsAtt = 'posts.filerecord.find({post:post["_id"],uploadedAt:{$gt: yesterDay()}})';
 	// 插入数据
+	var i = 0;
 	db.spaces.find({"is_paid":true}).forEach(function(space){
+		i++;
+		console.log(i);
 		db.steedos_statistics.insert({
 			// _id: ObjectId().str,
 			space: space["_id"],
