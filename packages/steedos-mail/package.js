@@ -45,16 +45,16 @@ Package.onUse(function(api) {
 
     api.use('meteorhacks:ssr@2.2.0');
     api.use('meteorhacks:subs-manager');
-
+    api.use('tap:i18n@1.7.0');
 	api.use('momentjs:moment', 'client');
 	api.use('mrt:moment-timezone', 'client');
 
 	api.use('summernote:summernote', 'client');
-	
 
-	api.use('tap:i18n', 'client');
+	api.use('tap:i18n', ['client', 'server']);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
-	api.addFiles(tapi18nFiles, 'client');
+	api.addFiles(tapi18nFiles, ['client', 'server']);
+	
 
 	api.addFiles('client/libs/mail_collection.js', 'client');
 
@@ -81,6 +81,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 
 	api.export('MailCollection');
+	api.export("MailManager");
 });
 
 Package.onTest(function(api) {

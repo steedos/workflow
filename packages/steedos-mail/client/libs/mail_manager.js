@@ -1,15 +1,50 @@
 MailManager = {};
 
-MailManager.getImapClient = function(){
-	var ImapClient = cos.require("emailjs-imap-client")
-	return ImapClient;
+MailManager.ImapClient, MailManager.SmtpClient;
+
+
+MailManager.getAuth = function(){
+	return {user:"baozhoutao@hotoa.com",pass:"Bobtotal0106"};
 }
 
-MailManager.getSmtpClient = function(){
-	var ImapClient = cos.require("emailjs-smtp-client")
-	return ImapClient;
+MailManager.getMailDomain = function(user){
+	return {domain:"@hotoa.com",imap:"imap.mxhichina.com",imap_port:143,smtp:"smtp.mxhichina.com",smtp_port:25}
 }
 
+MailManager.initImapClient = function(){
+	if(window.cos){
+
+		var auth = MailManager.getAuth();
+		var domain = MailManager.getMailDomain(auth.user);
+
+		var ImapClient = cos.require("emailjs-imap-client")
+		MailManager.ImapClient = new ImapClient(domain.imap, domain.imap_port,{auth:auth});
+	}
+}
+
+MailManager.initSmtpClient = function(){
+	if(window.cos){
+
+		var auth = MailManager.getAuth();
+		var domain = MailManager.getMailDomain(auth.user);
+
+		var SmtpClient = cos.require("emailjs-smtp-client")
+		MailManager.SmtpClient = new SmtpClient(domain.smtp, domain.smtp_port,{auth:auth});
+	}
+}
+
+MailManager.getBoxMessageNumber = function(boxName){
+	var rev = 0;
+	MailManager.ImapClient.connect().then(function(){
+		MailManager.ImapClient.selectMailbox(boxName).then(function(mailbox){
+			console.log(boxName + " selectMailbox " + JSON.stringify(mailbox));
+			rev = mailbox.exists
+			console.log("rev is " + rev);
+		});
+	});
+	console.log("return rev is " + rev);
+	return rev;
+}
 
 MailManager.getBoxs = function(){
 
@@ -35,6 +70,11 @@ MailManager.getInboxMessages = function(page, page_size){
 	if (!MailCollection)
 		return;
 	return getMessages(MailCollection.inbox_messages, page, page_size);
+}
+
+
+MailManager.search = function(query){
+
 }
 
 
