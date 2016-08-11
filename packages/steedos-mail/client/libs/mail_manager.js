@@ -77,9 +77,12 @@ function getMessages (collection, page, page_size){
 MailManager.getInboxMessages = function(page, page_size){
 	if (!MailCollection)
 		return;
-	return getMessages(MailCollection.inbox_messages, page, page_size);
+	return getMessages(MailCollection.mail_inbox_messages, page, page_size);
 }
 
+MailManager.getMessage = function(id){
+	return MailCollection.mail_inbox_messages.findOne(id);
+}
 
 MailManager.search = function(query){
 
