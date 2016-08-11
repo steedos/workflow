@@ -30,36 +30,30 @@ JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	// 最近登录日期
 	lastLogon = function(collection,space){
 		var lastLogon = 0;
-		var sUsers = db.space_users.find({"space":space["_id"]});
-		if (sUsers && (sUsers.count() > 0)){
-			sUsers.forEach(function(sUser){
-				var user = collection.findOne({"_id":sUser["user"]});
-				if(user && (lastLogon < user.last_logon)){
-					lastLogon = user.last_logon;
-				}
-			})
-		}
+		var sUsers = db.space_users.find({"space":space["_id"]},{fields:{user:1}});	
+		sUsers.forEach(function(sUser){
+			var user = collection.findOne({"_id":sUser["user"]});
+			if(user && (lastLogon < user.last_logon)){
+				lastLogon = user.last_logon;
+			}
+		})
 		return lastLogon;
 	};
 	// 最近修改日期
 	lastModified = function(collection,space){
-		var lastModified = 0;
-		var obj = collection.find({"space":space["_id"]});
-		obj.forEach(function(object){
-			if(lastModified < object.modified){
-				lastModified = object.modified;
-			}
-		})
-		return lastModified;
+		var obj = collection.find({"space":space["_id"]},{fields:{modified:1}},{sort: {modified: -1},limit: 1});
+		var objArr = obj.fetch();
+		if(objArr.length > 0)
+			var mod = objArr[0].modified;
+			return mod;
 	};
 	// 文章附件大小
 	postsAttachments = function(collection,space){
 		var attSize = 0;
 		var sizeSum = 0;
-		var cposts = collection.find({"space":space["_id"]});
-		cposts.forEach(function(post){
+		var posts = collection.find({"space":space["_id"]});
+		posts.forEach(function(post){
 			var atts = cfs.posts.find({"post":post["_id"]});
-			// var atts = eval(collection);
 			atts.forEach(function(att){
 				attSize = att.original.size;
 				sizeSum += attSize;
@@ -71,23 +65,18 @@ JsonRoutes.add("get", "/api/steedos/statistics/", function (req, res, next) {
 	dailyPostsAttachments = function(collection,space){
 		var attSize = 0;
 		var sizeSum = 0;
-		var cposts = collection.find({"space":space["_id"]});
-		cposts.forEach(function(post){
+		var posts = collection.find({"space":space["_id"]});
+		posts.forEach(function(post){
 			var atts = cfs.posts.find({"post":post["_id"],"uploadedAt":{$gt: yesterDay()}});
-			// var atts = eval(collection);
 			atts.forEach(function(att){
 				attSize = att.original.size;
 				sizeSum += attSize;
-			})	
+			})
 		})
 		return sizeSum;
 	}
-	// var postsAtt = 'posts.filerecord.find({post:post["_id"],uploadedAt:{$gt: yesterDay()}})';
 	// 插入数据
-	var i = 0;
 	db.spaces.find({"is_paid":true}).forEach(function(space){
-		i++;
-		console.log(i);
 		db.steedos_statistics.insert({
 			// _id: ObjectId().str,
 			space: space["_id"],
