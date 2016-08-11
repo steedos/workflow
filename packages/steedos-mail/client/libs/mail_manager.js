@@ -12,14 +12,8 @@ MailManager.getMailDomain = function(user){
 
 MailManager.initImapClient = function(){
 	if(window.cos){
-
-		var auth = MailManager.getAuth();
-		var domain = MailManager.getMailDomain(auth.user);
-
-		var ImapClient = cos.require("emailjs-imap-client")
-		MailManager.ImapClient = new ImapClient(domain.imap, domain.imap_port,{auth:auth});
-
-		MailManager.ImapClientConnect = MailManager.ImapClient.connect();
+		ImapClientManager.init();
+		ImapClientManager.mailBox();
 	}
 }
 

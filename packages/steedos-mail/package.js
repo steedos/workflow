@@ -58,6 +58,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/libs/mail_collection.js', 'client');
 
+	api.addFiles('client/libs/imapclient_manager.js', 'client');
 	api.addFiles('client/libs/mail_manager.js', 'client');
 
 	api.addFiles('client/views/mail.less', 'client');
@@ -83,6 +84,7 @@ Package.onUse(function(api) {
 
 	api.export('MailCollection');
 	api.export("MailManager");
+	api.export("ImapClientManager");
 });
 
 Package.onTest(function(api) {
