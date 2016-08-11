@@ -136,6 +136,9 @@
 
     "space_users_error_space_required": "Space required",
 
-    "flow_roles_error_positions_exists": "Users exised in the role"
+    "flow_roles_error_positions_exists": "Users exised in the role",
+
+    "workflow_left_parenthesis": "(",
+    "workflow_right_parenthesis": ")"
 
 }

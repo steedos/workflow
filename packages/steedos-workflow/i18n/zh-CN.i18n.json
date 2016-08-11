@@ -136,6 +136,9 @@
 
     "space_users_error_space_required": "工作区必填",
 
-    "flow_roles_error_positions_exists": "已有用户担任该角色"
+    "flow_roles_error_positions_exists": "已有用户担任该角色",
+
+    "workflow_left_parenthesis": "（",
+    "workflow_right_parenthesis": "）"
 
 }
