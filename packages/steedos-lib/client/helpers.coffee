@@ -184,6 +184,14 @@ TemplateHelpers =
             return cookie[1]
         return false
 
+    isNotSync: (spaceId)->
+        if !spaceId
+            spaceId = Steedos.getSpaceId()
+        if spaceId
+            space = db.spaces.findOne({_id:spaceId,imo_cid:{$exists:false},"services.bqq.company_id":{$exists:false},"services.dingtalk.corp_id":{$exists:false}})
+            if space
+                return space.admins.includes(Meteor.userId())
+
 
 _.extend Steedos, TemplateHelpers
 
