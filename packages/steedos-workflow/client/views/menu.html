@@ -5,15 +5,17 @@
         <div class="bd">
             <div class="weui_cells_title">{{_ "My Approval"}}</div>
             <div class="weui_cells weui_cells_access">
-                <a class="weui_cell" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
-                    <div class="weui_cell_hd"><i class="ion ion-archive"></i></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        &nbsp;{{_ "inbox"}}
-                    </div>
-                    <div class="weui_cell_ft">
-                        <small class="label bg-red">{{inbox_count}}</small>
-                    </div>
-                </a>
+                {{#each spaces}}
+                    <a class="weui_cell" href="{{urlPrefix}}/workflow/space/{{this._id}}/inbox/">
+                        <div class="weui_cell_hd"><i class="ion ion-archive"></i></div>
+                        <div class="weui_cell_bd weui_cell_primary">
+                            &nbsp;{{_ "inbox"}}&nbsp;{{this.name}}
+                        </div>
+                        <div class="weui_cell_ft">
+                            <small class="label bg-red">{{this.inbox_count}}</small>
+                        </div>
+                    </a>
+                {{/each}}
                 <a class="weui_cell" href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
                     <div class="weui_cell_hd"><i class="ion ion-android-done-all"></i></div>
                     <div class="weui_cell_bd weui_cell_primary">
