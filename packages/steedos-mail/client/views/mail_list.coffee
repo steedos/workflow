@@ -2,9 +2,6 @@ Template.mail_list.helpers
     box: ->
         return Session.get("mailBox")
 
-    messageId: ->
-        return "1234567890"
-
     boxName: ->
         if Session.get("mailBox")
             console.log("mail_" + Session.get("mailBox"));
@@ -12,3 +9,25 @@ Template.mail_list.helpers
             return t("mail_" + Session.get("mailBox"))
         else
             return t("mail_inbox")
+
+    boxMessages: ->
+        return MailManager.getInboxMessages(0,10);
+
+
+    modifiedString: (date)->
+        modifiedString = moment(date).format('YYYY-MM-DD');
+        return modifiedString;
+
+    modifiedFromNow: (date)->
+        modifiedFromNow = moment(date).fromNow();
+        return modifiedFromNow;
+
+    haveAttachment: (attachments)->
+        if attachments.length > 0
+            return true;
+        return false;
+
+
+    
+
+
