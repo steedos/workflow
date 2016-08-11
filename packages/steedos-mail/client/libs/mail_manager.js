@@ -1,7 +1,6 @@
 MailManager = {};
 
-MailManager.ImapClient, MailManager.SmtpClient;
-
+MailManager.ImapClient, MailManager.ImapClientConnect, MailManager.SmtpClient, MailManager.SmtpClientConnect;
 
 MailManager.getAuth = function(){
 	return {user:"baozhoutao@hotoa.com",pass:"Bobtotal0106"};
@@ -19,6 +18,8 @@ MailManager.initImapClient = function(){
 
 		var ImapClient = cos.require("emailjs-imap-client")
 		MailManager.ImapClient = new ImapClient(domain.imap, domain.imap_port,{auth:auth});
+
+		MailManager.ImapClientConnect = MailManager.ImapClient.connect();
 	}
 }
 
@@ -30,15 +31,22 @@ MailManager.initSmtpClient = function(){
 
 		var SmtpClient = cos.require("emailjs-smtp-client")
 		MailManager.SmtpClient = new SmtpClient(domain.smtp, domain.smtp_port,{auth:auth});
+
+		MailManager.SmtpClientConnect = MailManager.SmtpClient.connect();
 	}
+}
+
+MailManager.getBoxList = function(){
+
 }
 
 MailManager.getBoxMessageNumber = function(boxName){
 	var rev = 0;
-	MailManager.ImapClient.connect().then(function(){
+	MailManager.ImapClientConnect.then(function(){
 		MailManager.ImapClient.selectMailbox(boxName).then(function(mailbox){
 			console.log(boxName + " selectMailbox " + JSON.stringify(mailbox));
 			rev = mailbox.exists
+			Session.set("mail_inbox_exists",mailbox.exists)
 			console.log("rev is " + rev);
 		});
 	});

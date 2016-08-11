@@ -1,5 +1,5 @@
 Template.layout_left.helpers
     boxNumber: ->
-    	if MailManager
-        	return MailManager.getBoxMessageNumber("INBOX");
+    	console.log("mail_inbox_exists is " + Session.get("mail_inbox_exists"))
+    	return Session.get("mail_inbox_exists");
 

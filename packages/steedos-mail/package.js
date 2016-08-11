@@ -72,6 +72,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/read_mail.html', 'client');
 
 	api.addFiles('client/views/left.html', 'client');
+	api.addFiles('client/views/left.coffee', 'client');
 
 	api.addFiles('client/views/right.html', 'client');
 	api.addFiles('client/views/right.coffee', 'client');
