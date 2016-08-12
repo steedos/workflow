@@ -99,7 +99,7 @@ mongo-id@1.0.1
 mongo-livedata@1.0.9
 mpowaga:jquery-fileupload@9.11.2
 mpowaga:jquery-ui-widget@1.11.4
-mrt:moment@2.8.1
+mrt:moment@2.14.1
 mrt:moment-timezone@0.2.1
 natestrauser:animate-css@3.4.0
 nimble:restivus@0.8.11
@@ -151,6 +151,7 @@ steedos:meteor-cookie-login@0.0.5
 steedos:ui@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
+summernote:summernote@0.5.10
 tap:i18n@1.7.0
 templating@1.1.5
 templating-tools@1.0.0

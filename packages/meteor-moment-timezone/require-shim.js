@@ -5,7 +5,7 @@
   if (typeof Package === "undefined") {
     self = this;
   } else {
-    self = Package["moment"];
+    self = Package["momentjs:moment"];
     if (!self) {
       self = Package["mrt:moment"]
     }
