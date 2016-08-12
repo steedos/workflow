@@ -1,71 +1,71 @@
 {
   "dependencies": {
     "aliyun-sdk": {
-      "version": "1.9.2",
+      "version": "http://registry.npm.taobao.org/aliyun-sdk/download/aliyun-sdk-1.9.2.tgz",
       "dependencies": {
         "node_memcached": {
-          "version": "1.1.3",
+          "version": "http://registry.npm.taobao.org/node_memcached/download/node_memcached-1.1.3.tgz",
           "dependencies": {
             "debug": {
-              "version": "2.2.0",
+              "version": "http://registry.npm.taobao.org/debug/download/debug-2.2.0.tgz",
               "dependencies": {
                 "ms": {
-                  "version": "0.7.1"
+                  "version": "http://registry.npm.taobao.org/ms/download/ms-0.7.1.tgz"
                 }
               }
             }
           }
         },
         "pomelo-protobuf": {
-          "version": "0.4.0"
+          "version": "http://registry.npm.taobao.org/pomelo-protobuf/download/pomelo-protobuf-0.4.0.tgz"
         },
         "protobufjs": {
-          "version": "4.1.3",
+          "version": "http://registry.npm.taobao.org/protobufjs/download/protobufjs-4.1.3.tgz",
           "dependencies": {
             "ascli": {
-              "version": "1.0.0",
+              "version": "http://registry.npm.taobao.org/ascli/download/ascli-1.0.0.tgz",
               "dependencies": {
                 "colour": {
-                  "version": "0.7.1"
+                  "version": "http://registry.npm.taobao.org/colour/download/colour-0.7.1.tgz"
                 },
                 "optjs": {
-                  "version": "3.2.2"
+                  "version": "http://registry.npm.taobao.org/optjs/download/optjs-3.2.2.tgz"
                 }
               }
             },
             "bytebuffer": {
-              "version": "4.1.0",
+              "version": "http://registry.npm.taobao.org/bytebuffer/download/bytebuffer-4.1.0.tgz",
               "dependencies": {
                 "long": {
-                  "version": "2.4.0"
+                  "version": "http://registry.npm.taobao.org/long/download/long-2.4.0.tgz"
                 },
                 "bufferview": {
-                  "version": "1.0.1"
+                  "version": "http://registry.npm.taobao.org/bufferview/download/bufferview-1.0.1.tgz"
                 }
               }
             },
             "glob": {
-              "version": "5.0.15",
+              "version": "http://registry.npm.taobao.org/glob/download/glob-5.0.15.tgz",
               "dependencies": {
                 "inflight": {
-                  "version": "1.0.5",
+                  "version": "http://registry.npm.taobao.org/inflight/download/inflight-1.0.5.tgz",
                   "dependencies": {
                     "wrappy": {
-                      "version": "1.0.2"
+                      "version": "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz"
                     }
                   }
                 },
                 "inherits": {
-                  "version": "2.0.1"
+                  "version": "http://registry.npm.taobao.org/inherits/download/inherits-2.0.1.tgz"
                 },
                 "minimatch": {
-                  "version": "3.0.2",
+                  "version": "http://registry.npm.taobao.org/minimatch/download/minimatch-3.0.2.tgz",
                   "dependencies": {
                     "brace-expansion": {
-                      "version": "1.1.6",
+                      "version": "http://registry.npm.taobao.org/brace-expansion/download/brace-expansion-1.1.6.tgz",
                       "dependencies": {
                         "balanced-match": {
-                          "version": "0.4.2"
+                          "version": "http://registry.npm.taobao.org/balanced-match/download/balanced-match-0.4.2.tgz"
                         },
                         "concat-map": {
                           "version": "https://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz"
@@ -75,108 +75,108 @@
                   }
                 },
                 "once": {
-                  "version": "1.3.3",
+                  "version": "http://registry.npm.taobao.org/once/download/once-1.3.3.tgz",
                   "dependencies": {
                     "wrappy": {
-                      "version": "1.0.2"
+                      "version": "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz"
                     }
                   }
                 },
                 "path-is-absolute": {
-                  "version": "1.0.0"
+                  "version": "http://registry.npm.taobao.org/path-is-absolute/download/path-is-absolute-1.0.0.tgz"
                 }
               }
             },
             "yargs": {
-              "version": "3.32.0",
+              "version": "http://registry.npm.taobao.org/yargs/download/yargs-3.32.0.tgz",
               "dependencies": {
                 "camelcase": {
-                  "version": "2.1.1"
+                  "version": "http://registry.npm.taobao.org/camelcase/download/camelcase-2.1.1.tgz"
                 },
                 "cliui": {
-                  "version": "3.2.0",
+                  "version": "http://registry.npm.taobao.org/cliui/download/cliui-3.2.0.tgz",
                   "dependencies": {
                     "strip-ansi": {
-                      "version": "3.0.1",
+                      "version": "http://registry.npm.taobao.org/strip-ansi/download/strip-ansi-3.0.1.tgz",
                       "dependencies": {
                         "ansi-regex": {
-                          "version": "2.0.0"
+                          "version": "http://registry.npm.taobao.org/ansi-regex/download/ansi-regex-2.0.0.tgz"
                         }
                       }
                     },
                     "wrap-ansi": {
-                      "version": "2.0.0"
+                      "version": "http://registry.npm.taobao.org/wrap-ansi/download/wrap-ansi-2.0.0.tgz"
                     }
                   }
                 },
                 "decamelize": {
-                  "version": "1.2.0"
+                  "version": "http://registry.npm.taobao.org/decamelize/download/decamelize-1.2.0.tgz"
                 },
                 "os-locale": {
-                  "version": "1.4.0",
+                  "version": "http://registry.npm.taobao.org/os-locale/download/os-locale-1.4.0.tgz",
                   "dependencies": {
                     "lcid": {
-                      "version": "1.0.0",
+                      "version": "http://registry.npm.taobao.org/lcid/download/lcid-1.0.0.tgz",
                       "dependencies": {
                         "invert-kv": {
-                          "version": "1.0.0"
+                          "version": "http://registry.npm.taobao.org/invert-kv/download/invert-kv-1.0.0.tgz"
                         }
                       }
                     }
                   }
                 },
                 "string-width": {
-                  "version": "1.0.1",
+                  "version": "http://registry.npm.taobao.org/string-width/download/string-width-1.0.1.tgz",
                   "dependencies": {
                     "code-point-at": {
-                      "version": "1.0.0",
+                      "version": "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.0.0.tgz",
                       "dependencies": {
                         "number-is-nan": {
-                          "version": "1.0.0"
+                          "version": "http://registry.npm.taobao.org/number-is-nan/download/number-is-nan-1.0.0.tgz"
                         }
                       }
                     },
                     "is-fullwidth-code-point": {
-                      "version": "1.0.0",
+                      "version": "http://registry.npm.taobao.org/is-fullwidth-code-point/download/is-fullwidth-code-point-1.0.0.tgz",
                       "dependencies": {
                         "number-is-nan": {
-                          "version": "1.0.0"
+                          "version": "http://registry.npm.taobao.org/number-is-nan/download/number-is-nan-1.0.0.tgz"
                         }
                       }
                     },
                     "strip-ansi": {
-                      "version": "3.0.1",
+                      "version": "http://registry.npm.taobao.org/strip-ansi/download/strip-ansi-3.0.1.tgz",
                       "dependencies": {
                         "ansi-regex": {
-                          "version": "2.0.0"
+                          "version": "http://registry.npm.taobao.org/ansi-regex/download/ansi-regex-2.0.0.tgz"
                         }
                       }
                     }
                   }
                 },
                 "window-size": {
-                  "version": "0.1.4"
+                  "version": "http://registry.npm.taobao.org/window-size/download/window-size-0.1.4.tgz"
                 },
                 "y18n": {
-                  "version": "3.2.1"
+                  "version": "http://registry.npm.taobao.org/y18n/download/y18n-3.2.1.tgz"
                 }
               }
             }
           }
         },
         "xml2js": {
-          "version": "0.4.4",
+          "version": "http://registry.npm.taobao.org/xml2js/download/xml2js-0.4.4.tgz",
           "dependencies": {
             "sax": {
-              "version": "0.6.1"
+              "version": "http://registry.npm.taobao.org/sax/download/sax-0.6.1.tgz"
             }
           }
         },
         "xmlbuilder": {
-          "version": "2.6.5",
+          "version": "http://registry.npm.taobao.org/xmlbuilder/download/xmlbuilder-2.6.5.tgz",
           "dependencies": {
             "lodash": {
-              "version": "3.10.1"
+              "version": "http://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz"
             }
           }
         }
