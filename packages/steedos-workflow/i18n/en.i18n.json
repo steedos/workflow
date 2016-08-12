@@ -114,6 +114,8 @@
     "workflow_export_search":"Search for instances according to the flow",
     "workflow_export_data":"Export Data",
 
+    "spaces_isarrearageSpace": "your space is arrearage",
+
     // inbox
     "Inbox Suggestion NextSteps Label":"Next step: ",
     "Inbox Suggestion NextSteps Handler Label":"Assignee: ",
@@ -134,6 +136,9 @@
 
     "space_users_error_space_required": "Space required",
 
-    "flow_roles_error_positions_exists": "Users exised in the role"
+    "flow_roles_error_positions_exists": "Users exised in the role",
+
+    "workflow_left_parenthesis": "(",
+    "workflow_right_parenthesis": ")"
 
 }

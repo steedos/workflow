@@ -120,7 +120,6 @@ db.organizations.helpers
 		spaceUsers = db.space_users.find({organization: this._id}, {fields: {user:1}});
 		spaceUsers.forEach (user) ->
 			users.push(user.user);
-		#return users;
 		db.organizations.direct.update({_id: this._id}, {$set: {users: users}})
 
 	space_name: ->
@@ -226,6 +225,7 @@ if (Meteor.isServer)
 				nameOrg = db.organizations.find({_id: {$in: parentOrg.children}, name: modifier.$set.name}).count()
 				if (nameOrg > 0 ) && (modifier.$set.name != doc.name)
 					throw new Meteor.Error(400, "organizations_error_organizations_name_exists")
+				
 		# else if (modifier.$set.name != doc.name)					
 		# 	existed = db.organizations.find({name: modifier.$set.name, space: doc.space,fullname:modifier.$set.name}).count()				
 		# 	if existed > 0
@@ -241,14 +241,17 @@ if (Meteor.isServer)
 		obj = db.organizations.findOne(doc._id)
 		if obj.parent
 			updateFields.parents = obj.calculateParents();
-
+		# 更新上级部门的children
 		if (modifier.$set.parent)
 			newParent = db.organizations.findOne(doc.parent)
 			db.organizations.direct.update(newParent._id, {$set: {children: newParent.calculateChildren()}});
-			# 如果更改 parent，更改前后的对象都需要重新生成children
-			if (doc.parent)
-				oldParent = db.organizations.findOne(doc.parent)
-				db.organizations.direct.update(oldParent._id, {$set: {children: oldParent.calculateChildren()}});
+			# 如果更改 parent，更改前的对象需要重新生成children
+			oldParent = db.organizations.find({children:doc._id});
+			oldParent.forEach (organization) ->
+				existed = db.organizations.find({_id:doc._id,parent:organization._id}).count()
+				if (existed == 0)
+					db.organizations.direct.update({_id:organization._id},{$pull:{children:doc._id}})
+
 
 		# 如果更改 parent 或 name, 需要更新 自己和孩子们的 fullname	
 		if (modifier.$set.parent || modifier.$set.name)

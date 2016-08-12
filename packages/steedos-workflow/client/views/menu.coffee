@@ -4,12 +4,6 @@ Template.workflow_menu.helpers
         if Session.get("box")
             return t(Session.get("box"))
 
-    inbox_count: ->
-        badge = Steedos.getBadge("workflow", Session.get("spaceId"))
-        if badge
-            return badge
-        return
-
     # designer: ->
     #     apps = Steedos.getSpaceApps()
     #     rev = undefined
@@ -19,3 +13,20 @@ Template.workflow_menu.helpers
 
     #     return rev;
 
+    spaces: ()->
+        spaceId = Session.get("spaceId")
+        p = []
+        s = db.spaces.find({}, {fields: {_id: 1, name: 1}})
+        l = t('workflow_left_parenthesis')
+        r = t('workflow_right_parenthesis')
+        s.forEach (sp)->
+            badge = Steedos.getBadge("workflow", sp._id)
+            if badge
+                p.push({_id: sp._id, name: l+sp.name+r, inbox_count: badge})
+        
+        if p.length == 1 && p[0]._id == spaceId
+            p[0].name = undefined
+
+        if p.length == 0
+            p.push({_id: spaceId})
+        return p

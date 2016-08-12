@@ -165,6 +165,7 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/instance_data.coffee', 'server');
     api.addFiles('server/publications/instance_list.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');
+    api.addFiles('server/upgrade/upgrade_data.js', 'server');
 
     api.addFiles('tabular.coffee');
 

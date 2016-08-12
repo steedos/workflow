@@ -24,7 +24,8 @@ Template.instance_list.helpers
             query.submitter = Meteor.userId()
             query.state = "draft"
         else if box == "pending"
-            query.submitter = Meteor.userId()
+            uid = Meteor.userId()
+            query.$or = [{submitter: uid}, {applicant: uid}]
             query.state = "pending"
         else if box == "completed"
             query.submitter = Meteor.userId()
@@ -105,6 +106,11 @@ Template.instance_list.events
         Session.set("flowId", undefined);
 
     'click [name="create_ins_btn"]': (event) ->
+        #判断是否为欠费工作区
+        if WorkflowManager.isArrearageSpace()
+            toastr.error(t("spaces_isarrearageSpace"));
+            return;
+
         Modal.show("flow_list_box_modal")
 
     'click [name="show_flows_btn"]': (event) ->

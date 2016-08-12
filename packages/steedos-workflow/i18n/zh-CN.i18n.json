@@ -114,6 +114,8 @@
     "workflow_export_search": "按流程查看申请单",
     "workflow_export_data": "导出申请单",
 
+    "spaces_isarrearageSpace": "您的工作区已欠费",
+
     // inbox
     "Inbox Suggestion NextSteps Label":"下一步骤: ",
     "Inbox Suggestion NextSteps Handler Label":"处理人: ",
@@ -134,6 +136,9 @@
 
     "space_users_error_space_required": "工作区必填",
 
-    "flow_roles_error_positions_exists": "已有用户担任该角色"
+    "flow_roles_error_positions_exists": "已有用户担任该角色",
+
+    "workflow_left_parenthesis": "（",
+    "workflow_right_parenthesis": "）"
 
 }
