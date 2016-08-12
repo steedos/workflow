@@ -11,7 +11,7 @@ Template.mail_list.helpers
             return t("mail_inbox")
 
     boxMessages: ->
-        return MailManager.getInboxMessages(0,10);
+        return MailManager.getboxMessages(0,10);
 
 
     modifiedString: (date)->

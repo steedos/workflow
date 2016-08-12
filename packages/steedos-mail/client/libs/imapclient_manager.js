@@ -1,6 +1,6 @@
 ImapClientManager = {};
 
-ImapClientManager.ImapClient,ImapClientManager.ImapClientConnect;
+ImapClientManager.ImapClient,ImapClientManager.ImapClientConnect, ImapClientManager.boxMessageIndex = {};
 
 var mimeParser, encoding;
 
@@ -50,8 +50,19 @@ ImapClientManager.mailboxInfo = function(){
 			ImapClientManager.ImapClient.selectMailbox(mb.path,{condstore:false,readOnly:true}).then(function(mailbox){
 				mailbox.box = mb.name;
 				mailbox.path = mb.path;
+				ImapClientManager.boxMessageIndex[mb.name] = mailbox.exists
 				console.log(mb.name + " selectMailbox is " + JSON.stringify(mailbox));
 				MailCollection.mail_box_info.insert(mailbox);
+
+				var sequence_s = mailbox.exists < 10 ? 0 : (mailbox.exists - 10);
+
+				// var collectionName = mb.name;
+
+				// if(mb.specialUse != undefined){
+				// 	if(){}
+				// }
+
+				ImapClientManager.mailBoxMessages(mb.path, sequence_s + ":" + mailbox.exists);
 			});
 		})
 	});
@@ -125,15 +136,17 @@ function handerMessage(message){
 	return rev;
 }
 
-ImapClientManager.mailBoxMessages = function(boxName, sequence){
+ImapClientManager.mailBoxMessages = function(path, sequence){
 	ImapClientManager.ImapClientConnect.then(function(){
-		ImapClientManager.ImapClient.listMessages(boxName, sequence, ['uid', 'flags', 'body[]','envelope','bodystructure']).then(function(messages){
-			
+		ImapClientManager.ImapClient.listMessages(path, sequence, ['uid', 'flags', 'body[]','envelope','bodystructure']).then(function(messages){
 			messages.forEach(function(message){
 				var hMessage = handerMessage(message);
-				console.log(hMessage);
+				MailCollection.getMessageCollection(path).insert(hMessage);
+				console.log(path + "->" + hMessage.subject);
 			});
 
 		});
 	});
 }
+
+

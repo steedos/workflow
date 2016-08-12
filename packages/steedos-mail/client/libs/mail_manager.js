@@ -48,34 +48,55 @@ MailManager.getBoxMessageNumber = function(boxName){
 	return rev;
 }
 
-MailManager.getBoxs = function(){
+MailManager.getBoxInfo = function(path){
+	return MailCollection.mail_box_info.findOne({path: path})
+}
 
+MailManager.getBox = function(path){
+	var box = MailCollection.mail_box.findOne({path: path})
+	box.info = MailManager.getBoxInfo(box.path);
+	console.log(box);
+	return box;
+}
+
+MailManager.getBoxBySpecialUse = function(specialUse){
+	var box = MailCollection.mail_box.findOne({specialUse: specialUse})
+	box.info = MailManager.getBoxInfo(box.path);
+	console.log(box);
+	return box;
+}
+
+
+MailManager.getBoxs = function(){
+	return MailCollection.mail_box.find().fetch();
 }
 
 
 function getMessages (collection, page, page_size){
 
-	var mails = new Array();
+	// var mails = new Array();
 
-	if (!collection)
-		return mails;
+	// if (!collection)
+	// 	return mails;
 
-	collection.find({},{skip:page*page_size,limit:page_size}).forEach(function(message){
-		mails.push(message);
-	})
+	// collection.find({},{sort: {uid:1}, skip:page*page_size,limit:page_size}).forEach(function(message){
+	// 	mails.push(message);
+	// })
 
-	return mails;
+	// return mails;
+
+	return collection.find({},{sort: {uid:1}, skip: page * page_size, limit: page_size}).fetch();
 }
 
 
-MailManager.getInboxMessages = function(page, page_size){
+MailManager.getboxMessages = function(page, page_size){
 	if (!MailCollection)
 		return;
-	return getMessages(MailCollection.mail_inbox_messages, page, page_size);
+	return getMessages(MailCollection.getMessageCollection(Session.get("mailBox")), page, page_size);
 }
 
 MailManager.getMessage = function(id){
-	return MailCollection.mail_inbox_messages.findOne(id);
+	return MailCollection.getMessageCollection(Session.get("mailBox")).findOne(id);
 }
 
 MailManager.search = function(query){

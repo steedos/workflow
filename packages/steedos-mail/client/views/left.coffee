@@ -3,3 +3,8 @@ Template.layout_left.helpers
     	console.log("mail_inbox_exists is " + Session.get("mail_inbox_exists"))
     	return Session.get("mail_inbox_exists");
 
+    getBox: (path)->
+    	return MailManager.getBox(path);
+    getBoxBySpecialUse: (specialUse)->
+    	return MailManager.getBoxBySpecialUse(specialUse);
+
