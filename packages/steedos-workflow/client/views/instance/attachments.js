@@ -7,7 +7,8 @@ Template.instance_attachments.helpers({
         else
             return "display: none;";
         
-    } 
+    }
+    
 })
 
 
@@ -43,7 +44,7 @@ Template.instance_attachment.helpers({
 
     getUrl: function (attachVersion) {
         url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-        if (!Steedos.isMobile())
+        if (!Steedos.isMobile() && !Steedos.isNode())
             url = url + "?download=true"; 
         return url
     }
@@ -69,6 +70,64 @@ Template.instance_attachment.events({
         var rev = template.data.current._rev;
         var length = template.data.current.length;
         WorkflowManager.androidDownload(url, filename, rev, length);
+    },
+    "click [name='ins_attach_isNode']": function (event, template, attachVersion) {
+        // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
+        var url = event.target.dataset.downloadurl;
+        var filename = template.data.current.filename;
+        // var rev = template.data.current._rev;
+        // var length = template.data.current.length;
+        var download_attachments = function(url,filename){
+            var fs = require('fs');  
+            var url = require('url');  
+            var http = require('http');  
+            var exec = require('child_process').exec;
+            debugger;
+            var download_dir = 'C:\\Users\\czp\\Desktop\\steedos';
+            var mkdir = 'mkdir -p ' + download_dir;
+            var file_url = url;
+            // Function to download file using HTTP.get  
+            var download_file_httpget = function(file_url) {  
+                var options = {  
+                    host: url.parse(file_url).host,
+                    port: 3000,
+                    path: url.parse(file_url).pathname
+                };
+                var file = fs.createWriteStream(download_dir + filename);
+                http.get(options, function(res) {  
+                res.on('data', function(data) {  
+                        file.write(data);  
+                    }).on('end', function() {  
+                        file.end();  
+                        console.log(filename + ' downloaded to ' + download_dir);  
+                    });  
+                });  
+            };
+            var child =fs.exists(download_dir,function(exists){
+                if (exists) {
+                    download_file_httpget(file_url);
+                }else{
+                    fs.mkdir(download_dir,0777,function(err){
+                    if (err)
+                        console.log(err);
+                    else
+                        download_file_httpget(file_url);
+                    })
+                }
+
+            }) 
+            
+            // var child = exec(mkdir, function(error, stdout, stderr) {
+            //     alert("22222222");
+            //     if (error) 
+            //         throw error; 
+            //     else 
+            //         download_file_httpget(file_url);
+            // });
+            
+            
+        }
+        download_attachments(url,filename);
     }
 })
 
@@ -155,7 +214,7 @@ Template.ins_attach_version_modal.helpers({
 
     getUrl: function (attachVersion) {
         url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-        if (!Steedos.isMobile())
+        if (!Steedos.isMobile() && !Steedos.isNode())  
             url = url + "?download=true"; 
         return url; 
     }
@@ -184,6 +243,13 @@ Template.ins_attach_version_modal.events({
         var rev = event.target.dataset.rev;
         var length = event.target.dataset.length;
         WorkflowManager.androidDownload(url, filename, rev, length);
+    },
+    "click [name='ins_attach_isNode']": function (event, template) {
+        var url = event.target.dataset.downloadurl;
+        var filename =  event.target.dataset.filename;
+        var rev = event.target.dataset.rev;
+        var length = event.target.dataset.length;
+        download_attachments(url,filename); 
     }
 })
 

@@ -192,6 +192,9 @@ TemplateHelpers =
             if space
                 return space.admins.includes(Meteor.userId())
 
+    isNode: ()->
+        return process?.__node_webkit
+
 
 _.extend Steedos, TemplateHelpers
 
