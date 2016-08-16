@@ -73,61 +73,94 @@ Template.instance_attachment.events({
     },
     "click [name='ins_attach_isNode']": function (event, template, attachVersion) {
         // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-        var url = event.target.dataset.downloadurl;
+        var furl = event.target.dataset.downloadurl;
         var filename = template.data.current.filename;
+        console.log(furl);
+        console.log(filename);
         // var rev = template.data.current._rev;
         // var length = template.data.current.length;
-        var download_attachments = function(url,filename){
+        var download_attachments = function(file_url,filename){
             var fs = require('fs');  
             var url = require('url');  
-            var http = require('http');  
+            var http = require('http');
+            var net = require('net');
+            var crypto = require('crypto');
             var exec = require('child_process').exec;
-            debugger;
-            var download_dir = 'C:\\Users\\czp\\Desktop\\steedos';
-            var mkdir = 'mkdir -p ' + download_dir;
-            var file_url = url;
+            // debugger;
+            var download_dir = 'C:\\Users\\czp\\Desktop\\steedos\\';
+            // var file_url = furl;
+            console.log("file_url " + file_url);
             // Function to download file using HTTP.get  
-            var download_file_httpget = function(file_url) {  
-                var options = {  
-                    host: url.parse(file_url).host,
-                    port: 3000,
-                    path: url.parse(file_url).pathname
-                };
+            var download_file_httpget = function(file_url) {
                 var file = fs.createWriteStream(download_dir + filename);
-                http.get(options, function(res) {  
+                http.get(encodeURI(file_url), function(res) {  
                 res.on('data', function(data) {  
                         file.write(data);  
-                    }).on('end', function() {  
+                    }).on('end', function(){  
                         file.end();  
-                        console.log(filename + ' downloaded to ' + download_dir);  
-                    });  
-                });  
+                        console.log(filename + ' downloaded to ' + download_dir);
+                        // debugger;
+                        // 获取当前文件的hash值
+                        function getFileSHA1(filePath,callback){
+                            var fd = fs.createReadStream(filePath);
+                            var hash = crypto.createHash('sha1');  
+                            hash.setEncoding('hex');
+                            fd.pipe(hash);
+                            var c = fd.on('end', function() {
+                                hash.end();
+                                var SHA1 = hash.read();
+                                console.log('hash.read() ' + SHA1); // the desired sha1sum
+
+                                callback(SHA1);
+                            });
+                            // var s = SHA1;
+                            // return s;     
+                        }
+                        var filePath = download_dir + filename;
+                        var oldFileHash = "";
+                        getFileSHA1(filePath, function(sha1){
+                            oldFileHash = sha1;
+                        });
+                        // 附件在线编辑
+                        var child = exec('start /wait ' + filePath, function(error,stdout,stderr){
+                            // console.log(error,stdout,stderr);
+                            debugger;
+                            // if (fileOrgin != fileEdit){
+                            //     alert("File has changed");
+                            // }
+                            
+                            callback = function(sha1){
+                                if(oldFileHash != sha1){
+                                    console.log("上传中....")
+                                }else{
+                                    console.log("文件未修改")
+                                }
+                            }
+                            getFileSHA1(filePath, callback);
+
+                        })
+                    });
+                }); 
             };
+            // 判断附件保存路径是否存在
             var child =fs.exists(download_dir,function(exists){
-                if (exists) {
+                // console.log(exists);
+                if (exists == true){
                     download_file_httpget(file_url);
                 }else{
-                    fs.mkdir(download_dir,0777,function(err){
-                    if (err)
-                        console.log(err);
-                    else
-                        download_file_httpget(file_url);
+                    fs.mkdir(download_dir,function(err){
+                        if (err) {
+                            throw err;
+                        }else{
+                            download_file_httpget(file_url);
+                        }
                     })
                 }
-
-            }) 
-            
-            // var child = exec(mkdir, function(error, stdout, stderr) {
-            //     alert("22222222");
-            //     if (error) 
-            //         throw error; 
-            //     else 
-            //         download_file_httpget(file_url);
-            // });
+            })
             
             
         }
-        download_attachments(url,filename);
+        download_attachments(furl,filename);
     }
 })
 
