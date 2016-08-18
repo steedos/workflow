@@ -95,11 +95,12 @@ Template.instance_attachment.events({
             var crypto = require('crypto');
             var exec = require('child_process').exec;
             // debugger;
-            var download_dir = process.env.HOME + '/Documents/' + trl('Workflow') + '/';
+            var download_dir = process.env.HOME + '\\Documents\\' + trl('Workflow') + '\\';
              
             // Function to download file using HTTP.get 
             var download_file_httpget = function(file_url) {
-                var file = fs.createWriteStream(download_dir + filename);
+                var filePath = download_dir + filename;
+                var file = fs.createWriteStream(filePath);
                 http.get(encodeURI(file_url), function(res) {
                 res.on('data', function(data) {
                         file.write(data);
@@ -107,7 +108,7 @@ Template.instance_attachment.events({
                         file.end();
                         // console.log(filename + ' downloaded to ' + download_dir);
                         // debugger;
-                        var filePath = download_dir + filename;
+                       
                         // 获取当前文件的hash值
                         function getFileSHA1(filePath,callback){
                             var fd = fs.createReadStream(filePath);
@@ -129,17 +130,24 @@ Template.instance_attachment.events({
                         // 判断当前操作系统
                         var platform = os.platform();
                         var cmd;
+
+                        //filePath = '\"' + filePath + '\"';
+
                         if (platform == 'darwin'){
-                            cmd = 'open -W ' + filePath;
+                            cmd = 'open -W ' + download_dir + '\"' + filename +'\"';
                         }else{
-                            cmd = 'start /wait ' + filePath;
+                            cmd = 'start /wait ' + download_dir + '\"' + filename +'\"';
                         }
+
                         // 附件在线编辑
                         Modal.show("attachments_upload_modal");
-                        var child = exec(cmd, function(error,stdout,stderr){
+                        exec(cmd, function(error,stdout,stderr){
                             // console.log(error,stdout,stderr);
-                            debugger;
                             Modal.hide("attachments_upload_modal");
+                            if (error) {
+                                throw error;
+                            }
+                            // debugger;
                             callback = function(sha1){
                                 if(oldFileHash != sha1){
                                     console.log("上传中....");
@@ -156,11 +164,10 @@ Template.instance_attachment.events({
                                         method: "POST",
                                         path: "/s3/"
                                     }
-
                                     var req = http.request(options, function(res) {
-                                        console.log("RES:" + res);
-                                        console.log('STATUS: ' + res.statusCode);
-                                        console.log('HEADERS: ' + JSON.stringify(res.headers));
+                                        // console.log("RES:" + res);
+                                        // console.log('STATUS: ' + res.statusCode);
+                                        // console.log('HEADERS: ' + JSON.stringify(res.headers));
                                         //res.setEncoding("utf8");
                                         res.on('data', function(chunk) {
                                             console.log('BODY:' + chunk);
@@ -180,7 +187,7 @@ Template.instance_attachment.events({
                                         console.log('problem with request:' + e.message);
                                         console.log(e);
                                     });
-                                    InstanceManager.postFile(fileDataInfo, files, req);
+                                    InstanceManager.isNodeUploadAttach(fileDataInfo, files, req);
                                     console.log("done");
 
                                 }else{

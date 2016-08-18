@@ -842,7 +842,10 @@ InstanceManager.removeAttach = function () {
 }
 
 // 客户端上传附件
-InstanceManager.postFile = function (fileDataInfo, fileKeyValue, req) {
+InstanceManager.isNodeUploadAttach = function(fileDataInfo, fileKeyValue, req) {
+    var http = require('http');
+    var path = require('path');
+    var fs = require('fs');
     var boundaryKey = Math.random().toString(16);
     var enddata = '\r\n----' + boundaryKey + '--';
 
