@@ -66,6 +66,9 @@
     "Current Version": "（Current Version）",
     "workflow_attachment_free_size_limit": "Sorry, Attachment larger than 1M is not accepted for free version.",
     "workflow_attachment_paid_size_limit": "Failed to upload, because attachment size is over 100 MB.",
+    "workflow_attachment_officeOnline": "Edit online",
+    "workflow_attachment_save": "Save",
+    "workflow_attachment_close": "Close",
 
     "Instance State approved": " Approved",
     "Instance State rejected": " Rejected",

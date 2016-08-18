@@ -37,6 +37,10 @@
                 <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
             {{/if}}
             
+            {{#if canEdit filename}}
+                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+            {{/if}}
+
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" id="{{_id}}" >{{_ "Versions"}}</a>
             {{#if can_delete current.approve historys}}
                 {{> _file_DeleteButton file_id=current._rev}}
@@ -113,5 +117,33 @@
 
 <template name="_file_version_DeleteButton">
     <div  class="delete fa fa-times"></div>
+</template>
+
+<template name="ins_attach_edit_modal">
+    <div class="modal fade" id="ins_attach_edit" tabindex="-1" role="dialog" aria-labelledby="modalLabel2">
+        <div style="height: 100%;">
+          <div class="modal-content ins-modal" style="height: 100%;">
+                {{#with attach}}
+                <div class="modal-header" id="attach_edit_modal_header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="modalLabel2">{{ filename }}</h4>
+                </div>
+
+                <div class="modal-body" id="attach_edit_modal_body">
+                    <object id='TANGER_OCX_OBJ'   classid='clsid:C9BC4DFF-4248-4a3c-8A49-63A7D317F404'  codebase= '/cab/OfficeControl.cab#Version=5.0.2.2' width='100%'    height='100%'>
+                        <param name='Titlebar' value='0'>
+                        <param name='Menubar' value='0'>
+                        <param name='ProductCaption' value='上海华炎软件科技有限公司'>
+                        <param name='ProductKey' value='B401843AE60C0E72C1C8BC3E543B5E7790B42415'>
+                    </object>
+                </div>
+                <div class="modal-footer" id="attach_edit_modal_footer">
+                    <button type="button" class="btn btn-primary" data-filename="{{filename}}">{{_ "workflow_attachment_save"}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "workflow_attachment_close"}}</button>
+                </div>
+                {{/with}}
+          </div>
+        </div>
+    </div>
 </template>
 

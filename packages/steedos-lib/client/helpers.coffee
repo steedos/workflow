@@ -192,6 +192,47 @@ TemplateHelpers =
             if space
                 return space.admins.includes(Meteor.userId())
 
+    detectIE: ()->
+        ua = window.navigator.userAgent
+        msie = ua.indexOf('MSIE ')
+        if msie > 0
+            # IE 10 or older => return version number
+            return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10)
+        trident = ua.indexOf('Trident/')
+        if trident > 0
+            # IE 11 => return version number
+            rv = ua.indexOf('rv:')
+            return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10)
+        edge = ua.indexOf('Edge/')
+        if edge > 0
+            # Edge (IE 12+) => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10)
+        # other browser
+        false
+
+    isIE: ()->
+        d = Steedos.detectIE()
+        if d && d < 12
+            return true
+        false
+
+    isDocFile: (filename) ->
+        #无文件类型时
+        if filename.split('.').length < 2
+            return false
+        # 获取文件类型
+        _exp = filename.split('.').pop().toLowerCase()
+        switch _exp
+            when 'doc'
+                return true
+            when 'docx'
+                return true
+            else
+                return false
+        false
+
+
+
 
 _.extend Steedos, TemplateHelpers
 
