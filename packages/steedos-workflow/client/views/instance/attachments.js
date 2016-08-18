@@ -83,18 +83,20 @@ Template.instance_attachment.events({
           var suffix =/\.[^\.]+$/.exec(file); 
           return suffix;
         }
+
         var suffixArr = [".doc",".docx",".xls",".xlsx",".ppt",".pptx"];
         var download_attachments = function(file_url,filename){
             var fs = require('fs');  
-            var url = require('url');  
+            var url = require('url');
+            var os = require('os');
             var http = require('http');
             var net = require('net');
             var path = require('path');
             var crypto = require('crypto');
             var exec = require('child_process').exec;
             // debugger;
-            var download_dir = process.env.HOME + '\\Documents\\' + trl('Workflow') + '\\';
-
+            var download_dir = process.env.HOME + '/Documents/' + trl('Workflow') + '/';
+             
             // Function to download file using HTTP.get 
             var download_file_httpget = function(file_url) {
                 var file = fs.createWriteStream(download_dir + filename);
@@ -103,16 +105,9 @@ Template.instance_attachment.events({
                         file.write(data);
                     }).on('end', function(){ 
                         file.end();
-                        console.log(filename + ' downloaded to ' + download_dir);
+                        // console.log(filename + ' downloaded to ' + download_dir);
                         // debugger;
                         var filePath = download_dir + filename;
-                        fs.stat(filePath,function(err,stats){
-                            if (err){
-                                throw err;
-                            }else{
-                                console.log(stats);
-                            }
-                        })
                         // 获取当前文件的hash值
                         function getFileSHA1(filePath,callback){
                             var fd = fs.createReadStream(filePath);
@@ -125,19 +120,26 @@ Template.instance_attachment.events({
                                 console.log('hash.read() ' + SHA1); // the desired sha1sum
 
                                 callback(SHA1);
-                            });
-                            // var s = SHA1;
-                            // return s;     
+                            });     
                         }
                         var oldFileHash = "";
                         getFileSHA1(filePath, function(sha1){
                             oldFileHash = sha1;
                         });
+                        // 判断当前操作系统
+                        var platform = os.platform();
+                        var cmd;
+                        if (platform == 'darwin'){
+                            cmd = 'open -W ' + filePath;
+                        }else{
+                            cmd = 'start /wait ' + filePath;
+                        }
                         // 附件在线编辑
-                        var child = exec('start /wait ' + filePath, function(error,stdout,stderr){
+                        Modal.show("attachments_upload_modal");
+                        var child = exec(cmd, function(error,stdout,stderr){
                             // console.log(error,stdout,stderr);
                             debugger;
- 
+                            Modal.hide("attachments_upload_modal");
                             callback = function(sha1){
                                 if(oldFileHash != sha1){
                                     console.log("上传中....");
@@ -218,7 +220,7 @@ Template.instance_attachment.events({
             }
         }
         if (t == 6){
-            window.location.href = furl;
+            window.location.href = furl;    
         }
     }
 })

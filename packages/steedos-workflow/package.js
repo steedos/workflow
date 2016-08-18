@@ -126,6 +126,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/flow_list_box_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_box_modal.coffee', 'client');
 
+    api.addFiles('client/views/list/attachments_upload_modal.html', 'client');
+    api.addFiles('client/views/list/attachments_upload_modal.coffee', 'client');
+
 
     api.addFiles('client/views/list/flow_list_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_modal.coffee', 'client');
@@ -166,6 +169,7 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/instance_list.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');
     api.addFiles('server/upgrade/upgrade_data.js', 'server');
+
 
     api.addFiles('tabular.coffee');
 
