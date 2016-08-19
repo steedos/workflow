@@ -702,7 +702,7 @@ WorkflowManager.getMyCanAddFlows = function () {
   return flow_ids;
 };
 
-WorkflowManager.getFlowListData = function(){
+WorkflowManager.getFlowListData = function(show_type){
   //{categories:[],uncategories:[]}
 
   var curUserId = Meteor.userId();
@@ -729,6 +729,11 @@ WorkflowManager.getFlowListData = function(){
         if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
           f.flows.push(fl);
         }
+        else if (show_type == 'show') {
+          if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+            f.flows.push(fl);
+          }
+        }
       });
     });
 
@@ -746,6 +751,11 @@ WorkflowManager.getFlowListData = function(){
     flows.forEach(function(fl){
       if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
         f.flows.push(fl);
+      }
+      else if (show_type == 'show') {
+        if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+          f.flows.push(fl);
+        }
       }
     });
   });
