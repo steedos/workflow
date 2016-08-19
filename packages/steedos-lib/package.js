@@ -71,6 +71,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/publications/apps.coffee');
 
 	api.addFiles('lib/node/helpers.coffee');
+	api.addFiles('lib/node/office_edit_helpers.js','client');
 
 	api.addFiles('client/momentjs/zh-cn.js', 'client');
 	api.addFiles('client/helpers.coffee', 'client');

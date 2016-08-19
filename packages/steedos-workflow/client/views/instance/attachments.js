@@ -75,152 +75,26 @@ Template.instance_attachment.events({
         // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
         var furl = event.target.dataset.downloadurl;
         var filename = template.data.current.filename;
-        console.log(furl);
-        console.log(filename);
-        
         // 判断文件类型
         function validate(file){
           var suffix =/\.[^\.]+$/.exec(file); 
           return suffix;
         }
-
+        var fs = require('fs');  
+        var url = require('url');
+        var os = require('os');
+        var http = require('http');
+        var net = require('net');
+        var path = require('path');
+        var crypto = require('crypto');
+        var exec = require('child_process').exec;
         var suffixArr = [".doc",".docx",".xls",".xlsx",".ppt",".pptx"];
-        var download_attachments = function(file_url,filename){
-            var fs = require('fs');  
-            var url = require('url');
-            var os = require('os');
-            var http = require('http');
-            var net = require('net');
-            var path = require('path');
-            var crypto = require('crypto');
-            var exec = require('child_process').exec;
-            // debugger;
-            var download_dir = process.env.HOME + '\\Documents\\' + trl('Workflow') + '\\';
-             
-            // Function to download file using HTTP.get 
-            var download_file_httpget = function(file_url) {
-                var filePath = download_dir + filename;
-                var file = fs.createWriteStream(filePath);
-                http.get(encodeURI(file_url), function(res) {
-                res.on('data', function(data) {
-                        file.write(data);
-                    }).on('end', function(){ 
-                        file.end();
-                        // console.log(filename + ' downloaded to ' + download_dir);
-                        // debugger;
-                       
-                        // 获取当前文件的hash值
-                        function getFileSHA1(filePath,callback){
-                            var fd = fs.createReadStream(filePath);
-                            var hash = crypto.createHash('sha1');  
-                            hash.setEncoding('hex');
-                            fd.pipe(hash);
-                            var c = fd.on('end', function() {
-                                hash.end();
-                                var SHA1 = hash.read();
-                                console.log('hash.read() ' + SHA1); // the desired sha1sum
-
-                                callback(SHA1);
-                            });     
-                        }
-                        var oldFileHash = "";
-                        getFileSHA1(filePath, function(sha1){
-                            oldFileHash = sha1;
-                        });
-                        // 判断当前操作系统
-                        var platform = os.platform();
-                        var cmd;
-
-                        //filePath = '\"' + filePath + '\"';
-
-                        if (platform == 'darwin'){
-                            cmd = 'open -W ' + download_dir + '\"' + filename +'\"';
-                        }else{
-                            cmd = 'start /wait ' + download_dir + '\"' + filename +'\"';
-                        }
-
-                        // 附件在线编辑
-                        Modal.show("attachments_upload_modal");
-                        exec(cmd, function(error,stdout,stderr){
-                            // console.log(error,stdout,stderr);
-                            Modal.hide("attachments_upload_modal");
-                            if (error) {
-                                throw error;
-                            }
-                            // debugger;
-                            callback = function(sha1){
-                                if(oldFileHash != sha1){
-                                    console.log("上传中....");
-                                    var fileDataInfo = [
-                                        {urlKey: "name", urlValue: filename}
-                                    ]
-
-                                    var files = [
-                                        {urlKey: filename, urlValue: filePath}
-                                    ]
-                                    var options = {
-                                        host: "192.168.0.23",
-                                        port: "80",
-                                        method: "POST",
-                                        path: "/s3/"
-                                    }
-                                    var req = http.request(options, function(res) {
-                                        // console.log("RES:" + res);
-                                        // console.log('STATUS: ' + res.statusCode);
-                                        // console.log('HEADERS: ' + JSON.stringify(res.headers));
-                                        //res.setEncoding("utf8");
-                                        res.on('data', function(chunk) {
-                                            console.log('BODY:' + chunk);
-                                            var chunkStr = JSON.parse(chunk.toString());
-                                            var fileObj;
-                                            fileObj = {};
-                                            fileObj._id = chunkStr.version_id;
-                                            fileObj.name = filename;
-                                            fileObj.type = cfs.getContentType(filename);
-                                            fileObj.size = chunkStr.size;
-                                            InstanceManager.addAttach(fileObj, false);
-                                        });
-                                        console.log('end...');
-                                    })
-
-                                    req.on('error', function(e) {
-                                        console.log('problem with request:' + e.message);
-                                        console.log(e);
-                                    });
-                                    InstanceManager.isNodeUploadAttach(fileDataInfo, files, req);
-                                    console.log("done");
-
-                                }else{
-                                    console.log("文件未修改")
-                                }
-                            }
-                            getFileSHA1(filePath, callback);
-                        })
-                    });
-                }); 
-            };
-            // 判断附件保存路径是否存在
-            fs.exists(download_dir,function(exists){
-                // console.log(exists);
-                if (exists == true){
-                    download_file_httpget(file_url);
-                }else{
-                    fs.mkdir(download_dir,function(err){
-                        if (err) {
-                            throw err;
-                        }else{
-                            download_file_httpget(file_url);
-                        }
-                    })
-                }
-            })
-        }
         var fsuffix = validate(filename);
         console.log(fsuffix);
         var t = 0;
         for(i=0;i<suffixArr.length;i++){
             if (suffixArr[i] == fsuffix){
-                download_attachments(furl,filename);
+                office_edit(furl,filename);
                 break;
             }else{
                 ++t;
