@@ -74,35 +74,8 @@ Template.instance_attachment.events({
     "click [name='ins_attach_isNode']": function (event, template, attachVersion) {
         // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
         var furl = event.target.dataset.downloadurl;
-        var filename = template.data.current.filename;
-        // 判断文件类型
-        function validate(file){
-          var suffix =/\.[^\.]+$/.exec(file); 
-          return suffix;
-        }
-        var fs = require('fs');  
-        var url = require('url');
-        var os = require('os');
-        var http = require('http');
-        var net = require('net');
-        var path = require('path');
-        var crypto = require('crypto');
-        var exec = require('child_process').exec;
-        var suffixArr = [".doc",".docx",".xls",".xlsx",".ppt",".pptx"];
-        var fsuffix = validate(filename);
-        console.log(fsuffix);
-        var t = 0;
-        for(i=0;i<suffixArr.length;i++){
-            if (suffixArr[i] == fsuffix){
-                office_edit(furl,filename);
-                break;
-            }else{
-                ++t;
-            }
-        }
-        if (t == 6){
-            window.location.href = furl;    
-        }
+        var filename = template.data.current.filename;       
+        SteedosOffice.editFile(furl,filename);
     }
 })
 
