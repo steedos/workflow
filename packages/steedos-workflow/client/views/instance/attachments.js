@@ -194,7 +194,7 @@ Template.ins_attach_version_modal.events({
         var filename =  event.target.dataset.filename;
         var rev = event.target.dataset.rev;
         var length = event.target.dataset.length;
-        WorkflowManager.androidDownload(url, filename, rev, length);
+        Steedos.androidDownload(url, filename, rev, length);
     }
 })
 
