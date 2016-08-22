@@ -75,7 +75,7 @@ Template.instance_attachment.events({
         var filename = template.data.current.filename;
         var rev = template.data.current._rev;
         var length = template.data.current.length;
-        WorkflowManager.androidDownload(url, filename, rev, length);
+        Steedos.androidDownload(url, filename, rev, length);
     },
     "click [name='ins_attach_edit']": function (event, template) {
         Session.set("attach_id", event.target.id);

@@ -231,6 +231,46 @@ TemplateHelpers =
                 return false
         false
 
+    androidDownload: (url, filename, rev, length) ->
+        $(document.body).addClass 'loading'
+        fileName = rev + '-' + filename
+        size = length
+        if typeof length == 'string'
+            size = length.to_float()
+        window.resolveLocalFileSystemURL cordova.file.externalCacheDirectory, ((directoryEntry) ->
+            directoryEntry.getFile fileName, {
+                create: true
+                exclusive: false
+            }, ((fileEntry) ->
+                fileEntry.file ((file) ->
+                    if file.size == size
+                        $(document.body).removeClass 'loading'
+                        window.open fileEntry.toURL(), '_system', 'EnableViewPortScale=yes'
+                    else
+                        sPath = fileEntry.toURL()
+                        fileTransfer = new FileTransfer
+                        fileEntry.remove()
+                        fileTransfer.download url, sPath, ((theFile) ->
+                            $(document.body).removeClass 'loading'
+                            console.log 'download complete: ' + theFile.toURL()
+                            window.open theFile.toURL(), '_system', 'EnableViewPortScale=yes'
+                        ), (error) ->
+                            $(document.body).removeClass 'loading'
+                            console.log 'download error source ' + error.source
+                            console.log 'download error target ' + error.target
+                            console.log 'upload error code: ' + error.code
+                ), (error) ->
+                    $(document.body).removeClass 'loading'
+                    console.log 'upload error code: ' + error.code
+            ), (error) ->
+                $(document.body).removeClass 'loading'
+                console.log 'get directoryEntry error source ' + error.source
+                console.log 'get directoryEntry error target ' + error.target
+                console.log 'get directoryEntry error code: ' + error.code
+        ), (error) ->
+            $(document.body).removeClass 'loading'
+            console.log 'resolveLocalFileSystemURL error code: ' + error.code
+
 
 
 
