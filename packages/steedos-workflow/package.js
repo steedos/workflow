@@ -76,6 +76,7 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/steedos_util.js', 'client');
     api.addFiles('client/lib/uuflow_api.js', 'client');
     api.addFiles('client/lib/workflow_manager.js', 'client');
+    api.addFiles('client/lib/office_edit_helpers.js','client');
 
     //add client file
 	api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
