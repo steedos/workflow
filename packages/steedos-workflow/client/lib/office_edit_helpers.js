@@ -1,5 +1,8 @@
 SteedosOffice = {};
-SteedosOffice.fileSHA1; //定义全局变量;
+//定义全局变量;
+SteedosOffice.fileSHA1; 
+SteedosOffice.signal;
+
 SteedosOffice.uploadFile = function(filePath, filename){
     var url = require('url');
     var net = require('net');
@@ -73,6 +76,7 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
         }).on('end', function(){ 
             file.end();
             // var oldFileHash = "";
+            SteedosOffice.signal = "editing";
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
                 // debugger;
                 // console.log(sha1);
@@ -85,11 +89,12 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
             }else{
                 cmd = 'start /wait ' + download_dir + '\"' + filename +'\"';
             }
-            // 附件在线编辑
             Modal.show("attachments_upload_modal");
             exec(cmd, function(error,stdout,stderr){
                 // console.log(error,stdout,stderr);
+
                 Modal.hide("attachments_upload_modal");
+                SteedosOffice.signal = "finished";
                 if (error) {
                     throw error;
                 }
@@ -97,6 +102,8 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
                 SteedosOffice.getFileSHA1(filePath,filename,function(sha1){
                     if(SteedosOffice.fileSHA1 != sha1){
                         SteedosOffice.uploadFile(filePath, filename);
+                    }else{
+                        SteedosOffice.signal = "finished";
                     }
                     
                 });
