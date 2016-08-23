@@ -37,6 +37,7 @@ Template.afFileUpload.onCreated ->
   )(this)
 
   @_insert = (file) ->
+    FS.debug and console.log('@_insert')
     `var file`
     collection = undefined
     ref = undefined
@@ -48,7 +49,10 @@ Template.afFileUpload.onCreated ->
     file.uploadedFrom = Meteor.userId()
     maxChunk = 2097152
     FS.config.uploadChunkSize = if file.original.size < 10 * maxChunk then file.original.size / 10 else maxChunk
+    FS.debug and console.log(file)
     collection.insert file, (err, fileObj) ->
+      FS.debug and console.log('@_insert callback')
+      FS.debug and console.log(fileObj)
       ref1 = undefined
       self.data.atts.triggers?.onAfterInsert?(err, fileObj) 
       fileObj.update $set: "metadata.owner": Meteor.userId()
@@ -121,8 +125,20 @@ Template.afFileUpload.events
       doc.remove()
     t.value.set false
   'fileuploadchange .js-file': (e, t, data) ->
-    console.log data.files[0]
-    t._insert new (FS.File)(data.files[0])
+    FS.debug and console.log(data.files[0])
+    file = data.files[0]
+    fileName = file.name
+    if [
+        'image.jpg'
+        'image.gif'
+        'image.jpeg'
+        'image.png'
+      ].includes(fileName.toLowerCase())
+      fileName = 'image-' + moment(new Date).format('YYYYMMDDHHmmss') + '.' + fileName.split('.').pop()
+    
+    f = new (FS.File)(file)
+    f.name(fileName)
+    t._insert f
 Template.afFileUploadThumbImg.helpers url: ->
   @file.url store: @atts.store
 Template.afFileUploadThumbIcon.helpers
