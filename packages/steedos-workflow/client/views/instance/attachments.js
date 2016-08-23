@@ -76,7 +76,7 @@ Template.instance_attachment.events({
         var furl = event.target.dataset.downloadurl;
         var filename = template.data.current.filename;       
         SteedosOffice.editFile(furl,filename);
-        cos.office_signal(SteedosOffice.signal);
+        // cos.office_signal(SteedosOffice.signal);
     }
 })
 
@@ -194,11 +194,9 @@ Template.ins_attach_version_modal.events({
         WorkflowManager.androidDownload(url, filename, rev, length);
     },
     "click [name='ins_attach_isNode']": function (event, template) {
-        var url = event.target.dataset.downloadurl;
-        var filename =  event.target.dataset.filename;
-        var rev = event.target.dataset.rev;
-        var length = event.target.dataset.length;
-        download_attachments(url,filename); 
+        var furl = event.target.dataset.downloadurl;
+        var filename = event.target.dataset.filename;
+        SteedosOffice.editFile(furl,filename); 
     }
 })
 

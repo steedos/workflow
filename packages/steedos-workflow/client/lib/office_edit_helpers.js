@@ -1,7 +1,12 @@
 SteedosOffice = {};
 //定义全局变量;
 SteedosOffice.fileSHA1; 
-SteedosOffice.signal;
+
+function setCos_Signal(str){
+    if(window.cos){
+        cos.office_signal = str;
+    }
+}
 
 SteedosOffice.uploadFile = function(filePath, filename){
     var url = require('url');
@@ -25,6 +30,9 @@ SteedosOffice.uploadFile = function(filePath, filename){
     var req = http.request(options, function(res) {
         //res.setEncoding("utf8");
         res.on('data', function(chunk) {
+            console.log("RES:" + res);
+            console.log('STATUS: ' + res.statusCode);
+            console.log('HEADERS: ' + JSON.stringify(res.headers));
             console.log('BODY:' + chunk);
             var chunkStr = JSON.parse(chunk.toString());
             var fileObj;
@@ -90,12 +98,12 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
             }
             Modal.show("attachments_upload_modal");
             debugger;
-            SteedosOffice.signal = "editing";
+            setCos_Signal("editing");
             exec(cmd, function(error,stdout,stderr){
                 // console.log(error,stdout,stderr);
 
                 Modal.hide("attachments_upload_modal");
-                SteedosOffice.signal = "finished";
+                setCos_Signal("finished");
                 if (error) {
                     throw error;
                 }
@@ -104,7 +112,7 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
                     if(SteedosOffice.fileSHA1 != sha1){
                         SteedosOffice.uploadFile(filePath, filename);
                     }else{
-                        SteedosOffice.signal = "finished";
+                        setCos_Signal("finished");
                     }
                     
                 });

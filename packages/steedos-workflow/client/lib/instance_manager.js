@@ -846,8 +846,6 @@ InstanceManager.isNodeUploadAttach = function(fileDataInfo, fileKeyValue, req) {
     var http = require('http');
     var path = require('path');
     var fs = require('fs');
-    $(document.body).addClass("loading");
-    $('.loading-text').text(TAPi18n.__("attachments_uploading"));
 
     // 专业版文件大小不能超过100M
     var maximumFileSize = 100 * 1024 * 1024;
