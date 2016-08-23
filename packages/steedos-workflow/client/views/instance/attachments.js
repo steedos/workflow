@@ -76,6 +76,7 @@ Template.instance_attachment.events({
         var furl = event.target.dataset.downloadurl;
         var filename = template.data.current.filename;       
         SteedosOffice.editFile(furl,filename);
+        cos.office_signal(SteedosOffice.signal);
     }
 })
 

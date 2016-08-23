@@ -76,7 +76,6 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
         }).on('end', function(){ 
             file.end();
             // var oldFileHash = "";
-            SteedosOffice.signal = "editing";
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
                 // debugger;
                 // console.log(sha1);
@@ -90,6 +89,8 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
                 cmd = 'start /wait ' + download_dir + '\"' + filename +'\"';
             }
             Modal.show("attachments_upload_modal");
+            debugger;
+            SteedosOffice.signal = "editing";
             exec(cmd, function(error,stdout,stderr){
                 // console.log(error,stdout,stderr);
 
