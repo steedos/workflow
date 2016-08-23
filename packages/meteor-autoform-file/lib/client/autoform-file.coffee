@@ -121,6 +121,7 @@ Template.afFileUpload.events
       doc.remove()
     t.value.set false
   'fileuploadchange .js-file': (e, t, data) ->
+    console.log data.files[0]
     t._insert new (FS.File)(data.files[0])
 Template.afFileUploadThumbImg.helpers url: ->
   @file.url store: @atts.store
