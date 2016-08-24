@@ -105,6 +105,13 @@
 
     "instance_attachments_uploading": "Uploading...",
 
+    "instance_office_edit_online":"Editing Online",
+    "instance_office_edit":"You are editing office files, please exit office when you have finished editing.",
+    "instance_office_warning":"File has been modified, please confirm whether to upload this file?",
+    "instance_office_upload":"Upload File",
+    "instance_office_confirm":"Confirm",
+    "instance_office_cancel":"Cancel",
+
     "workflow_export_thismonth": "This Month",
     "workflow_export_lastmonth": "Last Month",
     "workflow_export_thisyear": "This Year",

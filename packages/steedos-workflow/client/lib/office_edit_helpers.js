@@ -61,7 +61,7 @@ SteedosOffice.getFileSHA1 = function(filePath,filename,callback){
     var hash = crypto.createHash('sha1');
     hash.setEncoding('hex');
     fd.pipe(hash);
-    fd.on('end', function() {
+    fd.on('end', function(){
         hash.end();
         var SHA1 = hash.read();
         console.log('hash.read() ' + SHA1); // the desired sha1sum
@@ -72,7 +72,7 @@ SteedosOffice.getFileSHA1 = function(filePath,filename,callback){
 SteedosOffice.downloadFile = function(file_url,download_dir,filename){
     var fs = require('fs');
     var crypto = require('crypto');
-    var exec = require('child_process').exec;
+    var execFile = require('child_process').exec;
     var http = require('http');
     var os = require('os');
     var cmd;
@@ -81,41 +81,49 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
     http.get(encodeURI(file_url), function(res) {
     res.on('data', function(data) {
             file.write(data);
+            Modal.show("attachments_upload_modal");
         }).on('end', function(){ 
             file.end();
-            // var oldFileHash = "";
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
-                // debugger;
-                // console.log(sha1);
                 SteedosOffice.fileSHA1 = sha1;
             });
             // 判断当前操作系统
             var platform = os.platform();
             if (platform == 'darwin'){
                 cmd = 'open -W ' + download_dir + '\"' + filename +'\"';
+                // cmd = download_dir + filename;
             }else{
                 cmd = 'start /wait ' + download_dir + '\"' + filename +'\"';
+                // cmd = download_dir + filename;
             }
-            Modal.show("attachments_upload_modal");
-            debugger;
             setCos_Signal("editing");
-            exec(cmd, function(error,stdout,stderr){
-                // console.log(error,stdout,stderr);
-
+            debugger;
+            var child = exec(cmd);
+            child.on('error',function(error){
+                console.error(error);
+            });
+            child.on('close',function(){
                 Modal.hide("attachments_upload_modal");
                 setCos_Signal("finished");
-                if (error) {
-                    throw error;
-                }
-                // debugger;
                 SteedosOffice.getFileSHA1(filePath,filename,function(sha1){
                     if(SteedosOffice.fileSHA1 != sha1){
-                        SteedosOffice.uploadFile(filePath, filename);
-                    }else{
-                        setCos_Signal("finished");
+                        swal({
+                            title: t("instance_office_upload"),   
+                            text: t("instance_office_warning"),   
+                            type: t("warning"),   
+                            showCancelButton: true,   
+                            confirmButtonColor: "#DD6B55",   
+                            confirmButtonText: t("instance_office_confirm"),   
+                            cancelButtonText: t("instance_office_cancel"),
+                            closeOnConfirm: true,   
+                            closeOnCancel: true 
+                        }, function(isConfirm){   
+                            if (isConfirm) {     
+                                SteedosOffice.uploadFile(filePath, filename);   
+                            }
+                        })
                     }
-                    
-                });
+                })
             })
         })
     })
