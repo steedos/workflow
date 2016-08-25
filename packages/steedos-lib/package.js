@@ -62,7 +62,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
-	// api.addFiles('lib/models/steedos_statistics.coffee');
+	api.addFiles('lib/models/steedos_statistics.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/avatars.coffee');
@@ -81,6 +81,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/methods/emial_templates_reset.js');
 	api.addFiles('lib/methods/upgrade_data.js', 'server');
+
+	api.addFiles('server/schedule.js', 'server');
+
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');

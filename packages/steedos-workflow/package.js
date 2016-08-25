@@ -65,7 +65,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/categories.coffee');
 	api.addFiles('lib/models/box_counts.coffee');
 	api.addFiles('lib/models/spaces.coffee');
-    api.addFiles('lib/models/steedos_statistics.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
     api.addFiles('lib/cfs/instances.coffee');
@@ -156,7 +155,6 @@ Package.onUse(function(api) {
     //add server file
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
-    api.addFiles('server/methods/steedos_statistics.js', 'server');
 
     api.addFiles('server/publications/categories.coffee', 'server');
     api.addFiles('server/publications/cfs_instances.coffee', 'server');
