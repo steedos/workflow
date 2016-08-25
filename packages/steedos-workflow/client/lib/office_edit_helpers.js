@@ -72,7 +72,7 @@ SteedosOffice.getFileSHA1 = function(filePath,filename,callback){
 SteedosOffice.downloadFile = function(file_url,download_dir,filename){
     var fs = require('fs');
     var crypto = require('crypto');
-    var execFile = require('child_process').exec;
+    var exec = require('child_process').exec;
     var http = require('http');
     var os = require('os');
     var cmd;
@@ -97,7 +97,6 @@ SteedosOffice.downloadFile = function(file_url,download_dir,filename){
                 // cmd = download_dir + filename;
             }
             setCos_Signal("editing");
-            debugger;
             var child = exec(cmd);
             child.on('error',function(error){
                 console.error(error);
