@@ -6,7 +6,13 @@ Meteor.startup(function () {
     // 定时执行统计
     var rule = Meteor.settings.cron.statistics;
 
+    var go_next = true;
+
     schedule.scheduleJob(rule, Meteor.bindEnvironment(function () {
+      if (!go_next)
+        return;
+      go_next = false;
+
       console.log('statistics schedule start!');
       console.time('statistics');
       // 日期格式化 
@@ -123,6 +129,8 @@ Meteor.startup(function () {
       });
       
       console.timeEnd('statistics');
+
+      go_next = true;
 
     }, function () {
       console.log('Failed to bind environment');

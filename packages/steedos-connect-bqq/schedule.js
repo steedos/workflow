@@ -6,8 +6,15 @@ Meteor.startup(function () {
     // 定时执行同步
     var rule = Meteor.settings.cron.bqq;
 
+    var go_next = true;
+
     schedule.scheduleJob(rule, Meteor.bindEnvironment(function () {
+      if (!go_next)
+        return;
+      go_next = false;
+
       console.log('bqq schedule start!');
+      console.time('bqq');
       var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}, "services.bqq.company_token": {$exists: true}});
       var result = [];
 
@@ -46,6 +53,10 @@ Meteor.startup(function () {
           text: JSON.stringify({'result': result})
         });
       }
+
+      console.timeEnd('bqq');
+      
+      go_next = true;
 
     }, function () {
       console.log('Failed to bind environment');

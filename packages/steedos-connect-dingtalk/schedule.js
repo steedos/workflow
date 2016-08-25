@@ -6,8 +6,15 @@ Meteor.startup(function () {
     // 定时执行同步
     var rule = Meteor.settings.cron.dingtalk;
 
+    var go_next = true;
+
     schedule.scheduleJob(rule, Meteor.bindEnvironment(function () {
+      if (!go_next)
+        return;
+      go_next = false;
+
       console.log('dingtalk schedule start!');
+      console.time('dingtalk');
       var spaces = db.spaces.find({"services.dingtalk.corp_id": {$exists: true}, "services.dingtalk.permanent_code": {$exists: true}, "services.dingtalk.permanent_code": {$ne: null}});
       var result = [];
 
@@ -50,6 +57,10 @@ Meteor.startup(function () {
           text: JSON.stringify({'result': result})
         });
       }
+
+      console.timeEnd('dingtalk');
+      
+      go_next = true;
 
     }, function () {
       console.log('Failed to bind environment');
