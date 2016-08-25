@@ -5,6 +5,10 @@ Package.describe({
 	git: ''
 });
 
+Npm.depends({
+	"node-schedule": "1.1.1"
+});
+
 Package.onUse(function(api) { 
 	api.versionsFrom('1.0');
 
@@ -58,6 +62,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
+	// api.addFiles('lib/models/steedos_statistics.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/avatars.coffee');
@@ -75,6 +80,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/language.coffee', 'client');
 
 	api.addFiles('lib/methods/emial_templates_reset.js');
+	api.addFiles('lib/methods/upgrade_data.js', 'server');
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');
