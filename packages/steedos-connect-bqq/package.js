@@ -5,6 +5,10 @@ Package.describe({
   "name": "steedos:connect-bqq"
 });
 
+Npm.depends({
+  'node-schedule':'1.1.1',
+});
+
 Package.onUse(function(api) {
   api.versionsFrom("METEOR@1.0.3");
   api.use('accounts-base', ['client', 'server']);
@@ -28,6 +32,7 @@ Package.onUse(function(api) {
   api.addFiles('company_token.js', 'server');
   api.addFiles('bqq_api.coffee', 'server');
   api.addFiles("qq.js");
+  api.addFiles('schedule.js', 'server');
 
   api.export('BQQ');
 

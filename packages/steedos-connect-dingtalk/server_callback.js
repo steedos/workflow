@@ -28,7 +28,8 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
 
   var result = newCrypt.decrypt(encrypt);
   var message = JSON.parse(result.message);
-  if (message.EventType === 'check_update_suite_url' || message.EventType === 'check_create_suite_url') { //创建套件第一步，验证有效性。
+  var eventType = message.EventType;
+  if (eventType === 'check_update_suite_url' || eventType === 'check_create_suite_url') { //创建套件第一步，验证有效性。
     var Random = message.Random;
     result = Dingtalk._jsonWrapper(timestamp, nonce, Random);
     JsonRoutes.sendResult(res, {
@@ -43,7 +44,7 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
       });
     }
 
-    if (message.EventType === 'suite_ticket') {
+    if (eventType === 'suite_ticket') {
       // var data = {
       //   value: message.SuiteTicket,
       //   expires: Number(message.TimeStamp) + TICKET_EXPIRES_IN
@@ -68,12 +69,9 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
 
 
       res.reply();
-    }else{
-      Dingtalk.processCallback(message, req, res, next);
     }
-
     // 回调向ISV推送临时授权码
-    if (message.EventType === 'tmp_auth_code') {
+    else if (eventType === 'tmp_auth_code') {
       var tmp_auth_code = message.AuthCode;
       // var suiteKey = message.SuiteKey;
       var o = ServiceConfiguration.configurations.findOne({service: "dingtalk"});
@@ -98,6 +96,20 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
       }
 
       res.reply();
+    }
+    // “解除授权”事件
+    else if (eventType === 'suite_relieve') {
+      var corp_id = message.corp_id;
+      var space = db.spaces.findOne({'services.dingtalk.corp_id': corp_id});
+      if (space) {
+        var s_dt = space.services.dingtalk;
+        s_dt.permanent_code = undefined;
+        db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk.': s_dt}});
+      }
+      res.reply();
+    }
+    else {
+      Dingtalk.processCallback(message, req, res, next);
     }
 
   };
@@ -151,7 +163,7 @@ JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
     var auth_corp_info = {};
     auth_corp_info.corpid = corpid;
     auth_corp_info.corp_name = corp_name;
-    Dingtalk.syncCompany(access_token, auth_corp_info);
+    Dingtalk.syncCompany(access_token, auth_corp_info, undefined);
   }
 
   JsonRoutes.sendResult(res, {
@@ -159,3 +171,5 @@ JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
   });
   
 });
+
+

@@ -1,9 +1,6 @@
 # 获取套件访问Token（suite_access_token）
 Dingtalk.suiteAccessTokenGet = (suite_key, suite_secret, suite_ticket) ->
-  console.log '===Dingtalk.suiteAccessTokenGet==='
-  console.log suite_key
-  console.log suite_secret
-  console.log suite_ticket
+
   try
     response = HTTP.post(
       "https://oapi.dingtalk.com/service/get_suite_token", 
@@ -16,7 +13,7 @@ Dingtalk.suiteAccessTokenGet = (suite_key, suite_secret, suite_ticket) ->
           "Content-Type": "application/json"
       }
     );
-    console.log response
+
     if (response.error_code) 
       throw response.msg
 
@@ -30,13 +27,11 @@ Dingtalk.suiteAccessTokenGet = (suite_key, suite_secret, suite_ticket) ->
 
   catch err
     console.log err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    throw _.extend(new Error("Failed to complete OAuth handshake with suiteAccessTokenGet. " + err), {response: err});
 
 # 获取企业的永久授权码
 Dingtalk.permanentCodeGet = (suite_access_token, tmp_auth_code) ->
-  console.log '===Dingtalk.permanentCodeGet==='
-  console.log suite_access_token
-  console.log tmp_auth_code
+
   try
     response = HTTP.post(
       "https://oapi.dingtalk.com/service/get_permanent_code?suite_access_token="+suite_access_token, 
@@ -46,9 +41,7 @@ Dingtalk.permanentCodeGet = (suite_access_token, tmp_auth_code) ->
         headers: 
           "Content-Type": "application/json"
       }
-    );
-
-    console.log response
+    )
 
     if (response.error_code) 
       throw response.msg
@@ -67,14 +60,11 @@ Dingtalk.permanentCodeGet = (suite_access_token, tmp_auth_code) ->
 
   catch err
     console.log err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    throw _.extend(new Error("Failed to complete OAuth handshake with permanentCodeGet. " + err), {response: err});
 
 # 获取企业授权的access_token
 Dingtalk.corpTokenGet = (suite_access_token, auth_corpid, permanent_code) ->
-  console.log '===Dingtalk.corpTokenGet==='
-  console.log suite_access_token
-  console.log auth_corpid
-  console.log permanent_code
+
   try
     response = HTTP.post(
       "https://oapi.dingtalk.com/service/get_corp_token?suite_access_token="+suite_access_token, 
@@ -99,16 +89,13 @@ Dingtalk.corpTokenGet = (suite_access_token, auth_corpid, permanent_code) ->
     return response.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with corpTokenGet. " + err), {response: err});
 
 
 # 激活授权套件
 Dingtalk.activateSuitePost = (suite_access_token, suite_key, auth_corpid, permanent_code) ->
-  console.log '===Dingtalk.activateSuitePost==='
-  console.log suite_access_token
-  console.log suite_key
-  console.log auth_corpid
-  console.log permanent_code
+
   try
     response = HTTP.post(
       "https://oapi.dingtalk.com/service/activate_suite?suite_access_token="+suite_access_token, 
@@ -134,14 +121,13 @@ Dingtalk.activateSuitePost = (suite_access_token, suite_key, auth_corpid, perman
     return response.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with activateSuitePost. " + err), {response: err});
 
 
 # 获取部门详情
 Dingtalk.departmentGet = (access_token, department_id) ->
-  console.log '===Dingtalk.departmentGet==='
-  console.log access_token
-  console.log department_id
+
   try
     response = HTTP.get(
       "https://oapi.dingtalk.com/department/get", 
@@ -161,12 +147,12 @@ Dingtalk.departmentGet = (access_token, department_id) ->
     return response.data
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with departmentGet. " + err), {response: err});
 
 # 获取部门列表
 Dingtalk.departmentListGet = (access_token) ->
-  console.log '===Dingtalk.departmentListGet==='
-  console.log access_token
+
   try
     response = HTTP.get(
       "https://oapi.dingtalk.com/department/list", 
@@ -185,13 +171,12 @@ Dingtalk.departmentListGet = (access_token) ->
     return response.data.department
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with departmentListGet. " + err), {response: err});
 
 # 获取部门成员（详情）
 Dingtalk.userListGet = (access_token, department_id) ->
-  console.log '===Dingtalk.userListGet==='
-  console.log access_token
-  console.log department_id
+
   try
     response = HTTP.get(
       "https://oapi.dingtalk.com/user/list", 
@@ -211,13 +196,12 @@ Dingtalk.userListGet = (access_token, department_id) ->
     return response.data.userlist
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with userListGet. " + err), {response: err});
 
 # 获取access_token
 Dingtalk.getToken = (corpid, corpsecret) ->
-  console.log '===Dingtalk.getToken==='
-  console.log corpid
-  console.log corpsecret
+
   try
     response = HTTP.get(
       "https://oapi.dingtalk.com/gettoken", 
@@ -237,14 +221,11 @@ Dingtalk.getToken = (corpid, corpsecret) ->
     return response.data.access_token
 
   catch err
-    throw _.extend(new Error("Failed to complete OAuth handshake with Dingtalk. " + err), {response: err.response});
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with getToken. " + err), {response: err});
 
 
 Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
-  console.log 'Dingtalk.syncCompany'
-  console.log access_token
-  console.log auth_corp_info
-  console.log permanent_code
 
   now = new Date
   space_data = auth_corp_info
@@ -304,13 +285,10 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
           doc.mobile = u.mobile
 
         if doc.hasOwnProperty('name') || doc.hasOwnProperty('avatarURL') || doc.hasOwnProperty('mobile')
-          console.log('修改用户: ' + u.name)
-          console.log(doc)
           doc.modified = now
           db.users.direct.update(user_id, {$set: doc})
 
       else
-        console.log('用户不存在')
         doc = {}
         doc._id = db.users._makeNewID()
         doc.steedos_id = doc._id
@@ -322,7 +300,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
         doc.services = {dingtalk:{id: u.dingId}}
         doc.avatarURL = u.avatar
         doc.mobile = u.mobile
-        console.log(doc)
         user_id = db.users.direct.insert(doc)
 
     if u.isBoss
@@ -356,14 +333,16 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
       s_doc.admins = admin_ids
 
     if s_doc.hasOwnProperty('name') || s_doc.hasOwnProperty('owner') || s_doc.hasOwnProperty('admins')
-      console.log('修改工作区')
-      console.log(s_doc)
       s_doc.modified = now
       s_doc.modified_by = owner_id
-    s_doc.services = { dingtalk:{ corp_id: space_data.corpid, access_token: access_token, permanent_code: permanent_code}}
+    s_dt = s.services.dingtalk
+    s_dt.access_token = access_token
+    if permanent_code
+      s_dt.permanent_code = permanent_code;
+
+    s_doc['services.dingtalk'] = s_dt
     db.spaces.direct.update(space_id, {$set: s_doc})
   else
-    console.log('新建工作区')
 
     s_doc = {}
     s_doc._id = s_id
@@ -376,7 +355,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     s_doc.modified = now
     s_doc.modified_by = owner_id
     s_doc.services = { dingtalk:{ corp_id: space_data.corpid, access_token: access_token, permanent_code: permanent_code}}
-    console.log(s_doc)
     space_id = db.spaces.direct.insert(s_doc)
 
 
@@ -401,7 +379,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
       deleted_org_ids.push(o._id)
 
   db.space_users.find({_id: {$in: deleted_su_ids}}).forEach (su) ->
-    console.log("删除space_user: " + su.name)
     db.space_users.direct.remove({_id: su._id})
 
     organizationObj = db.organizations.findOne(su.organization)
@@ -422,7 +399,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     db.users_changelogs.direct.insert(ucl_doc)
 
   db.organizations.find({_id: {$in: deleted_org_ids}}).forEach (o) ->
-    console.log("删除部门: " + o.name)
     db.organizations.direct.remove({_id: o._id})
 
 
@@ -434,7 +410,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     su_id = "dt-" + u.userid
     suq = db.space_users.find({_id: su_id})
     if suq.count() == 0
-      console.log('新建space_user')
       su_doc = {}
       su_doc._id = su_id
       su_doc.user = u.user_id
@@ -449,7 +424,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
         p_dept_id = u.department[0]
       if p_dept_id
         su_doc.organization = "dt-" + space_data.corpid + "-" + p_dept_id
-      console.log(su_doc)
       space_user_id = db.space_users.direct.insert(su_doc)
       if space_user_id
         # update org users
@@ -469,7 +443,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
 
         count = db.space_users.direct.find({space: space_id}).count()
         ucl_doc.user_count = count
-        console.log(ucl_doc)
         db.users_changelogs.direct.insert(ucl_doc)
     else if suq.count() > 0
       su = suq.fetch()[0]
@@ -487,10 +460,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
           su_doc.organization = new_org_id
 
       if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization')
-        console.log('修改space_user')
-        console.log su_doc
         r = db.space_users.direct.update(su._id, {$set: su_doc})
-        console.log r
         if r && su_doc.organization
           organizationObj = db.organizations.findOne(su_doc.organization)
           organizationObj.updateUsers()
@@ -500,7 +470,6 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
 
   # 更新 org
   db.organizations.find({space: space_id}).forEach (org) ->
-    console.log('更新部门 parents fullname children')
     updateFields = {}
     updateFields.parents = org.calculateParents()
     updateFields.fullname = org.calculateFullname()
@@ -540,14 +509,11 @@ Dingtalk.createOrg = (depts, parentid, space_id, company_id, owner_id) ->
           org_doc.name = o.name
 
         if org_doc.hasOwnProperty('name')
-          console.log('修改部门: ' + o.name)
-          console.log(org_doc)
           org_doc.modified = now
           org_doc.modified_by = owner_id
           db.organizations.direct.update(org._id, {$set: org_doc})
 
       else
-        console.log('新增部门')
         org_doc = {}
         org_doc._id = o_id
         org_doc.space = space_id
@@ -560,7 +526,6 @@ Dingtalk.createOrg = (depts, parentid, space_id, company_id, owner_id) ->
         org_doc.created_by = owner_id
         org_doc.modified = now
         org_doc.modified_by = owner_id
-        console.log(org_doc)
         org_id = db.organizations.direct.insert(org_doc)
       if org_id
         Dingtalk.createOrg(depts, o.id, space_id, company_id, owner_id)

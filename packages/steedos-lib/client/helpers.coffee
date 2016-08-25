@@ -184,6 +184,95 @@ TemplateHelpers =
             return cookie[1]
         return false
 
+    isNotSync: (spaceId)->
+        if !spaceId
+            spaceId = Steedos.getSpaceId()
+        if spaceId
+            space = db.spaces.findOne({_id:spaceId,imo_cid:{$exists:false},"services.bqq.company_id":{$exists:false},"services.dingtalk.corp_id":{$exists:false}})
+            if space
+                return space.admins.includes(Meteor.userId())
+
+    detectIE: ()->
+        ua = window.navigator.userAgent
+        msie = ua.indexOf('MSIE ')
+        if msie > 0
+            # IE 10 or older => return version number
+            return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10)
+        trident = ua.indexOf('Trident/')
+        if trident > 0
+            # IE 11 => return version number
+            rv = ua.indexOf('rv:')
+            return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10)
+        edge = ua.indexOf('Edge/')
+        if edge > 0
+            # Edge (IE 12+) => return version number
+            return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10)
+        # other browser
+        false
+
+    isIE: ()->
+        d = Steedos.detectIE()
+        if d && d < 12
+            return true
+        false
+
+    isDocFile: (filename) ->
+        #无文件类型时
+        if filename.split('.').length < 2
+            return false
+        # 获取文件类型
+        _exp = filename.split('.').pop().toLowerCase()
+        switch _exp
+            when 'doc'
+                return true
+            when 'docx'
+                return true
+            else
+                return false
+        false
+
+    androidDownload: (url, filename, rev, length) ->
+        $(document.body).addClass 'loading'
+        fileName = rev + '-' + filename
+        size = length
+        if typeof length == 'string'
+            size = length.to_float()
+        window.resolveLocalFileSystemURL cordova.file.externalCacheDirectory, ((directoryEntry) ->
+            directoryEntry.getFile fileName, {
+                create: true
+                exclusive: false
+            }, ((fileEntry) ->
+                fileEntry.file ((file) ->
+                    if file.size == size
+                        $(document.body).removeClass 'loading'
+                        window.open fileEntry.toURL(), '_system', 'EnableViewPortScale=yes'
+                    else
+                        sPath = fileEntry.toURL()
+                        fileTransfer = new FileTransfer
+                        fileEntry.remove()
+                        fileTransfer.download url, sPath, ((theFile) ->
+                            $(document.body).removeClass 'loading'
+                            console.log 'download complete: ' + theFile.toURL()
+                            window.open theFile.toURL(), '_system', 'EnableViewPortScale=yes'
+                        ), (error) ->
+                            $(document.body).removeClass 'loading'
+                            console.log 'download error source ' + error.source
+                            console.log 'download error target ' + error.target
+                            console.log 'upload error code: ' + error.code
+                ), (error) ->
+                    $(document.body).removeClass 'loading'
+                    console.log 'upload error code: ' + error.code
+            ), (error) ->
+                $(document.body).removeClass 'loading'
+                console.log 'get directoryEntry error source ' + error.source
+                console.log 'get directoryEntry error target ' + error.target
+                console.log 'get directoryEntry error code: ' + error.code
+        ), (error) ->
+            $(document.body).removeClass 'loading'
+            console.log 'resolveLocalFileSystemURL error code: ' + error.code
+
+
+
 
 _.extend Steedos, TemplateHelpers
 
