@@ -255,6 +255,7 @@ BQQ.syncCompany = (oauth) ->
     s_bqq.expires_in = oauth.expires_in
     s_bqq.refresh_token = oauth.refresh_token
     s_bqq.company_token = oauth.company_token
+    s_bqq.modified = undefined
     s_doc['services.bqq'] = s_bqq
     db.spaces.direct.update(space_id, {$set: s_doc})
   else
@@ -413,9 +414,6 @@ BQQ.syncCompany = (oauth) ->
     if root_org
       db.spaces.createTemplateFormAndFlow(space_id)
 
-
-  # 更新space.services.bqq user_list_timestamp dept_list_timestamp
-  db.spaces.direct.update(space_id, {$set: {"services.bqq.user_list_timestamp": user_data.timestamp, "services.bqq.dept_list_timestamp": org_data.timestamp}})
 
 BQQ.createOrg = (depts, p_dept_id, space_id, company_id, owner_id) ->
   now = new Date

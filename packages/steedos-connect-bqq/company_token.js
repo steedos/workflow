@@ -45,7 +45,7 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
   var query = req.query;
   
   var 
-    notify_type_id = query.notify_type_id,
+    notify_type_id = Number(query.notify_type_id),
     timestamp = query.timestamp,
     company_id = query.company_id
   ;
@@ -127,13 +127,15 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
       }
     });
   }
-  else {
-    var now_time = new Date().getTime();
-    var space = db.spaces.findOne({"services.bqq.company_id": company_id});
-    if (space) {
-      db.spaces.direct.update(space._id, {$set:{"services.bqq.modified": now_time}});
-    }
+  /*
+    1）企业基本信息
+    2）组织架构
+    3）员工信息 
+    4）上下级关系发生变更
+  */
+  else if ([1, 2, 3, 4].includes(notify_type_id)) {
 
+    db.spaces.direct.update({"services.bqq.company_id": company_id}, {$set: {"services.bqq.modified": new Date()}});
     JsonRoutes.sendResult(res, {
       data: {
         ret: 0,
@@ -141,6 +143,15 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
       }
     });
   }
+  else {
+    JsonRoutes.sendResult(res, {
+      data: {
+        ret: 0,
+        msg: "成功"
+      }
+    });
+  }
+
 });
 
 // 自动同步接口
