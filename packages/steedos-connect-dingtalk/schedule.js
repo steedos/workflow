@@ -1,10 +1,12 @@
 Meteor.startup(function () {
 
-  if (Meteor.settings.exec_schedule) {
+  if (Meteor.settings.cron && Meteor.settings.cron.dingtalk) {
 
     var schedule = Npm.require('node-schedule');
     // 定时执行同步
-    schedule.scheduleJob('0 0 23 * * *', Meteor.bindEnvironment(function () {
+    var rule = Meteor.settings.cron.dingtalk;
+
+    schedule.scheduleJob(rule, Meteor.bindEnvironment(function () {
       console.log('dingtalk schedule start!');
       var spaces = db.spaces.find({"services.dingtalk.corp_id": {$exists: true}, "services.dingtalk.permanent_code": {$exists: true}, "services.dingtalk.permanent_code": {$ne: null}});
       var result = [];

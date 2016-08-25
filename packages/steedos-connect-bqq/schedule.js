@@ -1,10 +1,12 @@
 Meteor.startup(function () {
 
-  if (Meteor.settings.exec_schedule) {
+  if (Meteor.settings.cron && Meteor.settings.cron.bqq) {
 
     var schedule = Npm.require('node-schedule');
     // 定时执行同步
-    schedule.scheduleJob('0 0 1 * * *', Meteor.bindEnvironment(function () {
+    var rule = Meteor.settings.cron.bqq;
+
+    schedule.scheduleJob(rule, Meteor.bindEnvironment(function () {
       console.log('bqq schedule start!');
       var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}, "services.bqq.company_token": {$exists: true}});
       var result = [];
