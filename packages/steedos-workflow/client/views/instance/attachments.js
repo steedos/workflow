@@ -269,8 +269,7 @@ Template.ins_attach_edit_modal.onRendered(function(){
         // set body height
         var total = document.documentElement.clientHeight;
         var header = document.getElementById("attach_edit_modal_header").offsetHeight;
-        var footer = document.getElementById("attach_edit_modal_footer").offsetHeight;
-        document.getElementById("attach_edit_modal_body").style.height = (total - header - footer).toString() + "px";
+        document.getElementById("attach_edit_modal_body").style.height = (total - header).toString() + "px";
     }, 1);
         
 })
