@@ -56,7 +56,7 @@ Meteor.startup(function () {
       };
       // 最近修改日期
       var lastModified = function (collection, space) {
-        var obj = collection.find({"space": space["_id"]}, {fields: {modified: 1}}, {sort: {modified: -1}, limit: 1});
+        var obj = collection.find({"space": space["_id"]}, {sort: {modified: -1}, limit: 1});
         var objArr = obj.fetch();
         if(objArr.length > 0)
           var mod = objArr[0].modified;
