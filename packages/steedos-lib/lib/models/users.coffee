@@ -224,4 +224,5 @@ if Meteor.isServer
 				utcOffset: 1
 				settings: 1
 				is_cloudadmin: 1
+				email_notification: 1
 
