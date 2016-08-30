@@ -339,6 +339,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     s_dt.access_token = access_token
     if permanent_code
       s_dt.permanent_code = permanent_code;
+    s_dt.modified = undefined
 
     s_doc['services.dingtalk'] = s_dt
     db.spaces.direct.update(space_id, {$set: s_doc})

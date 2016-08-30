@@ -43,6 +43,8 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
         data: result
       });
     }
+    // 通讯录事件回调
+    var address_call_back_tag = ['user_add_org', 'user_modify_org', 'user_leave_org', 'org_admin_add', 'org_admin_remove', 'org_dept_create', 'org_dept_modify', 'org_dept_remove', 'org_remove'];
 
     if (eventType === 'suite_ticket') {
       // var data = {
@@ -66,8 +68,6 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
         }
 
       }
-
-
       res.reply();
     }
     // 回调向ISV推送临时授权码
@@ -99,13 +99,31 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
     }
     // “解除授权”事件
     else if (eventType === 'suite_relieve') {
-      var corp_id = message.corp_id;
+      var corp_id = message.AuthCorpId;
       var space = db.spaces.findOne({'services.dingtalk.corp_id': corp_id});
       if (space) {
         var s_dt = space.services.dingtalk;
         s_dt.permanent_code = undefined;
-        db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk.': s_dt}});
+        db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk': s_dt}});
       }
+      res.reply();
+    }
+    // 通讯录事件回调
+    else if (address_call_back_tag.includes(eventType)) {
+      var corp_id = message.CorpId;
+      // 企业被解散
+      if (eventType === 'org_remove') {
+        var space = db.spaces.findOne({'services.dingtalk.corp_id': corp_id});
+        if (space) {
+          var s_dt = space.services.dingtalk;
+          s_dt.permanent_code = undefined;
+          db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk': s_dt}});
+        }
+      }
+      else {
+        db.spaces.direct.update({'services.dingtalk.corp_id': corp_id}, {$set: {'services.dingtalk.modified': new Date()}});
+      }
+
       res.reply();
     }
     else {

@@ -15,7 +15,7 @@ Meteor.startup(function () {
 
       console.log('dingtalk schedule start!');
       console.time('dingtalk');
-      var spaces = db.spaces.find({"services.dingtalk.corp_id": {$exists: true}, "services.dingtalk.permanent_code": {$exists: true}, "services.dingtalk.permanent_code": {$ne: null}});
+      var spaces = db.spaces.find({"services.dingtalk.corp_id": {$exists: true}, "services.dingtalk.permanent_code": {$exists: true}, "services.dingtalk.permanent_code": {$ne: null}, "services.dingtalk.modified": {$exists: true} });
       var result = [];
 
       spaces.forEach(function(s){
@@ -59,7 +59,7 @@ Meteor.startup(function () {
       }
 
       console.timeEnd('dingtalk');
-      
+
       go_next = true;
 
     }, function () {
