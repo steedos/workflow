@@ -22,8 +22,17 @@ db.space_users._simpleSchema = new SimpleSchema
 
 	organization: 
 		type: String,
+		optional: true,
+		autoform: 
+			omit: true
+
+	organizations: 
+		type: [String],
 		autoform: 
 			type: "selectorg"
+			multiple: true
+			defaultValue: ->
+				return []
 
 	manager: 
 		type: String,
@@ -71,9 +80,10 @@ db.space_users.helpers
 		space = db.spaces.findOne({_id: this.space});
 		return space?.name
 	organization_name: ->
-		organization = db.organizations.findOne({_id: this.organization});
-		return organization?.fullname
-
+		if this.organizations
+			organizations = db.organizations.find({_id: {$in: this.organizations}}).fetch()
+			return organizations?.getProperty('fullname').join(',')
+		return
 
 if (Meteor.isServer) 
 
@@ -130,6 +140,9 @@ if (Meteor.isServer)
 		if existed.count()>0
 			throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
+		if doc.organizations && doc.organizations.length > 0
+			doc.organization = doc.organizations[0]
+
 	db.space_users.after.insert (userId, doc) ->
 		console.log("db.space_users_after.insert");
 		if doc.organization
@@ -166,6 +179,9 @@ if (Meteor.isServer)
 		if modifier.$set.user
 			if modifier.$set.user != doc.user
 				throw new Meteor.Error(400, "space_users_error_user_readonly");
+
+		if modifier.$set.organizations && modifier.$set.organizations.length > 0
+			modifier.$set.organization = modifier.$set.organizations[0]
 	
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 		console.log("db.space_users.after.update");

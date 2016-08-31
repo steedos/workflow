@@ -81,6 +81,7 @@
 	"space_users_name": "Name",
 	"space_users_email": "Email",
 	"space_users_organization": "Organization",
+  "space_users_organizations": "Organizations",
 	"space_users_user_accepted": "Is Valid",
 	"space_users_manager": "Manager",
 	"space_users_organization_name()": "Organization",
