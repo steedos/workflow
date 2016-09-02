@@ -74,9 +74,15 @@ Template.instance_attachment.events({
     "click [name='ins_attach_isNode']": function (event, template, attachVersion) {
         // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
         var furl = event.target.dataset.downloadurl;
-        var filename = template.data.current.filename;       
-        SteedosOffice.editFile(furl,filename);
-        // cos.office_signal(SteedosOffice.signal);
+        var filename = template.data.current.filename;
+        var os = require('os');
+        // 判断当前操作系统
+        var platform = os.platform();
+        if (platform == 'darwin'){
+            window.location.href = furl;
+        }else{       
+            SteedosOffice.editFile(furl,filename);
+        }
     }
 })
 
@@ -196,7 +202,15 @@ Template.ins_attach_version_modal.events({
     "click [name='ins_attach_isNode']": function (event, template) {
         var furl = event.target.dataset.downloadurl;
         var filename = event.target.dataset.filename;
-        SteedosOffice.editFile(furl,filename); 
+        // SteedosOffice.editFile(furl,filename); 
+        var os = require('os');
+        // 判断当前操作系统
+        var platform = os.platform();
+        if (platform == 'darwin'){
+            window.location.href = furl;
+        }else{       
+            SteedosOffice.editFile(furl,filename);
+        }
     }
 })
 

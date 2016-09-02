@@ -846,24 +846,6 @@ InstanceManager.isNodeUploadAttach = function(fileDataInfo, fileKeyValue, req) {
     var http = require('http');
     var path = require('path');
     var fs = require('fs');
-
-    // 专业版文件大小不能超过100M
-    var maximumFileSize = 100 * 1024 * 1024;
-    // 免费版大小不能超过1M
-    var freeMaximumFileSize = 1024 * 1024;
-
-    var limitSize, warnStr;
-
-    var is_paid = WorkflowManager.isPaidSpace(Session.get('spaceId'));
-
-    if (is_paid) {
-      limitSize = maximumFileSize;
-      warnStr = t("workflow_attachment_paid_size_limit");
-    }
-    else {
-      limitSize = freeMaximumFileSize;
-      warnStr = t("workflow_attachment_free_size_limit");
-    }
     
     var boundaryKey = Math.random().toString(16);
     var enddata = '\r\n----' + boundaryKey + '--';
