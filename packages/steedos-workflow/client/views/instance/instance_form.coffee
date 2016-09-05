@@ -6,7 +6,7 @@ formId = 'instanceform';
 Template.instanceform.helpers
     applicantContext: ->
         steedos_instance = WorkflowManager.getInstance();
-        data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:25%;display:inline'}} 
+        data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:140px;display:inline'}} 
         if not steedos_instance || steedos_instance.state != "draft"
             data.atts.disabled = true
         return data;
