@@ -6,7 +6,7 @@ Template.contacts_tree.onRendered ->
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
   this.autorun ()->
-    if Session.get("loaded_organizations")
+    if Steedos.subsSpace.ready("organizations")
       console.log "loaded_organizations ok...";
       $("#contacts_tree").on('changed.jstree', (e, data) ->
             if data.selected.length
