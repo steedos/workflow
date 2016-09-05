@@ -1,0 +1,40 @@
+<template name="contacts_list">
+	<div id="contacts_list">
+
+		
+		<div class="box box-default box-solid" style="min-height:75%">
+			<div class="box-header">
+				<h3 class="box-title">联系人</h3>
+			</div>
+			<div class="box-body">
+				{{> tabular table=TabularTables.contacts selector=selector class="table table-striped table-condensed contacts_list_table"}}
+			</div>
+			<!-- /.box-body -->
+			<!-- Loading (remove the following to stop the loading)-->
+			<div class="overlay" id="contact_list_load">
+				<i class="fa fa-refresh fa-spin"></i>
+			</div>
+			<!-- end loading -->
+		</div>
+		<!-- <table id="contacts_list_table" class="table table-bordered" cellspacing="0" width="100%">
+	        <thead>
+	            <tr>
+	            	<th style='width: 30px'><input type="checkbox" name="reverse" id="reverse"></th>
+	                <th>Name</th>
+	                <th>Email</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	{{#each contacts}}
+		            <tr>
+		            	<td>
+		            		<input type="checkbox" name="contacts_ids" id="contacts_ids" value="{{_id}}" data-name='{{name}}' data-email='{{email}}'>
+		            	</td>
+		                <td>{{name}}</td>
+		                <td>{{email}}</td>
+		            </tr>
+	            {{/each}}
+	   		</tbody>
+	   	</table> -->
+    </div>
+</template>
