@@ -29,10 +29,10 @@ Tracker.autorun (c)->
 	Steedos.subsSpace.reset();
 	if spaceId
 		Steedos.subsSpace.subscribe("apps")
-		Steedos.subsSpace.subscribe("space_users", spaceId)
-		Steedos.subsSpace.subscribe("organizations", spaceId)
-		Steedos.subsSpace.subscribe("flow_roles", spaceId)
-		Steedos.subsSpace.subscribe("flow_positions", spaceId)
+		# Steedos.subsSpace.subscribe("space_users", spaceId)
+		# Steedos.subsSpace.subscribe("organizations", spaceId)
+		# Steedos.subsSpace.subscribe("flow_roles", spaceId)
+		# Steedos.subsSpace.subscribe("flow_positions", spaceId)
 					
 		Steedos.subsSpace.subscribe("categories", spaceId)
 		Steedos.subsSpace.subscribe("forms", spaceId)

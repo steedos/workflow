@@ -155,6 +155,10 @@ Package.onUse(function(api) {
     //add server file
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
+    api.addFiles('server/methods/manager.js', 'server');
+
+    api.addFiles('server/lib/workflow_manager.js', 'server');
+    api.addFiles('server/lib/1_form_formula.js', 'server');
 
     api.addFiles('server/publications/categories.coffee', 'server');
     api.addFiles('server/publications/cfs_instances.coffee', 'server');

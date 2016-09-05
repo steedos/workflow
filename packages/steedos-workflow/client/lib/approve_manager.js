@@ -118,6 +118,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
     if (!nextStep)
         return ;
 
+    var applicantId = InstanceManager.getApplicantUserId();
     var applicant = WorkflowManager.getUser(InstanceManager.getApplicantUserId());
     Session.set("next_step_users_showOrg",false);
     switch(nextStep.step_type){
@@ -130,27 +131,69 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
             switch(nextStep.deal_type){
                 case 'pickupAtRuntime': //审批时指定人员
                     Session.set("next_step_users_showOrg",true);
-                    nextStepUsers = WorkflowManager.getSpaceUsers(instance.space);
+                    // nextStepUsers = WorkflowManager.getSpaceUsers(instance.space);
+                    // TODO 选人控件
                     break;
                 case 'specifyUser': //指定人员
                     var specifyUserIds = nextStep.approver_users;
-                    nextStepUsers = nextStepUsers.concat(WorkflowManager.getUsers(specifyUserIds));
+                    // nextStepUsers = nextStepUsers.concat(WorkflowManager.getUsers(specifyUserIds));
+                    
+                    Meteor.call('nextUserType_specifyUser', Session.get('spaceId'), specifyUserIds, function(err, result){
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        Session.set('nextStepUsers', result);
+                    })
+
+
                     break;
                 case 'applicantRole': //指定审批岗位
                     var approveRoleIds = nextStep.approver_roles;
-                    var approveRoles = WorkflowManager.getRoles(approveRoleIds);
-                    nextStepUsers = WorkflowManager.getRoleUsersByOrgAndRoles(instance.space, applicant.organization.id, approveRoleIds);
-                    if(!nextStepUsers.length){
-                        //todo 记录未找到角色人员的原因，用于前台显示
-                        ApproveManager.error.nextStepUsers = '"' + approveRoles.getProperty('name').toString() + '"审批岗位未指定审批人';
-                        console.error("步骤: " + nextStep.name + "找指定岗位处理人失败。参数：orgId is " + applicant.organization.id + ";roleIds is " + approveRoleIds);
-                    }
+                    // var approveRoles = WorkflowManager.getRoles(approveRoleIds);
+                    // nextStepUsers = WorkflowManager.getRoleUsersByOrgAndRoles(instance.space, applicant.organization.id, approveRoleIds);
+                    // if(!nextStepUsers.length){
+                    //     //todo 记录未找到角色人员的原因，用于前台显示
+                    //     ApproveManager.error.nextStepUsers = '"' + approveRoles.getProperty('name').toString() + '"审批岗位未指定审批人';
+                    //     console.error("步骤: " + nextStep.name + "找指定岗位处理人失败。参数：orgId is " + applicant.organization.id + ";roleIds is " + approveRoleIds);
+                    // }
+
+
+                    Meteor.call('nextUserType_applicantRole', Session.get('spaceId'), applicantId, approveRoleIds, function(err, result){
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        Session.set('nextStepUsers', result);
+                    })
+
                     break;
                 case 'applicantSuperior': //申请人上级
-                    nextStepUsers = WorkflowManager.getUsers(applicant.manager);
+                    // nextStepUsers = WorkflowManager.getUsers(applicant.manager);
+
+                    Meteor.call('nextUserType_applicantSuperior', Session.get('spaceId'), applicantId, function(err, result){
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        Session.set('nextStepUsers', result);
+                    })
                     break;
                 case 'applicant': //申请人
-                    nextStepUsers.push(applicant);
+                    // nextStepUsers.push(applicant);
+                    Meteor.call('nextUserType_applicant', Session.get('spaceId'), applicantId, function(err, result){
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        Session.set('nextStepUsers', result);
+                    })
+
+
                     break;
                 case 'userField': //指定人员字段
                     var userFieldId =  nextStep.approver_user_field;
@@ -158,11 +201,22 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if(userField){
                         var userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                         if(userFieldValue){
-                            if(userField.is_multiselect){ //如果多选，以userFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getUsers(userFieldValue);
-                            }else{
-                                nextStepUsers.push(WorkflowManager.getUser(userFieldValue));
-                            }
+                            // if(userField.is_multiselect){ //如果多选，以userFieldValue值为Array
+                            //     nextStepUsers = WorkflowManager.getUsers(userFieldValue);
+                            // }else{
+                            //     nextStepUsers.push(WorkflowManager.getUser(userFieldValue));
+                            // }
+                            Meteor.call('nextUserType_userField', Session.get('spaceId'), userField, userFieldValue, function(err, result){
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+
+                                Session.set('nextStepUsers', result);
+                            })
+
+
+
                         }
                     }
                     if(!nextStepUsers.length){
@@ -183,20 +237,32 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
 
                         //获得orgFieldValue的所有子部门
                         if(orgFieldValue){
-                            if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
-                                orgs = WorkflowManager.getOrganizations(orgFieldValue);
-                                orgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, orgFieldValue);
-                            }else{
-                                orgs = [WorkflowManager.getOrganization(orgFieldValue)];
-                                orgChildrens = WorkflowManager.getOrganizationChildrens(instance.space, orgFieldValue);
-                            }
+                            // if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
+                            //     orgs = WorkflowManager.getOrganizations(orgFieldValue);
+                            //     orgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, orgFieldValue);
+                            // }else{
+                            //     orgs = [WorkflowManager.getOrganization(orgFieldValue)];
+                            //     orgChildrens = WorkflowManager.getOrganizationChildrens(instance.space, orgFieldValue);
+                            // }
 
-                            nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgChildrens);
+                            // nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgChildrens);
                             
-                            orgFieldUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgs);
+                            // orgFieldUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgs);
 
-                            nextStepUsers = nextStepUsers.concat(orgFieldUsers);
+                            // nextStepUsers = nextStepUsers.concat(orgFieldUsers);
+
+                            Meteor.call('nextUserType_orgField', Session.get('spaceId'), orgField, orgFieldValue, function(err, result){
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+
+                                Session.set('nextStepUsers', result);
+                            })
+
                         }
+
+
                     }
 
                     if(!nextStepUsers.length){
@@ -210,14 +276,24 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                 case 'specifyOrg': //指定部门
                     var specifyOrgIds = nextStep.approver_orgs;
 
-                    var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
-                    var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space,specifyOrgIds);
+                    // var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
+                    // var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space,specifyOrgIds);
 
-                    nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgs);
-                    nextStepUsers = nextStepUsers.concat(WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgChildrens));
-                    if(!nextStepUsers.length){
-                        ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
-                    }
+                    // nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgs);
+                    // nextStepUsers = nextStepUsers.concat(WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgChildrens));
+                    // if(!nextStepUsers.length){
+                    //     ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
+                    // }
+
+                    Meteor.call('nextUserType_specifyOrg', Session.get('spaceId'), specifyOrgIds, function(err, result){
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        Session.set('nextStepUsers', result);
+                    })
+
                     break;
                 case 'userFieldRole': //指定人员字段相关审批岗位
 
@@ -228,11 +304,22 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if (userField){
                         userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                         if(userFieldValue){
-                            if(userField.is_multiselect){//如果多选，以userFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, userFieldValue, approverRoleIds);
-                            }else{
-                                nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, [userFieldValue], approverRoleIds);
-                            }
+                            // if(userField.is_multiselect){//如果多选，以userFieldValue值为Array
+                            //     nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, userFieldValue, approverRoleIds);
+                            // }else{
+                            //     nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, [userFieldValue], approverRoleIds);
+                            // }
+
+                            Meteor.call('nextUserType_userFieldRole', Session.get('spaceId'), userField, userFieldValue, approverRoleIds, function(err, result){
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+
+                                Session.set('nextStepUsers', result);
+                            })
+
+
                         }
                     }
 
@@ -255,11 +342,22 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if(orgField){
                         orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
                         if(orgFieldValue){
-                            if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, orgFieldValue, approverRoleIds);
-                            }else{
-                                nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, [orgFieldValue], approverRoleIds);
-                            }
+                            // if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
+                            //     nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, orgFieldValue, approverRoleIds);
+                            // }else{
+                            //     nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, [orgFieldValue], approverRoleIds);
+                            // }
+
+                            Meteor.call('nextUserType_orgFieldRole', Session.get('spaceId'), orgField, orgFieldValue, approverRoleIds, function(err, result){
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+
+                                Session.set('nextStepUsers', result);
+                            })
+
+
                         }
                     }
 
@@ -285,7 +383,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
     nextStepUsers.sort(function(p1,p2){
         return p1.name.localeCompare(p2.name);
     });
-
+    debugger;
     return nextStepUsers;
 
 };
