@@ -543,7 +543,7 @@ WorkflowManager.getFormulaOrgObject = function(orgId){
 WorkflowManager.getSpaceCategories = function(spaceId){
   var re = new Array();
 
-  var r = db.categories.find();
+  var r = db.categories.find({space: spaceId});
 
   r.forEach(function(c){
     re.push(c);
@@ -704,16 +704,16 @@ WorkflowManager.getMyCanAddFlows = function () {
 
 WorkflowManager.getFlowListData = function(show_type){
   //{categories:[],uncategories:[]}
-
+  var spaceId = Session.get('spaceId');
   var curUserId = Meteor.userId();
-  var curSpaceUser = db.space_users.findOne({'user': curUserId});
+  var curSpaceUser = db.space_users.findOne({space: spaceId, 'user': curUserId});
   var organization = db.organizations.findOne(curSpaceUser.organization);
 
   var re = {};
 
   re.categories = new Array();
 
-  var categories = WorkflowManager.getSpaceCategories();
+  var categories = WorkflowManager.getSpaceCategories(spaceId);
 
   categories.sortByName();
 

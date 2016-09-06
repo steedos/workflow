@@ -308,3 +308,15 @@ if (Meteor.isServer)
 		console.log '[publish] organizations ' + spaceId
 
 		return db.organizations.find(selector)
+
+	Meteor.publish 'my_organizations', (spaceId)->
+		
+		unless this.userId
+			return this.ready()
+		
+		unless spaceId
+			return this.ready()
+
+		console.log '[publish] my_organizations ' + spaceId
+
+		return db.organizations.find({space: spaceId, users: this.userId})
