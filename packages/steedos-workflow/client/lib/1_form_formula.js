@@ -2,11 +2,15 @@ Form_formula = {};
 
 CoreForm = {};
 
+CoreForm.instanceform = {};
 
-Form_formula.initFormScripts = function(form_script){
+
+Form_formula.initFormScripts = function(formKey, eventName){
     try {
-            
-        //var fscript = UUFlow.instanceController.get("form").get("current").get("form_script");
+        
+        form_version = WorkflowManager.getInstanceFormVersion();
+        form_script = form_version.form_script;
+
         // 过滤换行：/\n/g ； 过滤空格 tab : /\s/g
         if(form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0){
             //装载表单脚本
@@ -15,6 +19,10 @@ Form_formula.initFormScripts = function(form_script){
             //运行OnLoad()脚本;
             if (CoreForm["form_OnLoad"] instanceof Function){
                 eval("CoreForm.form_OnLoad();");
+            }
+
+            if (CoreForm[formKey][eventName] instanceof Function){
+                eval("CoreForm."+formKey+"."+eventName+"();");
             }
 
         }else{

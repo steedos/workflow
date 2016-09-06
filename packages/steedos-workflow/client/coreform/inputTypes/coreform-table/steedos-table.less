@@ -30,17 +30,23 @@
 .steedos-table .panel-body .panel-heading{
     background-color: #f5f5f5;
     border-color: #ddd;
+
+    .description{
+        display: inherit;
+    }
 }
 
 .steedos-table-modal .steedos-table-modal-body{
-    overflow-y:auto
-}
+    overflow-y:auto;
 
-.steedos-table-modal .steedos-table-modal-body .panel-body{
-    position:relative
-}
+    .panel{
+        min-height: 270px;
+        .panel-body{
+            position:relative;
+        }
 
-.steedos-table-modal .steedos-table-modal-body .panel-heading{
-    display: none;
+        .panel-heading{
+            display: none;
+        }
+    }
 }
-

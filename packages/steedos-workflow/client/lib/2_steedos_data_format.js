@@ -267,7 +267,8 @@ WorkflowManager_format.getAutoformSchema = function (steedosForm){
                                     schema:[],
                                     initialCount: 0,
                                     type:"table",
-                                    editable: field.permission == 'editable' ? true : false
+                                    editable: field.permission == 'editable' ? true : false,
+                                    description: field.description
                                   }
                                 };
       if(ApproveManager.isReadOnly()){

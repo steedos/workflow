@@ -309,7 +309,8 @@ InstanceManager.checkFormFieldValue = function(field){
       var table_value = AutoForm.getFieldValue(field.dataset.schemaKey,"instanceform");
       parent_group = jquery_f.parent().parent().parent().parent();
       if(!table_value || table_value.length < 1){
-        message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + field.dataset.schemaKey + '’' +TAPi18n.__("instance_is_required"));
+        debugger;
+        message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + field.dataset.label + '’' +TAPi18n.__("instance_is_required"));
       }
     }
 
