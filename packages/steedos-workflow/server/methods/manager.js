@@ -8,9 +8,8 @@ Meteor.methods({
     // 指定人员
     nextUserType_specifyUser: function (spaceId, userIds) {
         console.log('method===>nextUserType_specifyUser');
-        console.log(spaceId);
-        console.log(userIds);
         var nextStepUsers = WorkflowManager.getUsers(spaceId, userIds);
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -19,6 +18,7 @@ Meteor.methods({
         console.log('method===>nextUserType_applicantRole');
         var applicant = WorkflowManager.getUser(spaceId, applicantId);
         var nextStepUsers = WorkflowManager.getRoleUsersByOrgAndRoles(spaceId, applicant.organization.id, roleIds);
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -27,6 +27,7 @@ Meteor.methods({
         console.log('method===>nextUserType_applicantSuperior');
         var applicant = WorkflowManager.getUser(spaceId, applicantId);
         var nextStepUsers = WorkflowManager.getUsers(spaceId, applicant.manager);
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -34,6 +35,7 @@ Meteor.methods({
     nextUserType_applicant: function (spaceId, applicantId) {
         console.log('method===>nextUserType_applicant');
         var nextStepUsers = WorkflowManager.getUsers(spaceId, applicantId);
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -47,6 +49,7 @@ Meteor.methods({
         else {
             nextStepUsers.push(WorkflowManager.getUser(userFieldValue));
         }
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -68,7 +71,7 @@ Meteor.methods({
         orgFieldUsers = WorkflowManager.getOrganizationsUsers(spaceId, orgs);
 
         nextStepUsers = nextStepUsers.concat(orgFieldUsers);
-
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -81,10 +84,11 @@ Meteor.methods({
 
         nextStepUsers = WorkflowManager.getOrganizationsUsers(spaceId, specifyOrgs);
         nextStepUsers = nextStepUsers.concat(WorkflowManager.getOrganizationsUsers(spaceId, specifyOrgChildrens));
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
-    // 指定部门字段相关审批岗位
+    // 指定人员字段相关审批岗位
     nextUserType_userFieldRole: function (spaceId, userField, userFieldValue, approverRoleIds) {
         console.log('method===>nextUserType_userFieldRole');
         var nextStepUsers;
@@ -93,6 +97,7 @@ Meteor.methods({
         }else{
             nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(spaceId, [userFieldValue], approverRoleIds);
         }
+        console.log(nextStepUsers);
         return nextStepUsers;
     },
 
@@ -105,6 +110,7 @@ Meteor.methods({
         }else{
             nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, [orgFieldValue], approverRoleIds);
         }
+        console.log(nextStepUsers);
         return nextStepUsers;
     }
 

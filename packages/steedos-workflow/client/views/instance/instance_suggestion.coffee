@@ -59,6 +59,24 @@ Template.instance_suggestion.helpers
         form_values = Session.get("form_values")
         users = InstanceManager.getNextUserOptions();
 
+        users = []
+
+        users_info = Session.get('nextStepUsers');
+        currentApprove = InstanceManager.getCurrentApprove();
+        current_next_steps = currentApprove.next_steps;
+
+        if !users_info
+            users_info = []
+
+        users_info.forEach (user) ->
+            option = 
+                id: user.id
+                name: user.name
+            if current_next_steps and current_next_steps.length > 0
+                if current_next_steps[0].step == next_step_id and _.contains(current_next_steps[0].users, user.id)
+                    option.selected = true
+            users.push option
+
         data = {dataset:{},name:'nextStepUsers',atts:{name:'nextStepUsers',id:'nextStepUsers',class:'selectUser nextStepUsers form-control',style:'padding:6px 12px;'}};
         
         next_user = $("input[name='nextStepUsers']");
