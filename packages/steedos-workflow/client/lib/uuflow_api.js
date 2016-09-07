@@ -419,3 +419,36 @@ UUflow_api.print = function(instanceId){
   uobj.id = instanceId;
   window.open(Steedos.settings.webservices.uuflow.url + "/uf/print?" + $.param(uobj), '_blank', 'EnableViewPortScale=yes');
 }
+
+// 计算下一步处理人
+UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, data) {
+  var q = {};
+  q.deal_type = deal_type;
+  q.spaceId = spaceId;
+
+  var nextStepUsers = [];
+  
+  $.ajax({
+    url: Meteor.absoluteUrl('api/nextStepUsers') + '?' + $.param(q),
+    type: 'POST',
+    async: false,
+    data: data,
+    dataType: 'json',
+    success: function(responseText, status) {
+      if (responseText.errors) {
+        toastr.error(responseText.errors);
+        return;
+      }
+
+      nextStepUsers = responseText.nextStepUsers;
+    },
+    error: function(xhr, msg, ex) {
+      toastr.error(msg);
+    }
+  });
+
+  return nextStepUsers;
+}
+
+
+
