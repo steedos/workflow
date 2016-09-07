@@ -69,6 +69,7 @@ raix:push
 alanning:roles
 sach:flow-db-admin
 
+steedos:jstree
 steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
@@ -81,6 +82,8 @@ steedos:api
 steedos:cms
 steedos:chat
 steedos:webkit-notification
+steedos:portal
+
 peppelg:bootstrap-3-modal
 
 perak:markdown
@@ -92,3 +95,6 @@ simple:json-routes
 meteorhacks:subs-manager
 iyyang:cfs-aliyun
 cfs:s3
+
+jeremy:selectize
+comerc:autoform-selectize

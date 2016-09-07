@@ -6,7 +6,7 @@ formId = 'instanceform';
 Template.instanceform.helpers
     applicantContext: ->
         steedos_instance = WorkflowManager.getInstance();
-        data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:25%;display:inline'}} 
+        data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:140px;display:inline'}} 
         if not steedos_instance || steedos_instance.state != "draft"
             data.atts.disabled = true
         return data;
@@ -106,7 +106,7 @@ Template.instanceform.onRendered ->
         currentStep = InstanceManager.getCurrentStep();
         form_version = WorkflowManager.getInstanceFormVersion();
 
-        Form_formula.initFormScripts(form_version.form_script);
+        Form_formula.initFormScripts("instanceform", "onload");
 
         formula_fields = Form_formula.getFormulaFieldVariable("Form_formula.field_values", form_version.fields);
         Form_formula.run("", "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);

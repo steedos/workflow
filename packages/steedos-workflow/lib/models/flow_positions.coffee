@@ -47,7 +47,7 @@ db.flow_positions.helpers
 	
 	org_name: ->
 		org = db.organizations.findOne({_id: this.org});
-		return org && org.name;
+		return org && org.fullname;
 	
 	users_name: ->
 		if (!this.users instanceof Array)
