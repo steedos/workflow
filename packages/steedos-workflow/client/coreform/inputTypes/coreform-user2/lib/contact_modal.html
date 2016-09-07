@@ -1,0 +1,26 @@
+<template name="select_modal">
+  <div class="modal fade" id="select_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ins-modal" style='width: 920px'>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">选择</h4>
+        </div>
+        <div class="modal-body contacts-modal-body" style='overflow-y:auto'>
+          <div class="row">
+            <div class="col-md-4">
+              {{> select_organizations}}
+            </div>
+            <div class="col-md-8">
+              {{> select_space_user}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id='confirm'>Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

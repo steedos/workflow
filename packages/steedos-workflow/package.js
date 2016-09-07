@@ -22,6 +22,7 @@ Package.onUse(function(api) {
     api.use('blaze');
     api.use('templating');
     api.use('steedos:lib');
+    api.use('steedos:api');
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes@2.1.0');
     api.use('nimble:restivus@0.8.7');
@@ -96,6 +97,20 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/data_manager.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/tabular_space_user.coffee', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/contact_modal.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/contact_modal.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/organizations.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/organizations.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/space_user.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/space_user.coffee', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/select-users.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/select-users.js', 'client');
+    
 
     api.addFiles('client/views/instance/attachments.html', 'client');
     api.addFiles('client/views/instance/attachments.js', 'client');
@@ -175,6 +190,7 @@ Package.onUse(function(api) {
 
     api.addFiles('tabular.coffee');
 
+    api.export("DataManager");
 	// EXPORT
 	api.export('Workflow');
 });

@@ -162,7 +162,7 @@ var s_autoform = function (schema, field){
           schema.type = String; // 如果是单选，不能设置multiple 参数
         }
         autoform.disabled = (permission == 'readonly');
-        autoform.type = "selectuser";
+        autoform.type = "selectuser2";
         break;
     case 'group' : 
         if (is_multiselect){
