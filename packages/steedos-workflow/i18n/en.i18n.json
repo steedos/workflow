@@ -112,6 +112,7 @@
     "instance_office_upload":"Upload File",
     "instance_office_confirm":"Confirm",
     "instance_office_cancel":"Cancel",
+    "instance_office_uploaded": "The attachment has been uploaded",
 
     "workflow_export_thismonth": "This Month",
     "workflow_export_lastmonth": "Last Month",

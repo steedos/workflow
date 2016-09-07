@@ -119,6 +119,29 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
         SteedosOffice.getFileSHA1(filePath,filename,function(sha1){
             if(SteedosOffice.fileSHA1 != sha1){
                 // 附件上传确认提示框
+                // swal({   
+                //     title: "Ajax request example",   
+                //     text: "Submit to run ajax request",   
+                //     type: "info",   
+                //     showCancelButton: true,   
+                //     closeOnConfirm: false,   
+                //     showLoaderOnConfirm: true, 
+                // }, function(){ 
+                //     if (states.size > limitSize) {
+                //             swal({
+                //                 title: warnStr,
+                //                 type: "warning",
+                //                 confirmButtonText: t('OK'),
+                //                 closeOnConfirm: true
+                //             }, function(){
+                //                 SteedosOffice.vbsEditFile(cmd, download_dir, filename);
+                //             });
+                //     }else{
+                //         setTimeout(function(){     
+                //             swal("Ajax request finished!");   
+                //         }, 2000);
+                //     }
+                // });
                 swal({
                     title: t("instance_office_upload"),   
                     text: t("instance_office_warning"),   
@@ -127,7 +150,7 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: t("instance_office_confirm"),   
                     cancelButtonText: t("instance_office_cancel"),
-                    closeOnConfirm: false,   
+                    closeOnConfirm: false,  
                     closeOnCancel: true 
                 }, function(isConfirm){
                     if (isConfirm) { 
@@ -135,12 +158,17 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
                             swal({
                                 title: warnStr,
                                 type: "warning",
-                                confirmButtonText: t('OK'),
+                                confirmButtonText: t("instance_office_confirm"),
                                 closeOnConfirm: true
                             }, function(){
                                 SteedosOffice.vbsEditFile(cmd, download_dir, filename);
                             });
                         }else{
+                            swal({
+                                    title: t("instance_office_upload"), 
+                                    text: t("instance_office_uploaded"),
+                                    confirmButtonText: t("instance_office_confirm"),
+                                });
                             SteedosOffice.uploadFile(filePath, filename);
                         }
                     }
