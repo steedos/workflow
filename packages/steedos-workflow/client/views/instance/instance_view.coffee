@@ -5,8 +5,6 @@ Template.instance_view.helpers
             steedos_instance = WorkflowManager.getInstance();
             return steedos_instance;
 
-    space_users: ->
-        return db.space_users.find();
 
     unequals: (a,b) ->
         return !(a == b)

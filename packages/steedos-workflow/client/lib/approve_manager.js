@@ -119,12 +119,13 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
         return ;
 
     var applicantId = InstanceManager.getApplicantUserId();
-    var applicant = WorkflowManager.getUser(InstanceManager.getApplicantUserId());
+    
     Session.set("next_step_users_showOrg",false);
     switch(nextStep.step_type){
         case 'condition':
             break;
         case 'start': //下一步步骤类型为开始
+            var applicant = WorkflowManager.getUser(applicantId);
             nextStepUsers.push(applicant);
             break;
         default:

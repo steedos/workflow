@@ -429,7 +429,7 @@ UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, data) {
   var nextStepUsers = [];
   
   $.ajax({
-    url: Meteor.absoluteUrl('api/nextStepUsers') + '?' + $.param(q),
+    url: Meteor.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,
@@ -450,5 +450,35 @@ UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, data) {
   return nextStepUsers;
 }
 
+// 获取space_users
+UUflow_api.getSpaceUsers = function (spaceId, userIds) {
+  var q = {};
+  q.spaceId = spaceId;
+  var data = 
+  {
+    'userIds' : userIds
+  }
+  var spaceUsers;
+  
+  $.ajax({
+    url: Meteor.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
+    type: 'POST',
+    async: false,
+    data: data,
+    dataType: 'json',
+    success: function(responseText, status) {
+      if (responseText.errors) {
+        toastr.error(responseText.errors);
+        return;
+      }
 
+      spaceUsers = responseText.spaceUsers;
+    },
+    error: function(xhr, msg, ex) {
+      toastr.error(msg);
+    }
+  });
+
+  return spaceUsers;
+}
 

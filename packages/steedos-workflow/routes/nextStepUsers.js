@@ -1,4 +1,4 @@
-JsonRoutes.add("post", "/api/nextStepUsers", function (req, res, next) {
+JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) {
   var
     deal_type = req.query.deal_type,
     spaceId = req.query.spaceId

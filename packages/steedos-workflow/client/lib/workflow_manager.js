@@ -344,17 +344,12 @@ WorkflowManager.getUser = function (userId){
   
   }
 
-  var spaceUser = db.space_users.findOne({user:userId});
+  var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+  if(!spaceUsers){ return };
 
-  if(!spaceUser){ return}
+  var spaceUser = spaceUsers[0];
+  if(!spaceUser){ return };
 
-  spaceUser.id = spaceUser.user;
-  spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-  if(!spaceUser.organization){
-    return ;
-  }
-  spaceUser.roles = WorkflowManager.getUserRoles(Session.get("spaceId"), spaceUser.organization.id, spaceUser.id);
-  
   return spaceUser;
 };
 
@@ -366,17 +361,7 @@ WorkflowManager.getUsers = function (userIds){
 
   var users = new Array();
   if(userIds){
-
-    var spaceUsers = db.space_users.find({user:{$in:userIds}});
-
-    spaceUsers.forEach(function(spaceUser){
-      spaceUser.id = spaceUser.user;
-      spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-      if(spaceUser.organization){
-        spaceUser.roles = WorkflowManager.getUserRoles(Session.get("spaceId"), spaceUser.organization.id, spaceUser.id);
-        users.push(spaceUser);
-      }
-    })
+    users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
   }
 
   return users;
@@ -678,7 +663,7 @@ WorkflowManager.canMonitor = function (fl, curSpaceUser, organization) {
 
 WorkflowManager.getMyAdminOrMonitorFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
-  curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+  curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'), 'user': Meteor.userId()});
   organization = db.organizations.findOne(curSpaceUser.organization);
   flows = db.flows.find();
   flows.forEach(function(fl){
@@ -691,7 +676,7 @@ WorkflowManager.getMyAdminOrMonitorFlows = function () {
 
 WorkflowManager.getMyCanAddFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
-  curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+  curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'),'user': Meteor.userId()});
   organization = db.organizations.findOne(curSpaceUser.organization);
   flows = db.flows.find();
   flows.forEach(function(fl){
