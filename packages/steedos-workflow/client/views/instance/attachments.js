@@ -51,7 +51,7 @@ Template.instance_attachment.helpers({
     },
 
     canEdit: function(filename) {
-        if (Steedos.isIE() && Session.get('box')=='inbox' && !Steedos.isMobile() && Steedos.isDocFile(filename))
+        if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box')=='inbox' && !Steedos.isMobile() && Steedos.isDocFile(filename))
             return true;
         return false;
 
