@@ -202,15 +202,6 @@ Template.ins_attach_version_modal.events({
     "click [name='ins_attach_isNode']": function (event, template) {
         var furl = event.target.dataset.downloadurl;
         var filename = event.target.dataset.filename;
-        // SteedosOffice.editFile(furl,filename); 
-        // var os = require('os');
-        // // 判断当前操作系统
-        // var platform = os.platform();
-        // if (platform == 'darwin'){
-        //     window.location.href = furl;
-        // }else{       
-        //     SteedosOffice.editFile(furl,filename);
-        // }
         window.location.href = furl;
     }
 })

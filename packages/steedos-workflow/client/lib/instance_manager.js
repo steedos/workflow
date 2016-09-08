@@ -926,7 +926,7 @@ InstanceManager.isNodeUploadAttach = function(fileDataInfo, fileKeyValue, req) {
 // 上传附件
 InstanceManager.uploadAttach = function (files, isAddVersion) {
   $(document.body).addClass("loading");
-  $('.loading-text').text(TAPi18n.__("attachments_uploading"));
+  $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading"));
 
   // 专业版文件大小不能超过100M
   var maximumFileSize = 100 * 1024 * 1024;
@@ -974,7 +974,7 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
       fileName = "image-" + moment(new Date()).format('YYYYMMDDHHmmss') + "." + fileName.split('.').pop();
     }
     Session.set("filename", fileName);
-    $('.loading-text').text(TAPi18n.__("attachments_uploading") + fileName);
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + fileName);
     fd = new FormData;
     fd.append('Content-Type', cfs.getContentType(fileName));
     fd.append("file", file);

@@ -118,30 +118,6 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
         setCos_Signal("finished");
         SteedosOffice.getFileSHA1(filePath,filename,function(sha1){
             if(SteedosOffice.fileSHA1 != sha1){
-                // 附件上传确认提示框
-                // swal({   
-                //     title: "Ajax request example",   
-                //     text: "Submit to run ajax request",   
-                //     type: "info",   
-                //     showCancelButton: true,   
-                //     closeOnConfirm: false,   
-                //     showLoaderOnConfirm: true, 
-                // }, function(){ 
-                //     if (states.size > limitSize) {
-                //             swal({
-                //                 title: warnStr,
-                //                 type: "warning",
-                //                 confirmButtonText: t('OK'),
-                //                 closeOnConfirm: true
-                //             }, function(){
-                //                 SteedosOffice.vbsEditFile(cmd, download_dir, filename);
-                //             });
-                //     }else{
-                //         setTimeout(function(){     
-                //             swal("Ajax request finished!");   
-                //         }, 2000);
-                //     }
-                // });
                 swal({
                     title: t("instance_office_upload"),   
                     text: t("instance_office_warning"),   
@@ -179,13 +155,17 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
 }
 
 SteedosOffice.downloadFile = function(file_url, download_dir, filename){
+    $(document.body).addClass("loading");
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading"));
     var filePath = download_dir + filename;
     var file = fs.createWriteStream(filePath);
-    http.get(encodeURI(file_url), function(res) {
+    var dfile = http.get(encodeURI(file_url), function(res) {
         res.on('data', function(data) {
                 file.write(data);
         }).on('end', function(){ 
             file.end();
+            $(document.body).removeClass('loading');
+            $('.loading-text').text("");
             // 获取附件hash值
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
                 SteedosOffice.fileSHA1 = sha1;
@@ -205,6 +185,12 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
             // 调用edit.vbs对word文档进行在线编辑
             SteedosOffice.vbsEditFile(cmd, download_dir, filename);
         })
+    });
+    dfile.on('error',function(e){
+        $(document.body).removeClass('loading');
+        $('.loading-text').text("");
+        // throw new Meteor.Error(400, e.message);
+        console.log(e.message);
     })
 };
 

@@ -67,6 +67,8 @@
     "Current Version": "（Current Version）",
     "workflow_attachment_free_size_limit": "Sorry, Attachment larger than 1M is not accepted for free version.",
     "workflow_attachment_paid_size_limit": "Failed to upload, because attachment size is over 100 MB.",
+    "workflow_attachment_uploading": "Uploading ",
+    "workflow_attachment_downloading": "Downloading ",
 
     "Instance State approved": " Approved",
     "Instance State rejected": " Rejected",
@@ -103,8 +105,6 @@
     "instance_field": "The field",
     "instance_is_required": "is required",
     "instance_email_format_error": "Format error of the email address",
-
-    "instance_attachments_uploading": "Uploading...",
 
     "instance_office_edit_online":"Editing Online",
     "instance_office_edit":"You are editing office files, please exit office when you have finished editing.",

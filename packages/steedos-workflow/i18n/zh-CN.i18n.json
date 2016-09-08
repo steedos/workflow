@@ -68,6 +68,8 @@
     "Current Version": "（最新版本）",
     "workflow_attachment_free_size_limit": "抱歉，免费版工作区只能上传1M以内的附件。",
     "workflow_attachment_paid_size_limit": "您上传的附件大小不得超过100M",
+    "workflow_attachment_uploading": "正在上传",
+    "workflow_attachment_downloading": "正在下载",
 
     "Instance State approved": " 已核准",
     "Instance State rejected": " 已驳回",
@@ -104,8 +106,6 @@
     "instance_field": "字段",
     "instance_is_required": "为必填",
     "instance_email_format_error": "邮件地址格式错误",
-
-    "instance_attachments_uploading": "正在上传...",
 
     "instance_office_edit_online": "在线编辑",
     "instance_office_edit": "您正在编辑office文件,请完成编辑后退出相关程序.",
