@@ -63,9 +63,6 @@ Package.onUse(function(api) {
 	api.addFiles('routes/import.coffee', 'server');
 
 	api.addFiles('accounts_client.coffee', 'client');
-	api.addFiles('lib/ajax_collection.coffee', 'client');
-
-	api.export('AjaxCollection');
 });
 
 Package.onTest(function(api) {
