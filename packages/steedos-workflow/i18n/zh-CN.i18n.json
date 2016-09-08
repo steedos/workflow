@@ -70,6 +70,9 @@
     "workflow_attachment_paid_size_limit": "您上传的附件大小不得超过100M",
     "workflow_attachment_uploading": "正在上传",
     "workflow_attachment_downloading": "正在下载",
+    "workflow_attachment_officeOnline": "在线编辑",
+    "workflow_attachment_save": "保存",
+    "workflow_attachment_close": "关闭",
 
     "Instance State approved": " 已核准",
     "Instance State rejected": " 已驳回",

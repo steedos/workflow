@@ -702,7 +702,7 @@ WorkflowManager.getMyCanAddFlows = function () {
   return flow_ids;
 };
 
-WorkflowManager.getFlowListData = function(){
+WorkflowManager.getFlowListData = function(show_type){
   //{categories:[],uncategories:[]}
 
   var curUserId = Meteor.userId();
@@ -729,6 +729,11 @@ WorkflowManager.getFlowListData = function(){
         if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
           f.flows.push(fl);
         }
+        else if (show_type == 'show') {
+          if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+            f.flows.push(fl);
+          }
+        }
       });
     });
 
@@ -746,6 +751,11 @@ WorkflowManager.getFlowListData = function(){
     flows.forEach(function(fl){
       if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
         f.flows.push(fl);
+      }
+      else if (show_type == 'show') {
+        if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+          f.flows.push(fl);
+        }
       }
     });
   });
@@ -794,54 +804,4 @@ WorkflowManager.isArrearageSpace = function(){
     }
   }
   return true;
-}
-
-WorkflowManager.androidDownload = function (url, filename, rev, length) {
-  $(document.body).addClass("loading");
-
-  var fileName = rev + "-" + filename;
-  var size = length;
-  if (typeof(length) == "string")
-    size = length.to_float();
-
-  window.resolveLocalFileSystemURL(cordova.file.externalCacheDirectory, function(directoryEntry) {
-      directoryEntry.getFile(fileName, {
-          create: true,
-          exclusive: false
-      }, function(fileEntry) {
-          fileEntry.file(function(file){
-            if (file.size == size) {
-              $(document.body).removeClass('loading');
-              window.open(fileEntry.toURL(), "_system", "EnableViewPortScale=yes");
-            }
-            else {
-              var sPath = fileEntry.toURL();
-              var fileTransfer = new FileTransfer();
-              fileEntry.remove();
-              fileTransfer.download(url, sPath, function(theFile) {
-                  $(document.body).removeClass('loading');
-                  console.log("download complete: " + theFile.toURL());
-                  window.open(theFile.toURL(), "_system", "EnableViewPortScale=yes");
-              }, function(error) {
-                  $(document.body).removeClass('loading');
-                  console.log("download error source " + error.source);
-                  console.log("download error target " + error.target);
-                  console.log("upload error code: " + error.code);
-              })
-            }
-          }, function(error){
-            $(document.body).removeClass('loading');
-            console.log("upload error code: " + error.code);
-          });
-            
-      }, function(error) {
-          $(document.body).removeClass('loading');
-          console.log("get directoryEntry error source " + error.source);
-          console.log("get directoryEntry error target " + error.target);
-          console.log("get directoryEntry error code: " + error.code);
-      })
-  }, function(error) {
-      $(document.body).removeClass('loading');
-      console.log("resolveLocalFileSystemURL error code: " + error.code);
-  })
 }

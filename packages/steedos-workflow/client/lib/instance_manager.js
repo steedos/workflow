@@ -309,7 +309,8 @@ InstanceManager.checkFormFieldValue = function(field){
       var table_value = AutoForm.getFieldValue(field.dataset.schemaKey,"instanceform");
       parent_group = jquery_f.parent().parent().parent().parent();
       if(!table_value || table_value.length < 1){
-        message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + field.dataset.schemaKey + '’' +TAPi18n.__("instance_is_required"));
+        debugger;
+        message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + field.dataset.label + '’' +TAPi18n.__("instance_is_required"));
       }
     }
 
@@ -710,13 +711,18 @@ InstanceManager.addAttach = function (fileObj, isAddVersion) {
         var his = a.historys;
         if (!(his instanceof Array))
           his = [];
-        his.unshift(a.current);
+        
+        var my_approve_id = InstanceManager.getMyApprove().id;
+        if (a.current.approve != my_approve_id) {
+          his.unshift(a.current);
+        }
+        
         a.historys = his;
         a.current = {
           "_id": Meteor.uuid(),
           "_rev": fileObj._id,
           "length": fileObj.size,
-          "approve": InstanceManager.getMyApprove().id,
+          "approve": my_approve_id,
           "created": curTime,
           "created_by": userId,
           "created_by_name": Meteor.user().name,

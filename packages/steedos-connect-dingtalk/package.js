@@ -7,7 +7,8 @@ Package.describe({
 
 Npm.depends({
   "wechat-crypto": "0.0.2",
-  "request": "2.65.0"
+  "request": "2.65.0",
+  'node-schedule':'1.1.1'
 });
 
 Package.onUse(function(api) {
@@ -34,6 +35,7 @@ Package.onUse(function(api) {
   api.addFiles('dt_server.coffee', 'server');
   api.addFiles('server_callback.js', 'server');
   api.addFiles('dt_api.coffee', 'server');
+  api.addFiles('schedule.js', 'server');
 
   api.export('Dingtalk');
 
