@@ -27,6 +27,7 @@ JsonRoutes.add "post", "/api/collection/find", (req, res, next) ->
     options = req.body.options;
     space = req.body.space;
     data = [];
+    allow_models = ['space_users', 'organizations', 'flow_roles']
 
     if !space
         JsonRoutes.sendResult res, 
@@ -45,7 +46,7 @@ JsonRoutes.add "post", "/api/collection/find", (req, res, next) ->
             "error": "invalid space " + space, 
             "success": false
 
-    if model != 'space_users' && model != "organizations"
+    if !allow_models.includes(model)
         JsonRoutes.sendResult res, 
         code: 403,
         data: 
@@ -101,6 +102,7 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     options = req.body.options;
     space = req.body.space;
     data = [];
+    allow_models = ['space_users', 'organizations', 'flow_roles']
 
     if !space
         JsonRoutes.sendResult res, 
@@ -119,7 +121,7 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
             "error": "invalid space " + space, 
             "success": false
 
-    if model != 'space_users' && model != "organizations"
+    if !allow_models.includes(model)
         JsonRoutes.sendResult res, 
         code: 403,
         data: 
