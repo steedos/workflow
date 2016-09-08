@@ -1,11 +1,11 @@
-AutoForm.addInputType("selectuser2",{
-    template:"afSelectUser2",
+AutoForm.addInputType("selectuser",{
+    template:"afSelectUser",
     valueIn: function(val, atts){
         if("string" == typeof(val))
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
 
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
         }
 
         return val;
@@ -34,7 +34,7 @@ AutoForm.addInputType("selectuser2",{
     }
 });
 
-Template.afSelectUser2.helpers({
+Template.afSelectUser.helpers({
     val: function(value){
         if(value){
             var val = '';
@@ -64,7 +64,7 @@ Template.afSelectUser2.helpers({
 });
 
 
-Template.afSelectUser2.events({
+Template.afSelectUser.events({
   'click .selectUser': function (event, template) {
     //console.log("click .selectUser...");
     //console.log("s1 is " + parseInt(new Date().getTime()/1000
@@ -115,13 +115,12 @@ Template.afSelectUser2.events({
 
     options.orgId = start_orgId;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
-    //SelectTag.show(options,"Template.afSelectUser2.confirm('"+template.data.name+"')");
-    Modal.show("select_modal", {targetId: event.target.dataset.id, target: templage.data.target});
+    SelectTag.show(options,"Template.afSelectUser.confirm('"+template.data.name+"')");
     //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 
-Template.afSelectUser2.confirm = function(name){
+Template.afSelectUser.confirm = function(name){
     var values = SelectTag.values;
     var valuesObject = SelectTag.valuesObject();
     if(valuesObject.length > 0){
@@ -140,7 +139,7 @@ Template.afSelectUser2.confirm = function(name){
 
 }
 
-Template.afSelectUser2.rendered = function(){
+Template.afSelectUser.rendered = function(){
     // var value = this.data.value;
     var name = this.data.name;
     var dataset = this.data.dataset;

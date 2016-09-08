@@ -8,6 +8,8 @@ Steedos =
 	settings: {}
 	db: db
 
+@TabularTables = {};
+
 if Meteor.isClient
 
 	Steedos.isMobile = ()->

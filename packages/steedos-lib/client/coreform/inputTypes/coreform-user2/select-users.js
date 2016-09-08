@@ -1,17 +1,17 @@
-AutoForm.addInputType("selectuser",{
-    template:"afSelectUser",
+AutoForm.addInputType("selectuser2",{
+    template:"afSelectUser2",
     valueIn: function(val, atts){
         if("string" == typeof(val))
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
 
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
         }
 
         return val;
     },
     valueOut:function(){
-        return this[0].dataset.values;
+        return this.data("values");
     },
     valueConverters:{
         "stringArray" : AutoForm.valueConverters.stringToStringArray,
@@ -34,7 +34,7 @@ AutoForm.addInputType("selectuser",{
     }
 });
 
-Template.afSelectUser.helpers({
+Template.afSelectUser2.helpers({
     val: function(value){
         if(value){
             var val = '';
@@ -64,9 +64,9 @@ Template.afSelectUser.helpers({
 });
 
 
-Template.afSelectUser.events({
+Template.afSelectUser2.events({
   'click .selectUser': function (event, template) {
-    //console.log("click .selectUser...");
+    console.log("click .selectUser...");
     //console.log("s1 is " + parseInt(new Date().getTime()/1000
     if ("disabled" in template.data.atts)
         return;
@@ -86,6 +86,10 @@ Template.afSelectUser.events({
         multiple = dataset.multiple == 'true' ? true : false
     }else{
         multiple = template.data.atts.multiple
+    }
+
+    if(multiple != true){
+        multiple = false;
     }
 
     if(dataset.showOrg && dataset.showOrg == 'false'){
@@ -114,13 +118,15 @@ Template.afSelectUser.events({
     }
 
     options.orgId = start_orgId;
+    options.targetId = template.data.atts.id;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
-    SelectTag.show(options,"Template.afSelectUser.confirm('"+template.data.name+"')");
+    //SelectTag.show(options,"Template.afSelectUser2.confirm('"+template.data.name+"')");
+    Modal.show("cf_contact_modal", options);
     //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 
-Template.afSelectUser.confirm = function(name){
+Template.afSelectUser2.confirm = function(name){
     var values = SelectTag.values;
     var valuesObject = SelectTag.valuesObject();
     if(valuesObject.length > 0){
@@ -139,7 +145,7 @@ Template.afSelectUser.confirm = function(name){
 
 }
 
-Template.afSelectUser.rendered = function(){
+Template.afSelectUser2.rendered = function(){
     // var value = this.data.value;
     var name = this.data.name;
     var dataset = this.data.dataset;

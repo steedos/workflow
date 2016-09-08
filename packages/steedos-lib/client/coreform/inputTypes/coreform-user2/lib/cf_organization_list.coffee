@@ -1,7 +1,7 @@
-Template.select_organizations.helpers 
+Template.cf_organization_list.helpers 
 
 
-Template.select_organizations.onRendered ->
+Template.cf_organization_list.onRendered ->
   $(document.body).addClass('loading');
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
@@ -12,14 +12,14 @@ Template.select_organizations.onRendered ->
             console.log(data);
             if data.selected.length
               console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
-              Session.set("contacts_orgId", data.selected[0]);
+              Session.set("selectOrgId", data.selected[0]);
             return
           ).jstree
                 core: 
                     themes: { "stripes" : true },
                     data:  (node, cb) ->
-                      Session.set("contacts_orgId", node.id);
-                      cb(DataManager.getNode(node));
+                      Session.set("selectOrgId", node.id);
+                      cb(CFDataManager.getNode(node));
                           
                 plugins: ["wholerow"]
 
@@ -27,4 +27,4 @@ Template.select_organizations.onRendered ->
 
 
 
-Template.select_organizations.events
+Template.cf_organization_list.events

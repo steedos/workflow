@@ -1,5 +1,5 @@
-<template name="select_modal">
-  <div class="modal fade" id="select_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<template name="cf_contact_modal">
+  <div class="modal fade" id="cf_contact_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content ins-modal" style='width: 920px'>
         <div class="modal-header">
@@ -9,10 +9,10 @@
         <div class="modal-body contacts-modal-body" style='overflow-y:auto'>
           <div class="row">
             <div class="col-md-4">
-              {{> select_organizations}}
+              {{> cf_organization_list}}
             </div>
             <div class="col-md-8">
-              {{> select_space_user}}
+              {{> cf_space_user_list}}
             </div>
           </div>
         </div>

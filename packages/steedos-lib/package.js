@@ -85,10 +85,36 @@ Package.onUse(function(api) {
 	api.addFiles('server/schedule.js', 'server');
 
 	api.addFiles('lib/node/helpers.coffee');
+
+
+	api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_data_manager.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/tabular_space_user.coffee');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_organization_list.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_organization_list.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_space_user_list.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_space_user_list.coffee', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-user2/select-users.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/select-users.js', 'client');
+
+    api.addFiles('client/lib/ajax_collection.coffee', 'client');
+
+    api.addFiles('client/lib/steedos_data_manager.js', 'client');
+	
 	
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');
+	api.export("CFDataManager");
+	
+	api.export('AjaxCollection');
+	api.export("SteedosDataManager");
 });
 
 Package.onTest(function(api) {
