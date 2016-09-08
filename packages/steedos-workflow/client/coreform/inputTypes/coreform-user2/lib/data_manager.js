@@ -1,6 +1,5 @@
 DataManager = {};
 
-debugger;
 DataManager.organizationRemote = new AjaxCollection("organizations");
 
 DataManager.getNode = function(node){

@@ -9,7 +9,7 @@ AjaxCollection::findOne = (selector, options) ->
   @_send selector, options, 'findone'
 
 AjaxCollection::_send = (selector, options, api) ->
-  data = 
+  config = 
     model: @model
     selector: selector
     options: options
@@ -21,7 +21,7 @@ AjaxCollection::_send = (selector, options, api) ->
     url: Steedos.absoluteUrl() + '/api/collection/' + api
     type: 'POST'
     async: false
-    data: data
+    data: config
     success: (data, textStatus) ->
       rev = data
       return
