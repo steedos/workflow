@@ -433,7 +433,12 @@ BQQ.createOrg = (depts, p_dept_id, space_id, company_id, owner_id) ->
         if org.name != o.dept_name
           org_doc.name = o.dept_name
 
-        if org_doc.hasOwnProperty('name')
+        if p_dept_id > 0
+          parent_id = "bqq-" + company_id + "-" + p_dept_id
+          if org.parent != parent_id
+            org_doc.parent = parent_id
+
+        if org_doc.hasOwnProperty('name') || org_doc.hasOwnProperty('parent')
           org_doc.modified = now
           org_doc.modified_by = owner_id
           db.organizations.direct.update(org._id, {$set: org_doc})

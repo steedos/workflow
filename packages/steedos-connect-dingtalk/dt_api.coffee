@@ -509,7 +509,12 @@ Dingtalk.createOrg = (depts, parentid, space_id, company_id, owner_id) ->
         if org.name != o.name
           org_doc.name = o.name
 
-        if org_doc.hasOwnProperty('name')
+        if parentid >= 1
+          parent_id = "dt-" + company_id + "-" + parentid
+          if org.parent != parent_id
+            org_doc.parent = parent_id
+
+        if org_doc.hasOwnProperty('name') || org_doc.hasOwnProperty('parent')
           org_doc.modified = now
           org_doc.modified_by = owner_id
           db.organizations.direct.update(org._id, {$set: org_doc})

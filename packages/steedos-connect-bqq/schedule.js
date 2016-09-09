@@ -45,13 +45,17 @@ Meteor.startup(function () {
       });
 
       if (result.length > 0) {
-        var Email = Package.email.Email;
-        Email.send({
-          to: 'support@steedos.com',
-          from: Accounts.emailTemplates.from,
-          subject: 'bqq sync result',
-          text: JSON.stringify({'result': result})
-        });
+        try {
+          var Email = Package.email.Email;
+          Email.send({
+            to: 'support@steedos.com',
+            from: Accounts.emailTemplates.from,
+            subject: 'bqq sync result',
+            text: JSON.stringify({'result': result})
+          });
+        } catch (err) {
+          console.error(err);
+        }
       }
 
       console.timeEnd('bqq');
