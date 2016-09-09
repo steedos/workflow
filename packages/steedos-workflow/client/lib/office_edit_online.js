@@ -22,6 +22,8 @@ function setCos_Signal(str){
 SteedosOffice.uploadFile = function(filePath, filename){
     
     console.log("上传中....");
+    $(document.body).addClass("loading");
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
     var fileDataInfo = [
         {urlKey: "name", urlValue: filename}
     ]
@@ -37,19 +39,18 @@ SteedosOffice.uploadFile = function(filePath, filename){
         path: "/s3/"
     }
     var req = http.request(options, function(res) {
-        //res.setEncoding("utf8");
+        var fileObj = {};
         res.on('data', function(chunk) {
-            console.log("RES:" + res);
-            console.log('STATUS: ' + res.statusCode);
-            console.log('HEADERS: ' + JSON.stringify(res.headers));
-            console.log('BODY:' + chunk);
-            var chunkStr = JSON.parse(chunk.toString());
-            var fileObj;
-            fileObj = {};
+            var chunkStr = JSON.parse(chunk.toString());          
             fileObj._id = chunkStr.version_id;
             fileObj.name = filename;
             fileObj.type = cfs.getContentType(filename);
             fileObj.size = chunkStr.size;
+        });
+        //res.setEncoding("utf8");
+        res.on('end', function() {
+            $(document.body).removeClass('loading');
+            $('.loading-text').text("");
             // 表单添加附件
             InstanceManager.addAttach(fileObj, false);
         });
@@ -80,7 +81,7 @@ SteedosOffice.getFileSHA1 = function(filePath, filename, callback){
 SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
     var filePath = download_dir + filename;
     
-    Modal.show("attachments_upload_modal",{filePath: filePath});
+    Modal.show("attachments_upload_modal",{filename: filename});
     
     // 专业版文件大小不能超过100M
     var maximumFileSize = 100 * 1024 * 1024;
@@ -118,17 +119,23 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
         setCos_Signal("finished");
         SteedosOffice.getFileSHA1(filePath,filename,function(sha1){
             if(SteedosOffice.fileSHA1 != sha1){
-                swal({
-                    title: t("instance_office_upload"),   
-                    text: t("instance_office_warning"),   
-                    type: t("warning"),   
-                    showCancelButton: true,   
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: t("instance_office_confirm"),   
-                    cancelButtonText: t("instance_office_cancel"),
-                    closeOnConfirm: false,  
-                    closeOnCancel: true 
-                }, function(isConfirm){
+                var setting  = {
+                        title: t("instance_office_warning"),
+                        text: filename, 
+                        type: t("warning"),   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: t("instance_office_confirm"),   
+                        cancelButtonText: t("instance_office_cancel"),
+                        closeOnConfirm: true,  
+                        closeOnCancel: true 
+                    }
+                
+                if (states.size > limitSize) {
+                    setting.closeOnConfirm = false;
+                }   
+
+                swal(setting, function(isConfirm){
                     if (isConfirm) { 
                         if (states.size > limitSize) {
                             swal({
@@ -140,11 +147,6 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
                                 SteedosOffice.vbsEditFile(cmd, download_dir, filename);
                             });
                         }else{
-                            swal({
-                                    title: t("instance_office_upload"), 
-                                    text: t("instance_office_uploaded"),
-                                    confirmButtonText: t("instance_office_confirm"),
-                                });
                             SteedosOffice.uploadFile(filePath, filename);
                         }
                     }
@@ -156,7 +158,7 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
 
 SteedosOffice.downloadFile = function(file_url, download_dir, filename){
     $(document.body).addClass("loading");
-    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + "...");
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
     var filePath = download_dir + filename;
     var file = fs.createWriteStream(filePath);
     var dfile = http.get(encodeURI(file_url), function(res) {
@@ -164,7 +166,7 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
                 file.write(data);
         }).on('end', function(){ 
             file.end();
-            $(document.body).removeClass('loading');3
+            $(document.body).removeClass('loading');
             $('.loading-text').text("");
             // 获取附件hash值
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
@@ -180,7 +182,7 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
                 vbsPath = 'C:\\' + '\"' + 'Program Files' + '\"' + '\\' + editPath;
             }
             
-            var cmd = vbsPath + download_dir + '\"' + filename + '\"';
+            var cmd = vbsPath + download_dir + '\"' + filename + '\" ' + Meteor.users.findOne().name;
             
             // 调用edit.vbs对word文档进行在线编辑
             SteedosOffice.vbsEditFile(cmd, download_dir, filename);

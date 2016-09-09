@@ -111,13 +111,13 @@
     "instance_email_format_error": "邮件地址格式错误",
 
     "instance_office_edit_online": "在线编辑",
-    "instance_office_message": "”,请完成编辑后退出相关程序.",
+    "instance_office_message": "您正在使用在线编辑功能，编辑完成后请关闭相关程序继续操作。",
     "instance_office_warning": "文件已修改，请确认是否上传？",
-    "instance_office_upload": "附件上传",
+    "instance_office_upload": "上传",
     "instance_office_confirm": "确定",
     "instance_office_cancel": "取消",
     "instance_office_uploaded": "文件已上传",
-    "instance_office_edit": "您正在编辑“",
+    // "instance_office_edit": "您正在编辑“",
 
     "workflow_export_thismonth": "当月",
     "workflow_export_lastmonth": "上月",

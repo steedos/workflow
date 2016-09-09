@@ -980,7 +980,7 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
       fileName = "image-" + moment(new Date()).format('YYYYMMDDHHmmss') + "." + fileName.split('.').pop();
     }
     Session.set("filename", fileName);
-    $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + fileName);
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + fileName + "...");
     fd = new FormData;
     fd.append('Content-Type', cfs.getContentType(fileName));
     fd.append("file", file);
