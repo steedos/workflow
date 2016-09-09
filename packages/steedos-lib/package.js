@@ -1,98 +1,101 @@
 Package.describe({
-	name: 'steedos:lib',
-	version: '0.0.1',
-	summary: 'Steedos libraries',
-	git: ''
+    name: 'steedos:lib',
+    version: '0.0.1',
+    summary: 'Steedos libraries',
+    git: ''
 });
 
 Npm.depends({
-	"node-schedule": "1.1.1"
+    "node-schedule": "1.1.1"
 });
 
 Package.onUse(function(api) { 
-	api.versionsFrom('1.0');
+    api.versionsFrom('1.0');
 
-	api.use('reactive-var');
-	api.use('reactive-dict');
-	api.use('coffeescript');
-	api.use('random');
-	api.use('ddp');
-	api.use('check');
-	api.use('ddp-rate-limiter');
-	api.use('underscore');
-	api.use('underscorestring:underscore.string');
-	api.use('tracker');
-	api.use('session');
-	api.use('accounts-base');
-	
-  	api.use('simple:json-routes');
-	api.use('aldeed:simple-schema');
-	api.use('aldeed:collection2');
-	api.use('aldeed:tabular');
-	api.use('aldeed:autoform');
-	api.use('matb33:collection-hooks');
+    api.use('reactive-var');
+    api.use('reactive-dict');
+    api.use('coffeescript');
+    api.use('random');
+    api.use('ddp');
+    api.use('check');
+    api.use('ddp-rate-limiter');
+    api.use('underscore');
+    api.use('underscorestring:underscore.string');
+    api.use('tracker');
+    api.use('session');
+    api.use('accounts-base');
+    
+    api.use('flemay:less-autoprefixer@1.2.0');
+    api.use('simple:json-routes');
+    api.use('aldeed:simple-schema');
+    api.use('aldeed:collection2');
+    api.use('aldeed:tabular');
+    api.use('aldeed:autoform');
+    api.use('matb33:collection-hooks');
     api.use('cfs:standard-packages@0.5.9');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
 
 
-	api.use(['webapp'], 'server');
+    api.use(['webapp'], 'server');
 
-	api.use('momentjs:moment', 'client');
+    api.use('momentjs:moment', 'client');
 
-	// TAPi18n
-	api.use('templating', 'client');
+    // TAPi18n
+    api.use('templating', 'client');
 
-	api.use('tap:i18n', ['client', 'server']);
-	//api.add_files("package-tap.i18n", ["client", "server"]);
-	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
-	api.addFiles(tapi18nFiles, ['client', 'server']);
-	
-	// COMMON
-	api.addFiles('lib/collection_helpers.js');
-	api.addFiles('lib/array_includes.js');
-	api.addFiles('lib/core.coffee');
-	api.addFiles('lib/settings.coffee', ['client', 'server']);
-	api.addFiles('lib/tapi18n.coffee');
+    api.use('tap:i18n', ['client', 'server']);
+    //api.add_files("package-tap.i18n", ["client", "server"]);
+    tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
+    api.addFiles(tapi18nFiles, ['client', 'server']);
+    
+    // COMMON
+    api.addFiles('lib/collection_helpers.js');
+    api.addFiles('lib/array_includes.js');
+    api.addFiles('lib/core.coffee');
+    api.addFiles('lib/settings.coffee', ['client', 'server']);
+    api.addFiles('lib/tapi18n.coffee');
 
-	api.addFiles('lib/models/users.coffee');
-	api.addFiles('lib/models/spaces.coffee');
-	api.addFiles('lib/models/space_users.coffee');
-	api.addFiles('lib/models/organizations.coffee');
-	api.addFiles('lib/models/users_changelogs.coffee');
-	api.addFiles('lib/models/apps.coffee');
-	api.addFiles('lib/models/steedos_keyvalue.coffee');
-	api.addFiles('lib/models/steedos_statistics.coffee');
+    api.addFiles('lib/models/users.coffee');
+    api.addFiles('lib/models/spaces.coffee');
+    api.addFiles('lib/models/space_users.coffee');
+    api.addFiles('lib/models/organizations.coffee');
+    api.addFiles('lib/models/users_changelogs.coffee');
+    api.addFiles('lib/models/apps.coffee');
+    api.addFiles('lib/models/steedos_keyvalue.coffee');
+    api.addFiles('lib/models/steedos_statistics.coffee');
 
-	api.addFiles('lib/cfs/core.coffee');
-	api.addFiles('lib/cfs/avatars.coffee');
+    api.addFiles('lib/cfs/core.coffee');
+    api.addFiles('lib/cfs/avatars.coffee');
 
-	api.addFiles('lib/methods/apps_init.coffee', 'server');
-	api.addFiles('lib/methods/utc_offset.coffee');
-	api.addFiles('lib/methods/last_logon.coffee');
-	api.addFiles('lib/methods/user_add_email.coffee');
-	api.addFiles('lib/methods/user_avatar.coffee');
+    api.addFiles('lib/methods/apps_init.coffee', 'server');
+    api.addFiles('lib/methods/utc_offset.coffee');
+    api.addFiles('lib/methods/last_logon.coffee');
+    api.addFiles('lib/methods/user_add_email.coffee');
+    api.addFiles('lib/methods/user_avatar.coffee');
 
-	api.addFiles('lib/publications/apps.coffee');
+    api.addFiles('lib/publications/apps.coffee');
 
-	api.addFiles('client/momentjs/zh-cn.js', 'client');
-	api.addFiles('client/helpers.coffee', 'client');
-	api.addFiles('client/language.coffee', 'client');
+    api.addFiles('client/momentjs/zh-cn.js', 'client');
+    api.addFiles('client/helpers.coffee', 'client');
+    api.addFiles('client/language.coffee', 'client');
 
-	api.addFiles('lib/methods/emial_templates_reset.js');
-	api.addFiles('lib/methods/upgrade_data.js', 'server');
+    api.addFiles('lib/methods/emial_templates_reset.js');
+    api.addFiles('lib/methods/upgrade_data.js', 'server');
 
-	api.addFiles('server/schedule.js', 'server');
+    api.addFiles('server/schedule.js', 'server');
 
-	api.addFiles('lib/node/helpers.coffee');
+    api.addFiles('lib/node/helpers.coffee');
 
 
-	api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
 
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_data_manager.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/tabular_space_user.coffee');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_tabular_space_user_checkbox.coffee');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_tabular_space_user_radio.coffee');
 
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.coffee', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_organization_list.html', 'client');
@@ -106,15 +109,15 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/ajax_collection.coffee', 'client');
 
     api.addFiles('client/lib/steedos_data_manager.js', 'client');
-	
-	
-	// EXPORT
-	api.export('Steedos');
-	api.export('db');
-	api.export("CFDataManager");
-	
-	api.export('AjaxCollection');
-	api.export("SteedosDataManager");
+    
+    
+    // EXPORT
+    api.export('Steedos');
+    api.export('db');
+    api.export("CFDataManager");
+    
+    api.export('AjaxCollection');
+    api.export("SteedosDataManager");
 });
 
 Package.onTest(function(api) {

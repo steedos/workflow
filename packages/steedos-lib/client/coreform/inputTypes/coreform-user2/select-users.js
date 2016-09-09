@@ -11,7 +11,7 @@ AutoForm.addInputType("selectuser2",{
         return val;
     },
     valueOut:function(){
-        return this.data("values");
+        return this[0].dataset.values;
     },
     valueConverters:{
         "stringArray" : AutoForm.valueConverters.stringToStringArray,
@@ -76,10 +76,10 @@ Template.afSelectUser2.events({
     var data,multiple,showOrg=true;
 
     if(dataset.userOptions){
-        data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
+        //data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
         //console.log("s1.1 is " + parseInt(new Date().getTime()/1000));
     }else{
-        data = {orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()};
+        //data = {orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()};
     }
 
     if(dataset.multiple){
@@ -100,7 +100,7 @@ Template.afSelectUser2.events({
 
     var options = {};
 
-    options.data = data;
+    //options.data = data;
     options.multiple = multiple;
     options.showOrg = showOrg;
     
@@ -108,16 +108,16 @@ Template.afSelectUser2.events({
         options.defaultValues = values.split(",");
     }
 
-    var start_orgId = "";
+    // var start_orgId = "";
 
-    if(data.orgs && data.orgs.length > 0){
-        var start_org = data.orgs.filterProperty("is_company",true);
-        start_org.forEach(function(so){
-            start_orgId = so.id;
-        });
-    }
+    // if(data.orgs && data.orgs.length > 0){
+    //     var start_org = data.orgs.filterProperty("is_company",true);
+    //     start_org.forEach(function(so){
+    //         start_orgId = so.id;
+    //     });
+    // }
 
-    options.orgId = start_orgId;
+    // options.orgId = start_orgId;
     options.targetId = template.data.atts.id;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
     //SelectTag.show(options,"Template.afSelectUser2.confirm('"+template.data.name+"')");

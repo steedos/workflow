@@ -7,11 +7,11 @@ Template.cf_organization_list.onRendered ->
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
   this.autorun ()->
     if Steedos.subsSpace.ready("organizations")
-      console.log "loaded_organizations ok...";
+      # console.log "loaded_organizations ok...";
       $("#organizations_tree").on('changed.jstree', (e, data) ->
-            console.log(data);
+            # console.log(data);
             if data.selected.length
-              console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
+              # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
               Session.set("selectOrgId", data.selected[0]);
             return
           ).jstree

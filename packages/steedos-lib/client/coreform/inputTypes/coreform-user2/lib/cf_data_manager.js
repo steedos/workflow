@@ -4,57 +4,69 @@ CFDataManager = {};
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
 CFDataManager.getNode = function(node){
-	console.log(node);
+    // console.log(node);
 
-	var orgs ;
+    var orgs ;
 
-	if(node.id == '#')
-		orgs = CFDataManager.getRoot();
-	else
-		orgs = CFDataManager.getChild(node.id);
+    if(node.id == '#')
+        orgs = CFDataManager.getRoot();
+    else
+        orgs = CFDataManager.getChild(node.id);
 
-	return handerOrg(orgs);
+    return handerOrg(orgs);
 }
 
 
 function handerOrg(orgs){
 
-	var nodes = new Array();
+    var nodes = new Array();
 
-	orgs.forEach(function(org){
+    orgs.forEach(function(org){
 
-		var node = new Object();
+        var node = new Object();
 
-		node.text = org.name;
+        node.text = org.name;
 
-		node.id = org._id;
-		
-		if(org.children && org.children.length > 0){
-			node.children = true;
-		}
+        node.id = org._id;
+        
+        if(org.children && org.children.length > 0){
+            node.children = true;
+        }
 
-		if(org.parent != ''){
-			node.parent = org.parent;
-			node.icon = false; //node.icon = "fa fa-users";
-		}else{
-			node.state = {opened:true};
-			node.icon = 'fa fa-sitemap';
-		}
+        if(org.parent != ''){
+            node.parent = org.parent;
+            node.icon = false; //node.icon = "fa fa-users";
+        }else{
+            node.state = {opened:true};
+            node.icon = 'fa fa-sitemap';
+        }
 
-		nodes.push(node);
-	});
+        nodes.push(node);
+    });
 
-	return nodes;
+    return nodes;
 }
 
 
+CFDataManager.getCheckedValues = function(){
+    var values = new Array();
+    $('[name=\'contacts_ids\']').each(function() {
+        console.log(this.checked)
+      if (this.checked) {
+        values.push({id: this.value, name: this.dataset.name});
+      }
+    });
+    
+    return values;
+}
+
 CFDataManager.getRoot = function(){
-	return SteedosDataManager.organizationRemote.find({parent:""}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
+    return SteedosDataManager.organizationRemote.find({parent:""}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
 };
 
 
 CFDataManager.getChild = function(parentId){
-	return SteedosDataManager.organizationRemote.find({parent: parentId}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
+    return SteedosDataManager.organizationRemote.find({parent: parentId}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
 }
 
 
