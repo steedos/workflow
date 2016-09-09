@@ -110,12 +110,13 @@
     "instance_email_format_error": "Format error of the email address",
 
     "instance_office_edit_online":"Editing Online",
-    "instance_office_edit":"You are editing office files, please exit office when you have finished editing.",
+    "instance_office_message":"'，please exit office when you have finished editing.",
     "instance_office_warning":"File has been modified, please confirm whether to upload this file?",
     "instance_office_upload":"Upload File",
     "instance_office_confirm":"Confirm",
     "instance_office_cancel":"Cancel",
     "instance_office_uploaded": "The attachment has been uploaded",
+    "instance_office_edit": "You are editing '",
 
     "workflow_export_thismonth": "This Month",
     "workflow_export_lastmonth": "Last Month",

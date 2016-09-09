@@ -86,7 +86,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/schedule.js', 'server');
 
-	api.addFiles('lib/node/helpers.coffee');
+	// api.addFiles('lib/node/helpers.coffee');
 	
 	// EXPORT
 	api.export('Steedos');

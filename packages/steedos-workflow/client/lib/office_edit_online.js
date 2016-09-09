@@ -78,8 +78,9 @@ SteedosOffice.getFileSHA1 = function(filePath, filename, callback){
 };
 
 SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
-
-    Modal.show("attachments_upload_modal");
+    var filePath = download_dir + filename;
+    
+    Modal.show("attachments_upload_modal",{filePath: filePath});
     
     // 专业版文件大小不能超过100M
     var maximumFileSize = 100 * 1024 * 1024;
@@ -98,7 +99,6 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
       limitSize = freeMaximumFileSize;
       warnStr = t("workflow_attachment_free_size_limit");
     }
-    var filePath = download_dir + filename;
     // 执行vbs编辑word
     var child = exec(cmd);
     //正在编辑
@@ -156,7 +156,7 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
 
 SteedosOffice.downloadFile = function(file_url, download_dir, filename){
     $(document.body).addClass("loading");
-    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading"));
+    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + "...");
     var filePath = download_dir + filename;
     var file = fs.createWriteStream(filePath);
     var dfile = http.get(encodeURI(file_url), function(res) {
@@ -164,7 +164,7 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
                 file.write(data);
         }).on('end', function(){ 
             file.end();
-            $(document.body).removeClass('loading');
+            $(document.body).removeClass('loading');3
             $('.loading-text').text("");
             // 获取附件hash值
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
@@ -197,39 +197,21 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
 SteedosOffice.editFile = function(file_url, filename){
     var box = Session.get("box");
     var download_dir = process.env.USERPROFILE + '\\Documents\\' + trl('Workflow') + '\\';
-    // 判断文件类型
-    var suffix =/\.[^\.]+$/.exec(filename);
-    var suffixArr = [".doc",".docx"];
-    var t = 0;
-    if (box == "inbox" || box == "draft"){
-        for(i=0;i<suffixArr.length;i++){
-            if (suffixArr[i] == suffix){
-                // 判断附件保存路径是否存在
-                fs.exists(download_dir,function(exists){
-                    if (exists == true){
-                        // 下载附件到本地
-                        SteedosOffice.downloadFile(file_url,download_dir,filename);
-                    }else{
-                        // 新建路径并下载附件到本地
-                        fs.mkdir(download_dir,function(err){
-                            if (err) {
-                                throw err;
-                                console.log(err);
-                            }else{
-                                SteedosOffice.downloadFile(file_url,download_dir,filename);
-                            }
-                        })
-                    }
-                });
-                // break;
-            }else{
-                ++t;
-            }
+    // 判断附件保存路径是否存在
+    fs.exists(download_dir,function(exists){
+        if (exists == true){
+            // 下载附件到本地
+            SteedosOffice.downloadFile(file_url,download_dir,filename);
+        }else{
+            // 新建路径并下载附件到本地
+            fs.mkdir(download_dir,function(err){
+                if (err) {
+                    throw err;
+                    console.log(err);
+                }else{
+                    SteedosOffice.downloadFile(file_url,download_dir,filename);
+                }
+            })
         }
-        if (t == 2){
-            window.location.href = file_url;    
-        }
-    }else{
-        window.location.href = file_url;
-    }
+    });
 }

@@ -34,15 +34,15 @@
             {{#if isAndroidApp}}
                 <a href="#" data-downloadurl="{{getUrl current}}" name="ins_attach_mobile">{{filename}}</a>
             {{else}}
-                {{#if isNode}}
-                    <a href="#" data-downloadurl="{{getUrl current}}" name="ins_attach_isNode">{{filename}}</a>
-                {{else}}
-                    <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
-                {{/if}}
+                <a href="{{getUrl current}}" class="ins_attach_href" target="_parent">{{filename}}</a>
             {{/if}}
             
             {{#if canEdit filename}}
-                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{#if isNode}}
+                    <a href="#" data-downloadurl="{{getUrl current}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{else}}
+                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{/if}}
             {{/if}}
 
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" id="{{_id}}" >{{_ "Versions"}}</a>

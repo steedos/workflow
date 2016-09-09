@@ -79,8 +79,7 @@ Template.instance_attachment.events({
         var length = template.data.current.length;
         Steedos.androidDownload(url, filename, rev, length);
     },
-    "click [name='ins_attach_isNode']": function (event, template, attachVersion) {
-        // var url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
+    "click [name='ins_attach_isNode']": function (event, template) {
         var furl = event.target.dataset.downloadurl;
         var filename = template.data.current.filename;
         var os = require('os');
@@ -309,8 +308,6 @@ Template.ins_attach_edit_modal.events({
         fileObj.size = json_data["size"];
         InstanceManager.addAttach(fileObj, true);
     }
-
-
 
 })
     
