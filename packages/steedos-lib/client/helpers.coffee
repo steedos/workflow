@@ -234,6 +234,11 @@ TemplateHelpers =
                 return false
         false
 
+    isMac: ()->
+        if navigator.platform == ("Mac68K" || "MacPPC" || "Macintosh" || "MacIntel")
+            return true
+        false
+
     androidDownload: (url, filename, rev, length) ->
         $(document.body).addClass 'loading'
         fileName = rev + '-' + filename
