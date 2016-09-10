@@ -21,7 +21,6 @@ function setCos_Signal(str){
 
 SteedosOffice.uploadFile = function(filePath, filename){
     
-    console.log("上传中....");
     $(document.body).addClass("loading");
     $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
     var fileDataInfo = [
@@ -29,7 +28,7 @@ SteedosOffice.uploadFile = function(filePath, filename){
     ]
 
     var files = [
-        {urlKey: filename, urlValue: filePath}
+        {urlKey: "filePath", urlValue: filePath}
     ]
     // 配置附件上传接口
     var options = {
@@ -121,7 +120,7 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
             if(SteedosOffice.fileSHA1 != sha1){
                 var setting  = {
                         title: t("instance_office_warning"),
-                        text: filename, 
+                        text: t("instance_office_filename") + filename, 
                         type: t("warning"),   
                         showCancelButton: true,   
                         confirmButtonColor: "#DD6B55",
@@ -173,7 +172,7 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
                 SteedosOffice.fileSHA1 = sha1;
             });
             var prgx86 = process.env["ProgramFiles(x86)"];
-            var editPath = trl("steedos_desktop") + '\\vbs\\edit.vbs ';
+            var editPath = t("steedos_desktop") + '\\vbs\\edit.vbs ';
             var vbsPath = "";
             // 64位系统与32位系统vbs路径不一样
             if (prgx86){
@@ -198,7 +197,7 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
 
 SteedosOffice.editFile = function(file_url, filename){
     var box = Session.get("box");
-    var download_dir = process.env.USERPROFILE + '\\Documents\\' + trl('Workflow') + '\\';
+    var download_dir = process.env.USERPROFILE + '\\Documents\\' + t('Workflow') + '\\';
     // 判断附件保存路径是否存在
     fs.exists(download_dir,function(exists){
         if (exists == true){
