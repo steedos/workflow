@@ -235,7 +235,9 @@ TemplateHelpers =
         false
 
     isMac: ()->
-        if navigator.platform == ("Mac68K" || "MacPPC" || "Macintosh" || "MacIntel")
+        os = navigator.platform
+        macs = ['Mac68K', 'MacPPC', 'Macintosh', 'MacIntel']
+        if (macs.includes(os))
             return true
         false
 

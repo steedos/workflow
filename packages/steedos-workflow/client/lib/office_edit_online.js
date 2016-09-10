@@ -158,7 +158,7 @@ SteedosOffice.vbsEditFile = function(cmd, download_dir, filename){
 SteedosOffice.downloadFile = function(file_url, download_dir, filename){
     $(document.body).addClass("loading");
     $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
-    var filePath = download_dir + filename;
+    var filePath = path.join(download_dir,filename) ;
     var file = fs.createWriteStream(filePath);
     var dfile = http.get(encodeURI(file_url), function(res) {
         res.on('data', function(data) {
@@ -171,18 +171,9 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
             SteedosOffice.getFileSHA1(filePath, filename, function(sha1){
                 SteedosOffice.fileSHA1 = sha1;
             });
-            var prgx86 = process.env["ProgramFiles(x86)"];
-            var editPath = t("steedos_desktop") + '\\vbs\\edit.vbs ';
-            var vbsPath = "";
-            // 64位系统与32位系统vbs路径不一样
-            if (prgx86){
-                vbsPath = 'C:\\' + '\"' + 'Program Files (x86)' + '\"' + '\\' + editPath;
-            }else{
-                vbsPath = 'C:\\' + '\"' + 'Program Files' + '\"' + '\\' + editPath;
-            }
-            
-            var cmd = vbsPath + download_dir + '\"' + filename + '\" ' + Meteor.users.findOne().name;
-            
+            var homePath = process.cwd() ;
+            var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + download_dir + filename + '\" ' + Meteor.users.findOne().name;
+            console.log(cmd);
             // 调用edit.vbs对word文档进行在线编辑
             SteedosOffice.vbsEditFile(cmd, download_dir, filename);
         })
@@ -196,23 +187,31 @@ SteedosOffice.downloadFile = function(file_url, download_dir, filename){
 };
 
 SteedosOffice.editFile = function(file_url, filename){
-    var box = Session.get("box");
-    var download_dir = process.env.USERPROFILE + '\\Documents\\' + t('Workflow') + '\\';
-    // 判断附件保存路径是否存在
-    fs.exists(download_dir,function(exists){
+    var download_dir = "";
+    //获取系统Documents路径
+    var docPath = process.env.USERPROFILE + "\\Documents\\";
+    fs.exists(docPath,function(exists){
         if (exists == true){
-            // 下载附件到本地
-            SteedosOffice.downloadFile(file_url,download_dir,filename);
+            download_dir = docPath + t('Workflow') + "\\";
         }else{
-            // 新建路径并下载附件到本地
-            fs.mkdir(download_dir,function(err){
-                if (err) {
-                    throw err;
-                    console.log(err);
-                }else{
-                    SteedosOffice.downloadFile(file_url,download_dir,filename);
-                }
-            })
+            download_dir = process.env.USERPROFILE + "\\My Documents\\" + t('Workflow') + "\\";
         }
-    });
+        // 判断附件保存路径是否存在
+        fs.exists(download_dir,function(exists){
+            if (exists == true){
+                // 下载附件到本地
+                SteedosOffice.downloadFile(file_url,download_dir,filename);
+            }else{
+                // 新建路径并下载附件到本地
+                fs.mkdir(download_dir,function(err){
+                    if (err) {
+                        throw err;
+                        console.log(err);
+                    }else{
+                        SteedosOffice.downloadFile(file_url,download_dir,filename);
+                    }
+                })
+            }
+        });
+    })
 }
