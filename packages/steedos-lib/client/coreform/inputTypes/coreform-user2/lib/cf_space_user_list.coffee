@@ -19,16 +19,21 @@ Template.cf_space_user_list.events
             $(this).prop('checked', !$(this).prop('checked')).trigger('change')
 
 
-
     'change .list_checkbox': (event, template) ->
         console.log("change .list_checkbox");
 
-        values = CFDataManager.getContactModalValue();
-        
         target = event.target;
 
+        if !template.data.multiple
+            CFDataManager.setContactModalValue([{id: target.value, name: target.dataset.name}]);
+            $("#confirm", $("#cf_contact_modal")).click();
+            return ;
+
+        values = CFDataManager.getContactModalValue();
+
         if target.checked == true
-            values.push({id: target.value, name: target.dataset.name});
+            if values.getProperty("id").indexOf(target.value) < 0
+                values.push({id: target.value, name: target.dataset.name});
         else
             values.remove(values.getProperty("id").indexOf(target.value))
 
@@ -38,6 +43,11 @@ Template.cf_space_user_list.events
 
 
 Template.cf_space_user_list.onRendered ->
-    TabularTables.cf_tabular_space_user_checkbox.customData = @data
+    TabularTables.cf_tabular_space_user.customData = @data
+    
+    if !@data.multiple
+        $("#reverse").hide();
+
+
     CFDataManager.setContactModalValue(@data.defaultValues);
     # $("#contact_list_load").hide();

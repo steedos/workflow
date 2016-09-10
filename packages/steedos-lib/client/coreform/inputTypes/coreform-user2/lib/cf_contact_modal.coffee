@@ -1,3 +1,8 @@
+Template.cf_contact_modal.helpers 
+	footer_display: (multiple)->
+		if !multiple
+			return "display:none";
+		return "";
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
 		console.log("..confirm");

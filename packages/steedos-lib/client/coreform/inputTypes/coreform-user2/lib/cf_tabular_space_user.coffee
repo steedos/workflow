@@ -1,5 +1,5 @@
-    TabularTables.cf_tabular_space_user_checkbox = new Tabular.Table({
-      name: "cf_tabular_space_user_checkbox",
+    TabularTables.cf_tabular_space_user = new Tabular.Table({
+      name: "cf_tabular_space_user",
       collection: db.space_users,
       columns: [
         {
@@ -8,9 +8,15 @@
           orderable: false,
           width:'10px',
           render:  (val, type, doc) ->
-            input = '<input type="checkbox" class="list_checkbox" name="contacts_ids" id="' + doc.user + '" value="' + doc.user + '" data-name="' + doc.name + '" data-email="' + doc.email + '"';
 
-            if TabularTables.cf_tabular_space_user_checkbox.customData?.defaultValues?.includes(doc.user)
+            inputType = "checkbox";
+
+            if !TabularTables.cf_tabular_space_user.customData?.multiple
+              inputType = "radio"
+
+            input = '<input type="' + inputType + '" class="list_checkbox" name="contacts_ids" id="' + doc.user + '" value="' + doc.user + '" data-name="' + doc.name + '" data-email="' + doc.email + '"';
+
+            if TabularTables.cf_tabular_space_user.customData?.defaultValues?.includes(doc.user)
               input += " checked "
 
             input += ">"

@@ -92,8 +92,7 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
 
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_data_manager.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_tabular_space_user_checkbox.coffee');
-    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_tabular_space_user_radio.coffee');
+    api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_tabular_space_user.coffee');
 
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user2/lib/cf_contact_modal.html', 'client');
