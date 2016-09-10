@@ -6,7 +6,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">选择</h4>
         </div>
-        <div class="modal-body contacts-modal-body" style='overflow-y:auto'>
+        <div class="modal-body contacts-modal-body">
           <div class="row">
             <div class="col-md-4">
               {{> cf_organization_list}}
@@ -17,10 +17,14 @@
           </div>
         </div>
         <div class="modal-footer">
-          <div class="pull-left">
-            <ui id="valueLabel_ui" class="valueLabel"><div id="valueLabel"></div></ui>
+          <div class="row">
+            <div class="col-md-10" id="valueLabel_div">
+                <ui id="valueLabel_ui" class="valueLabel"><div id="valueLabel"></div></ui>
+            </div>
+            <div class="col-md-2 pull-right" style="padding-left:0">
+              <button type="button" class="btn btn-primary" id='confirm' title="确认" style="width:100%">确认</button>
+            </div>
           </div>
-          <button type="button" class="btn btn-primary pull-right" id='confirm'>Confirm</button>
         </div>
       </div>
     </div>

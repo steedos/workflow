@@ -20,7 +20,7 @@
           data: "name", 
           orderable: false,
           render:  (val, type, doc) ->
-            return "<div class='user-name'><img src='" + "/avatar/"+doc.user+"?w=30&h=30&fs=14" +"' class='selectTag-profile img-circle'><label>" + doc.name + "</label></div>"
+            return "<label for='" + doc.user + "' class='for-input'><div class='user-name'><img src='" + "/avatar/"+doc.user+"?w=30&h=30&fs=14" +"' class='selectTag-profile img-circle'><font>" + doc.name + "</font></div></label>"
         },
         # {
         #   data: "email",

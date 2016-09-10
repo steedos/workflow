@@ -48,17 +48,71 @@ function handerOrg(orgs){
 }
 
 
+CFDataManager.setContactModalValue = function(value){
+    $("#cf_contact_modal").data("values",value);
+}
+
+CFDataManager.getContactModalValue = function(){
+    var value = $("#cf_contact_modal").data("values");
+    return value? value : new Array();
+}
+
 CFDataManager.getCheckedValues = function(){
     var values = new Array();
     $('[name=\'contacts_ids\']').each(function() {
-        console.log(this.checked)
       if (this.checked) {
         values.push({id: this.value, name: this.dataset.name});
       }
     });
-    
+
     return values;
 }
+
+
+CFDataManager.handerValueLabel = function(values){
+    
+    var values = CFDataManager.getContactModalValue();
+
+    var confirmButton, html = '', valueLabel, valueLabel_div;
+
+    confirmButton = $('#confirm', $(".cf_contact_modal"));
+
+    valueLabel = $('#valueLabel', $(".cf_contact_modal"));
+
+    valueLabel_div = $('#valueLabel_div', $(".cf_contact_modal"));
+
+    if (values.length > 0) {
+        values.forEach(function(v) {
+            return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
+        });
+        valueLabel.html(html);
+        Sortable.create(valueLabel[0], {
+            group: 'words',
+            animation: 150,
+            onRemove: function(event) {
+                return console.log('onRemove...');
+            },
+            onEnd: function(event) {
+                var labelValues;
+                labelValues = [];
+                $('#valueLabel li').each(function() {
+                    return labelValues.push({
+                        id: this.dataset.value,
+                        name: this.dataset.name
+                    });
+                });
+                CFDataManager.setContactModalValue(labelValues);
+            }
+        });
+
+        valueLabel_div.show();
+        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+    } else {
+        confirmButton.html(confirmButton.prop("title"));
+        valueLabel_div.hide();
+    }
+}
+
 
 CFDataManager.getRoot = function(){
     return SteedosDataManager.organizationRemote.find({parent:""}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});

@@ -3,12 +3,16 @@ Template.cf_contact_modal.events
 		console.log("..confirm");
 
 		target = $("#"+template.data.targetId)
-		
-		values = CFDataManager.getCheckedValues();
 
-		target.val(values.getProperty("name").toString());
+		values = CFDataManager.getContactModalValue();
+
+		target.val(values.getProperty("name").toString()).trigger('change');
 		
 		target[0].dataset.values = values.getProperty("id").toString();
 		
 		Modal.hide("cf_contact_modal");
+
+Template.cf_contact_modal.onRendered ->
+    CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
+    CFDataManager.handerValueLabel();
 
