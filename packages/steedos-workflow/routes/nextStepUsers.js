@@ -47,10 +47,10 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
         userFieldValue = body.userFieldValue
       ;
       if(userField.is_multiselect){ //如果多选，以userFieldValue值为Array
-          nextStepUsers = WorkflowManager.getUsers(userFieldValue);
+          nextStepUsers = WorkflowManager.getUsers(spaceId, userFieldValue);
       }
       else {
-          nextStepUsers.push(WorkflowManager.getUser(userFieldValue));
+          nextStepUsers.push(WorkflowManager.getUser(spaceId, userFieldValue));
       }
       break;
     case 'orgField':
@@ -100,7 +100,7 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
       var
         orgField = body.orgField,
         orgFieldValue = body.orgFieldValue,
-        approverRoleIds = approverRoleIds
+        approverRoleIds = body.approverRoleIds
       ;
       if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
           nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, orgFieldValue, approverRoleIds);

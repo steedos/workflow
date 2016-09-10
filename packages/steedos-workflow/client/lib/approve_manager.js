@@ -145,7 +145,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     break;
                 case 'applicantRole': //指定审批岗位
                     var approveRoleIds = nextStep.approver_roles;
-                    var data = 
+                    var data =  
                     {
                         'applicantId': applicantId,
                         'approveRoleIds': approveRoleIds
@@ -200,7 +200,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                             var data = 
                             {
                                 'orgField': orgField,
-                                'orgFieldValue': userFieldValue
+                                'orgFieldValue': orgFieldValue
                             };
                             nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
                         }
