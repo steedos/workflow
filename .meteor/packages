@@ -82,7 +82,6 @@ steedos:api
 steedos:cms
 steedos:chat
 steedos:webkit-notification
-steedos:portal
 
 peppelg:bootstrap-3-modal
 
