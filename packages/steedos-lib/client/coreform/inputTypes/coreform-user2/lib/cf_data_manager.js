@@ -81,11 +81,20 @@ CFDataManager.handerValueLabel = function(values){
 
     valueLabel_div = $('#valueLabel_div', $(".cf_contact_modal"));
 
+    valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
+
     if (values.length > 0) {
         values.forEach(function(v) {
             return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
         });
         valueLabel.html(html);
+
+        if(valueLabel_ui.height() > 46){
+          valueLabel_ui.css("white-space","nowrap");
+        }else{
+          valueLabel_ui.css("white-space","initial");
+        }
+
         Sortable.create(valueLabel[0], {
             group: 'words',
             animation: 150,
