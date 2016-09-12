@@ -42,7 +42,7 @@
       order:[[1,"desc"]]
       extraFields: ["_id", "name", "email", "user"],
       lengthChange: false,
-      pageLength: 15,
+      pageLength: 10,
       info: false,
       searching: true,
       responsive: 

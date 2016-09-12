@@ -6,7 +6,7 @@ Template.cf_space_user_list.helpers
         if userOptions
             query.user = {$in: userOptions.split(",")};
         else
-            orgId = Session.get("selectOrgId");
+            orgId = Session.get("cf_selectOrgId");
 
             childrens = SteedosDataManager.organizationRemote.find({parents: orgId},{fields:{_id:1}});
             orgs = childrens.getProperty("_id");

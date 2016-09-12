@@ -1,5 +1,5 @@
-AutoForm.addInputType("selectuser2",{
-    template:"afSelectUser2",
+AutoForm.addInputType("selectuser",{
+    template:"afSelectUser",
     valueIn: function(val, atts){
         if("string" == typeof(val))
             val = CFDataManager.getFormulaSpaceUsers(val);
@@ -34,7 +34,7 @@ AutoForm.addInputType("selectuser2",{
     }
 });
 
-Template.afSelectUser2.helpers({
+Template.afSelectUser.helpers({
     val: function(value){
         if(value){
             var val = '';
@@ -64,7 +64,7 @@ Template.afSelectUser2.helpers({
 });
 
 
-Template.afSelectUser2.events({
+Template.afSelectUser.events({
   'click .selectUser': function (event, template) {
     console.log("click .selectUser...");
     //console.log("s1 is " + parseInt(new Date().getTime()/1000
@@ -123,14 +123,13 @@ Template.afSelectUser2.events({
     // options.orgId = start_orgId;
     options.targetId = template.data.atts.id;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
-    //SelectTag.show(options,"Template.afSelectUser2.confirm('"+template.data.name+"')");
     Modal.allowMultiple = true;
     Modal.show("cf_contact_modal", options);
     //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 
-Template.afSelectUser2.confirm = function(name){
+Template.afSelectUser.confirm = function(name){
     var values = SelectTag.values;
     var valuesObject = SelectTag.valuesObject();
     if(valuesObject.length > 0){
@@ -149,7 +148,7 @@ Template.afSelectUser2.confirm = function(name){
 
 }
 
-Template.afSelectUser2.rendered = function(){
+Template.afSelectUser.rendered = function(){
     // var value = this.data.value;
     var name = this.data.name;
     var dataset = this.data.dataset;

@@ -12,13 +12,13 @@ Template.cf_organization_list.onRendered ->
             # console.log(data);
             if data.selected.length
               # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
-              Session.set("selectOrgId", data.selected[0]);
+              Session.set("cf_selectOrgId", data.selected[0]);
             return
           ).jstree
                 core: 
                     themes: { "stripes" : true },
                     data:  (node, cb) ->
-                      Session.set("selectOrgId", node.id);
+                      Session.set("cf_selectOrgId", node.id);
                       cb(CFDataManager.getNode(node));
                           
                 plugins: ["wholerow"]

@@ -1,6 +1,9 @@
 
 .cf_contact_modal{
     z-index:6666;
+    .box {
+        border-radius: 0px;
+    }
 
     .breadcrumb{
         float: right;
@@ -35,13 +38,52 @@
         cursor: pointer;
     }
 
+    .organizations_tree{
+        color: #444;
+        font-size: 13px;
+        font-weight:400;
+    }
+
+    .modal-header{
+        .navigation-bar{
+            background-color: #fff;
+            padding: 0px;
+            // height: 42px;
+            border-bottom: 0px;
+
+            .cf-contact-modal-menu{
+                position: fixed;
+                top: inherit;
+                width: 100%;
+                border: 0px;
+            }
+
+            .box-body{
+                overflow-y: auto;
+                max-height: 340px;
+                min-height: 340px;
+            }
+
+            .box-solid{
+                border: 0px;
+            }
+        }
+    }
+
     .contacts-modal-body{
         padding-bottom: 0px;
         overflow-y:auto;
     }
+    
 
     .cf_space_user_list {
+        .box-body{
+            padding-top: 0px;
+            min-height: 466px;
+        }
+
         .cf_space_user_list_table{
+
             th{
                 padding-right: 0;
             }
