@@ -132,6 +132,10 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
             switch(nextStep.deal_type){
                 case 'pickupAtRuntime': //审批时指定人员
                     Session.set("next_step_users_showOrg",true);
+                    var currentApprove = InstanceManager.getCurrentApprove();
+                    var current_next_steps = currentApprove.next_steps;
+                    var userIds = current_next_steps[0].users;
+                    nextStepUsers = WorkflowManager.getUsers(userIds);
                     break;
                 case 'specifyUser': //指定人员
                     var specifyUserIds = nextStep.approver_users;
