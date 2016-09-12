@@ -39,7 +39,7 @@
       #select:
       #  style: 'single'
       dom: "tp",
-      order:[[1,"desc"]]
+      order:false,
       extraFields: ["_id", "name", "email", "user"],
       lengthChange: false,
       pageLength: 10,
