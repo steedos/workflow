@@ -80,16 +80,9 @@ Template.instance_attachment.events({
         Steedos.androidDownload(url, filename, rev, length);
     },
     "click [name='ins_attach_isNode']": function (event, template) {
-        var furl = event.target.dataset.downloadurl;
-        var filename = template.data.current.filename;
-        var os = require('os');
-        // 判断当前操作系统
-        var platform = os.platform();
-        if (platform == 'darwin'){
-            window.location.href = furl;
-        }else{       
-            SteedosOffice.editFile(furl,filename);
-        }
+        var url = event.target.dataset.downloadurl;
+        var filename = template.data.current.filename;      
+        NodeManager.editFile(url,filename);
     },
     "click [name='ins_attach_edit']": function (event, template) {
         Session.set("attach_id", event.target.id);
