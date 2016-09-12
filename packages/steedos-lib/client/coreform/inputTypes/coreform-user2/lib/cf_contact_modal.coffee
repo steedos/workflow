@@ -16,6 +16,8 @@ Template.cf_contact_modal.events
 		target[0].dataset.values = values.getProperty("id").toString();
 		
 		Modal.hide("cf_contact_modal");
+		
+		Modal.allowMultiple = false;
 
 Template.cf_contact_modal.onRendered ->
     CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));

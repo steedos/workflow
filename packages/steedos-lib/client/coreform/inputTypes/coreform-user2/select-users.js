@@ -121,6 +121,7 @@ Template.afSelectUser2.events({
     options.targetId = template.data.atts.id;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
     //SelectTag.show(options,"Template.afSelectUser2.confirm('"+template.data.name+"')");
+    Modal.allowMultiple = true;
     Modal.show("cf_contact_modal", options);
     //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
