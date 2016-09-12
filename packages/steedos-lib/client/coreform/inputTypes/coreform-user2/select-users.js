@@ -29,8 +29,7 @@ AutoForm.addInputType("selectuser",{
 
         context.atts.class = "selectUser form-control";
 
-        //context.atts.onclick = 'SelectTag.show({data:{orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()},multiple:false},\"$(\\\"input[name=\''+context.name+'\']\\\").val(SelectTag.values)\")';
-        return context;
+       return context;
     }
 });
 
@@ -66,8 +65,7 @@ Template.afSelectUser.helpers({
 
 Template.afSelectUser.events({
   'click .selectUser': function (event, template) {
-    console.log("click .selectUser...");
-    //console.log("s1 is " + parseInt(new Date().getTime()/1000
+    
     if ("disabled" in template.data.atts)
         return;
 
@@ -79,10 +77,6 @@ Template.afSelectUser.events({
 
     if(dataset.userOptions){
         options.userOptions = dataset.userOptions;
-        //data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
-        //console.log("s1.1 is " + parseInt(new Date().getTime()/1000));
-    }else{
-        //data = {orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()};
     }
 
     if(dataset.multiple){
@@ -111,15 +105,6 @@ Template.afSelectUser.events({
         options.defaultValues = values.split(",");
     }
 
-    // var start_orgId = "";
-
-    // if(data.orgs && data.orgs.length > 0){
-    //     var start_org = data.orgs.filterProperty("is_company",true);
-    //     start_org.forEach(function(so){
-    //         start_orgId = so.id;
-    //     });
-    // }
-
     // options.orgId = start_orgId;
     options.targetId = template.data.atts.id;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
@@ -129,36 +114,10 @@ Template.afSelectUser.events({
   }
 });
 
-Template.afSelectUser.confirm = function(name){
-    var values = SelectTag.values;
-    var valuesObject = SelectTag.valuesObject();
-    if(valuesObject.length > 0){
-        if($("input[name='"+name+"']")[0].multiple || $("input[name='"+name+"']")[0].dataset.multiple=='true'){
-            $("input[name='"+name+"']")[0].dataset.values = values;
-            $("input[name='"+name+"']").val(valuesObject.getProperty("name").toString()).trigger("change");
-        }else{
-            $("input[name='"+name+"']")[0].dataset.values = values[0];
-            $("input[name='"+name+"']").val(valuesObject[0].name).trigger("change");
-        }
-        
-    }else{
-        $("input[name='"+name+"']")[0].dataset.values = '';
-        $("input[name='"+name+"']").val('').trigger("change");
-    }
-
-}
-
 Template.afSelectUser.rendered = function(){
-    // var value = this.data.value;
     var name = this.data.name;
     var dataset = this.data.dataset;
-    // if(value instanceof Array){  //(value instanceof Array) && (this.data.atts && this.data.atts.multiple)
-    //     $("input[name='"+name+"']").val(value ? value.getProperty("name").toString() : '');
-    //     $("input[name='"+name+"']")[0].dataset.values = value ? value.getProperty("id") : '';
-    // }else{
-    //     $("input[name='"+name+"']").val(value ? value.name : '');
-    //     $("input[name='"+name+"']")[0].dataset.values = value ? value.id : ''; 
-    // }
+    
 
     if(dataset){
         for(var dk in dataset){
