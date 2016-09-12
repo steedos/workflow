@@ -65,7 +65,7 @@ Template.afSelectUser.helpers({
 
 Template.afSelectUser.events({
   'click .selectUser': function (event, template) {
-    
+
     if ("disabled" in template.data.atts)
         return;
 
@@ -75,7 +75,7 @@ Template.afSelectUser.events({
 
     var data,multiple,showOrg=true;
 
-    if(dataset.userOptions){
+    if(dataset.userOptions != undefined && dataset.userOptions != null){
         options.userOptions = dataset.userOptions;
     }
 
@@ -95,8 +95,6 @@ Template.afSelectUser.events({
     
     var values = $("input[name='"+template.data.name+"']")[0].dataset.values;
 
-    
-
     //options.data = data;
     options.multiple = multiple;
     options.showOrg = showOrg;
@@ -105,12 +103,9 @@ Template.afSelectUser.events({
         options.defaultValues = values.split(",");
     }
 
-    // options.orgId = start_orgId;
     options.targetId = template.data.atts.id;
-    //console.log("s2 is " + parseInt(new Date().getTime()/1000));
     Modal.allowMultiple = true;
     Modal.show("cf_contact_modal", options);
-    //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 

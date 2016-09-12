@@ -3,7 +3,7 @@ Template.cf_space_user_list.helpers
         console.log("selector...");
         query = {space: Session.get("spaceId")};
 
-        if userOptions
+        if userOptions != undefined && userOptions != null
             query.user = {$in: userOptions.split(",")};
         else
             orgId = Session.get("cf_selectOrgId");
