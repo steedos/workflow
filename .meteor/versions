@@ -47,6 +47,7 @@ chrismbeckett:toastr@2.1.2_1
 coffeescript@1.0.11
 comerc:autoform-selectize@2.3.2
 cosmos:browserify@0.9.3
+dburles:spacebars-tohtml@1.0.1
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.2
@@ -99,6 +100,7 @@ momentjs:moment@2.14.1
 mongo@1.1.3
 mongo-id@1.0.1
 mongo-livedata@1.0.9
+mpowaga:autoform-summernote@0.4.3
 mpowaga:jquery-fileupload@9.11.2
 mpowaga:jquery-ui-widget@1.11.4
 mrt:moment@2.14.1
@@ -154,6 +156,8 @@ steedos:portal@0.0.2
 steedos:ui@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
+summernote:standalone@0.7.3
+summernote:summernote@0.8.2
 tap:i18n@1.7.0
 templating@1.1.5
 templating-tools@1.0.0

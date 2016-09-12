@@ -132,8 +132,6 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
             switch(nextStep.deal_type){
                 case 'pickupAtRuntime': //审批时指定人员
                     Session.set("next_step_users_showOrg",true);
-                    // nextStepUsers = WorkflowManager.getSpaceUsers(instance.space);
-                    // TODO 选人控件
                     break;
                 case 'specifyUser': //指定人员
                     var specifyUserIds = nextStep.approver_users;

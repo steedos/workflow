@@ -110,25 +110,6 @@ WorkflowManager.getRole = function(spaceId, roleId){
   return role;
 };
 
-//获取space下的所有用户
-WorkflowManager.getSpaceUsers = function (spaceId){
-
-  var users = new Array();
-  
-  var spaceUsers = db.space_users.find({space: spaceId, user_accepted:true}, {sort: {name:1}});
-
-  spaceUsers.forEach(function(spaceUser){
-    spaceUser.id = spaceUser.user;
-    spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-    if(spaceUser.organization){
-      spaceUser.roles = WorkflowManager.getUserRoles(spaceId, spaceUser.organization.id, spaceUser.id);
-      users.push(spaceUser);
-    }
-  })
-
-  return users;
-};
-
 WorkflowManager.getSpacePositions = function(spaceId){
   var positions = new Array();
 
@@ -159,8 +140,6 @@ WorkflowManager.getUserRoles = function(spaceId, orgId, userId){
 };
 
 WorkflowManager.getOrganizationsUsers = function(spaceId, orgs){
-
-  var spaceUsers = WorkflowManager.getSpaceUsers(spaceId);
 
   var orgUsers = new Array();
 

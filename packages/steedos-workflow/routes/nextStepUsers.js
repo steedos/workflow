@@ -112,11 +112,20 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
       break;
   }
 
+  var result = [];
+
+  nextStepUsers.forEach(function (su) {
+    var o = {
+      id: su.id,
+      name: su.name
+    };
+    result.push(o);
+  })
 
   JsonRoutes.sendResult(res, {
     code: 200,
     data: {
-      'nextStepUsers': nextStepUsers
+      'nextStepUsers': result
     }
   });
 })
