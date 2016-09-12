@@ -1,6 +1,6 @@
 <template name="cf_contact_modal">
   <div class="modal fade cf_contact_modal" id="cf_contact_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog {{modalStyle showOrg}}" role="document">
       <div class="modal-content ins-modal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -8,12 +8,18 @@
         </div>
         <div class="modal-body contacts-modal-body">
           <div class="row">
-            <div class="col-md-4">
-              {{> cf_organization_list}}
-            </div>
-            <div class="col-md-8">
-              {{> cf_space_user_list}}
-            </div>
+            {{#if showOrg}}
+              <div class="col-md-4">
+                {{> cf_organization_list}}
+              </div>
+              <div class="col-md-8">
+                {{> cf_space_user_list}}
+              </div>
+            {{else}}
+              <div class="col-md-12">
+                {{> cf_space_user_list}}
+              </div>
+            {{/if}}
           </div>
         </div>
         <div class="modal-footer" style="{{footer_display multiple}}">

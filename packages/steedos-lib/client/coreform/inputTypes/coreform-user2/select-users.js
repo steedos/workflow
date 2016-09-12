@@ -71,11 +71,14 @@ Template.afSelectUser2.events({
     if ("disabled" in template.data.atts)
         return;
 
+    var options = {};
+
     var dataset = $("input[name='"+template.data.name+"']")[0].dataset;
 
     var data,multiple,showOrg=true;
 
     if(dataset.userOptions){
+        options.userOptions = dataset.userOptions;
         //data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
         //console.log("s1.1 is " + parseInt(new Date().getTime()/1000));
     }else{
@@ -98,7 +101,7 @@ Template.afSelectUser2.events({
     
     var values = $("input[name='"+template.data.name+"']")[0].dataset.values;
 
-    var options = {};
+    
 
     //options.data = data;
     options.multiple = multiple;

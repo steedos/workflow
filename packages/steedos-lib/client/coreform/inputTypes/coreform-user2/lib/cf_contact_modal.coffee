@@ -3,6 +3,12 @@ Template.cf_contact_modal.helpers
 		if !multiple
 			return "display:none";
 		return "";
+
+	modalStyle: (showOrg) ->
+		if showOrg
+			return "modal-lg";
+		return "";
+
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
 		console.log("..confirm");
@@ -16,7 +22,7 @@ Template.cf_contact_modal.events
 		target[0].dataset.values = values.getProperty("id").toString();
 		
 		Modal.hide("cf_contact_modal");
-		
+
 		Modal.allowMultiple = false;
 
 Template.cf_contact_modal.onRendered ->
