@@ -83,8 +83,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.html', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.js', 'client');

@@ -1,5 +1,5 @@
-AutoForm.addInputType("selectuser_localdata",{
-    template:"afSelectUser_localData",
+AutoForm.addInputType("selectuser",{
+    template:"afSelectUser",
     valueIn: function(val, atts){
         if("string" == typeof(val))
             val = CFDataManager.getFormulaSpaceUsers(val);
@@ -29,12 +29,11 @@ AutoForm.addInputType("selectuser_localdata",{
 
         context.atts.class = "selectUser form-control";
 
-        //context.atts.onclick = 'SelectTag.show({data:{orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()},multiple:false},\"$(\\\"input[name=\''+context.name+'\']\\\").val(SelectTag.values)\")';
-        return context;
+       return context;
     }
 });
 
-Template.afSelectUser_localData.helpers({
+Template.afSelectUser.helpers({
     val: function(value){
         if(value){
             var val = '';
@@ -64,22 +63,20 @@ Template.afSelectUser_localData.helpers({
 });
 
 
-Template.afSelectUser_localData.events({
+Template.afSelectUser.events({
   'click .selectUser': function (event, template) {
-    //console.log("click .selectUser...");
-    //console.log("s1 is " + parseInt(new Date().getTime()/1000
+
     if ("disabled" in template.data.atts)
         return;
+
+    var options = {};
 
     var dataset = $("input[name='"+template.data.name+"']")[0].dataset;
 
     var data,multiple,showOrg=true;
 
-    if(dataset.userOptions){
-        data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
-        //console.log("s1.1 is " + parseInt(new Date().getTime()/1000));
-    }else{
-        data = {orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()};
+    if(dataset.userOptions != undefined && dataset.userOptions != null){
+        options.userOptions = dataset.userOptions;
     }
 
     if(dataset.multiple){
@@ -88,15 +85,17 @@ Template.afSelectUser_localData.events({
         multiple = template.data.atts.multiple
     }
 
+    if(multiple != true){
+        multiple = false;
+    }
+
     if(dataset.showOrg && dataset.showOrg == 'false'){
         showOrg = false;
     }
     
     var values = $("input[name='"+template.data.name+"']")[0].dataset.values;
 
-    var options = {};
-
-    options.data = data;
+    //options.data = data;
     options.multiple = multiple;
     options.showOrg = showOrg;
     
@@ -104,52 +103,16 @@ Template.afSelectUser_localData.events({
         options.defaultValues = values.split(",");
     }
 
-    var start_orgId = "";
-
-    if(data.orgs && data.orgs.length > 0){
-        var start_org = data.orgs.filterProperty("is_company",true);
-        start_org.forEach(function(so){
-            start_orgId = so.id;
-        });
-    }
-
-    options.orgId = start_orgId;
-    //console.log("s2 is " + parseInt(new Date().getTime()/1000));
-    SelectTag.show(options,"Template.afSelectUser_localData.confirm('"+template.data.name+"')");
-    //console.log("s3 is " + parseInt(new Date().getTime()/1000));
+    options.targetId = template.data.atts.id;
+    Modal.allowMultiple = true;
+    Modal.show("cf_contact_modal", options);
   }
 });
 
-Template.afSelectUser_localData.confirm = function(name){
-    var values = SelectTag.values;
-    var valuesObject = SelectTag.valuesObject();
-    if(valuesObject.length > 0){
-        if($("input[name='"+name+"']")[0].multiple || $("input[name='"+name+"']")[0].dataset.multiple=='true'){
-            $("input[name='"+name+"']")[0].dataset.values = values;
-            $("input[name='"+name+"']").val(valuesObject.getProperty("name").toString()).trigger("change");
-        }else{
-            $("input[name='"+name+"']")[0].dataset.values = values[0];
-            $("input[name='"+name+"']").val(valuesObject[0].name).trigger("change");
-        }
-        
-    }else{
-        $("input[name='"+name+"']")[0].dataset.values = '';
-        $("input[name='"+name+"']").val('').trigger("change");
-    }
-
-}
-
-Template.afSelectUser_localData.rendered = function(){
-    // var value = this.data.value;
+Template.afSelectUser.rendered = function(){
     var name = this.data.name;
     var dataset = this.data.dataset;
-    // if(value instanceof Array){  //(value instanceof Array) && (this.data.atts && this.data.atts.multiple)
-    //     $("input[name='"+name+"']").val(value ? value.getProperty("name").toString() : '');
-    //     $("input[name='"+name+"']")[0].dataset.values = value ? value.getProperty("id") : '';
-    // }else{
-    //     $("input[name='"+name+"']").val(value ? value.name : '');
-    //     $("input[name='"+name+"']")[0].dataset.values = value ? value.id : ''; 
-    // }
+    
 
     if(dataset){
         for(var dk in dataset){
