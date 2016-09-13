@@ -143,7 +143,6 @@ NodeManager.setUploadRequests = function(filePath, filename){
         $(document.body).removeClass('loading');
         $('.loading-text').text("");
         console.log('problem with request:' + e.message);
-        toastr.error(e.message);
     });
 
     NodeManager.uploadAttach(fileDataInfo, files, req);
@@ -313,7 +312,7 @@ NodeManager.editFile = function(file_url, filename){
                 // 新建路径并下载附件到本地
                 fs.mkdir(download_dir,function(err){
                     if (err) {
-                        throw err;
+                        console.log(err);
                     }else{
                         NodeManager.downloadFile(file_url,download_dir,filename);
                     }
