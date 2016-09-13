@@ -28,7 +28,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
     var dataLength = 0;
     var dataArr = new Array();
     for (var i = 0; i < fileDataInfo.length; i++) {
-        var dataInfo = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileDataInfo[i].urlValue + "\"\r\n\r\n" + fileDataInfo[i].urlValue;
+        var dataInfo = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileDataInfo[i].urlKey + "\"\r\n\r\n" + fileDataInfo[i].urlValue;
         var dataBinary = new Buffer(dataInfo, "utf-8");
         dataLength += dataBinary.length;
         dataArr.push({
@@ -38,7 +38,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
     
     var files = new Array();
     for (var i = 0; i < fileKeyValue.length; i++) {
-        var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Type: " + fileKeyValue[i].urlKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlname + "\"; filename=\"" + path.basename(fileKeyValue[i].urlValue) + "\"\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
+        var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + path.basename(fileKeyValue[i].urlValue) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n"; 
         var contentBinary = new Buffer(content, 'utf-8'); //当编码为ascii时，中文会乱码。
         files.push({
             contentBinary: contentBinary,
@@ -65,7 +65,8 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
         req.write(dataArr[i].dataInfo)
         //req.write('\r\n')
     }
-
+    console.log("dataInfo: " + dataInfo);
+    console.log("content: " + content);
     var fileindex = 0;
     var doOneFile = function() {
         req.write(files[fileindex].contentBinary);
@@ -103,11 +104,11 @@ NodeManager.setUploadRequests = function(filePath, filename){
     $(document.body).addClass("loading");
     $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
     var fileDataInfo = [
-        {urlKey: "name", urlValue: filename}
+        {urlKey: "Content-Type", urlValue: cfs.getContentType(filename)}
     ]
 
     var files = [
-        {urlKey: cfs.getContentType(filename), urlname: filename, urlValue: filePath}
+        {urlKey: "file", urlValue: filePath}
     ]
     // 配置附件上传接口
     var options = {
@@ -204,8 +205,6 @@ NodeManager.vbsEditFile = function(download_dir, filename){
         
         // 修改后附件大小
         var states =  fs.statSync(filePath);
-        console.log('states.size: ' + states.size);
-        
         setCos_Signal("finished");
         NodeManager.getFileSHA1(filePath,filename,function(sha1){
             if(NodeManager.fileSHA1 != sha1){
@@ -278,9 +277,9 @@ NodeManager.editFile = function(file_url, filename){
     var docPath = process.env.USERPROFILE + "\\Documents\\";
     fs.exists(docPath,function(exists){
         if (exists == true){
-            download_dir = docPath + t('Workflow') + "\\";
+            download_dir = docPath + t("node_office_workflow") + "\\";
         }else{
-            download_dir = process.env.USERPROFILE + "\\My Documents\\" + t('Workflow') + "\\";
+            download_dir = process.env.USERPROFILE + "\\My Documents\\" + t("node_office_workflow") + "\\";
         }
         // 判断附件保存路径是否存在
         fs.exists(download_dir,function(exists){

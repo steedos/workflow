@@ -118,6 +118,7 @@
     "node_office_uploaded": "The attachment has been uploaded",
     "node_office_filePath": "File: ",
     "node_office_exists_message": "File already exists, replace it?",
+    "node_office_workflow": "Workflow",
 
     "workflow_export_thismonth": "This Month",
     "workflow_export_lastmonth": "Last Month",
