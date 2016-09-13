@@ -91,6 +91,14 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.js', 'client');
 
+
+
+    api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.less', 'client');
+
     api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.js', 'client');
 

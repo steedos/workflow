@@ -1,0 +1,30 @@
+<template name="cf_organization_modal">
+  <div class="steedos modal fade cf_organization_modal" id="cf_organization_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style='position: fixed;'>
+    <div class="modal-dialog {{modalStyle showOrg}}" role="document">
+      <div class="modal-content ins-modal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">选择</h4>
+        </div>
+        <div class="modal-body contacts-modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              {{> cf_organization}}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="{{footer_display multiple}}">
+          <div class="row">
+            <div class="col-md-10" id="valueLabel_div">
+                <ui id="valueLabel_ui" class="valueLabel"><div id="valueLabel"></div></ui>
+            </div>
+            <div class="col-md-2 pull-right" style="padding-left:0">
+              <button type="button" class="btn btn-primary" id='confirm' title="确认" style="width:100%">确认</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</template>

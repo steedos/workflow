@@ -38,6 +38,8 @@ AutoForm.addInputType("selectorg",{
 
 Template.afSelectOrg.events({
   'click .selectOrg': function (event, template) {
+    console.log("show cf_organization_modal");
+    
     if ("disabled" in template.data.atts)
         return;
     var data = {orgs:WorkflowManager.getSpaceOrganizations()};
@@ -46,6 +48,7 @@ Template.afSelectOrg.events({
     var options = {};
     options.data = data;
     options.multiple = template.data.atts.multiple;
+    
     if(values && values.length > 0){
         options.defaultValues = values.split(",");
     }
@@ -62,8 +65,8 @@ Template.afSelectOrg.events({
     }
 
     options.orgId = start_orgId;
-
-    SelectTag.show(options,"Template.afSelectOrg.confirm('"+template.data.name+"')");
+    Modal.allowMultiple = true;
+    Modal.show("cf_organization_modal", options);
   }
 });
 

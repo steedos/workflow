@@ -1,4 +1,4 @@
-Template.cf_contact_modal.helpers 
+Template.cf_organization_modal.helpers 
 	footer_display: (multiple)->
 		if !multiple
 			return "display:none";
@@ -19,7 +19,7 @@ Template.cf_contact_modal.helpers
 
 		return org.name;
 
-Template.cf_contact_modal.events
+Template.cf_organization_modal.events
 	'click #confirm': (event, template) ->
 		console.log("..confirm");
 
@@ -31,11 +31,11 @@ Template.cf_contact_modal.events
 		
 		target[0].dataset.values = values.getProperty("id").toString();
 		
-		Modal.hide("cf_contact_modal");
+		Modal.hide("cf_organization_modal");
 
 		Modal.allowMultiple = false;
 
-Template.cf_contact_modal.onRendered ->
+Template.cf_organization_modal.onRendered ->
     CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
     CFDataManager.handerValueLabel();
 

@@ -1,10 +1,17 @@
-Template.cf_organization_list.helpers 
+Template.cf_organization.helpers 
 
 
-Template.cf_organization_list.onRendered ->
+Template.cf_organization.onRendered ->
   $(document.body).addClass('loading');
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
+  console.log("cf_organization.onRendered...");
+  plugins = ["wholerow"];
+
+  if this.data.multiple
+    plugins.push("checkbox");
+
+
   this.autorun ()->
     if Steedos.subsSpace.ready("organizations")
       # console.log "loaded_organizations ok...";
@@ -21,10 +28,10 @@ Template.cf_organization_list.onRendered ->
                       Session.set("cf_selectOrgId", node.id);
                       cb(CFDataManager.getNode(node));
                           
-                plugins: ["wholerow", "checkbox"]
+                plugins: plugins
 
       $(document.body).removeClass('loading');
 
 
 
-Template.cf_organization_list.events
+Template.cf_organization.events
