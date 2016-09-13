@@ -274,12 +274,13 @@ NodeManager.downloadFile = function(file_url, download_dir, filename){
 NodeManager.editFile = function(file_url, filename){
     var download_dir = "";
     //获取系统Documents路径
-    var docPath = process.env.USERPROFILE + "\\Documents\\";
+    var userPath = process.env.USERPROFILE;
+    var docPath = userPath + "\\Documents\\Steedos\\";
     fs.exists(docPath,function(exists){
         if (exists == true){
-            download_dir = docPath + t("node_office_workflow") + "\\";
+            download_dir = docPath;
         }else{
-            download_dir = process.env.USERPROFILE + "\\My Documents\\" + t("node_office_workflow") + "\\";
+            download_dir = userPath + "\\My Documents\\Steedos\\";
         }
         // 判断附件保存路径是否存在
         fs.exists(download_dir,function(exists){
