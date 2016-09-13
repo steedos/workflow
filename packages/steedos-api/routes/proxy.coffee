@@ -86,7 +86,7 @@ Meteor.startup ->
                 return
 
 
-    JsonRoutes.add 'get', '/proxy_js/', (req, res, next) ->
+    JsonRoutes.add 'get', '/api/proxy/', (req, res, next) ->
 
         console.log req
 
