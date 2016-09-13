@@ -63,7 +63,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/sso.coffee', 'server');
 	api.addFiles('routes/aliyun_push.coffee', 'server');
 	api.addFiles('routes/import.coffee', 'server');
-	api.addFiles('routes/proxy_js.coffee', 'server');
+	api.addFiles('routes/proxy.coffee', 'server');
 
 	api.addFiles('accounts_client.coffee', 'client');
 });
