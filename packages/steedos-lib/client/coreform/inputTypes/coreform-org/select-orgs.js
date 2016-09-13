@@ -1,11 +1,12 @@
 AutoForm.addInputType("selectorg",{
     template:"afSelectOrg",
     valueIn: function(val, atts){
+        console.log("value in...");
         if("string" == typeof(val))
-            val = WorkflowManager.getFormulaOrgObjects(val);
+            val = CFDataManager.getFormulaOrganizations(val);
 
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
-            val = WorkflowManager.getFormulaOrgObjects(val);
+            val = CFDataManager.getFormulaOrganizations(val);
         }
         
         return val;
@@ -42,11 +43,11 @@ Template.afSelectOrg.events({
     
     if ("disabled" in template.data.atts)
         return;
-    var data = {orgs:WorkflowManager.getSpaceOrganizations()};
+    //var data = {orgs:WorkflowManager.getSpaceOrganizations()};
     var values = $("input[name='"+template.data.name+"']")[0].dataset.values;
 
     var options = {};
-    options.data = data;
+    //options.data = data;
     options.multiple = template.data.atts.multiple;
     
     if(values && values.length > 0){
@@ -55,16 +56,8 @@ Template.afSelectOrg.events({
 
     options.showUser = false;
 
-    var start_orgId = "";
-
-    if(data.orgs && data.orgs.length > 0){
-        var start_org = data.orgs.filterProperty("is_company",true);
-        start_org.forEach(function(so){
-            start_orgId = so.id;
-        });
-    }
-
-    options.orgId = start_orgId;
+    options.targetId = template.data.atts.id;
+    
     Modal.allowMultiple = true;
     Modal.show("cf_organization_modal", options);
   }
@@ -117,17 +110,3 @@ Template.afSelectOrg.confirm = function(name){
     }
 
 }
-
-// Template.afSelectOrg.rendered = function(){
-//     var value = this.data.value;
-//     var name = this.data.name;
-//     if(value instanceof Array){ //this.data.atts.multiple && (value instanceof Array)
-//         $("input[name='"+name+"']").val(value ? value.getProperty("name").toString() : '');
-//         $("input[name='"+name+"']")[0].dataset.values = value ? value.getProperty("id") : '';
-//     }else{
-//         $("input[name='"+name+"']").val(value ? value.name : '');
-//         $("input[name='"+name+"']")[0].dataset.values = value ? value.id : ''; 
-//     }
-    
-// }
-

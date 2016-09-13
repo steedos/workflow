@@ -393,14 +393,14 @@ SteedosTable.getTDValue = function(field, value){
                     if(field.is_multiselect){
                         if(value.length > 0){
                             if("string" == typeof(value[0])){
-                                td_value = WorkflowManager.getOrganizations(value).getProperty("name").toString();
+                                td_value = CFDataManager.getFormulaOrganizations(value).getProperty("name").toString();
                             }else{
                                 td_value = value.getProperty("name").toString();
                             } 
                         }
                     }else{
                         if("string" == typeof(value)){
-                            var o = WorkflowManager.getOrganization(value);
+                            var o = CFDataManager.getFormulaOrganization(value);
                             td_value = o ? o.name : '';
                         }else{
                             td_value = value.name;

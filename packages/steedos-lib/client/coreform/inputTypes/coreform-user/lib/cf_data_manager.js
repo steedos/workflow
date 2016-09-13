@@ -29,6 +29,12 @@ function handerOrg(orgs){
 
         node.id = org._id;
         
+        node.state = {};
+
+        if(CFDataManager.getOrganizationModalValue().getProperty("id").includes(node.id)){
+            node.state.selected = true;
+        }
+        
         if(org.children && org.children.length > 0){
             node.children = true;
         }
@@ -37,8 +43,9 @@ function handerOrg(orgs){
             node.parent = org.parent;
             node.icon = false; //node.icon = "fa fa-users";
         }else{
-            node.state = {opened:true};
+            node.state.opened = true;
             node.icon = 'fa fa-sitemap';
+            console.log(node);
         }
 
         nodes.push(node);
@@ -46,6 +53,8 @@ function handerOrg(orgs){
 
     return nodes;
 }
+
+
 
 
 CFDataManager.setContactModalValue = function(value){
@@ -56,6 +65,29 @@ CFDataManager.getContactModalValue = function(){
     var value = $("#cf_contact_modal").data("values");
     return value? value : new Array();
 }
+
+CFDataManager.setOrganizationModalValue = function(value){
+    $("#cf_organization_modal").data("values",value);
+}
+
+CFDataManager.getOrganizationModalValue = function(){
+    var value = $("#cf_organization_modal").data("values");
+    return value? value : new Array();
+}
+
+CFDataManager.getSelectedModalValue = function(){
+  var val = new Array();
+  var instance = $('#organizations_tree').jstree(true); 
+  var checked = instance.get_selected();
+
+  checked.forEach(function(id){
+      var node = instance.get_node(id);
+      val.push({id: id, name: node.text});
+  });
+
+  return val;
+}
+
 
 CFDataManager.getCheckedValues = function(){
     var values = new Array();
@@ -69,19 +101,20 @@ CFDataManager.getCheckedValues = function(){
 }
 
 
-CFDataManager.handerValueLabel = function(values){
+CFDataManager.handerContactModalValueLabel = function(){
     
     var values = CFDataManager.getContactModalValue();
+    var modal = $(".cf_contact_modal");
 
     var confirmButton, html = '', valueLabel, valueLabel_div;
 
-    confirmButton = $('#confirm', $(".cf_contact_modal"));
+    confirmButton = $('#confirm', modal);
 
-    valueLabel = $('#valueLabel', $(".cf_contact_modal"));
+    valueLabel = $('#valueLabel', modal);
 
-    valueLabel_div = $('#valueLabel_div', $(".cf_contact_modal"));
+    valueLabel_div = $('#valueLabel_div', modal);
 
-    valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
+    valueLabel_ui = $('#valueLabel_ui', modal);
 
     if (values.length > 0) {
         values.forEach(function(v) {
@@ -111,6 +144,60 @@ CFDataManager.handerValueLabel = function(values){
                     });
                 });
                 CFDataManager.setContactModalValue(labelValues);
+            }
+        });
+
+        valueLabel_div.show();
+        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+    } else {
+        confirmButton.html(confirmButton.prop("title"));
+        valueLabel_div.hide();
+    }
+}
+
+CFDataManager.handerOrganizationModalValueLabel = function(){
+    
+    var values = CFDataManager.getOrganizationModalValue();
+    var modal = $(".cf_organization_modal");
+
+    var confirmButton, html = '', valueLabel, valueLabel_div;
+
+    confirmButton = $('#confirm', modal);
+
+    valueLabel = $('#valueLabel', modal);
+
+    valueLabel_div = $('#valueLabel_div', modal);
+
+    valueLabel_ui = $('#valueLabel_ui', modal);
+
+    if (values.length > 0) {
+        values.forEach(function(v) {
+            return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
+        });
+        valueLabel.html(html);
+
+        if(valueLabel_ui.height() > 46){
+          valueLabel_ui.css("white-space","nowrap");
+        }else{
+          valueLabel_ui.css("white-space","initial");
+        }
+
+        Sortable.create(valueLabel[0], {
+            group: 'words',
+            animation: 150,
+            onRemove: function(event) {
+                return console.log('onRemove...');
+            },
+            onEnd: function(event) {
+                var labelValues;
+                labelValues = [];
+                $('#valueLabel li').each(function() {
+                    return labelValues.push({
+                        id: this.dataset.value,
+                        name: this.dataset.name
+                    });
+                });
+                CFDataManager.setOrganizationModalValue(labelValues);
             }
         });
 
@@ -156,7 +243,7 @@ CFDataManager.getSpaceUser = function (userId){
 CFDataManager.getSpaceUsers = function (userIds){
 
   if("string" == typeof(userIds)){
-    return [this.getUser(userIds)]
+    return [CFDataManager.getSpaceUser(userIds)]
   }
 
   var users = new Array();
@@ -200,3 +287,27 @@ CFDataManager.getFormulaSpaceUser = function(userId){
   return userObject;
 
 };
+
+
+CFDataManager.getFormulaOrganizations = function(orgIds){
+  if(!orgIds)
+    return ;
+  var orgs = new Array();
+  if(orgIds instanceof Array){
+    orgIds.forEach(function(orgId){
+      orgs.push(CFDataManager.getFormulaOrganization(orgId));
+    });
+   
+  }else{
+    orgs = CFDataManager.getFormulaOrganization(orgIds);
+  }
+
+  return orgs;
+}
+
+CFDataManager.getFormulaOrganization = function(orgId){
+  var org = SteedosDataManager.organizationRemote.findOne({_id: orgId}, {fields:{_id:1, name:1, fullname:1}});
+  org.id = org._id;
+  delete org._id;
+  return org;
+}

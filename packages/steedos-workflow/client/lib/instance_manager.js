@@ -355,7 +355,7 @@ function adjustFieldValue(field,value){
         value = value; //$.format.date(value,"yyyy-MM-ddTHH:mm'Z");
         break;
       case 'group':
-        value = WorkflowManager.getFormulaOrgObjects(value);
+        value = CFDataManager.getFormulaOrganizations(value);
         break;
       case 'user':
         value = WorkflowManager.getFormulaUserObjects(value);

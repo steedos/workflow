@@ -37,5 +37,5 @@ Template.cf_contact_modal.events
 
 Template.cf_contact_modal.onRendered ->
     CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
-    CFDataManager.handerValueLabel();
+    CFDataManager.handerContactModalValueLabel();
 

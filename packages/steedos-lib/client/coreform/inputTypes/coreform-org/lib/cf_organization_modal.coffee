@@ -21,11 +21,9 @@ Template.cf_organization_modal.helpers
 
 Template.cf_organization_modal.events
 	'click #confirm': (event, template) ->
-		console.log("..confirm");
-
 		target = $("#"+template.data.targetId)
 
-		values = CFDataManager.getContactModalValue();
+		values = CFDataManager.getOrganizationModalValue();
 
 		target.val(values.getProperty("name").toString()).trigger('change');
 		
@@ -36,6 +34,5 @@ Template.cf_organization_modal.events
 		Modal.allowMultiple = false;
 
 Template.cf_organization_modal.onRendered ->
-    CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
-    CFDataManager.handerValueLabel();
+    CFDataManager.handerOrganizationModalValueLabel();
 
