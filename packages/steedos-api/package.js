@@ -10,7 +10,9 @@ Npm.depends({
   busboy: "0.2.13",
   cookies: "0.6.1",
   mime: "1.3.4",
-  'csv': "1.1.0"
+  'csv': "1.1.0",
+  'url':'0.11.0',
+  'request':'2.40.0'
 });
 
 
@@ -61,6 +63,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/sso.coffee', 'server');
 	api.addFiles('routes/aliyun_push.coffee', 'server');
 	api.addFiles('routes/import.coffee', 'server');
+	api.addFiles('routes/proxy.coffee', 'server');
 
 	api.addFiles('accounts_client.coffee', 'client');
 });
