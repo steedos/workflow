@@ -69,14 +69,15 @@ Meteor.methods({
         var approve_id = approve.id;
         var instance = db.instances.findOne(ins_id, {fields: {traces: 1}});
         var traces = instance.traces;
+        var current_user_id = this.userId;
 
         traces.forEach(function(t){
-            if (t._id == trace_id) {
-                t.approves.forEach(function(a){
+            t.approves.forEach(function(a){
+                if (a.type == 'cc' && a.user == current_user_id) {
                     a.is_read = true;
                     a.read_date = new Date();
-                });
-            }
+                }
+            });
         })
 
         // setObj.modified = new Date();
@@ -99,14 +100,12 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t){
-            if (t._id == trace_id) {
-                t.approves.forEach(function(a){
-                    if (a._id == approve_id) {
-                        a.is_finished = true;
-                        a.finish_date = new Date();
-                    }
-                });
-            }
+            t.approves.forEach(function(a){
+                if (a.type == 'cc' && a.user == current_user_id) {
+                    a.is_finished = true;
+                    a.finish_date = new Date();
+                }
+            });
         })
 
         ins_cc_users.forEach(function (u) {
