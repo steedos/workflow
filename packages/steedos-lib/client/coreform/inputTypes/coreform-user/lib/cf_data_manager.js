@@ -45,7 +45,6 @@ function handerOrg(orgs){
         }else{
             node.state.opened = true;
             node.icon = 'fa fa-sitemap';
-            console.log(node);
         }
 
         nodes.push(node);

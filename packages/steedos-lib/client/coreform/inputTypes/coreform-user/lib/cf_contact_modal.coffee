@@ -21,7 +21,6 @@ Template.cf_contact_modal.helpers
 
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
-		console.log("..confirm");
 
 		target = $("#"+template.data.targetId)
 

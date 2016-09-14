@@ -6,7 +6,7 @@ Template.cf_space_user_list.helpers
         else
             orgAndChild = Session.get("cf_orgAndChild");
             query.organization = {$in: orgAndChild};
-        console.log("query is " + JSON.stringify(query));
+        # console.log("query is " + JSON.stringify(query));
         return query;
 
 
