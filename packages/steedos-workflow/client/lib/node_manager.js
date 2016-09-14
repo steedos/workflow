@@ -65,8 +65,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
         req.write(dataArr[i].dataInfo)
         //req.write('\r\n')
     }
-    console.log("dataInfo: " + dataInfo);
-    console.log("content: " + content);
+
     var fileindex = 0;
     var doOneFile = function() {
         req.write(files[fileindex].contentBinary);
@@ -143,6 +142,7 @@ NodeManager.setUploadRequests = function(filePath, filename){
         $(document.body).removeClass('loading');
         $('.loading-text').text("");
         console.log('problem with request:' + e.message);
+        toastr.error(e.message);
     });
 
     NodeManager.uploadAttach(fileDataInfo, files, req);
@@ -166,10 +166,10 @@ NodeManager.getFileSHA1 = function(filePath, filename, callback){
 // 使用edit.vbs打开本地office
 NodeManager.vbsEditFile = function(download_dir, filename){
     var filePath = download_dir + filename;
-
+    // 获取华炎云安装路径
     var homePath = process.cwd() ;
+    
     var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + Meteor.users.findOne().name;
-    console.log(cmd);
 
     Modal.show("attachments_upload_modal",{filePath: filePath});
     
@@ -196,7 +196,7 @@ NodeManager.vbsEditFile = function(download_dir, filename){
     setCos_Signal("editing");
     
     child.on('error',function(error){
-        console.error(error);
+        toastr.error(error);
     });
     child.on('close',function(){
         // 完成编辑
@@ -265,7 +265,7 @@ NodeManager.downloadFile = function(file_url, download_dir, filename){
     dfile.on('error',function(e){
         $(document.body).removeClass('loading');
         $('.loading-text').text("");
-        console.log(e.message);
+        toastr.error(e.message);
     })
 }
 
@@ -312,7 +312,7 @@ NodeManager.editFile = function(file_url, filename){
                 // 新建路径并下载附件到本地
                 fs.mkdir(download_dir,function(err){
                     if (err) {
-                        console.log(err);
+                        toastr.error(err);
                     }else{
                         NodeManager.downloadFile(file_url,download_dir,filename);
                     }
