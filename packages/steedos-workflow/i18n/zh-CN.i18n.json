@@ -11,6 +11,9 @@
     "My Approval":"审核",
     "My Applications":"我的申请单",
     "Submit":"提交",
+    "steedos_desktop": "华炎云",
+
+    "Workflow": "审批王",
 
     "instances": "申请单",
     "instances_name": "标题",
@@ -65,6 +68,8 @@
     "Current Version": "（最新版本）",
     "workflow_attachment_free_size_limit": "抱歉，免费版工作区只能上传1M以内的附件。",
     "workflow_attachment_paid_size_limit": "您上传的附件大小不得超过100M",
+    "workflow_attachment_uploading": "正在上传 ",
+    "workflow_attachment_downloading": "正在下载 ",
     "workflow_attachment_officeOnline": "在线编辑",
     "workflow_attachment_save": "保存",
     "workflow_attachment_close": "关闭",
@@ -105,7 +110,16 @@
     "instance_is_required": "为必填",
     "instance_email_format_error": "邮件地址格式错误",
 
-    "instance_attachments_uploading": "正在上传...",
+    "node_office_edit_online": "在线编辑",
+    "node_office_message": "您正在使用在线编辑功能，编辑完成后请关闭Office软件。",
+    "node_office_warning": "文件已修改，请确认是否保存为新版本？",
+    "node_office_upload": "上传 ",
+    "node_office_confirm": "确定",
+    "node_office_cancel": "取消",
+    "node_office_uploaded": "文件已上传",
+    "node_office_filePath": "文件：",
+    "node_office_exists_message": "文件已存在，是否替换？",
+    "node_office_workflow": "审批王",
 
     "workflow_export_thismonth": "当月",
     "workflow_export_lastmonth": "上月",

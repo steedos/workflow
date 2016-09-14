@@ -7,7 +7,8 @@ Template.instance_attachments.helpers({
         else
             return "display: none;";
         
-    } 
+    }
+    
 })
 
 
@@ -50,7 +51,7 @@ Template.instance_attachment.helpers({
     },
 
     canEdit: function(filename) {
-        if (Steedos.isIE() && Session.get('box')=='inbox' && !Steedos.isMobile() && Steedos.isDocFile(filename))
+        if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box')=='inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename))
             return true;
         return false;
 
@@ -77,6 +78,11 @@ Template.instance_attachment.events({
         var rev = template.data.current._rev;
         var length = template.data.current.length;
         Steedos.androidDownload(url, filename, rev, length);
+    },
+    "click [name='ins_attach_isNode']": function (event, template) {
+        var url = event.target.dataset.downloadurl;
+        var filename = template.data.current.filename;      
+        NodeManager.editFile(url,filename);
     },
     "click [name='ins_attach_edit']": function (event, template) {
         Session.set("attach_id", event.target.id);
@@ -197,7 +203,7 @@ Template.ins_attach_version_modal.events({
         var rev = event.target.dataset.rev;
         var length = event.target.dataset.length;
         Steedos.androidDownload(url, filename, rev, length);
-    }
+    },
 })
 
 Template._file_version_DeleteButton.events({
@@ -295,8 +301,6 @@ Template.ins_attach_edit_modal.events({
         fileObj.size = json_data["size"];
         InstanceManager.addAttach(fileObj, true);
     }
-
-
 
 })
     

@@ -38,7 +38,11 @@
             {{/if}}
             
             {{#if canEdit filename}}
-                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{#if isNode}}
+                    <a href="#" data-downloadurl="{{getUrl current}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{else}}
+                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{_id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                {{/if}}
             {{/if}}
 
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" id="{{_id}}" >{{_ "Versions"}}</a>

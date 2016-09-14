@@ -192,6 +192,9 @@ TemplateHelpers =
             if space
                 return space.admins.includes(Meteor.userId())
 
+    isNode: ()->
+        return process?.__node_webkit
+
     detectIE: ()->
         ua = window.navigator.userAgent
         msie = ua.indexOf('MSIE ')
@@ -229,6 +232,13 @@ TemplateHelpers =
                 return true
             else
                 return false
+        false
+
+    isMac: ()->
+        os = navigator.platform
+        macs = ['Mac68K', 'MacPPC', 'Macintosh', 'MacIntel']
+        if (macs.includes(os))
+            return true
         false
 
     androidDownload: (url, filename, rev, length) ->

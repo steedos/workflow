@@ -76,6 +76,7 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/steedos_util.js', 'client');
     api.addFiles('client/lib/uuflow_api.js', 'client');
     api.addFiles('client/lib/workflow_manager.js', 'client');
+    api.addFiles('client/lib/node_manager.js','client');
 
     //add client file
 	api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
@@ -126,6 +127,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/flow_list_box_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_box_modal.coffee', 'client');
 
+    api.addFiles('client/views/list/attachments_upload_modal.html', 'client');
+    api.addFiles('client/views/list/attachments_upload_modal.coffee', 'client');
+
 
     api.addFiles('client/views/list/flow_list_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_modal.coffee', 'client');
@@ -166,6 +170,7 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/instance_list.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');
     
+
 
     api.addFiles('tabular.coffee');
 
