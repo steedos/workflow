@@ -1,18 +1,12 @@
 Template.cf_space_user_list.helpers 
     selector: (userOptions)->
-        console.log("selector...");
         query = {space: Session.get("spaceId")};
-
         if userOptions != undefined && userOptions != null
             query.user = {$in: userOptions.split(",")};
         else
-            orgId = Session.get("cf_selectOrgId");
-
-            childrens = SteedosDataManager.organizationRemote.find({parents: orgId},{fields:{_id:1}});
-            orgs = childrens.getProperty("_id");
-            orgs.push(orgId);
-
-            query.organization = {$in: orgs};
+            orgAndChild = Session.get("cf_orgAndChild");
+            query.organization = {$in: orgAndChild};
+        console.log("query is " + JSON.stringify(query));
         return query;
 
 

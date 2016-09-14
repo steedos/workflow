@@ -13,6 +13,7 @@ Template.cf_organization_list.onRendered ->
             if data.selected.length
               # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
               Session.set("cf_selectOrgId", data.selected[0]);
+              Session.set("cf_orgAndChild", CFDataManager.getOrgAndChild(Session.get("cf_selectOrgId")));
             return
           ).jstree
                 core: 
@@ -20,6 +21,7 @@ Template.cf_organization_list.onRendered ->
                     data:  (node, cb) ->
                       Session.set("cf_selectOrgId", node.id);
                       cb(CFDataManager.getNode(node));
+                      Session.set("cf_orgAndChild", CFDataManager.getOrgAndChild(Session.get("cf_selectOrgId")));
                           
                 plugins: ["wholerow"]
 

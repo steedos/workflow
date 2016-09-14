@@ -288,6 +288,13 @@ CFDataManager.getFormulaSpaceUser = function(userId){
 
 };
 
+CFDataManager.getOrgAndChild = function(orgId){
+  var childrens = SteedosDataManager.organizationRemote.find({parents: orgId},{fields:{_id:1}});
+  orgs = childrens.getProperty("_id");
+  orgs.push(orgId);
+  return orgs;
+}
+
 
 CFDataManager.getFormulaOrganizations = function(orgIds){
   if(!orgIds)
