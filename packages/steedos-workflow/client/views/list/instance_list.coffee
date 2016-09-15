@@ -18,6 +18,7 @@ Template.instance_list.helpers
         box = Session.get("box") 
         if box == "inbox"
             query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
+            query.state = "pending"
             # query.inbox_users = Meteor.userId()
         else if box == "outbox"
             query.outbox_users = Meteor.userId()
