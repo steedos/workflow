@@ -42,6 +42,12 @@ Template.instance_traces.helpers({
     return false;
   },
 
+  isCC: function(approved){
+    if(approved && approved.type == 'cc')
+      return true;
+    return false;
+  },
+
   getApproveStatusIcon:function(approveJudge){
     //已结束的显示为核准/驳回/取消申请，并显示处理状态图标
     var approveStatusIcon;
