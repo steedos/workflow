@@ -942,8 +942,17 @@ InstanceManager.isInbox = function(){
   var instance = WorkflowManager.getInstance();
   var currentUser = Meteor.userId();
 
-  if(instance && currentUser && instance.inbox_users.includes(currentUser) && Session.get("box") == 'inbox')
-    return true;
+  if(instance && currentUser && instance.inbox_users.includes(currentUser) && Session.get("box") == 'inbox'){
+
+    if(instance.inbox_users && instance.inbox_users.includes(currentUser)){
+      return true;
+    }
+
+    if(instance.cc_users && instance.cc_users.includes(currentUser)){
+      return true;
+    }
+    
+  }
 
   return false;
 }
