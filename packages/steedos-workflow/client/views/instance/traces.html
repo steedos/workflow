@@ -19,7 +19,14 @@
                 </tr>
                     {{#each this.approves}}
                         <tr class="approve-item">
-                            <td class="name">{{this.handler_name}}  {{#if showDeleteButton this}}<a class="btn btn-danger btn-xs">删除</a>{{/if}}</td>
+                            <td class="name">{{this.handler_name}}
+                                {{#if isCC this}}
+                                    <label class='cc-label'>({{_ "instance_cc_title"}})</label> 
+                                    {{#if showDeleteButton this}}
+                                        <a class="btn btn-danger btn-xs">删除</a>
+                                    {{/if}}
+                                {{/if}}
+                            </td>
                             {{#if unempty this.finish_date}}
                             <td class="finish-date">{{dateFormat this.finish_date}}</td>
                             <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
