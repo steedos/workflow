@@ -1,3 +1,12 @@
+Array.prototype.uniq = function(){
+    var a = [];
+    this.forEach(function(b){ 
+        if(a.indexOf(b) < 0)
+            {a[a.length] = b}
+    });
+    return a;
+};
+
 Meteor.methods({
     // ??? 能否传阅给当前步骤处理人 如果当前步骤是会签。
     cc_do: function (approve, cc_user_ids) {
@@ -7,10 +16,12 @@ Meteor.methods({
             var ins_id = approve.instance;
             var trace_id = approve.trace;
             var approve_id = approve.id;
-            var instance = db.instances.findOne(ins_id, {fields: {traces: 1, cc_users: 1}});
+            var instance = db.instances.findOne(ins_id, {fields: {space: 1, traces: 1, cc_users: 1}});
             var ins_cc_users = instance.cc_users ? instance.cc_users : [];
             var traces = instance.traces;
             var current_user_id = this.userId;
+            var space_id = instance.space;
+            console.log('space_id: ' + space_id);
 
             traces.forEach(function(t){
                 if (t._id == trace_id) {
@@ -21,8 +32,10 @@ Meteor.methods({
                     });
                     cc_user_ids.forEach(function (userId) {
                         var user = db.users.findOne(userId, {fields: {name: 1}});
-                        var space_user = db.space_users.find({space: space_id, user: userId}, {fields: {organization: 1}});
-                        var org_id = space_user.fetch()[0].organization;
+                        console.log('userId: ' + userId);
+                        var space_user = db.space_users.findOne({space: space_id, user: userId}, {fields: {organization: 1}});
+                        console.log(space_user);
+                        var org_id = space_user.organization;
                         var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
                         var appr = {
                             '_id' : Meteor.uuid(),
@@ -44,13 +57,13 @@ Meteor.methods({
                             // 'values' :  ???
                             'from_user' : current_user_id
                         };
-                        t.push(appr);
+                        t.approves.push(appr);
                     })
                 }
             })
             
-            setObj.cc_users = ins_cc_users.concat(cc_user_ids);
-            // TODO 去除重复
+            setObj.cc_users = ins_cc_users.concat(cc_user_ids).uniq();
+            
 
             setObj.modified = new Date();
             setObj.modified_by = this.userId;
@@ -156,6 +169,32 @@ Meteor.methods({
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
+        setObj.traces = traces;
+
+        db.instances.update({_id: ins_id}, {$set: setObj}); 
+    },
+
+    cc_save: function (approve) {
+        var setObj = {};
+        var ins_id = approve.instance;
+        var trace_id = approve.trace;
+        var approve_id = approve.id;
+        var instance = db.instances.findOne(ins_id, {fields: {traces: 1}});
+        var traces = instance.traces;
+        var new_approves = [];
+        var ins_cc_users = instance.cc_users;
+        var new_cc_users = [];
+
+        traces.forEach(function(t){
+            if (t._id == trace_id) {
+                t.approves.forEach(function(a){
+                    if (a._id == approve_id && a.type == 'cc') {
+                        a.description = approve.description;
+                    }
+                });
+            }
+        })
+
         setObj.traces = traces;
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 

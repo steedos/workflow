@@ -34,9 +34,28 @@ Template.instance_cc_modal.events({
         }
 
         //调用cc 接口。
-        toastr.success("已传阅");
+        var instance = WorkflowManager.getInstance();
+        var myApprove = InstanceManager.getMyApprove();
+        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+        if(instance.attachments && myApprove) {
+            myApprove.attachments = instance.attachments;
+        }
+        Meteor.call('cc_do', myApprove, val, function (error, result) {
+            WorkflowManager.instanceModified.set(false);
 
-        Modal.hide('instance_cc_modal');
+            if (error) {
+                Modal.hide('instance_cc_modal');
+                toastr.error("已传阅");
+            };
+
+            if (result == true) {
+                toastr.success("已传阅");
+
+                Modal.hide('instance_cc_modal');
+            }
+        });
+
+        
     },
 
 
