@@ -180,6 +180,8 @@ Package.onUse(function(api) {
 
 	// EXPORT
 	api.export('Workflow');
+    api.export('InstanceManager');
+    api.export('WorkflowManager');
 });
 
 Package.onTest(function(api) {

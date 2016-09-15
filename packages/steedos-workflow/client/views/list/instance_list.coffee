@@ -17,7 +17,8 @@ Template.instance_list.helpers
         query = {space: Session.get("spaceId"), flow: Session.get("flowId")}
         box = Session.get("box") 
         if box == "inbox"
-            query.inbox_users = Meteor.userId()
+            query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
+            # query.inbox_users = Meteor.userId()
         else if box == "outbox"
             query.outbox_users = Meteor.userId()
         else if box == "draft"
