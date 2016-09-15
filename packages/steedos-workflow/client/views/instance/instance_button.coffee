@@ -6,6 +6,8 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        if InstanceManager.isInbox()
+            return "";
         if !ApproveManager.isReadOnly()
             return "";
         else
@@ -18,6 +20,9 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        
+        if InstanceManager.isInbox()
+            return "";
 
         if !ApproveManager.isReadOnly()
             return "";

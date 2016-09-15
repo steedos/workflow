@@ -36,6 +36,12 @@ Template.instance_traces.helpers({
     return null;
   },
 
+  showDeleteButton: function(approved){
+    if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
+      return true;
+    return false;
+  },
+
   getApproveStatusIcon:function(approveJudge){
     //已结束的显示为核准/驳回/取消申请，并显示处理状态图标
     var approveStatusIcon;

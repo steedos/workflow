@@ -4,6 +4,11 @@ ApproveManager.error = {nextSteps:'',nextStepUsers:''}
 
 ApproveManager.isReadOnly = function(){
     var ins = WorkflowManager.getInstance();
+
+    if(InstanceManager.isCC(ins)){
+        return true;
+    }
+    
     if(!ins)
         return true;
     // 系统启动时，可能flow还没获取到。
