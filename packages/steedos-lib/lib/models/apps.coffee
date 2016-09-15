@@ -14,6 +14,11 @@ db.apps._simpleSchema = new SimpleSchema
 	url:
 		type: String
 		max: 200
+	on_click: 
+		type: String,
+		optional: true,
+		autoform: 
+			rows: 10,
 	icon:
 		type: String
 		max: 200
