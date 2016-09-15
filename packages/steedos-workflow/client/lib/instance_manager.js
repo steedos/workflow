@@ -938,4 +938,14 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
 }
 
 
+InstanceManager.isInbox = function(){
+  var instance = WorkflowManager.getInstance();
+  var currentUser = Meteor.userId();
+
+  if(instance && currentUser && instance.inbox_users.includes(currentUser) && Session.get("box") == 'inbox')
+    return true;
+
+  return false;
+}
+
 

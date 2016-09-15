@@ -120,6 +120,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/traces.html', 'client');
     api.addFiles('client/views/instance/traces.js', 'client');
 
+    api.addFiles('client/views/instance/cc_modal.html', 'client');
+    api.addFiles('client/views/instance/cc_modal.js', 'client');
+
     api.addFiles('client/views/list/flow_list_box.html', 'client');
     api.addFiles('client/views/list/flow_list_box.coffee', 'client');
     api.addFiles('client/views/list/flow_list_box.less', 'client');
