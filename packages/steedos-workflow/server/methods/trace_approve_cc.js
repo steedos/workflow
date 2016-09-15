@@ -33,7 +33,7 @@ cc_manager.get_badge = function (user_id) {
         
     sk_all = db.steedos_keyvalues.findOne({user: user_id, space: {$exists: false},  key : "badge"})
     if (sk_all) {
-      db.steedos_keyvalues.udpate({_id: sk_all._id}, {$set: {"value.workflow" : badge}})
+      db.steedos_keyvalues.update({_id: sk_all._id}, {$set: {"value.workflow" : badge}})
     }
     else {
       sk_all_new = {}
