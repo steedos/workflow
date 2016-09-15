@@ -52,6 +52,7 @@ Template.instance_cc_modal.events({
                 toastr.success("已传阅");
 
                 Modal.hide('instance_cc_modal');
+                WorkflowManager.callInstanceDataMethod(Session.get('instanceId'), function(){ Session.set("change_date", new Date().getTime()) });
             }
         });
 

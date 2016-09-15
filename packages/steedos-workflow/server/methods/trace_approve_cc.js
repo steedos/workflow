@@ -61,7 +61,6 @@ Meteor.methods({
             var traces = instance.traces;
             var current_user_id = this.userId;
             var space_id = instance.space;
-            console.log('space_id: ' + space_id);
 
             traces.forEach(function(t){
                 if (t._id == trace_id) {
@@ -72,9 +71,7 @@ Meteor.methods({
                     });
                     cc_user_ids.forEach(function (userId) {
                         var user = db.users.findOne(userId, {fields: {name: 1}});
-                        console.log('userId: ' + userId);
                         var space_user = db.space_users.findOne({space: space_id, user: userId}, {fields: {organization: 1}});
-                        console.log(space_user);
                         var org_id = space_user.organization;
                         var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
                         var appr = {
