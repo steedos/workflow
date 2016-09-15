@@ -36,9 +36,15 @@ Template.instance_traces.helpers({
     return null;
   },
 
-  showDeleteButton: function(approved){
-    if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
+  isCC: function(approved){
+    if(approved && approved.type == 'cc')
       return true;
+    return false;
+  },
+
+  showDeleteButton: function(approved){
+    // if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
+    //   return true;
     return false;
   },
 
