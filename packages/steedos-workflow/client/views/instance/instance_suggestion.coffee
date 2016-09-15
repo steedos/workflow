@@ -16,7 +16,7 @@ Template.instance_suggestion.helpers
 
     show_suggestion: ->
 
-        return !ApproveManager.isReadOnly();
+        return !ApproveManager.isReadOnly() || InstanceManager.isInbox();
 
     currentStep: ->
 
@@ -135,6 +135,17 @@ Template.instance_suggestion.helpers
         currentApprove?.judge = Session.get("judge");
 
         return Session.get("judge")
+
+    isCC: ->
+        instance = WorkflowManager.getInstance();
+        currentUser = Meteor.userId();
+
+        if instance?.cc_users?.includes(currentUser)
+          return true;
+
+        return false;
+        
+
 
 Template.instance_suggestion.events
     
