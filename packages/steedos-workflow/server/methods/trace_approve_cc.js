@@ -7,6 +7,45 @@ Array.prototype.uniq = function(){
     return a;
 };
 
+cc_manager = {}
+
+cc_manager.get_badge = function (user_id) {
+    var badge = 0;
+    var user_spaces = db.space_users.find({user: user_id, user_accepted: true}).fetch()
+    user_spaces.each do |user_space|
+      c = Instance.by_space_pending(user_space.space, user_id).count
+      var c = db.instances.find({space: user_space.space, state: 'pending', $or: [{inbox_users: user_id}, {cc_users: user_id}] }).count()
+      badge += c
+
+      sk = db.steedos_keyvalues.findOne({user: user_id, space: user_space.space, key: "badge"})
+      if (sk) {
+        db.steedos_keyvalues.update({_id: sk._id}, {$set: {"value.workflow": c}})
+      }
+      else {
+        sk_new = {}
+        sk_new.user = user_id
+        sk_new.space = user_space.space
+        sk_new.key = "badge"
+        sk_new.value = {"workflow" : c}
+        db.steedos_keyvalues.insert(sk_new)
+      }
+        
+    sk_all = db.steedos_keyvalues.findOne({user: user_id, space: {$exists: false},  key : "badge"})
+    if (sk_all) {
+      db.steedos_keyvalues.udpate({_id: sk_all._id}, {$set: {"value.workflow" : badge}})
+    }
+    else {
+      sk_all_new = {}
+      sk_all_new.user = user_id
+      sk_all_new.space = undefined
+      sk_all_new.key = "badge"
+      sk_all_new.value = {"workflow" : badge}
+      db.steedos_keyvalues.insert(sk_all_new)
+    }
+
+    return badge
+}
+
 Meteor.methods({
     // ??? 能否传阅给当前步骤处理人 如果当前步骤是会签。
     cc_do: function (approve, cc_user_ids) {

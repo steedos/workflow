@@ -640,6 +640,7 @@ InstanceManager.submitIns = function() {
         if (result == true) {
           WorkflowManager.instanceModified.set(false);
           toastr.success(TAPi18n.__('Submitted successfully'));
+          FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
         };
 
 

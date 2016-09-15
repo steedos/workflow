@@ -152,8 +152,8 @@ Template.instance_button.events
             if ins.state=="draft"
                 toastr.error(t("spaces_isarrearageSpace"));
                 return
-        
-        InstanceManager.checkFormValue();
+        if !ApproveManager.isReadOnly()
+            InstanceManager.checkFormValue();
         if($(".has-error").length == 0)
             InstanceManager.submitIns();
             Session.set("instance_change", false);

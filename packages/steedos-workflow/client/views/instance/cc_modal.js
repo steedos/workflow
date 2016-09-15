@@ -45,7 +45,7 @@ Template.instance_cc_modal.events({
 
             if (error) {
                 Modal.hide('instance_cc_modal');
-                toastr.error("已传阅");
+                toastr.error("error");
             };
 
             if (result == true) {
