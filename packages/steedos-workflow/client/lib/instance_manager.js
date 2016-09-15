@@ -548,11 +548,12 @@ InstanceManager.saveIns = function() {
       var description = $("#suggestion").val();
       Meteor.call('cc_save', instance._id, description, function (error, result) {
         if (error) {
-
+          toastr.error(error);
         };
 
         if (result == true) {
           WorkflowManager.instanceModified.set(false);
+          toastr.success(TAPi18n.__('Saved successfully'));
         };
 
 
@@ -633,11 +634,12 @@ InstanceManager.submitIns = function() {
       var description = $("#suggestion").val();
       Meteor.call('cc_submit', instance._id, description, function (error, result) {
         if (error) {
-
+          toastr.error(error);
         };
 
         if (result == true) {
           WorkflowManager.instanceModified.set(false);
+          toastr.success(TAPi18n.__('Submitted successfully'));
         };
 
 

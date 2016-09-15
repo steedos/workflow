@@ -171,6 +171,8 @@ Meteor.methods({
         setObj.traces = traces;
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 
+
+        return true;
     },
 
     cc_save: function (ins_id, description) {
@@ -185,7 +187,7 @@ Meteor.methods({
 
         traces.forEach(function(t){
             t.approves.forEach(function(a){
-                if (a.user == current_user_id && a.type == 'cc') {
+                if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
                     a.description = description;
                 }
             });
@@ -194,6 +196,8 @@ Meteor.methods({
         setObj.traces = traces;
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 
+
+        return true;
     }
 })
 
