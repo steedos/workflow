@@ -544,50 +544,66 @@ InstanceManager.saveIns = function() {
 
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    var state = instance.state;
-    if (state == "draft") {
-      instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
-      if (instance.applicant != selected_applicant) {
-        var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
-        var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+    if (InstanceManager.isCC(instance)) {
+      var description = $("#suggestion").val();
+      Meteor.call('cc_save', instance._id, description, function (error, result) {
+        if (error) {
 
-        instance.applicant = selected_applicant;
-        instance.applicant_name = applicant.name;
-        instance.applicant_organization = org_id;
-        instance.applicant_organization_name = organization.name;
-        instance.applicant_organization_fullname = organization.fullname;
-      }
-      Meteor.call("draft_save_instance", instance, function (error, result) {
-        WorkflowManager.instanceModified.set(false)
+        };
+
         if (result == true) {
-          toastr.success(TAPi18n.__('Saved successfully'));
-        }
-        else if (result == "upgraded") {
-          toastr.info(TAPi18n.__('Flow upgraded'));
-          FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
-        }
-        else {
-          toastr.error(error);
-        }
-          
+          WorkflowManager.instanceModified.set(false);
+        };
+
+
       });
-    } else if (state == "pending") {
-      var myApprove = InstanceManager.getMyApprove();
-      myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
+    } else {
+      var state = instance.state;
+      if (state == "draft") {
+        instance.traces[0].approves[0] = InstanceManager.getMyApprove();
+        var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
+        if (instance.applicant != selected_applicant) {
+          var space_id = instance.space;
+          var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+          var org_id = applicant.organization;
+          var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+
+          instance.applicant = selected_applicant;
+          instance.applicant_name = applicant.name;
+          instance.applicant_organization = org_id;
+          instance.applicant_organization_name = organization.name;
+          instance.applicant_organization_fullname = organization.fullname;
+        }
+        Meteor.call("draft_save_instance", instance, function (error, result) {
+          WorkflowManager.instanceModified.set(false)
+          if (result == true) {
+            toastr.success(TAPi18n.__('Saved successfully'));
+          }
+          else if (result == "upgraded") {
+            toastr.info(TAPi18n.__('Flow upgraded'));
+            FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+          }
+          else {
+            toastr.error(error);
+          }
+            
+        });
+      } else if (state == "pending") {
+        var myApprove = InstanceManager.getMyApprove();
+        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+        if(instance.attachments && myApprove) {
+            myApprove.attachments = instance.attachments;
+        }
+        Meteor.call("inbox_save_instance", myApprove, function (error, result) {
+          WorkflowManager.instanceModified.set(false)
+          if (result == true)
+            toastr.success(TAPi18n.__('Saved successfully'));
+          else 
+            toastr.error(error);
+        });
       }
-      Meteor.call("inbox_save_instance", myApprove, function (error, result) {
-        WorkflowManager.instanceModified.set(false)
-        if (result == true)
-          toastr.success(TAPi18n.__('Saved successfully'));
-        else 
-          toastr.error(error);
-      });
     }
+      
   }
 }
 
@@ -613,35 +629,53 @@ InstanceManager.deleteIns = function() {
 InstanceManager.submitIns = function() {
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    InstanceManager.resetId(instance);
-    var state = instance.state;
-    if (state=="draft") {
+    if (InstanceManager.isCC(instance)) {
+      var description = $("#suggestion").val();
+      Meteor.call('cc_submit', instance._id, description, function (error, result) {
+        if (error) {
 
-      var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
-      if (instance.applicant != selected_applicant) {
-        var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
-        var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+        };
 
-        instance.applicant = selected_applicant;
-        instance.applicant_name = applicant.name;
-        instance.applicant_organization = org_id;
-        instance.applicant_organization_name = organization.name;
-        instance.applicant_organization_fullname = organization.fullname;
+        if (result == true) {
+          WorkflowManager.instanceModified.set(false);
+        };
+
+
+      });
+
+
+
+    } else {
+      InstanceManager.resetId(instance);
+      var state = instance.state;
+      if (state=="draft") {
+
+        var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
+        if (instance.applicant != selected_applicant) {
+          var space_id = instance.space;
+          var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+          var org_id = applicant.organization;
+          var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+
+          instance.applicant = selected_applicant;
+          instance.applicant_name = applicant.name;
+          instance.applicant_organization = org_id;
+          instance.applicant_organization_name = organization.name;
+          instance.applicant_organization_fullname = organization.fullname;
+        }
+        
+        instance.traces[0].approves[0] = InstanceManager.getMyApprove();
+        UUflow_api.post_submit(instance);
+      } else if (state=="pending") {
+        var myApprove = InstanceManager.getMyApprove();
+        if(instance.attachments && myApprove) {
+            myApprove.attachments = instance.attachments;
+        }
+        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+        UUflow_api.post_engine(myApprove);
       }
-      
-      instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      UUflow_api.post_submit(instance);
-    } else if (state=="pending") {
-      var myApprove = InstanceManager.getMyApprove();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
-      }
-      myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      UUflow_api.post_engine(myApprove);
     }
-      
+
   }
 }
 

@@ -101,11 +101,9 @@ Meteor.methods({
         return true;
     },
 
-    cc_finished: function (approve) {
+    cc_submit: function (ins_id, description) {
         var setObj = {};
-        var ins_id = approve.instance;
-        var trace_id = approve.trace;
-        var approve_id = approve.id;
+
         var instance = db.instances.findOne(ins_id, {fields: {traces: 1, cc_users: 1}});
         var traces = instance.traces;
         var ins_cc_users = instance.cc_users;
@@ -114,9 +112,10 @@ Meteor.methods({
 
         traces.forEach(function(t){
             t.approves.forEach(function(a){
-                if (a.type == 'cc' && a.user == current_user_id) {
+                if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
                     a.is_finished = true;
                     a.finish_date = new Date();
+                    a.description = description;
                 }
             });
         })
@@ -174,25 +173,22 @@ Meteor.methods({
         db.instances.update({_id: ins_id}, {$set: setObj}); 
     },
 
-    cc_save: function (approve) {
+    cc_save: function (ins_id, description) {
         var setObj = {};
-        var ins_id = approve.instance;
-        var trace_id = approve.trace;
-        var approve_id = approve.id;
+
         var instance = db.instances.findOne(ins_id, {fields: {traces: 1}});
         var traces = instance.traces;
         var new_approves = [];
         var ins_cc_users = instance.cc_users;
         var new_cc_users = [];
+        var current_user_id = this.userId;
 
         traces.forEach(function(t){
-            if (t._id == trace_id) {
-                t.approves.forEach(function(a){
-                    if (a._id == approve_id && a.type == 'cc') {
-                        a.description = approve.description;
-                    }
-                });
-            }
+            t.approves.forEach(function(a){
+                if (a.user == current_user_id && a.type == 'cc') {
+                    a.description = description;
+                }
+            });
         })
 
         setObj.traces = traces;
