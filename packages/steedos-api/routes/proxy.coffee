@@ -88,8 +88,6 @@ Meteor.startup ->
 
     JsonRoutes.add 'get', '/api/proxy/', (req, res, next) ->
 
-        console.log req
-
         unless req.query and req.query.fetch
             ProxyJS.sendInvalidURLResponse res
 
