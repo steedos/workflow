@@ -12,8 +12,7 @@ cc_manager = {}
 cc_manager.get_badge = function (user_id) {
     var badge = 0;
     var user_spaces = db.space_users.find({user: user_id, user_accepted: true}).fetch()
-    user_spaces.each do |user_space|
-      c = Instance.by_space_pending(user_space.space, user_id).count
+    user_spaces.forEach(function (user_space) {
       var c = db.instances.find({space: user_space.space, state: 'pending', $or: [{inbox_users: user_id}, {cc_users: user_id}] }).count()
       badge += c
 
@@ -29,6 +28,8 @@ cc_manager.get_badge = function (user_id) {
         sk_new.value = {"workflow" : c}
         db.steedos_keyvalues.insert(sk_new)
       }
+    })
+      
         
     sk_all = db.steedos_keyvalues.findOne({user: user_id, space: {$exists: false},  key : "badge"})
     if (sk_all) {
@@ -109,6 +110,11 @@ Meteor.methods({
             setObj.traces = traces;
 
             db.instances.update({_id: ins_id}, {$set: setObj}); 
+
+            cc_user_ids.forEach(function (userId) {
+              cc_manager.get_badge(userId);
+            });
+            
         }
 
         return true;
@@ -172,6 +178,7 @@ Meteor.methods({
         setObj.traces = traces;
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 
+        cc_manager.get_badge(current_user_id);
         return true;
     },
 
@@ -210,7 +217,7 @@ Meteor.methods({
         setObj.traces = traces;
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 
-
+        cc_manager.get_badge(remove_user_id);
         return true;
     },
 
