@@ -23,6 +23,9 @@ Template.instance_suggestion.helpers
         return InstanceManager.getCurrentStep();
 
     currentApprove: ->
+        instance = WorkflowManager.getInstance();
+        if InstanceManager.isCC(instance)
+            return InstanceManager.getCCApprove(Meteor.userId(), false);
         return InstanceManager.getCurrentApprove();
 
     next_step_multiple: ->

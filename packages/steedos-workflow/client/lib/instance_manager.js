@@ -1017,3 +1017,22 @@ InstanceManager.isCC = function(instance){
 
   return false;
 }
+
+InstanceManager.getCCApprove = function(userId, is_finished){
+  
+  var instance = WorkflowManager.getInstance();
+  
+  var traces = instance.traces;
+
+  var rev = {};
+
+  traces.forEach(function(t){
+      t.approves.forEach(function(approve){
+          if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+             rev = approve
+          }
+      });
+  })
+
+  return rev;
+}
