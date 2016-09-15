@@ -138,12 +138,7 @@ Template.instance_suggestion.helpers
 
     isCC: ->
         instance = WorkflowManager.getInstance();
-        currentUser = Meteor.userId();
-
-        if instance?.cc_users?.includes(currentUser)
-          return true;
-
-        return false;
+        return InstanceManager.isCC(instance);
         
 
 
