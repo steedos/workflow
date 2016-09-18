@@ -144,9 +144,10 @@ Meteor.methods({
     cc_submit: function (ins_id, description) {
         var setObj = {};
 
-        var instance = db.instances.findOne(ins_id, {fields: {traces: 1, cc_users: 1}});
+        var instance = db.instances.findOne(ins_id, {fields: {traces: 1, cc_users: 1, outbox_users: 1}});
         var traces = instance.traces;
         var ins_cc_users = instance.cc_users;
+        var outbox_users = instance.outbox_users ? instance.outbox_users : [];
         var new_cc_users = [];
         var current_user_id = this.userId;
 
@@ -171,6 +172,9 @@ Meteor.methods({
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
         setObj.traces = traces;
+
+        outbox_users.push(current_user_id);
+        setObj.outbox_users = outbox_users.uniq();
 
         db.instances.update({_id: ins_id}, {$set: setObj}); 
         cc_manager.get_badge(current_user_id);
