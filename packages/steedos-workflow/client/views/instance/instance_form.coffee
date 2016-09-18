@@ -82,6 +82,71 @@ Template.instanceform.helpers
     #    
     #    instance = WorkflowManager.getInstance();
     #    return instance.attachments;
+    isTableView: ->
+        return true;
+
+    table_fields: ->
+        form_version = WorkflowManager.getInstanceFormVersion();
+        if form_version
+            fields = _.clone(form_version.fields);
+
+            fields.forEach (field, index) ->
+
+                pre_fields = fields.slice(0, index);
+
+                pre_wide_fields = pre_fields.filterProperty("is_wide", true);
+
+                tr_start = "";
+
+                tr_end = "";
+
+                if index == 0
+                    tr_start = "<tr>";
+                else 
+                    if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
+                        tr_start = "<tr>";
+
+                field.tr_start = tr_start;
+
+
+                if index + 1 == fields.length || field.type == 'section' || field.type == 'table' || field.is_wide
+                    tr_end = "</tr>";
+
+                if (pre_fields.length + pre_wide_fields.length) % 2 != 0
+                    tr_end = "</tr>";
+
+                field.tr_end = tr_end;
+
+                before_field = null; 
+                after_field = null;
+
+                if index > 0
+                    before_field = fields[index - 1]
+
+                if index < fields.length - 1
+                    after_field = fields[index + 1]
+
+                # 如果当前字段是分组、表格、宽字段
+                if field.type == 'section' || field.type == 'table'
+                    td_colspan = 4;
+                else if field.is_wide
+                    td_colspan = 3;
+                else
+                    # 前后都是宽字段
+                    if before_field && after_field && before_field.is_wide && after_field.is_wide
+                        td_colspan = 3;
+
+                    # 当前是tr 下的 第一个td & 后边的字段是宽字段
+                    if (pre_fields.length + pre_wide_fields.length) % 2 == 0 && after_field && after_field.is_wide
+                        td_colspan = 3;
+
+                    # 当前是tr 下的 第一个td & 当前字段是最后一个字段
+                    if (pre_fields.length + pre_wide_fields.length) % 2 == 0 && after_field == null
+                        td_colspan = 3;
+
+                field.td_colspan = td_colspan;
+            # console.log(fields)
+            return fields;
 
 Template.instanceform.onRendered ->
     t = this;

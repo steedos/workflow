@@ -12,19 +12,45 @@
             </div>
             <div class="box-body">
                 {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
-                    {{#each steedos_form.fields}}
-                        
-                        {{#if includes this.type 'section,table'}}
-                            <div class="col-md-12">
-                                {{> afFormGroup name=this.code label=false}}
-                            </div>
-                        {{else}}
-                            <div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-                            {{> afFormGroup name=this.code}}
-                            </div>
-                        {{/if}}
-                        
-                    {{/each}}
+                    {{#if isTableView}}
+                        <div class="col-md-12">
+                            <table class="instanceform-table">
+                                {{#each table_fields}}
+                                    {{#if includes this.type 'section,table'}}
+                                        {{{tr_start}}}
+                                            <td colspan = '{{td_colspan}}'>
+                                               {{> afFormGroup name=this.code label=false}}
+                                            </td>
+                                        {{{tr_end}}}
+                                    {{else}}
+                                        {{{tr_start}}}
+                                            <td class="title">
+                                                {{afFieldLabelText name=this.code}}
+                                            </td>
+                                            <td class="field" colspan = '{{td_colspan}}'>
+                                                {{> afFormGroup name=this.code label=false}}
+                                            </td>
+                                        {{{tr_end}}}
+                                    {{/if}}
+                                    
+                                {{/each}}
+                            </table>
+                        </div>
+                    {{else}}
+                        {{#each steedos_form.fields}}
+                            
+                            {{#if includes this.type 'section,table'}}
+                                <div class="col-md-12">
+                                    {{> afFormGroup name=this.code label=false}}
+                                </div>
+                            {{else}}
+                                <div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
+                                {{> afFormGroup name=this.code}}
+                                </div>
+                            {{/if}}
+                            
+                        {{/each}}
+                    {{/if}}
                 {{/autoForm}}
             </div>
 
