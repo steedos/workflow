@@ -23,7 +23,7 @@
                                 {{#if isCC this}}
                                     <label class='cc-label'>({{_ "instance_cc_title"}})</label> 
                                     {{#if showDeleteButton this}}
-                                        <a class="btn btn-danger btn-xs">删除</a>
+                                        <a href="#" class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="fa fa-times" aria-hidden="true" data-approve="{{_id}}"></i></a>
                                     {{/if}}
                                 {{/if}}
                             </td>
