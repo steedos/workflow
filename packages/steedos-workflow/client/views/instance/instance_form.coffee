@@ -100,23 +100,7 @@ Template.instanceform.helpers
 
                 tr_end = "";
 
-                if index == 0
-                    tr_start = "<tr>";
-                else 
-                    if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
-                        tr_start = "<tr>";
-
-                field.tr_start = tr_start;
-
-
-                if index + 1 == fields.length || field.type == 'section' || field.type == 'table' || field.is_wide
-                    tr_end = "</tr>";
-
-                if (pre_fields.length + pre_wide_fields.length) % 2 != 0
-                    tr_end = "</tr>";
-
-                field.tr_end = tr_end;
-
+                # 先计算当前字段是否为宽字段
                 before_field = null; 
                 after_field = null;
 
@@ -134,18 +118,42 @@ Template.instanceform.helpers
                 else
                     # 前后都是宽字段
                     if before_field && after_field && before_field.is_wide && after_field.is_wide
+                        field.is_wide = true;
                         td_colspan = 3;
 
                     # 当前是tr 下的 第一个td & 后边的字段是宽字段
                     if (pre_fields.length + pre_wide_fields.length) % 2 == 0 && after_field && after_field.is_wide
+                        field.is_wide = true;
                         td_colspan = 3;
 
                     # 当前是tr 下的 第一个td & 当前字段是最后一个字段
                     if (pre_fields.length + pre_wide_fields.length) % 2 == 0 && after_field == null
+                        field.is_wide = true;
                         td_colspan = 3;
 
                 field.td_colspan = td_colspan;
-            # console.log(fields)
+
+
+                if index == 0
+                    # tr_start = "<tr>"; 由于Template的编译bug，导致每次给一个tr开始时，会自动补头或补尾。因此在第一行返回一个空字符串.
+                    tr_start = "";
+                else 
+                    if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
+                        tr_start = "<tr>";
+
+                field.tr_start = tr_start;
+
+
+                if index + 1 == fields.length || field.type == 'section' || field.type == 'table' || field.is_wide
+                    tr_end = "</tr>";
+
+                if (pre_fields.length + pre_wide_fields.length) % 2 != 0
+                    tr_end = "</tr>";
+
+                field.tr_end = tr_end;
+
+
+            console.log(fields)
             return fields;
 
 Template.instanceform.onRendered ->

@@ -294,16 +294,54 @@ textarea {
   border-collapse: collapse;
   border: 2px solid #000;
 
-  .title{
+  .td-title{
     width: 14%;
+    text-align: center;
+    border: solid 1px #000;
+    padding: 4px;
+    vertical-align: middle;
   }
 
-  .field{
+  .td-field{
     width: 36%;
+    text-align: left;
+    border: solid 1px #000;
+    padding: 4px;
+    vertical-align: middle;
   }
-}
 
-.instanceform-table td {
-  border: solid 1px #000;
-  padding: 15px;
+  textarea, input{
+    border-width: 0px;
+    border-bottom-width: 1px;
+  }
+
+  .form-group{
+    margin-bottom: 0px;
+  }
+
+  .help-block{
+    display: none;
+  }
+
+  .steedos-table{
+    border: 0px;
+
+    table, th, td{
+      border: solid 1px #000;
+    }
+
+    table{
+      border-left:none;
+      border-right:none;
+    }
+
+    th:first-child, td:first-child{
+      border-left: 0px !important;
+    }
+
+    th:last-child, td:last-child{
+      border-right: 0px !important;
+    }
+
+  }
 }
