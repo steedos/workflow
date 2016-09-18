@@ -25,7 +25,7 @@
                                     {{else}}
                                         {{{tr_start}}}
                                             <td class="td-title">
-                                                {{afFieldLabelText name=this.code}}
+                                                {{afFieldLabelText name=this.code}} {{#if is_required}}<label style="color:red;margin-left:2px;">*</label>{{/if}}
                                             </td>
                                             <td class="td-field" colspan = '{{td_colspan}}'>
                                                 {{> afFormGroup name=this.code label=false}}
