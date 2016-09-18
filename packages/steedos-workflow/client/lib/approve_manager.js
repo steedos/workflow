@@ -163,6 +163,9 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                         'applicantId': applicantId
                     };
                     nextStepUsers = UUflow_api.caculate_nextstep_users('applicantSuperior', Session.get('spaceId'), data);
+                    if(!nextStepUsers || nextStepUsers.length == 0){
+                         ApproveManager.error.nextStepUsers = '申请人上级未指定';
+                    }
                     break;
                 case 'applicant': //申请人
                     var data = 
