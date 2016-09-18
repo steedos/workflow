@@ -18,6 +18,8 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
     nextStepUsers = []
   ;
 
+  // console.log("deal_type is " + deal_type);
+
   switch (deal_type) {
     case 'specifyUser':
       var specifyUserIds = body.specifyUserIds;
@@ -35,7 +37,9 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
     case 'applicantSuperior':
       var applicantId = body.applicantId;
       var applicant = WorkflowManager.getUser(spaceId, applicantId);
-      nextStepUsers = WorkflowManager.getUsers(spaceId, applicant.manager);
+      if(applicant.manager){
+        nextStepUsers = WorkflowManager.getUsers(spaceId, applicant.manager);
+      }
       break;
     case 'applicant':
       var applicantId = body.applicantId;
@@ -113,6 +117,8 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function (req, res, next) 
   }
 
   var result = [];
+
+  // console.log(nextStepUsers);
 
   nextStepUsers.forEach(function (su) {
     var o = {
