@@ -33,13 +33,23 @@ Template.instance_cc_modal.events({
             return;
         }
 
+        InstanceManager.saveIns();
+
         //调用cc 接口。
         var instance = WorkflowManager.getInstance();
-        var myApprove = InstanceManager.getMyApprove();
-        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-        if(instance.attachments && myApprove) {
-            myApprove.attachments = instance.attachments;
+        var myApprove ;
+
+        if (InstanceManager.isCC(instance)) {
+            myApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
+        } 
+        else {
+            myApprove = InstanceManager.getMyApprove();
+            myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+            if(instance.attachments && myApprove) {
+                myApprove.attachments = instance.attachments;
+            }
         }
+
         Meteor.call('cc_do', myApprove, val, function (error, result) {
             WorkflowManager.instanceModified.set(false);
 
