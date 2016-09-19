@@ -90,6 +90,10 @@ Template.instanceformTalbe.helpers
             fields = _.clone(form_version.fields);
 
             fields.forEach (field, index) ->
+
+                if field.formula
+                    field.permission = "readonly";
+
                 if Steedos.isMobile()
                     field.td_colspan = 3;
                     if index != 0 
