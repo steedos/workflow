@@ -1,0 +1,45 @@
+<template name="instanceformTalbe">
+
+        <div class="instance-form instanceform-table box {{instance_box_style}}">
+            <div class="box-header  with-border">
+                <h3 class="box-title">{{instance.name}}</h3>
+                <span class="help-block"></span>
+            </div>
+            <div class="box-body">
+                {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
+                    <div class="col-md-12">
+                        <table class="form-table">
+                            {{#each table_fields}}
+                                {{#if includes this.type 'section,table'}}
+                                    {{{tr_start}}}
+                                        <td class="td-childfield" colspan = '{{td_colspan}}'>
+                                           {{> afFormGroup name=this.code label=false}}
+                                        </td>
+                                    {{{tr_end}}}
+                                {{else}}
+                                    {{{tr_start}}}
+                                        <td class="td-title">
+                                            {{afFieldLabelText name=this.code}} {{#if is_required}}<label style="color:red;margin-left:2px;">*</label>{{/if}}
+                                        </td>
+                                        <td class="td-field" colspan = '{{td_colspan}}'>
+                                            {{> afFormGroup name=this.code label=false}}
+                                        </td>
+                                    {{{tr_end}}}
+                                {{/if}}
+                                
+                            {{/each}}
+                        </table>
+
+                        <div class="applicant-wrapper">
+                            <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
+                            {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+                        </div>
+                    </div>
+                {{/autoForm}}
+            </div>
+
+        </div>
+
+</template>
+
+

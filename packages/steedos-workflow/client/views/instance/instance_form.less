@@ -290,87 +290,132 @@ textarea {
 }
 
 .instanceform-table{
-  width: 100%; 
-  border-collapse: collapse;
-  border: 2px solid #000;
 
-  .td-title{
-    width: 14%;
+  .box-header{
     text-align: center;
-    border: solid 1px #000;
-    padding: 4px;
-    vertical-align: middle;
+    font-weight: bolder;
   }
-
-  .td-field{
-    width: 36%;
-    text-align: left;
-    border: solid 1px #000;
-    padding-bottom: 1px;
-    vertical-align: middle;
-  }
-
-  .td-childfield{
-    border-right: solid 2px #000;
-  }
-
-  select,textarea, input{
-    border-width: 0px;
-    border-bottom-width: 1px;
-    border-bottom-color: #ffffff;
-  }
-
-  .form-group{
-    margin-bottom: 0px;
-    .callout{
-      margin:0;
+  .applicant-wrapper{
+    float:right;
+    margin:8px 0px;
+    .form-control.ins_applicant{
+      padding:4px;
+      width:120px;
+      display:inline;
+      background:transparent !important;
+      border:none;
+      border-bottom:solid 1px #d2d6de;
     }
-
-    .steedos-table{
-      margin-bottom:0px;
-      .table-bordered{
-        border-bottom:none;
-        tr:last-child{
-          th{
-            border-bottom:none;
-          }
-          td{
-            border-bottom:none;
-          }
-        }
-      }
-    }
-  }
-
-  .af-radio-group{
-    padding-left: 12px;
   }
 
   .help-block{
     display: none;
   }
 
-  .steedos-table{
-    border: 0px;
+  .form-table{
+    width: 100%; 
+    border-collapse: collapse;
+    border: 2px solid #d2d6de;
 
-    table, th, td{
-      border: solid 1px #000;
+    .td-title{
+      width: 14%;
+      text-align: center;
+      border: solid 1px #d2d6de;
+      padding: 4px;
+      vertical-align: middle;
     }
 
-    table{
-      border-left:none;
-      border-right:none;
+    .td-field{
+      width: 36%;
+      text-align: left;
+      border: solid 1px #d2d6de;
+      vertical-align: middle;
     }
 
-    th:first-child, td:first-child{
-      border-left: 0px !important;
+    .td-childfield{
+      border-right: solid 2px #d2d6de;
     }
 
-    th:last-child, td:last-child{
-      border-right: 0px !important;
+    select,textarea, input{
+      border-width: 0px;
+      border-bottom-width: 1px;
+      border-bottom-color: #ffffff;
+      &:disabled{
+        border-bottom:none;
+      }
     }
 
+    .form-group{
+      margin-bottom: 0px;
+      .callout{
+        margin: 0px;
+        padding: 4px;
+        border-radius: 0px;
+        border-left: none;
+        h4{
+          margin: 0px;
+          padding: 0px;
+          height: 26px;
+          line-height: 26px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
 
+      .steedos-table{
+        margin-bottom:0px;
+        .panel-heading{
+          padding:4px;
+          .pull-right{
+            height: 26px;
+            line-height: 26px;
+          }
+          .control-label{
+            margin-bottom:0px;
+            height: 26px;
+            line-height: 26px;
+          }
+        }
+        .table-bordered{
+          border-bottom:none;
+          tr:last-child{
+            th{
+              border-bottom:none;
+            }
+            td{
+              border-bottom:none;
+            }
+          }
+        }
+      }
+    }
 
+    .af-radio-group,.af-checkbox-group,.checkbox{
+      padding-left: 12px;
+    }
+
+    
+
+    .steedos-table{
+      border: 0px;
+
+      table, th, td{
+        border: solid 1px #d2d6de;
+      }
+
+      table{
+        border-left:none;
+        border-right:none;
+      }
+
+      th:first-child, td:first-child{
+        border-left: 0px !important;
+      }
+
+      th:last-child, td:last-child{
+        border-right: 0px !important;
+      }
+    }
   }
 }
+

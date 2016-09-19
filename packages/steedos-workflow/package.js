@@ -107,6 +107,8 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/instance_form.html', 'client');
     api.addFiles('client/views/instance/instance_form.coffee', 'client');
     api.addFiles('client/views/instance/instance_form.less', 'client');
+    api.addFiles('client/views/instance/instance_form_table.html', 'client');
+    api.addFiles('client/views/instance/instance_form_table.coffee', 'client');
 
     api.addFiles('client/views/instance/instance_suggestion.html', 'client');
     api.addFiles('client/views/instance/instance_suggestion.coffee', 'client');
