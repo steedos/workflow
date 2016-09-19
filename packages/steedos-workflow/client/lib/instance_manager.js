@@ -440,21 +440,32 @@ InstanceManager.getCurrentStep = function(){
 InstanceManager.getCurrentValues = function(){
   var box = Session.get("box"),
       instanceValue;
-  if (box == "draft") {
-      approve = InstanceManager.getCurrentApprove();
-      if (approve && approve.values)
-        return approve.values
-  } else if (box == "inbox") {
-      approve = InstanceManager.getCurrentApprove();
-      if (approve && approve.values) {
-        if (_.isEmpty(approve.values))
-          approve.values = InstanceManager.clone(WorkflowManager.getInstance().values)
-        return approve.values
-      }
-  } else if (box == "outbox" || box == "pending" || box == "completed" || box == "monitor") {
-      var instance = WorkflowManager.getInstance();
-      instanceValue = instance.values;
+  
+  var instance = WorkflowManager.getInstance();
+
+  if(InstanceManager.isCC(instance)){
+    
+    instanceValue = instance.values;
+
+  }else{
+
+    if (box == "draft") {
+        approve = InstanceManager.getCurrentApprove();
+        if (approve && approve.values)
+          return approve.values
+    } else if (box == "inbox") {
+        approve = InstanceManager.getCurrentApprove();
+        if (approve && approve.values) {
+          if (_.isEmpty(approve.values))
+            approve.values = InstanceManager.clone(WorkflowManager.getInstance().values)
+          return approve.values
+        }
+    } else if (box == "outbox" || box == "pending" || box == "completed" || box == "monitor") {
+        
+        instanceValue = instance.values;
+    }
   }
+
   return instanceValue;
 }
 
@@ -533,50 +544,67 @@ InstanceManager.saveIns = function() {
 
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    var state = instance.state;
-    if (state == "draft") {
-      instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
-      if (instance.applicant != selected_applicant) {
-        var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
-        var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+    if (InstanceManager.isCC(instance)) {
+      var description = $("#suggestion").val();
+      Meteor.call('cc_save', instance._id, description, function (error, result) {
+        if (error) {
+          toastr.error(error);
+        };
 
-        instance.applicant = selected_applicant;
-        instance.applicant_name = applicant.name;
-        instance.applicant_organization = org_id;
-        instance.applicant_organization_name = organization.name;
-        instance.applicant_organization_fullname = organization.fullname;
-      }
-      Meteor.call("draft_save_instance", instance, function (error, result) {
-        WorkflowManager.instanceModified.set(false)
         if (result == true) {
+          WorkflowManager.instanceModified.set(false);
           toastr.success(TAPi18n.__('Saved successfully'));
-        }
-        else if (result == "upgraded") {
-          toastr.info(TAPi18n.__('Flow upgraded'));
-          FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
-        }
-        else {
-          toastr.error(error);
-        }
-          
+        };
+
+
       });
-    } else if (state == "pending") {
-      var myApprove = InstanceManager.getMyApprove();
-      myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
+    } else {
+      var state = instance.state;
+      if (state == "draft") {
+        instance.traces[0].approves[0] = InstanceManager.getMyApprove();
+        var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
+        if (instance.applicant != selected_applicant) {
+          var space_id = instance.space;
+          var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+          var org_id = applicant.organization;
+          var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+
+          instance.applicant = selected_applicant;
+          instance.applicant_name = applicant.name;
+          instance.applicant_organization = org_id;
+          instance.applicant_organization_name = organization.name;
+          instance.applicant_organization_fullname = organization.fullname;
+        }
+        Meteor.call("draft_save_instance", instance, function (error, result) {
+          WorkflowManager.instanceModified.set(false)
+          if (result == true) {
+            toastr.success(TAPi18n.__('Saved successfully'));
+          }
+          else if (result == "upgraded") {
+            toastr.info(TAPi18n.__('Flow upgraded'));
+            FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+          }
+          else {
+            toastr.error(error);
+          }
+            
+        });
+      } else if (state == "pending") {
+        var myApprove = InstanceManager.getMyApprove();
+        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+        if(instance.attachments && myApprove) {
+            myApprove.attachments = instance.attachments;
+        }
+        Meteor.call("inbox_save_instance", myApprove, function (error, result) {
+          WorkflowManager.instanceModified.set(false)
+          if (result == true)
+            toastr.success(TAPi18n.__('Saved successfully'));
+          else 
+            toastr.error(error);
+        });
       }
-      Meteor.call("inbox_save_instance", myApprove, function (error, result) {
-        WorkflowManager.instanceModified.set(false)
-        if (result == true)
-          toastr.success(TAPi18n.__('Saved successfully'));
-        else 
-          toastr.error(error);
-      });
     }
+      
   }
 }
 
@@ -602,35 +630,55 @@ InstanceManager.deleteIns = function() {
 InstanceManager.submitIns = function() {
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    InstanceManager.resetId(instance);
-    var state = instance.state;
-    if (state=="draft") {
+    if (InstanceManager.isCC(instance)) {
+      var description = $("#suggestion").val();
+      Meteor.call('cc_submit', instance._id, description, function (error, result) {
+        if (error) {
+          toastr.error(error);
+        };
 
-      var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
-      if (instance.applicant != selected_applicant) {
-        var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
-        var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+        if (result == true) {
+          WorkflowManager.instanceModified.set(false);
+          toastr.success(TAPi18n.__('Submitted successfully'));
+          FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+        };
 
-        instance.applicant = selected_applicant;
-        instance.applicant_name = applicant.name;
-        instance.applicant_organization = org_id;
-        instance.applicant_organization_name = organization.name;
-        instance.applicant_organization_fullname = organization.fullname;
+
+      });
+
+
+
+    } else {
+      InstanceManager.resetId(instance);
+      var state = instance.state;
+      if (state=="draft") {
+
+        var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
+        if (instance.applicant != selected_applicant) {
+          var space_id = instance.space;
+          var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+          var org_id = applicant.organization;
+          var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+
+          instance.applicant = selected_applicant;
+          instance.applicant_name = applicant.name;
+          instance.applicant_organization = org_id;
+          instance.applicant_organization_name = organization.name;
+          instance.applicant_organization_fullname = organization.fullname;
+        }
+        
+        instance.traces[0].approves[0] = InstanceManager.getMyApprove();
+        UUflow_api.post_submit(instance);
+      } else if (state=="pending") {
+        var myApprove = InstanceManager.getMyApprove();
+        if(instance.attachments && myApprove) {
+            myApprove.attachments = instance.attachments;
+        }
+        myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+        UUflow_api.post_engine(myApprove);
       }
-      
-      instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      UUflow_api.post_submit(instance);
-    } else if (state=="pending") {
-      var myApprove = InstanceManager.getMyApprove();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
-      }
-      myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      UUflow_api.post_engine(myApprove);
     }
-      
+
   }
 }
 
@@ -938,4 +986,54 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
 }
 
 
+InstanceManager.isInbox = function(){
+  var instance = WorkflowManager.getInstance();
+  var currentUser = Meteor.userId();
 
+  if(instance && currentUser && Session.get("box") == 'inbox'){
+
+    if(instance.inbox_users && instance.inbox_users.includes(currentUser)){
+      return true;
+    }
+
+    if(InstanceManager.isCC(instance)){
+      return true;
+    }
+    
+  }
+
+  return false;
+}
+
+InstanceManager.isCC = function(instance){
+  var currentUser = Meteor.userId();
+  var approve = InstanceManager.getCurrentApprove();
+
+  if(approve && approve.type != "cc"){
+    return false;
+  }
+
+  if(instance.cc_users && instance.cc_users.includes(currentUser))
+    return true;
+
+  return false;
+}
+
+InstanceManager.getCCApprove = function(userId, is_finished){
+  
+  var instance = WorkflowManager.getInstance();
+  
+  var traces = instance.traces;
+
+  var rev = {};
+
+  traces.forEach(function(t){
+      t.approves.forEach(function(approve){
+          if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+             rev = approve
+          }
+      });
+  })
+
+  return rev;
+}

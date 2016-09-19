@@ -2,6 +2,13 @@
 Template.instance_attachments.helpers({
     
     enabled_add_attachment: function() {
+        var ins = WorkflowManager.getInstance();
+        if (!ins)
+            return false;
+
+        if (InstanceManager.isCC(ins))
+            return "display: none;";
+
         if (Session.get("box")=="draft" || Session.get("box")=="inbox")
             return "";
         else
@@ -18,6 +25,11 @@ Template.instance_attachment.helpers({
         var ins = WorkflowManager.getInstance();
         if (!ins)
             return false;
+
+        if(InstanceManager.isCC(ins)) {
+            return false;
+        }
+
         var isCurrentApprove = false;
         var isDraftOrInbox = false;
         var isFlowEnable = false;
@@ -51,6 +63,13 @@ Template.instance_attachment.helpers({
     },
 
     canEdit: function(filename) {
+        var ins = WorkflowManager.getInstance();
+        if (!ins)
+            return false;
+
+        if (InstanceManager.isCC(ins))
+            return false;
+
         if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box')=='inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename))
             return true;
         return false;
@@ -136,6 +155,13 @@ Template.ins_attach_version_modal.helpers({
     },
 
     enabled_add_attachment: function() {
+        var ins = WorkflowManager.getInstance();
+        if (!ins)
+            return false;
+
+        if (InstanceManager.isCC(ins))
+            return "display: none;";
+
         if (Session.get("box")=="draft" || Session.get("box")=="inbox")
             return "";
         else
@@ -147,6 +173,11 @@ Template.ins_attach_version_modal.helpers({
         var ins = WorkflowManager.getInstance();
         if (!ins)
             return false;
+
+        if(InstanceManager.isCC(ins)) {
+            return false;
+        }
+
         var isCurrentApprove = false;
         var isDraftOrInbox = false;
         var isFlowEnable = false;

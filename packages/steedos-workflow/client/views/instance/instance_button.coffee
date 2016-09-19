@@ -6,6 +6,8 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        if InstanceManager.isInbox()
+            return "";
         if !ApproveManager.isReadOnly()
             return "";
         else
@@ -18,6 +20,9 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        
+        if InstanceManager.isInbox()
+            return "";
 
         if !ApproveManager.isReadOnly()
             return "";
@@ -110,6 +115,12 @@ Template.instance_button.helpers
         else
             return "display: none;";
 
+    enabled_cc: ->
+        if InstanceManager.isInbox()
+            return "";
+        else
+            return "display: none;";
+
 Template.instance_button.events
     'click #instance_back': (event)->
         backURL =  "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
@@ -141,8 +152,8 @@ Template.instance_button.events
             if ins.state=="draft"
                 toastr.error(t("spaces_isarrearageSpace"));
                 return
-        
-        InstanceManager.checkFormValue();
+        if !ApproveManager.isReadOnly()
+            InstanceManager.checkFormValue();
         if($(".has-error").length == 0)
             InstanceManager.submitIns();
             Session.set("instance_change", false);
@@ -173,5 +184,9 @@ Template.instance_button.events
 
     'click #instance_relocate': (event, template) ->
         Modal.show('relocate_modal')
+
+
+    'click #instance_cc': (event, template) ->
+        Modal.show('instance_cc_modal');
 
     

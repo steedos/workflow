@@ -36,6 +36,18 @@ Template.instance_traces.helpers({
     return null;
   },
 
+  showDeleteButton: function(approved){
+    if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
+      return true;
+    return false;
+  },
+
+  isCC: function(approved){
+    if(approved && approved.type == 'cc')
+      return true;
+    return false;
+  },
+
   getApproveStatusIcon:function(approveJudge){
     //已结束的显示为核准/驳回/取消申请，并显示处理状态图标
     var approveStatusIcon;
@@ -91,3 +103,29 @@ Template.instance_traces.helpers({
   }
 
 });
+
+
+Template.instance_traces.events({
+  'click .cc-approve-remove': function (event, template) {
+    
+    instanceId = Session.get("instanceId");
+
+    approveId = event.target.dataset.approve;
+
+    // CALL 删除approve函数。
+    InstanceManager.saveIns();
+
+    Meteor.call('cc_remove', instanceId, approveId, function (err, result) {
+      if (err) {
+        toastr.error(err);
+      }
+
+      if (result == true) {
+        WorkflowManager.callInstanceDataMethod(Session.get('instanceId'), function(){ Session.set("change_date", new Date().getTime()) });
+      }
+
+
+    })
+
+  }
+})

@@ -130,6 +130,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/traces.html', 'client');
     api.addFiles('client/views/instance/traces.js', 'client');
 
+    api.addFiles('client/views/instance/cc_modal.html', 'client');
+    api.addFiles('client/views/instance/cc_modal.js', 'client');
+
     api.addFiles('client/views/list/flow_list_box.html', 'client');
     api.addFiles('client/views/list/flow_list_box.coffee', 'client');
     api.addFiles('client/views/list/flow_list_box.less', 'client');
@@ -169,6 +172,7 @@ Package.onUse(function(api) {
     //add server file
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
+    api.addFiles('server/methods/trace_approve_cc.js', 'server');
 
     api.addFiles('server/publications/categories.coffee', 'server');
     api.addFiles('server/publications/cfs_instances.coffee', 'server');

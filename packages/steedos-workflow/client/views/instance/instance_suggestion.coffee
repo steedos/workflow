@@ -16,13 +16,16 @@ Template.instance_suggestion.helpers
 
     show_suggestion: ->
 
-        return !ApproveManager.isReadOnly();
+        return !ApproveManager.isReadOnly() || InstanceManager.isInbox();
 
     currentStep: ->
 
         return InstanceManager.getCurrentStep();
 
     currentApprove: ->
+        instance = WorkflowManager.getInstance();
+        if InstanceManager.isCC(instance)
+            return InstanceManager.getCCApprove(Meteor.userId(), false);
         return InstanceManager.getCurrentApprove();
 
     next_step_multiple: ->
@@ -135,6 +138,12 @@ Template.instance_suggestion.helpers
         currentApprove?.judge = Session.get("judge");
 
         return Session.get("judge")
+
+    isCC: ->
+        instance = WorkflowManager.getInstance();
+        return InstanceManager.isCC(instance);
+        
+
 
 Template.instance_suggestion.events
     

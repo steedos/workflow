@@ -4,20 +4,24 @@
             <div class="box-body">
 
                 {{#if includes currentStep.step_type 'sign,counterSign'}}
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
-                            <label class="radio-inline">
-                                <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
-                            </label>
-                            <label class="radio-inline">
-                                <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
-                            </label>
+                    {{#if isCC}}
+                    {{else}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
+                                <label class="radio-inline">
+                                    <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    {{/if}}
                 {{/if}}
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -26,26 +30,28 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row" id='instance_next'>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="control-label">{{_ "instance_next_step"}}&nbsp;:</label>
-                            <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
-                                {{#each next_step_options }}
-                                    <option value="{{id}}" selected={{selected}} {{disabled}} steptype={{type}}>{{text}}</option>
-                                {{/each}}
-                            </select>
+                {{#if isCC}}
+                {{else}}
+                    <div class="row" id='instance_next'>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">{{_ "instance_next_step"}}&nbsp;:</label>
+                                <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
+                                    {{#each next_step_options }}
+                                        <option value="{{id}}" selected={{selected}} {{disabled}} steptype={{type}}>{{text}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" id="nextStepUsers_div">
+                                <label class="control-label">{{_ "instance_next_step_users"}}&nbsp;:</label>
+                                
+                                {{>Template.dynamic  template="afSelectUser" data=next_user_context}}
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group" id="nextStepUsers_div">
-                            <label class="control-label">{{_ "instance_next_step_users"}}&nbsp;:</label>
-                            
-                            {{>Template.dynamic  template="afSelectUser" data=next_user_context}}
-                        </div>
-                    </div>
-                </div>
+                {{/if}}
             </div>
         </div>
     {{/if}}
