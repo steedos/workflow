@@ -98,6 +98,14 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
 
+
+    api.addFiles('client/layout/master.html', 'client');
+    api.addFiles('client/layout/master.coffee', 'client');
+    api.addFiles('client/layout/master.less', 'client');
+    api.addFiles('client/layout/sidebar.html', 'client');
+    api.addFiles('client/layout/sidebar.coffee', 'client');
+
+
     api.addFiles('client/views/instance/attachments.html', 'client');
     api.addFiles('client/views/instance/attachments.js', 'client');
     api.addFiles('client/views/instance/force_end_modal.html', 'client');
