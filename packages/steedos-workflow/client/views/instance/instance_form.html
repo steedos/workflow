@@ -18,7 +18,7 @@
                                 {{#each table_fields}}
                                     {{#if includes this.type 'section,table'}}
                                         {{{tr_start}}}
-                                            <td colspan = '{{td_colspan}}'>
+                                            <td class="td-childfield" colspan = '{{td_colspan}}'>
                                                {{> afFormGroup name=this.code label=false}}
                                             </td>
                                         {{{tr_end}}}
