@@ -25,6 +25,11 @@
                         
                     {{/each}}
                 {{/autoForm}}
+
+                <div class="col-md-12">
+                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                </div>
+
             </div>
 
         </div>

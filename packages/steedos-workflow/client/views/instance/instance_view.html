@@ -6,16 +6,12 @@
 
 	        {{> instanceform_table}}
 
-	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
-
 	    </div>
     {{else}}
 	    <div class="instance">
 	        {{> instance_suggestion}}
 
 	        {{> instanceform}}
-
-	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
 
 	        {{#if unequals 'draft' instance.state}}
 	            {{> Template.dynamic template="instance_traces" data=instance.traces}}

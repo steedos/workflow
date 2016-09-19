@@ -1,16 +1,15 @@
 <template name="instance_attachments" >
 
-    {{#if this}}
 
-    <div class="box instance_attachments">
-        <div class="box-header  with-border"> 
-            <h3 class="box-title">{{_ "Attachments"}}</h3>
+    <div class="instance_attachments">
+        <div class=""> 
+            <span class="box-title" style="display: inline-block;font-weight: bold;">{{_ "Attachments"}}</span>
 
             <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}' style={{enabled_add_attachment}}><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input"></div>
 
 
         </div>
-        <div class="box-body">
+        <div class="">
                 
             <table class='table table-condensed attachments'>
                 <tbody>
@@ -23,7 +22,6 @@
         </div>
     </div>
 
-    {{/if}}
     
 </template>
 

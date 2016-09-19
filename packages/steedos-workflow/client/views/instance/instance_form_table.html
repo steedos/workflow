@@ -36,8 +36,8 @@
 
                 {{/autoForm}}
 
-                <span class="help-block"></span>
-                
+                {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+
                 {{#if unequals 'draft' instance.state}}
                     {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
                 {{/if}}
