@@ -40,6 +40,9 @@ Template.instanceform.helpers
     equals: (a,b) ->
         return (a == b)
 
+    unequals: (a,b) ->
+        return !(a == b)
+
     includes: (a, b) ->
         return b.split(',').includes(a);
 

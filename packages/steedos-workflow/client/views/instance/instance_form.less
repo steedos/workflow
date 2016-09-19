@@ -296,7 +296,7 @@ textarea {
     font-weight: bolder;
   }
   .applicant-wrapper{
-    margin:8px 0px;
+    margin:0px 0px;
     .form-control.ins_applicant{
       padding:4px 12px;
       width:120px;
@@ -313,7 +313,7 @@ textarea {
   .form-table{
     width: 100%; 
     border-collapse: collapse;
-    border: 2px solid #d2d6de;
+    border: 1px solid #d2d6de;
 
     .td-title{
       width: 14%;
@@ -335,7 +335,7 @@ textarea {
     }
 
     .td-childfield{
-      border-right: solid 2px #d2d6de;
+      border-right: solid 1px #d2d6de;
     }
 
     select,textarea, input{
@@ -426,12 +426,13 @@ textarea {
 
   .instance-traces{
     background:#fff;
+    margin-top:10px;
     table.traces{
       tr{
         background:#fff;
       }
       background:transparent;
-      border: solid 2px #d2d6de;
+      border: solid 1px #d2d6de;
       td{
         background:transparent;
         border: solid 1px #d2d6de;
@@ -439,6 +440,9 @@ textarea {
         padding: 4px 12px;
         font-weight:normal;
         font-size:14px;
+        &.td-stepname{
+          width: 20%;
+        }
         &.td-approve{
           padding:0px;
         }
@@ -451,11 +455,12 @@ textarea {
               text-align:left;
               border:none;
               &.name{
-                padding-left:48px;
-                width:30%;
+                //padding-left:48px;
+                width:40%;
               }
               &.finish-date{
-                width:40%;
+                width:35%;
+                min-width: 140px
               }
               &.description{
                 padding-left:12px;

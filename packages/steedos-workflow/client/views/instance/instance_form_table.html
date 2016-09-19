@@ -1,4 +1,4 @@
-<template name="instanceformTalbe">
+<template name="instanceform_table">
 
         <div class="instance-form box {{instance_box_style}}">
             <div class="box-header  with-border">
@@ -6,8 +6,12 @@
                 <span class="help-block"></span>
             </div>
             <div class="box-body">
+                <div class="col-md-12">
                 {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
-                    <div class="col-md-12">
+                        <div class="applicant-wrapper">
+                            <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
+                            {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+                        </div>
                         <table class="form-table">
                             {{#each table_fields}}
                                 {{#if includes this.type 'section,table'}}
@@ -30,12 +34,14 @@
                             {{/each}}
                         </table>
 
-                        <div class="applicant-wrapper">
-                            <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
-                            {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-                        </div>
-                    </div>
                 {{/autoForm}}
+
+                <span class="help-block"></span>
+                
+                {{#if unequals 'draft' instance.state}}
+                    {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
+                {{/if}}
+                </div>
             </div>
 
         </div>

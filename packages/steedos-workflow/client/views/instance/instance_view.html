@@ -4,13 +4,10 @@
 	    <div class="instance instance-table">
 	        {{> instance_suggestion}}
 
-	        {{> instanceformTalbe}}
+	        {{> instanceform_table}}
 
 	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
 
-	        {{#if unequals 'draft' instance.state}}
-	            {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
-	        {{/if}}
 	    </div>
     {{else}}
 	    <div class="instance">

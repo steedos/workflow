@@ -3,7 +3,7 @@
 
 formId = 'instanceform';
 
-Template.instanceformTalbe.helpers
+Template.instanceform_table.helpers
     applicantContext: ->
         steedos_instance = WorkflowManager.getInstance();
         data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control ins_applicant'}} 
@@ -39,6 +39,9 @@ Template.instanceformTalbe.helpers
 
     equals: (a,b) ->
         return (a == b)
+
+    unequals: (a,b) ->
+        return !(a == b)
 
     includes: (a, b) ->
         return b.split(',').includes(a);
@@ -164,7 +167,7 @@ Template.instanceformTalbe.helpers
             console.log(fields)
             return fields;
 
-Template.instanceformTalbe.onRendered ->
+Template.instanceform_table.onRendered ->
     t = this;
 
     #t.subscribe "instance_data", Session.get("instanceId"), ->
@@ -194,7 +197,7 @@ Template.instanceformTalbe.onRendered ->
         #在此处初始化session 中的 form_values 变量，用于触发下一步步骤计算
         Session.set("form_values", AutoForm.getFormValues("instanceform").insertDoc);
 
-Template.instanceformTalbe.events
+Template.instanceform_table.events
     'change .instance-form .form-control,.instance-form .checkbox input,.instance-form .af-radio-group input,.instance-form .af-checkbox-group input': (event)->
         if ApproveManager.isReadOnly()
             return ;

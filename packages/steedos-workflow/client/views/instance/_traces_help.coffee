@@ -14,7 +14,7 @@ TracesTemplate.helpers =
   append: (a, b) ->
     a + b
   dateFormat: (date) ->
-    $.format.date new Date(date), formatStr
+    $.format.date new Date(date), "yyyy-MM-dd HH:mm"
   getStepName: (stepId) ->
     step = WorkflowManager.getInstanceStep(stepId)
     if step
