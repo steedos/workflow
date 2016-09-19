@@ -310,6 +310,10 @@ textarea {
     vertical-align: middle;
   }
 
+  .td-childfield{
+    border-right: solid 2px #000;
+  }
+
   select,textarea, input{
     border-width: 0px;
     border-bottom-width: 1px;
@@ -318,6 +322,24 @@ textarea {
 
   .form-group{
     margin-bottom: 0px;
+    .callout{
+      margin:0;
+    }
+
+    .steedos-table{
+      margin-bottom:0px;
+      .table-bordered{
+        border-bottom:none;
+        tr:last-child{
+          th{
+            border-bottom:none;
+          }
+          td{
+            border-bottom:none;
+          }
+        }
+      }
+    }
   }
 
   .af-radio-group{
@@ -347,6 +369,8 @@ textarea {
     th:last-child, td:last-child{
       border-right: 0px !important;
     }
+
+
 
   }
 }
