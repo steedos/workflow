@@ -13,7 +13,7 @@ cc_manager.get_badge = function (user_id) {
     var badge = 0;
     var user_spaces = db.space_users.find({user: user_id, user_accepted: true}).fetch()
     user_spaces.forEach(function (user_space) {
-      var c = db.instances.find({space: user_space.space, state: 'pending', $or: [{inbox_users: user_id}, {cc_users: user_id}] }).count()
+      var c = db.instances.find({space: user_space.space, state: {$in: ["pending","completed"]}, $or: [{inbox_users: user_id}, {cc_users: user_id}] }).count()
       badge += c
 
       sk = db.steedos_keyvalues.findOne({user: user_id, space: user_space.space, key: "badge"})
@@ -214,7 +214,7 @@ Meteor.methods({
         })
 
         new_approves.forEach(function (a) {
-            if (a.user == remove_user_id) {
+            if (a.user == remove_user_id && a.type == 'cc' && a.is_finished == false) {
                 multi = true;
             }
         })
