@@ -9,7 +9,7 @@
 	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
 
 	        {{#if unequals 'draft' instance.state}}
-	            {{> Template.dynamic template="instance_traces" data=instance.traces}}
+	            {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
 	        {{/if}}
 	    </div>
     {{else}}

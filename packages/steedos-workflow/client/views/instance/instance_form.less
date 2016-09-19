@@ -425,14 +425,51 @@ textarea {
   }
 
   .instance-traces{
+    background:#fff;
     table.traces{
+      tr{
+        background:#fff;
+      }
+      background:transparent;
       border: solid 2px #d2d6de;
       td{
+        background:transparent;
         border: solid 1px #d2d6de;
+        vertical-align: middle;
+        padding: 4px 12px;
+        font-weight:normal;
+        font-size:14px;
+        &.td-approve{
+          padding:0px;
+        }
+        table{
+          width:100%;
+          tr{
+            width:100%;
+            border:none;
+            td{
+              text-align:left;
+              border:none;
+              &.name{
+                padding-left:48px;
+                width:30%;
+              }
+              &.finish-date{
+                width:40%;
+              }
+              &.description{
+                padding-left:12px;
+                border-top:solid 1px #d2d6de;
+              }
+            }
+
+          }
+        }
       }
     }
   }
 }
+
 
 
 .cc-label{

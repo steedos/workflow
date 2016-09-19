@@ -127,8 +127,11 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/reassign_modal.js', 'client');
     api.addFiles('client/views/instance/relocate_modal.html', 'client');
     api.addFiles('client/views/instance/relocate_modal.js', 'client');
+    api.addFiles('client/views/instance/_traces_help.coffee', 'client');
     api.addFiles('client/views/instance/traces.html', 'client');
     api.addFiles('client/views/instance/traces.js', 'client');
+    api.addFiles('client/views/instance/traces_table.html', 'client');
+    api.addFiles('client/views/instance/traces_table.js', 'client');
 
     api.addFiles('client/views/instance/cc_modal.html', 'client');
     api.addFiles('client/views/instance/cc_modal.js', 'client');

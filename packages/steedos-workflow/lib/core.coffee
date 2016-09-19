@@ -2,3 +2,4 @@
 
 @TabularTables = {};
 
+@TracesTemplate = {};
