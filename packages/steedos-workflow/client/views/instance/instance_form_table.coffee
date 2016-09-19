@@ -82,8 +82,7 @@ Template.instanceformTalbe.helpers
     #    
     #    instance = WorkflowManager.getInstance();
     #    return instance.attachments;
-    isTableView: ->
-        return true;
+
 
     table_fields: ->
         form_version = WorkflowManager.getInstanceFormVersion();

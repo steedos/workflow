@@ -1,14 +1,28 @@
 <template name="instance_view">
     {{> instance_button}}
-    <div class="instance">
-        {{> instance_suggestion}}
+    {{#if isTableView}}
+	    <div class="instance instance-table">
+	        {{> instance_suggestion}}
 
-        {{> instanceformTalbe}}
+	        {{> instanceformTalbe}}
 
-        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
 
-        {{#if unequals 'draft' instance.state}}
-            {{> Template.dynamic template="instance_traces" data=instance.traces}}
-        {{/if}}
-    </div>
+	        {{#if unequals 'draft' instance.state}}
+	            {{> Template.dynamic template="instance_traces" data=instance.traces}}
+	        {{/if}}
+	    </div>
+    {{else}}
+	    <div class="instance">
+	        {{> instance_suggestion}}
+
+	        {{> instanceform}}
+
+	        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+
+	        {{#if unequals 'draft' instance.state}}
+	            {{> Template.dynamic template="instance_traces" data=instance.traces}}
+	        {{/if}}
+	    </div>
+    {{/if}}
 </template>

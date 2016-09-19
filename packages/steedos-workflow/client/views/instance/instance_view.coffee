@@ -11,6 +11,9 @@ Template.instance_view.helpers
     unequals: (a,b) ->
         return !(a == b)
 
+    isTableView: ->
+        return true;
+
 Template.instance_view.onRendered ->
     $(".workflow-main").addClass("instance-show")
     
