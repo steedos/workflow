@@ -28,3 +28,7 @@ Template.workflowSidebar.helpers
 	boxName: ->
 		if Session.get("box")
 			return t(Session.get("box"))
+
+	boxActive: (box)->
+		if box == Session.get("box")
+			return "active"
