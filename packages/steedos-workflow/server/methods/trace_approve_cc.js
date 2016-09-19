@@ -181,41 +181,60 @@ Meteor.methods({
         return true;
     },
 
-    cc_remove: function (approve, remove_user_id) {
+    cc_remove: function (instanceId, approveId) {
         var setObj = {};
-        var ins_id = approve.instance;
-        var trace_id = approve.trace;
-        var approve_id = approve.id;
-        var instance = db.instances.findOne(ins_id, {fields: {traces: 1}});
+
+        var instance = db.instances.findOne(instanceId, {fields: {traces: 1, cc_users: 1}});
         var traces = instance.traces;
         var new_approves = [];
         var ins_cc_users = instance.cc_users;
         var new_cc_users = [];
+        var trace_id, remove_user_id, multi = false;
+
+        traces.forEach(function(t){
+            t.approves.forEach(function(a){
+                if (a._id == approveId) {
+                    trace_id = a.trace;
+                    remove_user_id = a.user;
+                } 
+            });
+            
+        })
 
         traces.forEach(function(t){
             if (t._id == trace_id) {
                 t.approves.forEach(function(a){
-                    if (!(a.user == remove_user_id && a.type == 'cc')) {
+                    if (!(a._id == approveId && a.type == 'cc' && a.is_finished == false)) {
                         new_approves.push(a);
                     }
                 });
                 t.approves = new_approves;
             }
+            
         })
 
-        ins_cc_users.forEach(function (u) {
-            if (remove_user_id != u) {
-                new_cc_users.push(u);
+        new_approves.forEach(function (a) {
+            if (a.user == remove_user_id) {
+                multi = true;
             }
-        });
+        })
 
-        setObj.cc_users = new_cc_users;
+
+        if (!multi) {
+            ins_cc_users.forEach(function (u) {
+                if (remove_user_id != u) {
+                    new_cc_users.push(u);
+                }
+            });
+
+            setObj.cc_users = new_cc_users;
+        }
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
         setObj.traces = traces;
 
-        db.instances.update({_id: ins_id}, {$set: setObj}); 
+        db.instances.update({_id: instanceId}, {$set: setObj}); 
         cc_manager.get_badge(remove_user_id);
         return true;
     },

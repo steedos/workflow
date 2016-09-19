@@ -37,8 +37,8 @@ Template.instance_traces.helpers({
   },
 
   showDeleteButton: function(approved){
-    // if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
-    //   return true;
+    if(approved && approved.type == 'cc' && approved.from_user == Meteor.userId() && approved.is_finished != true)
+      return true;
     return false;
   },
 
@@ -112,7 +112,20 @@ Template.instance_traces.events({
 
     approveId = event.target.dataset.approve;
 
-    //TODO CALL 删除approve函数。
+    // CALL 删除approve函数。
+    InstanceManager.saveIns();
+
+    Meteor.call('cc_remove', instanceId, approveId, function (err, result) {
+      if (err) {
+        toastr.error(err);
+      }
+
+      if (result == true) {
+        WorkflowManager.callInstanceDataMethod(Session.get('instanceId'), function(){ Session.set("change_date", new Date().getTime()) });
+      }
+
+
+    })
 
   }
 })
