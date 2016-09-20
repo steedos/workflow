@@ -26,9 +26,9 @@ Template.cf_contact_modal.events
 
 		values = CFDataManager.getContactModalValue();
 
-		target.val(values.getProperty("name").toString()).trigger('change');
-		
 		target[0].dataset.values = values.getProperty("id").toString();
+
+		target.val(values.getProperty("name").toString()).trigger('change');
 		
 		Modal.hide("cf_contact_modal");
 

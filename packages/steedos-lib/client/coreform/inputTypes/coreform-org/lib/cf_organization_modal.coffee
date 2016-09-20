@@ -25,9 +25,9 @@ Template.cf_organization_modal.events
 
 		values = CFDataManager.getOrganizationModalValue();
 
-		target.val(values.getProperty("name").toString()).trigger('change');
-		
 		target[0].dataset.values = values.getProperty("id").toString();
+		
+		target.val(values.getProperty("name").toString()).trigger('change');
 		
 		Modal.hide("cf_organization_modal");
 
