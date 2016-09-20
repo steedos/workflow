@@ -12,8 +12,8 @@ Template.instance_view.helpers
         return !(a == b)
 
     isTableView: ->
-        return true
-        # return !Steedos.isMobile();
+        # return true
+        return !Steedos.isMobile();
 
 Template.instance_view.onRendered ->
     $(".workflow-main").addClass("instance-show")
