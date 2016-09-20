@@ -150,7 +150,10 @@ Template.instanceform_table.helpers
                         tr_start = "";
                     else 
                         if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
-                            tr_start = "<tr>";
+                            if field.type == 'table'
+                                tr_start = "<tr class = \"tr-child-table\">";
+                            else
+                                tr_start = "<tr>";
 
                     field.tr_start = tr_start;
 

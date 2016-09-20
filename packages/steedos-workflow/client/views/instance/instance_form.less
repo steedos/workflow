@@ -352,7 +352,13 @@ textarea {
     }
 
     .td-childfield{
+      border-top: solid 1px #d2d6de;
       border-right: solid 1px #d2d6de;
+    }
+
+    /*子表与子表相邻时，会出现子表间没有边线的问题，这里判断并加上，由于meteor编译的问题，这里是tr标签与td标签相邻*/
+    .tr-child-table+.td-childfield{
+      border-top: solid 1px #d2d6de;
     }
 
     select,textarea, input{
