@@ -98,7 +98,12 @@ Template.instanceform_table.helpers
                     field.permission = "readonly";
 
                 if Steedos.isMobile()
-                    field.td_colspan = 3;
+                    # 如果当前字段是分组、表格、宽字段
+                    if field.type == 'section' || field.type == 'table'
+                        field.td_colspan = 4;
+                    else
+                        field.td_colspan = 3;
+                        
                     if index != 0 
                         field.tr_start = "<tr>";
                         field.tr_end = "</tr>";
