@@ -278,7 +278,7 @@ WorkflowManager.getOrganization = function(orgId){
     return ;
   }
 
-  var spaceOrg = db.organizations.findOne(orgId);
+  var spaceOrg = WorkflowManager.remoteOrganizations.findOne(orgId);
 
   if(!spaceOrg){
     return ;
