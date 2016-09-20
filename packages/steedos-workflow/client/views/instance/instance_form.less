@@ -445,6 +445,7 @@ textarea {
     background:#fff;
     margin-top:10px;
     table.traces{
+      margin-top:8px;
       tr{
         background:#fff;
       }
@@ -468,16 +469,27 @@ textarea {
           tr{
             width:100%;
             border:none;
+            &.approve-item{
+              border-bottom:solid 1px #d2d6de;
+              &.description{
+                border-bottom:none;
+              }
+              &:last-child{
+                border-bottom:none;
+              }
+            }
             td{
               text-align:left;
               border:none;
               &.name{
-                //padding-left:48px;
+                /*padding-left:48px;*/
                 width:40%;
+                color:#888;
               }
               &.finish-date{
                 width:35%;
-                min-width: 140px
+                min-width: 140px;
+                color:#888;
               }
               &.description{
                 padding-left:12px;
