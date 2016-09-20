@@ -206,17 +206,21 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
             run = true;
         }
         if(run){
-            var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
-            //console.log("formula is " + formula_field.formula);
-            //console.log("fileValue is " + fileValue);
-            if('digits' in formula_field){
-                var value = Form_formula.field_values[formula_field.code];
-                if(typeof(value) == 'number'){
-                    value = value.toFixed(formula_field.digits);
+            try{
+                var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
+                //console.log("formula is " + formula_field.formula);
+                //console.log("fileValue is " + fileValue);
+                if('digits' in formula_field){
+                    var value = Form_formula.field_values[formula_field.code];
+                    if(typeof(value) == 'number'){
+                        value = value.toFixed(formula_field.digits);
+                    }
+                    $("[name='" + field_prefix + formula_field.code + "']").val(value);
+                }else{
+                    $("[name='" + field_prefix + formula_field.code + "']").val(Form_formula.field_values[formula_field.code]);
                 }
-                $("[name='" + field_prefix + formula_field.code + "']").val(value);
-            }else{
-                $("[name='" + field_prefix + formula_field.code + "']").val(Form_formula.field_values[formula_field.code]);
+            }catch(e){
+                console.log("公式["+formula_field.formula+"]执行异常：" + e.message);
             }
         }
     }
@@ -244,7 +248,7 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
                     next_steps.push(WorkflowManager.getInstanceStep(line.to_step));
                 }
             }catch(err){
-                console.error("getNextStepsFromCondition-exception: " + err.message);
+                console.log("脚本["+conditionStr+"]执行异常：" + err.message);
             }
 
         }
