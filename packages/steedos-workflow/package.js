@@ -158,7 +158,7 @@ Package.onUse(function(api) {
     // routes
     api.addFiles('routes/nextStepUsers.js', 'server');
     api.addFiles('routes/getSpaceUsers.js', 'server');
-    api.addFiles('routes/getFormulaUserObject.js', 'server');
+    api.addFiles('routes/getFormulaUserObjects.js', 'server');
 
     api.addFiles('server/lib/workflow_manager.js', 'server');
     api.addFiles('server/lib/1_form_formula.js', 'server');

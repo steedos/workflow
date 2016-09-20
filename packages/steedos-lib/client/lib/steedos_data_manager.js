@@ -39,17 +39,17 @@ SteedosDataManager.getSpaceUsers = function (spaceId, userIds) {
 
 
 // 获取space_users
-SteedosDataManager.getFormulaUserObject = function (spaceId, userId) {
+SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   var q = {};
   q.spaceId = spaceId;
   var data = 
   {
-    'userId' : userId
+    'userIds' : userIds
   }
-  var spaceUser;
+  var spaceUsers;
   var data = JSON.stringify(data);
   $.ajax({
-    url: Meteor.absoluteUrl('api/workflow/getFormulaUserObject') + '?' + $.param(q),
+    url: Meteor.absoluteUrl('api/workflow/getFormulaUserObjects') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,
@@ -62,14 +62,14 @@ SteedosDataManager.getFormulaUserObject = function (spaceId, userId) {
         return;
       }
 
-      spaceUser = responseText.spaceUser;
+      spaceUsers = responseText.spaceUsers;
     },
     error: function(xhr, msg, ex) {
       toastr.error(msg);
     }
   });
 
-  return spaceUser;
+  return spaceUsers;
 }
 
 // Array.prototype.filterProperty = function(h, l){

@@ -256,22 +256,17 @@ CFDataManager.getSpaceUsers = function (userIds){
 CFDataManager.getFormulaSpaceUsers = function(userIds){
   if (!userIds)
     return ;
-  if(userIds instanceof Array){
-    var users = new Array();
-    userIds.forEach(function(u){
-      var user = CFDataManager.getFormulaSpaceUser(u);
-      if(u)
-        users.push(user);
-    });
-    return users;
-  }else{
-    return CFDataManager.getFormulaSpaceUser(userIds);
-  }
+  return CFDataManager.getFormulaSpaceUser(userIds);
 }
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
 CFDataManager.getFormulaSpaceUser = function(userId){
-  return SteedosDataManager.getFormulaUserObject(Session.get('spaceId'), userId);
+
+  if(userId instanceof Array){
+    return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), userId);
+  }else{
+    return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), [userId])[0];
+  }
 };
 
 CFDataManager.getOrgAndChild = function(orgId){
