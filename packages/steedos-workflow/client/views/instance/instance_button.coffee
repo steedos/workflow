@@ -133,6 +133,7 @@ Template.instance_button.events
             confirmButtonText: t('OK'),   
             closeOnConfirm: true 
         }, () ->  
+            Session.set("instance_change", false);
             InstanceManager.deleteIns()
 
     'click #instance_submit': (event)->
