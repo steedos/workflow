@@ -432,6 +432,16 @@ textarea {
               border-bottom:none;
             }
           }
+          @-moz-document url-prefix() {
+            tr:last-child{
+              th{
+                border-bottom:solid 1px #d2d6de;
+              }
+              td{
+                border-bottom:solid 1px #d2d6de;
+              }
+            }
+          }
         }
       }
     }
