@@ -350,6 +350,12 @@ textarea {
       padding:4px 12px;
       vertical-align: middle;
       text-align:left;
+      &.is-required{
+        &:after{
+          content:"*";
+          color:red;
+        }
+      }
     }
 
     .td-field{
