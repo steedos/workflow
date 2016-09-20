@@ -271,20 +271,7 @@ CFDataManager.getFormulaSpaceUsers = function(userIds){
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
 CFDataManager.getFormulaSpaceUser = function(userId){
-  var userObject = {};
-
-  var user = WorkflowManager.getUser(userId);
-
-  if(!user || !user.hasOwnProperty("name"))
-    return null;
-
-  userObject['id'] = userId;
-  userObject['name'] = user.name;
-  userObject['organization'] = {'name':user.organization.name,'fullname':user.organization.fullname};
-  userObject["roles"] = user.roles ? user.roles.getProperty('name'):[];
-
-  return userObject;
-
+  return SteedosDataManager.getFormulaUserObject(Session.get('spaceId'), userId);
 };
 
 CFDataManager.getOrgAndChild = function(orgId){

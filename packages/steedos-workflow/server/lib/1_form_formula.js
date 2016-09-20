@@ -1,5 +1,3 @@
-
-
 Array.prototype.filterProperty = function(h, l){
     var g = [];
     this.forEach(function(t){
@@ -16,3 +14,12 @@ Array.prototype.filterProperty = function(h, l){
     });
     return g;
 };
+
+Array.prototype.getProperty = function(k){
+    var v = new Array();
+    this.forEach(function(t){
+        var m = t? t[k]:null;
+        v.push(m);
+    });
+    return v;
+}
