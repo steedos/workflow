@@ -42,6 +42,8 @@ AutoForm.addInputType("coreform-textarea", {
     if (typeof context.atts.maxlength === "undefined" && typeof context.max === "number") {
       context.atts.maxlength = context.max;
     }
+
+    context.atts.class = "cfTextarea form-control";
     return context;
   }
 });

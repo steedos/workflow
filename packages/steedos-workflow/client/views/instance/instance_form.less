@@ -289,7 +289,21 @@ textarea {
   background-color: #F9F9F9 !important;
 }
 
+.cfTextarea[disabled],.cfTextarea[readonly]{
+  height:100%;
+  min-height:60px;
+  word-wrap:break-word;
+  word-break:keep-all;
+}
+
 .instance-table{
+
+  .cfTextarea[disabled],.cfTextarea[readonly]{
+    min-height:auto;
+    p{
+      margin: 0px;
+    }
+  }
 
   .instance_attachments {
     margin-top: 10px;
