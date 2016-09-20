@@ -385,7 +385,24 @@ textarea {
       }
 
       .steedos-table{
+        border: 0px;
         margin-bottom:0px;
+        table, th, td{
+          border: solid 1px #d2d6de;
+        }
+
+        table{
+          border-left:none;
+          border-right:none;
+        }
+
+        th:first-child, td:first-child{
+          border-left: 0px !important;
+        }
+
+        th:last-child, td:last-child{
+          border-right: 0px !important;
+        }
         .panel-heading{
           padding:4px 12px;
           border:none;
@@ -415,29 +432,6 @@ textarea {
 
     .af-radio-group,.af-checkbox-group,.checkbox{
       padding-left: 12px;
-    }
-
-    
-
-    .steedos-table{
-      border: 0px;
-
-      table, th, td{
-        border: solid 1px #d2d6de;
-      }
-
-      table{
-        border-left:none;
-        border-right:none;
-      }
-
-      th:first-child, td:first-child{
-        border-left: 0px !important;
-      }
-
-      th:last-child, td:last-child{
-        border-right: 0px !important;
-      }
     }
   }
 
