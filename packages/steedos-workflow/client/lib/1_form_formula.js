@@ -297,12 +297,12 @@ function init_formula_values(fields, autoFormDoc){
                 } else if (type == 'user'){
 
                     //__values[field.code] = WorkflowManager.getUser(autoFormDoc[field.code]);
-                    __values[field.code] = WorkflowManager.getFormulaUserObjects(autoFormDoc[field.code]);
+                    __values[field.code] = handerUserObject(WorkflowManager.getFormulaUserObjects(autoFormDoc[field.code]));
 
                 } else if (type == 'group'){
 
                     //__values[field.code] = WorkflowManager.getUser(autoFormDoc[field.code]);
-                    __values[field.code] = WorkflowManager.getFormulaOrgObjects(autoFormDoc[field.code]);
+                    __values[field.code] = handerOrgObject(WorkflowManager.getFormulaOrgObjects(autoFormDoc[field.code]));
 
                 } else {
                     //此处传spaceId给选人控件的旧数据计算roles和organization
@@ -318,6 +318,43 @@ function init_formula_values(fields, autoFormDoc){
 
     return __values;
 };
+
+function handerUserObject(u){
+
+    if(u instanceof Array){
+        var user = {};
+
+        user.name = u.getProperty("name")
+        user.organization = {};
+        user.organization.name = u.getProperty("organization").getProperty("name");
+        user.organization.fullname = u.getProperty("organization").getProperty("fullname");
+        var userRoles = u.getProperty("roles");
+        var roles = new Array();
+        userRoles.forEach(function(i){
+            roles = roles.concat(i);
+        }); 
+        roles.uniq();
+        user.roles = roles;
+        return user;
+    }else{
+        return u;
+    }
+}
+
+function handerOrgObject(o){
+
+    if(o instanceof Array){
+        var org = {};
+
+        org.name = o.getProperty("name");
+        org.fullname = o.getProperty("fullname");
+
+        return org;
+    }else{
+        return o;
+    }
+}
+
 
 Array.prototype.getEach = function(code){
     var rev = [];
