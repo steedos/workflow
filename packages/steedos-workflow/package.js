@@ -159,6 +159,7 @@ Package.onUse(function(api) {
     api.addFiles('routes/nextStepUsers.js', 'server');
     api.addFiles('routes/getSpaceUsers.js', 'server');
     api.addFiles('routes/getFormulaUserObjects.js', 'server');
+    api.addFiles('routes/init_formula_values.js', 'server');
 
     api.addFiles('server/lib/workflow_manager.js', 'server');
     api.addFiles('server/lib/1_form_formula.js', 'server');
@@ -178,8 +179,10 @@ Package.onUse(function(api) {
 
     api.export("WorkflowManager");
     api.export("InstanceManager");
-	// EXPORT
+	api.export("WorkflowManager_format");
+    // EXPORT
 	api.export('Workflow');
+
 });
 
 Package.onTest(function(api) {

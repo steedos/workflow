@@ -2,6 +2,7 @@ InstanceManager = {};
 
 
 InstanceManager.runFormula = function(fieldCode){
+  console.log("InstanceManager.runFormula...");
   var form_version = WorkflowManager.getInstanceFormVersion();
   var formula_fields = []
   if(form_version)

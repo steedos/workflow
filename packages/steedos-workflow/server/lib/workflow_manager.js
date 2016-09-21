@@ -205,11 +205,7 @@ WorkflowManager.getOrganizations = function(orgIds){
     return [WorkflowManager.getOrganization(orgIds)]
   }
 
-  var orgs = new Array();
-  orgIds.forEach(function(orgId){
-    orgs.push(WorkflowManager.getOrganization(orgId));
-  });
-  return orgs;
+  return db.organizations.find({_id: {$in: orgIds}}).fetch();
 };
 
 WorkflowManager.getUser = function (spaceId, userId){
@@ -260,3 +256,73 @@ WorkflowManager.getUsers = function (spaceId, userIds){
 
   return users;
 };
+
+
+WorkflowManager.getFormulaUsers = function(spaceId, userIds){
+  var spaceUsers = [];
+  var users = WorkflowManager.getUsers(spaceId, userIds);
+  users.forEach(function (user) {
+    var userObject = {};
+    userObject['id'] = user.id;
+    userObject['name'] = user.name;
+    userObject['organization'] = {'name':user.organization.name,'fullname':user.organization.fullname};
+    userObject["roles"] = user.roles ? user.roles.getProperty('name'):[];
+    spaceUsers.push(userObject);
+  })
+
+  return spaceUsers;
+}
+
+WorkflowManager.getFormulaUserObjects = function(spaceId, userIds){
+  if (!userIds)
+    return ;
+  return WorkflowManager.getFormulaUserObject(spaceId, userIds);
+}
+
+WorkflowManager.getFormulaUserObject = function(spaceId, userId){
+
+  if(!userId)
+    return ;
+
+  if(userId instanceof Array){
+    return WorkflowManager.getFormulaUsers(spaceId, userId);
+  }else{
+    return WorkflowManager.getFormulaUsers(spaceId, [userId])[0];
+  }
+};
+
+
+WorkflowManager.getFormulaOrgObjects = function(orgIds){
+  if (!orgIds)
+    return ;
+  return WorkflowManager.getFormulaOrgObject(orgIds);
+}
+
+WorkflowManager.getFormulaOrgObject = function(orgId){
+
+  if(orgId instanceof Array){
+    var orgArray = new Array();
+    var orgs = WorkflowManager.getOrganizations(orgId);
+    orgs.forEach(function(org){
+      var orgObject = {};
+      orgObject['id'] = org._id;
+      orgObject['name'] = org.name;
+      orgObject['fullname'] = org.fullname;
+      orgArray.push(orgObject);
+    });
+
+    return orgArray;
+  }else{
+    var orgObject = {};
+    var org = WorkflowManager.getOrganization(orgId);
+    if(!org)
+      return null;
+
+    orgObject['id'] = orgId;
+    orgObject['name'] = org.name;
+    orgObject['fullname'] = org.fullname;
+
+    return orgObject;
+  }
+
+}
