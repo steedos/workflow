@@ -3,14 +3,16 @@ NodeManager = {};
 NodeManager.fileSHA1; 
 
 var url, net, path, http, fs, crypto, exec
-if (window.require){
+if (Steedos.isNode()){
     url = window.require('url');
     net = window.require('net');
     path = window.require('path');
     http = window.require('http');
     fs = window.require('fs');
     crypto = window.require('crypto');
-    exec = window.require('child_process').exec;
+    child_process = window.require('child_process')
+    if (child_process)
+        exec = child_process.exec;
 }
 
 function setCos_Signal(str){
