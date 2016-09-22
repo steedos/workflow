@@ -3,5 +3,6 @@
 .meteor/local
 .meteor/meteorite
 
+node_modules
 
 settings.json
