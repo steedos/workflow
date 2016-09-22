@@ -140,9 +140,9 @@ Form_formula.init_formula_values = function(fields, autoFormDoc, approver, appli
         }, this);
     }
     //当前处理人
-    __values["approver"] = WorkflowManager.getFormulaUserObject(approver);
+    __values["approver"] = WorkflowManager.getFormulaUserObject(spaceId, approver);
     //申请人
-    __values["applicant"] = WorkflowManager.getFormulaUserObject(applicant);
+    __values["applicant"] = WorkflowManager.getFormulaUserObject(spaceId, applicant);
 
     return __values;
 };

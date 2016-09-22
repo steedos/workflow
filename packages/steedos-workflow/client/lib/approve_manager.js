@@ -23,6 +23,10 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     if(!currentStep)
         return ;
 
+    if(!instance){
+        return [];
+    }
+
     var nextSteps = new Array();
     var lines = currentStep.lines;
 
