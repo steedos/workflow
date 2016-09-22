@@ -1,6 +1,6 @@
 <template name="instance_view">
     {{> instance_button}}
-    {{#if isTableView}}
+    {{#if isTableView instance.form}}
 	    <div class="instance instance-table">
 	        {{> instance_suggestion}}
 
