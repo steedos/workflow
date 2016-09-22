@@ -187,7 +187,7 @@ InstanceManager.getApplicantUserId = function(){
   var instance = WorkflowManager.getInstance();
   if(instance){
     var ins_applicant = $("#ins_applicant");
-    if(instance.state == 'draft' && ins_applicant && ins_applicant.length ==1 ){
+    if(instance.state == 'draft' && ins_applicant && ins_applicant.length ==1 && ins_applicant[0] && ins_applicant[0].dataset.values){
       return ins_applicant[0].dataset.values;
     }else{
       return instance.applicant;
