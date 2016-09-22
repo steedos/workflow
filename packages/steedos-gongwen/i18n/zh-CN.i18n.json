@@ -1,0 +1,9 @@
+{
+    "inbox": "待办文件",
+    "outbox": "已办文件",
+    "draft": "待发文件",
+    "pending": "处理中",
+    "completed": "已结束",
+    "monitor": "监控箱",
+    "instance_new": "拟写"
+}
