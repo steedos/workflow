@@ -28,10 +28,14 @@ FormManager._template =
 		{{/each}}
 	'''
 	table: '''
-		<div class="applicant-wrapper">
-		    <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
-		    {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-		</div>
+		<div class="box-header  with-border">
+            <h3 class="box-title">{{instance.name}}</h3>
+            <span class="help-block"></span>
+            <div class="applicant-wrapper">
+			    <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
+			    {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+			</div>
+        </div>
 		<table class="form-table">
 		    {{#each table_fields}}
 		        {{#if includes this.type 'section,table'}}

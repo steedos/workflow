@@ -41,10 +41,78 @@ InstanceformTemplate.helpers =
     includes: (a, b) ->
         return b.split(',').includes(a);
 
+    include: (a, b) ->
+        return b.split(',').includes(a);
+
     fields: ->
         form_version = WorkflowManager.getInstanceFormVersion();
         if form_version
             return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
+
+    formatDate: (data)->
+        if !data
+            return "";
+        return moment(data).format('YYYY-MM-DD HH:MM');
+
+    traces: ->
+        instance = WorkflowManager.getInstance();
+
+        flow = WorkflowManager.getInstanceFlowVersion()
+
+        if !instance || !flow
+            return {};
+
+        steps = flow.steps;
+
+        traces = {};
+
+        instance.traces.forEach (trace)->
+            step = steps.findPropertyByPK("_id", trace.step)
+
+            approves = []
+
+            trace.approves.forEach (approve) ->
+                if trace.is_finished == true
+                    # 已结束的显示为核准/驳回/取消申请
+                    if approve.judge == 'approved'
+                      judge_name = TAPi18n.__("Instance State approved")
+                    else if approve.judge == 'rejected'
+                      judge_name = TAPi18n.__("Instance State rejected")
+                    else if approve.judge == 'terminated'
+                      judge_name = TAPi18n.__("Instance State terminated")
+                    else if approve.judge == 'reassigned'
+                      judge_name = TAPi18n.__("Instance State reassigned")
+                    else if approve.judge == 'relocated'
+                      judge_name = TAPi18n.__("Instance State relocated")
+                    else if approve.judge == ''
+                      judge_name = ""
+                    else
+                      judge_name = ""
+                    
+                else
+                    judge_name = TAPi18n.__("Instance State pending")
+
+                approves.push  
+                    handler_name: approve.handler_name
+                    handler_organization_name: approve.handler_organization_name
+                    handler_organization_fullname: approve.handler_organization_fullname
+                    finish_date: approve.finish_date
+                    judge: approve.judge
+                    judge_name: judge_name
+                    description: approve.description
+            
+
+            if step
+                if step.name in traces
+                    traces[step.name] = traces[step.name].concat(approves)
+                else
+                    traces[step.name] = approves
+
+        console.log(traces);
+
+        return traces;
+
+            
             
     doc_values: ->
         WorkflowManager_format.getAutoformSchemaValues();
@@ -258,9 +326,10 @@ InstanceformTemplate.onCreated = ()->
 
     instanceCustomTemplate = new Blaze.Template(instanceView.name, renderFunction);
 
-    instanceCustomTemplate.helpers InstanceformTemplate.helpers
-
     Template.instance_custom_template = instanceCustomTemplate
+
+    Template.instance_custom_template.helpers InstanceformTemplate.helpers
+    
 
     console.log("InstanceformTemplate.onCreated..ok");
 
