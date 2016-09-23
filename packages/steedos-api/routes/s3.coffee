@@ -54,9 +54,31 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
 
       newFile = new FS.File();
       newFile.attachData req.files[0].data, {type: req.files[0].mimeType}, (err) ->
-        newFile.name(req.files[0].filename);
+        filename = req.files[0].filename
 
-        fileObj = collection.insert newFile
+        newFile.name(filename)
+        body = req.body
+        if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
+          parent = ''
+          collection.find({'metadata.instance': body['instance']}).forEach (c) ->
+            if c.name() == filename
+              parent = c.metadata.parent
+
+          if parent
+            r = collection.update({'metadata.parent': parent, 'metadata.current' : true}, {$unset : {'metadata.current' : ''}})
+            if r
+              newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], parent: parent, current: true}
+              fileObj = collection.insert newFile
+          else
+            newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
+            fileObj = collection.insert newFile
+            fileObj.update({$set: {'metadata.parent' : fileObj._id}})
+
+        # 兼容老版本
+        else 
+          fileObj = collection.insert newFile
+
+
         size = fileObj.original.size 
         if !size 
           size = 1024

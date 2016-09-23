@@ -902,6 +902,11 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
     fd = new FormData;
     fd.append('Content-Type', cfs.getContentType(fileName));
     fd.append("file", file);
+    fd.append("instance", Session.get('instanceId'));
+    fd.append("space", Session.get('spaceId'));
+    fd.append("approve", InstanceManager.getMyApprove().id);
+    fd.append("owner", Meteor.userId());
+    fd.append("owner_name", Meteor.user().name);
     $.ajax({
       url: Meteor.absoluteUrl('s3/'),
       type: 'POST',
