@@ -14,6 +14,9 @@ db.apps._simpleSchema = new SimpleSchema
 	url:
 		type: String
 		max: 200
+	auth_name:
+		type: String
+		max: 200
 	on_click: 
 		type: String,
 		optional: true,
