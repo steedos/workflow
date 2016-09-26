@@ -1,9 +1,9 @@
-FormManager = {};
+TemplateManager = {};
 
 formId = 'instanceform';
 
 
-FormManager._template = 
+TemplateManager._template = 
 	default: '''
 		<div class="box-header  with-border">
             <h3 class="box-title">{{instance.name}}</h3>
@@ -59,7 +59,7 @@ FormManager._template =
 		</table>
 	'''
 
-FormManager._templateHelps = 
+TemplateManager._templateHelps = 
 	applicantContext: ->
         steedos_instance = WorkflowManager.getInstance();
         data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:140px;display:inline'}} 
@@ -124,29 +124,28 @@ FormManager._templateHelps =
                 return "box-danger"
 
 
-FormManager.getTemplate = (formId) ->
+TemplateManager.getTemplate = (flowId) ->
 	
-	form = WorkflowManager.getForm(formId);
+	flow = WorkflowManager.getFlow(flowId);
 
 	if Steedos.isMobile()
-		return FormManager._template.default
+		return TemplateManager._template.default
 
-	if form?.instance_template
-		return form.instance_template
+	if flow?.instance_template
+		return flow.instance_template
 
-	if form?.is_table_style
-		return FormManager._template.table
+	if flow?.is_table_style
+		return TemplateManager._template.table
 	else
-		return FormManager._template.default
+		return TemplateManager._template.default
 
-FormManager.exportTemplate = (formId) ->
+TemplateManager.exportTemplate = (flowId) ->
 
-	template = FormManager.getTemplate(formId);
+	template = TemplateManager.getTemplate(flowId);
 
-	form = WorkflowManager.getForm(formId);
+	flow = WorkflowManager.getFlow(flowId);
 
-	if form?.instance_template
+	if flow?.instance_template
 		return template;
-
 
 	return template;

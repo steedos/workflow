@@ -314,7 +314,7 @@ InstanceformTemplate.onCreated = ()->
     if !instance
         return;
 
-    template = FormManager.getTemplate(instance.form);
+    template = TemplateManager.getTemplate(instance.flow);
 
     compiled = SpacebarsCompiler.compile(template, { isBody: true });
 

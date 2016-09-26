@@ -78,7 +78,7 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/uuflow_api.js', 'client');
     api.addFiles('client/lib/workflow_manager.js', 'client');
     api.addFiles('client/lib/node_manager.js','client');
-    api.addFiles('client/lib/form_manager.coffee','client');
+    api.addFiles('client/lib/template_manager.coffee','client');
     
 
     //add client file
@@ -198,7 +198,7 @@ Package.onUse(function(api) {
 	// EXPORT
 	api.export('Workflow');
 
-    api.export('FormManager');
+    api.export('TemplateManager');
 
     api.export('WorkflowManager');
 });

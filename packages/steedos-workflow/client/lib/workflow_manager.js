@@ -16,6 +16,10 @@ WorkflowManager.getForm = function(formId){
   return db.forms.findOne(formId);
 }
 
+WorkflowManager.getFlow = function(flowId){
+  return db.flows.findOne(flowId);
+}
+
 //获取space下的所有部门
 WorkflowManager.getSpaceOrganizations = function (spaceId){
   var orgs = new Array();

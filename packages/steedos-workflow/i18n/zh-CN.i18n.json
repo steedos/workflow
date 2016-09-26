@@ -163,10 +163,10 @@
     "instance_cc_user": "传阅对象",
     "instance_cc_error_users_required": "请选择传阅对象。",
     "workflow_form_edit": "表单样式",
-    "forms": "表单",
-    "forms_name": "表单名称",
-    "forms_is_table_style": "表格模式",
-    "forms_print_template": "打印模板",
-    "forms_instance_template": "表单模板"
+    "flows_template": "申请单模板",
+    "flows_name": "流程名称",
+    "flows_is_table_style": "表格样式",
+    "flows_print_template": "打印模板",
+    "flows_instance_template": "表单模板"
 
 }

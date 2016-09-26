@@ -1,4 +1,4 @@
-db.forms.adminConfig = 
+db.flows.adminConfig = 
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
@@ -7,17 +7,16 @@ db.forms.adminConfig =
 	]
 	selector: {space: -1}
 	showDelColumn: false
-	showCreColumn: false
-	routerAdmin: "/admin/view/forms"
+	routerAdmin: "/admin/view/flows_template"
 
 Meteor.startup ->
 
-	@forms = db.forms
+	@flows_template = db.flows
 	AdminConfig?.collections_add
-		forms: db.forms.adminConfig
+		flows_template: db.flows.adminConfig
 
 if Meteor.isClient
     Meteor.startup ->
         Tracker.autorun ->
             if Meteor.userId() and Session.get("spaceId")
-                AdminTables["forms"]?.selector = {space: Session.get("spaceId")}
+                AdminTables["flows_template"]?.selector = {space: Session.get("spaceId")}

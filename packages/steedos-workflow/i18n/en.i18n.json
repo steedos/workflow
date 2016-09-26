@@ -161,10 +161,10 @@
     "instance_cc_user": "CC Users",
     "instance_cc_error_users_required": "Please select user.",
     "workflow_form_edit": "Form Style",
-    "forms": "Form",
-    "forms_name": "Form Name",
-    "forms_is_table_style": "Table Style",
-    "forms_print_template": "Print Template",
-    "forms_instance_template": "Form Template"
+    "flows_template": "Instance Template",
+    "flows_name": "Flow Name",
+    "flows_is_table_style": "Table Style",
+    "flows_print_template": "Print Template",
+    "flows_instance_template": "Form Template"
 
 }

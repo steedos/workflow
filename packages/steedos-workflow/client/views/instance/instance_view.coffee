@@ -11,14 +11,14 @@ Template.instance_view.helpers
     unequals: (a,b) ->
         return !(a == b)
 
-    # 只有在表单属性上设置tableStype 为true 并且不是手机版才返回true.
-    isTableView: (formId)->
-        form = WorkflowManager.getForm(formId);
+    # 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
+    isTableView: (flowId)->
+        flow = WorkflowManager.getFlow(flowId);
 
         if Steedos.isMobile()
             return false
 
-        if form?.is_table_style
+        if flow?.is_table_style
             return true
         # return true
         return false;
