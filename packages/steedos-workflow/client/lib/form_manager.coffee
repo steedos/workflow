@@ -128,6 +128,9 @@ FormManager.getTemplate = (formId) ->
 	
 	form = WorkflowManager.getForm(formId);
 
+	if Steedos.isMobile()
+		return FormManager._template.default
+
 	if form?.instance_template
 		return form.instance_template
 
