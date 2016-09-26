@@ -39,6 +39,8 @@ if Meteor.isServer
             doc.current.created = new Date();
             doc.current.modified_by = userId;
             doc.current.modified = new Date();
-
+            
+if Meteor.isClient
+	db.forms._simpleSchema.i18n("forms")
 
 db.forms.attachSchema(db.forms._simpleSchema)
