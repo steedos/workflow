@@ -41,7 +41,7 @@
                 {{#if isNode}}
                     <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
                 {{else}}
-                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
                 {{/if}}
             {{/if}}
 
@@ -129,10 +129,10 @@
     <div class="modal fade" id="ins_attach_edit" tabindex="-1" role="dialog" aria-labelledby="modalLabel2">
         <div style="height: 100%;">
           <div class="modal-content ins-modal" style="height: 100%;">
-                {{#with attach}}
+
                 <div class="modal-header" id="attach_edit_modal_header">
-                    <h4 class="modal-title" id="modalLabel2">{{ this.name }}</h4>
-                    <button type="button" class="btn btn-primary" style="float: right;margin-top: -25px;" data-filename="{{this.name}}">{{_ "workflow_attachment_save"}}</button>
+                    <h4 class="modal-title" id="modalLabel2">{{ name }}</h4>
+                    <button type="button" class="btn btn-primary" style="float: right;margin-top: -25px;" data-filename="{{name}}">{{_ "workflow_attachment_save"}}</button>
                     <button type="button" class="btn btn-default" style="float: right;margin-top: -25px;" data-dismiss="modal">{{_ "workflow_attachment_close"}}</button>
                 </div>
 
@@ -144,7 +144,7 @@
                         <param name='ProductKey' value='B401843AE60C0E72C1C8BC3E543B5E7790B42415'>
                     </object>
                 </div>
-                {{/with}}
+
           </div>
         </div>
     </div>

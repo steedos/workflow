@@ -77,6 +77,10 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
             if r
               newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], parent: parent, current: true}
               fileObj = collection.insert newFile
+
+              # 删除同一个申请单同一个步骤同一个人上传的重复的文件
+              if fileObj
+                collection.remove({'metadata.instance': body['instance'], 'metadata.parent': parent, 'metadata.owner': body['owner'], 'metadata.approve': body['approve'], 'metadata.current': {$ne: true}})
           else
             newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
             fileObj = collection.insert newFile

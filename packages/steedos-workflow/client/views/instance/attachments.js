@@ -103,6 +103,7 @@ Template.instance_attachment.events({
         Session.set("attach_id", event.target.id);
         Session.set('cfs_file_id', event.target.id);
         Session.set('attach_parent_id', event.target.dataset.parent);
+        Session.set('cfs_filename', event.target.dataset.name);
         Modal.show('ins_attach_edit_modal');
     },
 })
@@ -278,18 +279,8 @@ Template._file_version_DeleteButton.events({
 
 Template.ins_attach_edit_modal.helpers({
 
-    attach: function() {
-        var cfs_file_id = Session.get('cfs_file_id');
-        if (!cfs_file_id)
-            return;
-
-        var f = cfs.instances.findOne({
-            _id: cfs_file_id
-        });
-        if (f)
-            return f;
-
-        return;
+    name: function() {
+        return Session.get('cfs_filename');
     }
 
 })
