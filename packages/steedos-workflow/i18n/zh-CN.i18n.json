@@ -165,7 +165,7 @@
     "workflow_form_edit": "表单样式",
     "flows_template": "申请单模板",
     "flows_name": "流程名称",
-    "flows_is_table_style": "表格样式",
+    "flows_instance_style": "表单样式",
     "flows_print_template": "打印模板",
     "flows_instance_template": "表单模板"
 

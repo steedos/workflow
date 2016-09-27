@@ -3,7 +3,7 @@ db.flows.adminConfig =
 	color: "blue"
 	tableColumns: [
 		{name: "name"},
-		{name: "is_table_style"},
+		{name: "instance_style"},
 	]
 	selector: {space: -1}
 	showDelColumn: false

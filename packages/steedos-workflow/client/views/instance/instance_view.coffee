@@ -18,7 +18,7 @@ Template.instance_view.helpers
         if Steedos.isMobile()
             return false
 
-        if flow?.is_table_style
+        if flow?.instance_style == 'table'
             return true
         # return true
         return false;

@@ -134,8 +134,8 @@ TemplateManager.getTemplate = (flowId) ->
 	if flow?.instance_template
 		return flow.instance_template
 
-	if flow?.is_table_style
-		return TemplateManager._template.table
+	if flow?.instance_style
+		return TemplateManager._template[flow.instance_style]
 	else
 		return TemplateManager._template.default
 

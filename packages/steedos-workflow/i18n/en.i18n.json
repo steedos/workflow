@@ -163,7 +163,7 @@
     "workflow_form_edit": "Form Style",
     "flows_template": "Instance Template",
     "flows_name": "Flow Name",
-    "flows_is_table_style": "Table Style",
+    "flows_instance_style": "Form Style",
     "flows_print_template": "Print Template",
     "flows_instance_template": "Form Template"
 
