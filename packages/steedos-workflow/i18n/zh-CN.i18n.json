@@ -14,6 +14,7 @@
     "steedos_desktop": "华炎云",
 
     "Workflow": "审批王",
+    "instance_new": "新建",
 
     "instances": "申请单",
     "instances_name": "标题",
@@ -160,6 +161,12 @@
     "instance_cc_title": "传阅",
     "instance_curstep": "当前步骤: ",
     "instance_cc_user": "传阅对象",
-    "instance_cc_error_users_required": "请选择传阅对象。"
+    "instance_cc_error_users_required": "请选择传阅对象。",
+    "workflow_form_edit": "表单样式",
+    "flows_template": "申请单模板",
+    "flows_name": "流程名称",
+    "flows_is_table_style": "表格样式",
+    "flows_print_template": "打印模板",
+    "flows_instance_template": "表单模板"
 
 }

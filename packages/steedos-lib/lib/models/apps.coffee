@@ -14,35 +14,39 @@ db.apps._simpleSchema = new SimpleSchema
 	url:
 		type: String
 		max: 200
+	auth_name:
+		type: String
+		optional: true
+		max: 200
 	on_click: 
-		type: String,
-		optional: true,
+		type: String
+		optional: true
 		autoform: 
-			rows: 10,
+			rows: 10
 	icon:
 		type: String
 		max: 200
 		autoform:
 			defaultValue: "ion-ios-keypad-outline"
-		optional: true,
+		optional: true
 	space_sort:
 		type: Number
-		optional: true,
+		optional: true
 	secret:
 		type: String
 		max: 200
-		optional: true,
+		optional: true
 	internal:
 		type: Boolean
-		optional: true,
+		optional: true
 		autoform: 
 			omit: true
 	mobile:
 		type: Boolean
-		optional: true,
+		optional: true
 	sort:
 		type: Number
-		optional: true,
+		optional: true
 		defaultValue: 9000
 		autoform: 
 			omit: true

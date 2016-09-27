@@ -57,6 +57,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/tapi18n.coffee');
 	api.addFiles('lib/core.coffee');
 
+
 	api.addFiles('lib/models/forms.coffee');
 	api.addFiles('lib/models/flows.coffee');
 	api.addFiles('lib/models/flow_roles.coffee');
@@ -77,6 +78,8 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/uuflow_api.js', 'client');
     api.addFiles('client/lib/workflow_manager.js', 'client');
     api.addFiles('client/lib/node_manager.js','client');
+    api.addFiles('client/lib/template_manager.coffee','client');
+    
 
     //add client file
 	api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
@@ -105,6 +108,7 @@ Package.onUse(function(api) {
     api.addFiles('client/layout/sidebar.html', 'client');
     api.addFiles('client/layout/sidebar.coffee', 'client');
 
+    api.addFiles('client/views/instance/_instance_form.coffee', 'client');
 
     api.addFiles('client/views/instance/attachments.html', 'client');
     api.addFiles('client/views/instance/attachments.js', 'client');
@@ -187,12 +191,16 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/instance_list.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');
     
-
+    api.addFiles('lib/admin.coffee');
 
     api.addFiles('tabular.coffee');
 
 	// EXPORT
 	api.export('Workflow');
+
+    api.export('TemplateManager');
+
+    api.export('WorkflowManager');
 });
 
 Package.onTest(function(api) {

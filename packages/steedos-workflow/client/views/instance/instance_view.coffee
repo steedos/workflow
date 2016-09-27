@@ -11,9 +11,17 @@ Template.instance_view.helpers
     unequals: (a,b) ->
         return !(a == b)
 
-    isTableView: ->
+    # 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
+    isTableView: (flowId)->
+        flow = WorkflowManager.getFlow(flowId);
+
+        if Steedos.isMobile()
+            return false
+
+        if flow?.is_table_style
+            return true
         # return true
-        return !Steedos.isMobile();
+        return false;
 
 Template.instance_view.onRendered ->
     $(".workflow-main").addClass("instance-show")

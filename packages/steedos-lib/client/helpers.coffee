@@ -70,6 +70,15 @@ TemplateHelpers =
             if space
                 return space.name
 
+    isPaidSpace: (spaceId)->
+        if !spaceId
+            spaceId = Steedos.getSpaceId()
+        if spaceId
+            space = db.spaces.findOne(spaceId)
+            if space
+                return space.is_paid
+
+
     isCloudAdmin: ->
         return Meteor.user()?.is_cloudadmin
 

@@ -18,6 +18,7 @@ reload
 random
 ejson
 spacebars
+spacebars-compiler
 check
 reactive-var
 underscore

@@ -12,4 +12,4 @@
 
     console.log '[publish] flows for space ' + spaceId
 
-    return db.flows.find({space: spaceId}, {fields: {name: 1, form: 1, state: 1, perms: 1}})
+    return db.flows.find({space: spaceId}, {fields: {name: 1, form: 1, state: 1, perms: 1, is_table_style:1, print_template:1, instance_template:1}})
