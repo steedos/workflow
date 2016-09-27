@@ -3,7 +3,7 @@
     {{#if attachments}}
 
     <div class="box instance_attachments">
-        <div class="box-header  with-border"> 
+        <div class="box-header  with-border">
             <h3 class="box-title">{{_ "Attachments"}}</h3>
 
             <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}' style={{enabled_add_attachment}}><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input"></div>
@@ -11,7 +11,7 @@
 
         </div>
         <div class="box-body">
-                
+
             <table class='table table-condensed attachments'>
                 <tbody>
                     {{#each attachments}}
@@ -24,7 +24,7 @@
     </div>
 
     {{/if}}
-    
+
 </template>
 
 
@@ -36,12 +36,12 @@
             {{else}}
                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
             {{/if}}
-            
+
             {{#if canEdit this.name}}
                 {{#if isNode}}
-                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
                 {{else}}
-                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
                 {{/if}}
             {{/if}}
 
@@ -58,7 +58,7 @@
 </template>
 
 <template name="ins_attach_version_modal" >
-    
+
     <div class="modal fade" id="ins_attach_version" tabindex="-1" role="dialog" aria-labelledby="modalLabel2">
         <div class="modal-dialog" role="document">
           <div class="modal-content ins-modal">
@@ -131,8 +131,8 @@
           <div class="modal-content ins-modal" style="height: 100%;">
                 {{#with attach}}
                 <div class="modal-header" id="attach_edit_modal_header">
-                    <h4 class="modal-title" id="modalLabel2">{{ filename }}</h4>
-                    <button type="button" class="btn btn-primary" style="float: right;margin-top: -25px;" data-filename="{{filename}}">{{_ "workflow_attachment_save"}}</button>
+                    <h4 class="modal-title" id="modalLabel2">{{ this.name }}</h4>
+                    <button type="button" class="btn btn-primary" style="float: right;margin-top: -25px;" data-filename="{{this.name}}">{{_ "workflow_attachment_save"}}</button>
                     <button type="button" class="btn btn-default" style="float: right;margin-top: -25px;" data-dismiss="modal">{{_ "workflow_attachment_close"}}</button>
                 </div>
 
@@ -149,4 +149,3 @@
         </div>
     </div>
 </template>
-

@@ -101,6 +101,8 @@ Template.instance_attachment.events({
     },
     "click [name='ins_attach_edit']": function(event, template) {
         Session.set("attach_id", event.target.id);
+        Session.set('cfs_file_id', event.target.id);
+        Session.set('attach_parent_id', event.target.dataset.parent);
         Modal.show('ins_attach_edit_modal');
     },
 })
@@ -277,45 +279,33 @@ Template._file_version_DeleteButton.events({
 Template.ins_attach_edit_modal.helpers({
 
     attach: function() {
-        WorkflowManager.instanceModified.get();
+        var cfs_file_id = Session.get('cfs_file_id');
+        if (!cfs_file_id)
+            return;
 
-        var ins_id, ins_attach_id;
-        ins_id = Session.get("instanceId");
-        ins_attach_id = Session.get("attach_id");
-        if (!ins_id || !ins_attach_id)
-            return;
-        var ins = WorkflowManager.getInstance();
-        if (!ins)
-            return;
-        if (!ins.attachments)
-            return;
-        var attach = ins.attachments.filterProperty("_id", ins_attach_id);
-        if (attach) {
-            return attach[0];
-        } else {
-            return;
-        }
+        var f = cfs.instances.findOne({
+            _id: cfs_file_id
+        });
+        if (f)
+            return f;
+
+        return;
     }
 
 })
 
 Template.ins_attach_edit_modal.onRendered(function() {
 
-    var ins_id, ins_attach_id;
-    ins_id = Session.get("instanceId");
-    ins_attach_id = Session.get("attach_id");
-    if (!ins_id || !ins_attach_id)
+    var cfs_file_id = Session.get('cfs_file_id');
+    if (!cfs_file_id)
         return;
-    var ins = WorkflowManager.getInstance();
-    if (!ins)
-        return;
-    if (!ins.attachments)
-        return;
-    var attach = ins.attachments.filterProperty("_id", ins_attach_id);
-    if (attach) {
-        att = attach[0];
+
+    var f = cfs.instances.findOne({
+        _id: cfs_file_id
+    });
+    if (f) {
         TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
-        url = Meteor.absoluteUrl("api/files/instances/") + att.current._rev + "/" + att.filename + "?download=true";
+        url = Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
         console.log(url);
         TANGER_OCX_OBJ.OpenFromURL(url);
 
@@ -343,7 +333,18 @@ Template.ins_attach_edit_modal.events({
 
         var TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
 
-        var data = TANGER_OCX_OBJ.SaveToURL(Meteor.absoluteUrl('s3/'), "file", "", filename, 0);
+        var params = {};
+        params.space = Session.get('spaceId');
+        params.instance = Session.get('instanceId');
+        params.approve = InstanceManager.getMyApprove().id;
+        params.owner = Meteor.userId();
+        params.owner_name = Meteor.user().name;
+        params.isAddVersion = true;
+        params.parent = Session.get('attach_parent_id');
+
+        var params_str = $.param(params);
+
+        var data = TANGER_OCX_OBJ.SaveToURL(Meteor.absoluteUrl('s3/'), "file", params_str, encodeURIComponent(filename), 0);
 
         var json_data = eval('(' + data + ')');
 
