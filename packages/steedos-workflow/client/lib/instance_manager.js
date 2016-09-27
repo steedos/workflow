@@ -907,6 +907,11 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
     fd.append("approve", InstanceManager.getMyApprove().id);
     fd.append("owner", Meteor.userId());
     fd.append("owner_name", Meteor.user().name);
+    if (isAddVersion) {
+      fd.append("isAddVersion", isAddVersion);
+      fd.append("parent", Session.get('attach_parent_id'));
+    }
+      
     $.ajax({
       url: Meteor.absoluteUrl('s3/'),
       type: 'POST',

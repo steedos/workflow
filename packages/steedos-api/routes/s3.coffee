@@ -60,9 +60,13 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         body = req.body
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
-          collection.find({'metadata.instance': body['instance']}).forEach (c) ->
-            if c.name() == filename
-              parent = c.metadata.parent
+
+          if body['isAddVersion'] && body['parent']
+            parent = body['parent']
+          else
+            collection.find({'metadata.instance': body['instance'], 'metadata.current' : true}).forEach (c) ->
+              if c.name() == filename
+                parent = c.metadata.parent
 
           if parent
             r = collection.update({'metadata.parent': parent, 'metadata.current' : true}, {$unset : {'metadata.current' : ''}})

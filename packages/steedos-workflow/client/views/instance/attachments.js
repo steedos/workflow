@@ -198,9 +198,6 @@ Template.ins_attach_version_modal.helpers({
         if (flow && flow.state == "enabled")
             isFlowEnable = true;
 
-        // if (!historys || historys.length == 0) {
-        //     isHistoryLenthZero = true;
-        // }
         var count = cfs.instances.find({
             'metadata.parent': parent_id
         }).count();
@@ -256,6 +253,20 @@ Template._file_version_DeleteButton.events({
         cfs.instances.remove({
             _id: file_id
         }, function(error) {
+            var parent = Session.get('attach_parent_id');
+            var current = cfs.instances.find({
+                'metadata.parent': parent
+            }, {
+                sort: {
+                    uploadedAt: -1
+                }
+            }).fetch()[0];
+            current.update({
+                $set: {
+                    'metadata.current': true
+                }
+            });
+
             InstanceManager.removeAttach();
         })
         return true;
