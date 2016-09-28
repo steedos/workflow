@@ -28,7 +28,7 @@ Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
 	Steedos.subsSpace.reset();
 	if spaceId
-		Steedos.subsSpace.subscribe("apps")
+		Steedos.subsSpace.subscribe("apps", spaceId)
 		# Steedos.subsSpace.subscribe("space_users", spaceId)
 		# Steedos.subsSpace.subscribe("organizations", spaceId)
 		# Steedos.subsSpace.subscribe("flow_roles", spaceId)
