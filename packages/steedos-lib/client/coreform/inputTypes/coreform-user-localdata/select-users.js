@@ -1,11 +1,11 @@
-AutoForm.addInputType("selectuser",{
-    template:"afSelectUser",
+AutoForm.addInputType("selectuser_localdata",{
+    template:"afSelectUser_localData",
     valueIn: function(val, atts){
         if("string" == typeof(val))
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
 
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
-            val = WorkflowManager.getFormulaUserObjects(val);
+            val = CFDataManager.getFormulaSpaceUsers(val);
         }
 
         return val;
@@ -34,7 +34,7 @@ AutoForm.addInputType("selectuser",{
     }
 });
 
-Template.afSelectUser.helpers({
+Template.afSelectUser_localData.helpers({
     val: function(value){
         if(value){
             var val = '';
@@ -64,7 +64,7 @@ Template.afSelectUser.helpers({
 });
 
 
-Template.afSelectUser.events({
+Template.afSelectUser_localData.events({
   'click .selectUser': function (event, template) {
     //console.log("click .selectUser...");
     //console.log("s1 is " + parseInt(new Date().getTime()/1000
@@ -115,12 +115,12 @@ Template.afSelectUser.events({
 
     options.orgId = start_orgId;
     //console.log("s2 is " + parseInt(new Date().getTime()/1000));
-    SelectTag.show(options,"Template.afSelectUser.confirm('"+template.data.name+"')");
+    SelectTag.show(options,"Template.afSelectUser_localData.confirm('"+template.data.name+"')");
     //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 
-Template.afSelectUser.confirm = function(name){
+Template.afSelectUser_localData.confirm = function(name){
     var values = SelectTag.values;
     var valuesObject = SelectTag.valuesObject();
     if(valuesObject.length > 0){
@@ -139,7 +139,7 @@ Template.afSelectUser.confirm = function(name){
 
 }
 
-Template.afSelectUser.rendered = function(){
+Template.afSelectUser_localData.rendered = function(){
     // var value = this.data.value;
     var name = this.data.name;
     var dataset = this.data.dataset;

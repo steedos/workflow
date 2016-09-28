@@ -1,11 +1,12 @@
 AutoForm.addInputType("selectorg",{
     template:"afSelectOrg",
     valueIn: function(val, atts){
+        console.log("value in...");
         if("string" == typeof(val))
-            val = WorkflowManager.getFormulaOrgObjects(val);
+            val = CFDataManager.getFormulaOrganizations(val);
 
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
-            val = WorkflowManager.getFormulaOrgObjects(val);
+            val = CFDataManager.getFormulaOrganizations(val);
         }
         
         return val;
@@ -38,32 +39,27 @@ AutoForm.addInputType("selectorg",{
 
 Template.afSelectOrg.events({
   'click .selectOrg': function (event, template) {
+    console.log("show cf_organization_modal");
+    
     if ("disabled" in template.data.atts)
         return;
-    var data = {orgs:WorkflowManager.getSpaceOrganizations()};
+    //var data = {orgs:WorkflowManager.getSpaceOrganizations()};
     var values = $("input[name='"+template.data.name+"']")[0].dataset.values;
 
     var options = {};
-    options.data = data;
+    //options.data = data;
     options.multiple = template.data.atts.multiple;
+    
     if(values && values.length > 0){
         options.defaultValues = values.split(",");
     }
 
     options.showUser = false;
 
-    var start_orgId = "";
-
-    if(data.orgs && data.orgs.length > 0){
-        var start_org = data.orgs.filterProperty("is_company",true);
-        start_org.forEach(function(so){
-            start_orgId = so.id;
-        });
-    }
-
-    options.orgId = start_orgId;
-
-    SelectTag.show(options,"Template.afSelectOrg.confirm('"+template.data.name+"')");
+    options.targetId = template.data.atts.id;
+    
+    Modal.allowMultiple = true;
+    Modal.show("cf_organization_modal", options);
   }
 });
 
@@ -73,14 +69,14 @@ Template.afSelectOrg.helpers({
             var val = '';
             if(value instanceof Array){ //this.data.atts.multiple && (value instanceof Array)
                 if(value.length > 0 && typeof(value[0]) == 'object'){
-                    val = value ? value.getProperty("fullname").toString() : ''
+                    val = value ? value.getProperty("name").toString() : ''
                     this.atts["data-values"] = value ? value.getProperty("id").toString() : '';
                 }else{
                     val = value.toString();
                 }
             }else{
                 if(value && typeof(value) == 'object'){
-                    val = value ? value.fullname : '';
+                    val = value ? value.name : '';
                     this.atts["data-values"] = value ? value.id : '';
                 }else{
                     val = value;
@@ -102,10 +98,10 @@ Template.afSelectOrg.confirm = function(name){
     if(valuesObject.length > 0){
         if($("input[name='"+name+"']")[0].multiple){
             $("input[name='"+name+"']")[0].dataset.values = values;
-            $("input[name='"+name+"']").val(valuesObject.getProperty("fullname").toString()).trigger("change");
+            $("input[name='"+name+"']").val(valuesObject.getProperty("name").toString()).trigger("change");
         }else{
             $("input[name='"+name+"']")[0].dataset.values = values[0];
-            $("input[name='"+name+"']").val(valuesObject[0].fullname).trigger("change");
+            $("input[name='"+name+"']").val(valuesObject[0].name).trigger("change");
         }
         
     }else{
@@ -114,17 +110,3 @@ Template.afSelectOrg.confirm = function(name){
     }
 
 }
-
-// Template.afSelectOrg.rendered = function(){
-//     var value = this.data.value;
-//     var name = this.data.name;
-//     if(value instanceof Array){ //this.data.atts.multiple && (value instanceof Array)
-//         $("input[name='"+name+"']").val(value ? value.getProperty("name").toString() : '');
-//         $("input[name='"+name+"']")[0].dataset.values = value ? value.getProperty("id") : '';
-//     }else{
-//         $("input[name='"+name+"']").val(value ? value.name : '');
-//         $("input[name='"+name+"']")[0].dataset.values = value ? value.id : ''; 
-//     }
-    
-// }
-

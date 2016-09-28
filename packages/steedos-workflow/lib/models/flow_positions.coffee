@@ -15,7 +15,8 @@ db.flow_positions._simpleSchema = new SimpleSchema
 			options: ->
 				options = []
 				selector = {}
-				objs = db.flow_roles.find(selector, {name:1, sort: {name:1}})
+				selector.space = Session.get('spaceId')
+				objs = WorkflowManager.remoteFlowRoles.find(selector, {fields: {name:1} })
 				objs.forEach (obj) ->
 					options.push
 						label: obj.name,
@@ -42,17 +43,17 @@ db.flow_positions.attachSchema(db.flow_positions._simpleSchema)
 db.flow_positions.helpers
 
 	role_name: ->
-		role = db.flow_roles.findOne({_id: this.role});
+		role = WorkflowManager.remoteFlowRoles.findOne({_id: this.role}, {fields: {name: 1}});
 		return role && role.name;
 	
 	org_name: ->
-		org = db.organizations.findOne({_id: this.org});
+		org = WorkflowManager.remoteOrganizations.findOne({_id: this.org}, {fields: {fullname: 1}});
 		return org && org.fullname;
 	
 	users_name: ->
 		if (!this.users instanceof Array)
 			return ""
-		users = db.space_users.find({user: {$in: this.users}}, {fields: {name:1}});
+		users = WorkflowManager.remoteSpaceUsers.find({user: {$in: this.users}}, {fields: {name:1}});
 		names = []
 		users.forEach (user) ->
 			names.push(user.name)

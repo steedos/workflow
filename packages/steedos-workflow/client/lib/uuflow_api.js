@@ -419,3 +419,70 @@ UUflow_api.print = function(instanceId){
   uobj.id = instanceId;
   window.open(Steedos.settings.webservices.uuflow.url + "/uf/print?" + $.param(uobj), '_blank', 'EnableViewPortScale=yes');
 }
+
+// 计算下一步处理人
+UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, body) {
+  var q = {};
+  q.deal_type = deal_type;
+  q.spaceId = spaceId;
+
+  var nextStepUsers = [];
+  var data = JSON.stringify(body);
+  $.ajax({
+    url: Meteor.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
+    type: 'POST',
+    async: false,
+    data: data,
+    dataType: 'json',
+    processData: false,
+    contentType: "application/json",
+    success: function(responseText, status) {
+      if (responseText.errors) {
+        toastr.error(responseText.errors);
+        return;
+      }
+
+      nextStepUsers = responseText.nextStepUsers;
+    },
+    error: function(xhr, msg, ex) {
+      toastr.error(msg);
+    }
+  });
+
+  return nextStepUsers;
+}
+
+// 获取space_users
+UUflow_api.getSpaceUsers = function (spaceId, userIds) {
+  var q = {};
+  q.spaceId = spaceId;
+  var data = 
+  {
+    'userIds' : userIds
+  }
+  var spaceUsers;
+  var data = JSON.stringify(data);
+  $.ajax({
+    url: Meteor.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
+    type: 'POST',
+    async: false,
+    data: data,
+    dataType: 'json',
+    processData: false,
+    contentType: "application/json",
+    success: function(responseText, status) {
+      if (responseText.errors) {
+        toastr.error(responseText.errors);
+        return;
+      }
+
+      spaceUsers = responseText.spaceUsers;
+    },
+    error: function(xhr, msg, ex) {
+      toastr.error(msg);
+    }
+  });
+
+  return spaceUsers;
+}
+

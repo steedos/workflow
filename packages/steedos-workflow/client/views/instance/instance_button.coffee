@@ -39,7 +39,7 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
         organization = db.organizations.findOne(curSpaceUser.organization);
@@ -81,7 +81,7 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
         organization = db.organizations.findOne(curSpaceUser.organization);
@@ -103,7 +103,7 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
         organization = db.organizations.findOne(curSpaceUser.organization);
@@ -144,6 +144,7 @@ Template.instance_button.events
             confirmButtonText: t('OK'),   
             closeOnConfirm: true 
         }, () ->  
+            Session.set("instance_change", false);
             InstanceManager.deleteIns()
 
     'click #instance_submit': (event)->

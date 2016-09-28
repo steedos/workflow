@@ -1,6 +1,5 @@
 @Workflow = {}
 
-@TabularTables = {};
 
 @TracesTemplate = {};
 

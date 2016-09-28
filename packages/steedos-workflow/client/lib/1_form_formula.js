@@ -206,17 +206,21 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
             run = true;
         }
         if(run){
-            var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
-            //console.log("formula is " + formula_field.formula);
-            //console.log("fileValue is " + fileValue);
-            if('digits' in formula_field){
-                var value = Form_formula.field_values[formula_field.code];
-                if(typeof(value) == 'number'){
-                    value = value.toFixed(formula_field.digits);
+            try{
+                var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
+                //console.log("formula is " + formula_field.formula);
+                //console.log("fileValue is " + fileValue);
+                if('digits' in formula_field){
+                    var value = Form_formula.field_values[formula_field.code];
+                    if(typeof(value) == 'number'){
+                        value = value.toFixed(formula_field.digits);
+                    }
+                    $("[name='" + field_prefix + formula_field.code + "']").val(value);
+                }else{
+                    $("[name='" + field_prefix + formula_field.code + "']").val(Form_formula.field_values[formula_field.code]);
                 }
-                $("[name='" + field_prefix + formula_field.code + "']").val(value);
-            }else{
-                $("[name='" + field_prefix + formula_field.code + "']").val(Form_formula.field_values[formula_field.code]);
+            }catch(e){
+                console.log("公式["+formula_field.formula+"]执行异常：" + e.message);
             }
         }
     }
@@ -229,7 +233,7 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
     var next_steps = new Array();
 
     lines = step.lines;
-
+    console.log("Form_formula.getNextStepsFromCondition run...")
     Form_formula.field_values = init_formula_values(fields,autoFormDoc);
     //CoreForm.mainFormController.getPath("mainFormView.__values");
 
@@ -244,7 +248,7 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
                     next_steps.push(WorkflowManager.getInstanceStep(line.to_step));
                 }
             }catch(err){
-                console.error("getNextStepsFromCondition-exception: " + err.message);
+                console.log("脚本["+conditionStr+"]执行异常：" + err.message);
             }
 
         }
@@ -256,64 +260,61 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
 /**
     * 获得公式需要用到的初始值
     * 输入：fields, values, applicant
-    * 输出：__values
+    * formula_values
 **/
 
 function init_formula_values(fields, autoFormDoc){
-    var __values = {};
-    //申请单中填的值处理
-    if(fields && fields.length && autoFormDoc) {
-        //debugger;
-        fields.forEach(function(field){
-            var type = field.type;
-            if(type) {
-                if(type === 'table') {
-                    /*
-                    * 将表格字段的值进行转换后传入__values中
-                    * values中表格的值格式为
-                    * [{"a":1,"b":4},{"a":2,"b":5},{"a":3,"b":6}]
-                    * __values需要转化为下面格式且和主表的值一样放到第一层
-                    * {"a":[1,2,3],"b":[4,5,6]}
-                    **/
-                    var tableFields = field.sfields,
-                        tableValues = autoFormDoc[field.code],
-                        formulaTableValues = [],
-                        __tableValues = {};
-                    //按公式的格式转换值为__tableValues
-                    if(tableFields && tableFields.length && tableValues && tableValues instanceof Array) {
-                        tableValues.forEach(function(tableValue){
-                            formulaTableValues.push(init_formula_values(tableFields, tableValue));
-                        }, this);
-                        //按主表的格式转换__tableValues加到
-                        tableFields.forEach(function(tablefield){
-                            __tableValues[tablefield.code] = formulaTableValues.getEach(tablefield.code);
-                        });
-                        __values = Form_formula.mixin(__values, __tableValues);
-                    }
-                } else if (type == 'user'){
 
-                    //__values[field.code] = WorkflowManager.getUser(autoFormDoc[field.code]);
-                    __values[field.code] = WorkflowManager.getFormulaUserObjects(autoFormDoc[field.code]);
+    var approver = localStorage.getItem("Meteor.userId");
 
-                } else if (type == 'group'){
+    var applicant = InstanceManager.getApplicantUserId();
 
-                    //__values[field.code] = WorkflowManager.getUser(autoFormDoc[field.code]);
-                    __values[field.code] = WorkflowManager.getFormulaOrgObjects(autoFormDoc[field.code]);
-
-                } else {
-                    //此处传spaceId给选人控件的旧数据计算roles和organization
-                    __values[field.code] = autoFormDoc[field.code];
-                }
-            }
-        }, this);
+    if(!applicant){
+        return {};
     }
-    //当前处理人
-    __values["approver"] = WorkflowManager.getFormulaUserObject(localStorage.getItem("Meteor.userId"));
-    //申请人
-    __values["applicant"] = WorkflowManager.getFormulaUserObject(InstanceManager.getApplicantUserId());
 
-    return __values;
+    console.log("init_formula_values run...");
+
+    var formula_values, q = {};
+
+    q.spaceId = Session.get("spaceId");
+
+    var data = 
+        {
+        'fields' : fields,
+        'autoFormDoc' : autoFormDoc,
+        'approver' : approver,
+        'applicant' : applicant,
+        }
+    
+    var data = JSON.stringify(data);
+
+    $.ajax({
+        url: Meteor.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
+        type: 'POST',
+        async: false,
+        data: data,
+        dataType: 'json',
+        processData: false,
+        contentType: "application/json",
+        success: function(responseText, status) {
+          if (responseText.errors) {
+            console.error(responseText.errors);
+            return;
+          }
+
+          formula_values = responseText.formula_values;
+        },
+        error: function(xhr, msg, ex) {
+          console.error(msg);
+        }
+    });
+
+    return formula_values;
 };
+
+
+
 
 Array.prototype.getEach = function(code){
     var rev = [];
@@ -381,32 +382,6 @@ Array.prototype.uniqById = function(){
     });
 
     return r;
-}
-
-Array.prototype.filterProperty = function(h, l){
-    var g = [];
-    this.forEach(function(t){
-        var m = t? t[h]:null;
-        var d = false;
-        if(m instanceof Array){
-            d = m.includes(l);
-        }else{
-            d = (l === undefined)? false:m==l;
-        }
-        if(d){
-            g.push(t);
-        }
-    });
-    return g;
-};
-
-Array.prototype.getProperty = function(k){
-    var v = new Array();
-    this.forEach(function(t){
-        var m = t? t[k]:null;
-        v.push(m);
-    });
-    return v;
 }
 
 //子表的sum方法

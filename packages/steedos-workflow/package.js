@@ -22,6 +22,7 @@ Package.onUse(function(api) {
     api.use('blaze');
     api.use('templating');
     api.use('steedos:lib');
+    api.use('steedos:api');
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes@2.1.0');
     api.use('nimble:restivus@0.8.7');
@@ -86,8 +87,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.html', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.js', 'client');
@@ -98,8 +97,8 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
+
+
 
 
     api.addFiles('client/layout/master.html', 'client');
@@ -181,6 +180,15 @@ Package.onUse(function(api) {
     api.addFiles('server/methods/save_instance.js', 'server');
     api.addFiles('server/methods/trace_approve_cc.js', 'server');
 
+    // routes
+    api.addFiles('routes/nextStepUsers.js', 'server');
+    api.addFiles('routes/getSpaceUsers.js', 'server');
+    api.addFiles('routes/getFormulaUserObjects.js', 'server');
+    api.addFiles('routes/init_formula_values.js', 'server');
+
+    api.addFiles('server/lib/workflow_manager.js', 'server');
+    api.addFiles('server/lib/1_form_formula.js', 'server');
+
     api.addFiles('server/publications/categories.coffee', 'server');
     api.addFiles('server/publications/cfs_instances.coffee', 'server');
     api.addFiles('server/publications/flow_positions.coffee', 'server');
@@ -195,12 +203,14 @@ Package.onUse(function(api) {
 
     api.addFiles('tabular.coffee');
 
-	// EXPORT
+    api.export("WorkflowManager");
+    api.export("InstanceManager");
+	api.export("WorkflowManager_format");
+    // EXPORT
 	api.export('Workflow');
 
     api.export('TemplateManager');
 
-    api.export('WorkflowManager');
 });
 
 Package.onTest(function(api) {

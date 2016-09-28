@@ -1,0 +1,59 @@
+<template name="cf_contact_modal">
+  <div class="steedos modal fade cf_contact_modal" id="cf_contact_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style='position: fixed;'>
+    <div class="modal-dialog {{modalStyle showOrg}}" role="document">
+      <div class="modal-content ins-modal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <!-- <h4 class="modal-title" id="myModalLabel">选择</h4> -->
+          {{#if isMobile}}
+            {{#if showOrg}}
+              <div class="navigation-bar">
+                <span class="navigation-title dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{orgName}} &nbsp;<i class="caret"></i></a>
+                  <div class="dropdown-menu cf-contact-modal-menu">
+                     <div class="col-md-12">
+                      {{> cf_organization_list}}
+                    </div>
+                  </div>
+                </span> 
+              </div>
+            {{/if}}
+          {{/if}}
+        </div>
+        <div class="modal-body contacts-modal-body">
+          <div class="row">
+            {{#if isMobile}}
+              <div class="col-md-12">
+                {{> cf_space_user_list}}
+              </div>
+            {{else}}
+              {{#if showOrg}}
+                <div class="col-md-5">
+                  {{> cf_organization_list}}
+                </div>
+                <div class="col-md-7">
+                  {{> cf_space_user_list}}
+                </div>
+              {{else}}
+                <div class="col-md-12">
+                  {{> cf_space_user_list}}
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+        <div class="modal-footer" style="{{footer_display multiple}}">
+          <div class="row">
+            <div class="col-md-10" id="valueLabel_div">
+                <ui id="valueLabel_ui" class="valueLabel"><div id="valueLabel"></div></ui>
+            </div>
+            <div class="col-md-2 pull-right" style="padding-left:0">
+              <button type="button" class="btn btn-primary" id='confirm' title="确认" style="width:100%">确认</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</template>

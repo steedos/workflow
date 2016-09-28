@@ -28,6 +28,10 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     if(!currentStep)
         return ;
 
+    if(!instance){
+        return [];
+    }
+
     var nextSteps = new Array();
     var lines = currentStep.lines;
 
@@ -123,39 +127,61 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
     if (!nextStep)
         return ;
 
-    var applicant = WorkflowManager.getUser(InstanceManager.getApplicantUserId());
+    var applicantId = InstanceManager.getApplicantUserId();
+    
     Session.set("next_step_users_showOrg",false);
     switch(nextStep.step_type){
         case 'condition':
             break;
         case 'start': //下一步步骤类型为开始
+            var applicant = WorkflowManager.getUser(applicantId);
             nextStepUsers.push(applicant);
             break;
         default:
             switch(nextStep.deal_type){
                 case 'pickupAtRuntime': //审批时指定人员
                     Session.set("next_step_users_showOrg",true);
-                    nextStepUsers = WorkflowManager.getSpaceUsers(instance.space);
+                    var currentApprove = InstanceManager.getCurrentApprove();
+                    var current_next_steps = currentApprove.next_steps;
+                    var userIds = current_next_steps[0] ? current_next_steps[0].users : [];
+                    if (userIds) {
+                        nextStepUsers = WorkflowManager.getUsers(userIds);
+                    }
                     break;
                 case 'specifyUser': //指定人员
                     var specifyUserIds = nextStep.approver_users;
-                    nextStepUsers = nextStepUsers.concat(WorkflowManager.getUsers(specifyUserIds));
+                    var data = 
+                    {
+                        'specifyUserIds': specifyUserIds
+                    };
+                    nextStepUsers = UUflow_api.caculate_nextstep_users('specifyUser', Session.get('spaceId'), data);
                     break;
                 case 'applicantRole': //指定审批岗位
                     var approveRoleIds = nextStep.approver_roles;
-                    var approveRoles = WorkflowManager.getRoles(approveRoleIds);
-                    nextStepUsers = WorkflowManager.getRoleUsersByOrgAndRoles(instance.space, applicant.organization.id, approveRoleIds);
-                    if(!nextStepUsers.length){
-                        //todo 记录未找到角色人员的原因，用于前台显示
-                        ApproveManager.error.nextStepUsers = '"' + approveRoles.getProperty('name').toString() + '"审批岗位未指定审批人';
-                        console.error("步骤: " + nextStep.name + "找指定岗位处理人失败。参数：orgId is " + applicant.organization.id + ";roleIds is " + approveRoleIds);
-                    }
+                    var data =  
+                    {
+                        'applicantId': applicantId,
+                        'approveRoleIds': approveRoleIds
+                    };
+                    nextStepUsers = UUflow_api.caculate_nextstep_users('applicantRole', Session.get('spaceId'), data);
+
                     break;
                 case 'applicantSuperior': //申请人上级
-                    nextStepUsers = WorkflowManager.getUsers(applicant.manager);
+                    var data = 
+                    {
+                        'applicantId': applicantId
+                    };
+                    nextStepUsers = UUflow_api.caculate_nextstep_users('applicantSuperior', Session.get('spaceId'), data);
+                    if(!nextStepUsers || nextStepUsers.length == 0){
+                         ApproveManager.error.nextStepUsers = '申请人上级未指定';
+                    }
                     break;
                 case 'applicant': //申请人
-                    nextStepUsers.push(applicant);
+                    var data = 
+                    {
+                        'applicantId': applicantId
+                    };
+                    nextStepUsers = UUflow_api.caculate_nextstep_users('applicant', Session.get('spaceId'), data);
                     break;
                 case 'userField': //指定人员字段
                     var userFieldId =  nextStep.approver_user_field;
@@ -163,11 +189,12 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if(userField){
                         var userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                         if(userFieldValue){
-                            if(userField.is_multiselect){ //如果多选，以userFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getUsers(userFieldValue);
-                            }else{
-                                nextStepUsers.push(WorkflowManager.getUser(userFieldValue));
-                            }
+                            var data = 
+                            {
+                                'userField': userField,
+                                'userFieldValue': userFieldValue
+                            };
+                            nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
                         }
                     }
                     if(!nextStepUsers.length){
@@ -183,27 +210,17 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
 
                     if(orgField){
                         var orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
-
                         var orgChildrens = new Array();
-
                         //获得orgFieldValue的所有子部门
                         if(orgFieldValue){
-                            if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
-                                orgs = WorkflowManager.getOrganizations(orgFieldValue);
-                                orgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, orgFieldValue);
-                            }else{
-                                orgs = [WorkflowManager.getOrganization(orgFieldValue)];
-                                orgChildrens = WorkflowManager.getOrganizationChildrens(instance.space, orgFieldValue);
-                            }
-
-                            nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgChildrens);
-                            
-                            orgFieldUsers = WorkflowManager.getOrganizationsUsers(instance.space, orgs);
-
-                            nextStepUsers = nextStepUsers.concat(orgFieldUsers);
+                            var data = 
+                            {
+                                'orgField': orgField,
+                                'orgFieldValue': orgFieldValue
+                            };
+                            nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
                         }
                     }
-
                     if(!nextStepUsers.length){
                         if(!orgs.length){
                             ApproveManager.error.nextStepUsers = '"' + orgField.code + '"字段没有值';
@@ -214,18 +231,17 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     break;
                 case 'specifyOrg': //指定部门
                     var specifyOrgIds = nextStep.approver_orgs;
+                    var data = 
+                    {
+                        'specifyOrgIds': specifyOrgIds
+                    };
+                    nextStepUsers = UUflow_api.caculate_nextstep_users('specifyOrg', Session.get('spaceId'), data);
 
-                    var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
-                    var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space,specifyOrgIds);
-
-                    nextStepUsers = WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgs);
-                    nextStepUsers = nextStepUsers.concat(WorkflowManager.getOrganizationsUsers(instance.space, specifyOrgChildrens));
                     if(!nextStepUsers.length){
                         ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
                     }
                     break;
                 case 'userFieldRole': //指定人员字段相关审批岗位
-
                     var approverRoleIds = nextStep.approver_roles;
                     var userFieldId = nextStep.approver_user_field;
                     var userField = InstanceManager.getFormField(userFieldId);
@@ -233,14 +249,16 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if (userField){
                         userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                         if(userFieldValue){
-                            if(userField.is_multiselect){//如果多选，以userFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, userFieldValue, approverRoleIds);
-                            }else{
-                                nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(instance.space, [userFieldValue], approverRoleIds);
-                            }
+                            var data = 
+                            {
+                                'userField': userField,
+                                'userFieldValue': userFieldValue,
+                                'approverRoleIds': approverRoleIds
+
+                            };
+                            nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
                         }
                     }
-
                     if(!nextStepUsers.length){
                         
                         if(!userFieldValue){
@@ -250,7 +268,6 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                             ApproveManager.error.nextStepUsers = '"' + approverRoles.getProperty("name").toString() + '"审批岗位未指定审批人';
                         }
                     }
-
                     break;
                 case 'orgFieldRole': //指定部门字段相关审批岗位
                     var approverRoleIds = nextStep.approver_roles;
@@ -260,14 +277,16 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     if(orgField){
                         orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
                         if(orgFieldValue){
-                            if(orgField.is_multiselect){//如果多选，以orgFieldValue值为Array
-                                nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, orgFieldValue, approverRoleIds);
-                            }else{
-                                nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(instance.space, [orgFieldValue], approverRoleIds);
-                            }
+                            var data = 
+                            {
+                                'orgField': orgField,
+                                'orgFieldValue': orgFieldValue,
+                                'approverRoleIds': approverRoleIds
+
+                            };
+                            nextStepUsers = UUflow_api.caculate_nextstep_users('orgFieldRole', Session.get('spaceId'), data);
                         }
                     }
-
                     if(nextStepUsers < 1){
                         if(!orgFieldValue){
                             ApproveManager.error.nextStepUsers = '"' + orgField.code + '"字段没有值';
@@ -276,7 +295,6 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                             ApproveManager.error.nextStepUsers = '"' + approverRoles.getProperty("name").toString() + '"审批岗位未指定审批人';
                         }
                     }
-
                     break;
                 default:
                     break;
@@ -292,7 +310,6 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
     });
 
     return nextStepUsers;
-
 };
 
 // ApproveManager.updateNextStepOptions = function(steps, judge){

@@ -1,5 +1,7 @@
 ContactsManager = {};
 
+ContactsManager.organizationRemote = new AjaxCollection("organizations");
+
 ContactsManager.getNode = function(node){
 	console.log(node);
 
@@ -46,29 +48,10 @@ function handerOrg(orgs){
 
 
 ContactsManager.getRoot = function(){
-	return db.organizations.find({parent:""}).fetch();
+	return ContactsManager.organizationRemote.find({parent:""}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
 };
 
 
 ContactsManager.getChild = function(parentId){
-	return db.organizations.find({parent: parentId}).fetch();
-}
-
-/*
-* 查询当前部门及其自部门下的所有用户
-*/
-ContactsManager.getContacts = function(orgId){
-	if(orgId == "#") return;
-
-	var childrens = db.organizations.find({parents: orgId},{fields:{_id:1}}).fetch();
-
-	orgs = childrens.getProperty("_id");
-	
-	orgs.push(orgId);
-
-	page = 0
-
-	page_size = 20;
-
-	return db.space_users.find({organization: {$in: orgs}},{fields:{_id:1, name:1, email:1}, skip: page * page_size, limit: page_size}).fetch();
+	return ContactsManager.organizationRemote.find({parent: parentId}, {fields:{_id:1, name:1, parent:1, children:1, childrens:1}});
 }

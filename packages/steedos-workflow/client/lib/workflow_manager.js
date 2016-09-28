@@ -5,6 +5,10 @@ WorkflowManager = {
   instanceModified: new ReactiveVar(false)
 };
 
+WorkflowManager.remoteSpaceUsers = new AjaxCollection('space_users');
+WorkflowManager.remoteOrganizations = new AjaxCollection('organizations');
+WorkflowManager.remoteFlowRoles = new AjaxCollection('flow_roles');
+
 /*-------------------data source------------------*/
 
 WorkflowManager.getUrlForServiceName = function (serverName){
@@ -282,7 +286,7 @@ WorkflowManager.getOrganization = function(orgId){
     return ;
   }
 
-  var spaceOrg = db.organizations.findOne(orgId);
+  var spaceOrg = WorkflowManager.remoteOrganizations.findOne(orgId);
 
   if(!spaceOrg){
     return ;
@@ -301,12 +305,8 @@ WorkflowManager.getOrganizations = function(orgIds){
   if("string" == typeof(orgIds)){
     return [WorkflowManager.getOrganization(orgIds)]
   }
-
-  var orgs = new Array();
-  orgIds.forEach(function(orgId){
-    orgs.push(WorkflowManager.getOrganization(orgId));
-  });
-  return orgs;
+  
+  return WorkflowManager.remoteOrganizations.find({_id: {$in: orgIds}});
 };
 
 WorkflowManager.getRoles = function(roleIds){
@@ -352,17 +352,12 @@ WorkflowManager.getUser = function (userId){
   
   }
 
-  var spaceUser = db.space_users.findOne({user:userId});
+  var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+  if(!spaceUsers){ return };
 
-  if(!spaceUser){ return}
+  var spaceUser = spaceUsers[0];
+  if(!spaceUser){ return };
 
-  spaceUser.id = spaceUser.user;
-  spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-  if(!spaceUser.organization){
-    return ;
-  }
-  spaceUser.roles = WorkflowManager.getUserRoles(Session.get("spaceId"), spaceUser.organization.id, spaceUser.id);
-  
   return spaceUser;
 };
 
@@ -374,17 +369,7 @@ WorkflowManager.getUsers = function (userIds){
 
   var users = new Array();
   if(userIds){
-
-    var spaceUsers = db.space_users.find({user:{$in:userIds}});
-
-    spaceUsers.forEach(function(spaceUser){
-      spaceUser.id = spaceUser.user;
-      spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-      if(spaceUser.organization){
-        spaceUser.roles = WorkflowManager.getUserRoles(Session.get("spaceId"), spaceUser.organization.id, spaceUser.id);
-        users.push(spaceUser);
-      }
-    })
+    users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
   }
 
   return users;
@@ -486,72 +471,58 @@ WorkflowManager.getRoleUsersByUsersAndRoles = function(spaceId, userIds, roleIds
 WorkflowManager.getFormulaUserObjects = function(userIds){
   if (!userIds)
     return ;
-  if(userIds instanceof Array){
-    var users = new Array();
-    userIds.forEach(function(u){
-      var user = WorkflowManager.getFormulaUserObject(u);
-      if(u)
-        users.push(user);
-    });
-    return users;
-  }else{
-    return WorkflowManager.getFormulaUserObject(userIds);
-  }
+  return CFDataManager.getFormulaSpaceUser(userIds);
 }
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
 WorkflowManager.getFormulaUserObject = function(userId){
-  var userObject = {};
-
-  var user = WorkflowManager.getUser(userId);
-
-  if(!user || !user.hasOwnProperty("name"))
-    return null;
-
-  userObject['id'] = userId;
-  userObject['name'] = user.name;
-  userObject['organization'] = {'name':user.organization.name,'fullname':user.organization.fullname};
-  userObject["roles"] = user.roles ? user.roles.getProperty('name'):[];
-
-  return userObject;
-
+  if(userId instanceof Array){
+    return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), userId);
+  }else{
+    return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), [userId])[0];
+  }
 };
+
 
 WorkflowManager.getFormulaOrgObjects = function(orgIds){
   if (!orgIds)
     return ;
-  if(orgIds instanceof Array){
-    var orgs = new Array();
-    orgIds.forEach(function(o){
-      var org = WorkflowManager.getFormulaOrgObject(o);
-      if(o)
-        orgs.push(org);
-    });
-    return orgs;
-  }else{
-    return WorkflowManager.getFormulaOrgObject(orgIds);
-  }
+  return WorkflowManager.getFormulaOrgObject(orgIds);
 }
 
 WorkflowManager.getFormulaOrgObject = function(orgId){
-  var orgObject = {};
 
-  var org = WorkflowManager.getOrganization(orgId);
+  if(orgId instanceof Array){
+    var orgArray = new Array();
+    var orgs = WorkflowManager.getOrganizations(orgId);
+    orgs.forEach(function(org){
+      var orgObject = {};
+      orgObject['id'] = org._id;
+      orgObject['name'] = org.name;
+      orgObject['fullname'] = org.fullname;
+      orgArray.push(orgObject);
+    });
 
-  if(!org)
-    return null;
+    return orgArray;
+  }else{
+    var orgObject = {};
+    var org = WorkflowManager.getOrganization(orgId);
+    if(!org)
+      return null;
 
-  orgObject['id'] = orgId;
-  orgObject['name'] = org.name;
-  orgObject['fullname'] = org.fullname;
+    orgObject['id'] = orgId;
+    orgObject['name'] = org.name;
+    orgObject['fullname'] = org.fullname;
 
-  return orgObject;
+    return orgObject;
+  }
+
 }
 
 WorkflowManager.getSpaceCategories = function(spaceId){
   var re = new Array();
 
-  var r = db.categories.find();
+  var r = db.categories.find({space: spaceId});
 
   r.forEach(function(c){
     re.push(c);
@@ -686,7 +657,7 @@ WorkflowManager.canMonitor = function (fl, curSpaceUser, organization) {
 
 WorkflowManager.getMyAdminOrMonitorFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
-  curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+  curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'), 'user': Meteor.userId()});
   organization = db.organizations.findOne(curSpaceUser.organization);
   flows = db.flows.find();
   flows.forEach(function(fl){
@@ -699,7 +670,7 @@ WorkflowManager.getMyAdminOrMonitorFlows = function () {
 
 WorkflowManager.getMyCanAddFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
-  curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+  curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'),'user': Meteor.userId()});
   organization = db.organizations.findOne(curSpaceUser.organization);
   flows = db.flows.find();
   flows.forEach(function(fl){
@@ -712,16 +683,16 @@ WorkflowManager.getMyCanAddFlows = function () {
 
 WorkflowManager.getFlowListData = function(show_type){
   //{categories:[],uncategories:[]}
-
+  var spaceId = Session.get('spaceId');
   var curUserId = Meteor.userId();
-  var curSpaceUser = db.space_users.findOne({'user': curUserId});
+  var curSpaceUser = db.space_users.findOne({space: spaceId, 'user': curUserId});
   var organization = db.organizations.findOne(curSpaceUser.organization);
 
   var re = {};
 
   re.categories = new Array();
 
-  var categories = WorkflowManager.getSpaceCategories();
+  var categories = WorkflowManager.getSpaceCategories(spaceId);
 
   categories.sortByName();
 

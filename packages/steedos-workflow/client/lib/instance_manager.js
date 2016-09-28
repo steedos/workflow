@@ -2,6 +2,7 @@ InstanceManager = {};
 
 
 InstanceManager.runFormula = function(fieldCode){
+  console.log("InstanceManager.runFormula...");
   var form_version = WorkflowManager.getInstanceFormVersion();
   var formula_fields = []
   if(form_version)
@@ -186,7 +187,7 @@ InstanceManager.getApplicantUserId = function(){
   var instance = WorkflowManager.getInstance();
   if(instance){
     var ins_applicant = $("#ins_applicant");
-    if(instance.state == 'draft' && ins_applicant && ins_applicant.length ==1 ){
+    if(instance.state == 'draft' && ins_applicant && ins_applicant.length ==1 && ins_applicant[0] && ins_applicant[0].dataset.values){
       return ins_applicant[0].dataset.values;
     }else{
       return instance.applicant;
@@ -355,7 +356,7 @@ function adjustFieldValue(field,value){
         value = value; //$.format.date(value,"yyyy-MM-ddTHH:mm'Z");
         break;
       case 'group':
-        value = WorkflowManager.getFormulaOrgObjects(value);
+        value = CFDataManager.getFormulaOrganizations(value);
         break;
       case 'user':
         value = WorkflowManager.getFormulaUserObjects(value);
