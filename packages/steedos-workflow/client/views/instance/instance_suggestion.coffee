@@ -170,6 +170,9 @@ Template.instance_suggestion.events
             return ;
         InstanceManager.checkSuggestion(); 
 
+Template.instance_suggestion.onCreated ->
+    console.log("instance_suggestion onCreated...");
+
 Template.instance_suggestion.onRendered ->
     console.log("instance_suggestion.onRendered...")
 

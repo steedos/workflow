@@ -11,3 +11,39 @@ if Meteor.isServer
             doc.current.modified = new Date();
 
 
+db.flows._simpleSchema = new SimpleSchema
+	space: 
+		type: String,
+		autoform: 
+			type: "hidden",
+			defaultValue: ->
+				return Session.get("spaceId");
+	name: 
+		type: String
+		autoform:
+			readonly: true
+
+	instance_style: 
+		type: String
+		optional: true
+		autoform:
+			options:[{label: '默认', value:'default'}, {label: '表格', value:'table'}]
+			defaultValue: 'default'
+
+
+	print_template: 
+		type: String,
+		optional: true
+		autoform: 
+			rows: 10,
+
+	instance_template: 
+		type: String,
+		optional: true
+		autoform: 
+			rows: 10,
+
+if Meteor.isClient
+	db.flows._simpleSchema.i18n("flows")
+
+db.flows.attachSchema(db.flows._simpleSchema)

@@ -22,6 +22,7 @@
 	"apps": "Apps",
 	"apps_name": "Name",
 	"apps_description": "Description",
+	"apps_auth_name": "Auth Name",
 	"apps_url": "URL",
 	"apps_on_click": "URL Script",
 	"apps_iconURL": "IconURL",

@@ -14,6 +14,7 @@
     "steedos_desktop":"Steedos Desktop",
 
     "Workflow": "Workflow",
+    "instance_new": "New",
 
     "instances": "Instances",
     "instances_name": "Title",
@@ -158,6 +159,12 @@
     "instance_cc_title": "CC",
     "instance_curstep": "Current Step: ",
     "instance_cc_user": "CC Users",
-    "instance_cc_error_users_required": "Please select user."
+    "instance_cc_error_users_required": "Please select user.",
+    "workflow_form_edit": "Form Style",
+    "flows_template": "Instance Template",
+    "flows_name": "Flow Name",
+    "flows_instance_style": "Form Style",
+    "flows_print_template": "Print Template",
+    "flows_instance_template": "Form Template"
 
 }
