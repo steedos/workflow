@@ -142,7 +142,6 @@ FlowRouter.route '/app/:app_id',
 
         Steedos.setAppId params.app_id
         on_click = app.on_click
-        debugger
         if on_click
             # 匹配所有{{}}对里面的内容并执行eval替换
             on_click = Steedos.ReplaceOnClickBraceParmsToEvalResult on_click
