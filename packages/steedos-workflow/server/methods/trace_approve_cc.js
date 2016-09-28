@@ -235,6 +235,7 @@ Meteor.methods({
                     a.is_finished = true;
                     a.finish_date = new Date();
                     a.description = description;
+                    a.judge = "submitted";
                 }
             });
         })
