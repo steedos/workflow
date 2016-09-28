@@ -49,10 +49,10 @@ InstanceformTemplate.helpers =
         if form_version
             return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
 
-    formatDate: (data)->
-        if !data
+    formatDate: (date)->
+        if !date
             return "";
-        return moment(data).format('YYYY-MM-DD HH:MM');
+        return moment(date).format('YYYY-MM-DD HH:mm');
 
     traces: ->
         instance = WorkflowManager.getInstance();
@@ -100,6 +100,7 @@ InstanceformTemplate.helpers =
                     judge: approve.judge
                     judge_name: judge_name
                     description: approve.description
+                    is_finished: approve.is_finished
             
 
             if step
@@ -238,6 +239,39 @@ InstanceformTemplate.helpers =
             console.log(fields)
             return fields;
 
+    sort_approve: (approves, order)->
+        if !approves
+            return []
+
+        if ! approves instanceof Array
+            return []
+        else
+            if order == 'desc'
+                approves.sort (p1, p2) ->
+                    _p1 = 0
+                    _p2 = 0
+
+                    if p1.finish_date
+                        _p1 = p1.finish_date.getTime()
+
+                    if p2.finish_date
+                        _p2 = p2.finish_date.getTime();
+
+                    return _p2 - _p1
+            else
+                approves.sort (p1, p2) ->
+                    _p1 = 0
+                    _p2 = 0
+
+                    if p1.finish_date
+                        _p1 = p1.finish_date.getTime()
+
+                    if p2.finish_date
+                        _p2 = p2.finish_date.getTime();
+
+                    return _p1 - _p2
+
+        return approves
 
 InstanceformTemplate.events = 
     'change .instance-form .form-control,.instance-form .checkbox input,.instance-form .af-radio-group input,.instance-form .af-checkbox-group input': (event)->
