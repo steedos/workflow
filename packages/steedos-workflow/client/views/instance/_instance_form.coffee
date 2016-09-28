@@ -350,7 +350,7 @@ InstanceformTemplate.onCreated = ()->
 
     compiled = SpacebarsCompiler.compile(template, { isBody: true });
 
-    console.log(compiled);
+    # console.log(compiled);
 
     renderFunction = eval(compiled);
 
