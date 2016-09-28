@@ -104,12 +104,10 @@ InstanceformTemplate.helpers =
             
 
             if step
-                if step.name in traces
+                if step.name of traces
                     traces[step.name] = traces[step.name].concat(approves)
                 else
                     traces[step.name] = approves
-
-        console.log(traces);
 
         return traces;
 
