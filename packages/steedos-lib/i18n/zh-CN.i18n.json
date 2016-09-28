@@ -84,6 +84,7 @@
 	"space_users_name": "名称",
 	"space_users_email": "邮件",
 	"space_users_organization": "所属部门",
+	"space_users_organizations": "所属部门",
 	"space_users_user_accepted": "有效",
 	"space_users_manager": "上级主管",
 	"space_users_organization_name()": "部门",
