@@ -1,20 +1,22 @@
 db.address_books = new Meteor.Collection('address_books')
 
 db.address_books._simpleSchema = new SimpleSchema
-	
-	owner: 
+
+	owner:
 		type: String,
-		autoform: 
+		autoform:
 			type: "hidden",
 			defaultValue: ->
 				return Meteor.userId();
-	
+
 	name:
 		type: String,
-	email: 
-		type: String,			
+	email:
+		type: String,
+	group:
+		type: String,
 
-	created: 
+	created:
 		type: Date,
 		optional: true
 	created_by:
@@ -33,4 +35,3 @@ if Meteor.isClient
 	db.address_books._simpleSchema.i18n("address_books")
 
 db.address_books.attachSchema(db.address_books._simpleSchema)
-
