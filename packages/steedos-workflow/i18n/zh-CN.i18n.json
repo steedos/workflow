@@ -8,9 +8,9 @@
     "monitor": "监控箱",
     "FlowName": "名称",
     "Search": "搜索",
-    "My Approval":"审核",
-    "My Applications":"我的申请单",
-    "Submit":"提交",
+    "My Approval": "审核",
+    "My Applications": "我的申请单",
+    "Submit": "提交",
     "steedos_desktop": "华炎云",
 
     "Workflow": "审批王",
@@ -49,7 +49,7 @@
     "flow_positions_org_name()": "管辖范围",
     "flow_positions_users_name()": "岗位成员",
 
-    "workflow_table_confirm":"确认",
+    "workflow_table_confirm": "确认",
 
     "Attachment deleted successfully": "附件删除成功!",
     "Attachment was added successfully": "附件添加成功!",
@@ -101,7 +101,7 @@
     "instance_reassign_error_reason_required": "请填写转签核的理由。",
     "instance_reassign_error_users_required": "请指定处理人。",
 
-    "instance_cancel_error_reason_required": "请填写取消申请的理由。", 
+    "instance_cancel_error_reason_required": "请填写取消申请的理由。",
 
     "instance_select_next_step": "请选择下一步步骤",
     "instance_next_step_user": "请选择下一步处理人",
@@ -134,8 +134,8 @@
     "spaces_isarrearageSpace": "您的工作区已欠费",
 
     // inbox
-    "Inbox Suggestion NextSteps Label":"下一步骤: ",
-    "Inbox Suggestion NextSteps Handler Label":"处理人: ",
+    "Inbox Suggestion NextSteps Label": "下一步骤: ",
+    "Inbox Suggestion NextSteps Handler Label": "处理人: ",
 
     "Workflow Designer": "流程设计器",
     "User Management": "用户管理",
@@ -156,6 +156,9 @@
     "flow_roles_error_positions_exists": "已有用户担任该角色",
 
     "workflow_left_parenthesis": "（",
-    "workflow_right_parenthesis": "）"
+    "workflow_right_parenthesis": "）",
+
+    "workflow_attach_unlock": "解锁",
+    "workflow_attach_locked_by": "已被 %s 锁定"
 
 }

@@ -154,6 +154,9 @@
     "flow_roles_error_positions_exists": "Users exised in the role",
 
     "workflow_left_parenthesis": "(",
-    "workflow_right_parenthesis": ")"
+    "workflow_right_parenthesis": ")",
+
+    "workflow_attach_unlock": "Unlock",
+    "workflow_attach_locked_by": "locked by %s"
 
 }

@@ -1,35 +1,35 @@
 InstanceManager = {};
 
 
-InstanceManager.runFormula = function(fieldCode){
+InstanceManager.runFormula = function(fieldCode) {
   var form_version = WorkflowManager.getInstanceFormVersion();
   var formula_fields = []
-  if(form_version)
+  if (form_version)
     formula_fields = Form_formula.getFormulaFieldVariable("Form_formula.field_values", form_version.fields);
 
   Form_formula.run(fieldCode, "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);
-  
+
   Session.set("form_values", AutoForm.getFormValues("instanceform").insertDoc);
 }
 
 
-InstanceManager.getFormField = function(fieldId){
-    var instanceFields = WorkflowManager.getInstanceFields();
-    var field = instanceFields.filterProperty("_id", fieldId);
+InstanceManager.getFormField = function(fieldId) {
+  var instanceFields = WorkflowManager.getInstanceFields();
+  var field = instanceFields.filterProperty("_id", fieldId);
 
-    if (field.length > 0){
-        return field[0];
-    }
+  if (field.length > 0) {
+    return field[0];
+  }
 
-    return null;
+  return null;
 }
 
 
-InstanceManager.getNextStepOptions = function(){
-  
+InstanceManager.getNextStepOptions = function() {
+
   console.log("calculate next_step_options")
   if (ApproveManager.isReadOnly())
-      return []
+    return []
 
   var instance = WorkflowManager.getInstance();
   var currentApprove = InstanceManager.getCurrentApprove();
@@ -42,67 +42,72 @@ InstanceManager.getNextStepOptions = function(){
   var form_version = WorkflowManager.getInstanceFormVersion();
   // 待办：获取表单值
   var autoFormDoc = {};
-  if(AutoForm.getFormValues("instanceform")){
+  if (AutoForm.getFormValues("instanceform")) {
     autoFormDoc = AutoForm.getFormValues("instanceform").insertDoc;
-  }else if(Session.get("form_values")){
+  } else if (Session.get("form_values")) {
     autoFormDoc = Session.get("form_values")
   }
-  
+
   var nextSteps = ApproveManager.getNextSteps(instance, currentStep, judge, autoFormDoc, form_version.fields);
 
   var next_step_options = []
-  if (nextSteps && nextSteps.length > 0){
-      var next_step_id = Session.get("next_step_id");
-      var next_step_type = null;
-      nextSteps.forEach(function(step){
-        var option = {
-              id: step.id,
-              text: step.name,
-              type: step.step_type
-          }
-          if (!next_step_id && current_next_steps && current_next_steps.length > 0){
-              if (current_next_steps[0].step == step.id){
-                  next_step_id = step.id
-              }
-          }
-          next_step_options.push(option)
-      });
-          
-      // 默认选中第一个
-      if (next_step_options.length == 1){
-          
-          next_step_options[0].selected = true
-          next_step_id = next_step_options[0].id
-
-      }else{
-
-        if(!next_step_id && Session.get("judge") == 'rejected'){
-          start_option = next_step_options.findPropertyByPK("type","start");
-          next_step_id = start_option.id
-        }else if( Session.get("judge") != 'rejected' ){
-          next_step_options.unshift({id:'',selected:true,text: TAPi18n.__("Select placeholder"), disabled:'disabled'});
+  if (nextSteps && nextSteps.length > 0) {
+    var next_step_id = Session.get("next_step_id");
+    var next_step_type = null;
+    nextSteps.forEach(function(step) {
+      var option = {
+        id: step.id,
+        text: step.name,
+        type: step.step_type
+      }
+      if (!next_step_id && current_next_steps && current_next_steps.length > 0) {
+        if (current_next_steps[0].step == step.id) {
+          next_step_id = step.id
         }
+      }
+      next_step_options.push(option)
+    });
 
+    // 默认选中第一个
+    if (next_step_options.length == 1) {
+
+      next_step_options[0].selected = true
+      next_step_id = next_step_options[0].id
+
+    } else {
+
+      if (!next_step_id && Session.get("judge") == 'rejected') {
+        start_option = next_step_options.findPropertyByPK("type", "start");
+        next_step_id = start_option.id
+      } else if (Session.get("judge") != 'rejected') {
+        next_step_options.unshift({
+          id: '',
+          selected: true,
+          text: TAPi18n.__("Select placeholder"),
+          disabled: 'disabled'
+        });
       }
 
-      Session.set("next_step_id", next_step_id);
+    }
 
-      next_step_options.forEach(function(option){
-        if(option.id == next_step_id){
-          option.selected = true
-          next_step_type = option.type
-        }
-      });
+    Session.set("next_step_id", next_step_id);
 
-      //触发select重新加载
-      Session.set("next_step_multiple", false)
-      if (next_step_id){
-          if(next_step_type == 'counterSign')
-              Session.set("next_user_multiple", true)
-          else
-              Session.set("next_user_multiple", false)
+    next_step_options.forEach(function(option) {
+      if (option.id == next_step_id) {
+        option.selected = true
+        next_step_type = option.type
       }
-  }else{
+    });
+
+    //触发select重新加载
+    Session.set("next_step_multiple", false)
+    if (next_step_id) {
+      if (next_step_type == 'counterSign')
+        Session.set("next_user_multiple", true)
+      else
+        Session.set("next_user_multiple", false)
+    }
+  } else {
     Session.set("next_step_id", null);
   }
   return next_step_options;
@@ -119,41 +124,41 @@ InstanceManager.getNextStepOptions = function(){
 //   });
 // }
 
-InstanceManager.getNextUserOptions = function(){
+InstanceManager.getNextUserOptions = function() {
   console.log("calculate next_user_options")
 
   var next_user_options = []
 
   var next_step_id = Session.get("next_step_id");
   var next_user_multiple = Session.get("next_user_multiple")
-  if (next_step_id){
+  if (next_step_id) {
 
-      var instance = WorkflowManager.getInstance();
-      var currentApprove = InstanceManager.getCurrentApprove();
-      var current_next_steps = currentApprove.next_steps;
-      
-      var next_user_ids = [];
-      var nextStepUsers = ApproveManager.getNextStepUsers(instance, next_step_id);
-      if (nextStepUsers){
-          nextStepUsers.forEach(function(user){
-            var option = {
-                  id: user.id,
-                  name: user.name
-              }
-              if (current_next_steps && current_next_steps.length > 0){
-                  if (current_next_steps[0].step ==  next_step_id && _.contains(current_next_steps[0].users, user.id)){
-                      option.selected = true
-                      next_user_ids.push(user.id)
-                  }
-              }
-              next_user_options.push(option)
-          });
+    var instance = WorkflowManager.getInstance();
+    var currentApprove = InstanceManager.getCurrentApprove();
+    var current_next_steps = currentApprove.next_steps;
 
-      }
-      //if ( next_user_options.length > 0){ //==1
-      //    next_user_options[0].selected = true
-      //    next_user_ids.push(next_user_options[0].id)
-      //}
+    var next_user_ids = [];
+    var nextStepUsers = ApproveManager.getNextStepUsers(instance, next_step_id);
+    if (nextStepUsers) {
+      nextStepUsers.forEach(function(user) {
+        var option = {
+          id: user.id,
+          name: user.name
+        }
+        if (current_next_steps && current_next_steps.length > 0) {
+          if (current_next_steps[0].step == next_step_id && _.contains(current_next_steps[0].users, user.id)) {
+            option.selected = true
+            next_user_ids.push(user.id)
+          }
+        }
+        next_user_options.push(option)
+      });
+
+    }
+    //if ( next_user_options.length > 0){ //==1
+    //    next_user_options[0].selected = true
+    //    next_user_ids.push(next_user_options[0].id)
+    //}
   }
 
   return next_user_options;
@@ -171,47 +176,47 @@ InstanceManager.getNextUserOptions = function(){
 // }
 
 
-InstanceManager.getFormFieldByCode = function(fieldCode){
-    var instanceFields = WorkflowManager.getInstanceFields();
-    var field = instanceFields.filterProperty("code", fieldCode);
+InstanceManager.getFormFieldByCode = function(fieldCode) {
+  var instanceFields = WorkflowManager.getInstanceFields();
+  var field = instanceFields.filterProperty("code", fieldCode);
 
-    if (field.length > 0){
-        return field[0];
-    }
+  if (field.length > 0) {
+    return field[0];
+  }
 
-    return null;
+  return null;
 }
 
-InstanceManager.getApplicantUserId = function(){
+InstanceManager.getApplicantUserId = function() {
   var instance = WorkflowManager.getInstance();
-  if(instance){
+  if (instance) {
     var ins_applicant = $("#ins_applicant");
-    if(instance.state == 'draft' && ins_applicant && ins_applicant.length ==1 ){
+    if (instance.state == 'draft' && ins_applicant && ins_applicant.length == 1) {
       return ins_applicant[0].dataset.values;
-    }else{
+    } else {
       return instance.applicant;
     }
   }
   return '';
 }
 
-function showMessage(parent_group,message){
+function showMessage(parent_group, message) {
   parent_group.addClass("has-error");
-  $(".help-block",parent_group).html(message);
-  if(message && message.length > 0){
+  $(".help-block", parent_group).html(message);
+  if (message && message.length > 0) {
     toastr.error(message);
   }
 }
 
-function removeMessage(parent_group){
+function removeMessage(parent_group) {
   parent_group.removeClass("has-error");
-  $(".help-block",parent_group).html('');
+  $(".help-block", parent_group).html('');
 }
 
-InstanceManager.checkFormValue = function(){
-  
+InstanceManager.checkFormValue = function() {
+
   InstanceManager.checkNextStep();
-  
+
   InstanceManager.checkNextStepUser();
 
   InstanceManager.checkSuggestion();
@@ -219,126 +224,127 @@ InstanceManager.checkFormValue = function(){
   //字段校验
   var fieldsPermision = WorkflowManager.getInstanceFieldPermission();
 
-  for(var k in fieldsPermision){
-    if(fieldsPermision[k] == 'editable'){
-      InstanceManager.checkFormFieldValue($("[name='"+k+"']")[0]);
+  for (var k in fieldsPermision) {
+    if (fieldsPermision[k] == 'editable') {
+      InstanceManager.checkFormFieldValue($("[name='" + k + "']")[0]);
     }
   }
 }
 
 //下一步步骤校验
-InstanceManager.checkNextStep = function(){
+InstanceManager.checkNextStep = function() {
   var nextSteps_parent_group = $("#nextSteps").parent();
 
-  if(ApproveManager.error.nextSteps != ''){
+  if (ApproveManager.error.nextSteps != '') {
     showMessage(nextSteps_parent_group, ApproveManager.error.nextSteps);
     ApproveManager.error.nextSteps = '';
-    return ;
+    return;
   }
 
   var value = ApproveManager.getNextStepsSelectValue();
-  if(value && value != '-1')
+  if (value && value != '-1')
     removeMessage(nextSteps_parent_group);
   else
     showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
 //下一步处理人校验
-InstanceManager.checkNextStepUser = function(){
+InstanceManager.checkNextStepUser = function() {
   var nextStepUsers_parent_group = $("#nextStepUsers").parent();
 
-  if(ApproveManager.error.nextStepUsers != ''){
+  if (ApproveManager.error.nextStepUsers != '') {
     showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
     ApproveManager.error.nextStepUsers = '';
-    return ;
+    return;
   }
   var value = ApproveManager.getNextStepUsersSelectValue();
   var nextStepId = ApproveManager.getNextStepsSelectValue();
   var nextStep = WorkflowManager.getInstanceStep(nextStepId);
-  
-  if(value.length > 0 || (nextStep && nextStep.step_type == 'end'))
+
+  if (value.length > 0 || (nextStep && nextStep.step_type == 'end'))
     removeMessage(nextStepUsers_parent_group);
   else
     showMessage(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
 }
 
 //如果是驳回必须填写意见
-InstanceManager.checkSuggestion = function(){
+InstanceManager.checkSuggestion = function() {
   var judge = $("[name='judge']").filter(':checked').val();
   var suggestion_parent_group = $("#suggestion").parent();
-  if(judge && judge == 'rejected'){
-    if($("#suggestion").val())
+  if (judge && judge == 'rejected') {
+    if ($("#suggestion").val())
       removeMessage(suggestion_parent_group);
     else
       showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
-  }else{
+  } else {
     removeMessage(suggestion_parent_group);
   }
 }
 
-InstanceManager.checkFormFieldValue = function(field){
+InstanceManager.checkFormFieldValue = function(field) {
 
-    if(!field)
-      return ;
+  if (!field)
+    return;
 
-    var reg_email = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
-    var parent_group = $("#" + field.id).parent();
-    var message = '';
+  var reg_email = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+  var parent_group = $("#" + field.id).parent();
+  var message = '';
 
-    var jquery_f = $("[name='"+field.dataset.schemaKey+"']");
+  var jquery_f = $("[name='" + field.dataset.schemaKey + "']");
 
-    if( jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true")){
-      var  fileValue = "";
-      if(field.type == "checkbox" || field.type == "radio"){
-        fileValue = $("[name='" + field.name + "']:checked").val();
-      }else{
-        fileValue = field.value;
+  if (jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true")) {
+    var fileValue = "";
+    if (field.type == "checkbox" || field.type == "radio") {
+      fileValue = $("[name='" + field.name + "']:checked").val();
+    } else {
+      fileValue = field.value;
+    }
+
+    if (!fileValue || fileValue == '' || fileValue.length < 1) {
+      var fo = InstanceManager.getFormFieldByCode(field.name);
+      var titleName = field.name
+      if (fo) {
+        titleName = fo.name ? fo.name : fo.code;
       }
+      message = showMessage(parent_group, TAPi18n.__("instance_field") + "‘" + titleName + '’' + TAPi18n.__("instance_is_required"));
+    }
+  }
 
-      if(!fileValue || fileValue == '' || fileValue.length < 1){
-          var fo = InstanceManager.getFormFieldByCode(field.name);
-          var titleName = field.name
-          if(fo){
-            titleName = fo.name ? fo.name:fo.code;
-          }
-          message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + titleName + '’' +TAPi18n.__("instance_is_required"));
-      }
+  if (jquery_f.attr("type") == 'table' && field.parentNode.parentNode.parentNode.parentNode.dataset.required == "true") {
+    var table_value = AutoForm.getFieldValue(field.dataset.schemaKey, "instanceform");
+    parent_group = jquery_f.parent().parent().parent().parent();
+    if (!table_value || table_value.length < 1) {
+      debugger;
+      message = showMessage(parent_group, TAPi18n.__("instance_field") + "‘" + field.dataset.label + '’' + TAPi18n.__("instance_is_required"));
     }
+  }
 
-    if(jquery_f.attr("type") == 'table' && field.parentNode.parentNode.parentNode.parentNode.dataset.required == "true"){
-      var table_value = AutoForm.getFieldValue(field.dataset.schemaKey,"instanceform");
-      parent_group = jquery_f.parent().parent().parent().parent();
-      if(!table_value || table_value.length < 1){
-        debugger;
-        message = showMessage(parent_group, TAPi18n.__("instance_field")+ "‘" + field.dataset.label + '’' +TAPi18n.__("instance_is_required"));
-      }
-    }
+  if (field.type == 'email' && field.value != '') {
+    if (!reg_email.test(field.value))
+      message = TAPi18n.__("instance_email_format_error");
+  }
 
-    if(field.type == 'email' && field.value !=''){
-        if(!reg_email.test(field.value))
-          message = TAPi18n.__("instance_email_format_error");
-    }
-
-    if(message==''){
-      removeMessage(parent_group);
-      return true;
-    }
-    else{
-      showMessage(parent_group, message);
-      return false;
-    }
+  if (message == '') {
+    removeMessage(parent_group);
+    return true;
+  } else {
+    showMessage(parent_group, message);
+    return false;
+  }
 }
 
-InstanceManager.getFormFieldValue = function(fieldCode){
-    return AutoForm.getFieldValue(fieldCode, "instanceform");
+InstanceManager.getFormFieldValue = function(fieldCode) {
+  return AutoForm.getFieldValue(fieldCode, "instanceform");
 }
 
-function adjustFieldValue(field,value){
-  if(!value && value!=false){return value;}
-  var adjustFieldTypes = ['number','multiSelect','radio','checkbox','dateTime','user','group'];
+function adjustFieldValue(field, value) {
+  if (!value && value != false) {
+    return value;
+  }
+  var adjustFieldTypes = ['number', 'multiSelect', 'radio', 'checkbox', 'dateTime', 'user', 'group'];
 
-  if(adjustFieldTypes.includes(field.type)){
-    switch(field.type){
+  if (adjustFieldTypes.includes(field.type)) {
+    switch (field.type) {
       case 'number':
         value = value.toString();
         break;
@@ -367,23 +373,23 @@ function adjustFieldValue(field,value){
 
 
 
-InstanceManager.getInstanceValuesByAutoForm = function(){
-  
+InstanceManager.getInstanceValuesByAutoForm = function() {
+
   var fields = WorkflowManager.getInstanceFields();
 
   var instanceValue = InstanceManager.getCurrentValues();
   var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
 
   var values = {};
-  
-  fields.forEach(function(field){
-    if(field.type == 'table'){
+
+  fields.forEach(function(field) {
+    if (field.type == 'table') {
       t_values = new Array();
-      if (field.sfields){
+      if (field.sfields) {
         if (!autoFormValue[field.code])
-          return ;
-        autoFormValue[field.code].forEach(function(t_row_value){
-          field.sfields.forEach(function(sfield){
+          return;
+        autoFormValue[field.code].forEach(function(t_row_value) {
+          field.sfields.forEach(function(sfield) {
             //if(sfield.type == 'checkbox'){
             t_row_value[sfield.code] = adjustFieldValue(sfield, t_row_value[sfield.code]);
             //}
@@ -392,8 +398,8 @@ InstanceManager.getInstanceValuesByAutoForm = function(){
         });
       }
       values[field.code] = t_values;
-    }else{
-      if(field.type !='section'){
+    } else {
+      if (field.type != 'section') {
         values[field.code] = adjustFieldValue(field, autoFormValue[field.code]);
       }
     }
@@ -402,18 +408,18 @@ InstanceManager.getInstanceValuesByAutoForm = function(){
   return values;
 }
 
-InstanceManager.resetId = function (instance) {
+InstanceManager.resetId = function(instance) {
   if (instance._id) {
     instance.id = instance._id;
     delete instance._id;
   }
-  instance.traces.forEach(function(t){
+  instance.traces.forEach(function(t) {
     if (t._id) {
       t.id = t._id;
       delete t._id;
     }
     if (t.approves) {
-      t.approves.forEach(function(a){
+      t.approves.forEach(function(a) {
         if (a._id) {
           a.id = a._id;
           delete a._id;
@@ -423,97 +429,102 @@ InstanceManager.resetId = function (instance) {
   })
 }
 
-InstanceManager.getCurrentStep = function(){
+InstanceManager.getCurrentStep = function() {
 
-    var instance = WorkflowManager.getInstance();
+  var instance = WorkflowManager.getInstance();
 
-    if(!instance || !instance.traces)
-        return ;
+  if (!instance || !instance.traces)
+    return;
 
-    var currentTrace = instance.traces[instance.traces.length - 1];
+  var currentTrace = instance.traces[instance.traces.length - 1];
 
-    var currentStepId = currentTrace.step;
+  var currentStepId = currentTrace.step;
 
-    return WorkflowManager.getInstanceStep(currentStepId);
+  return WorkflowManager.getInstanceStep(currentStepId);
 }
 
-InstanceManager.getCurrentValues = function(){
+InstanceManager.getCurrentValues = function() {
   var box = Session.get("box"),
-      instanceValue;
+    instanceValue;
   if (box == "draft") {
-      approve = InstanceManager.getCurrentApprove();
-      if (approve && approve.values)
-        return approve.values
+    approve = InstanceManager.getCurrentApprove();
+    if (approve && approve.values)
+      return approve.values
   } else if (box == "inbox") {
-      approve = InstanceManager.getCurrentApprove();
-      if (approve && approve.values) {
-        if (_.isEmpty(approve.values))
-          approve.values = InstanceManager.clone(WorkflowManager.getInstance().values)
-        return approve.values
-      }
+    approve = InstanceManager.getCurrentApprove();
+    if (approve && approve.values) {
+      if (_.isEmpty(approve.values))
+        approve.values = InstanceManager.clone(WorkflowManager.getInstance().values)
+      return approve.values
+    }
   } else if (box == "outbox" || box == "pending" || box == "completed" || box == "monitor") {
-      var instance = WorkflowManager.getInstance();
-      instanceValue = instance.values;
+    var instance = WorkflowManager.getInstance();
+    instanceValue = instance.values;
   }
   return instanceValue;
 }
 
-InstanceManager.clone = function(obj){
-  if(!obj){return}
+InstanceManager.clone = function(obj) {
+  if (!obj) {
+    return
+  }
   return JSON.parse(JSON.stringify(obj))
 }
 
-InstanceManager.getCurrentApprove = function(){
+InstanceManager.getCurrentApprove = function() {
   var instance = WorkflowManager.getInstance();
 
   if (!instance)
-    return ;
+    return;
 
   if (!instance.traces || instance.traces.length < 1)
-    return ;
+    return;
 
   var currentTraces = instance.traces.filterProperty("is_finished", false);
 
-  if(currentTraces.length < 1)
-    return ;
+  if (currentTraces.length < 1)
+    return;
 
   var currentApproves = currentTraces[0].approves.filterProperty("is_finished", false).filterProperty("handler", Meteor.userId());
-  
+
   var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
-  
+
   if (!currentApprove)
-    return ;
+    return;
 
   if (currentApprove._id) {
     currentApprove.id = currentApprove._id;
   }
 
-  return currentApprove; 
+  return currentApprove;
 }
 
-InstanceManager.getMyApprove = function(){
+InstanceManager.getMyApprove = function() {
 
   var currentApprove = InstanceManager.getCurrentApprove();
 
-  if(currentApprove){
+  if (currentApprove) {
     currentApprove.description = $("#suggestion").val();
     var judge = $("[name='judge']").filter(':checked').val();
     if (judge)
-        currentApprove.judge = judge;
+      currentApprove.judge = judge;
     var nextStepId = ApproveManager.getNextStepsSelectValue();
     if (nextStepId) {
 
-        var selectedNextStepUsers = ApproveManager.getNextStepUsersSelectValue();
-        var nextStepUsers = new Array();
-        if(selectedNextStepUsers instanceof Array){
-            selectedNextStepUsers.forEach(function(su){
-              nextStepUsers.push(su);
-            });
-        } else if (selectedNextStepUsers){
-            nextStepUsers.push(selectedNextStepUsers);
-        }
+      var selectedNextStepUsers = ApproveManager.getNextStepUsersSelectValue();
+      var nextStepUsers = new Array();
+      if (selectedNextStepUsers instanceof Array) {
+        selectedNextStepUsers.forEach(function(su) {
+          nextStepUsers.push(su);
+        });
+      } else if (selectedNextStepUsers) {
+        nextStepUsers.push(selectedNextStepUsers);
+      }
 
-        currentApprove.next_steps = [{step:nextStepId,users:nextStepUsers}];
+      currentApprove.next_steps = [{
+        step: nextStepId,
+        users: nextStepUsers
+      }];
     }
 
     currentApprove.values = InstanceManager.getInstanceValuesByAutoForm();
@@ -528,7 +539,7 @@ InstanceManager.getMyApprove = function(){
 InstanceManager.saveIns = function() {
 
   //如果instanceform不存在，则不执行暂存操作
-  if(!AutoForm.getFormValues("instanceform"))
+  if (!AutoForm.getFormValues("instanceform"))
     return
 
   var instance = WorkflowManager.getInstance();
@@ -539,9 +550,22 @@ InstanceManager.saveIns = function() {
       var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
       if (instance.applicant != selected_applicant) {
         var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+        var applicant = db.space_users.find({
+          space: space_id,
+          user: selected_applicant
+        }, {
+          fields: {
+            organization: 1,
+            name: 1
+          }
+        }).fetch()[0];
         var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+        var organization = db.organizations.findOne(org_id, {
+          fields: {
+            name: 1,
+            fullname: 1
+          }
+        });
 
         instance.applicant = selected_applicant;
         instance.applicant_name = applicant.name;
@@ -549,31 +573,29 @@ InstanceManager.saveIns = function() {
         instance.applicant_organization_name = organization.name;
         instance.applicant_organization_fullname = organization.fullname;
       }
-      Meteor.call("draft_save_instance", instance, function (error, result) {
+      Meteor.call("draft_save_instance", instance, function(error, result) {
         WorkflowManager.instanceModified.set(false)
         if (result == true) {
           toastr.success(TAPi18n.__('Saved successfully'));
-        }
-        else if (result == "upgraded") {
+        } else if (result == "upgraded") {
           toastr.info(TAPi18n.__('Flow upgraded'));
           FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
-        }
-        else {
+        } else {
           toastr.error(error);
         }
-          
+
       });
     } else if (state == "pending") {
       var myApprove = InstanceManager.getMyApprove();
       myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
+      if (instance.attachments && myApprove) {
+        myApprove.attachments = instance.attachments;
       }
-      Meteor.call("inbox_save_instance", myApprove, function (error, result) {
+      Meteor.call("inbox_save_instance", myApprove, function(error, result) {
         WorkflowManager.instanceModified.set(false)
         if (result == true)
           toastr.success(TAPi18n.__('Saved successfully'));
-        else 
+        else
           toastr.error(error);
       });
     }
@@ -591,8 +613,10 @@ InstanceManager.deleteIns = function() {
   if (!instance)
     return;
   // 删除附件
-  var attachs = cfs.instances.find({"metadata.instance": instance._id});
-  attachs.forEach(function(a){
+  var attachs = cfs.instances.find({
+    "metadata.instance": instance._id
+  });
+  attachs.forEach(function(a) {
     a.remove();
   })
   UUflow_api.delete_draft(instance._id);
@@ -604,14 +628,27 @@ InstanceManager.submitIns = function() {
   if (instance) {
     InstanceManager.resetId(instance);
     var state = instance.state;
-    if (state=="draft") {
+    if (state == "draft") {
 
       var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
       if (instance.applicant != selected_applicant) {
         var space_id = instance.space;
-        var applicant = db.space_users.find({space: space_id, user: selected_applicant}, {fields: {organization: 1, name: 1}}).fetch()[0];
+        var applicant = db.space_users.find({
+          space: space_id,
+          user: selected_applicant
+        }, {
+          fields: {
+            organization: 1,
+            name: 1
+          }
+        }).fetch()[0];
         var org_id = applicant.organization;
-        var organization = db.organizations.findOne(org_id, {fields: {name: 1, fullname: 1}});
+        var organization = db.organizations.findOne(org_id, {
+          fields: {
+            name: 1,
+            fullname: 1
+          }
+        });
 
         instance.applicant = selected_applicant;
         instance.applicant_name = applicant.name;
@@ -619,23 +656,23 @@ InstanceManager.submitIns = function() {
         instance.applicant_organization_name = organization.name;
         instance.applicant_organization_fullname = organization.fullname;
       }
-      
+
       instance.traces[0].approves[0] = InstanceManager.getMyApprove();
       UUflow_api.post_submit(instance);
-    } else if (state=="pending") {
+    } else if (state == "pending") {
       var myApprove = InstanceManager.getMyApprove();
-      if(instance.attachments && myApprove) {
-          myApprove.attachments = instance.attachments;
+      if (instance.attachments && myApprove) {
+        myApprove.attachments = instance.attachments;
       }
       myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
       UUflow_api.post_engine(myApprove);
     }
-      
+
   }
 }
 
 // 取消申请
-InstanceManager.terminateIns = function (reason) {
+InstanceManager.terminateIns = function(reason) {
   var instance = WorkflowManager.getInstance();
   if (instance) {
     InstanceManager.resetId(instance);
@@ -645,7 +682,7 @@ InstanceManager.terminateIns = function (reason) {
 }
 
 // 导出报表
-InstanceManager.exportIns = function (type) {
+InstanceManager.exportIns = function(type) {
   spaceId = Session.get("spaceId");
   flowId = Session.get("flowId");
   if (spaceId && flowId)
@@ -653,7 +690,7 @@ InstanceManager.exportIns = function (type) {
 }
 
 // 转签核
-InstanceManager.reassignIns = function (user_ids, reason) {
+InstanceManager.reassignIns = function(user_ids, reason) {
   var instance = WorkflowManager.getInstance();
   if (instance) {
     InstanceManager.resetId(instance);
@@ -664,7 +701,7 @@ InstanceManager.reassignIns = function (user_ids, reason) {
 }
 
 // 转签核
-InstanceManager.relocateIns = function (step_id, user_ids, reason) {
+InstanceManager.relocateIns = function(step_id, user_ids, reason) {
   var instance = WorkflowManager.getInstance();
   if (instance) {
     InstanceManager.resetId(instance);
@@ -676,17 +713,17 @@ InstanceManager.relocateIns = function (step_id, user_ids, reason) {
 }
 
 // 归档
-InstanceManager.archiveIns = function (insId) {
+InstanceManager.archiveIns = function(insId) {
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    if (instance.is_archived==true)
+    if (instance.is_archived == true)
       return;
     UUflow_api.post_archive(insId);
   }
 }
 
 // 添加附件
-InstanceManager.addAttach = function (fileObj, isAddVersion) {
+InstanceManager.addAttach = function(fileObj, isAddVersion) {
   console.log("InstanceManager.addAttach");
   var instance = WorkflowManager.getInstance();
   if (instance) {
@@ -699,24 +736,24 @@ InstanceManager.addAttach = function (fileObj, isAddVersion) {
     if (!fileName)
       fileName = Session.get('filename');
 
-    
+
     console.log(fileName);
-    
+
     var attachs = instance.attachments || [];
     var hasRepeatedFile = false;
     var attach_id = Session.get("attach_id");
-    attachs.forEach(function(a){
-      if (a.filename == fileName || (isAddVersion==true && a._id == attach_id)) {
+    attachs.forEach(function(a) {
+      if (a.filename == fileName || (isAddVersion == true && a._id == attach_id)) {
         hasRepeatedFile = true;
         var his = a.historys;
         if (!(his instanceof Array))
           his = [];
-        
+
         var my_approve_id = InstanceManager.getMyApprove().id;
         if (a.current.approve != my_approve_id) {
           his.unshift(a.current);
         }
-        
+
         a.historys = his;
         a.current = {
           "_id": Meteor.uuid(),
@@ -763,7 +800,7 @@ InstanceManager.addAttach = function (fileObj, isAddVersion) {
     if (state == "draft") {
       instance.attachments = attachs;
       instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      Meteor.call("draft_save_instance", instance, function (error, result) {
+      Meteor.call("draft_save_instance", instance, function(error, result) {
         Session.set('change_date', new Date());
         WorkflowManager.instanceModified.set(false);
         if (result == true) {
@@ -778,7 +815,7 @@ InstanceManager.addAttach = function (fileObj, isAddVersion) {
       $.extend(myApprove, InstanceManager.getMyApprove());
       myApprove.attachments = attachs;
       myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      Meteor.call("inbox_save_instance", myApprove, function (error, result) {
+      Meteor.call("inbox_save_instance", myApprove, function(error, result) {
         Session.set('change_date', new Date());
         WorkflowManager.instanceModified.set(false);
         if (result == true) {
@@ -793,31 +830,31 @@ InstanceManager.addAttach = function (fileObj, isAddVersion) {
 }
 
 // 移除附件
-InstanceManager.removeAttach = function () {
+InstanceManager.removeAttach = function() {
   console.log("InstanceManager.removeAttach");
   var instance = WorkflowManager.getInstance();
   if (instance) {
     var state = instance.state;
     var attachs = instance.attachments;
     var file_id = Session.get("file_id");
-    var newAttachs = attachs.filter(function(item){
-        if (item.current._rev != file_id) {
+    var newAttachs = attachs.filter(function(item) {
+      if (item.current._rev != file_id) {
+        return item;
+      } else {
+        var his = item.historys;
+        if (his && his.length > 0) {
+          item.current = item.historys.shift();
+          item.filename = item.current.filename;
           return item;
-        } else {
-          var his = item.historys;
-          if (his && his.length > 0) {
-            item.current = item.historys.shift();
-            item.filename = item.current.filename;
-            return item;
-          }
         }
+      }
     })
     WorkflowManager.instanceModified.set(true);
 
     if (state == "draft") {
       instance.attachments = newAttachs;
       instance.traces[0].approves[0] = InstanceManager.getMyApprove();
-      Meteor.call("draft_save_instance", instance, function (error, result) {
+      Meteor.call("draft_save_instance", instance, function(error, result) {
         Session.set('change_date', new Date());
         WorkflowManager.instanceModified.set(false);
         if (result == true) {
@@ -833,7 +870,7 @@ InstanceManager.removeAttach = function () {
       $.extend(myApprove, InstanceManager.getMyApprove());
       myApprove.attachments = newAttachs;
       myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-      Meteor.call("inbox_save_instance", myApprove, function (error, result) {
+      Meteor.call("inbox_save_instance", myApprove, function(error, result) {
         Session.set('change_date', new Date());
         WorkflowManager.instanceModified.set(false);
         if (result == true) {
@@ -848,7 +885,7 @@ InstanceManager.removeAttach = function () {
 }
 
 // 上传附件
-InstanceManager.uploadAttach = function (files, isAddVersion) {
+InstanceManager.uploadAttach = function(files, isAddVersion) {
   $(document.body).addClass("loading");
   $('.loading-text').text(TAPi18n.__("workflow_attachment_uploading"));
 
@@ -864,8 +901,7 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
   if (is_paid) {
     limitSize = maximumFileSize;
     warnStr = t("workflow_attachment_paid_size_limit");
-  }
-  else {
+  } else {
     limitSize = freeMaximumFileSize;
     warnStr = t("workflow_attachment_free_size_limit");
   }
@@ -883,7 +919,7 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
         type: "warning",
         confirmButtonText: t('OK'),
         closeOnConfirm: true
-      }, function(){
+      }, function() {
         $(document.body).removeClass('loading');
         $('.loading-text').text("");
       });
@@ -911,7 +947,7 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
       fd.append("isAddVersion", isAddVersion);
       fd.append("parent", Session.get('attach_parent_id'));
     }
-      
+
     $.ajax({
       url: Meteor.absoluteUrl('s3/'),
       type: 'POST',
@@ -947,5 +983,24 @@ InstanceManager.uploadAttach = function (files, isAddVersion) {
   }
 }
 
+InstanceManager.lockAttach = function(file_id) {
+  return cfs.instances.update({
+    _id: file_id
+  }, {
+    $set: {
+      'metadata.locked_by': Meteor.userId(),
+      'metadata.locked_by_name': Meteor.user().name
+    }
+  });
+}
 
-
+InstanceManager.unlockAttach = function(file_id) {
+  return cfs.instances.update({
+    _id: file_id
+  }, {
+    $unset: {
+      'metadata.locked_by': '',
+      'metadata.locked_by_name': ''
+    }
+  });
+}

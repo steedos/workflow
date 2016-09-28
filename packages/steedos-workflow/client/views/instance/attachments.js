@@ -33,6 +33,7 @@ Template.instance_attachment.helpers({
         var isFlowEnable = false;
         var isHistoryLenthZero = false;
         var box = Session.get("box");
+        var isLocked = false;
 
         var currentApprove = InstanceManager.getCurrentApprove();
         if (currentApprove && (currentApprove.id == currentApproveId))
@@ -54,7 +55,15 @@ Template.instance_attachment.helpers({
         }).count();
         if (count == 1) isHistoryLenthZero = true;
 
-        return isCurrentApprove && isDraftOrInbox && isFlowEnable && isHistoryLenthZero;
+        var current = cfs.instances.findOne({
+            'metadata.parent': parent_id,
+            'metadata.current': true
+        });
+
+        if (current && current.metadata && current.metadata.locked_by)
+            isLocked = true;
+
+        return isCurrentApprove && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
     },
 
     getUrl: function(_rev) {
@@ -65,8 +74,10 @@ Template.instance_attachment.helpers({
         return url
     },
 
-    canEdit: function(filename) {
-        if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename))
+    canEdit: function(filename, locked_by) {
+        var locked = false;
+        if (locked_by) locked = true;
+        if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename) && !locked)
             return true;
         return false;
 
@@ -163,12 +174,33 @@ Template.ins_attach_version_modal.helpers({
         }).fetch();
     },
 
+    attach_current_version: function() {
+        var parent = Session.get('attach_parent_id');
+        if (!parent) return;
+
+        return cfs.instances.findOne({
+            'metadata.parent': parent,
+            'metadata.current': true
+        });
+    },
+
 
     attach_version_info: function(owner_name, uploadedAt) {
         return owner_name + " , " + $.format.date(uploadedAt, "yyyy-MM-dd HH:mm");
     },
 
     enabled_add_attachment: function() {
+        var parent = Session.get('attach_parent_id');
+        if (!parent) return "";
+
+        var current = cfs.instances.findOne({
+            'metadata.parent': parent,
+            'metadata.current': true
+        });
+
+        if (current && current.metadata && current.metadata.locked_by)
+            return "display: none;";
+
         if (Session.get("box") == "draft" || Session.get("box") == "inbox")
             return "";
         else
@@ -180,11 +212,13 @@ Template.ins_attach_version_modal.helpers({
         var ins = WorkflowManager.getInstance();
         if (!ins)
             return false;
+
         var isCurrentApprove = false;
         var isDraftOrInbox = false;
         var isFlowEnable = false;
         var isHistoryLenthZero = false;
         var box = Session.get("box");
+        var isLocked = false;
 
         var currentApprove = InstanceManager.getCurrentApprove();
         if (currentApprove.id == currentApproveId)
@@ -206,7 +240,15 @@ Template.ins_attach_version_modal.helpers({
         }).count();
         if (count == 1) isHistoryLenthZero = true;
 
-        return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero;
+        var current = cfs.instances.findOne({
+            'metadata.parent': parent_id,
+            'metadata.current': true
+        });
+
+        if (current && current.metadata && current.metadata.locked_by)
+            isLocked = true;
+
+        return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
     },
 
     getUrl: function(_rev) {
@@ -215,6 +257,14 @@ Template.ins_attach_version_modal.helpers({
         if (!Steedos.isMobile())
             url = url + "?download=true";
         return url;
+    },
+
+    locked_info: function(locked_by_name) {
+        return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
+    },
+
+    can_unlock: function(locked_by) {
+        return locked_by == Meteor.userId();
     }
 })
 
@@ -241,6 +291,9 @@ Template.ins_attach_version_modal.events({
         var rev = event.target.dataset.rev;
         var length = event.target.dataset.length;
         Steedos.androidDownload(url, filename, rev, length);
+    },
+    "click .btn-primary": function(event, template) {
+        InstanceManager.unlockAttach(event.target.id);
     },
 })
 
@@ -291,6 +344,9 @@ Template.ins_attach_edit_modal.onRendered(function() {
     if (!cfs_file_id)
         return;
 
+    // 编辑时锁定
+    InstanceManager.lockAttach(cfs_file_id);
+
     var f = cfs.instances.findOne({
         _id: cfs_file_id
     });
@@ -332,6 +388,8 @@ Template.ins_attach_edit_modal.events({
         params.owner_name = Meteor.user().name;
         params.isAddVersion = true;
         params.parent = Session.get('attach_parent_id');
+        params.locked_by = Meteor.userId();
+        params.locked_by_name = Meteor.user().name;
 
         var params_str = $.param(params);
 
@@ -339,12 +397,21 @@ Template.ins_attach_edit_modal.events({
 
         var json_data = eval('(' + data + ')');
 
+        // 编辑时锁定
+        Session.set('cfs_file_id', json_data['version_id']);
+
         var fileObj = {};
         fileObj._id = json_data["version_id"];
         fileObj.name = filename;
         fileObj.type = cfs.getContentType(filename);
         fileObj.size = json_data["size"];
         InstanceManager.addAttach(fileObj, true);
+    },
+
+    // 关闭编辑页面
+    'click .btn-default': function(event, template) {
+        console.log('edit modal close attach');
+        InstanceManager.unlockAttach(Session.get('cfs_file_id'));
     }
 
 })

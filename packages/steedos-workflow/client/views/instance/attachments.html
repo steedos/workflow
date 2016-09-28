@@ -37,7 +37,7 @@
                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
             {{/if}}
 
-            {{#if canEdit this.name}}
+            {{#if canEdit this.name this.metadata.locked_by}}
                 {{#if isNode}}
                     <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
                 {{else}}
@@ -65,7 +65,9 @@
                 {{#with attach_versions}}
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="modalLabel2">{{ filename }}</h4>
+                  {{#with attach_current_version}}
+                  <h4 class="modal-title" id="modalLabel2">{{ this.name }}</h4>
+                  {{/with}}
                 </div>
 
                 <div class="modal-body">
@@ -80,6 +82,13 @@
                         <tbody>
                             {{#each attach_versions}}
                                 {{#if this.metadata.current}}
+                                    {{#if this.metadata.locked_by}}
+                                    <tr>
+                                        <td class="ins-attach-version-view">
+                                            <label style="margin-bottom:0px;">{{locked_info this.metadata.locked_by_name}}</label>
+                                        </td>
+                                    </tr>
+                                    {{/if}}
                                     <tr>
                                         <td class="ins-attach-version-view">
                                             {{#if isAndroidApp}}
@@ -113,6 +122,11 @@
                     </table>
                 </div>
                 <div class="modal-footer">
+                    {{#with attach_current_version}}
+                        {{#if can_unlock this.metadata.locked_by}}
+                            <button type="button" class="btn btn-primary pull-left" id="{{this._id}}">{{_ 'workflow_attach_unlock'}}</button>
+                        {{/if}}
+                    {{/with}}
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{_ 'OK'}}</button>
                 </div>
                 {{/with}}

@@ -64,25 +64,31 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         body = req.body
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
+          metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
 
           if body['isAddVersion'] && body['parent']
             parent = body['parent']
-          else
-            collection.find({'metadata.instance': body['instance'], 'metadata.current' : true}).forEach (c) ->
-              if c.name() == filename
-                parent = c.metadata.parent
+          # else
+          #   collection.find({'metadata.instance': body['instance'], 'metadata.current' : true}).forEach (c) ->
+          #     if c.name() == filename
+          #       parent = c.metadata.parent
 
           if parent
             r = collection.update({'metadata.parent': parent, 'metadata.current' : true}, {$unset : {'metadata.current' : ''}})
             if r
-              newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], parent: parent, current: true}
+              metadata.parent = parent
+              if body['locked_by'] && body['locked_by_name']
+                metadata.locked_by = body['locked_by']
+                metadata.locked_by_name = body['locked_by_name']
+
+              newFile.metadata = metadata
               fileObj = collection.insert newFile
 
               # 删除同一个申请单同一个步骤同一个人上传的重复的文件
               if fileObj
                 collection.remove({'metadata.instance': body['instance'], 'metadata.parent': parent, 'metadata.owner': body['owner'], 'metadata.approve': body['approve'], 'metadata.current': {$ne: true}})
           else
-            newFile.metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
+            newFile.metadata = metadata
             fileObj = collection.insert newFile
             fileObj.update({$set: {'metadata.parent' : fileObj._id}})
 
