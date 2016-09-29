@@ -113,6 +113,7 @@ InstanceformTemplate.helpers =
                     judge_name: judge_name
                     description: approve.description
                     is_finished: approve.is_finished
+                    type: approve.type
             
 
             if step
@@ -280,7 +281,6 @@ InstanceformTemplate.helpers =
                         _p2 = p2.finish_date.getTime();
 
                     return _p1 - _p2
-
         return approves
 
 InstanceformTemplate.events = 
