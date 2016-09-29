@@ -24,6 +24,7 @@ Package.onUse(function(api) {
     api.use('tracker');
     api.use('session');
     api.use('accounts-base');
+    api.use('useraccounts:bootstrap');
     
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes');
@@ -35,6 +36,9 @@ Package.onUse(function(api) {
     api.use('cfs:standard-packages@0.5.9');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
+    
+    api.use('kadira:flow-router@2.10.1');
+    api.use('meteorhacks:subs-manager');
 
 
     api.use(['webapp'], 'server');
