@@ -122,6 +122,75 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/steedos_data_manager.js', 'client');
     
     
+
+    api.addFiles('lib/steedos/accounts.coffee');
+    api.addFiles('lib/steedos/push.coffee');
+
+    api.addFiles('client/steedos/router.coffee', 'client');
+    api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
+    api.addFiles('client/steedos/subscribe.coffee', 'client');
+
+    api.addFiles('client/steedos/css/adminlte.less', 'client');
+    api.addFiles('client/steedos/css/style.less', 'client');
+    api.addFiles('client/steedos/css/weui.css', 'client');
+
+    api.addFiles('client/steedos/views/animated.less', 'client');
+    api.addFiles('client/steedos/views/404.less', 'client');
+    api.addFiles('client/steedos/views/404.html', 'client');
+
+    api.addFiles('client/steedos/views/admin/admin_dashboard.html', 'client');
+    api.addFiles('client/steedos/views/admin/admin_dashboard.coffee', 'client');
+
+    api.addFiles('client/steedos/views/layouts/dock.html', 'client');
+    api.addFiles('client/steedos/views/layouts/dock.coffee', 'client');
+
+    api.addFiles('client/steedos/views/layouts/main.html', 'client');
+
+    api.addFiles('client/steedos/views/layouts/master.less', 'client');
+    api.addFiles('client/steedos/views/layouts/master.html', 'client');
+    api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
+    
+    api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
+    api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
+    
+    api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.html', 'client');
+    api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.coffee', 'client');
+    
+    api.addFiles('client/steedos/views/layouts/workflow_menu.html', 'client');
+    api.addFiles('client/steedos/views/layouts/workflow_menu.coffee', 'client');
+
+    api.addFiles('client/steedos/views/login/login_layout.less', 'client');
+    api.addFiles('client/steedos/views/login/login_layout.html', 'client');
+    api.addFiles('client/steedos/views/login/login_layout.coffee', 'client');
+    
+    api.addFiles('client/steedos/views/profile/linked.html', 'client');
+    api.addFiles('client/steedos/views/profile/linked.coffee', 'client');
+
+    api.addFiles('client/steedos/views/profile/profile.less', 'client');
+    api.addFiles('client/steedos/views/profile/profile.html', 'client');
+    api.addFiles('client/steedos/views/profile/profile.coffee', 'client');
+    
+    api.addFiles('client/steedos/views/space/space_info.html', 'client');
+    api.addFiles('client/steedos/views/space/space_info.coffee', 'client');
+
+    api.addFiles('client/steedos/views/space/space_select.html', 'client');
+    api.addFiles('client/steedos/views/space/space_select.coffee', 'client');
+
+    api.addFiles('client/steedos/views/space/space_switcher.less', 'client');
+    api.addFiles('client/steedos/views/space/space_switcher.html', 'client');
+    api.addFiles('client/steedos/views/space/space_switcher.coffee', 'client');
+
+    api.addFiles('client/steedos/views/springboard/springboard.less', 'client');
+    api.addFiles('client/steedos/views/springboard/springboard.html', 'client');
+    api.addFiles('client/steedos/views/springboard/springboard.coffee', 'client');
+
+
+    api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
+    api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
+    api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
+
+
+
     // EXPORT
     api.export('Steedos');
     api.export('db');
