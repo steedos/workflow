@@ -272,6 +272,9 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
                         } else {
                             NodeManager.setUploadRequests(filePath, filename);
                         }
+                    } else {
+                        // 解锁 
+                        InstanceManager.unlockAttach(Session.get('cfs_file_id'));
                     }
                 })
             } else {
