@@ -34,15 +34,15 @@ InstanceformTemplate.helpers =
     
     empty: (val) ->
         if val
-            return true
+            return false
         else
-            return false;
+            return true;
 
     unempty: (val) ->
         if val
-            return false;
-        else
             return true;
+        else
+            return false;
 
     equals: (a,b) ->
         return (a == b)
