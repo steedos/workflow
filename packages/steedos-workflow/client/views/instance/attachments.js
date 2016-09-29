@@ -106,8 +106,13 @@ Template.instance_attachment.events({
         Steedos.androidDownload(url, filename, rev, length);
     },
     "click [name='ins_attach_isNode']": function(event, template) {
+        Session.set('cfs_file_id', event.target.id);
+        Session.set('attach_parent_id', event.target.dataset.parent);
+        // 编辑时锁定
+        InstanceManager.lockAttach(event.target.id);
+        
         var url = event.target.dataset.downloadurl;
-        var filename = template.data.current.filename;
+        var filename = event.target.dataset.name;
         NodeManager.editFile(url, filename);
     },
     "click [name='ins_attach_edit']": function(event, template) {

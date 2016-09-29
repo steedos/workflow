@@ -39,7 +39,7 @@
 
             {{#if canEdit this.name this.metadata.locked_by}}
                 {{#if isNode}}
-                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" >{{_ "workflow_attachment_officeOnline"}}</a>
+                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
                 {{else}}
                     <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
                 {{/if}}
