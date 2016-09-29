@@ -5,14 +5,14 @@ Meteor.startup ->
         up: ->
             console.log 'version 2 up'
             console.time 'upgrade_space_user'
-            # try
-            #     collection = db.space_users
-            #     collection.find({organizations: {$exists: false}}, {fields: {organization: 1}}).forEach (su)->
-            #         if su.organization
-            #             collection.direct.update(su._id, {$set: {organizations: [su.organization]}})
+            try
+                collection = db.space_users
+                collection.find({organizations: {$exists: false}}, {fields: {organization: 1}}).forEach (su)->
+                    if su.organization
+                        collection.direct.update(su._id, {$set: {organizations: [su.organization]}})
 
-            # catch e
-            #     console.error e
+            catch e
+                console.error e
 
             console.timeEnd 'upgrade_space_user'
         down: ->

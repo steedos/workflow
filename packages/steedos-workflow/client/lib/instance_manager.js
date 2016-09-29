@@ -190,13 +190,11 @@ InstanceManager.getFormFieldByCode = function(fieldCode) {
 InstanceManager.getApplicantUserId = function() {
   var instance = WorkflowManager.getInstance();
   if (instance) {
-    var ins_applicant = $("#ins_applicant"); << << << < HEAD
-    if (instance.state == 'draft' && ins_applicant && ins_applicant.length == 1 && ins_applicant[0] && ins_applicant[0].dataset.values) { === === =
-      if (instance.state == 'draft' && ins_applicant && ins_applicant.length == 1) { >>> >>> > refs / remotes / origin / use - cfs - replace - attachments
-        return ins_applicant[0].dataset.values;
-      } else {
-        return instance.applicant;
-      }
+    var ins_applicant = $("#ins_applicant");
+    if (instance.state == 'draft' && ins_applicant && ins_applicant.length == 1 && ins_applicant[0] && ins_applicant[0].dataset.values) {
+      return ins_applicant[0].dataset.values;
+    } else {
+      return instance.applicant;
     }
     return '';
   }
