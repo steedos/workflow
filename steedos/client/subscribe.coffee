@@ -26,6 +26,7 @@ Steedos.subsSpace = new SubsManager();
 
 Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
+	instanceId = Session.get('instanceId')
 	Steedos.subsSpace.reset();
 	if spaceId
 		Steedos.subsSpace.subscribe("apps", spaceId)
@@ -40,5 +41,8 @@ Tracker.autorun (c)->
 
 		Steedos.subsSpace.subscribe("my_space_user", spaceId)
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
+
+	if instanceId
+		Steedos.subsSpace.subscribe("cfs_instances", instanceId)
 
 	Steedos.subsSpace.subscribe("steedos_keyvalues")
