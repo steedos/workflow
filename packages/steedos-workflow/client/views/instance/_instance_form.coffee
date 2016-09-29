@@ -31,6 +31,18 @@ InstanceformTemplate.helpers =
         if (Session.get("instanceId"))
             steedos_instance = WorkflowManager.getInstance();
             return steedos_instance;
+    
+    empty: (val) ->
+        if val
+            return true
+        else
+            return false;
+
+    unempty: (val) ->
+        if val
+            return false;
+        else
+            return true;
 
     equals: (a,b) ->
         return (a == b)
