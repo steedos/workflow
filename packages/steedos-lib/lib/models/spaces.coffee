@@ -229,6 +229,7 @@ if Meteor.isServer
 				email: userObj.emails[0].address,
 				space: spaceId,
 				organization: root_org._id,
+				organizations: [root_org._id],
 				user: userObj._id,
 				user_accepted: user_accepted
 			root_org.updateUsers()
