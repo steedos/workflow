@@ -143,8 +143,6 @@ FlowRouter.route '/app/:app_id',
         Steedos.setAppId params.app_id
         on_click = app.on_click
         if on_click
-            # 匹配所有{{}}对里面的内容并执行eval替换
-            on_click = Steedos.ReplaceOnClickBraceParmsToEvalResult on_click
             # 这里执行的是一个不带参数的闭包函数，用来避免变量污染
             evalFunString = "(function(){#{on_click}})()"
             try
