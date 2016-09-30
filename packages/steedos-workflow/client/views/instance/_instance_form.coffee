@@ -61,10 +61,16 @@ InstanceformTemplate.helpers =
         if form_version
             return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
 
-    formatDate: (date)->
+    formatDate: (date, options)->
         if !date
             return "";
-        return moment(date).format('YYYY-MM-DD HH:mm');
+        if options && typeof(options) == 'string'
+            options = JSON.parse(options);
+
+        if !options.format
+            options = {format: "YYYY-MM-DD HH:mm"}
+
+        return moment(date).format(options.format);
 
     traces: ->
         instance = WorkflowManager.getInstance();
