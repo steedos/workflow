@@ -120,6 +120,7 @@ JsonRoutes.add "post", "/api/import",  (req, res, next) ->
                 su_doc.created = now
                 su_doc.created_by = owner_id
                 su_doc.organization = space_user_org_id
+                su_doc.organizations = [su_doc.organization]
                 space_user_id = db.space_users.direct.insert(su_doc)
                 if space_user_id
                   # update org users

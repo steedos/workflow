@@ -425,6 +425,10 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
         p_dept_id = u.department[0]
       if p_dept_id
         su_doc.organization = "dt-" + space_data.corpid + "-" + p_dept_id
+        su_doc.organizations = []
+        u.department.forEach (did)->
+          su_doc.organizations.push("dt-" + space_data.corpid + "-" + did)
+
       space_user_id = db.space_users.direct.insert(su_doc)
       if space_user_id
         # update org users
@@ -460,7 +464,11 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
         if su.organization != new_org_id
           su_doc.organization = new_org_id
 
-      if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization')
+        su_doc.organizations = []
+        u.department.forEach (did)->
+          su_doc.organizations.push("dt-" + space_data.corpid + "-" + did)
+
+      if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization') || su_doc.hasOwnProperty('organizations')
         r = db.space_users.direct.update(su._id, {$set: su_doc})
         if r && su_doc.organization
           organizationObj = db.organizations.findOne(su_doc.organization)
