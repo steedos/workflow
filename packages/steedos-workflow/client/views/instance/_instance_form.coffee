@@ -31,6 +31,18 @@ InstanceformTemplate.helpers =
         if (Session.get("instanceId"))
             steedos_instance = WorkflowManager.getInstance();
             return steedos_instance;
+    
+    empty: (val) ->
+        if val
+            return false
+        else
+            return true;
+
+    unempty: (val) ->
+        if val
+            return true;
+        else
+            return false;
 
     equals: (a,b) ->
         return (a == b)
@@ -101,6 +113,7 @@ InstanceformTemplate.helpers =
                     judge_name: judge_name
                     description: approve.description
                     is_finished: approve.is_finished
+                    type: approve.type
             
 
             if step
@@ -268,7 +281,6 @@ InstanceformTemplate.helpers =
                         _p2 = p2.finish_date.getTime();
 
                     return _p1 - _p2
-
         return approves
 
 InstanceformTemplate.events = 
