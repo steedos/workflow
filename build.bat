@@ -4,7 +4,7 @@ npm install -g node-gyp
 meteor build --server https://cn.steedos.com/workflow --directory ../apps-build/
 cd ../apps-build/bundle/programs/server
 rm -rf node_modules
-npm install --registry=https://registry.npm.taobao.org
+npm install
 
 cd ../../
 node main.js
