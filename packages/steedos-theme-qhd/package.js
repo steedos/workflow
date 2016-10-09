@@ -16,7 +16,10 @@ Package.onUse(function(api) {
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
     api.addAssets("client/background/blue1.jpg", "client");
+    api.addAssets("client/background/books.jpg", "client");
+    api.addAssets("client/background/birds.jpg", "client");
     api.addAssets("client/background/cloud.jpg", "client");
+    api.addAssets("client/background/sea.jpg", "client");
 
     api.addFiles("client/background.less", "client");
 
