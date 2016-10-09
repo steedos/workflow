@@ -8,7 +8,7 @@ Package.describe({
 Package.onUse(function(api) { 
     api.versionsFrom('1.0');
 
-    api.use('less');
+    api.use('flemay:less-autoprefixer@1.2.0');
     api.use('tap:i18n@1.7.0');
 
     api.use('tap:i18n', ['client', 'server']);
