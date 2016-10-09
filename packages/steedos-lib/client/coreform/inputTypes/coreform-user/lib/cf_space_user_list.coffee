@@ -1,6 +1,6 @@
 Template.cf_space_user_list.helpers 
     selector: (userOptions)->
-        query = {space: Session.get("spaceId")};
+        query = {space: Session.get("spaceId"), user_accepted: true};
         if userOptions != undefined && userOptions != null
             query.user = {$in: userOptions.split(",")};
         else
