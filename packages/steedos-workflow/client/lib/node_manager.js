@@ -132,12 +132,6 @@ NodeManager.setUploadRequests = function(filePath, filename) {
     }, {
         urlKey: "parent",
         urlValue: Session.get('attach_parent_id')
-    }, {
-        urlKey: "locked_by",
-        urlValue: Meteor.userId()
-    }, {
-        urlKey: "locked_by_name",
-        urlValue: Meteor.user().name
     }]
 
     var files = [{
@@ -159,7 +153,6 @@ NodeManager.setUploadRequests = function(filePath, filename) {
             fileObj.name = filename;
             fileObj.type = cfs.getContentType(filename);
             fileObj.size = chunkStr.size;
-            Session.set('cfs_file_id', chunkStr.version_id);
         });
         // res.setEncoding("utf8");
         res.on('end', function() {
