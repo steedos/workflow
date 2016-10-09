@@ -470,8 +470,8 @@ InstanceManager.getCurrentValues = function() {
       instanceValue = instance.values;
     }
 
-    return instanceValue;
   }
+  return instanceValue;
 }
 
 InstanceManager.clone = function(obj) {
