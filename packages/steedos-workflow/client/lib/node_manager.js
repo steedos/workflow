@@ -4,13 +4,13 @@ NodeManager.fileSHA1;
 
 var url, net, path, http, fs, crypto, exec
 if (Steedos.isNode()) {
-    url = window.require('url');
-    net = window.require('net');
-    path = window.require('path');
-    http = window.require('http');
-    fs = window.require('fs');
-    crypto = window.require('crypto');
-    child_process = window.require('child_process')
+    url = nw.require('url');
+    net = nw.require('net');
+    path = nw.require('path');
+    http = nw.require('http');
+    fs = nw.require('fs');
+    crypto = nw.require('crypto');
+    child_process = nw.require('child_process')
     if (child_process)
         exec = child_process.exec;
 }
