@@ -21,7 +21,7 @@
             </div>
           </form> -->
           <ul class="nav sidebar-menu">
-            <li class="header">{{_ "Steedos Workflow"}}</li>
+            <li class="header header-workflow">{{_ "Steedos Workflow"}}</li>
 
             <li class="{{boxActive 'inbox'}}">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
@@ -33,21 +33,19 @@
             </li>
             <li class="{{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
 
-            <li class="header">{{_ "My Applications"}}</li>
+            <!-- <li class="header">{{_ "My Applications"}}</li> -->
 
             <li class="{{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
             <li class="{{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i><span>{{_ "pending"}}</span></a></li>
             <li class="{{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
             <li class="{{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
-            <li class="header">{{_ "Steedos"}}</li>
+            <li class="header">{{_ "menu_navigation"}}</li>
             <li class="{{menuClass 'steedos/springboard'}}">
               <a href="{{urlPrefix}}/steedos/springboard/">
                 <i class="ion ion-ios-home-outline"></i><span>{{_ "apps"}}</span>
               </a>
             </li>
-            {{#if isSpaceAdmin}}
-              <li><a href="{{urlPrefix}}/admin/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Settings"}}</span></a></li>
-            {{/if}}
+            <li><a href="{{urlPrefix}}/admin/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Settings"}}</span></a></li>
             <li class="{{menuClass 'steedos/help'}}">
                 <a href="/steedos/help/"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
             </li>
