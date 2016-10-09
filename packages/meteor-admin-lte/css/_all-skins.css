@@ -1797,3 +1797,11 @@
     border-left: 1px solid #d2d6de;
   }
 }
+
+
+.sidebar-menu > li > a > i.fa{
+  margin-left: -4px;
+  margin-right: 4px;
+  font-size: inherit;
+  font-family: FontAwesome;
+}
