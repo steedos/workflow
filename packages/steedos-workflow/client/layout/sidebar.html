@@ -11,15 +11,6 @@
               <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
             </div>
           </div>
-<!--           <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder= "{{_ 'Search'}}...">
-                <span class="input-group-btn">
-                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="ion fa-search"></i>
-                  </button>
-                </span>
-            </div>
-          </form> -->
           <ul class="nav sidebar-menu">
             <li class="header header-workflow">{{_ "Steedos Workflow"}}</li>
 
@@ -41,17 +32,9 @@
             <li class="{{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i><span>{{_ "pending"}}</span></a></li>
             <li class="{{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
             <li class="{{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
-            <li class="header">{{_ "Steedos"}}</li>
-            <li class="{{menuClass 'steedos/springboard'}}">
-              <a href="#" name="open_apps_btn">
-                <i class="ion ion-ios-home-outline"></i><span>{{_ "apps"}}</span>
-              </a>
-            </li>
-            <li><a href="{{urlPrefix}}/admin/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Settings"}}</span></a></li>
-            <li class="{{menuClass 'steedos/help'}}">
-                <a href="/steedos/help/"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
-            </li>
           </ul>
+
+          {{> topSidebar}}
         </div>
     </aside>
 </template>

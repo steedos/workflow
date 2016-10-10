@@ -194,6 +194,15 @@ Package.onUse(function(api) {
     api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
 
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.less', 'client');
+
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.html', 'client');
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
+
+
 
     // EXPORT
     api.export('Steedos');

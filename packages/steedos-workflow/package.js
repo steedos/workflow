@@ -149,10 +149,6 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/attachments_upload_modal.html', 'client');
     api.addFiles('client/views/list/attachments_upload_modal.coffee', 'client');
 
-    api.addFiles('client/views/list/app_list_box_modal.html', 'client');
-    api.addFiles('client/views/list/app_list_box_modal.coffee', 'client');
-    api.addFiles('client/views/list/app_list_box_modal.less', 'client');
-
 
     api.addFiles('client/views/list/flow_list_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_modal.coffee', 'client');

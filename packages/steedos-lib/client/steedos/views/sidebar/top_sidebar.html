@@ -1,0 +1,14 @@
+<template name="topSidebar">
+	<ul class="nav sidebar-menu">
+		<li class="header">{{_ "Steedos"}}</li>
+		<li class="{{menuClass 'steedos/springboard'}}">
+			<a href="#" name="open_apps_btn">
+				<i class="ion ion-ios-home-outline"></i><span>{{_ "apps"}}</span>
+			</a>
+		</li>
+		<li><a href="{{urlPrefix}}/admin/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Settings"}}</span></a></li>
+		<li>
+				<a href="/steedos/help/"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
+		</li>
+	</ul>
+</template>

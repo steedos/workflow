@@ -1,8 +1,5 @@
 Template.workflowSidebar.helpers
 
-	apps: ()->
-		return Steedos.getSpaceApps()
-		
 	displayName: ->
 
 		if Meteor.user()
@@ -23,7 +20,6 @@ Template.workflowSidebar.helpers
 		path = Session.get("router-path")
 		if path?.startsWith "/" + app_id or path?.startsWith "/app/" + app_id
 			return "active";
-
 
 	boxName: ->
 		if Session.get("box")

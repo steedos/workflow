@@ -11,37 +11,15 @@
               <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
             </div>
           </div>
-<!--           <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder= "{{_ 'Search'}}...">
-                <span class="input-group-btn">
-                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="ion fa-search"></i>
-                  </button>
-                </span>
-            </div>
-          </form> -->
-          <ul class="nav sidebar-menu">
+          {{> topSidebar}}
+<!--           <ul class="nav sidebar-menu">
             <li class="header">{{_ "Steedos"}}</li>
-            <li class="{{menuClass 'steedos/springboard'}}">
-              <a href="{{urlPrefix}}/steedos/springboard/">
-                <i class="ion ion-ios-home-outline"></i><span>{{_ "steedos_home"}}</span>
-              </a>
-            </li>
-            {{#each apps}}
-                <li class="{{menuClass _id}}">
-                  <a href="{{urlPrefix}}/app/{{_id}}/">
-                    <i class="ion {{icon}}"></i><span>{{_ name}}</span>
-                    <i class="pull-right">
-                      <span class="label bg-red">{{getBadge _id getSpaceId}}</span>
-                    </i>
-                  </a>
-                </li>
-            {{/each}}
+
 
             <li class="{{menuClass 'steedos/help'}}">
                 <a href="/steedos/help/"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
             </li>
-          </ul>
+          </ul> -->
         </div>
     </aside>
 </template>
