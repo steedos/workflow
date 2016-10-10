@@ -144,8 +144,6 @@
     "All flows": "All flows",
     "Select a flow": "Select a flow",
 
-    "Select an app": "Select an app",
-
     "Flow upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
 
     "Are you sure?": "Are you sure?",
@@ -174,6 +172,8 @@
 
 
     "workflow_attach_unlock": "Unlock",
-    "workflow_attach_locked_by": "locked by %s"
+    "workflow_attach_locked_by": "locked by %s",
+
+    "workflow_select_an_app": "Select an app"
 
 }
