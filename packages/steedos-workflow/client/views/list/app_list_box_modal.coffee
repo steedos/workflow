@@ -38,3 +38,8 @@ Template.app_list_box_modal.helpers
 
 Template.app_list_box_modal.onRendered ->
 	$(".app-list-box-modal-body").css("max-height", ($(window).height()-140) + "px");
+
+Template.app_list_box_modal.events
+
+	'click .weui_grid': (event)->
+        Modal.hide('app_list_box_modal'); 
