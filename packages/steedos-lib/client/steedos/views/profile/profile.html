@@ -33,6 +33,7 @@
               <li class=""><a href="#avatar" data-toggle="tab" aria-expanded="false">{{_ "Avatar"}}</a></li>
               <li class=""><a href="#password" data-toggle="tab" aria-expanded="false">{{_ "Password"}}</a></li>
               <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
+              <li class=""><a href="#bg_body" data-toggle="tab" aria-expanded="false">{{_ "bg_body"}}</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="profile">
@@ -77,7 +78,7 @@
                 <h4>{{_ "email_setting"}}</h4>
                 <div class="list-group">
                   {{#each emails}}
-                    <li class="list-group-item">
+                    <div class="list-group-item">
                       <span>{{this.address}}</span>
                       {{#if this.verified}}
                         {{#if isPrimary this.address}}
@@ -99,7 +100,7 @@
                           
                         </span>
                       
-                    </li>
+                    </div>
                   {{/each}}
                 </div>
 
@@ -114,6 +115,19 @@
                   </div>
                 </div>
 
+              </div>
+
+              <div class="tab-pane" id="bg_body">
+                <h4>{{_ "bg_body_setting"}}</h4>
+                <div class="row">
+                  {{#each bgBodys}}
+                    <div class="col-xs-6 col-md-2">
+                      <a href="javascript:void(0)" class="thumbnail" bg={{this}}>
+                        <div class="bg-body bg-body-{{this}}"></div>
+                      </a>
+                    </div>
+                  {{/each}}
+                </div>
               </div>
             </div>
           </div>
