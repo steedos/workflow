@@ -1,7 +1,4 @@
 Template.sidebar.helpers
-
-	apps: ()->
-		return Steedos.getSpaceApps()
 		
 	displayName: ->
 
@@ -19,7 +16,4 @@ Template.sidebar.helpers
 		else
 			return localStorage.getItem("spaceId:" + Meteor.userId())
 
-	menuClass: (app_id)->
-		path = Session.get("router-path")
-		if path?.startsWith "/" + app_id or path?.startsWith "/app/" + app_id
-			return "active";
+

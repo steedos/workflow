@@ -16,11 +16,6 @@ Template.workflowSidebar.helpers
 		else
 			return localStorage.getItem("spaceId:" + Meteor.userId())
 
-	menuClass: (app_id)->
-		path = Session.get("router-path")
-		if path?.startsWith "/" + app_id or path?.startsWith "/app/" + app_id
-			return "active";
-
 	boxName: ->
 		if Session.get("box")
 			return t(Session.get("box"))
@@ -38,6 +33,3 @@ Template.workflowSidebar.events
             return;
 
         Modal.show("flow_list_box_modal")
-
-	'click [name="open_apps_btn"]': (event) ->
-		Modal.show "app_list_box_modal"
