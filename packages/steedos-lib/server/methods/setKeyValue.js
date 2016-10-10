@@ -7,7 +7,23 @@ Meteor.methods({
         obj.user = this.userId;
         obj.key = key;
         obj.value = value;
-        db.steedos_keyvalues.insert(obj);
+
+        var c = db.steedos_keyvalues.find({
+            user: this.userId,
+            key: key
+        }).count();
+        if (c > 0) {
+            db.steedos_keyvalues.update({
+                user: this.userId,
+                key: key
+            }, {
+                $set: {
+                    value: value
+                }
+            });
+        } else {
+            db.steedos_keyvalues.insert(obj);
+        }
 
         return true;
     }
