@@ -27,6 +27,10 @@ function handerOrg(orgs) {
 
     node.text = org.name;
 
+    node.data = {};
+
+    node.data.fullname = org.fullname;
+
     node.id = org._id;
 
     node.state = {};
@@ -223,6 +227,7 @@ CFDataManager.getRoot = function() {
     fields: {
       _id: 1,
       name: 1,
+      fullname: 1,
       parent: 1,
       children: 1,
       childrens: 1
@@ -238,6 +243,7 @@ CFDataManager.getChild = function(parentId) {
     fields: {
       _id: 1,
       name: 1,
+      fullname: 1,
       parent: 1,
       children: 1,
       childrens: 1
