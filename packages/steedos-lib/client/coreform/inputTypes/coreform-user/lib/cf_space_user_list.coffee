@@ -5,7 +5,7 @@ Template.cf_space_user_list.helpers
             query.user = {$in: userOptions.split(",")};
         else
             orgAndChild = Session.get("cf_orgAndChild");
-            query.organization = {$in: orgAndChild};
+            query.organizations = {$in: orgAndChild};
         # console.log("query is " + JSON.stringify(query));
         return query;
 

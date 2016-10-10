@@ -8,7 +8,7 @@ AutoForm.addInputType("selectorg",{
         if(val instanceof Array && val.length > 0 && "string" == typeof(val[0])){
             val = CFDataManager.getFormulaOrganizations(val);
         }
-        
+
         return val;
     },
     valueOut:function(){
@@ -40,7 +40,7 @@ AutoForm.addInputType("selectorg",{
 Template.afSelectOrg.events({
   'click .selectOrg': function (event, template) {
     console.log("show cf_organization_modal");
-    
+
     if ("disabled" in template.data.atts)
         return;
     //var data = {orgs:WorkflowManager.getSpaceOrganizations()};
@@ -49,7 +49,7 @@ Template.afSelectOrg.events({
     var options = {};
     //options.data = data;
     options.multiple = template.data.atts.multiple;
-    
+
     if(values && values.length > 0){
         options.defaultValues = values.split(",");
     }
@@ -57,7 +57,7 @@ Template.afSelectOrg.events({
     options.showUser = false;
 
     options.targetId = template.data.atts.id;
-    
+
     Modal.allowMultiple = true;
     Modal.show("cf_organization_modal", options);
   }
@@ -69,14 +69,14 @@ Template.afSelectOrg.helpers({
             var val = '';
             if(value instanceof Array){ //this.data.atts.multiple && (value instanceof Array)
                 if(value.length > 0 && typeof(value[0]) == 'object'){
-                    val = value ? value.getProperty("name").toString() : ''
+                    val = value ? value.getProperty("fullname").toString() : ''
                     this.atts["data-values"] = value ? value.getProperty("id").toString() : '';
                 }else{
                     val = value.toString();
                 }
             }else{
                 if(value && typeof(value) == 'object'){
-                    val = value ? value.name : '';
+                    val = value ? value.fullname : '';
                     this.atts["data-values"] = value ? value.id : '';
                 }else{
                     val = value;
@@ -98,12 +98,12 @@ Template.afSelectOrg.confirm = function(name){
     if(valuesObject.length > 0){
         if($("input[name='"+name+"']")[0].multiple){
             $("input[name='"+name+"']")[0].dataset.values = values;
-            $("input[name='"+name+"']").val(valuesObject.getProperty("name").toString()).trigger("change");
+            $("input[name='"+name+"']").val(valuesObject.getProperty("fullname").toString()).trigger("change");
         }else{
             $("input[name='"+name+"']")[0].dataset.values = values[0];
-            $("input[name='"+name+"']").val(valuesObject[0].name).trigger("change");
+            $("input[name='"+name+"']").val(valuesObject[0].fullname).trigger("change");
         }
-        
+
     }else{
         $("input[name='"+name+"']")[0].dataset.values = '';
         $("input[name='"+name+"']").val('').trigger("change");

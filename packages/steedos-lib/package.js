@@ -9,7 +9,7 @@ Npm.depends({
     "node-schedule": "1.1.1"
 });
 
-Package.onUse(function(api) { 
+Package.onUse(function(api) {
     api.versionsFrom('1.0');
 
     api.use('reactive-var');
@@ -25,7 +25,7 @@ Package.onUse(function(api) {
     api.use('session');
     api.use('accounts-base');
     api.use('useraccounts:bootstrap');
-    
+
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes');
     api.use('aldeed:simple-schema');
@@ -36,7 +36,7 @@ Package.onUse(function(api) {
     api.use('cfs:standard-packages@0.5.9');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
-    
+
     api.use('kadira:flow-router@2.10.1');
     api.use('meteorhacks:subs-manager');
 
@@ -52,7 +52,7 @@ Package.onUse(function(api) {
     //api.add_files("package-tap.i18n", ["client", "server"]);
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
-    
+
     // COMMON
     api.addFiles('lib/collection_helpers.js');
     api.addFiles('lib/array_includes.js');
@@ -124,8 +124,8 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/ajax_collection.coffee', 'client');
 
     api.addFiles('client/lib/steedos_data_manager.js', 'client');
-    
-    
+
+
 
     api.addFiles('lib/steedos/accounts.coffee');
     api.addFiles('lib/steedos/push.coffee');
@@ -153,27 +153,27 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/layouts/master.less', 'client');
     api.addFiles('client/steedos/views/layouts/master.html', 'client');
     api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
-    
+
     api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
     api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
-    
+
     api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.html', 'client');
     api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.coffee', 'client');
-    
+
     api.addFiles('client/steedos/views/layouts/workflow_menu.html', 'client');
     api.addFiles('client/steedos/views/layouts/workflow_menu.coffee', 'client');
 
     api.addFiles('client/steedos/views/login/login_layout.less', 'client');
     api.addFiles('client/steedos/views/login/login_layout.html', 'client');
     api.addFiles('client/steedos/views/login/login_layout.coffee', 'client');
-    
+
     api.addFiles('client/steedos/views/profile/linked.html', 'client');
     api.addFiles('client/steedos/views/profile/linked.coffee', 'client');
 
     api.addFiles('client/steedos/views/profile/profile.less', 'client');
     api.addFiles('client/steedos/views/profile/profile.html', 'client');
     api.addFiles('client/steedos/views/profile/profile.coffee', 'client');
-    
+
     api.addFiles('client/steedos/views/space/space_info.html', 'client');
     api.addFiles('client/steedos/views/space/space_info.coffee', 'client');
 
@@ -193,6 +193,9 @@ Package.onUse(function(api) {
     api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
+    // methods
+    api.addFiles('server/methods/setKeyValue.js', 'server');
+
 
     api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
     api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');
@@ -209,7 +212,7 @@ Package.onUse(function(api) {
     api.export('db');
     api.export('SteedosOffice');
     api.export("CFDataManager");
-    
+
     api.export('AjaxCollection');
     api.export("SteedosDataManager");
 });
