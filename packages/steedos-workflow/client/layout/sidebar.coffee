@@ -33,7 +33,6 @@ Template.workflowSidebar.helpers
 		if box == Session.get("box")
 			return "active"
 
-
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
@@ -43,3 +42,6 @@ Template.workflowSidebar.events
             return;
 
         Modal.show("flow_list_box_modal")
+
+	'click [name="open_apps_btn"]': (event) ->
+		Modal.show "app_list_box_modal"

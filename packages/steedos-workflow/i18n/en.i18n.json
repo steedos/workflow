@@ -172,6 +172,8 @@
 
 
     "workflow_attach_unlock": "Unlock",
-    "workflow_attach_locked_by": "locked by %s"
+    "workflow_attach_locked_by": "locked by %s",
+
+    "workflow_select_an_app": "Select an app"
 
 }

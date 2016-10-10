@@ -173,6 +173,8 @@
     "flows_instance_template": "表单模板",
 
     "workflow_attach_unlock": "解锁",
-    "workflow_attach_locked_by": "已被 %s 锁定"
+    "workflow_attach_locked_by": "已被 %s 锁定",
+
+    "workflow_select_an_app": "选择应用"
 
 }
