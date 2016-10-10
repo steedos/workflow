@@ -81,8 +81,8 @@ db.space_users.helpers
 		return space?.name
 	organization_name: ->
 		if this.organizations
-			organizations = db.organizations.find({_id: {$in: this.organizations}}).fetch()
-			return organizations?.getProperty('fullname').join(',')
+			organizations = SteedosDataManager.organizationRemote.find({_id: {$in: this.organizations}}, {fields: {fullname: 1}})
+			return organizations?.getProperty('fullname').join('<br/>')
 		return
 
 if (Meteor.isServer) 

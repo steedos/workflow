@@ -10,7 +10,7 @@
 
             cc_view = "";
 
-            if InstanceManager.isCC(doc) && Session.get("box") == 'inbox'
+            if doc.cc_users?.includes(Meteor.userId())  && Session.get("box") == 'inbox'
               cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
             return "<div class='instance-name'>" + doc.name + cc_view +  "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
