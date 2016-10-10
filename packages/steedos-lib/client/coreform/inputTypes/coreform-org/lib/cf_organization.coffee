@@ -1,4 +1,4 @@
-Template.cf_organization.helpers 
+Template.cf_organization.helpers
 
 
 Template.cf_organization.conditionalselect = (node)->
@@ -9,29 +9,29 @@ Template.cf_organization.conditionalselect = (node)->
       values.remove(values.getProperty("id").indexOf(node.id))
     else
       if values.getProperty("id").indexOf(node.id) < 0
-        values.push({id: node.id, name: node.text});  
-      
+        values.push({id: node.id, name: node.text, fullname: node.data.fullname});
+
     CFDataManager.setOrganizationModalValue(values);
     CFDataManager.handerOrganizationModalValueLabel();
   else
-    CFDataManager.setOrganizationModalValue([{id: node.id, name: node.text}]);
+    CFDataManager.setOrganizationModalValue([{id: node.id, name: node.text, fullname: node.data.fullname}]);
     $("#confirm", $("#cf_organization_modal")).click()
-  
+
   return true;
-  
+
 
 Template.cf_organization.onRendered ->
-  
+
   CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(@data.defaultValues));
 
   $.jstree.defaults.checkbox.three_state = false;
-  
+
   $(document.body).addClass('loading');
 
   plugins = ["wholerow", "conditionalselect"];
-  
+
   Template.cf_organization.multiple = this.data.multiple;
-  
+
   if this.data.multiple
     plugins.push("checkbox");
 
@@ -46,7 +46,7 @@ Template.cf_organization.onRendered ->
           Session.set("cf_selectOrgId", data.selected[0]);
         return
       ).jstree
-            core: 
+            core:
                 themes: { "stripes" : true },
                 data:  (node, cb) ->
                   Session.set("cf_selectOrgId", node.id);
