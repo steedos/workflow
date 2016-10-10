@@ -15,7 +15,7 @@ Package.onUse(function(api) {
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
-    api.addAssets("client/background/blue1.jpg", "client");
+    api.addAssets("client/background/blue.jpg", "client");
     api.addAssets("client/background/books.jpg", "client");
     api.addAssets("client/background/birds.jpg", "client");
     api.addAssets("client/background/cloud.jpg", "client");

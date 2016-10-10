@@ -286,6 +286,9 @@
 
 	"users_error": {
 		"steedos_id_required": "Steedos ID 不能为空"
-	}
+	},
+
+    "bg_body": "背景",
+    "bg_body_setting": "设置背景"
 
 }

@@ -31,6 +31,8 @@ Template.profile.helpers
 
     return isPrimary
 
+  bgBodys:["birds","blue","books","cloud","sea"]
+
 Template.profile.onRendered ->
 
 
@@ -130,6 +132,13 @@ Template.profile.events
             else
                 $(document.body).removeClass('loading')
                 swal t("email_set_primary_success"), "", "success"
+
+  'click #bg_body a.thumbnail': (event)->
+    bg = $(event.currentTarget).attr("bg");
+    Meteor.call 'setKeyValue', 'bg_body', {'name':bg}, (error, is_suc) ->
+      unless is_suc
+        console.error error
+        toastr.error(error)
 
 
 Meteor.startup ->

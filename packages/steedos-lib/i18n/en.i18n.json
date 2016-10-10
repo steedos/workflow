@@ -276,6 +276,9 @@
 
 	"users_error": {
 		"steedos_id_required": "Steedos ID is required"
-	}
+	},
+
+    "bg_body": "Background",
+    "bg_body_setting": "Background Setting"
 
 }
