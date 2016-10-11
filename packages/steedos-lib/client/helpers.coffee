@@ -84,8 +84,8 @@ TemplateHelpers =
 
     setAppId: (appId)->
         if appId != Session.get("appId")
-            Session.set("appId", appId)     
-            localStorage.setItem("appId:" + Meteor.userId(), appId);
+            Session.set("appId", appId)
+            localStorage.setItem("appId:" + Meteor.userId(), if appId then appId else "");
 
     getAppId: ()->
 
