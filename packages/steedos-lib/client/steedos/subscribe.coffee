@@ -46,3 +46,15 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("cfs_instances", instanceId)
 
 	Steedos.subsSpace.subscribe("steedos_keyvalues")
+
+
+Tracker.autorun (c)->
+	if Steedos.subsSpace.ready("apps")
+		if Session.get 'isRootLoading'
+			Session.set("isRootLoading",false)
+			$("body").removeClass("loading")
+			firstApp = Steedos.getSpaceApps().fetch()[0]
+			if firstApp
+				FlowRouter.go("/app/" + firstApp._id)
+			else
+				FlowRouter.go("/steedos/springboard")
