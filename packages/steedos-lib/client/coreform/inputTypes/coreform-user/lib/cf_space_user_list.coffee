@@ -14,7 +14,7 @@ Template.cf_space_user_list.helpers
 Template.cf_space_user_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $(".cf_space_user_list_table")).each ->
-            $(this).prop('checked', !$(this).prop('checked')).trigger('change')
+            $(this).prop('checked', event.target.checked).trigger('change')
 
 
     'change .list_checkbox': (event, template) ->
