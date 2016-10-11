@@ -170,6 +170,10 @@ Template.instance_suggestion.events
             return ;
         InstanceManager.checkSuggestion(); 
 
+    'click #instance_flow_opinions': (event, template)->
+        Session.set('flow_comment', $("#suggestion").val())
+        Modal.show 'opinion_modal'
+
 Template.instance_suggestion.onCreated ->
     console.log("instance_suggestion onCreated...");
 
