@@ -14,15 +14,10 @@ FlowRouter.triggers.enter [()->
 
 FlowRouter.route '/', 
     action: (params, queryParams)->
-        if (!Meteor.userId())
-            FlowRouter.go "/steedos/sign-in";
-        else 
-            appId = Steedos.getAppId()
-            if !appId
-                FlowRouter.go("/steedos/springboard")
-            else
-                FlowRouter.go("/app/" + appId);
-        
+        Session.set("isRootLoading",true)
+        BlazeLayout.render 'steedosLoading'
+        $("body").addClass('loading')
+
 
 # FlowRouter.route '/steedos', 
 #   action: (params, queryParams)->
