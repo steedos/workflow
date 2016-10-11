@@ -7,7 +7,7 @@ db.flows.adminConfig =
 	]
 	selector: {space: -1}
 	showDelColumn: false
-	routerAdmin: "/admin/view/flows_template"
+	routerAdmin: "/app/admin"
 
 Meteor.startup ->
 
