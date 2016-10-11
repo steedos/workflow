@@ -33,5 +33,16 @@ Template.cf_organization_modal.events
 
 		Modal.allowMultiple = false;
 
+	'click #remove': (event, template) ->
+		target = $("#"+template.data.targetId)
+
+		target[0].dataset.values = "";
+
+		target.val("").trigger('change');
+
+		Modal.hide("cf_organization_modal");
+
+		Modal.allowMultiple = false;
+
 Template.cf_organization_modal.onRendered ->
     CFDataManager.handerOrganizationModalValueLabel();

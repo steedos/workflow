@@ -4,7 +4,7 @@
       <div class="modal-content ins-modal">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">选择</h4>
+          <h4 class="modal-title" id="myModalLabel">{{_ "coreform_select_org_title"}}</h4>
         </div>
         <div class="modal-body contacts-modal-body">
           <div class="row">
@@ -13,15 +13,24 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer" style="{{footer_display multiple}}">
-          <div class="row">
+        <div class="modal-footer">
+          <div class="row" style="{{footer_display multiple}}">
             <div class="col-md-10" id="valueLabel_div">
                 <ui id="valueLabel_ui" class="valueLabel"><div id="valueLabel"></div></ui>
             </div>
             <div class="col-md-2 pull-right" style="padding-left:0">
-              <button type="button" class="btn btn-primary" id='confirm' title="确认" style="width:100%">确认</button>
+              <button type="button" class="btn btn-primary" id='confirm' title='{{_ "OK"}}' style="width:100%">{{_ "OK"}}</button>
             </div>
           </div>
+          {{#if multiple}}
+
+          {{else}}
+          <div class="row">
+            <div class="col-md-2 pull-right" style="">
+              <button type="button" class="btn btn-default" id='remove' title='{{_ "remove"}}' style="width:100%">{{_ "remove"}}</button>
+            </div>
+          </div>
+          {{/if}}
         </div>
         
       </div>

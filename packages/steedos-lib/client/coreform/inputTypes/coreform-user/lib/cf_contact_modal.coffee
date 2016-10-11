@@ -34,6 +34,13 @@ Template.cf_contact_modal.events
 
 		Modal.allowMultiple = false;
 
+	'click #remove': (event, template) ->
+		target = $("#"+template.data.targetId)
+		target[0].dataset.values = "";
+		target.val("").trigger('change');
+		Modal.hide("cf_contact_modal");
+		Modal.allowMultiple = false;
+
 Template.cf_contact_modal.onRendered ->
     CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
     CFDataManager.handerContactModalValueLabel();

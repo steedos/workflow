@@ -279,6 +279,9 @@
 	},
 
     "bg_body": "Background",
-    "bg_body_setting": "Background Setting"
+    "bg_body_setting": "Background Setting",
+    "remove": "Remove",
+    "coreform_select_user_title": "Please select user",
+    "coreform_select_org_title": "Please select organization"
 
 }
