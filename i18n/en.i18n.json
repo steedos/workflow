@@ -11,5 +11,24 @@
 	"select_tag_first": "First",
 	"select_tag_previous": "Previous",
 	"select_tag_next": "Next",
-	"select_tag_last": "Last"
+	"select_tag_last": "Last",
+
+	
+	"mail_inbox":"Inbox",
+	"mail_sent":"Sent",
+	"mail_drafts":"Drafts",
+	"mail_junk":"Junk",
+	"mail_trash":"Trash",
+	"mail_archive":"Archive",
+	"mail_accounts":"Acounts",
+	"mail_accounts_email":"AccountsEmail",
+	"mail_accounts_password":"AccountsPassword",
+	"mail_domains":"MailDomains",
+	"mail_domains_domain":"Domain",
+	"mail_domains_smtp_server":"SmtpServer",
+	"mail_domains_smtp_ssl":"SMTPSll",
+	"mail_domains_smtp_port":"SmtpPort",
+	"mail_domains_imap_server":"ImapServer",
+	"mail_domains_imap_ssl":"IMAPSll",
+	"mail_domains_imap_port":"ImapPort"
 }

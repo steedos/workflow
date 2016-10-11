@@ -11,5 +11,24 @@
 	"select_tag_first": "首页",
 	"select_tag_previous": "上页",
 	"select_tag_next": "下页",
-	"select_tag_last": "末页"
+	"select_tag_last": "末页",
+
+
+	"mail_inbox":"收件箱",
+	"mail_sent":"已发送",
+	"mail_drafts":"草稿",
+	"mail_junk":"垃圾邮件",
+	"mail_trash":"已删除",
+	"mail_archive":"归档",
+	"mail_accounts":"账户",
+	"mail_accounts_email":"邮箱名",
+	"mail_accounts_password":"邮箱密码",
+	"mail_domains":"邮件域",
+	"mail_domains_domain":"邮件域名",
+	"mail_domains_smtp_server":"SMTP服务器",
+	"mail_domains_smtp_ssl":"SMTP加密",
+	"mail_domains_smtp_port":"SMTP端口",
+	"mail_domains_imap_server":"IMAP服务器",
+	"mail_domains_imap_ssl":"IMAP加密",
+	"mail_domains_imap_port":"IMAP端口"
 }
