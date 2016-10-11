@@ -6,7 +6,7 @@ Template.workflowLayout.onCreated ->
 
 	$(window).resize ->
 		self.minHeight.set($(window).height());
-		if $(window).width()<=1024
+		if $(window).width()<=1280
 			$("body").addClass("sidebar-collapse")
 		else
 			$("body").removeClass("sidebar-collapse")
