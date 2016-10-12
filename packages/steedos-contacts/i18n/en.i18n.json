@@ -1,13 +1,2 @@
 {
-	"mail_inbox":"Inbox",
-	"mail_sent":"Sent",
-	"mail_drafts":"Drafts",
-	"mail_junk":"Junk",
-	"mail_trash":"Trash",
-	"address_groups":"AddressGroups",
-	"address_groups_name":"GroupsName",
-	"address_books":"AddressBooks",
-	"address_books_name":"BooksName",
-	"address_books_email":"BooksEmail",
-	"address_books_group":"BooksGroup"
 }
