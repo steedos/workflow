@@ -140,6 +140,7 @@
 	"apps_auth_name": "Auth Name",
 	"apps_url": "URL",
 	"apps_on_click": "URL Script",
+    "apps_is_use_ie": "Use IE",
 	"apps_iconURL": "IconURL",
 	"apps_icon": "Icon",
 	"apps_space_sort": "Sort Index",
