@@ -50,8 +50,7 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
-		if Session.get 'isRootLoading'
-			Session.set("isRootLoading",false)
+		if FlowRouter.current().path == "/"
 			$("body").removeClass("loading")
 			firstApp = Steedos.getSpaceApps().fetch()[0]
 			if firstApp
@@ -62,4 +61,5 @@ Tracker.autorun (c)->
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("steedos_keyvalues")
 		bodybg = Steedos.getAccountBodyBg()
-		$("body").css "backgroundImage","url(#{bodybg})"
+		if bodybg
+			$("body").css "backgroundImage","url(#{bodybg})"

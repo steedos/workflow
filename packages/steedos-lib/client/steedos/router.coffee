@@ -14,9 +14,16 @@ FlowRouter.triggers.enter [()->
 
 FlowRouter.route '/', 
     action: (params, queryParams)->
-        Session.set("isRootLoading",true)
-        BlazeLayout.render 'steedosLoading'
-        $("body").addClass('loading')
+        if (!Meteor.userId())
+            FlowRouter.go "/steedos/sign-in";
+        else 
+            appId = Steedos.getAppId()
+            if !appId
+                # 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
+                BlazeLayout.render 'steedosLoading'
+                $("body").addClass('loading')
+            else
+                FlowRouter.go("/app/" + appId);
 
 
 # FlowRouter.route '/steedos', 
