@@ -1,10 +1,12 @@
 Template.contacts_list.helpers 
+    contacts: ()->
+        return ContactsManager.getContacts(Session.get("contacts_orgId"));
     selector: ->
         query = {space: Session.get("spaceId")};
 
         orgId = Session.get("contacts_orgId");
 
-        childrens = ContactsManager.organizationRemote.find({parents: orgId},{fields:{_id:1}});
+        childrens = db.organizations.find({parents: orgId},{fields:{_id:1}}).fetch();
 
         orgs = childrens.getProperty("_id");
         

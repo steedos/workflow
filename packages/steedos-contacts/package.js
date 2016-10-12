@@ -24,6 +24,7 @@ Package.onUse(function(api) {
     api.use('templating');
     api.use('steedos:lib');
     api.use('steedos:api');
+    api.use('steedos:ui');
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes@2.1.0');
     api.use('nimble:restivus@0.8.7');
@@ -35,6 +36,7 @@ Package.onUse(function(api) {
     api.use('cfs:standard-packages@0.5.9');
     api.use('kadira:blaze-layout@2.3.0');
     api.use('kadira:flow-router@2.10.1');
+    api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
 
     api.use('meteorhacks:ssr@2.2.0');
@@ -50,10 +52,13 @@ Package.onUse(function(api) {
 	
 	api.addFiles('lib/core.coffee', ['client', 'server']);
 	api.addFiles('lib/models/contact_cards.coffee', ['client', 'server']);
+	api.addFiles('lib/models/address_groups.coffee', ['client', 'server']);
+	api.addFiles('lib/models/address_books.coffee', ['client', 'server']);
 	api.addFiles('lib/admin.coffee', ['client', 'server']);
 
 	api.addFiles('server/publications/contact_cards.coffee', 'server');
-
+	api.addFiles('server/publications/address_groups.coffee', 'server');
+	api.addFiles('server/publications/address_books.coffee', 'server');
 	api.addFiles('client/libs/contacts_manager.js', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
