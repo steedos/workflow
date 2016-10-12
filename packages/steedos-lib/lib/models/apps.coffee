@@ -23,6 +23,10 @@ db.apps._simpleSchema = new SimpleSchema
 		optional: true
 		autoform: 
 			rows: 10
+	is_use_ie: 
+		type: Boolean,
+		autoform: 
+			defaultValue: false
 	icon:
 		type: String
 		max: 200
