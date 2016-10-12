@@ -58,3 +58,8 @@ Tracker.autorun (c)->
 				FlowRouter.go("/app/" + firstApp._id)
 			else
 				FlowRouter.go("/steedos/springboard")
+
+Tracker.autorun (c)->
+	if Steedos.subsSpace.ready("steedos_keyvalues")
+		bodybg = Steedos.getAccountBodyBg()
+		$("body").css "backgroundImage","url(#{bodybg})"

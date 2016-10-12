@@ -31,7 +31,22 @@ Template.profile.helpers
 
     return isPrimary
 
-  bgBodys:["birds","blue","books","cloud","sea"]
+  bgBodys:[{
+    name:"birds",
+    url:"/packages/steedos_theme-qhd/client/background/birds.jpg"
+  },{
+    name:"blue",
+    url:"/packages/steedos_theme-qhd/client/background/blue.jpg"
+  },{
+    name:"books",
+    url:"/packages/steedos_theme-qhd/client/background/books.jpg"
+  },{
+    name:"cloud",
+    url:"/packages/steedos_theme-qhd/client/background/cloud.jpg"
+  },{
+    name:"sea",
+    url:"/packages/steedos_theme-qhd/client/background/sea.jpg"
+  }]
 
 Template.profile.onRendered ->
 
@@ -134,8 +149,13 @@ Template.profile.events
                 swal t("email_set_primary_success"), "", "success"
 
   'click #bg_body a.thumbnail': (event)->
-    bg = $(event.currentTarget).attr("bg");
-    Meteor.call 'setKeyValue', 'bg_body', {'name':bg}, (error, is_suc) ->
+    bg = $(event.currentTarget).attr("bg")
+    $("#bg_body button.btn-save-bg").attr("bg",bg)
+    $("body").css("backgroundImage","url(#{bg})")
+
+  'click #bg_body button.btn-save-bg': (event)->
+    bg = $(event.currentTarget).attr("bg")
+    Meteor.call 'setKeyValue', 'bg_body', {'url':bg}, (error, is_suc) ->
       unless is_suc
         console.error error
         toastr.error(error)
