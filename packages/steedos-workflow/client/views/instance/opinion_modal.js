@@ -55,17 +55,17 @@ Template.opinion_modal.events({
 
     'click #instance_flow_opinions_plus': function(event, template) {
         swal({
-            title: "请输入批示",
+            title: t('instance_opinion_input'),
             type: "input",
             showCancelButton: true,
             closeOnConfirm: false,
-            inputPlaceholder: "请输入批示",
+            inputPlaceholder: t('instance_opinion_input'),
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel')
         }, function(inputValue) {
             if (inputValue === false) return false;
             if (inputValue === "") {
-                swal.showInputError("You need to write something!");
+                swal.showInputError(t('instance_opinion_input'));
                 return false
             }
 
@@ -80,6 +80,17 @@ Template.opinion_modal.events({
 
             if (o) {
                 opinions = o.value.workflow;
+                // 判断是否已经存在
+                if (opinions.includes(inputValue)) {
+                    swal({
+                        title: t('instance_opinion_exists'),
+                        type: "warning",
+                        closeOnConfirm: true,
+                        confirmButtonText: t('OK')
+                    });
+                    return false;
+                }
+
                 opinions.unshift(inputValue);
             } else {
                 opinions = [inputValue];
@@ -90,7 +101,7 @@ Template.opinion_modal.events({
             }, function(error, result) {
                 if (error) {
                     swal({
-                        title: "Error!",
+                        title: t('instance_opinion_error'),
                         type: "error",
                         text: error,
                         closeOnConfirm: true,
@@ -100,7 +111,7 @@ Template.opinion_modal.events({
 
                 if (result == true) {
                     swal({
-                        title: "Nice!",
+                        title: t('instance_opinion_add_success'),
                         type: "success",
                         closeOnConfirm: true,
                         confirmButtonText: t('OK')
@@ -135,7 +146,7 @@ Template.opinion_modal.events({
 
                     if (error) {
                         swal({
-                            title: "Error!",
+                            title: t('instance_opinion_error'),
                             type: "error",
                             text: error,
                             closeOnConfirm: true,
@@ -145,7 +156,7 @@ Template.opinion_modal.events({
 
                     if (result == true) {
                         swal({
-                            title: "Nice!",
+                            title: t('instance_opinion_remove_success'),
                             type: "success",
                             closeOnConfirm: true,
                             confirmButtonText: t('OK')

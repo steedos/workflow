@@ -178,6 +178,11 @@
     "workflow_select_an_app": "选择应用",
     "workflow_suggestion_placeholder": "请填写意见",
 
-    "instance_opinion_title": "批示"
+    "instance_opinion_title": "批示",
+    "instance_opinion_input": "请输入批示",
+    "instance_opinion_add_success": "添加成功!",
+    "instance_opinion_remove_success": "移除成功!",
+    "instance_opinion_error": "出错了",
+    "instance_opinion_exists": "批示已存在"
 
 }

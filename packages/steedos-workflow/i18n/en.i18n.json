@@ -177,6 +177,11 @@
     "workflow_select_an_app": "Select an app",
     "workflow_suggestion_placeholder": "Leave a comment",
 
-    "instance_opinion_title": "Opinions"
+    "instance_opinion_title": "Opinions",
+    "instance_opinion_input": "Add a opinion",
+    "instance_opinion_add_success": "Add successfully!",
+    "instance_opinion_remove_success": "Remove successfully!",
+    "instance_opinion_error": "Error",
+    "instance_opinion_exists": "Opinion exists"
 
 }
