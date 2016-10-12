@@ -10,7 +10,9 @@ db.address_books.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
+		{name: "group"},
 		{name: "name"},
+		{name: "email"}
 	]
 	selector: {owner: -1}
 	routerAdmin: "/contacts"

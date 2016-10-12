@@ -59,12 +59,14 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/contact_cards.coffee', 'server');
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
+
 	api.addFiles('client/libs/contacts_manager.js', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
-
+	api.addFiles('client/views/contact.less', 'client');
+	
 	api.addFiles('client/views/home.html', 'client');
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
@@ -72,6 +74,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/contact_list.coffee', 'client');
 
 	api.addFiles('tabular.coffee');
+	api.addFiles('tabular_books.coffee');
 	
 	api.export('ContactsManager');
 });

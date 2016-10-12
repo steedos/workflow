@@ -3,15 +3,31 @@
     <h3>
       通讯录
     </h3>
-    <ol class="breadcrumb">
+    <!-- <ol class="breadcrumb">
       <li><a href="/contacts"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Contacts</li>
-    </ol>
+    </ol> -->
   </section>
   <section class="content steedos-mail">
     <div class="row">
       <div class="col-md-3">
         {{> contacts_tree}}
+
+        <div class="contacts-admin box box-solid">
+          <div class="box-header with-border">
+            设置
+          </div>
+          <div class="box-body no-padding">
+            <ul class="nav nav-pills nav-stacked">
+              <li>
+                <a href="/admin/view/address_groups"> 分组</a>
+              </li>
+              <li>
+                <a href="/admin/view/address_books"> 人员</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="col-md-9">
         {{> contacts_list}}

@@ -1,5 +1,7 @@
 db.address_books = new Meteor.Collection('address_books')
 
+
+
 db.address_books._simpleSchema = new SimpleSchema
 
 	owner:
@@ -8,12 +10,20 @@ db.address_books._simpleSchema = new SimpleSchema
 			type: "hidden",
 			defaultValue: ->
 				return Meteor.userId();
+	group:
+		type: String,
+		autoform:
+			type: "select",
+			options: ()->
+				groups = db.address_groups.find().fetch();
+				op = new Array();
+				groups.forEach (g)->
+					op.push({label: g.name, value: g._id})
 
+				return op;
 	name:
 		type: String,
 	email:
-		type: String,
-	group:
 		type: String,
 
 	created:

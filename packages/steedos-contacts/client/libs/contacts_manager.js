@@ -1,6 +1,6 @@
 ContactsManager = {};
 
-ContactsManager.getNode = function(node){
+ContactsManager.getOrgNode = function(node){
 	console.log(node);
 
 	var orgs ;
@@ -13,6 +13,28 @@ ContactsManager.getNode = function(node){
 	return handerOrg(orgs);
 }
 
+ContactsManager.getBookNode = function(node){
+	var nodes = new Array();
+	if(node.id == "#"){
+		var n = new Object();
+		n.text = "个人联系人";
+		n.id = "parent";
+		n.icon = 'ion ion-android-contacts';
+		n.children = true;
+		nodes.push(n);
+	}else{
+		var groups = db.address_groups.find().fetch();
+		groups.forEach(function(g){
+			var n = new Object();
+			n.text = g.name;
+			n.id = g._id;
+			n.icon = false;
+			nodes.push(n);
+		});
+	}
+
+	return nodes;
+}
 
 function handerOrg(orgs){
 
@@ -30,7 +52,7 @@ function handerOrg(orgs){
 			node.children = true;
 		}
 
-		if(org.parent != ''){
+		if(!org.is_company){
 			node.parent = org.parent;
 			node.icon = false; //node.icon = "fa fa-users";
 		}else{
@@ -46,12 +68,48 @@ function handerOrg(orgs){
 
 
 ContactsManager.getRoot = function(){
-	return db.organizations.find({parent:""}).fetch();
+	return SteedosDataManager.organizationRemote.find({
+	    is_company: true
+	  }, {
+	    fields: {
+	      _id: 1,
+	      name: 1,
+	      fullname: 1,
+	      parent: 1,
+	      children: 1,
+	      childrens: 1,
+	      is_company:1
+	    }
+	  });
 };
 
 
 ContactsManager.getChild = function(parentId){
-	return db.organizations.find({parent: parentId}).fetch();
+	return SteedosDataManager.organizationRemote.find({
+	    parent: parentId
+	  }, {
+	    fields: {
+	      _id: 1,
+	      name: 1,
+	      fullname: 1,
+	      parent: 1,
+	      children: 1,
+	      childrens: 1
+	    }
+	  });
+}
+
+ContactsManager.getOrgAndChild = function(orgId) {
+  var childrens = SteedosDataManager.organizationRemote.find({
+    parents: orgId
+  }, {
+    fields: {
+      _id: 1
+    }
+  });
+  orgs = childrens.getProperty("_id");
+  orgs.push(orgId);
+  return orgs;
 }
 
 /*
