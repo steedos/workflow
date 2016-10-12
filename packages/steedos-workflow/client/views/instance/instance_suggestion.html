@@ -4,11 +4,15 @@
             <div class="box-body">
 
                 {{#if includes currentStep.step_type 'sign,counterSign'}}
-                    {{#if isCC}}
-                    {{else}}
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
+                            {{#if isCC}}
+                                {{#unless isMobile}}
+                                    <label>{{_ 'instance_cc_title'}}&nbsp;:&nbsp;&nbsp;</label>
+                                {{/unless}}
+                            {{else}}
                                 <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
                                 <label class="radio-inline">
                                     <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
@@ -16,11 +20,14 @@
                                 <label class="radio-inline">
                                     <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
                                 </label>
-                                <button type="button" class="btn btn-default pull-right" id="instance_flow_opinions" title="常用意见"><i class="ion ion-navicon-round"></i></button>
+                            {{/if}}
+                            {{#unless isMobile}}
+                                <button type="button" class="btn btn-default pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-navicon-round"></i></button>
+                            {{/unless}}
                             </div>
                         </div>
                     </div>
-                    {{/if}}
+                    
                 {{/if}}
 
                 <div class="row">
