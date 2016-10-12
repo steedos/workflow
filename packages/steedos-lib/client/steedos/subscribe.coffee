@@ -61,4 +61,5 @@ Tracker.autorun (c)->
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("steedos_keyvalues")
 		bodybg = Steedos.getAccountBodyBg()
-		$("body").css "backgroundImage","url(#{bodybg})"
+		if bodybg
+			$("body").css "backgroundImage","url(#{bodybg})"
