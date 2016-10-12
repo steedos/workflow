@@ -31,6 +31,9 @@ Template.profile.helpers
 
     return isPrimary
 
+  isCurrentBgUrlActive: (url)->
+    return if url == Steedos.getAccountBodyBg() then "active" else ""
+
   bgBodys:[{
     name:"birds",
     url:"/packages/steedos_theme-qhd/client/background/birds.jpg"
