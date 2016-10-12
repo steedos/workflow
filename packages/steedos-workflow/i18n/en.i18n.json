@@ -182,6 +182,7 @@
     "instance_opinion_add_success": "Add successfully!",
     "instance_opinion_remove_success": "Remove successfully!",
     "instance_opinion_error": "Error",
-    "instance_opinion_exists": "Opinion exists"
+    "instance_opinion_exists": "Opinion exists",
+    "instance_opinion_add_tip": "Press '+' to add opinion"
 
 }

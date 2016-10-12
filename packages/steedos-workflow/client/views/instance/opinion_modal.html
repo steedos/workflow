@@ -8,21 +8,25 @@
             </div>
 
             <div class="modal-body">
-                <table style="width: 100%;height: 100%;">
+                <table style="width: 100%;table-layout: fixed;">
                     <tbody>
                         <tr>
-                            <td style="width: 45%;">
-                                <div class="list-group">
-                                    {{#each opinions}}
-                                        <a href="#" class="list-group-item {{#if active this}}active{{/if}}" data-opinion="{{this}}">{{ this }}</a>
-                                    {{/each}}
+                            <td style="width: 45%;vertical-align: top;word-wrap: break-word;">
+                                <div class="list-group" style="overflow-x: auto;height: 400px;">
+                                    {{#if opinions}}
+                                        {{#each opinions}}
+                                            <a href="#" class="list-group-item {{#if active this}}active{{/if}}" data-opinion="{{this}}">{{ this }}</a>
+                                        {{/each}}
+                                    {{else}}
+                                        <h4 style="margin-top: 0px;">{{_ 'instance_opinion_add_tip'}}</h4>
+                                    {{/if}}
                                 </div>
                             </td>
                             <td style="width: 10%;text-align: center;">
                                 <button type="button" class="btn btn-default" id="instance_flow_opinions_to" disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i class="ion ion-arrow-right-c"></i></button>
                             </td>
                             <td style="width: 45%;height:100%;">
-                                <textarea class="form-control" style="height: 99%;border-radius: 4px;margin-bottom: 20px;" id="instance_flow_comment">{{flow_comment}}</textarea>
+                                <textarea class="form-control" style="height: 99%;border-radius: 4px;margin-bottom: 20px;min-height: 50px;" id="instance_flow_comment">{{flow_comment}}</textarea>
                             </td>
                         </tr>
                         <tr>
