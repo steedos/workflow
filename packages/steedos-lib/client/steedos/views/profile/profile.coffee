@@ -36,19 +36,19 @@ Template.profile.helpers
 
   bgBodys:[{
     name:"birds",
-    url:"/packages/steedos_theme-qhd/client/background/birds.jpg"
+    url:"/packages/steedos_theme/client/background/birds.jpg"
   },{
     name:"blue",
-    url:"/packages/steedos_theme-qhd/client/background/blue.jpg"
+    url:"/packages/steedos_theme/client/background/blue.jpg"
   },{
     name:"books",
-    url:"/packages/steedos_theme-qhd/client/background/books.jpg"
+    url:"/packages/steedos_theme/client/background/books.jpg"
   },{
     name:"cloud",
-    url:"/packages/steedos_theme-qhd/client/background/cloud.jpg"
+    url:"/packages/steedos_theme/client/background/cloud.jpg"
   },{
     name:"sea",
-    url:"/packages/steedos_theme-qhd/client/background/sea.jpg"
+    url:"/packages/steedos_theme/client/background/sea.jpg"
   }]
 
 Template.profile.onRendered ->
