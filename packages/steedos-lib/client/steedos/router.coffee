@@ -14,7 +14,6 @@ FlowRouter.triggers.enter [()->
 
 FlowRouter.route '/', 
     action: (params, queryParams)->
-        Session.set("isRootLoading",true)
         BlazeLayout.render 'steedosLoading'
         $("body").addClass('loading')
 
