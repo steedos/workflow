@@ -38,8 +38,8 @@ Template.profile.helpers
     name:"birds",
     url:"/packages/steedos_theme/client/background/birds.jpg"
   },{
-    name:"blue",
-    url:"/packages/steedos_theme/client/background/blue.jpg"
+    name:"fish",
+    url:"/packages/steedos_theme/client/background/fish.jpg"
   },{
     name:"books",
     url:"/packages/steedos_theme/client/background/books.jpg"
@@ -49,6 +49,12 @@ Template.profile.helpers
   },{
     name:"sea",
     url:"/packages/steedos_theme/client/background/sea.jpg"
+  },{
+    name:"flower",
+    url:"/packages/steedos_theme/client/background/flower.jpg"
+  },{
+    name:"beach",
+    url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
 
 Template.profile.onRendered ->
