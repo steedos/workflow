@@ -2,6 +2,7 @@ Steedos.subsBootstrap = new SubsManager();
 Steedos.subsBootstrap.subscribe('userData')
 Steedos.subsBootstrap.subscribe('apps')
 Steedos.subsBootstrap.subscribe('my_spaces')
+Steedos.subsBootstrap.subscribe("steedos_keyvalues")
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
@@ -26,7 +27,7 @@ Steedos.subsSpace = new SubsManager();
 
 Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
-	instanceId = Session.get('instanceId')
+	
 	Steedos.subsSpace.reset();
 	if spaceId
 		Steedos.subsSpace.subscribe("apps", spaceId)
@@ -42,11 +43,13 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("my_space_user", spaceId)
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
 
+Steedos.subsInstance = new SubsManager();
+
+Tracker.autorun (c)->
+	instanceId = Session.get('instanceId')
+	Steedos.subsInstance.reset()
 	if instanceId
-		Steedos.subsSpace.subscribe("cfs_instances", instanceId)
-
-	Steedos.subsSpace.subscribe("steedos_keyvalues")
-
+		Steedos.subsInstance.subscribe("cfs_instances", instanceId)
 
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
@@ -59,7 +62,7 @@ Tracker.autorun (c)->
 				FlowRouter.go("/steedos/springboard")
 
 Tracker.autorun (c)->
-	if Steedos.subsSpace.ready("steedos_keyvalues")
+	if Steedos.subsBootstrap.ready("steedos_keyvalues")
 		bodybg = Steedos.getAccountBodyBg()
 		if bodybg
 			$("body").css "backgroundImage","url(#{bodybg})"
