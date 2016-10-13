@@ -1,23 +1,71 @@
-.contacts-tree{
-	height: 645px;
-	overflow: auto;
-	background-color: #fff;
-	border: 1px solid #d2d6de;
-	.box-solid{
-		margin-bottom: 0px;
+.steedos-contacts{
+	.valueLabel {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 4px 6px;
+        color: #555;
+        vertical-align: middle;
+        border-radius: 4px;
+        width: 100%;
+        min-height: 32px;
+        line-height: 22px;
+        cursor: text;
+        list-style:none;
+        overflow-x: auto;
+    }
+
+    .valueLabel:after{
+        clear: both;
+        content: '';
+        display:block;
+    }
+
+    .valueLabel li {
+        cursor: move;
+        margin: 4px 5px 4px 0;
+        padding: 2px 4px;
+        background-color: #5F9EDF;
+        text-align:center;
+        color:#fff;
+        font-size:13px;
+        display: inline;
+    }
+
+    .valueLabel .remove{
+        background-color: #5F9EDF;
+        margin: 0 5px 4px 0;
+        cursor: pointer;
+    }
+
+    .contacts-tree{
+		height: 645px;
+		overflow: auto;
+		background-color: #fff;
+		border: 1px solid #d2d6de;
+		.box-solid{
+			margin-bottom: 0px;
+		}
 	}
+
+	.contacts-list{
+		height: 645px;
+		background-color: #fff;
+		border: 1px solid #d2d6de;
+		.box{
+			border: 0px !important;
+			box-shadow: #fff 0px 0px 0px;
+			margin-bottom: 0px;
+		}
+		
+	}
+
+	.contacts-admin{
+		margin-top: 20px;
+	}
+
+	.valueLabel-div{
+        text-align: left;
+    }
 }
 
-.contacts-list{
-	height: 645px;
-	background-color: #fff;
-	border: 1px solid #d2d6de;
-	.box{
-		border: 0px !important;
-		box-shadow: #fff 0px 0px 0px;
-	}
-}
-
-.contacts-admin{
-	margin-top: 20px;
-}

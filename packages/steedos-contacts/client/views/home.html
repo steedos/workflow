@@ -8,7 +8,7 @@
       <li class="active">Contacts</li>
     </ol> -->
   </section>
-  <section class="content steedos-mail">
+  <section class="content steedos-mail steedos-contacts">
     <div class="row">
       <div class="col-md-3">
         {{> contacts_tree}}
@@ -32,6 +32,11 @@
       <div class="col-md-9">
         {{> contacts_list}}
       </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{> selectedValue}}
+        </div>
     </div>
   </section>
 </template>
