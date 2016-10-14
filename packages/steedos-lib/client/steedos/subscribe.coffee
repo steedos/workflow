@@ -66,3 +66,20 @@ Tracker.autorun (c)->
 		bodybg = Steedos.getAccountBodyBg()
 		if bodybg
 			$("body").css "backgroundImage","url(#{bodybg})"
+
+
+Steedos.subsForwardRelated = new SubsManager(
+    # maximum number of cache subscriptions
+    cacheLimit: 10,
+    # any subscription will be expire after 5 minute, if it's not subscribed again
+    expireIn: 5
+)
+
+Tracker.autorun (c)->
+	space_id = Session.get('forward_space_id')
+	if space_id
+        Steedos.subsForwardRelated.subscribe("my_space_user", space_id);
+        Steedos.subsForwardRelated.subscribe("my_organizations", space_id);
+        Steedos.subsForwardRelated.subscribe("categories", space_id);
+        Steedos.subsForwardRelated.subscribe("forms", space_id);
+        Steedos.subsForwardRelated.subscribe("flows", space_id);
