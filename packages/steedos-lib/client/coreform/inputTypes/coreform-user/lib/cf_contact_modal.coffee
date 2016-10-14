@@ -15,9 +15,12 @@ Template.cf_contact_modal.helpers
 
 	orgName: ()->
 		orgId = Session.get("cf_selectOrgId");
-		org = SteedosDataManager.organizationRemote.findOne({_id: orgId},{fields:{name:1}});
+		if orgId == '#'
+			org = SteedosDataManager.organizationRemote.findOne({is_company: true},{fields:{name:1}});
+		else
+			org = SteedosDataManager.organizationRemote.findOne({_id: orgId},{fields:{name:1}});
 
-		return org.name;
+		return org?.name;
 
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
