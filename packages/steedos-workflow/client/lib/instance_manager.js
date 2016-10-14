@@ -1093,3 +1093,17 @@ InstanceManager.unlockAttach = function(file_id) {
     }
   });
 }
+
+// 申请单转发
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id) {
+  Meteor.call('forward_instance', instance_id, space_id, flow_id, function(error, result) {
+    if (error) {
+      toastr.error(error.message);
+    }
+
+    if (result) {
+      FlowRouter.go("/workflow/space/" + space_id + "/draft/" + result);
+    }
+
+  })
+}
