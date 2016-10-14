@@ -146,7 +146,7 @@ FlowRouter.route '/app/:app_id',
         if app.is_use_ie
             if Steedos.isNode()
                 exec = nw.require('child_process').exec
-                path = "/api/app/sso/#{params.app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}&authName=#{app.auth_name}"
+                path = "/api/app/sso/#{params.app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
                 open_url = Meteor.absoluteUrl(path)
                 cmd = "start iexplore.exe \"#{open_url}\""
                 exec cmd, (error, stdout, stderr) ->
