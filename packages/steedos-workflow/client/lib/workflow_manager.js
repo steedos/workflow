@@ -713,7 +713,7 @@ WorkflowManager.getFlowListData = function(show_type) {
   //{categories:[],uncategories:[]}
   var spaceId = Session.get('spaceId');
 
-  if (show_type == 'forward') {
+  if (show_type == 'forward' && Session.get('forward_space_id')) {
     spaceId = Session.get('forward_space_id');
   }
 
