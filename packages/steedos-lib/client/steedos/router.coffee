@@ -143,6 +143,17 @@ FlowRouter.route '/app/:app_id',
             return
 
         Steedos.setAppId params.app_id
+        if app.is_use_ie
+            if Steedos.isNode()
+                exec = nw.require('child_process').exec
+                path = "/api/app/sso/#{params.app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}&authName=#{app.auth_name}"
+                open_url = Meteor.absoluteUrl(path)
+                cmd = "start iexplore.exe \"#{open_url}\""
+                exec cmd, (error, stdout, stderr) ->
+                    if error
+                        toastr.error error
+                    return
+            return
         on_click = app.on_click
         if on_click
             # 这里执行的是一个不带参数的闭包函数，用来避免变量污染
