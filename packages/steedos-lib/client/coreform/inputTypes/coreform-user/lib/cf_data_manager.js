@@ -61,6 +61,9 @@ function handerOrg(orgs) {
 
 CFDataManager.setContactModalValue = function(value) {
   $("#cf_contact_modal").data("values", value);
+  if(value && value instanceof Array){
+    TabularTables.cf_tabular_space_user.customData.defaultValues = value.getProperty("id");
+  }
 }
 
 CFDataManager.getContactModalValue = function() {

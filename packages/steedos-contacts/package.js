@@ -70,6 +70,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/home.html', 'client');
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
+	
+	api.addFiles('client/views/selectedValue.html', 'client');
+
 	api.addFiles('client/views/contact_list.html', 'client');
 	api.addFiles('client/views/contact_list.coffee', 'client');
 

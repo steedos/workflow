@@ -1,8 +1,7 @@
-Setup.validate = ()->
+Setup.validate = (cb)->
 
 	userId = Accounts._storedUserId()
 	loginToken = Accounts._storedLoginToken()
-
 	requestData = {}
 	if userId and loginToken
 		requestData = 
@@ -20,6 +19,8 @@ Setup.validate = ()->
 	.done ( data ) ->
 		if data.webservices
 			Steedos.settings.webservices = data.webservices
+		if cb
+			cb();
 			
 
 Setup.logout = () ->
@@ -34,7 +35,13 @@ Setup.logout = () ->
 		.done ( data ) ->
 			console.log(data)
 
+Meteor.startup ->
+	Setup.validate ()->
+		if FlowRouter.current()?.context?.pathname == "/steedos/sign-in"
+			if FlowRouter.current()?.queryParams?.redirect
+				FlowRouter.go FlowRouter.current().queryParams.redirect
+			else
+				FlowRouter.go "/"
 
-Accounts.onLogin ()->
-	Meteor.startup ->
+	Accounts.onLogin ()->
 		Setup.validate();

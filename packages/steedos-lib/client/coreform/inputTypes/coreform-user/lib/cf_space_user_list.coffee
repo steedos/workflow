@@ -46,5 +46,5 @@ Template.cf_space_user_list.onRendered ->
     if !@data.multiple
         $("#reverse").hide();
 
-    CFDataManager.setContactModalValue(@data.defaultValues);
+    # CFDataManager.setContactModalValue(@data.defaultValues);
     # $("#contact_list_load").hide();

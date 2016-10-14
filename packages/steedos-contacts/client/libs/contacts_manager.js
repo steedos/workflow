@@ -130,3 +130,67 @@ ContactsManager.getContacts = function(orgId){
 
 	return db.space_users.find({organization: {$in: orgs}},{fields:{_id:1, name:1, email:1}, skip: page * page_size, limit: page_size}).fetch();
 }
+
+ContactsManager.getContactModalValue = function() {
+  var value = $("#contacts_list").data("values");
+  return value ? value : new Array();
+}
+
+ContactsManager.setContactModalValue = function(value) {
+  $("#contacts_list").data("values", value);
+}
+
+ContactsManager.handerContactModalValueLabel = function() {
+
+  var values = ContactsManager.getContactModalValue();
+  var modal = $(".steedos-contacts");
+
+  var confirmButton, html = '',
+    valueLabel, valueLabel_div;
+
+  confirmButton = $('#confirm', modal);
+
+  valueLabel = $('#valueLabel', modal);
+
+  valueLabel_div = $('#valueLabel_div', modal);
+
+  valueLabel_ui = $('#valueLabel_ui', modal);
+
+  if (values.length > 0) {
+    values.forEach(function(v) {
+      return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
+    });
+    valueLabel.html(html);
+
+    if (valueLabel_ui.height() > 46) {
+      valueLabel_ui.css("white-space", "nowrap");
+    } else {
+      valueLabel_ui.css("white-space", "initial");
+    }
+
+    Sortable.create(valueLabel[0], {
+      group: 'words',
+      animation: 150,
+      onRemove: function(event) {
+        return console.log('onRemove...');
+      },
+      onEnd: function(event) {
+        var labelValues;
+        labelValues = [];
+        $('#valueLabel li').each(function() {
+          return labelValues.push({
+            id: this.dataset.value,
+            name: this.dataset.name
+          });
+        });
+        ContactsManager.setContactModalValue(labelValues);
+      }
+    });
+
+    valueLabel_div.show();
+    confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+  } else {
+    confirmButton.html(confirmButton.prop("title"));
+    valueLabel_div.hide();
+  }
+}

@@ -8,7 +8,14 @@
           orderable: false,
           width:'30px',
           render:  (val, type, doc) ->
-            return '<input type="checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '">'
+
+            input = '<input type="checkbox" class="contacts-list-checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '"'
+
+            if TabularTables.contacts.customData?.defaultValues?.getProperty("email").includes(doc.email)
+              input += " checked "
+
+            input += ">"
+            return input
         },
         {
           data: "name", 
