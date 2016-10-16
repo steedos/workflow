@@ -588,21 +588,20 @@ WorkflowManager.getSpaceFlows = function(spaceId){
 };
 
 
-WorkflowManager.canAdd = function (fl, curSpaceUser, organization) {
+WorkflowManager.canAdd = function (fl, curSpaceUser, organizations) {
   var perms = fl.perms;
   var hasAddRight = false;
   if (perms) {
     if (perms.users_can_add && perms.users_can_add.includes(Meteor.userId())) {
       hasAddRight = true;
     } else if (perms.orgs_can_add && perms.orgs_can_add.length > 0) {
-      if (curSpaceUser && curSpaceUser.organization && perms.orgs_can_add.includes(curSpaceUser.organization)) {
+      if (curSpaceUser && curSpaceUser.organizations && _.intersection(curSpaceUser.organizations, perms.orgs_can_add).length > 0) {
         hasAddRight = true;
       } else {
-        for (var p = perms.orgs_can_add.length - 1; p >= 0; p--) {
-          if (organization && organization.parents && organization.parents.includes(perms.orgs_can_add[p])) {
-            hasAddRight = true;
-            break;
-          }
+        if(organizations){
+         hasAddRight = _.some(organizations, function(org){
+                        return org.parents && _.intersection(org.parents, perms.orgs_can_add).length > 0;
+                      });
         }
       }
     }
@@ -611,21 +610,21 @@ WorkflowManager.canAdd = function (fl, curSpaceUser, organization) {
 };
 
 
-WorkflowManager.canAdmin = function (fl, curSpaceUser, organization) {
+WorkflowManager.canAdmin = function (fl, curSpaceUser, organizations) {
   var perms = fl.perms;
   var hasAdminRight = false;
   if (perms) {
     if (perms.users_can_admin && perms.users_can_admin.includes(Meteor.userId())) {
       hasAdminRight = true;
     } else if (perms.orgs_can_admin && perms.orgs_can_admin.length > 0) {
-      if (curSpaceUser && curSpaceUser.organization && perms.orgs_can_admin.includes(curSpaceUser.organization)) {
+      if (curSpaceUser && curSpaceUser.organizations && _.intersection(curSpaceUser.organizations, perms.orgs_can_admin).length > 0) {
         hasAdminRight = true;
       } else {
-        for (var p = perms.orgs_can_admin.length - 1; p >= 0; p--) {
-          if (organization && organization.parents && organization.parents.includes(perms.orgs_can_admin[p])) {
-            hasAdminRight = true;
-            break;
-          }
+        if(organizations){
+
+          hasAdminRight = _.some(organizations, function(org){
+                            return org.parents && _.intersection(org.parents, perms.orgs_can_admin).length > 0;
+                          });
         }
       }
     }
@@ -633,21 +632,21 @@ WorkflowManager.canAdmin = function (fl, curSpaceUser, organization) {
   return hasAdminRight;
 };
 
-WorkflowManager.canMonitor = function (fl, curSpaceUser, organization) {
+WorkflowManager.canMonitor = function (fl, curSpaceUser, organizations) {
   var perms = fl.perms;
   var hasMonitorRight = false;
   if (perms) {
     if (perms.users_can_monitor && perms.users_can_monitor.includes(Meteor.userId())) {
       hasMonitorRight = true;
     } else if (perms.orgs_can_monitor && perms.orgs_can_monitor.length > 0) {
-      if (curSpaceUser && curSpaceUser.organization && perms.orgs_can_monitor.includes(curSpaceUser.organization)) {
+      if (curSpaceUser && curSpaceUser.organizations && _.intersection(curSpaceUser.organizations, perms.orgs_can_monitor).length > 0) {
         hasMonitorRight = true;
       } else {
-        for (var p = perms.orgs_can_monitor.length - 1; p >= 0; p--) {
-          if (organization && organization.parents && organization.parents.includes(perms.orgs_can_monitor[p])) {
-            hasMonitorRight = true;
-            break;
-          }
+        if(organizations){
+          
+          hasMonitorRight = _.some(organizations, function(org){
+                            return org.parents && _.intersection(org.parents, perms.orgs_can_monitor).length > 0;
+                          });
         }
       }
     }
@@ -658,10 +657,10 @@ WorkflowManager.canMonitor = function (fl, curSpaceUser, organization) {
 WorkflowManager.getMyAdminOrMonitorFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
   curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'), 'user': Meteor.userId()});
-  organization = db.organizations.findOne(curSpaceUser.organization);
+  organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
   flows = db.flows.find();
   flows.forEach(function(fl){
-    if (WorkflowManager.canMonitor(fl, curSpaceUser, organization) || WorkflowManager.canAdmin(fl, curSpaceUser, organization)) {
+    if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
       flow_ids.push(fl._id);
     }
   })
@@ -671,10 +670,10 @@ WorkflowManager.getMyAdminOrMonitorFlows = function () {
 WorkflowManager.getMyCanAddFlows = function () {
   var flows, flow_ids=[], curSpaceUser, organization;
   curSpaceUser = db.space_users.findOne({space: Session.get('spaceId'),'user': Meteor.userId()});
-  organization = db.organizations.findOne(curSpaceUser.organization);
+  organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
   flows = db.flows.find();
   flows.forEach(function(fl){
-    if (WorkflowManager.canAdd(fl, curSpaceUser, organization)) {
+    if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
       flow_ids.push(fl._id);
     }
   })
@@ -686,7 +685,7 @@ WorkflowManager.getFlowListData = function(show_type){
   var spaceId = Session.get('spaceId');
   var curUserId = Meteor.userId();
   var curSpaceUser = db.space_users.findOne({space: spaceId, 'user': curUserId});
-  var organization = db.organizations.findOne(curSpaceUser.organization);
+  var organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
 
   var re = {};
 
@@ -705,11 +704,11 @@ WorkflowManager.getFlowListData = function(show_type){
       flows.sortByName();
       f.flows = new Array();
       flows.forEach(function(fl){
-        if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
+        if(WorkflowManager.canAdd(fl, curSpaceUser, organizations)){
           f.flows.push(fl);
         }
         else if (show_type == 'show') {
-          if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+          if(WorkflowManager.canMonitor(fl, curSpaceUser, organizations)){
             f.flows.push(fl);
           }
         }
@@ -728,11 +727,11 @@ WorkflowManager.getFlowListData = function(show_type){
     flows.sortByName();
     f.flows = new Array();
     flows.forEach(function(fl){
-      if(WorkflowManager.canAdd(fl, curSpaceUser, organization)){
+      if(WorkflowManager.canAdd(fl, curSpaceUser, organizations)){
         f.flows.push(fl);
       }
       else if (show_type == 'show') {
-        if(WorkflowManager.canMonitor(fl, curSpaceUser, organization)){
+        if(WorkflowManager.canMonitor(fl, curSpaceUser, organizations)){
           f.flows.push(fl);
         }
       }
