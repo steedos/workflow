@@ -8,6 +8,7 @@ Meteor.methods({
         check(flow_id, String);
 
         var ins = db.instances.findOne(instance_id);
+        var old_space_id = ins.space;
 
         var flow = db.flows.findOne(flow_id);
 
@@ -120,7 +121,8 @@ Meteor.methods({
             if (field.type == 'section') {
                 if (field.fields) {
                     field.fields.forEach(function(f) {
-                        if (['group', 'user'].includes(f.type)) {
+                        // 跨工作区转发不复制选人选组
+                        if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
                             return;
                         }
                         var key = f.name ? f.name : f.code;
@@ -145,7 +147,11 @@ Meteor.methods({
                     })
                 }
             } else {
-                if (['table', 'group', 'user'].includes(field.type)) {
+                if (field.type == 'table') {
+                    return;
+                }
+                // 跨工作区转发不复制选人选组
+                if (['group', 'user'].includes(field.type) && old_space_id != space_id) {
                     return;
                 }
                 var key = field.name ? field.name : field.code;
