@@ -148,6 +148,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/flow_list_box_modal.html', 'client');
     api.addFiles('client/views/list/flow_list_box_modal.coffee', 'client');
 
+    api.addFiles('client/views/list/forward_select_flow_modal.html', 'client');
+    api.addFiles('client/views/list/forward_select_flow_modal.js', 'client');
+
     api.addFiles('client/views/list/attachments_upload_modal.html', 'client');
     api.addFiles('client/views/list/attachments_upload_modal.coffee', 'client');
 
@@ -181,6 +184,7 @@ Package.onUse(function(api) {
     api.addFiles('server/methods/get_instance_data.js', 'server');
     api.addFiles('server/methods/save_instance.js', 'server');
     api.addFiles('server/methods/trace_approve_cc.js', 'server');
+    api.addFiles('server/methods/forward_instance.js', 'server');
 
     // routes
     api.addFiles('routes/nextStepUsers.js', 'server');

@@ -121,6 +121,16 @@ Template.instance_button.helpers
         else
             return "display: none;";
 
+    enabled_forward: ->
+        ins = WorkflowManager.getInstance()
+        if !ins
+            return "display: none;"
+
+        if ins.state!="draft"
+            return ""
+        else
+            return "display: none;"
+
 Template.instance_button.events
     'click #instance_back': (event)->
         backURL =  "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
@@ -189,5 +199,13 @@ Template.instance_button.events
 
     'click #instance_cc': (event, template) ->
         Modal.show('instance_cc_modal');
+
+    'click #instance_forward': (event, template) ->
+        #判断是否为欠费工作区
+        if WorkflowManager.isArrearageSpace()
+            toastr.error(t("spaces_isarrearageSpace"));
+            return;
+
+        Modal.show("forward_select_flow_modal")
 
     

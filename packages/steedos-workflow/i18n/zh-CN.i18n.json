@@ -183,7 +183,10 @@
     "instance_opinion_add_success": "添加成功!",
     "instance_opinion_remove_success": "移除成功!",
     "instance_opinion_error": "出错了",
+
     "instance_opinion_exists": "常用意见已存在",
-    "instance_opinion_add_tip": "点击‘+’按钮添加常用意见"
+    "instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
+
+    "instance_forward_title": "转发"
 
 }
