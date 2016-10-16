@@ -90,12 +90,33 @@ Meteor.methods({
         var old_values = ins.values,
             new_values = {};
         var form = db.forms.findOne(flow.form);
-        var fields = form.current.fields;
+        var fields = form.current.fields || [];
 
-        console.log(old_values);
-        console.log(fields);
+        var old_form = db.forms.findOne(ins.form);
+        var old_form_version = ins.form_version,
+            old_fields = [],
+            common_fields = [];
+
+        if (old_form.current._id == old_form_version) {
+            old_fields = old_form.current.fields;
+        } else {
+            if (old_form.historys) {
+                old_form.historys.forEach(function(h) {
+                    if (h._id == old_form_version)
+                        old_fields = h.fields;
+                })
+            }
+        }
 
         fields.forEach(function(field) {
+            var exists_field = _.find(old_fields, function(f) {
+                return f.type == field.type && f.code == field.code;
+            })
+            if (exists_field)
+                common_fields.push(field);
+        })
+
+        common_fields.forEach(function(field) {
             if (field.type == 'section') {
                 if (field.fields) {
                     field.fields.forEach(function(f) {
@@ -103,8 +124,23 @@ Meteor.methods({
                             return;
                         }
                         var key = f.name ? f.name : f.code;
-                        if (old_values[key]) {
-                            new_values[key] = old_values[key];
+                        var old_v = old_values[key];
+                        if (old_v) {
+                            // 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
+                            if (field.type == 'select' || field.type == 'radio') {
+                                var options = field.options.split('\n');
+                                if (!options.includes(old_v))
+                                    return;
+                            }
+
+                            if (field.type == 'multiSelect') {
+                                var options = field.options.split('\n');
+                                var old_multiSelected = old_v.split(',');
+                                var new_multiSelected = _.intersection(options, old_multiSelected);
+                                old_v = new_multiSelected.join(',');
+                            }
+
+                            new_values[key] = old_v;
                         }
                     })
                 }
@@ -113,8 +149,23 @@ Meteor.methods({
                     return;
                 }
                 var key = field.name ? field.name : field.code;
-                if (old_values[key]) {
-                    new_values[key] = old_values[key];
+                var old_v = old_values[key];
+                if (old_v) {
+                    // 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
+                    if (field.type == 'select' || field.type == 'radio') {
+                        var options = field.options.split('\n');
+                        if (!options.includes(old_v))
+                            return;
+                    }
+
+                    if (field.type == 'multiSelect') {
+                        var options = field.options.split('\n');
+                        var old_multiSelected = old_v.split(',');
+                        var new_multiSelected = _.intersection(options, old_multiSelected);
+                        old_v = new_multiSelected.join(',');
+                    }
+
+                    new_values[key] = old_v;
                 }
             }
 
