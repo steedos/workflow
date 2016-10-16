@@ -55,6 +55,7 @@ db.space_users.adminConfig =
 		return t("space_users")
 	tableColumns: [
 		{name: "name"},
+		{name: "email"},
 		{name: "organization_name()"},
 		{name: "user_accepted"}
 	]

@@ -252,6 +252,7 @@
     "space_users_error_user_readonly": "User can not be modified",
     "space_users_error_space_not_found": "Space can not be found",
     "space_users_error_space_admins_only": "You are not the space admin",
+    "space_users_error_remove_space_owner": "The space owner can not be removed",
     
     "spaces_error_login_required": "Login is required",
     "spaces_error_space_owner_only": "You are not the space owner",
