@@ -42,11 +42,11 @@ Template.instance_button.helpers
         curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="draft" || (Session.get("box")=="monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box")=="monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="draft" || (Session.get("box")=="monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box")=="monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
@@ -84,11 +84,11 @@ Template.instance_button.helpers
         curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
@@ -106,11 +106,11 @@ Template.instance_button.helpers
         curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
