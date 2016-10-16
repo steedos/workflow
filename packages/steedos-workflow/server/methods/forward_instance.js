@@ -96,13 +96,12 @@ Meteor.methods({
         console.log(fields);
 
         fields.forEach(function(field) {
-            if (field.type == 'table') {
-                return;
-            }
-
             if (field.type == 'section') {
                 if (field.fields) {
                     field.fields.forEach(function(f) {
+                        if (['group', 'user'].includes(f.type)) {
+                            return;
+                        }
                         var key = f.name ? f.name : f.code;
                         if (old_values[key]) {
                             new_values[key] = old_values[key];
@@ -110,6 +109,9 @@ Meteor.methods({
                     })
                 }
             } else {
+                if (['table', 'group', 'user'].includes(field.type)) {
+                    return;
+                }
                 var key = field.name ? field.name : field.code;
                 if (old_values[key]) {
                     new_values[key] = old_values[key];
