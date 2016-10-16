@@ -12,8 +12,8 @@ db.space_users._simpleSchema = new SimpleSchema
 		max: 50,
 	email:
 		type: String,
-		regEx: SimpleSchema.RegEx.Email,
-		optional: true
+		regEx: SimpleSchema.RegEx.Email
+		# optional: true
 	user:
 		type: String,
 		optional: true,
