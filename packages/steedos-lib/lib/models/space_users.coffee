@@ -219,6 +219,10 @@ if (Meteor.isServer)
 		if space.admins.indexOf(userId) < 0
 			throw new Meteor.Error(400, "space_users_error_space_admins_only");
 
+		# 不能删除当前工作区的拥有者
+		if space.owner == doc.user
+			throw new Meteor.Error(400, "space_users_error_remove_space_owner");
+
 
 	db.space_users.after.remove (userId, doc) ->
 		console.log("db.space_users.after.remove");
