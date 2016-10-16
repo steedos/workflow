@@ -572,7 +572,8 @@ InstanceManager.saveIns = function() {
         var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
         if (instance.applicant != selected_applicant) {
           var space_id = instance.space;
-          var applicant = db.space_users.find({
+          
+          var applicant = SteedosDataManager.spaceUserRemote.findOne({
             space: space_id,
             user: selected_applicant
           }, {
@@ -580,9 +581,9 @@ InstanceManager.saveIns = function() {
               organization: 1,
               name: 1
             }
-          }).fetch()[0];
+          });
           var org_id = applicant.organization;
-          var organization = db.organizations.findOne(org_id, {
+          var organization = SteedosDataManager.organizationRemote.findOne(org_id, {
             fields: {
               name: 1,
               fullname: 1
@@ -670,7 +671,7 @@ InstanceManager.submitIns = function() {
         var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
         if (instance.applicant != selected_applicant) {
           var space_id = instance.space;
-          var applicant = db.space_users.find({
+          var applicant = SteedosDataManager.spaceUserRemote.findOne({
             space: space_id,
             user: selected_applicant
           }, {
@@ -678,9 +679,9 @@ InstanceManager.submitIns = function() {
               organization: 1,
               name: 1
             }
-          }).fetch()[0];
+          });
           var org_id = applicant.organization;
-          var organization = db.organizations.findOne(org_id, {
+          var organization = SteedosDataManager.organizationRemote.findOne(org_id, {
             fields: {
               name: 1,
               fullname: 1
