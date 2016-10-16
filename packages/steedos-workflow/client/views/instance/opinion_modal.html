@@ -1,5 +1,5 @@
 <template name="opinion_modal">
-    <div class="modal fade" id="opinion_modal"  role="dialog" aria-labelledby="opinion_modal_label">
+    <div class="modal fade ins-opinion-modal" id="opinion_modal"  role="dialog" aria-labelledby="opinion_modal_label">
     <div class="modal-dialog" role="document">
         <div class="modal-content ins-modal">
             <div class="modal-header">
@@ -15,7 +15,7 @@
                                 <div class="list-group" style="overflow-x: auto;height: 400px;border: solid 1px;border-radius: 4px;border-color: #d2d6de;">
                                     {{#if opinions}}
                                         {{#each opinions}}
-                                            <a href="#" class="list-group-item {{#if active this}}active{{/if}}" style="border: 0px;" data-opinion="{{this}}">{{ this }}</a>
+                                            <div class="list-group-item {{#if active this}}active{{/if}}" style="border: 0px;" data-opinion="{{this}}">{{ this }}</div>
                                         {{/each}}
                                     {{else}}
                                         <h4 style="margin-top: 0px;">{{_ 'instance_opinion_add_tip'}}</h4>
