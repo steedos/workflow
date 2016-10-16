@@ -7,11 +7,15 @@ Meteor.methods({
         check(space_id, String);
         check(flow_id, String);
 
-        // TODO check id对应的数据是否存在
-
         var ins = db.instances.findOne(instance_id);
 
         var flow = db.flows.findOne(flow_id);
+
+        var space = db.spaces.findOne(space_id);
+
+        if (!ins || !flow || !space) {
+            throw new Meteor.Error('params error!', 'record not exists!');
+        }
 
         var user_id = this.userId;
         var user_info = db.users.findOne(user_id);
@@ -65,6 +69,7 @@ Meteor.methods({
 
         // 新建Approve
         var appr_obj = {};
+        appr_obj._id = Meteor.uuid();
         appr_obj.instance = ins_obj._id;
         appr_obj.trace = trace_obj._id;
         appr_obj.is_finished = false;
@@ -81,13 +86,82 @@ Meteor.methods({
         appr_obj.is_read = true;
         appr_obj.is_error = false;
         appr_obj.description = "";
+        // 计算values
+        var old_values = ins.values,
+            new_values = {};
+        var form = db.forms.findOne(flow.form);
+        var fields = form.current.fields;
 
+        console.log(old_values);
+        console.log(fields);
+
+        fields.forEach(function(field) {
+            if (field.type == 'table') {
+                return;
+            }
+
+            if (field.type == 'section') {
+                if (field.fields) {
+                    field.fields.forEach(function(f) {
+                        var key = f.name ? f.name : f.code;
+                        if (old_values[key]) {
+                            new_values[key] = old_values[key];
+                        }
+                    })
+                }
+            } else {
+                var key = field.name ? field.name : field.code;
+                if (old_values[key]) {
+                    new_values[key] = old_values[key];
+                }
+            }
+
+        })
+        appr_obj.values = new_values;
 
         trace_obj.approves = [appr_obj];
         ins_obj.traces = [trace_obj];
 
         new_ins_id = db.instances.insert(ins_obj);
 
+        // 复制附件
+        var collection = cfs.instances;
+        var files = collection.find({
+            'metadata.instance': instance_id,
+            'metadata.current': true
+        });
+        files.forEach(function(f) {
+            var newFile = new FS.File();
+            newFile.attachData(f.createReadStream('instances'), {
+                type: f.original.type
+            }, function(err) {
+                if (err) {
+                    throw new Meteor.Error(err.error, err.reason);
+                }
+                newFile.name(f.name());
+                newFile.size(f.size());
+                var metadata = {
+                    owner: user_id,
+                    owner_name: user_info.name,
+                    space: space_id,
+                    instance: new_ins_id,
+                    approve: appr_obj._id,
+                    current: true
+                };
+                newFile.metadata = metadata;
+                var fileObj = collection.insert(newFile);
+                fileObj.update({
+                    $set: {
+                        'metadata.parent': fileObj._id
+                    }
+                })
+            })
+
+        })
+
         return new_ins_id;
     }
+
+
+
 })

@@ -1,71 +1,74 @@
 ApproveManager = {};
 
-ApproveManager.error = {nextSteps:'',nextStepUsers:''}
+ApproveManager.error = {
+    nextSteps: '',
+    nextStepUsers: ''
+}
 
-ApproveManager.isReadOnly = function(){
+ApproveManager.isReadOnly = function() {
     var ins = WorkflowManager.getInstance();
 
-    if(InstanceManager.isCC(ins)){
+    if (InstanceManager.isCC(ins)) {
         return true;
     }
-    
-    if(!ins)
+
+    if (!ins)
         return true;
     // 系统启动时，可能flow还没获取到。
     var flow = db.flows.findOne(ins.flow);
     if (!flow)
         return true;
 
-    if (ins.state != 'completed' && ((Session.get("box")=="draft"&&flow.state=="enabled") || Session.get("box")=="inbox"))
+    if (ins.state != 'completed' && ((Session.get("box") == "draft" && flow.state == "enabled") || Session.get("box") == "inbox"))
         return false;
     else
         return true;
 }
 
-ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc, fields){
+ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc, fields) {
     ApproveManager.error.nextSteps = '';
     console.log("getNextSteps");
-    if(!currentStep)
-        return ;
+    if (!currentStep)
+        return;
 
-    if(!instance){
+    if (!instance) {
         return [];
     }
 
     var nextSteps = new Array();
     var lines = currentStep.lines;
 
-    switch(currentStep.step_type){
+    switch (currentStep.step_type) {
         case 'condition': //条件
             nextSteps = Form_formula.getNextStepsFromCondition(currentStep, autoFormDoc, fields);
-            if(!nextSteps.length)
+            if (!nextSteps.length)
                 ApproveManager.error.nextSteps = '未能根据条件找到下一步';
             break;
         case 'end': //结束
             return next_steps;
         case 'sign': //审批
-            if(judge == 'approved'){ //核准
-                lines.forEach(function(line){
-                    if(line.state == "approved"){
+            if (judge == 'approved') { //核准
+                lines.forEach(function(line) {
+                    if (line.state == "approved") {
                         nextSteps.push(WorkflowManager.getInstanceStep(line.to_step));
                     }
                 })
-            }else if(judge=="rejected"){ //驳回
-                lines.forEach(function(line){
-                    if(line.state == "rejected"){
+            } else if (judge == "rejected") { //驳回
+                lines.forEach(function(line) {
+                    if (line.state == "rejected") {
                         var rejected_step = WorkflowManager.getInstanceStep(line.to_step);
                         // 驳回时去除掉条件节点
-                        if(rejected_step && rejected_step.step_type != "condition")
+                        if (rejected_step && rejected_step.step_type != "condition")
                             nextSteps.push(rejected_step);
                     }
                 })
 
                 var traces = instance.traces;
 
-                traces.forEach(function(trace){
-                    if(trace.is_finished == true){
+                traces.forEach(function(trace) {
+                    if (trace.is_finished == true) {
                         var finished_step = WorkflowManager.getInstanceStep(trace.step);
-                        if(finished_step.step_type != 'condition' && currentStep.id != finished_step.id)
+                        if (finished_step.step_type != 'condition' && currentStep.id != finished_step.id)
                             nextSteps.push(finished_step);
                     }
                 });
@@ -73,10 +76,10 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
             }
             break;
         default: //start：开始、submit：填写、counterSign：会签
-            lines.forEach(function(line){
-                if(line.state == "submitted"){
+            lines.forEach(function(line) {
+                if (line.state == "submitted") {
                     var submitted_step = WorkflowManager.getInstanceStep(line.to_step);
-                    if(submitted_step)
+                    if (submitted_step)
                         nextSteps.push(submitted_step);
                 }
             });
@@ -87,13 +90,13 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     nextSteps = nextSteps.uniqById();
 
     //按照步骤名称排序(升序)
-    nextSteps.sort(function(p1,p2){
+    nextSteps.sort(function(p1, p2) {
         return p1.name.localeCompare(p2.name);
     });
 
     var condition_next_steps = new Array();
-    nextSteps.forEach(function(nextStep){
-        if(nextStep.step_type == "condition"){
+    nextSteps.forEach(function(nextStep) {
+        if (nextStep.step_type == "condition") {
             condition_next_steps = condition_next_steps.concat(ApproveManager.getNextSteps(instance, nextStep, judge, autoFormDoc, fields));
         }
     })
@@ -102,8 +105,8 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 
     var rev_nextSteps = new Array();
 
-    nextSteps.forEach(function(nextStep){
-        if(nextStep.step_type != "condition")
+    nextSteps.forEach(function(nextStep) {
+        if (nextStep.step_type != "condition")
             rev_nextSteps.push(nextStep);
     });
 
@@ -112,25 +115,25 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     rev_nextSteps = rev_nextSteps.uniqById();
 
     // 会签节点，如果下一步有多个 则清空下一步
-    if (currentStep.step_type == "counterSign" && rev_nextSteps.length > 1){
+    if (currentStep.step_type == "counterSign" && rev_nextSteps.length > 1) {
         rev_nextSteps = [];
     }
     return rev_nextSteps;
 };
 
-ApproveManager.getNextStepUsers = function(instance, nextStepId){
+ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     ApproveManager.error.nextStepUsers = '';
     var nextStepUsers = new Array();
 
     var nextStep = WorkflowManager.getInstanceStep(nextStepId);
 
     if (!nextStep)
-        return ;
+        return;
 
     var applicantId = InstanceManager.getApplicantUserId();
-    
-    Session.set("next_step_users_showOrg",false);
-    switch(nextStep.step_type){
+
+    Session.set("next_step_users_showOrg", false);
+    switch (nextStep.step_type) {
         case 'condition':
             break;
         case 'start': //下一步步骤类型为开始
@@ -138,28 +141,26 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
             nextStepUsers.push(applicant);
             break;
         default:
-            switch(nextStep.deal_type){
+            switch (nextStep.deal_type) {
                 case 'pickupAtRuntime': //审批时指定人员
-                    Session.set("next_step_users_showOrg",true);
+                    Session.set("next_step_users_showOrg", true);
                     var currentApprove = InstanceManager.getCurrentApprove();
                     var current_next_steps = currentApprove.next_steps;
-                    var userIds = current_next_steps[0] ? current_next_steps[0].users : [];
+                    var userIds = current_next_steps && current_next_steps[0] ? current_next_steps[0].users : [];
                     if (userIds) {
                         nextStepUsers = WorkflowManager.getUsers(userIds);
                     }
                     break;
                 case 'specifyUser': //指定人员
                     var specifyUserIds = nextStep.approver_users;
-                    var data = 
-                    {
+                    var data = {
                         'specifyUserIds': specifyUserIds
                     };
                     nextStepUsers = UUflow_api.caculate_nextstep_users('specifyUser', Session.get('spaceId'), data);
                     break;
                 case 'applicantRole': //指定审批岗位
                     var approveRoleIds = nextStep.approver_roles;
-                    var data =  
-                    {
+                    var data = {
                         'applicantId': applicantId,
                         'approveRoleIds': approveRoleIds
                     };
@@ -167,40 +168,37 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
 
                     break;
                 case 'applicantSuperior': //申请人上级
-                    var data = 
-                    {
+                    var data = {
                         'applicantId': applicantId
                     };
                     nextStepUsers = UUflow_api.caculate_nextstep_users('applicantSuperior', Session.get('spaceId'), data);
-                    if(!nextStepUsers || nextStepUsers.length == 0){
-                         ApproveManager.error.nextStepUsers = '申请人上级未指定';
+                    if (!nextStepUsers || nextStepUsers.length == 0) {
+                        ApproveManager.error.nextStepUsers = '申请人上级未指定';
                     }
                     break;
                 case 'applicant': //申请人
-                    var data = 
-                    {
+                    var data = {
                         'applicantId': applicantId
                     };
                     nextStepUsers = UUflow_api.caculate_nextstep_users('applicant', Session.get('spaceId'), data);
                     break;
                 case 'userField': //指定人员字段
-                    var userFieldId =  nextStep.approver_user_field;
+                    var userFieldId = nextStep.approver_user_field;
                     var userField = InstanceManager.getFormField(userFieldId);
-                    if(userField){
+                    if (userField) {
                         var userFieldValue = InstanceManager.getFormFieldValue(userField.code);
-                        if(userFieldValue){
-                            var data = 
-                            {
+                        if (userFieldValue) {
+                            var data = {
                                 'userField': userField,
                                 'userFieldValue': userFieldValue
                             };
                             nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
                         }
                     }
-                    if(!nextStepUsers.length){
-                       //todo 记录记录未找到的原因，用于前台显示
-                       ApproveManager.error.nextStepUsers = '"' + userField.code + '"字段没有值';
-                       console.error("步骤: " + nextStep.name + "fieldId is " + userFieldId);
+                    if (!nextStepUsers.length) {
+                        //todo 记录记录未找到的原因，用于前台显示
+                        ApproveManager.error.nextStepUsers = '"' + userField.code + '"字段没有值';
+                        console.error("步骤: " + nextStep.name + "fieldId is " + userFieldId);
                     }
                     break;
                 case 'orgField': //指定部门字段
@@ -208,36 +206,34 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     var orgField = InstanceManager.getFormField(orgFieldId);
                     var orgs = new Array();
 
-                    if(orgField){
+                    if (orgField) {
                         var orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
                         var orgChildrens = new Array();
                         //获得orgFieldValue的所有子部门
-                        if(orgFieldValue){
-                            var data = 
-                            {
+                        if (orgFieldValue) {
+                            var data = {
                                 'orgField': orgField,
                                 'orgFieldValue': orgFieldValue
                             };
                             nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
                         }
                     }
-                    if(!nextStepUsers.length){
-                        if(!orgs.length){
+                    if (!nextStepUsers.length) {
+                        if (!orgs.length) {
                             ApproveManager.error.nextStepUsers = '"' + orgField.code + '"字段没有值';
-                        }else{
+                        } else {
                             ApproveManager.error.nextStepUsers = '"' + orgs.concat(orgChildrens).getProperty('name').toString() + '"部门中没有人员';
                         }
                     }
                     break;
                 case 'specifyOrg': //指定部门
                     var specifyOrgIds = nextStep.approver_orgs;
-                    var data = 
-                    {
+                    var data = {
                         'specifyOrgIds': specifyOrgIds
                     };
                     nextStepUsers = UUflow_api.caculate_nextstep_users('specifyOrg', Session.get('spaceId'), data);
 
-                    if(!nextStepUsers.length){
+                    if (!nextStepUsers.length) {
                         ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
                     }
                     break;
@@ -246,11 +242,10 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     var userFieldId = nextStep.approver_user_field;
                     var userField = InstanceManager.getFormField(userFieldId);
                     var userFieldValue;
-                    if (userField){
+                    if (userField) {
                         userFieldValue = InstanceManager.getFormFieldValue(userField.code);
-                        if(userFieldValue){
-                            var data = 
-                            {
+                        if (userFieldValue) {
+                            var data = {
                                 'userField': userField,
                                 'userFieldValue': userFieldValue,
                                 'approverRoleIds': approverRoleIds
@@ -259,11 +254,11 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                             nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
                         }
                     }
-                    if(!nextStepUsers.length){
-                        
-                        if(!userFieldValue){
+                    if (!nextStepUsers.length) {
+
+                        if (!userFieldValue) {
                             ApproveManager.error.nextStepUsers = '"' + userField.code + '"字段没有值';
-                        }else{
+                        } else {
                             var approverRoles = WorkflowManager.getRoles(approverRoleIds);
                             ApproveManager.error.nextStepUsers = '"' + approverRoles.getProperty("name").toString() + '"审批岗位未指定审批人';
                         }
@@ -274,11 +269,10 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                     var orgFieldId = nextStep.approver_org_field;
                     var orgField = InstanceManager.getFormField(orgFieldId);
                     var orgFieldValue;
-                    if(orgField){
+                    if (orgField) {
                         orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
-                        if(orgFieldValue){
-                            var data = 
-                            {
+                        if (orgFieldValue) {
+                            var data = {
                                 'orgField': orgField,
                                 'orgFieldValue': orgFieldValue,
                                 'approverRoleIds': approverRoleIds
@@ -287,10 +281,10 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
                             nextStepUsers = UUflow_api.caculate_nextstep_users('orgFieldRole', Session.get('spaceId'), data);
                         }
                     }
-                    if(nextStepUsers < 1){
-                        if(!orgFieldValue){
+                    if (nextStepUsers < 1) {
+                        if (!orgFieldValue) {
                             ApproveManager.error.nextStepUsers = '"' + orgField.code + '"字段没有值';
-                        }else{
+                        } else {
                             var approverRoles = WorkflowManager.getRoles(approverRoleIds);
                             ApproveManager.error.nextStepUsers = '"' + approverRoles.getProperty("name").toString() + '"审批岗位未指定审批人';
                         }
@@ -305,7 +299,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
     nextStepUsers = nextStepUsers.uniqById();
 
     //按照步骤名称排序(升序)
-    nextStepUsers.sort(function(p1,p2){
+    nextStepUsers.sort(function(p1, p2) {
         return p1.name.localeCompare(p2.name);
     });
 
@@ -315,14 +309,14 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
 // ApproveManager.updateNextStepOptions = function(steps, judge){
 //     console.log("updateNextStepOptions");
 //     var lastSelected = ApproveManager.getNextStepsSelectValue();
-    
+
 //     $("#nextSteps").empty();
 
 //     $("#nextSteps").select2().val(null).trigger("change");
 
 //     if(!steps)
 //         return;
-    
+
 //     steps.forEach(function(step){
 //         $("#nextSteps").append("<option value='" + step.id + "'> " + step.name + " </option>");
 //     });
@@ -331,11 +325,11 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId){
 //         $("#nextSteps").prepend("<option value='-1'> 请选择 </option>");
 
 //     $("#nextSteps").select2().val();
-    
+
 //     ApproveManager.setNextStepsSelectValue(steps, lastSelected);
 // };
 
-ApproveManager.getNextStepsSelectValue = function(){
+ApproveManager.getNextStepsSelectValue = function() {
     console.log("getNextStepsSelectValue");
     return $("#nextSteps").val();
 }
@@ -343,7 +337,7 @@ ApproveManager.getNextStepsSelectValue = function(){
 // ApproveManager.setNextStepsSelectValue = function(steps, value){
 //     console.log("setNextStepsSelectValue");
 //     var lastStep = steps.filterProperty("_id", value);
-    
+
 //     if(lastStep.length > 0){
 //         console.log("lastStep.length > 0");
 //         $("#nextSteps").select2().val(value).trigger("change");
@@ -353,7 +347,7 @@ ApproveManager.getNextStepsSelectValue = function(){
 //     }
 // }
 
-ApproveManager.getNextStepUsersSelectValue = function(){
+ApproveManager.getNextStepUsersSelectValue = function() {
     //return $("#nextStepUsers").val();
     var values = $("input[name='nextStepUsers']")[0].dataset.values;
     return values ? values.split(",") : [];
@@ -401,7 +395,7 @@ ApproveManager.getNextStepUsersSelectValue = function(){
 //     $("#nextStepUsers").select2().val(null).trigger("change");
 //     if(!users)
 //         return;
-    
+
 //     if(nextStep.step_type == 'end'){
 //         $("#nextStepUsers_div").hide();
 //         return ;
@@ -424,7 +418,7 @@ ApproveManager.getNextStepUsersSelectValue = function(){
 //     /*
 //     var u_ops = $("#nextStepUsers option").toArray();
 
-    
+
 //     u_ops.forEach(function(u_op){
 //         if (lastSelected.includes(u_op.value))
 //             u_op.selected = true;
@@ -436,5 +430,5 @@ ApproveManager.getNextStepUsersSelectValue = function(){
 //     }
 
 //     ApproveManager.setNextStepUsersSelectValue(lastSelected);
-    
+
 // }
