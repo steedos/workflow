@@ -59,7 +59,7 @@ Template.opinion_modal.events({
         swal({
             title: t('instance_opinion_input'),
             type: "input",
-            showCancelButton: true,
+            showCancelButton: false,
             closeOnConfirm: false,
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel')
