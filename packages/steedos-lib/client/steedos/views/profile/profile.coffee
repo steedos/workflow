@@ -191,19 +191,15 @@ Template.profile.events
     fileObj = db.avatars.insert file
     fileId = fileObj._id
     bg = "/api/files/avatars/#{fileId}"
-    Meteor.call 'setKeyValue', 'bg_body', {'url':bg,'avatar':fileId}, (error, is_suc) ->
-      if is_suc
-        Session.set("waiting_save_profile_bg","")
-      else
-        console.error error
-        toastr.error(error)
     console.log "the upload bg file url is:#{bg}"
     setTimeout(()->
-      # ad=2
       $("body").css("backgroundImage","url(#{bg})")
-      # imgURL = Meteor.absoluteUrl("api/files/avatars/" + Meteor.userId())
-      # console.log imgURL
-      # $(".avatar-preview").attr("src", imgURL + "?time=" + new Date());
+      Meteor.call 'setKeyValue', 'bg_body', {'url':bg,'avatar':fileId}, (error, is_suc) ->
+        if is_suc
+          Session.set("waiting_save_profile_bg","")
+        else
+          console.error error
+          toastr.error(error)
     ,3000)
 
 
