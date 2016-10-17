@@ -34,6 +34,9 @@ Template.profile.helpers
   isCurrentBgUrlActive: (url)->
     return if url == Steedos.getAccountBodyBg() then "active" else ""
 
+  isCurrentBgUrlWaitingSave: (url)->
+    return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
+
   bgBodys:[{
     name:"birds",
     url:"/packages/steedos_theme/client/background/birds.jpg"
@@ -56,6 +59,7 @@ Template.profile.helpers
     name:"beach",
     url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
+
 
 Template.profile.onRendered ->
 
@@ -88,7 +92,7 @@ Template.profile.onCreated ->
     else
       toastr.error t('Confirm_Password_Not_Match')
 
-    
+
 Template.profile.events
 
   'click .change-password': (e, t) ->
@@ -161,11 +165,14 @@ Template.profile.events
     bg = $(event.currentTarget).attr("bg")
     $("#bg_body button.btn-save-bg").attr("bg",bg)
     $("body").css("backgroundImage","url(#{bg})")
+    Session.set("waiting_save_profile_bg",bg)
 
   'click #bg_body button.btn-save-bg': (event)->
     bg = $(event.currentTarget).attr("bg")
     Meteor.call 'setKeyValue', 'bg_body', {'url':bg}, (error, is_suc) ->
-      unless is_suc
+      if is_suc
+        Session.set("waiting_save_profile_bg","")
+      else
         console.error error
         toastr.error(error)
 
