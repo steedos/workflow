@@ -54,12 +54,13 @@ Template.opinion_modal.events({
     },
 
     'click #instance_flow_opinions_plus': function(event, template) {
+        Modal.hide(template);
+
         swal({
             title: t('instance_opinion_input'),
             type: "input",
             showCancelButton: true,
             closeOnConfirm: false,
-            inputPlaceholder: t('instance_opinion_input'),
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel')
         }, function(inputValue) {
@@ -68,6 +69,8 @@ Template.opinion_modal.events({
                 swal.showInputError(t('instance_opinion_input'));
                 return false
             }
+
+            Modal.show('opinion_modal');
 
             var opinions = [];
             var o = db.steedos_keyvalues.findOne({
