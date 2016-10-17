@@ -145,9 +145,10 @@ if (Meteor.isServer)
 
 	db.space_users.after.insert (userId, doc) ->
 		console.log("db.space_users_after.insert");
-		if doc.organization
-			organizationObj = db.organizations.findOne(doc.organization)
-			organizationObj.updateUsers();
+		if doc.organizations
+			doc.organizations.forEach (org)->
+				organizationObj = db.organizations.findOne(org)
+				organizationObj.updateUsers();
 
 		db.users_changelogs.direct.insert
 			operator: userId
@@ -193,12 +194,14 @@ if (Meteor.isServer)
 		# 		$set:
 		# 			name: doc.name
 
-		if modifier.$set.organization
-			organizationObj = db.organizations.findOne(modifier.$set.organization)
-			organizationObj.updateUsers();
-		if this.previous.organization
-			organizationObj = db.organizations.findOne(this.previous.organization)
-			organizationObj.updateUsers();
+		if modifier.$set.organizations
+			modifier.$set.organizations.forEach (org)->
+				organizationObj = db.organizations.findOne(org)
+				organizationObj.updateUsers();
+		if this.previous.organizations
+			this.previous.organizations.forEach (org)->
+				organizationObj = db.organizations.findOne(org)
+				organizationObj.updateUsers();
 
 		if modifier.$set.hasOwnProperty("user_accepted")
 			if this.previous.user_accepted != modifier.$set.user_accepted
@@ -226,9 +229,10 @@ if (Meteor.isServer)
 
 	db.space_users.after.remove (userId, doc) ->
 		console.log("db.space_users.after.remove");
-		if doc.organization
-			organizationObj = db.organizations.findOne(doc.organization)
-			organizationObj.updateUsers();
+		if doc.organizations
+			doc.organizations.forEach (org)->
+				organizationObj = db.organizations.findOne(org)
+				organizationObj.updateUsers();
 
 		db.users_changelogs.direct.insert
 			operator: userId
