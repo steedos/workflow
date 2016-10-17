@@ -31,11 +31,17 @@ Template.profile.helpers
 
     return isPrimary
 
+  accountBgBodyValue: ()->
+    return Steedos.getAccountBgBodyValue()
+
   isCurrentBgUrlActive: (url)->
-    return if url == Steedos.getAccountBodyBg() then "active" else ""
+    return if url == Steedos.getAccountBgBodyValue().url then "active" else ""
 
   isCurrentBgUrlWaitingSave: (url)->
     return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
+
+  getAvatarFilePath: (avatar)->
+    return '/api/files/avatars/' + avatar
 
   bgBodys:[{
     name:"birds",
@@ -98,7 +104,7 @@ Template.profile.events
   'click .change-password': (e, t) ->
     t.changePassword()
 
-  'change .avatar-file': (event, template) ->
+  'change .change-avatar .avatar-file': (event, template) ->
     file = event.target.files[0];
     fileObj = db.avatars.insert file
     # Inserted new doc with ID fileObj._id, and kicked off the data upload using HTTP
@@ -169,12 +175,36 @@ Template.profile.events
 
   'click #bg_body button.btn-save-bg': (event)->
     bg = $(event.currentTarget).attr("bg")
-    Meteor.call 'setKeyValue', 'bg_body', {'url':bg}, (error, is_suc) ->
+    accountBgBodyValue = Steedos.getAccountBgBodyValue()
+    unless accountBgBodyValue
+      accountBgBodyValue = {}
+    accountBgBodyValue.url = bg
+    Meteor.call 'setKeyValue', 'bg_body', accountBgBodyValue, (error, is_suc) ->
       if is_suc
         Session.set("waiting_save_profile_bg","")
       else
         console.error error
         toastr.error(error)
+
+  'change #bg_body .btn-upload-bg-file .avatar-file': (event, template) ->
+    file = event.target.files[0];
+    fileObj = db.avatars.insert file
+    fileId = fileObj._id
+    bg = "/api/files/avatars/#{fileId}"
+    Meteor.call 'setKeyValue', 'bg_body', {'url':bg,'avatar':fileId}, (error, is_suc) ->
+      if is_suc
+        Session.set("waiting_save_profile_bg","")
+      else
+        console.error error
+        toastr.error(error)
+    console.log "the upload bg file url is:#{bg}"
+    setTimeout(()->
+      # ad=2
+      $("body").css("backgroundImage","url(#{bg})")
+      # imgURL = Meteor.absoluteUrl("api/files/avatars/" + Meteor.userId())
+      # console.log imgURL
+      # $(".avatar-preview").attr("src", imgURL + "?time=" + new Date());
+    ,3000)
 
 
 Meteor.startup ->

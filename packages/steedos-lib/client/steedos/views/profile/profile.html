@@ -127,8 +127,19 @@
                       </a>
                     </div>
                   {{/each}}
+                  {{#if accountBgBodyValue.avatar}}
+                    <div class="col-xs-6 col-md-2">
+                      <a href="javascript:void(0)" class="thumbnail {{isCurrentBgUrlWaitingSave(getAvatarFilePath(accountBgBodyValue.avatar))}} {{isCurrentBgUrlActive(getAvatarFilePath(accountBgBodyValue.avatar))}}" bg={{getAvatarFilePath(accountBgBodyValue.avatar)}}>
+                        <div class="bg-body" style="background-image:url({{getAvatarFilePath accountBgBodyValue.avatar}})"></div>
+                      </a>
+                    </div>
+                  {{/if}}
                 </div>
                 <button type="button" class="btn btn-primary btn-sm btn-save-bg">保存背景</button>
+                <div class="btn btn-default btn-sm btn-upload-bg-file">
+                  上传图片
+                  <input type="file" class="avatar-file" accept="image/*">
+                </div>
               </div>
             </div>
           </div>

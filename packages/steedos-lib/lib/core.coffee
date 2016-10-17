@@ -20,12 +20,12 @@ if Meteor.isClient
 		options = 'EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
 		window.open(url, target, options);
 
-	Steedos.getAccountBodyBg = ()->
+	Steedos.getAccountBgBodyValue = ()->
 		accountBgBody = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"bg_body"})
 		if accountBgBody
-			return accountBgBody.value.url
+			return accountBgBody.value
 		else
-			return "";
+			return {};
 
 # This will add underscore.string methods to Underscore.js
 # except for include, contains, reverse and join that are 
