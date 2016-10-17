@@ -187,6 +187,9 @@ Template.profile.events
         toastr.error(error)
 
   'change #bg_body .btn-upload-bg-file .avatar-file': (event, template) ->
+    oldAvatar = Steedos.getAccountBgBodyValue().avatar
+    if oldAvatar
+      Session.set("waiting_save_profile_bg",'/api/files/avatars/' + oldAvatar)
     file = event.target.files[0];
     fileObj = db.avatars.insert file
     fileId = fileObj._id
