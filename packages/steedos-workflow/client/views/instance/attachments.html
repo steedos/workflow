@@ -87,7 +87,7 @@
                                     <tr>
                                         <td class="ins-attach-version-view">
                                             {{#if isAndroidApp}}
-                                                <a href="#" data-downloadurl="{{getUrl this._id}}" data-filename="{{this.name}}" data-rev="{{this._id}}" data-length="{{current.length}}" name="ins_attach_mobile">{{this.name}} {{_ "Current Version"}}</a>
+                                                <a href="#" data-downloadurl="{{getUrl this._id}}" name="ins_attach_mobile">{{this.name}} {{_ "Current Version"}}</a>
                                             {{else}}
                                                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}} {{_ "Current Version"}}</a>
                                             {{/if}}
@@ -102,7 +102,7 @@
                                     <tr>
                                         <td class="ins-attach-version-view">
                                             {{#if isAndroidApp}}
-                                                <a href="#" data-downloadurl="{{getUrl this._id}}" data-filename="{{this.name}}" data-rev="{{this._id}}" data-length="{{this.length}}" name="ins_attach_mobile">{{this.name}}</a>
+                                                <a href="#" data-downloadurl="{{getUrl this._id}}" name="ins_attach_mobile">{{this.name}}</a>
                                             {{else}}
                                                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
                                             {{/if}}

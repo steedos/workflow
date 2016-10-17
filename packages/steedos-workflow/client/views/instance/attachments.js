@@ -119,9 +119,9 @@ Template.instance_attachment.events({
     },
     "click [name='ins_attach_mobile']": function(event, template) {
         var url = event.target.dataset.downloadurl;
-        var filename = template.data.current.filename;
-        var rev = template.data.current._rev;
-        var length = template.data.current.length;
+        var filename = template.data.name();
+        var rev = template.data._id;
+        var length = template.data.size();
         Steedos.androidDownload(url, filename, rev, length);
     },
     "click [name='ins_attach_isNode']": function(event, template) {
@@ -300,9 +300,9 @@ Template.ins_attach_version_modal.events({
     },
     "click [name='ins_attach_mobile']": function(event, template) {
         var url = event.target.dataset.downloadurl;
-        var filename = event.target.dataset.filename;
-        var rev = event.target.dataset.rev;
-        var length = event.target.dataset.length;
+        var filename = this.name();
+        var rev = this._id;
+        var length = this.size();
         Steedos.androidDownload(url, filename, rev, length);
     },
     "click .btn-primary": function(event, template) {
