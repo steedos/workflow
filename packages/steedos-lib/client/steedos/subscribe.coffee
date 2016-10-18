@@ -66,6 +66,8 @@ Tracker.autorun (c)->
 		accountBgBodyValue = Steedos.getAccountBgBodyValue()
 		if accountBgBodyValue.url
 			$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
+		else
+			$("body").removeAttr "style"
 
 
 Steedos.subsForwardRelated = new SubsManager()
