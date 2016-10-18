@@ -55,7 +55,7 @@ Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
 		if FlowRouter.current().path == "/"
 			$("body").removeClass("loading")
-			firstApp = db.apps.findOne()
+			firstApp = Steedos.getSpaceFirstApp()
 			if firstApp
 				FlowRouter.go("/app/" + firstApp._id)
 			else

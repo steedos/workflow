@@ -109,6 +109,16 @@ TemplateHelpers =
             selector.mobile = true
         return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}});
 
+    getSpaceFirstApp: ()->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
+
     getLocale: ()->
         if Meteor.user()?.locale
             locale = Meteor.user().locale
