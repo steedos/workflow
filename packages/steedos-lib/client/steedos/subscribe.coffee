@@ -55,7 +55,7 @@ Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
 		if FlowRouter.current().path == "/"
 			$("body").removeClass("loading")
-			firstApp = Steedos.getSpaceApps().fetch()[0]
+			firstApp = db.apps.findOne()
 			if firstApp
 				FlowRouter.go("/app/" + firstApp._id)
 			else
@@ -76,8 +76,8 @@ Tracker.autorun (c)->
 	space_id = Session.get('forward_space_id')
 	Steedos.subsForwardRelated.reset();
 	if space_id
-        Steedos.subsForwardRelated.subscribe("my_space_user", space_id);
-        Steedos.subsForwardRelated.subscribe("my_organizations", space_id);
-        Steedos.subsForwardRelated.subscribe("categories", space_id);
-        Steedos.subsForwardRelated.subscribe("forms", space_id);
-        Steedos.subsForwardRelated.subscribe("flows", space_id);
+		Steedos.subsForwardRelated.subscribe("my_space_user", space_id);
+		Steedos.subsForwardRelated.subscribe("my_organizations", space_id);
+		Steedos.subsForwardRelated.subscribe("categories", space_id);
+		Steedos.subsForwardRelated.subscribe("forms", space_id);
+		Steedos.subsForwardRelated.subscribe("flows", space_id);
