@@ -77,4 +77,6 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 	triggersExit:[(context, redirect) ->
 		if Session.get("instance_change") && !ApproveManager.isReadOnly()
 			InstanceManager.saveIns();
+		
+		Session.set('flow_selected_opinion', undefined);
 	]
