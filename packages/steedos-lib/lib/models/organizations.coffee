@@ -117,7 +117,7 @@ db.organizations.helpers
 
 	updateUsers: ->
 		users = []
-		spaceUsers = db.space_users.find({organization: this._id}, {fields: {user:1}});
+		spaceUsers = db.space_users.find({organizations: this._id}, {fields: {user:1}});
 		spaceUsers.forEach (user) ->
 			users.push(user.user);
 		db.organizations.direct.update({_id: this._id}, {$set: {users: users}})

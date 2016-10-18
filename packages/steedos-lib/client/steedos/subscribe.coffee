@@ -63,9 +63,9 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("steedos_keyvalues")
-		bodybg = Steedos.getAccountBodyBg()
-		if bodybg
-			$("body").css "backgroundImage","url(#{bodybg})"
+		accountBgBodyValue = Steedos.getAccountBgBodyValue()
+		if accountBgBodyValue.url
+			$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
 
 
 Steedos.subsForwardRelated = new SubsManager()

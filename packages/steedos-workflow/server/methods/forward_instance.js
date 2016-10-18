@@ -125,7 +125,7 @@ Meteor.methods({
                         if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
                             return;
                         }
-                        var key = f.name ? f.name : f.code;
+                        var key = f.code;
                         var old_v = old_values[key];
                         if (old_v) {
                             // 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
@@ -154,7 +154,7 @@ Meteor.methods({
                 if (['group', 'user'].includes(field.type) && old_space_id != space_id) {
                     return;
                 }
-                var key = field.name ? field.name : field.code;
+                var key = field.code;
                 var old_v = old_values[key];
                 if (old_v) {
                     // 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
