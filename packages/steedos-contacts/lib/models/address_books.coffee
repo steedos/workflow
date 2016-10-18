@@ -40,6 +40,11 @@ db.address_books._simpleSchema = new SimpleSchema
 		optional: true
 
 
+db.address_books.helpers
+	group_name: ->
+		group = db.address_groups.findOne({_id: this.group})
+		return group?.name;
+
 if Meteor.isClient
 
 	db.address_books._simpleSchema.i18n("address_books")

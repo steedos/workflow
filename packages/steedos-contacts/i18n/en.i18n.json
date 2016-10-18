@@ -9,5 +9,6 @@
 	"address_books":"AddressBooks",
 	"address_books_name":"BooksName",
 	"address_books_email":"BooksEmail",
-	"address_books_group":"BooksGroup"
+	"address_books_group":"BooksGroup",
+	"address_books_group_name()":"Group Name"
 }

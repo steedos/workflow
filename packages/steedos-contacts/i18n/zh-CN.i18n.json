@@ -9,5 +9,6 @@
 	"address_books":"通讯录人员",
 	"address_books_name":"联系人",
 	"address_books_email":"邮箱",
-	"address_books_group":"分组"
+	"address_books_group":"分组",
+	"address_books_group_name()":"分组"
 }
