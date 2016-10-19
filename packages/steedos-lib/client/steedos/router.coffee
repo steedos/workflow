@@ -17,13 +17,13 @@ FlowRouter.route '/',
         if (!Meteor.userId())
             FlowRouter.go "/steedos/sign-in";
         else 
-            appId = Steedos.getAppId()
-            if !appId
+            firstApp = Steedos.getSpaceFirstApp()
+            if !firstApp
                 # 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
                 BlazeLayout.render 'steedosLoading'
                 $("body").addClass('loading')
             else
-                FlowRouter.go("/app/" + appId);
+                FlowRouter.go("/app/" + firstApp._id);
 
 
 # FlowRouter.route '/steedos', 
