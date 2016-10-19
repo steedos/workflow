@@ -17,6 +17,7 @@ Template.workflowLayout.onRendered ->
 	self.minHeight.set($(window).height());
 
 	$('body').removeClass('fixed');
+	$(window).resize();
 
 
 Template.workflowLayout.helpers 
