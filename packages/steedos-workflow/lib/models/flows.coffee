@@ -63,16 +63,19 @@ db.flows._simpleSchema = new SimpleSchema
 
 	is_valid: 
 		type: Boolean
+		optional: true
 		autoform:
 			omit: true
 
 	form: 
 		type: String
+		optional: true
 		autoform:
 			omit: true
 
 	flowtype: 
 		type: String
+		optional: true
 		autoform:
 			omit: true
 
@@ -85,6 +88,7 @@ db.flows._simpleSchema = new SimpleSchema
 
 	is_deleted: 
 		type: Boolean
+		optional: true
 		autoform:
 			omit: true
 
