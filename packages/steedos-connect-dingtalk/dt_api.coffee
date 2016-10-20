@@ -224,6 +224,203 @@ Dingtalk.getToken = (corpid, corpsecret) ->
     console.log err
     throw _.extend(new Error("Failed to complete OAuth handshake with getToken. " + err), {response: err});
 
+# 获取jsapi_ticket
+Dingtalk.jsapiTicketGet = (access_token) ->
+
+  try
+    response = HTTP.get(
+      "https://oapi.dingtalk.com/get_jsapi_ticket?access_token="+access_token, 
+      {
+        data: 
+          access_token: access_token,
+          type: 'jsapi'
+        headers: 
+          "Content-Type": "application/json"
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.errcode > 0 
+      throw response.data.errmsg
+    # {
+    #     "errcode": 0,
+    #     "errmsg": "ok",
+    #     "ticket": "dsf8sdf87sd7f87sd8v8ds0vs09dvu09sd8vy87dsv87",
+    #     "expires_in": 7200
+    # }
+    return response.data
+
+  catch err
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with jsapiTicketGet. " + err), {response: err});
+
+# 获取企业授权的授权数据
+Dingtalk.authInfoGet = (suite_access_token, suite_key, auth_corpid, permanent_code) ->
+
+  try
+    response = HTTP.post(
+      "https://oapi.dingtalk.com/service/get_auth_info?suite_access_token="+suite_access_token, 
+      {
+        data: 
+          suite_key: suite_key,
+          auth_corpid: auth_corpid,
+          permanent_code: permanent_code
+        headers: 
+          "Content-Type": "application/json"
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.errcode > 0 
+      throw response.data.errmsg
+    # {
+    #    "auth_corp_info":{
+    #       "corp_logo_url":"http://xxxx.png",
+    #       "corp_name":"corpid",
+    #       "corpid":"auth_corpid_value",
+    #       "industry":"互联网",
+    #       "invite_code" : "1001",
+    #       "license_code": "xxxxx",
+    #           "auth_channel": "xxxxx",
+    #       "is_authenticated":false,
+    #       "auth_level":0,
+    #       "invite_url":"https://yfm.dingtalk.com/invite/index?code=xxxx"
+    #     },
+    #     "auth_user_info":
+    #     {
+    #         "userId":""
+    #     },
+    #     "auth_info":{
+    #         "agent":[{
+    #                 "agent_name":"aaaa",
+    #                 "agentid":1,
+    #                 "appid":-3,
+    #                 "logo_url":"http://aaaaaa.com"
+    #         }
+    #         ,{
+    #                 "agent_name":"bbbb",
+    #                 "agentid":4,
+    #                 "appid":-2,
+    #                 "logo_url":"http://vvvvvv.com"
+    #         }]
+    #     },
+    #         "channel_auth_info": {
+    #         "channelAgent": [
+    #                 {
+    #                     "agent_name": "应用1",
+    #                     "agentid": 36,
+    #                     "appid": 6,
+    #                     "logo_url": "http://i01.lw.test.aliimg.com/media/lALOAFWTc8zIzMg_200_200.png"
+    #                 },
+    #                 {
+    #                     "agent_name": "应用2",
+    #                     "agentid": 35,
+    #                     "appid": 7,
+    #                     "logo_url": "http://i01.lw.test.aliimg.com/media/lALOAFWTc8zIzMg_200_200.png"
+    #                 }
+    #                     ]
+    #         },
+    #     "errcode":0,
+    #     "errmsg":"ok"
+    # }
+    return response.data
+
+  catch err
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with authInfoGet. " + err), {response: err});
+
+
+# 通过CODE换取用户身份
+Dingtalk.userInfoGet = (access_token, code) ->
+
+  try
+    response = HTTP.get(
+      "https://oapi.dingtalk.com/user/getuserinfo?access_token="+access_token+"&code="+code, 
+      {
+        data: 
+          access_token: access_token,
+          code: code
+        headers: 
+          "Content-Type": "application/json"
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.errcode > 0 
+      throw response.data.errmsg
+    # {
+    #     "errcode": 40029,
+    #     "errmsg": "invalid code",
+    #     "userid": "USERID",
+    #     "deviceId":"DEVICEID",
+    #     "is_sys": true,
+    #     "sys_level": 0|1|2
+    # }
+    return response.data
+
+  catch err
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with userInfoGet. " + err), {response: err});
+
+# 获取成员详情
+Dingtalk.userGet = (access_token, userid) ->
+
+  try
+    response = HTTP.get(
+      "https://oapi.dingtalk.com/user/get?access_token="+access_token+"&userid="+userid, 
+      {
+        data: 
+          access_token: access_token,
+          userid: userid
+        headers: 
+          "Content-Type": "application/json"
+      }
+    );
+
+    if (response.error_code) 
+      throw response.msg
+
+    if response.data.errcode > 0 
+      throw response.data.errmsg
+    # {
+    #     "errcode": 0,
+    #     "errmsg": "ok",
+    #     "userid": "zhangsan",
+    #     "name": "张三",
+    #     "tel" : "010-123333",
+    #     "workPlace" :"",
+    #     "remark" : "",
+    #     "mobile" : "13800000000",
+    #     "email" : "dingding@aliyun.com",
+    #     "active" : true,
+    #     "orderInDepts" : "{1:10, 2:20}",
+    #     "isAdmin" : false,
+    #     "isBoss" : false,
+    #     "dingId" : "WsUDaq7DCVIHc6z1GAsYDSA",
+    #     "isLeaderInDepts" : "{1:true, 2:false}",
+    #     "isHide" : false,
+    #     "department": [1, 2],
+    #     "position": "工程师",
+    #     "avatar": "dingtalk.com/abc.jpg",
+    #     "jobnumber": "111111",
+    #     "extattr": {
+    #                 "爱好":"旅游",
+    #                 "年龄":"24"
+    #                 }
+    # }
+    return response.data
+
+  catch err
+    console.log err
+    throw _.extend(new Error("Failed to complete OAuth handshake with userGet. " + err), {response: err});
+
+
 
 Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
 

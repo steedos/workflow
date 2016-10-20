@@ -11,7 +11,7 @@ var config = {
 var newCrypt = new WXBizMsgCrypt(config.token, config.encodingAESKey, config.suiteKey || 'suite4xxxxxxxxxxxxxxx');
 var TICKET_EXPIRES_IN = config.ticket_expires_in || 1000 * 60 * 20 //20分钟
 
-JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
+JsonRoutes.add("post", "/api/dingtalk/callback", function(req, res, next) {
 
   console.log(req.query);
   console.log(req.body);
@@ -38,12 +38,12 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
 
   } else {
     res.reply = function() { //返回加密后的success
-      result = Dingtalk._jsonWrapper(timestamp, nonce, 'success');
-      JsonRoutes.sendResult(res, {
-        data: result
-      });
-    }
-    // 通讯录事件回调
+        result = Dingtalk._jsonWrapper(timestamp, nonce, 'success');
+        JsonRoutes.sendResult(res, {
+          data: result
+        });
+      }
+      // 通讯录事件回调
     var address_call_back_tag = ['user_add_org', 'user_modify_org', 'user_leave_org', 'org_admin_add', 'org_admin_remove', 'org_dept_create', 'org_dept_modify', 'org_dept_remove', 'org_remove'];
 
     if (eventType === 'suite_ticket') {
@@ -59,12 +59,19 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
       //   }
       // });
       console.log('EventType is suite_ticket');
-      var o = ServiceConfiguration.configurations.findOne({service: "dingtalk"});
+      var o = ServiceConfiguration.configurations.findOne({
+        service: "dingtalk"
+      });
       if (o) {
         r = Dingtalk.suiteAccessTokenGet(o.suite_key, o.suite_secret, message.SuiteTicket);
         console.log(r);
         if (r && r.suite_access_token) {
-          ServiceConfiguration.configurations.update(o._id, {$set: {"suite_ticket": message.SuiteTicket, "suite_access_token": r.suite_access_token}});
+          ServiceConfiguration.configurations.update(o._id, {
+            $set: {
+              "suite_ticket": message.SuiteTicket,
+              "suite_access_token": r.suite_access_token
+            }
+          });
         }
 
       }
@@ -74,7 +81,9 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
     else if (eventType === 'tmp_auth_code') {
       var tmp_auth_code = message.AuthCode;
       // var suiteKey = message.SuiteKey;
-      var o = ServiceConfiguration.configurations.findOne({service: "dingtalk"});
+      var o = ServiceConfiguration.configurations.findOne({
+        service: "dingtalk"
+      });
       if (o && o.suite_access_token) {
 
         r = Dingtalk.permanentCodeGet(o.suite_access_token, tmp_auth_code);
@@ -100,11 +109,19 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
     // “解除授权”事件
     else if (eventType === 'suite_relieve') {
       var corp_id = message.AuthCorpId;
-      var space = db.spaces.findOne({'services.dingtalk.corp_id': corp_id});
+      var space = db.spaces.findOne({
+        'services.dingtalk.corp_id': corp_id
+      });
       if (space) {
         var s_dt = space.services.dingtalk;
         s_dt.permanent_code = undefined;
-        db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk': s_dt}});
+        db.spaces.direct.update({
+          _id: space._id
+        }, {
+          $set: {
+            'services.dingtalk': s_dt
+          }
+        });
       }
       res.reply();
     }
@@ -113,20 +130,32 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
       var corp_id = message.CorpId;
       // 企业被解散
       if (eventType === 'org_remove') {
-        var space = db.spaces.findOne({'services.dingtalk.corp_id': corp_id});
+        var space = db.spaces.findOne({
+          'services.dingtalk.corp_id': corp_id
+        });
         if (space) {
           var s_dt = space.services.dingtalk;
           s_dt.permanent_code = undefined;
-          db.spaces.direct.update({_id: space._id}, {$set: {'services.dingtalk': s_dt}});
+          db.spaces.direct.update({
+            _id: space._id
+          }, {
+            $set: {
+              'services.dingtalk': s_dt
+            }
+          });
         }
-      }
-      else {
-        db.spaces.direct.update({'services.dingtalk.corp_id': corp_id}, {$set: {'services.dingtalk.modified': new Date()}});
+      } else {
+        db.spaces.direct.update({
+          'services.dingtalk.corp_id': corp_id
+        }, {
+          $set: {
+            'services.dingtalk.modified': new Date()
+          }
+        });
       }
 
       res.reply();
-    }
-    else {
+    } else {
       Dingtalk.processCallback(message, req, res, next);
     }
 
@@ -134,9 +163,9 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function (req, res, next) {
 });
 
 Dingtalk.processCallback = function(message, req, res, next) {
-    console.log('message', message);
+  console.log('message', message);
 
-    res.reply();
+  res.reply();
 }
 
 Dingtalk._jsonWrapper = function(timestamp, nonce, text) {
@@ -151,7 +180,7 @@ Dingtalk._jsonWrapper = function(timestamp, nonce, text) {
 }
 
 // 手动初始化
-JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
+JsonRoutes.add("post", "/api/dingtalk/init", function(req, res, next) {
 
   res.reply = function(result) {
     JsonRoutes.sendResult(res, {
@@ -166,13 +195,13 @@ JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
   var corp_name = req.query.corp_name;
 
   if (!corpid)
-      res.reply("need corpid!");
+    res.reply("need corpid!");
 
   if (!corpsecret)
-      res.reply("need corpsecret!");
+    res.reply("need corpsecret!");
 
   if (!corp_name)
-      res.reply("need corp_name!");
+    res.reply("need corp_name!");
 
 
   var access_token = Dingtalk.getToken(corpid, corpsecret);
@@ -187,7 +216,53 @@ JsonRoutes.add("post", "/api/dingtalk/init", function (req, res, next) {
   JsonRoutes.sendResult(res, {
     data: "success"
   });
-  
+
 });
 
+// dingtalk免登给用户设置cookies
+JsonRoutes.add("post", "/api/dingtalk/sso_steedos", function(req, res, next) {
 
+  res.reply = function(result) {
+    JsonRoutes.sendResult(res, {
+      data: result
+    });
+  }
+
+  var access_token = req.body.access_token;
+  var code = req.body.code;
+
+  if (!code || !access_token)
+    res.reply("缺少参数!");
+
+  var user_info, user_detail, user;
+  user_info = Dingtalk.userInfoGet(access_token, code);
+
+  if (user_info && user_info.userid) {
+    user_detail = Dingtalk.userGet(access_token, user_info.userid);
+
+    if (user_detail && user_detail.dingId) {
+      user = db.users.findOne({
+        'services.dingtalk.id': user_detail.dingId
+      });
+      if (user) {
+        var userId = user._id;
+        var authToken = Accounts._generateStampedLoginToken();
+        var hashedToken = Accounts._hashStampedToken(authToken);
+        Accounts._insertHashedLoginToken(userId, hashedToken);
+
+        Setup.setAuthCookies(req, res, userId, authToken.token);
+
+        JsonRoutes.sendResult(res, {
+          data: 'success'
+        });
+      } else {
+        res.reply("用户不存在!");
+      }
+    } else {
+      res.reply("用户不存在!");
+    }
+  } else {
+    res.reply("用户不存在!");
+  }
+
+});
