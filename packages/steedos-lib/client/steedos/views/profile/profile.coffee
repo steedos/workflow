@@ -94,7 +94,10 @@ Template.profile.onCreated ->
         else
           toastr.success t('Password_changed_successfully')
           instance.clearForm();
-          return callback()
+          if callback
+            return callback()
+          else
+            return undefined
     else
       toastr.error t('Confirm_Password_Not_Match')
 
