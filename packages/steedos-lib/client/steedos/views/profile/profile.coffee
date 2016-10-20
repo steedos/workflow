@@ -185,6 +185,7 @@ Template.profile.events
     Meteor.call 'setKeyValue', 'bg_body', accountBgBodyValue, (error, is_suc) ->
       if is_suc
         Session.set("waiting_save_profile_bg","")
+        toastr.success t('profile_save_bg_suc')
       else
         console.error error
         toastr.error(error)
@@ -203,6 +204,7 @@ Template.profile.events
       Meteor.call 'setKeyValue', 'bg_body', {'url':bg,'avatar':fileId}, (error, is_suc) ->
         if is_suc
           Session.set("waiting_save_profile_bg","")
+          toastr.success t('profile_save_bg_suc')
         else
           console.error error
           toastr.error(error)

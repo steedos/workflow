@@ -297,5 +297,6 @@
     "coreform_select_org_title": "请选择部门",
 
     "profile_save_bg_setting": "保存背景",
-    "profile_upload_image": "上传图片"
+    "profile_upload_image": "上传图片",
+    "profile_save_bg_suc": "背景保存成功"
 }
