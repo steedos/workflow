@@ -220,8 +220,6 @@ Meteor.startup ->
           setTimeout ->
             Meteor._reload.reload()
           , 1000
-        else
-          FlowRouter.go("/")
 
       onError: (formType, error) ->
         if error.reason
