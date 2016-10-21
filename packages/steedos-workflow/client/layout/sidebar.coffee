@@ -33,3 +33,6 @@ Template.workflowSidebar.events
             return;
 
         Modal.show("flow_list_box_modal")
+
+	'click .main-header .logo': (event) ->
+		Modal.show "app_list_box_modal"

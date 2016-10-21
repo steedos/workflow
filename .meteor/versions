@@ -53,6 +53,7 @@ check@1.2.3
 chrismbeckett:toastr@2.1.2_1
 coffeescript@1.2.4_1
 comerc:autoform-selectize@2.3.2
+dburles:collection-helpers@1.0.4
 ddp@1.2.5
 ddp-client@1.2.9
 ddp-common@1.2.6
@@ -161,7 +162,9 @@ steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
+steedos:contacts@0.0.1
 steedos:cors@0.0.1
+steedos:emailjs@0.0.1
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lib@0.0.1
