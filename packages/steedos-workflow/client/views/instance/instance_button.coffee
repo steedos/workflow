@@ -126,7 +126,7 @@ Template.instance_button.helpers
         if !ins
             return "display: none;"
 
-        if ins.state!="draft"
+        if ins.state!="draft" && !Steedos.isMobile()
             return ""
         else
             return "display: none;"
