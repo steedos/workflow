@@ -26,6 +26,7 @@ Package.onUse(function(api) {
     api.use('accounts-base');
     api.use('useraccounts:bootstrap');
 
+    api.use('dburles:collection-helpers');
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes');
     api.use('aldeed:simple-schema');
@@ -54,7 +55,6 @@ Package.onUse(function(api) {
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
     // COMMON
-    api.addFiles('lib/collection_helpers.js');
     api.addFiles('lib/array_includes.js');
     api.addFiles('lib/core.coffee');
     api.addFiles('lib/settings.coffee', ['client', 'server']);

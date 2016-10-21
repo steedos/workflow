@@ -38,6 +38,13 @@ standard-minifier-css@1.2.0
 standard-minifier-js@1.2.0
 tracker@1.1.0
 
+# must place at first
+dburles:collection-helpers
+aldeed:collection2
+
+
+
+
 
 underscorestring:underscore.string
 momentjs:moment
@@ -65,12 +72,10 @@ chrismbeckett:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform
-aldeed:collection2
 aldeed:autoform-bs-datetimepicker 
 
 gwendall:simple-schema-i18n
 
-matb33:collection-hooks
 francocatena:status
 faisalman:ua-parser-js
 smoral:sweetalert
@@ -110,3 +115,9 @@ comerc:autoform-selectize
 
 steedos:theme-qhd
 steedos:theme
+
+
+
+
+# must place at last
+matb33:collection-hooks
