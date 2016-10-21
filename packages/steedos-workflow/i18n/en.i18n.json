@@ -185,6 +185,9 @@
     "instance_opinion_exists": "Opinion exists",
     "instance_opinion_add_tip": "Press '+' to add opinion",
 
-    "instance_forward_title": "forward"
+    "instance_forward_title": "forward",
+
+    "form_field_checkbox_yes": "YES",
+    "form_field_checkbox_no": "NO"
 
 }
