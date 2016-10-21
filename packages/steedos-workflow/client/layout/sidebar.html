@@ -1,6 +1,15 @@
 <template name="workflowSidebar">
     <aside class="main-sidebar">
-        {{> dock}}
+        <header class="steedos main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg">
+              <B>{{_ "Steedos Workflow"}}</B>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
         <div class="sidebar" id="scrollspy">
            <div class="user-panel">
             <div class="pull-left image">
@@ -12,7 +21,9 @@
             </div>
           </div>
           <ul class="nav sidebar-menu">
-            <li class="header header-workflow">{{_ "Steedos Workflow"}}</li>
+            <li class="header header-workflow">
+              {{> space_switcher}}
+            </li>
 
             <li><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_ "instance_new"}}</span></a></li>
 
