@@ -14,6 +14,7 @@
 	"select_tag_last": "Last",
 
 	
+	"Steedos Mail": "Mail",
 	"mail_inbox":"Inbox",
 	"mail_sent":"Sent",
 	"mail_drafts":"Drafts",
@@ -30,5 +31,6 @@
 	"mail_domains_smtp_port":"SmtpPort",
 	"mail_domains_imap_server":"ImapServer",
 	"mail_domains_imap_ssl":"IMAPSll",
-	"mail_domains_imap_port":"ImapPort"
+	"mail_domains_imap_port":"ImapPort",
+	"mail_folders": "Folders"
 }

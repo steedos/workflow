@@ -14,6 +14,7 @@
 	"select_tag_last": "末页",
 
 
+	"Steedos Mail": "邮件",
 	"mail_inbox":"收件箱",
 	"mail_sent":"已发送",
 	"mail_drafts":"草稿",
@@ -30,5 +31,6 @@
 	"mail_domains_smtp_port":"SMTP端口",
 	"mail_domains_imap_server":"IMAP服务器",
 	"mail_domains_imap_ssl":"IMAP加密",
-	"mail_domains_imap_port":"IMAP端口"
+	"mail_domains_imap_port":"IMAP端口",
+	"mail_folders": "文件夹"
 }
