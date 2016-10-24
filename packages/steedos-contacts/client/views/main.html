@@ -1,0 +1,24 @@
+<template name="contacts_main">
+  <div class="contacts-main contacts-show">
+    {{#if subsReady}}
+      <div class="contacts-list-wrapper">
+        {{> contacts_tree}}
+      </div>
+      <div class="contacts-wrapper">
+        <div class="navigation-bar btn-group">
+          <h3 class="box-title">联系人</h3>
+        </div>
+        {{> contacts_list}}
+      </div>
+      <div class="row" style="display:none">
+        <div class="col-md-12">
+            {{> selectedValue}}
+        </div>
+      </div>
+    {{else}}
+      <div class="loading">
+        {{> steedosLoading}}
+      </div>
+    {{/if}}
+  </div>
+</template>
