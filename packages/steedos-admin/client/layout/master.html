@@ -1,0 +1,41 @@
+<template name="steedosAdminLayout">
+
+	{{#if subsReady}}
+		<div class="steedos admin">
+			{{# AdminLTE skin="green" sidebarMini="true" }}
+				{{> adminSidebar}}
+				<div class="content-wrapper" style="min-height: {{minHeight}}">
+					<div class="connection-status">
+						{{> status}}
+					</div>
+					<div class="navigation-bar">
+			            <button id="admin-back" class="btn btn-default" title='{{_ "Steedos"}}'>
+			              <i class="ion ion-chevron-left"></i><span></span>
+			            </button>
+						<span class="navigation-title">
+								<a href="{{urlPrefix}}/admin/view/{{$.Session.get 'admin_collection_name'}}/">{{admin_collection_title}}</a>
+						</span>
+						<div class="pull-right">
+						{{#if enableAdd}}
+							{{#if $.Session.equals 'admin_collection_page' 'view'}}
+								<a href="{{urlPrefix}}/admin/new/{{$.Session.get 'admin_collection_name'}}/" class="btn btn-success" id="admin_create_btn">
+								{{_ "New"}}
+								</a>
+							{{/if}}
+						{{/if}}
+						</div>
+					</div>
+					<section class="content">
+						{{> Template.dynamic template=main}}
+					</section>
+				</div>
+			{{/ AdminLTE}}
+			{{> steedosLoading}}
+		</div>
+	{{else}}
+		<div class="loading">
+			{{> steedosLoading}}
+		</div>
+	{{/if}}
+</template>
+
