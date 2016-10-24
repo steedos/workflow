@@ -29,46 +29,6 @@ defaultColumns = () -> [
   title: 'ID'
 ]
 
-AdminTables.Users = new Tabular.Table
-	# Modify selector to allow search by email
-	changeSelector: (selector, userId) ->
-		$or = selector['$or']
-		$or and selector['$or'] = _.map $or, (exp) ->
-			if exp.emails?['$regex']?
-				emails: $elemMatch: address: exp.emails
-			else
-				exp
-		selector
-
-	name: 'Users'
-	collection: Meteor.users
-	columns: _.union [
-		{
-			data: '_id'
-			title: 'Admin'
-			# TODO: use `tmpl`
-			createdCell: (node, cellData, rowData) ->
-				$(node).html(Blaze.toHTMLWithData Template.adminUsersIsAdmin, {_id: cellData}, node)
-			width: '40px'
-		}
-		{
-			data: 'emails'
-			title: 'Email'
-			render: (value) ->
-				if value then value[0].address else ''
-			searchable: true
-		}
-		{
-			data: 'emails'
-			title: 'Mail'
-			# TODO: use `tmpl`
-			createdCell: (node, cellData, rowData) ->
-				$(node).html(Blaze.toHTMLWithData Template.adminUsersMailBtn, {emails: cellData}, node)
-			width: '40px'
-		}
-		{ data: 'createdAt', title: 'Joined' }
-	], adminEditDelButtons
-	dom: adminTablesDom
 
 adminTablePubName = (collection) ->
 	"admin_tabular_#{collection}"

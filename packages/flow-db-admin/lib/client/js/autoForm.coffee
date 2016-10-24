@@ -2,10 +2,6 @@
 AutoForm.addHooks [
 		'admin_insert',
 		'admin_update'
-		# 'adminNewUser',
-		# 'adminUpdateUser',
-		# 'adminSendResetPasswordEmail',
-		# 'adminChangePassword'
 		],
 	beginSubmit: ->
 		$('.btn-primary').addClass('disabled')
@@ -18,7 +14,6 @@ AutoForm.addHooks [
 		else
 			AdminDashboard.alertFailure TAPi18n.__ error.message
 
-		
 
 AutoForm.hooks
 	admin_insert:
@@ -52,21 +47,35 @@ AutoForm.hooks
 		onSuccess: (formType, collection)->
 			AdminDashboard.alertSuccess TAPi18n.__("flow_db_admin_successfully_updated")
 
-	# adminNewUser:
-	# 	onSuccess: (formType, result)->
-	# 		AdminDashboard.alertSuccess 'Created user'
 
-	# adminUpdateUser:
-	# 	onSubmit: (insertDoc, updateDoc, currentDoc)->
-	# 		Meteor.call 'adminUpdateUser', updateDoc, Session.get('admin_id'), @done
-	# 		return false
-	# 	onSuccess: (formType, result)->
-	# 		AdminDashboard.alertSuccess 'Updated user'
+	admin_modal_insert:
+		onSubmit: (insertDoc, updateDoc, currentDoc)->
+			hook = @
+			Meteor.call 'adminInsertDoc', insertDoc, Session.get('admin_collection_name'), (e,r)->
+				if e
+					hook.done(e)
+				else if r.e
+					hook.done(r.e)
+				else
+					adminCallback 'onInsert', [Session.get('admin_collection_name'), insertDoc, updateDoc, currentDoc], (collection) ->
+						hook.done null, collection
+			return false
+		onSuccess: (formType, collection)->
+			AdminDashboard.alertSuccess TAPi18n.__("flow_db_admin_successfully_created")
+			Modal.hide();
 
-	# adminSendResetPasswordEmail:
-	# 	onSuccess: (formType, result)->
-	# 		AdminDashboard.alertSuccess 'Email sent'
-
-	# adminChangePassword:
-	# 	onSuccess: (operation, result, template)->
-	# 		AdminDashboard.alertSuccess 'Password reset'
+	admin_modal_update:
+		onSubmit: (insertDoc, updateDoc, currentDoc)->
+			hook = @
+			Meteor.call 'adminUpdateDoc', updateDoc, Session.get('admin_collection_name'), @docId, (e,r)->
+				if e
+					hook.done(e)
+				else if r.e
+					hook.done(r.e)
+				else
+					adminCallback 'onUpdate', [Session.get('admin_collection_name'), insertDoc, updateDoc, currentDoc], (collection) ->
+						hook.done null, collection
+			return false
+		onSuccess: (formType, collection)->
+			AdminDashboard.alertSuccess TAPi18n.__("flow_db_admin_successfully_updated")
+			Modal.hide();

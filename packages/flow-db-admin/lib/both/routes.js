@@ -78,10 +78,7 @@ fadminRoutes.route('/new/:collectionName',{
 		}
 	],
 	action: function(params)
-	{	if(params.collectionName == 'Users')
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardUsersNew'});
-		else
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardNew'});
+	{	BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardNew'});
 	}
 });
 
@@ -109,9 +106,6 @@ fadminRoutes.route('/edit/:collectionName/:_id',{
 	},
 	action: function(params)
 	{
-		if(params.collectionName == 'Users')
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardUsersEdit'});
-		else
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardEdit'});
+		BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardEdit'});
 	}
 });

@@ -16,7 +16,7 @@ AdminDashboard =
 		#	  Router.go AdminConfig.nonAdminRedirectRoute
 		if typeof @.next == 'function'
 			@next()
-	adminRoutes: ['adminDashboard','adminDashboardUsersNew','adminDashboardUsersEdit','adminDashboardView','adminDashboardNew','adminDashboardEdit']
+	adminRoutes: ['adminDashboard','adminDashboardView','adminDashboardNew','adminDashboardEdit']
 	collectionLabel: (collection)->
 		if collection == 'Users'
 			'Users'
@@ -50,30 +50,21 @@ AdminDashboard =
 			path += (if s[0] == '/' then '' else '/') + s
 		path
 
+if Meteor.isClient
 
-AdminDashboard.schemas.newUser = new SimpleSchema
-	email: 
-		type: String
-		label: "Email address"
-	chooseOwnPassword:
-		type: Boolean
-		label: 'Let this user choose their own password with an email'
-		defaultValue: true
-	password:
-		type: String
-		label: 'Password'
-		optional: true
-	sendPassword:
-		type: Boolean
-		label: 'Send this user their password by email'
-		optional: true
+	AdminDashboard.modalNew = (collectionName) ->
+		Session.set('admin_title', collectionName);
+		Session.set('admin_subtitle', 'Create New');
+		Session.set('admin_collection_page', 'new');
+		Session.set('admin_collection_name', collectionName);
+		Modal.show("AdminDashboardNewModal")
 
-AdminDashboard.schemas.sendResetPasswordEmail = new SimpleSchema
-	_id:
-		type: String
+	AdminDashboard.modalEdit = (collectionName, id) ->
+		Session.set('admin_title', collectionName);
+		Session.set('admin_subtitle', 'Edit');
+		Session.set('admin_collection_page', 'edit');
+		Session.set('admin_collection_name', collectionName);
+		Session.set('admin_id', id);
+		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
+			Modal.show("AdminDashboardEditModal")
 
-AdminDashboard.schemas.changePassword = new SimpleSchema
-	_id:
-		type: String
-	password:
-		type: String
