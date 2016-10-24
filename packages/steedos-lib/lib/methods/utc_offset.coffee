@@ -9,10 +9,10 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-        Tracker.autorun ->
+        Tracker.autorun (c)->
                 user = Meteor.user()
-                
                 if user
                         utcOffset = moment().utcOffset() / 60
                         if user.utcOffset isnt utcOffset
-                                Meteor.call 'updateUserUtcOffset', utcOffset
+                                Meteor.call 'updateUserUtcOffset', utcOffset, (e,r)->
+                                        c.stop()
