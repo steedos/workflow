@@ -35,6 +35,10 @@ Template.steedosAdminLayout.helpers
 				return false;
 		return true
 
+	isAdminRoute: ()->
+		path = Session.get("router-path")
+		return path?.startsWith "/admin"
+
 Template.steedosAdminLayout.events
 	# "click #navigation-back": (e, t) ->
 	# 	NavigationController.back(); 

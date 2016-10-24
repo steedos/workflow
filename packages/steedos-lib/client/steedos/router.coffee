@@ -47,7 +47,7 @@ FlowRouter.route '/steedos/logout',
 FlowRouter.route '/steedos/profile', 
     action: (params, queryParams)->
         if Meteor.userId()
-            BlazeLayout.render 'masterLayout',
+            BlazeLayout.render 'steedosAdminLayout',
                 main: "profile"
 
 
