@@ -3,7 +3,7 @@
         <header class="steedos main-header">
           <div class="logo" style="overflow: visible">
             <span class="logo-lg">
-              <B>{{_ "Steedos Workflow"}}</B>
+              <B>{{_ "Steedos Workflow"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
             </span>
             <span class="logo-mini">
               <i class="ion ion-grid"></i>
@@ -30,9 +30,9 @@
             <li class="{{boxActive 'inbox'}}">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
                 <i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
-                <i class="pull-right">
-                  <span class="label bg-red">{{getBadge "workflow" getSpaceId}}</span>
-                </i>
+                <span class="pull-right-container">
+                  <span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
+                </span>
               </a>
             </li>
             <li class="{{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
