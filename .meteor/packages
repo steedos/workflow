@@ -97,6 +97,7 @@ steedos:api
 steedos:cms
 steedos:chat
 steedos:webkit-notification
+steedos:admin
 
 peppelg:bootstrap-3-modal
 
