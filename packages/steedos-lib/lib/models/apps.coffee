@@ -24,7 +24,8 @@ db.apps._simpleSchema = new SimpleSchema
 		autoform: 
 			rows: 10
 	is_use_ie: 
-		type: Boolean,
+		type: Boolean
+		optional: true
 		autoform: 
 			defaultValue: false
 	icon:
