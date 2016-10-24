@@ -1,16 +1,25 @@
 <template name="contacts_tree">
-	<div class="contacts-tree">
+	<!-- <div class="contacts-tree">
 		<div class="box box-solid">
 			<div id="organizations_tree"></div>
 			<div id="books_tree"></div>
 		</div>
-		<!-- <div class="box box-solid">
-			<div class="box-header with-border">
-				个人联系人
-			</div>
-			<div class="box-body no-padding">
+	</div> -->
+	<div class="contacts-tree">
+		<div class="box box-solid">
+	        <div class="box-header ui-sortable-handle">
+	          	<div class="input-group">
+		          <input type="text" name="search-key" id="search-key" class="form-control" placeholder='{{_ "Search"}}...'>
+		              <span class="input-group-btn">
+		                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+		                </button>
+		              </span>
+		        </div>
+	        </div>
+	        <div class="box-body">
+	          	<div id="organizations_tree"></div>
 				<div id="books_tree"></div>
-			</div>
-		</div> -->
-	</div>
+	        </div>
+      	</div>
+    </div>
 </template>

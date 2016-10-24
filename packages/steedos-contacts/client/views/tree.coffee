@@ -21,7 +21,7 @@ Template.contacts_tree.onRendered ->
                   Session.set("contacts_orgId", node.id);
                   cb(ContactsManager.getOrgNode(node));
                       
-            plugins: ["wholerow"]
+            plugins: ["wholerow", "search"]
   this.autorun ()->
     if Steedos.subsSpace.ready("address_groups")
       $("#books_tree").on('changed.jstree', (e, data) ->
@@ -37,10 +37,14 @@ Template.contacts_tree.onRendered ->
                       Session.set("contacts_groupId", node.id);
                       cb(ContactsManager.getBookNode(node));
                           
-                plugins: ["wholerow"]
+                plugins: ["wholerow", "search"]
 
   $(document.body).removeClass('loading');
 
 
 
 Template.contacts_tree.events
+  'click #search-btn': (event, template) ->
+    console.log 'click search-btn'
+    $('#organizations_tree').jstree(true).search($("#search-key").val());
+    $('#books_tree').jstree(true).search($("#search-key").val());

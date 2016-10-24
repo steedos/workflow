@@ -1,0 +1,37 @@
+<template name="contactsSidebar">
+    <aside class="main-sidebar">
+        <header class="steedos main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg">
+              <B>{{_ "Steedos Contacts"}}</B>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
+        <div class="sidebar" id="scrollspy">
+           <div class="user-panel">
+            <div class="pull-left image">
+              <img src="{{avatar}}" class="img-circle avatar-preview">
+            </div>
+            <div class="pull-left info">
+              <p>{{displayName}}</p>
+              <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
+            </div>
+          </div>
+          <ul class="nav sidebar-menu">
+            <li class="header header-workflow">
+              {{> space_switcher}}
+            </li>
+
+            <li><a href="/admin/view/address_groups" ><i class="ion ion-plus-round"></i><span>分组</span></a></li>
+
+            <li><a href="/admin/view/address_books" ><i class="ion ion-person"></i><span>人员</span></a></li>
+
+          </ul>
+
+          {{> topSidebar}}
+        </div>
+    </aside>
+</template>

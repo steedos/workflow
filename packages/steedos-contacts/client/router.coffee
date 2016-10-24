@@ -2,12 +2,12 @@ checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
 		FlowRouter.go '/steedos/sign-in';
 
-mailRoutes = FlowRouter.group
+contactsRoutes = FlowRouter.group
 	prefix: '/contacts',
-	name: 'mailRoute',
+	name: 'contactsRoutes',
 	triggersEnter: [ checkUserSigned ],
 
-mailRoutes.route '/', 
+contactsRoutes.route '/', 
 	action: (params, queryParams)->
-		BlazeLayout.render 'masterLayout',
-			main: "contacts_home"
+		BlazeLayout.render 'contactsLayout',
+			main: "contacts_main"

@@ -60,6 +60,13 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
 
+	api.addFiles('client/layout/master.html', 'client');
+    api.addFiles('client/layout/master.coffee', 'client');
+    api.addFiles('client/layout/master.less', 'client');
+    api.addFiles('client/layout/sidebar.html', 'client');
+    api.addFiles('client/layout/sidebar.coffee', 'client');
+    api.addFiles('client/layout/sidebar.less', 'client');
+
 	api.addFiles('client/libs/contacts_manager.js', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
@@ -67,7 +74,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/contact.less', 'client');
 	
-	api.addFiles('client/views/home.html', 'client');
+	api.addFiles('client/views/main.html', 'client');
+	api.addFiles('client/views/main.coffee', 'client');
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
 	
