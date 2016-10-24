@@ -6,5 +6,6 @@
     "flow_db_admin_only": "只有管理员才能浏览当前网页",
 
     "flow_db_admin_successfully_created": "创建成功",
-    "flow_db_admin_successfully_updated": "更新成功"
+    "flow_db_admin_successfully_updated": "更新成功",
+    "flow_db_admin_successfully_deleted": "删除成功"
 }

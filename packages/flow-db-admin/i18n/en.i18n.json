@@ -6,5 +6,6 @@
     "flow_db_admin_only": "You need to be an admin to view this page",
 	
 	"flow_db_admin_successfully_created": "Successfully created",
-    "flow_db_admin_successfully_updated": "Successfully updated"
+    "flow_db_admin_successfully_updated": "Successfully updated",
+    "flow_db_admin_successfully_deleted": "Successfully deleted"
 }

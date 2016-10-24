@@ -68,3 +68,26 @@ if Meteor.isClient
 		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
 			Modal.show("AdminDashboardEditModal")
 
+	AdminDashboard.modalDelete = (collectionName, id) -> 
+		swal
+			title: TAPi18n.__("flow_db_admin_confirm_delete"),
+			text: TAPi18n.__("flow_db_admin_confirm_delete_document"),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: TAPi18n.__("Delete"),
+			cancelButtonText: TAPi18n.__("Cancel"),
+			closeOnConfirm: false,
+			html: false
+		, ()->
+			Meteor.call 'adminRemoveDoc', collectionName, id, (error,r)->
+				if error
+					if error.reason
+						toastr.error TAPi18n.__ error.reason
+					else 
+						toastr.error error
+				else 
+					swal(TAPi18n.__("Delete"),
+						TAPi18n.__("flow_db_admin_successfully_deleted"),
+						"success");
+
