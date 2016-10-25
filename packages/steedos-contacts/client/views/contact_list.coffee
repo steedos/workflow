@@ -22,7 +22,7 @@ Template.contacts_list.helpers
 
 Template.contacts_list.events
     'click #reverse': (event, template) ->
-        $('input[name="contacts_ids"]', $(".contacts-list")).each ->
+        $('input[name="contacts_ids"]', $("#contacts_list")).each ->
             $(this).prop('checked', event.target.checked).trigger('change')
 
     'change .contacts-list-checkbox': (event, template) ->
