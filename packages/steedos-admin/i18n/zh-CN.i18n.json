@@ -1,3 +1,5 @@
 {
-    "Steedos Admin": "设置"
+    "steedos_admin": "设置",
+    "steedos_system_admin": "系统设置",
+    "steedos_workflow_admin": "流程设置"
 }
