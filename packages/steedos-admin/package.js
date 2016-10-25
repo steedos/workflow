@@ -60,17 +60,6 @@ Package.onUse(function(api) {
     api.addFiles('client/layout/sidebar.coffee', 'client');
     api.addFiles('client/layout/sidebar.less', 'client');
 
-    api.addFiles('client/views/home.html', 'client');
-    api.addFiles('client/views/home.coffee', 'client');
-
-    api.addFiles('client/views/menu.html', 'client');
-    api.addFiles('client/views/menu.coffee', 'client');
-    api.addFiles('client/views/menu.less', 'client');
-
-    api.addFiles('client/views/admin_main.html', 'client');
-    api.addFiles('client/views/admin_main.coffee', 'client');
-    api.addFiles('client/views/admin_main.less', 'client');
-
     api.addFiles('client/router.coffee', 'client');
     api.addFiles('client/startup.coffee', 'client');
 
