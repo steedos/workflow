@@ -42,6 +42,13 @@ Template.contacts_list.events
 
         ContactsManager.handerContactModalValueLabel();
 
+    'click #contact-list-search-btn': (event, template) ->
+        console.log("contact-list-search-btn click");
+        dataTable = $(".datatable-steedos-contacts").DataTable();
+        dataTable.search(
+            $("#contact-list-search-key").val(),
+        ).draw();
+
 Template.contacts_list.onRendered ->
     TabularTables.contacts.customData = @data
     TabularTables.contactsBooks.customData = @data
