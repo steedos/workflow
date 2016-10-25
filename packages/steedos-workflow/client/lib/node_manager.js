@@ -2,9 +2,13 @@ NodeManager = {};
 //定义全局变量;
 NodeManager.fileSHA1;
 
-var url, net, path, http, fs, crypto, exec
+var gloableWin, url, net, path, http, fs, crypto, exec, child_process;
+
+var setSignal = "";
+
 if (Steedos.isNode()) {
     url = nw.require('url');
+    gloableWin = nw.Window.get();
     net = nw.require('net');
     path = nw.require('path');
     http = nw.require('http');
@@ -15,10 +19,12 @@ if (Steedos.isNode()) {
         exec = child_process.exec;
 }
 
-function setCos_Signal(str) {
-    if (window.cos) {
-        cos.office_signal = str;
-    }
+if (gloableWin){
+    gloableWin.on("close",function(){
+        if(setSignal != "editing"){
+            gloableWin.close(true);
+        }
+    });
 }
 
 // 客户端上传附件
@@ -226,7 +232,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
     // 执行vbs编辑word
     var child = exec(cmd);
     //正在编辑
-    setCos_Signal("editing");
+    setSignal = "editing";
 
     child.on('error', function(error) {
         toastr.error(error);
@@ -237,7 +243,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 
         // 修改后附件大小
         var states = fs.statSync(filePath);
-        setCos_Signal("finished");
+        setSignal = "finished";
         NodeManager.getFileSHA1(filePath, filename, function(sha1) {
             if (NodeManager.fileSHA1 != sha1) {
                 var setting = {
