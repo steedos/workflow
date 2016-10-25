@@ -52,14 +52,19 @@ AdminDashboard =
 
 if Meteor.isClient
 
-	AdminDashboard.modalNew = (collectionName) ->
+	AdminDashboard.modalNew = (collectionName, callback) ->
 		Session.set('admin_title', collectionName);
 		Session.set('admin_subtitle', 'Create New');
 		Session.set('admin_collection_page', 'new');
 		Session.set('admin_collection_name', collectionName);
 		Modal.show("AdminDashboardNewModal")
 
-	AdminDashboard.modalEdit = (collectionName, id) ->
+		$('#admin_new').on('hidden.bs.modal', (e) ->
+			if callback
+		    	callback()
+		)
+
+	AdminDashboard.modalEdit = (collectionName, id, callback) ->
 		Session.set('admin_title', collectionName);
 		Session.set('admin_subtitle', 'Edit');
 		Session.set('admin_collection_page', 'edit');
@@ -67,8 +72,12 @@ if Meteor.isClient
 		Session.set('admin_id', id);
 		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
 			Modal.show("AdminDashboardEditModal")
+			$('#admin_edit').on('hidden.bs.modal', (e) ->
+				if callback
+			    	callback()
+			)
 
-	AdminDashboard.modalDelete = (collectionName, id) -> 
+	AdminDashboard.modalDelete = (collectionName, id, callback) -> 
 		swal
 			title: TAPi18n.__("flow_db_admin_confirm_delete"),
 			text: TAPi18n.__("flow_db_admin_confirm_delete_document"),
@@ -90,4 +99,6 @@ if Meteor.isClient
 					swal(TAPi18n.__("Delete"),
 						TAPi18n.__("flow_db_admin_successfully_deleted"),
 						"success");
+					if callback
+						callback()
 
