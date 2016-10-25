@@ -51,13 +51,6 @@ FlowRouter.route '/steedos/profile',
                 main: "profile"
 
 
-FlowRouter.route '/steedos/admin', 
-    action: (params, queryParams)->
-        if Meteor.userId()
-            BlazeLayout.render 'masterLayout',
-                main: "admin_home"
-
-
 FlowRouter.route '/steedos/springboard', 
     action: (params, queryParams)->
         if !Meteor.userId()

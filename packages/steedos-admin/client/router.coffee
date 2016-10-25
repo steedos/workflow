@@ -4,7 +4,7 @@ checkUserSigned = (context, redirect) ->
 
 adminRoutes = FlowRouter.group
 	triggersEnter: [ checkUserSigned ],
-	prefix: '/steedos_admin',
+	prefix: '/steedos/admin',
 	name: 'adminRoutes'
 
 
