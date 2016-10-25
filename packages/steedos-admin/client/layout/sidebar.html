@@ -3,7 +3,7 @@
         <header class="steedos main-header">
           <div class="logo" style="overflow: visible">
             <span class="logo-lg">
-              <B>{{_ "Steedos Admin"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
+              <B>{{_ "steedos_admin"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
             </span>
             <span class="logo-mini">
               <i class="ion ion-grid"></i>
@@ -28,24 +28,43 @@
             </li>
 
             {{#if isSpaceAdmin}}
-              {{#if isSpaceOwner}}
-                <li class="{{menuClass 'steedos/space/info'}}"><a href="/steedos/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
-              {{/if}}
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-gear-outline"></i>
+                  <span>{{_ "steedos_system_admin"}}</span>
+                  <span class="pull-right-container">
+                    <i class="ion ion-ios-arrow-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  {{#if isSpaceOwner}}
+                    <li class="{{menuClass 'steedos/space/info'}}"><a href="/steedos/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
+                  {{/if}}
+                  {{#if isNotSync}}
+                    <li class="{{menuClass 'admin/view/organizations'}}"><a href="/admin/view/organizations"><i class="fa fa-sitemap"></i><span>{{_ "organizations"}}</span></a></li>
+                    <li class="{{menuClass 'admin/view/space_users'}}"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li>
+                  {{/if}}
+                  <li class="{{menuClass 'steedos/customize_apps'}}"><a href="/steedos/customize_apps"><i class="ion ion-ios-keypad-outline"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-gear-outline"></i>
+                  <span>{{_ "steedos_workflow_admin"}}</span>
+                  <span class="pull-right-container">
+                    <i class="ion ion-ios-arrow-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="{{menuClass 'admin/view/flow_roles'}}"><a href="/admin/view/flow_roles"><i class="ion ion-university"></i><span>{{_ "flow_roles"}}</span></a></li>
+                  <li class="{{menuClass 'admin/view/flow_positions'}}"><a href="/admin/view/flow_positions"><i class="ion ion-android-happy"></i><span>{{_ "flow_positions"}}</span></a></li>
+                  <li class="{{menuClass 'designer'}}"><a href="/designer"><i class="ion ion-shuffle"></i><span>{{_ "Workflow Designer"}}</span></a></li>
 
-              {{#if isNotSync}}
-                <li class="{{menuClass 'admin/view/organizations'}}"><a href="/admin/view/organizations"><i class="fa fa-sitemap"></i><span>{{_ "organizations"}}</span></a></li>
-                <li class="{{menuClass 'admin/view/space_users'}}"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li>
-              {{/if}}
-
-              <li class="{{menuClass 'admin/view/flow_roles'}}"><a href="/admin/view/flow_roles"><i class="ion ion-university"></i><span>{{_ "flow_roles"}}</span></a></li>
-              <li class="{{menuClass 'admin/view/flow_positions'}}"><a href="/admin/view/flow_positions"><i class="ion ion-android-happy"></i><span>{{_ "flow_positions"}}</span></a></li>
-              <li class="{{menuClass 'designer'}}"><a href="/designer"><i class="ion ion-shuffle"></i><span>{{_ "Workflow Designer"}}</span></a></li>
-
-              {{#if isPaidSpace}}
-                <li class="{{menuClass 'admin/view/flows_template'}}"><a href="/admin/view/flows_template"><i class="ion ion-ios-paper-outline"></i><span>{{_ "workflow_form_edit"}}</span></a></li>
-              {{/if}}
-
-              <li class="{{menuClass 'steedos/customize_apps'}}"><a href="/steedos/customize_apps"><i class="ion ion-ios-keypad-outline"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
+                  {{#if isPaidSpace}}
+                    <li class="{{menuClass 'admin/view/flows_template'}}"><a href="/admin/view/flows_template"><i class="ion ion-ios-paper-outline"></i><span>{{_ "workflow_form_edit"}}</span></a></li>
+                  {{/if}}
+                </ul>
+              </li>
             {{/if}}
 
             <li><a href="/steedos/help"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a></li>
