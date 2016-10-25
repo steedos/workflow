@@ -10,9 +10,15 @@
 					</div>
 					{{#if isAdminRoute}}
 						<div class="navigation-bar">
-					        <button type="button" class="btn btn-default" data-toggle="offcanvas">
-					            <i class="fa fa-bars"></i>
-					        </button>
+							{{#if isAdminDetailRoute}}
+					            <button id="admin-back" class="btn btn-default">
+					              <i class="ion ion-chevron-left"></i><span></span>
+					            </button>
+							{{else}}
+								<button type="button" class="btn btn-default" data-toggle="offcanvas">
+									<i class="fa fa-bars"></i>
+								</button>
+							{{/if}}
 							<span class="navigation-title">
 									<a href="{{urlPrefix}}/admin/view/{{$.Session.get 'admin_collection_name'}}/">{{admin_collection_title}}</a>
 							</span>

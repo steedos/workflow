@@ -39,14 +39,16 @@ Template.steedosAdminLayout.helpers
 		path = Session.get("router-path")
 		return path?.startsWith "/admin"
 
+	isAdminDetailRoute: ()->
+		path = Session.get("router-path")
+		#正则匹配"/admin/edit/model-name","/admin/edit/modelname/model-id"
+		regEdit = /^\/admin\/edit\/(\b)+/
+		#正则匹配"/admin/new/model-name","/admin/new/modelname/model-id"
+		regNew = /^\/admin\/new\/(\b)+/
+		return regEdit.test(path) || regNew.test(path)
+
 Template.steedosAdminLayout.events
-	# "click #navigation-back": (e, t) ->
-	# 	NavigationController.back(); 
 	"click #admin-back": (e, t) ->
 		c = Session.get('admin_collection_name')
 		if c
-			config = AdminConfig.collections[c]
-			if config?.routerAdmin    
-				FlowRouter.go(config.routerAdmin)
-				return
-		FlowRouter.go "/"  
+			FlowRouter.go "/admin/view/#{c}"  
