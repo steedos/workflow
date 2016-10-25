@@ -10,6 +10,7 @@ adminRoutes = FlowRouter.group
 
 adminRoutes.route '/',
 	action: (params, queryParams)->
+		FlowRouter.go "/steedos/profile"
 		BlazeLayout.render 'steedosAdminLayout',
 			main: "steedos_admin_home"
 
