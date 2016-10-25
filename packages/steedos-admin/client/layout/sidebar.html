@@ -41,8 +41,8 @@
                     <li class="{{menuClass 'steedos/space/info'}}"><a href="/steedos/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
                   {{/if}}
                   {{#if isNotSync}}
-                    <li class="{{menuClass 'admin/view/organizations'}}"><a href="/admin/view/organizations"><i class="fa fa-sitemap"></i><span>{{_ "organizations"}}</span></a></li>
-                    <li class="{{menuClass 'admin/view/space_users'}}"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li>
+                    <li class="{{menuClass 'admin/view/organizations'}} fix-collection-helper"><a href="/admin/view/organizations"><i class="fa fa-sitemap"></i><span>{{_ "organizations"}}</span></a></li>
+                    <li class="{{menuClass 'admin/view/space_users'}} fix-collection-helper"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li>
                   {{/if}}
                   <li class="{{menuClass 'steedos/customize_apps'}}"><a href="/steedos/customize_apps"><i class="ion ion-ios-keypad-outline"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
                 </ul>
@@ -57,7 +57,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li class="{{menuClass 'admin/view/flow_roles'}}"><a href="/admin/view/flow_roles"><i class="ion ion-university"></i><span>{{_ "flow_roles"}}</span></a></li>
-                  <li class="{{menuClass 'admin/view/flow_positions'}}"><a href="/admin/view/flow_positions"><i class="ion ion-android-happy"></i><span>{{_ "flow_positions"}}</span></a></li>
+                  <li class="{{menuClass 'admin/view/flow_positions'}} fix-collection-helper"><a href="/admin/view/flow_positions"><i class="ion ion-android-happy"></i><span>{{_ "flow_positions"}}</span></a></li>
                   <li class="{{menuClass 'designer'}}"><a href="/designer"><i class="ion ion-shuffle"></i><span>{{_ "Workflow Designer"}}</span></a></li>
 
                   {{#if isPaidSpace}}
