@@ -8,7 +8,7 @@ Template.cf_organization_list.onRendered ->
   this.autorun ()->
     if Steedos.subsSpace.ready("organizations")
       # console.log "loaded_organizations ok...";
-      $("#organizations_tree").on('changed.jstree', (e, data) ->
+      $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
             # console.log(data);
             if data.selected.length
               # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
