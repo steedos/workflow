@@ -50,3 +50,20 @@ Template.contacts_list.onRendered ->
 
     ContactsManager.handerContactModalValueLabel();
     $("#contact_list_load").hide();
+
+
+
+
+Template.steedos_contacts_user.events
+    'click #steedos_contacts_user_add_btn': (event, template) ->
+        AdminDashboard.modalNew 'space_users'
+
+    'click #steedos_contacts_user_edit_btn': (event, template) ->
+        selected = ContactsManager.getContactModalValue()
+        if selected.length == 1
+            AdminDashboard.modalEdit 'space_users', selected[0].id
+
+    'click #steedos_contacts_user_remove_btn': (event, template) ->
+        selected = ContactsManager.getContactModalValue()
+        if selected.length == 1
+            AdminDashboard.modalDelete 'space_users', selected[0].id
