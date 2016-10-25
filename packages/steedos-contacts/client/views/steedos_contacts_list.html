@@ -1,11 +1,13 @@
-<template name="contacts_list">
+<template name="steedos_contacts_list">
 	
 	
 	<div id="contacts_list" class="contacts">
 		<div class="box box-solid" style="min-height:75%">
+
 			<div class="box-header ui-sortable-handle">
+				{{> steedos_contacts_user}}
 	          	<div class="input-group">
-		          <input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control" placeholder='{{_ "Search"}}...'>
+		          <input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
 		              <span class="input-group-btn">
 		                <button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
 		                </button>
@@ -31,4 +33,13 @@
 			<!-- end loading -->
 		</div>
     </div>
+</template>
+
+
+<template name="steedos_contacts_user">
+	<div class="btn-group" >
+	    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_user_add_btn"><i class="ion ion-plus-round"></i></button>
+	    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_user_edit_btn"><i class="ion ion-compose"></i></button>
+	    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_user_remove_btn"><i class="ion ion-minus-round"></i></button>
+	</div>
 </template>

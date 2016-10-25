@@ -1,4 +1,4 @@
-Template.contacts_list.helpers 
+Template.steedos_contacts_list.helpers 
     showBooksList: ->
         if Session.get("contact_showBooks")
             return true
@@ -20,7 +20,7 @@ Template.contacts_list.helpers
             query.group = Session.get("contacts_groupId");
         return query;
 
-Template.contacts_list.events
+Template.steedos_contacts_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $("#contacts_list")).each ->
             $(this).prop('checked', event.target.checked).trigger('change')
@@ -49,7 +49,7 @@ Template.contacts_list.events
             $("#contact-list-search-key").val(),
         ).draw();
 
-Template.contacts_list.onRendered ->
+Template.steedos_contacts_list.onRendered ->
     TabularTables.contacts.customData = @data
     TabularTables.contactsBooks.customData = @data
     
@@ -57,3 +57,20 @@ Template.contacts_list.onRendered ->
 
     ContactsManager.handerContactModalValueLabel();
     $("#contact_list_load").hide();
+
+
+
+
+Template.steedos_contacts_user.events
+    'click #steedos_contacts_user_add_btn': (event, template) ->
+        AdminDashboard.modalNew 'space_users'
+
+    'click #steedos_contacts_user_edit_btn': (event, template) ->
+        selected = ContactsManager.getContactModalValue()
+        if selected.length == 1
+            AdminDashboard.modalEdit 'space_users', selected[0].id
+
+    'click #steedos_contacts_user_remove_btn': (event, template) ->
+        selected = ContactsManager.getContactModalValue()
+        if selected.length == 1
+            AdminDashboard.modalDelete 'space_users', selected[0].id
