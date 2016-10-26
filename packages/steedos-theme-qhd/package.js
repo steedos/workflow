@@ -15,6 +15,7 @@ Package.onUse(function(api) {
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
+    api.addFiles("client/customize.less", "client");
     // EXPORT
     
 });

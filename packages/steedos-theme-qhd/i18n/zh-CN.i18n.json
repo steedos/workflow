@@ -1,4 +1,5 @@
 {
+    "Steedos Workflow": "公文管理",
     "inbox": "待办文件",
     "outbox": "已办文件",
     "draft": "待发文件",
@@ -6,5 +7,5 @@
     "completed": "已结束",
     "monitor": "监控箱",
     "instance_new": "文件拟写",
-    "Steedos Workflow": "公文管理"
+    "instance_submit": "发送"
 }
