@@ -9,7 +9,7 @@ Template.steedos_contacts_group_tree.onRendered ->
     if Steedos.subsSpace.ready("address_groups")
       $("#steedos_contacts_group_tree").on('changed.jstree', (e, data) ->
             if data.selected.length
-              console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
+              # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
               Session.set("contact_showBooks", true)
               Session.set("contacts_groupId", data.selected[0])
             return

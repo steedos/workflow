@@ -11,7 +11,7 @@ Template.steedos_contacts_org_tree.onRendered ->
   console.log "loaded_organizations ok..."
   $("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
-          console.log 'The selected node is::: ' + data.instance.get_node(data.selected[0]).text
+          # console.log 'The selected node is::: ' + data.instance.get_node(data.selected[0]).text
           Session.set("contact_showBooks", false)
           Session.set("contacts_orgId", data.selected[0]);
         return
