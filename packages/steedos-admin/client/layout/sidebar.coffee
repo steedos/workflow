@@ -27,7 +27,10 @@ Template.adminSidebar.helpers
 	menuClass: (urlTag)->
 		path = Session.get("router-path")
 		if path?.startsWith "/" + urlTag or path?.startsWith "/steedos/" + urlTag
-			return "active";
+			return "active"
+
+	isPortalAdmin: ()->
+		return Steedos.getSpacePortalApp()
 
 Template.adminSidebar.events
 
