@@ -99,7 +99,7 @@ db.flow_positions.adminConfig =
 @AdminConfig = 
 	name: "Steedos Admin"
 	skin: "green"
-	layout: "steedosAdminLayout"
+	layout: "adminLayout"
 	userSchema: null,
 	userSchema: db.users._simpleSchema,
 	autoForm:
