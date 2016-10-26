@@ -21,11 +21,13 @@
             </div>
           </div>
           <ul class="nav sidebar-menu">
-            <li class="{{menuClass 'steedos/profile/'}}"><a href="/steedos/profile/"><i class="ion ion-android-person"></i><span>{{_ "Account Settings"}}</span></a></li>
 
             <li class="header header-admin header-space-switcher">
               {{> admin_space_switcher}}
             </li>
+            
+            <li class="{{menuClass 'steedos/profile/'}}"><a href="/steedos/profile/"><i class="ion ion-android-person"></i><span>{{_ "Account Settings"}}</span></a></li>
+
 
             {{#if isSpaceAdmin}}
               <li class="treeview">
