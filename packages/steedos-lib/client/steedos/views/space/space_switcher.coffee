@@ -15,6 +15,3 @@ Template.space_switcher.events
 
 	"click .switchSpace": ->
 		Steedos.setSpaceId(this._id)
-
-Template.space_switcher.onRendered ->
-	$(".dropdown .dropdown-menu").css("max-height", ($(window).height()-120) + "px");
