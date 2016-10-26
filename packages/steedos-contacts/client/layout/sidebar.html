@@ -1,5 +1,5 @@
 <template name="contactsSidebar">
-    <aside class="main-sidebar">
+    <aside class="main-sidebar contacts-sidebar">
         <header class="steedos main-header">
           <div class="logo" style="overflow: visible">
             <span class="logo-lg">
@@ -25,9 +25,9 @@
               {{> space_switcher}}
             </li>
 
-            <li><a href="/contacts/orgs" ><i class="ion ion-plus-round"></i><span>组织架构</span></a></li>
+            <li class="{{liActive 'orgs'}}"><a href="/contacts/orgs" ><i class="fa fa-sitemap"></i><span>组织架构</span></a></li>
 
-            <li><a href="/contacts/books" ><i class="ion ion-person"></i><span>个人联系人</span></a></li>
+            <li class="{{liActive 'books'}}"><a href="/contacts/books" ><i class="ion ion-android-contacts"></i><span>个人联系人</span></a></li>
 
           </ul>
 
