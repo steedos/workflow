@@ -62,6 +62,9 @@ Package.onUse(function(api) {
     api.addFiles('client/layout/sidebar.coffee', 'client');
     api.addFiles('client/layout/sidebar.less', 'client');
 
+    api.addFiles('client/views/admin_dashboard.html', 'client');
+    api.addFiles('client/views/admin_dashboard.coffee', 'client');
+
     api.addFiles('client/views/space/space_switcher.html', 'client');
     api.addFiles('client/views/space/space_switcher.coffee', 'client');
     api.addFiles('client/views/space/space_switcher.less', 'client');
