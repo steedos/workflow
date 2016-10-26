@@ -26,7 +26,24 @@
           data: "email",
           render:  (val, type, doc) ->
             return "<div class='contacts-email'>" + doc.email + "</div>"
+        },
+        {
+          data: "",
+          title: "编辑",
+          orderable: false,
+          width:'40px',
+          render: (val, type, doc) ->
+            return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_user_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
+        },
+        {
+          data: "",
+          title: "删除",
+          orderable: false,
+          width:'40px',
+          render: (val, type, doc) ->
+            return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_user_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
         }
+
       ],
 
       #select:

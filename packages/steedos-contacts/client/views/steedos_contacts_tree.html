@@ -1,13 +1,19 @@
 <template name="steedos_contacts_tree">
+    <div class="navigation-bar">
+
+        <button type="button" class="btn btn-default" data-toggle="offcanvas">
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="pull-right">
+            <div class="btn-group" >
+                <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_add_btn"><i class="ion ion-plus-round"></i></button>
+                <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_edit_btn"><i class="ion ion-compose"></i></button>
+                <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_remove_btn"><i class="ion ion-minus-round"></i></button>
+            </div>
+        </div>
+    </div>
     <div class="contacts-tree">
         <div class="box box-solid">
-            <div class="box-header ui-sortable-handle">
-                <div class="btn-group" >
-                    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_add_btn"><i class="ion ion-plus-round"></i></button>
-                    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_edit_btn"><i class="ion ion-compose"></i></button>
-                    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_tree_org_remove_btn"><i class="ion ion-minus-round"></i></button>
-                </div>
-            </div>
             <div class="box-body">
                 <div id="steedos_contacts_organizations_tree"></div>
                 <div id="steedos_contacts_books_tree"></div>
