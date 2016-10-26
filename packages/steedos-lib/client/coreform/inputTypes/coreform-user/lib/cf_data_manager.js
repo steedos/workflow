@@ -82,7 +82,7 @@ CFDataManager.getOrganizationModalValue = function() {
 
 CFDataManager.getSelectedModalValue = function() {
   var val = new Array();
-  var instance = $('#organizations_tree').jstree(true);
+  var instance = $('#cf_organizations_tree').jstree(true);
   var checked = instance.get_selected();
 
   checked.forEach(function(id) {
@@ -99,7 +99,7 @@ CFDataManager.getSelectedModalValue = function() {
 
 CFDataManager.getCheckedValues = function() {
   var values = new Array();
-  $('[name=\'contacts_ids\']').each(function() {
+  $('[name=\'cf_contacts_ids\']').each(function() {
     if (this.checked) {
       values.push({
         id: this.value,

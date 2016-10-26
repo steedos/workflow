@@ -117,7 +117,18 @@ TemplateHelpers =
                 selector._id = {$in: space.apps_enabled}
         if Steedos.isMobile()
             selector.mobile = true
-        return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
+        return db.apps.findOne(selector)
+
+    getSpacePortalApp: ()->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        selector.url = "/portal/home"
+        return db.apps.findOne(selector)
 
     getLocale: ()->
         if Meteor.user()?.locale

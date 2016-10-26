@@ -3,7 +3,7 @@
         <header class="steedos main-header">
           <div class="logo" style="overflow: visible">
             <span class="logo-lg">
-              <B>{{_ "steedos_admin"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
+              <B>{{_ "Steedos Admin"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
             </span>
             <span class="logo-mini">
               <i class="ion ion-grid"></i>
@@ -31,7 +31,7 @@
               <li class="treeview">
                 <a href="javascript:void(0)">
                   <i class="ion ion-ios-gear-outline"></i>
-                  <span>{{_ "steedos_system_admin"}}</span>
+                  <span>{{_ "steedos_system"}}</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
@@ -50,7 +50,7 @@
               <li class="treeview">
                 <a href="javascript:void(0)">
                   <i class="ion ion-ios-gear-outline"></i>
-                  <span>{{_ "steedos_workflow_admin"}}</span>
+                  <span>{{_ "Steedos Workflow"}}</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
@@ -63,6 +63,25 @@
                   {{#if isPaidSpace}}
                     <li class="{{menuClass 'admin/view/flows_template'}}"><a href="/admin/view/flows_template"><i class="ion ion-ios-paper-outline"></i><span>{{_ "workflow_form_edit"}}</span></a></li>
                   {{/if}}
+                </ul>
+              </li>
+            {{/if}}
+
+            {{#if isPortalAdmin}}
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-gear-outline"></i>
+                  <span>{{_ "Steedos Portal"}}</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  {{#if isSpaceAdmin}}
+                    <li class="{{menuClass 'admin/view/portal_dashboards'}}"><a href="/admin/view/portal_dashboards"><i class="ion ion-ios-photos-outline"></i><span>{{_ "portal_dashboards"}}</span></a></li>
+                    <li class="{{menuClass 'admin/view/apps_auths'}}"><a href="/admin/view/apps_auths"><i class="ion ion-aperture"></i><span>{{_ "apps_auths"}}</span></a></li>
+                  {{/if}}
+                  <li class="{{menuClass 'admin/view/apps_auth_users'}}"><a href="/admin/view/apps_auth_users"><i class="ion ion-ios-personadd-outline"></i><span>{{_ "apps_auth_users"}}</span></a></li>
                 </ul>
               </li>
             {{/if}}

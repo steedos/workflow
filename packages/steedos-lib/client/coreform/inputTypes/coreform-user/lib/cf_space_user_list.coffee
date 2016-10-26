@@ -12,8 +12,8 @@ Template.cf_space_user_list.helpers
 
 
 Template.cf_space_user_list.events
-    'click #reverse': (event, template) ->
-        $('input[name="contacts_ids"]', $(".cf_space_user_list_table")).each ->
+    'click #cf_reverse': (event, template) ->
+        $('input[name="cf_contacts_ids"]', $(".cf_space_user_list_table")).each ->
             $(this).prop('checked', event.target.checked).trigger('change')
 
 
@@ -44,7 +44,7 @@ Template.cf_space_user_list.onRendered ->
     TabularTables.cf_tabular_space_user.customData = @data
     
     if !@data.multiple
-        $("#reverse").hide();
+        $("#cf_reverse").hide();
 
     # CFDataManager.setContactModalValue(@data.defaultValues);
     # $("#contact_list_load").hide();
