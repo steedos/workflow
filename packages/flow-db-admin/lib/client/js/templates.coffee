@@ -51,3 +51,18 @@ Template.AdminDashboardEditModal.helpers
 		editcollectionName = Session.get 'admin_collection_name'
 		editId	= Session.get 'admin_id'
 		adminCollectionObject(editcollectionName).findOne _id : editId if editcollectionName && editId
+
+	btn_update_i18n: ()->
+		return TAPi18n.__ 'Update'
+
+Template.AdminDashboardNewModal.helpers
+	btn_create_i18n: ()->
+		return TAPi18n.__ 'Create'
+
+Template.AdminDashboardEdit.helpers
+	btn_update_i18n: ()->
+		return TAPi18n.__ 'Update'
+
+Template.AdminDashboardNew.helpers
+	btn_create_i18n: ()->
+		return TAPi18n.__ 'Create'
