@@ -16,7 +16,7 @@ Template.steedos_contacts_group_book_list.helpers
 
     books_selector: ->
         query = {owner: Meteor.userId()};
-        if Session.get("contacts_groupId") != "parent"
+        if Session.get("contacts_groupId") != "root"
             query.group = Session.get("contacts_groupId");
         return query;
 

@@ -1,4 +1,6 @@
 Template.steedos_contacts_group_tree.helpers 
+  is_disabled: ->
+    return !Session.get("contacts_groupId") || Session.get("contacts_groupId")=='root'
 
 
 Template.steedos_contacts_group_tree.onRendered ->
@@ -35,9 +37,9 @@ Template.steedos_contacts_group_tree.events
       $.jstree.reference('#steedos_contacts_group_tree').refresh()
 
   'click #steedos_contacts_group_tree_edit_btn': (event, template) ->
-    AdminDashboard.modalEdit 'address_groups', Session.get('contacts_orgId'), ()->
+    AdminDashboard.modalEdit 'address_groups', Session.get('contacts_groupId'), ()->
       $.jstree.reference('#steedos_contacts_group_tree').refresh()
 
   'click #steedos_contacts_group_tree_remove_btn': (event, template) ->
-    AdminDashboard.modalDelete 'address_groups', Session.get('contacts_orgId'), ()->
+    AdminDashboard.modalDelete 'address_groups', Session.get('contacts_groupId'), ()->
       $.jstree.reference('#steedos_contacts_group_tree').refresh()
