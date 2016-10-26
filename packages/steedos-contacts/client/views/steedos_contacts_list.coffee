@@ -59,8 +59,8 @@ Template.steedos_contacts_list.events
         AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
 
 Template.steedos_contacts_list.onRendered ->
-    TabularTables.contacts.customData = @data
-    TabularTables.contactsBooks.customData = @data
+    TabularTables.steedosContactsOrganizations.customData = @data
+    TabularTables.steedosContactsBooks.customData = @data
     
     ContactsManager.setContactModalValue(@data.defaultValues);
 

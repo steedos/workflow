@@ -1,6 +1,6 @@
-    TabularTables.contacts = new Tabular.Table({
-      name: "contacts",
-      collection: db.space_users,
+    TabularTables.steedosContactsBooks = new Tabular.Table({
+      name: "steedosContactsBooks",
+      collection: db.address_books,
       columns: [
         {
           data: "_id", 
@@ -8,10 +8,9 @@
           orderable: false,
           width:'30px',
           render:  (val, type, doc) ->
-
             input = '<input type="checkbox" class="contacts-list-checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '"'
 
-            if TabularTables.contacts.customData?.defaultValues?.getProperty("email").includes(doc.email)
+            if TabularTables.steedosContactsBooks.customData?.defaultValues?.getProperty("email").includes(doc.email)
               input += " checked "
 
             input += ">"
@@ -27,7 +26,6 @@
           render:  (val, type, doc) ->
             return "<div class='contacts-email'>" + doc.email + "</div>"
         }
-
       ],
 
       #select:

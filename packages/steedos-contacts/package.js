@@ -89,6 +89,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_list.html', 'client');
 	api.addFiles('client/views/steedos_contacts_list.coffee', 'client');
 
+	api.addFiles('steedos_books_tabular.coffee');
+	api.addFiles('steedos_organizations_tabular.coffee');
+	
 	api.addFiles('tabular.coffee');
 	api.addFiles('tabular_books.coffee');
 
