@@ -52,10 +52,10 @@ Template.steedos_contacts_org_user_list.events
     'click #steedos_contacts_org_user_list_add_btn': (event, template) ->
         AdminDashboard.modalNew 'space_users'
 
-    'click #steedos_contacts_user_edit_btn': (event, template) ->
+    'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
         AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
-    'click #steedos_contacts_user_remove_btn': (event, template) ->
+    'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
         AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
 
 Template.steedos_contacts_org_user_list.onRendered ->
