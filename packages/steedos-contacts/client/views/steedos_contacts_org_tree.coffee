@@ -1,4 +1,6 @@
 Template.steedos_contacts_org_tree.helpers 
+  is_admin: ()->
+    return Steedos.isSpaceAdmin()
 
 
 Template.steedos_contacts_org_tree.onRendered ->

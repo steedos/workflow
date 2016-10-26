@@ -1,8 +1,11 @@
 <template name="steedos_contacts_org_user_list">
 	<div class="navigation-bar">
+		{{#if is_admin}}
         <div class="btn-group" >
 		    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_org_user_list_add_btn"><i class="ion ion-plus-round"></i></button>
 		</div>
+		{{/if}}
+		
         <div class="pull-right">
             <div class="input-group">
 	          	<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>

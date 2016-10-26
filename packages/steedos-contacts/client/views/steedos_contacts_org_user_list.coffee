@@ -20,6 +20,9 @@ Template.steedos_contacts_org_user_list.helpers
             query.group = Session.get("contacts_groupId");
         return query;
 
+    is_admin: ()->
+        return Steedos.isSpaceAdmin()
+
 Template.steedos_contacts_org_user_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $("#contacts_list")).each ->
