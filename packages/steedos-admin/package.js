@@ -51,7 +51,9 @@ Package.onUse(function(api) {
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
-    api.addFiles('client/core.coffee');
+    api.addFiles('lib/core.coffee');
+    api.addFiles('lib/admin.coffee');
+    
 
     api.addFiles('client/layout/master.html', 'client');
     api.addFiles('client/layout/master.coffee', 'client');
@@ -59,6 +61,9 @@ Package.onUse(function(api) {
     api.addFiles('client/layout/sidebar.html', 'client');
     api.addFiles('client/layout/sidebar.coffee', 'client');
     api.addFiles('client/layout/sidebar.less', 'client');
+
+    api.addFiles('client/views/admin_dashboard.html', 'client');
+    api.addFiles('client/views/admin_dashboard.coffee', 'client');
 
     api.addFiles('client/views/space/space_switcher.html', 'client');
     api.addFiles('client/views/space/space_switcher.coffee', 'client');

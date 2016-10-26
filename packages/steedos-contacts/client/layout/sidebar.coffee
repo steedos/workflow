@@ -16,6 +16,18 @@ Template.contactsSidebar.helpers
 		else
 			return localStorage.getItem("spaceId:" + Meteor.userId())
 
+	liActive: (li)->
+		if li == 'books' 
+			if Session.get("contact_showBooks")
+				return 'active';
+			else
+				return ''
+		else
+			if !Session.get("contact_showBooks")
+				return 'active';
+			else
+				return ''
+
 Template.contactsSidebar.events
 
 	'click .main-header .logo': (event) ->

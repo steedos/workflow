@@ -1,4 +1,4 @@
-Template.contacts_list.helpers 
+Template.steedos_contacts_org_user_list.helpers 
     showBooksList: ->
         if Session.get("contact_showBooks")
             return true
@@ -16,11 +16,11 @@ Template.contacts_list.helpers
 
     books_selector: ->
         query = {owner: Meteor.userId()};
-        if Session.get("contacts_groupId") != "root"
+        if Session.get("contacts_groupId") != "parent"
             query.group = Session.get("contacts_groupId");
         return query;
 
-Template.contacts_list.events
+Template.steedos_contacts_org_user_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $("#contacts_list")).each ->
             $(this).prop('checked', event.target.checked).trigger('change')
@@ -49,9 +49,18 @@ Template.contacts_list.events
             $("#contact-list-search-key").val(),
         ).draw();
 
-Template.contacts_list.onRendered ->
-    TabularTables.contacts.customData = @data
-    TabularTables.contactsBooks.customData = @data
+    'click #steedos_contacts_org_user_list_add_btn': (event, template) ->
+        AdminDashboard.modalNew 'space_users'
+
+    'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
+        AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+
+    'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
+        AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
+
+Template.steedos_contacts_org_user_list.onRendered ->
+    TabularTables.steedosContactsOrganizations.customData = @data
+    TabularTables.steedosContactsBooks.customData = @data
     
     ContactsManager.setContactModalValue(@data.defaultValues);
 

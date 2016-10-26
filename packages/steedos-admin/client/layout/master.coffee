@@ -1,4 +1,4 @@
-Template.steedosAdminLayout.onCreated ->
+Template.adminLayout.onCreated ->
 	self = this;
 
 	self.minHeight = new ReactiveVar(
@@ -7,7 +7,7 @@ Template.steedosAdminLayout.onCreated ->
 	$(window).resize ->
 		self.minHeight.set($(window).height());
 
-Template.steedosAdminLayout.onRendered ->
+Template.adminLayout.onRendered ->
 
 	self = this;
 	self.minHeight.set($(window).height());
@@ -16,7 +16,7 @@ Template.steedosAdminLayout.onRendered ->
 	$(window).resize();
 
 
-Template.steedosAdminLayout.helpers 
+Template.adminLayout.helpers 
 	minHeight: ->
 		return Template.instance().minHeight.get() + 'px'
 	
@@ -47,7 +47,7 @@ Template.steedosAdminLayout.helpers
 		regNew = /^\/admin\/new\/(\b)+/
 		return regEdit.test(path) || regNew.test(path)
 
-Template.steedosAdminLayout.events
+Template.adminLayout.events
 	"click #admin-back": (e, t) ->
 		c = Session.get('admin_collection_name')
 		if c

@@ -74,8 +74,11 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/contact.less', 'client');
 
-	api.addFiles('client/views/main.html', 'client');
-	api.addFiles('client/views/main.coffee', 'client');
+	api.addFiles('client/views/org_main.html', 'client');
+	api.addFiles('client/views/org_main.coffee', 'client');
+	api.addFiles('client/views/book_main.html', 'client');
+	api.addFiles('client/views/book_main.coffee', 'client');
+
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
 
@@ -84,14 +87,19 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/contact_list.html', 'client');
 	api.addFiles('client/views/contact_list.coffee', 'client');
 
-	api.addFiles('client/views/steedos_contacts_tree.html', 'client');
-	api.addFiles('client/views/steedos_contacts_tree.coffee', 'client');
-	api.addFiles('client/views/steedos_contacts_list.html', 'client');
-	api.addFiles('client/views/steedos_contacts_list.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_org_tree.html', 'client');
+	api.addFiles('client/views/steedos_contacts_org_tree.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_org_user_list.html', 'client');
+	api.addFiles('client/views/steedos_contacts_org_user_list.coffee', 'client');
+
+	api.addFiles('client/views/steedos_contacts_group_tree.html', 'client');
+	api.addFiles('client/views/steedos_contacts_group_tree.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_group_book_list.html', 'client');
+	api.addFiles('client/views/steedos_contacts_group_book_list.coffee', 'client');
 
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
-	
+
 	api.addFiles('tabular.coffee');
 	api.addFiles('tabular_books.coffee');
 

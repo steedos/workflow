@@ -1,0 +1,32 @@
+<template name="steedos_contacts_org_user_list">
+	<div class="navigation-bar">
+        <div class="btn-group" >
+		    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_org_user_list_add_btn"><i class="ion ion-plus-round"></i></button>
+		</div>
+        <div class="pull-right">
+            <div class="input-group">
+	          	<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
+	              	<span class="input-group-btn">
+	               	 	<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+	                	</button>
+	              	</span>
+	        </div>
+        </div>
+    </div>
+	
+	<div id="contacts_list" class="contacts">
+		<div class="box box-solid" style="min-height:75%">
+			<div class="box-body">
+				<div class="contacts_orgs_list_table">
+					{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped table-condensed datatable-steedos-contacts"}}
+				</div>
+			</div>
+			<!-- /.box-body -->
+			<!-- Loading (remove the following to stop the loading)-->
+			<div class="overlay" id="contact_list_load">
+				<i class="fa fa-refresh fa-spin"></i>
+			</div>
+			<!-- end loading -->
+		</div>
+    </div>
+</template>

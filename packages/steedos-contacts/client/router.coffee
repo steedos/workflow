@@ -10,4 +10,16 @@ contactsRoutes = FlowRouter.group
 contactsRoutes.route '/', 
 	action: (params, queryParams)->
 		BlazeLayout.render 'contactsLayout',
-			main: "contacts_main"
+			main: "org_main"
+
+contactsRoutes.route '/orgs', 
+	action: (params, queryParams)->
+		Session.set('contact_showBooks', false)
+		BlazeLayout.render 'contactsLayout',
+			main: "org_main"
+
+contactsRoutes.route '/books', 
+	action: (params, queryParams)->
+		Session.set('contact_showBooks', true)
+		BlazeLayout.render 'contactsLayout',
+			main: "book_main"
