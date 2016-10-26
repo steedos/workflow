@@ -4,7 +4,7 @@
       columns: [
         {
           data: "_id", 
-          title: '<input type="checkbox" name="reverse" id="reverse">',
+          title: '<input type="checkbox" name="cf_reverse" id="cf_reverse">',
           orderable: false,
           width:'10px',
           render:  (val, type, doc) ->
@@ -14,7 +14,7 @@
             if !TabularTables.cf_tabular_space_user.customData?.multiple
               inputType = "radio"
 
-            input = '<input type="' + inputType + '" class="list_checkbox" name="contacts_ids" id="' + doc.user + '" value="' + doc.user + '" data-name="' + doc.name + '" data-email="' + doc.email + '"';
+            input = '<input type="' + inputType + '" class="list_checkbox" name="cf_contacts_ids" id="' + doc.user + '" value="' + doc.user + '" data-name="' + doc.name + '" data-email="' + doc.email + '"';
 
             if TabularTables.cf_tabular_space_user.customData?.defaultValues?.includes(doc.user)
               input += " checked "
