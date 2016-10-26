@@ -1,5 +1,5 @@
 {
     "steedos_admin": "Steedos Admin",
-    "steedos_system_admin": "System Admin",
-    "steedos_workflow_admin": "Workflow Admin"
+    "steedos_system": "System",
+    "steedos_workflow": "Workflow"
 }
