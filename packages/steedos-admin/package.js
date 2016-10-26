@@ -51,7 +51,9 @@ Package.onUse(function(api) {
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
-    api.addFiles('client/core.coffee');
+    api.addFiles('lib/core.coffee');
+    api.addFiles('lib/admin.coffee');
+    
 
     api.addFiles('client/layout/master.html', 'client');
     api.addFiles('client/layout/master.coffee', 'client');
