@@ -1,7 +1,7 @@
 ContactsManager = {};
 
 ContactsManager.getOrgNode = function(node){
-	console.log(node);
+	// console.log(node);
 
 	var orgs ;
 
@@ -21,6 +21,7 @@ ContactsManager.getBookNode = function(node){
 		n.id = "parent";
 		n.icon = 'ion ion-android-contacts';
 		n.children = true;
+		n.state = {opened:true};
 		nodes.push(n);
 	}else{
 		var groups = db.address_groups.find().fetch();
