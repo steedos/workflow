@@ -52,6 +52,11 @@ Template.steedos_contacts_group_book_list.events
     'click #steedos_contacts_group_book_list_add_btn': (event, template) ->
         AdminDashboard.modalNew 'address_books'
 
+    'click #steedos_contacts_group_book_list_edit_btn': (event, template) ->
+        AdminDashboard.modalEdit 'address_books', event.currentTarget.dataset.id
+
+    'click #steedos_contacts_group_book_list_remove_btn': (event, template) ->
+        AdminDashboard.modalDelete 'address_books', event.currentTarget.dataset.id
 
 Template.steedos_contacts_group_book_list.onRendered ->
     TabularTables.steedosContactsOrganizations.customData = @data
