@@ -1,4 +1,4 @@
-Template.space_switcher.helpers
+Template.admin_space_switcher.helpers
 
 	spaces: ->
 		return db.spaces.find();
@@ -11,10 +11,11 @@ Template.space_switcher.helpers
 		return t("Steedos")
 
 
-Template.space_switcher.events
+Template.admin_space_switcher.events
 
 	"click .switchSpace": ->
 		Steedos.setSpaceId(this._id)
+		FlowRouter.go("/steedos/profile")
 
-Template.space_switcher.onRendered ->
+Template.admin_space_switcher.onRendered ->
 	$(".dropdown .dropdown-menu").css("max-height", ($(window).height()-120) + "px");
