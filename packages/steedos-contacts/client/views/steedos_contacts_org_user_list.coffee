@@ -53,7 +53,8 @@ Template.steedos_contacts_org_user_list.events
         ).draw();
 
     'click #steedos_contacts_org_user_list_add_btn': (event, template) ->
-        AdminDashboard.modalNew 'space_users'
+        doc = { organizations: [Session.get('contacts_orgId')]}
+        AdminDashboard.modalNew 'space_users', doc
 
     'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
         AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
