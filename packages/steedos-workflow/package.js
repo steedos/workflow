@@ -73,7 +73,7 @@ Package.onUse(function(api) {
     api.addFiles('lib/cfs/core.coffee');
     api.addFiles('lib/cfs/instances.coffee');
 
-    api.addFiles('client/lib/workflow_api.js', 'client');
+    api.addFiles('client/api.js', 'client');
 
     api.addFiles('client/lib/instance_event.js', 'client');
     api.addFiles('client/lib/1_form_formula.js', 'client');
