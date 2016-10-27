@@ -52,12 +52,12 @@ AdminDashboard =
 
 if Meteor.isClient
 
-	AdminDashboard.modalNew = (collectionName, callback) ->
+	AdminDashboard.modalNew = (collectionName, doc, callback) ->
 		Session.set('admin_title', collectionName);
 		Session.set('admin_subtitle', 'Create New');
 		Session.set('admin_collection_page', 'new');
 		Session.set('admin_collection_name', collectionName);
-		Modal.show("AdminDashboardNewModal")
+		Modal.show("AdminDashboardNewModal", doc)
 
 		$('#admin_new').on('hidden.bs.modal', (e) ->
 			if callback
