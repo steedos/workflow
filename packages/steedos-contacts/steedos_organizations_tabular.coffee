@@ -29,7 +29,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
     },
     {
       data: "",
-      title: "编辑",
+      title: "",
       orderable: false,
       width:'40px',
       render: (val, type, doc) ->
@@ -37,7 +37,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
     },
     {
       data: "",
-      title: "删除",
+      title: "",
       orderable: false,
       width:'40px',
       render: (val, type, doc) ->
