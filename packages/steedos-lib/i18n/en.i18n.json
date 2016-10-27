@@ -135,6 +135,7 @@
 	"users_email_notification": "Email Notification",
 	
 	"apps": "Apps",
+    "apps_space": "Space",
 	"apps_name": "Name",
 	"apps_description": "Description",
 	"apps_auth_name": "Auth Name",
