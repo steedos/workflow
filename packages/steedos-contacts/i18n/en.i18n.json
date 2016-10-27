@@ -13,5 +13,7 @@
 	"address_books_group_name()": "Group Name",
 	"Steedos Contacts": "Contacts",
 	"address_groups_error_address_group_has_address_books": "This group has contacts!",
-	"mail_removeto_success":"Mail is removed to %s successfully"
+	"mail_removeto_success": "Mail is removed to %s successfully",
+	"contacts_organizations": "Organizations",
+	"contacts_personal_contacts": "Personal Contacts"
 }

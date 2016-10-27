@@ -21,7 +21,11 @@
 		<div class="box box-solid" style="min-height:75%">
 			<div class="box-body">
 				<div class="contacts_orgs_list_table">
-					{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped table-condensed datatable-steedos-contacts"}}
+					{{#if is_admin}}
+						{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped table-condensed datatable-steedos-contacts"}}
+					{{else}}
+						{{> tabular table=TabularTables.steedosContactsOrganizationsReadOnly selector=selector class="table table-striped table-condensed datatable-steedos-contacts"}}
+					{{/if}}
 				</div>
 			</div>
 			<!-- /.box-body -->
