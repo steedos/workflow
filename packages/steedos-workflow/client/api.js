@@ -1,6 +1,4 @@
-workflowAPI = {};
-
-workflowAPI.getInstances = function(){
+Workflow.getInstance = function(){
 	var instance = WorkflowManager.getInstance();
 
 	if(!instance)
@@ -42,12 +40,12 @@ workflowAPI.getInstances = function(){
 	return instance;
 }
 
-workflowAPI.getCurrentApprove = function(){
+Workflow.getMyApprove = function(){
 	return InstanceManager.getMyApprove();
 }
 
 
-workflowAPI.getInstanceAttachments = function(instanceId, approveId){
+Workflow.getInstanceAttachments = function(instanceId, approveId){
 
 	if(approveId){
 		return cfs.instances.find({
