@@ -146,6 +146,7 @@
 	"users_email_notification": "接受邮件通知",
 	
 	"apps": "应用",
+    "apps_space": "工作区",
 	"apps_name": "名称",
 	"apps_description": "描述",
 	"apps_url": "链接",
