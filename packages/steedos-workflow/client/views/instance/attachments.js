@@ -151,10 +151,15 @@ Template._file_DeleteButton.events({
             return false;
         }
         Session.set("file_id", file_id);
-        cfs.instances.remove({
-            _id: file_id
-        }, function(error) {
-            InstanceManager.removeAttach();
+
+        Meteor.call('cfs_instances_remove', file_id, function(error, result) {
+            if (error) {
+                toastr.error(error.message);
+            }
+
+            if (result) {
+                InstanceManager.removeAttach();
+            }
         })
         return true;
     }
@@ -319,24 +324,33 @@ Template._file_version_DeleteButton.events({
         }
 
         Session.set("file_id", file_id);
-        cfs.instances.remove({
-            _id: file_id
-        }, function(error) {
-            var parent = Session.get('attach_parent_id');
-            var current = cfs.instances.find({
-                'metadata.parent': parent
-            }, {
-                sort: {
-                    uploadedAt: -1
-                }
-            }).fetch()[0];
-            current.update({
-                $set: {
-                    'metadata.current': true
-                }
-            });
 
-            InstanceManager.removeAttach();
+        Meteor.call('cfs_instances_remove', file_id, function(error, result) {
+            if (error) {
+                toastr.error(error.message);
+            }
+
+            if (result) {
+                var parent = Session.get('attach_parent_id');
+                var current = cfs.instances.find({
+                    'metadata.parent': parent
+                }, {
+                    sort: {
+                        uploadedAt: -1
+                    }
+                }).fetch()[0];
+
+                Meteor.call('cfs_instances_set_current', current._id, function(error, result) {
+                    if (error) {
+                        toastr.error(error.message);
+                    }
+
+                    if (result) {
+                        InstanceManager.removeAttach();
+                    }
+                })
+
+            }
         })
         return true;
     }

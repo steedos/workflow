@@ -190,6 +190,7 @@ Package.onUse(function(api) {
     api.addFiles('server/methods/save_instance.js', 'server');
     api.addFiles('server/methods/trace_approve_cc.js', 'server');
     api.addFiles('server/methods/forward_instance.js', 'server');
+    api.addFiles('server/methods/cfs_instances.js', 'server');
 
     // routes
     api.addFiles('routes/nextStepUsers.js', 'server');
