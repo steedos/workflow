@@ -150,6 +150,12 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	events:
+		type: String
+		optional: true
+		autoform: 
+			rows: 10
+
 
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")

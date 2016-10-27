@@ -190,6 +190,8 @@
     "instance_forward_title": "转发",
 
     "form_field_checkbox_yes": "是",
-    "form_field_checkbox_no": "否"
+    "form_field_checkbox_no": "否",
+    "flows_events": "自定义脚本",
+    "flows_events_error": "自定义脚本错误: "
 
 }

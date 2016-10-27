@@ -402,6 +402,10 @@ InstanceformTemplate.onRendered = ()->
 
     ApproveManager.error = {nextSteps:'',nextStepUsers:''};
     if !ApproveManager.isReadOnly()
+
+        # instance from绑定事件
+        InstanceEvent.attachEvents(instance.flow);
+
         currentApprove = InstanceManager.getCurrentApprove();
 
         judge = currentApprove.judge

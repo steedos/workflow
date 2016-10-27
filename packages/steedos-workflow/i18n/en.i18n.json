@@ -188,6 +188,7 @@
     "instance_forward_title": "forward",
 
     "form_field_checkbox_yes": "YES",
-    "form_field_checkbox_no": "NO"
-
+    "form_field_checkbox_no": "NO",
+    "flows_events": "Events",
+    "flows_events_error": "Flow Script Error: "
 }

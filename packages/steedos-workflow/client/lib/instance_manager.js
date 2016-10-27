@@ -648,7 +648,12 @@ InstanceManager.deleteIns = function() {
 
 // 申请单提交
 InstanceManager.submitIns = function() {
+
+  if(!InstanceEvent.before.instanceSubmit())
+    return ;
+
   var instance = WorkflowManager.getInstance();
+  
   if (instance) {
     if (InstanceManager.isCC(instance)) {
       var description = $("#suggestion").val();
