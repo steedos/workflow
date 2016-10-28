@@ -9,10 +9,10 @@
       {{#each spaces}}
         <li class="switchSpace">
           <a>
-            <i class="fa fa-globe"></i><span>{{name}}</span>
-            <i class="pull-right">
-              <span class="label bg-red">{{getBadge "workflow" _id}}</span>
-            </i>
+            <i class="fa fa-globe"></i>
+            <span>{{name}}
+              <span class="pull-right label bg-red">{{getBadge "workflow" _id}}</span>
+            </span>
           </a>
         </li>
       {{/each}}
