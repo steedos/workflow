@@ -118,6 +118,8 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_list.coffee', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_space_user_list.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_space_user_list.coffee', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_modal.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_modal.coffee', 'client');
 
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');

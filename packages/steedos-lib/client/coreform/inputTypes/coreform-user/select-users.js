@@ -106,6 +106,7 @@ Template.afSelectUser.events({
     options.targetId = template.data.atts.id;
     Modal.allowMultiple = true;
     Modal.show("cf_contact_modal", options);
+    $(".contacts-modal-body").css("max-height", ($(window).height() - 180 - 21) + "px");
   }
 });
 

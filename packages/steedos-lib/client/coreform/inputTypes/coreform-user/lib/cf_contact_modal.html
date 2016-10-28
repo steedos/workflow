@@ -1,4 +1,12 @@
 <template name="cf_contact_modal">
+  {{#if isMobile}}
+      {{#if showOrg}}
+          <div style="display:none" id="cf_users_organization_modal_div">
+              {{> cf_users_organization_modal}}
+          </div>
+      {{/if}}
+  {{/if}}
+
   <div class="steedos modal fade cf_contact_modal" id="cf_contact_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style='position: fixed;'>
     <div class="modal-dialog {{modalStyle showOrg}}" role="document">
       <div class="modal-content ins-modal">
@@ -9,19 +17,17 @@
         </div>
          {{#if isMobile}}
             {{#if showOrg}}
-            <div class="modal-header">
-             
+            <div class="modal-header" style="border-bottom:0px">
                 <div class="navigation-bar">
-                  <span class="navigation-title dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{orgName}} &nbsp;<i class="caret"></i></a>
-                    <div class="dropdown-menu cf-contact-modal-menu">
+                  <span class="navigation-title">
+                    <a href="#" class="organization-active"><i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{orgName}} &nbsp;<i class="caret"></i></a>
+                    <!-- <div class="dropdown-menu cf-contact-modal-menu" role="menu" aria-labelledby="dropdownMenu">
                        <div class="col-md-12">
                         {{> cf_organization_list}}
                       </div>
-                    </div>
+                    </div> -->
                   </span> 
                 </div>
-                
             </div>
             {{/if}}
         {{/if}}
