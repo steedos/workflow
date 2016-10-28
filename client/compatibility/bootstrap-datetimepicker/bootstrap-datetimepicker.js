@@ -852,7 +852,11 @@
                 // case of calling setValue(null or false)
                 if (!targetMoment) {
                     unset = true;
-                    input.val('').trigger('change');
+                    if(!oldDate){
+                        input.val('').trigger('change');
+                    }else{
+                        input.val('')
+                    }
                     element.data('date', '');
                     notifyEvent({
                         type: 'dp.change',
@@ -872,7 +876,11 @@
                 if (isValid(targetMoment)) {
                     date = targetMoment;
                     viewDate = date.clone();
-                    input.val(date.format(actualFormat)).trigger('change');
+                    if(oldDate && actualFormat!=oldDate){
+                        input.val(date.format(actualFormat)).trigger('change');
+                    }else{
+                        input.val(date.format(actualFormat));
+                    }
                     element.data('date', date.format(actualFormat));
                     unset = false;
                     update();
