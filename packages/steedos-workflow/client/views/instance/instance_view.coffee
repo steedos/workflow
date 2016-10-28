@@ -23,6 +23,9 @@ Template.instance_view.helpers
 
 Template.instance_view.onRendered ->
     $(".workflow-main").addClass("instance-show")
+
+    if !Steedos.isMobile()
+        $(".instance").perfectScrollbar();
     
 Template.instance_view.events
     'change .instance .form-control,.instance .suggestion-control,.instance .checkbox input,.instance .af-radio-group input,.instance .af-checkbox-group input': (event, template) ->

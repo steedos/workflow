@@ -43,12 +43,12 @@ function handerOrg(orgs) {
       node.children = true;
     }
 
-    if (org.parent != '') {
-      node.parent = org.parent;
-      node.icon = false; //node.icon = "fa fa-users";
-    } else {
+    if (org.is_company == true) {
       node.state.opened = true;
       node.icon = 'fa fa-sitemap';
+    } else {
+      node.parent = org.parent;
+      node.icon = false; //node.icon = "fa fa-users";
     }
 
     nodes.push(node);
@@ -129,12 +129,15 @@ CFDataManager.handerContactModalValueLabel = function() {
   valueLabel_ui = $('#valueLabel_ui', modal);
 
   if (values.length > 0) {
+    
     values.forEach(function(v) {
       return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
     });
+    
     valueLabel.html(html);
-
-    if (valueLabel_ui.height() > 46) {
+    valueLabel_ui.css("white-space", "initial");
+    valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
+    if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
       valueLabel_ui.css("white-space", "nowrap");
     } else {
       valueLabel_ui.css("white-space", "initial");
@@ -185,11 +188,13 @@ CFDataManager.handerOrganizationModalValueLabel = function() {
 
   if (values.length > 0) {
     values.forEach(function(v) {
-      return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '>' + v.name + '</li>';
+      return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + ' data-fullname= ' + v.fullname + '>' + v.name + '</li>';
     });
     valueLabel.html(html);
-
-    if (valueLabel_ui.height() > 46) {
+    valueLabel_ui.css("white-space", "initial");
+    valueLabel_ui = $('#valueLabel_ui', $(".cf_organization_modal"));
+    
+    if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
       valueLabel_ui.css("white-space", "nowrap");
     } else {
       valueLabel_ui.css("white-space", "initial");
@@ -207,7 +212,8 @@ CFDataManager.handerOrganizationModalValueLabel = function() {
         $('#valueLabel li').each(function() {
           return labelValues.push({
             id: this.dataset.value,
-            name: this.dataset.name
+            name: this.dataset.name,
+            fullname: this.dataset.fullname
           });
         });
         CFDataManager.setOrganizationModalValue(labelValues);
@@ -233,7 +239,8 @@ CFDataManager.getRoot = function() {
       fullname: 1,
       parent: 1,
       children: 1,
-      childrens: 1
+      childrens: 1,
+      is_company:1,
     }
   });
 };
