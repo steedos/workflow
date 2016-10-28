@@ -80,6 +80,7 @@ Package.onUse(function(api) {
 
     api.addFiles('lib/publications/apps.coffee');
 
+    api.addFiles('client/core.coffee', 'client');
     api.addFiles('client/momentjs/zh-cn.js', 'client');
     api.addFiles('client/helpers.coffee', 'client');
     api.addFiles('client/language.coffee', 'client');
