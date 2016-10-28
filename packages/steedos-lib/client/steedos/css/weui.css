@@ -1270,6 +1270,10 @@ a.weui_media_box:active {
   -webkit-transform: scaleY(0.5);
           transform: scaleY(0.5);
 }
+/*CSS-Hack for Internet Explorer 10+（IE10、IE11、Edge*/
+_:-ms-lang(x),.weui_grids:before {
+    border-top-width: 2px;
+}
 .weui_grids:after {
   content: " ";
   position: absolute;
