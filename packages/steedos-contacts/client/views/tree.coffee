@@ -16,7 +16,7 @@ Template.contacts_tree.onRendered ->
         return
       ).jstree
             core: 
-                themes: { "stripes" : true },
+                themes: { "stripes" : true, "variant" : "large" },
                 data:  (node, cb) ->
                   Session.set("contacts_orgId", node.id);
                   cb(ContactsManager.getOrgNode(node));

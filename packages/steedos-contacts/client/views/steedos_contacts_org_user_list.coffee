@@ -52,15 +52,14 @@ Template.steedos_contacts_org_user_list.events
             $("#contact-list-search-key").val(),
         ).draw();
 
-    'click #steedos_contacts_org_user_list_add_btn': (event, template) ->
-        doc = { organizations: [Session.get('contacts_orgId')]}
-        AdminDashboard.modalNew 'space_users', doc
-
     'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
         AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
     'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
         AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
+
+    'click #steedos_contacts_invite_users_btn': (event, template) ->
+        Modal.show('steedos_contacts_invite_users_modal')
 
 Template.steedos_contacts_org_user_list.onRendered ->
     TabularTables.steedosContactsOrganizations.customData = @data

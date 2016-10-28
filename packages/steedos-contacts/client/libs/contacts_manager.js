@@ -29,7 +29,7 @@ ContactsManager.getBookNode = function(node) {
             var n = new Object();
             n.text = g.name;
             n.id = g._id;
-            n.icon = false;
+            n.icon = 'ion ion-android-contacts';
             nodes.push(n);
         });
     }
@@ -55,7 +55,7 @@ function handerOrg(orgs) {
 
         if (!org.is_company) {
             node.parent = org.parent;
-            node.icon = false; //node.icon = "fa fa-users";
+            node.icon = 'fa fa-sitemap';
         } else {
             node.state = {
                 opened: true
