@@ -1,48 +1,52 @@
 Template.cf_contact_modal.helpers 
-	footer_display: (multiple)->
-		if !multiple
-			return "display:none";
-		return "";
+    footer_display: (multiple)->
+        if !multiple
+            return "display:none";
+        return "";
 
-	modalStyle: (showOrg) ->
-		if showOrg && !Steedos.isMobile()
-			return "modal-lg";
-		return "";
+    modalStyle: (showOrg) ->
+        if showOrg && !Steedos.isMobile()
+            return "modal-lg";
+        return "";
 
-	isMobile: ()->
-		return Steedos.isMobile();
-		
+    isMobile: ()->
+        return Steedos.isMobile();
 
-	orgName: ()->
-		orgId = Session.get("cf_selectOrgId");
-		if orgId == '#'
-			org = SteedosDataManager.organizationRemote.findOne({is_company: true},{fields:{name:1}});
-		else
-			org = SteedosDataManager.organizationRemote.findOne({_id: orgId},{fields:{name:1}});
+    orgName: ()->
+        orgId = Session.get("cf_selectOrgId");
+        if orgId == '#'
+            org = SteedosDataManager.organizationRemote.findOne({is_company: true},{fields:{name:1}});
+        else
+            org = SteedosDataManager.organizationRemote.findOne({_id: orgId},{fields:{name:1}});
 
-		return org?.name;
+        return org?.name;
 
 Template.cf_contact_modal.events
-	'click #confirm': (event, template) ->
+    'click #confirm': (event, template) ->
 
-		target = $("#"+template.data.targetId)
+        target = $("#"+template.data.targetId)
 
-		values = CFDataManager.getContactModalValue();
+        values = CFDataManager.getContactModalValue();
 
-		target[0].dataset.values = values.getProperty("id").toString();
+        target[0].dataset.values = values.getProperty("id").toString();
 
-		target.val(values.getProperty("name").toString()).trigger('change');
-		
-		Modal.hide("cf_contact_modal");
+        target.val(values.getProperty("name").toString()).trigger('change');
+        
+        Modal.hide("cf_contact_modal");
 
-		Modal.allowMultiple = false;
+        Modal.allowMultiple = false;
 
-	'click #remove': (event, template) ->
-		target = $("#"+template.data.targetId)
-		target[0].dataset.values = "";
-		target.val("").trigger('change');
-		Modal.hide("cf_contact_modal");
-		Modal.allowMultiple = false;
+    'click #remove': (event, template) ->
+        target = $("#"+template.data.targetId)
+        target[0].dataset.values = "";
+        target.val("").trigger('change');
+        Modal.hide("cf_contact_modal");
+        Modal.allowMultiple = false;
+
+    'click .organization-active': (event, template) ->
+        # Modal.show("cf_users_organization_modal");
+        $('#cf_users_organization_modal_div').show()
+        $(".cf-users-organization-modal-body").css("max-height", ($(window).height() - 180) + "px");
 
 Template.cf_contact_modal.onRendered ->
     CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
