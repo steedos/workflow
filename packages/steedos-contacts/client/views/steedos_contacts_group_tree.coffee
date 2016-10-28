@@ -33,7 +33,7 @@ Template.steedos_contacts_group_tree.events
     $('#steedos_contacts_group_tree').jstree(true).search($("#search-key").val())
 
   'click #steedos_contacts_group_tree_add_btn': (event, template) ->
-    AdminDashboard.modalNew 'address_groups', ()->
+    AdminDashboard.modalNew 'address_groups', {}, ()->
       $.jstree.reference('#steedos_contacts_group_tree').refresh()
 
   'click #steedos_contacts_group_tree_edit_btn': (event, template) ->

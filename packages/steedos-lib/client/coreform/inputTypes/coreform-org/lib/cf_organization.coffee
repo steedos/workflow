@@ -35,28 +35,26 @@ Template.cf_organization.onRendered ->
   if this.data.multiple
     plugins.push("checkbox");
 
+  # console.log "loaded_organizations ok...";
+  $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
+    console.log(data);
+    if data.selected.length
+      $("#cf_organizations_tree").jstree('toggle_node', data.node?.id);
+      # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
+      Session.set("cf_selectOrgId", data.selected[0]);
+    return
+  ).jstree
+        core:
+            themes: { "stripes" : true },
+            data:  (node, cb) ->
+              Session.set("cf_selectOrgId", node.id);
+              cb(CFDataManager.getNode(node));
+            three_state: false
+        conditionalselect: (node) ->
+          return Template.cf_organization.conditionalselect(node);
 
-  this.autorun ()->
-    if Steedos.subsSpace.ready("organizations")
-      # console.log "loaded_organizations ok...";
-      $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
-        # console.log(data);
-        if data.selected.length
-          # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
-          Session.set("cf_selectOrgId", data.selected[0]);
-        return
-      ).jstree
-            core:
-                themes: { "stripes" : true },
-                data:  (node, cb) ->
-                  Session.set("cf_selectOrgId", node.id);
-                  cb(CFDataManager.getNode(node));
-                three_state: false
-            conditionalselect: (node) ->
-              return Template.cf_organization.conditionalselect(node);
-
-            plugins: plugins
-      $(document.body).removeClass('loading');
+        plugins: plugins
+  $(document.body).removeClass('loading');
 
 
 Template.cf_organization.events
