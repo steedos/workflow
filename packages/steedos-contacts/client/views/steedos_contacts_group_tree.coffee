@@ -17,7 +17,7 @@ Template.steedos_contacts_group_tree.onRendered ->
             return
           ).jstree
                 core: 
-                    themes: { "stripes" : true },
+                    themes: { "stripes" : true, "variant" : "large" },
                     data:  (node, cb) ->
                       Session.set("contacts_groupId", node.id)
                       cb(ContactsManager.getBookNode(node))

@@ -15,5 +15,9 @@
 	"address_groups_error_address_group_has_address_books": "This group has contacts!",
 	"mail_removeto_success": "Mail is removed to %s successfully",
 	"contacts_organizations": "Organizations",
-	"contacts_personal_contacts": "Personal Contacts"
+	"contacts_personal_contacts": "Personal Contacts",
+	"steedos_contacts_invite_users": "Invite Users",
+	"steedos_contacts_invite_users_success": "Invitation has been sent.",
+	"steedos_contacts_invite_users_rule": "Use commas, semicolons, or separate lines to separate multiple email addresses.",
+	"steedos_contacts_invite_users_input": "Please enter the email address."
 }

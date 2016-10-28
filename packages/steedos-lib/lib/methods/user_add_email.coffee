@@ -5,7 +5,7 @@ if Meteor.isServer
         return {error: true, message: "email_login_required"}
       if not email
         return {error: true, message: "email_required"}
-      if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(email)
         return {error: true, message: "email_format_error"}
       if db.users.find({"emails.address": email}).count()>0
         return {error: true, message: "email_exists"}
@@ -60,7 +60,7 @@ if Meteor.isServer
         return {error: true, message: "email_login_required"}
       if not email
         return {error: true, message: "email_required"}
-      if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(email)
         return {error: true, message: "email_format_error"}
       
 
