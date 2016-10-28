@@ -155,7 +155,7 @@ FlowRouter.route '/app/:app_id',
                     path = "api/app/sso/#{params.app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
                     open_url = Meteor.absoluteUrl(path)
                 else
-                    open_url = Meteor.absoluteUrl(app.url)
+                    open_url = app.url
                 cmd = "start iexplore.exe \"#{open_url}\""
                 exec cmd, (error, stdout, stderr) ->
                     if error
