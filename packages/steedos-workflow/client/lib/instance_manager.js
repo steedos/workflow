@@ -572,7 +572,7 @@ InstanceManager.saveIns = function() {
         var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
         if (instance.applicant != selected_applicant) {
           var space_id = instance.space;
-          
+
           var applicant = SteedosDataManager.spaceUserRemote.findOne({
             space: space_id,
             user: selected_applicant
@@ -649,11 +649,11 @@ InstanceManager.deleteIns = function() {
 // 申请单提交
 InstanceManager.submitIns = function() {
 
-  if(!InstanceEvent.before.instanceSubmit())
-    return ;
+  if (!InstanceEvent.before.instanceSubmit())
+    return;
 
   var instance = WorkflowManager.getInstance();
-  
+
   if (instance) {
     if (InstanceManager.isCC(instance)) {
       var description = $("#suggestion").val();
@@ -1027,14 +1027,7 @@ InstanceManager.uploadAttach = function(files, isAddVersion) {
 }
 
 InstanceManager.lockAttach = function(file_id) {
-  return cfs.instances.update({
-    _id: file_id
-  }, {
-    $set: {
-      'metadata.locked_by': Meteor.userId(),
-      'metadata.locked_by_name': Meteor.user().name
-    }
-  });
+  Meteor.call('cfs_instances_lock', file_id, Meteor.userId(), Meteor.user().name)
 }
 
 InstanceManager.isInbox = function() {
@@ -1090,14 +1083,7 @@ InstanceManager.getCCApprove = function(userId, is_finished) {
 }
 
 InstanceManager.unlockAttach = function(file_id) {
-  return cfs.instances.update({
-    _id: file_id
-  }, {
-    $unset: {
-      'metadata.locked_by': '',
-      'metadata.locked_by_name': ''
-    }
-  });
+  Meteor.call('cfs_instances_unlock', file_id);
 }
 
 // 申请单转发
