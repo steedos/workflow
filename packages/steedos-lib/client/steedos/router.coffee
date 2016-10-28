@@ -1,3 +1,6 @@
+checkUserSigned = (context, redirect) ->
+    if !Meteor.userId()
+        FlowRouter.go '/steedos/sign-in';
 
 FlowRouter.notFound = 
     action: ()->
@@ -45,6 +48,7 @@ FlowRouter.route '/steedos/logout',
 
 
 FlowRouter.route '/steedos/profile', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if Meteor.userId()
             BlazeLayout.render 'adminLayout',
@@ -52,6 +56,7 @@ FlowRouter.route '/steedos/profile',
 
 
 FlowRouter.route '/steedos/springboard', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
             FlowRouter.go "/steedos/sign-in";
@@ -66,6 +71,7 @@ FlowRouter.route '/steedos/springboard',
 
 
 FlowRouter.route '/steedos/space', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
             FlowRouter.go "/steedos/sign-in";
@@ -76,6 +82,7 @@ FlowRouter.route '/steedos/space',
 
 
 FlowRouter.route '/steedos/space/info', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
             FlowRouter.go "/steedos/sign-in";
@@ -92,6 +99,7 @@ FlowRouter.route '/steedos/help',
         window.open("http://www.steedos.com/" + country + "/help/", '_blank', 'EnableViewPortScale=yes')
 
 FlowRouter.route '/steedos/customize_apps',
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         spaceId = Steedos.getSpaceId()
         if spaceId
@@ -102,6 +110,7 @@ FlowRouter.route '/steedos/customize_apps',
                 FlowRouter.go("/admin/view/apps")
 
 FlowRouter.route '/designer', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
             FlowRouter.go "/steedos/sign-in";
@@ -114,6 +123,7 @@ FlowRouter.route '/designer',
         FlowRouter.go "/designer/opened"
 
 FlowRouter.route '/designer/opened', 
+    triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
             FlowRouter.go "/steedos/sign-in";
@@ -121,6 +131,7 @@ FlowRouter.route '/designer/opened',
 
 
 FlowRouter.route '/app/:app_id', 
+    triggersEnter: [ checkUserSigned ],
 
     # subscriptions: (params, queryParams) ->
     #     this.register('apps', Meteor.subscribe('apps'));
@@ -176,6 +187,7 @@ FlowRouter.route '/app/:app_id',
         FlowRouter.go "/app/#{params.app_id}/opened"
 
 FlowRouter.route '/app/:app_id/opened', 
+    triggersEnter: [ checkUserSigned ],
 
     action: (params, queryParams)->
         if !Meteor.userId()
