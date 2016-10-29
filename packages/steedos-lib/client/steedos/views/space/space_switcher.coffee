@@ -15,3 +15,7 @@ Template.space_switcher.events
 
 	"click .switchSpace": ->
 		Steedos.setSpaceId(this._id)
+		# 获取路由路径中第一个单词，即根目录
+		rootName = FlowRouter.current().path.split("/")[1]
+		FlowRouter.go("/#{rootName}")
+

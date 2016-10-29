@@ -117,7 +117,7 @@ TemplateHelpers =
                 selector._id = {$in: space.apps_enabled}
         if Steedos.isMobile()
             selector.mobile = true
-        return db.apps.findOne(selector)
+        return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
 
     getSpacePortalApp: ()->
         selector = {}

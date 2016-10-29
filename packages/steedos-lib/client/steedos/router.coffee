@@ -70,7 +70,7 @@ FlowRouter.route '/steedos/springboard',
             main: "springboard"
 
 
-FlowRouter.route '/steedos/space', 
+FlowRouter.route '/admin/spaces', 
     triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
