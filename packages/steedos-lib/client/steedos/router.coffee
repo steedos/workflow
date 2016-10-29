@@ -98,7 +98,7 @@ FlowRouter.route '/steedos/help',
         country = locale.substring(3)
         window.open("http://www.steedos.com/" + country + "/help/", '_blank', 'EnableViewPortScale=yes')
 
-FlowRouter.route '/steedos/customize_apps',
+FlowRouter.route '/admin/customize_apps',
     triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         spaceId = Steedos.getSpaceId()
