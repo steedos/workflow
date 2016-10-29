@@ -6,7 +6,7 @@
           data: "_id", 
           title: '<input type="checkbox" name="reverse" id="reverse">',
           orderable: false,
-          width:'30px',
+          width:'1px',
           render:  (val, type, doc) ->
             input = '<input type="checkbox" class="contacts-list-checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '"'
 
