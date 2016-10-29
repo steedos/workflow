@@ -15,18 +15,8 @@
     </div>
 	
 	<div id="contacts_list" class="contacts">
-		<div class="box box-solid" style="min-height:75%">
-			<div class="box-body">
 				<div class="contacts_books_list_table">
 					{{> tabular table=TabularTables.steedosContactsBooks selector=books_selector class="table table-striped datatable-steedos-contacts"}}
 				</div>
-			</div>
-			<!-- /.box-body -->
-			<!-- Loading (remove the following to stop the loading)-->
-			<div class="overlay" id="contact_list_load">
-				<i class="fa fa-refresh fa-spin"></i>
-			</div>
-			<!-- end loading -->
-		</div>
     </div>
 </template>
