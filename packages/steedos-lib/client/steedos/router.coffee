@@ -47,7 +47,7 @@ FlowRouter.route '/steedos/logout',
             FlowRouter.go("/");
 
 
-FlowRouter.route '/steedos/profile', 
+FlowRouter.route '/admin/profile', 
     triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if Meteor.userId()
