@@ -63,11 +63,12 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("steedos_keyvalues")
-		accountBgBodyValue = Steedos.getAccountBgBodyValue()
-		if accountBgBodyValue.url
-			$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
-		else
-			$("body").removeAttr "style"
+		unless Steedos.isMobile()
+			accountBgBodyValue = Steedos.getAccountBgBodyValue()
+			if accountBgBodyValue.url
+				$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
+			else
+				$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/sea.jpg')"
 
 
 Steedos.subsForwardRelated = new SubsManager()
