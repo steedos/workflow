@@ -48,6 +48,7 @@ Template.steedos_contacts_invite_users_modal.events
           toastr.error error.message
 
       if result 
+        Modal.hide()
         toastr.success(TAPi18n.__('steedos_contacts_invite_users_success'))
 
     )
