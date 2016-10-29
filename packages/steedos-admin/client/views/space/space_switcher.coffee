@@ -15,7 +15,7 @@ Template.admin_space_switcher.events
 
 	"click .switchSpace": ->
 		Steedos.setSpaceId(this._id)
-		FlowRouter.go("/steedos/profile")
+		FlowRouter.go("/admin/profile")
 
 Template.admin_space_switcher.onRendered ->
 	$(".dropdown .dropdown-menu").css("max-height", ($(window).height()-120) + "px");

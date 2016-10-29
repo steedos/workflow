@@ -47,7 +47,7 @@ FlowRouter.route '/steedos/logout',
             FlowRouter.go("/");
 
 
-FlowRouter.route '/steedos/profile', 
+FlowRouter.route '/admin/profile', 
     triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if Meteor.userId()
@@ -81,7 +81,7 @@ FlowRouter.route '/steedos/space',
             main: "space_select"
 
 
-FlowRouter.route '/steedos/space/info', 
+FlowRouter.route '/admin/space/info', 
     triggersEnter: [ checkUserSigned ],
     action: (params, queryParams)->
         if !Meteor.userId()
