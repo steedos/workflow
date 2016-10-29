@@ -145,8 +145,8 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/404.less', 'client');
     api.addFiles('client/steedos/views/404.html', 'client');
 
-    api.addFiles('client/steedos/views/admin/admin_dashboard.html', 'client');
-    api.addFiles('client/steedos/views/admin/admin_dashboard.coffee', 'client');
+    // api.addFiles('client/steedos/views/admin/admin_dashboard.html', 'client');
+    // api.addFiles('client/steedos/views/admin/admin_dashboard.coffee', 'client');
 
     api.addFiles('client/steedos/views/layouts/dock.html', 'client');
     api.addFiles('client/steedos/views/layouts/dock.coffee', 'client');
