@@ -28,10 +28,15 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
         return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
     },
     {
+      data: "mobile",
+      render:  (val, type, doc) ->
+        return "<div class='contacts-mobile'>" + (doc.mobile || "") + "</div>"
+    },
+    {
       data: "",
       title: "",
       orderable: false,
-      width:'40px',
+      width:'1px',
       render: (val, type, doc) ->
         return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
     },
@@ -39,7 +44,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
       data: "",
       title: "",
       orderable: false,
-      width:'40px',
+      width:'1px',
       render: (val, type, doc) ->
         return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
     }
@@ -78,6 +83,11 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
       data: "email",
       render:  (val, type, doc) ->
         return "<div class='contacts-email'>" + doc.email + "</div>"
+    },
+    {
+      data: "mobile",
+      render:  (val, type, doc) ->
+        return "<div class='contacts-mobile'>" + (doc.mobile || "") + "</div>"
     }
 
   ],

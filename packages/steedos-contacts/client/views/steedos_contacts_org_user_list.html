@@ -18,8 +18,6 @@
     </div>
     
     <div id="contacts_list" class="contacts">
-        <div class="box box-solid" style="min-height:75%">
-            <div class="box-body">
                 <div class="contacts_orgs_list_table">
                     {{#if is_admin}}
                         {{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-steedos-contacts"}}
@@ -27,14 +25,6 @@
                         {{> tabular table=TabularTables.steedosContactsOrganizationsReadOnly selector=selector class="table table-striped datatable-steedos-contacts"}}
                     {{/if}}
                 </div>
-            </div>
-            <!-- /.box-body -->
-            <!-- Loading (remove the following to stop the loading)-->
-            <div class="overlay" id="contact_list_load">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
-            <!-- end loading -->
-        </div>
     </div>
 </template>
 
