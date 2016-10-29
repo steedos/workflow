@@ -10,7 +10,7 @@ FlowRouter.route '/workflow',
 		if spaceId
 			FlowRouter.go "/workflow/space/" + spaceId + "/inbox"
 		else
-			FlowRouter.go "/steedos/space"
+			FlowRouter.go "/admin/spaces"
 
 
 workflowSpaceRoutes = FlowRouter.group
