@@ -14,6 +14,8 @@ db.space_users._simpleSchema = new SimpleSchema
 		type: String,
 		regEx: SimpleSchema.RegEx.Email,
 		optional: true
+		autoform: 
+			type: "hidden"
 	user:
 		type: String,
 		optional: true,

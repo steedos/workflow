@@ -42,8 +42,8 @@ db.organizations.adminConfig =
 		{name: "users_count()"},
 	]
 	extraFields: ["space", "name", "users"]
-	newFormFields: "space,name,parent"
-	editFormFields: "name,parent"
+	newFormFields: "space,name,parent,sort_no"
+	editFormFields: "name,parent,sort_no"
 	selector: {space: "-1"}
 	pageLength: 100
 	routerAdmin: "/steedos/admin"

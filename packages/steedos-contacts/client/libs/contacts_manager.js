@@ -98,6 +98,10 @@ ContactsManager.getChild = function(parentId) {
             parent: 1,
             children: 1,
             childrens: 1
+        },
+        sort: {
+            sort_no: 1,
+            name: 1
         }
     });
 }

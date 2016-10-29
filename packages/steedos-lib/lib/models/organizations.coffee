@@ -18,10 +18,11 @@ db.organizations._simpleSchema = new SimpleSchema
 		autoform:
 			type: "selectorg"
 	sort_no: 
-		type: Number,
-		optional: true,
+		type: Number
+		optional: true
+		defaultValue: 100
 		autoform: 
-			omit: true
+			defaultValue: 100
 	users: 
 		type: [String],
 		optional: true,

@@ -25,7 +25,7 @@
         {
           data: "email",
           render:  (val, type, doc) ->
-            return "<div class='contacts-email'>" + doc.email + "</div>"
+            return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
         }
 
       ],
