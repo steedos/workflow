@@ -6,6 +6,8 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        if InstanceManager.isInbox()
+            return "";
         if !ApproveManager.isReadOnly()
             return "";
         else
@@ -18,6 +20,9 @@ Template.instance_button.helpers
         flow = db.flows.findOne(ins.flow);
         if !flow
             return "display: none;";
+        
+        if InstanceManager.isInbox()
+            return "";
 
         if !ApproveManager.isReadOnly()
             return "";
@@ -34,14 +39,14 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="draft" || (Session.get("box")=="monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box")=="monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="draft" || (Session.get("box")=="monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box")=="monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
@@ -76,14 +81,14 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
@@ -98,17 +103,33 @@ Template.instance_button.helpers
         fl = db.flows.findOne({'_id': ins.flow});
         if !fl
             return "display: none;";
-        curSpaceUser = db.space_users.findOne({'user': Meteor.userId()});
+        curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
         if !curSpaceUser
             return "display: none;";
-        organization = db.organizations.findOne(curSpaceUser.organization);
-        if !organization
+        organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+        if !organizations
             return "display: none;";
 
-        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organization))
+        if Session.get("box")=="monitor" && ins.state=="pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
             return "";
         else
             return "display: none;";
+
+    enabled_cc: ->
+        if InstanceManager.isInbox()
+            return "";
+        else
+            return "display: none;";
+
+    enabled_forward: ->
+        ins = WorkflowManager.getInstance()
+        if !ins
+            return "display: none;"
+
+        if ins.state!="draft" && !Steedos.isMobile()
+            return ""
+        else
+            return "display: none;"
 
 Template.instance_button.events
     'click #instance_back': (event)->
@@ -133,6 +154,7 @@ Template.instance_button.events
             confirmButtonText: t('OK'),   
             closeOnConfirm: true 
         }, () ->  
+            Session.set("instance_change", false);
             InstanceManager.deleteIns()
 
     'click #instance_submit': (event)->
@@ -141,8 +163,8 @@ Template.instance_button.events
             if ins.state=="draft"
                 toastr.error(t("spaces_isarrearageSpace"));
                 return
-        
-        InstanceManager.checkFormValue();
+        if !ApproveManager.isReadOnly()
+            InstanceManager.checkFormValue();
         if($(".has-error").length == 0)
             InstanceManager.submitIns();
             Session.set("instance_change", false);
@@ -173,5 +195,17 @@ Template.instance_button.events
 
     'click #instance_relocate': (event, template) ->
         Modal.show('relocate_modal')
+
+
+    'click #instance_cc': (event, template) ->
+        Modal.show('instance_cc_modal');
+
+    'click #instance_forward': (event, template) ->
+        #判断是否为欠费工作区
+        if WorkflowManager.isArrearageSpace()
+            toastr.error(t("spaces_isarrearageSpace"));
+            return;
+
+        Modal.show("forward_select_flow_modal")
 
     

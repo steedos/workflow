@@ -1,10 +1,19 @@
 Template.reassign_modal.helpers({
-    
-    fields: function(){
-        return new SimpleSchema({reassign_users:{autoform:{type:"selectuser"},optional:true,type:String,label:TAPi18n.__("instance_reassign_user")}});
+
+    fields: function() {
+        return new SimpleSchema({
+            reassign_users: {
+                autoform: {
+                    type: "selectuser"
+                },
+                optional: true,
+                type: String,
+                label: TAPi18n.__("instance_reassign_user")
+            }
+        });
     },
-    
-    values: function(){
+
+    values: function() {
         return {};
     }
 })
@@ -12,10 +21,10 @@ Template.reassign_modal.helpers({
 
 Template.reassign_modal.events({
 
-    'show.bs.modal #reassign_modal': function (event) {
-        
+    'show.bs.modal #reassign_modal': function(event) {
+
         var reassign_users = $("input[name='reassign_users']")[0];
-        
+
         reassign_users.value = "";
         reassign_users.dataset.values = '';
 
@@ -32,8 +41,8 @@ Template.reassign_modal.events({
         }
     },
 
-    'click #reassign_modal_ok': function (event, template) {
-        var val = AutoForm.getFieldValue("reassign_users","reassign");
+    'click #reassign_modal_ok': function(event, template) {
+        var val = AutoForm.getFieldValue("reassign_users", "reassign");
         if (!val) {
             toastr.error(TAPi18n.__("instance_reassign_error_users_required"));
             return;
@@ -48,6 +57,8 @@ Template.reassign_modal.events({
         var user_ids = val.split(",");
 
         InstanceManager.reassignIns(user_ids, reason);
+
+        Modal.hide(template);
     },
 
 

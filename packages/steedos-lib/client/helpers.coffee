@@ -70,13 +70,22 @@ TemplateHelpers =
             if space
                 return space.name
 
+    isPaidSpace: (spaceId)->
+        if !spaceId
+            spaceId = Steedos.getSpaceId()
+        if spaceId
+            space = db.spaces.findOne(spaceId)
+            if space
+                return space.is_paid
+
+
     isCloudAdmin: ->
         return Meteor.user()?.is_cloudadmin
 
     setAppId: (appId)->
         if appId != Session.get("appId")
-            Session.set("appId", appId)     
-            localStorage.setItem("appId:" + Meteor.userId(), appId);
+            Session.set("appId", appId)
+            localStorage.setItem("appId:" + Meteor.userId(), if appId then appId else "");
 
     getAppId: ()->
 
@@ -99,6 +108,27 @@ TemplateHelpers =
         if Steedos.isMobile()
             selector.mobile = true
         return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}});
+
+    getSpaceFirstApp: ()->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
+
+    getSpacePortalApp: ()->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        selector.url = "/portal/home"
+        return db.apps.findOne(selector)
 
     getLocale: ()->
         if Meteor.user()?.locale

@@ -1,0 +1,22 @@
+<template name="instanceform_table">
+
+        <div class="instance-form box {{instance_box_style}}">
+            <div class="box-body">
+                <div class="col-md-12">
+                {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
+                    {{> instance_custom_template}}
+                {{/autoForm}}
+
+                {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+
+                {{#if unequals 'draft' instance.state}}
+                    {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
+                {{/if}}
+                </div>
+            </div>
+
+        </div>
+
+</template>
+
+

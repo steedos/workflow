@@ -18,10 +18,11 @@ db.organizations._simpleSchema = new SimpleSchema
 		autoform:
 			type: "selectorg"
 	sort_no: 
-		type: Number,
-		optional: true,
+		type: Number
+		optional: true
+		defaultValue: 100
 		autoform: 
-			omit: true
+			defaultValue: 100
 	users: 
 		type: [String],
 		optional: true,
@@ -117,7 +118,7 @@ db.organizations.helpers
 
 	updateUsers: ->
 		users = []
-		spaceUsers = db.space_users.find({organization: this._id}, {fields: {user:1}});
+		spaceUsers = db.space_users.find({organizations: this._id}, {fields: {user:1}});
 		spaceUsers.forEach (user) ->
 			users.push(user.user);
 		db.organizations.direct.update({_id: this._id}, {$set: {users: users}})
@@ -308,3 +309,15 @@ if (Meteor.isServer)
 		console.log '[publish] organizations ' + spaceId
 
 		return db.organizations.find(selector)
+
+	Meteor.publish 'my_organizations', (spaceId)->
+		
+		unless this.userId
+			return this.ready()
+		
+		unless spaceId
+			return this.ready()
+
+		console.log '[publish] my_organizations ' + spaceId
+
+		return db.organizations.find({space: spaceId, users: this.userId})

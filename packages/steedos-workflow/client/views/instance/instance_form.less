@@ -237,7 +237,8 @@ textarea {
   -webkit-border-radius:4px;
 }
 
-.ins-attach-view {}
+.ins-attach-view {
+}
 
 .ins-attach-view .delete {
   cursor: pointer;
@@ -245,12 +246,16 @@ textarea {
   margin-left: 10px;
 }
 
+.ins-attach-view a {
+  color: #3c8dbc !important;
+}
+
 .ins-attach-view a:hover {
   text-decoration: underline;
 }
 
 .ins-attach-view:hover .delete {
-  display: inline-block;;
+  display: inline-block;
 }
 
 .ins-attach-version-view {
@@ -288,3 +293,315 @@ textarea {
 .selectUser[disabled],.selectOrg[disabled]{
   background-color: #F9F9F9 !important;
 }
+
+.cfTextarea[disabled],.cfTextarea[readonly]{
+  height:100%;
+  min-height:60px;
+  word-wrap:break-word;
+  word-break:keep-all;
+}
+
+.instance{
+  .instance-form{
+    .box-header{
+      padding: 0px 10px;
+      margin-bottom: 10px;
+    }
+
+    .ins_applicant{
+      padding: 6px 12px;
+      width: 250px;
+      display: inline;
+    }
+  }
+}
+
+
+.instance-table{
+  .instance-form{
+    .box-header{
+      padding: 10px;
+      margin-bottom: 0px;
+    }
+  }
+
+  .cfTextarea[disabled],.cfTextarea[readonly]{
+    min-height:auto;
+    p{
+      margin: 0px;
+    }
+  }
+
+  .instance_attachments {
+    margin-top: 18px;
+
+    .ins-attach-view {
+      border-bottom: solid 1px #d2d6de;
+      border-top: solid 1px #d2d6de;
+    }
+  }
+
+  .attachments-list{
+    margin-top:8px;
+  }
+
+  .box-header{
+    text-align: center;
+    font-weight: bolder;
+  }
+  .applicant-wrapper{
+    margin:0px 0px;
+    .form-control.ins_applicant{
+      padding:4px 12px;
+      width:120px;
+      display:inline;
+      background:transparent !important;
+      border:none;
+    }
+  }
+
+  .help-block{
+    display: none;
+  }
+
+  .form-table{
+    width: 100%; 
+    border-collapse: collapse;
+    border: 1px solid #d2d6de;
+    table-layout: fixed;
+
+    .td-title{
+      width: 14%;
+      text-align: center;
+      border: solid 1px #d2d6de;
+      padding:4px 12px;
+      vertical-align: middle;
+      text-align:left;
+      &.is-required{
+        &:after{
+          content:"*";
+          color:red;
+        }
+      }
+    }
+
+    .td-field{
+      // width: 36%;
+      text-align: left;
+      border: solid 1px #d2d6de;
+      vertical-align: middle;
+      &.readonly{
+        background:#F9F9F9;
+      }
+    }
+
+    .td-childfield{
+      border-top: solid 1px #d2d6de;
+      border-right: solid 1px #d2d6de;
+      border-bottom: solid 1px #d2d6de;
+    }
+
+    /*子表与子表相邻时，会出现子表间没有边线的问题，这里判断并加上，由于meteor编译的问题，这里是tr标签与td标签相邻*/
+    .tr-child-table+.td-childfield{
+      border-top: solid 1px #d2d6de;
+    }
+
+    select,textarea, input{
+      border-width: 0px;
+      border-bottom-width: 1px;
+      border-bottom-color: #ffffff;
+      &:disabled{
+        border-bottom:none;
+      }
+    }
+
+    .form-group{
+      margin-bottom: 0px;
+      .callout{
+        margin: 0px;
+        padding:4px 12px;
+        border-radius: 0px;
+        border-left: none;
+        h4{
+          margin: 0px;
+          padding: 0px;
+          height: 26px;
+          line-height: 26px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+      .form-control{
+        border:none;
+        min-height: 32px;
+      }
+
+      &.has-error{
+        .form-control{
+          border-bottom:solid 1px #dd4b39;
+        }
+      }
+
+      .steedos-table{
+        border: 0px;
+        margin-bottom:0px;
+        table, th, td{
+          border: solid 1px #d2d6de;
+        }
+
+        table{
+          border-left:none;
+          border-right:none;
+        }
+
+        th:first-child, td:first-child{
+          border-left: 0px !important;
+        }
+
+        th:last-child, td:last-child{
+          border-right: 0px !important;
+        }
+        .panel-heading{
+          padding:4px 12px;
+          border:none;
+          .pull-right{
+            height: 26px;
+            line-height: 26px;
+          }
+          .control-label{
+            margin-bottom:0px;
+            height: 26px;
+            line-height: 26px;
+          }
+        }
+        .table-bordered{
+          border-bottom:none;
+          tr:last-child{
+            th{
+              border-bottom:none;
+            }
+            td{
+              border-bottom:none;
+            }
+          }
+          @-moz-document url-prefix() {
+            tr:last-child{
+              th{
+                border-bottom:solid 1px #d2d6de;
+              }
+              td{
+                border-bottom:solid 1px #d2d6de;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .af-radio-group,.af-checkbox-group,.checkbox{
+      padding-left: 12px;
+    }
+    .checkbox{
+      min-height: 32px;
+      vertical-align: middle;
+      margin: 0px;
+      label{
+        margin: 6px 0px;
+      }
+    }
+  }
+
+  .instance-traces{
+    background:#fff;
+    margin-top:10px;
+    table.traces{
+      margin-top:8px;
+      tr{
+        background:#fff;
+      }
+      background:transparent;
+      border: solid 1px #d2d6de;
+      td{
+        background:transparent;
+        border: solid 1px #d2d6de;
+        vertical-align: middle;
+        padding: 4px 12px;
+        font-weight:normal;
+        font-size:14px;
+        &.td-stepname{
+          width: 20%;
+        }
+        &.td-approve{
+          padding:0px;
+        }
+        table{
+          width:100%;
+          tr{
+            width:100%;
+            border:none;
+            &.approve-item{
+              border-bottom:solid 1px #d2d6de;
+              &.description{
+                border-bottom:none;
+              }
+              &:last-child{
+                border-bottom:none;
+              }
+            }
+            td{
+              text-align:left;
+              border:none;
+              &.name{
+                /*padding-left:48px;*/
+                width:40%;
+                color:#888;
+              }
+              &.finish-date{
+                width:35%;
+                min-width: 140px;
+                color:#888;
+              }
+              &.description{
+                padding-left:12px;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.cc-label{
+  color: #999; 
+  font-weight: 400; 
+  padding-left: 5px;
+  display: initial;
+}
+
+.selected .cc-label{
+  color: #FFFFFF; 
+  font-weight: 400; 
+  padding-left: 5px;
+  display: initial;
+}
+
+.cc-approve-remove{
+  padding: 0px;
+  color: #97a0b3 !important;
+}
+
+.cc-approve-remove:hover{
+  color: #606c84 !important;
+}
+
+
+// .ins-opinion-modal{
+//   -webkit-user-select:none;
+//   -moz-user-select:none;
+//   -o-user-select:none;
+//   user-select:none;
+// }

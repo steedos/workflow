@@ -1,0 +1,51 @@
+<template name="workflowSidebar">
+    <aside class="main-sidebar">
+        <header class="steedos main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg">
+              <B>{{_ "Steedos Workflow"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
+        <div class="sidebar" id="scrollspy">
+           <div class="user-panel">
+            <div class="pull-left image">
+              <img src="{{avatar}}" class="img-circle avatar-preview">
+            </div>
+            <div class="pull-left info">
+              <p>{{displayName}}</p>
+              <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
+            </div>
+          </div>
+          <ul class="nav sidebar-menu">
+            <li class="header header-workflow">
+              {{> space_switcher}}
+            </li>
+
+            <li><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_ "instance_new"}}</span></a></li>
+
+            <li class="{{boxActive 'inbox'}}">
+              <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
+                <i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
+                <span class="pull-right-container">
+                  <span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
+                </span>
+              </a>
+            </li>
+            <li class="{{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
+
+            <!-- <li class="header">{{_ "My Applications"}}</li> -->
+
+            <li class="{{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
+            <li class="{{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i><span>{{_ "pending"}}</span></a></li>
+            <li class="{{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
+            <li class="{{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
+          </ul>
+
+          {{> topSidebar}}
+        </div>
+    </aside>
+</template>

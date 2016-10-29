@@ -29,12 +29,6 @@ cfs.instances = new FS.Collection "instances",
     stores: [fs_store]
 
 cfs.instances.allow
-    insert: ->
-            return true;
-    update: ->
-            return true;
-    remove: ->
-            return true;
     download: ->
                 return true;
 

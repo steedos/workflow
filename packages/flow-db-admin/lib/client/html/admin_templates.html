@@ -17,7 +17,7 @@
 	{{else}}
 		<div class="box box-default">
 			<div class="box-body">
-				{{> quickForm id="admin_insert" collection=admin_collection_name fields=admin_fields omitFields=admin_omit_fields buttonContent='Create'}}
+				{{> quickForm id="admin_insert" collection=admin_collection_name fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_create_i18n}}
 			</div>
 		</div>
 	{{/if}}
@@ -37,7 +37,7 @@
 		<div class="box box-default">
 			<div class="box-body">
 				{{#if fadmin_doc}}
-				{{> quickForm id="admin_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent='Update' }}
+				{{> quickForm id="admin_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
 				{{else}}
 					can't find current doc
 				{{/if}}
@@ -47,6 +47,43 @@
 	{{else}}
 		<div class="box box-default"><div class="box-body">{{_ "flow_db_admin_loading"}}</div></div>
 	{{/if}}
+</template>
+
+
+<template name="AdminDashboardNewModal">
+	<div class="modal fade" id="admin_new" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
+	        </div>
+	        <div class="modal-body" style='overflow-y:auto'>
+				{{> quickForm id="admin_modal_insert" collection=admin_collection_name doc=this fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_create_i18n}}
+			</div>
+		  </div>
+		</div>
+	</div>
+</template>
+
+<template name="AdminDashboardEditModal">
+	<div class="modal fade" id="admin_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
+	        </div>
+	        <div class="modal-body" style='overflow-y:auto'>
+	        	{{#if fadmin_doc}}
+				{{> quickForm id="admin_modal_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
+				{{else}}
+					can't find current doc
+				{{/if}}
+	       	</div>
+	      </div>
+	    </div>
+	</div>
 </template>
 
 <template name="AdminDashboardViewWrapper">
@@ -78,74 +115,6 @@
 	{{/if}}
 </template>
 
-<template name="AdminDashboardUsersNew">
-	<div class="box box-default">
-		<div class="box-body">
-			{{> adminAlert}}
-			{{# autoForm id="adminNewUser" schema=AdminSchemas.newUser type="method" meteormethod="adminNewUser"}}
-			{{>afQuickField name="email"}}
-			{{>afQuickField name="chooseOwnPassword"}}
-			{{#if afFieldValueIs name="chooseOwnPassword" value=false}}
-			{{>afQuickField name="password"}}
-			{{>afQuickField name="sendPassword"}}
-			{{/if}}
-			<button type="submit" class="btn btn-primary">Add User</button>
-			{{/autoForm}}
-		</div>
-	</div>
-</template>
-
-<template name="AdminDashboardUsersEdit">
-	{{#if action}}
-		{{> adminDeleteWidget}}
-	{{/if}}
-	<div class="box box-default">
-		<div class="box-body">
-			{{> adminAlert}}
-			{{#if adminGetUserSchema}}
-			{{> quickForm id="adminUpdateUser" buttonContent="Update" buttonClasses="btn btn-primary btn-sm" collection=adminGetUsers schema=adminGetUserSchema doc=admin_current_doc omitFields="roles,services"}}
-			<hr/>
-			{{/if}}
-
-			<h4>User Roles</h4>
-			{{#each roles}}
-			<button class="btn btn-primary btn-xs btn-remove-role" role="{{this}}" user="{{admin_current_id}}">{{this}}</button>
-			{{/each}}
-			{{#each otherRoles}}
-			<button class="btn btn-default btn-xs btn-add-role" role="{{this}}" user="{{admin_current_id}}">{{this}}</button>
-			{{/each}}
-			{{#if roles}}
-			<p style="margin-top:5px;">Click a role to toggle it.</p>
-			{{else}}
-			<p>User not in any roles. Click a role to add it to a user.</p>
-			{{/if}}
-
-			<hr/>
-			<h4>Reset Password</h4>
-			{{#autoForm id="adminSendResetPasswordEmail" schema=AdminSchemas.sendResetPasswordEmail type="method" meteormethod="adminSendResetPasswordEmail"}}
-			<div class="form-group hidden">
-				<label class="control-label" for="title">ID</label>
-				<input value="{{admin_current_id}}" type="text" name="_id" omitfields="createdAtupdatedAt" required="" data-schema-key="_id" class="form-control" autocomplete="off" />
-				<span class="help-block"></span>
-			</div>
-			<p>Send a reset password email to {{admin_current_doc.emails.[0].address}}</p>
-			<button type="submit" class="btn btn-primary btn-sm">Send Email</button>
-			{{/autoForm}}
-
-			<hr/>
-			<h4>Change Password</h4>
-			{{#autoForm id="adminChangePassword" schema=AdminSchemas.changePassword type="method" meteormethod="adminChangePassword"}}
-			<div class="form-group hidden">
-				<label class="control-label" for="title">ID</label>
-				<input value="{{admin_current_id}}" type="text" name="_id" omitfields="createdAtupdatedAt" required="" data-schema-key="_id" class="form-control" autocomplete="off" />
-				<span class="help-block"></span>
-			</div>
-			{{>afQuickField name="password"}}
-			<button type="submit" class="btn btn-primary btn-sm">Change Password</button>
-			{{/autoForm}}
-		</div>
-	</div>
-</template>
 
 <template name="adminAlert">
 	{{#if $.Session.get 'adminSuccess'}}
@@ -163,10 +132,6 @@
 
 <template name="adminUsersIsAdmin">
 	{{#if checkadmin}}<i class="fa fa-check"></i>{{/if}}
-</template>
-
-<template name="adminUsersMailBtn">
-	<a href="mailto:{{adminUserEmail}}" class="btn btn-default btn-xs"><i class="fa fa-envelope"></i></a>
 </template>
 
 <template name="adminEditBtn">

@@ -10,11 +10,13 @@ db.address_books.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
+		{name: "group_name()"},
 		{name: "name"},
+		{name: "email"}
 	]
+	extraFields: ["group"]
 	selector: {owner: -1}
 	routerAdmin: "/contacts"
-
 
 Meteor.startup ->
 

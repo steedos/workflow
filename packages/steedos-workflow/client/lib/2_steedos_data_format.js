@@ -248,12 +248,19 @@ WorkflowManager_format.getTableItemSchema = function(field){
 WorkflowManager_format.getAutoformSchema = function (steedosForm){
   var fieldSchema = {};
   var fields = steedosForm.fields;
+
+  var instanceIsreadOnly = ApproveManager.isReadOnly();
+
   for(var i = 0; i < fields.length; i ++){
 
     var field = fields[i];
 
     var label = (field.name !=null && field.name.length > 0) ? field.name : field.code ;
    
+    if(instanceIsreadOnly){
+      field.permission = "readonly";
+    }
+
     if (field.type == 'table'){
       
       fieldSchema[field.code] = {

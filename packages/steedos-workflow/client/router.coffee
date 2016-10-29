@@ -1,6 +1,6 @@
 checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
-		FlowRouter.go '/steedos/sign-in';
+		FlowRouter.go '/steedos/sign-in?redirect=' + context.path;
 
 
 FlowRouter.route '/workflow',
@@ -8,9 +8,9 @@ FlowRouter.route '/workflow',
 	action: (params, queryParams)->
 		spaceId = Steedos.getSpaceId()
 		if spaceId
-			FlowRouter.go "/workflow/space/" + spaceId
+			FlowRouter.go "/workflow/space/" + spaceId + "/inbox"
 		else
-			FlowRouter.go "/steedos/space"
+			FlowRouter.go "/admin/spaces"
 
 
 workflowSpaceRoutes = FlowRouter.group
@@ -33,7 +33,7 @@ workflowSpaceRoutes = FlowRouter.group
 workflowSpaceRoutes.route '/', 
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
-		BlazeLayout.render 'masterLayout',
+		BlazeLayout.render 'workflowLayout',
 			main: "workflow_home"
 
 
@@ -44,7 +44,7 @@ workflowSpaceRoutes.route '/:box/',
 		Session.set("box", params.box);
 		Session.set("flowId", undefined);
 		Session.set("instanceId", null); 
-		BlazeLayout.render 'masterLayout',
+		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 		
 		$(".workflow-main").removeClass("instance-show")
@@ -59,7 +59,7 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 
 		console.log "call get_instance_data"
 
-		BlazeLayout.render 'masterLayout',
+		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 
 		WorkflowManager.callInstanceDataMethod params.instanceId, ()->
@@ -77,4 +77,6 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 	triggersExit:[(context, redirect) ->
 		if Session.get("instance_change") && !ApproveManager.isReadOnly()
 			InstanceManager.saveIns();
+		
+		Session.set('flow_selected_opinion', undefined);
 	]

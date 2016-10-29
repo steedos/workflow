@@ -1,0 +1,13 @@
+<template name="workflowMenu">
+    <ul class="workflowMenu treeview-menu">
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/"><i class="ion ion-archive"></i>&nbsp;{{_ "inbox"}}</a></li>
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i>&nbsp;{{_ "outbox"}}</a></li>
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i>&nbsp;{{_ "draft"}}</a></li>
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i>&nbsp;{{_ "pending"}}</a></li>
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i>&nbsp;{{_ "completed"}}</a></li>
+      <li><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i>&nbsp;{{_ "monitor"}}</a></li>
+      {{#if isSpaceAdmin}}
+        <li><a href="{{urlPrefix}}/designer"><i class="ion ion-shuffle"></i>&nbsp;{{_ "Workflow Designer"}}</a></li>
+      {{/if}}
+    </ul>
+</template>

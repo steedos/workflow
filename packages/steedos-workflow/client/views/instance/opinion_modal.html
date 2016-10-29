@@ -1,0 +1,51 @@
+<template name="opinion_modal">
+    <div class="modal fade ins-opinion-modal" id="opinion_modal"  role="dialog" aria-labelledby="opinion_modal_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ins-modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="opinion_modal_label">{{_ "instance_opinion_title"}}</h4>
+            </div>
+
+            <div class="modal-body">
+                <table style="width: 100%;table-layout: fixed;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 45%;vertical-align: top;word-wrap: break-word;">
+                                <div class="list-group" style="overflow-x: auto;height: 400px;border: solid 1px;border-radius: 4px;border-color: #d2d6de;">
+                                    {{#if opinions}}
+                                        {{#each opinions}}
+                                            <div class="list-group-item {{#if active this}}active{{/if}}" style="border: 0px;" data-opinion="{{this}}">{{ this }}</div>
+                                        {{/each}}
+                                    {{else}}
+                                        <h4 style="margin-top: 0px;">{{_ 'instance_opinion_add_tip'}}</h4>
+                                    {{/if}}
+                                </div>
+                            </td>
+                            <td style="width: 10%;text-align: center;">
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_to" disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i class="ion ion-arrow-right-c"></i></button>
+                            </td>
+                            <td style="width: 45%;height:100%;">
+                                <textarea class="form-control" style="height: 99%;border-radius: 4px;margin-bottom: 20px;height: 400px;" id="instance_flow_comment">{{flow_comment}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="btn-group">
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_plus" ><i class="ion ion-plus-round"></i></button>
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_minus" disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i class="ion ion-minus-round"></i></button>
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_up" disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i class="ion ion-arrow-up-c"></i></button>
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_down" disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i class="ion ion-arrow-down-c"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
+                <button type="button" class="btn btn-primary" id="opinion_modal_ok">{{_ "OK"}}</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</template>

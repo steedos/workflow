@@ -1,0 +1,51 @@
+<template name="adminLayout">
+
+	{{#if subsReady}}
+		<div class="steedos admin">
+			{{# AdminLTE skin="green" sidebarMini="true" }}
+				{{> adminSidebar}}
+				<div class="content-wrapper" style="min-height: {{minHeight}}">
+					<div class="connection-status">
+						{{> status}}
+					</div>
+					{{#if isAdminRoute}}
+						<div class="navigation-bar">
+							{{#if isAdminDetailRoute}}
+					            <button id="admin-back" class="btn btn-default">
+					              <i class="ion ion-chevron-left"></i><span></span>
+					            </button>
+							{{else}}
+								<button type="button" class="btn btn-default" data-toggle="offcanvas">
+									<i class="fa fa-bars"></i>
+								</button>
+							{{/if}}
+							<span class="navigation-title">
+									<a href="{{urlPrefix}}/admin/view/{{$.Session.get 'admin_collection_name'}}/">{{admin_collection_title}}</a>
+							</span>
+							<div class="pull-right">
+							{{#if enableAdd}}
+								{{#if $.Session.equals 'admin_collection_page' 'view'}}
+									<a href="{{urlPrefix}}/admin/new/{{$.Session.get 'admin_collection_name'}}/" class="btn btn-success" id="admin_create_btn">
+									{{_ "New"}}
+									</a>
+								{{/if}}
+							{{/if}}
+							</div>
+						</div>
+						<section class="content">
+							{{> Template.dynamic template=main}}
+						</section>
+					{{else}}
+						{{> Template.dynamic template=main}}
+					{{/if}}
+				</div>
+			{{/ AdminLTE}}
+			{{> steedosLoading}}
+		</div>
+	{{else}}
+		<div class="loading">
+			{{> steedosLoading}}
+		</div>
+	{{/if}}
+</template>
+

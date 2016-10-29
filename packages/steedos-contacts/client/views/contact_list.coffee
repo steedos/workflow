@@ -1,26 +1,59 @@
 Template.contacts_list.helpers 
-    contacts: ()->
-        return ContactsManager.getContacts(Session.get("contacts_orgId"));
+    showBooksList: ->
+        if Session.get("contact_showBooks")
+            return true
+        return false;
     selector: ->
-        query = {space: Session.get("spaceId")};
+        query = {space: Session.get("spaceId"), user_accepted: true};
 
         orgId = Session.get("contacts_orgId");
 
-        childrens = db.organizations.find({parents: orgId},{fields:{_id:1}}).fetch();
+        childrens = ContactsManager.getOrgAndChild(orgId);
 
-        orgs = childrens.getProperty("_id");
+        query.organizations = {$in: childrens};
         
-        orgs.push(orgId);
+        return query;
 
-        query.organization = {$in: orgs};
-        
+    books_selector: ->
+        query = {owner: Meteor.userId()};
+        if Session.get("contacts_groupId") != "root"
+            query.group = Session.get("contacts_groupId");
         return query;
 
 Template.contacts_list.events
     'click #reverse': (event, template) ->
-        console.log("------------反选-----------")
-        $('input[name="contacts_ids"]', $(".contacts_list_table")).each ->
-            $(this).prop 'checked', !$(this).prop('checked')
+        $('input[name="contacts_ids"]', $("#contacts_list")).each ->
+            $(this).prop('checked', event.target.checked).trigger('change')
+
+    'change .contacts-list-checkbox': (event, template) ->
+        console.log("change .contacts-list-checkbox");
+
+        target = event.target;
+
+        values = ContactsManager.getContactModalValue();
+
+        if target.checked == true
+            if values.getProperty("email").indexOf(target.dataset.email) < 0
+                values.push({id: target.value, name: target.dataset.name, email: target.dataset.email});
+        else
+            values.remove(values.getProperty("email").indexOf(target.dataset.email))
+
+        ContactsManager.setContactModalValue(values);
+
+        ContactsManager.handerContactModalValueLabel();
+
+    'click #contact-list-search-btn': (event, template) ->
+        console.log("contact-list-search-btn click");
+        dataTable = $(".datatable-steedos-contacts").DataTable();
+        dataTable.search(
+            $("#contact-list-search-key").val(),
+        ).draw();
 
 Template.contacts_list.onRendered ->
+    TabularTables.contacts.customData = @data
+    TabularTables.contactsBooks.customData = @data
+    
+    ContactsManager.setContactModalValue(@data.defaultValues);
+
+    ContactsManager.handerContactModalValueLabel();
     $("#contact_list_load").hide();

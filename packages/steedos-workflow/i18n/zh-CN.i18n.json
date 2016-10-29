@@ -8,12 +8,15 @@
     "monitor": "监控箱",
     "FlowName": "名称",
     "Search": "搜索",
-    "My Approval":"审核",
-    "My Applications":"我的申请单",
-    "Submit":"提交",
+    "My Approval": "审核",
+    "My Applications": "我的申请单",
+    "Submit": "提交",
     "steedos_desktop": "华炎云",
 
+    "menu_navigation": "导航",
+
     "Workflow": "审批王",
+    "instance_new": "新建",
 
     "instances": "申请单",
     "instances_name": "标题",
@@ -49,7 +52,7 @@
     "flow_positions_org_name()": "管辖范围",
     "flow_positions_users_name()": "岗位成员",
 
-    "workflow_table_confirm":"确认",
+    "workflow_table_confirm": "确认",
 
     "Attachment deleted successfully": "附件删除成功!",
     "Attachment was added successfully": "附件添加成功!",
@@ -101,7 +104,7 @@
     "instance_reassign_error_reason_required": "请填写转签核的理由。",
     "instance_reassign_error_users_required": "请指定处理人。",
 
-    "instance_cancel_error_reason_required": "请填写取消申请的理由。", 
+    "instance_cancel_error_reason_required": "请填写取消申请的理由。",
 
     "instance_select_next_step": "请选择下一步步骤",
     "instance_next_step_user": "请选择下一步处理人",
@@ -134,8 +137,8 @@
     "spaces_isarrearageSpace": "您的工作区已欠费",
 
     // inbox
-    "Inbox Suggestion NextSteps Label":"下一步骤: ",
-    "Inbox Suggestion NextSteps Handler Label":"处理人: ",
+    "Inbox Suggestion NextSteps Label": "下一步骤: ",
+    "Inbox Suggestion NextSteps Handler Label": "处理人: ",
 
     "Workflow Designer": "流程设计器",
     "User Management": "用户管理",
@@ -156,6 +159,39 @@
     "flow_roles_error_positions_exists": "已有用户担任该角色",
 
     "workflow_left_parenthesis": "（",
-    "workflow_right_parenthesis": "）"
+    "workflow_right_parenthesis": "）",
+
+    "instance_cc_title": "传阅",
+    "instance_curstep": "当前步骤: ",
+    "instance_cc_user": "传阅对象",
+    "instance_cc_error_users_required": "请选择传阅对象。",
+    "workflow_form_edit": "表单样式",
+    "flows_template": "申请单模板",
+    "flows_name": "流程名称",
+    "flows_instance_style": "表单样式",
+    "flows_print_template": "打印模板",
+    "flows_instance_template": "表单模板",
+
+    "workflow_attach_unlock": "解锁",
+    "workflow_attach_locked_by": "已被 %s 锁定",
+
+    "workflow_select_an_app": "Steedos 应用",
+    "workflow_suggestion_placeholder": "请填写意见",
+
+    "instance_opinion_title": "批示",
+    "instance_opinion_input": "请输入常用意见",
+    "instance_opinion_add_success": "添加成功!",
+    "instance_opinion_remove_success": "移除成功!",
+    "instance_opinion_error": "出错了",
+
+    "instance_opinion_exists": "常用意见已存在",
+    "instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
+
+    "instance_forward_title": "转发",
+
+    "form_field_checkbox_yes": "是",
+    "form_field_checkbox_no": "否",
+    "flows_events": "自定义脚本",
+    "flows_events_error": "自定义脚本错误: "
 
 }

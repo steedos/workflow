@@ -1,10 +1,14 @@
 {
 
-    "flow_db_admin_confirm_delete": "Confirm delete",
-    "flow_db_admin_confirm_delete_document": "Are you sure you want to delete this document ?",
-    "flow_db_admin_loading": "Loading...",
-    "flow_db_admin_only": "You need to be an admin to view this page",
-	
+	"flow_db_admin_confirm_delete": "Confirm delete",
+	"flow_db_admin_confirm_delete_document": "Are you sure you want to delete this document ?",
+	"flow_db_admin_loading": "Loading...",
+	"flow_db_admin_only": "You need to be an admin to view this page",
+
 	"flow_db_admin_successfully_created": "Successfully created",
-    "flow_db_admin_successfully_updated": "Successfully updated"
+	"flow_db_admin_successfully_updated": "Successfully updated",
+	"flow_db_admin_successfully_deleted": "Successfully deleted",
+
+	"Create": "Create",
+	"Update": "Update"
 }

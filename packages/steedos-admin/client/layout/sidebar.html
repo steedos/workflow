@@ -1,0 +1,96 @@
+<template name="adminSidebar">
+    <aside class="main-sidebar">
+        <header class="steedos main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg">
+              <B>{{_ "Steedos Admin"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
+        <div class="sidebar" id="scrollspy">
+           <div class="user-panel">
+            <div class="pull-left image">
+              <img src="{{avatar}}" class="img-circle avatar-preview">
+            </div>
+            <div class="pull-left info">
+              <p>{{displayName}}</p>
+              <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
+            </div>
+          </div>
+          <ul class="nav sidebar-menu">
+
+            <li class="header header-admin header-space-switcher">
+              {{> space_switcher}}
+            </li>
+            
+            <li class="{{menuClass 'admin/profile/'}}"><a href="/admin/profile/"><i class="ion ion-android-person"></i><span>{{_ "Account Settings"}}</span></a></li>
+
+
+            {{#if isSpaceAdmin}}
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-cloud-outline"></i>
+                  <span>{{_ "Steedos Cloud"}}</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  {{#if isSpaceOwner}}
+                    <li class="{{menuClass 'admin/space/info'}}"><a href="/admin/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
+                  {{/if}}
+                  {{#if isNotSync}}
+                    <li class="{{menuClass 'admin/organizations'}} fix-collection-helper"><a href="/admin/organizations"><i class="fa fa-sitemap"></i><span>{{_ "contacts_organizations"}}</span></a></li>
+                    <!-- <li class="{{menuClass 'admin/view/space_users'}} fix-collection-helper"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li> -->
+                  {{/if}}
+                  <li class="{{menuClass 'admin/customize_apps'}}"><a href="/admin/customize_apps"><i class="ion ion-ios-keypad-outline"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-list-outline"></i>
+                  <span>{{_ "Steedos Workflow"}}</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="{{menuClass 'admin/view/flow_roles'}}"><a href="/admin/view/flow_roles"><i class="ion ion-university"></i><span>{{_ "flow_roles"}}</span></a></li>
+                  <li class="{{menuClass 'admin/view/flow_positions'}} fix-collection-helper"><a href="/admin/view/flow_positions"><i class="ion ion-android-happy"></i><span>{{_ "flow_positions"}}</span></a></li>
+                  <li class="{{menuClass 'designer'}}"><a href="/designer"><i class="ion ion-shuffle"></i><span>{{_ "Workflow Designer"}}</span></a></li>
+
+                  {{#if isPaidSpace}}
+                    <li class="{{menuClass 'admin/view/flows_template'}}"><a href="/admin/view/flows_template"><i class="ion ion-ios-paper-outline"></i><span>{{_ "workflow_form_edit"}}</span></a></li>
+                  {{/if}}
+                </ul>
+              </li>
+            {{/if}}
+
+            {{#if isPortalAdmin}}
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-gear-outline"></i>
+                  <span>{{_ "Steedos Portal"}}</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  {{#if isSpaceAdmin}}
+                    <li class="{{menuClass 'admin/view/portal_dashboards'}}"><a href="/admin/view/portal_dashboards"><i class="ion ion-ios-photos-outline"></i><span>{{_ "portal_dashboards"}}</span></a></li>
+                    <li class="{{menuClass 'admin/view/apps_auths'}}"><a href="/admin/view/apps_auths"><i class="ion ion-aperture"></i><span>{{_ "apps_auths"}}</span></a></li>
+                  {{/if}}
+                  <li class="{{menuClass 'admin/view/apps_auth_users'}}"><a href="/admin/view/apps_auth_users"><i class="ion ion-ios-personadd-outline"></i><span>{{_ "apps_auth_users"}}</span></a></li>
+                </ul>
+              </li>
+            {{/if}}
+
+            <li><a href="/steedos/help"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a></li>
+            <li><a href="/steedos/logout"><i class="ion ion-power"></i><span>{{_ "Sign out"}}</span></a></li>
+          </ul>
+        </div>
+    </aside>
+</template>

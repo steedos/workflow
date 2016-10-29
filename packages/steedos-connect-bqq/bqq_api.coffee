@@ -297,8 +297,9 @@ BQQ.syncCompany = (oauth) ->
   db.space_users.find({_id: {$in: deleted_su_ids}}).forEach (su) ->
     db.space_users.direct.remove({_id: su._id})
 
-    organizationObj = db.organizations.findOne(su.organization)
-    organizationObj.updateUsers()
+    su.organizations.forEach (org)->
+      organizationObj = db.organizations.findOne(org)
+      organizationObj.updateUsers()
 
     # users_changelogs
     ucl_doc = {}
@@ -341,12 +342,17 @@ BQQ.syncCompany = (oauth) ->
         p_dept_id = u.p_dept_id[0]
       if p_dept_id
         su_doc.organization = "bqq-" + space_data.company_id + "-" + p_dept_id
+        su_doc.organizations = []
+        u.p_dept_id.forEach (did)->
+          su_doc.organizations.push("bqq-" + space_data.company_id + "-" + did)
+
       space_user_id = db.space_users.direct.insert(su_doc)
       if space_user_id
         # update org users
-        if su_doc.organization
-          organizationObj = db.organizations.findOne(su_doc.organization)
-          organizationObj.updateUsers()
+        if su_doc.organizations
+          su_doc.organizations.forEach (org)->
+            organizationObj = db.organizations.findOne(org)
+            organizationObj.updateUsers()
 
         # users_changelogs
         ucl_doc = {}
@@ -376,13 +382,20 @@ BQQ.syncCompany = (oauth) ->
         if su.organization != new_org_id
           su_doc.organization = new_org_id
 
-      if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization')
+        su_doc.organizations = []
+        u.p_dept_id.forEach (did)->
+          su_doc.organizations.push("bqq-" + space_data.company_id + "-" + did)
+
+      if su_doc.hasOwnProperty('name') || su_doc.hasOwnProperty('organization') || su_doc.hasOwnProperty('organizations')
         r = db.space_users.direct.update(su._id, {$set: su_doc})
-        if r && su_doc.organization
-          organizationObj = db.organizations.findOne(su_doc.organization)
-          organizationObj.updateUsers()
-          old_org = db.organizations.findOne(su.organization)
-          old_org.updateUsers()
+        if r && su_doc.organizations
+          su_doc.organizations.forEach (org)->
+            organizationObj = db.organizations.findOne(org)
+            organizationObj.updateUsers()
+
+          su.organizations.forEach (org)->
+            old_org = db.organizations.findOne(org)
+            old_org.updateUsers()
 
   # 更新space_user直属上级
   user_data.items.forEach (u) ->

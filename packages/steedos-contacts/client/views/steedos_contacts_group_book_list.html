@@ -1,0 +1,22 @@
+<template name="steedos_contacts_group_book_list">
+	<div class="navigation-bar">
+        <div class="btn-group" >
+		    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_group_book_list_add_btn"><i class="ion ion-plus-round"></i></button>
+		</div>
+        <div class="pull-right">
+            <div class="input-group">
+	          	<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
+	              	<span class="input-group-btn">
+	               	 	<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+	                	</button>
+	              	</span>
+	        </div>
+        </div>
+    </div>
+	
+	<div id="contacts_list" class="contacts">
+				<div class="contacts_books_list_table">
+					{{> tabular table=TabularTables.steedosContactsBooks selector=books_selector class="table table-striped datatable-steedos-contacts"}}
+				</div>
+    </div>
+</template>

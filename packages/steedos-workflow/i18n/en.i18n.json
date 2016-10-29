@@ -8,12 +8,15 @@
     "monitor": "Monitor",
     "FlowName": "FlowName",
     "Search": "Search",
-    "My Approval":"My Approval",
-    "My Applications":"My Applications",
-    "Submit":"Submit",
-    "steedos_desktop":"Steedos Desktop",
+    "My Approval": "My Approval",
+    "My Applications": "My Applications",
+    "Submit": "Submit",
+    "steedos_desktop": "Steedos Desktop",
+
+    "menu_navigation": "Navigation",
 
     "Workflow": "Workflow",
+    "instance_new": "New",
 
     "instances": "Instances",
     "instances_name": "Title",
@@ -49,7 +52,7 @@
     "flow_positions_org_name()": "Organization",
     "flow_positions_users_name()": "Users",
 
-    "workflow_table_confirm":"OK",
+    "workflow_table_confirm": "OK",
 
     "Attachment deleted successfully": "Attachment deleted successfully!",
     "Attachment was added successfully": "Attachment was added successfully!",
@@ -109,12 +112,12 @@
     "instance_is_required": "is required",
     "instance_email_format_error": "Format error of the email address",
 
-    "node_office_edit_online":"Edit Online",
-    "node_office_message":"You are editing document, please save and exit Office software when done.",
-    "node_office_warning":"The file has been modified, do you want to save it as a new version?",
-    "node_office_upload":"Upload ",
-    "node_office_confirm":"Confirm",
-    "node_office_cancel":"Cancel",
+    "node_office_edit_online": "Edit Online",
+    "node_office_message": "You are editing document, please save and exit Office software when done.",
+    "node_office_warning": "The file has been modified, do you want to save it as a new version?",
+    "node_office_upload": "Upload ",
+    "node_office_confirm": "Confirm",
+    "node_office_cancel": "Cancel",
     "node_office_uploaded": "The attachment has been uploaded",
     "node_office_filePath": "File: ",
     "node_office_exists_message": "File already exists, replace it?",
@@ -126,14 +129,14 @@
     "workflow_export_all": "All",
     "workflow_export_filter": "Tilter according to process",
 
-    "workflow_export_search":"Search for instances according to the flow",
-    "workflow_export_data":"Export Data",
+    "workflow_export_search": "Search for instances according to the flow",
+    "workflow_export_data": "Export Data",
 
     "spaces_isarrearageSpace": "your space is arrearage",
 
     // inbox
-    "Inbox Suggestion NextSteps Label":"Next step: ",
-    "Inbox Suggestion NextSteps Handler Label":"Assignee: ",
+    "Inbox Suggestion NextSteps Label": "Next step: ",
+    "Inbox Suggestion NextSteps Handler Label": "Assignee: ",
 
     "Workflow Designer": "Workflow Designer",
     "User Management": "User Management",
@@ -154,6 +157,38 @@
     "flow_roles_error_positions_exists": "Users exised in the role",
 
     "workflow_left_parenthesis": "(",
-    "workflow_right_parenthesis": ")"
+    "workflow_right_parenthesis": ")",
 
+    "instance_cc_title": "CC",
+    "instance_curstep": "Current Step: ",
+    "instance_cc_user": "CC Users",
+    "instance_cc_error_users_required": "Please select user.",
+    "workflow_form_edit": "Form Style",
+    "flows_template": "Instance Template",
+    "flows_name": "Flow Name",
+    "flows_instance_style": "Form Style",
+    "flows_print_template": "Print Template",
+    "flows_instance_template": "Form Template",
+
+
+    "workflow_attach_unlock": "Unlock",
+    "workflow_attach_locked_by": "locked by %s",
+
+    "workflow_select_an_app": "Steedos Apps",
+    "workflow_suggestion_placeholder": "Leave a comment",
+
+    "instance_opinion_title": "Opinions",
+    "instance_opinion_input": "Add a opinion",
+    "instance_opinion_add_success": "Add successfully!",
+    "instance_opinion_remove_success": "Remove successfully!",
+    "instance_opinion_error": "Error",
+    "instance_opinion_exists": "Opinion exists",
+    "instance_opinion_add_tip": "Press '+' to add opinion",
+
+    "instance_forward_title": "forward",
+
+    "form_field_checkbox_yes": "YES",
+    "form_field_checkbox_no": "NO",
+    "flows_events": "Events",
+    "flows_events_error": "Flow Script Error: "
 }

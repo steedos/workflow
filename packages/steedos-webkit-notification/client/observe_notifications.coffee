@@ -33,12 +33,21 @@ Meteor.startup ->
 
                     instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
                     
-                    if window.cos && typeof(window.cos) == 'object'
-                        if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'
-                            window.cos.win_focus();
+                    if Steedos.isNode() 
+                        win = nw.Window.get();
+                        if win
+                            win.restore();
+                            win.focus();
                         FlowRouter.go(instance_url);    
                     else
                         window.open(instance_url);
+
+                    # if window.cos && typeof(window.cos) == 'object'
+                    #     if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'
+                    #         window.cos.win_focus();
+                    #     FlowRouter.go(instance_url);
+                    # else
+                    #     window.open(instance_url);
 
             appName = "steedos"
 

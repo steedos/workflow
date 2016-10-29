@@ -39,15 +39,15 @@ Package.onUse(function(api) {
 	api.use('cfs:standard-packages');
 	api.use('raix:push');
 	api.use('simple:json-routes@2.1.0');
-
+	api.use('aldeed:tabular@1.6.0');
 	api.use('steedos:lib');
-	api.use('steedos:workflow');
 
 
 	api.addFiles('lib/restivus/auth.coffee', 'server');
 	api.addFiles('lib/restivus/iron-router-error-to-response.js', 'server');
 	api.addFiles('lib/restivus/route.coffee', 'server');
 	api.addFiles('lib/restivus/restivus.coffee', 'server');
+	api.addFiles('routes/collection.coffee', 'server');
 
 	api.addFiles('lib/URI.js');
 

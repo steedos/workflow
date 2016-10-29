@@ -7,7 +7,14 @@
           render:  (val, type, doc) ->
             modifiedString = moment(doc.modified).format('YYYY-MM-DD');
             modifiedFromNow = moment(doc.modified).fromNow();
-            return "<div class='instance-name'>" + doc.name + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
+
+            cc_view = "";
+
+            # 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
+            if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
+              cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
+
+            return "<div class='instance-name'>" + doc.name + cc_view +  "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
         },
         {
           data: "modified",
@@ -39,7 +46,7 @@
       #  style: 'single'
       dom: "tp",
       order:[[1,"desc"]]
-      extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version"],
+      extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users"],
       lengthChange: false,
       pageLength: 10,
       info: false,

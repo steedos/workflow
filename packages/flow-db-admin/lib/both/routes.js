@@ -1,31 +1,37 @@
+var checkUserSigned = function(context, redirect){
+	if (!Meteor.userId()){
+		FlowRouter.go('/steedos/sign-in');
+	}
+}
 
 var fadminRoutes = FlowRouter.group({
-  name: "AdminController",
-  prefix: '/admin',
-  subscriptions: function() {
-	//this.register('fadminUsers', Meteor.subscribe('adminUsers'));
-	//this.register('fadminUser', Meteor.subscribe('adminUser'));
-	//this.register('fadminCollectionsCount', Meteor.subscribe('adminCollectionsCount'));
-  },
- triggersEnter: [
-	function(context) {
-		// if(!Roles.userIsInRole (Meteor.userId(),['admin']))
-		// {
-		// 	Meteor.call('adminCheckAdmin');
-		// 	//if (typeof AdminConfig.nonAdminRedirectRoute == 'string')
-		// 	//	FlowRouter.go(AdminController.nonAdminRedirectRoute);
-		// }
+	name: "AdminController",
+	prefix: '/admin',
+	subscriptions: function() {
+		//this.register('fadminUsers', Meteor.subscribe('adminUsers'));
+		//this.register('fadminUser', Meteor.subscribe('adminUser'));
+		//this.register('fadminCollectionsCount', Meteor.subscribe('adminCollectionsCount'));
 	},
-	function(context) {
-	  Session.set('adminSuccess', null);
-	  Session.set('adminError', null);
-	  Session.set('admin_title', null);
-	  Session.set('admin_subtitle', null);
-	  Session.set('admin_collection_name', null);
-	  Session.set('admin_collection_page', null);
-	  Session.set('admin_id',null);
-	  Session.set('admin_doc', null);
-	}
+	triggersEnter: [
+		checkUserSigned,
+		function(context) {
+			// if(!Roles.userIsInRole (Meteor.userId(),['admin']))
+			// {
+			// 	Meteor.call('adminCheckAdmin');
+			// 	//if (typeof AdminConfig.nonAdminRedirectRoute == 'string')
+			// 	//	FlowRouter.go(AdminController.nonAdminRedirectRoute);
+			// }
+		},
+		function(context) {
+			Session.set('adminSuccess', null);
+			Session.set('adminError', null);
+			Session.set('admin_title', null);
+			Session.set('admin_subtitle', null);
+			Session.set('admin_collection_name', null);
+			Session.set('admin_collection_page', null);
+			Session.set('admin_id',null);
+			Session.set('admin_doc', null);
+		}
   ]
 });
 
@@ -78,10 +84,7 @@ fadminRoutes.route('/new/:collectionName',{
 		}
 	],
 	action: function(params)
-	{	if(params.collectionName == 'Users')
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardUsersNew'});
-		else
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardNew'});
+	{	BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardNew'});
 	}
 });
 
@@ -109,9 +112,6 @@ fadminRoutes.route('/edit/:collectionName/:_id',{
 	},
 	action: function(params)
 	{
-		if(params.collectionName == 'Users')
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardUsersEdit'});
-		else
-			BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardEdit'});
+		BlazeLayout.render(AdminConfig.layout,{main: 'AdminDashboardEdit'});
 	}
 });

@@ -1,4 +1,6 @@
-@Workflow = {}
+Workflow = {}
 
-@TabularTables = {};
 
+@TracesTemplate = {};
+
+@InstanceformTemplate = {};

@@ -1,0 +1,9 @@
+{
+    "inbox": "Inbox",
+    "outbox": "Outbox",
+    "draft": "Draft",
+    "pending": "In Progress",
+    "completed": "Finished",
+    "monitor": "Monitor",
+    "instance_new": "New"
+}

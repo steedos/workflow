@@ -1,0 +1,285 @@
+.steedos{
+
+    table.dataTable {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+    
+    .contacts-list-wrapper {
+        //width: 350px;
+        right: 0;
+        left: 0;
+        float: left;
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow-y: hidden;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        border-right: 1px solid #d2d6de;
+        background: white;
+
+        //-webkit-transition: right 0.3s ease-in-out;
+        //-o-transition: right 0.3s ease-in-out;
+        //transition: right 0.3s ease-in-out;
+
+        .contacts-tree{
+            background-color: #fff;
+            // border: 1px solid #d2d6de;
+            height: calc(~"100% - 51px");
+            overflow-y: auto;
+            .box-solid{
+                margin-bottom: 0px;
+            }
+            .box-body{
+                height: 100%;
+                // overflow: auto;
+            }
+        }
+        
+        .contacts-list {
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            top: 51px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            position: absolute;
+            background-color: white;
+
+            .contacts-name {
+                    font-weight: bold
+            }
+            .contacts-modified {
+                    padding-right: 10px;
+                    float: right;
+            }
+            .contacts-applicant {
+                    padding-left: 10px;
+            }
+
+        }
+
+        .navigation-title {
+            overflow: visible !important;
+        }
+
+        .dataTables_wrapper {
+            //border-top: 1px solid #d2d6de;
+            
+            .dataTable {
+                background: white;
+                border-top: 0px;
+                margin-top: 0px !important;
+
+                thead {
+                    display: none
+                }
+
+            }
+            .dataTables_paginate {
+                padding-right: 10px;
+            }
+            .table > tbody > tr > td {
+                border-bottom: 1px solid #E8E8E8;
+                border-top: 0px;
+            }
+        }
+
+    }
+
+    .contacts-wrapper {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        width: 65%;
+        overflow: hidden;
+        // overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        background-color: white;
+
+        .pull-right{
+            width: 250px;
+        }
+
+        .contacts-name {
+                font-weight: bold
+        }
+        .contacts-modified {
+                padding-right: 10px;
+                float: right;
+        }
+        .contacts-applicant {
+                padding-left: 10px;
+        }
+
+        .contacts {
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            padding: 0px;
+            background-color: white;
+            // .box-body{
+            //     overflow-y: scroll;
+            // }
+            .row {
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+
+            .contacts-suggestion.box {
+                //border-top: 0px;
+            }
+
+            .box-body {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .contacts-form .box-body, .contacts-suggestion .box-body {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+
+        .navigation-bar{
+            height: 51px;
+        }
+
+    }
+
+    @media (min-width: 768px) {
+        .contacts-main {
+            .contacts-list-wrapper {
+                display: block;
+                right: 65%;
+                //transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                left: 100%;
+                width: 65%;
+                transform: translate(0, 0);
+            }   
+        }
+        .contacts-main.contacts-show {
+            .contacts-list-wrapper {
+                right: 65%;
+                transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }   
+            .contacts-wrapper {
+                width: 65%;
+                left: 35%;
+                transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }   
+        }
+    }
+
+    @media (max-width: 767px) {
+        .contacts-main {
+            .contacts-list-wrapper {
+                display: block;
+                width: 100%;
+                left: 0;
+                border-right: 0px;
+                transition: 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                left: 100%;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }   
+        }
+        .contacts-main.contacts-show {
+            .contacts-list-wrapper {
+                //display: none;
+                left: -100%;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }   
+            .contacts-wrapper {
+                left: 0;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }   
+        }
+    }
+
+}
+
+
+.steedos-contacts{
+    .box{
+        border-radius: 0px;
+        box-shadow: none;
+    }
+
+    .box-header{
+        border-bottom: 1px solid #d2d6de;
+        height: 51px;
+    }
+
+
+	.valueLabel {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 4px 6px;
+        color: #555;
+        vertical-align: middle;
+        border-radius: 0px;
+        width: 100%;
+        min-height: 32px;
+        line-height: 22px;
+        cursor: text;
+        list-style:none;
+        overflow-x: auto;
+    }
+
+    .valueLabel:after{
+        clear: both;
+        content: '';
+        display:block;
+    }
+
+    .valueLabel li {
+        cursor: move;
+        margin: 4px 5px 4px 0;
+        padding: 2px 4px;
+        background-color: #5F9EDF;
+        text-align:center;
+        color:#fff;
+        font-size:13px;
+        display: inline;
+    }
+
+    .valueLabel .remove{
+        background-color: #5F9EDF;
+        margin: 0 5px 4px 0;
+        cursor: pointer;
+    }
+
+    
+
+	.contacts-list{
+		// height: 645px;
+		background-color: #fff;
+		border: 1px solid #d2d6de;
+		.box{
+			border: 0px !important;
+			box-shadow: #fff 0px 0px 0px;
+			margin-bottom: 0px;
+		}
+	}
+
+	.contacts-admin{
+		margin-top: 20px;
+	}
+
+	.valueLabel-div{
+        text-align: left;
+    }
+}
+

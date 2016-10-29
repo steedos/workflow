@@ -8,7 +8,7 @@ Package.describe({
 Npm.depends({
   "wechat-crypto": "0.0.2",
   "request": "2.65.0",
-  'node-schedule':'1.1.1'
+  'node-schedule': '1.1.1'
 });
 
 Package.onUse(function(api) {
@@ -18,6 +18,7 @@ Package.onUse(function(api) {
   api.use('accounts-oauth', ['client', 'server']);
   api.use('simple:json-routes@2.1.0');
   api.use('coffeescript');
+  api.use('kadira:flow-router@2.10.1');
 
 
   api.use('oauth', ['client', 'server']);
@@ -31,11 +32,18 @@ Package.onUse(function(api) {
   api.addFiles('dt.js', ['client', 'server']);
 
   api.addFiles('dt_client.js', 'client');
+
+  api.addFiles('client/lib/dingtalk_manager.js', 'client');
+  api.addFiles('client/router.js', 'client');
+  api.addFiles('client/jsapi.js', 'client');
+
   api.addFiles('dt_corp_api.js', 'server');
   api.addFiles('dt_server.coffee', 'server');
   api.addFiles('server_callback.js', 'server');
   api.addFiles('dt_api.coffee', 'server');
   api.addFiles('schedule.js', 'server');
+
+  api.addFiles('methods/dt_sso.js', 'server');
 
   api.export('Dingtalk');
 

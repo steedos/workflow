@@ -1,0 +1,22 @@
+<template name="space_switcher">
+
+  <span class="space-switcher dropdown">
+    <div class="dropdown-toggle" data-toggle="dropdown">
+      <span class="space-name">{{spaceName}}</span>
+      <span class="pull-right"><i class="caret"></i></span>
+    </div>
+    <ul class="nav dropdown-menu dropdown-space">
+      {{#each spaces}}
+        <li class="switchSpace">
+          <a>
+            <i class="fa fa-globe"></i>
+            <span>{{name}}
+              <span class="pull-right label bg-red">{{getBadge "workflow" _id}}</span>
+            </span>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </span>
+  
+</template>
