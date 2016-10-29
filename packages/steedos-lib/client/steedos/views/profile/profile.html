@@ -38,7 +38,7 @@
             <div class="tab-content">
               <div class="tab-pane active" id="profile">
 
-                {{> quickForm collection="db.users" doc=user id="updateProfile" schema=schema type="update" fields="steedos_id,name,locale,company,mobile,email_notification"}}
+                {{> quickForm collection="db.users" doc=user id="updateProfile" schema=schema type="update" fields="steedos_id,name,locale,company,mobile,email_notification" buttonContent=btn_save_i18n}}
 
               </div>
               <div class="tab-pane" id="avatar">

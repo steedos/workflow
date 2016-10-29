@@ -14,4 +14,8 @@ adminRoutes.route '/',
 		BlazeLayout.render 'adminLayout',
 			main: "steedos_admin_home"
 
-
+FlowRouter.route '/admin/organizations',
+	triggersEnter: [ checkUserSigned ],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "org_main"

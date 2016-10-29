@@ -1,14 +1,4 @@
-.steedos-contacts{
-    .box{
-        border-radius: 0px;
-        box-shadow: none;
-    }
-
-    .box-header{
-        border-bottom: 1px solid #d2d6de;
-        height: 51px;
-    }
-
+.steedos{
     .contacts-list-wrapper {
         //width: 350px;
         right: 0;
@@ -27,6 +17,20 @@
         //-o-transition: right 0.3s ease-in-out;
         //transition: right 0.3s ease-in-out;
 
+        .contacts-tree{
+            background-color: #fff;
+            // border: 1px solid #d2d6de;
+            height: calc(~"100% - 51px");
+            overflow-y: auto;
+            .box-solid{
+                margin-bottom: 0px;
+            }
+            .box-body{
+                height: 100%;
+                // overflow: auto;
+            }
+        }
+        
         .contacts-list {
             overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
@@ -197,6 +201,21 @@
         }
     }
 
+}
+
+
+.steedos-contacts{
+    .box{
+        border-radius: 0px;
+        box-shadow: none;
+    }
+
+    .box-header{
+        border-bottom: 1px solid #d2d6de;
+        height: 51px;
+    }
+
+
 	.valueLabel {
         background-color: #fff;
         border: 1px solid #ccc;
@@ -236,17 +255,7 @@
         cursor: pointer;
     }
 
-    .contacts-tree{
-		background-color: #fff;
-		// border: 1px solid #d2d6de;
-		.box-solid{
-			margin-bottom: 0px;
-		}
-        .box-body{
-            height: 100%;
-            // overflow: auto;
-        }
-	}
+    
 
 	.contacts-list{
 		// height: 645px;

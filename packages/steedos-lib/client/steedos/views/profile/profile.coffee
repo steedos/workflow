@@ -66,6 +66,9 @@ Template.profile.helpers
     url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
 
+  btn_save_i18n: () ->
+    return TAPi18n.__ 'Submit'
+
 
 Template.profile.onRendered ->
 
