@@ -6,7 +6,8 @@ Template.space_info.helpers
     space: ->
         return db.spaces.findOne(Steedos.getSpaceId())
 
-
+    btn_save_i18n: () ->
+        return TAPi18n.__ 'Submit'
 
 Meteor.startup ->
 
