@@ -11,7 +11,7 @@ Meteor.startup ->
                     if su.user
                         u = db.users.findOne({_id: su.user}, {fields: {emails: 1}})
                         if u && u.emails && u.emails.length > 0
-                            if /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(u.emails[0].address)
+                            if /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(u.emails[0].address)
                                 address = u.emails[0].address
                                 collection.direct.update(su._id, {$set: {email: address}})
                         

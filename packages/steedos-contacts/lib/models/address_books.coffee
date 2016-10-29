@@ -51,12 +51,12 @@ if Meteor.isClient
 
 if Meteor.isServer
     db.address_books.before.insert (userId, doc) ->
-        if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(doc.email)
+        if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
             throw new Meteor.Error(400, "email_format_error");
             
     db.address_books.before.update (userId, doc, fieldNames, modifier, options) ->
         if modifier.$set.email
-            if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(modifier.$set.email)
+            if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(modifier.$set.email)
                 throw new Meteor.Error(400, "email_format_error");
 
 db.address_books.attachSchema(db.address_books._simpleSchema)

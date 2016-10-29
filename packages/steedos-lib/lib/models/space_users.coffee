@@ -99,7 +99,7 @@ if (Meteor.isServer)
 		if !doc.email
 			throw new Meteor.Error(400, "email_required");
 
-		if not /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(doc.email)
+		if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
       throw new Meteor.Error(400, "email_format_error");
 
 		# check space exists
