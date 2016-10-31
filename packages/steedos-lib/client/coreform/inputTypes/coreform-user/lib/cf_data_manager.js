@@ -247,7 +247,7 @@ CFDataManager.getRoot = function() {
 
 
 CFDataManager.getChild = function(parentId) {
-  return SteedosDataManager.organizationRemote.find({
+  var childs = SteedosDataManager.organizationRemote.find({
     parent: parentId
   }, {
     fields: {
@@ -256,9 +256,25 @@ CFDataManager.getChild = function(parentId) {
       fullname: 1,
       parent: 1,
       children: 1,
-      childrens: 1
+      childrens: 1,
+      sort_no: 1
     }
   });
+
+
+  childs.sort(function(p1,p2){
+    if(p1.sort_no == p2.sort_no){
+      return p1.name.localeCompare(p2.name);  
+    }else{
+      if(p1.sort_no < p2.sort_no ){
+        return -1
+      } else{
+        return 1;
+      }
+    }
+  });
+
+  return childs;
 }
 
 
