@@ -130,6 +130,17 @@ TemplateHelpers =
         selector.url = "/portal/home"
         return db.apps.findOne(selector)
 
+    getSpaceCmsApp: ()->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        selector._id = "cms"
+        return db.apps.findOne(selector)
+
     getLocale: ()->
         if Meteor.user()?.locale
             locale = Meteor.user().locale

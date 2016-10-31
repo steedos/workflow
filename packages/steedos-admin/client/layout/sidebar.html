@@ -88,6 +88,23 @@
               </li>
             {{/if}}
 
+            {{#if isCmsAdmin}}
+              <li class="treeview">
+                <a href="javascript:void(0)">
+                  <i class="ion ion-ios-book-outline"></i>
+                  <span>{{_ "Steedos CMS"}}</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="{{menuClass 'admin/view/cms_sites'}}"><a href="/admin/view/cms_sites"><i class="ion ion-ios-book-outline"></i><span>{{_ "cms_sites"}}</span></a></li>
+                  <li class="{{menuClass 'admin/view/cms_categories'}}"><a href="/admin/view/cms_categories"><i class="ion ion-ios-folder-outline"></i><span>{{_ "cms_categories"}}</span></a></li>
+                  <li class="{{menuClass 'admin/view/cms_posts'}}"><a href="/admin/view/cms_posts"><i class="ion ion-ios-paper-outline"></i><span>{{_ "cms_posts"}}</span></a></li>
+                </ul>
+              </li>
+            {{/if}}
+
             <li><a href="/steedos/help"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a></li>
             <li><a href="/steedos/logout"><i class="ion ion-power"></i><span>{{_ "Sign out"}}</span></a></li>
           </ul>

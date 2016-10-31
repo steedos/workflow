@@ -32,6 +32,9 @@ Template.adminSidebar.helpers
 	isPortalAdmin: ()->
 		return Steedos.getSpacePortalApp()
 
+	isCmsAdmin: ()->
+		return Steedos.getSpaceCmsApp()
+
 Template.adminSidebar.events
 
 	'click .main-header .logo': (event) ->
