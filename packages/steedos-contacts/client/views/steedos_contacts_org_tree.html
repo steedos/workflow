@@ -1,9 +1,11 @@
 <template name="steedos_contacts_org_tree">
     <div class="navigation-bar">
-
-        <button type="button" class="btn btn-default" data-toggle="offcanvas">
+        <button type="button" class="btn btn-default contacts_back" id="contacts_back" title="返回"><i class="ion ion-chevron-left"></i></button>
+    
+        <button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
             <i class="fa fa-bars"></i>
         </button>
+
         {{#if is_admin}}
         <div class="pull-right">
             <div class="btn-group" >
@@ -13,6 +15,7 @@
             </div>
         </div>
         {{/if}}
+        
     </div>
     <div class="contacts-tree">
         <div id="steedos_contacts_org_tree"></div>

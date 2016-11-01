@@ -1,7 +1,8 @@
 Template.steedos_contacts_org_tree.helpers 
   is_admin: ()->
     return Steedos.isSpaceAdmin()
-
+  isMobile: ()->
+        return Steedos.isMobile();
 
 Template.steedos_contacts_org_tree.onRendered ->
   $(document.body).addClass('loading')
@@ -48,3 +49,6 @@ Template.steedos_contacts_org_tree.events
   'click #steedos_contacts_org_tree_remove_btn': (event, template) ->
     AdminDashboard.modalDelete 'organizations', Session.get('contacts_orgId'), ()->
       $.jstree.reference('#steedos_contacts_org_tree').refresh()
+
+  'click #contacts_back': (event, template)->
+    $(".contacts-list-wrapper").hide()

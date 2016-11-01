@@ -149,6 +149,19 @@
 
     }
 
+    .contacts-main{
+        .control-sidebar{
+            padding-top: 0px;
+        }
+    }
+
+    .org-bar{
+        height: 34px;
+        padding: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
     @media (min-width: 768px) {
         .contacts-main {
             .contacts-list-wrapper {
@@ -166,11 +179,22 @@
             .contacts-list-wrapper {
                 right: 65%;
                 transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+                display: block !important;
+                .contacts_back{
+                    display: none;
+                }
+
+                .offcanvas{
+                    display: inline-block;
+                }
             }   
             .contacts-wrapper {
                 width: 65%;
                 left: 35%;
                 transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+                .offcanvas{
+                    display: none;
+                }
             }   
         }
     }
@@ -192,15 +216,31 @@
         }
         .contacts-main.contacts-show {
             .contacts-list-wrapper {
-                //display: none;
-                left: -100%;
+                display: none;
+                // left: -100%;
                 width: 100%;
-                transition: 0.3s ease-in-out;
+                z-index: 1010;
+                // transition: 0.3s ease-in-out;
+
+                .contacts_back{
+                    display: inline-block;
+                }
+
+                .offcanvas{
+                    display: none;
+                }
+
             }   
             .contacts-wrapper {
                 left: 0;
                 width: 100%;
                 transition: 0.3s ease-in-out;
+                .contacts{
+                    top: 85px;
+                }
+                .offcanvas{
+                    display: inline-block;
+                }
             }   
         }
     }

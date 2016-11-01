@@ -23,6 +23,12 @@ Template.steedos_contacts_org_user_list.helpers
     is_admin: ()->
         return Steedos.isSpaceAdmin()
 
+    isMobile: ()->
+        return Steedos.isMobile();
+
+    getOrgName: ()->
+        return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
+
 Template.steedos_contacts_org_user_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $("#contacts_list")).each ->
@@ -60,6 +66,9 @@ Template.steedos_contacts_org_user_list.events
 
     'click #steedos_contacts_invite_users_btn': (event, template) ->
         Modal.show('steedos_contacts_invite_users_modal')
+
+    'click #steedos_contacts_show_orgs': (event, template)->
+        $(".contacts-list-wrapper").show();
 
 Template.steedos_contacts_org_user_list.onRendered ->
     TabularTables.steedosContactsOrganizations.customData = @data
