@@ -50,7 +50,7 @@ Template.steedos_contacts_group_book_list.events
         ).draw();
 
     'click #steedos_contacts_group_book_list_add_btn': (event, template) ->
-        AdminDashboard.modalNew 'address_books'
+        AdminDashboard.modalNew 'address_books', { group: Session.get('contacts_groupId')}
 
     'click #steedos_contacts_group_book_list_edit_btn': (event, template) ->
         AdminDashboard.modalEdit 'address_books', event.currentTarget.dataset.id
