@@ -33,7 +33,7 @@ Template.adminSidebar.helpers
 		return Steedos.getSpacePortalApp()
 
 	isCmsAdmin: ()->
-		return Steedos.getSpaceCmsApp()
+		if Steedos.isSpaceAdmin() then Steedos.getSpaceCmsApp() else false
 
 Template.adminSidebar.events
 
