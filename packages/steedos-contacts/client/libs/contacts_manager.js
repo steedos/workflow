@@ -88,34 +88,34 @@ ContactsManager.getRoot = function() {
 
 
 ContactsManager.getChild = function(parentId) {
-  var childs = SteedosDataManager.organizationRemote.find({
-    parent: parentId
-  }, {
-    fields: {
-      _id: 1,
-      name: 1,
-      fullname: 1,
-      parent: 1,
-      children: 1,
-      childrens: 1,
-      sort_no: 1
-    }
-  });
+    var childs = SteedosDataManager.organizationRemote.find({
+        parent: parentId
+    }, {
+        fields: {
+            _id: 1,
+            name: 1,
+            fullname: 1,
+            parent: 1,
+            children: 1,
+            childrens: 1,
+            sort_no: 1
+        }
+    });
 
 
-  childs.sort(function(p1,p2){
-    if(p1.sort_no == p2.sort_no){
-      return p1.name.localeCompare(p2.name);  
-    }else{
-      if(p1.sort_no < p2.sort_no ){
-        return -1
-      } else{
-        return 1;
-      }
-    }
-  });
+    childs.sort(function(p1, p2) {
+        if (p1.sort_no == p2.sort_no) {
+            return p1.name.localeCompare(p2.name);
+        } else {
+            if (p1.sort_no < p2.sort_no) {
+                return -1
+            } else {
+                return 1;
+            }
+        }
+    });
 
-  return childs;
+    return childs;
 }
 
 ContactsManager.getOrgAndChild = function(orgId) {
@@ -181,6 +181,10 @@ ContactsManager.handerContactModalValueLabel = function() {
 
     var values = ContactsManager.getContactModalValue();
     var modal = $(".steedos-contacts");
+
+    if (!modal || modal.length < 1) {
+        return;
+    }
 
     var confirmButton, html = '',
         valueLabel, valueLabel_div;

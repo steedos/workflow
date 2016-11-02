@@ -2,21 +2,21 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
   name: "steedosContactsOrganizations",
   collection: db.space_users,
   columns: [
-    {
-      data: "_id", 
-      title: '<input type="checkbox" name="reverse" id="reverse">',
-      orderable: false,
-      width:'1px',
-      render:  (val, type, doc) ->
+    # {
+    #   data: "_id", 
+    #   title: '<input type="checkbox" name="reverse" id="reverse">',
+    #   orderable: false,
+    #   width:'1px',
+    #   render:  (val, type, doc) ->
 
-        input = '<input type="checkbox" class="contacts-list-checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '"'
+    #     input = '<input type="checkbox" class="contacts-list-checkbox" name="contacts_ids" id="contacts_ids" value="' + doc._id + '" data-name="' + doc.name + '" data-email="' + doc.email + '"'
 
-        if TabularTables.steedosContactsOrganizations.customData?.defaultValues?.getProperty("email").includes(doc.email)
-          input += " checked "
+    #     if TabularTables.steedosContactsOrganizations.customData?.defaultValues?.getProperty("email").includes(doc.email)
+    #       input += " checked "
 
-        input += ">"
-        return input
-    },
+    #     input += ">"
+    #     return input
+    # },
     {
       data: "name", 
       render:  (val, type, doc) ->
