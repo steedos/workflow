@@ -35,9 +35,6 @@ Template.adminSidebar.helpers
 	isPortalAdmin: ()->
 		return Steedos.getSpaceAppByUrl("/portal/home")
 
-	isCmsAdmin: ()->
-		if Steedos.isSpaceAdmin() then Steedos.getSpaceAppById("cms") else false
-
 Template.adminSidebar.events
 
 	'click .main-header .logo': (event) ->
