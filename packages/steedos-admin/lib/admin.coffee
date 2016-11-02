@@ -89,10 +89,11 @@ db.flow_positions.adminConfig =
 		{name: "org_name()"},
 		{name: "users_name()"},
 	]
-	extraFields: ["role", "org", "users"]
+	extraFields: ["space", "role", "org", "users"]
 	newFormFields: "space,role,org,users"
 	selector: {space: "-1"}
 	pageLength: 100
+	pub: "tabular_flow_positions"
 	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
 
 @AdminConfig = 
