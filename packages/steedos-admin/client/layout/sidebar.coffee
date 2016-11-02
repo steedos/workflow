@@ -29,6 +29,9 @@ Template.adminSidebar.helpers
 		if path?.startsWith "/" + urlTag or path?.startsWith "/steedos/" + urlTag
 			return "active"
 
+	isWorkflowAdmin: ()->
+		if Steedos.isSpaceAdmin() then Steedos.getSpaceWorkflowApp() else false
+
 	isPortalAdmin: ()->
 		return Steedos.getSpacePortalApp()
 

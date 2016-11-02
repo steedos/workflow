@@ -49,6 +49,9 @@
                   <li class="{{menuClass 'admin/customize_apps'}}"><a href="/admin/customize_apps"><i class="ion ion-ios-keypad-outline"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
                 </ul>
               </li>
+            {{/if}}
+            
+            {{#if isWorkflowAdmin}}
               <li class="treeview">
                 <a href="javascript:void(0)">
                   <i class="ion ion-ios-list-outline"></i>
