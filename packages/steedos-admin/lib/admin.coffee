@@ -14,8 +14,7 @@ db.apps.adminConfig =
 	tableColumns: [
 		{name: "name"},
 	]
-	selector: {space: "-1"}
-	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
+	selector:  Admin.selectorCheckSpaceAdmin
 
 db.spaces.adminConfig = 
 	icon: "globe"
@@ -43,9 +42,8 @@ db.organizations.adminConfig =
 	extraFields: ["space", "name", "users"]
 	newFormFields: "space,name,parent,sort_no"
 	editFormFields: "name,parent,sort_no"
-	selector: {space: "-1"}
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
 
 db.space_users.adminConfig = 
 	icon: "users"
@@ -61,9 +59,8 @@ db.space_users.adminConfig =
 	extraFields: ["space", "user", 'organizations', "manager"]
 	newFormFields: "space,name,email,organizations,manager,user_accepted"
 	editFormFields: "space,name,organizations,manager,user_accepted"
-	selector: {space: "-1"}
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
 
 db.flow_roles.adminConfig = 
 	icon: "users"
@@ -75,9 +72,8 @@ db.flow_roles.adminConfig =
 	]
 	extraFields: []
 	newFormFields: "space,name"
-	selector: {space: "-1"}
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
 
 db.flow_positions.adminConfig = 
 	icon: "users"
@@ -91,10 +87,9 @@ db.flow_positions.adminConfig =
 	]
 	extraFields: ["space", "role", "org", "users"]
 	newFormFields: "space,role,org,users"
-	selector: {space: "-1"}
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 	pub: "tabular_flow_positions"
-	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
 
 @AdminConfig = 
 	name: "Steedos Admin"
@@ -126,15 +121,3 @@ if Meteor.isClient
 
 			if AdminTables["spaces"]
 				AdminTables["spaces"].selector = {owner: Meteor.userId()}
-
-			if Session.get("spaceId")
-				if AdminTables["apps"]
-					AdminTables["apps"].selector = {space: Session.get("spaceId")}
-				if AdminTables["space_users"]
-					AdminTables["space_users"].selector = {space: Session.get("spaceId")}
-				if AdminTables["organizations"]
-					AdminTables["organizations"].selector = {space: Session.get("spaceId")}
-				if AdminTables["flow_roles"]
-					AdminTables["flow_roles"].selector = {space: Session.get("spaceId")}
-				if AdminTables["flow_positions"]
-					AdminTables["flow_positions"].selector = {space: Session.get("spaceId")}

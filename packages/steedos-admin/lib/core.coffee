@@ -1,33 +1,24 @@
 Admin = {}
 
-if Meteor.isServer
 
-	# Filter data on server by space field
-	Admin.changeSelectorCheckSpace = (selector, userId) ->
-		if !selector.space
+# Filter data on server by space field
+Admin.selectorCheckSpaceAdmin = (userId) ->
+	if Meteor.isClient
+		spaceId = Session.get("spaceId");
+		if spaceId
+			return {space: Session.get("spaceId")}
+		else
 			return {make_a_bad_selector: 1}
+
+	if Meteor.isServer
 		user = db.users.findOne(userId);
 		if !user
 			return {make_a_bad_selector: 1}
-		if user.is_cloudadmin
-			return selector
-		space_user = db.space_users.find({user: userId, space: selector.space})
-		if !space_user.count()
-			return {make_a_bad_selector: 1}
-		return selector
-
-	# Filter data on server by space field
-	Admin.changeSelectorCheckSpaceAdmin = (selector, userId) ->
-		user = db.users.findOne(userId);
-		if !user
-			return {make_a_bad_selector: 1}
-		if user.is_cloudadmin
-			return selector
-		if !selector.space
-			return {make_a_bad_selector: 1}
-		space_user = db.space_users.find({user: userId, space: selector.space})
-		if !space_user.count()
-			return {make_a_bad_selector: 1}
-		if !Steedos.isSpaceAdmin(selector.space, userId)
-			return {make_a_bad_selector: 1}
+		selector = {}
+		if !user.is_cloudadmin
+			space_users = db.space_users.find({user: userId}).fetch()
+			spaces = []
+			_.each space_users, (u)->
+				spaces.push(u.space)
+			selector.space = {$in: spaces}
 		return selector
