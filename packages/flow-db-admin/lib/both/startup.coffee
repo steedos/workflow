@@ -70,6 +70,7 @@ adminCreateTables = (collections) ->
 			pageLength: collection.pageLength
 			lengthChange: false
 			autoWidth: false
+			changeSelector: collection.changeSelector
 
 
 adminPublishTables = (collections) ->

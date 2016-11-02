@@ -72,6 +72,7 @@ Package.onUse(function(api) {
 
     // EXPORT
     api.export('AdminMenus');
+    api.export('Admin');
 });
 
 Package.onTest(function(api) {

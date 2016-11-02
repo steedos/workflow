@@ -27,6 +27,17 @@ if Meteor.isClient
 		else
 			return {};
 
+if Meteor.isServer
+	Steedos.isSpaceAdmin = (spaceId, userId)->
+		if !space || !userId
+			return false
+		space = db.spaces.findOne(spaceId)
+		if !space || !space.admins
+			return false;
+		return space.admins.indexOf(userId)
+
+
+
 # This will add underscore.string methods to Underscore.js
 # except for include, contains, reverse and join that are 
 # dropped because they collide with the functions already 

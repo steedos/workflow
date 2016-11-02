@@ -15,7 +15,7 @@ db.apps.adminConfig =
 		{name: "name"},
 	]
 	selector: {space: "-1"}
-	routerAdmin: "/steedos/admin"
+	changeSelector: Admin.changeSelectorCheckSpace 
 
 db.spaces.adminConfig = 
 	icon: "globe"
@@ -30,7 +30,6 @@ db.spaces.adminConfig =
 	extraFields: ["owner"]
 	newFormFields: "name"
 	selector: {_id: -1}
-	routerAdmin: "/steedos/admin"
 
 db.organizations.adminConfig =
 	icon: "sitemap"
@@ -46,7 +45,7 @@ db.organizations.adminConfig =
 	editFormFields: "name,parent,sort_no"
 	selector: {space: "-1"}
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
+	changeSelector: Admin.changeSelectorCheckSpace 
 
 db.space_users.adminConfig = 
 	icon: "users"
@@ -64,7 +63,7 @@ db.space_users.adminConfig =
 	editFormFields: "space,name,organizations,manager,user_accepted"
 	selector: {space: "-1"}
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
+	changeSelector: Admin.changeSelectorCheckSpace 
 
 db.flow_roles.adminConfig = 
 	icon: "users"
@@ -78,7 +77,7 @@ db.flow_roles.adminConfig =
 	newFormFields: "space,name"
 	selector: {space: "-1"}
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
+	changeSelector: Admin.changeSelectorCheckSpace 
 
 db.flow_positions.adminConfig = 
 	icon: "users"
@@ -94,7 +93,7 @@ db.flow_positions.adminConfig =
 	newFormFields: "space,role,org,users"
 	selector: {space: "-1"}
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
+	changeSelector: Admin.changeSelectorCheckSpace 
 
 @AdminConfig = 
 	name: "Steedos Admin"

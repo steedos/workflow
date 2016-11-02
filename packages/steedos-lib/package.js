@@ -88,6 +88,10 @@ Package.onUse(function(api) {
     api.addFiles('lib/methods/emial_templates_reset.js');
     api.addFiles('lib/methods/upgrade_data.js', 'server');
 
+
+    api.addFiles('lib/steedos/accounts.coffee');
+    api.addFiles('lib/steedos/push.coffee');
+
     api.addFiles('server/schedule.js', 'server');
 
 
@@ -128,10 +132,6 @@ Package.onUse(function(api) {
 
     api.addFiles('client/lib/steedos_data_manager.js', 'client');
 
-
-
-    api.addFiles('lib/steedos/accounts.coffee');
-    api.addFiles('lib/steedos/push.coffee');
 
     api.addFiles('client/steedos/router.coffee', 'client');
     api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
@@ -192,6 +192,15 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/springboard/springboard.coffee', 'client');
 
 
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');
+    api.addFiles('client/steedos/views/sidebar/top_sidebar.less', 'client');
+
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.html', 'client');
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
+    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
+
+
     api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
@@ -200,15 +209,6 @@ Package.onUse(function(api) {
 
     // methods
     api.addFiles('server/methods/setKeyValue.js', 'server');
-
-
-    api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
-    api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');
-    api.addFiles('client/steedos/views/sidebar/top_sidebar.less', 'client');
-
-    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.html', 'client');
-    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
-    api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
 
 
 
