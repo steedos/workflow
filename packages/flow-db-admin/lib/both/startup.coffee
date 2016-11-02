@@ -75,6 +75,7 @@ adminCreateTables = (collections) ->
 			pageLength: collection.pageLength
 			lengthChange: false
 			autoWidth: false
+			info: false
 			changeSelector: collection.changeSelector
 
 
