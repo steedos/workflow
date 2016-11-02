@@ -12,3 +12,6 @@ Template.topSidebar.events
 
 	'click [name="open_apps_btn"]': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .steedos-help': (event) ->
+		Steedos.showHelp();
