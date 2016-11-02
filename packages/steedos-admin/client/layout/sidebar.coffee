@@ -30,13 +30,13 @@ Template.adminSidebar.helpers
 			return "active"
 
 	isWorkflowAdmin: ()->
-		if Steedos.isSpaceAdmin() then Steedos.getSpaceWorkflowApp() else false
+		if Steedos.isSpaceAdmin() then Steedos.getSpaceAppById("workflow") else false
 
 	isPortalAdmin: ()->
-		return Steedos.getSpacePortalApp()
+		return Steedos.getSpaceAppByUrl("/portal/home")
 
 	isCmsAdmin: ()->
-		if Steedos.isSpaceAdmin() then Steedos.getSpaceCmsApp() else false
+		if Steedos.isSpaceAdmin() then Steedos.getSpaceAppById("cms") else false
 
 Template.adminSidebar.events
 

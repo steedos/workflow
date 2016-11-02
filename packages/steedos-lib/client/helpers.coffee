@@ -119,7 +119,7 @@ TemplateHelpers =
             selector.mobile = true
         return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
 
-    getSpaceWorkflowApp: ()->
+    getSpaceAppById: (app_id)->
         selector = {}
         if Steedos.getSpaceId()
             space = db.spaces.findOne(Steedos.getSpaceId())
@@ -127,10 +127,10 @@ TemplateHelpers =
                 selector._id = {$in: space.apps_enabled}
         if Steedos.isMobile()
             selector.mobile = true
-        selector._id = "workflow"
+        selector._id = "#{app_id}"
         return db.apps.findOne(selector)
 
-    getSpacePortalApp: ()->
+    getSpaceAppByUrl: (app_url)->
         selector = {}
         if Steedos.getSpaceId()
             space = db.spaces.findOne(Steedos.getSpaceId())
@@ -138,18 +138,7 @@ TemplateHelpers =
                 selector._id = {$in: space.apps_enabled}
         if Steedos.isMobile()
             selector.mobile = true
-        selector.url = "/portal/home"
-        return db.apps.findOne(selector)
-
-    getSpaceCmsApp: ()->
-        selector = {}
-        if Steedos.getSpaceId()
-            space = db.spaces.findOne(Steedos.getSpaceId())
-            if space?.apps_enabled?.length>0
-                selector._id = {$in: space.apps_enabled}
-        if Steedos.isMobile()
-            selector.mobile = true
-        selector._id = "cms"
+        selector.url = "#{app_url}"
         return db.apps.findOne(selector)
 
     getLocale: ()->
