@@ -93,8 +93,33 @@ db.flow_positions.adminConfig =
 	newFormFields: "space,role,org,users"
 	selector: {space: "-1"}
 	pageLength: 100
-	pub: "tabular_flow_positions"
 	changeSelector: Admin.changeSelectorCheckSpaceAdmin 
+	children: [
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related flow_roles
+				db.flow_roles.find { _id: position.role }, fields: name: 1
+		}
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related organizations
+				db.organizations.find { _id: position.org }, fields: fullname: 1
+		}
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related user
+				db.space_users.find {
+					space: position.space
+					user: $in: position.users
+				}, fields:
+					space: 1
+					user: 1
+					name: 1
+		}
+	]
 
 @AdminConfig = 
 	name: "Steedos Admin"
