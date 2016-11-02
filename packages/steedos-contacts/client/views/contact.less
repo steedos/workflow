@@ -156,10 +156,12 @@
     }
 
     .org-bar{
-        height: 34px;
-        padding: 5px;
+        // height: 34px;
+        // padding: 5px;
+        padding-top: 14px;
         cursor: pointer;
         text-align: center;
+        background: #f9f9f9;
     }
 
     @media (min-width: 768px) {
@@ -180,12 +182,18 @@
                 right: 65%;
                 transition: 0.3s ease-in-out, width 0.3s ease-in-out;
                 display: block !important;
+                z-index: auto;
+                top: 0px;
                 .contacts_back{
                     display: none;
                 }
 
                 .offcanvas{
                     display: inline-block;
+                }
+
+                .navigation-bar{
+                    display: block;
                 }
             }   
             .contacts-wrapper {
@@ -220,6 +228,7 @@
                 // left: -100%;
                 width: 100%;
                 z-index: 1010;
+                top: 102px;
                 // transition: 0.3s ease-in-out;
 
                 .contacts_back{
@@ -230,13 +239,17 @@
                     display: none;
                 }
 
+                .navigation-bar{
+                    display: none;
+                }
+
             }   
             .contacts-wrapper {
                 left: 0;
                 width: 100%;
                 transition: 0.3s ease-in-out;
                 .contacts{
-                    top: 85px;
+                    top: 102px;
                 }
                 .offcanvas{
                     display: inline-block;

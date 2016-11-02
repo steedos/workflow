@@ -68,7 +68,11 @@ Template.steedos_contacts_org_user_list.events
         Modal.show('steedos_contacts_invite_users_modal')
 
     'click #steedos_contacts_show_orgs': (event, template)->
-        $(".contacts-list-wrapper").show();
+        listWrapper = $(".contacts-list-wrapper")
+        if listWrapper.is(":hidden")
+            listWrapper.show();
+        else
+            listWrapper.hide();
 
 Template.steedos_contacts_org_user_list.onRendered ->
     TabularTables.steedosContactsOrganizations.customData = @data

@@ -23,6 +23,9 @@ Template.steedos_contacts_group_tree.onRendered ->
                       cb(ContactsManager.getBookNode(node))
                           
                 plugins: ["wholerow", "search"]
+      $("#steedos_contacts_group_tree").on('select_node.jstree', (e, data) ->
+        $(".contacts-list-wrapper").hide();
+      )
 
   $(document.body).removeClass('loading');
 
@@ -43,3 +46,6 @@ Template.steedos_contacts_group_tree.events
   'click #steedos_contacts_group_tree_remove_btn': (event, template) ->
     AdminDashboard.modalDelete 'address_groups', Session.get('contacts_groupId'), ()->
       $.jstree.reference('#steedos_contacts_group_tree').refresh()
+
+  'click #contacts_back': (event, template)->
+    $(".contacts-list-wrapper").hide()

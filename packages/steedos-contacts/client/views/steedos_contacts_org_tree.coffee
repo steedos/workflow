@@ -27,6 +27,10 @@ Template.steedos_contacts_org_tree.onRendered ->
                       
             plugins: ["wholerow", "search"]
 
+  $("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->
+    $(".contacts-list-wrapper").hide();
+  )
+
 
   $(document.body).removeClass('loading')
 

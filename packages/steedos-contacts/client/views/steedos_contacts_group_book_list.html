@@ -1,5 +1,8 @@
 <template name="steedos_contacts_group_book_list">
 	<div class="navigation-bar">
+		<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
+            <i class="fa fa-bars"></i>
+        </button>
         <div class="btn-group" >
 		    <button type="button" class="btn btn-default btn-flat" id="steedos_contacts_group_book_list_add_btn"><i class="ion ion-plus-round"></i></button>
 		</div>
@@ -13,7 +16,9 @@
 	        </div>
         </div>
     </div>
-	
+	<div class="navigation-bar org-bar" id="steedos_contacts_show_orgs">
+        <i class="ion ion-android-contacts" style="padding-right: 4px;"></i>{{getOrgName}}<i class="caret"></i>
+    </div>
 	<div id="contacts_list" class="contacts">
 				<div class="contacts_books_list_table">
 					{{> tabular table=TabularTables.steedosContactsBooks selector=books_selector class="table table-striped datatable-steedos-contacts"}}

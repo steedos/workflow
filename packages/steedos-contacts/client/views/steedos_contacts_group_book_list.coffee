@@ -20,6 +20,13 @@ Template.steedos_contacts_group_book_list.helpers
             query.group = Session.get("contacts_groupId");
         return query;
 
+    getOrgName: ->
+
+        if(Session.get("contacts_groupId") == "root")
+            return TAPi18n.__("contacts_personal_contacts")
+
+        return db.address_groups.findOne({_id:Session.get("contacts_groupId")},{fields:{name: 1}})?.name;
+
 Template.steedos_contacts_group_book_list.events
     'click #reverse': (event, template) ->
         $('input[name="contacts_ids"]', $("#contacts_list")).each ->
@@ -57,6 +64,13 @@ Template.steedos_contacts_group_book_list.events
 
     'click #steedos_contacts_group_book_list_remove_btn': (event, template) ->
         AdminDashboard.modalDelete 'address_books', event.currentTarget.dataset.id
+    
+    'click #steedos_contacts_show_orgs': (event, template)->
+        listWrapper = $(".contacts-list-wrapper")
+        if listWrapper.is(":hidden")
+            listWrapper.show();
+        else
+            listWrapper.hide();
 
 Template.steedos_contacts_group_book_list.onRendered ->
     TabularTables.steedosContactsOrganizations.customData = @data
