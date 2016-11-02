@@ -47,6 +47,7 @@ Package.onUse(function(api) {
     api.use('mrt:moment-timezone', 'client');
 
     api.use('steedos:lib');
+    api.use('steedos:admin');
 
     api.use('tap:i18n', ['client', 'server']);
     //api.add_files("package-tap.i18n", ["client", "server"]);

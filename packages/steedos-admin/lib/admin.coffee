@@ -3,8 +3,6 @@
 @spaces = db.spaces
 @space_users = db.space_users
 @organizations = db.organizations
-@flow_roles = db.flow_roles
-@flow_positions = db.flow_positions
 
 db.apps.adminConfig = 
 	icon: "globe"
@@ -62,35 +60,6 @@ db.space_users.adminConfig =
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
-db.flow_roles.adminConfig = 
-	icon: "users"
-	color: "green"
-	label: ->
-		return t("flow_roles")
-	tableColumns: [
-		{name: "name"},
-	]
-	extraFields: []
-	newFormFields: "space,name"
-	selector: Admin.selectorCheckSpaceAdmin
-	pageLength: 100
-
-db.flow_positions.adminConfig = 
-	icon: "users"
-	color: "green"
-	label: ->
-		return t("flow_positions")
-	tableColumns: [
-		{name: "role_name()"},
-		{name: "org_name()"},
-		{name: "users_name()"},
-	]
-	extraFields: ["space", "role", "org", "users"]
-	newFormFields: "space,role,org,users"
-	selector: Admin.selectorCheckSpaceAdmin
-	pageLength: 100
-	pub: "tabular_flow_positions"
-
 @AdminConfig = 
 	name: "Steedos Admin"
 	skin: "green"
@@ -103,8 +72,6 @@ db.flow_positions.adminConfig =
 		spaces: db.spaces.adminConfig
 		organizations: db.organizations.adminConfig
 		space_users: db.space_users.adminConfig
-		flow_roles: db.flow_roles.adminConfig
-		flow_positions: db.flow_positions.adminConfig
 		apps: db.apps.adminConfig
 
 # set first user as admin
