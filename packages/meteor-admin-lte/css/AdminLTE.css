@@ -4908,3 +4908,16 @@ table.text-center th {
     white-space: normal !important;
   }
 }
+
+
+/* fix firefox sidebar */
+.main-sidebar .pull-right-container {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -7px;
+}
+
+.main-sidebar .sidebar-menu li.header {
+    padding: 10px 10px 10px 15px;
+}
