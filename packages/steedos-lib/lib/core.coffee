@@ -27,6 +27,12 @@ if Meteor.isClient
 		else
 			return {};
 
+	Steedos.showHelp = ()->
+		locale = Steedos.getLocale()
+		country = locale.substring(3)
+		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
+
+
 if Meteor.isServer
 	Steedos.isSpaceAdmin = (spaceId, userId)->
 		if !spaceId || !userId
