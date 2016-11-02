@@ -29,12 +29,12 @@ if Meteor.isClient
 
 if Meteor.isServer
 	Steedos.isSpaceAdmin = (spaceId, userId)->
-		if !space || !userId
+		if !spaceId || !userId
 			return false
 		space = db.spaces.findOne(spaceId)
 		if !space || !space.admins
 			return false;
-		return space.admins.indexOf(userId)
+		return space.admins.indexOf(userId)>=0
 
 
 
