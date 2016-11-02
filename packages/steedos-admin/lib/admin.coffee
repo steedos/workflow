@@ -60,6 +60,7 @@ db.space_users.adminConfig =
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
+
 @AdminConfig = 
 	name: "Steedos Admin"
 	skin: "green"

@@ -58,15 +58,10 @@ adminCreateTables = (collections) ->
 		if collection.showDelColumn
 			columns.push(adminDelButton)
 
-		pub = collection.children and adminTablePubName(name)
-
-		if collection.pub
-			pub = collection.pub
-
 		AdminTables[name] = new Tabular.Table
 			name: name
 			collection: adminCollectionObject(name)
-			pub: pub
+			pub: collection.children and adminTablePubName(name)
 			sub: collection.sub
 			columns: columns
 			extraFields: collection.extraFields

@@ -23,6 +23,8 @@ db.flow_roles.adminConfig =
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
+
+
 db.flow_positions.adminConfig = 
 	icon: "users"
 	color: "green"
@@ -35,9 +37,34 @@ db.flow_positions.adminConfig =
 	]
 	extraFields: ["space", "role", "org", "users"]
 	newFormFields: "space,role,org,users"
-	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	pub: "tabular_flow_positions"
+	selector: Admin.selectorCheckSpaceAdmin 
+	children: [
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related flow_roles
+				db.flow_roles.find { _id: position.role }, fields: name: 1
+		}
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related organizations
+				db.organizations.find { _id: position.org }, fields: fullname: 1
+		}
+		{ 
+			find: (position) ->
+				@unblock()
+				# Publish the related user
+				db.space_users.find {
+					space: position.space
+					user: $in: position.users
+				}, fields:
+					space: 1
+					user: 1
+					name: 1
+		}
+	]
 
 
 Meteor.startup ->
