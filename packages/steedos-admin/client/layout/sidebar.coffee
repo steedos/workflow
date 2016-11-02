@@ -45,3 +45,6 @@ Template.adminSidebar.events
 		# 且只有从admin列表界面进入到admin列表界面时才可能会报上面的错误信息
 		# 所以这里加上fix-collection-helper样式类内的a链接先额外跳转到一个非admin列表界面，然后再让其自动跳转到href界面，这样可以避开错误信息
 		FlowRouter.go("/admin/profile")
+
+	'click .steedos-help': (event) ->
+		Steedos.showHelp();
