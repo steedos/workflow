@@ -187,14 +187,18 @@ if (Meteor.isServer)
 			modifier.$set.organization = modifier.$set.organizations[0]
 	
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
-		console.log("db.space_users.after.update");
 		self = this
 		modifier.$set = modifier.$set || {};
 
-		# if modifier.$set.name
-		# 	db.users.direct.update {_id: doc.user},
-		# 		$set:
-		# 			name: doc.name
+		if modifier.$set.name
+			db.users.direct.update {_id: doc.user},
+				$set:
+					name: doc.name
+
+			db.space_users.direct.update {
+				user: doc.user
+				space: $ne: doc.space
+			}, { $set: name: doc.name }, multi: true
 
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
