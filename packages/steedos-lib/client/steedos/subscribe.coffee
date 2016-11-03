@@ -7,19 +7,7 @@ Steedos.subsBootstrap.subscribe("steedos_keyvalues")
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
 		spaceId = Steedos.getSpaceId()
-		if spaceId
-			space = db.spaces.findOne(spaceId)
-			if space
-				Steedos.setSpaceId(space._id)
-			else
-				space = db.spaces.findOne()
-				if space
-					Steedos.setSpaceId(space._id)
-		# 默认选中第一个space
-		else
-			space = db.spaces.findOne()
-			if space
-				Steedos.setSpaceId(space._id)
+		Steedos.setSpaceId(spaceId)
 
 
 
