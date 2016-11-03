@@ -159,9 +159,9 @@
     "workflow_left_parenthesis": "(",
     "workflow_right_parenthesis": ")",
 
-    "instance_cc_title": "CC",
+    "instance_cc_title": "Carbon Copy",
     "instance_curstep": "Current Step: ",
-    "instance_cc_user": "CC Users",
+    "instance_cc_user": "Carbon Copy To",
     "instance_cc_error_users_required": "Please select user.",
     "workflow_form_edit": "Form Style",
     "flows_template": "Instance Template",
