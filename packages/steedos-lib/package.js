@@ -78,21 +78,20 @@ Package.onUse(function(api) {
     api.addFiles('lib/methods/user_add_email.coffee');
     api.addFiles('lib/methods/user_avatar.coffee');
 
-    api.addFiles('lib/publications/apps.coffee');
+
+    api.addFiles('lib/methods/emial_templates_reset.js');
+    api.addFiles('lib/methods/upgrade_data.js', 'server');
+
+    api.addFiles('lib/steedos/accounts.coffee');
+    api.addFiles('lib/steedos/push.coffee');
+
 
     api.addFiles('client/core.coffee', 'client');
     api.addFiles('client/momentjs/zh-cn.js', 'client');
     api.addFiles('client/helpers.coffee', 'client');
     api.addFiles('client/language.coffee', 'client');
 
-    api.addFiles('lib/methods/emial_templates_reset.js');
-    api.addFiles('lib/methods/upgrade_data.js', 'server');
 
-
-    api.addFiles('lib/steedos/accounts.coffee');
-    api.addFiles('lib/steedos/push.coffee');
-
-    api.addFiles('server/schedule.js', 'server');
 
 
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
@@ -201,6 +200,8 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
 
 
+    api.addFiles('server/schedule.js', 'server');
+
     api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
@@ -209,6 +210,9 @@ Package.onUse(function(api) {
 
     // methods
     api.addFiles('server/methods/setKeyValue.js', 'server');
+
+    api.addFiles('server/publications/apps.coffee', 'server');
+    api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 
 
