@@ -60,6 +60,10 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	domain_name: 
+		type: String,
+		optional: true,
+
 	balance: 
 		type: Number,
 		optional: true,
