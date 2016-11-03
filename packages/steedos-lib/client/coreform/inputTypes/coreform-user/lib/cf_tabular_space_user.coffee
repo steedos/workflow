@@ -24,7 +24,7 @@
         },
         {
           data: "name", 
-          orderable: false,
+          orderable: true,
           render:  (val, type, doc) ->
             return "<label for='" + doc.user + "' class='for-input'><div class='user-name'><img src='" + Steedos.absoluteUrl() + "/avatar/"+doc.user+"?w=30&h=30&fs=14" +"' class='selectTag-profile img-circle'><font>" + doc.name + "</font></div></label>"
         },
@@ -39,10 +39,10 @@
       #select:
       #  style: 'single'
       dom: "tp",
-      order:false,
+      order:[[1, "asc"]],
       extraFields: ["_id", "name", "email", "user"],
       lengthChange: false,
-      pageLength: 10,
+      pageLength: 100,
       info: false,
       searching: true,
       responsive: 
