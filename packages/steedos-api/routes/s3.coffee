@@ -59,8 +59,15 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         if ["image.jpg", "image.gif", "image.jpeg", "image.png"].includes(filename.toLowerCase())
           filename = "image-" + moment(new Date()).format('YYYYMMDDHHmmss') + "." + filename.split('.').pop()
 
-        newFile.name(decodeURIComponent(filename))
+        try
+          filename = decodeURIComponent(filename)
+        catch e
+          console.error(filename)
+          console.error e
+          filename = filename.replace(/%/g, "-")
 
+        newFile.name(filename)
+        
         body = req.body
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
