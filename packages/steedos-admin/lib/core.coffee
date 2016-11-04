@@ -4,8 +4,7 @@ Admin = {}
 # Filter data on server by space field
 Admin.selectorCheckSpaceAdmin = (userId) ->
 	if Meteor.isClient
-		spaceId = Session.get("spaceId");
-		if spaceId
+		if Steedos.isSpaceAdmin()
 			return {space: Session.get("spaceId")}
 		else
 			return {make_a_bad_selector: 1}
@@ -22,3 +21,15 @@ Admin.selectorCheckSpaceAdmin = (userId) ->
 				spaces.push(u.space)
 			selector.space = {$in: spaces}
 		return selector
+
+
+# Filter data on server by space field
+Admin.selectorCheckSpace = (userId) ->
+	if Meteor.isClient
+		spaceId = Session.get("spaceId");
+		if spaceId
+			return {space: spaceId}
+		else
+			return {make_a_bad_selector: 1}
+
+
