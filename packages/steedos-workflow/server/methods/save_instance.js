@@ -9,7 +9,8 @@ Meteor.methods({
         var flow = db.flows.findOne(ins.flow, {
             fields: {
                 "current._id": 1,
-                "current.form_version": 1
+                "current.form_version": 1,
+                "name": 1
             }
         });
         var instance = db.instances.findOne(ins._id, {
@@ -78,7 +79,7 @@ Meteor.methods({
             var values = traces[0].approves[0].values || {};
             var iscript = name_forumla.replace("{", "values['").replace("}", "']");
             var rev = eval(iscript);
-            setObj.name = rev || "";
+            setObj.name = rev || flow.name;
         }
 
         db.instances.update({
