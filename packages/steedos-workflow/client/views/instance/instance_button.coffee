@@ -122,16 +122,18 @@ Template.instance_button.helpers
             return "display: none;";
 
     enabled_forward: ->
-        return "display: none;"
-        
-        # ins = WorkflowManager.getInstance()
-        # if !ins
-        #     return "display: none;"
+        if Meteor.settings.public?.workflow?.enable_forward
+            ins = WorkflowManager.getInstance()
+            if !ins
+                return "display: none;"
 
-        # if ins.state!="draft" && !Steedos.isMobile()
-        #     return ""
-        # else
-        #     return "display: none;"
+            if ins.state!="draft" && !Steedos.isMobile()
+                return ""
+            else
+                return "display: none;"
+        else
+            return "display: none;"
+        
 
 Template.instance_button.events
     'click #instance_back': (event)->
