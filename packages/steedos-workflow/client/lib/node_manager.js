@@ -2,16 +2,19 @@ NodeManager = {};
 //定义全局变量;
 NodeManager.fileSHA1;
 
-var gloableWin, url, net, path, http, fs, crypto, exec, child_process;
+var gloableWin, url, net, path, https, fs, crypto, exec, child_process;
 
 var setSignal = "";
 
 if (Steedos.isNode()) {
+    // turn off SSL validation checking
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
     url = nw.require('url');
     gloableWin = nw.Window.get();
     net = nw.require('net');
     path = nw.require('path');
-    http = nw.require('http');
+    https = nw.require('https');
     fs = nw.require('fs');
     crypto = nw.require('crypto');
     child_process = nw.require('child_process')
@@ -144,14 +147,15 @@ NodeManager.setUploadRequests = function(filePath, filename) {
             urlKey: "file",
             urlValue: filePath
         }]
-        // 配置附件上传接口
+    // 配置附件上传接口
+    
     var options = {
         host: url.parse(Meteor.absoluteUrl()).hostname,
         port: url.parse(Meteor.absoluteUrl()).port,
         method: "POST",
         path: "/s3/"
     }
-    var req = http.request(options, function(res) {
+    var req = https.request(options, function(res) {
         var fileObj = {};
         res.on('data', function(chunk) {
             var chunkStr = JSON.parse(chunk.toString());
@@ -244,6 +248,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
         // 修改后附件大小
         var states = fs.statSync(filePath);
         setSignal = "finished";
+        // 判断编辑后的文件hash值是否变化
         NodeManager.getFileSHA1(filePath, filename, function(sha1) {
             if (NodeManager.fileSHA1 != sha1) {
                 var setting = {
@@ -289,10 +294,12 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 // 下载文件
 NodeManager.downloadFile = function(file_url, download_dir, filename) {
     $(document.body).addClass("loading");
+    
     $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
+    
     var filePath = path.join(download_dir, filename);
     var file = fs.createWriteStream(filePath);
-    var dfile = http.get(encodeURI(file_url), function(res) {
+    var dfile = https.get(encodeURI(file_url), function(res) {
         res.on('data', function(data) {
             file.write(data);
         }).on('end', function() {
