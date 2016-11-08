@@ -113,6 +113,9 @@ Package.onUse(function(api) {
     api.addFiles('client/layout/sidebar.coffee', 'client');
     api.addFiles('client/layout/sidebar.less', 'client');
 
+    api.addFiles('client/views/instance/image_sign.html', 'client');
+    api.addFiles('client/views/instance/image_sign.coffee', 'client');
+
     api.addFiles('client/views/instance/_instance_form.coffee', 'client');
 
     api.addFiles('client/views/instance/attachments.html', 'client');

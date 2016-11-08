@@ -298,5 +298,12 @@
 
     "profile_save_bg_setting": "保存背景",
     "profile_upload_image": "上传图片",
-    "profile_save_bg_suc": "背景保存成功"
+    "profile_save_bg_suc": "背景保存成功",
+
+    "space_user_signs": "图片签名",
+    "space_user_signs_user": "用户",
+    "space_user_signs_sign": "签名",
+    "space_user_signs_signImage()": "签名",
+    "space_user_signs_userName()": "用户",
+    "spaceUserSigns_error_user_sign_exists": "用户签名已存在"
 }

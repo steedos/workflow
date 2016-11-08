@@ -68,6 +68,7 @@ Package.onUse(function(api) {
     api.addFiles('lib/models/apps.coffee');
     api.addFiles('lib/models/steedos_keyvalue.coffee');
     api.addFiles('lib/models/steedos_statistics.coffee');
+    api.addFiles('lib/models/space_user_signs.coffee');
 
     api.addFiles('lib/cfs/core.coffee');
     api.addFiles('lib/cfs/avatars.coffee');
@@ -213,8 +214,9 @@ Package.onUse(function(api) {
 
     api.addFiles('server/publications/apps.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');
+    api.addFiles('server/publications/space_user_signs.coffee', 'server');
 
-
+    api.addFiles('lib/admin.coffee');
 
     // EXPORT
     api.export('Steedos');

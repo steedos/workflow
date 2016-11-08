@@ -110,7 +110,8 @@ InstanceformTemplate.helpers =
                 else
                     judge_name = TAPi18n.__("Instance State pending")
 
-                approves.push  
+                approves.push
+                    handler: approve.user  
                     handler_name: approve.handler_name
                     handler_organization_name: approve.handler_organization_name
                     handler_organization_fullname: approve.handler_organization_fullname

@@ -289,6 +289,13 @@
 
     "profile_save_bg_setting": "Save Background",
     "profile_upload_image": "Upload Image",
-    "profile_save_bg_suc": "Background Saved Successful"
+    "profile_save_bg_suc": "Background Saved Successful",
+
+    "space_user_signs": "Image Signs",
+    "space_user_signs_user": "User",
+    "space_user_signs_sign": "Sign Image",
+    "space_user_signs_signImage()": "Sign Image",
+    "space_user_signs_userName()": "User",
+    "spaceUserSigns_error_user_sign_exists": "Sign exists"
 
 }

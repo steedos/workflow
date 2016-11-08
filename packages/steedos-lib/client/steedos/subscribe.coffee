@@ -30,6 +30,7 @@ Tracker.autorun (c)->
 
 		Steedos.subsSpace.subscribe("my_space_user", spaceId)
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
+		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
 Steedos.subsInstance = new SubsManager();
 
