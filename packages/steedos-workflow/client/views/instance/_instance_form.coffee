@@ -358,6 +358,10 @@ InstanceformTemplate.events =
         #    Form_formula.run(code, "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);
         # ,101
 
+    'click .instance-form .cfTextarea a':(event)->
+        event.preventDefault();
+        Steedos.openWindow(event.target.href);
+
 
 InstanceformTemplate.onCreated = ()->
 
