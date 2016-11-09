@@ -217,7 +217,12 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     }
                     $("[name='" + field_prefix + formula_field.code + "']").val(value);
                 }else{
-                    $("[name='" + field_prefix + formula_field.code + "']").val(Form_formula.field_values[formula_field.code]);
+                    var afField = $("[name='" + field_prefix + formula_field.code + "']")
+                    if("DIV" == afField.prop("tagName")){
+                        afField.html(Form_formula.field_values[formula_field.code]);
+                    }else{
+                        afField.val(Form_formula.field_values[formula_field.code]);
+                    }
                 }
             }catch(e){
                 console.log("公式["+formula_field.formula+"]执行异常：" + e.message);
