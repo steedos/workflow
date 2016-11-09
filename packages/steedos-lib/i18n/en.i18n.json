@@ -301,5 +301,6 @@
 
     "skin": "Skins",
     "skin_setting": "Skin Setting",
-    "profile_save_skin_setting": "Save Skin"
+    "profile_save_skin_setting": "Save Skin",
+    "profile_save_skin_suc": "Skin Saved Successful"
 }

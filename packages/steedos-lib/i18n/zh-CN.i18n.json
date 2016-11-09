@@ -310,5 +310,6 @@
 
     "skin": "主题",
     "skin_setting": "设置主题",
-    "profile_save_skin_setting": "保存主题"
+    "profile_save_skin_setting": "保存主题",
+    "profile_save_skin_suc": "主题保存成功"
 }

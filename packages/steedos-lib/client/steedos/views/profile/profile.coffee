@@ -66,6 +66,12 @@ Template.profile.helpers
     url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
 
+  isCurrentSkinNameActive: (name)->
+    return if name == Steedos.getAccountSkinValue().name then "active" else ""
+
+  isCurrentSkinNameWaitingSave: (url)->
+    return if url == Session.get("waiting_save_profile_skin_name") then "btn-warning" else "btn-default"
+
   skins:[{
     name:"green",
     tag:"green"
@@ -230,6 +236,23 @@ Template.profile.events
     btn_save.dataset.skin_tag = skin_tag
     $(".skin-admin-lte").removeClass().addClass("skin-admin-lte").addClass("skin-#{skin_name}")
     Session.set("waiting_save_profile_skin_name",skin_name)
+
+  'click #personalization button.btn-save-skin': (event)->
+    dataset = event.currentTarget.dataset
+    skin_name = dataset.skin_name
+    skin_tag = dataset.skin_tag
+    accountSkinValue = Steedos.getAccountSkinValue()
+    unless accountSkinValue
+      accountSkinValue = {}
+    accountSkinValue.name = skin_name
+    accountSkinValue.tag = skin_tag
+    Meteor.call 'setKeyValue', 'skin', accountSkinValue, (error, is_suc) ->
+      if is_suc
+        Session.set("waiting_save_profile_skin_name","")
+        toastr.success t('profile_save_skin_suc')
+      else
+        console.error error
+        toastr.error(error)
 
 
 Meteor.startup ->
