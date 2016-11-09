@@ -8,7 +8,7 @@ body{
 }
 
 
-.skin-green {
+.skin-green,.skin-green-light {
     .at-form {
         a {
             color: white;
@@ -17,33 +17,40 @@ body{
     .wrapper {
         background: transparent;
     }
+    .content-wrapper {
+        background: rgba(255, 255, 255, 0.3);
+    }
 
     .main-sidebar {
-        background: rgba(34,45,50,0.9);
-
         .sidebar-menu {
             .header-workflow,.header-space-switcher {
                 overflow: visible;
             }
         }
+        .sidebar-menu > .pull-right-container {
+            background: transparent
+        }
+        .pull-right-container {
+            background: transparent;
+        }
+    }
+}
+
+.skin-green{
+    .main-sidebar {
+        background: rgba(34,45,50,0.9);
         .sidebar-menu > li.header {
             color: #d8d8d8;
             background: rgba(26, 34, 38, 0.3);
         }
-        .sidebar-menu > li:hover > a, .sidebar-menu > li.active > a {
-            background: rgba(26, 34, 38, 0.9);
-        }
-        .sidebar-menu > .pull-right-container {
-            background: transparent
-        }
-        
-        .pull-right-container {
-            background: transparent;
-        }
-
     }
+}
 
-    .content-wrapper {
-        background: rgba(255, 255, 255, 0.3);
+.skin-green-light{
+    .main-sidebar {
+        .sidebar-menu > li.header {
+            color: #d8d8d8;
+            background: rgba(26, 34, 38, 0.3);
+        }
     }
 }
