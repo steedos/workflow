@@ -218,10 +218,14 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     $("[name='" + field_prefix + formula_field.code + "']").val(value);
                 }else{
                     var afField = $("[name='" + field_prefix + formula_field.code + "']")
+                    var afValue = Form_formula.field_values[formula_field.code];
+                    if(isNaN(afValue)){
+                        afValue = '';
+                    }
                     if("DIV" == afField.prop("tagName")){
-                        afField.html(Form_formula.field_values[formula_field.code]);
+                        afField.html(afValue);
                     }else{
-                        afField.val(Form_formula.field_values[formula_field.code]);
+                        afField.val(afValue);
                     }
                 }
             }catch(e){
