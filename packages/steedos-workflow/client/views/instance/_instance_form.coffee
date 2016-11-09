@@ -21,7 +21,7 @@ InstanceformTemplate.helpers =
             return form_version
 
     innersubformContext: (obj)->
-        doc_values = WorkflowManager_format.getAutoformSchemaValues();;
+        doc_values = WorkflowManager_format.getAutoformSchemaValues();
         obj["tableValues"] = if doc_values then doc_values[obj.code] else []
         obj["formId"] = "instanceform";
         return obj;
