@@ -86,6 +86,7 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/workflow_manager.js', 'client');
     api.addFiles('client/lib/node_manager.js', 'client');
     api.addFiles('client/lib/template_manager.coffee', 'client');
+    api.addFiles('client/lib/office_online.js', 'client');
 
 
     //add client file
