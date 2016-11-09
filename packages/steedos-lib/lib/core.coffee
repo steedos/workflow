@@ -27,6 +27,13 @@ if Meteor.isClient
 		else
 			return {};
 
+	Steedos.getAccountSkinValue = ()->
+		accountSkin = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"skin"})
+		if accountSkin
+			return accountSkin.value
+		else
+			return {};
+
 	Steedos.showHelp = ()->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)

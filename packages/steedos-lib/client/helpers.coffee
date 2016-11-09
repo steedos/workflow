@@ -335,6 +335,12 @@ TemplateHelpers =
             $(document.body).removeClass 'loading'
             console.log 'resolveLocalFileSystemURL error code: ' + error.code
 
+    skinName: (defaultName)->
+        unless defaultName
+            defaultName = "green"
+        accountSkinValue = Steedos.getAccountSkinValue()
+        return if accountSkinValue.name then accountSkinValue.name else defaultName
+
 
 
 
