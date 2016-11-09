@@ -181,7 +181,7 @@ Template.profile.events
                 $(document.body).removeClass('loading')
                 swal t("email_set_primary_success"), "", "success"
 
-  'click #personalization a.thumbnail': (event)->
+  'click #personalization .bg-body-setting a.thumbnail': (event)->
     bg = $(event.currentTarget).attr("bg")
     $("#personalization button.btn-save-bg").attr("bg",bg)
     $("body").css("backgroundImage","url(#{bg})")
@@ -220,6 +220,16 @@ Template.profile.events
           console.error error
           toastr.error(error)
     ,3000)
+
+  'click #personalization .skin-setting a.thumbnail': (event)->
+    dataset = event.currentTarget.dataset
+    skin_name = dataset.skin_name
+    skin_tag = dataset.skin_tag
+    btn_save = $("#personalization button.btn-save-skin")[0]
+    btn_save.dataset.skin_name = skin_name
+    btn_save.dataset.skin_tag = skin_tag
+    $(".skin-admin-lte").removeClass().addClass("skin-admin-lte").addClass("skin-#{skin_name}")
+    Session.set("waiting_save_profile_skin_name",skin_name)
 
 
 Meteor.startup ->
