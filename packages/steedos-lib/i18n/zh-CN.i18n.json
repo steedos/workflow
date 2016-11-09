@@ -290,6 +290,7 @@
 		"steedos_id_required": "Steedos ID 不能为空"
 	},
 
+    "personalization": "个性化",
     "bg_body": "背景",
     "bg_body_setting": "设置背景",
     "remove": "清空",

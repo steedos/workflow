@@ -173,13 +173,13 @@ Template.profile.events
                 $(document.body).removeClass('loading')
                 swal t("email_set_primary_success"), "", "success"
 
-  'click #bg_body a.thumbnail': (event)->
+  'click #personalization a.thumbnail': (event)->
     bg = $(event.currentTarget).attr("bg")
-    $("#bg_body button.btn-save-bg").attr("bg",bg)
+    $("#personalization button.btn-save-bg").attr("bg",bg)
     $("body").css("backgroundImage","url(#{bg})")
     Session.set("waiting_save_profile_bg",bg)
 
-  'click #bg_body button.btn-save-bg': (event)->
+  'click #personalization button.btn-save-bg': (event)->
     bg = $(event.currentTarget).attr("bg")
     accountBgBodyValue = Steedos.getAccountBgBodyValue()
     unless accountBgBodyValue
@@ -193,7 +193,7 @@ Template.profile.events
         console.error error
         toastr.error(error)
 
-  'change #bg_body .btn-upload-bg-file .avatar-file': (event, template) ->
+  'change #personalization .btn-upload-bg-file .avatar-file': (event, template) ->
     oldAvatar = Steedos.getAccountBgBodyValue().avatar
     if oldAvatar
       Session.set("waiting_save_profile_bg",'/api/files/avatars/' + oldAvatar)

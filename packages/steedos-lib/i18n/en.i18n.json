@@ -281,6 +281,7 @@
 		"steedos_id_required": "Steedos ID is required"
 	},
 
+    "personalization": "Personalization",
     "bg_body": "Background",
     "bg_body_setting": "Background Setting",
     "remove": "Remove",
