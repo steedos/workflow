@@ -118,6 +118,7 @@
               </div>
 
               <div class="tab-pane" id="personalization">
+                <!-- 背景设置 -->
                 <h4>{{_ "bg_body_setting"}}</h4>
                 <div class="row">
                   {{#each bgBodys}}
@@ -144,6 +145,28 @@
                   </div>
                 </div>
                 <button type="button" class="btn btn-primary btn-sm btn-save-bg">{{_ 'profile_save_bg_setting'}}</button>
+
+                <!-- 主题设置 -->
+                <h4 style="margin-top: 40px;">{{_ "skin_setting"}}</h4>
+                <div class="row">
+                  {{#each skins}}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+                      <a href="javascript:void(0);" data-skin-name="{{name}}" data-skin-tag="{{tag}}" class="thumbnail btn-default skin-setting-item-wrap skin-{{name}} clearfix full-opacity-hover">
+                        <div class="skin-setting-item">
+                          <div class="skin-setting-head">
+                            <span class="skin-setting-side bg-{{tag}}-active"></span>
+                            <span class="skin-setting-title"></span>
+                          </div>
+                          <div class="skin-setting-body">
+                            <span class="skin-setting-side"></span>
+                            <span class="skin-setting-content"></span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {{/each}}
+                </div>
+                <button type="button" class="btn btn-primary btn-sm btn-save-bg">{{_ 'profile_save_skin_setting'}}</button>
               </div>
             </div>
           </div>

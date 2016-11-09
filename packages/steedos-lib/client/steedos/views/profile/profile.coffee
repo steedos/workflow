@@ -66,6 +66,14 @@ Template.profile.helpers
     url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
 
+  skins:[{
+    name:"green",
+    tag:"green"
+  },{
+    name:"green-light",
+    tag:"green"
+  }]
+
   btn_save_i18n: () ->
     return TAPi18n.__ 'Submit'
 
