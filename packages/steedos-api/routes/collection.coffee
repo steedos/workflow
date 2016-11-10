@@ -102,7 +102,7 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     options = req.body.options;
     space = req.body.space;
     data = [];
-    allow_models = ['space_users', 'organizations', 'flow_roles']
+    allow_models = ['space_users', 'organizations', 'flow_roles', 'mail_accounts']
 
     if !space
         JsonRoutes.sendResult res, 
@@ -141,9 +141,14 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     if !options
         options = {};
 
-    selector.space = space
+    if model == 'mail_accounts'
+        selector = {};
+        selector.owner = userId
+        data = db[model].findOne(selector);
+    else
+        selector.space = space
     
-    data = db[model].findOne(selector, options);
+        data = db[model].findOne(selector, options);
 
     JsonRoutes.sendResult res, 
         code: 200,
