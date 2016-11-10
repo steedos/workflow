@@ -3,8 +3,6 @@ NodeManager = {};
 //定义全局变量;
 NodeManager.fileSHA1;
 
-NodeManager.setSignal = "";
-
 var path, fs, crypto, exec, child_process;
 
 if (Steedos.isNode()) {
@@ -184,7 +182,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
     // 执行vbs编辑word
     var child = exec(cmd);
     //正在编辑
-    NodeManager.setSignal = "editing";
+    OfficeOnline.setSignal = "editing";
 
     child.on('error', function(error) {
         toastr.error(error);
@@ -195,7 +193,8 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 
         // 修改后附件大小
         var states = fs.statSync(filePath);
-        NodeManager.setSignal = "finished";
+        OfficeOnline.setSignal = "finished";
+        
         // 判断编辑后的文件hash值是否变化
         NodeManager.getFileSHA1(filePath, filename, function(sha1) {
             if (NodeManager.fileSHA1 != sha1) {

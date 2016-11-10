@@ -4,7 +4,10 @@ OfficeOnline.http = {}
 
 OfficeOnline.https = {}
 
-var gloableWin, url, net, path, http, https, fs;
+// 定义变量判断是否则正在编辑文档
+OfficeOnline.setSignal = "";
+
+var globalWin, url, net, path, http, https, fs;
 
 if (Steedos.isNode()) {
 	// turn off SSL validation checking
@@ -13,22 +16,21 @@ if (Steedos.isNode()) {
 	}
 
     url = nw.require('url');
-    gloableWin = nw.Window.get();
+    globalWin = nw.Window.get();
     net = nw.require('net');
     path = nw.require('path');
     https = nw.require('https');
     http = nw.require('http');
     fs = nw.require('fs');
-}
 
-// 关闭客户端时判断是否正在编辑文档，正在编辑时禁止关闭客户端
-if (gloableWin){
-    gloableWin.on("close",function(){
-        if(NodeManager.setSignal != "editing"){
-            gloableWin.close(true);
+    // 关闭客户端时判断是否正在编辑文档，正在编辑时禁止关闭客户端
+    globalWin.on("close",function(){
+        if(globalWin && (OfficeOnline.setSignal != "editing")){
+            globalWin.close(true);
         }
     });
 }
+
 
 // http请求
 OfficeOnline.http.downloadFile = function(file_url, download_dir, filename){
