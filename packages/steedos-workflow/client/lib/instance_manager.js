@@ -314,7 +314,6 @@ InstanceManager.checkFormFieldValue = function(field) {
     var table_value = AutoForm.getFieldValue(field.dataset.schemaKey, "instanceform");
     parent_group = jquery_f.parent().parent().parent().parent();
     if (!table_value || table_value.length < 1) {
-      debugger;
       message = showMessage(parent_group, TAPi18n.__("instance_field") + "‘" + field.dataset.label + '’' + TAPi18n.__("instance_is_required"));
     }
   }
@@ -467,6 +466,8 @@ InstanceManager.getCurrentValues = function() {
       }
     } else if (box == "outbox" || box == "pending" || box == "completed" || box == "monitor") {
 
+      instanceValue = instance.values;
+    }else{
       instanceValue = instance.values;
     }
 
@@ -1050,6 +1051,9 @@ InstanceManager.isInbox = function() {
 }
 
 InstanceManager.isCC = function(instance) {
+  if(!instance)
+    return false;
+
   var currentUser = Meteor.userId();
   var approve = InstanceManager.getCurrentApprove();
 

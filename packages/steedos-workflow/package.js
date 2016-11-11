@@ -90,6 +90,13 @@ Package.onUse(function(api) {
 
 
     //add client file
+    api.addFiles('client/layout/master_print.less', 'client');
+    api.addFiles('client/layout/master_print.html', 'client');
+    api.addFiles('client/layout/master_print.coffee', 'client');
+    api.addFiles('client/views/instance/instance_print.html', 'client');
+    api.addFiles('client/views/instance/instance_print.coffee', 'client');
+
+
     api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
@@ -104,8 +111,6 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
-
-
 
     api.addFiles('client/layout/master.html', 'client');
     api.addFiles('client/layout/master.coffee', 'client');
