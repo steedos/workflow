@@ -1,3 +1,7 @@
+Template.workflowSidebar.onRendered ->
+    if !Steedos.isMobile()
+        $("#scrollspy").perfectScrollbar();
+
 Template.workflowSidebar.helpers
 
 	displayName: ->
