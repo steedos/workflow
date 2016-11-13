@@ -21,7 +21,7 @@ TracesTemplate.helpers =
       return step.name
     null
   showDeleteButton: (approved) ->
-    if approved and approved.type == 'cc' and approved.from_user == Meteor.userId() and approved.is_finished != true
+    if approved and approved.type == 'cc' and approved.from_user == Meteor.userId() and approved.is_finished != true and !Session.get("instancePrint")
       return true
     false
   isCC: (approved) ->
@@ -64,6 +64,9 @@ TracesTemplate.helpers =
         approveStatusText = ''
         break
     approveStatusText
+  display:() ->
+    if Session.get("instancePrint")
+      return "display:none"
 
 TracesTemplate.events = 
   'click .cc-approve-remove': (event, template) ->

@@ -104,6 +104,7 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.html', 'client');

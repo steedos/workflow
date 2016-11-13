@@ -53,7 +53,7 @@ workflowSpaceRoutes.route '/print/:instanceId',
 
         WorkflowManager.callInstanceDataMethod params.instanceId, ()->
             console.log "response get_instance_data"
-
+            Session.set('instancePrint', true);
             Session.set("judge", null);
             Session.set("next_step_id", null);
             Session.set("next_step_multiple", null);
@@ -62,7 +62,9 @@ workflowSpaceRoutes.route '/print/:instanceId',
             Session.set("box", params.box);
             Session.set("instance_change", false);
             Session.set("instance_loading", false);
-
+    triggersExit:[(context, redirect) ->
+        Session.set('instancePrint', undefined);
+	]
 
 workflowSpaceRoutes.route '/:box/',
 	action: (params, queryParams)->

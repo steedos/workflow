@@ -13,12 +13,41 @@
 	.navigation-bar{
 		display: none !important;
 	}
+	//由于html5-boilerplate 插件的css中，写了A标签的打印样式用于打印a标签地址，此处进行重写
+	a[href]:after {
+		content: "";
+	}
+
+	.table-bordered{
+		border: 1px solid #000 !important;
+	}
+
+	.table-bordered th,.table-bordered td {
+		border: 1px solid #000 !important;
+	}
+
+	.table-bordered th{
+		border-bottom: 1px solid #000 !important;
+	}
+
+	.steedos-table{
+		.checkbox,.radio{
+			display: table-cell !important;
+			position: static !important;
+		}
+
+		.table{
+			border-left: 0px !important;
+			border-right: 0px !important;
+		}
+	}
 }
 
 .instance-print{
 
 	.wrapper{
-	    overflow: visible
+	    overflow: visible;
+		background: azure !important;
 	}
 
 	.btn{
