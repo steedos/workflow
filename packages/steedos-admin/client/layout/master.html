@@ -1,7 +1,7 @@
 <template name="adminLayout">
 
 	{{#if subsReady}}
-		<div class="steedos admin">
+		<div class="steedos steedos-admin">
 			{{# AdminLTE skin=skinName sidebarMini="true" }}
 				{{> adminSidebar}}
 				<div class="content-wrapper" style="min-height: {{minHeight}}">
@@ -32,8 +32,9 @@
 							{{/if}}
 							</div>
 						</div>
-						
-						{{> Template.dynamic template=main}}
+						<div class="admin-content">
+							{{> Template.dynamic template=main}}
+						</div>
 						
 					{{else}}
 						{{> Template.dynamic template=main}}

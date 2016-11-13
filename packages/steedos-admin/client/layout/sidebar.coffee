@@ -1,3 +1,7 @@
+Template.adminSidebar.onRendered ->
+	if !Steedos.isMobile()
+		$("#scrollspy").perfectScrollbar();
+
 Template.adminSidebar.helpers
 
 	displayName: ->
