@@ -52,6 +52,11 @@ Template.instance_list.helpers
 
         query.is_deleted = false
         
+        instance_more_search_selector = Session.get('instance_more_search_selector')
+        if (instance_more_search_selector)
+            _.keys(instance_more_search_selector).forEach (k)->
+                query[k] = instance_more_search_selector[k]
+
         return query
 
     enabled_export: ->
@@ -65,6 +70,11 @@ Template.instance_list.helpers
             return "";
         else
             return "display: none;";
+
+    is_display_search_tip: ->
+        if Session.get('instance_more_search_selector')
+            return ""
+        return "display: none;"
 
 
 Template.instance_list.onRendered ->
@@ -117,6 +127,13 @@ Template.instance_list.events
 
     'click [name="show_flows_btn"]': (event) ->
         Modal.show('flow_list_modal')
+
+    'click #instance_more_search': (event, template) ->
+        Modal.show("instance_more_search_modal")
+
+    'click #instance_search_tip_close_btn': (event, template) ->
+        Session.set("instance_more_search_selector", undefined)
+        Session.set("flowId", undefined)
 
 
 

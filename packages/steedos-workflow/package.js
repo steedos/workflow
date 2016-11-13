@@ -180,6 +180,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/monitor.html', 'client');
     api.addFiles('client/views/list/monitor.js', 'client');
 
+    api.addFiles('client/views/search/instance_more_search_modal.html', 'client');
+    api.addFiles('client/views/search/instance_more_search_modal.js', 'client');
+
     api.addFiles('client/views/home.html', 'client');
     api.addFiles('client/views/home.coffee', 'client');
 
