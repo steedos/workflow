@@ -1,6 +1,10 @@
     TabularTables.instances = new Tabular.Table({
       name: "instances",
       collection: db.instances,
+      drawCallback: (settings)->
+        if !Steedos.isMobile()
+          $(".instance-list").scrollTop(0).ready ->
+            $(".instance-list").perfectScrollbar("update")
       columns: [
         {
           data: "name", 
