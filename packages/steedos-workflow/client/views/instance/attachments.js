@@ -260,6 +260,10 @@ Template.ins_attach_version_modal.helpers({
         var isLocked = false;
 
         var currentApprove = InstanceManager.getCurrentApprove();
+
+        if(!currentApprove)
+            return false;
+
         if (currentApprove.id == currentApproveId)
             isCurrentApprove = true;
 
