@@ -39,6 +39,20 @@ if Meteor.isClient
 		country = locale.substring(3)
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
+	# 左侧sidebar滚动条自适应
+	Steedos.fixSideBarScroll = ()->
+		if Steedos.isMobile()
+			return
+		if $("body").hasClass("sidebar-collapse")
+			if $("#scrollspy").hasClass("ps-container")
+				$("#scrollspy").perfectScrollbar("destroy")
+		else if $("body").hasClass('sidebar-open')
+			unless $("#scrollspy").hasClass("ps-container")
+				$("#scrollspy").perfectScrollbar()
+		else
+			unless $("#scrollspy").hasClass("ps-container")
+				$("#scrollspy").perfectScrollbar()
+
 
 if Meteor.isServer
 	Steedos.isSpaceAdmin = (spaceId, userId)->
