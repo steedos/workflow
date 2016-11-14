@@ -1,0 +1,16 @@
+<template name="afCheckboxGroupInlineSteedos">
+    <div class="af-checkbox-group" {{dsk}}>
+        {{#if isReadOnly}}
+            <label class="checkbox-inline fix-indent readonly">
+                {{this.value}}
+            </label>
+        {{else}}
+            {{#each this.items}}
+                <label class="checkbox-inline fix-indent">
+                    <input type="checkbox" value="{{this.value}}" {{atts}} />
+                    {{this.label}}
+                </label>
+            {{/each}}
+        {{/if}}
+    </div>
+</template>
