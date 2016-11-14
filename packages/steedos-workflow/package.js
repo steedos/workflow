@@ -96,14 +96,17 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/instance_print.html', 'client');
     api.addFiles('client/views/instance/instance_print.coffee', 'client');
 
-
+    api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.html', 'client');
@@ -179,6 +182,9 @@ Package.onUse(function(api) {
 
     api.addFiles('client/views/list/monitor.html', 'client');
     api.addFiles('client/views/list/monitor.js', 'client');
+
+    api.addFiles('client/views/search/instance_more_search_modal.html', 'client');
+    api.addFiles('client/views/search/instance_more_search_modal.js', 'client');
 
     api.addFiles('client/views/home.html', 'client');
     api.addFiles('client/views/home.coffee', 'client');

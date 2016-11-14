@@ -190,5 +190,14 @@
     "form_field_checkbox_yes": "YES",
     "form_field_checkbox_no": "NO",
     "flows_events": "Events",
-    "flows_events_error": "Flow Script Error: "
+    "flows_events_error": "Flow Script Error: ",
+
+    "instance_search_advanced_search": "Advanced search",
+    "instance_search_flow": "Flow",
+    "isntance_search_name": "Instance Name",
+    "instance_search_applicant_name": "Applicant Name",
+    "instance_search_applicant_organization_name": "Applicant Organization Name",
+    "instance_search_submit_date": "Submit Date",
+    "instance_search_start": "Start",
+    "instance_search_end": "End"
 }

@@ -141,8 +141,8 @@ Template.instance_button.events
         FlowRouter.go(backURL)
 
     'click #instance_to_print': (event)->
-        UUflow_api.print(Session.get("instanceId"));
-
+#        UUflow_api.print(Session.get("instanceId"));
+        Steedos.openWindow("/workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId"));
 
     'click #instance_update': (event)->
         InstanceManager.saveIns();

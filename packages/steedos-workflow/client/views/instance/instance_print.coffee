@@ -30,40 +30,36 @@ Template.instancePrint.plusFontSize = (node)->
         node.children().each (i, n) ->
             cn = $(n)
 
+            if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(->@nodeType == 3).text().trim() || ["INPUT","TEXTEAR"].includes(cn.prop("tagName")))
+                if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
+                    thisFZ = cn.css("font-size")
+                    unit = thisFZ.slice(-2)
+                    cn.css("font-size", parseFloat(thisFZ, 10) + Template.instancePrint.step + unit);
+
             if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
                 Template.instancePrint.plusFontSize(cn)
-            else
-#                if cn?.prop("style")?.fontSize
-#                    console.log(cn.prop("style").fontSize);
 
-                if cn?.css("font-size")
-
-                    thisFZ = cn.css("font-size")
-
-                    unit = thisFZ.slice(-2)
-
-                    cn.css("font-size", parseFloat(thisFZ, 10) + Template.instancePrint.step + unit);
 
 Template.instancePrint.minusFontSize = (node)->
     if node?.children()
         node.children().each (i, n) ->
             cn = $(n)
 
+            if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(->@nodeType == 3).text().trim() || ["INPUT","TEXTEAR"].includes(cn.prop("tagName")))
+                if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
+                    thisFZ = cn.css("font-size")
+                    unit = thisFZ.slice(-2)
+                    cn.css("font-size", parseFloat(thisFZ, 10) - Template.instancePrint.step + unit);
+
             if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
                 Template.instancePrint.minusFontSize(cn)
-            else
-#                if cn?.prop("style")?.fontSize
-#                    console.log(cn.prop("style").fontSize);
-
-                if cn?.css("font-size")
-                    cn.css("font-size", parseFloat(cn.css("font-size"), 10) - Template.instancePrint.step + "px");
 
 Template.instancePrint.events
-    "change #print_traces_checkbox": (event, template) ->
-        if event.target.checked
-            $(".instance-traces").show()
-        else
-            $(".instance-traces").hide()
+#    "change #print_traces_checkbox": (event, template) ->
+#        if event.target.checked
+#            $(".instance-traces").show()
+#        else
+#            $(".instance-traces").hide()
 
     "change #print_attachments_checkbox": (event, template) ->
         if event.target.checked
@@ -72,6 +68,11 @@ Template.instancePrint.events
             $(".instance_attachments").hide()
 
     "click #instance_to_print": (event, template) ->
+        if $(".box-body",$(".instance-traces")).is(":hidden")
+            $(".instance-traces").addClass("no-print")
+        else
+            $(".instance-traces").removeClass("no-print")
+
         window.print()
 
     "click #font-plus": (event, template) ->

@@ -3,8 +3,8 @@ TemplateManager = {};
 formId = 'instanceform';
 
 
-TemplateManager._template = 
-	default: '''
+TemplateManager._template =
+    default: '''
 		<div class="box-header  with-border">
             <h3 class="box-title">{{instance.name}}</h3>
             <span class="help-block"></span>
@@ -27,7 +27,7 @@ TemplateManager._template =
 		    
 		{{/each}}
 	'''
-	table: '''
+    table: '''
 		<div class="box-header  with-border">
             <h3 class="box-title">{{instance.name}}</h3>
             <span class="help-block"></span>
@@ -59,93 +59,105 @@ TemplateManager._template =
 		</table>
 	'''
 
-TemplateManager._templateHelps = 
-	applicantContext: ->
+TemplateManager._templateHelps =
+    applicantContext: ->
         steedos_instance = WorkflowManager.getInstance();
-        data = {name:'ins_applicant',atts:{name:'ins_applicant',id:'ins_applicant',class:'selectUser form-control',style:'padding:6px 12px;width:140px;display:inline'}} 
+        data = {
+            name: 'ins_applicant',
+            atts: {
+                name: 'ins_applicant',
+                id: 'ins_applicant',
+                class: 'selectUser form-control',
+                style: 'padding:6px 12px;width:140px;display:inline'
+            }
+        }
         if not steedos_instance || steedos_instance.state != "draft"
             data.atts.disabled = true
         return data;
 
-    instanceId: ->
-        return 'instanceform';#"instance_" + Session.get("instanceId");
+instanceId: ->
+    return 'instanceform';#"instance_" + Session.get("instanceId");
 
-    form_types: ->
-        if ApproveManager.isReadOnly()
-            return 'disabled';
-        else
-            return 'method';
-    
-    steedos_form: ->
-        form_version = WorkflowManager.getInstanceFormVersion();
-        if form_version
-            return form_version
+form_types: ->
+    if ApproveManager.isReadOnly()
+        return 'disabled';
+    else
+        return 'method';
 
-    innersubformContext: (obj)->
-        doc_values = WorkflowManager_format.getAutoformSchemaValues();;
-        obj["tableValues"] = if doc_values then doc_values[obj.code] else []
-        obj["formId"] = formId;
-        return obj;
+steedos_form: ->
+    form_version = WorkflowManager.getInstanceFormVersion();
+    if form_version
+        return form_version
 
-    instance: ->
-        Session.get("change_date")
-        if (Session.get("instanceId"))
-            steedos_instance = WorkflowManager.getInstance();
-            return steedos_instance;
+innersubformContext: (obj)->
+    doc_values = WorkflowManager_format.getAutoformSchemaValues();
+    obj["tableValues"] = if doc_values then doc_values[obj.code] else []
+    obj["formId"] = formId;
+    return obj;
 
-    equals: (a,b) ->
-        return (a == b)
+instance: ->
+    Session.get("change_date")
+    if (Session.get("instanceId"))
+        steedos_instance = WorkflowManager.getInstance();
+        return steedos_instance;
 
-    includes: (a, b) ->
-        return b.split(',').includes(a);
+equals: (a, b) ->
+    return (a == b)
 
-    fields: ->
-        form_version = WorkflowManager.getInstanceFormVersion();
-        if form_version
-            return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
-            
-    doc_values: ->
-        WorkflowManager_format.getAutoformSchemaValues();
+includes: (a, b) ->
+    return b.split(',').includes(a);
 
-    instance_box_style: ->
-        box = Session.get("box")
-        if box == "inbox" || box == "draft"
-            judge = Session.get("judge")
-            if judge
-                if (judge == "approved")
-                    return "box-success" 
-                else if (judge == "rejected")
-                    return "box-danger"
-        ins = WorkflowManager.getInstance();
-        if ins && ins.final_decision
-            if ins.final_decision == "approved"
-                return "box-success" 
-            else if (ins.final_decision == "rejected")
+fields: ->
+    form_version = WorkflowManager.getInstanceFormVersion();
+    if form_version
+        return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
+
+doc_values: ->
+    WorkflowManager_format.getAutoformSchemaValues();
+
+instance_box_style: ->
+    box = Session.get("box")
+    if box == "inbox" || box == "draft"
+        judge = Session.get("judge")
+        if judge
+            if (judge == "approved")
+                return "box-success"
+            else if (judge == "rejected")
                 return "box-danger"
+    ins = WorkflowManager.getInstance();
+    if ins && ins.final_decision
+        if ins.final_decision == "approved"
+            return "box-success"
+        else if (ins.final_decision == "rejected")
+            return "box-danger"
 
 
 TemplateManager.getTemplate = (flowId) ->
-	
-	flow = WorkflowManager.getFlow(flowId);
+    flow = WorkflowManager.getFlow(flowId);
 
-	if Steedos.isMobile()
-		return TemplateManager._template.default
+    if Steedos.isMobile()
+        return TemplateManager._template.default
 
-	if flow?.instance_template
-		return flow.instance_template
+    if Session.get("instancePrint")
+        if flow?.print_template
+            return flow.print_template
+        else
+            return TemplateManager._template.table
+    else
+        if flow?.instance_template
+            return flow.instance_template
 
-	if flow?.instance_style
-		return TemplateManager._template[flow.instance_style]
-	else
-		return TemplateManager._template.default
+        if flow?.instance_style
+            return TemplateManager._template[flow.instance_style]
+        else
+            return TemplateManager._template.default
 
 TemplateManager.exportTemplate = (flowId) ->
+    template = TemplateManager.getTemplate(flowId);
 
-	template = TemplateManager.getTemplate(flowId);
+    flow = WorkflowManager.getFlow(flowId);
 
-	flow = WorkflowManager.getFlow(flowId);
+    if flow?.instance_template
+        return template;
 
-	if flow?.instance_template
-		return template;
-
-	return template;
+    return template;
