@@ -78,6 +78,17 @@ workflowSpaceRoutes.route '/:box/',
 
 		$(".workflow-main").removeClass("instance-show")
 
+workflowSpaceRoutes.route '/:box/f/:flow',
+    action: (params, queryParams)->
+        Steedos.setSpaceId(params.spaceId)
+        Session.set("box", params.box);
+        Session.set("flowId",params.flow)
+
+        BlazeLayout.render 'workflowLayout',
+            main: "workflow_main"
+    triggersExit:[(context, redirect) ->
+        Session.set('flowId', undefined);
+    ]
 
 workflowSpaceRoutes.route '/:box/:instanceId',
 	action: (params, queryParams)->

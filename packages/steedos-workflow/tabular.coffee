@@ -37,10 +37,10 @@
         #   data: "modified",
         #   title: "Modified",
         #   render:  (val, type, doc) ->
-        #     if (val instanceof Date) 
+        #     if (val instanceof Date)
         #       modifiedString = moment(val).format('YY-MM-DD');
         #       return "<div class='instance-modified'>" + modifiedString + "</div>"
-        #     else 
+        #     else
         #       return "";
         # },
         # {data: "applicant_organization_name", title: "Organization"},

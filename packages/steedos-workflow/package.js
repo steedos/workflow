@@ -194,6 +194,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/menu.coffee', 'client');
     api.addFiles('client/views/menu.less', 'client');
 
+    api.addFiles('client/views/workflow_menu_by_flow.html', 'client');
+    api.addFiles('client/views/workflow_menu_by_flow.coffee', 'client');
+
     api.addFiles('client/views/workflow_main.html', 'client');
     api.addFiles('client/views/workflow_main.coffee', 'client');
     api.addFiles('client/views/workflow_main.less', 'client');
