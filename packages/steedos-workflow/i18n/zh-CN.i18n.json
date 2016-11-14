@@ -192,6 +192,15 @@
     "form_field_checkbox_yes": "是",
     "form_field_checkbox_no": "否",
     "flows_events": "自定义脚本",
-    "flows_events_error": "自定义脚本错误: "
+    "flows_events_error": "自定义脚本错误: ",
+
+    "instance_search_advanced_search": "高级搜索",
+    "instance_search_flow": "流程",
+    "isntance_search_name": "申请单标题",
+    "instance_search_applicant_name": "申请人姓名",
+    "instance_search_applicant_organization_name": "申请人所属部门名称",
+    "instance_search_submit_date": "提交日期",
+    "instance_search_start": "起",
+    "instance_search_end": "至"
 
 }
