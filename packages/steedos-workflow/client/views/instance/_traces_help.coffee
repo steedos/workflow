@@ -64,9 +64,6 @@ TracesTemplate.helpers =
         approveStatusText = ''
         break
     approveStatusText
-  display:() ->
-    if Session.get("instancePrint")
-      return "display:none"
 
 TracesTemplate.events = 
   'click .cc-approve-remove': (event, template) ->

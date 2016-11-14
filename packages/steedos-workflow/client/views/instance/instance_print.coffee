@@ -55,11 +55,11 @@ Template.instancePrint.minusFontSize = (node)->
                 Template.instancePrint.minusFontSize(cn)
 
 Template.instancePrint.events
-    "change #print_traces_checkbox": (event, template) ->
-        if event.target.checked
-            $(".instance-traces").show()
-        else
-            $(".instance-traces").hide()
+#    "change #print_traces_checkbox": (event, template) ->
+#        if event.target.checked
+#            $(".instance-traces").show()
+#        else
+#            $(".instance-traces").hide()
 
     "change #print_attachments_checkbox": (event, template) ->
         if event.target.checked
@@ -68,6 +68,11 @@ Template.instancePrint.events
             $(".instance_attachments").hide()
 
     "click #instance_to_print": (event, template) ->
+        if $(".box-body",$(".instance-traces")).is(":hidden")
+            $(".instance-traces").addClass("no-print")
+        else
+            $(".instance-traces").removeClass("no-print")
+
         window.print()
 
     "click #font-plus": (event, template) ->
