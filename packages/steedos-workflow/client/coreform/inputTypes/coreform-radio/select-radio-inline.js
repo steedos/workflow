@@ -1,5 +1,5 @@
 AutoForm.addInputType("coreform-radio", {
-  template: "afRadioGroupInline",
+  template: "afRadioGroupInlineSteedos",
   // 此段代码会导致不能正常显示选中的值
   // valueIn: function (val, atts) {
   //   if (typeof val === "string")
@@ -12,7 +12,7 @@ AutoForm.addInputType("coreform-radio", {
   },
   contextAdjust: function (context) {
     var itemAtts = _.omit(context.atts);
-
+    itemAtts["class"] = "radio-inline fix-indent"
     // build items list
     context.items = [];
     // Add all defined options
@@ -34,7 +34,7 @@ AutoForm.addInputType("coreform-radio", {
   }
 });
 
-Template.afRadioGroupInline.helpers({
+Template.afRadioGroupInlineSteedos.helpers({
   atts: function selectedAttsAdjust() {
     var atts = _.clone(this.atts);
     if (this.selected) {
@@ -49,5 +49,12 @@ Template.afRadioGroupInline.helpers({
     return {
       "data-schema-key": this.atts["data-schema-key"]
     };
+  },
+  isReadOnly: function isReadOnly() {
+    var atts = _.clone(this.atts);
+    if(atts.hasOwnProperty("disabled") || atts.hasOwnProperty("readonly")){
+      return true;
+    }
+    return false;
   }
 });

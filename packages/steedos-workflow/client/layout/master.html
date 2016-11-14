@@ -3,6 +3,7 @@
 	{{#if subsReady}}
 		<div class="steedos workflow">
 			{{# AdminLTE skin=skinName sidebarMini="true" }}
+				
 				{{> workflowSidebar}}
 
 
@@ -11,9 +12,12 @@
 						{{> status}}
 					</div>
 					{{> Template.dynamic template=main}}
-					</div>
+				</div>
+
 			{{/ AdminLTE}}
+			
 			{{> steedosLoading}}
+
 		</div>
 	{{else}}
 		<div class="loading">

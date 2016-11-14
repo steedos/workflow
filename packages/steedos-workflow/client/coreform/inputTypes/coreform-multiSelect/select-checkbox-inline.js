@@ -1,5 +1,5 @@
 AutoForm.addInputType("coreform-multiSelect", {
-  template: "afCheckboxGroupInline",
+  template: "afCheckboxGroupInlineSteedos",
   valueIsArray: true,
   valueIn: function (val, atts) {
     if (typeof val === "string")
@@ -41,7 +41,7 @@ AutoForm.addInputType("coreform-multiSelect", {
   }
 });
 
-Template.afCheckboxGroupInline.helpers({
+Template.afCheckboxGroupInlineSteedos.helpers({
   atts: function selectedAttsAdjust() {
     var atts = _.clone(this.atts);
     if (this.selected) {
@@ -56,5 +56,12 @@ Template.afCheckboxGroupInline.helpers({
     return {
       "data-schema-key": this.atts["data-schema-key"]
     };
+  },
+  isReadOnly: function isReadOnly() {
+    var atts = _.clone(this.atts);
+    if(atts.hasOwnProperty("disabled") || atts.hasOwnProperty("readonly")){
+      return true;
+    }
+    return false;
   }
 });
