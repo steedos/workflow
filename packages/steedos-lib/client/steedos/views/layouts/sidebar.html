@@ -1,6 +1,15 @@
 <template name="sidebar">
     <aside class="main-sidebar">
-        {{> dock}}
+        <header class="main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg">
+              <B>{{_ "Steedos"}}</B><i class="ion-ios-arrow-down ion" style="font-size: 14px;padding-left: 10px;"></i>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
         <div class="sidebar" id="scrollspy">
           <div class="user-panel">
             <div class="pull-left image">
