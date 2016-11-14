@@ -148,23 +148,17 @@ Package.onUse(function(api) {
     // api.addFiles('client/steedos/views/admin/admin_dashboard.html', 'client');
     // api.addFiles('client/steedos/views/admin/admin_dashboard.coffee', 'client');
 
-    api.addFiles('client/steedos/views/layouts/dock.html', 'client');
-    api.addFiles('client/steedos/views/layouts/dock.coffee', 'client');
-
     api.addFiles('client/steedos/views/layouts/main.html', 'client');
 
     api.addFiles('client/steedos/views/layouts/master.less', 'client');
     api.addFiles('client/steedos/views/layouts/master.html', 'client');
     api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
 
+    api.addFiles('client/steedos/views/layouts/header.html', 'client');
+    api.addFiles('client/steedos/views/layouts/header.coffee', 'client');
+
     api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
     api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
-
-    api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.html', 'client');
-    api.addFiles('client/steedos/views/layouts/sidebar_multilevel_menu.coffee', 'client');
-
-    api.addFiles('client/steedos/views/layouts/workflow_menu.html', 'client');
-    api.addFiles('client/steedos/views/layouts/workflow_menu.coffee', 'client');
 
     api.addFiles('client/steedos/views/login/login_layout.less', 'client');
     api.addFiles('client/steedos/views/login/login_layout.html', 'client');
