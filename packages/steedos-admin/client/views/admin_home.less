@@ -2,14 +2,22 @@
     font-size: 36px;
     color: #008d4c;
 }
-.admin-home-content .admin-grid-icon {
-    width: 27px;
-    height: 40px;
-    width:100%;
-}
-.admin-home-content .admin-grid-label {
-    width: 27px;
-    height: 40px;
-    width:100%;
-    color: #3e3e3e;
+.admin-home-content{
+    .admin-grids{
+        padding: 20px 0px;
+        &.dark-grids{
+            background: #f9f9f9;
+            border-top: solid 1px #e3e3e3;
+            border-bottom: solid 1px #e3e3e3;
+        }
+        .admin-grid-item{
+            .admin-grid-icon {
+                width:100%;
+            }
+            .admin-grid-label {
+                width:100%;
+                color: #3e3e3e;
+            }
+        }
+    }
 }
