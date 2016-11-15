@@ -25,9 +25,9 @@
               {{> space_switcher}}
             </li>
 
-            <li><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_ "instance_new"}}</span></a></li>
+            <li class="instance_new"><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_ "instance_new"}}</span></a></li>
 
-            <li class="{{boxActive 'inbox'}}">
+            <li class="inbox {{boxActive 'inbox'}}">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
                 <i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
                 <span class="pull-right-container">
@@ -35,14 +35,14 @@
                 </span>
               </a>
             </li>
-            <li class="{{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
+            <li class="outbox {{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
 
             <!-- <li class="header">{{_ "My Applications"}}</li> -->
 
-            <li class="{{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
-            <li class="{{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i><span>{{_ "pending"}}</span></a></li>
-            <li class="{{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
-            <li class="{{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
+            <li class="draft {{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
+            <li class="pending {{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-load-a"></i><span>{{_ "pending"}}</span></a></li>
+            <li class="completed {{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
+            <li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
           </ul>
 
           {{> topSidebar}}
