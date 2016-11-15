@@ -79,10 +79,12 @@ db.organizations._simpleSchema = new SimpleSchema
 if Meteor.isClient
 	db.organizations._simpleSchema.i18n("organizations")
 	db.organizations._sortFunction = (doc1, doc2) ->
-		if (doc1.sort_no > doc2.sort_no)
-			return true
+		if (doc1.sort_no == doc2.sort_no)
+			return doc1.name?.localeCompare(doc2.name); 
+		else if (doc1.sort_no > doc2.sort_no)
+			return -1
 		else
-			return doc1.name.localeCompare(doc2.name); 
+			return 1
 
 db.organizations.attachSchema db.organizations._simpleSchema;
 
