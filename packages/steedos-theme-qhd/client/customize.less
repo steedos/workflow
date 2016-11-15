@@ -4,3 +4,22 @@
         background: rgba(26, 34, 38, 0.7);
     }
 }
+
+@media (max-width: 767px) {
+    .instance-list-wrapper{
+        .navigation-bar{
+            .instance_new{
+                display: none !important;
+            }
+        }
+    }
+    .main-sidebar{
+        .sidebar-menu{
+            .instance_new, .draft, .pending, .completed, .monitor{
+                display: none !important;
+            }
+        }
+    }
+
+}
+
