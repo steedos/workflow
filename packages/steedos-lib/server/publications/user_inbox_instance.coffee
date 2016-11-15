@@ -3,14 +3,27 @@ Meteor.publishComposite "user_inbox_instance", ()->
     unless this.userId
         return this.ready()
 
+    userSpaceIds = db.space_users.find({
+        user: this.userId,
+        user_accepted: true
+    }, {fields: {space: 1}}).fetch().getEach("space");
+    query = {space: {$in: userSpaceIds}}
 
+    query.$or = [{inbox_users: this.userId}, {cc_users: this.userId}]
 
-    userSpaceIds = db.space_users.find({user: this.userId, user_accepted: true},{fields:{space:1}}).fetch().getEach("space");
-    query = {inbox_users: this.userId, space: {$in:userSpaceIds}}
-
-    console.log(query);
     find: ->
-        db.instances.find(query, {fields: {space: 1, applicant_name: 1, flow: 1, inbox_users: 1, cc_users: 1, state: 1, name: 1, modified: 1}});
+        db.instances.find(query, {
+            fields: {
+                space: 1,
+                applicant_name: 1,
+                flow: 1,
+                inbox_users: 1,
+                cc_users: 1,
+                state: 1,
+                name: 1,
+                modified: 1
+            }, sort: {modified: -1}, skip: 0, limit: 100
+        });
     children: [
         {
             find: (instance, post)->

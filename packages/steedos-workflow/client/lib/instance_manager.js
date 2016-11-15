@@ -1103,3 +1103,11 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id) {
 
   })
 }
+
+
+InstanceManager.getUserInboxInstances = function () {
+  var query = {}
+  query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
+
+  return db.instances.find(query).fetch();
+}

@@ -2,13 +2,10 @@
     width: 300px;
     left: 50%;
     margin-left: -150px;
+    overflow-y: auto;
 }
 
 .workflow-menu-by-flow{
-    height: 100%;
-    &>.bd{
-        height: 100%;
-    }
     .weui_cells_title{
         font-weight: 400;
         margin-top: 0px;
@@ -17,11 +14,6 @@
 
     .weui_cells{
         margin-top: 0px;
-    }
-
-    .inbox-cell{
-        max-height: calc(~"100% - 238px");
-        overflow-y: auto;
     }
 
     .selected{

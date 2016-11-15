@@ -1,7 +1,10 @@
 Template.workflowMenuByFlow.helpers
     data: ()->
-        data = [];
-        inboxInstancesGroupBySpace = _.groupBy(db.instances.find({inbox_users: Meteor.userId()}).fetch(), "space")
+        data = []
+
+        inboxInstances = InstanceManager.getUserInboxInstances()
+
+        inboxInstancesGroupBySpace = _.groupBy(inboxInstances, "space")
         spaceIds = _.keys(inboxInstancesGroupBySpace);
         spaceIds.forEach (spaceId)->
             space = db.spaces.findOne(spaceId, {fields:{name:1}});

@@ -75,8 +75,19 @@ Template.instance_list.helpers
         if Session.get('instance_more_search_selector')
             return ""
         return "display: none;"
+
     maxHeight: ->
         return Template.instance().maxHeight.get() - 55 + 'px'
+
+    isShowMenu: ->
+        if Session.get("box") == 'inbox'
+            inboxInstances = InstanceManager.getUserInboxInstances();
+            if inboxInstances.length > 0
+                return true
+
+        return false;
+
+
 Template.instance_list.onCreated ->
     self = this;
 
