@@ -12,99 +12,111 @@
         <div class="pull-right">
         </div>
     </div>
-    <div class="content admin-content">
-
-        <div class="bd">
-            <div class="weui_cells weui_cells_access">
-                <a class="weui_cell navigation" href="/admin/profile/">
-                    <div class="weui_cell_hd"><i class="ion ion-android-person"></i></div>
-                    <div class="weui_cell_bd weui_cell_primary">
-                        &nbsp;{{_ "Account Settings"}}
+    <div class="admin-content admin-home-content content">
+        <div class="row admin-grids">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                <a href="/admin/profile/" class="admin-grid-item btn btn-block">
+                    <div class="admin-grid-icon">
+                        <i class="ion ion-android-person"></i>
                     </div>
-                    <div class="weui_cell_ft">
+                    <div class="admin-grid-label">
+                        {{_ "Account Settings"}}
                     </div>
                 </a>
             </div>
         </div>
-
         {{#if isSpaceAdmin}}
-            <div class="bd">
-                <div class="weui_cells weui_cells_access">
-                    {{#if isSpaceOwner}}
-                        <a class="weui_cell navigation" href="/admin/space/info">
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <i class="ion ion-android-globe"></i>&nbsp;{{_ "spaces"}}
+            <div class="row admin-grids">
+                {{#if isSpaceOwner}}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/space/info/" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="ion ion-android-globe"></i>
                             </div>
-                            <div class="weui_cell_ft">
-                            </div>
-                        </a>
-                    {{/if}}
-                    {{#if isNotSync}}
-                        <a class="weui_cell navigation" href="/admin/organizations">
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <i class="fa fa-sitemap"></i>&nbsp;{{_ "contacts_organizations"}}
-                            </div>
-                            <div class="weui_cell_ft">
+                            <div class="admin-grid-label">
+                                {{_ "spaces"}}
                             </div>
                         </a>
-                    {{/if}}
-                    <a class="weui_cell navigation" href="/admin/customize_apps">
-                        <div class="weui_cell_hd"><i class="ion ion-ios-keypad-outline"></i></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            &nbsp;{{_ "steedos_customize_apps"}}
+                    </div>
+                {{/if}}
+                {{#if isNotSync}}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/organizations/" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="fa fa-sitemap"></i>
+                            </div>
+                            <div class="admin-grid-label">
+                                {{_ "contacts_organizations"}}
+                            </div>
+                        </a>
+                    </div>
+                {{/if}}
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                    <a href="/admin/profile/" class="admin-grid-item btn btn-block">
+                        <div class="admin-grid-icon">
+                            <i class="ion ion-ios-keypad-outline"></i>
                         </div>
-                        <div class="weui_cell_ft">
+                        <div class="admin-grid-label">
+                            {{_ "steedos_customize_apps"}}
                         </div>
                     </a>
                 </div>
             </div>
         {{/if}}
         {{#if isWorkflowAdmin}}
-            <div class="bd">
-                <div class="weui_cells weui_cells_access">
-                    <a class="weui_cell navigation" href="/admin/view/flow_roles">
-                        <div class="weui_cell_hd"><i class="ion ion-university"></i></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            &nbsp;{{_ "flow_roles"}}
+            <div class="row admin-grids">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                    <a href="/admin/view/flow_roles" class="admin-grid-item btn btn-block">
+                        <div class="admin-grid-icon">
+                            <i class="ion ion-university"></i>
                         </div>
-                        <div class="weui_cell_ft">
-                        </div>
-                    </a>
-                    <a class="weui_cell navigation" href="/admin/view/flow_positions">
-                        <div class="weui_cell_hd"><i class="ion ion-android-happy"></i></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            &nbsp;{{_ "flow_positions"}}
-                        </div>
-                        <div class="weui_cell_ft">
+                        <div class="admin-grid-label">
+                            {{_ "flow_roles"}}
                         </div>
                     </a>
-                    <a class="weui_cell hidden-xs" href="/designer">
-                        <div class="weui_cell_hd"><i class="ion ion-shuffle"></i></div>
-                        <div class="weui_cell_bd weui_cell_primary">
-                            &nbsp;{{_ "Workflow Designer"}}
-                        </div>
-                        <div class="weui_cell_ft">
-                        </div>
-                    </a>
-                    {{#if isPaidSpace}}
-                        <a class="weui_cell hidden-xs" href="/admin/view/flows_template">
-                            <div class="weui_cell_hd"><i class="ion ion-ios-paper-outline"></i></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                &nbsp;{{_ "workflow_form_edit"}}
-                            </div>
-                            <div class="weui_cell_ft">
-                            </div>
-                        </a>
-                        <a class="weui_cell hidden-xs" href="/admin/view/space_user_signs">
-                            <div class="weui_cell_hd"><i class="ion ion-images"></i></div>
-                            <div class="weui_cell_bd weui_cell_primary">
-                                &nbsp;{{_ "space_user_signs"}}
-                            </div>
-                            <div class="weui_cell_ft">
-                            </div>
-                        </a>
-                    {{/if}}
                 </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                    <a href="/admin/view/flow_positions" class="admin-grid-item btn btn-block">
+                        <div class="admin-grid-icon">
+                            <i class="ion ion-android-happy"></i>
+                        </div>
+                        <div class="admin-grid-label">
+                            {{_ "flow_positions"}}
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                    <a href="/designer" class="admin-grid-item btn btn-block">
+                        <div class="admin-grid-icon">
+                            <i class="ion ion-shuffle"></i>
+                        </div>
+                        <div class="admin-grid-label">
+                            {{_ "Workflow Designer"}}
+                        </div>
+                    </a>
+                </div>
+                {{#if isPaidSpace}}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/view/flows_template" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="ion ion-ios-paper-outline"></i>
+                            </div>
+                            <div class="admin-grid-label">
+                                {{_ "workflow_form_edit"}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/view/space_user_signs" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="ion ion-images"></i>
+                            </div>
+                            <div class="admin-grid-label">
+                                {{_ "space_user_signs"}}
+                            </div>
+                        </a>
+                    </div>
+                {{/if}}
             </div>
         {{/if}}
     </div>
