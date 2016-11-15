@@ -48,3 +48,14 @@ if Meteor.isServer
 			
 		if db.flow_positions.find({role: doc._id}).count()>0
 			throw new Meteor.Error(400, "flow_roles_error_positions_exists");
+
+
+if Meteor.isClient
+
+	db.flow_roles._sortFunction = (doc1, doc2) ->
+		return doc1.name?.localeCompare(doc2.name); 
+
+	db.flow_roles.before.find (userId, selector, options) ->
+		if !options
+			options = {}
+		options.sort = db.flow_roles._sortFunction 
