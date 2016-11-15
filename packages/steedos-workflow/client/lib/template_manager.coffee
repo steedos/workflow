@@ -135,15 +135,15 @@ instance_box_style: ->
 TemplateManager.getTemplate = (flowId) ->
     flow = WorkflowManager.getFlow(flowId);
 
-    if Steedos.isMobile()
-        return TemplateManager._template.default
-
     if Session.get("instancePrint")
         if flow?.print_template
             return flow.print_template
         else
             return TemplateManager._template.table
     else
+        if Steedos.isMobile()
+            return TemplateManager._template.default
+
         if flow?.instance_template
             return flow.instance_template
 

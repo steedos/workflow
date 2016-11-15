@@ -40,7 +40,7 @@
                 {{/if}}
             {{/if}}
 
-            <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
+            <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
             {{#if can_delete this.metadata.approve this.metadata.parent}}
                 {{> _file_DeleteButton file_id=this._id}}
             {{/if}}
