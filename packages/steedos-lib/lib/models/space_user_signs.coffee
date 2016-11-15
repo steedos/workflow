@@ -51,7 +51,7 @@ db.space_user_signs.helpers
 		              name: 1
 		            }
 		        });
-		return user.name;
+		return user?.name;
 
 if (Meteor.isServer) 
 
