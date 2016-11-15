@@ -11,6 +11,8 @@ adminRoutes = FlowRouter.group
 adminRoutes.route '/',
 	action: (params, queryParams)->
 		FlowRouter.go "/admin/home"
+		# 因其他模块（比如portal）可能默认会折叠左侧菜单，这里强行展开，每次进入设置模块就默认展开菜单了
+		$("body").removeClass("sidebar-collapse")
 
 FlowRouter.route '/admin/home',
 	action: (params, queryParams)->
