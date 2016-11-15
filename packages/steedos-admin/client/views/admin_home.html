@@ -119,6 +119,42 @@
                 {{/if}}
             </div>
         {{/if}}
+        {{#if isPortalAdmin}}
+            <div class="row admin-grids">
+                {{#if isSpaceAdmin}}
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/view/portal_dashboards" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="ion ion-ios-photos-outline"></i>
+                            </div>
+                            <div class="admin-grid-label">
+                                {{_ "portal_dashboards"}}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                        <a href="/admin/view/apps_auths" class="admin-grid-item btn btn-block">
+                            <div class="admin-grid-icon">
+                                <i class="ion ion-aperture"></i>
+                            </div>
+                            <div class="admin-grid-label">
+                                {{_ "apps_auths"}}
+                            </div>
+                        </a>
+                    </div>
+                {{/if}}
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-1">
+                    <a href="/admin/view/apps_auth_users" class="admin-grid-item btn btn-block">
+                        <div class="admin-grid-icon">
+                            <i class="ion ion-ios-personadd-outline"></i>
+                        </div>
+                        <div class="admin-grid-label">
+                            {{_ "apps_auth_users"}}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {{/if}}
     </div>
 
 </template>
