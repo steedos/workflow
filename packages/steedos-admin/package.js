@@ -67,6 +67,10 @@ Package.onUse(function(api) {
     api.addFiles('client/views/admin_dashboard.html', 'client');
     api.addFiles('client/views/admin_dashboard.coffee', 'client');
 
+    api.addFiles('client/views/admin_home.html', 'client');
+    api.addFiles('client/views/admin_home.coffee', 'client');
+    api.addFiles('client/views/admin_home.less', 'client');
+
     api.addFiles('client/router.coffee', 'client');
     api.addFiles('client/startup.coffee', 'client');
 

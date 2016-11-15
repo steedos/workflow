@@ -1,4 +1,4 @@
-Template.adminSidebar.helpers
+Admin.adminSidebarHelpers =
 
 	displayName: ->
 
@@ -34,6 +34,8 @@ Template.adminSidebar.helpers
 
 	isPortalAdmin: ()->
 		return Steedos.getSpaceAppByUrl("/portal/home")
+
+Template.adminSidebar.helpers Admin.adminSidebarHelpers
 
 Template.adminSidebar.events
 

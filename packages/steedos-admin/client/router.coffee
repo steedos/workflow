@@ -10,9 +10,12 @@ adminRoutes = FlowRouter.group
 
 adminRoutes.route '/',
 	action: (params, queryParams)->
-		FlowRouter.go "/admin/profile"
+		FlowRouter.go "/admin/home"
+
+FlowRouter.route '/admin/home',
+	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
-			main: "steedos_admin_home"
+			main: "admin_home"
 
 FlowRouter.route '/admin/organizations',
 	triggersEnter: [ checkUserSigned ],
