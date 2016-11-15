@@ -42,7 +42,14 @@ db.space_users._simpleSchema = new SimpleSchema
 		autoform:
 			type: "selectuser"
 
-	user_accepted: 
+	sort_no:
+		type: Number,
+		optional: true,
+		defaultValue: 100,
+		autoform:
+			defaultValue: 100
+
+	user_accepted:
 		type: Boolean,
 		optional: true,
 		autoform: 
@@ -72,9 +79,21 @@ db.space_users._simpleSchema = new SimpleSchema
 
 if Meteor.isClient
 	db.space_users._simpleSchema.i18n("space_users")
+	db.space_users._sortFunction = (doc1, doc2) ->
+		if (doc1.sort_no == doc2.sort_no)
+			return doc1.name?.localeCompare(doc2.name);
+		else if (doc1.sort_no > doc2.sort_no)
+			return -1
+		else
+			return 1
+
+	db.space_users.before.find (userId, query, options)->
+		if !options
+			options = {}
+		options.sort = db.space_users._sortFunction
+
 
 db.space_users.attachSchema(db.space_users._simpleSchema);
-
 
 
 db.space_users.helpers

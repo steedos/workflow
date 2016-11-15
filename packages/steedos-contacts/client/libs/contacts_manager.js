@@ -1,12 +1,12 @@
 ContactsManager = {};
 
-ContactsManager.getOrgNode = function(node) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg) {
     var orgs;
 
     if (node.id == '#')
         orgs = ContactsManager.getRoot();
     else
-        orgs = ContactsManager.getChild(node.id);
+        orgs = ContactsManager.getChild(node.id, showHiddenOrg);
 
     return handerOrg(orgs);
 }
@@ -87,10 +87,16 @@ ContactsManager.getRoot = function() {
 };
 
 
-ContactsManager.getChild = function(parentId) {
-    var childs = SteedosDataManager.organizationRemote.find({
-        parent: parentId
-    }, {
+ContactsManager.getChild = function(parentId,showHiddenOrg) {
+    var query = {
+        parent: parentId,
+        hidden: {$ne: true}
+    }
+
+    if(showHiddenOrg)
+        query = {parent: parentId}
+
+    var childs = SteedosDataManager.organizationRemote.find(query, {
         fields: {
             _id: 1,
             name: 1,
@@ -98,6 +104,7 @@ ContactsManager.getChild = function(parentId) {
             parent: 1,
             children: 1,
             childrens: 1,
+            hidden: 1,
             sort_no: 1
         }
     });
@@ -108,9 +115,9 @@ ContactsManager.getChild = function(parentId) {
             return p1.name.localeCompare(p2.name);
         } else {
             if (p1.sort_no < p2.sort_no) {
-                return -1
+                return 1
             } else {
-                return 1;
+                return -1
             }
         }
     });

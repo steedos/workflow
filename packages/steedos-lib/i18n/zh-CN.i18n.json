@@ -204,6 +204,7 @@
     "organizations_parents": "所有上级部门",
     "organizations_space": "所属工作区",
     "organizations_sort_no": "排序号",
+    "organizations_hidden": "隐藏",
 
     "space_users": "人员",
     "space_users_id": "ID",
@@ -224,6 +225,7 @@
     "space_users_mobile": "手机",
     "space_users_managers": "所有上级主管",
     "space_users_apps": "Apps",
+    "space_users_sort_no": "排序号",
 
     "users_changelogs_id": "ID",
     "users_changelogs_change_data": "修改日期",

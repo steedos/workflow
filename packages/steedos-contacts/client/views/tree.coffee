@@ -19,7 +19,7 @@ Template.contacts_tree.onRendered ->
                 themes: { "stripes" : true, "variant" : "large" },
                 data:  (node, cb) ->
                   Session.set("contacts_orgId", node.id);
-                  cb(ContactsManager.getOrgNode(node));
+                  cb(ContactsManager.getOrgNode(node,true));
                       
             plugins: ["wholerow", "search"]
   this.autorun ()->

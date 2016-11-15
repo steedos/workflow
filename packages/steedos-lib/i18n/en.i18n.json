@@ -192,6 +192,7 @@
     "organizations_parents": "All Parents",
     "organizations_space": "Space ID",
     "organizations_sort_no": "Sort No.",
+    "organizations_hidden": "Hidden",
 
 
     "space_users": "Space Users",
@@ -201,7 +202,7 @@
     "space_users_name": "Name",
     "space_users_email": "Email",
     "space_users_organization": "Organization",
-  "space_users_organizations": "Organizations",
+    "space_users_organizations": "Organizations",
     "space_users_user_accepted": "Is Valid",
     "space_users_manager": "Manager",
     "space_users_organization_name()": "Organization",
@@ -213,6 +214,7 @@
     "space_users_mobile": "Moblie",
     "space_users_managers": "All Managers",
     "space_users_apps": "Apps",
+  "space_users_sort_no": "Sort No.",
 
     "users_changelogs_id": "ID",
     "users_changelogs_change_data": "Change Data",
