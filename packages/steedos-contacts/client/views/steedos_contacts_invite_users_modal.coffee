@@ -39,7 +39,7 @@ Template.steedos_contacts_invite_users_modal.events
 
     space_id = Session.get('spaceId')
     organizations = [Session.get('contacts_orgId')]
-    Meteor.call('invite_users_by_email', emails, space_id, organizations, (error, result) ->
+    Meteor.call('invite_users_by_email', newEmails, space_id, organizations, (error, result) ->
       $(document.body).removeClass('loading')
       if error
         if error.error
