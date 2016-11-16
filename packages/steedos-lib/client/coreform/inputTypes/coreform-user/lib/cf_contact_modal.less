@@ -7,7 +7,7 @@
 
     .navigation-bar{
         margin-top: -30px;
-
+        height: 31px !important;
         .dropdown-toggle{
             margin-top: -10px;
         }
@@ -40,6 +40,7 @@
         border-bottom: 0;
         padding: 0;
         padding-left: 10px;
+        padding-bottom: 0px;
     }
 
     label {
@@ -70,8 +71,6 @@
 
             .box-body{
                 overflow-y: auto;
-                max-height: 340px;
-                min-height: 340px;
             }
 
             .box-solid{
@@ -82,16 +81,15 @@
 
     .contacts-modal-body{
         padding-bottom: 0px;
-        overflow-y:auto;
+        //overflow-y:auto;
         padding-top: 5px;
+        &>.row{
+            height: 100%;
+        }
     }
     
 
     .cf_space_user_list {
-        .box-body{
-            padding-top: 0px;
-            min-height: 466px;
-        }
 
         .cf_space_user_list_table{
 
@@ -120,13 +118,10 @@
         }
     }
 
-    .cf_organization_list{
-        .box-body{
-            overflow-y: auto;
-            overflow-x: auto;
-            max-height: 478px;
-            min-height: 478px;
-        }
+    .cf-organization-list, .cf-spaceusers-list{
+        //height: calc(~"100% - 5px");
+        overflow-y: auto;
+        overflow-x: auto;
     }
 
     #selectTagModal-content {

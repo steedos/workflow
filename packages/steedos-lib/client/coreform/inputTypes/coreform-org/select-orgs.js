@@ -60,7 +60,7 @@ Template.afSelectOrg.events({
 
     Modal.allowMultiple = true;
     Modal.show("cf_organization_modal", options);
-    $(".contacts-modal-body").css("max-height", ($(window).height() - 180) + "px");
+    $(".contacts-modal-body").css("max-height", ($(window).height() - 180 - 25) + "px");
   }
 });
 
