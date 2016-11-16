@@ -33,8 +33,8 @@
       #select:
       #  style: 'single'
       dom: "tp",
-      order:[[1,"desc"]]
-      extraFields: ["_id", "name", "email"],
+#      order:[[1,"desc"]]
+      extraFields: ["_id", "name", "email", "sort_no"],
       lengthChange: false,
       pageLength: 15,
       info: false,
