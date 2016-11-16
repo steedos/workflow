@@ -36,7 +36,7 @@
 #      order:[[1,"desc"]]
       extraFields: ["_id", "name", "email", "sort_no"],
       lengthChange: false,
-      pageLength: 15,
+      pageLength: 100,
       info: false,
       searching: true,
       responsive: 
