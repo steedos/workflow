@@ -24,56 +24,6 @@
 	return language?.split('-').shift().toLowerCase() in ['ar', 'dv', 'fa', 'he', 'ku', 'ps', 'sd', 'ug', 'ur', 'yi']
 
 
-datatables_i18n = 
-	"en":
-		"sEmptyTable":     "",
-		"sInfo":           "Showing _START_ to _END_ of _TOTAL_ entries",
-		"sInfoEmpty":      "Showing 0 to 0 of 0 entries",
-		"sInfoFiltered":   "(filtered from _MAX_ total entries)",
-		"sInfoPostFix":    "",
-		"sInfoThousands":  ",",
-		"sLengthMenu":     "Show _MENU_ entries",
-		"sLoadingRecords": "Loading...",
-		"sProcessing":     "Processing...",
-		"sSearch":         "Search:",
-		"sZeroRecords":    "No matching records found",
-		"oPaginate": 
-			"sFirst":    "First",
-			"sLast":     "Last",
-			"sNext":     "Next",
-			"sPrevious": "Previous"
-		"oAria": 
-			"sSortAscending":  ": activate to sort column ascending",
-			"sSortDescending": ": activate to sort column descending"
-		"select" : 
-			"rows": "%d row(s) selected"
-		
-	"zh-CN":
-		"sProcessing":   "处理中...",
-		"sLengthMenu":   "显示 _MENU_ 项结果",
-		"sZeroRecords":  "没有匹配结果",
-		"sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-		"sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
-		"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-		"sInfoPostFix":  "",
-		"sSearch":       "搜索:",
-		"sUrl":          "",
-		"sEmptyTable":     "",
-		"sLoadingRecords": "载入中...",
-		"sInfoThousands":  ",",
-		"oPaginate": 
-			"sFirst":    "首页",
-			"sPrevious": "上页",
-			"sNext":     "下页",
-			"sLast":     "末页"
-		"oAria": 
-			"sSortAscending":  ": 以升序排列此列",
-			"sSortDescending": ": 以降序排列此列"
-		"select" : 
-			"rows": "选中%d行"
-	
-
-
 
 if Meteor.isClient
 
@@ -91,11 +41,36 @@ if Meteor.isClient
 	Tracker.autorun ->
 		lang = Session.get("TAPi18n::loaded_lang")
 
+		$.extend true, $.fn.dataTable.defaults, 
+			language: 
+				"decimal":        t("dataTables.decimal"),
+				"emptyTable":     t("dataTables.emptyTable"),
+				"info":           t("dataTables.info"),
+				"infoEmpty":      t("dataTables.infoEmpty"),
+				"infoFiltered":   t("dataTables.infoFiltered"),
+				"infoPostFix":    t("dataTables.infoPostFix"),
+				"thousands":      t("dataTables.thousands"),
+				"lengthMenu":     t("dataTables.lengthMenu"),
+				"loadingRecords": t("dataTables.loadingRecords"),
+				"processing":     t("dataTables.processing"),
+				"search":         t("dataTables.search"),
+				"zeroRecords":    t("dataTables.zeroRecords"),
+				"paginate":
+					"first":      t("dataTables.paginate.first"),
+					"last":       t("dataTables.paginate.last"),
+					"next":       t("dataTables.paginate.next"),
+					"previous":   t("dataTables.paginate.previous")
+				"aria": 
+					"sortAscending":  t("dataTables.aria.sortAscending"),
+					"sortDescending": t("dataTables.aria.sortDescending")
+				
+		
 		_.each Tabular.tablesByName, (table) ->
 				_.each table.options.columns, (column) ->
 					if (!column.data || column.data == "_id")
 						return
 					column.title = t("" + table.collection._name + "_" + column.data);
-				table.options.language = datatables_i18n[lang]
-				
+					if !table.options.language
+						table.options.language = {}
+					table.options.language.zeroRecords = t("dataTables.zero") + t(table.collection._name) 	
 		
