@@ -1,5 +1,5 @@
 Template.instance_list.helpers
-        
+
     instances: ->
         return db.instances.find({}, {sort: {modified: -1}});
 
@@ -15,7 +15,7 @@ Template.instance_list.helpers
 
     selector: ->
         query = {space: Session.get("spaceId"), flow: Session.get("flowId")}
-        box = Session.get("box") 
+        box = Session.get("box")
         if box == "inbox"
             query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
             query.state = {$in: ["pending","completed"]}
@@ -51,7 +51,7 @@ Template.instance_list.helpers
             query.state = "none"
 
         query.is_deleted = false
-        
+
         instance_more_search_selector = Session.get('instance_more_search_selector')
         if (instance_more_search_selector)
             _.keys(instance_more_search_selector).forEach (k)->
@@ -103,7 +103,7 @@ Template.instance_list.onRendered ->
 
     node = $(".workflow-menu");
     node.maxHeight?.set($(window).height() - 55);
-
+    $('[data-toggle="tooltip"]').tooltip()
     if !Steedos.isMobile()
         $(".instance-list").perfectScrollbar();
 
@@ -113,23 +113,23 @@ Template.instance_list.events
         dataTable = $(event.target).closest('table').DataTable();
         row = $(event.target).closest('tr');
         rowData = dataTable.row(event.currentTarget).data();
-        if (!rowData) 
-            return; 
+        if (!rowData)
+            return;
         box = Session.get("box");
         spaceId = Session.get("spaceId");
 
-        if row.hasClass('selected')  
+        if row.hasClass('selected')
             row.removeClass('selected');
             FlowRouter.go("/workflow/space/" + spaceId + "/" + box);
-        
-        else 
+
+        else
             dataTable.$('tr.selected').removeClass('selected');
             row.addClass('selected');
             FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
-        
 
-    
-    'click .dropdown-menu li a': (event) -> 
+
+
+    'click .dropdown-menu li a': (event) ->
         InstanceManager.exportIns(event.target.type);
 
     'keyup #instance_search': (event) ->
@@ -158,8 +158,3 @@ Template.instance_list.events
     'click #instance_search_tip_close_btn': (event, template) ->
         Session.set("instance_more_search_selector", undefined)
         Session.set("flowId", undefined)
-
-
-
-
- 
