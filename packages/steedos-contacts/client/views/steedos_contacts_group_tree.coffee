@@ -1,9 +1,10 @@
-Template.steedos_contacts_group_tree.helpers 
+Template.steedos_contacts_group_tree.helpers
   is_disabled: ->
     return !Session.get("contacts_groupId") || Session.get("contacts_groupId")=='root'
 
 
 Template.steedos_contacts_group_tree.onRendered ->
+  $('[data-toggle="tooltip"]').tooltip()
   $(document.body).addClass('loading')
   console.log "loaded_organizations ok..."
 
@@ -16,12 +17,12 @@ Template.steedos_contacts_group_tree.onRendered ->
               Session.set("contacts_groupId", data.selected[0])
             return
           ).jstree
-                core: 
+                core:
                     themes: { "stripes" : true, "variant" : "large" },
                     data:  (node, cb) ->
                       Session.set("contacts_groupId", node.id)
                       cb(ContactsManager.getBookNode(node))
-                          
+
                 plugins: ["wholerow", "search"]
       $("#steedos_contacts_group_tree").on('select_node.jstree', (e, data) ->
         $(".contacts-list-wrapper").hide();

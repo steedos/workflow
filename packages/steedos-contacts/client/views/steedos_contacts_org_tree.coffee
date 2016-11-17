@@ -1,10 +1,11 @@
-Template.steedos_contacts_org_tree.helpers 
+Template.steedos_contacts_org_tree.helpers
   is_admin: ()->
     return Steedos.isSpaceAdmin()
   isMobile: ()->
         return Steedos.isMobile();
 
 Template.steedos_contacts_org_tree.onRendered ->
+  $('[data-toggle="tooltip"]').tooltip()
   $(document.body).addClass('loading')
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
@@ -19,12 +20,12 @@ Template.steedos_contacts_org_tree.onRendered ->
           Session.set("contacts_orgId", data.selected[0]);
         return
       ).jstree
-            core: 
+            core:
                 themes: { "stripes" : true, "variant" : "large" },
                 data:  (node, cb) ->
                   Session.set("contacts_orgId", node.id)
                   cb(ContactsManager.getOrgNode(node,true))
-                      
+
             plugins: ["wholerow", "search"]
 
   $("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->

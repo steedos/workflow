@@ -1,4 +1,4 @@
-Template.steedos_contacts_group_book_list.helpers 
+Template.steedos_contacts_group_book_list.helpers
     showBooksList: ->
         if Session.get("contact_showBooks")
             return true
@@ -11,7 +11,7 @@ Template.steedos_contacts_group_book_list.helpers
         childrens = ContactsManager.getOrgAndChild(orgId);
 
         query.organizations = {$in: childrens};
-        
+
         return query;
 
     books_selector: ->
@@ -64,7 +64,7 @@ Template.steedos_contacts_group_book_list.events
 
     'click #steedos_contacts_group_book_list_remove_btn': (event, template) ->
         AdminDashboard.modalDelete 'address_books', event.currentTarget.dataset.id
-    
+
     'click #steedos_contacts_show_orgs': (event, template)->
         listWrapper = $(".contacts-list-wrapper")
         if listWrapper.is(":hidden")
@@ -73,9 +73,10 @@ Template.steedos_contacts_group_book_list.events
             listWrapper.hide();
 
 Template.steedos_contacts_group_book_list.onRendered ->
+    $('[data-toggle="tooltip"]').tooltip()
     TabularTables.steedosContactsOrganizations.customData = @data
     TabularTables.steedosContactsBooks.customData = @data
-    
+
     ContactsManager.setContactModalValue(@data.defaultValues);
 
     ContactsManager.handerContactModalValueLabel();
