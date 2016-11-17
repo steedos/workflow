@@ -4,6 +4,12 @@
 	"mail_drafts": "草稿",
 	"mail_junk": "垃圾邮件",
 	"mail_trash": "已删除",
+	"mail_delete": "删除",
+	"mail_refresh": "刷新",
+	"mail_page_forward": "向前翻页",
+	"mail_page_back": "向后翻页",
+	"mail_back": "返回",
+
 	"address_groups": "通讯录分组",
 	"address_groups_name": "组名",
 	"address_books": "通讯录人员",
@@ -20,9 +26,7 @@
 	"steedos_contacts_invite_users_success": "已发送邀请信息",
 	"steedos_contacts_invite_users_rule": "请输入邮件地址,多个邮件地址之间请用换行相隔",
 	"steedos_contacts_invite_users_input": "请输入邮件地址，邀请用户",
-	"mail_delete": "删除",
-	"mail_refresh": "刷新",
-	"mail_page_forward": "向前翻页",
-	"mail_page_back": "向后翻页",
-	"mail_back": "返回"	
+	"contacts_add": "添加",
+	"contacts_edit": "编辑",
+	"contacts_delete": "删除"
 }
