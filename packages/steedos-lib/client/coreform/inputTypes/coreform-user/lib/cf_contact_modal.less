@@ -5,12 +5,16 @@
         border-radius: 0px;
     }
 
-    .cf-organization-list{
+    .cf-organization-list,.cf-spaceusers-list{
         .box {
-            box-shadow: none;
-            border: none !important;
+          box-shadow: none;
+          border: none !important;
         }
     }
+
+    //.cf-spaceusers-list{
+    //    border-left: 1px solid #d2d6de; 边线会出现半截的情况
+    //}
 
     .navigation-bar{
         margin-top: -30px;
@@ -61,6 +65,7 @@
     }
 
     .modal-header{
+        border-bottom: 1px solid #d2d6de;
         .navigation-bar{
             background-color: #fff;
             padding: 0px;
@@ -89,7 +94,7 @@
     .contacts-modal-body{
         padding-bottom: 0px;
         //overflow-y:auto;
-        padding-top: 5px;
+        padding-top: 0px;
         &>.row{
             height: 100%;
         }
@@ -127,8 +132,12 @@
 
     .cf-organization-list, .cf-spaceusers-list{
         //height: calc(~"100% - 5px");
+        padding: 0px;
         overflow-y: auto;
         overflow-x: auto;
+        .box-body{
+          padding: 0px;
+        }
     }
 
     #selectTagModal-content {
@@ -142,6 +151,7 @@
 
     .modal-footer{
         text-align: left;
+        border-top:1px solid #d2d6de;
     }
 
     .selectTagButton{
