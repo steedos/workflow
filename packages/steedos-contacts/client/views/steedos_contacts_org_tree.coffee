@@ -57,3 +57,26 @@ Template.steedos_contacts_org_tree.events
 
 	'click #contacts_back': (event, template)->
 		$(".contacts-list-wrapper").hide()
+
+	"dragenter .contacts-tree .jstree-node": (event, template) ->
+		console.log "jstree-node dragenter"
+		target = $(event.currentTarget)
+		target.children(".jstree-wholerow").addClass("jstree-wholerow-hovered")
+		target.children(".jstree-anchor").addClass("jstree-hovered")
+
+	"dragleave .contacts-tree .jstree-node": (event, template) ->
+		console.log "jstree-node dragleave"
+		target = $(event.currentTarget)
+		target.children(".jstree-wholerow").removeClass("jstree-wholerow-hovered")
+		target.children(".jstree-anchor").removeClass("jstree-hovered")
+
+	"dragover .contacts-tree .jstree-node": (event, template) ->
+		console.log "jstree-node dragover"
+		event.preventDefault()
+
+	"drop .contacts-tree .jstree-node": (event, template) ->
+		console.log "jstree-node drop"
+		target = $(event.currentTarget)
+		# 这里处理拖动后数据变更并保存到数据库的逻辑
+
+		return false

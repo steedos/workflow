@@ -1,6 +1,8 @@
 TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	name: "steedosContactsOrganizations",
 	collection: db.space_users,
+	createdRow:(row,data,index)-> 
+		$(row).addClass("drag-source").attr "draggable",true
 	columns: [
 # {
 #   data: "_id",
