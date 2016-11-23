@@ -43,6 +43,8 @@ if Meteor.isClient
 	Steedos.fixSideBarScroll = ()->
 		if Steedos.isMobile()
 			return
+		if !$("#scrollspy").perfectScrollbar
+			return
 		if $("body").hasClass("sidebar-collapse")
 			if $("#scrollspy").hasClass("ps-container")
 				$("#scrollspy").perfectScrollbar("destroy")
