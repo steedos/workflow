@@ -62,25 +62,25 @@ Template.steedos_contacts_org_tree.events
 	'click #contacts_back': (event, template)->
 		$(".contacts-list-wrapper").hide()
 
-	"dragenter #steedos_contacts_org_tree .jstree-node": (event, template) ->
-		console.log "jstree-node dragenter"
-		target = $(event.target).closest(".jstree-node")
+	"dragenter #steedos_contacts_org_tree .drag-target": (event, template) ->
+		console.log "drag-target dragenter"
+		target = $(event.target).closest(".drag-target")
 		target.children(".jstree-wholerow").addClass("jstree-wholerow-hovered")
 		target.children(".jstree-anchor").addClass("jstree-hovered")
 
-	"dragleave #steedos_contacts_org_tree .jstree-node": (event, template) ->
-		console.log "jstree-node dragleave"
-		target = $(event.target).closest(".jstree-node")
+	"dragleave #steedos_contacts_org_tree .drag-target": (event, template) ->
+		console.log "drag-target dragleave"
+		target = $(event.target).closest(".drag-target")
 		target.children(".jstree-wholerow").removeClass("jstree-wholerow-hovered")
 		target.children(".jstree-anchor").removeClass("jstree-hovered")
 
-	"dragover #steedos_contacts_org_tree .jstree-node": (event, template) ->
-		console.log "jstree-node dragover"
+	"dragover #steedos_contacts_org_tree .drag-target": (event, template) ->
+		console.log "drag-target dragover"
 		event.preventDefault()
 
-	"drop #steedos_contacts_org_tree .jstree-node": (event, template) ->
-		console.log "jstree-node drop"
-		target = $(event.target).closest(".jstree-node")
+	"drop #steedos_contacts_org_tree .drag-target": (event, template) ->
+		console.log "drag-target drop"
+		target = $(event.target).closest(".drag-target")
 		# 这里处理拖动后数据变更并保存到数据库的逻辑
 
 		return false
