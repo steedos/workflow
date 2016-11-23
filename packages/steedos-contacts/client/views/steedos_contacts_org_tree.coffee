@@ -23,7 +23,11 @@ Template.steedos_contacts_org_tree.onRendered ->
 		core:
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
-				Session.set("contacts_orgId", node.id)
+				# 当展开node时不会选中当前node，所以Session中关联数据不应该变化
+				# 只有展开根目录时才默认关联根目录数据
+				org = db.organizations.findOne(node.id)
+				if org and not org.parent
+					Session.set("contacts_orgId", node.id)
 				cb(ContactsManager.getOrgNode(node,true))
 
 		plugins: ["wholerow", "search"]
