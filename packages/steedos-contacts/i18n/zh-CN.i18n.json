@@ -32,5 +32,7 @@
 	"steedos_contacts_import_contacts": "从组织架构中导入联系人",
 	"contacts_add": "添加",
 	"contacts_edit": "编辑",
-	"contacts_delete": "删除"
+	"contacts_delete": "删除",
+	"steedos_contacts_move_suc": "移动用户成功",
+	"steedos_contacts_error_equal_move_reject": "不能移动到当前所处组织"
 }

@@ -32,5 +32,7 @@
 	"steedos_contacts_import_contacts": "Import contacts from space users",
 	"contacts_add": "Add",
 	"contacts_edit": "Edit",
-	"contacts_delete": "Delete"
+	"contacts_delete": "Delete",
+	"steedos_contacts_move_suc": "Move successfully",
+	"steedos_contacts_error_equal_move_reject": "Can't move to current organization"
 }

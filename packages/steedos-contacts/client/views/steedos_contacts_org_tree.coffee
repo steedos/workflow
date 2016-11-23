@@ -81,6 +81,17 @@ Template.steedos_contacts_org_tree.events
 	"drop #steedos_contacts_org_tree .drag-target": (event, template) ->
 		console.log "drag-target drop"
 		target = $(event.target).closest(".drag-target")
-		# 这里处理拖动后数据变更并保存到数据库的逻辑
+		from_org_id = Session.get("contacts_orgId")
+		to_org_id = target.attr("id")
+		space_user_id = Session.get("dragging_contacts_org_user_id")
+		if from_org_id == to_org_id
+			toastr.error t("steedos_contacts_error_equal_move_reject")
+		Meteor.call 'move_space_users', from_org_id, to_org_id, space_user_id, (error, is_suc) ->
+			if is_suc
+				toastr.success t('steedos_contacts_move_suc')
+			else
+				console.error error
+				toastr.error(error)
 
+		Session.set("dragging_contacts_org_user_id","")
 		return false

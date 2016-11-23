@@ -92,7 +92,6 @@ Template.steedos_contacts_org_user_list.events
 
     'dragend #contacts_list .drag-source': (event, template)->
         console.log "drag-source ondragend"
-        Session.set("dragging_contacts_org_user_id","")
         return false
 
 Template.steedos_contacts_org_user_list.onRendered ->

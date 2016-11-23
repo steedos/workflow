@@ -3,6 +3,8 @@ Meteor.methods
 		check(from_org_id, String)
 		check(to_org_id, String)
 		check(space_user_id, String)
+		if from_org_id == to_org_id
+			return true
 
 		space_user = db.space_users.findOne(space_user_id)
 		if space_user
