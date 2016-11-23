@@ -1,41 +1,41 @@
 <template name="steedos_contacts_org_user_list">
-    <div class="navigation-bar">
-        <button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
-            <i class="fa fa-bars"></i>
-        </button>
-        {{#if is_admin}}
-        <div class="btn-group" >
-            <button type="button" class="btn btn-success btn-flat" id="steedos_contacts_invite_users_btn">
-                {{#if isMobile}}
-                    <i class="ion ion-plus-round"></i>
-                {{else}}
-                    {{_ 'steedos_contacts_invite_users'}}
-                {{/if}}
-            </button>
-        </div>
-        {{/if}}
-        
-        <div class="pull-right">
-            <div class="input-group">
-                <input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
-                    <span class="input-group-btn">
-                        <button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                        </button>
-                    </span>
-            </div>
-        </div>
-    </div>
-    <div class="navigation-bar org-bar" id="steedos_contacts_show_orgs">
-        <i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{getOrgName}}<i class="caret"></i>
-    </div>
-    <div id="contacts_list" class="contacts">
-                <div class="contacts_orgs_list_table">
-                    {{#if is_admin}}
-                        {{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-steedos-contacts"}}
-                    {{else}}
-                        {{> tabular table=TabularTables.steedosContactsOrganizationsReadOnly selector=selector class="table table-striped datatable-steedos-contacts"}}
-                    {{/if}}
-                </div>
-    </div>
+	<div class="navigation-bar">
+		<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
+			<i class="fa fa-bars"></i>
+		</button>
+		{{#if is_admin}}
+		<div class="btn-group" >
+			<button type="button" class="btn btn-success btn-flat" id="steedos_contacts_invite_users_btn">
+				{{#if isMobile}}
+					<i class="ion ion-plus-round"></i>
+				{{else}}
+					{{_ 'steedos_contacts_invite_users'}}
+				{{/if}}
+			</button>
+		</div>
+		{{/if}}
+		
+		<div class="pull-right">
+			<div class="input-group">
+				<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
+					<span class="input-group-btn">
+						<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+						</button>
+					</span>
+			</div>
+		</div>
+	</div>
+	<div class="navigation-bar org-bar" id="steedos_contacts_show_orgs">
+		<i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{getOrgName}}<i class="caret"></i>
+	</div>
+	<div id="contacts_list" class="contacts">
+		<div class="contacts_orgs_list_table">
+			{{#if is_admin}}
+				{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-steedos-contacts"}}
+			{{else}}
+				{{> tabular table=TabularTables.steedosContactsOrganizationsReadOnly selector=selector class="table table-striped datatable-steedos-contacts"}}
+			{{/if}}
+		</div>
+	</div>
 </template>
 

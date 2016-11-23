@@ -61,6 +61,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_books.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
+	api.addFiles('server/methods/move_space_users.coffee', 'server');
 
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
