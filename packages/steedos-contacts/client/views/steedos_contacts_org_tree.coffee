@@ -87,8 +87,11 @@ Template.steedos_contacts_org_tree.events
 		from_org_id = Session.get("contacts_orgId")
 		to_org_id = target.attr("id")
 		space_user_id = Session.get("dragging_contacts_org_user_id")
+		Session.set("dragging_contacts_org_user_id","")
 		if from_org_id == to_org_id
 			toastr.error t("steedos_contacts_error_equal_move_reject")
+			return false
+
 		Meteor.call 'move_space_users', from_org_id, to_org_id, space_user_id, (error, is_suc) ->
 			if is_suc
 				toastr.success t('steedos_contacts_move_suc')
@@ -96,5 +99,4 @@ Template.steedos_contacts_org_tree.events
 				console.error error
 				toastr.error(error)
 
-		Session.set("dragging_contacts_org_user_id","")
 		return false
