@@ -34,5 +34,5 @@
 	"contacts_edit": "Edit",
 	"contacts_delete": "Delete",
 	"steedos_contacts_move_suc": "Move successfully",
-	"steedos_contacts_error_equal_move_reject": "Can't move to current organization"
+	"steedos_contacts_error_equal_move_reject": "Can't move to the current user's organization"
 }

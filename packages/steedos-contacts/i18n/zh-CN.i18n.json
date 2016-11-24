@@ -34,5 +34,5 @@
 	"contacts_edit": "编辑",
 	"contacts_delete": "删除",
 	"steedos_contacts_move_suc": "移动用户成功",
-	"steedos_contacts_error_equal_move_reject": "不能移动到当前所处组织"
+	"steedos_contacts_error_equal_move_reject": "不能移动到该人员当前所处组织"
 }
