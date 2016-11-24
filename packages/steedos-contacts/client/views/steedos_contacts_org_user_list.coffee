@@ -5,13 +5,8 @@ Template.steedos_contacts_org_user_list.helpers
         return false;
     selector: ->
         query = {space: Session.get("spaceId"), user_accepted: true};
-
         orgId = Session.get("contacts_orgId");
-
-        childrens = ContactsManager.getOrgAndChild(orgId);
-
-        query.organizations = {$in: childrens};
-        
+        query.organizations = {$in: [orgId]};
         return query;
 
     books_selector: ->
