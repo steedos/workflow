@@ -53,10 +53,16 @@ if Meteor.isServer
     db.address_books.before.insert (userId, doc) ->
         if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
             throw new Meteor.Error(400, "email_format_error");
+
+        # 同一个分组中不能重复添加相同的email
+        exists = db.address_books.find({owner: Meteor.userId(), email: doc.email, group: doc.group})
+        if exists.count() > 0
+            throw new Meteor.Error(400, "steedos_contacts_error_contact_exists")
             
     db.address_books.before.update (userId, doc, fieldNames, modifier, options) ->
         if modifier.$set.email
             if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(modifier.$set.email)
                 throw new Meteor.Error(400, "email_format_error");
+
 
 db.address_books.attachSchema(db.address_books._simpleSchema)
