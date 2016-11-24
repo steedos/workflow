@@ -8,6 +8,10 @@ Meteor.methods
 
 		space_user = db.space_users.findOne(space_user_id)
 		if space_user
+			space = db.spaces.findOne({_id: space_user.space}, {fields: {admins: 1}})
+			if not space.admins.includes(this.userId)
+				return true
+
 			org_ids = space_user.organizations
 			i = 0
 			while i < org_ids.length
