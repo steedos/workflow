@@ -19,15 +19,18 @@ Template.steedos_contacts_org_tree.onRendered ->
 			Session.set("contact_showBooks", false)
 			Session.set("contacts_orgId", data.selected[0]);
 		return
+	).on('ready.jstree',(e, data) ->
+		ins = data.instance
+		rootNode = data.instance.get_node("#")
+		if rootNode.children.length
+			firstNode = rootNode.children[0]
+			ins.select_node(firstNode)
 	).jstree
 		core:
+			multiple:false,
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
-				# 当展开node时不会选中当前node，所以Session中关联数据不应该变化
-				# 只有展开根目录时才默认关联根目录数据
-				org = db.organizations.findOne(node.id)
-				if org and not org.parent
-					Session.set("contacts_orgId", node.id)
+				# this.select_node(node)
 				cb(ContactsManager.getOrgNode(node,true))
 
 		plugins: ["wholerow", "search"]
