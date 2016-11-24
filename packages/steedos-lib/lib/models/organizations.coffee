@@ -27,22 +27,8 @@ db.organizations._simpleSchema = new SimpleSchema
 		type: [String],
 		optional: true,
 		autoform: 
-			omit: true,
-			type: "select",
-			afFieldInput: 
-				multiple: true
-			options: ->
-				options = []
-				selector = {}
-				if Session.get("spaceId")
-					selector = {space: Session.get("spaceId")}
-
-				objs = db.space_users.find(selector, {name:1, sort: {name:1}})
-				objs.forEach (obj) ->
-					options.push
-						label: obj.name,
-						value: obj.user
-				return options
+			type: "selectuser"
+			multiple: true
 	is_company: 
 		type: Boolean,
 		optional: true,
@@ -163,8 +149,8 @@ if (Meteor.isServer)
 		# only space admin can update space_users
 		if userId and space.admins.indexOf(userId) < 0
 			throw new Meteor.Error(400, "organizations_error_space_admins_only");
-		if doc.users
-			throw new Meteor.Error(400, "organizations_error_users_readonly");
+		# if doc.users
+		# 	throw new Meteor.Error(400, "organizations_error_users_readonly");
 
 		# 同一个space中不能有同名的organization，parent 不能有同名的 child
 		if doc.parent
@@ -198,6 +184,12 @@ if (Meteor.isServer)
 		if doc.parent
 			parent = db.organizations.findOne(doc.parent)
 			db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}});
+		if doc.users
+			space_users = db.space_users.find({space: doc.space, user: {$in: doc.users}}).fetch()
+			_.each space_users, (su)->
+				orgs = su.organizations
+				orgs.push(doc._id)
+				db.space_users.direct.update({_id: su._id}, {$set: {organizations: orgs}})
 
 
 	db.organizations.before.update (userId, doc, fieldNames, modifier, options) ->
@@ -225,8 +217,8 @@ if (Meteor.isServer)
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
-		if modifier.$set.users
-			throw new Meteor.Error(400, "organizations_error_users_readonly");
+		# if modifier.$set.users
+		# 	throw new Meteor.Error(400, "organizations_error_users_readonly");
 								
 		if (modifier.$set.parent)
 			# parent 不能等于自己或者 children
@@ -276,6 +268,31 @@ if (Meteor.isServer)
 		if !_.isEmpty(updateFields)
 			db.organizations.direct.update(obj._id, {$set: updateFields})
 
+		old_users = this.previous.users || []
+		new_users = modifier.$set.users || []
+		added_users = _.difference(new_users, old_users)
+		removed_users = _.difference(old_users, new_users)
+		if added_users.length > 0
+			added_space_users = db.space_users.find({space: doc.space, user: {$in: added_users}}).fetch()
+			_.each added_space_users, (su)->
+				orgs = su.organizations
+				orgs.push(doc._id)
+				db.space_users.direct.update({_id: su._id}, {$set: {organizations: orgs}})
+		if removed_users.length > 0
+			removed_space_users = db.space_users.find({space: doc.space, user: {$in: removed_users}}).fetch()
+			root_org = db.organizations.findOne({space: doc.space, is_company: true}, {fields: {_id: 1}})
+			_.each removed_space_users, (su)->
+				orgs = su.organizations
+				if orgs.length is 1
+					db.space_users.direct.update({_id: su._id}, {$set: {organizations: [root_org._id], organization: root_org._id}})
+				else if orgs.length > 1
+					new_orgs = _.filter(orgs, (org_id)->
+						return org_id isnt doc._id
+					)
+					if su.organization is doc._id
+						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs, organization: new_orgs[0]}})
+					else
+						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs}})
 	
 	db.organizations.before.remove (userId, doc) ->
 		# check space exists
