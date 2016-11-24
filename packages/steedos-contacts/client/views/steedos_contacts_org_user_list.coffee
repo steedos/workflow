@@ -75,6 +75,7 @@ Template.steedos_contacts_org_user_list.events
 
     'dragstart #contacts_list .drag-source': (event, template)->
         console.log "drag-source dragstart"
+        $(event.currentTarget).addClass("drag-source-moving")
         orgTree = $("#steedos_contacts_org_tree")
         orgTree.find(".jstree-node").addClass("drag-target")
         curOrgId = Session.get("contacts_orgId")
@@ -87,6 +88,7 @@ Template.steedos_contacts_org_user_list.events
 
     'dragend #contacts_list .drag-source': (event, template)->
         console.log "drag-source ondragend"
+        $(event.currentTarget).removeClass("drag-source-moving")
         return false
 
 Template.steedos_contacts_org_user_list.onRendered ->
