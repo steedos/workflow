@@ -10,6 +10,10 @@
 	"mail_page_back": "后一页",
 	"mail_back": "返回",
 
+	"steedos_emailjs_serach": "搜索邮件",
+	"steedos_emailjs_add_to_contacts": "添加至联系人",
+	"steedos_emailjs_compose": "写邮件",
+
 	"address_groups": "通讯录分组",
 	"address_groups_name": "组名",
 	"address_books": "通讯录人员",

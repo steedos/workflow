@@ -10,6 +10,10 @@
 	"mail_page_back": "Back",
 	"mail_back": "Back",
 
+	"steedos_emailjs_serach":"Search",
+	"steedos_emailjs_add_to_contacts": "Add to contacts",
+	"steedos_emailjs_compose": "Compose email",
+
 	"address_groups": "Address Groups",
 	"address_groups_name": "Group Name",
 	"address_books": "Address Books",
@@ -33,6 +37,7 @@
 	"contacts_add": "Add",
 	"contacts_edit": "Edit",
 	"contacts_delete": "Delete",
+	
 	"steedos_contacts_move_suc": "Move successfully",
 	"steedos_contacts_error_equal_move_reject": "Can't move to the current user's organization",
 	"steedos_contacts_error_contact_exists": "Contact already exists"
