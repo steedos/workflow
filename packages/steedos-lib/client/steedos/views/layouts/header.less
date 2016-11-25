@@ -1,0 +1,21 @@
+@media screen and (max-width: 767px){
+	/*手机上隐藏右上角的顶部栏*/
+	.main-header {
+		display: none;
+	}
+	.main-sidebar{
+		.main-header {
+			display: block;
+		}
+	}
+	/*当上面的顶部栏被隐藏后，底部高度会出现空白，设置为满屏高度就能解决问题*/
+	.steedos{
+		height: 100%;
+		.skin-admin-lte{
+			height: 100%;
+			.wrapper{
+				height: 100%;
+			}
+		}
+	}
+}

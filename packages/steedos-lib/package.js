@@ -156,6 +156,7 @@ Package.onUse(function(api) {
 
     api.addFiles('client/steedos/views/layouts/header.html', 'client');
     api.addFiles('client/steedos/views/layouts/header.coffee', 'client');
+    api.addFiles('client/steedos/views/layouts/header.less', 'client');
 
     api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
     api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
