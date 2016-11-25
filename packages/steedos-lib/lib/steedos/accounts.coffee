@@ -70,4 +70,4 @@ AccountsTemplates.addFields([
 
 if Meteor.isServer
   Accounts.emailTemplates.siteName = "Steedos";
-  Accounts.emailTemplates.from = "Steedos <support@steedos.com>";
+  Accounts.emailTemplates.from = Meteor.settings.email.from;
