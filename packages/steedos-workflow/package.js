@@ -220,7 +220,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/getSpaceUsers.js', 'server');
 	api.addFiles('routes/getFormulaUserObjects.js', 'server');
 	api.addFiles('routes/init_formula_values.js', 'server');
-	api.addFiles('routes/uf_engine.coffee', 'server');
+	api.addFiles('routes/api_workflow_engine.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

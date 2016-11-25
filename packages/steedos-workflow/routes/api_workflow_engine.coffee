@@ -1,4 +1,4 @@
-JsonRoutes.add 'post', '/uf/engine', (req, res, next) ->
+JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 	Cookies = Npm.require("cookies")
 
 	cookies = new Cookies(req, res)
