@@ -4,10 +4,11 @@
             <div class="box-body">
                 <div class="col-md-12">
                     {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+
+                    {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
+                        {{> instance_custom_template}}
+                    {{/autoForm}}
                 </div>
-                {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
-                    {{> instance_custom_template}}
-                {{/autoForm}}
             </div>
         </div>
 </template>
