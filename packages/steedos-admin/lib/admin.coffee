@@ -38,8 +38,8 @@ db.organizations.adminConfig =
 		{name: "users_count()"},
 	]
 	extraFields: ["space", "name", "users"]
-	newFormFields: "space,name,parent,sort_no,hidden,users"
-	editFormFields: "name,parent,sort_no,hidden,users"
+	newFormFields: "space,name,parent,sort_no,hidden,users,admins"
+	editFormFields: "name,parent,sort_no,hidden,users,admins"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
