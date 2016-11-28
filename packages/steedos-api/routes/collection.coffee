@@ -1,6 +1,9 @@
 Cookies = Npm.require("cookies")
 
 JsonRoutes.add "post", "/api/collection/find", (req, res, next) ->
+    rev = {}
+    rev.timestamp = (new Date()).getTime()
+    
     # TODO 用户登录验证
     cookies = new Cookies( req, res );
 
@@ -70,15 +73,17 @@ JsonRoutes.add "post", "/api/collection/find", (req, res, next) ->
 
     data = db[model].find(selector, options).fetch();
     
-    rev = {}
     rev.docs = data;
-    rev.timestamp = (new Date()).getTime()
     
     JsonRoutes.sendResult res, 
         code: 200,
         data: rev;
 
 JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
+    
+    rev = {}
+    rev.timestamp = (new Date()).getTime()
+    
     # TODO 用户登录验证
     cookies = new Cookies( req, res );
 
@@ -153,9 +158,7 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     
         data = db[model].findOne(selector, options);
     
-    rev = {}
     rev.docs = data;
-    rev.timestamp = (new Date()).getTime()
     
     JsonRoutes.sendResult res, 
         code: 200,
