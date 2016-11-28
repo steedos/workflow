@@ -1,32 +1,12 @@
-AjaxCollection = (model) ->
-  @model = model
-  return
+AjaxCollection = (model, cacheTime) ->
+    @model = model
+    @cache = new AjaxCollectionCache(model, cacheTime);
+    return
 
 AjaxCollection::find = (selector, options) ->
-  @_send selector, options, 'find'
+    return @cache.getDataCollection(selector, options, "find").find(selector, options).fetch();
 
 AjaxCollection::findOne = (selector, options) ->
-  @_send selector, options, 'findone'
+    return @cache.getDataCollection(selector, options, "findone").findOne(selector, options);
 
-AjaxCollection::_send = (selector, options, api) ->
-  config = 
-    model: @model
-    selector: selector
-    options: options
-    space: Session.get('spaceId')
-    "X-User-Id": Meteor.userId()
-    "X-Auth-Token": Accounts._storedLoginToken()
-  rev = undefined
-  settings = 
-    url: Steedos.absoluteUrl() + '/api/collection/' + api
-    type: 'POST'
-    async: false
-    data: JSON.stringify(config)
-    dataType: 'json'
-    processData: false
-    contentType: "application/json"
-    success: (data, textStatus) ->
-      rev = data
-      return
-  $.ajax settings
-  return rev
+

@@ -69,11 +69,14 @@ JsonRoutes.add "post", "/api/collection/find", (req, res, next) ->
     selector.space = space
 
     data = db[model].find(selector, options).fetch();
-
+    
+    rev = {}
+    rev.docs = data;
+    rev.timestamp = (new Date()).getTime()
+    
     JsonRoutes.sendResult res, 
         code: 200,
-        data: data;
-
+        data: rev;
 
 JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     # TODO 用户登录验证
@@ -149,7 +152,11 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
         selector.space = space
     
         data = db[model].findOne(selector, options);
-
+    
+    rev = {}
+    rev.docs = data;
+    rev.timestamp = (new Date()).getTime()
+    
     JsonRoutes.sendResult res, 
         code: 200,
-        data: data;
+        data: rev;
