@@ -27,7 +27,6 @@ AjaxCollectionCache::getDataCollection = (selector, options, api) ->
     return cache?.data
     
 AjaxCollectionCache::update = (selector, docs, timestamp) ->
-    debugger;
     selectorCache = @GetSelectorCache selector
     if docs instanceof Array
         docs.forEach (doc) ->
