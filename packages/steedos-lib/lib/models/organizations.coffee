@@ -12,6 +12,12 @@ db.organizations._simpleSchema = new SimpleSchema
 	name:
 		type: String,
 		max: 200
+	admins: 
+		type: [String],
+		optional: true,
+		autoform:
+			type: "selectuser"
+			multiple: true
 	parent:
 		type: String,
 		optional: true,
