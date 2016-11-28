@@ -404,7 +404,7 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 
 		tips_url = '/workflow/space/'+space_id+'/'+box+'/'+instance_id
 
-		bqq_uri = 'https://openapi.b.qq.com/api/combomsg/send?company_id='+oauth['company_id']+'&company_token='+oauth['company_token']+'&app_id='+app_id+'&client_ip=0.0.0.0'+'&oauth_version=2'+'&employee_access_token='+employee_access_token+'&brief='+body['alert']+'&url='+tips_url+'&type=picture'+'&title='+body['alert']+'&summary='+body['alertTitle']+'&recv_open_ids='+recv_open_ids+'&open_id='+open_id
+		bqq_uri = encodeURI('https://openapi.b.qq.com/api/combomsg/send?company_id='+oauth['company_id']+'&company_token='+oauth['company_token']+'&app_id='+app_id+'&client_ip=0.0.0.0'+'&oauth_version=2'+'&employee_access_token='+employee_access_token+'&brief='+body['alert']+'&url='+tips_url+'&type=picture'+'&title='+body['alert']+'&summary='+body['alertTitle']+'&recv_open_ids='+recv_open_ids+'&open_id='+open_id)
 
 		response = HTTP.post(bqq_uri)
 
