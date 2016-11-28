@@ -128,7 +128,9 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
 
+    api.addFiles('client/lib/ajax_collection_cache.coffee', 'client');
     api.addFiles('client/lib/ajax_collection.coffee', 'client');
+
 
     api.addFiles('client/lib/steedos_data_manager.js', 'client');
 
@@ -219,7 +221,7 @@ Package.onUse(function(api) {
     api.export('db');
     api.export('SteedosOffice');
     api.export("CFDataManager");
-
+    api.export('AjaxCollectionCache');
     api.export('AjaxCollection');
     api.export("SteedosDataManager");
 });
