@@ -55,6 +55,13 @@ if Meteor.isClient
 			unless $("#scrollspy").hasClass("ps-container")
 				$("#scrollspy").perfectScrollbar()
 
+	#定义系统关闭函数，下次登录时自动跳转URL
+	window.onunload = ()->
+		# 判断用户是否登录
+		if Meteor.userId()
+			lastUrl = window.location.pathname
+			localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
+
 
 if Meteor.isServer
 	Steedos.isSpaceAdmin = (spaceId, userId)->

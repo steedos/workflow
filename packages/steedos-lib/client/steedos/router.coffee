@@ -19,14 +19,19 @@ FlowRouter.route '/',
 	action: (params, queryParams)->
 		if (!Meteor.userId())
 			FlowRouter.go "/steedos/sign-in";
-		else 
-			firstApp = Steedos.getSpaceFirstApp()
-			if !firstApp
-				# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
-				BlazeLayout.render 'steedosLoading'
-				$("body").addClass('loading')
+		else
+			# 登录最近关闭的URL
+			lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
+			if lastUrl
+				FlowRouter.go lastUrl
 			else
-				FlowRouter.go("/app/" + firstApp._id);
+				firstApp = Steedos.getSpaceFirstApp()
+				if !firstApp
+					# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
+					BlazeLayout.render 'steedosLoading'
+					$("body").addClass('loading')
+				else
+					FlowRouter.go("/app/" + firstApp._id);
 
 
 # FlowRouter.route '/steedos', 
