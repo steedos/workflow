@@ -59,7 +59,7 @@ if Meteor.isClient
 	window.onunload = ()->
 		# 判断用户是否登录
 		if Meteor.userId()
-			lastUrl = window.location.pathname
+			lastUrl = FlowRouter.current().path
 			localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
 
 

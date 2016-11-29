@@ -25,7 +25,7 @@ if (Steedos.isNode()){
 		click: function(){
 			// 关闭客户端前记录当前url
 			if (Meteor.userId()){
-				var lastUrl = window.location.pathname;
+				var lastUrl = FlowRouter.current().path;
 				localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
 				globalWin.close(true);
 			}
