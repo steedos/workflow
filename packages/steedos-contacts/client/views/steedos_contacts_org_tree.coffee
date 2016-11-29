@@ -1,6 +1,19 @@
 Template.steedos_contacts_org_tree.helpers
 	is_admin: ()->
-		return Steedos.isSpaceAdmin()
+		currentOrgId = Session.get('contacts_orgId')
+		unless currentOrgId
+			return false
+		currentOrg = SteedosDataManager.organizationRemote.findOne(currentOrgId)
+		unless currentOrg
+			return false
+		userId = Steedos.userId()
+		if Steedos.isSpaceAdmin()
+			return true
+		else if currentOrg?.admins.contains(userId)
+			return true
+		else
+			return false
+
 	isMobile: ()->
 		return Steedos.isMobile();
 
