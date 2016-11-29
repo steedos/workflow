@@ -105,6 +105,14 @@ uuflowManager.getUserRoles = (user_id, space_id) ->
 	)
 	return role_names
 
+uuflowManager.isFlowEnabled = (flow)->
+	if flow.state isnt "enabled"
+		throw new Meteor.Error('error!', "流程未启用,操作失败")
+
+uuflowManager.isFlowSpaceMatched = (flow, space_id)->
+	if flow.space isnt space_id
+		throw new Meteor.Error('error!', "流程和工作区ID不匹配")
+
 # 当前节点为条件节点类型时，根据条件计算出后续步骤
 uuflowManager.calculateCondition = (values, condition_str) ->
 	try
@@ -1213,3 +1221,104 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 uuflowManager.ins_html = (ins, lang="zh-CN")->
 	return ""
 
+uuflowManager.create_instance = (instance_from_client, user_info)->
+	space_id = instance_from_client["space"]
+	flow_id = instance_from_client["flow"]
+	instance_flow_version = instance_from_client["flow_version"]
+	user_id = user_info._id
+	# 获取前台所传的trace
+	trace_from_client = null
+	# 获取前台所传的approve
+	approve_from_client = null
+	if instance_from_client["traces"] and instance_from_client["traces"][0]
+		trace_from_client = instance_from_client["traces"][0]
+		if trace_from_client["approves"] and trace_from_client["approves"][0]
+			approve_from_client = instance_from_client["traces"][0]["approves"][0]
+
+	# 获取一个space
+	space = uuflowManager.getSpace(space_id)
+	# 获取一个flow
+	flow = uuflowManager.getFlow(flow_id)
+	# 获取一个space下的一个user
+	space_user = uuflowManager.getSpaceUser(space_id, user_id)
+	# 获取space_user所在的部门信息
+	space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
+	# 判断一个flow是否为启用状态
+	uuflowManager.isFlowEnabled(flow)
+	# 判断一个flow和space_id是否匹配 
+	uuflowManager.isFlowSpaceMatched(flow, space_id)
+
+	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
+
+	if not permissions.includes("add")
+		throw new Meteor.Error('error!', "当前用户没有此流程的新建权限")
+
+	space_user = db.space_users.findOne(
+		space: space_id
+		user: user_id
+	)
+	space_user_org_info = db.organizations.findOne(space_user.organization)
+	now = new Date
+	ins_obj = {}
+	ins_obj._id = db.instances._makeNewID()
+	ins_obj.space = space_id
+	ins_obj.flow = flow_id
+	ins_obj.flow_version = flow.current._id
+	ins_obj.form = flow.form
+	ins_obj.form_version = flow.current.form_version
+	ins_obj.name = flow.name
+	ins_obj.submitter = user_id
+	ins_obj.submitter_name = user_info.name
+	ins_obj.applicant = user_id
+	ins_obj.applicant_name = user_info.name
+	ins_obj.applicant_organization = space_user.organization
+	ins_obj.applicant_organization_name = space_user_org_info.name
+	ins_obj.applicant_organization_fullname = space_user_org_info.fullname
+	ins_obj.state = 'draft'
+	ins_obj.code = ''
+	ins_obj.is_archived = false
+	ins_obj.is_deleted = false
+	ins_obj.created = now
+	ins_obj.created_by = user_id
+	ins_obj.modified = now
+	ins_obj.modified_by = user_id
+	# 新建Trace
+	trace_obj = {}
+	trace_obj._id = Meteor.uuid()
+	trace_obj.instance = ins_obj._id
+	trace_obj.is_finished = false
+	# 当前最新版flow中开始节点的step_id
+	step_id = undefined
+	flow.current.steps.forEach (step) ->
+		if step.step_type == 'start'
+			step_id = step._id
+
+	trace_obj.step = step_id
+	trace_obj.start_date = now
+	# 新建Approve
+	appr_obj = {}
+	appr_obj._id = Meteor.uuid()
+	appr_obj.instance = ins_obj._id
+	appr_obj.trace = trace_obj._id
+	appr_obj.is_finished = false
+	appr_obj.user = user_id
+	appr_obj.user_name = user_info.name
+	appr_obj.handler = user_id
+	appr_obj.handler_name = user_info.name
+	appr_obj.handler_organization = space_user.organization
+	appr_obj.handler_organization_name = space_user_org_info.name
+	appr_obj.handler_organization_fullname = space_user_org_info.fullname
+	appr_obj.type = 'draft'
+	appr_obj.start_date = now
+	appr_obj.read_date = now
+	appr_obj.is_read = true
+	appr_obj.is_error = false
+	appr_obj.description = ''
+	appr_obj.values = if approve_from_client and approve_from_client["values"] then approve_from_client["values"] else new Object
+
+	trace_obj.approves = [ appr_obj ]
+	ins_obj.traces = [ trace_obj ]
+
+	new_ins_id = db.instances.insert(ins_obj)
+
+	return new_ins_id

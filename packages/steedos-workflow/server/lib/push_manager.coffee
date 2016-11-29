@@ -323,13 +323,11 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 			appmsg["tranid"] = (Math.round(new Date().getTime()/1000)).toString()
 			appmsg["protocol"] = "workbench_pc_web"
 			con = new Object
-			con["appname"] = imo_sync_app_key
+			con["appname"] = this.imo_sync_app_key
 			con["type"] = "app"
 			con["ico"] = ""
 			con["count"] = body["badge"].to_s
 			appmsg["contents"] = [con]
-
-			badge_uri = 'http://open.imoffice.com:8000/'
 			res_b = HTTP.post(
 				'http://open.imoffice.com:8000/', 
 				{
@@ -346,7 +344,7 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 						appmsg: JSON.stringify(appmsg)
 				}
 			)
-			res_badge = res_b.data
+			res_badge = res_b.content
 			if res_badge and res_badge["result"] is "false"
 				console.error "send_to_imo 发送消息失败:" + (res_badge["msg"] || res_badge["info"])
 		# 发送msg
@@ -356,7 +354,7 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 			msg["title"] = "新消息: "+body["alertTitle"]
 			msg["img"] = "http:\/\/imoapp.imoffice.com:1863\/WorkBench/Manage\/Images\/24bc3fef811a017771038323d80a6cae_170519a.png"
 			msg["desc"] = body["alert"]
-			msg["lnk"] = Meteor.absoluteUrl() + "se/imo/login?appkey=#{imo_sync_app_key}"
+			msg["lnk"] = Meteor.absoluteUrl() + "se/imo/login?appkey=#{this.imo_sync_app_key}"
 			res_m = HTTP.post(
 				'http://open.imoffice.com:5186/index.php',
 				{
@@ -374,8 +372,7 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 						chart: ""
 				}
 			)
-
-			res_msg = res_m.data
+			res_msg = res_m.content
 			if res_msg and res_msg["result"] is "false"
 				console.error "send_to_imo 发送消息失败:" + (res_msg["msg"] || res_msg["info"])
 

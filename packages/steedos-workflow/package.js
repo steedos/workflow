@@ -221,12 +221,14 @@ Package.onUse(function(api) {
 	api.addFiles('routes/getFormulaUserObjects.js', 'server');
 	api.addFiles('routes/init_formula_values.js', 'server');
 	api.addFiles('routes/api_workflow_engine.coffee', 'server');
+	api.addFiles('routes/api_workflow_drafts.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
 	api.addFiles('server/lib/get_handlers_manager.coffee', 'server');
 	api.addFiles('server/lib/uuflow_manager.coffee', 'server');
 	api.addFiles('server/lib/push_manager.coffee', 'server');
+	api.addFiles('server/lib/permission_manager.coffee', 'server');
 
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
@@ -249,7 +251,7 @@ Package.onUse(function(api) {
 
 	api.export('TemplateManager');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager'], ['server']);
 
 });
 
