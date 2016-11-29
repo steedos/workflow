@@ -1,5 +1,7 @@
 Template.steedos_contacts_org_tree.helpers
 	is_admin: ()->
+		if Steedos.isSpaceAdmin()
+			return true
 		currentOrgId = Session.get('contacts_orgId')
 		unless currentOrgId
 			return false
@@ -7,8 +9,6 @@ Template.steedos_contacts_org_tree.helpers
 		unless currentOrg
 			return false
 		userId = Steedos.userId()
-		if Steedos.isSpaceAdmin()
-			return true
 		else if currentOrg?.admins?.includes(userId)
 			return true
 		else
