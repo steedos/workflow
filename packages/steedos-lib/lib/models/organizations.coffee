@@ -16,7 +16,8 @@ db.organizations._simpleSchema = new SimpleSchema
 		type: [String],
 		optional: true,
 		autoform:
-			type: "selectuser"
+			type: ->
+				return if Steedos.isSpaceAdmin() then "selectuser" else hidden
 			multiple: true
 	parent:
 		type: String,
