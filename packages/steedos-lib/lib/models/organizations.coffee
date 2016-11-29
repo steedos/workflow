@@ -154,12 +154,27 @@ if (Meteor.isServer)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
 
+		# only space admin or org admin can insert organizations
+		if space.admins.indexOf(userId) < 0
+			isOrgAdmin = false
+			if doc.parent
+				parentOrg = db.organizations.findOne(doc.parent)
+				parents = parentOrg?.parents
+				if parents
+					parents.push(doc.parent)
+				else
+					parents = [doc.parent]
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true 
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
 		# if doc.users
 		# 	throw new Meteor.Error(400, "organizations_error_users_readonly");
 
 		# 同一个space中不能有同名的organization，parent 不能有同名的 child
 		if doc.parent
-			parentOrg = db.organizations.findOne(doc.parent)
+			parentOrg = if parentOrg then parentOrg else db.organizations.findOne(doc.parent)
 			if parentOrg.children
 				nameOrg = db.organizations.find({_id: {$in: parentOrg.children}, name: doc.name}).count()
 				if nameOrg>0
@@ -207,6 +222,18 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
+
+		# only space admin or org admin can insert organizations
+		if space.admins.indexOf(userId) < 0
+			isOrgAdmin = false
+			if doc.admins?.includes userId
+				isOrgAdmin = true
+			else if doc.parent
+				parents = doc.parents
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		if (modifier.$set.space and doc.space!=modifier.$set.space)
 			throw new Meteor.Error(400, "organizations_error_space_readonly");
