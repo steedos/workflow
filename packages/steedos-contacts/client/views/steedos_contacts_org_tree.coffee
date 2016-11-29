@@ -9,10 +9,9 @@ Template.steedos_contacts_org_tree.helpers
 		userId = Steedos.userId()
 		if Steedos.isSpaceAdmin()
 			return true
-		else if currentOrg?.admins?.contains(userId)
+		else if currentOrg?.admins?.includes(userId)
 			return true
 		else
-			debugger
 			if currentOrg?.parent and SteedosDataManager.organizationRemote.findOne({_id:{$in:currentOrg.parents}, admins:{$in:[userId]}})
 				return true
 			else
