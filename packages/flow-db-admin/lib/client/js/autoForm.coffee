@@ -61,7 +61,7 @@ AutoForm.hooks
 						hook.done null, collection
 			return false
 		onSuccess: (formType, collection)->
-			AdminDashboard.alertSuccess TAPi18n.__("flow_db_admin_successfully_created")
+			toastr.success TAPi18n.__("flow_db_admin_successfully_created")
 			Modal.hide();
 		onError: (formType, error)->
 			# 判断错误类型
@@ -83,7 +83,7 @@ AutoForm.hooks
 						hook.done null, collection
 			return false
 		onSuccess: (formType, collection)->
-			AdminDashboard.alertSuccess TAPi18n.__("flow_db_admin_successfully_updated")
+			toastr.success TAPi18n.__("flow_db_admin_successfully_updated")
 			Modal.hide();
 		onError: (formType, error)->
 			# 判断错误类型
