@@ -153,9 +153,7 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can update space_users
-		if userId and space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
+
 		# if doc.users
 		# 	throw new Meteor.Error(400, "organizations_error_users_readonly");
 
@@ -176,6 +174,10 @@ if (Meteor.isServer)
 			if orgexisted > 0
 				throw new Meteor.Error(400, "organizations_error_organizations_name_exists")
 
+		# only space admin can update organization.admins
+		if space.admins.indexOf(userId) < 0
+			if (doc.admins)
+				throw new Meteor.Error(400, "organizations_error_space_admins_only_for_org_admins");
 		
 
 	db.organizations.after.insert (userId, doc) ->
@@ -205,9 +207,6 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can update space_users
-		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
 
 		if (modifier.$set.space and doc.space!=modifier.$set.space)
 			throw new Meteor.Error(400, "organizations_error_space_readonly");
@@ -220,6 +219,11 @@ if (Meteor.isServer)
 
 		if (modifier.$set.fullname)
 			throw new Meteor.Error(400, "organizations_error_fullname_readonly");
+
+		# only space admin can update organization.admins
+		if space.admins.indexOf(userId) < 0
+			if (typeof doc.admins != typeof modifier.$set.admins or doc.admins?.sort().join(",") != modifier.$set.admins?.sort().join(","))
+				throw new Meteor.Error(400, "organizations_error_space_admins_only_for_org_admins");
 
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
