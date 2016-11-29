@@ -74,6 +74,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/categories.coffee');
 	api.addFiles('lib/models/box_counts.coffee');
 	api.addFiles('lib/models/spaces.coffee');
+	api.addFiles('lib/models/deleted_instances.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -222,6 +223,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/init_formula_values.js', 'server');
 	api.addFiles('routes/api_workflow_engine.coffee', 'server');
 	api.addFiles('routes/api_workflow_drafts.coffee', 'server');
+	api.addFiles('routes/api_workflow_remove.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
