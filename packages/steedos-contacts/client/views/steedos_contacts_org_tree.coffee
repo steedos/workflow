@@ -9,7 +9,7 @@ Template.steedos_contacts_org_tree.helpers
 		unless currentOrg
 			return false
 		userId = Steedos.userId()
-		else if currentOrg?.admins?.includes(userId)
+		if currentOrg?.admins?.includes(userId)
 			return true
 		else
 			if currentOrg?.parent and SteedosDataManager.organizationRemote.findOne({_id:{$in:currentOrg.parents}, admins:{$in:[userId]}})
