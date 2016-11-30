@@ -83,9 +83,10 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/instance_manager.js', 'client');
     api.addFiles('client/lib/steedos_util.js', 'client');
     api.addFiles('client/lib/uuflow_api.js', 'client');
-    api.addFiles('client/lib/workflow_manager.js', 'client');
+    api.addFiles('client/lib/workflow_manager.js', ['client','server']);
     api.addFiles('client/lib/node_manager.js', 'client');
-    api.addFiles('client/lib/template_manager.coffee', 'client');
+    api.addFiles('client/lib/instance_readonly_template.coffee', ['client','server']);
+    api.addFiles('client/lib/template_manager.coffee', ['client','server']);
     api.addFiles('client/lib/office_online.js', 'client');
 
 
@@ -125,7 +126,7 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/image_sign.html', 'client');
     api.addFiles('client/views/instance/image_sign.coffee', 'client');
 
-    api.addFiles('client/views/instance/_instance_form.coffee', 'client');
+    api.addFiles('client/views/instance/_instance_form.coffee', ['client','server']);
 
     api.addFiles('client/views/instance/attachments.html', 'client');
     api.addFiles('client/views/instance/attachments.js', 'client');
@@ -211,6 +212,8 @@ Package.onUse(function(api) {
     api.addFiles('server/methods/forward_instance.js', 'server');
     api.addFiles('server/methods/cfs_instances.js', 'server');
 
+    api.addFiles('server/routes/instance.coffee', 'server');
+
     // routes
     api.addFiles('routes/nextStepUsers.js', 'server');
     api.addFiles('routes/getSpaceUsers.js', 'server');
@@ -239,6 +242,7 @@ Package.onUse(function(api) {
     // EXPORT
     api.export('Workflow');
 
+    api.export('InstanceReadOnlyTemplate');
     api.export('TemplateManager');
 
 });

@@ -133,9 +133,9 @@ instance_box_style: ->
 
 
 TemplateManager.getTemplate = (flowId) ->
-    flow = WorkflowManager.getFlow(flowId);
+    flow = db.flows.findOne(flowId);
 
-    if Session.get("instancePrint")
+    if Session?.get("instancePrint")
         if flow?.print_template
             return flow.print_template
         else

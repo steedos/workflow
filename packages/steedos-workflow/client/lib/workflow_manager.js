@@ -5,10 +5,11 @@ WorkflowManager = {
   instanceModified: new ReactiveVar(false)
 };
 
-WorkflowManager.remoteSpaceUsers = new AjaxCollection('space_users');
-WorkflowManager.remoteOrganizations = new AjaxCollection('organizations');
-WorkflowManager.remoteFlowRoles = new AjaxCollection('flow_roles');
-
+if(Meteor.isClient){
+    WorkflowManager.remoteSpaceUsers = new AjaxCollection('space_users');
+    WorkflowManager.remoteOrganizations = new AjaxCollection('organizations');
+    WorkflowManager.remoteFlowRoles = new AjaxCollection('flow_roles');
+}
 /*-------------------data source------------------*/
 
 WorkflowManager.getUrlForServiceName = function(serverName) {
