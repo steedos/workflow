@@ -6,7 +6,7 @@
     uobj.methodOverride = "POST";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/drafts?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/drafts?" + $.param(uobj);
     var data = {
       "Instances": [{
         "flow": flowId,
@@ -35,7 +35,7 @@
           return;
         }
 
-        FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/draft/" + responseText.ChangeSet.inserts.Instances[0].id);
+        FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/draft/" + responseText.inserts[0]);
 
         toastr.success(TAPi18n.__('Added successfully'));
       },
@@ -87,7 +87,7 @@
     uobj.methodOverride = "DELETE";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/drafts?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/remove?" + $.param(uobj);
     var data = {
       "Instances": [{
         "id": instanceId
@@ -126,7 +126,7 @@
     uobj.methodOverride = "POST";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/submit?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/submit?" + $.param(uobj);
     var data = {
       "Instances": [instance]
     };
@@ -148,6 +148,17 @@
           responseText.errors.forEach(function(e) {
             toastr.error(e.errorMessage);
           })
+          return;
+        }
+
+        if (responseText.result && responseText.result.length > 0) {
+          _.each(responseText.result, function(r) {
+            if (r.alerts) {
+              toastr.info(r.alerts);
+            }
+          })
+
+          FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
           return;
         }
 
@@ -205,7 +216,7 @@
     uobj.methodOverride = "POST";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/engine?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/engine?" + $.param(uobj);
     var data = {
       "Approvals": [approve]
     };
