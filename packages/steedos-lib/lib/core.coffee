@@ -72,6 +72,7 @@ if Meteor.isServer
 			return false;
 		return space.admins.indexOf(userId)>=0
 
+	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
 		console.log "Steedos.isOrgAdminByOrgIds:"
 		console.log orgIds
