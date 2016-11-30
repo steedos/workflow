@@ -342,9 +342,18 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can remove space_users
+
+		# only space admin or org admin can remove organizations
 		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
+			isOrgAdmin = false
+			if doc.admins?.includes userId
+				isOrgAdmin = true
+			else if doc.parent
+				parents = doc.parents
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		# can not delete organization with children
 		if (doc.children && doc.children.length>0)
