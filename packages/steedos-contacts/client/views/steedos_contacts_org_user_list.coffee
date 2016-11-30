@@ -16,7 +16,7 @@ Template.steedos_contacts_org_user_list.helpers
         return query;
 
     is_admin: ()->
-        return Steedos.isSpaceAdmin()
+        return Steedos.isOrgAdmin Session.get('contacts_orgId')
 
     isMobile: ()->
         return Steedos.isMobile();
