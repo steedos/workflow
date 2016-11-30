@@ -95,6 +95,23 @@ TemplateHelpers =
     isCloudAdmin: ->
         return Meteor.user()?.is_cloudadmin
 
+    isOrgAdmin: (orgId)->
+        if Steedos.isSpaceAdmin()
+            return true
+        unless orgId
+            return false
+        currentOrg = SteedosDataManager.organizationRemote.findOne(orgId)
+        unless currentOrg
+            return false
+        userId = Steedos.userId()
+        if currentOrg?.admins?.includes(userId)
+            return true
+        else
+            if currentOrg?.parent and SteedosDataManager.organizationRemote.findOne({_id:{$in:currentOrg.parents}, admins:{$in:[userId]}})
+                return true
+            else
+                return false
+
     setAppId: (appId)->
         if appId != Session.get("appId")
             Session.set("appId", appId)
