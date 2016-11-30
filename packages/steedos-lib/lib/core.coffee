@@ -72,6 +72,28 @@ if Meteor.isServer
 			return false;
 		return space.admins.indexOf(userId)>=0
 
+	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
+		console.log "Steedos.isOrgAdminByOrgIds:"
+		console.log orgIds
+		console.log userId
+		isOrgAdmin = false
+		useOrgs = db.organizations.find({_id: {$in:orgIds}},{fields:{parents:1,admins:1}}).fetch()
+		console.log useOrgs
+		console.log useOrgs.filter
+		parents = []
+		allowAccessOrgs = useOrgs.filter (org) ->
+			if org.parents
+				parents = _.union parents,org.parents
+			return org.admins?.includes(userId)
+		if allowAccessOrgs.length
+			isOrgAdmin = true
+		else
+			parents = _.flatten parents
+			parents = _.uniq parents
+			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+				isOrgAdmin = true
+		return isOrgAdmin
+
 
 
 # This will add underscore.string methods to Underscore.js

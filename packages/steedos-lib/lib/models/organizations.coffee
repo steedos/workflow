@@ -228,7 +228,7 @@ if (Meteor.isServer)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
 
-		# only space admin or org admin can insert organizations
+		# only space admin or org admin can update organizations
 		if space.admins.indexOf(userId) < 0
 			isOrgAdmin = false
 			if doc.admins?.includes userId
