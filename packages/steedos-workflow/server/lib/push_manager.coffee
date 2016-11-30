@@ -528,7 +528,7 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 			if current_step.step_type is "counterSign" and ("submit_completed_applicant" is send_from or "submit_pending_inbox" is send_from)
 				to_user_change = 'en'
 				if to_users[0].locale is 'zh-cn'
-					lang = 'zh-CN'
+					to_user_change = 'zh-CN'
 
 				_.each(instance.traces[instance.traces.length-2].approves, (appr)->
 					_appr_description = appr.description
@@ -619,6 +619,16 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 			# qq企业用户则发送客户端tips
 			pushManager.send_to_qq(to_user, from_user, space_id, instance_id, instance.state, push_body, lang)
 
+	catch e
+		console.error e.stack
+
+# 发送给当前用户
+pushManager.send_message_current_user = (user_info)->
+	try
+		badge = this.get_badge("current_user", user_info._id)
+		push_body = new Object
+		push_body["badge"] = badge if badge
+		this.send_message([user_info.steedos_id], push_body, user_info)
 	catch e
 		console.error e.stack
 	

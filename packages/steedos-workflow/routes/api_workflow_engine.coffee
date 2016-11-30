@@ -160,10 +160,12 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 				else if instance_trace.is_finished is false
 					# 会签 并且当前trace未结束
 					# 发送push消息 给 inbox_users
+
 				else
 					# 发送消息给下一步处理人
 					pushManager.send_instance_notification("submit_pending_inbox", instance, description, current_user_info)
-		
+			#发送消息给当前用户
+			pushManager.send_message_current_user(current_user_info)
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {}
