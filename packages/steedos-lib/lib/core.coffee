@@ -74,13 +74,8 @@ if Meteor.isServer
 
 	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
-		console.log "Steedos.isOrgAdminByOrgIds:"
-		console.log orgIds
-		console.log userId
 		isOrgAdmin = false
 		useOrgs = db.organizations.find({_id: {$in:orgIds}},{fields:{parents:1,admins:1}}).fetch()
-		console.log useOrgs
-		console.log useOrgs.filter
 		parents = []
 		allowAccessOrgs = useOrgs.filter (org) ->
 			if org.parents
