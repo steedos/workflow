@@ -61,7 +61,10 @@ Template.steedos_contacts_org_tree.events
 
 	'click #steedos_contacts_org_tree_remove_btn': (event, template) ->
 		AdminDashboard.modalDelete 'organizations', Session.get('contacts_orgId'), ()->
-			$.jstree.reference('#steedos_contacts_org_tree').refresh()
+			orgTree = $.jstree.reference('#steedos_contacts_org_tree')
+			parent = orgTree.get_parent(Session.get("contacts_orgId"))
+			orgTree.select_node(parent)
+			orgTree.refresh()
 
 	'click #contacts_back': (event, template)->
 		$(".contacts-list-wrapper").hide()
