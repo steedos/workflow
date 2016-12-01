@@ -625,10 +625,13 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 # 发送给当前用户
 pushManager.send_message_current_user = (user_info)->
 	try
-		badge = this.get_badge("current_user", user_info._id)
-		push_body = new Object
-		push_body["badge"] = badge if badge
-		this.send_message([user_info.steedos_id], push_body, user_info)
+		this.get_badge("current_user", user_info._id)
 	catch e
 		console.error e.stack
-	
+
+# 发送push 并且内容只有待审核数量
+pushManager.send_message_to_specifyUser = (send_from, to_user)->
+	try
+		this.get_badge(send_from, to_user)
+	catch e
+		console.error e.stack
