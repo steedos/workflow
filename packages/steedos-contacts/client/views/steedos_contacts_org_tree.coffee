@@ -96,11 +96,15 @@ Template.steedos_contacts_org_tree.events
 			toastr.error t("steedos_contacts_error_equal_move_reject")
 			return false
 
+		unless space_user_id
+			toastr.error t("steedos_contacts_error_space_user_not_found_dragging")
+			return false
+
 		Meteor.call 'move_space_users', from_org_id, to_org_id, space_user_id, (error, is_suc) ->
 			if is_suc
 				toastr.success t('steedos_contacts_move_suc')
 			else
 				console.error error
-				toastr.error(error)
+				toastr.error(t(error.reason))
 
 		return false

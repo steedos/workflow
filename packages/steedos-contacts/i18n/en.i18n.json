@@ -40,5 +40,7 @@
 	
 	"steedos_contacts_move_suc": "Move successfully",
 	"steedos_contacts_error_equal_move_reject": "Can't move to the current user's organization",
+	"steedos_contacts_error_space_user_not_found": "Space user is not found",
+	"steedos_contacts_error_space_user_not_found_dragging": "Dragging Space user data not found",
 	"steedos_contacts_error_contact_exists": "Contact already exists"
 }
