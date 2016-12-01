@@ -42,5 +42,9 @@
 	"steedos_contacts_error_equal_move_reject": "Can't move to the current user's organization",
 	"steedos_contacts_error_space_user_not_found": "Space user is not found",
 	"steedos_contacts_error_space_user_not_found_dragging": "Dragging Space user data not found",
-	"steedos_contacts_error_contact_exists": "Contact already exists"
+	"steedos_contacts_error_contact_exists": "Contact already exists",
+    "steedos_contacts_export": "Export",
+    "address_books_mobile": "Mobile",
+    "steedos_contacts__books_export_error": "Please select export users.",
+    "steedos_contact_books_exprot_vcf_title": "Export vCard..."
 }

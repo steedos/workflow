@@ -14,6 +14,9 @@ db.address_books._simpleSchema = new SimpleSchema
 		type: String,
 	email:
 		type: String,
+	mobile:
+		type: String,
+		optional: true,
 	group:
 		type: String,
 		optional: true,
