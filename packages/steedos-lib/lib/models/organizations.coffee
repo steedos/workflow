@@ -221,7 +221,8 @@ if (Meteor.isServer)
 				db.space_users.direct.update({_id: su._id}, {$set: {organizations: orgs}})
 
 		# 新增部门后在audit_logs表中添加一条记录
-		sUser = db.space_users.findOne({space: doc.space, user: userId})
+		insertedDoc = db.organizations.findOne({_id: doc._id})
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields: {name: 1}})
 		if sUser
 			db.audit_logs.insert
 				c_name: "organizations",
@@ -229,7 +230,7 @@ if (Meteor.isServer)
 				object_id: doc._id,
 				object_name: doc.name,
 				value_previous: null,
-				value: doc,
+				value: JSON.parse(JSON.stringify(insertedDoc)),
 				created_by: userId,
 				created_by_name: sUser.name,
 				created: new Date()
@@ -325,20 +326,6 @@ if (Meteor.isServer)
 		if !_.isEmpty(updateFields)
 			db.organizations.direct.update(obj._id, {$set: updateFields})
 
-			# 更新部门后在audit_logs表中添加一条记录
-			sUser = db.space_users.findOne({space: doc.space, user: userId})
-			if sUser
-				db.audit_logs.insert
-					c_name: "organizations",
-					c_action: "update",
-					object_id: doc._id,
-					object_name: doc.name,
-					value_previous: this.previous,
-					value: doc,
-					created_by: userId,
-					created_by_name: sUser.name,
-					created: new Date()
-
 		old_users = this.previous.users || []
 		new_users = modifier.$set.users || []
 		added_users = _.difference(new_users, old_users)
@@ -364,6 +351,22 @@ if (Meteor.isServer)
 						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs, organization: new_orgs[0]}})
 					else
 						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs}})
+
+
+		# 更新部门后在audit_logs表中添加一条记录
+		updatedDoc = db.organizations.findOne({_id: doc._id})
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields:{name:1}})
+		if sUser
+			db.audit_logs.insert
+				c_name: "organizations",
+				c_action: "edit",
+				object_id: doc._id,
+				object_name: doc.name,
+				value_previous: this.previous,
+				value: JSON.parse(JSON.stringify(updatedDoc)),
+				created_by: userId,
+				created_by_name: sUser.name,
+				created: new Date()
 
 	
 	db.organizations.before.remove (userId, doc) ->
@@ -403,11 +406,11 @@ if (Meteor.isServer)
 		#		db.space_users.direct.update({user: userId}, {$unset: {organization: 1}})
 
 		# 删除部门后在audit_logs表中添加一条记录
-		sUser = db.space_users.findOne({space: doc.space, user: userId})
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields:{name:1}})
 		if sUser
 			db.audit_logs.insert
 				c_name: "organizations",
-				c_action: "remove",
+				c_action: "delete",
 				object_id: doc._id,
 				object_name: doc.name,
 				value_previous: doc,
