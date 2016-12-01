@@ -300,7 +300,7 @@
     uobj.methodOverride = "PUT";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/reassign?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/reassign?" + $.param(uobj);
     var data = {
       "Instances": [instance]
     };
