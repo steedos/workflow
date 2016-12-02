@@ -38,7 +38,7 @@ InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUser", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
 
-#TODO 国际化
+#TODO 国际化  table字段显示；日期、日期时间字段本地化；checkbox字段值国际化问题；邮件、url、textear 类型显示问题
 InstanceReadOnlyTemplate.getValue = (instance, fields, code) ->
 	field = fields.findPropertyByPK("code", code)
 	value = instance.values[code];
