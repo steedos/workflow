@@ -9,26 +9,15 @@ JsonRoutes.add "get", "/workflow/instance/view/readonly/:instance_id", (req, res
 
 	instance = db.instances.findOne({_id: instanceId});
 
+	form_version =  InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
+
+	steedosData = {instance: instance, form_version: form_version}
+
 	hash = (new Date()).getTime()
 
 	instanceTemplate = TemplateManager.getTemplate(instance.flow);
 
-	#TODO 添加对Template.dynamic 模板引用方式的支持
-
-	instanceTemplate = '''
-		{{#each steedos_form.fields}}
-		    {{#if includes this.type 'section,table'}}
-		        <div class="col-md-12">
-		            {{> afFormGroup name=this.code label=false}}
-		        </div>
-		    {{else}}
-		        <div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-		        {{> afFormGroup name=this.code}}
-		        </div>
-		    {{/if}}
-
-		{{/each}}
-	'''
+	instanceTemplate = instanceTemplate
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, { isBody: true });
 
@@ -36,10 +25,14 @@ JsonRoutes.add "get", "/workflow/instance/view/readonly/:instance_id", (req, res
 
 	Template.instance_readonly_view = new Blaze.Template("instance_readonly_view", instanceRenderFunction);
 
+	Template.instance_readonly_view.steedosData = steedosData
+
 	Template.instance_readonly_view.helpers InstanceformTemplate.helpers
 
+	InstanceReadOnlyTemplate.init(steedosData);
+
 	#TODO 将获取body的代码抽取成函数
-	body = Blaze.toHTMLWithData(Template.instance_readonly_view, instance)
+	body = Blaze.toHTMLWithData(Template.instance_readonly_view, {instance: instance})
 
 	html = """
 		<!DOCTYPE html>

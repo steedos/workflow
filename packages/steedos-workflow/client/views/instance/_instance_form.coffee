@@ -295,16 +295,52 @@ InstanceformTemplate.helpers =
 
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form =  ->
-		form_version = db.forms.findOne({_id:"39264240-b4f4-482c-834b-ddc08c601246"})?.current;
-		if form_version
-			return form_version
+		return Template.instance().view.template.steedosData.form_version
+
+	InstanceformTemplate.helpers.getLabel = (code)->
+		form_version = Template.instance().view.template.steedosData.form_version
+		InstanceReadOnlyTemplate.getLabel form_version.fields, code
 
 	InstanceformTemplate.helpers.getValue = (code)->
-		doc_values = db.instances.findOne("5812aab348554d544b000061").values;
-		return doc_values[code];
+
+		instance = Template.instance().view.template.steedosData.instance
+
+		form_version = Template.instance().view.template.steedosData.form_version
+
+		return InstanceReadOnlyTemplate.getValue instance, form_version.fields, code
+
+	InstanceformTemplate.helpers.getField = (code)->
+		form_version = Template.instance().view.template.steedosData.form_version
+		return form_version.fields.findPropertyByPK("code", code)
+
+	InstanceformTemplate.helpers.isSection = (code)->
+		form_version = Template.instance().view.template.steedosData.form_version
+		return form_version.fields.findPropertyByPK("code", code).type == 'section'
 
 	InstanceformTemplate.helpers.doc_values =  ->
-		doc_values = db.instances.findOne("5812aab348554d544b000061").values;
+		instance = Template.instance().view.template.steedosData.instance;
+		return instance.values;
+
+	InstanceformTemplate.helpers.applicantContext =  ->
+		instance = Template.instance().view.template.steedosData.instance;
+		data = {
+			name: 'ins_applicant',
+			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'},
+			value: instance.applicant_name
+		}
+
+	InstanceformTemplate.helpers.instance =  ->
+		return Template.instance().view.template.steedosData.instance
+
+	InstanceformTemplate.helpers.fields = ->
+		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(Template.instance().view.template.steedosData.instance);
+		if form_version
+			return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
+
+	InstanceformTemplate.helpers.form_types = ->
+		return "disabled"
+
+
 
 InstanceformTemplate.events =
 	'change .instance-form .form-control,.instance-form .checkbox input,.instance-form .af-radio-group input,.instance-form .af-checkbox-group input': (event)->
