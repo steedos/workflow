@@ -117,6 +117,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			setObj["traces.$.approves"] = last_trace.approves
 			r = db.instances.update({_id: instance_id, "traces._id": last_trace._id}, {$set: setObj})
 			if r
+				ins = uuflowManager.getInstance(instance_id)
 				# 给被删除的inbox_users 和 当前用户 发送push
 				pushManager.send_message_current_user(current_user_info)
 				_.each(not_in_inbox_users, (user_id)->
@@ -125,15 +126,15 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				)
 				# 提取instances.outbox_users数组和填单人、申请人
 				_users = new Array
-				_users.push(instance.applicant)
-				_users.push(instance.submitter)
-				_users = _.uniq(_users.concat(instance.outbox_users))
+				_users.push(ins.applicant)
+				_users.push(ins.submitter)
+				_users = _.uniq(_users.concat(ins.outbox_users))
 				_.each(_users, (user_id)->
 					pushManager.send_message_to_specifyUser("current_user", user_id)
 				)
 
 				# 给新加入的inbox_users发送push message
-				pushManager.send_instance_notification("reassign_new_inbox_users", instance, reassign_reason, current_user_info)
+				pushManager.send_instance_notification("reassign_new_inbox_users", ins, reassign_reason, current_user_info)
 
 		JsonRoutes.sendResult res,
 				code: 200

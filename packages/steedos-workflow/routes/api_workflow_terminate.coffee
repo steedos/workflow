@@ -139,12 +139,12 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 				if r
 					ins = uuflowManager.getInstance(instance_id)
 					#通知填单人、申请人
-					pushManager.send_instance_notification("submit_terminate_applicant",instance,terminate_reason,current_user_info)
+					pushManager.send_instance_notification("submit_terminate_applicant", ins, terminate_reason, current_user_info)
 
 					#发送给待处理人 被传阅人
 					if old_inbox_users
 						_.each(_.uniq(old_inbox_users.concat(old_cc_users)), (user_id)->
-							pushManager.send_message_to_specifyUser("terminate_approval",user_id)
+							pushManager.send_message_to_specifyUser("terminate_approval", user_id)
 						)
 
 		#发送消息给当前用户
