@@ -74,6 +74,10 @@ uuflowManager.isInstanceSubmitter = (instance, current_user_id) ->
 	if instance.submitter isnt current_user_id
 		throw new Meteor.Error('error!', '当前用户不是申请单对应的提交人,不能进行此操作')
 
+uuflowManager.isInstanceSubmitterOrApplicantOrSpaceAdmin = (instance, current_user_id, space)->
+	if instance.submitter isnt current_user_id and instance.applicant isnt current_user_id && not space.admins.includes(current_user_id)
+		throw new Meteor.Error('error!', "当前用户不是申请单对应的提交人或申请人或工作区管理员")
+
 uuflowManager.getStep = (instance, flow, step_id) ->
 	flow_rev = instance.flow_version
 	isExistStep = null

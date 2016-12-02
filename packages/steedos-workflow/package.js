@@ -228,6 +228,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_terminate.coffee', 'server');
 	api.addFiles('routes/api_workflow_reassign.coffee', 'server');
 	api.addFiles('routes/api_workflow_relocate.coffee', 'server');
+	api.addFiles('routes/api_workflow_archive.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

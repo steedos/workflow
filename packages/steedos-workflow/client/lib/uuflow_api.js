@@ -385,7 +385,7 @@
     uobj.methodOverride = "POST";
     uobj["X-User-Id"] = Meteor.userId();
     uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/archive?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/archive?" + $.param(uobj);
     var data = {
       "Instances": [{
         id: insId

@@ -467,7 +467,7 @@ InstanceManager.getCurrentValues = function() {
     } else if (box == "outbox" || box == "pending" || box == "completed" || box == "monitor") {
 
       instanceValue = instance.values;
-    }else{
+    } else {
       instanceValue = instance.values;
     }
 
@@ -1051,7 +1051,7 @@ InstanceManager.isInbox = function() {
 }
 
 InstanceManager.isCC = function(instance) {
-  if(!instance)
+  if (!instance)
     return false;
 
   var currentUser = Meteor.userId();
@@ -1105,9 +1105,13 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id) {
 }
 
 
-InstanceManager.getUserInboxInstances = function () {
+InstanceManager.getUserInboxInstances = function() {
   var query = {}
-  query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
+  query.$or = [{
+    inbox_users: Meteor.userId()
+  }, {
+    cc_users: Meteor.userId()
+  }]
 
   return db.instances.find(query).fetch();
 }
