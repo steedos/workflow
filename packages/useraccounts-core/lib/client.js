@@ -8,6 +8,8 @@ AT.prototype.STATES = [
   "changePwd", // Change Password
   "enrollAccount", // Account Enrollment
   "forgotPwd", // Forgot Password
+  // add a new states named "forgotPwdToken"
+  "forgotPwdToken",// Token Interface for Forgot Password
   "hide", // Nothing displayed
   "resetPwd", // Reset Password
   "signIn", // Sign In
@@ -278,6 +280,10 @@ AT.prototype._init = function() {
         if (AccountsTemplates.loginType() === "username_and_email") {
           field.visible.push("signIn");
         }
+        break;
+      // new field just show for forgotPwdToken state
+      case "forgot_pwd_token":
+        field.visible = ["forgotPwdToken"];
         break;
       default:
         field.visible = ["signUp"];

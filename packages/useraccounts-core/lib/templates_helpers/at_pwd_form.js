@@ -105,6 +105,7 @@ AT.prototype.atPwdFormEvents = {
         var password_again = formData.password_again;
         var username = formData.username;
         var username_and_email = formData.username_and_email;
+        var forgot_pwd_token = formData.forgot_pwd_token;
         // Clears profile data removing username, email, and pwd
         delete formData.current_password;
         delete formData.email;
@@ -112,6 +113,7 @@ AT.prototype.atPwdFormEvents = {
         delete formData.password_again;
         delete formData.username;
         delete formData.username_and_email;
+        delete formData.forgot_pwd_token;
 
         if (AccountsTemplates.options.confirmPassword){
             // Checks passwords for correct match
@@ -278,6 +280,13 @@ AT.prototype.atPwdFormEvents = {
                     t.$("#at-field-email").val("");
                 });
             });
+        }
+
+        //----------------
+        // Forgot Password Token
+        //----------------
+        if (state === "forgotPwdToken"){
+            FlowRouter.go("/steedos/reset-password/%@".replace("%@",forgot_pwd_token))
         }
 
         //--------------------------------

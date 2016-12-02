@@ -6,6 +6,8 @@ STATE_PAT = {
   changePwd: Match.Optional(String),
   enrollAccount: Match.Optional(String),
   forgotPwd: Match.Optional(String),
+  // PAT new state named 'forgotPwdToken'
+  forgotPwdToken: Match.Optional(String),
   resetPwd: Match.Optional(String),
   signIn: Match.Optional(String),
   signUp: Match.Optional(String),
@@ -275,6 +277,8 @@ AT.prototype.texts = {
     //enrollAccount: "createAccount",
     enrollAccount: "signUp",
     forgotPwd: "emailResetLink",
+    // new field text named 'forgotPwdToken'
+    forgotPwdToken: "pwdResetLink",
     resetPwd: "setPassword",
     signIn: "signIn",
     signUp: "signUp",
@@ -380,6 +384,17 @@ AT.prototype._fields = [
         "default": "password",
         changePwd: "newPassword",
         resetPwd: "newPassword",
+    },
+  }),
+  // add a new field named 'forgot_pwd_token'
+  new Field({
+    _id: "forgot_pwd_token",
+    type: "forgot_pwd_token",
+    required: true,
+    lowercase: true,
+    trim: true,
+    placeholder: {
+        "default": "forgotPwdToken",
     },
   }),
 ];

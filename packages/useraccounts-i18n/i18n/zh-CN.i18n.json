@@ -15,6 +15,8 @@
   "email": "电子邮箱",
   "emailAddress": "电邮地址",
   "emailResetLink": "邮件重置链接",
+  "pwdResetLink": "重置密码",
+  "forgotPwdToken": "验证码",
   "forgotPassword": "忘记密码？",
   "ifYouAlreadyHaveAnAccount": "已有账户？",
   "newPassword": "新密码",

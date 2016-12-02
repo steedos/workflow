@@ -40,6 +40,7 @@ AccountsTemplates.configureRoute 'changePwd',
   path: '/steedos/change-password'
 AccountsTemplates.configureRoute 'forgotPwd',
   path: '/steedos/forgot-password'
+  redirect: '/steedos/forgot-password-token'
 AccountsTemplates.configureRoute 'resetPwd',
   path: '/steedos/reset-password'
 AccountsTemplates.configureRoute 'signIn',
@@ -50,6 +51,8 @@ AccountsTemplates.configureRoute 'verifyEmail',
   path: '/steedos/verify-email'
 AccountsTemplates.configureRoute 'enrollAccount',
   path: '/steedos/enroll-account'
+AccountsTemplates.configureRoute 'forgotPwdToken',
+  path: '/steedos/forgot-password-token'
 
 # add fields within sign-up form
 AccountsTemplates.addFields([
