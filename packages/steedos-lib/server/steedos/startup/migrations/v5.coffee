@@ -8,6 +8,8 @@ Meteor.startup ->
 			try
 
 				db.space_users.find().forEach (su)->
+					if not su.organizations
+						return
 					if su.organizations.length is 1
 						check_count = db.organizations.find(su.organizations[0]).count()
 						if check_count is 0
