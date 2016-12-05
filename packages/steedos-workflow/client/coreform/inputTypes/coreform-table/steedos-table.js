@@ -252,7 +252,9 @@ SteedosTable.getKeys = function(field) {
 
 SteedosTable.getThead = function(field, editable) {
 
-    var fieldObj = SteedosTable.getField(field);
+    var fieldObj = field;
+    if (!_.isObject(field))
+        fieldObj = SteedosTable.getField(field);
 
     if (!fieldObj) {
         return '';
@@ -314,7 +316,12 @@ SteedosTable.getTbody = function(keys, field, values, editable) {
 }
 
 SteedosTable.getTr = function(keys, item_value, index, field, editable) {
-    var tr = "<tr id='" + field + "_item_" + index + "' name='" + field + "_item_" + index + "' data-index='" + index + "'"
+
+    var fieldObj = field;
+    if (!_.isObject(field))
+        fieldObj = SteedosTable.getField(field);
+
+    var tr = "<tr id='" + fieldObj.code + "_item_" + index + "' name='" + fieldObj.code + "_item_" + index + "' data-index='" + index + "'"
 
     if (editable) {
         tr = tr + "' class='item edit'"
@@ -331,10 +338,10 @@ SteedosTable.getTr = function(keys, item_value, index, field, editable) {
     var tds = "";
 
     if (editable) {
-        tds = SteedosTable.getRemoveTd(field, index);
+        tds = SteedosTable.getRemoveTd(fieldObj.code, index);
     }
 
-    var sfields = SteedosTable.getField(field).sfields;
+    var sfields = fieldObj.sfields;
 
     keys.forEach(function(key) {
         var sfield = sfields.findPropertyByPK("code", key);
@@ -484,68 +491,70 @@ SteedosTable.getTDValue = function(field, value) {
     return td_value;
 };
 
-AutoForm.addInputType("table", {
-    template: "afTable",
-    valueOut: function() {
-        var name = this.data("schemaKey");
-        return SteedosTable.getValidValue(name);
-    },
-    valueConverters: {
-        "stringArray": AutoForm.valueConverters.stringToStringArray,
-        "number": AutoForm.valueConverters.stringToNumber,
-        "numerArray": AutoForm.valueConverters.stringToNumberArray,
-        "boolean": AutoForm.valueConverters.stringToBoolean,
-        "booleanArray": AutoForm.valueConverters.stringToBooleanArray,
-        "date": AutoForm.valueConverters.stringToDate,
-        "dateArray": AutoForm.valueConverters.stringToDateArray
-    },
-    contextAdjust: function(context) {
-        if (typeof context.atts.maxlength === 'undefined' && typeof context.max === 'number') {
-            context.atts.maxlength = context.max;
+if(Meteor.isClient){
+    AutoForm.addInputType("table", {
+        template: "afTable",
+        valueOut: function() {
+            var name = this.data("schemaKey");
+            return SteedosTable.getValidValue(name);
+        },
+        valueConverters: {
+            "stringArray": AutoForm.valueConverters.stringToStringArray,
+            "number": AutoForm.valueConverters.stringToNumber,
+            "numerArray": AutoForm.valueConverters.stringToNumberArray,
+            "boolean": AutoForm.valueConverters.stringToBoolean,
+            "booleanArray": AutoForm.valueConverters.stringToBooleanArray,
+            "date": AutoForm.valueConverters.stringToDate,
+            "dateArray": AutoForm.valueConverters.stringToDateArray
+        },
+        contextAdjust: function(context) {
+            if (typeof context.atts.maxlength === 'undefined' && typeof context.max === 'number') {
+                context.atts.maxlength = context.max;
+            }
+            return context;
         }
-        return context;
-    }
-});
+    });
 
-Template.afTable.events({
-    'click .steedos-table .steedosTable-item-add': function(event, template) {
+    Template.afTable.events({
+        'click .steedos-table .steedosTable-item-add': function(event, template) {
 
-        var name = template.data.name;
+            var name = template.data.name;
 
-        var tableValue = SteedosTable.getTableValue(name);
+            var tableValue = SteedosTable.getTableValue(name);
 
-        var new_item_index = tableValue ? tableValue.length : 0;
+            var new_item_index = tableValue ? tableValue.length : 0;
 
-        SteedosTable.showModal(name, new_item_index, "add");
-    },
+            SteedosTable.showModal(name, new_item_index, "add");
+        },
 
-    'click .steedos-table .steedosTable-item-field': function(event, template) {
-        if (template.data.atts.editable) {
+        'click .steedos-table .steedosTable-item-field': function(event, template) {
+            if (template.data.atts.editable) {
+                var field = template.data.name;
+                var index = event.currentTarget.dataset.index;
+                SteedosTable.showModal(field, index, "edit");
+            }
+        },
+
+        'click .steedos-table .steedosTable-item-remove': function(event, template) {
             var field = template.data.name;
-            var index = event.currentTarget.dataset.index;
-            SteedosTable.showModal(field, index, "edit");
+            var item_index = event.currentTarget.dataset.index;
+            Session.set("instance_change", true);
+            SteedosTable.removeItem(field, item_index);
         }
-    },
-
-    'click .steedos-table .steedosTable-item-remove': function(event, template) {
-        var field = template.data.name;
-        var item_index = event.currentTarget.dataset.index;
-        Session.set("instance_change", true);
-        SteedosTable.removeItem(field, item_index);
-    }
-});
+    });
 
 
 
-Template.afTable.rendered = function() {
+    Template.afTable.rendered = function() {
 
-    var field = this.data.name;
+        var field = this.data.name;
 
-    var keys = SteedosTable.getKeys(field);
-    var validValue = SteedosTable.handleData(field, this.data.value);
-    SteedosTable.setTableValue(field, validValue);
+        var keys = SteedosTable.getKeys(field);
+        var validValue = SteedosTable.handleData(field, this.data.value);
+        SteedosTable.setTableValue(field, validValue);
 
-    $("thead[name='" + field + "Thead']").html(SteedosTable.getThead(field, this.data.atts.editable));
+        $("thead[name='" + field + "Thead']").html(SteedosTable.getThead(field, this.data.atts.editable));
 
-    $("tbody[name='" + field + "Tbody']").html(SteedosTable.getTbody(keys, field, SteedosTable.getTableValue(field), this.data.atts.editable));
-};
+        $("tbody[name='" + field + "Tbody']").html(SteedosTable.getTbody(keys, field, SteedosTable.getTableValue(field), this.data.atts.editable));
+    };
+}

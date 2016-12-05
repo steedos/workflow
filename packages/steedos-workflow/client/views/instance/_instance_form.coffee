@@ -76,9 +76,21 @@ InstanceformTemplate.helpers =
 		return moment(date).format(options.format);
 
 	traces: ->
-		instance = WorkflowManager.getInstance();
+		if Meteor.isServer
+			instance = Template.instance().view.template.steedosData.instance
 
-		flow = WorkflowManager.getInstanceFlowVersion()
+			flow = InstanceReadOnlyTemplate.getFlowVersion(instance);
+
+			locale = Template.instance().view.template.steedosData.locale
+
+			if locale.toLocaleLowerCase() == 'zh-cn'
+				locale = "zh-CN"
+		else
+			instance = WorkflowManager.getInstance();
+
+			flow = WorkflowManager.getInstanceFlowVersion()
+
+			locale = Session.get("TAPi18n::loaded_lang")
 
 		if !instance || !flow
 			return {};
@@ -96,22 +108,22 @@ InstanceformTemplate.helpers =
 				if trace.is_finished == true
 # 已结束的显示为核准/驳回/取消申请
 					if approve.judge == 'approved'
-						judge_name = TAPi18n.__("Instance State approved")
+						judge_name = TAPi18n.__("Instance State approved", {}, locale)
 					else if approve.judge == 'rejected'
-						judge_name = TAPi18n.__("Instance State rejected")
+						judge_name = TAPi18n.__("Instance State rejected", {}, locale)
 					else if approve.judge == 'terminated'
-						judge_name = TAPi18n.__("Instance State terminated")
+						judge_name = TAPi18n.__("Instance State terminated", {}, locale)
 					else if approve.judge == 'reassigned'
-						judge_name = TAPi18n.__("Instance State reassigned")
+						judge_name = TAPi18n.__("Instance State reassigned", {}, locale)
 					else if approve.judge == 'relocated'
-						judge_name = TAPi18n.__("Instance State relocated")
+						judge_name = TAPi18n.__("Instance State relocated", {}, locale)
 					else if approve.judge == ''
 						judge_name = ""
 					else
 						judge_name = ""
 
 				else
-					judge_name = TAPi18n.__("Instance State pending")
+					judge_name = TAPi18n.__("Instance State pending", {}, locale)
 
 				approves.push
 					handler: approve.user
@@ -307,10 +319,15 @@ if Meteor.isServer
 
 		form_version = Template.instance().view.template.steedosData.form_version
 
-		return InstanceReadOnlyTemplate.getValue instance, form_version.fields, code
+		locale = Template.instance().view.template.steedosData.locale
+
+		utcOffset = Template.instance().view.template.steedosData.locale
+
+		return InstanceReadOnlyTemplate.getValue instance, form_version.fields, code, locale, utcOffset
 
 	InstanceformTemplate.helpers.getField = (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
+#		console.log form_version.fields.findPropertyByPK("code", code)
 		return form_version.fields.findPropertyByPK("code", code)
 
 	InstanceformTemplate.helpers.isSection = (code)->
@@ -333,13 +350,45 @@ if Meteor.isServer
 		return Template.instance().view.template.steedosData.instance
 
 	InstanceformTemplate.helpers.fields = ->
-		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(Template.instance().view.template.steedosData.instance);
+		form_version = Template.instance().view.template.steedosData.form_version
 		if form_version
 			return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
 
 	InstanceformTemplate.helpers.form_types = ->
 		return "disabled"
 
+	InstanceformTemplate.helpers.getCfClass = (field)->
+		if field?.type == "input" && field?.is_textarea
+			return "cfTextarea"
+
+	InstanceformTemplate.helpers.getTableThead = (field)->
+		return SteedosTable.getThead(field, false)
+
+	InstanceformTemplate.helpers.getTableBody = (field)->
+		instance = Template.instance().view.template.steedosData.instance
+		values = instance.values
+		tableValue = values[field.code];
+		return SteedosTable.getTbody(field.sfields.getProperty("code") , field, tableValue, false)
+
+	InstanceformTemplate.helpers.showLabel = (field)->
+		console.log "showLabel..."
+		templateData = Template.instance().data
+		console.log templateData.label
+		if templateData.label == false
+			return false
+		return true
+
+	Template.registerHelper "afFieldLabelText", (op)->
+		form_version = Template.instance().view.template.steedosData.form_version
+		InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
+
+	Template.registerHelper "imageURL", (user)->
+		space = Template.instance().view.template.steedosData.space
+
+		spaceUserSign = db.space_user_signs.findOne({space: space, user: user});
+
+		if spaceUserSign?.sign
+			return Meteor.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
 
 
 InstanceformTemplate.events =

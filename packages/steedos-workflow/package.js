@@ -5,6 +5,10 @@ Package.describe({
     git: ''
 });
 
+Npm.depends({
+    cookies: "0.6.1"
+});
+
 Package.onUse(function(api) {
     api.versionsFrom('1.0');
 
@@ -43,8 +47,8 @@ Package.onUse(function(api) {
 
     api.use(['webapp'], 'server');
 
-    api.use('momentjs:moment', 'client');
-    api.use('mrt:moment-timezone', 'client');
+    api.use('momentjs:moment', ['client', 'server']);
+    api.use('mrt:moment-timezone', ['client', 'server']);
 
     api.use('steedos:lib');
     api.use('steedos:admin');
@@ -110,7 +114,7 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.html', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.js', ['client','server']);
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
@@ -240,7 +244,7 @@ Package.onUse(function(api) {
     api.export("WorkflowManager_format");
     // EXPORT
     api.export('Workflow');
-
+    api.export('SteedosTable');
     api.export('InstanceReadOnlyTemplate');
     api.export('TemplateManager');
 
