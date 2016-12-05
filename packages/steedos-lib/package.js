@@ -69,6 +69,7 @@ Package.onUse(function(api) {
     api.addFiles('lib/models/steedos_keyvalue.coffee');
     api.addFiles('lib/models/steedos_statistics.coffee');
     api.addFiles('lib/models/space_user_signs.coffee');
+    api.addFiles('lib/models/audit_logs.coffee');
 
     api.addFiles('lib/cfs/core.coffee');
     api.addFiles('lib/cfs/avatars.coffee');

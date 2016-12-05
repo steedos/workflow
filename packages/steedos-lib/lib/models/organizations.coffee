@@ -12,6 +12,13 @@ db.organizations._simpleSchema = new SimpleSchema
 	name:
 		type: String,
 		max: 200
+	admins: 
+		type: [String],
+		optional: true,
+		autoform:
+			type: ->
+				return if Steedos.isSpaceAdmin() then "selectuser" else "hidden"
+			multiple: true
 	parent:
 		type: String,
 		optional: true,
@@ -92,6 +99,8 @@ db.organizations.helpers
 			parentOrg = db.organizations.findOne({_id: parentId}, {parent: 1, name: 1});
 			if (parentOrg)
 				parentId = parentOrg.parent
+			else
+				parentId = null
 		return parents
 
 
@@ -102,8 +111,11 @@ db.organizations.helpers
 		parentId = this.parent;
 		while (parentId)
 			parentOrg = db.organizations.findOne({_id: parentId}, {parent: 1, name: 1});
-			fullname = parentOrg.name + "/" + fullname;
-			parentId = parentOrg.parent
+			fullname = parentOrg?.name + "/" + fullname;
+			if (parentOrg)
+				parentId = parentOrg.parent
+			else
+				parentId = null
 		return fullname
 
 
@@ -146,15 +158,28 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can update space_users
-		if userId and space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
+
+		# only space admin or org admin can insert organizations
+		if space.admins.indexOf(userId) < 0
+			isOrgAdmin = false
+			if doc.parent
+				parentOrg = db.organizations.findOne(doc.parent)
+				parents = parentOrg?.parents
+				if parents
+					parents.push(doc.parent)
+				else
+					parents = [doc.parent]
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true 
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
 		# if doc.users
 		# 	throw new Meteor.Error(400, "organizations_error_users_readonly");
 
 		# 同一个space中不能有同名的organization，parent 不能有同名的 child
 		if doc.parent
-			parentOrg = db.organizations.findOne(doc.parent)
+			parentOrg = if parentOrg then parentOrg else db.organizations.findOne(doc.parent)
 			if parentOrg.children
 				nameOrg = db.organizations.find({_id: {$in: parentOrg.children}, name: doc.name}).count()
 				if nameOrg>0
@@ -169,6 +194,10 @@ if (Meteor.isServer)
 			if orgexisted > 0
 				throw new Meteor.Error(400, "organizations_error_organizations_name_exists")
 
+		# only space admin can update organization.admins
+		if space.admins.indexOf(userId) < 0
+			if (doc.admins)
+				throw new Meteor.Error(400, "organizations_error_space_admins_only_for_org_admins");
 		
 
 	db.organizations.after.insert (userId, doc) ->
@@ -191,6 +220,21 @@ if (Meteor.isServer)
 				orgs.push(doc._id)
 				db.space_users.direct.update({_id: su._id}, {$set: {organizations: orgs}})
 
+		# 新增部门后在audit_logs表中添加一条记录
+		insertedDoc = db.organizations.findOne({_id: doc._id})
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields: {name: 1}})
+		if sUser
+			db.audit_logs.insert
+				c_name: "organizations",
+				c_action: "add",
+				object_id: doc._id,
+				object_name: doc.name,
+				value_previous: null,
+				value: JSON.parse(JSON.stringify(insertedDoc)),
+				created_by: userId,
+				created_by_name: sUser.name,
+				created: new Date()
+
 
 	db.organizations.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
@@ -198,9 +242,18 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can update space_users
+
+		# only space admin or org admin can update organizations
 		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
+			isOrgAdmin = false
+			if doc.admins?.includes userId
+				isOrgAdmin = true
+			else if doc.parent
+				parents = doc.parents
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		if (modifier.$set.space and doc.space!=modifier.$set.space)
 			throw new Meteor.Error(400, "organizations_error_space_readonly");
@@ -213,6 +266,11 @@ if (Meteor.isServer)
 
 		if (modifier.$set.fullname)
 			throw new Meteor.Error(400, "organizations_error_fullname_readonly");
+
+		# only space admin can update organization.admins
+		if space.admins.indexOf(userId) < 0
+			if (typeof doc.admins != typeof modifier.$set.admins or doc.admins?.sort().join(",") != modifier.$set.admins?.sort().join(","))
+				throw new Meteor.Error(400, "organizations_error_space_admins_only_for_org_admins");
 
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
@@ -293,15 +351,41 @@ if (Meteor.isServer)
 						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs, organization: new_orgs[0]}})
 					else
 						db.space_users.direct.update({_id: su._id}, {$set: {organizations: new_orgs}})
+
+
+		# 更新部门后在audit_logs表中添加一条记录
+		updatedDoc = db.organizations.findOne({_id: doc._id})
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields:{name:1}})
+		if sUser
+			db.audit_logs.insert
+				c_name: "organizations",
+				c_action: "edit",
+				object_id: doc._id,
+				object_name: doc.name,
+				value_previous: this.previous,
+				value: JSON.parse(JSON.stringify(updatedDoc)),
+				created_by: userId,
+				created_by_name: sUser.name,
+				created: new Date()
+
 	
 	db.organizations.before.remove (userId, doc) ->
 		# check space exists
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
-		# only space admin can remove space_users
+
+		# only space admin or org admin can remove organizations
 		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "organizations_error_space_admins_only");
+			isOrgAdmin = false
+			if doc.admins?.includes userId
+				isOrgAdmin = true
+			else if doc.parent
+				parents = doc.parents
+				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+					isOrgAdmin = true
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		# can not delete organization with children
 		if (doc.children && doc.children.length>0)
@@ -321,6 +405,19 @@ if (Meteor.isServer)
 		#	_.each doc.users, (userId) ->
 		#		db.space_users.direct.update({user: userId}, {$unset: {organization: 1}})
 
+		# 删除部门后在audit_logs表中添加一条记录
+		sUser = db.space_users.findOne({space: doc.space, user: userId},{fields:{name:1}})
+		if sUser
+			db.audit_logs.insert
+				c_name: "organizations",
+				c_action: "delete",
+				object_id: doc._id,
+				object_name: doc.name,
+				value_previous: doc,
+				value: null,
+				created_by: userId,
+				created_by_name: sUser.name,
+				created: new Date()
 	
 	Meteor.publish 'organizations', (spaceId)->
 		

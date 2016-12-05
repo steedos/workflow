@@ -55,6 +55,13 @@ if Meteor.isClient
 			unless $("#scrollspy").hasClass("ps-container")
 				$("#scrollspy").perfectScrollbar()
 
+	#定义系统关闭函数，下次登录时自动跳转URL
+	window.onunload = ()->
+		# 判断用户是否登录
+		if Meteor.userId()
+			lastUrl = FlowRouter.current().path
+			localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
+
 
 if Meteor.isServer
 	Steedos.isSpaceAdmin = (spaceId, userId)->
@@ -64,6 +71,24 @@ if Meteor.isServer
 		if !space || !space.admins
 			return false;
 		return space.admins.indexOf(userId)>=0
+
+	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
+	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
+		isOrgAdmin = false
+		useOrgs = db.organizations.find({_id: {$in:orgIds}},{fields:{parents:1,admins:1}}).fetch()
+		parents = []
+		allowAccessOrgs = useOrgs.filter (org) ->
+			if org.parents
+				parents = _.union parents,org.parents
+			return org.admins?.includes(userId)
+		if allowAccessOrgs.length
+			isOrgAdmin = true
+		else
+			parents = _.flatten parents
+			parents = _.uniq parents
+			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+				isOrgAdmin = true
+		return isOrgAdmin
 
 
 

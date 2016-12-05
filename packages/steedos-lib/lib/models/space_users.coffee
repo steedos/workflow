@@ -127,8 +127,12 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "space_users_error_space_not_found");
-		if userId and space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "space_users_error_space_admins_only");
+
+		# only space admin or org admin can insert space_users
+		if space.admins.indexOf(userId) < 0
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 			
 		creator = db.users.findOne(userId)
 
@@ -185,9 +189,12 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "space_users_error_space_not_found");
-		# only space admin can update space_users
+
+		# only space admin or org admin can update space_users
 		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "space_users_error_space_admins_only");
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
@@ -243,9 +250,12 @@ if (Meteor.isServer)
 		space = db.spaces.findOne(doc.space)
 		if !space
 			throw new Meteor.Error(400, "space_users_error_space_not_found");
-		# only space admin can remove space_users
+
+		# only space admin or org admin can remove space_users
 		if space.admins.indexOf(userId) < 0
-			throw new Meteor.Error(400, "space_users_error_space_admins_only");
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+			unless isOrgAdmin
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 		# 不能删除当前工作区的拥有者
 		if space.owner == doc.user

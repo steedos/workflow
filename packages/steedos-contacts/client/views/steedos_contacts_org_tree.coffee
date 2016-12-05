@@ -1,6 +1,7 @@
 Template.steedos_contacts_org_tree.helpers
 	is_admin: ()->
-		return Steedos.isSpaceAdmin()
+		return Steedos.isOrgAdmin Session.get('contacts_orgId')
+
 	isMobile: ()->
 		return Steedos.isMobile();
 
@@ -60,7 +61,10 @@ Template.steedos_contacts_org_tree.events
 
 	'click #steedos_contacts_org_tree_remove_btn': (event, template) ->
 		AdminDashboard.modalDelete 'organizations', Session.get('contacts_orgId'), ()->
-			$.jstree.reference('#steedos_contacts_org_tree').refresh()
+			orgTree = $.jstree.reference('#steedos_contacts_org_tree')
+			parent = orgTree.get_parent(Session.get("contacts_orgId"))
+			orgTree.select_node(parent)
+			orgTree.refresh()
 
 	'click #contacts_back': (event, template)->
 		$(".contacts-list-wrapper").hide()
@@ -92,11 +96,15 @@ Template.steedos_contacts_org_tree.events
 			toastr.error t("steedos_contacts_error_equal_move_reject")
 			return false
 
+		unless space_user_id
+			toastr.error t("steedos_contacts_error_space_user_not_found_dragging")
+			return false
+
 		Meteor.call 'move_space_users', from_org_id, to_org_id, space_user_id, (error, is_suc) ->
 			if is_suc
 				toastr.success t('steedos_contacts_move_suc')
 			else
 				console.error error
-				toastr.error(error)
+				toastr.error(t(error.reason))
 
 		return false

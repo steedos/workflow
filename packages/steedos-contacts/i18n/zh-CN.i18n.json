@@ -39,5 +39,11 @@
 	"contacts_delete": "删除",
 	"steedos_contacts_move_suc": "移动用户成功",
 	"steedos_contacts_error_equal_move_reject": "不能移动到该人员当前所处组织",
-	"steedos_contacts_error_contact_exists": "联系人已存在"
+	"steedos_contacts_error_space_user_not_found": "该用户不存在",
+	"steedos_contacts_error_space_user_not_found_dragging": "操作异常，没有获取到被拖动的用户数据",
+	"steedos_contacts_error_contact_exists": "联系人已存在",
+    "steedos_contacts_export": "导出",
+    "address_books_mobile": "手机",
+    "steedos_contacts__books_export_error": "请选择联系人",
+    "steedos_contact_books_exprot_vcf_title": "导出vCard..."
 }
