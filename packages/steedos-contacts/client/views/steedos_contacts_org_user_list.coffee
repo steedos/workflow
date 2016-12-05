@@ -75,7 +75,7 @@ Template.steedos_contacts_org_user_list.events
 
     'dragstart #contacts_list .drag-source': (event, template)->
         console.log "drag-source dragstart"
-        event.originalEvent.dataTransfer.setData("Text","dragging space user...");
+        event.originalEvent.dataTransfer.setData("Text","");
         draggingId = $(event.currentTarget).find("#steedos_contacts_org_user_list_edit_btn").data("id")
         Session.set("dragging_contacts_org_user_id",draggingId)
         $(event.currentTarget).addClass("drag-source-moving")
