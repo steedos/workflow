@@ -391,7 +391,6 @@ AT.prototype._fields = [
     _id: "forgot_pwd_token",
     type: "forgot_pwd_token",
     required: true,
-    lowercase: true,
     trim: true,
     placeholder: {
         "default": "forgotPwdToken",
