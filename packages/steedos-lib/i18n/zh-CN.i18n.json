@@ -65,7 +65,7 @@
 	"Submit": "提交",
 	"Search": "搜索",
 	"Online": "在线",
-	
+
 	"Home": "主页",
 	"Profile": "个人信息",
 	"Settings": "设置",
@@ -76,7 +76,7 @@
 	"Account Settings": "账户设置",
 	"Select Space": "选择工作区",
 	"Add space": "新增工作区",
-	
+
 	"Workflow": "审批王",
 
 	"bqq": "企业QQ",
@@ -85,7 +85,7 @@
 	"facebook": "脸书",
 
 	"OK": "确认",
-	"Cancel": "取消",    
+	"Cancel": "取消",
 
 	"primary_email_needed": "绑定邮件地址",
 	"primary_email_needed_description": "请输入您的工作邮件地址，此邮件地址可以用来登录华炎云，也可以用来重置密码。",
@@ -124,7 +124,7 @@
 	"email_set_primary_success": "已设置为主要邮件",
 
 
-	
+
 	"Steedos Cloud": "华炎云",
 
 	"Add": "添加",
@@ -144,7 +144,7 @@
 	"users_emails": "邮件",
 	"users_createdAt": "创建日期",
 	"users_email_notification": "接受邮件通知",
-	
+
 	"apps": "应用",
 	"apps_space": "工作区",
 	"apps_name": "名称",
@@ -163,8 +163,8 @@
 	"apps_secret": "App 密钥",
 	"apps_internal": "App内置",
 	"apps_sort": "排序",
-	"apps_id":"ID",
-	
+	"apps_id": "ID",
+
 	"space": "工作区",
 	"spaces": "工作区",
 	"spaces_id": "ID",
@@ -176,7 +176,7 @@
 	"spaces_owner_name()": "所有者",
 	"spaces_admins_name()": "管理员",
 	"spaces_apps_enabled": "启用应用",
-	"Spaces_isPaid" :"已付费",
+	"Spaces_isPaid": "已付费",
 	"spaces_max_user_count": "最大用户数",
 	"spaces_is_deleted": "已删除",
 	"spaces_created": "创建时间",
@@ -243,32 +243,33 @@
 	"organizations_error_space_required": "工作区必填",
 	"organizations_error_space_not_found": "未找到该工作区",
 	"organizations_error_space_admins_only": "您不是该工作区的管理员",
-	"organizations_error_users_readonly": "您无法修改部门成员",    
+	"organizations_error_users_readonly": "您无法修改部门成员",
 	"organizations_error_organizations_name_exists": "该部门名称已经存在",
 	"organizations_error_space_readonly": "无法修改工作区",
 	"organizations_error_parents_readonly": "无法修改上级部门",
 	"organizations_error_children_readonly": "无法修改下级部门",
 	"organizations_error_fullname_readonly": "无法修改部门全名",
-	"organizations_error_parent_is_self" : "上级部门不能是自己",
+	"organizations_error_parent_is_self": "上级部门不能是自己",
 	"organizations_error_organization_has_children": "该部门已有下级部门",
 	"organizations_error_can_not_remove_root_organization": "您无法删除一级部门",
 	"organizations_error_organization_is_company": "根部门的名字无法修改",
 	"organizations_error_organizations_parent_required": "请选择上级部门",
 	"organizations_error_space_admins_only_for_org_admins": "只有该工作区的管理员才能处理“组织管理员”",
 	"organizations_error_org_admins_only": "您不是该组织的管理员",
+	"organizations_error_organization_has_users": "部门内有审批人,所以不能删除",
 
 	"space_users_error_space_required": "工作区必填",
 	"space_users_error_space_not_found": "未找到该工作区",
 	"space_users_error_space_admins_only": "您不是该工作区的管理员",
 	"space_users_error_user_required": "user必填",
 	"space_users_error_name_required": "用户名必填",
-	"space_users_error_space_users_exists":"该用户已经存在",
+	"space_users_error_space_users_exists": "该用户已经存在",
 	"space_users_error_space_not_found": "未找到该工作区",
 	"space_users_error_email_readonly": "用户邮箱不允许修改",
-	"space_users_error_space_readonly": "无法修改工作区",    
+	"space_users_error_space_readonly": "无法修改工作区",
 	"space_users_error_user_readonly": "无法修改用户",
 	"space_users_error_remove_space_owner": "不能删除工作区拥有者",
-	
+
 	"spaces_error_login_required": "login必填",
 	"spaces_error_space_owner_only": "您不是该工作区的所有者",
 	"spaces_error_space_admins_required": "必须为工作区选择一个管理员",
@@ -280,14 +281,14 @@
 	"users_error_steedos_id_readonly": "登录账户无法修改",
 	"users_error_cloud_admin_required": "您无权删除该用户",
 
-	"users_email_create_account":"已为您创建华炎云账号",
-	"users_email_start_service":"请点击以下链接，填写相关信息。",
-	"users_email_verify_account":"您已注册华炎云账号,请点击以下链接进行验证。",
-	"users_email_verify_email":"验证您的登录邮箱",
-	"users_email_reset_password":"重新设置您的密码",
-	"users_email_reset_password_body":"请点击以下链接，重新设置您的登录密码。",
-	"users_email_hello":"您好",
-	"users_email_thanks":"谢谢！",
+	"users_email_create_account": "已为您创建华炎云账号",
+	"users_email_start_service": "请点击以下链接，填写相关信息。",
+	"users_email_verify_account": "您已注册华炎云账号,请点击以下链接进行验证。",
+	"users_email_verify_email": "验证您的登录邮箱",
+	"users_email_reset_password": "重新设置您的密码",
+	"users_email_reset_password_body": "请点击以下链接，重新设置您的登录密码。",
+	"users_email_hello": "您好",
+	"users_email_thanks": "谢谢！",
 
 
 
@@ -323,29 +324,29 @@
 
 	"dataTables": {
 		"none": "None",
-		"emptyTable":     "",
-		"info":           "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
-		"infoEmpty":      "显示第 0 至 0 项记录，共 0 项",
-		"infoFiltered":   "(由 _MAX_ 项记录过滤)",
-		"infoPostFix":    "",
-		"infoThousands":  ",",
-		"lengthMenu":     "显示 _MENU_ 项记录",
+		"emptyTable": "",
+		"info": "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+		"infoEmpty": "显示第 0 至 0 项记录，共 0 项",
+		"infoFiltered": "(由 _MAX_ 项记录过滤)",
+		"infoPostFix": "",
+		"infoThousands": ",",
+		"lengthMenu": "显示 _MENU_ 项记录",
 		"loadingRecords": "载入中...",
-		"processing":     "处理中...",
-		"search":         "搜索:",
-		"zeroRecords":    "没有记录",
-		"zero":    "没有",
+		"processing": "处理中...",
+		"search": "搜索:",
+		"zeroRecords": "没有记录",
+		"zero": "没有",
 		"paginate": {
-			"first":    "首页",
-			"last":     "末页",
-			"next":     "下页",
+			"first": "首页",
+			"last": "末页",
+			"next": "下页",
 			"previous": "上页"
 		},
 		"aria": {
-			"sortAscending":  ": 以升序排列此列",
+			"sortAscending": ": 以升序排列此列",
 			"sortDescending": ": 以降序排列此列"
 		},
-		"select" : {
+		"select": {
 			"rows": "选中%d行"
 		}
 	}

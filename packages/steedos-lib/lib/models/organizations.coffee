@@ -391,6 +391,10 @@ if (Meteor.isServer)
 		if (doc.children && doc.children.length>0)
 			throw new Meteor.Error(400, "organizations_error_organization_has_children");
 
+		# can not delete organization with users
+		if (doc.users && doc.users.length > 0)
+			throw new Meteor.Error(400, "organizations_error_organization_has_users");
+
 		if (doc.is_company)
 			throw new Meteor.Error(400, "organizations_error_can_not_remove_root_organization");
 
