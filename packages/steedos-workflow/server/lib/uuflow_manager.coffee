@@ -610,6 +610,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.modified = new Date
 		setObj.modified_by = current_user
 		setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+		instance.values = setObj.values
 		setObj.name = uuflowManager.getInstanceName(instance)
 
 		instance_trace = _.find(instance_traces, (trace)->
@@ -705,6 +706,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					setObj.modified = new Date
 					setObj.modified_by = current_user
 					setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
 					instance_trace = _.find(instance_traces, (trace)->
@@ -787,6 +789,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.modified = new Date
 				setObj.modified_by = current_user
 				setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+				instance.values = setObj.values
 				setObj.name = uuflowManager.getInstanceName(instance)
 
 				instance_trace = _.find(instance_traces, (trace)->
@@ -880,6 +883,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							setObj.modified = new Date
 							setObj.modified_by = current_user
 							setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+							instance.values = setObj.values
 							setObj.name = uuflowManager.getInstanceName(instance)
 
 							instance_trace = _.find(instance_traces, (trace)->
@@ -951,6 +955,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					setObj.modified = new Date
 					setObj.modified_by = current_user
 					setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
 					instance_trace = _.find(instance_traces, (trace)->
@@ -1044,6 +1049,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								setObj.modified = new Date
 								setObj.modified_by = current_user
 								setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+								instance.values = setObj.values
 								setObj.name = uuflowManager.getInstanceName(instance)
 
 								instance_trace = _.find(instance_traces, (trace)->
@@ -1520,12 +1526,13 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		newTrace.finish_date = new Date
 		# 更新instance记录
 		# 申请单名称按照固定规则生成申请单名称：流程名称＋' '+申请单编号
-		upObj.code = flow.current_no + 1 + ""
-		#instance.name = flow.name << ' ' << instance.code
-		upObj.name = uuflowManager.getInstanceName(instance)
 		upObj.submit_date = new Date
 		upObj.state = "completed"
 		upObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+		upObj.code = flow.current_no + 1 + ""
+		instance.code = upObj.code
+		instance.values = upObj.values
+		upObj.name = uuflowManager.getInstanceName(instance)
 		upObj.modified = new Date
 		upObj.modified_by = current_user
 		upObj.inbox_users = []
@@ -1604,7 +1611,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					upObj.modified_by = current_user
 					# 申请单名称按照固定规则生成申请单名称：流程名称＋' '+申请单编号
 					upObj.code = flow.current_no + 1 + ""
-					#instance.name = flow.name << ' ' << instance.code
+					instance.code = upObj.code
+					instance.values = upObj.values
 					upObj.name = uuflowManager.getInstanceName(instance)
 					# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
 					traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values,step["permissions"],instance.form,instance.form_version)
@@ -1613,6 +1621,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					upObj.outbox_users = []
 
 	db.instances.update({_id: instance_id}, {$set: upObj})
+	db.flows.direct.update({_id: flow._id}, {$set: {current_no: flow.current_no+1}})
 	if next_step.step_type isnt "end"
 		instance = db.instances.findOne(instance_id)
 		#发送短消息给申请人
