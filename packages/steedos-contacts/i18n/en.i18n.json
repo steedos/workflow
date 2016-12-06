@@ -45,6 +45,7 @@
 	"steedos_contacts_error_contact_exists": "Contact already exists",
     "steedos_contacts_export": "Export",
     "address_books_mobile": "Mobile",
+    "address_books_company": "Company",
     "steedos_contacts__books_export_error": "Please select export users.",
     "steedos_contact_books_exprot_vcf_title": "Export vCard..."
 }

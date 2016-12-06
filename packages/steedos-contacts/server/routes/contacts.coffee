@@ -38,8 +38,12 @@ Meteor.startup ->
 			vcard.set("n", book.name)
 			vcard.set("fn", book.name)
 			vcard.set("email", book.email)
+			
 			if book.mobile
 				vcard.set("tel", book.mobile)
+
+			if book.company
+				vcard.set("org", book.company)
 
 			data = data + vcard.toString("3.0", 'utf-8') + "\n"
 

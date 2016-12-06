@@ -1,7 +1,5 @@
 db.address_books = new Meteor.Collection('address_books')
 
-
-
 db.address_books._simpleSchema = new SimpleSchema
 
 	owner:
@@ -17,6 +15,9 @@ db.address_books._simpleSchema = new SimpleSchema
 	mobile:
 		type: String,
 		optional: true,
+	company:
+		type: String,
+		optional: true
 	group:
 		type: String,
 		optional: true,

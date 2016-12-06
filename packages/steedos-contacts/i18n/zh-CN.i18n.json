@@ -44,6 +44,7 @@
 	"steedos_contacts_error_contact_exists": "联系人已存在",
     "steedos_contacts_export": "导出",
     "address_books_mobile": "手机",
+    "address_books_company": "单位",
     "steedos_contacts__books_export_error": "请选择联系人",
     "steedos_contact_books_exprot_vcf_title": "导出vCard..."
 }
