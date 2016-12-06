@@ -28,6 +28,7 @@
   "privacyPolicy": "隐私条例",
   "remove": "移除",
   "resetYourPassword": "重置您的密码",
+  "inputTokenFromEmail": "输入邮件中的验证码",
   "setPassword": "设置密码",
   "sign": "登",
   "signIn": "登录",
