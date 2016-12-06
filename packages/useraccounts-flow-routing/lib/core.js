@@ -50,6 +50,8 @@ AccountsTemplates.ROUTE_DEFAULT = {
   enrollAccount:  { name: "atEnrollAccount",  path: "/enroll-account"},
   ensureSignedIn: { name: "atEnsureSignedIn", path: null},
   forgotPwd:      { name: "atForgotPwd",      path: "/forgot-password"},
+  // add new route named "forgotPwdToken"
+  forgotPwdToken: { name: "atForgotPwdToken", path: "/forgot-password-token"},
   resetPwd:       { name: "atResetPwd",       path: "/reset-password"},
   signIn:         { name: "atSignIn",         path: "/sign-in"},
   signUp:         { name: "atSignUp",         path: "/sign-up"},

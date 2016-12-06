@@ -95,7 +95,6 @@ Package.onUse(function(api) {
 
 
 
-
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.js', 'client');
 
@@ -203,6 +202,7 @@ Package.onUse(function(api) {
     api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v4.coffee', 'server');
+    api.addFiles('server/steedos/startup/migrations/v5.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
     // methods
