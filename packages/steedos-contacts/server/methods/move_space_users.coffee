@@ -40,7 +40,7 @@ Meteor.methods
 
 				i++
 
-			db.space_users.update({_id: space_user_id}, {$set: {organizations: org_ids}})
+			db.space_users.update({_id: space_user_id}, {$set: {organizations: _.uniq(org_ids)}})
 
 			return true
 		else
