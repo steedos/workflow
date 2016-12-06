@@ -4,14 +4,22 @@
 	    <div class="instance instance-table">
 	        {{> instance_suggestion}}
 
-	        {{> instanceform_table}}
+            {{#if isIReadable}}
+                {{{readOnlyView}}}
+            {{else}}
+	            {{> instanceform_table}}
+            {{/if}}
 
 	    </div>
     {{else}}
 	    <div class="instance">
 	        {{> instance_suggestion}}
 
-	        {{> instanceform}}
+            {{#if isIReadable}}
+                {{{readOnlyView}}}
+            {{else}}
+                {{> instanceform}}
+            {{/if}}
 
 	        {{#if unequals 'draft' instance.state}}
 	            {{> Template.dynamic template="instance_traces" data=instance.traces}}

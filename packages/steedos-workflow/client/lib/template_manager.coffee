@@ -9,7 +9,7 @@ TemplateManager._template =
             <h3 class="box-title">{{instance.name}}</h3>
             <span class="help-block"></span>
             <div class="applicant-wrapper">
-                <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
+                <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
                 {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
             </div>
             <span class="help-block"></span>
@@ -32,7 +32,7 @@ TemplateManager._template =
             <h3 class="box-title">{{instance.name}}</h3>
             <span class="help-block"></span>
             <div class="applicant-wrapper">
-			    <label class="control-label">{{_ "instance_initiator"}}&nbsp;:</label>
+			    <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
 			    {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
 			</div>
         </div>

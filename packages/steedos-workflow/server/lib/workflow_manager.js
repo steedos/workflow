@@ -350,3 +350,55 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
   }
 
 }
+
+WorkflowManager.getInstanceFormVersion = function() {
+
+    var instance = Template.instance().view.template.steedosData.instance
+
+    var form, form_fields, form_version;
+    form = db.forms.findOne(instance.form);
+    form_version = {};
+    form_fields = [];
+    if (form.current._id === instance.form_version) {
+        form_version = form.current;
+    } else {
+        form_version = _.where(form.historys, {
+            _id: instance.form_version
+        })[0];
+    }
+    form_version.fields.forEach(function(field) {
+        if (field.type === 'section') {
+            form_fields.push(field);
+            if (field.fields) {
+                return field.fields.forEach(function(f) {
+                    return form_fields.push(f);
+                });
+            }
+        } else if (field.type === 'table') {
+            field['sfields'] = field['fields'];
+            delete field['fields'];
+            return form_fields.push(field);
+        } else {
+            return form_fields.push(field);
+        }
+    });
+    form_version.fields = form_fields;
+    return form_version;
+};
+
+WorkflowManager.getFlowVersion = function() {
+
+    var instance = Template.instance().view.template.steedosData.instance
+
+    var flow, flow_version;
+    flow = db.flows.findOne(instance.flow);
+    flow_version = {};
+    if (flow.current._id === instance.flow_version) {
+        flow_version = flow.current;
+    } else {
+        flow_version = _.where(flow.historys, {
+            _id: instance.flow_version
+        })[0];
+    }
+    return flow_version;
+};

@@ -365,7 +365,19 @@ SteedosTable.getTd = function(field, index, value) {
 
     td = td + " class='steedosTable-item-field " + field.type + "' ";
 
-    td = td + " data-index='" + index + "'>" + SteedosTable.getTDValue(field, value) + "</td>"
+    var td_value = "";
+
+    if(Meteor.isClient){
+        td_value = SteedosTable.getTDValue(field, value)
+    }else{
+        locale = Template.instance().view.template.steedosData.locale
+
+        utcOffset = Template.instance().view.template.steedosData.utcOffset
+
+        td_value = InstanceReadOnlyTemplate.getValue(value, field, locale, utcOffset)
+    }
+
+    td = td + " data-index='" + index + "'>" + td_value + "</td>"
 
     return td;
 }

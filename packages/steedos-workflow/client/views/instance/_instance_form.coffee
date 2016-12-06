@@ -267,8 +267,6 @@ InstanceformTemplate.helpers =
 
 					field.tr_end = tr_end;
 
-
-			console.log(fields)
 			return fields;
 
 	sort_approve: (approves, order)->
@@ -304,16 +302,13 @@ InstanceformTemplate.helpers =
 					return _p1 - _p2
 		return approves
 
-
-if Meteor.isServer
-	InstanceformTemplate.helpers.steedos_form =  ->
-		return Template.instance().view.template.steedosData.form_version
-
-	InstanceformTemplate.helpers.getLabel = (code)->
+	_t: (key)->
+		return TAPi18n.__(key)
+	getField: (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
-		InstanceReadOnlyTemplate.getLabel form_version.fields, code
+		return form_version.fields.findPropertyByPK("code", code)
 
-	InstanceformTemplate.helpers.getValue = (code)->
+	getValue: (code)->
 
 		instance = Template.instance().view.template.steedosData.instance
 
@@ -323,12 +318,41 @@ if Meteor.isServer
 
 		utcOffset = Template.instance().view.template.steedosData.locale
 
-		return InstanceReadOnlyTemplate.getValue instance, form_version.fields, code, locale, utcOffset
+		return InstanceReadOnlyTemplate.getValue instance.values[code], form_version.fields.findPropertyByPK("code", code), locale, utcOffset
 
-	InstanceformTemplate.helpers.getField = (code)->
+	getLabel: (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
-#		console.log form_version.fields.findPropertyByPK("code", code)
-		return form_version.fields.findPropertyByPK("code", code)
+		InstanceReadOnlyTemplate.getLabel form_version.fields, code
+
+	getCfClass: (field)->
+		if field?.type == "input" && field?.is_textarea
+			return "cfTextarea"
+
+	getTableThead: (field)->
+		return SteedosTable.getThead(field, false)
+
+	getTableBody: (field)->
+		instance = Template.instance().view.template.steedosData.instance
+		values = instance.values
+		tableValue = values[field.code];
+		return SteedosTable.getTbody(field.sfields.getProperty("code") , field, tableValue, false)
+
+	showLabel: (field)->
+		templateData = Template.instance().data
+		if templateData.label == false
+			return false
+		return true
+
+#	afFieldLabelText: (op)->
+#		if !Template.instance().view.template.steedosData
+#			return AutoForm.getLabelForField(op.name)
+#		else
+#			form_version = Template.instance().view.template.steedosData.form_version
+#			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
+
+if Meteor.isServer
+	InstanceformTemplate.helpers.steedos_form =  ->
+		return Template.instance().view.template.steedosData.form_version
 
 	InstanceformTemplate.helpers.isSection = (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
@@ -357,27 +381,6 @@ if Meteor.isServer
 	InstanceformTemplate.helpers.form_types = ->
 		return "disabled"
 
-	InstanceformTemplate.helpers.getCfClass = (field)->
-		if field?.type == "input" && field?.is_textarea
-			return "cfTextarea"
-
-	InstanceformTemplate.helpers.getTableThead = (field)->
-		return SteedosTable.getThead(field, false)
-
-	InstanceformTemplate.helpers.getTableBody = (field)->
-		instance = Template.instance().view.template.steedosData.instance
-		values = instance.values
-		tableValue = values[field.code];
-		return SteedosTable.getTbody(field.sfields.getProperty("code") , field, tableValue, false)
-
-	InstanceformTemplate.helpers.showLabel = (field)->
-		console.log "showLabel..."
-		templateData = Template.instance().data
-		console.log templateData.label
-		if templateData.label == false
-			return false
-		return true
-
 	Template.registerHelper "afFieldLabelText", (op)->
 		form_version = Template.instance().view.template.steedosData.form_version
 		InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
@@ -389,6 +392,11 @@ if Meteor.isServer
 
 		if spaceUserSign?.sign
 			return Meteor.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
+
+	InstanceformTemplate.helpers._t = (key)->
+		locale = Template.instance().view.template.steedosData.locale
+
+		return TAPi18n.__(key, {}, locale)
 
 
 InstanceformTemplate.events =

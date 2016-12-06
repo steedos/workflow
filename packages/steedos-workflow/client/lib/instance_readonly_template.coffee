@@ -19,6 +19,7 @@ InstanceReadOnlyTemplate.afFormGroup = """
 						<div class="panel-body" style="padding:0px;">
 						  	<div class="panel-heading" >
 								<label class='control-label'>{{getLabel code}}</label>
+								<span class="description">{{{description}}}</span>
 							</div>
 							<div style="padding:0px;overflow-x:auto;">
 								  <table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" data-schema-key="{{this.name}}">
@@ -62,15 +63,11 @@ InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUser", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
-	InstanceReadOnlyTemplate.create("imageSign", steedosData);
+	if Meteor.isServer
+		InstanceReadOnlyTemplate.create("imageSign", steedosData);
 
 #TODO 国际化  table字段显示；日期、日期时间字段本地化；checkbox字段值国际化问题；邮件、url、textear 类型显示问题
-InstanceReadOnlyTemplate.getValue = (instance, fields, code, locale, utcOffset) ->
-	field = fields.findPropertyByPK("code", code)
-	value = instance.values[code];
-
-	if locale.toLocaleLowerCase() == 'zh-cn'
-		locale = "zh-CN"
+InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 
 	switch field.type
 		when 'email'
@@ -79,18 +76,18 @@ InstanceReadOnlyTemplate.getValue = (instance, fields, code, locale, utcOffset) 
 			value = if value then '<a href=\'http://' + value + '\' target=\'_blank\'>http://' + value + '</a>' else ''
 		when 'group'
 			if field.is_multiselect
-				value = instance.values[code]?.getProperty("fullname").toString()
+				value = value?.getProperty("fullname").toString()
 			else
-				value = instance.values[code]?.fullname
+				value = value?.fullname
 		when 'user'
 			if field.is_multiselect
-				value = instance.values[code]?.getProperty("name").toString()
+				value = value?.getProperty("name").toString()
 			else
-				value = instance.values[code]?.name
+				value = value?.name
 		when 'password'
 			value = '******'
 		when 'checkbox'
-			if instance.values[code] && instance.values[code] != 'false'
+			if value && value != 'false'
 				value = TAPi18n.__("form_field_checkbox_yes", {}, locale)
 			else
 				value = TAPi18n.__("form_field_checkbox_no", {}, locale)
@@ -113,6 +110,14 @@ InstanceReadOnlyTemplate.getValue = (instance, fields, code, locale, utcOffset) 
 		when 'input'
 			if field.is_textarea
 				value = Spacebars.SafeString(Markdown(value))
+		when 'number'
+			if value or value == 0
+				if typeof value == 'string'
+					value = parseFloat(value)
+				value = value.toFixed(field.digits)
+
+	if !value
+		value = ''
 
 	return value;
 
@@ -164,6 +169,55 @@ InstanceReadOnlyTemplate.getFlowVersion = (instance)->
 
 	return flow_version;
 
-#Meteor.startup ->
-#	if Meteor.isServer
-#		InstanceReadOnlyTemplate.init()
+InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
+	if Meteor.isServer
+		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
+	else
+		form_version = WorkflowManager.getInstanceFormVersion(instance)
+
+	if user.locale?.toLocaleLowerCase() == 'zh-cn'
+		locale = "zh-CN"
+
+	steedosData = {
+		instance: instance,
+		form_version: form_version,
+		locale: locale,
+		utcOffset: user.utcOffset,
+		space: space
+	}
+
+	instanceTemplate = TemplateManager.getTemplate(instance.flow);
+
+	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
+
+	instanceRenderFunction = eval(instanceCompiled);
+
+	Template.instance_readonly_view = new Blaze.Template("instance_readonly_view", instanceRenderFunction);
+
+	Template.instance_readonly_view.steedosData = steedosData
+
+	Template.instance_readonly_view.helpers InstanceformTemplate.helpers
+
+	InstanceReadOnlyTemplate.init(steedosData);
+
+	body = Blaze.toHTMLWithData(Template.instance_readonly_view, steedosData)
+
+	instanceBoxStyle = "";
+
+	if instance && instance.final_decision
+		if instance.final_decision == "approved"
+			instanceBoxStyle = "box-success"
+		else if (instance.final_decision == "rejected")
+			instanceBoxStyle = "box-danger"
+
+	return """
+		<div class="instance-form box #{instanceBoxStyle}">
+			<div class="box-body">
+				<div class="col-md-12">
+					<div id='instanceform' >
+						#{body}
+					</div>
+				</div>
+			</div>
+		</div>
+	"""

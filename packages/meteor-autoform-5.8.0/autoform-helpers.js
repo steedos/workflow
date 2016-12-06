@@ -105,8 +105,13 @@ Template.registerHelper('afFieldValueContains', function autoFormFieldValueConta
  * afFieldLabelText
  */
 Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(options) {
-  options = parseOptions(options, 'afFieldLabelText');
-  return AutoForm.getLabelForField(options.name);
+  if(!Template.instance().view.template.steedosData){
+    options = parseOptions(options, 'afFieldLabelText');
+    return AutoForm.getLabelForField(options.name);
+  }else{
+    form_version = Template.instance().view.template.steedosData.form_version
+    return InstanceReadOnlyTemplate.getLabel(form_version.fields, options.hash.name)
+  }
 });
 
 /*

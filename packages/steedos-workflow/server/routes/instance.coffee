@@ -2,8 +2,7 @@ Cookies = Npm.require("cookies")
 #TODO 样式调整
 JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req, res, next) ->
 #	console.log req
-
-	cookies = new Cookies( req, res );
+	cookies = new Cookies(req, res);
 
 	# first check request body
 	if req.body
@@ -33,55 +32,42 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 
 	instance = db.instances.findOne({_id: instanceId});
 
-	form_version =  InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
+	#TODO 将获取body的代码抽取成函数
+	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance);
 
-	steedosData = {instance: instance, form_version: form_version, locale: user.locale, utcOffset: user.utcOffset, space: space}
+	if !Steedos.isMobile()
+		flow = db.flows.findOne({_id: instance.flow});
+		if flow?.instance_style == 'table'
+			instance_style = "instance-table"
+
+	tracesHtml = Assets.getText('client/views/instance/traces.html')
+
+	console.log tracesHtml
 
 	hash = (new Date()).getTime()
-
-	instanceTemplate = TemplateManager.getTemplate(instance.flow);
-
-	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, { isBody: true });
-
-	instanceRenderFunction = eval(instanceCompiled);
-
-	Template.instance_readonly_view = new Blaze.Template("instance_readonly_view", instanceRenderFunction);
-
-	Template.instance_readonly_view.steedosData = steedosData
-
-	Template.instance_readonly_view.helpers InstanceformTemplate.helpers
-
-	InstanceReadOnlyTemplate.init(steedosData);
-
-	#TODO 将获取body的代码抽取成函数
-	body = Blaze.toHTMLWithData(Template.instance_readonly_view, steedosData)
 
 	html = """
 		<!DOCTYPE html>
 		<html>
 			<head>
 				<link rel="stylesheet" type="text/css" class="__meteor-css__" href="/merged-stylesheets.css?hash=#{hash}">
+
+				<style>
+					.instance{
+						width: 960px;
+						margin-left: auto;
+						margin-right: auto;
+					}
+
+					body{
+						background: azure !important;
+					}
+				</style>
 			</head>
 			<body>
-				<div class="steedos workflow">
-					<div class="skin-green skin-admin-lte">
-						<div class="wrapper">
-							<div class="content-wrapper" style='min-height: 577px'>
-								<div class="workflow-main instance-show">
-									<div class="instance-wrapper">
-										<div class="instance">
-											<div class="instance-form box">
-												<div class="box-body">
-													<div class="col-md-12">
-														#{body}
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+				<div class="steedos">
+					<div class="instance #{instance_style}">
+						#{body}
 					</div>
 				</div>
 			</body>
