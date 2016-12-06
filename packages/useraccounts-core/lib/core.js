@@ -344,7 +344,7 @@ AT.prototype.texts = {
     changePwd: "changePassword",
     enrollAccount: "createAccount",
     forgotPwd: "resetYourPassword",
-    forgotPwdToken: "resetYourPassword",
+    forgotPwdToken: "inputTokenFromEmail",
     resetPwd: "resetYourPassword",
     signIn: "signIn",
     signUp: "createAccount",
