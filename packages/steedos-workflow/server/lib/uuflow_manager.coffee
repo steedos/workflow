@@ -504,7 +504,7 @@ uuflowManager.getForm = (form_id) ->
 	return form
 
 uuflowManager.getInstanceName = (instance) ->
-	values = instance.values
+	values = instance.values || {}
 	form_id = instance.form
 	flow = uuflowManager.getFlow(instance.flow)
 
@@ -1301,6 +1301,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.created_by = user_id
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
+	ins_obj.values = new Object
 	# 新建Trace
 	trace_obj = {}
 	trace_obj._id = Meteor.uuid()
