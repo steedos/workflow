@@ -11,7 +11,7 @@ Accounts.emailTemplates = {
       var splits = url.split("/");
       var tokenCode = splits[splits.length-1];
       var greeting = user.profile && user.profile.name ? trl("users_email_hello",{},user.locale) + user.profile.name + "," : trl("users_email_hello",{},user.locale) + ",";
-      return greeting + "\n\n" + trl("users_email_reset_password_body",tokenCode,user.locale) + "\n\n" + url + "\n\n" + trl("users_email_thanks",{},user.locale) + "\n";
+      return greeting + "\n\n" + trl("users_email_reset_password_body",{token_code:tokenCode},user.locale) + "\n\n" + url + "\n\n" + trl("users_email_thanks",{},user.locale) + "\n";
     }
   },
   verifyEmail: {

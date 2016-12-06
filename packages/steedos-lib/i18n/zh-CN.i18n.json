@@ -286,7 +286,7 @@
 	"users_email_verify_account": "您已注册华炎云账号,请点击以下链接进行验证。",
 	"users_email_verify_email": "验证您的登录邮箱",
 	"users_email_reset_password": "重新设置您的密码",
-	"users_email_reset_password_body": "您的验证码为：%s\r\n请在密码重置界面输入上面的验证码，或点击以下链接，重新设置您的登录密码。",
+	"users_email_reset_password_body": "您的验证码为：__token_code__\r\n请在密码重置界面输入上面的验证码，或点击以下链接，重新设置您的登录密码。",
 	"users_email_hello": "您好",
 	"users_email_thanks": "谢谢！",
 
