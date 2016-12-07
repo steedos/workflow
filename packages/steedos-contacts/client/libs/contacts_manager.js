@@ -62,6 +62,11 @@ function handerOrg(orgs) {
             };
             node.icon = 'fa fa-sitemap';
         }
+        if(org.hidden){
+            node.li_attr = {
+                class:"text-muted"
+            };
+        }
 
         nodes.push(node);
     });
