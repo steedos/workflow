@@ -394,6 +394,7 @@ if Meteor.isServer
 			return Meteor.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
 
 	InstanceformTemplate.helpers._t = (key)->
+
 		locale = Template.instance().view.template.steedosData.locale
 
 		return TAPi18n.__(key, {}, locale)

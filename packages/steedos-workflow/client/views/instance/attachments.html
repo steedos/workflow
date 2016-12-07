@@ -1,28 +1,3 @@
-<template name="instance_attachments" >
-    {{#if showAttachments}}
-        <div class="instance_attachments">
-            <div class=""> 
-                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_ "Attachments"}}</span>
-
-                <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}' style={{enabled_add_attachment}}><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input"></div>
-            </div>
-
-            <div class="attachments-list">
-
-                <table class='table table-condensed attachments'>
-                    <tbody>
-                        {{#each attachments}}
-                            {{> Template.dynamic template="instance_attachment" data=this}}
-                        {{/each}}
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    {{/if}}
-</template>
-
-
 <template name="instance_attachment" >
     <tr>
         <td class="ins-attach-view">

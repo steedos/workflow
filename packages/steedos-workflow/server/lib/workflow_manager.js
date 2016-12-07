@@ -386,7 +386,7 @@ WorkflowManager.getInstanceFormVersion = function() {
     return form_version;
 };
 
-WorkflowManager.getFlowVersion = function() {
+WorkflowManager.getInstanceFlowVersion = function() {
 
     var instance = Template.instance().view.template.steedosData.instance
 
@@ -401,4 +401,25 @@ WorkflowManager.getFlowVersion = function() {
         })[0];
     }
     return flow_version;
+};
+
+WorkflowManager.getInstanceStep = function(stepId) {
+    flow = WorkflowManager.getInstanceFlowVersion();
+
+    if (!flow)
+        return null;
+
+    var g_step;
+
+    flow.steps.forEach(
+        function(step) {
+            if (step._id == stepId) {
+                g_step = step;
+                g_step.id = step._id;
+                return;
+            }
+        }
+    );
+
+    return g_step;
 };

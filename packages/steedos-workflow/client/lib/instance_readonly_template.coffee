@@ -1,5 +1,14 @@
 InstanceReadOnlyTemplate = {};
 
+
+InstanceReadOnlyTemplate.instance_attachment = """
+    <tr>
+        <td class="ins-attach-view">
+           <a href="#" class="ins_attach_href" target="_parent">{{this.filename}}</a>
+        </td>
+    </tr>
+"""
+
 InstanceReadOnlyTemplate.afSelectUser = """
 	<input readonly name="{{name}}" id="{{atts.id}}" class="{{atts.class}}" disabled value='{{value}}'/>
 """
@@ -65,6 +74,7 @@ InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("imageSign", steedosData);
+		InstanceReadOnlyTemplate.create("instance_attachment", {});
 
 #TODO 国际化  table字段显示；日期、日期时间字段本地化；checkbox字段值国际化问题；邮件、url、textear 类型显示问题
 InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
@@ -202,22 +212,71 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
 
 	body = Blaze.toHTMLWithData(Template.instance_readonly_view, steedosData)
 
-	instanceBoxStyle = "";
-
-	if instance && instance.final_decision
-		if instance.final_decision == "approved"
-			instanceBoxStyle = "box-success"
-		else if (instance.final_decision == "rejected")
-			instanceBoxStyle = "box-danger"
-
 	return """
-		<div class="instance-form box #{instanceBoxStyle}">
-			<div class="box-body">
-				<div class="col-md-12">
-					<div id='instanceform' >
-						#{body}
-					</div>
-				</div>
-			</div>
+		<div id='instanceform' >
+			#{body}
 		</div>
 	"""
+
+_getViewHtml = (path) ->
+	viewHtml = Assets.getText(path)
+
+	if viewHtml
+		viewHtml = viewHtml.replace(/<template[\w\s\"\=']+>/i,"").replace(/<\/template>/i,"")
+
+	return viewHtml;
+
+InstanceReadOnlyTemplate.getTracesView = (user, space, instance)->
+
+	if user.locale?.toLocaleLowerCase() == 'zh-cn'
+		locale = "zh-CN"
+
+	steedosData = {
+		instance: instance,
+		locale: locale,
+		utcOffset: user.utcOffset,
+		space: space
+	}
+
+	tracesHtml = _getViewHtml('client/views/instance/traces.html')
+
+	traceCompiled = SpacebarsCompiler.compile(tracesHtml, {isBody: true});
+
+	traceRenderFunction = eval(traceCompiled);
+
+	Template.trace_readonly_view = new Blaze.Template("trace_readonly_view", traceRenderFunction);
+
+	Template.trace_readonly_view.steedosData = steedosData
+
+	Template.trace_readonly_view.helpers TracesTemplate.helpers
+
+	body = Blaze.toHTMLWithData(Template.trace_readonly_view, instance.traces)
+
+	return body;
+
+InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
+	if user.locale?.toLocaleLowerCase() == 'zh-cn'
+		locale = "zh-CN"
+
+	steedosData = {
+		instance: instance,
+		locale: locale,
+		utcOffset: user.utcOffset,
+		space: space
+	}
+
+	attachmentHtml = _getViewHtml('client/views/instance/instance_attachments.html')
+
+	attachmentCompiled = SpacebarsCompiler.compile(attachmentHtml, {isBody: true});
+
+	attachmentRenderFunction = eval(attachmentCompiled);
+
+	Template.attachments_readonly_view = new Blaze.Template("attachments_readonly_view", attachmentRenderFunction);
+
+	Template.attachments_readonly_view.steedosData = steedosData
+
+	Template.attachments_readonly_view.helpers InstanceAttachmentTemplate.helpers
+
+	body = Blaze.toHTMLWithData(Template.attachments_readonly_view, instance.attachments)
+
+	return body;

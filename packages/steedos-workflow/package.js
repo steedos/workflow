@@ -131,6 +131,11 @@ Package.onUse(function(api) {
 
     api.addFiles('client/views/instance/_instance_form.coffee', ['client','server']);
 
+    api.addFiles('client/views/instance/instance_attachments.html', 'client');
+    api.addAssets('client/views/instance/instance_attachments.html', 'server');
+
+    api.addFiles('client/views/instance/_instance_attachments.js', ['client','server']);
+
     api.addFiles('client/views/instance/attachments.html', 'client');
     api.addFiles('client/views/instance/attachments.js', 'client');
     api.addFiles('client/views/instance/force_end_modal.html', 'client');
@@ -152,7 +157,7 @@ Package.onUse(function(api) {
     api.addFiles('client/views/instance/reassign_modal.js', 'client');
     api.addFiles('client/views/instance/relocate_modal.html', 'client');
     api.addFiles('client/views/instance/relocate_modal.js', 'client');
-    api.addFiles('client/views/instance/_traces_help.coffee', 'client');
+    api.addFiles('client/views/instance/_traces_help.coffee', ['client','server']);
     api.addFiles('client/views/instance/traces.html', 'client');
     api.addFiles('client/views/instance/traces.js', 'client');
     api.addFiles('client/views/instance/traces_table.html', 'client');

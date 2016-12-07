@@ -40,20 +40,29 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 		if flow?.instance_style == 'table'
 			instance_style = "instance-table"
 
-	tracesHtml = Assets.getText('client/views/instance/traces.html')
-
-	console.log tracesHtml
+	trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
 
 	hash = (new Date()).getTime()
+
+	instanceBoxStyle = "";
+
+	if instance && instance.final_decision
+		if instance.final_decision == "approved"
+			instanceBoxStyle = "box-success"
+		else if (instance.final_decision == "rejected")
+			instanceBoxStyle = "box-danger"
+
+	attachment = InstanceReadOnlyTemplate.getAttachmentView(user, space, instance)
 
 	html = """
 		<!DOCTYPE html>
 		<html>
 			<head>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				<link rel="stylesheet" type="text/css" class="__meteor-css__" href="/merged-stylesheets.css?hash=#{hash}">
 
 				<style>
-					.instance{
+					.steedos{
 						width: 960px;
 						margin-left: auto;
 						margin-right: auto;
@@ -67,8 +76,16 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			<body>
 				<div class="steedos">
 					<div class="instance #{instance_style}">
-						#{body}
+						<div class="instance-form box #{instanceBoxStyle}">
+							<div class="box-body">
+								<div class="col-md-12">
+									#{attachment}
+									#{body}
+								</div>
+							</div>
+						</div>
 					</div>
+					#{trace}
 				</div>
 			</body>
 		</html>

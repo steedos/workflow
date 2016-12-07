@@ -28,6 +28,42 @@ Template.instance_view.helpers
 		console.log(ApproveManager.isReadOnly());
 		return ApproveManager.isReadOnly();
 
+	instanceStyle: (flowId)->
+		flow = WorkflowManager.getFlow(flowId);
+
+		if Steedos.isMobile()
+			return ""
+
+		if flow?.instance_style == 'table'
+			return "instance-table"
+		return "";
+
+	tracesTemplateName: (flowId)->
+		flow = WorkflowManager.getFlow(flowId);
+
+		if Steedos.isMobile()
+			return "instance_traces"
+
+		if flow?.instance_style == 'table'
+			return "instance_traces_table"
+		# return true
+		return "instance_traces";
+
+	instance_box_style: ->
+		box = Session.get("box")
+		if box == "inbox" || box == "draft"
+			judge = Session.get("judge")
+			if judge
+				if (judge == "approved")
+					return "box-success"
+				else if (judge == "rejected")
+					return "box-danger"
+		ins = WorkflowManager.getInstance();
+		if ins && ins.final_decision
+			if ins.final_decision == "approved"
+				return "box-success"
+			else if (ins.final_decision == "rejected")
+				return "box-danger"
 
 Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")

@@ -1,39 +1,35 @@
 <template name="instance_traces" >
 
-<div class="box instance-traces">
-    <div class="box-header with-border"> 
-        <h3 class="box-title">{{_ "instance_approval_history"}}</h3>
-<!--         <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-        </div> -->
-    </div>
-    <div class="box-body">
+    <div class="box instance-traces">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{_t "instance_approval_history"}}</h3>
+        </div>
+        <div class="box-body">
 
-        <table class='table table-condensed traces'>
-            <tbody>
+            <table class='table table-condensed traces'>
+                <tbody>
                 {{#each this}}
 
-                <tr class="trace-item">
-                    <td colspan='3'>{{getStepName this.step}}</td>
-                </tr>
+                    <tr class="trace-item">
+                        <td colspan='3'>{{getStepName this.step}}</td>
+                    </tr>
                     {{#each this.approves}}
                         <tr class="approve-item">
                             <td class="name">{{this.handler_name}}
                                 {{#if isCC this}}
-                                    <label class='cc-label'>({{_ "instance_cc_title"}})</label> 
+                                    <label class='cc-label'>({{_t "instance_cc_title"}})</label>
                                     {{#if showDeleteButton this}}
                                         <a href="#" class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="fa fa-times" aria-hidden="true" data-approve="{{_id}}"></i></a>
                                     {{/if}}
                                 {{/if}}
                             </td>
                             {{#if unempty this.finish_date}}
-                            <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                            <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
+                                <td class="finish-date">{{dateFormat this.finish_date}}</td>
+                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
                             {{else}}
                                 <td class="finish-date"></td>
                                 {{#unless isCC this}}
-                                <td class="status {{this.judge}}">{{_ "instance_in_progress"}}</td>
+                                    <td class="status {{this.judge}}">{{_t "instance_in_progress"}}</td>
                                 {{/unless}}
                             {{/if}}
 
@@ -41,16 +37,16 @@
                         </tr>
                         {{#if this.is_finished}}
                             {{#if unempty this.description}}
-                            <tr class="approve-item">
-                                <td class="description" colspan="3">{{this.description}}</td>
-                            </tr>
+                                <tr class="approve-item">
+                                    <td class="description" colspan="3">{{this.description}}</td>
+                                </tr>
                             {{/if}}
                         {{/if}}
                     {{/each}}
                 {{/each}}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 </template>
