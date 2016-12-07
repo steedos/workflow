@@ -1,9 +1,9 @@
 pushManager = {
 	bqq_app_id: "200626779",
-	imo_app_cid: Meteor.settings.imo.appcid,
-	imo_app_uid: Meteor.settings.imo.appuid,
-	imo_sync_app_key: Meteor.settings.imo.sync_app_key,
-	imo_push_app_key: Meteor.settings.imo.push_app_key
+	imo_app_cid: Meteor.settings.imo?.appcid,
+	imo_app_uid: Meteor.settings.imo?.appuid,
+	imo_sync_app_key: Meteor.settings.imo?.sync_app_key,
+	imo_push_app_key: Meteor.settings.imo?.push_app_key
 }
 
 pushManager.get_to_users = (send_from, instance)->
