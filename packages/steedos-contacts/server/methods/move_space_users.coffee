@@ -17,19 +17,13 @@ Meteor.methods
 
 			unless space.admins.includes(userId)
 				# only space admin or org admin can edit space_users
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds org_ids,userId
+				isOrgAdmin = Steedos.isOrgAdminByAllOrgIds org_ids,userId
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 				# only space admin or org admin can edit to_org_id's org
-				toOrg = db.organizations.findOne({_id: to_org_id}, {fields: {admins: 1,parent:1,parents:1}})
 				isOrgAdmin = false
-				if toOrg.admins?.includes userId
-					isOrgAdmin = true
-				else if toOrg.parent
-					parents = toOrg.parents
-					if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
-						isOrgAdmin = true
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds [to_org_id],userId
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
