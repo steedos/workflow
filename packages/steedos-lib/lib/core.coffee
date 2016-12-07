@@ -91,6 +91,18 @@ if Meteor.isServer
 		return isOrgAdmin
 
 
+	# 判断数组orgIds中的org id集合对于用户userId是否有全部组织管理员权限，只有数组orgIds中每个组织都有权限才返回true，反之返回false
+	Steedos.isOrgAdminByAllOrgIds = (orgIds, userId)->
+		unless orgIds.length
+			return true
+		i = 0
+		while i < orgIds.length
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds [orgIds[i]], userId
+			unless isOrgAdmin
+				break
+			i++
+		return isOrgAdmin
+
 
 # This will add underscore.string methods to Underscore.js
 # except for include, contains, reverse and join that are 
