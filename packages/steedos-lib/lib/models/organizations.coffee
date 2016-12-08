@@ -170,7 +170,11 @@ if (Meteor.isServer)
 				else
 					parents = [doc.parent]
 				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
-					isOrgAdmin = true 
+					isOrgAdmin = true
+			else if doc.is_company == true
+				console.log "db.organizations.before.insert,doc.is_company is true"
+				# 注册用户的时候会触发"before.insert"，且其userId为underfined，所以这里需要通过is_company来判断是否是新注册用户时进该函数。
+				isOrgAdmin = true
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
