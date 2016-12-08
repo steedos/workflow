@@ -9,12 +9,12 @@ InstanceReadOnlyTemplate.instance_attachment = """
     </tr>
 """
 
-InstanceReadOnlyTemplate.afSelectUser = """
+InstanceReadOnlyTemplate.afSelectUserRead = """
 	<input readonly name="{{name}}" id="{{atts.id}}" class="{{atts.class}}" disabled value='{{value}}'/>
 """
 
-# TODO 优化获取字段值的方式, 对各种不同类型字段显示进行处理(eg：日期本地化，checkbox值显示)，支持子表字段类型
-InstanceReadOnlyTemplate.afFormGroup = """
+
+InstanceReadOnlyTemplate.afFormGroupRead = """
 	<div class='form-group'>
 		{{#with getField this.name}}
 			{{#if equals type 'section'}}
@@ -46,7 +46,7 @@ InstanceReadOnlyTemplate.afFormGroup = """
 					{{#if showLabel}}
 						<label>{{getLabel code}}</label>
 					{{/if}}
-					<div class='{{getCfClass this}} form-control' readonly disabled>{{{getValue code}}}</div>
+					<div class='{{getCfClass this}} form-control' readonly disabled style='white-space: pre;'>{{{getValue code}}}</div>
 				{{/if}}
 			{{/if}}
 		{{/with}}
@@ -70,15 +70,16 @@ InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
-	InstanceReadOnlyTemplate.create("afSelectUser", steedosData);
-	InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
+	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
+	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("imageSign", steedosData);
 		InstanceReadOnlyTemplate.create("instance_attachment", {});
 
-#TODO 国际化  table字段显示；日期、日期时间字段本地化；checkbox字段值国际化问题；邮件、url、textear 类型显示问题
-InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 
+InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
+	if !value && value != false
+		return ''
 	switch field.type
 		when 'email'
 			value = if value then '<a href=\'mailto:' + value + '\'>' + value + '</a>' else ''
@@ -116,7 +117,13 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 				value = new Date(year, month - 1, date, hours, seconds)
 			else
 				value = new Date(value)
-			value = moment(value).utcOffset(utcOffset, true).format("YYYY-MM-DD HH:mm");
+
+			if Meteor.isServer
+				passing = false;
+			else
+				passing = true;
+
+			value = moment(value).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
 		when 'input'
 			if field.is_textarea
 				value = Spacebars.SafeString(Markdown(value))
@@ -125,9 +132,6 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 				if typeof value == 'string'
 					value = parseFloat(value)
 				value = value.toFixed(field.digits)
-
-	if !value
-		value = ''
 
 	return value;
 
@@ -179,14 +183,31 @@ InstanceReadOnlyTemplate.getFlowVersion = (instance)->
 
 	return flow_version;
 
-InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
+
+_getViewHtml = (path) ->
+	viewHtml = Assets.getText(path)
+
+	if viewHtml
+		viewHtml = viewHtml.replace(/<template[\w\s\"\=']+>/i,"").replace(/<\/template>/i,"")
+
+	return viewHtml;
+
+_getLocale = (user)->
+	if user?.locale?.toLocaleLowerCase() == 'zh-cn'
+		locale = "zh-CN"
+	else if user?.locale?.toLocaleLowerCase() == 'en'
+		locale = "en"
+	else
+		locale = "zh-CN"
+	return locale
+
+_getTemplateData = (user, space, instance)->
 	if Meteor.isServer
 		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
 	else
 		form_version = WorkflowManager.getInstanceFormVersion(instance)
 
-	if user.locale?.toLocaleLowerCase() == 'zh-cn'
-		locale = "zh-CN"
+	locale = _getLocale(user)
 
 	steedosData = {
 		instance: instance,
@@ -196,7 +217,17 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
 		space: space
 	}
 
+	return steedosData;
+
+InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
+
+	steedosData = _getTemplateData(user, space, instance)
+
 	instanceTemplate = TemplateManager.getTemplate(instance.flow);
+
+	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
+
+	instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
 
@@ -218,25 +249,9 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
 		</div>
 	"""
 
-_getViewHtml = (path) ->
-	viewHtml = Assets.getText(path)
-
-	if viewHtml
-		viewHtml = viewHtml.replace(/<template[\w\s\"\=']+>/i,"").replace(/<\/template>/i,"")
-
-	return viewHtml;
-
 InstanceReadOnlyTemplate.getTracesView = (user, space, instance)->
 
-	if user.locale?.toLocaleLowerCase() == 'zh-cn'
-		locale = "zh-CN"
-
-	steedosData = {
-		instance: instance,
-		locale: locale,
-		utcOffset: user.utcOffset,
-		space: space
-	}
+	steedosData = _getTemplateData(user, space, instance)
 
 	tracesHtml = _getViewHtml('client/views/instance/traces.html')
 
@@ -255,15 +270,8 @@ InstanceReadOnlyTemplate.getTracesView = (user, space, instance)->
 	return body;
 
 InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
-	if user.locale?.toLocaleLowerCase() == 'zh-cn'
-		locale = "zh-CN"
 
-	steedosData = {
-		instance: instance,
-		locale: locale,
-		utcOffset: user.utcOffset,
-		space: space
-	}
+	steedosData = _getTemplateData(user, space, instance)
 
 	attachmentHtml = _getViewHtml('client/views/instance/instance_attachments.html')
 

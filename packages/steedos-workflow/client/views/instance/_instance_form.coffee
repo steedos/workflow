@@ -3,7 +3,8 @@ InstanceformTemplate.helpers =
 		steedos_instance = WorkflowManager.getInstance();
 		data = {
 			name: 'ins_applicant',
-			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'}
+			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'},
+			value: instance.applicant_name
 		}
 		if not steedos_instance || steedos_instance.state != "draft"
 			data.atts.disabled = true
@@ -309,14 +310,13 @@ InstanceformTemplate.helpers =
 		return form_version.fields.findPropertyByPK("code", code)
 
 	getValue: (code)->
-
 		instance = Template.instance().view.template.steedosData.instance
 
 		form_version = Template.instance().view.template.steedosData.form_version
 
 		locale = Template.instance().view.template.steedosData.locale
 
-		utcOffset = Template.instance().view.template.steedosData.locale
+		utcOffset = Template.instance().view.template.steedosData.utcOffset
 
 		return InstanceReadOnlyTemplate.getValue instance.values[code], form_version.fields.findPropertyByPK("code", code), locale, utcOffset
 

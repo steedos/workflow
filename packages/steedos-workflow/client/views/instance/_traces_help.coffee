@@ -76,12 +76,15 @@ TracesTemplate.helpers =
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
-			utcOffset = Template.instance().view.template.steedosData.locale
+			utcOffset = Template.instance().view.template.steedosData.utcOffset
 			return moment(date).utcOffset(utcOffset, true).format("YYYY-MM-DD HH:mm")
 
 	TracesTemplate.helpers._t = (key)->
 		locale = Template.instance().view.template.steedosData.locale
 		return TAPi18n.__(key, {}, locale)
+
+	TracesTemplate.helpers.showDeleteButton = (approved) ->
+		return false;
 
 TracesTemplate.events =
 	'click .cc-approve-remove': (event, template) ->

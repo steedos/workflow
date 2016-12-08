@@ -1,5 +1,5 @@
 Cookies = Npm.require("cookies")
-#TODO 样式调整
+
 JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req, res, next) ->
 #	console.log req
 	cookies = new Cookies(req, res);
@@ -32,7 +32,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 
 	instance = db.instances.findOne({_id: instanceId});
 
-	#TODO 将获取body的代码抽取成函数
 	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance);
 
 	if !Steedos.isMobile()
