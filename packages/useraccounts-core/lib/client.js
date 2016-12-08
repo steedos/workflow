@@ -284,6 +284,7 @@ AT.prototype._init = function() {
       // new field just show for forgotPwdToken state
       case "forgot_pwd_token":
         field.visible = ["forgotPwdToken"];
+        field.required = true;
         break;
       default:
         field.visible = ["signUp"];
