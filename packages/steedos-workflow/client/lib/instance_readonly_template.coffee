@@ -118,12 +118,7 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 			else
 				value = new Date(value)
 
-			if Meteor.isServer
-				passing = false;
-			else
-				passing = true;
-
-			value = moment(value).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
+			value = InstanceReadOnlyTemplate.formatDate(value, utcOffset);
 		when 'input'
 			if field.is_textarea
 				value = Spacebars.SafeString(Markdown(value))
@@ -195,7 +190,7 @@ _getViewHtml = (path) ->
 _getLocale = (user)->
 	if user?.locale?.toLocaleLowerCase() == 'zh-cn'
 		locale = "zh-CN"
-	else if user?.locale?.toLocaleLowerCase() == 'en'
+	else if user?.locale?.toLocaleLowerCase() == 'en-us'
 		locale = "en"
 	else
 		locale = "zh-CN"
@@ -218,6 +213,14 @@ _getTemplateData = (user, space, instance)->
 	}
 
 	return steedosData;
+
+InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
+	if Meteor.isServer
+		passing = false;
+	else
+		passing = true;
+
+	return moment(date).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
 
 InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
 
