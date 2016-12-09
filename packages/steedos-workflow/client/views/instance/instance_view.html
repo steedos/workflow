@@ -11,7 +11,11 @@
                     {{#if isIReadable}}
                         {{{readOnlyView}}}
                     {{else}}
-                        {{> instanceform_table}}
+                        {{#if isTableView}}
+                            {{> instanceform_table}}
+                        {{else}}
+                            {{> instanceform}}
+                        {{/if}}
                     {{/if}}
                 </div>
             </div>

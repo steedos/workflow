@@ -77,7 +77,7 @@ if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
 			utcOffset = Template.instance().view.template.steedosData.utcOffset
-			return moment(date).utcOffset(utcOffset, true).format("YYYY-MM-DD HH:mm")
+			return InstanceReadOnlyTemplate.formatDate(date, utcOffset);
 
 	TracesTemplate.helpers._t = (key)->
 		locale = Template.instance().view.template.steedosData.locale
