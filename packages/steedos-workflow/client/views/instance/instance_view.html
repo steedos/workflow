@@ -6,8 +6,6 @@
             <div class="box-body">
                 <div class="col-md-12">
 
-                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
-
                     {{#if isIReadable}}
                         {{{readOnlyView}}}
                     {{else}}
@@ -17,6 +15,8 @@
                             {{> instanceform}}
                         {{/if}}
                     {{/if}}
+
+                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
                 </div>
             </div>
         </div>

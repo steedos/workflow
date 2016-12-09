@@ -138,8 +138,8 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 						<div class="instance-form box #{instanceBoxStyle}">
 							<div class="box-body">
 								<div class="col-md-12">
-									#{attachment}
 									#{body}
+									#{attachment}
 								</div>
 							</div>
 						</div>
