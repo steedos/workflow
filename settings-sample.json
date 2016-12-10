@@ -1,93 +1,102 @@
 {
-  "public" : {
-    "webservices" : {
-      "account" : {
-        "status" : "active",
-        "url" : "https://setup.steedos.com:443"
+  "public": {
+    "webservices": {
+      "account": {
+        "status": "active",
+        "url": "https://setup.steedos.com:443"
       },
-      "admin" : {
-        "status" : "active",
-        "url" : "https://adminws.steedos.com:443"
+      "admin": {
+        "status": "active",
+        "url": "https://adminws.steedos.com:443"
       },
-      "attachments" : {
-        "status" : "active",
-        "url" : "https://attachmentsws.steedos.com:443"
+      "attachments": {
+        "status": "active",
+        "url": "https://attachmentsws.steedos.com:443"
       },
-      "chat" : {
-        "status" : "active",
-        "url" : "https://chatws.steedos.com:443"
+      "chat": {
+        "status": "active",
+        "url": "https://chatws.steedos.com:443"
       },
-      "contacts" : {
-        "status" : "active",
-        "url" : "https://contactsws.steedos.com:443"
+      "contacts": {
+        "status": "active",
+        "url": "https://contactsws.steedos.com:443"
       },
-      "keyvalue" : {
-        "status" : "active",
-        "url" : "https://keyvaluews.steedos.com:443"
+      "keyvalue": {
+        "status": "active",
+        "url": "https://keyvaluews.steedos.com:443"
       },
-      "push" : {
-        "status" : "active",
-        "url" : "https://pushws.steedos.com:443"
+      "push": {
+        "status": "active",
+        "url": "https://pushws.steedos.com:443"
       },
-      "s3" : {
-        "status" : "active",
-        "url" : "https://s3ws.steedos.com"
+      "s3": {
+        "status": "active",
+        "url": "https://s3ws.steedos.com"
       },
-      "ubiquity" : {
-        "status" : "active",
-        "url" : "https://ubiquityws.steedos.com:443"
+      "ubiquity": {
+        "status": "active",
+        "url": "https://ubiquityws.steedos.com:443"
       },
-      "uuflow" : {
-        "status" : "active",
-        "url" : "https://uuflowws.steedos.com:443"
+      "uuflow": {
+        "status": "active",
+        "url": "https://uuflowws.steedos.com:443"
       },
-      "www" : {
-        "status" : "active",
-        "url" : "https://www.steedos.com:443"
+      "www": {
+        "status": "active",
+        "url": "https://www.steedos.com:443"
       }
     },
-    "cfs" : {
-      "store" : "OSS"
+    "cfs": {
+      "store": "OSS"
     }
   },
-  "push" : {
-    "aliyun" : {
-        "appKey" : "xxxxxxx",
-        "accessKeyId" : "xxxxxxx",
-        "secretAccessKey" : "xxxxxxx",
-        "endpoint" : "http://cloudpush.aliyuncs.com",
-        "apiVersion" : "2015-08-27"
-      },
-    "apn" : {
-        "keyData" : "xxxxxxx",
-        "certData" : "xxxxxxx"
+  "push": {
+    "aliyun": {
+      "appKey": "xxxxxxx",
+      "accessKeyId": "xxxxxxx",
+      "secretAccessKey": "xxxxxxx",
+      "endpoint": "http://cloudpush.aliyuncs.com",
+      "apiVersion": "2015-08-27"
     },
-    "gcm" : {
-      "projectNumber":"xxxxxx",
-      "apiKey" : "xxxxxxx"
+    "apn": {
+      "keyData": "xxxxxxx",
+      "certData": "xxxxxxx"
+    },
+    "gcm": {
+      "projectNumber": "xxxxxx",
+      "apiKey": "xxxxxxx"
     }
 
   },
-  "cfs" : {
-    "aliyun" : {
-      "region" : "xxxxxx",
-      "internal" : false,
-      "bucket" : "xxxxxx",
-      "folder" : "xxxxxx",
-      "accessKeyId" : "xxxxxx",
-      "secretAccessKey" : "xxxxxx"
+  "cfs": {
+    "aliyun": {
+      "region": "xxxxxx",
+      "internal": false,
+      "bucket": "xxxxxx",
+      "folder": "xxxxxx",
+      "accessKeyId": "xxxxxx",
+      "secretAccessKey": "xxxxxx"
     },
-    "aws" : {
-      "region" : "xxxxxx",
-      "bucket" : "xxxxxx",
-      "folder" : "xxxxxx",
-      "accessKeyId" : "xxxxxx",
-      "secretAccessKey" : "xxxxxx"
+    "aws": {
+      "region": "xxxxxx",
+      "bucket": "xxxxxx",
+      "folder": "xxxxxx",
+      "accessKeyId": "xxxxxx",
+      "secretAccessKey": "xxxxxx"
     }
   },
-  "cron" : {
+  "cron": {
     "bqq": "0 * * * * *",
     "dingtalk": "0 * * * * *",
     "statistics": "0 0 23 * * *"
+  },
+  "email": {
+    "from": "Steedos <xxx@xxxxxx>"
+  },
+  "imo": {
+    "appcid": "xxx",
+    "appuid": "xxx",
+    "sync_app_key": "xxx",
+    "push_app_key": "xxx"
   }
 }
