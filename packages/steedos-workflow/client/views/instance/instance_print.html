@@ -23,7 +23,17 @@
     		{{#with instance}}
         	    <!--{{#if isTableView flow}}-->
 				    <div class="instance instance-table">
-				    {{> instanceform_table}}
+                        <div class="instance-form box {{instance_box_style }}">
+                            <div class="box-body">
+                                <div class="col-md-12">
+                                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                                    {{> instanceform_table}}
+                                </div>
+                            </div>
+                        </div>
+                        {{#if unequals 'draft' instance.state}}
+                            {{> Template.dynamic template="instance_traces_table" data=instance.traces}}
+                        {{/if}}
 				    </div>
 			    <!--{{else}}-->
 				    <!--<div class="instance">-->

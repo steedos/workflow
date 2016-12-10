@@ -64,6 +64,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+	#TODO 添加服务端是否手机的判断(依据request)
+	Steedos.isMobile = ()->
+		return false;
+
 	Steedos.isSpaceAdmin = (spaceId, userId)->
 		if !spaceId || !userId
 			return false

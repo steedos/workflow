@@ -1,10 +1,8 @@
 <template name="instance_traces_table" >
 
-<div class="instance-traces">
-
-    <div class="box box-solid collapsed-box">
+    <div class="box box-solid collapsed-box instance-traces">
         <div class="box-header with-border">
-            <div class="pull-left"><B>{{_ "instance_approval_history"}}</B></div>
+            <div class="pull-left"><B>{{_t "instance_approval_history"}}</B></div>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                 </button>
@@ -44,7 +42,7 @@
                                             <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
                                         {{else}}
                                             <td class="finish-date"></td>
-                                            <td class="status {{this.judge}}"><!-- {{_ "instance_in_progress"}} --></td>
+                                            <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
                                         {{/if}}
                                     </tr>
                                    
@@ -57,6 +55,5 @@
             </table>
         </div>
     </div>
-</div>
 
 </template>
