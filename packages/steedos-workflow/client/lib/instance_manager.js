@@ -637,13 +637,7 @@ InstanceManager.deleteIns = function() {
   var instance = WorkflowManager.getInstance();
   if (!instance)
     return;
-  // 删除附件
-  var attachs = cfs.instances.find({
-    "metadata.instance": instance._id
-  });
-  attachs.forEach(function(a) {
-    a.remove();
-  })
+
   UUflow_api.delete_draft(instance._id);
 }
 
