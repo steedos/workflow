@@ -1598,6 +1598,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						nextApprove.due_date = nextTrace.due_date
 						nextApprove.is_read = false
 						nextApprove.is_error = false
+						nextApprove.values = new Object
 						nextTrace.approves.push(nextApprove)
 					)
 					# 更新instance记录

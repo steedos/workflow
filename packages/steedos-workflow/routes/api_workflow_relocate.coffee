@@ -98,6 +98,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					relocate_appr.is_read = true
 					relocate_appr.description = relocate_comment
 					relocate_appr.is_error = false
+					relocate_appr.values = new Object
 					traces[i].approves.push(relocate_appr)
 
 					# 更新当前trace记录
@@ -162,6 +163,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.start_date = now
 					newApprove.is_read = false
 					newApprove.is_error = false
+					newApprove.values = new Object
 
 					newTrace.approves.push(newApprove)
 				)

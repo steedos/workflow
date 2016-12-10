@@ -101,6 +101,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 						newApprove.is_read = true
 						newApprove.description = terminate_reason
 						newApprove.is_error = false
+						newApprove.values = new Object
 						traces[i].approves.push(newApprove)
 					i++
 	

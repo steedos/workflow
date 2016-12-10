@@ -81,6 +81,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			assignee_appr.is_read = true
 			assignee_appr.description = reassign_reason
 			assignee_appr.is_error = false
+			assignee_appr.values = new Object
 			last_trace.approves.push(assignee_appr)
 			# 对新增的每位待审核人，各增加一条新的approve
 			_.each(new_inbox_users, (user_id)->
@@ -106,6 +107,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				new_appr.due_date = last_trace.due_date
 				new_appr.is_read = false
 				new_appr.is_error = false
+				new_appr.values = new Object
 				last_trace.approves.push(new_appr)
 			)
 
