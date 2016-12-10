@@ -165,13 +165,14 @@ steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
+steedos:desktop@0.0.1
 steedos:emailjs@0.0.1
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lib@0.0.1
 steedos:meteor-cookie-login@0.0.5
+steedos:portal@0.0.2
 steedos:theme@0.0.1
-steedos:theme-qhd@0.0.1
 steedos:ui@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
@@ -181,6 +182,7 @@ templating@1.2.15
 templating-compiler@1.2.15
 templating-runtime@1.2.15
 templating-tools@1.0.5
+tomwasd:history-polyfill@0.0.1
 tracker@1.1.0
 twbs:bootstrap@3.3.6
 twitter@1.1.12
