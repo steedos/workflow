@@ -364,6 +364,7 @@
 		}
 	},
 	"steedos": "Steedos",
-	"cc": "cc"
+	"cc": "cc",
+    "save Instance To Attachment": "Save instance to attachment."
 
 }

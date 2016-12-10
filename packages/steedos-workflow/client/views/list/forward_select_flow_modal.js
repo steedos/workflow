@@ -56,7 +56,7 @@ Template.forward_select_flow_modal.events({
             return;
 
         Modal.hide(template);
-        InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow);
+        InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked);
     }
 
 })

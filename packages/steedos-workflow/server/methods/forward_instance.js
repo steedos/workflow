@@ -1,5 +1,5 @@
 Meteor.methods({
-    forward_instance: function(instance_id, space_id, flow_id) {
+    forward_instance: function (instance_id, space_id, flow_id, hasSaveInstanceToAttachment) {
         if (!this.userId)
             return;
 
@@ -61,7 +61,7 @@ Meteor.methods({
 
         // 当前最新版flow中开始节点的step_id
         var step_id;
-        flow.current.steps.forEach(function(step) {
+        flow.current.steps.forEach(function (step) {
             if (step.step_type == "start")
                 step_id = step._id;
         })
@@ -102,25 +102,25 @@ Meteor.methods({
             old_fields = old_form.current.fields;
         } else {
             if (old_form.historys) {
-                old_form.historys.forEach(function(h) {
+                old_form.historys.forEach(function (h) {
                     if (h._id == old_form_version)
                         old_fields = h.fields;
                 })
             }
         }
 
-        fields.forEach(function(field) {
-            var exists_field = _.find(old_fields, function(f) {
+        fields.forEach(function (field) {
+            var exists_field = _.find(old_fields, function (f) {
                 return f.type == field.type && f.code == field.code;
             })
             if (exists_field)
                 common_fields.push(field);
         })
 
-        common_fields.forEach(function(field) {
+        common_fields.forEach(function (field) {
             if (field.type == 'section') {
                 if (field.fields) {
-                    field.fields.forEach(function(f) {
+                    field.fields.forEach(function (f) {
                         // 跨工作区转发不复制选人选组
                         if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
                             return;
@@ -185,15 +185,53 @@ Meteor.methods({
 
         // 复制附件
         var collection = cfs.instances;
+
+        //将原表单内容存储为第一个附件
+        if (hasSaveInstanceToAttachment) {
+            try {
+
+                instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins)
+                var instanceFile = new FS.File();
+                instanceFile.attachData(Buffer.from(instanceHtml, "utf-8"), {type: "text/html"}, function (error) {
+                    if (error) {
+                        throw new Meteor.Error(error.error, error.reason);
+                    }
+
+                    instanceFile.name(ins.name + ".html");
+                    instanceFile.size(instanceHtml.length);
+
+                    var metadata = {
+                        owner: user_id,
+                        owner_name: user_info.name,
+                        space: space_id,
+                        instance: new_ins_id,
+                        approve: appr_obj._id,
+                        current: true
+                    };
+                    instanceFile.metadata = metadata;
+                    var fileObj = collection.insert(instanceFile);
+                    fileObj.update({
+                        $set: {
+                            'metadata.parent': fileObj._id
+                        }
+                    })
+                })
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+
         var files = collection.find({
             'metadata.instance': instance_id,
             'metadata.current': true
         });
-        files.forEach(function(f) {
+        files.forEach(function (f) {
             var newFile = new FS.File();
             newFile.attachData(f.createReadStream('instances'), {
                 type: f.original.type
-            }, function(err) {
+            }, function (err) {
                 if (err) {
                     throw new Meteor.Error(err.error, err.reason);
                 }
@@ -220,7 +258,6 @@ Meteor.methods({
 
         return new_ins_id;
     }
-
 
 
 })
