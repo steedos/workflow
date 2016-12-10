@@ -11,8 +11,29 @@ FlowRouter.notFound =
 			BlazeLayout.render 'masterLayout',
 				main: "not-found"
 
-FlowRouter.triggers.enter [()->
-	Session.set("router-path", FlowRouter.current().path)
+FlowRouter.triggers.enter [
+	()-> Session.set("router-path", FlowRouter.current().path)
+	()-> 
+		Tracker.autorun ->
+			if Session.get "is_tap_loaded"
+				appName = Steedos.getAppNameFromRoutePath()
+				switch appName
+					when 'workflow'
+						title = "Steedos Workflow"
+					when 'cms'
+						title = "Steedos CMS"
+					when 'emailjs'
+						title = "Steedos Mail"
+					when 'contacts'
+						title = "Steedos Contacts"
+					when 'portal'
+						title = "Steedos Portal"
+					when 'admin'
+						title = "Steedos Admin"
+					else
+						title = ""
+				if title
+					Session.set "document_title", t(title)
 ]
 
 FlowRouter.route '/', 

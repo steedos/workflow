@@ -55,6 +55,25 @@ if Meteor.isClient
 			unless $("#scrollspy").hasClass("ps-container")
 				$("#scrollspy").perfectScrollbar()
 
+	# 根据当前路由路径前缀，得到当前所属app名字
+	Steedos.getAppNameFromRoutePath = (path)->
+		unless path
+			path = FlowRouter.current().path
+		if /^\/?workflow\b/.test(path)
+			return "workflow"
+		else if /^\/?cms\b/.test(path)
+			return "cms"
+		else if /^\/?emailjs\b/.test(path)
+			return "emailjs"
+		else if /^\/?contacts\b/.test(path)
+			return "contacts"
+		else if /^\/?portal\b/.test(path)
+			return "portal"
+		else if /^\/?admin\b/.test(path)
+			return "admin"
+		else
+			return ""
+
 	#定义系统关闭函数，下次登录时自动跳转URL
 	window.onunload = ()->
 		# 判断用户是否登录
