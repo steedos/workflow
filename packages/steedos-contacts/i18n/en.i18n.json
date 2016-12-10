@@ -9,6 +9,12 @@
 	"mail_page_forward": "Forward",
 	"mail_page_back": "Back",
 	"mail_back": "Back",
+	"mail_alert_disposition_notification_checklabel":"Receipt needed",
+	"mail_alert_disposition_notification_title":"Read receipt was requested by zhe sender of this message, Do you confirm to send?",
+	"mail_alert_disposition_notification_yes":"Send",
+	"mail_alert_disposition_notification_no":"Deny",
+	"mail_alert_disposition_notification_subject":"Read：%s",
+	"mail_alert_disposition_notification_body":"The message you sent at %s sent to %s &lt;%s&gt; has been read, the subject of the message was %s",
 
 	"steedos_emailjs_serach":"Search",
 	"steedos_emailjs_add_to_contacts": "Add to contacts",
