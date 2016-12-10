@@ -47,6 +47,7 @@ Package.onUse(function(api) {
     api.use('mrt:moment-timezone', 'client');
 
     api.use('steedos:lib');
+    api.use('steedos:admin');
 
     api.use('tap:i18n', ['client', 'server']);
     //api.add_files("package-tap.i18n", ["client", "server"]);
@@ -85,16 +86,27 @@ Package.onUse(function(api) {
     api.addFiles('client/lib/workflow_manager.js', 'client');
     api.addFiles('client/lib/node_manager.js', 'client');
     api.addFiles('client/lib/template_manager.coffee', 'client');
+    api.addFiles('client/lib/office_online.js', 'client');
 
 
     //add client file
+    api.addFiles('client/layout/master_print.less', 'client');
+    api.addFiles('client/layout/master_print.html', 'client');
+    api.addFiles('client/layout/master_print.coffee', 'client');
+    api.addFiles('client/views/instance/instance_print.html', 'client');
+    api.addFiles('client/views/instance/instance_print.coffee', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-checkbox/boolean-checkbox.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-section/steedos-section.less', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table-modal.js', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-table/steedos-table.html', 'client');
@@ -103,14 +115,15 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
 
-
-
     api.addFiles('client/layout/master.html', 'client');
     api.addFiles('client/layout/master.coffee', 'client');
     api.addFiles('client/layout/master.less', 'client');
     api.addFiles('client/layout/sidebar.html', 'client');
     api.addFiles('client/layout/sidebar.coffee', 'client');
     api.addFiles('client/layout/sidebar.less', 'client');
+
+    api.addFiles('client/views/instance/image_sign.html', 'client');
+    api.addFiles('client/views/instance/image_sign.coffee', 'client');
 
     api.addFiles('client/views/instance/_instance_form.coffee', 'client');
 
@@ -170,6 +183,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/list/monitor.html', 'client');
     api.addFiles('client/views/list/monitor.js', 'client');
 
+    api.addFiles('client/views/search/instance_more_search_modal.html', 'client');
+    api.addFiles('client/views/search/instance_more_search_modal.js', 'client');
+
     api.addFiles('client/views/home.html', 'client');
     api.addFiles('client/views/home.coffee', 'client');
 
@@ -177,6 +193,9 @@ Package.onUse(function(api) {
     api.addFiles('client/views/menu.html', 'client');
     api.addFiles('client/views/menu.coffee', 'client');
     api.addFiles('client/views/menu.less', 'client');
+
+    api.addFiles('client/views/workflow_menu_by_flow.html', 'client');
+    api.addFiles('client/views/workflow_menu_by_flow.coffee', 'client');
 
     api.addFiles('client/views/workflow_main.html', 'client');
     api.addFiles('client/views/workflow_main.coffee', 'client');
@@ -209,7 +228,6 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/forms.coffee', 'server');
     api.addFiles('server/publications/instance_data.coffee', 'server');
     api.addFiles('server/publications/instance_list.coffee', 'server');
-    api.addFiles('server/publications/my_spaces.coffee', 'server');
 
     api.addFiles('lib/admin.coffee');
 

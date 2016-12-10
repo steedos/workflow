@@ -1,17 +1,65 @@
+body {
+	font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, SimSun;
+}
+
+h1,h2,h3,h4,h5 {
+	font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, Microsoft Yahei, SimHei;
+	font-weight: bold;
+}
+
+.steedos {
+	.logo {
+		font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, Microsoft Yahei, SimHei;
+		font-weight: bold;
+	}
+	.navigation-title {
+		font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, Microsoft Yahei, SimHei;
+		font-weight: bold;
+	}
+}
 
 .hidden {
   display: none !important;
 }
 
 .ion {
-    font-size: 120%;
+	font-size: 120%;
 }
 
 .steedos {
  
-    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-        background-color: #F9F9F9;
-        opacity: 1;
-        color: black;  
-    } 
+	.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+		background-color: #F9F9F9;
+		opacity: 1;
+		color: black;  
+	}
+}
+
+.jstree-default .jstree-wholerow-clicked {
+	background: #08C;
+}
+
+.jstree-default .jstree-clicked{
+	color:white;
+}
+
+.text-overflow {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+span,a{
+	&.text-overflow{
+		display:inline-block;
+	}
+}
+
+
+.btn-transparent {
+	background-color: transparent;
+	color: #444;
+	&.btn:focus, &.btn:active:focus, &.btn.active:focus, &.btn.focus, &.btn:active.focus, &.btn.active.focus{
+		outline:none;
+	    box-shadow: none;
+	}
 }

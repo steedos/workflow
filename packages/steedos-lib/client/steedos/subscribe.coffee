@@ -3,23 +3,12 @@ Steedos.subsBootstrap.subscribe('userData')
 Steedos.subsBootstrap.subscribe('apps')
 Steedos.subsBootstrap.subscribe('my_spaces')
 Steedos.subsBootstrap.subscribe("steedos_keyvalues")
+Steedos.subsBootstrap.subscribe("user_inbox_instance")
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
 		spaceId = Steedos.getSpaceId()
-		if spaceId
-			space = db.spaces.findOne(spaceId)
-			if space
-				Steedos.setSpaceId(space._id)
-			else
-				space = db.spaces.findOne()
-				if space
-					Steedos.setSpaceId(space._id)
-		# 默认选中第一个space
-		else
-			space = db.spaces.findOne()
-			if space
-				Steedos.setSpaceId(space._id)
+		Steedos.setSpaceId(spaceId)
 
 
 
@@ -42,6 +31,7 @@ Tracker.autorun (c)->
 
 		Steedos.subsSpace.subscribe("my_space_user", spaceId)
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
+		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
 Steedos.subsInstance = new SubsManager();
 

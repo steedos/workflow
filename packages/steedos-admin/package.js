@@ -21,8 +21,6 @@ Package.onUse(function(api) {
     api.use('session');
     api.use('blaze');
     api.use('templating');
-    api.use('steedos:lib');
-    api.use('steedos:api');
     api.use('flemay:less-autoprefixer@1.2.0');
     api.use('simple:json-routes@2.1.0');
     api.use('nimble:restivus@0.8.7');
@@ -46,6 +44,8 @@ Package.onUse(function(api) {
     api.use('momentjs:moment', 'client');
     api.use('mrt:moment-timezone', 'client');
 
+    api.use('steedos:lib'); 
+    api.use('steedos:api');
     api.use('steedos:contacts');
 
     api.use('tap:i18n', ['client', 'server']);
@@ -67,11 +67,16 @@ Package.onUse(function(api) {
     api.addFiles('client/views/admin_dashboard.html', 'client');
     api.addFiles('client/views/admin_dashboard.coffee', 'client');
 
+    api.addFiles('client/views/admin_home.html', 'client');
+    api.addFiles('client/views/admin_home.coffee', 'client');
+    api.addFiles('client/views/admin_home.less', 'client');
+
     api.addFiles('client/router.coffee', 'client');
     api.addFiles('client/startup.coffee', 'client');
 
     // EXPORT
     api.export('AdminMenus');
+    api.export('Admin');
 });
 
 Package.onTest(function(api) {

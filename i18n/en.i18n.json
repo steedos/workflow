@@ -13,7 +13,7 @@
 	"select_tag_next": "Next",
 	"select_tag_last": "Last",
 
-	
+
 	"Steedos Mail": "Mail",
 	"mail_inbox":"Inbox",
 	"mail_sent":"Sent",
@@ -32,5 +32,9 @@
 	"mail_domains_imap_server":"ImapServer",
 	"mail_domains_imap_ssl":"IMAPSll",
 	"mail_domains_imap_port":"ImapPort",
+	"mail_domains_sensitive_keywords_alert":"AlertKeywords",
+	"mail_domains_sensitive_keywords_forbidden":"ForbiddenKeywords",
+	"mail_domains_before_send":"VerifyBeforeSend",
+	"mail_domains_before_save": "VerifyBeforeSave",
 	"mail_folders": "Folders"
 }

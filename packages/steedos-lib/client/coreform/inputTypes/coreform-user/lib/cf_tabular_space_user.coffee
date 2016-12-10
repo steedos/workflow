@@ -39,10 +39,10 @@
       #select:
       #  style: 'single'
       dom: "tp",
-      order:false,
-      extraFields: ["_id", "name", "email", "user"],
+#      order:[[1, "asc"]],
+      extraFields: ["_id", "name", "email", "user", "sort_no"],
       lengthChange: false,
-      pageLength: 10,
+      pageLength: 100,
       info: false,
       searching: true,
       responsive: 

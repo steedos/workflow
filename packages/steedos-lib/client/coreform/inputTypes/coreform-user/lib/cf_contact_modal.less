@@ -5,9 +5,20 @@
         border-radius: 0px;
     }
 
+    .cf-organization-list,.cf-spaceusers-list{
+        .box {
+          box-shadow: none;
+          border: none !important;
+        }
+    }
+
+    //.cf-spaceusers-list{
+    //    border-left: 1px solid #d2d6de; 边线会出现半截的情况
+    //}
+
     .navigation-bar{
         margin-top: -30px;
-
+        height: 31px !important;
         .dropdown-toggle{
             margin-top: -10px;
         }
@@ -40,6 +51,7 @@
         border-bottom: 0;
         padding: 0;
         padding-left: 10px;
+        padding-bottom: 0px;
     }
 
     label {
@@ -48,11 +60,12 @@
 
     .organizations_tree{
         color: #444;
-        font-size: 13px;
+        font-size: 14px;
         font-weight:400;
     }
 
     .modal-header{
+        border-bottom: 1px solid #d2d6de;
         .navigation-bar{
             background-color: #fff;
             padding: 0px;
@@ -70,8 +83,6 @@
 
             .box-body{
                 overflow-y: auto;
-                max-height: 340px;
-                min-height: 340px;
             }
 
             .box-solid{
@@ -82,16 +93,15 @@
 
     .contacts-modal-body{
         padding-bottom: 0px;
-        overflow-y:auto;
-        padding-top: 5px;
+        //overflow-y:auto;
+        padding-top: 0px;
+        &>.row{
+            height: 100%;
+        }
     }
     
 
     .cf_space_user_list {
-        .box-body{
-            padding-top: 0px;
-            min-height: 466px;
-        }
 
         .cf_space_user_list_table{
 
@@ -108,7 +118,7 @@
 
                 font{
                     color: #444;
-                    font-size: 13px;
+                    font-size: 14px;
                     font-weight:400;
                 }
             }
@@ -120,12 +130,13 @@
         }
     }
 
-    .cf_organization_list{
+    .cf-organization-list, .cf-spaceusers-list{
+        //height: calc(~"100% - 5px");
+        padding: 0px;
+        overflow-y: auto;
+        overflow-x: auto;
         .box-body{
-            overflow-y: auto;
-            overflow-x: auto;
-            max-height: 478px;
-            min-height: 478px;
+          padding: 0px;
         }
     }
 
@@ -140,6 +151,7 @@
 
     .modal-footer{
         text-align: left;
+        border-top:1px solid #d2d6de;
     }
 
     .selectTagButton{
@@ -176,7 +188,7 @@
         background-color: #5F9EDF;
         text-align:center;
         color:#fff;
-        font-size:13px;
+        font-size:14px;
         display: inline;
     }
 
@@ -206,7 +218,7 @@
         border-top: 0;
         border-left: 3px solid transparent;
         color: #444;
-        font-size: 13px;
+        font-size: 14px;
     }
 
 

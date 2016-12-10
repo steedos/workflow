@@ -40,7 +40,8 @@ Meteor.startup ->
                             win.focus();
                         FlowRouter.go(instance_url);    
                     else
-                        window.open(instance_url);
+                        FlowRouter.go(instance_url); 
+                        # window.open(instance_url);
 
                     # if window.cos && typeof(window.cos) == 'object'
                     #     if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'

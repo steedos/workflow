@@ -5,6 +5,10 @@ Package.describe({
 	git: ''
 });
 
+Npm.depends({
+    cookies: "0.6.1",
+    'vcf':'1.1.2'
+});
 
 Package.onUse(function(api) {
 
@@ -36,8 +40,9 @@ Package.onUse(function(api) {
 	api.use('cfs:standard-packages@0.5.9');
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
-	api.use('iyyang:cfs-aliyun')
-	api.use('cfs:s3');
+	api.use('iyyang:cfs-aliyun');
+    api.use('cfs:s3');
+
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('meteorhacks:subs-manager');
@@ -61,6 +66,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_books.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
+	api.addFiles('server/methods/move_space_users.coffee', 'server');
+	api.addFiles('server/methods/import_contacts_from_space_users.js', 'server');
+
+    api.addFiles('server/routes/contacts.coffee', 'server');
 
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
@@ -100,6 +109,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_group_book_list.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_invite_users_modal.html', 'client');
 	api.addFiles('client/views/steedos_contacts_invite_users_modal.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_import_books_modal.html', 'client');
+	api.addFiles('client/views/steedos_contacts_import_books_modal.coffee', 'client');
 
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');

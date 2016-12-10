@@ -66,6 +66,20 @@ Template.profile.helpers
     url:"/packages/steedos_theme/client/background/beach.jpg"
   }]
 
+  isCurrentSkinNameActive: (name)->
+    return if name == Steedos.getAccountSkinValue().name then "active" else ""
+
+  isCurrentSkinNameWaitingSave: (url)->
+    return if url == Session.get("waiting_save_profile_skin_name") then "btn-warning" else "btn-default"
+
+  skins:[{
+    name:"green",
+    tag:"green"
+  },{
+    name:"green-light",
+    tag:"green"
+  }]
+
   btn_save_i18n: () ->
     return TAPi18n.__ 'Submit'
 
@@ -173,13 +187,13 @@ Template.profile.events
                 $(document.body).removeClass('loading')
                 swal t("email_set_primary_success"), "", "success"
 
-  'click #bg_body a.thumbnail': (event)->
+  'click #personalization .bg-body-setting a.thumbnail': (event)->
     bg = $(event.currentTarget).attr("bg")
-    $("#bg_body button.btn-save-bg").attr("bg",bg)
+    $("#personalization button.btn-save-bg").attr("bg",bg)
     $("body").css("backgroundImage","url(#{bg})")
     Session.set("waiting_save_profile_bg",bg)
 
-  'click #bg_body button.btn-save-bg': (event)->
+  'click #personalization button.btn-save-bg': (event)->
     bg = $(event.currentTarget).attr("bg")
     accountBgBodyValue = Steedos.getAccountBgBodyValue()
     unless accountBgBodyValue
@@ -193,7 +207,7 @@ Template.profile.events
         console.error error
         toastr.error(error)
 
-  'change #bg_body .btn-upload-bg-file .avatar-file': (event, template) ->
+  'change #personalization .btn-upload-bg-file .avatar-file': (event, template) ->
     oldAvatar = Steedos.getAccountBgBodyValue().avatar
     if oldAvatar
       Session.set("waiting_save_profile_bg",'/api/files/avatars/' + oldAvatar)
@@ -212,6 +226,33 @@ Template.profile.events
           console.error error
           toastr.error(error)
     ,3000)
+
+  'click #personalization .skin-setting a.thumbnail': (event)->
+    dataset = event.currentTarget.dataset
+    skin_name = dataset.skin_name
+    skin_tag = dataset.skin_tag
+    btn_save = $("#personalization button.btn-save-skin")[0]
+    btn_save.dataset.skin_name = skin_name
+    btn_save.dataset.skin_tag = skin_tag
+    $(".skin-admin-lte").removeClass().addClass("skin-admin-lte").addClass("skin-#{skin_name}")
+    Session.set("waiting_save_profile_skin_name",skin_name)
+
+  'click #personalization button.btn-save-skin': (event)->
+    dataset = event.currentTarget.dataset
+    skin_name = dataset.skin_name
+    skin_tag = dataset.skin_tag
+    accountSkinValue = Steedos.getAccountSkinValue()
+    unless accountSkinValue
+      accountSkinValue = {}
+    accountSkinValue.name = skin_name
+    accountSkinValue.tag = skin_tag
+    Meteor.call 'setKeyValue', 'skin', accountSkinValue, (error, is_suc) ->
+      if is_suc
+        Session.set("waiting_save_profile_skin_name","")
+        toastr.success t('profile_save_skin_suc')
+      else
+        console.error error
+        toastr.error(error)
 
 
 Meteor.startup ->

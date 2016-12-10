@@ -1,5 +1,5 @@
 {
-    "Steedos Workflow": "Steedos Workflow",
+    "Steedos Workflow": "Workflow",
     "inbox": "Inbox",
     "outbox": "Outbox",
     "draft": "Draft",
@@ -159,9 +159,9 @@
     "workflow_left_parenthesis": "(",
     "workflow_right_parenthesis": ")",
 
-    "instance_cc_title": "CC",
+    "instance_cc_title": "Carbon Copy",
     "instance_curstep": "Current Step: ",
-    "instance_cc_user": "CC Users",
+    "instance_cc_user": "Carbon Copy To",
     "instance_cc_error_users_required": "Please select user.",
     "workflow_form_edit": "Form Style",
     "flows_template": "Instance Template",
@@ -190,5 +190,14 @@
     "form_field_checkbox_yes": "YES",
     "form_field_checkbox_no": "NO",
     "flows_events": "Events",
-    "flows_events_error": "Flow Script Error: "
+    "flows_events_error": "Flow Script Error: ",
+
+    "instance_search_advanced_search": "Advanced search",
+    "instance_search_flow": "Flow",
+    "isntance_search_name": "Instance Name",
+    "instance_search_applicant_name": "Applicant Name",
+    "instance_search_applicant_organization_name": "Applicant Organization Name",
+    "instance_search_submit_date": "Submit Date",
+    "instance_search_start": "Start",
+    "instance_search_end": "End"
 }

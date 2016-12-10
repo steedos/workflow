@@ -117,8 +117,17 @@ comerc:autoform-selectize
 #steedos:theme-qhd
 steedos:theme
 steedos:emailjs
+steedos:contacts
+steedos:portal
+steedos:desktop
 
 
 
 # must place at last
 matb33:collection-hooks
+
+
+reywood:publish-composite
+
+#fix bug for package 'kadira:flow-router' with ie8/9
+tomwasd:history-polyfill

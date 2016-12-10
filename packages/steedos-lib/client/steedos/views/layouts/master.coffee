@@ -25,3 +25,10 @@ Template.masterLayout.helpers
 Template.masterLayout.events
 	"click #navigation-back": (e, t) ->
 		NavigationController.back(); 
+
+
+$('body').on 'click', ->
+	Steedos.fixSideBarScroll()
+
+$(window).resize ->
+	Steedos.fixSideBarScroll()

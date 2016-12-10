@@ -15,7 +15,7 @@
 		<p>end of dynamic temp</p>
 		{{/with}}
 	{{else}}
-		<div class="box box-default">
+		<div class="box box-default margin-bottom-none">
 			<div class="box-body">
 				{{> quickForm id="admin_insert" collection=admin_collection_name fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_create_i18n}}
 			</div>
@@ -34,7 +34,7 @@
 	 {{#if action}}
 			{{> adminDeleteWidget}}
 	 {{/if}}
-		<div class="box box-default">
+		<div class="box box-default margin-bottom-none">
 			<div class="box-body">
 				{{#if fadmin_doc}}
 				{{> quickForm id="admin_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
@@ -45,20 +45,20 @@
 		</div>
 	{{/if}}
 	{{else}}
-		<div class="box box-default"><div class="box-body">{{_ "flow_db_admin_loading"}}</div></div>
+		<div class="box box-default margin-bottom-none"><div class="box-body">{{_ "flow_db_admin_loading"}}</div></div>
 	{{/if}}
 </template>
 
 
 <template name="AdminDashboardNewModal">
 	<div class="modal fade" id="admin_new" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	    <div class="modal-dialog" role="document">
+	    <div class="modal-dialog modal-lg" role="document">
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
 	        </div>
-	        <div class="modal-body" style='overflow-y:auto'>
+	        <div class="modal-body admin-dashboard-body" style='overflow-y:auto'>
 				{{> quickForm id="admin_modal_insert" collection=admin_collection_name doc=this fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_create_i18n}}
 			</div>
 		  </div>
@@ -68,13 +68,13 @@
 
 <template name="AdminDashboardEditModal">
 	<div class="modal fade" id="admin_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	    <div class="modal-dialog" role="document">
+	    <div class="modal-dialog modal-lg" role="document">
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
 	        </div>
-	        <div class="modal-body" style='overflow-y:auto'>
+	        <div class="modal-body admin-dashboard-body" style='overflow-y:auto'>
 	        	{{#if fadmin_doc}}
 				{{> quickForm id="admin_modal_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
 				{{else}}
@@ -87,7 +87,7 @@
 </template>
 
 <template name="AdminDashboardViewWrapper">
-	<div></div>
+	<div>dd</div>ff
 	{{! This template is used to manually re-render AdminDashboardView on route transition }}
 </template>
 
@@ -101,7 +101,9 @@
 	{{else}}
 		{{#if hasDocuments}}
 			{{#if admin_table}}
+				<div class="box box-default margin-bottom-none"><div class="box-body">
 				{{> tabular table=admin_table class="table dataTable" selector=admin_table.selector}}
+				</div></div>
 			{{/if}}
 		{{else}}
 			<div class="alert alert-info">
@@ -111,7 +113,7 @@
 		{{/if}}
 	{{/if}}
 	{{else}}
-		<div class="box box-default"><div class="box-body">{{_ "flow_db_admin_loading"}}</div></div>
+		<div class="box box-default margin-bottom-none"><div class="box-body">{{_ "flow_db_admin_loading"}}</div></div>
 	{{/if}}
 </template>
 

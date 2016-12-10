@@ -2,12 +2,12 @@
 
         <div class="instance-form box {{instance_box_style}}">
             <div class="box-body">
-                {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
-                    {{> instance_custom_template}}
-                {{/autoForm}}
-
                 <div class="col-md-12">
                     {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+
+                    {{#autoForm id=instanceId schema=fields type=form_types doc=doc_values meteormethod='instance'}}
+                        {{> instance_custom_template}}
+                    {{/autoForm}}
                 </div>
             </div>
         </div>

@@ -24,7 +24,7 @@
         <li class="active">{{_ "Account"}}</li>
       </ol>
     </section>  -->
-    <section class="content">
+    <section class="content admin-content">
 
 
         <div class="nav-tabs-custom">
@@ -33,7 +33,7 @@
               <li class=""><a href="#avatar" data-toggle="tab" aria-expanded="false">{{_ "Avatar"}}</a></li>
               <li class=""><a href="#password" data-toggle="tab" aria-expanded="false">{{_ "Password"}}</a></li>
               <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
-              <li class=""><a href="#bg_body" data-toggle="tab" aria-expanded="false">{{_ "bg_body"}}</a></li>
+              <li class=""><a href="#personalization" data-toggle="tab" aria-expanded="false">{{_ "personalization"}}</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="profile">
@@ -117,9 +117,32 @@
 
               </div>
 
-              <div class="tab-pane" id="bg_body">
-                <h4>{{_ "bg_body_setting"}}</h4>
-                <div class="row">
+              <div class="tab-pane" id="personalization">
+                <!-- 主题设置 -->
+                <h4>{{_ "skin_setting"}}</h4>
+                <div class="row skin-setting">
+                  {{#each skins}}
+                    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
+                      <a href="javascript:void(0);" data-skin_name="{{name}}" data-skin_tag="{{tag}}" class="thumbnail btn-default skin-setting-item-wrap skin-{{name}} clearfix full-opacity-hover {{isCurrentSkinNameWaitingSave name}} {{isCurrentSkinNameActive name}}">
+                        <div class="skin-setting-item">
+                          <div class="skin-setting-head">
+                            <span class="skin-setting-side bg-{{tag}}-active"></span>
+                            <span class="skin-setting-title"></span>
+                          </div>
+                          <div class="skin-setting-body">
+                            <span class="skin-setting-side"></span>
+                            <span class="skin-setting-content"></span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {{/each}}
+                </div>
+                <button type="button" class="btn btn-primary btn-sm btn-save-skin">{{_ 'profile_save_skin_setting'}}</button>
+
+                <!-- 背景设置 -->
+                <h4 style="margin-top: 40px;">{{_ "bg_body_setting"}}</h4>
+                <div class="row bg-body-setting">
                   {{#each bgBodys}}
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
                       <a href="javascript:void(0)" class="thumbnail {{isCurrentBgUrlWaitingSave url}} {{isCurrentBgUrlActive url}}" bg={{url}}>

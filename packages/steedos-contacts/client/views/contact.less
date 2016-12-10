@@ -114,17 +114,15 @@
         }
 
         .contacts {
-            overflow-y: scroll;
+            position: absolute;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            top: 0px;
+            top: 51px;
             bottom: 0px;
             right: 0px;
             left: 0px;
             padding: 0px;
             background-color: white;
-            // .box-body{
-            //     overflow-y: scroll;
-            // }
             .row {
                 margin-right: 0px;
                 margin-left: 0px;
@@ -151,6 +149,21 @@
 
     }
 
+    .contacts-main{
+        .control-sidebar{
+            padding-top: 0px;
+        }
+    }
+
+    .org-bar{
+        // height: 34px;
+        // padding: 5px;
+        padding-top: 14px;
+        cursor: pointer;
+        text-align: center;
+        background: #f9f9f9;
+    }
+
     @media (min-width: 768px) {
         .contacts-main {
             .contacts-list-wrapper {
@@ -168,11 +181,28 @@
             .contacts-list-wrapper {
                 right: 65%;
                 transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+                display: block !important;
+                z-index: auto;
+                top: 0px;
+                .contacts_back{
+                    display: none;
+                }
+
+                .offcanvas{
+                    display: inline-block;
+                }
+
+                .navigation-bar{
+                    display: block;
+                }
             }   
             .contacts-wrapper {
                 width: 65%;
                 left: 35%;
                 transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+                .offcanvas{
+                    display: none;
+                }
             }   
         }
     }
@@ -194,15 +224,36 @@
         }
         .contacts-main.contacts-show {
             .contacts-list-wrapper {
-                //display: none;
-                left: -100%;
+                display: none;
+                // left: -100%;
                 width: 100%;
-                transition: 0.3s ease-in-out;
+                z-index: 1010;
+                top: 102px;
+                // transition: 0.3s ease-in-out;
+
+                .contacts_back{
+                    display: inline-block;
+                }
+
+                .offcanvas{
+                    display: none;
+                }
+
+                .navigation-bar{
+                    display: none;
+                }
+
             }   
             .contacts-wrapper {
                 left: 0;
                 width: 100%;
                 transition: 0.3s ease-in-out;
+                .contacts{
+                    top: 102px;
+                }
+                .offcanvas{
+                    display: inline-block;
+                }
             }   
         }
     }
@@ -210,7 +261,7 @@
 }
 
 
-.steedos-contacts{
+.steedos-contacts,.steedos-admin{
     .box{
         border-radius: 0px;
         box-shadow: none;
@@ -280,6 +331,17 @@
 
 	.valueLabel-div{
         text-align: left;
+    }
+    .datatable-steedos-contacts{
+        .drag-source{
+            cursor:move;
+            &.drag-source-moving{
+                background-color: #fcf8e3;
+                button{
+                    display:none;
+                }
+            }
+        }
     }
 }
 

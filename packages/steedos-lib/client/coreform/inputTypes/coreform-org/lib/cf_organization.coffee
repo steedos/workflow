@@ -37,11 +37,13 @@ Template.cf_organization.onRendered ->
 
   # console.log "loaded_organizations ok...";
   $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
-    console.log(data);
     if data.selected.length
-      $("#cf_organizations_tree").jstree('toggle_node', data.node?.id);
-      # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
       Session.set("cf_selectOrgId", data.selected[0]);
+
+      if data?.node?.parent=="#" && data?.node?.state?.opened
+        return ;
+
+      $("#cf_organizations_tree").jstree('toggle_node', data.node?.id);
     return
   ).jstree
         core:

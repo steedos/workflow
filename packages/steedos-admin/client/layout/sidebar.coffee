@@ -1,4 +1,4 @@
-Template.adminSidebar.helpers
+Admin.adminSidebarHelpers =
 
 	displayName: ->
 
@@ -29,8 +29,13 @@ Template.adminSidebar.helpers
 		if path?.startsWith "/" + urlTag or path?.startsWith "/steedos/" + urlTag
 			return "active"
 
+	isWorkflowAdmin: ()->
+		if Steedos.isSpaceAdmin() then Steedos.getSpaceAppById("workflow") else false
+
 	isPortalAdmin: ()->
-		return Steedos.getSpacePortalApp()
+		return Steedos.getSpaceAppByUrl("/portal/home")
+
+Template.adminSidebar.helpers Admin.adminSidebarHelpers
 
 Template.adminSidebar.events
 
@@ -41,4 +46,7 @@ Template.adminSidebar.events
 		# 因部分admin列表界面在进入路由的时候会出现控制台报错：data[a[i]] is not a function
 		# 且只有从admin列表界面进入到admin列表界面时才可能会报上面的错误信息
 		# 所以这里加上fix-collection-helper样式类内的a链接先额外跳转到一个非admin列表界面，然后再让其自动跳转到href界面，这样可以避开错误信息
-		FlowRouter.go("/admin/profile")
+		FlowRouter.go("/admin/home")
+
+	'click .steedos-help': (event) ->
+		Steedos.showHelp();

@@ -33,15 +33,28 @@ TemplateHelpers =
 
     getSpaceId: ()->
 
+        # find space from session and local storage
         spaceId = Session.get("spaceId")
+        if !spaceId
+            spaceId = localStorage.getItem("spaceId:" + Meteor.userId())
+        
+        # check space exists
         if spaceId
-            return spaceId
+            space = db.spaces.findOne(spaceId);
+            if space
+                return space._id
 
-        spaceId = localStorage.getItem("spaceId:" + Meteor.userId())
-        if spaceId
-            return spaceId
-        else
-            return undefined;
+        # find space by hostname, currently hostname must unique for each space
+        hostSpace = db.spaces.findOne({hostname: document.location.hostname});
+        if hostSpace
+            return hostSpace._id
+
+        # nothing found, select first space
+        space = db.spaces.findOne();
+        if space
+            return space._id
+        
+        return undefined
             
     isSpaceAdmin: (spaceId)->
         if !spaceId
@@ -82,6 +95,23 @@ TemplateHelpers =
     isCloudAdmin: ->
         return Meteor.user()?.is_cloudadmin
 
+    isOrgAdmin: (orgId)->
+        if Steedos.isSpaceAdmin()
+            return true
+        unless orgId
+            return false
+        currentOrg = SteedosDataManager.organizationRemote.findOne(orgId)
+        unless currentOrg
+            return false
+        userId = Steedos.userId()
+        if currentOrg?.admins?.includes(userId)
+            return true
+        else
+            if currentOrg?.parent and SteedosDataManager.organizationRemote.findOne({_id:{$in:currentOrg.parents}, admins:{$in:[userId]}})
+                return true
+            else
+                return false
+
     setAppId: (appId)->
         if appId != Session.get("appId")
             Session.set("appId", appId)
@@ -119,7 +149,7 @@ TemplateHelpers =
             selector.mobile = true
         return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
 
-    getSpacePortalApp: ()->
+    getSpaceAppById: (app_id)->
         selector = {}
         if Steedos.getSpaceId()
             space = db.spaces.findOne(Steedos.getSpaceId())
@@ -127,7 +157,18 @@ TemplateHelpers =
                 selector._id = {$in: space.apps_enabled}
         if Steedos.isMobile()
             selector.mobile = true
-        selector.url = "/portal/home"
+        selector._id = "#{app_id}"
+        return db.apps.findOne(selector)
+
+    getSpaceAppByUrl: (app_url)->
+        selector = {}
+        if Steedos.getSpaceId()
+            space = db.spaces.findOne(Steedos.getSpaceId())
+            if space?.apps_enabled?.length>0
+                selector._id = {$in: space.apps_enabled}
+        if Steedos.isMobile()
+            selector.mobile = true
+        selector.url = "#{app_url}"
         return db.apps.findOne(selector)
 
     getLocale: ()->
@@ -310,6 +351,12 @@ TemplateHelpers =
         ), (error) ->
             $(document.body).removeClass 'loading'
             console.log 'resolveLocalFileSystemURL error code: ' + error.code
+
+    skinName: (defaultName)->
+        unless defaultName
+            defaultName = "green"
+        accountSkinValue = Steedos.getAccountSkinValue()
+        return if accountSkinValue.name then accountSkinValue.name else defaultName
 
 
 

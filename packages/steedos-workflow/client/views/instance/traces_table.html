@@ -1,51 +1,62 @@
 <template name="instance_traces_table" >
 
 <div class="instance-traces">
-        <B>{{_ "instance_approval_history"}}</B>
-        <table class='table table-condensed traces'>
-            <tbody>
-                {{#each this}}
 
-                <tr class="trace-item">
-                    <td class="td-stepname">{{getStepName this.step}}</td>
-                    <td class="td-approve">
-                        <table>
-                            {{#each this.approves}}
+    <div class="box box-solid collapsed-box">
+        <div class="box-header with-border">
+            <div class="pull-left"><B>{{_ "instance_approval_history"}}</B></div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <table class='table table-condensed traces'>
+                <tbody>
+                    {{#each this}}
 
-                                {{#if this.is_finished}}
-                                    {{#if unempty this.description}}
-                                    <tr class="approve-item description">
-                                        <td class="description" colspan="3">{{this.description}}</td>
-                                    </tr>
-                                    {{/if}}
-                                {{/if}}
+                    <tr class="trace-item">
+                        <td class="td-stepname">{{getStepName this.step}}</td>
+                        <td class="td-approve">
+                            <table>
+                                {{#each this.approves}}
 
-                                <tr class="approve-item">
-                                    <td class="name">
-                                        {{this.handler_name}}
-                                        {{#if isCC this}}
-                                            <label class='cc-label'>({{_ "instance_cc_title"}})</label> 
-                                            {{#if showDeleteButton this}}
-                                                <a href="#" class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="fa fa-times" aria-hidden="true" data-approve="{{_id}}"></i></a>
-                                            {{/if}}
+                                    {{#if this.is_finished}}
+                                        {{#if unempty this.description}}
+                                        <tr class="approve-item description">
+                                            <td class="description" colspan="3">{{this.description}}</td>
+                                        </tr>
                                         {{/if}}
-                                    </td>
-                                    {{#if unempty this.finish_date}}
-                                        <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                                        <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
-                                    {{else}}
-                                        <td class="finish-date"></td>
-                                        <td class="status {{this.judge}}"><!-- {{_ "instance_in_progress"}} --></td>
                                     {{/if}}
-                                </tr>
-                               
-                            {{/each}}
-                        </table>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+
+                                    <tr class="approve-item">
+                                        <td class="name">
+                                            {{this.handler_name}}
+                                            {{#if isCC this}}
+                                                <label class='cc-label'>({{_ "instance_cc_title"}})</label> 
+                                                {{#if showDeleteButton this}}
+                                                    <a href="#" class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="fa fa-times" aria-hidden="true" data-approve="{{_id}}"></i></a>
+                                                {{/if}}
+                                            {{/if}}
+                                        </td>
+                                        {{#if unempty this.finish_date}}
+                                            <td class="finish-date">{{dateFormat this.finish_date}}</td>
+                                            <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
+                                        {{else}}
+                                            <td class="finish-date"></td>
+                                            <td class="status {{this.judge}}"><!-- {{_ "instance_in_progress"}} --></td>
+                                        {{/if}}
+                                    </tr>
+                                   
+                                {{/each}}
+                            </table>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 </template>

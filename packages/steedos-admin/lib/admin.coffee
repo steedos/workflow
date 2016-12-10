@@ -3,8 +3,6 @@
 @spaces = db.spaces
 @space_users = db.space_users
 @organizations = db.organizations
-@flow_roles = db.flow_roles
-@flow_positions = db.flow_positions
 
 db.apps.adminConfig = 
 	icon: "globe"
@@ -14,8 +12,7 @@ db.apps.adminConfig =
 	tableColumns: [
 		{name: "name"},
 	]
-	selector: {space: "-1"}
-	routerAdmin: "/steedos/admin"
+	selector:  Admin.selectorCheckSpaceAdmin
 
 db.spaces.adminConfig = 
 	icon: "globe"
@@ -30,7 +27,6 @@ db.spaces.adminConfig =
 	extraFields: ["owner"]
 	newFormFields: "name"
 	selector: {_id: -1}
-	routerAdmin: "/steedos/admin"
 
 db.organizations.adminConfig =
 	icon: "sitemap"
@@ -42,11 +38,10 @@ db.organizations.adminConfig =
 		{name: "users_count()"},
 	]
 	extraFields: ["space", "name", "users"]
-	newFormFields: "space,name,parent,sort_no"
-	editFormFields: "name,parent,sort_no"
-	selector: {space: "-1"}
+	newFormFields: "space,name,parent,sort_no,hidden,users,admins"
+	editFormFields: "name,parent,sort_no,hidden,users,admins"
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
 
 db.space_users.adminConfig = 
 	icon: "users"
@@ -60,41 +55,11 @@ db.space_users.adminConfig =
 		{name: "user_accepted"}
 	]
 	extraFields: ["space", "user", 'organizations', "manager"]
-	newFormFields: "space,name,email,organizations,manager,user_accepted"
-	editFormFields: "space,name,organizations,manager,user_accepted"
-	selector: {space: "-1"}
+	newFormFields: "space,name,email,organizations,manager,sort_no,user_accepted"
+	editFormFields: "space,name,organizations,manager,sort_no,user_accepted"
+	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
-	routerAdmin: "/steedos/admin"
 
-db.flow_roles.adminConfig = 
-	icon: "users"
-	color: "green"
-	label: ->
-		return t("flow_roles")
-	tableColumns: [
-		{name: "name"},
-	]
-	extraFields: []
-	newFormFields: "space,name"
-	selector: {space: "-1"}
-	pageLength: 100
-	routerAdmin: "/steedos/admin"
-
-db.flow_positions.adminConfig = 
-	icon: "users"
-	color: "green"
-	label: ->
-		return t("flow_positions")
-	tableColumns: [
-		{name: "role_name()"},
-		{name: "org_name()"},
-		{name: "users_name()"},
-	]
-	extraFields: ["role", "org", "users"]
-	newFormFields: "space,role,org,users"
-	selector: {space: "-1"}
-	pageLength: 100
-	routerAdmin: "/steedos/admin"
 
 @AdminConfig = 
 	name: "Steedos Admin"
@@ -108,8 +73,6 @@ db.flow_positions.adminConfig =
 		spaces: db.spaces.adminConfig
 		organizations: db.organizations.adminConfig
 		space_users: db.space_users.adminConfig
-		flow_roles: db.flow_roles.adminConfig
-		flow_positions: db.flow_positions.adminConfig
 		apps: db.apps.adminConfig
 
 # set first user as admin
@@ -126,15 +89,3 @@ if Meteor.isClient
 
 			if AdminTables["spaces"]
 				AdminTables["spaces"].selector = {owner: Meteor.userId()}
-
-			if Session.get("spaceId")
-				if AdminTables["apps"]
-					AdminTables["apps"].selector = {space: Session.get("spaceId")}
-				if AdminTables["space_users"]
-					AdminTables["space_users"].selector = {space: Session.get("spaceId")}
-				if AdminTables["organizations"]
-					AdminTables["organizations"].selector = {space: Session.get("spaceId")}
-				if AdminTables["flow_roles"]
-					AdminTables["flow_roles"].selector = {space: Session.get("spaceId")}
-				if AdminTables["flow_positions"]
-					AdminTables["flow_positions"].selector = {space: Session.get("spaceId")}

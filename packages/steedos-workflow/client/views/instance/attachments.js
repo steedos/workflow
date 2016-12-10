@@ -23,6 +23,27 @@ Template.instance_attachments.helpers({
             'metadata.instance': instanceId,
             'metadata.current': true
         }).fetch();
+    },
+
+    showAttachments: function(){
+        var ins = WorkflowManager.getInstance();
+        if (!ins)
+            return false;
+
+        var instanceId = Session.get('instanceId');
+        if (!instanceId)
+            return false;
+
+
+        var attachments = cfs.instances.find({
+            'metadata.instance': instanceId,
+            'metadata.current': true
+        }).fetch();
+
+        if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments.length > 0)
+            return true;
+        else
+            return false;
     }
 
 })
@@ -239,6 +260,10 @@ Template.ins_attach_version_modal.helpers({
         var isLocked = false;
 
         var currentApprove = InstanceManager.getCurrentApprove();
+
+        if(!currentApprove)
+            return false;
+
         if (currentApprove.id == currentApproveId)
             isCurrentApprove = true;
 

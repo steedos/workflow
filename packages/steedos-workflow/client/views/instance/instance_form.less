@@ -1,5 +1,7 @@
 /* CSS declarations go here */
 
+@instanceTableStyleBorderColor: #000; /*#d2d6de*/
+
 .instanceContent {
     background: #ffffff;
 }
@@ -304,7 +306,7 @@ textarea {
 .instance{
   .instance-form{
     .box-header{
-      padding: 0px 10px;
+      padding: 0px 0px;
       margin-bottom: 10px;
     }
 
@@ -313,6 +315,15 @@ textarea {
       width: 250px;
       display: inline;
     }
+
+    #instanceform{
+      .col-md-12{
+        padding-left: 0px;
+      }
+      .col-md-6{
+        padding-left: 0px;
+      }
+    }
   }
 }
 
@@ -320,7 +331,7 @@ textarea {
 .instance-table{
   .instance-form{
     .box-header{
-      padding: 10px;
+      padding: 0px;
       margin-bottom: 0px;
     }
   }
@@ -336,8 +347,8 @@ textarea {
     margin-top: 18px;
 
     .ins-attach-view {
-      border-bottom: solid 1px #d2d6de;
-      border-top: solid 1px #d2d6de;
+      border-bottom: solid 1px @instanceTableStyleBorderColor;
+      border-top: solid 1px @instanceTableStyleBorderColor;
     }
   }
 
@@ -351,9 +362,10 @@ textarea {
   }
   .applicant-wrapper{
     margin:0px 0px;
+    text-align: left;
     .form-control.ins_applicant{
       padding:4px 12px;
-      width:120px;
+      //width:120px;
       display:inline;
       background:transparent !important;
       border:none;
@@ -367,13 +379,13 @@ textarea {
   .form-table{
     width: 100%; 
     border-collapse: collapse;
-    border: 1px solid #d2d6de;
+    border: 2px solid @instanceTableStyleBorderColor;
     table-layout: fixed;
 
     .td-title{
       width: 14%;
       text-align: center;
-      border: solid 1px #d2d6de;
+      border: solid 1px @instanceTableStyleBorderColor;
       padding:4px 12px;
       vertical-align: middle;
       text-align:left;
@@ -388,7 +400,7 @@ textarea {
     .td-field{
       // width: 36%;
       text-align: left;
-      border: solid 1px #d2d6de;
+      border: solid 1px @instanceTableStyleBorderColor;
       vertical-align: middle;
       &.readonly{
         background:#F9F9F9;
@@ -396,14 +408,14 @@ textarea {
     }
 
     .td-childfield{
-      border-top: solid 1px #d2d6de;
-      border-right: solid 1px #d2d6de;
-      border-bottom: solid 1px #d2d6de;
+      border-top: solid 1px @instanceTableStyleBorderColor;
+      border-right: solid 1px @instanceTableStyleBorderColor;
+      border-bottom: solid 1px @instanceTableStyleBorderColor;
     }
 
     /*子表与子表相邻时，会出现子表间没有边线的问题，这里判断并加上，由于meteor编译的问题，这里是tr标签与td标签相邻*/
     .tr-child-table+.td-childfield{
-      border-top: solid 1px #d2d6de;
+      border-top: solid 1px @instanceTableStyleBorderColor;
     }
 
     select,textarea, input{
@@ -446,7 +458,7 @@ textarea {
         border: 0px;
         margin-bottom:0px;
         table, th, td{
-          border: solid 1px #d2d6de;
+          border: solid 1px @instanceTableStyleBorderColor;
         }
 
         table{
@@ -487,10 +499,10 @@ textarea {
           @-moz-document url-prefix() {
             tr:last-child{
               th{
-                border-bottom:solid 1px #d2d6de;
+                border-bottom:solid 1px @instanceTableStyleBorderColor;
               }
               td{
-                border-bottom:solid 1px #d2d6de;
+                border-bottom:solid 1px @instanceTableStyleBorderColor;
               }
             }
           }
@@ -520,10 +532,10 @@ textarea {
         background:#fff;
       }
       background:transparent;
-      border: solid 1px #d2d6de;
+      border: solid 1px @instanceTableStyleBorderColor;
       td{
         background:transparent;
-        border: solid 1px #d2d6de;
+        border: solid 1px @instanceTableStyleBorderColor;
         vertical-align: middle;
         padding: 4px 12px;
         font-weight:normal;
@@ -540,7 +552,7 @@ textarea {
             width:100%;
             border:none;
             &.approve-item{
-              border-bottom:solid 1px #d2d6de;
+              border-bottom:solid 1px @instanceTableStyleBorderColor;
               &.description{
                 border-bottom:none;
               }
@@ -570,10 +582,27 @@ textarea {
         }
       }
     }
+
+
+    .box{
+      box-shadow:0 0 0;
+      margin-bottom: 0px;
+      .box-header{
+        padding: 0px;
+        padding-bottom: 5px;
+        border-bottom: 0px;
+      }
+
+      .box-body{
+        padding-top: 0px;
+      }
+    }
   }
 }
 
-
+.radio .readonly, .checkbox .readonly, .af-radio-group .readonly, .af-checkbox-group .readonly{
+  padding-left: 0px;
+}
 
 .cc-label{
   color: #999; 

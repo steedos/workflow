@@ -122,14 +122,18 @@ Template.instance_button.helpers
             return "display: none;";
 
     enabled_forward: ->
-        ins = WorkflowManager.getInstance()
-        if !ins
-            return "display: none;"
+        if Meteor.settings.public?.workflow?.enable_forward
+            ins = WorkflowManager.getInstance()
+            if !ins
+                return "display: none;"
 
-        if ins.state!="draft" && !Steedos.isMobile()
-            return ""
+            if ins.state!="draft" && !Steedos.isMobile()
+                return ""
+            else
+                return "display: none;"
         else
             return "display: none;"
+        
 
 Template.instance_button.events
     'click #instance_back': (event)->
@@ -137,8 +141,8 @@ Template.instance_button.events
         FlowRouter.go(backURL)
 
     'click #instance_to_print': (event)->
-        UUflow_api.print(Session.get("instanceId"));
-
+#        UUflow_api.print(Session.get("instanceId"));
+        Steedos.openWindow("/workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId"));
 
     'click #instance_update': (event)->
         InstanceManager.saveIns();

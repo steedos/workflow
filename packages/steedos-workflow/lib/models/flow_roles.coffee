@@ -27,8 +27,8 @@ if Meteor.isServer
 		doc.created_by = userId;
 		doc.created = new Date();
 
-		if !doc.space
-			throw new Meteor.Error(400, "space_users_error_space_required");
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
 
 
 	db.flow_roles.before.update (userId, doc, fieldNames, modifier, options) ->
@@ -38,8 +38,24 @@ if Meteor.isServer
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flow_roles.before.remove (userId, doc) ->
 
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
+			
 		if db.flow_positions.find({role: doc._id}).count()>0
 			throw new Meteor.Error(400, "flow_roles_error_positions_exists");
+
+
+if Meteor.isClient
+
+	db.flow_roles._sortFunction = (doc1, doc2) ->
+		return doc1.name?.localeCompare(doc2.name); 
+
+	db.flow_roles.before.find (userId, selector, options) ->
+		if !options
+			options = {}
+		options.sort = db.flow_roles._sortFunction 

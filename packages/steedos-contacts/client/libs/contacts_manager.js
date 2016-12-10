@@ -1,12 +1,12 @@
 ContactsManager = {};
 
-ContactsManager.getOrgNode = function(node) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg) {
     var orgs;
 
     if (node.id == '#')
         orgs = ContactsManager.getRoot();
     else
-        orgs = ContactsManager.getChild(node.id);
+        orgs = ContactsManager.getChild(node.id, showHiddenOrg);
 
     return handerOrg(orgs);
 }
@@ -62,6 +62,11 @@ function handerOrg(orgs) {
             };
             node.icon = 'fa fa-sitemap';
         }
+        if(org.hidden){
+            node.li_attr = {
+                class:"text-muted"
+            };
+        }
 
         nodes.push(node);
     });
@@ -87,23 +92,42 @@ ContactsManager.getRoot = function() {
 };
 
 
-ContactsManager.getChild = function(parentId) {
-    return SteedosDataManager.organizationRemote.find({
-        parent: parentId
-    }, {
+ContactsManager.getChild = function(parentId,showHiddenOrg) {
+    var query = {
+        parent: parentId,
+        hidden: {$ne: true}
+    }
+
+    if(showHiddenOrg)
+        query = {parent: parentId}
+
+    var childs = SteedosDataManager.organizationRemote.find(query, {
         fields: {
             _id: 1,
             name: 1,
             fullname: 1,
             parent: 1,
             children: 1,
-            childrens: 1
-        },
-        sort: {
-            sort_no: 1,
-            name: 1
+            childrens: 1,
+            hidden: 1,
+            sort_no: 1
         }
     });
+
+
+    childs.sort(function(p1, p2) {
+        if (p1.sort_no == p2.sort_no) {
+            return p1.name.localeCompare(p2.name);
+        } else {
+            if (p1.sort_no < p2.sort_no) {
+                return 1
+            } else {
+                return -1
+            }
+        }
+    });
+
+    return childs;
 }
 
 ContactsManager.getOrgAndChild = function(orgId) {
@@ -169,6 +193,10 @@ ContactsManager.handerContactModalValueLabel = function() {
 
     var values = ContactsManager.getContactModalValue();
     var modal = $(".steedos-contacts");
+
+    if (!modal || modal.length < 1) {
+        return;
+    }
 
     var confirmButton, html = '',
         valueLabel, valueLabel_div;

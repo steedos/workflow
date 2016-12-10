@@ -6,44 +6,88 @@ body{
     background-color: #222d32;
     background-size: cover;
 }
+.img-fileUpload-thumbnail {
+    max-width: 200px;
+}
 
 
-.skin-green {
+.steedos {
+
+    h1, .h1 {
+      font-size: 26px;
+    }
+    h2, .h2 {
+      font-size: 22px;
+    }
+    h3, .h3 {
+      font-size: 18px;
+    }
+    h4, .h4 {
+      font-size: 16px;
+    }
+    h5, .h5 {
+      font-size: 14px;
+    }
+    h6, .h6 {
+      font-size: 12px;
+    }
+
     .at-form {
         a {
             color: white;
         }
     }    
+
     .wrapper {
         background: transparent;
     }
+    .content-wrapper {
+        background: rgba(255, 255, 255, 0.3);
+    }
 
     .main-sidebar {
-        background: rgba(34,45,50,0.9);
-
         .sidebar-menu {
             .header-workflow,.header-space-switcher {
                 overflow: visible;
             }
         }
+        .sidebar-menu > .pull-right-container {
+            background: transparent
+        }
+        .pull-right-container {
+            background: transparent;
+        }
+    }
+}
+
+.skin-green{
+    .main-sidebar {
+        background: rgba(34,45,50,0.9);
+        .header-space-switcher {
+            .space-switcher {
+                .space-name{
+                    color:#efefef
+                }
+            } 
+        }
         .sidebar-menu > li.header {
             color: #d8d8d8;
             background: rgba(26, 34, 38, 0.3);
         }
-        .sidebar-menu > li:hover > a, .sidebar-menu > li.active > a {
+        .sidebar-menu > li.active > a {
             background: rgba(26, 34, 38, 0.9);
         }
-        .sidebar-menu > .pull-right-container {
-            background: transparent
-        }
-        
-        .pull-right-container {
-            background: transparent;
-        }
-
     }
+}
 
-    .content-wrapper {
-        background: rgba(255, 255, 255, 0.3);
+.skin-green-light{
+    .main-sidebar {
+        .header-space-switcher {
+            .space-switcher {
+                .space-name{
+                    color:#333;
+                }
+            } 
+        }
     }
 }

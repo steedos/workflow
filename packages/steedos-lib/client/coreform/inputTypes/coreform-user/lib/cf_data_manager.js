@@ -45,11 +45,13 @@ function handerOrg(orgs) {
 
     if (org.is_company == true) {
       node.state.opened = true;
-      node.icon = 'fa fa-sitemap';
     } else {
       node.parent = org.parent;
-      node.icon = false; //node.icon = "fa fa-users";
+      // node.icon = false;
+      // node.icon = "fa fa-users";
     }
+
+    node.icon = 'fa fa-sitemap';
 
     nodes.push(node);
   });
@@ -247,8 +249,9 @@ CFDataManager.getRoot = function() {
 
 
 CFDataManager.getChild = function(parentId) {
-  return SteedosDataManager.organizationRemote.find({
-    parent: parentId
+  var childs = SteedosDataManager.organizationRemote.find({
+    parent: parentId,
+    hidden: {$ne:true}
   }, {
     fields: {
       _id: 1,
@@ -256,9 +259,25 @@ CFDataManager.getChild = function(parentId) {
       fullname: 1,
       parent: 1,
       children: 1,
-      childrens: 1
+      childrens: 1,
+      sort_no: 1
     }
   });
+
+
+  childs.sort(function(p1,p2){
+    if(p1.sort_no == p2.sort_no){
+      return p1.name.localeCompare(p2.name);  
+    }else{
+      if(p1.sort_no < p2.sort_no ){
+        return 1
+      } else{
+        return -1;
+      }
+    }
+  });
+
+  return childs;
 }
 
 

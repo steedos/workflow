@@ -117,6 +117,7 @@ JsonRoutes.add "post", "/api/import",  (req, res, next) ->
                 su_doc.space = space_id
                 su_doc.user_accepted = accept
                 su_doc.name = name
+                su_doc.email = email
                 su_doc.created = now
                 su_doc.created_by = owner_id
                 su_doc.organization = space_user_org_id

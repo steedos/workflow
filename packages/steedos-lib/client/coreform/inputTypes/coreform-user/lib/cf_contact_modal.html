@@ -17,7 +17,7 @@
         </div>
          {{#if isMobile}}
             {{#if showOrg}}
-            <div class="modal-header" style="border-bottom:0px">
+            <div class="modal-header" style="border-bottom:0px;padding-bottom: 0px">
                 <div class="navigation-bar">
                   <span class="navigation-title">
                     <a href="#" class="organization-active"><i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{orgName}} &nbsp;<i class="caret"></i></a>
@@ -34,19 +34,19 @@
         <div class="modal-body contacts-modal-body">
           <div class="row">
             {{#if isMobile}}
-              <div class="col-md-12">
+              <div class="col-md-12 cf-spaceusers-list">
                 {{> cf_space_user_list}}
               </div>
             {{else}}
               {{#if showOrg}}
-                <div class="col-md-5">
+                <div class="col-md-5 cf-organization-list">
                   {{> cf_organization_list}}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 cf-spaceusers-list">
                   {{> cf_space_user_list}}
                 </div>
               {{else}}
-                <div class="col-md-12">
+                <div class="col-md-12 cf-spaceusers-list">
                   {{> cf_space_user_list}}
                 </div>
               {{/if}}

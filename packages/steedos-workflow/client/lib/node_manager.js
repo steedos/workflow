@@ -1,30 +1,17 @@
 NodeManager = {};
+
 //定义全局变量;
 NodeManager.fileSHA1;
 
-var gloableWin, url, net, path, http, fs, crypto, exec, child_process;
-
-var setSignal = "";
+var path, fs, crypto, exec, child_process;
 
 if (Steedos.isNode()) {
-    url = nw.require('url');
-    gloableWin = nw.Window.get();
-    net = nw.require('net');
     path = nw.require('path');
-    http = nw.require('http');
     fs = nw.require('fs');
     crypto = nw.require('crypto');
-    child_process = nw.require('child_process')
+    child_process = nw.require('child_process');
     if (child_process)
         exec = child_process.exec;
-}
-
-if (gloableWin){
-    gloableWin.on("close",function(){
-        if(setSignal != "editing"){
-            gloableWin.close(true);
-        }
-    });
 }
 
 // 客户端上传附件
@@ -144,46 +131,9 @@ NodeManager.setUploadRequests = function(filePath, filename) {
             urlKey: "file",
             urlValue: filePath
         }]
-        // 配置附件上传接口
-    var options = {
-        host: url.parse(Meteor.absoluteUrl()).hostname,
-        port: url.parse(Meteor.absoluteUrl()).port,
-        method: "POST",
-        path: "/s3/"
-    }
-    var req = http.request(options, function(res) {
-        var fileObj = {};
-        res.on('data', function(chunk) {
-            var chunkStr = JSON.parse(chunk.toString());
-            fileObj._id = chunkStr.version_id;
-            fileObj.name = filename;
-            fileObj.type = cfs.getContentType(filename);
-            fileObj.size = chunkStr.size;
-        });
-        // res.setEncoding("utf8");
-        res.on('end', function() {
-            $(document.body).removeClass('loading');
-            $('.loading-text').text("");
-
-            // 成功上传后删除本地文件
-            fs.unlinkSync(filePath);
-
-            // 解锁 
-            InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
-            // 表单添加附件
-            InstanceManager.addAttach(fileObj, false);
-        });
-    })
-
-    req.on('error', function(e) {
-        $(document.body).removeClass('loading');
-        $('.loading-text').text("");
-        console.log('problem with request:' + e.message);
-        toastr.error(e.message);
-    });
-
-    NodeManager.uploadAttach(fileDataInfo, files, req);
+    // 上传接口
+    OfficeOnline.uploadFile(fileDataInfo, files);
+    
     Modal.hide("attachments_upload_modal");
 }
 
@@ -232,7 +182,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
     // 执行vbs编辑word
     var child = exec(cmd);
     //正在编辑
-    setSignal = "editing";
+    OfficeOnline.setSignal = "editing";
 
     child.on('error', function(error) {
         toastr.error(error);
@@ -243,7 +193,9 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 
         // 修改后附件大小
         var states = fs.statSync(filePath);
-        setSignal = "finished";
+        OfficeOnline.setSignal = "finished";
+        
+        // 判断编辑后的文件hash值是否变化
         NodeManager.getFileSHA1(filePath, filename, function(sha1) {
             if (NodeManager.fileSHA1 != sha1) {
                 var setting = {
@@ -286,34 +238,6 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
     })
 }
 
-// 下载文件
-NodeManager.downloadFile = function(file_url, download_dir, filename) {
-    $(document.body).addClass("loading");
-    $('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
-    var filePath = path.join(download_dir, filename);
-    var file = fs.createWriteStream(filePath);
-    var dfile = http.get(encodeURI(file_url), function(res) {
-        res.on('data', function(data) {
-            file.write(data);
-        }).on('end', function() {
-            file.end();
-            $(document.body).removeClass('loading');
-            $('.loading-text').text("");
-            // 获取附件hash值
-            NodeManager.getFileSHA1(filePath, filename, function(sha1) {
-                NodeManager.fileSHA1 = sha1;
-            });
-            // 调用edit.vbs对word文档进行在线编辑
-            NodeManager.vbsEditFile(download_dir, filename);
-        })
-    });
-    dfile.on('error', function(e) {
-        $(document.body).removeClass('loading');
-        $('.loading-text').text("");
-        toastr.error(e.message);
-    })
-}
-
 // 编辑文件
 NodeManager.editFile = function(file_url, filename) {
     var download_dir = "";
@@ -343,13 +267,13 @@ NodeManager.editFile = function(file_url, filename) {
                         }, function(isConfirm) {
                             if (isConfirm) {
                                 // 下载附件到本地
-                                NodeManager.downloadFile(file_url, download_dir, filename);
+                                OfficeOnline.downloadFile(file_url, download_dir, filename);
                             } else {
                                 NodeManager.vbsEditFile(download_dir, filename);
                             }
                         })
                     } else {
-                        NodeManager.downloadFile(file_url, download_dir, filename);
+                        OfficeOnline.downloadFile(file_url, download_dir, filename);
                     }
                 })
             } else {
@@ -358,7 +282,7 @@ NodeManager.editFile = function(file_url, filename) {
                     if (err) {
                         toastr.error(err);
                     } else {
-                        NodeManager.downloadFile(file_url, download_dir, filename);
+                        OfficeOnline.downloadFile(file_url, download_dir, filename);
                     }
                 })
             }

@@ -1,0 +1,67 @@
+<template name="instance_more_search_modal">
+    <div class="modal fade ins-opinion-modal" id="instance_more_search_modal"  role="dialog" aria-labelledby="instance_more_search_modal_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ins-modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="instance_more_search_modal_label">{{_ 'instance_search_advanced_search'}}</h4>
+            </div>
+
+            <div class="modal-body">
+                <!-- <div class="form-group">
+                    <label class="control-label">关键字搜索</label>
+                    <input type="text" id="instance_more_search_key_words" class="form-control" placeholder="多个关键字之间请用空格">
+                </div> -->
+
+                <div class="form-group">
+                    <label class="control-label">{{_ 'instance_search_flow'}}</label>
+                    <input type="button" id="instance_more_search_flow" class="form-control" value="{{selected_flow_name}}">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">{{_ 'isntance_search_name'}}</label>
+                    <input type="text" id="instance_more_search_name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">{{_ 'instance_search_applicant_name'}}</label>
+                    <input type="text" id="instance_more_search_applicant_name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">{{_ 'instance_search_applicant_organization_name'}}</label>
+                    <input type="text" id="instance_more_search_applicant_organization_name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">{{_ 'instance_search_submit_date'}}</label>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="input-group date">
+                                <div class="input-group-addon">{{_ 'instance_search_start'}}</div>
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-left" id="instance_more_search_submit_date_start">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="input-group date">
+                                <div class="input-group-addon">{{_ 'instance_search_end'}}</div>
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="instance_more_search_submit_date_end">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="instance_more_search_btn">{{_ 'Search'}}</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</template>

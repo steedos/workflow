@@ -1,6 +1,6 @@
 @AdminTables = {}
 
-adminTablesDom = '<"box"<"box-header"<"box-toolbar"<"pull-left"<lf>><"pull-right"p>>><"box-body"t>>'
+adminTablesDom = '<"box margin-bottom-none"<"box-header"<"box-toolbar"<"pull-left"<lf>><"pull-right"p>>><"box-body"t>>'
 
 adminEditButton = {
 	data: '_id'
@@ -65,10 +65,13 @@ adminCreateTables = (collections) ->
 			sub: collection.sub
 			columns: columns
 			extraFields: collection.extraFields
-			dom: adminTablesDom
+			#dom: adminTablesDom
 			selector: collection.selector
 			pageLength: collection.pageLength
 			lengthChange: false
+			autoWidth: false
+			info: false
+			changeSelector: collection.changeSelector
 
 
 adminPublishTables = (collections) ->

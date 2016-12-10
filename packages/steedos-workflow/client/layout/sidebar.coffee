@@ -11,10 +11,7 @@ Template.workflowSidebar.helpers
 		return Meteor.absoluteUrl("/avatar/" + Meteor.userId());
 
 	spaceId: ->
-		if Session.get("spaceId")
-			return Session.get("spaceId")
-		else
-			return localStorage.getItem("spaceId:" + Meteor.userId())
+		return Steedos.getSpaceId()
 
 	boxName: ->
 		if Session.get("box")

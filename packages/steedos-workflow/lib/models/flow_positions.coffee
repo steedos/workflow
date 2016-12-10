@@ -43,17 +43,17 @@ db.flow_positions.attachSchema(db.flow_positions._simpleSchema)
 db.flow_positions.helpers
 
 	role_name: ->
-		role = WorkflowManager.remoteFlowRoles.findOne({_id: this.role}, {fields: {name: 1}});
+		role = db.flow_roles.findOne({_id: this.role}, {fields: {name: 1}});
 		return role && role.name;
 	
 	org_name: ->
-		org = WorkflowManager.remoteOrganizations.findOne({_id: this.org}, {fields: {fullname: 1}});
+		org = db.organizations.findOne({_id: this.org}, {fields: {fullname: 1}});
 		return org && org.fullname;
 	
 	users_name: ->
 		if (!this.users instanceof Array)
 			return ""
-		users = WorkflowManager.remoteSpaceUsers.find({user: {$in: this.users}}, {fields: {name:1}});
+		users = db.space_users.find({space: this.space, user: {$in: this.users}}, {fields: {name:1}});
 		names = []
 		users.forEach (user) ->
 			names.push(user.name)
@@ -68,9 +68,8 @@ if Meteor.isServer
 		doc.created_by = userId;
 		doc.created = new Date();
 
-		if !doc.space
-			throw new Meteor.Error(400, "space_users_error.space_required");
-
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flow_positions.before.update (userId, doc, fieldNames, modifier, options) ->
 
@@ -79,3 +78,10 @@ if Meteor.isServer
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
+
+	db.flow_positions.before.remove (userId, doc) ->
+
+		if (!Steedos.isSpaceAdmin(doc.space, userId))
+			throw new Meteor.Error(400, "error_space_admins_only");
