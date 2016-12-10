@@ -174,7 +174,7 @@
     "workflow_attach_unlock": "Unlock",
     "workflow_attach_locked_by": "locked by %s",
 
-    "workflow_select_an_app": "Steedos Apps",
+    "workflow_select_an_app": "Apps",
     "workflow_suggestion_placeholder": "Leave a comment",
 
     "instance_opinion_title": "Opinions",
