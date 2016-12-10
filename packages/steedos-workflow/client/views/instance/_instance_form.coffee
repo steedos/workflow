@@ -335,7 +335,7 @@ InstanceformTemplate.helpers =
 		instance = Template.instance().view.template.steedosData.instance
 		values = instance.values
 		tableValue = values[field.code];
-		return SteedosTable.getTbody(field.sfields.getProperty("code") , field, tableValue, false)
+		return SteedosTable.getTbody(field.sfields.getProperty("code"), field, tableValue, false)
 
 	showLabel: (field)->
 		templateData = Template.instance().data
@@ -351,18 +351,18 @@ InstanceformTemplate.helpers =
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
 if Meteor.isServer
-	InstanceformTemplate.helpers.steedos_form =  ->
+	InstanceformTemplate.helpers.steedos_form = ->
 		return Template.instance().view.template.steedosData.form_version
 
 	InstanceformTemplate.helpers.isSection = (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
 		return form_version.fields.findPropertyByPK("code", code).type == 'section'
 
-	InstanceformTemplate.helpers.doc_values =  ->
+	InstanceformTemplate.helpers.doc_values = ->
 		instance = Template.instance().view.template.steedosData.instance;
 		return instance.values;
 
-	InstanceformTemplate.helpers.applicantContext =  ->
+	InstanceformTemplate.helpers.applicantContext = ->
 		instance = Template.instance().view.template.steedosData.instance;
 		data = {
 			name: 'ins_applicant',
@@ -370,7 +370,7 @@ if Meteor.isServer
 			value: instance.applicant_name
 		}
 
-	InstanceformTemplate.helpers.instance =  ->
+	InstanceformTemplate.helpers.instance = ->
 		return Template.instance().view.template.steedosData.instance
 
 	InstanceformTemplate.helpers.fields = ->
@@ -394,14 +394,13 @@ if Meteor.isServer
 			return Meteor.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
 
 	InstanceformTemplate.helpers._t = (key)->
-
 		locale = Template.instance().view.template.steedosData.locale
 
 		return TAPi18n.__(key, {}, locale)
 
 
 InstanceformTemplate.events =
-	'change .instance-form .form-control,.instance-form .checkbox input,.instance-form .af-radio-group input,.instance-form .af-checkbox-group input': (event)->
+	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->
 		if ApproveManager.isReadOnly()
 			return;
 
@@ -439,7 +438,7 @@ InstanceformTemplate.events =
 		if code == 'ins_applicant'
 			Session.set("ins_applicant", InstanceManager.getApplicantUserId());
 
-	'click .instance-form .cfTextarea a': (event)->
+	'click .cfTextarea a': (event)->
 		event.preventDefault();
 		Steedos.openWindow(event.target.href);
 
