@@ -150,9 +150,6 @@ JsonRoutes.add "post", "/api/collection/findone", (req, res, next) ->
     
         data = db[model].findOne(selector, options);
 
-    if !data
-        data = {}
-
     JsonRoutes.sendResult res, 
         code: 200,
         data: data;
