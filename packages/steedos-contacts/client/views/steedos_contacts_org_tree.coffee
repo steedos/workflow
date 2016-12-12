@@ -5,6 +5,11 @@ Template.steedos_contacts_org_tree.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
+	refreshTree: ()->
+		if Session.get("spaceId") and $("#steedos_contacts_org_tree")?.jstree()?.refresh
+			$("#steedos_contacts_org_tree").jstree().refresh()
+		return ""
+
 Template.steedos_contacts_org_tree.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	$(document.body).addClass('loading')
