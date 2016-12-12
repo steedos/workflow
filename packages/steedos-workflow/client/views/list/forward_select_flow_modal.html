@@ -6,13 +6,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">{{_ "instance_forward_title"}}</h4>
+                    <div class="box-title">{{_ "instanceForwardNote"}}</div>
                 </div>
-                <!--TODO 添加转发功能的描述-->
-
                 <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
                     <div class="form-group">
 
-                        <label for="SRhwCKkNvtiw9sr4s" class="control-label">流程</label>
+                        <label for="SRhwCKkNvtiw9sr4s" class="control-label">{{_ "flows_name"}}</label>
 
                         <input placeholder={{_ "Select a flow"}} type="text" readonly="" multiple="true" name="forward_flow" id="forward_flow" data-schema-key="forward_flow" class="form-control" data-values="">
 
