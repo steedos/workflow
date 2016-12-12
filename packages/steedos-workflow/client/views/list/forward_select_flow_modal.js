@@ -42,13 +42,8 @@ Template.forward_select_flow_modal.onRendered(function() {
 
 Template.forward_select_flow_modal.events({
 
-    'click .dropdown-menu li': function(event, template) {
-        var space_id = this._id;
-        Session.set('forward_space_id', space_id);
-    },
-
-    'click .flow_list_box .weui_cell': function(event, template) {
-        flow = event.currentTarget.dataset.flow;
+    'click #forward_flow_ok': function(event, template) {
+        flow =$("#forward_flow")[0].dataset.flow;
 
         console.log("forwardIns flow is " + flow)
 
@@ -56,7 +51,15 @@ Template.forward_select_flow_modal.events({
             return;
 
         Modal.hide(template);
-        InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked);
+        InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val());
+    },
+    
+    'click #forward_flow': function (event, tempalte) {
+        Modal.allowMultiple = true;
+        Modal.show("selectFlowModal", {onSelectFlow: function (flow) {
+            $("#forward_flow")[0].dataset.flow = flow._id;
+            $("#forward_flow").val(flow.name);
+        }});
     }
 
 })

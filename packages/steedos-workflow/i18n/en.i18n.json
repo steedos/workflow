@@ -365,6 +365,6 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-    "save Instance To Attachment": "Save instance to attachment."
-
+    "save Instance To Attachment": "Save instance to attachment.",
+    "forwardFlowText": "Forward description"
 }

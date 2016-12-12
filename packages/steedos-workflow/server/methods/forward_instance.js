@@ -1,5 +1,5 @@
 Meteor.methods({
-    forward_instance: function (instance_id, space_id, flow_id, hasSaveInstanceToAttachment) {
+    forward_instance: function (instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description) {
         if (!this.userId)
             return;
 
@@ -86,7 +86,7 @@ Meteor.methods({
         appr_obj.read_date = now;
         appr_obj.is_read = true;
         appr_obj.is_error = false;
-        appr_obj.description = "";
+        appr_obj.description = description;
         // 计算values
         var old_values = ins.values,
             new_values = {};
