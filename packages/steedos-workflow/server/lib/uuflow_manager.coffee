@@ -103,6 +103,12 @@ uuflowManager.isJudgeLegal = (judge) ->
 		throw new Meteor.Error('error!', "judge有误")
 	return
 
+uuflowManager.isSpaceAdmin = (space_id, user_id) ->
+	space = db.spaces.findOne(space_id)
+	if not space.admins.includes(user_id)
+		throw new Meteor.Error('error!', "当前用户不是工作区管理员,不能进行此操作")
+	return
+
 uuflowManager.getUser = (user_id) ->
 	user = db.users.findOne(user_id)
 	if not user
