@@ -185,7 +185,7 @@
 	"instance_opinion_exists": "Opinion exists",
 	"instance_opinion_add_tip": "Press '+' to add opinion",
 
-	"instance_forward_title": "forward",
+	"instance_forward_title": "Instance Forward",
 
 	"form_field_checkbox_yes": "YES",
 	"form_field_checkbox_no": "NO",
@@ -365,6 +365,7 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-    "save Instance To Attachment": "Save instance to attachment."
-
+    "save Instance To Attachment": "Save instance to attachment.",
+    "forwardFlowText": "Forward description",
+    "instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process."
 }

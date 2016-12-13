@@ -187,7 +187,7 @@
 	"instance_opinion_exists": "常用意见已存在",
 	"instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
 
-	"instance_forward_title": "转发",
+	"instance_forward_title": "文件转发",
 
 	"form_field_checkbox_yes": "是",
 	"form_field_checkbox_no": "否",
@@ -367,5 +367,7 @@
 	},
 	"steedos": "华炎云",
 	"cc": "传阅",
-    "save Instance To Attachment": "将原表单存储为附件"
+    "saveInstanceToAttachment": "将原表单存储为附件",
+    "forwardFlowText": "请填写转发说明",
+    "instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作"
 }
