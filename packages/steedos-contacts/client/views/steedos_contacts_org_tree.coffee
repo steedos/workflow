@@ -5,51 +5,52 @@ Template.steedos_contacts_org_tree.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
-	refreshTree: ()->
-		if Session.get("spaceId") and $("#steedos_contacts_org_tree")?.jstree()?.refresh
-			$("#steedos_contacts_org_tree").jstree().refresh()
-		return ""
-
 Template.steedos_contacts_org_tree.onRendered ->
-	$('[data-toggle="tooltip"]').tooltip()
-	$(document.body).addClass('loading')
-	# 防止首次加载时，获得不到node数据。
-	# Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
-	# this.autorun ()->
-	#   if Steedos.subsSpace.ready("organizations")
+	this.autorun ()->
+		if Steedos.getSpaceId()
+			$('[data-toggle="tooltip"]').tooltip()
+			$(document.body).addClass('loading')
+			# 防止首次加载时，获得不到node数据。
+			# Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
+			# this.autorun ()->
+			#   if Steedos.subsSpace.ready("organizations")
 
-	console.log "loaded_organizations ok..."
-	$("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
-		# 清除整个浏览器的文字选中状态，解决edge浏览器中选中文字造成的一些问题，
-		# 比如在space user列表选中一些文字，然后切换到其他组织，会发现edge浏览器上无法拖动了（有权限的情况）等
-		window.getSelection()?.removeAllRanges()
-		if data.selected.length
-			# console.log 'The selected node is::: ' + data.instance.get_node(data.selected[0]).text
-			Session.set("contact_showBooks", false)
-			Session.set("contacts_orgId", data.selected[0]);
-		return
-	).on('ready.jstree',(e, data) ->
-		ins = data.instance
-		rootNode = data.instance.get_node("#")
-		if rootNode.children.length
-			firstNode = rootNode.children[0]
-			ins.select_node(firstNode)
-	).jstree
-		core:
-			multiple:false,
-			themes: { "stripes" : true, "variant" : "large" },
-			data:  (node, cb) ->
-				# this.select_node(node)
-				cb(ContactsManager.getOrgNode(node,true))
+			if $("#steedos_contacts_org_tree")?.jstree()
+				console.log 'destroying steedos_contacts_org_tree...........'
+				$("#steedos_contacts_org_tree").jstree().destroy()
 
-		plugins: ["wholerow", "search"]
+			console.log "loaded_organizations ok..."
+			$("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
+				# 清除整个浏览器的文字选中状态，解决edge浏览器中选中文字造成的一些问题，
+				# 比如在space user列表选中一些文字，然后切换到其他组织，会发现edge浏览器上无法拖动了（有权限的情况）等
+				window.getSelection()?.removeAllRanges()
+				if data.selected.length
+					# console.log 'The selected node is::: ' + data.instance.get_node(data.selected[0]).text
+					Session.set("contact_showBooks", false)
+					Session.set("contacts_orgId", data.selected[0]);
+				return
+			).on('ready.jstree',(e, data) ->
+				ins = data.instance
+				rootNode = data.instance.get_node("#")
+				if rootNode.children.length
+					firstNode = rootNode.children[0]
+					ins.select_node(firstNode)
+			).jstree
+				core:
+					multiple:false,
+					themes: { "stripes" : true, "variant" : "large" },
+					data:  (node, cb) ->
+						# this.select_node(node)
+						cb(ContactsManager.getOrgNode(node,true))
 
-	$("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->
-		$(".contacts-list-wrapper").hide();
-	)
+				plugins: ["wholerow", "search"]
+
+			$("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->
+				$(".contacts-list-wrapper").hide();
+			)
 
 
-	$(document.body).removeClass('loading')
+			$(document.body).removeClass('loading')
 
 
 
