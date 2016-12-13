@@ -10,6 +10,11 @@
       "resolved": "https://registry.npmjs.org/depd/-/depd-1.1.0.tgz",
       "from": "depd@>=1.1.0 <1.2.0"
     },
+    "ejs": {
+      "version": "2.5.5",
+      "resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.5.tgz",
+      "from": "ejs@2.5.5"
+    },
     "keygrip": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.1.tgz",

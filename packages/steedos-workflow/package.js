@@ -6,7 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-	cookies: "0.6.1"
+	cookies: "0.6.1",
+	ejs: "2.5.5"
 });
 
 Package.onUse(function(api) {
@@ -137,9 +138,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/instance/_instance_attachments.js', ['client', 'server']);
 
-    api.addFiles('client/views/instance/select_flow_modal.less','client')
-    api.addFiles('client/views/instance/select_flow_modal.html','client')
-    api.addFiles('client/views/instance/select_flow_modal.coffee','client')
+	api.addFiles('client/views/instance/select_flow_modal.less', 'client')
+	api.addFiles('client/views/instance/select_flow_modal.html', 'client')
+	api.addFiles('client/views/instance/select_flow_modal.coffee', 'client')
 
 	api.addFiles('client/views/instance/attachments.html', 'client');
 	api.addFiles('client/views/instance/attachments.js', 'client');
@@ -183,7 +184,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_box_modal.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_modal.coffee', 'client');
 
-    api.addFiles('client/views/list/forward_select_flow_modal.less', 'client');
+	api.addFiles('client/views/list/forward_select_flow_modal.less', 'client');
 	api.addFiles('client/views/list/forward_select_flow_modal.html', 'client');
 	api.addFiles('client/views/list/forward_select_flow_modal.js', 'client');
 
@@ -245,6 +246,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_reassign.coffee', 'server');
 	api.addFiles('routes/api_workflow_relocate.coffee', 'server');
 	api.addFiles('routes/api_workflow_archive.coffee', 'server');
+	api.addFiles('routes/api_workflow_export.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
@@ -261,6 +263,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/forms.coffee', 'server');
 	api.addFiles('server/publications/instance_data.coffee', 'server');
 	api.addFiles('server/publications/instance_list.coffee', 'server');
+
+	// EJS
+	api.addAssets('server/ejs/export_instances.ejs', 'server');
 
 	api.addFiles('lib/admin.coffee');
 

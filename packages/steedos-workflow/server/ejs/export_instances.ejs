@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+	xmlns:o="urn:schemas-microsoft-com:office:office"
+	xmlns:x="urn:schemas-microsoft-com:office:excel"
+	xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+	xmlns:html="http://www.w3.org/TR/REC-html40">
+
+	<Worksheet ss:Name="test" >
+		<Table>
+			<!-- 编号 -->
+			<Column ss:Width="35"/>
+			<!-- 名称 -->
+			<Column ss:Width="300"/>
+			<!-- 提交人 -->
+			<Column ss:Width="150"/>
+			<!-- 提交人所属部门 -->
+			<Column ss:Width="300"/>
+			<!-- 提交时间 -->
+			<Column ss:Width="150"/>
+			<!-- 申请单状态 -->
+			<Column ss:Width="150"/>
+
+
+			<Row>
+
+				<Cell><Data ss:Type="String">
+				<% if (names) { -%>
+					<%= names[0] %>
+				<% } else { -%>
+					22222
+				<% } -%>
+				</Data></Cell>
+				<Cell><Data ss:Type="String">名称</Data></Cell>
+				<Cell><Data ss:Type="String">提交人</Data></Cell>
+				<Cell><Data ss:Type="String">提交人所属部门</Data></Cell>
+				<Cell><Data ss:Type="String">提交时间</Data></Cell>
+				<Cell><Data ss:Type="String">申请单状态</Data></Cell>
+			
+
+			</Row>
+		</Table>
+	</Worksheet>
+
+</Workbook>
