@@ -7,7 +7,8 @@ Package.describe({
 
 Npm.depends({
 	cookies: "0.6.1",
-	ejs: "2.5.5"
+	ejs: "2.5.5",
+	"ejs-lint": "0.2.0"
 });
 
 Package.onUse(function(api) {

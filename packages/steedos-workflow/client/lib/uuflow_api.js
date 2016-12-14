@@ -428,7 +428,7 @@
     uobj.flow_id = flowId;
     uobj.timezoneoffset = new Date().getTimezoneOffset();
     uobj.type = type;
-    var url = Steedos.settings.webservices.uuflow.url + "/uf/export/excel?" + $.param(uobj);
+    var url = Meteor.absoluteUrl() + "api/workflow/export?" + $.param(uobj);
     window.open(url, '_parent', 'EnableViewPortScale=yes');
   }
 

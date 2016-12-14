@@ -204,10 +204,10 @@
 	"instance": {
 		"formatter": {
 			"date": {
-				"simple_date": "%b %d, %Y",
-				"simple_datetime": "%b %d, %Y %H:%M",
-				"export_date": "%Y-%m-%d",
-				"export_datetime": "%Y-%m-%d %H:%M"
+				"simple_date": "bb DD, YYYY",
+				"simple_datetime": "bb DD, YYYY HH:MM",
+				"export_date": "YYYY-MM-DD",
+				"export_datetime": "YYYY-MM-DD HH:MM"
 			},
 			"checkbox": {
 				"checked": "YES",
@@ -365,7 +365,7 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-    "save Instance To Attachment": "Save instance to attachment.",
-    "forwardFlowText": "Forward description",
-    "instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process."
+	"save Instance To Attachment": "Save instance to attachment.",
+	"forwardFlowText": "Forward description",
+	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process."
 }
