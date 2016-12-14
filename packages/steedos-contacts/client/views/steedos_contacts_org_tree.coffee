@@ -1,6 +1,6 @@
 Template.steedos_contacts_org_tree.helpers
 	is_admin: ()->
-		return Steedos.isOrgAdmin Session.get('contacts_orgId')
+		return Session.get('contacts_is_org_admin')
 
 	isMobile: ()->
 		return Steedos.isMobile();
