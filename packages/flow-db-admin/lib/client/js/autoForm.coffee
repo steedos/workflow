@@ -62,7 +62,7 @@ AutoForm.hooks
 			return false
 		onSuccess: (formType, collection)->
 			toastr.success TAPi18n.__("flow_db_admin_successfully_created")
-			Modal.hide();
+			$("#admin_new .close").trigger("click")
 		onError: (formType, error)->
 			# 判断错误类型
 			if error.error
@@ -84,7 +84,7 @@ AutoForm.hooks
 			return false
 		onSuccess: (formType, collection)->
 			toastr.success TAPi18n.__("flow_db_admin_successfully_updated")
-			Modal.hide();
+			$("#admin_edit .close").trigger("click")
 		onError: (formType, error)->
 			# 判断错误类型
 			if error.error
