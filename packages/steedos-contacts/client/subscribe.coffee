@@ -26,6 +26,6 @@ Tracker.autorun (c)->
 		$("body").removeClass("loading")
 		if is_suc
 			Session.set('contacts_is_org_admin',true)
-		else
+		else if error
 			console.error error
 			toastr.error(t(error.reason))
