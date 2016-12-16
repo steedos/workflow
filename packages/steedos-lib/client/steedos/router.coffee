@@ -31,7 +31,7 @@ FlowRouter.triggers.enter [
 					when 'admin'
 						title = "Steedos Admin"
 					else
-						title = ""
+						title = "Steedos"
 				if title
 					Session.set "document_title", t(title)
 ]
