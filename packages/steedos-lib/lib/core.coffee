@@ -74,6 +74,58 @@ if Meteor.isClient
 		else
 			return ""
 
+	Steedos.openApp = (app_id)->
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+		
+		app = db.apps.findOne(app_id)
+		if !app
+			FlowRouter.go("/steedos/springboard")
+			return
+
+		Steedos.setAppId app_id
+		on_click = app.on_click
+		if app.is_use_ie
+			if Steedos.isNode()
+				exec = nw.require('child_process').exec
+				if on_click
+					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
+					open_url = Meteor.absoluteUrl(path)
+				else
+					open_url = app.url
+				cmd = "start iexplore.exe \"#{open_url}\""
+				exec cmd, (error, stdout, stderr) ->
+					if error
+						toastr.error error
+					return
+
+			return
+		if on_click
+			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
+			evalFunString = "(function(){#{on_click}})()"
+			try
+				eval(evalFunString)
+			catch e
+				# just console the error when catch error
+				console.error "catch some error when eval the on_click script for app link:"
+				console.error "#{e.message}\r\n#{e.stack}"
+		else
+			if app.internal
+				FlowRouter.go(app.url)
+				return
+
+			authToken = {};
+			authToken["spaceId"] = Steedos.getSpaceId()
+			if Steedos.isMobile()
+				authToken["X-User-Id"] = Meteor.userId();
+				authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+
+			url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
+
+			Steedos.openWindow(url);
+
+
 	#定义系统关闭函数，下次登录时自动跳转URL
 	window.onunload = ()->
 		# 判断用户是否登录
