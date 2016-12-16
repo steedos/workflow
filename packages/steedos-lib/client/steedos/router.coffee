@@ -64,7 +64,7 @@ FlowRouter.route '/',
 					BlazeLayout.render 'steedosLoading'
 					$("body").addClass('loading')
 				else
-					FlowRouter.go("/app/" + firstApp._id);
+					Steedos.openApp firstApp._id
 
 
 # FlowRouter.route '/steedos', 

@@ -7,7 +7,7 @@ db.flows.adminConfig =
 	]
 	selector: Admin.selectorCheckSpaceAdmin
 	showDelColumn: false
-	routerAdmin: "/app/admin"
+	routerAdmin: "/admin"
 
 
 db.flow_roles.adminConfig = 

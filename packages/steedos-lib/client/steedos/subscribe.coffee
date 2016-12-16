@@ -47,7 +47,7 @@ Tracker.autorun (c)->
 			$("body").removeClass("loading")
 			firstApp = Steedos.getSpaceFirstApp()
 			if firstApp
-				FlowRouter.go("/app/" + firstApp._id)
+				Steedos.openApp firstApp._id
 			else
 				FlowRouter.go("/steedos/springboard")
 
