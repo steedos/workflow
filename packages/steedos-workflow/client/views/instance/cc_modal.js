@@ -68,7 +68,7 @@ Template.instance_cc_modal.events({
             };
 
             if (result == true) {
-                toastr.success("已传阅");
+                toastr.success(t("instance_cc_done"));
 
                 Modal.hide(template);
                 WorkflowManager.callInstanceDataMethod(Session.get('instanceId'), function() {

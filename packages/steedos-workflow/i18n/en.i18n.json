@@ -160,6 +160,7 @@
     "workflow_right_parenthesis": ")",
 
     "instance_cc_title": "Carbon Copy",
+    "instance_cc_done": "Carbon copied!",
     "instance_curstep": "Current Step: ",
     "instance_cc_user": "Carbon Copy To",
     "instance_cc_error_users_required": "Please select user.",
