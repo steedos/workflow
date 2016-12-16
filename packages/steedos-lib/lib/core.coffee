@@ -125,6 +125,10 @@ if Meteor.isClient
 
 			Steedos.openWindow(url);
 
+		Steedos.checkSpaceBalance = (spaceId)->
+			unless spaceId
+				spaceId = Steedos.spaceId()
+			return
 
 	#定义系统关闭函数，下次登录时自动跳转URL
 	window.onunload = ()->
