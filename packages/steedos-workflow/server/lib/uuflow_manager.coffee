@@ -1637,11 +1637,52 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		pushManager.send_instance_notification("first_submit_inbox",instance,"",user_info)
 	return {}
 
+uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
+	sync_token = new Date(Number(sync_token)*1000)
+	changeSet = new Object
+	changeSet.sync_token = new Date().getTime()/1000
+	changeSet.inserts = { Spaces: [], Users: [], SpaceUsers: [], Organizations: [], Roles: [], Positions: [], Forms: [], Flows: [], Instances: []}
+	changeSet.updates = { Spaces: [], Users: [], SpaceUsers: [], Organizations: [], Roles: [], Positions: [], Forms: [], Flows: [], Instances: []}
+	changeSet.deletes = { Spaces: [], Users: [], SpaceUsers: [], Organizations: [], Roles: [], Positions: [], Forms: [], Flows: [], Instances: []}
 
+	if formids and formids.trim()
+		formids_ary = formids.split(",")
+		changeSet.inserts.Instances = db.instances.find({
+			form: {$in: formids_ary},
+			created: {$gt: sync_token}
+		}).fetch()
+		changeSet.updates.Instances = db.instances.find({
+			form: {$in: formids_ary},
+			created: {$lte: sync_token},
+			modified: {$gt: sync_token}
+		}).fetch()
+		changeSet.deletes.Instances = db.deleted_instances.find({
+			form: {$in: formids_ary},
+			deleted: {$gt: sync_token}
+		}, {fields: {_id: 1}}).fetch()
 
+	else if is_admin and is_admin.trim()
+		changeSet.inserts.Instances = db.instances.find({
+			created: {$gt: sync_token}
+		}).fetch()
+		changeSet.updates.Instances = db.instances.find({
+			created: {$lte: sync_token},
+			modified: {$gt: sync_token}
+		}).fetch()
+		changeSet.deletes.Instances = db.deleted_instances.find({
+			deleted: {$gt: sync_token}
+		}, {fields: {_id: 1}}).fetch()
 
+	# 查询提交人和申请人steedos_id
+	_.each changeSet.inserts.Instances, (ins)->
+		submitter = db.users.findOne({_id: ins.submitter}, {fields: {steedos_id: 1}})
+		applicant = db.users.findOne({_id: ins.applicant}, {fields: {steedos_id: 1}})
+		ins.submitter_steedos_id = submitter.steedos_id if submitter
+		ins.applicant_steedos_id = applicant.steedos_id if applicant
+	_.each changeSet.updates.Instances, (ins)->
+		submitter = db.users.findOne({_id: ins.submitter}, {fields: {steedos_id: 1}})
+		applicant = db.users.findOne({_id: ins.applicant}, {fields: {steedos_id: 1}})
+		ins.submitter_steedos_id = submitter.steedos_id if submitter
+		ins.applicant_steedos_id = applicant.steedos_id if applicant
 
-
-
-
-
+	return {ChangeSet: changeSet}
