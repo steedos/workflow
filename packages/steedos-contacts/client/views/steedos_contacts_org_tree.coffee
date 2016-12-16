@@ -1,6 +1,6 @@
 Template.steedos_contacts_org_tree.helpers
 	is_admin: ()->
-		return Steedos.isOrgAdmin Session.get('contacts_orgId')
+		return Session.get('contacts_is_org_admin')
 
 	isMobile: ()->
 		return Steedos.isMobile();
@@ -8,10 +8,6 @@ Template.steedos_contacts_org_tree.helpers
 Template.steedos_contacts_org_tree.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	$(document.body).addClass('loading')
-	# 防止首次加载时，获得不到node数据。
-	# Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
-	# this.autorun ()->
-	#   if Steedos.subsSpace.ready("organizations")
 
 	console.log "loaded_organizations ok..."
 	$("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
@@ -19,9 +15,9 @@ Template.steedos_contacts_org_tree.onRendered ->
 		# 比如在space user列表选中一些文字，然后切换到其他组织，会发现edge浏览器上无法拖动了（有权限的情况）等
 		window.getSelection()?.removeAllRanges()
 		if data.selected.length
-			# console.log 'The selected node is::: ' + data.instance.get_node(data.selected[0]).text
 			Session.set("contact_showBooks", false)
 			Session.set("contacts_orgId", data.selected[0]);
+			ContactsManager.checkOrgAdmin();
 		return
 	).on('ready.jstree',(e, data) ->
 		ins = data.instance
@@ -42,8 +38,6 @@ Template.steedos_contacts_org_tree.onRendered ->
 	$("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->
 		$(".contacts-list-wrapper").hide();
 	)
-
-
 	$(document.body).removeClass('loading')
 
 

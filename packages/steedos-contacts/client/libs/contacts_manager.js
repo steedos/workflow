@@ -247,3 +247,34 @@ ContactsManager.handerContactModalValueLabel = function() {
         valueLabel_div.hide();
     }
 }
+
+//注意该函数不能在autorun中调用，因为会引起切换工作区时调用两次autorun，从而造成右侧组织构架树可能（即概率性的bug）不同步刷新。
+ContactsManager.checkOrgAdmin = function(){
+    var currentOrg, orgId, ref, userId;
+    Session.set('contacts_is_org_admin', false);
+    orgId = Session.get('contacts_orgId');
+    if (!orgId) {
+        return;
+    }
+    if (Steedos.isSpaceAdmin()) {
+        Session.set('contacts_is_org_admin', true);
+        return;
+    }
+    currentOrg = db.organizations.findOne(orgId);
+    userId = Steedos.userId();
+    if (currentOrg != null ? (ref = currentOrg.admins) != null ? ref.includes(userId) : void 0 : void 0) {
+        Session.set('contacts_is_org_admin', true);
+        return;
+    }
+    $("body").addClass("loading");
+    console.log("calling method check_org_admin,orgId:" + orgId);
+    Meteor.call('check_org_admin', orgId, function(error, is_suc) {
+        $("body").removeClass("loading");
+        if (is_suc) {
+            return Session.set('contacts_is_org_admin', true);
+        } else if (error) {
+            console.error(error);
+            return toastr.error(t(error.reason));
+        }
+    });
+}

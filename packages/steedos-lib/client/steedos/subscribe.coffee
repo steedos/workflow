@@ -47,7 +47,7 @@ Tracker.autorun (c)->
 			$("body").removeClass("loading")
 			firstApp = Steedos.getSpaceFirstApp()
 			if firstApp
-				FlowRouter.go("/app/" + firstApp._id)
+				Steedos.openApp firstApp._id
 			else
 				FlowRouter.go("/steedos/springboard")
 
@@ -72,3 +72,8 @@ Tracker.autorun (c)->
 		Steedos.subsForwardRelated.subscribe("categories", space_id);
 		Steedos.subsForwardRelated.subscribe("forms", space_id);
 		Steedos.subsForwardRelated.subscribe("flows", space_id);
+
+Tracker.autorun (c)->
+	if Session.get("document_title")
+		console.log "set document_title"
+		$(document).attr("title", Session.get("document_title"));

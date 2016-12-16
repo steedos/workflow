@@ -9,7 +9,7 @@
         <div class="modal-body" style='overflow-y:auto'>
           <div class="weui_grids">
               {{#each apps}}
-                <a href="{{urlPrefix}}/app/{{_id}}" class="weui_grid">
+                <a class="weui_grid" data-appid="{{_id}}">
                     <div class="weui_grid_icon">
                         <i class="ion {{icon}}"></i>
                         <span class="label label-danger">{{getBadge _id getSpaceId}}</span>

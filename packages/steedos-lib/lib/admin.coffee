@@ -21,7 +21,7 @@ db.space_user_signs.adminConfig =
 		{name: "signImage()"}
 	]
 	extraFields: ["space", "user", 'sign']
-	routerAdmin: "/app/admin"
+	routerAdmin: "/admin"
 	selector: Selector.selectorCheckSpaceAdmin
 
 Meteor.startup ->

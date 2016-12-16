@@ -9,6 +9,12 @@
 	"mail_page_forward": "前一页",
 	"mail_page_back": "后一页",
 	"mail_back": "返回",
+	"mail_alert_disposition_notification_checklabel":"需要回执",
+	"mail_alert_disposition_notification_title":"发件人希望得到您的回执，是否发送？",
+	"mail_alert_disposition_notification_yes":"发送",
+	"mail_alert_disposition_notification_no":"不发送",
+	"mail_alert_disposition_notification_subject":"对方已阅读：%s",
+	"mail_alert_disposition_notification_body":"对方已经阅读您在%s发给 %s &lt;%s&gt;，主题为%s的邮件。",
 
 	"steedos_emailjs_serach": "搜索邮件",
 	"steedos_emailjs_add_to_contacts": "添加至联系人",

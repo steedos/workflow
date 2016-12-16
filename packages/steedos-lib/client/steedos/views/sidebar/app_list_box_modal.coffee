@@ -41,5 +41,6 @@ Template.app_list_box_modal.onRendered ->
 
 Template.app_list_box_modal.events
 
-	'click .weui_grid': (event)->
-        Modal.hide('app_list_box_modal'); 
+	'click .weui_grids .weui_grid': (event)->
+		Steedos.openApp event.currentTarget.dataset.appid
+		Modal.hide('app_list_box_modal'); 
