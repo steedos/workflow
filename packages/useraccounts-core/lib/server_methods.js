@@ -139,4 +139,12 @@ Meteor.methods({
       throw new Meteor.Error(403, "Already verified");
     }
   },
+  VerifyForgotPwdToken: function (token) {
+    check(token, String);
+    
+    var user = Meteor.users.findOne({ 'services.password.reset.token' : token });
+    if (!user) {
+      throw new Meteor.Error(403, "Token expired");
+    }
+  }
 });

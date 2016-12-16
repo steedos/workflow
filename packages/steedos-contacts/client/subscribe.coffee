@@ -7,4 +7,3 @@ Tracker.autorun (c)->
 		Steedos.subsAddressBook.subscribe "address_books";
 
 
-        

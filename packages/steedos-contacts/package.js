@@ -68,6 +68,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
 	api.addFiles('server/methods/import_contacts_from_space_users.js', 'server');
+	api.addFiles('server/methods/check_org_admin.coffee', 'server');
 
     api.addFiles('server/routes/contacts.coffee', 'server');
 

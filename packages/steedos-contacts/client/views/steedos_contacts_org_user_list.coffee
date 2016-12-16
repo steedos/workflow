@@ -16,12 +16,14 @@ Template.steedos_contacts_org_user_list.helpers
         return query;
 
     is_admin: ()->
-        return Steedos.isOrgAdmin Session.get('contacts_orgId')
+        return Session.get('contacts_is_org_admin')
 
     isMobile: ()->
         return Steedos.isMobile();
 
     getOrgName: ()->
+        unless Steedos.isMobile()
+            return ""
         return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
 Template.steedos_contacts_org_user_list.events

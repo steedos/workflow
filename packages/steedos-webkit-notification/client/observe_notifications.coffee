@@ -15,7 +15,9 @@ Meteor.startup ->
         $.notification.requestPermission ->
 
         handle = query.observeChanges(added: (id, notification) ->
-            
+            if !notification?.title && !notification?.text
+                return
+
             options = 
                 iconUrl: ''
                 title: notification.title
