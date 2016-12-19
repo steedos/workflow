@@ -42,7 +42,7 @@
 
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
             {{#if isImage this}}
-                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">预览</a>
+                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">{{_ "button_preview"}}</a>
             {{/if}}
             {{#if can_delete this.metadata.approve this.metadata.parent}}
                 {{> _file_DeleteButton file_id=this._id}}
