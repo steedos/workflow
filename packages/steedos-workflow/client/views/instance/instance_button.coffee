@@ -122,7 +122,8 @@ Template.instance_button.helpers
             return "display: none;";
 
     enabled_forward: ->
-        if Meteor.settings.public?.workflow?.enable_forward
+        is_paid = WorkflowManager.isPaidSpace(Session.get('spaceId'));
+        if is_paid
             ins = WorkflowManager.getInstance()
             if !ins
                 return "display: none;"
