@@ -59,8 +59,10 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         if ["image.jpg", "image.gif", "image.jpeg", "image.png"].includes(filename.toLowerCase())
           filename = "image-" + moment(new Date()).format('YYYYMMDDHHmmss') + "." + filename.split('.').pop()
 
+        body = req.body
         try
-          filename = decodeURIComponent(filename)
+          if body && (body['upload_from'] is "IE")
+            filename = decodeURIComponent(filename)
         catch e
           console.error(filename)
           console.error e
@@ -68,7 +70,6 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
 
         newFile.name(filename)
         
-        body = req.body
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
           metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}

@@ -213,7 +213,7 @@ Template.ins_attach_version_modal.helpers({
 
         var currentApprove = InstanceManager.getCurrentApprove();
 
-        if(!currentApprove)
+        if (!currentApprove)
             return false;
 
         if (currentApprove.id == currentApproveId)
@@ -394,6 +394,7 @@ Template.ins_attach_edit_modal.events({
         params.parent = Session.get('attach_parent_id');
         params.locked_by = Meteor.userId();
         params.locked_by_name = Meteor.user().name;
+        params.upload_from = "IE";
 
         var params_str = $.param(params);
 
