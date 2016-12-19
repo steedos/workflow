@@ -29,7 +29,7 @@
             {{#if isAndroidApp}}
                 <a href="#" data-downloadurl="{{getUrl this._id}}" name="ins_attach_mobile">{{this.name}}</a>
             {{else}}
-                <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
+                <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent" title="{{this.name}}">{{this.name}}</a>
             {{/if}}
 
             {{#if canEdit this.name this.metadata.locked_by}}
@@ -41,6 +41,9 @@
             {{/if}}
 
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
+            {{#if isImage this}}
+                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">预览</a>
+            {{/if}}
             {{#if can_delete this.metadata.approve this.metadata.parent}}
                 {{> _file_DeleteButton file_id=this._id}}
             {{/if}}
