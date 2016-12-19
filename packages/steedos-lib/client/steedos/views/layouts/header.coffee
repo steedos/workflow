@@ -6,9 +6,9 @@ Template.masterHeader.helpers
 			return Meteor.user().displayName()
 		else
 			return " "
-	 
+	
 	avatar: ->
-		return Meteor.absoluteUrl("/avatar/" + Meteor.userId());
+		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=54&h=50&fs=30");
 
 	spaceId: ->
 		return Steedos.getSpaceId()

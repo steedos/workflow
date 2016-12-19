@@ -6,9 +6,9 @@ Template.workflowSidebar.helpers
 			return Meteor.user().displayName()
 		else
 			return " "
-	 
+	
 	avatar: ->
-		return Meteor.absoluteUrl("/avatar/" + Meteor.userId());
+		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=54&h=50&fs=30");
 
 	spaceId: ->
 		return Steedos.getSpaceId()
@@ -25,11 +25,11 @@ Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
 		#判断是否为欠费工作区
-        if WorkflowManager.isArrearageSpace()
-            toastr.error(t("spaces_isarrearageSpace"))
-            return;
+		if WorkflowManager.isArrearageSpace()
+			toastr.error(t("spaces_isarrearageSpace"))
+			return;
 
-        Modal.show("flow_list_box_modal")
+		Modal.show("flow_list_box_modal")
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
