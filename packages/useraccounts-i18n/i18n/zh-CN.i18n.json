@@ -70,6 +70,7 @@
     "usernameRequired": "必须填写用户名。"
   },
 
+  "Email already exists": "该电子邮件地址已被使用。",
 
   "accounts": {
 
