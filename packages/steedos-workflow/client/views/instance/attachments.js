@@ -315,6 +315,11 @@ Template.ins_attach_version_modal.helpers({
 
     can_unlock: function(locked_by) {
         return locked_by == Meteor.userId();
+    },
+    
+    isImage: function(attachment){
+        var type = attachment.original.type;
+        return type.startsWith("image/");
     }
 })
 
