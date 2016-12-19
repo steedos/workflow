@@ -243,7 +243,7 @@
 	"organizations_error_organizations_parent_required": "Organization parent required",
 	"organizations_error_space_admins_only_for_org_admins": "Only the space admin can deal organization admins",
 	"organizations_error_org_admins_only": "Access denied,only organization admins can do this operation.",
-	"organizations_error_organization_has_users": "Department cannot be deleted while has invited users.",
+	"organizations_error_organization_has_users": "Department can not be deleted while has users.",
 
 
 	"space_users_error_space_required": "Space is requred",
