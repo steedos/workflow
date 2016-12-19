@@ -126,6 +126,19 @@ if Meteor.isClient
 			Steedos.openWindow(url);
 
 
+	Steedos.checkSpaceBalance = (spaceId)->
+		unless spaceId
+			spaceId = Steedos.spaceId()
+		days = 30
+		if Steedos.isSpaceAdmin()
+			days = 90
+		# 这里后续加判断，如果days时间不够则提示用户余额不足
+		# 剩余天数大于days，比如30天，则表示余额充足，不用提醒
+
+
+
+
+
 	#定义系统关闭函数，下次登录时自动跳转URL
 	window.onunload = ()->
 		# 判断用户是否登录

@@ -160,6 +160,7 @@
 	"workflow_right_parenthesis": ")",
 
 	"instance_cc_title": "Carbon Copy",
+	"instance_cc_done": "Carbon copied!",
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
@@ -367,5 +368,8 @@
 	"cc": "cc",
 	"save Instance To Attachment": "Save instance to attachment.",
 	"forwardFlowText": "Forward description",
-	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process."
+	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
+
+    "button_preview": "Preview"
+
 }

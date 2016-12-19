@@ -162,6 +162,7 @@
 	"workflow_right_parenthesis": "）",
 
 	"instance_cc_title": "传阅",
+	"instance_cc_done": "已传阅",
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
@@ -175,7 +176,7 @@
 	"workflow_attach_unlock": "解锁",
 	"workflow_attach_locked_by": "已被 %s 锁定",
 
-	"workflow_select_an_app": "Steedos 应用",
+	"workflow_select_an_app": "应用",
 	"workflow_suggestion_placeholder": "请填写意见",
 
 	"instance_opinion_title": "批示",
@@ -369,5 +370,7 @@
 	"cc": "传阅",
 	"saveInstanceToAttachment": "将原表单存储为附件",
 	"forwardFlowText": "请填写转发说明",
-	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作"
+	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
+
+    "button_preview": "预览"
 }

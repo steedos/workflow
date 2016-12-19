@@ -1,5 +1,8 @@
 Template.instance_attachments.helpers(InstanceAttachmentTemplate.helpers)
 
+Template.instance_attachments.onRendered(function(){
+    $('.swipebox' ).swipebox();
+});
 
 Template.instance_attachment.helpers({
 
@@ -75,7 +78,11 @@ Template.instance_attachment.helpers({
         return false;
     },
 
-})
+    isImage: function(attachment){
+        var type = attachment.original.type;
+        return type.startsWith("image/");
+    }
+});
 
 Template.instance_attachment.events({
     "click [name='ins_attach_version']": function(event, template) {
@@ -260,6 +267,11 @@ Template.ins_attach_version_modal.helpers({
 
     can_unlock: function(locked_by) {
         return locked_by == Meteor.userId();
+    },
+    
+    isImage: function(attachment){
+        var type = attachment.original.type;
+        return type.startsWith("image/");
     }
 })
 
