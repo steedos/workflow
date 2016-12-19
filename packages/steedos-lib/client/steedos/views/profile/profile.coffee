@@ -9,9 +9,9 @@ Template.profile.helpers
   userId: ->
     return Meteor.userId()
 
-  getGravatarURL: (user, size) ->
+  getGravatarURL: (user) ->
     if Meteor.user()
-      return Meteor.absoluteUrl('avatar/' + Meteor.userId());
+      return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=220&h=200&fs=100");
 
   emails: ()->
     return Meteor.user()?.emails
