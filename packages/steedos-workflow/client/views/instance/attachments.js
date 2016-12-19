@@ -251,7 +251,6 @@ Template.ins_attach_version_modal.helpers({
     },
 
     current_can_delete: function(currentApproveId, parent_id) {
-        return true;
         var ins = WorkflowManager.getInstance();
         if (!ins)
             return false;
