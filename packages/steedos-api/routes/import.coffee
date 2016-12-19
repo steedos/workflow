@@ -1,3 +1,7 @@
+# FSSH数据导入规则
+# 需要将csv文件 用notepad++ 转为utf-8无bom编码格式
+# 在列名行（第一行）前增加符号 井号 用于注释掉列名行
+# 需要参数space_id
 csv = Npm.require('csv')
 
 JsonRoutes.add "post", "/api/import",  (req, res, next) ->
