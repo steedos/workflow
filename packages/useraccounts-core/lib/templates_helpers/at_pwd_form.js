@@ -210,7 +210,6 @@ AT.prototype.atPwdFormEvents = {
 
             return Meteor.call("ATCreateUserServer", options, function(error){
                 if (error && error.reason === 'Email already exists.') {
-                    error.reason = window.t(error.reason);
                     if (AccountsTemplates.options.showReCaptcha) {
                       grecaptcha.reset();
                     }
