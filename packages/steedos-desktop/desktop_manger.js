@@ -1,10 +1,18 @@
 
 if (Steedos.isNode()){
+
+	var globalWin = nw.Window.get();
+
+	// 刷新浏览器时，删除tray
+	window.addEventListener('beforeunload', function() {
+		tray.remove();
+		tray = null;
+	});
 	
 	// 客户端最小化后任务栏有图标
-	var globalWin = nw.Window.get();
 	var desktopTitle = process.cwd().split("\\")[2];
-	var tray = new nw.Tray({ 
+
+	var tray = new nw.Tray({
 		title: desktopTitle,
 		icon: 'images/icon.png'
 	});
