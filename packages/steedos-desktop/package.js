@@ -52,6 +52,6 @@ Package.onUse(function(api) {
 	// api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	// COMMON
-	api.addFiles('desktop_manger.js', 'client');
+	api.addFiles('desktop_manager.js', 'client');
 
 })
