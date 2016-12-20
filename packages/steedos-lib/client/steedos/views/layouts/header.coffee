@@ -7,8 +7,11 @@ Template.masterHeader.helpers
 		else
 			return " "
 	
-	avatar: ->
-		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=54&h=50&fs=30");
+	avatar: () ->
+		return Meteor.user()?.avatar
+
+	avatarURL: (avatar,w,h,fs) ->
+		return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=#{w}&h=#{h}&fs=#{fs}&avatar=#{avatar}");
 
 	spaceId: ->
 		return Steedos.getSpaceId()
