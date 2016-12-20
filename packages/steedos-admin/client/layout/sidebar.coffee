@@ -6,9 +6,12 @@ Admin.adminSidebarHelpers =
 			return Meteor.user().displayName()
 		else
 			return " "
-	
-	avatar: ->
-		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=50&h=50&fs=30");
+
+	avatar: () ->
+		return Meteor.user()?.avatar
+
+	avatarURL: (avatar) ->
+		return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=50&h=50&fs=30&avatar=#{avatar}");
 
 	noneUploadedPicture: ->
 		user = Meteor.user()
