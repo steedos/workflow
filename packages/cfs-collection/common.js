@@ -61,7 +61,7 @@ FS.Collection = function(name, options) {
     if (Meteor.isServer) {
 
       // Emit events based on store events
-      store.on('stored', function (storeName, fileObj) {
+      store.on('stored', function(storeName, fileObj) {
         // This is weird, but currently there is a bug where each store will emit the
         // events for all other stores, too, so we need to make sure that this event
         // is truly for this store.
@@ -71,13 +71,15 @@ FS.Collection = function(name, options) {
         if (fileObj.collectionName === name) {
           var emitted = self.emit('stored', fileObj, store.name);
           if (FS.debug && !emitted) {
-            console.log(fileObj.name({store: store.name}) + ' was successfully saved to the ' + store.name + ' store. You are seeing this informational message because you enabled debugging and you have not defined any listeners for the "stored" event on the ' + name + ' collection.');
+            console.log(fileObj.name({
+              store: store.name
+            }) + ' was successfully saved to the ' + store.name + ' store. You are seeing this informational message because you enabled debugging and you have not defined any listeners for the "stored" event on the ' + name + ' collection.');
           }
         }
         fileObj.emit('stored', store.name);
       });
 
-      store.on('error', function (storeName, error, fileObj) {
+      store.on('error', function(storeName, error, fileObj) {
         // This is weird, but currently there is a bug where each store will emit the
         // events for all other stores, too, so we need to make sure that this event
         // is truly for this store.
@@ -91,6 +93,10 @@ FS.Collection = function(name, options) {
             console.log(error.message);
           }
         }
+        fileObj.on('error', function(storeName) {
+          console.error("fileObj emit error");
+          console.error(storeName);
+        });
         fileObj.emit('error', store.name);
       });
 
@@ -113,7 +119,10 @@ FS.Collection = function(name, options) {
 
   // For storing custom allow/deny functions
   self._validators = {
-    download: {allow: [], deny: []}
+    download: {
+      allow: [],
+      deny: []
+    }
   };
 
   // Set up filters
@@ -137,7 +146,7 @@ FS.Collection = function(name, options) {
 
   // Emit events based on TempStore events
   if (FS.TempStore) {
-    FS.TempStore.on('stored', function (fileObj, result) {
+    FS.TempStore.on('stored', function(fileObj, result) {
       // When a file is successfully stored into the temp store, we emit an "uploaded" event on the FS.Collection only if the file belongs to this collection
       if (fileObj.collectionName === name) {
         var emitted = self.emit('uploaded', fileObj);
@@ -147,7 +156,7 @@ FS.Collection = function(name, options) {
       }
     });
 
-    FS.TempStore.on('error', function (error, fileObj) {
+    FS.TempStore.on('error', function(error, fileObj) {
       // When a file has an error while being stored into the temp store, we emit an "error" event on the FS.Collection only if the file belongs to this collection
       if (fileObj.collectionName === name) {
         self.emit('error', new Error('Error storing uploaded file to TempStore: ' + error.message), fileObj);
