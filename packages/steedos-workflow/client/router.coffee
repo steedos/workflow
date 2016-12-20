@@ -86,9 +86,6 @@ workflowSpaceRoutes.route '/:box/f/:flow',
 
         BlazeLayout.render 'workflowLayout',
             main: "workflow_main"
-    triggersExit:[(context, redirect) ->
-        Session.set('flowId', undefined);
-    ]
 
 workflowSpaceRoutes.route '/:box/:instanceId',
 	action: (params, queryParams)->
