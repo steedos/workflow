@@ -188,6 +188,9 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/springboard/springboard.html', 'client');
     api.addFiles('client/steedos/views/springboard/springboard.coffee', 'client');
 
+    api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.html', 'client');
+    api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.coffee', 'client');
+    api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.less', 'client');
 
     api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
     api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');

@@ -11,15 +11,7 @@
           </div>
         </header>
         <div class="sidebar" id="scrollspy">
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="{{avatar}}" class="img-circle avatar-preview">
-            </div>
-            <div class="pull-left info">
-              <p>{{displayName}}</p>
-              <a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
-            </div>
-          </div>
+          {{> sidebarUserPanel}}
           {{> topSidebar}}
         </div>
     </aside>

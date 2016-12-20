@@ -11,15 +11,7 @@
 					</div>
 				</header>
 				<div class="sidebar" id="scrollspy">
-					 <div class="user-panel">
-						<div class="pull-left image">
-							<div class="img-circle {{noneUploadedPicture}}" style="background-image: url({{avatarURL avatar}});"></div>
-						</div>
-						<div class="pull-left info">
-							<p>{{displayName}}</p>
-							<a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
-						</div>
-					</div>
+					{{> sidebarUserPanel}}
 					<ul class="nav sidebar-menu">
 
 						<li class="{{menuClass 'admin/home/'}}"><a href="/admin/home/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "steedos_admin_home"}}</span></a></li>
