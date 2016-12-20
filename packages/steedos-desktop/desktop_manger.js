@@ -9,6 +9,13 @@ if (Steedos.isNode()){
 		tray = null;
 	});
 	
+	// 关闭时判断
+	globalWin.on("close",function(){
+		if(globalWin.disableClose == false){
+			globalWin.hide();
+		}
+	});
+
 	// 客户端最小化后任务栏有图标
 	var desktopTitle = process.cwd().split("\\")[2];
 
@@ -31,11 +38,14 @@ if (Steedos.isNode()){
 	menu.append(new nw.MenuItem({
 		label: '退出',
 		click: function(){
-			// 关闭客户端前记录当前url
-			if (Meteor.userId()){
+			// 退出客户端前记录当前url
+			if (Meteor.userId() && (globalWin.disableClose == false)){
 				var lastUrl = FlowRouter.current().path;
 				localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
 				globalWin.close(true);
+			}else{
+				globalWin.show();
+				globalWin.focus();
 			}
 		}
 	}));
