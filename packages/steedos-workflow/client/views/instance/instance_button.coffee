@@ -143,7 +143,7 @@ Template.instance_button.events
 
     'click #instance_to_print': (event)->
 #        UUflow_api.print(Session.get("instanceId"));
-        Steedos.openWindow("/workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId"));
+        Steedos.openWindow("/workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?box=" + Session.get("box"));
 
     'click #instance_update': (event)->
         InstanceManager.saveIns();

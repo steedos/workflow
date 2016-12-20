@@ -442,8 +442,7 @@ InstanceManager.getCurrentStep = function() {
 }
 
 InstanceManager.getCurrentValues = function() {
-  var box = Session.get("box"),
-    instanceValue;
+  var box = Session.get("box"), instanceValue;
 
   var instance = WorkflowManager.getInstance();
 

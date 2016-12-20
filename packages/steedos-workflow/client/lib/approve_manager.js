@@ -12,6 +12,10 @@ ApproveManager.isReadOnly = function() {
         return true;
     }
 
+    if(Session.get("instancePrint")){
+        return true;
+    }
+
     if (!ins)
         return true;
     // 系统启动时，可能flow还没获取到。
