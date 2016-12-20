@@ -29,9 +29,6 @@ Template.loginLayout.events
         'click #previousVersion': (e,t)->
                 Steedos.openWindow(Meteor.absoluteUrl("system/steedos/"))
 
-        'click #logo': (e, t) ->
-                Steedos.openWindow("https://www.steedos.com")
-
         'click #quickGuide': (e, t) ->
                 if Steedos.getLocale() == "zh-cn"
                         Steedos.openWindow("http://oss.steedos.com/videos/cn/quick_guide.mp4")
