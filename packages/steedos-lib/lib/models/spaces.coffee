@@ -66,6 +66,7 @@ db.spaces._simpleSchema = new SimpleSchema
 
 	balance: 
 		type: Number,
+		decimal: true
 		optional: true,
 		autoform:
 			omit: true
@@ -107,6 +108,11 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	"billing.remaining_months":
+		type: Number
+		optional: true
+		autoform:
+			omit: true
 
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")

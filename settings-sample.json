@@ -88,7 +88,8 @@
   "cron": {
     "bqq": "0 * * * * *",
     "dingtalk": "0 * * * * *",
-    "statistics": "0 0 23 * * *"
+    "statistics": "0 0 23 * * *",
+    "billing": "0 * * * * *"
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
