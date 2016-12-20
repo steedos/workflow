@@ -68,6 +68,9 @@ db.users._simpleSchema = new SimpleSchema
 		optional: true,
 		autoform:
 			omit: true
+	avatar: 
+		type: String
+		optional: true
 
 if Meteor.isClient
 	db.users._simpleSchema.i18n("users")
@@ -224,5 +227,6 @@ if Meteor.isServer
 				utcOffset: 1
 				settings: 1
 				is_cloudadmin: 1
-				email_notification: 1
+				email_notification: 1,
+				avatar: 1
 

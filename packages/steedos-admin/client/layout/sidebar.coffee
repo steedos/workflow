@@ -8,7 +8,13 @@ Admin.adminSidebarHelpers =
 			return " "
 	
 	avatar: ->
-		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=54&h=50&fs=30");
+		return Meteor.absoluteUrl("/avatar/#{Meteor.userId()}?w=50&h=50&fs=30");
+
+	noneUploadedPicture: ->
+		user = Meteor.user()
+		unless user
+			return ""
+		return if user.avatar then "" else "none-uploaded-picture"
 
 	spaceId: ->
 		if Session.get("spaceId")
