@@ -123,5 +123,6 @@
       // Misc...
       "Unknown error": "未知错误"
   },
-  "User has no password set": "该账户没有设置密码"
+  "User has no password set": "该账户没有设置密码",
+  "User not found": "未找到该用户"
 }

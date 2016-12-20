@@ -140,5 +140,6 @@
       "Unknown error": "Unknown error",
       "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 1 seconds before trying again."
   },
-  "User has no password set": "User has no password set"
+  "User has no password set": "User has no password set",
+  "User not found": "User not found"
 }
