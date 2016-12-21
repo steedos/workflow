@@ -29,7 +29,6 @@ Admin.selectorCheckSpaceAdmin = (userId) ->
 # Filter data on server by space field
 Admin.selectorCheckSpace = (userId) ->
 	unless userId
-		console.log "Admin.selectorCheckSpace none userId..."
 		return {make_a_bad_selector: 1}
 
 	if Meteor.isClient
@@ -43,7 +42,6 @@ Admin.selectorCheckSpace = (userId) ->
 			return {make_a_bad_selector: 1}
 
 	if Meteor.isServer
-		console.log "Admin.selectorCheckSpace isServer..."
 		user = db.users.findOne(userId, {fields: {_id: 1}})
 		if !user
 			return {make_a_bad_selector: 1}
@@ -53,6 +51,5 @@ Admin.selectorCheckSpace = (userId) ->
 		_.each space_users, (u)->
 			spaces.push(u.space)
 		selector.space = {$in: spaces}
-		console.log "Admin.selectorCheckSpace isServer...,selector:#{JSON.stringify(selector)}"
 		return selector
 
