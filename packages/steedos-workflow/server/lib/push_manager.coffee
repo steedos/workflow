@@ -417,7 +417,6 @@ pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
 		return
 	try
 		from_displayName = reply_user.name
-		Email = Package.email.Email
 
 		Email.send
 			to: to_user.email
