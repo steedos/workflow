@@ -68,6 +68,15 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	responsive:
 		details: false
 	autoWidth: false,
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {make_a_bad_selector: 1}
+		unless selector.space
+			return {make_a_bad_selector: 1}
+		space_user = db.space_users.findOne({user: userId,space:selector.space}, {fields: {_id: 1}})
+		unless space_user
+			return {make_a_bad_selector: 1}
+		return selector
 
 #scrollY:        '400px',
 #scrollCollapse: true,
@@ -107,5 +116,14 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 	responsive:
 		details: false
 	autoWidth: false,
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {make_a_bad_selector: 1}
+		unless selector.space
+			return {make_a_bad_selector: 1}
+		space_user = db.space_users.findOne({user: userId,space:selector.space}, {fields: {_id: 1}})
+		unless space_user
+			return {make_a_bad_selector: 1}
+		return selector
 	pagingType: "numbers"
 });
