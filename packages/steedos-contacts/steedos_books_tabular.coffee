@@ -64,6 +64,14 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 	responsive:
 		details: false
 	autoWidth: false,
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {make_a_bad_selector: 1}
+		unless selector.owner
+			return {make_a_bad_selector: 1}
+		unless selector.owner.toString() == userId.toString()
+			return {make_a_bad_selector: 1}
+		return selector
 
 #scrollY:        '400px',
 #scrollCollapse: true,
