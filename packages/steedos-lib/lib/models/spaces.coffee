@@ -77,13 +77,7 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 			readonly: true
-		# 余额>0为已付费用户
-		autoValue: ->
-			balance = this.field("balance")
-			if (balance.isSet)
-				return balance.value>0
-			else
-				this.unset()
+
 	created:
 		type: Date,
 		optional: true
