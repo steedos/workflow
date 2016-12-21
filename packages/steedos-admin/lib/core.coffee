@@ -20,10 +20,8 @@ Admin.selectorCheckSpaceAdmin = (userId) ->
 			return {make_a_bad_selector: 1}
 		selector = {}
 		if !user.is_cloudadmin
-			space_users = db.space_users.find({user: userId}, {fields: {space: 1}}).fetch()
-			spaces = []
-			_.each space_users, (u)->
-				spaces.push(u.space)
+			spaces = db.spaces.find({admins:{$in:[userId]}}, {fields: {_id: 1}}).fetch()
+			spaces = spaces.map (n) -> return n._id
 			selector.space = {$in: spaces}
 		return selector
 
