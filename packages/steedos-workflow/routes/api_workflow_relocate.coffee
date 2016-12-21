@@ -18,8 +18,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				code: 500
 				data: {}
 
-		data_str = req.read().toString('utf8')
-		hashData = JSON.parse(data_str)
+		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
 
 			instance = uuflowManager.getInstance(instance_from_client["id"])

@@ -18,8 +18,7 @@ JsonRoutes.add 'post', '/api/workflow/archive', (req, res, next) ->
 				code: 500
 				data: {}
 
-		data_str = req.read().toString('utf8')
-		hashData = JSON.parse(data_str)
+		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
 			instance_id = instance_from_client["id"]
 			# 获取一个instance

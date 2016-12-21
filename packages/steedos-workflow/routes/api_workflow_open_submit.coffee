@@ -27,8 +27,7 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 		# 校验当前登录用户是否是space的管理员
 		uuflowManager.isSpaceAdmin(current_user, space_id)
 
-		data_str = req.read().toString('utf8')
-		hashData = JSON.parse(data_str)
+		hashData = req.body
 
 		if not hashData["nextstep_name"]
 			throw new Meteor.Error('error', 'nextstep_name is null')

@@ -24,7 +24,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -64,7 +64,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         if (responseText.errors) {
@@ -101,7 +101,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         if (responseText.errors) {
@@ -139,7 +139,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -192,7 +192,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         if (responseText.errors) {
@@ -229,7 +229,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -271,7 +271,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -314,7 +314,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -356,7 +356,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");
@@ -400,7 +400,7 @@
       data: data,
       dataType: "json",
       processData: false,
-      contentType: "text/plain",
+      contentType: "application/json",
 
       success: function(responseText, status) {
         $(document.body).removeClass("loading");

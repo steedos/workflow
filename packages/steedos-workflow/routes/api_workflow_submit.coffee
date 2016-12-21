@@ -18,8 +18,7 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 				code: 500
 				data: {}
 
-		data_str = req.read().toString('utf8')
-		hashData = JSON.parse(data_str)
+		hashData = req.body
 		result = []
 		_.each hashData['Instances'], (instance_from_client) ->
 			r = uuflowManager.submit_instance(instance_from_client, current_user_info)

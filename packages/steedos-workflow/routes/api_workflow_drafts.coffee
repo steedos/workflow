@@ -18,8 +18,7 @@ JsonRoutes.add 'post', '/api/workflow/drafts', (req, res, next) ->
 				code: 500
 				data: {}
 
-		data_str = req.read().toString('utf8')
-		hashData = JSON.parse(data_str)
+		hashData = req.body
 
 		inserted_instances = new Array
 
