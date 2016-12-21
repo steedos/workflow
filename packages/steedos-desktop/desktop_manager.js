@@ -8,6 +8,12 @@ if (Steedos.isNode()){
 		tray.remove();
 		tray = null;
 	});
+
+	// 去除客户端右击事件
+	document.body.addEventListener('contextmenu', function(ev) { 
+		ev.preventDefault();
+		return false;
+	});
 	
 	// 关闭时判断
 	globalWin.on("close",function(){
@@ -39,9 +45,11 @@ if (Steedos.isNode()){
 		label: '退出',
 		click: function(){
 			// 退出客户端前记录当前url
-			if (Meteor.userId() && (globalWin.disableClose == false)){
-				var lastUrl = FlowRouter.current().path;
-				localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
+			if (globalWin.disableClose == false){
+				if (Meteor.userId()){
+					var lastUrl = FlowRouter.current().path;
+					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
+				}
 				globalWin.close(true);
 			}else{
 				globalWin.show();
