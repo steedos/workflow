@@ -72,6 +72,9 @@ Package.onUse(function(api) {
     api.addFiles('lib/models/steedos_statistics.coffee');
     api.addFiles('lib/models/space_user_signs.coffee');
     api.addFiles('lib/models/audit_logs.coffee');
+    api.addFiles('lib/models/billings.coffee');
+    api.addFiles('lib/models/modules.coffee');
+    api.addFiles('lib/models/modules_changelogs.coffee');
 
     api.addFiles('lib/cfs/core.coffee');
     api.addFiles('lib/cfs/avatars.coffee');
@@ -200,9 +203,6 @@ Package.onUse(function(api) {
     api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
     api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
 
-
-    api.addFiles('server/schedule.js', 'server');
-
     api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
     api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
@@ -218,6 +218,13 @@ Package.onUse(function(api) {
     api.addFiles('server/publications/space_user_signs.coffee', 'server');
     api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 
+    // managers
+    api.addFiles('server/lib/billing_manager.coffee', 'server');
+
+    // schedule
+    api.addFiles('server/schedule/statistics.js', 'server');
+    api.addFiles('server/schedule/billing.coffee', 'server');
+
     api.addFiles('lib/admin.coffee');
 
     // EXPORT
@@ -228,6 +235,7 @@ Package.onUse(function(api) {
 
     api.export('AjaxCollection');
     api.export("SteedosDataManager");
+    api.export(['billingManager'], ['server']);
 });
 
 Package.onTest(function(api) {

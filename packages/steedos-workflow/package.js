@@ -8,8 +8,7 @@ Package.describe({
 Npm.depends({
 	cookies: "0.6.1",
 	ejs: "2.5.5",
-	"ejs-lint": "0.2.0",
-	'node-schedule': '1.1.1'
+	"ejs-lint": "0.2.0"
 });
 
 Package.onUse(function(api) {
@@ -79,9 +78,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/spaces.coffee');
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
-	api.addFiles('lib/models/billings.coffee');
-	api.addFiles('lib/models/modules.coffee');
-	api.addFiles('lib/models/modules_changelogs.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -261,7 +257,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/uuflow_manager.coffee', 'server');
 	api.addFiles('server/lib/push_manager.coffee', 'server');
 	api.addFiles('server/lib/permission_manager.coffee', 'server');
-	api.addFiles('server/lib/billing_manager.coffee', 'server');
 
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
@@ -274,9 +269,6 @@ Package.onUse(function(api) {
 
 	// EJS
 	api.addAssets('server/ejs/export_instances.ejs', 'server');
-
-	// schedule
-	api.addFiles('server/schedule/billing.coffee', 'server');
 
 	api.addFiles('lib/admin.coffee');
 
@@ -291,7 +283,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'billingManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager'], ['server']);
 
 });
 
