@@ -58,6 +58,7 @@
 			responsive: 
 				details: false
 			autoWidth: false,
+			selector: Admin.selectorCheckSpace
 
 			#scrollY:        '400px',
 			#scrollCollapse: true,
