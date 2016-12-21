@@ -212,6 +212,7 @@ Package.onUse(function(api) {
 
     // methods
     api.addFiles('server/methods/setKeyValue.js', 'server');
+    api.addFiles('server/methods/billing_settleup.coffee', 'server');
 
     api.addFiles('server/publications/apps.coffee', 'server');
     api.addFiles('server/publications/my_spaces.coffee', 'server');

@@ -5,7 +5,6 @@ Meteor.startup ->
 		rule = Meteor.settings.cron.billing
 
 		schedule.scheduleJob rule, Meteor.bindEnvironment((->
-			go_next = false
 			console.log 'billing schedule start!'
 			console.time 'billing'
 			spaces = db.spaces.find({is_paid: true}, {fields: {_id: 1}})
