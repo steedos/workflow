@@ -4,7 +4,7 @@ InstanceReadOnlyTemplate = {};
 InstanceReadOnlyTemplate.instance_attachment = """
     <tr>
         <td class="ins-attach-view">
-           <a href="#" class="ins_attach_href" target="_parent">{{this.filename}}</a>
+          	{{this.filename}}
         </td>
     </tr>
 """
