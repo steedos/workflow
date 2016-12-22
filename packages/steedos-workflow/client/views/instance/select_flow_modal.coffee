@@ -42,3 +42,7 @@ Template.selectFlowModal.events
 
 		Modal.hide 'selectFlow'
 		Modal.allowMultiple = false;
+
+	'hide.bs.modal #selectFlowModal': (event, template) ->
+		Modal.allowMultiple = false;
+		return true;
