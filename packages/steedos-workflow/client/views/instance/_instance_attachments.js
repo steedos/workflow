@@ -61,15 +61,23 @@ if(Meteor.isServer){
     };
 
     InstanceAttachmentTemplate.helpers.attachments = function () {
-        instance = Template.instance().view.template.steedosData.instance;
-        return instance.attachments;
+        var instance = Template.instance().view.template.steedosData.instance;
+        var attachments = cfs.instances.find({
+            'metadata.instance': instance._id,
+            'metadata.current': true
+        }).fetch();
+
+        return attachments;
     };
 
     InstanceAttachmentTemplate.helpers.showAttachments = function () {
+        var instance = Template.instance().view.template.steedosData.instance;
+        var attachments = cfs.instances.find({
+            'metadata.instance': instance._id,
+            'metadata.current': true
+        }).fetch();
 
-        instance = Template.instance().view.template.steedosData.instance;
-
-        if(instance.attachments && instance.attachments.length > 0){
+        if(attachments && attachments.length > 0){
             return true;
         }
         return false;

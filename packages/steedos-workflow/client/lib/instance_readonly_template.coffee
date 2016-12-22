@@ -4,7 +4,7 @@ InstanceReadOnlyTemplate = {};
 InstanceReadOnlyTemplate.instance_attachment = """
     <tr>
         <td class="ins-attach-view">
-          	{{this.filename}}
+          	{{this.name}}
         </td>
     </tr>
 """
