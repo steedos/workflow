@@ -44,5 +44,9 @@ Template.cf_organization_modal.events
 
 		Modal.allowMultiple = false;
 
+	'hide.bs.modal #cf_organization_modal': (event, template) ->
+		Modal.allowMultiple = false;
+		return true;
+
 Template.cf_organization_modal.onRendered ->
     CFDataManager.handerOrganizationModalValueLabel();
