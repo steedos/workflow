@@ -547,25 +547,28 @@ InstanceManager.getMyApprove = function() {
 
 // 申请单暂存
 InstanceManager.saveIns = function() {
+    var instance = WorkflowManager.getInstance();
+    if(instance){
+        if (InstanceManager.isCC(instance)) {
+            var description = $("#suggestion").val();
+            Meteor.call('cc_save', instance._id, description, function(error, result) {
+                if (error) {
+                    toastr.error(error);
+                };
+                if (result == true) {
+                    WorkflowManager.instanceModified.set(false)
+                    toastr.success(TAPi18n.__('Saved successfully'));
+                }
+            })
+        }
+    }
 
   //如果instanceform不存在，则不执行暂存操作
   if (!AutoForm.getFormValues("instanceform"))
     return
 
-  var instance = WorkflowManager.getInstance();
+
   if (instance) {
-    if (InstanceManager.isCC(instance)) {
-      var description = $("#suggestion").val();
-      Meteor.call('cc_save', instance._id, description, function(error, result) {
-        if (error) {
-          toastr.error(error);
-        };
-        if (result == true) {
-          WorkflowManager.instanceModified.set(false)
-          toastr.success(TAPi18n.__('Saved successfully'));
-        }
-      })
-    } else {
       var state = instance.state;
       if (state == "draft") {
         instance.traces[0].approves[0] = InstanceManager.getMyApprove();
@@ -622,7 +625,6 @@ InstanceManager.saveIns = function() {
             toastr.error(error);
         });
       }
-    }
   }
 }
 
