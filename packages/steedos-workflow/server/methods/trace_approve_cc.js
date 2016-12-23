@@ -1,90 +1,3 @@
-Array.prototype.uniq = function() {
-    var a = [];
-    this.forEach(function(b) {
-        if (a.indexOf(b) < 0) {
-            a[a.length] = b
-        }
-    });
-    return a;
-};
-
-cc_manager = {}
-
-cc_manager.get_badge = function(user_id) {
-    var badge = 0;
-    var user_spaces = db.space_users.find({
-        user: user_id,
-        user_accepted: true
-    }).fetch()
-    user_spaces.forEach(function(user_space) {
-        var c = db.instances.find({
-            space: user_space.space,
-            state: {
-                $in: ["pending", "completed"]
-            },
-            $or: [{
-                inbox_users: user_id
-            }, {
-                cc_users: user_id
-            }]
-        }).count()
-        badge += c
-
-        sk = db.steedos_keyvalues.findOne({
-            user: user_id,
-            space: user_space.space,
-            key: "badge"
-        })
-        if (sk) {
-            db.steedos_keyvalues.update({
-                _id: sk._id
-            }, {
-                $set: {
-                    "value.workflow": c
-                }
-            })
-        } else {
-            sk_new = {}
-            sk_new.user = user_id
-            sk_new.space = user_space.space
-            sk_new.key = "badge"
-            sk_new.value = {
-                "workflow": c
-            }
-            db.steedos_keyvalues.insert(sk_new)
-        }
-    })
-
-
-    sk_all = db.steedos_keyvalues.findOne({
-        user: user_id,
-        space: {
-            $exists: false
-        },
-        key: "badge"
-    })
-    if (sk_all) {
-        db.steedos_keyvalues.update({
-            _id: sk_all._id
-        }, {
-            $set: {
-                "value.workflow": badge
-            }
-        })
-    } else {
-        sk_all_new = {}
-        sk_all_new.user = user_id
-        sk_all_new.space = undefined
-        sk_all_new.key = "badge"
-        sk_all_new.value = {
-            "workflow": badge
-        }
-        db.steedos_keyvalues.insert(sk_all_new)
-    }
-
-    return badge
-}
-
 Meteor.methods({
     // ??? 能否传阅给当前步骤处理人 如果当前步骤是会签。
     cc_do: function(approve, cc_user_ids) {
@@ -158,7 +71,7 @@ Meteor.methods({
             }
         })
 
-        setObj.cc_users = ins_cc_users.concat(cc_user_ids).uniq();
+        setObj.cc_users = _.uniq(ins_cc_users.concat(cc_user_ids));
 
 
         setObj.modified = new Date();
@@ -172,7 +85,7 @@ Meteor.methods({
         });
 
         cc_user_ids.forEach(function(userId) {
-            cc_manager.get_badge(userId);
+            pushManager.send_message_to_specifyUser("current_user", userId);
         });
 
 
@@ -253,14 +166,15 @@ Meteor.methods({
         setObj.traces = traces;
 
         outbox_users.push(current_user_id);
-        setObj.outbox_users = outbox_users.uniq();
+        setObj.outbox_users = _.uniq(outbox_users);
 
         db.instances.update({
             _id: ins_id
         }, {
             $set: setObj
         });
-        cc_manager.get_badge(current_user_id);
+
+        pushManager.send_message_to_specifyUser("current_user", current_user_id);
         return true;
     },
 
@@ -327,7 +241,8 @@ Meteor.methods({
         }, {
             $set: setObj
         });
-        cc_manager.get_badge(remove_user_id);
+
+        pushManager.send_message_to_specifyUser("current_user", remove_user_id);
         return true;
     },
 

@@ -427,15 +427,15 @@ pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
 		console.error e.stack
 
 pushManager.send_message_by_raix_push = (data)->
-	if (not data["data"]) or (not data["data"]["alertTitle"]) or (not data["data"]["alert"])
+	if not data["data"]
 		return
 	try
 		notification = new Object
 		notification["createdAt"] = new Date
 		notification["createdBy"] = '<SERVER>'
 		notification["from"] = data["pushTopic"]
-		notification['title'] = data["data"]["alertTitle"]
-		notification['text'] = data["data"]["alert"]
+		notification['title'] = if data["data"]["alertTitle"] then data["data"]["alertTitle"] else ""
+		notification['text'] = if data["data"]["alert"] then data["data"]["alert"] else ""
 
 		if data["data"]["space_id"] and data["data"]["instance_id"]
 			payload = new Object
@@ -624,13 +624,21 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 # 发送给当前用户
 pushManager.send_message_current_user = (user_info)->
 	try
-		this.get_badge("current_user", user_info._id)
+		badge = this.get_badge("current_user", user_info._id)
+		push_body = new Object
+		push_body["badge"] = badge
+		this.send_message([user_info.steedos_id], push_body, user_info)
 	catch e
 		console.error e.stack
 
 # 发送push 并且内容只有待审核数量
 pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	try
-		this.get_badge(send_from, to_user)
+		badge = this.get_badge(send_from, to_user)
+		push_body = new Object
+		push_body["badge"] = badge
+		user_info = db.users.findOne({_id: to_user})
+		this.send_message([user_info.steedos_id], push_body, user_info)
 	catch e
 		console.error e.stack
+
