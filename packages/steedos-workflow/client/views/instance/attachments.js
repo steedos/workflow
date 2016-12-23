@@ -96,6 +96,7 @@ Template.instance_attachment.events({
     },
     "click .ins_attach_href": function(event, template) {
         // 在手机上弹出窗口显示附件
+        // 电脑上使用的是下载附件功能，由于手机上支持大部分文件类型在线预览，所以手机上默认使用打开新窗口查看方式
         if (Steedos.isMobile()) {
             Steedos.openWindow(event.target.getAttribute("href"))
             event.stopPropagation()
@@ -296,6 +297,7 @@ Template.ins_attach_version_modal.events({
     },
     "click .ins_attach_href": function(event, template) {
         // 在手机上弹出窗口显示附件
+        // 电脑上使用的是下载附件功能，由于手机上支持大部分文件类型在线预览，所以手机上默认使用打开新窗口查看方式
         if (Steedos.isMobile()) {
             Steedos.openWindow(event.target.getAttribute("href"))
             event.stopPropagation()
