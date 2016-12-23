@@ -442,7 +442,15 @@ SteedosTable.getTDValue = function(field, value) {
                 td_value = value ? "<a href='mailto:" + value + "'>" + value + "</a>" : "";
                 break;
             case 'url':
-                td_value = value ? "<a href='http://" + value + "' target='_blank'>http://" + value + "</a>" : "";
+                if(value){
+                    if(value.indexOf("http") == 0){
+                        td_value = "<a href='" + value + "' target='_blank'>" + value + "</a>";
+                    }else{
+                        td_value = "<a href='http://" + value + "' target='_blank'>http://" + value + "</a>";
+                    }
+                }else{
+                    td_value = "";
+                }
                 break;
             case 'password':
                 td_value = '******';

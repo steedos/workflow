@@ -84,7 +84,13 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 		when 'email'
 			value = if value then '<a href=\'mailto:' + value + '\'>' + value + '</a>' else ''
 		when 'url'
-			value = if value then '<a href=\'http://' + value + '\' target=\'_blank\'>http://' + value + '</a>' else ''
+			if value
+				if value.indexOf("http") == 0
+					value = "<a href='" + value + "' target='_blank'>" + value + "</a>";
+				else
+					value = "<a href='http://" + value + "' target='_blank'>http://" + value + "</a>";
+			else
+				value = ''
 		when 'group'
 			if field.is_multiselect
 				value = value?.getProperty("fullname").toString()
