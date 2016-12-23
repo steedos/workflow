@@ -151,7 +151,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 	catch e
 		console.error e.stack
 		JsonRoutes.sendResult res,
-			code: 500
+			code: 200
 			data: { errors: [{errorMessage: e.message}] }
 	
 		
