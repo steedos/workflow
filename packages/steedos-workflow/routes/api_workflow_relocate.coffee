@@ -7,16 +7,12 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		current_user = cookies.get("X-User-Id")
 
 		if not current_user
-			JsonRoutes.sendResult res,
-				code: 500
-				data: {}
+			throw new Meteor.Error 401, 'Unauthorized'
 
 		current_user_info = db.users.findOne(current_user)
 
 		if not current_user_info
-			JsonRoutes.sendResult res,
-				code: 500
-				data: {}
+			throw new Meteor.Error 401, 'Unauthorized'
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
@@ -204,6 +200,6 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		console.error e.stack
 		JsonRoutes.sendResult res,
 			code: 500
-			data: { errors: [{errorMessage: e.stack}] }
+			data: { errors: [{errorMessage: e.message}] }
 	
 		

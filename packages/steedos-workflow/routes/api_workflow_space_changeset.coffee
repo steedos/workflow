@@ -4,9 +4,7 @@ JsonRoutes.add 'get', '/uf/space/changeset', (req, res, next) ->
 		auth_token = db.auth_tokens.findOne({auth_token: query.auth_token})
 
 		if (not auth_token) or (not auth_token.enabled)
-			JsonRoutes.sendResult res,
-				code: 500
-				data: {}
+			throw new Meteor.Error 401, 'Unauthorized'
 
 		sync_token = query["sync_token"]
 		formids = query["formids"] # 逗号隔开字符串
@@ -21,4 +19,4 @@ JsonRoutes.add 'get', '/uf/space/changeset', (req, res, next) ->
 		console.error e.stack
 		JsonRoutes.sendResult res,
 			code: 500
-			data: { errors: [{errorMessage: e.stack}] }
+			data: { errors: [{errorMessage: e.message}] }
