@@ -53,12 +53,13 @@ Template.instance_attachment.helpers({
         return isCurrentApprove && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
     },
 
-    getUrl: function(_rev) {
+    getUrl: function(_rev,isPreview) {
         // url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
         url = Meteor.absoluteUrl("api/files/instances/") + _rev;
-        if (!Steedos.isMobile())
+        if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()){
             url = url + "?download=true";
-        return url
+        }
+        return url;
     },
 
 
@@ -78,9 +79,13 @@ Template.instance_attachment.helpers({
         return false;
     },
 
-    isImage: function(attachment){
+    IsImageAttachment: function(attachment){
         var type = attachment.original.type;
         return type.startsWith("image/");
+    },
+
+    IsHtmlAttachment: function(attachment){
+        return attachment.original.type == "text/html"
     }
 });
 
@@ -253,11 +258,12 @@ Template.ins_attach_version_modal.helpers({
         return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
     },
 
-    getUrl: function(_rev) {
+    getUrl: function(_rev,isPreview) {
         // url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
         url = Meteor.absoluteUrl("api/files/instances/") + _rev;
-        if (!Steedos.isMobile())
+        if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()){
             url = url + "?download=true";
+        }
         return url;
     },
 
@@ -269,9 +275,13 @@ Template.ins_attach_version_modal.helpers({
         return locked_by == Meteor.userId();
     },
     
-    isImage: function(attachment){
+    IsImageAttachment: function(attachment){
         var type = attachment.original.type;
         return type.startsWith("image/");
+    },
+
+    IsHtmlAttachment: function(attachment){
+        return attachment.original.type == "text/html"
     }
 })
 

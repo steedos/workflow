@@ -16,8 +16,16 @@
             {{/if}}
 
             <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
-            {{#if isImage this}}
-                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">{{_ "button_preview"}}</a>
+            {{#if IsImageAttachment this}}
+                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
+                    <i class="ion ion-ios-search-strong"></i>
+                </a>
+            {{else}}
+                {{#if IsHtmlAttachment this}}
+                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
+                        <i class="ion ion-ios-search-strong"></i>
+                    </a>
+                {{/if}}
             {{/if}}
             {{#if can_delete this.metadata.approve this.metadata.parent}}
                 {{> _file_DeleteButton file_id=this._id}}
@@ -69,8 +77,16 @@
                                             {{else}}
                                                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}} {{_ "Current Version"}}</a>
                                             {{/if}}
-                                            {{#if isImage this}}
-                                                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">{{_ "button_preview"}}</a>
+                                            {{#if IsImageAttachment this}}
+                                                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
+                                                    <i class="ion ion-ios-search-strong"></i>
+                                                </a>
+                                            {{else}}
+                                                {{#if IsHtmlAttachment this}}
+                                                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
+                                                        <i class="ion ion-ios-search-strong"></i>
+                                                    </a>
+                                                {{/if}}
                                             {{/if}}
                                             <br/>
                                             <label style="margin-bottom:0px;">{{attach_version_info this.metadata.owner_name this.uploadedAt}}</label>
