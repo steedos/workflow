@@ -8,16 +8,12 @@ Meteor.startup ->
 			current_user = cookies.get("X-User-Id")
 
 			if not current_user
-				JsonRoutes.sendResult res,
-					code: 500
-					data: {}
+				throw new Meteor.Error 401, 'Unauthorized'
 
 			current_user_info = db.users.findOne(current_user)
 
 			if not current_user_info
-				JsonRoutes.sendResult res,
-					code: 500
-					data: {}
+				throw new Meteor.Error 401, 'Unauthorized'
 
 			query = req.query
 			space_id = query.space_id
@@ -115,4 +111,4 @@ Meteor.startup ->
 			res.end(ret)
 		catch e
 			console.error e.stack
-			res.end
+			res.end(e.message)
