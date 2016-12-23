@@ -112,7 +112,8 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 			Session.set("instance_loading", false);
 
 	triggersExit: [(context, redirect) ->
-		if Session.get("instance_change") && !ApproveManager.isReadOnly()
+#		ins发生变化 并且 是传阅  || ins发生变化 并且 表单不是只读
+		if Session.get("instance_change") && (InstanceManager.isCC(WorkflowManager.getInstance()) || !ApproveManager.isReadOnly())
 			InstanceManager.saveIns();
 
 		Session.set('flow_selected_opinion', undefined);
