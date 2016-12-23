@@ -46,7 +46,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 					{{#if showLabel}}
 						<label>{{getLabel code}}</label>
 					{{/if}}
-					<div class='{{getCfClass this}} form-control' readonly disabled style='white-space: pre;'>{{{getValue code}}}</div>
+					<div class='{{getCfClass this}} form-control' readonly disabled >{{{getValue code}}}</div>
 				{{/if}}
 			{{/if}}
 		{{/with}}
