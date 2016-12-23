@@ -928,6 +928,12 @@ a:focus {
 .dropdown-menu > .divider {
   background-color: #eee;
 }
+.dropdown-menu > .divider:first-child {
+  display: none;
+}
+.dropdown-menu > .divider:last-child {
+  display: none;
+}
 .navbar-nav > .notifications-menu > .dropdown-menu,
 .navbar-nav > .messages-menu > .dropdown-menu,
 .navbar-nav > .tasks-menu > .dropdown-menu {
