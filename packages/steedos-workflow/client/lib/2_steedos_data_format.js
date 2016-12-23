@@ -1,16 +1,14 @@
 WorkflowManager_format = {};
 
 
-
-
 // //获取user select2 标签的 options
 // var getSpaceUserSelect2Options = function (){
 
 //   // todo WorkflowManager.getSpaceUsers(spaceId);
 //   // 数据格式转换
-  
+
 //   var spaceUsers = WorkflowManager.getSpaceUsers();
-  
+
 //   var options = new Array();
 
 //   spaceUsers.forEach(
@@ -31,7 +29,7 @@ WorkflowManager_format = {};
 // //获取group select2 标签的 options
 // var getSpaceOrganizationSelect2Options = function(){
 //   var spaceOrgs = WorkflowManager.getSpaceOrganizations();
-  
+
 //   var options = new Array();
 
 //   spaceOrgs.forEach(
@@ -45,266 +43,281 @@ WorkflowManager_format = {};
 //   return options ;
 // };
 
-var number_step = function(digits){
-  if(digits && typeof(digits) == 'number' && digits > 0){
-    var step = '0.';
+var number_step = function (digits) {
+    if (digits && typeof(digits) == 'number' && digits > 0) {
+        var step = '0.';
 
-    for(var i = 0 ; i < (digits-1); i ++){
-      step = step + '0';
+        for (var i = 0; i < (digits - 1); i++) {
+            step = step + '0';
+        }
+
+        step = step + '1';
+
+        return step;
     }
-
-    step = step + '1';
-
-    return step;
-  }
 }
 
-var s_autoform = function (schema, field){
+var s_autoform = function (schema, field) {
 
-  type = field.type;
+    type = field.type;
 
-  options = field.options;
+    options = field.options;
 
-  permission = field.permission == 'editable' ? 'editable' : 'readonly';
+    permission = field.permission == 'editable' ? 'editable' : 'readonly';
 
-  is_multiselect = field.is_multiselect;
+    is_multiselect = field.is_multiselect;
 
-  if (field["formula"])
-    permission = "readonly";
+    if (field["formula"])
+        permission = "readonly";
 
-  autoform = {};
-    
-  //字段类型转换
-  switch(type){
-    case 'input' :
-        schema.type = String;
-        autoform.disabled = (permission == 'readonly');
-        if(field.is_textarea){
-          autoform.type = 'coreform-textarea';
-          autoform.rows = field.rows;
-        }else{
-          autoform.type = 'text';
-        }
-        break;
-    case 'section' : //div
-        schema.type = String;
-        autoform.disabled = true;
-        autoform.type = 'section';
-        break;
-    case 'geolocation' : //地理位置
-        schema.type = String;
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = 'text';
-        break;
-    case 'number' :
-        schema.type = Number;
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = 'coreform-number';
-        autoform.step = number_step(field.digits); //控制有效位数
-        break;
-    case 'date' :
-        schema.type = String;
-        autoform.disabled = (permission == 'readonly');
-        if (Steedos.isMobile())
-          autoform.type = 'date';
-        else {
-          autoform.type = 'coreform-datepicker';
-          autoform.outFormat = 'yyyy-MM-dd';
-          autoform.dateTimePickerOptions = {
-            showClear: true,
-            format: "YYYY-MM-DD",
-            locale: Session.get("TAPi18n::loaded_lang")
-          }
-        }
-        break;
-    case 'dateTime' : 
-        schema.type = Date;
-        autoform.disabled = (permission == 'readonly');
-        if (Steedos.isMobile())
-          autoform.type = 'datetime-local';
-        else {
-          autoform.type = 'bootstrap-datetimepicker';
-          autoform.dateTimePickerOptions = {
-            showClear: true,
-            format: "YYYY-MM-DD HH:mm",
-            locale: Session.get("TAPi18n::loaded_lang")
-          }
-        }
-        break;
-    case 'checkbox' :
-        schema.type = Boolean;
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = 'coreform-checkbox';
-        break;
-    case 'select' : 
-        if (is_multiselect){
-          schema.type = [String];
-          autoform.multiple = true;
-        }else{
-          schema.type = String;
-        }
-        autoform.readonly = (permission == 'readonly');
-        autoform.type = (permission == 'readonly') ? 'text' : 'select';
-        break;
-    case 'radio' :
-        schema.type = [String];
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = 'coreform-radio';
-        break;
-    case 'multiSelect' : 
-        schema.type = [String];
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = 'coreform-multiSelect';
-        break;
-    case 'user' : 
-        if (is_multiselect){
-          schema.type = [String];
-          autoform.multiple = true; 
-        }else{
-          schema.type = String; // 如果是单选，不能设置multiple 参数
-        }
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = "selectuser";
-        break;
-    case 'group' : 
-        if (is_multiselect){
-          schema.type = [String];
-          autoform.multiple = true; 
-        }else{
-          schema.type = String; // 如果是单选，不能设置multiple 参数
-        }
-        
-        autoform.disabled = (permission == 'readonly');
-        autoform.type = "selectorg";
+    autoform = {};
 
-        break;
-    default:
-        schema.type = String;
-        autoform.readonly = (permission == 'readonly');
-        autoform.type = type;
-        break; //地理位置
-  }
-  
-  if (options != null && options.length > 0){
+    //字段类型转换
+    switch (type) {
+        case 'input' :
+            schema.type = String;
+            autoform.disabled = (permission == 'readonly');
+            if (field.is_textarea) {
+                autoform.type = 'coreform-textarea';
+                autoform.rows = field.rows;
+            } else {
+                autoform.type = 'text';
+            }
+            break;
+        case 'section' : //div
+            schema.type = String;
+            autoform.disabled = true;
+            autoform.type = 'section';
+            break;
+        case 'geolocation' : //地理位置
+            schema.type = String;
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = 'text';
+            break;
+        case 'number' :
+            schema.type = Number;
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = 'coreform-number';
+            autoform.step = number_step(field.digits); //控制有效位数
+            break;
+        case 'date' :
+            schema.type = String;
+            autoform.disabled = (permission == 'readonly');
+            if (Steedos.isMobile())
+                autoform.type = 'date';
+            else {
+                autoform.type = 'coreform-datepicker';
+                autoform.outFormat = 'yyyy-MM-dd';
+                autoform.dateTimePickerOptions = {
+                    showClear: true,
+                    format: "YYYY-MM-DD",
+                    locale: Session.get("TAPi18n::loaded_lang")
+                }
+            }
+            break;
+        case 'dateTime' :
+            schema.type = Date;
+            autoform.disabled = (permission == 'readonly');
+            if (Steedos.isMobile())
+                autoform.type = 'datetime-local';
+            else {
+                autoform.type = 'bootstrap-datetimepicker';
+                autoform.dateTimePickerOptions = {
+                    showClear: true,
+                    format: "YYYY-MM-DD HH:mm",
+                    locale: Session.get("TAPi18n::loaded_lang")
+                }
+            }
+            break;
+        case 'checkbox' :
+            schema.type = Boolean;
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = 'coreform-checkbox';
+            break;
+        case 'select' :
+            if (is_multiselect) {
+                schema.type = [String];
+                autoform.multiple = true;
+            } else {
+                schema.type = String;
+            }
+            autoform.readonly = (permission == 'readonly');
+            autoform.type = (permission == 'readonly') ? 'text' : 'select';
+            break;
+        case 'radio' :
+            schema.type = [String];
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = 'coreform-radio';
+            break;
+        case 'multiSelect' :
+            schema.type = [String];
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = 'coreform-multiSelect';
+            break;
+        case 'user' :
+            if (is_multiselect) {
+                schema.type = [String];
+                autoform.multiple = true;
+            } else {
+                schema.type = String; // 如果是单选，不能设置multiple 参数
+            }
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = "selectuser";
+            break;
+        case 'email' :
+            schema.type = String;
+            autoform.type = "steedosEmail";
+            autoform.readonly = (permission == 'readonly');
+            break;
+        case 'url' :
+            schema.type = String;
+            autoform.type = "steedosUrl";
+            autoform.readonly = (permission == 'readonly');
+            break;
+        case 'group' :
+            if (is_multiselect) {
+                schema.type = [String];
+                autoform.multiple = true;
+            } else {
+                schema.type = String; // 如果是单选，不能设置multiple 参数
+            }
 
-    var afoptions = new Array();
-    var optionsArr = options.split("\n");
+            autoform.disabled = (permission == 'readonly');
+            autoform.type = "selectorg";
 
-    for(var s = 0; s < optionsArr.length; s++ ){
-      afoptions.push({label:optionsArr[s],value:optionsArr[s]});
+            break;
+
+        default:
+            schema.type = String;
+            autoform.readonly = (permission == 'readonly');
+            autoform.type = type;
+            break; //地理位置
     }
 
-    autoform.options = afoptions;
-  }
-  return autoform;
+    if (options != null && options.length > 0) {
+
+        var afoptions = new Array();
+        var optionsArr = options.split("\n");
+
+        for (var s = 0; s < optionsArr.length; s++) {
+            afoptions.push({label: optionsArr[s], value: optionsArr[s]});
+        }
+
+        autoform.options = afoptions;
+    }
+    return autoform;
 };
 
-var s_schema = function (label, field){
+var s_schema = function (label, field) {
 
-  var fieldType = field.type, is_required = field.is_required;
+    var fieldType = field.type, is_required = field.is_required;
 
-  schema = {};
-   
-  schema.label = label;
+    schema = {};
 
-  schema.optional = (field.permission == "readonly") || (!is_required);
+    schema.label = label;
 
-  if(fieldType == 'email'){
-    
-    schema.regEx = SimpleSchema.RegEx.Email;
-  }else if (fieldType == 'url'){
+    schema.optional = (field.permission == "readonly") || (!is_required);
 
-    schema.regEx = SimpleSchema.RegEx.Url;
+    if (fieldType == 'email') {
 
-  }
+        schema.regEx = SimpleSchema.RegEx.Email;
+    } else if (fieldType == 'url') {
 
-  schema.autoform = new s_autoform(schema, field);
+        schema.regEx = SimpleSchema.RegEx.Url;
 
-  schema.autoform.defaultValue = field.default_value;
+    }
 
-  if (fieldType == 'section'){
-    schema.autoform.description = field.description
-  }
+    schema.autoform = new s_autoform(schema, field);
 
-  return schema;
+    schema.autoform.defaultValue = field.default_value;
+
+    if (fieldType == 'section') {
+        schema.autoform.description = field.description
+    }
+
+    return schema;
 };
 
 
-WorkflowManager_format.getTableItemSchema = function(field){
-  var fieldSchema = {};
-  if(field.type == 'table'){
-    var label = (field.name !=null && field.name.length > 0) ? field.name : field.code ;
-    fieldSchema[field.code] = {type: Object, optional: (field.permission == "readonly") || (!field.is_required), label: label};
+WorkflowManager_format.getTableItemSchema = function (field) {
+    var fieldSchema = {};
+    if (field.type == 'table') {
+        var label = (field.name != null && field.name.length > 0) ? field.name : field.code;
+        fieldSchema[field.code] = {
+            type: Object,
+            optional: (field.permission == "readonly") || (!field.is_required),
+            label: label
+        };
 
-    field.sfields.forEach(function(sfield){
-      label = (sfield.name !=null && sfield.name.length > 0) ? sfield.name : sfield.code ;
+        field.sfields.forEach(function (sfield) {
+            label = (sfield.name != null && sfield.name.length > 0) ? sfield.name : sfield.code;
 
-      sfields_schema = new s_schema(label, sfield);
-      fieldSchema[field.code + "." + sfield.code] = sfields_schema;
-    });
-  }
+            sfields_schema = new s_schema(label, sfield);
+            fieldSchema[field.code + "." + sfield.code] = sfields_schema;
+        });
+    }
 
-  return fieldSchema;
+    return fieldSchema;
 }
 
-WorkflowManager_format.getAutoformSchema = function (steedosForm){
-  var fieldSchema = {};
-  var fields = steedosForm.fields;
+WorkflowManager_format.getAutoformSchema = function (steedosForm) {
+    var fieldSchema = {};
+    var fields = steedosForm.fields;
 
-  var instanceIsreadOnly = ApproveManager.isReadOnly();
+    var instanceIsreadOnly = ApproveManager.isReadOnly();
 
-  for(var i = 0; i < fields.length; i ++){
+    for (var i = 0; i < fields.length; i++) {
 
-    var field = fields[i];
+        var field = fields[i];
 
-    var label = (field.name !=null && field.name.length > 0) ? field.name : field.code ;
-   
-    if(instanceIsreadOnly){
-      field.permission = "readonly";
+        var label = (field.name != null && field.name.length > 0) ? field.name : field.code;
+
+        if (instanceIsreadOnly) {
+            field.permission = "readonly";
+        }
+
+        if (field.type == 'table') {
+
+            fieldSchema[field.code] = {
+                type: Array,
+                optional: (field.permission == "readonly") || (!field.is_required),
+                minCount: 0,
+                maxCount: 200,
+                //initialCount: 0,
+                label: label,
+                autoform: {
+                    schema: [],
+                    initialCount: 0,
+                    type: "table",
+                    editable: field.permission == 'editable' ? true : false,
+                    description: field.description
+                }
+            };
+            if (ApproveManager.isReadOnly()) {
+                fieldSchema[field.code].autoform.editable = false
+            }
+
+            fieldSchema[field.code + ".$"] = {type: Object, label: label}
+
+            for (var si = 0; si < field.sfields.length; si++) {
+
+                var tableField = field.sfields[si];
+
+                label = (tableField.name != null && tableField.name.length > 0) ? tableField.name : tableField.code;
+
+                tableField_schema = new s_schema(label, tableField);
+
+                fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
+
+            }
+
+        } else {
+
+            fieldSchema[field.code] = new s_schema(label, field);
+
+        }
     }
-
-    if (field.type == 'table'){
-      
-      fieldSchema[field.code] = {
-                                  type : Array,
-                                  optional : (field.permission == "readonly") || (!field.is_required),
-                                  minCount : 0,
-                                  maxCount : 200,
-                                  //initialCount: 0,
-                                  label: label,
-                                  autoform : {
-                                    schema:[],
-                                    initialCount: 0,
-                                    type:"table",
-                                    editable: field.permission == 'editable' ? true : false,
-                                    description: field.description
-                                  }
-                                };
-      if(ApproveManager.isReadOnly()){
-        fieldSchema[field.code].autoform.editable = false
-      }
-
-      fieldSchema[field.code + ".$"] = {type:Object,label: label}
-
-      for(var si = 0 ; si < field.sfields.length; si++){
-        
-        var tableField = field.sfields[si];
-
-        label = (tableField.name !=null && tableField.name.length > 0) ? tableField.name : tableField.code ;
-
-        tableField_schema = new s_schema(label, tableField);
-
-        fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
-        
-      }
-
-    }else{
-      
-      fieldSchema[field.code] = new s_schema(label, field);
-    
-    }
-  }
-  return fieldSchema;
+    return fieldSchema;
 };
 
 
@@ -333,23 +346,23 @@ WorkflowManager_format.getAutoformSchema = function (steedosForm){
 // };
 
 
-WorkflowManager_format.getAutoformSchemaValues = function(){
-  // var form = WorkflowManager.getInstanceFormVersion();
-  // if(!form) return ;
-  // var fields = form.fields;
+WorkflowManager_format.getAutoformSchemaValues = function () {
+    // var form = WorkflowManager.getInstanceFormVersion();
+    // if(!form) return ;
+    // var fields = form.fields;
 
-  // var values = {};
+    // var values = {};
 
-  var instanceValue = InstanceManager.getCurrentValues();
+    var instanceValue = InstanceManager.getCurrentValues();
 
-  if(!instanceValue)
-    instanceValue = {}
+    if (!instanceValue)
+        instanceValue = {}
 
-  // fields.forEach(function(field){
-  //   if(field.type == 'table')
-  //     if (!instanceValue[field.code])
-  //       instanceValue[field.code] = []
-  // });
+    // fields.forEach(function(field){
+    //   if(field.type == 'table')
+    //     if (!instanceValue[field.code])
+    //       instanceValue[field.code] = []
+    // });
 
-  return instanceValue;
+    return instanceValue;
 }

@@ -103,8 +103,6 @@ Package.onUse(function(api) {
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.js', 'client');
 
-
-
     api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.coffee', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.html', 'client');
@@ -132,6 +130,12 @@ Package.onUse(function(api) {
 
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
     api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-email/email.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-email/email.js', 'client');
+
+    api.addFiles('client/coreform/inputTypes/coreform-url/url.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-url/url.js', 'client');
 
     api.addFiles('client/lib/ajax_collection.coffee', 'client');
 
