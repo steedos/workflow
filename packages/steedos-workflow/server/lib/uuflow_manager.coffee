@@ -1,5 +1,20 @@
 uuflowManager = {}
 
+uuflowManager.check_authorization = (req)->
+	query = req.query
+	current_user = query["X-User-Id"]
+	auth_token = query["X-Auth-Token"]
+
+	if not current_user or not auth_token
+		throw new Meteor.Error 401, 'Unauthorized'
+
+	current_user_info = db.users.findOne(current_user)
+
+	if not current_user_info
+		throw new Meteor.Error 401, 'Unauthorized'
+
+	return current_user_info
+
 uuflowManager.getInstance = (instance_id) ->
 	ins = db.instances.findOne(instance_id)
 	if not ins
