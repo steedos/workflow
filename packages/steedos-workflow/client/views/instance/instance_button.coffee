@@ -52,7 +52,9 @@ Template.instance_button.helpers
 			return "display: none;";
 
 	enabled_print: ->
-# TODO 手机打印
+#		如果是手机版APP，则不显示打印按钮
+		if Meteor.isCordova
+			return "display:none";
 		return "";
 
 
@@ -142,11 +144,9 @@ Template.instance_button.events
 		FlowRouter.go(backURL)
 
 	'click #instance_to_print': (event)->
-		debugger;
 		uobj = {}
 		uobj["box"] = Session.get("box")
 		uobj["X-User-Id"] = Meteor.userId()
-		debugger;
 		uobj["X-Auth-Token"] = Accounts._storedLoginToken()
 		Steedos.openWindow(Meteor.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
 
