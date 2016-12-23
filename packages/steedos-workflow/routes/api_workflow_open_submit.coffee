@@ -91,5 +91,5 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 	catch e
 		console.error e.stack
 		JsonRoutes.sendResult res,
-			code: 500
+			code: 200
 			data: { errors: [{errorMessage: e.message}]}

@@ -139,7 +139,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 	catch e
 		console.error e.stack
 		JsonRoutes.sendResult res,
-			code: 500
+			code: 200
 			data: { errors: [{errorMessage: e.message}] }
 	
 		
