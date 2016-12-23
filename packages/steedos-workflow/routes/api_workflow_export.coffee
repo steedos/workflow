@@ -1,19 +1,7 @@
 Meteor.startup ->
 	WebApp.connectHandlers.use "/api/workflow/export", (req, res, next)->
 		try
-			Cookies = Npm.require("cookies")
-
-			cookies = new Cookies(req, res)
-
-			current_user = cookies.get("X-User-Id")
-
-			if not current_user
-				throw new Meteor.Error 401, 'Unauthorized'
-
-			current_user_info = db.users.findOne(current_user)
-
-			if not current_user_info
-				throw new Meteor.Error 401, 'Unauthorized'
+			current_user_info = uuflowManager.check_authorization(req)
 
 			query = req.query
 			space_id = query.space_id

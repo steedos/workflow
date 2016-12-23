@@ -1,18 +1,7 @@
 JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 	try
-		Cookies = Npm.require("cookies")
-
-		cookies = new Cookies(req, res)
-
-		current_user = cookies.get("X-User-Id")
-
-		if not current_user
-			throw new Meteor.Error 401, 'Unauthorized'
-
-		current_user_info = db.users.findOne(current_user)
-
-		if not current_user_info
-			throw new Meteor.Error 401, 'Unauthorized'
+		current_user_info = uuflowManager.check_authorization(req)
+		current_user = current_user_info._id
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
