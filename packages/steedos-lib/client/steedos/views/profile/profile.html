@@ -140,6 +140,21 @@
                 </div>
                 <button type="button" class="btn btn-primary btn-sm btn-save-skin">{{_ 'profile_save_skin_setting'}}</button>
 
+                <!-- 字体设置 -->
+                <h4>{{_ "zoom_setting"}}</h4>
+                <div class="row zoom-setting">
+                  {{#each zooms}}
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                      <a href="javascript:void(0);" data-zoom_name="{{name}}" class="thumbnail btn-default zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave name}} {{isCurrentZoomNameActive name}}">
+                        <div class="zoom-setting-item zoom-{{name}}">
+                          {{title}}
+                        </div>
+                      </a>
+                    </div>
+                  {{/each}}
+                </div>
+                <button type="button" class="btn btn-primary btn-sm btn-save-zoom">{{_ 'profile_save_zoom_setting'}}</button>
+
                 <!-- 背景设置 -->
                 <h4 style="margin-top: 40px;">{{_ "bg_body_setting"}}</h4>
                 <div class="row bg-body-setting">

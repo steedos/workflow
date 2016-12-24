@@ -34,6 +34,13 @@ if Meteor.isClient
 		else
 			return {};
 
+	Steedos.getAccountZoomValue = ()->
+		accountZoom = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"zoom"})
+		if accountZoom
+			return accountZoom.value
+		else
+			return {};
+
 	Steedos.showHelp = ()->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
