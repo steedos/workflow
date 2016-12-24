@@ -24,7 +24,6 @@ Template.steedosInputUrl.helpers({
 Template.steedosInputUrl.events({
     'click a':function(event, template){
         value = template.data.value;
-        debugger;
         if(value){
             if(value.indexOf("http") != 0){
                 value = "http://" + encodeURI(value)
