@@ -189,7 +189,7 @@ Template.instance_button.events
 			showCancelButton: true,
 			closeOnConfirm: false
 		}, (reason) ->
-# 用户选择取消
+			# 用户选择取消
 			if (reason == false)
 				return false;
 
@@ -211,11 +211,9 @@ Template.instance_button.events
 		Modal.show('instance_cc_modal');
 
 	'click #instance_forward': (event, template) ->
-#判断是否为欠费工作区
+		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
 
 		Modal.show("forward_select_flow_modal")
-
-    
