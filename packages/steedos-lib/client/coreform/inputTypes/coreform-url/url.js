@@ -32,6 +32,8 @@ Template.steedosInputUrl.events({
             if(u.username()){
                 event.preventDefault();
                 toastr.error(TAPi18n.__("url_invalid") + ": " + template.data.value)
+            }else{
+                event.target.href = value;
             }
         }
     }
