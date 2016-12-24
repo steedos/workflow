@@ -322,6 +322,16 @@ InstanceManager.checkFormFieldValue = function(field) {
     if (!reg_email.test(field.value))
       message = TAPi18n.__("instance_email_format_error");
   }
+  if (field.type == 'url' && field.value != '') {
+      var urlV = field.value;
+      if(field.value.indexOf("http") != 0){
+          urlV = "http://" + encodeURI(urlV)
+      }
+      var u = new URI(urlV);
+      if(u.username()){
+          message = TAPi18n.__("url_invalid")
+      }
+  }
 
   if (message == '') {
     removeMessage(parent_group);

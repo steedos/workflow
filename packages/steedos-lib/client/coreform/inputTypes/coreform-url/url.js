@@ -23,8 +23,17 @@ Template.steedosInputUrl.helpers({
 
 Template.steedosInputUrl.events({
     'click a':function(event, template){
-        if(template.data.value && template.data.value.indexOf("http") != 0){
-            event.target.href = "http://" + encodeURI(template.data.value)
+        value = template.data.value;
+        debugger;
+        if(value){
+            if(value.indexOf("http") != 0){
+                value = "http://" + encodeURI(value)
+            }
+            var u = new URI(value);
+            if(u.username()){
+                event.preventDefault();
+                toastr.error(TAPi18n.__("url_invalid") + ": " + template.data.value)
+            }
         }
     }
 })

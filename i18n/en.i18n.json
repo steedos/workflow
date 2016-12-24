@@ -37,5 +37,6 @@
 	"mail_domains_before_send":"VerifyBeforeSend",
 	"mail_domains_before_save": "VerifyBeforeSave",
 	"mail_folders": "Folders",
-    "upload_empty_file_error": "Do not upload empty attachments"
+    "upload_empty_file_error": "Do not upload empty attachments",
+    "url_invalid": "Invalid link"
 }
