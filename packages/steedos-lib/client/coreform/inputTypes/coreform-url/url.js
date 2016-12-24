@@ -18,21 +18,13 @@ Template.steedosInputUrl.helpers({
       return true;
     }
     return false;
-  },
-  urlValue: function(value) {
-    if (value)
-      if (value.indexOf("http") == 0) {
-        try {
-          var url = new URL(value);
-          var pro = url.protocol + "//";
-          return pro + encodeURIComponent(value.replace(pro, ""));
-        } catch (e) {
-          return ""
-        }
-        return value;
-      } else
-        return "http://" + encodeURIComponent(value);
-    else
-      return '';
   }
+})
+
+Template.steedosInputUrl.events({
+    'click a':function(event, template){
+        if(template.data.value && template.data.value.indexOf("http") != 0){
+            event.target.href = "http://" + encodeURI(template.data.value)
+        }
+    }
 })

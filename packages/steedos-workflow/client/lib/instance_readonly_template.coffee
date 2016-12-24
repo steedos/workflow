@@ -86,9 +86,13 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 		when 'url'
 			if value
 				if value.indexOf("http") == 0
-					value = "<a href='" + value + "' target='_blank'>" + value + "</a>";
+					try
+						value = "<a href='" + encodeURI(value) + "' target='_blank'>" + value + "</a>";
+					catch e
+						value = "<a href='' target='_blank'>" + value + "</a>";
+
 				else
-					value = "<a href='http://" + value + "' target='_blank'>http://" + value + "</a>";
+					value = "<a href='http://" + encodeURI(value) + "' target='_blank'>" + value + "</a>";
 			else
 				value = ''
 		when 'group'

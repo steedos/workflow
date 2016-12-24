@@ -444,9 +444,14 @@ SteedosTable.getTDValue = function(field, value) {
             case 'url':
                 if(value){
                     if(value.indexOf("http") == 0){
-                        td_value = "<a href='" + value + "' target='_blank'>" + value + "</a>";
+                        try {
+                            td_value = "<a href='" + encodeURI(value) + "' target='_blank'>" + value + "</a>";
+                        } catch (e) {
+                            td_value = "<a href='' target='_blank'>" + value + "</a>";
+                        }
+
                     }else{
-                        td_value = "<a href='http://" + value + "' target='_blank'>http://" + value + "</a>";
+                        td_value = "<a href='http://" + encodeURI(value) + "' target='_blank'>http://" + value + "</a>";
                     }
                 }else{
                     td_value = "";
