@@ -36,5 +36,6 @@
 	"mail_domains_sensitive_keywords_forbidden":"禁止关键字",
 	"mail_domains_before_send":"发送验证",
 	"mail_domains_before_save": "暂存验证",
-	"mail_folders": "文件夹"
+	"mail_folders": "文件夹",
+    "upload_empty_file_error": "禁止上传空附件"
 }

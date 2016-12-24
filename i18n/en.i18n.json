@@ -36,5 +36,6 @@
 	"mail_domains_sensitive_keywords_forbidden":"ForbiddenKeywords",
 	"mail_domains_before_send":"VerifyBeforeSend",
 	"mail_domains_before_save": "VerifyBeforeSave",
-	"mail_folders": "Folders"
+	"mail_folders": "Folders",
+    "upload_empty_file_error": "Do not upload empty attachments"
 }
