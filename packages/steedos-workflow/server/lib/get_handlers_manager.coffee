@@ -158,9 +158,10 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 		if flow_rev is current_flow.current._id
 			form_rev = current_flow.current.form_version
 		else
-			form_rev = _.find(current_flow.historys, (current_flow_history)->
+			current_flow_version = _.find(current_flow.historys, (current_flow_history)->
 				return current_flow_history._id is flow_rev
 			)
+			form_rev = current_flow_version.form_version if current_flow_version
 
 		form = db.forms.findOne(form_id)
 		current_form = null
@@ -214,9 +215,10 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 		if flow_rev is current_flow.current._id
 			form_rev = current_flow.current.form_version
 		else
-			form_rev = _.find(current_flow.historys, (current_flow_history)->
+			current_flow_version = _.find(current_flow.historys, (current_flow_history)->
 				return current_flow_history._id is flow_rev
 			)
+			form_rev = current_flow_version.form_version if current_flow_version
 
 		form = db.forms.findOne(form_id)
 		current_form = null
@@ -287,9 +289,10 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 		if flow_rev is current_flow.current._id
 			form_rev = current_flow.current.form_version
 		else
-			form_rev = _.find(current_flow.historys, (current_flow_history)->
+			current_flow_version = _.find(current_flow.historys, (current_flow_history)->
 				return current_flow_history._id is flow_rev
 			)
+			form_rev = current_flow_version.form_version if current_flow_version
 
 		form = db.forms.findOne(form_id)
 		current_form = null
