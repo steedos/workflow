@@ -44,7 +44,10 @@ Template.cf_contact_modal.events
 	'click .organization-active': (event, template) ->
 # Modal.show("cf_users_organization_modal");
 		$('#cf_users_organization_modal_div').show()
-		$(".cf-users-organization-modal-body").css("max-height", ($(window).height() - 180 - 25) + "px");
+		cssHeightKey = "max-height"
+		if Steedos.isMobile()
+			cssHeightKey = "height"
+		$(".cf-users-organization-modal-body").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
 
 	'hide.bs.modal #cf_contact_modal': (event, template) ->
 		Modal.allowMultiple = false;
@@ -53,7 +56,9 @@ Template.cf_contact_modal.events
 Template.cf_contact_modal.onRendered ->
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
 	CFDataManager.handerContactModalValueLabel();
-
-	$(".cf-organization-list").css("max-height", ($(window).height() - 180 - 25) + "px");
-	$(".cf-spaceusers-list").css("max-height", ($(window).height() - 180 - 25) + "px");
+	cssHeightKey = "max-height"
+	if Steedos.isMobile()
+		cssHeightKey = "height"
+	$(".cf-organization-list").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
+	$(".cf-spaceusers-list").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
 
