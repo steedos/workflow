@@ -53,6 +53,9 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("steedos_keyvalues")
+		accountZoomValue = Steedos.getAccountZoomValue()
+		if accountZoomValue.name
+			$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{accountZoomValue.name}")
 		unless Steedos.isMobile()
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			if accountBgBodyValue.url

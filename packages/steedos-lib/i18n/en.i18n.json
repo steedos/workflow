@@ -337,5 +337,13 @@
 		"select": {
 			"rows": "%d row(s) selected"
 		}
-	}
+	},
+
+	"zoom": "Font Zoom",
+	"zoom_setting": "Font Zoom Setting",
+	"zoom_title_normal": "Normal",
+	"zoom_title_large": "Large",
+	"zoom_title_extra_large": "Extra Large",
+	"profile_save_zoom_setting": "Save Font Zoom",
+	"profile_save_zoom_suc": "Font Zoom Saved Successful"
 }

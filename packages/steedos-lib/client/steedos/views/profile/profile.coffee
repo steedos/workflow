@@ -72,12 +72,32 @@ Template.profile.helpers
   isCurrentSkinNameWaitingSave: (url)->
     return if url == Session.get("waiting_save_profile_skin_name") then "btn-warning" else "btn-default"
 
+  isCurrentZoomNameActive: (name)->
+    return if name == Steedos.getAccountZoomValue().name then "active" else ""
+
+  isCurrentZoomNameWaitingSave: (url)->
+    return if url == Session.get("waiting_save_profile_zoom_name") then "btn-warning" else "btn-default"
+
   skins:[{
     name:"green",
     tag:"green"
   },{
     name:"green-light",
     tag:"green"
+  }]
+
+  zooms:[{
+    name:"normal",
+    size:"100%",
+    title:"标准"
+  },{
+    name:"large",
+    size:"120%",
+    title:"大字体"
+  },{
+    name:"extra-large",
+    size:"135%",
+    title:"超大字体"
   }]
 
   btn_save_i18n: () ->
@@ -253,6 +273,29 @@ Template.profile.events
       if is_suc
         Session.set("waiting_save_profile_skin_name","")
         toastr.success t('profile_save_skin_suc')
+      else
+        console.error error
+        toastr.error(error)
+
+  'click #personalization .zoom-setting a.thumbnail': (event)->
+    dataset = event.currentTarget.dataset
+    zoom_name = dataset.zoom_name
+    btn_save = $("#personalization button.btn-save-zoom")[0]
+    btn_save.dataset.zoom_name = zoom_name
+    $("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{zoom_name}")
+    Session.set("waiting_save_profile_zoom_name",zoom_name)
+
+  'click #personalization button.btn-save-zoom': (event)->
+    dataset = event.currentTarget.dataset
+    zoom_name = dataset.zoom_name
+    accountZoomValue = Steedos.getAccountZoomValue()
+    unless accountZoomValue
+      accountZoomValue = {}
+    accountZoomValue.name = zoom_name
+    Meteor.call 'setKeyValue', 'zoom', accountZoomValue, (error, is_suc) ->
+      if is_suc
+        Session.set("waiting_save_profile_zoom_name","")
+        toastr.success t('profile_save_zoom_suc')
       else
         console.error error
         toastr.error(error)

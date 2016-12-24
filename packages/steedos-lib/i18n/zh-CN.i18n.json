@@ -349,5 +349,13 @@
 		"select": {
 			"rows": "选中%d行"
 		}
-	}
+	},
+
+	"zoom": "字体",
+	"zoom_setting": "设置字体",
+	"zoom_title_normal": "标准",
+	"zoom_title_large": "大字体",
+	"zoom_title_extra_large": "超大字体",
+	"profile_save_zoom_setting": "保存字体",
+	"profile_save_zoom_suc": "字体保存成功"
 }
