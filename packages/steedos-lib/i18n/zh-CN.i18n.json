@@ -357,5 +357,6 @@
 	"zoom_title_large": "大字体",
 	"zoom_title_extra_large": "超大字体",
 	"profile_save_zoom_setting": "保存字体",
-	"profile_save_zoom_suc": "字体保存成功"
+	"profile_save_zoom_suc": "字体保存成功",
+	"space_balance_insufficient": "工作区余额不足"
 }

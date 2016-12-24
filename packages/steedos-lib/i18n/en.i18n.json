@@ -345,5 +345,6 @@
 	"zoom_title_large": "Large",
 	"zoom_title_extra_large": "Extra Large",
 	"profile_save_zoom_setting": "Save Font Zoom",
-	"profile_save_zoom_suc": "Font Zoom Saved Successful"
+	"profile_save_zoom_suc": "Font Zoom Saved Successful",
+	"space_balance_insufficient": "The space balance insufficient"
 }
