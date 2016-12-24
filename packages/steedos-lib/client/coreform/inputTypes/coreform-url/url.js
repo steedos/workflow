@@ -3,7 +3,7 @@ AutoForm.addInputType("steedosUrl", {
   valueConverters: {
     "stringArray": AutoForm.valueConverters.stringToStringArray
   },
-  contextAdjust: function (context) {
+  contextAdjust: function(context) {
     if (typeof context.atts.maxlength === "undefined" && typeof context.max === "number") {
       context.atts.maxlength = context.max;
     }
@@ -12,20 +12,27 @@ AutoForm.addInputType("steedosUrl", {
 });
 
 Template.steedosInputUrl.helpers({
-    isReadOnly: function (){
-        var atts = this.atts;
-        if(atts.hasOwnProperty("disabled") || atts.hasOwnProperty("readonly")){
-            return true;
-        }
-        return false;
-    },
-    urlValue: function (value) {
-        if (value)
-            if (value.indexOf("http") == 0)
-                return value;
-            else
-                return "http://" + value;
-        else
-            return '';
+  isReadOnly: function() {
+    var atts = this.atts;
+    if (atts.hasOwnProperty("disabled") || atts.hasOwnProperty("readonly")) {
+      return true;
     }
+    return false;
+  },
+  urlValue: function(value) {
+    if (value)
+      if (value.indexOf("http") == 0) {
+        try {
+          var url = new URL(value);
+          var pro = url.protocol + "//";
+          return pro + encodeURIComponent(value.replace(pro, ""));
+        } catch (e) {
+          return ""
+        }
+        return value;
+      } else
+        return "http://" + encodeURIComponent(value);
+    else
+      return '';
+  }
 })
