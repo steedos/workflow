@@ -74,9 +74,9 @@ Package.onUse(function(api) {
     api.addFiles('client/router.coffee', 'client');
     api.addFiles('client/startup.coffee', 'client');
 
-    api.addAssets("client/designer/index.html", "client");
-    api.addAssets("client/designer/index.js", "client");
-    api.addAssets("client/designer/index.css", "client");
+    api.addAssets("assets/designer/index.html", "client");
+    api.addAssets("assets/designer/index.js", "client");
+    api.addAssets("assets/designer/index.css", "client");
 
     // EXPORT
     api.export('AdminMenus');
