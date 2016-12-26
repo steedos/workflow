@@ -68,10 +68,15 @@ Template.instance_list.helpers
         space = db.spaces.findOne(spaceId);
         if !space
             return;
-        if Session.get("box")=="monitor" && space.admins.contains(Meteor.userId())
-            return "";
-        else
-            return "display: none;";
+        if Session.get("box")=="monitor"
+            if space.admins.contains(Meteor.userId())
+                return "";
+            else
+                if Session.get("flowId")
+                    flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()
+                    if flow_ids.includes(Session.get("flowId"))
+                        return ""
+                return "display: none;";
 
     is_display_search_tip: ->
         if Session.get('instance_more_search_selector')
