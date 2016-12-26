@@ -29,6 +29,16 @@ JsonRoutes.add 'post', '/api/workflow/remove', (req, res, next) ->
 			# 删除instance
 			db.instances.remove(instance_from_client["id"])
 
+			#发送给待处理人, #发送给被传阅人
+			inbox_users = if delete_obj.inbox_users then delete_obj.inbox_users else []
+			cc_users = if delete_obj.cc_users then delete_obj.cc_users else []
+			user_ids = _.uniq(inbox_users.concat(cc_users))
+			_.each user_ids, (u_id)->
+				pushManager.send_message_to_specifyUser("terminate_approval", u_id)
+
+			# 发送删除通知邮件给通过校验的申请人/填单人，对申请人/填单人各生成一条smtp message
+			pushManager.send_instance_notification("monitor_delete_applicant", delete_obj, "", current_user_info)
+
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { inserts: inserted_instances}
