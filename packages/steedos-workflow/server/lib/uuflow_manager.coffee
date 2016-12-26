@@ -73,9 +73,9 @@ uuflowManager.isApproveNotFinished = (approve) ->
 		throw new Meteor.Error('error!', "approve不为未完成状态,不能进行此操作")
 	return
 
-uuflowManager.isInstancePending = (instance) ->
+uuflowManager.isInstancePending = (instance, lang="zh-CN") ->
 	if instance.state isnt "pending"
-		throw new Meteor.Error('error!', "instance不为pending状态,不能进行此操作")
+		throw new Meteor.Error('error!', TAPi18n.__('instance.remindMessage.update_failed',{},lang))
 	return
 
 uuflowManager.isHandlerOrAgent = (approve, user_id) ->
