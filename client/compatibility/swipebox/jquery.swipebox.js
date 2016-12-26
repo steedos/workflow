@@ -202,37 +202,39 @@
 
 			/**
 			 * Set dimensions depending on windows width and height
+			 * 当zoom放大界面的时候，设置width and height会造成滚动条异常，从而造成右上角关闭按钮及底部翻页按钮看不到的问题。
+			 * 所以注释掉该函数。
 			 */
 			setDim : function () {
 
-				var width, height, sliderCss = {};
+				// var width, height, sliderCss = {};
 
-				// Reset dimensions on mobile orientation change
-				if ( 'onorientationchange' in window ) {
+				// // Reset dimensions on mobile orientation change
+				// if ( 'onorientationchange' in window ) {
 
-					window.addEventListener( 'orientationchange', function() {
-						if ( window.orientation === 0 ) {
-							width = winWidth;
-							height = winHeight;
-						} else if ( window.orientation === 90 || window.orientation === -90 ) {
-							width = winHeight;
-							height = winWidth;
-						}
-					}, false );
+				// 	window.addEventListener( 'orientationchange', function() {
+				// 		if ( window.orientation === 0 ) {
+				// 			width = winWidth;
+				// 			height = winHeight;
+				// 		} else if ( window.orientation === 90 || window.orientation === -90 ) {
+				// 			width = winHeight;
+				// 			height = winWidth;
+				// 		}
+				// 	}, false );
 
 
-				} else {
+				// } else {
 
-					width = window.innerWidth ? window.innerWidth : $( window ).width();
-					height = window.innerHeight ? window.innerHeight : $( window ).height();
-				}
+				// 	width = window.innerWidth ? window.innerWidth : $( window ).width();
+				// 	height = window.innerHeight ? window.innerHeight : $( window ).height();
+				// }
 
-				sliderCss = {
-					width : width,
-					height : height
-				};
+				// sliderCss = {
+				// 	width : width,
+				// 	height : height
+				// };
 
-				$( '#swipebox-overlay' ).css( sliderCss );
+				// $( '#swipebox-overlay' ).css( sliderCss );
 
 			},
 
