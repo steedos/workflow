@@ -44,7 +44,6 @@ Meteor.startup ->
             projectNumber: Meteor.settings.push.gcm.projectNumber
             apiKey: Meteor.settings.push.gcm.apiKey
         }
-    console.log "projectNumber: #{config.gcm.projectNumber}"
 
     Push.Configure config
     
