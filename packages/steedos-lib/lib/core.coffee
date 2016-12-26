@@ -136,11 +136,14 @@ if Meteor.isClient
 	Steedos.checkSpaceBalance = (spaceId)->
 		unless spaceId
 			spaceId = Steedos.spaceId()
-		days = 30
+		min_months = 1
 		if Steedos.isSpaceAdmin()
-			days = 90
-		# 这里后续加判断，如果days时间不够则提示用户余额不足
-		# 剩余天数大于days，比如30天，则表示余额充足，不用提醒
+			min_months = 3
+		space = db.spaces.findOne(spaceId)
+		remaining_months = space?.billing?.remaining_months
+		if space?.is_paid and remaining_months != undefined and remaining_months <= min_months
+			# 提示用户余额不足
+			toastr.error t("space_balance_insufficient")
 
 
 
