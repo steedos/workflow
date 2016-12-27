@@ -1107,6 +1107,7 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 		}
 
 		if (result) {
+            toastr.success(TAPi18n.__("forward_instance_success"));
 			FlowRouter.go("/workflow/space/" + space_id + "/draft/" + result);
 		}
 

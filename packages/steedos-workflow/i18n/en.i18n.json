@@ -370,6 +370,8 @@
 	"forwardFlowText": "Forward description",
 	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
 
-    "button_preview": "Preview"
+    "button_preview": "Preview",
+    "remove_cc_approve": "Deleted success",
+    "forward_instance_success": "Forward success"
 
 }

@@ -96,6 +96,7 @@ TracesTemplate.events =
 			if err
 				toastr.error err
 			if result == true
+				toastr.success(TAPi18n.__("remove_cc_approve"));
 				WorkflowManager.callInstanceDataMethod Session.get('instanceId'), ->
 					Session.set 'change_date', (new Date).getTime()
 					return
