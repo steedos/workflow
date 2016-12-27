@@ -5,20 +5,34 @@ Meteor.methods({
 			return;
 		var result = true;
 		var setObj = {};
-		var traces = ins.traces;
-		var flow = db.flows.findOne(ins.flow, {
-			fields: {
-				"current._id": 1,
-				"current.form_version": 1,
-				"name": 1
-			}
-		});
-		var instance = db.instances.findOne(ins._id, {
+		var ins_id = ins._id;
+		var trace_id = ins.traces[0]._id;
+		var approve_id = ins.traces[0].approves[0]._id;
+		var description = ins.traces[0].approves[0].description;
+		var next_steps = ins.traces[0].approves[0].next_steps;
+		var values = ins.traces[0].approves[0].values || {};
+		var applicant_id = ins.applicant;
+		var attachments = ins.attachments;
+
+		var instance = db.instances.findOne(ins_id, {
 			fields: {
 				applicant: 1,
 				state: 1,
-				submitter: 1
+				submitter: 1,
+				traces: 1,
+				form: 1,
+				flow_version: 1,
+				space: 1,
+				flow: 1
 			}
+		});
+
+		var space_id = instance.space;
+		var flow_id = instance.flow;
+		var form_id = instance.form;
+		var traces = instance.traces;
+		var current_trace = _.find(traces, function(t) {
+			return t._id == trace_id;
 		});
 
 		// 判断一个instance是否为拟稿状态
@@ -34,18 +48,29 @@ Meteor.methods({
 		// 判断一个用户是否是一个instance的提交者
 		uuflowManager.isInstanceSubmitter(instance, this.userId);
 
-		var applicant_id = ins.applicant;
-		var space_id = ins.space;
+		var flow = db.flows.findOne(flow_id, {
+			fields: {
+				"current._id": 1,
+				"current.form_version": 1,
+				"name": 1,
+				"current.steps": 1
+			}
+		});
 
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-		setObj.attachments = ins.attachments;
+		setObj.attachments = attachments;
 
-		if (flow.current._id != ins.flow_version) {
+		if (flow.current._id != instance.flow_version) {
 			result = "upgraded";
+			start_step = _.find(flow.current.steps, function(s) {
+				return s.step_type == "start";
+			});
 			// 流程已升级
 			setObj.flow_version = flow.current._id;
 			setObj.form_version = flow.current.form_version;
+			// 存入当前最新版flow中开始节点的step_id
+			setObj["traces.$.step"] = start_step._id;
 		}
 
 		if (instance.applicant != applicant_id) {
@@ -77,31 +102,40 @@ Meteor.methods({
 			setObj.applicant_organization_name = organization.name;
 			setObj.applicant_organization_fullname = organization.fullname;
 
-			traces.forEach(function(t) {
-				t.approves.forEach(function(a) {
+			current_trace.approves.forEach(function(a) {
+				if (a._id == approve_id) {
 					a.user = applicant_id;
 					a.user_name = user.name;
-					a.judge = "submitted";
-				})
+				}
 			})
 
 		}
 
-		setObj["traces.$.approves"] = traces[0].approves;
+		current_trace.approves.forEach(function(a) {
+			if (a._id == approve_id) {
+				a.values = values;
+				a.description = description;
+				a.judge = "submitted";
+				if (result != "upgraded" && next_steps) {
+					a.next_steps = next_steps;
+				}
+			}
+		})
+
+		setObj["traces.$.approves"] = current_trace.approves;
 
 		// 计算申请单标题
-		var form = db.forms.findOne(ins.form);
+		var form = db.forms.findOne(form_id);
 		var name_forumla = form.current.name_forumla;
 		if (name_forumla) {
-			var values = traces[0].approves[0].values || {};
 			var iscript = name_forumla.replace("{", "values['").replace("}", "']");
 			var rev = eval(iscript);
 			setObj.name = rev || flow.name;
 		}
 
 		db.instances.update({
-			_id: ins._id,
-			"traces._id": traces[0]._id
+			_id: ins_id,
+			"traces._id": trace_id
 		}, {
 			$set: setObj
 		});
@@ -186,15 +220,17 @@ Meteor.methods({
 		var step_type = step.step_type;
 
 		current_trace.approves.forEach(function(a) {
-			a.is_read = true;
-			a.read_date = new Date();
-			a.values = values;
-			a.description = description;
-			a.next_steps = next_steps;
-			if (step_type == "submit" || step_type == "start") {
-				a.judge = "submitted";
-			} else {
-				a.judge = judge;
+			if (a._id == approve_id) {
+				a.is_read = true;
+				a.read_date = new Date();
+				a.values = values;
+				a.description = description;
+				a.next_steps = next_steps;
+				if (step_type == "submit" || step_type == "start") {
+					a.judge = "submitted";
+				} else {
+					a.judge = judge;
+				}
 			}
 		})
 
