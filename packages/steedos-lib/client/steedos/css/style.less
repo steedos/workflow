@@ -68,7 +68,69 @@ span,a{
 }
 .zoom-large{
 	zoom:120%;
+	.modal{
+		zoom:80%;
+		.box{
+			zoom:120%;
+			.box{
+				/*这里是为了兼容出现两层box嵌套的情况*/
+				zoom:100%;
+			}
+		}
+		&.forward-select-flow-modal{
+			.modal-body>div{
+				zoom:120%;
+			}
+		}
+		&#instance_cc_modal{
+			.modal-body>form{
+				zoom:120%;
+			}
+		}
+		.admin-dashboard-body>form{
+			zoom:120%;
+		}
+		.modal-body>.weui_grids{
+			zoom:120%;
+		}
+		.mail-account-modal{
+			.modal-body>form{
+				zoom:120%;
+			}
+		}
+	}
 }
 .zoom-extra-large{
 	zoom:135%;
+	.modal{
+		zoom:74%;
+		.box{
+			zoom:135%;
+			.box{
+				/*这里是为了兼容出现两层box嵌套的情况*/
+				zoom:100%;
+			}
+		}
+		&.forward-select-flow-modal{
+			.modal-body>div{
+				zoom:135%;
+			}
+		}
+		&#instance_cc_modal{
+			.modal-body>form{
+				zoom:135%;
+			}
+		}
+		.admin-dashboard-body>form{
+			zoom:135%;
+		}
+		.modal-body>.weui_grids{
+			zoom:135%;
+		}
+		.mail-account-modal{
+			.modal-body>form{
+				zoom:135%;
+			}
+		}
+	}
 }
