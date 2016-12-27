@@ -267,6 +267,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_data.coffee', 'server');
 	api.addFiles('server/publications/instance_list.coffee', 'server');
 
+    api.addFiles('server/lib/export.coffee', 'server');
+    api.addFiles('routes/export.coffee', 'server');
+
 	// EJS
 	api.addAssets('server/ejs/export_instances.ejs', 'server');
 
@@ -283,7 +286,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport'], ['server']);
 
 });
 
