@@ -70,7 +70,7 @@ uuflowManager.isTraceNotFinished = (trace) ->
 
 uuflowManager.isApproveNotFinished = (approve) ->
 	if approve.is_finished != false
-		throw new Meteor.Error('error!', "approve不为未完成状态,不能进行此操作")
+		throw new Meteor.Error('error!', "当前步骤不为未完成状态,不能进行此操作")
 	return
 
 uuflowManager.isInstancePending = (instance, lang="zh-CN") ->
@@ -79,7 +79,8 @@ uuflowManager.isInstancePending = (instance, lang="zh-CN") ->
 	return
 
 uuflowManager.isHandlerOrAgent = (approve, user_id) ->
-	return
+	if approve.user isnt user_id
+		throw new Meteor.Error('error!', "不是当前步骤对应的处理人或其代理人，不能进行此操作")
 
 uuflowManager.isInstanceDraft = (instance, lang="zh-CN") ->
 	if instance.state isnt "draft"

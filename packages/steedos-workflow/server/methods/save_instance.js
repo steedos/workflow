@@ -16,14 +16,23 @@ Meteor.methods({
 		var instance = db.instances.findOne(ins._id, {
 			fields: {
 				applicant: 1,
-				state: 1
+				state: 1,
+				submitter: 1
 			}
 		});
 
 		// 判断一个instance是否为拟稿状态
-		var current_user = db.users.findOne(this.userId);
+		var current_user = db.users.findOne({
+			_id: this.userId
+		}, {
+			fields: {
+				locale: 1
+			}
+		});
 		var lang = current_user.locale == 'zh-cn' ? 'zh-CN' : 'en';
 		uuflowManager.isInstanceDraft(instance, lang);
+		// 判断一个用户是否是一个instance的提交者
+		uuflowManager.isInstanceSubmitter(instance, this.userId);
 
 		var applicant_id = ins.applicant;
 		var space_id = ins.space;
@@ -77,7 +86,8 @@ Meteor.methods({
 			})
 
 		}
-		setObj.traces = traces;
+
+		setObj["traces.$.approves"] = traces[0].approves;
 
 		// 计算申请单标题
 		var form = db.forms.findOne(ins.form);
@@ -90,7 +100,8 @@ Meteor.methods({
 		}
 
 		db.instances.update({
-			_id: ins._id
+			_id: ins._id,
+			"traces._id": traces[0]._id
 		}, {
 			$set: setObj
 		});
@@ -109,7 +120,6 @@ Meteor.methods({
 		var next_steps = approve.next_steps;
 		var description = approve.description;
 		var judge = approve.judge;
-		var next_steps = approve.next_steps;
 
 		var instance = db.instances.findOne(ins_id, {
 			fields: {
@@ -120,22 +130,36 @@ Meteor.methods({
 			}
 		});
 
+		var traces = instance.traces;
+
+		var current_trace = _.find(traces, function(t) {
+			return t._id == trace_id;
+		});
+		var current_approve = _.find(current_trace.approves, function(a) {
+			return a._id == approve_id;
+		});
+
 		// 判断一个instance是否为审核中状态
-		var current_user = db.users.findOne(this.userId);
+		var current_user = db.users.findOne({
+			_id: this.userId
+		}, {
+			fields: {
+				locale: 1
+			}
+		});
 		var lang = current_user.locale == 'zh-cn' ? 'zh-CN' : 'en';
 		uuflowManager.isInstancePending(instance, lang);
+		// 判断一个trace是否为未完成状态
+		uuflowManager.isTraceNotFinished(current_trace);
+		// 判断一个approve是否为未完成状态
+		uuflowManager.isApproveNotFinished(current_approve);
+		// 判断当前用户是否approve 对应的处理人或代理人
+		uuflowManager.isHandlerOrAgent(current_approve, this.userId);
 
-		var traces = instance.traces;
 		var flow_version = instance.flow_version;
 		var flow_id = instance.flow;
-
 		var step_id = "";
-		traces.forEach(function(t) {
-			if (t._id == trace_id) {
-				step_id = t.step;
-			}
-		})
-
+		step_id = current_trace.step;
 		var flow = db.flows.findOne(flow_id, {
 			fields: {
 				current: 1,
@@ -161,32 +185,28 @@ Meteor.methods({
 			return false;
 		var step_type = step.step_type;
 
-		traces.forEach(function(t) {
-			if (t._id == trace_id) {
-				t.approves.forEach(function(a) {
-					if (a._id == approve_id) {
-						a.is_read = true;
-						a.read_date = new Date();
-						a.values = values;
-						a.description = description;
-						a.next_steps = next_steps;
-						if (step_type == "submit" || step_type == "start") {
-							a.judge = "submitted";
-						} else {
-							a.judge = judge;
-						}
-					}
-				})
+		current_trace.approves.forEach(function(a) {
+			a.is_read = true;
+			a.read_date = new Date();
+			a.values = values;
+			a.description = description;
+			a.next_steps = next_steps;
+			if (step_type == "submit" || step_type == "start") {
+				a.judge = "submitted";
+			} else {
+				a.judge = judge;
 			}
 		})
 
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
 		setObj.attachments = approve.attachments;
-		setObj.traces = traces;
+
+		setObj["traces.$.approves"] = current_trace.approves;
 
 		db.instances.update({
-			_id: ins_id
+			_id: ins_id,
+			"traces._id": trace_id
 		}, {
 			$set: setObj
 		});
