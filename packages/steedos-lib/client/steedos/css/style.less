@@ -60,7 +60,7 @@ span,a{
 	color: #444;
 	&.btn:focus, &.btn:active:focus, &.btn.active:focus, &.btn.focus, &.btn:active.focus, &.btn.active.focus{
 		outline:none;
-	    box-shadow: none;
+		box-shadow: none;
 	}
 }
 
@@ -150,3 +150,53 @@ span,a{
 		}
 	}
 }
+
+
+/*IE11不支持zoom，所以全部重置为normal，否则可能会样式错乱，比较modal弹出层*/
+_:-ms-fullscreen,
+:root .zoom-large,.zoom-extra-large{
+	zoom:normal;
+	.modal{
+		zoom:normal;
+
+		.modal-header{
+			zoom:normal;
+		}
+		.modal-footer{
+			zoom:normal;
+		}
+
+		.box{
+			zoom:normal;
+			.box{
+				/*这里是为了兼容出现两层box嵌套的情况*/
+				zoom:normal;
+			}
+		}
+		&.forward-select-flow-modal{
+			.modal-body>div{
+				zoom:normal;
+			}
+		}
+		&#instance_cc_modal{
+			.modal-body>form{
+				zoom:normal;
+			}
+		}
+		.admin-dashboard-body>form{
+			zoom:normal;
+		}
+		.modal-body>.weui_grids{
+			zoom:normal;
+		}
+		.mail-account-modal{
+			.modal-body>form{
+				zoom:normal;
+			}
+		}
+	}
+}
+
+
+
+
