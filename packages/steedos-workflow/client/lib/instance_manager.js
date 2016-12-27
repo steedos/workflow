@@ -558,16 +558,18 @@ InstanceManager.getMyApprove = function() {
 
 // 申请单暂存
 InstanceManager.saveIns = function() {
+	$('body').addClass("loading");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
 		if (InstanceManager.isCC(instance)) {
 			var description = $("#suggestion").val();
 			Meteor.call('cc_save', instance._id, description, function(error, result) {
+				$('body').removeClass("loading");
 				if (error) {
 					toastr.error(error);
 				};
 				if (result == true) {
-					WorkflowManager.instanceModified.set(false)
+					WorkflowManager.instanceModified.set(false);
 					toastr.success(TAPi18n.__('Saved successfully'));
 				}
 			})
@@ -611,7 +613,8 @@ InstanceManager.saveIns = function() {
 				instance.applicant_organization_fullname = organization.fullname;
 			}
 			Meteor.call("draft_save_instance", instance, function(error, result) {
-				WorkflowManager.instanceModified.set(false)
+				$('body').removeClass("loading");
+				WorkflowManager.instanceModified.set(false);
 				if (result == true) {
 					toastr.success(TAPi18n.__('Saved successfully'));
 				} else if (result == "upgraded") {
@@ -630,7 +633,8 @@ InstanceManager.saveIns = function() {
 				myApprove.attachments = instance.attachments;
 			}
 			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
-				WorkflowManager.instanceModified.set(false)
+				$('body').removeClass("loading");
+				WorkflowManager.instanceModified.set(false);
 				if (result == true)
 					toastr.success(TAPi18n.__('Saved successfully'));
 				else {
@@ -639,6 +643,8 @@ InstanceManager.saveIns = function() {
 				}
 			});
 		}
+	} else {
+		$('body').removeClass("loading");
 	}
 }
 
