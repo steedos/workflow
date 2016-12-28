@@ -88,15 +88,15 @@ Template.profile.helpers
 
   zooms:[{
     name:"normal",
-    size:"100%",
+    size:"1",
     title:"标准"
   },{
     name:"large",
-    size:"120%",
+    size:"1.2",
     title:"大字体"
   },{
     name:"extra-large",
-    size:"135%",
+    size:"1.35",
     title:"超大字体"
   }]
 
@@ -280,18 +280,22 @@ Template.profile.events
   'click #personalization .zoom-setting a.thumbnail': (event)->
     dataset = event.currentTarget.dataset
     zoom_name = dataset.zoom_name
+    zoom_size = dataset.zoom_size
     btn_save = $("#personalization button.btn-save-zoom")[0]
     btn_save.dataset.zoom_name = zoom_name
+    btn_save.dataset.zoom_size = zoom_size
     $("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{zoom_name}")
     Session.set("waiting_save_profile_zoom_name",zoom_name)
 
   'click #personalization button.btn-save-zoom': (event)->
     dataset = event.currentTarget.dataset
     zoom_name = dataset.zoom_name
+    zoom_size = dataset.zoom_size
     accountZoomValue = Steedos.getAccountZoomValue()
     unless accountZoomValue
       accountZoomValue = {}
     accountZoomValue.name = zoom_name
+    accountZoomValue.size = zoom_size
     Meteor.call 'setKeyValue', 'zoom', accountZoomValue, (error, is_suc) ->
       if is_suc
         Session.set("waiting_save_profile_zoom_name","")
