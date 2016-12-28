@@ -67,9 +67,13 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 	changeSelector: (selector, userId) ->
 		unless userId
 			return {make_a_bad_selector: 1}
-		unless selector.owner
+		owner = selector.owner
+		unless owner
+			if selector?.$and?.length > 0
+				owner = selector.$and.getProperty('owner')[0]
+		unless owner
 			return {make_a_bad_selector: 1}
-		unless selector.owner.toString() == userId.toString()
+		unless owner.toString() == userId.toString()
 			return {make_a_bad_selector: 1}
 		return selector
 
