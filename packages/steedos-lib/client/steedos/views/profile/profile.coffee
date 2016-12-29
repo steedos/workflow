@@ -284,7 +284,11 @@ Template.profile.events
     btn_save = $("#personalization button.btn-save-zoom")[0]
     btn_save.dataset.zoom_name = zoom_name
     btn_save.dataset.zoom_size = zoom_size
-    $("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{zoom_name}")
+    if SC.browser.isiOS
+      if zoom_size
+        $("meta[name=viewport]").attr("content","initial-scale=#{zoom_size}, user-scalable=no")
+    else
+      $("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{zoom_name}")
     Session.set("waiting_save_profile_zoom_name",zoom_name)
 
   'click #personalization button.btn-save-zoom': (event)->
