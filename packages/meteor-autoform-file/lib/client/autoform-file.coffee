@@ -127,7 +127,6 @@ Template.afFileUpload.events
 	'fileuploadchange .js-file': (e, t, data) ->
 		FS.debug and console.log(data.files[0])
 		file = data.files[0]
-		debugger;
 		if file.size < 1
 			toastr.error(TAPi18n.__("upload_empty_file_error"))
 			return;
