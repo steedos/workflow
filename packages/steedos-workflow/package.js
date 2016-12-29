@@ -270,7 +270,8 @@ Package.onUse(function(api) {
 
     api.addFiles('server/lib/export.coffee', 'server');
     api.addFiles('routes/export.coffee', 'server');
-
+    api.addFiles('server/lib/import.coffee', 'server');
+    api.addFiles('routes/import.coffee', 'server');
 	// EJS
 	api.addAssets('server/ejs/export_instances.ejs', 'server');
 
@@ -287,7 +288,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport' , 'steedosImport'], ['server']);
 
 });
 

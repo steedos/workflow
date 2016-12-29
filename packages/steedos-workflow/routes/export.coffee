@@ -18,12 +18,32 @@ Meteor.startup ->
 			res.writeHead(401);
 			res.end JSON.stringify({
 				"error": "Validate Request -- Missing X-Auth-Token",
-				"instance": "1329598861",
 				"success": false
 			})
 			return ;
 
 		formId = req.query?.formId;
+
+		form = db.forms.findOne({_id: formId}, {fields: {space: 1}})
+
+		user_spaces = db.space_users.find({user: userId}).fetch().getProperty("space")
+
+		if _.isEmpty(form)
+			res.writeHead(401);
+			res.end JSON.stringify({
+				"error": "Validate Request -- Invalid formId",
+				"success": false
+			})
+			return ;
+		else
+			if _.indexOf(user_spaces,form.space) < 0
+				res.writeHead(401);
+				res.end JSON.stringify({
+					"error": "Validate Request -- No permission",
+					"success": false
+				})
+
+#		TODO 流程权限判断
 
 		data = steedosExport.form(formId);
 
