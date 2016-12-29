@@ -1131,3 +1131,12 @@ InstanceManager.getUserInboxInstances = function() {
 
 	return db.instances.find(query).fetch();
 }
+
+// 取回申请单
+InstanceManager.retrieveIns = function(reason) {
+    var instance = WorkflowManager.getInstance();
+    if (instance) {
+        instance.retrieve_comment = reason;
+        UUflow_api.post_retrieve(instance);
+    }
+}

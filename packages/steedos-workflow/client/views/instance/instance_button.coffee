@@ -137,6 +137,25 @@ Template.instance_button.helpers
 		else
 			return "display: none;"
 
+	enabled_retrieve: ->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return "display: none;"
+
+		if ins.state is "pending" and (ins.outbox_users.includes(Meteor.userId()) or ins.submitter is Meteor.userId() or ins.applicant is Meteor.userId())
+			last_trace = _.find(ins.traces, (t)->
+				return t.is_finished is false
+			)
+			previous_trace_id = last_trace.previous_trace_ids[0];
+			previous_trace = _.find(ins.traces, (t)->
+				return t._id is previous_trace_id
+			)
+			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
+			previous_trace_approves = previous_trace.approves
+			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId()
+				return ""
+		return "display: none;"
+
 
 Template.instance_button.events
 	'click #instance_back': (event)->
@@ -217,3 +236,24 @@ Template.instance_button.events
 			return;
 
 		Modal.show("forward_select_flow_modal")
+
+	'click #instance_retrieve': (event, template) ->
+		swal {
+			title: t("instance_retrieve"),
+			text: t("instance_retrieve_reason"),
+			type: "input",
+			confirmButtonText: t('OK'),
+			cancelButtonText: t('Cancel'),
+			showCancelButton: true,
+			closeOnConfirm: false
+		}, (reason) ->
+			# 用户选择取消
+			if (reason == false)
+				return false;
+
+			if (reason == "")
+				swal.showInputError(t("instance_retrieve_reason"));
+				return false;
+
+			InstanceManager.retrieveIns(reason);
+			sweetAlert.close();

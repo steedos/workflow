@@ -372,6 +372,10 @@
 
     "button_preview": "Preview",
     "remove_cc_approve": "Deleted success",
-    "forward_instance_success": "Forward success"
+    "forward_instance_success": "Forward success",
 
+	"instance_retrieve": "Retrieve",
+	"instance_retrieve_reason": "Enter your comments here",
+	"Retrieved successfully": "Retrieved successfully!",
+	"Instance State retrieved": "Retrieved"
 }

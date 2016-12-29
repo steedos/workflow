@@ -29,7 +29,7 @@ TracesTemplate.helpers =
 			return true
 		false
 	getApproveStatusIcon: (approveJudge) ->
-#已结束的显示为核准/驳回/取消申请，并显示处理状态图标
+		#已结束的显示为核准/驳回/取消申请，并显示处理状态图标
 		approveStatusIcon = undefined
 		switch approveJudge
 			when 'approved'
@@ -42,6 +42,8 @@ TracesTemplate.helpers =
 				approveStatusIcon = 'ion ion-android-contact'
 			when 'relocated'
 				approveStatusIcon = 'ion ion-arrow-shrink'
+			when 'retrieved'
+				approveStatusIcon = ''
 			else
 				approveStatusIcon = ''
 				break
@@ -53,7 +55,7 @@ TracesTemplate.helpers =
 				locale = "zh-CN"
 		else
 			locale = Session.get("TAPi18n::loaded_lang")
-#已结束的显示为核准/驳回/取消申请，并显示处理状态图标
+		#已结束的显示为核准/驳回/取消申请，并显示处理状态图标
 		approveStatusText = undefined
 		switch approveJudge
 			when 'approved'
@@ -66,6 +68,8 @@ TracesTemplate.helpers =
 				approveStatusText = TAPi18n.__('Instance State reassigned', {}, locale)
 			when 'relocated'
 				approveStatusText = TAPi18n.__('Instance State relocated', {}, locale)
+			when 'retrieved'
+				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
 			else
 				approveStatusText = ''
 				break

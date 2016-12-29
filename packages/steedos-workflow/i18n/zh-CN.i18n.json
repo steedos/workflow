@@ -374,5 +374,10 @@
 
     "button_preview": "预览",
     "remove_cc_approve": "传阅删除成功",
-    "forward_instance_success": "文件转发成功"
+    "forward_instance_success": "文件转发成功",
+
+	"instance_retrieve": "取回",
+	"instance_retrieve_reason": "请填写取回的理由",
+	"Retrieved successfully": "取回成功!",
+	"Instance State retrieved": "已取回"
 }

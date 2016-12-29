@@ -49,4 +49,4 @@ Template.cf_organization_modal.events
 		return true;
 
 Template.cf_organization_modal.onRendered ->
-    CFDataManager.handerOrganizationModalValueLabel();
+	CFDataManager.handerOrganizationModalValueLabel();
