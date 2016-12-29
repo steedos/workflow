@@ -58,6 +58,8 @@ Tracker.autorun (c)->
 			if SC.browser.isiOS
 				if accountZoomValue.size
 					$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
+				else
+					$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
 			else
 				$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{accountZoomValue.name}")
 		unless Steedos.isMobile()
