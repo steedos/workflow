@@ -112,7 +112,7 @@ Template.instance_list.onRendered ->
     node.maxHeight?.set($(window).height() - 55);
     $('[data-toggle="tooltip"]').tooltip()
     if !Steedos.isMobile()
-        $(".instance-list").perfectScrollbar();
+        $(".instance-list").perfectScrollbar({suppressScrollX:true});
 
 Template.instance_list.events
 
