@@ -142,7 +142,7 @@ Template.instance_button.helpers
 		if !ins
 			return "display: none;"
 
-		if ins.state is "pending" and (ins.outbox_users.includes(Meteor.userId()) or ins.submitter is Meteor.userId() or ins.applicant is Meteor.userId())
+		if Session.get('box') is 'outbox' or Session.get('box') is 'pending'
 			last_trace = _.find(ins.traces, (t)->
 				return t.is_finished is false
 			)
