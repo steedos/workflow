@@ -142,7 +142,7 @@ Template.instance_button.helpers
 		if !ins
 			return "display: none;"
 
-		if Session.get('box') is 'outbox' or Session.get('box') is 'pending'
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
 			last_trace = _.find(ins.traces, (t)->
 				return t.is_finished is false
 			)
