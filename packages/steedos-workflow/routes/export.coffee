@@ -3,7 +3,6 @@ Cookies = Npm.require("cookies")
 Meteor.startup ->
 	WebApp.connectHandlers.use "/api/workflow/form/export", (req, res, next)->
 		cookies = new Cookies( req, res );
-#		TODO 权限验证
 		# first check request body
 		if req.body
 			userId = req.body["X-User-Id"]
@@ -22,11 +21,9 @@ Meteor.startup ->
 			})
 			return ;
 
-		formId = req.query?.formId;
+		formId = req.query?.form;
 
 		form = db.forms.findOne({_id: formId}, {fields: {space: 1}})
-
-		user_spaces = db.space_users.find({user: userId}).fetch().getProperty("space")
 
 		if _.isEmpty(form)
 			res.writeHead(401);
@@ -36,14 +33,12 @@ Meteor.startup ->
 			})
 			return ;
 		else
-			if _.indexOf(user_spaces,form.space) < 0
+			if !Steedos.isSpaceAdmin(form.space, userId)
 				res.writeHead(401);
 				res.end JSON.stringify({
 					"error": "Validate Request -- No permission",
 					"success": false
 				})
-
-#		TODO 流程权限判断
 
 		data = steedosExport.form(formId);
 
