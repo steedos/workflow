@@ -224,6 +224,7 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     }
                     if("DIV" == afField.prop("tagName")){
                         afField.html(afValue);
+                        afField.attr("value", afValue)
                     }else{
                         afField.val(afValue);
                     }
