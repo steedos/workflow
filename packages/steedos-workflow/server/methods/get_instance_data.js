@@ -7,21 +7,21 @@ Meteor.methods({
 		check(formCached, Boolean);
 		check(flowCached, Boolean);
 
-		instance = db.instances.findOne(instance_id);
+		var instance = db.instances.findOne(instance_id);
 
 		if (!instance)
 			return {
 				instance: null
-			}
+			};
 
 		if (formCached && flowCached)
 			return {
 				instance: instance
-			}
+			};
 
 		if (!formCached) {
-			form = db.forms.findOne(instance.form);
-			form_version = {}
+			var form = db.forms.findOne(instance.form);
+			var form_version = {};
 			if (form.current._id == instance.form_version) {
 				form_version = form.current;
 			}
@@ -32,8 +32,8 @@ Meteor.methods({
 
 
 		if (!flowCached) {
-			flow = db.flows.findOne(instance.flow);
-			flow_version = {}
+			var flow = db.flows.findOne(instance.flow);
+			var flow_version = {};
 			if (flow.current._id == instance.flow_version) {
 				flow_version = flow.current;
 			}
