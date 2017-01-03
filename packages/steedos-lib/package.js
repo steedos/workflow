@@ -40,7 +40,8 @@ Package.onUse(function(api) {
 
     api.use('kadira:flow-router@2.10.1');
     api.use('meteorhacks:subs-manager');
-
+    
+    api.use('steedos:version');
 
     api.use(['webapp'], 'server');
 
@@ -53,6 +54,7 @@ Package.onUse(function(api) {
     //api.add_files("package-tap.i18n", ["client", "server"]);
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
+
 
     // COMMON
     api.addFiles('lib/array_includes.js');
@@ -232,6 +234,8 @@ Package.onUse(function(api) {
 
     api.addFiles('lib/admin.coffee');
 
+    api.addFiles('steedos.info');
+    
     // EXPORT
     api.export('Steedos');
     api.export('db');
