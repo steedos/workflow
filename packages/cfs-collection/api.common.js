@@ -19,7 +19,8 @@ FS.Collection.prototype.insert = function(fileRef, callback) {
   // Could be cool to have a streaming api on the client side
   // having a createReadStream etc. on the client too...
   function beginStorage(fileObj) {
-
+    debugger;
+    console.log("beginStorage-----------------");
     // If on client, begin uploading the data
     if (Meteor.isClient) {
       self.options.uploader && self.options.uploader(fileObj);

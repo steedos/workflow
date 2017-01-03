@@ -1,14 +1,6 @@
 steedosImport = {}
 
-#TODO 清理form无效的key
-_remove_form_invalid_key = (form)->
-
-#TODO 清理flow无效的key
-_remove_flow_invalid_key = (flow)->
-
-
 steedosImport.workflow = (uid, spaceId, jsonData)->
-	console.log "--steedosImport.workflow--"
 	try
 		form = JSON.parse(jsonData)
 	catch e
@@ -44,7 +36,6 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 		form_id = Meteor.uuid()
 
 		#	form_version_id = Meteor.uuid()
-
 		flows = form.flows
 
 		delete form.flows
@@ -77,7 +68,7 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 
 		form.current.modified_by = uid
 
-		form.import =true
+		form.import = true
 
 		db.forms.direct.insert(form)
 
@@ -138,7 +129,7 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 					step.approver_roles = []
 				else
 					approve_roles = new Array()
-					step.approve_roles_name.forEach (role_name) ->
+					step.approver_roles_name.forEach (role_name) ->
 						role = db.flow_roles.findOne({space: spaceId, name: role_name}, {fields: {_id: 1}})
 						if _.isEmpty(role)
 							role_id = db.flow_roles._makeNewID()
@@ -156,11 +147,11 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 						else
 							approve_roles.push(role_id)
 
-					step.approve_roles = approve_roles
+					step.approver_roles = approve_roles
 
-					delete step.approve_roles_name
+					delete step.approver_roles_name
 
-			flow.import =true
+			flow.import = true
 
 			db.flows.direct.insert(flow)
 
