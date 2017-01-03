@@ -4,7 +4,7 @@
 # 需要参数space_id
 csv = Npm.require('csv')
 
-JsonRoutes.add "post", "/api/import",  (req, res, next) ->
+JsonRoutes.add "post", "/api/import/space_org_users",  (req, res, next) ->
   console.log '====api/import'
   console.log req.query
 

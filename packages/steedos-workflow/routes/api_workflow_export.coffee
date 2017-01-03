@@ -1,5 +1,5 @@
 Meteor.startup ->
-	WebApp.connectHandlers.use "/api/workflow/export", (req, res, next)->
+	WebApp.connectHandlers.use "/api/workflow/export/instances", (req, res, next)->
 		try
 			current_user_info = uuflowManager.check_authorization(req)
 

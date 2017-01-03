@@ -1,7 +1,7 @@
 Cookies = Npm.require("cookies")
 
 Meteor.startup ->
-	WebApp.connectHandlers.use "/api/workflow/form/export", (req, res, next)->
+	WebApp.connectHandlers.use "/api/workflow/export/form", (req, res, next)->
 		cookies = new Cookies( req, res );
 		# first check request body
 		if req.body

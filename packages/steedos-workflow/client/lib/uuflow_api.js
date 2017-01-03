@@ -427,7 +427,7 @@ UUflow_api.get_export = function (spaceId, flowId, type) {
 	uobj.flow_id = flowId;
 	uobj.timezoneoffset = new Date().getTimezoneOffset();
 	uobj.type = type;
-	var url = Meteor.absoluteUrl() + "api/workflow/export?" + $.param(uobj);
+	var url = Meteor.absoluteUrl() + "api/workflow/export/instances?" + $.param(uobj);
 	window.open(url, '_parent', 'EnableViewPortScale=yes');
 };
 
