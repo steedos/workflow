@@ -167,14 +167,38 @@ billingManager.get_modules = (space_id, accounting_month)->
 
 	return modules
 
+billingManager.get_modules_name = ()->
+	modules_name = new Array
+	db.modules.find().forEach((m)->
+		modules_name.push(m.name)
+	)
+	return modules_name
+
+
 billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
-	if accounting_month >= (moment().format('YYYYMM'))
+	if accounting_month > (moment().format('YYYYMM'))
+		return
+	if accounting_month == (moment().format('YYYYMM'))
 		# 重算当月的充值后余额
 		billingManager.recaculateBalance(accounting_month, space_id)
 
-		newest_bill = db.billings.findOne({space: space_id}, {sort: {modified: -1}})
-		balance = newest_bill.balance
-		debits = newest_bill.debits
+		debits = 0
+		modules_name = billingManager.get_modules_name()
+		b_m_d = new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 0)
+		b_m = moment(b_m_d.getTime()-(b_m_d.getDate()*24*60*60*1000)).format("YYYYMMDD")
+		db.billings.find(
+			{
+				billing_date: b_m,
+				space: space_id,
+				transaction: {
+					$in: modules_name
+				}
+			}
+		).forEach((b)->
+			debits += b.debits
+		)
+		space = db.spaces.findOne(space_id, {fields: {balance: 1}})
+		balance = space.balance
 		remaining_months = 0
 		if balance > 0
 			if debits > 0
@@ -205,6 +229,7 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 			user_count = billingManager.getSpaceUserCount(space_id)
 
 			# 清除当月的已结算记录
+			modules_name = billingManager.get_modules_name()
 			accounting_date = new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 0)
 			accounting_date_format = moment(accounting_date).format("YYYYMMDD")
 			db.billings.remove(
@@ -212,7 +237,7 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 					billing_date: accounting_date_format,
 					space: space_id,
 					transaction: {
-						$nin: ["Payment", "Service adjustment"]
+						$in: modules_name
 					}
 				}
 			)
