@@ -64,7 +64,7 @@ Template.afSelectUser.helpers({
 
 
 Template.afSelectUser.events({
-    'click .selectUser': function (event, template) {
+    'click .selectUser, touchstart .selectUser': function (event, template) {
 
         if ("disabled" in template.data.atts)
             return;

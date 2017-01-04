@@ -38,7 +38,7 @@ AutoForm.addInputType("selectorg",{
 
 
 Template.afSelectOrg.events({
-  'click .selectOrg': function (event, template) {
+  'click .selectOrg, touchstart .selectOrg': function (event, template) {
     console.log("show cf_organization_modal");
 
     if ("disabled" in template.data.atts)
