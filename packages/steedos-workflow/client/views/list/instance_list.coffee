@@ -65,10 +65,10 @@ Template.instance_list.helpers
 	enabled_export: ->
 		spaceId = Session.get("spaceId");
 		if !spaceId
-			return;
+			return "display: none;";
 		space = db.spaces.findOne(spaceId);
 		if !space
-			return;
+			return "display: none;";
 		if Session.get("box") == "monitor"
 			if space.admins.contains(Meteor.userId())
 				return "";
@@ -78,6 +78,8 @@ Template.instance_list.helpers
 					if flow_ids.includes(Session.get("flowId"))
 						return ""
 				return "display: none;";
+		else
+			return "display: none;";
 
 	is_display_search_tip: ->
 		if Session.get('instance_more_search_selector')
