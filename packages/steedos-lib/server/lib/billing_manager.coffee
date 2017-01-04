@@ -8,7 +8,7 @@ billingManager.get_accounting_period = (space_id, accounting_month)->
 
 	end_date_time = new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 0)
 	end_date = moment(end_date_time.getTime()).format('YYYYMMDD')
-	
+
 	billing = db.billings.findOne({space: space_id, transaction: "Starting balance"})
 	first_date = billing.billing_date
 
@@ -136,7 +136,7 @@ billingManager.get_modules = (space_id, accounting_month)->
 	modules = new Array
 	start_date = accounting_month + "01"
 	end_date_time = new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 0)
-	end_date = moment(end_date_time.getTime()).format('YYYYMMDD') 
+	end_date = moment(end_date_time.getTime()).format('YYYYMMDD')
 
 	db.modules.find().forEach (m)->
 		m_changelog = db.modules_changelogs.findOne(
@@ -197,8 +197,8 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 		).forEach((b)->
 			debits += b.debits
 		)
-		space = db.spaces.findOne(space_id, {fields: {balance: 1}})
-		balance = space.balance
+		newest_bill = db.billings.findOne({space: space_id}, {sort: {modified: -1}})
+		balance = newest_bill.balance
 		remaining_months = 0
 		if balance > 0
 			if debits > 0
