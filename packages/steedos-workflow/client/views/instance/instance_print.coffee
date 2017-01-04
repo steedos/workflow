@@ -1,58 +1,65 @@
 Template.instancePrint.helpers
-    hasInstance: ()->
-        Session.get("instanceId");
-        instance = WorkflowManager.getInstance();
-        if instance
-            return true
-        return false
+	hasInstance: ()->
+		Session.get("instanceId");
+		instance = WorkflowManager.getInstance();
+		if instance
+			return true
+		return false
 
-    instance: ()->
-        return WorkflowManager.getInstance();
+	instance: ()->
+		return WorkflowManager.getInstance();
 
 # 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
-    isTableView: (flowId)->
-        flow = WorkflowManager.getFlow(flowId);
+	isTableView: (flowId)->
+		flow = WorkflowManager.getFlow(flowId);
 
-        if Steedos.isMobile()
-            return false
+		if Steedos.isMobile()
+			return false
 
-        if flow?.instance_style == 'table'
-            return true
-        return false
+		if flow?.instance_style == 'table'
+			return true
+		return false
 
-    unequals: (a, b) ->
-        return !(a == b)
+	unequals: (a, b) ->
+		return !(a == b)
+
+	readOnlyView: ()->
+		steedos_instance = WorkflowManager.getInstance();
+		if steedos_instance
+			return InstanceReadOnlyTemplate.getInstanceView(db.users.findOne({_id: Meteor.userId()}), Session.get("spaceId"), steedos_instance);
 
 Template.instancePrint.step = 1;
 
 Template.instancePrint.plusFontSize = (node)->
-    if node?.children()
-        node.children().each (i, n) ->
-            cn = $(n)
+	if node?.children()
+		node.children().each (i, n) ->
+			cn = $(n)
 
-            if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(->@nodeType == 3).text().trim() || ["INPUT","TEXTEAR"].includes(cn.prop("tagName")))
-                if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
-                    thisFZ = cn.css("font-size")
-                    unit = thisFZ.slice(-2)
-                    cn.css("font-size", parseFloat(thisFZ, 10) + Template.instancePrint.step + unit);
+			if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(-> @nodeType == 3).text().trim() || ["INPUT",
+				"TEXTEAR"].includes(cn.prop("tagName")))
+				if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
+					thisFZ = cn.css("font-size")
+					unit = thisFZ.slice(-2)
+					cn.css("font-size", parseFloat(thisFZ, 10) + Template.instancePrint.step + unit);
 
-            if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
-                Template.instancePrint.plusFontSize(cn)
+			if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
+				Template.instancePrint.plusFontSize(cn)
 
 
 Template.instancePrint.minusFontSize = (node)->
-    if node?.children()
-        node.children().each (i, n) ->
-            cn = $(n)
+	if node?.children()
+		node.children().each (i, n) ->
+			cn = $(n)
 
-            if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(->@nodeType == 3).text().trim() || ["INPUT","TEXTEAR"].includes(cn.prop("tagName")))
-                if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
-                    thisFZ = cn.css("font-size")
-                    unit = thisFZ.slice(-2)
-                    cn.css("font-size", parseFloat(thisFZ, 10) - Template.instancePrint.step + unit);
+			if !["STYLE"].includes(cn.prop("tagName")) && (cn?.contents().filter(-> @nodeType == 3).text().trim() || ["INPUT",
+				"TEXTEAR"].includes(cn.prop("tagName")))
+				if cn?.css("font-size") && cn?.css("font-size") != cn?.parent().prop("style").fontSize
+					thisFZ = cn.css("font-size")
+					unit = thisFZ.slice(-2)
+					cn.css("font-size", parseFloat(thisFZ, 10) - Template.instancePrint.step + unit);
 
-            if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
-                Template.instancePrint.minusFontSize(cn)
+			if cn?.children().length > 0 && cn?.children("br").length < cn?.children().length
+				Template.instancePrint.minusFontSize(cn)
 
 Template.instancePrint.events
 #    "change #print_traces_checkbox": (event, template) ->
@@ -61,22 +68,22 @@ Template.instancePrint.events
 #        else
 #            $(".instance-traces").hide()
 
-    "change #print_attachments_checkbox": (event, template) ->
-        if event.target.checked
-            $(".instance_attachments").show()
-        else
-            $(".instance_attachments").hide()
+	"change #print_attachments_checkbox": (event, template) ->
+		if event.target.checked
+			$(".instance_attachments").show()
+		else
+			$(".instance_attachments").hide()
 
-    "click #instance_to_print": (event, template) ->
-        if $(".box-body",$(".instance-traces")).is(":hidden")
-            $(".instance-traces").addClass("no-print")
-        else
-            $(".instance-traces").removeClass("no-print")
+	"click #instance_to_print": (event, template) ->
+		if $(".box-body", $(".instance-traces")).is(":hidden")
+			$(".instance-traces").addClass("no-print")
+		else
+			$(".instance-traces").removeClass("no-print")
 
-        window.print()
+		window.print()
 
-    "click #font-plus": (event, template) ->
-        Template.instancePrint.plusFontSize $(".instance")
+	"click #font-plus": (event, template) ->
+		Template.instancePrint.plusFontSize $(".instance")
 
-    "click #font-minus": (event, template) ->
-        Template.instancePrint.minusFontSize $(".instance")
+	"click #font-minus": (event, template) ->
+		Template.instancePrint.minusFontSize $(".instance")

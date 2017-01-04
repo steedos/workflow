@@ -318,7 +318,12 @@ InstanceformTemplate.helpers =
 
 		utcOffset = Template.instance().view.template.steedosData.utcOffset
 
-		return InstanceReadOnlyTemplate.getValue instance.values[code], form_version.fields.findPropertyByPK("code", code), locale, utcOffset
+		values = instance.values
+
+		if Meteor.isClient
+			values = WorkflowManager_format.getAutoformSchemaValues()
+
+		return InstanceReadOnlyTemplate.getValue values[code], form_version.fields.findPropertyByPK("code", code), locale, utcOffset
 
 	getLabel: (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
