@@ -214,13 +214,25 @@ _getTemplateData = (user, space, instance)->
 
 	locale = _getLocale(user)
 
-	steedosData = {
-		instance: instance,
-		form_version: form_version,
-		locale: locale,
-		utcOffset: user.utcOffset,
-		space: space
-	}
+	steedosData = {}
+
+	if Meteor.isClient
+		steedosData = WorkflowManager_format.getAutoformSchemaValues()
+		steedosData.insname = instance.name
+		steedosData.ins_state = instance.state
+		steedosData.ins_final_decision = instance.ins_final_decision
+		steedosData.ins_code = instance.code
+		steedosData.ins_is_archived = instance.is_archived
+		steedosData.ins_is_deleted = instance.ins_is_deleted
+		steedosData.applicant_name = instance.applicant_name
+		steedosData.applicantContext = instance.applicant_name
+		steedosData.attachments = instance.attachments
+
+	steedosData.instance = instance
+	steedosData.form_version = form_version
+	steedosData.locale = locale
+	steedosData.utcOffset = user.utcOffset
+	steedosData.space = instance.space
 
 	return steedosData;
 
