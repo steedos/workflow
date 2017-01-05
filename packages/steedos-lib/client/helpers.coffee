@@ -84,6 +84,9 @@ TemplateHelpers =
 			if space
 				return space.name
 
+	spaces: ->
+		return db.spaces.find();
+		
 	isPaidSpace: (spaceId)->
 		if !spaceId
 			spaceId = Steedos.getSpaceId()
