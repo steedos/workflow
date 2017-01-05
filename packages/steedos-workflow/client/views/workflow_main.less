@@ -2,7 +2,6 @@
 }
 
 .instance-list-wrapper {
-	//width: 350px;
 	right: 0;
 	left: 0;
 	float: left;
@@ -12,7 +11,6 @@
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
-	//border-right: 1px solid #d2d6de;
 
 	.instance-list {
 		overflow-x: hidden;
@@ -91,41 +89,52 @@
 	top: 0px;
 	bottom: 0px;
 	overflow: hidden;
-	//background-color: black;
-	
-	//-webkit-transition: right 0.3s ease-in-out;
-	//-o-transition: right 0.3s ease-in-out;
-	//transition: right 0.3s ease-in-out;
 
 
-	.instance {
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-		top: 51px;
-		bottom: 0px;
-		right: 0px;
-		left: 0px;
-		position: absolute;
-		padding: 0px;
-		background-color: #ecf0f5;
-
-		.row {
-			margin-right: 0px;
-			margin-left: 0px;
+	.instance-view{
+		.instance-suggestion {
+			display:none;
+			padding: 0 4px;
+			margin-bottom:0px;
+			border-bottom: solid 3px #00a65a;
 		}
-
-		.instance-suggestion.box {
-			//border-top: 0px;
+		&.suggestion-active{
+			.instance-suggestion {
+				display:block;
+			}
+			.instance {
+				top: 294px;
+			}
 		}
+		.instance {
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			top: 51px;
+			bottom: 0px;
+			right: 0px;
+			left: 0px;
+			position: absolute;
+			padding: 0px;
+			background-color: #ecf0f5;
 
-		.box-body {
-			padding-left: 15px;
-			padding-right: 15px;
-		}
+			.row {
+				margin-right: 0px;
+				margin-left: 0px;
+			}
 
-		.instance-form .box-body, .instance-suggestion .box-body {
-			padding-left: 0px;
-			padding-right: 0px;
+			.box-body {
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+			
+			.instance-form{
+				border:none;
+			}
+
+			.instance-form .box-body, .instance-suggestion .box-body {
+				padding-left: 0px;
+				padding-right: 0px;
+			}
 		}
 	}
 

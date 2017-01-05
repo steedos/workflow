@@ -74,14 +74,12 @@ Template.instance_view.onRendered ->
 Template.instance_view.events
 	'change .instance .form-control,.instance .suggestion-control,.instance .checkbox input,.instance .af-radio-group input,.instance .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);
+
 	'change .ins-file-input': (event, template)->
 		InstanceManager.uploadAttach(event.target.files, false)
 
 		$(".ins-file-input").val('')
-	'click .btn-anchor-suggestion': (event, template)->
-		hForm = $(".instance-wrapper .instance .instance-form").height()
-		hTrace = $(".instance-wrapper .instance .instance-traces").height()
-		$(".instance-wrapper .instance").scrollTop(hForm + hTrace)
+
 	'click #instance_back': (event)->
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
 		FlowRouter.go(backURL)

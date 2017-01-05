@@ -234,3 +234,11 @@ Template.instance_button.events
 
 			InstanceManager.retrieveIns(reason);
 			sweetAlert.close();
+
+	'click .btn-suggestion-toggle': (event, template)->
+		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
+		if $(".instance-wrapper .instance-view").hasClass("suggestion-active")
+			suggestionBoxH = $(".instance-wrapper .instance-suggestion").height()
+			$(".instance-wrapper .instance").css("top",suggestionBoxH + 57)
+		else
+			$(".instance-wrapper .instance").css("top",51)
