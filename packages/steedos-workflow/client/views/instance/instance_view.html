@@ -1,5 +1,9 @@
 <template name="instance_view">
-    {{> instance_button}}
+    <div class="navigation-bar">
+        <span class="navigation-title">{{instance.name}}</span>
+        <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
+        {{> instance_button}}
+    </div>
     <div class="instance {{instanceStyle instance.flow}}">
         <div class="instance-form box {{instance_box_style }}">
             <div class="box-body">
