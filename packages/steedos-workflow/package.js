@@ -279,6 +279,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('tabular.coffee');
 
+    api.addFiles('client/views/instance/instance_sign_text.html', 'client');
+    api.addFiles('client/views/instance/instance_sign_text.coffee', 'client');
+
 	api.export("WorkflowManager");
 	api.export("InstanceManager");
 	api.export("WorkflowManager_format");

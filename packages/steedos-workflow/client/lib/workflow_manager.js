@@ -2,7 +2,8 @@ WorkflowManager = {
 	formVersionsCache: {},
 	flowVersionsCache: {},
 	instanceCache: null,
-	instanceModified: new ReactiveVar(false)
+	instanceModified: new ReactiveVar(false),
+    localInstances: new Mongo.Collection()
 };
 
 if (Meteor.isClient) {
@@ -123,6 +124,11 @@ WorkflowManager.callInstanceDataMethod = function (instanceId, callback) {
 		}
 		delete WorkflowManager["instanceCache"]
 		WorkflowManager.instanceCache = result.instance;
+        if(WorkflowManager.localInstances.findOne({_id: result.instance._id})){
+            WorkflowManager.localInstances.update(result.instance._id, result.instance)
+        }else{
+            WorkflowManager.localInstances.insert(result.instance)
+        }
 		WorkflowManager.instanceModified.set(false);
 		if (result.form_version) {
 			console.log("get form version " + result.form_version._id)
@@ -139,7 +145,8 @@ WorkflowManager.callInstanceDataMethod = function (instanceId, callback) {
 }
 
 WorkflowManager.getInstance = function () {
-	return WorkflowManager.instanceCache
+    return WorkflowManager.localInstances.findOne({_id: WorkflowManager.instanceCache._id})
+	// return WorkflowManager.instanceCache
 };
 
 

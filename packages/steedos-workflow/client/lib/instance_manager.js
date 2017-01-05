@@ -617,6 +617,9 @@ InstanceManager.saveIns = function() {
 				WorkflowManager.instanceModified.set(false);
 				if (result == true) {
 					toastr.success(TAPi18n.__('Saved successfully'));
+                    WorkflowManager.callInstanceDataMethod(instance._id, function () {
+                        
+                    })
 				} else if (result == "upgraded") {
 					toastr.info(TAPi18n.__('Flow upgraded'));
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
@@ -635,9 +638,12 @@ InstanceManager.saveIns = function() {
 			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
 				$('body').removeClass("loading");
 				WorkflowManager.instanceModified.set(false);
-				if (result == true)
+				if (result == true){
 					toastr.success(TAPi18n.__('Saved successfully'));
-				else {
+                    WorkflowManager.callInstanceDataMethod(instance._id, function () {
+
+                    })
+                }else {
 					toastr.error(error.reason);
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/inbox/");
 				}
