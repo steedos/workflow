@@ -78,3 +78,7 @@ Template.instance_view.events
 		InstanceManager.uploadAttach(event.target.files, false)
 
 		$(".ins-file-input").val('')
+	'click .btn-anchor-suggestion': (event, template)->
+		hForm = $(".instance-wrapper .instance .instance-form").height()
+		hTrace = $(".instance-wrapper .instance .instance-traces").height()
+		$(".instance-wrapper .instance").scrollTop(hForm + hTrace)

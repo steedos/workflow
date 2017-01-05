@@ -7,6 +7,7 @@ TemplateManager._template =
     default: '''
 		<div class="box-header  with-border">
             <h3 class="box-title">{{instance.name}}</h3>
+            <button class="btn btn-success pull-right btn-anchor-suggestion">审批</button>
             <span class="help-block"></span>
             <div class="applicant-wrapper">
                 <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>

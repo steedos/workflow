@@ -142,7 +142,20 @@ Template.instance_suggestion.helpers
     isCC: ->
         instance = WorkflowManager.getInstance();
         return InstanceManager.isCC(instance);
-        
+
+    enabled_submit: ->
+        ins = WorkflowManager.getInstance();
+        if !ins
+            return "display: none;";
+        flow = db.flows.findOne(ins.flow);
+        if !flow
+            return "display: none;";
+        if InstanceManager.isInbox()
+            return "";
+        if !ApproveManager.isReadOnly()
+            return "";
+        else
+            return "display: none;";
 
 
 Template.instance_suggestion.events
@@ -173,6 +186,18 @@ Template.instance_suggestion.events
     'click #instance_flow_opinions': (event, template)->
         Session.set('flow_comment', $("#suggestion").val())
         Modal.show 'opinion_modal'
+
+    'click #instance_submit': (event)->
+        if WorkflowManager.isArrearageSpace()
+            ins = WorkflowManager.getInstance();
+            if ins.state == "draft"
+                toastr.error(t("spaces_isarrearageSpace"));
+                return
+        if !ApproveManager.isReadOnly()
+            InstanceManager.checkFormValue();
+        if($(".has-error").length == 0)
+            InstanceManager.submitIns();
+            Session.set("instance_change", false);
 
 Template.instance_suggestion.onCreated ->
     console.log("instance_suggestion onCreated...");

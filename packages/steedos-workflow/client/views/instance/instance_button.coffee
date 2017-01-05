@@ -1,17 +1,4 @@
 Template.instance_button.helpers
-	enabled_submit: ->
-		ins = WorkflowManager.getInstance();
-		if !ins
-			return "display: none;";
-		flow = db.flows.findOne(ins.flow);
-		if !flow
-			return "display: none;";
-		if InstanceManager.isInbox()
-			return "";
-		if !ApproveManager.isReadOnly()
-			return "";
-		else
-			return "display: none;";
 
 	enabled_save: ->
 		ins = WorkflowManager.getInstance();
@@ -185,18 +172,6 @@ Template.instance_button.events
 		}, () ->
 			Session.set("instance_change", false);
 			InstanceManager.deleteIns()
-
-	'click #instance_submit': (event)->
-		if WorkflowManager.isArrearageSpace()
-			ins = WorkflowManager.getInstance();
-			if ins.state == "draft"
-				toastr.error(t("spaces_isarrearageSpace"));
-				return
-		if !ApproveManager.isReadOnly()
-			InstanceManager.checkFormValue();
-		if($(".has-error").length == 0)
-			InstanceManager.submitIns();
-			Session.set("instance_change", false);
 
 	'click #instance_force_end': (event)->
 		swal {
