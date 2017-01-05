@@ -150,9 +150,6 @@ Template.instance_button.helpers
 
 
 Template.instance_button.events
-	'click #instance_back': (event)->
-		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
-		FlowRouter.go(backURL)
 
 	'click #instance_to_print': (event)->
 		uobj = {}

@@ -82,3 +82,6 @@ Template.instance_view.events
 		hForm = $(".instance-wrapper .instance .instance-form").height()
 		hTrace = $(".instance-wrapper .instance .instance-traces").height()
 		$(".instance-wrapper .instance").scrollTop(hForm + hTrace)
+	'click #instance_back': (event)->
+		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
+		FlowRouter.go(backURL)
