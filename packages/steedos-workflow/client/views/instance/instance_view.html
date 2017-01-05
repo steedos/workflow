@@ -6,7 +6,9 @@
         {{> instance_button}}
     </div>
     <div class="instance-view">
-        {{> instance_suggestion}}
+        {{#if unequals 'draft' instance.state}}
+            {{> instance_suggestion}}
+        {{/if}}
         <div class="instance {{instanceStyle instance.flow}}">
             <div class="instance-form box {{instance_box_style }}">
                 <div class="box-body">
@@ -28,8 +30,9 @@
             </div>
             {{#if unequals 'draft' instance.state}}
                 {{> Template.dynamic template=(tracesTemplateName instance.flow) data=instance.traces}}
+            {{else}}
+                {{> instance_suggestion}}
             {{/if}}
-            {{> instance_suggestion}}
         </div>
     </div>
 </template>
