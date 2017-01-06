@@ -145,7 +145,7 @@ WorkflowManager.callInstanceDataMethod = function (instanceId, callback) {
 }
 
 WorkflowManager.getInstance = function () {
-    return WorkflowManager.localInstances.findOne({_id: WorkflowManager.instanceCache._id})
+    return db.instances.findOne({_id: Session.get("instanceId")})
 	// return WorkflowManager.instanceCache
 };
 
@@ -156,8 +156,14 @@ WorkflowManager.getInstanceFormVersion = function () {
 		instance = WorkflowManager.getInstance();
 
 	if (instance) {
+        var form = db.forms.findOne({_id: instance.form})
 
-		rev = EJSON.clone(WorkflowManager.formVersionsCache[instance.form_version])
+        if(instance.form_version == form.current._id)
+            rev =  _.clone(form.current)
+        else
+            rev =  _.clone(form.historys.findPropertyByPK("_id", instance.form_version))
+
+		// rev = EJSON.clone(WorkflowManager.formVersionsCache[instance.form_version])
 
 		field_permission = WorkflowManager.getInstanceFieldPermission();
 		rev.fields.forEach(
@@ -196,9 +202,16 @@ WorkflowManager.getInstanceFormVersion = function () {
 };
 
 WorkflowManager.getInstanceFlowVersion = function () {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		return EJSON.clone(WorkflowManager.flowVersionsCache[instance.flow_version])
+        var flow = db.flows.findOne({_id: instance.flow})
+
+        if(instance.flow_version == flow.current._id)
+            return _.clone(flow.current)
+        else
+            return _.clone(flow.historys.findPropertyByPK("_id", instance.flow_version))
+
+		// return EJSON.clone(WorkflowManager.flowVersionsCache[instance.flow_version])
 	}
 };
 

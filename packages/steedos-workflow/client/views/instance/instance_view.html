@@ -1,27 +1,29 @@
 <template name="instance_view">
-    {{> instance_button}}
-    <div class="instance {{instanceStyle instance.flow}}">
-        {{> instance_suggestion}}
-        <div class="instance-form box {{instance_box_style }}">
-            <div class="box-body">
-                <div class="col-md-12">
+    {{#if show}}
+        {{> instance_button}}
+        <div class="instance {{instanceStyle instance.flow}}">
+            {{> instance_suggestion}}
+            <div class="instance-form box {{instance_box_style }}">
+                <div class="box-body">
+                    <div class="col-md-12">
 
-                    {{#if isIReadable}}
-                        {{{readOnlyView}}}
-                    {{else}}
-                        {{#if isTableView}}
-                            {{> instanceform_table}}
+                        {{#if isIReadable}}
+                            {{{readOnlyView}}}
                         {{else}}
-                            {{> instanceform}}
+                            {{#if isTableView instance.flow}}
+                                {{> instanceform_table}}
+                            {{else}}
+                                {{> instanceform}}
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
 
-                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                    </div>
                 </div>
             </div>
+            {{#if unequals 'draft' instance.state}}
+                {{> Template.dynamic template=(tracesTemplateName instance.flow) data=instance.traces}}
+            {{/if}}
         </div>
-        {{#if unequals 'draft' instance.state}}
-            {{> Template.dynamic template=(tracesTemplateName instance.flow) data=instance.traces}}
-        {{/if}}
-    </div>
+    {{/if}}
 </template>

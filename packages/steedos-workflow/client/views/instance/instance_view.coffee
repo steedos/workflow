@@ -64,6 +64,17 @@ Template.instance_view.helpers
 				return "box-success"
 			else if (ins.final_decision == "rejected")
 				return "box-danger"
+	show: ->
+		if !Session.get("instance_loading")
+			if Session.get("box") == "inbox"
+				if InstanceManager.isInbox()
+					return true
+				else
+					toastr.info("审批单已处理")
+					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
+			else
+				return true
+		return false
 
 Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")

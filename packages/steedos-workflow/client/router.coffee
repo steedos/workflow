@@ -88,30 +88,35 @@ workflowSpaceRoutes.route '/:box/f/:flow',
 workflowSpaceRoutes.route '/:box/:instanceId',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
-		Session.set("instanceId", null);
+		Session.set("instance_change", false);
+		Session.set("instanceId", params.instanceId);
 		Session.set("instance_loading", true);
-
+		Session.set("judge", null);
+		Session.set("next_step_id", null);
+		Session.set("next_step_multiple", null);
+		Session.set("next_user_multiple", null);
+		Session.set("box", params.box);
 		console.log "call get_instance_data"
 
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 
-		WorkflowManager.callInstanceDataMethod params.instanceId, ()->
-			console.log "response get_instance_data"
-
-			Session.set("judge", null);
-			Session.set("next_step_id", null);
-			Session.set("next_step_multiple", null);
-			Session.set("next_user_multiple", null);
-			Session.set("instanceId", params.instanceId);
-			Session.set("box", params.box);
-			Session.set("instance_change", false);
-			Session.set("instance_loading", false);
+#		WorkflowManager.callInstanceDataMethod params.instanceId, ()->
+#			console.log "response get_instance_data"
+#
+#			Session.set("judge", null);
+#			Session.set("next_step_id", null);
+#			Session.set("next_step_multiple", null);
+#			Session.set("next_user_multiple", null);
+#			Session.set("instanceId", params.instanceId);
+#			Session.set("box", params.box);
+#			Session.set("instance_change", false);
+#			Session.set("instance_loading", false);
 
 	triggersExit: [(context, redirect) ->
 #		ins发生变化 并且 是传阅  || ins发生变化 并且 表单不是只读
-		if Session.get("instance_change") && (InstanceManager.isCC(WorkflowManager.getInstance()) || !ApproveManager.isReadOnly())
+		if InstanceManager.isInbox() && Session.get("instance_change") && (InstanceManager.isCC(WorkflowManager.getInstance()) || !ApproveManager.isReadOnly())
 			InstanceManager.saveIns();
-
+		Session.set("instanceId", null)
 		Session.set('flow_selected_opinion', undefined);
 	]
