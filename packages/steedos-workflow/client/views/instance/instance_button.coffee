@@ -1,10 +1,5 @@
 Template.instance_button.helpers
 
-	show_suggestion: ->
-		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
-		if isShow
-			isShow = WorkflowManager.getInstance().state != "draft"
-		return isShow
 	enabled_save: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
@@ -234,7 +229,3 @@ Template.instance_button.events
 
 			InstanceManager.retrieveIns(reason);
 			sweetAlert.close();
-
-	'click .btn-suggestion-toggle': (event, template)->
-		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
-		InstanceManager.fixInstanceTop()

@@ -1141,13 +1141,13 @@ InstanceManager.retrieveIns = function(reason) {
 	}
 }
 
-InstanceManager.fixInstanceTop = function(){
+InstanceManager.fixInstancePosition = function(){
 	if($(".instance-wrapper .instance-view").hasClass("suggestion-active")){
 		var suggestionBoxH = $(".instance-wrapper .instance-suggestion").height();
-		$(".instance-wrapper .instance").css("top",suggestionBoxH + 57);
+		$(".instance-wrapper .instance").css("bottom",suggestionBoxH + 4);
 	}
 	else{
-		$(".instance-wrapper .instance").css("top",51);
+		$(".instance-wrapper .instance").css("bottom",0);
 	}
 }
 

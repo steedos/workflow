@@ -14,6 +14,12 @@ Template.instance_suggestion.helpers
             else if (judge == "rejected")
                 return "box-danger"
 
+    show_toggle_button: ->
+        isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
+        if isShow
+            isShow = WorkflowManager.getInstance().state != "draft"
+        return isShow
+
     show_suggestion: ->
 
         return !ApproveManager.isReadOnly() || InstanceManager.isInbox();
@@ -198,12 +204,16 @@ Template.instance_suggestion.events
         if($(".has-error").length == 0)
             InstanceManager.submitIns();
             Session.set("instance_change", false);
-        InstanceManager.fixInstanceTop()
+        InstanceManager.fixInstancePosition()
 
     'change input[name=judge]': (event)->
         if $('input[name=judge]:checked').val() == "approved"
             InstanceManager.checkSuggestion()
-        InstanceManager.fixInstanceTop()
+        InstanceManager.fixInstancePosition()
+
+    'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
+        $(".instance-wrapper .instance-view").toggleClass("suggestion-active")
+        InstanceManager.fixInstancePosition()
 
 
 Template.instance_suggestion.onCreated ->
@@ -226,3 +236,4 @@ Template.instance_suggestion.onRendered ->
         nextStep = WorkflowManager.getInstanceStep(next_step_id)
         if nextStep && nextStep.step_type == 'end'
             $("#nextStepUsers_div").hide();
+

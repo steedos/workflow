@@ -99,7 +99,24 @@
 	}
 
 	.instance-view{
+		.btn-suggestion-toggle{
+			z-index: 999;
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			border-radius: 48px;
+			font-size: 24px;
+			padding-top: 8px;
+			width: 48px;
+			height: 48px;
+			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+			border: solid 1px green;
+			outline: none!important;
+		}
 		.instance-suggestion {
+			position:absolute;
+			bottom: 0;
+			z-index: 99;
 			border-radius:0;
 			display:none;
 			padding: 0 4px;
@@ -118,13 +135,19 @@
 				border: none;
 				padding: 4px 8px;
 			}
+			.btn-remove {
+				color: #999;
+			}
+			.btn-remove:hover {
+				color: #666;
+			}
 		}
 		&.suggestion-active{
 			.instance-suggestion {
 				display:block;
 			}
-			.instance {
-				top: 294px;
+			.btn-suggestion-toggle{
+				display:none;
 			}
 		}
 		.instance {
@@ -146,10 +169,6 @@
 			.box-body {
 				padding-left: 15px;
 				padding-right: 15px;
-			}
-			
-			.instance-form{
-				border:none;
 			}
 
 			.instance-form .box-body, .instance-suggestion .box-body {
