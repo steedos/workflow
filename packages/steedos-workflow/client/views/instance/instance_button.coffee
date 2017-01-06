@@ -195,8 +195,8 @@ Template.instance_button.events
 		if !ApproveManager.isReadOnly()
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)
-			InstanceManager.submitIns();
 			Session.set("instance_change", false);
+			InstanceManager.submitIns();
 
 	'click #instance_force_end': (event)->
 		swal {
