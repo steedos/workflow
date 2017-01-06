@@ -163,6 +163,22 @@ Template.instance_suggestion.helpers
         else
             return "display: none;";
 
+    enabled_save: ->
+        ins = WorkflowManager.getInstance();
+        if !ins
+            return "display: none;";
+        flow = db.flows.findOne(ins.flow);
+        if !flow
+            return "display: none;";
+
+        if InstanceManager.isInbox()
+            return "";
+
+        if !ApproveManager.isReadOnly()
+            return "";
+        else
+            return "display: none;";
+
 
 Template.instance_suggestion.events
     
@@ -215,6 +231,9 @@ Template.instance_suggestion.events
         $(".instance-wrapper .instance-view").toggleClass("suggestion-active")
         InstanceManager.fixInstancePosition()
 
+    'click .btn-instance-update': (event)->
+        InstanceManager.saveIns();
+        Session.set("instance_change", false);
 
 Template.instance_suggestion.onCreated ->
     console.log("instance_suggestion onCreated...");
