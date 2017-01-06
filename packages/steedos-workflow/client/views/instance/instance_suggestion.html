@@ -1,6 +1,6 @@
 <template name="instance_suggestion">
     {{#if show_suggestion}}
-        <div class="instance-suggestion box">
+        <div class="instance-suggestion well">
             <div class="box-body">
 
                 {{#if includes currentStep.step_type 'sign,counterSign,submit'}}
@@ -23,9 +23,9 @@
                                     </label>
                                 {{/if}}
                             {{/if}}
-                            {{#unless isMobile}}
+                            <!-- {{#unless isMobile}}
                                 <button type="button" class="btn btn-default pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-compose"></i></button>
-                            {{/unless}}
+                            {{/unless}} -->
                             </div>
                         </div>
                     </div>
@@ -43,28 +43,33 @@
                 {{#if isCC}}
                 {{else}}
                     <div class="row" id='instance_next'>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">{{_ "instance_next_step"}}&nbsp;:</label>
-                                <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
-                                    {{#each next_step_options }}
-                                        <option value="{{id}}" selected={{selected}} {{disabled}} steptype={{type}}>{{text}}</option>
-                                    {{/each}}
-                                </select>
+                                <div class="input-group">
+                                    <div class="input-group-addon">{{_ "instance_next_step"}}</div>
+                                    <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
+                                        {{#each next_step_options }}
+                                            <option value="{{id}}" selected={{selected}} {{disabled}} steptype={{type}}>{{text}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group" id="nextStepUsers_div">
-                                <label class="control-label">{{_ "instance_next_step_users"}}&nbsp;:</label>
-                                
-                                {{>Template.dynamic  template="afSelectUser" data=next_user_context}}
+                                <div class="input-group">
+                                    <div class="input-group-addon">{{_ "instance_next_step_users"}}</div>
+                                    {{>Template.dynamic  template="afSelectUser" data=next_user_context}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 {{/if}}
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-success" id="instance_submit" style={{enabled_submit}}>{{_ "instance_submit"}}</button>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" id="instance_submit" style={{enabled_submit}}>{{_ "instance_submit"}}</button>
+                        </div>
                     </div>
                 </div>
             </div>
