@@ -1,22 +1,24 @@
 <template name="instance_button">
-    <div class="btn-group pull-right">
-        {{#if show_suggestion}}
-            <button type="button" class="btn btn-success btn-suggestion-toggle">审批</button>
-        {{/if}}
-        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li style={{enabled_save}}><a id="instance_update" data-placement="bottom"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
-            <li style={{enabled_delete}}><a id="instance_remove" data-placement="bottom"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
-            <li style={{enabled_print}}><a id="instance_to_print" data-placement="bottom"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
-            <li style={{enabled_cc}}><a id="instance_cc" data-placement="bottom"><i class=" fa fa-user-plus" aria-hidden="true"></i>{{_ 'instance_cc_title'}}</a></li>
-            <li style={{enabled_forward}}><a id="instance_forward" data-placement="bottom"><i class="fa fa-clone" aria-hidden="true"></i>{{_ 'instance_forward_title'}}</a></li>
-            <li style={{enabled_terminate}}><a id="instance_force_end" data-placement="bottom"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
-            <li style={{enabled_reassign}}><a id="instance_reassign" data-placement="bottom"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
-            <li style={{enabled_relocate}}><a id="instance_relocate" data-placement="bottom"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
-            <li style={{enabled_retrieve}}><a id="instance_retrieve" data-placement="bottom"><i class="fa fa-undo"></i>{{_ 'instance_retrieve'}}</a></li>
-        </ul>
-    </div>
+	<div class="pull-right">
+		{{#if show_suggestion}}
+			<button type="button" class="btn btn-success btn-suggestion-toggle">批示<i class="fa fa-angle-double-down"></i></button>
+		{{/if}}
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				<span class="fa fa-ellipsis-h fa-1"></span>
+				<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li style={{enabled_save}}><a id="instance_update" data-placement="bottom"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
+				<li style={{enabled_delete}}><a id="instance_remove" data-placement="bottom"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
+				<li style={{enabled_print}}><a id="instance_to_print" data-placement="bottom"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
+				<li style={{enabled_cc}}><a id="instance_cc" data-placement="bottom"><i class=" fa fa-user-plus" aria-hidden="true"></i>{{_ 'instance_cc_title'}}</a></li>
+				<li style={{enabled_forward}}><a id="instance_forward" data-placement="bottom"><i class="fa fa-clone" aria-hidden="true"></i>{{_ 'instance_forward_title'}}</a></li>
+				<li style={{enabled_terminate}}><a id="instance_force_end" data-placement="bottom"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
+				<li style={{enabled_reassign}}><a id="instance_reassign" data-placement="bottom"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
+				<li style={{enabled_relocate}}><a id="instance_relocate" data-placement="bottom"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
+				<li style={{enabled_retrieve}}><a id="instance_retrieve" data-placement="bottom"><i class="fa fa-undo"></i>{{_ 'instance_retrieve'}}</a></li>
+			</ul>
+		</div>
+	</div>
 </template>
