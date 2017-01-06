@@ -26,6 +26,10 @@ Template.AdminLTE.onCreated(function () {
 
 });
 
+Template.AdminLTE.onRendered(function () {
+  Steedos.fixSideBarScroll()
+});
+
 Template.AdminLTE.onDestroyed(function () {
   this.removeClasses();
   // this.style.remove();
@@ -63,6 +67,9 @@ Template.AdminLTE.events({
         $("body").addClass('sidebar-open');
       }
     }
+
+    if (Steedos && Steedos.fixSideBarScroll) 
+      Steedos.fixSideBarScroll()
   },
 
   'click .content-wrapper': function (e, t) {
