@@ -50,17 +50,20 @@ if Meteor.isClient
 	Steedos.fixSideBarScroll = ()->
 		if Steedos.isMobile()
 			return
-		if !$("#scrollspy").perfectScrollbar
+		if !$(".sidebar").perfectScrollbar
 			return
+		console.log("fixSideBarScroll");
 		if $("body").hasClass("sidebar-collapse")
-			if $("#scrollspy").hasClass("ps-container")
-				$("#scrollspy").perfectScrollbar("destroy")
+			if $(".sidebar").hasClass("ps-container")
+				$(".sidebar").perfectScrollbar("destroy")
 		else if $("body").hasClass('sidebar-open')
-			unless $("#scrollspy").hasClass("ps-container")
-				$("#scrollspy").perfectScrollbar()
+			unless $(".sidebar").hasClass("ps-container")
+				$(".sidebar").perfectScrollbar()
+				$(".sidebar-menu").css("width", "100%");
 		else
-			unless $("#scrollspy").hasClass("ps-container")
-				$("#scrollspy").perfectScrollbar()
+			unless $(".sidebar").hasClass("ps-container")
+				$(".sidebar").perfectScrollbar()
+				$(".sidebar-menu").css("width", "100%");
 
 	# 根据当前路由路径前缀，得到当前所属app名字
 	Steedos.getAppNameFromRoutePath = (path)->

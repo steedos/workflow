@@ -87,3 +87,7 @@ Template.instancePrint.events
 
 	"click #font-minus": (event, template) ->
 		Template.instancePrint.minusFontSize $(".instance")
+
+Template.instancePrint.onRendered ->
+	if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
+		toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
