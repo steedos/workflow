@@ -177,11 +177,11 @@ Template.instance_suggestion.events
             Session.set("next_step_id",$("#nextSteps").val())
         
 
-    'change #suggestion': (event) ->
-        console.log("change #suggestion");
-        if ApproveManager.isReadOnly()
-            return ;
-        InstanceManager.checkSuggestion(); 
+    # 'change #suggestion': (event) ->
+    #     console.log("change #suggestion");
+    #     if ApproveManager.isReadOnly()
+    #         return ;
+    #     InstanceManager.checkSuggestion(); 
 
     'click #instance_flow_opinions': (event, template)->
         Session.set('flow_comment', $("#suggestion").val())
@@ -198,6 +198,13 @@ Template.instance_suggestion.events
         if($(".has-error").length == 0)
             InstanceManager.submitIns();
             Session.set("instance_change", false);
+        InstanceManager.fixInstanceTop()
+
+    'change input[name=judge]': (event)->
+        if $('input[name=judge]:checked').val() == "approved"
+            InstanceManager.checkSuggestion()
+        InstanceManager.fixInstanceTop()
+
 
 Template.instance_suggestion.onCreated ->
     console.log("instance_suggestion onCreated...");
