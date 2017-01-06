@@ -379,5 +379,6 @@
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "请填写取回的理由",
 	"Retrieved successfully": "取回成功!",
-	"Instance State retrieved": "已取回"
+	"Instance State retrieved": "已取回",
+    "instance_chrome_print_warning": "请使用Chrome浏览器进行打印"
 }
