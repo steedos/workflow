@@ -83,6 +83,6 @@ Template.instance_view.events
 
 		$(".ins-file-input").val('')
 
-	'click #instance_back': (event)->
+	'click .btn-instance-back': (event)->
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
 		FlowRouter.go(backURL)
