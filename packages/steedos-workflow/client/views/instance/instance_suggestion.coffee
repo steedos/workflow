@@ -22,10 +22,14 @@ Template.instance_suggestion.helpers
 
 	currentApprove: ->
 		instance = WorkflowManager.getInstance();
-		if InstanceManager.isCC(instance)
-			return InstanceManager.getCCApprove(Meteor.userId(), false);
-		return InstanceManager.getCurrentApprove();
 
+		approve = {}
+
+		if InstanceManager.isCC(instance)
+			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
+		approve = InstanceManager.getCurrentApprove();
+		Session.set("instance_my_approve_description", approve.description)
+		return approve
 	next_step_multiple: ->
 		Session.get("next_step_multiple")
 
@@ -167,7 +171,7 @@ Template.instance_suggestion.events
 			Session.set("next_step_id", $("#nextSteps").val())
 
 
-	'change #suggestion': (event) ->
+	'change #suggestion': (event, template) ->
 		console.log("change #suggestion");
 		if ApproveManager.isReadOnly()
 			return;
@@ -176,6 +180,9 @@ Template.instance_suggestion.events
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
 		Modal.show 'opinion_modal'
+
+	'input #suggestion': (event, template) ->
+		Session.set("instance_my_approve_description", $("#suggestion").val())
 
 Template.instance_suggestion.onCreated ->
 	console.log("instance_suggestion onCreated...");

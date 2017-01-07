@@ -41,6 +41,10 @@
                                     <td class="description" colspan="3">{{this.description}}</td>
                                 </tr>
                             {{/if}}
+                        {{else}}
+                            <tr class="approve-item">
+                                <td class="description" colspan="3">{{myApproveDescription this._id}}</td>
+                            </tr>
                         {{/if}}
                     {{/each}}
                 {{/each}}

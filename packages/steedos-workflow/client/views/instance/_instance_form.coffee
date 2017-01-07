@@ -127,6 +127,7 @@ InstanceformTemplate.helpers =
 					judge_name = TAPi18n.__("Instance State pending", {}, locale)
 
 				approves.push
+					_id: approve._id
 					handler: approve.user
 					handler_name: approve.handler_name
 					handler_organization_name: approve.handler_organization_name

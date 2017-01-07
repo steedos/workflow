@@ -24,6 +24,14 @@ Template.instanceSignText.helpers
 	formatDate: (date, options)->
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
+	isMyApprove: (approveId) ->
+		if InstanceManager.getCurrentApprove()
+			return true
+		return false
+
+	myApproveDescription: (approveId)->
+		return TracesTemplate.helpers.myApproveDescription(approveId)
+
 Template.instanceSignText.events
 	'click .instance-sign-text-btn': (event, template)->
 		debugger;
