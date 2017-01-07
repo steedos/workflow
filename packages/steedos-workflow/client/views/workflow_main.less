@@ -112,6 +112,9 @@
 			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
 			border: solid 1px green;
 			outline: none!important;
+			-webkit-animation: bs linear 2s 1.5s infinite;
+			-moz-animation: bs linear 2s 1.5s infinite;
+			animation: bs linear 3s 1.5s infinite;
 		}
 		.instance-suggestion {
 			position:absolute;
@@ -204,18 +207,18 @@
 			border-radius: 0 5px 5px 0;
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 			background-color: #fff;
-		}   
+		}
 	}
 	.workflow-main.instance-show {
 		.instance-list-wrapper {
 			right: 65%;
 			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
-		}   
+		}
 		.instance-wrapper {
 			width: 65%;
 			left: 35%;
 			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
-		}   
+		}
 	}
 }
 
@@ -232,7 +235,7 @@
 			left: 100%;
 			width: 100%;
 			transition: 0.3s ease-in-out;
-		}   
+		}
 	}
 	.workflow-main.instance-show {
 		.instance-list-wrapper {
@@ -240,7 +243,7 @@
 			left: -100%;
 			width: 100%;
 			transition: 0.3s ease-in-out;
-		}   
+		}
 		.instance-wrapper {
 			left: 0;
 			width: 100%;
@@ -258,3 +261,63 @@
 	top: 52px;
 	right: 12px;
 }
+
+
+@-webkit-keyframes bs {
+	0% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+
+	50% {
+		background-color: #00a65a; box-shadow: 0 0 18px #00a65a;
+		color: #ddd;
+	}
+
+	100% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+}
+@-moz-keyframes bs {
+	0% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+
+	50% {
+		background-color: #00a65a; box-shadow: 0 0 18px #00a65a;
+		color: #ddd;
+	}
+
+	100% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+}
+@-o-keyframes bs {
+	0% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+
+	50% {
+		background-color: #00a65a; box-shadow: 0 0 18px #00a65a;
+		color: #ddd;
+	}
+
+	100% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+}
+@keyframes bs {
+	0% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+
+	50% {
+		background-color: #00a65a; box-shadow: 0 0 18px #00a65a;
+		color: #ddd;
+	}
+
+	100% {
+		background-color: #749a02; box-shadow: 0 0 9px #333;
+	}
+}
+
+
