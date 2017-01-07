@@ -82,7 +82,7 @@ Template.instance_list.helpers
 			return "display: none;";
 
 	is_display_search_tip: ->
-		if Session.get('instance_more_search_selector') or Session.get('instance_search_val')
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
 			return ""
 		return "display: none;"
 
