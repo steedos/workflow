@@ -7,7 +7,7 @@
 						$(".instance-list").perfectScrollbar("update")
 			createdRow: ( row, data, dataIndex ) ->
 				if Meteor.isClient
-					if data._id == Session.get("instanceId")
+					if data._id == FlowRouter.current().params.instanceId
 						row.setAttribute("class", "selected")
 			columns: [
 				{
