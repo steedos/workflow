@@ -10,13 +10,13 @@ AdminDashboard =
 		Session.set 'adminError', message
 
 	checkAdmin: ->
-		#if not Roles.userIsInRole Meteor.userId(), ['admin']
-		#	Meteor.call 'adminCheckAdmin'
-		#	if (typeof AdminConfig?.nonAdminRedirectRoute == "string")
-		#	  Router.go AdminConfig.nonAdminRedirectRoute
+#if not Roles.userIsInRole Meteor.userId(), ['admin']
+#	Meteor.call 'adminCheckAdmin'
+#	if (typeof AdminConfig?.nonAdminRedirectRoute == "string")
+#	  Router.go AdminConfig.nonAdminRedirectRoute
 		if typeof @.next == 'function'
 			@next()
-	adminRoutes: ['adminDashboard','adminDashboardView','adminDashboardNew','adminDashboardEdit']
+	adminRoutes: ['adminDashboard', 'adminDashboardView', 'adminDashboardNew', 'adminDashboardEdit']
 	collectionLabel: (collection)->
 		if collection == 'Users'
 			'Users'
@@ -59,11 +59,11 @@ if Meteor.isClient
 		Session.set('admin_collection_name', collectionName);
 		Modal.show("AdminDashboardNewModal", doc)
 
-		$(".admin-dashboard-body").css("max-height", ($(window).height() - 30*2 - 56) + "px");
+		$(".admin-dashboard-body").css("max-height", ($(window).height() - 30 * 2 - 56) + "px");
 
 		$('#admin_new').on('hidden.bs.modal', (e) ->
 			if callback
-		    	callback()
+				callback()
 		)
 
 	AdminDashboard.modalEdit = (collectionName, id, callback) ->
@@ -75,14 +75,14 @@ if Meteor.isClient
 		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
 			Modal.show("AdminDashboardEditModal")
 
-			$(".admin-dashboard-body").css("max-height", ($(window).height() - 30*2 - 56) + "px");
+			$(".admin-dashboard-body").css("max-height", ($(window).height() - 30 * 2 - 56) + "px");
 
 			$('#admin_edit').on('hidden.bs.modal', (e) ->
 				if callback
-			    	callback()
+					callback()
 			)
 
-	AdminDashboard.modalDelete = (collectionName, id, callback) -> 
+	AdminDashboard.modalDelete = (collectionName, id, callback) ->
 		swal
 			title: TAPi18n.__("flow_db_admin_confirm_delete"),
 			text: TAPi18n.__("flow_db_admin_confirm_delete_document"),
@@ -94,13 +94,13 @@ if Meteor.isClient
 			closeOnConfirm: false,
 			html: false
 		, ()->
-			Meteor.call 'adminRemoveDoc', collectionName, id, (error,r)->
+			Meteor.call 'adminRemoveDoc', collectionName, id, (error, r)->
 				if error
 					if error.reason
 						toastr.error TAPi18n.__ error.reason
-					else 
+					else
 						toastr.error error
-				else 
+				else
 					swal(TAPi18n.__("Delete"),
 						TAPi18n.__("flow_db_admin_successfully_deleted"),
 						"success");
