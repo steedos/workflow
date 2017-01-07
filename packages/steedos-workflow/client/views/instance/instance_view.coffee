@@ -65,15 +65,20 @@ Template.instance_view.helpers
 			else if (ins.final_decision == "rejected")
 				return "box-danger"
 	show: ->
-		if !Session.get("instance_loading")
-			if Session.get("box") == "inbox"
-				if InstanceManager.isInbox()
-					return true
+		if Steedos.instanceSpace.ready() && Steedos.flowSpace.ready() && Steedos.formSpace.ready()
+			debugger;
+			Session.set("instance_loading", false);
+			instance = WorkflowManager.getInstance()
+			if instance
+				if Session.get("box") == "inbox"
+					if InstanceManager.isInbox()
+						return true
+					else
+						FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 				else
-					toastr.info("审批单已处理")
-					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
-			else
-				return true
+					return true
+			else # 订阅完成 instance 不存在，则认为instance 已经被删除
+				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 		return false
 
 Template.instance_view.onRendered ->

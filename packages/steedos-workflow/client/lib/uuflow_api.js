@@ -35,7 +35,11 @@ UUflow_api.post_draft = function (flowId) {
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/draft/" + responseText.inserts[0]);
+			var instance = responseText.inserts[0]
+
+            Steedos.subscribeInstance(instance)  //创建成功后，立即订阅新建的instance
+
+			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/draft/" + instance._id);
 
 			toastr.success(TAPi18n.__('Added successfully'));
 		},
