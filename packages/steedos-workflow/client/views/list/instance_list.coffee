@@ -21,7 +21,7 @@ Template.instance_list.helpers
 		if box == "inbox"
 			query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
 			query.state = {$in: ["pending", "completed"]}
-# query.inbox_users = Meteor.userId()
+			# query.inbox_users = Meteor.userId()
 		else if box == "outbox"
 			query.outbox_users = Meteor.userId()
 		else if box == "draft"
@@ -82,7 +82,7 @@ Template.instance_list.helpers
 			return "display: none;";
 
 	is_display_search_tip: ->
-		if Session.get('instance_more_search_selector')
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val')
 			return ""
 		return "display: none;"
 
@@ -108,8 +108,8 @@ Template.instance_list.onCreated ->
 		self.maxHeight?.set($(window).height() - 55);
 
 Template.instance_list.onRendered ->
-#dataTable = $(".datatable-instances").DataTable();
-#dataTable.select();
+	#dataTable = $(".datatable-instances").DataTable();
+	#dataTable.select();
 	node = $(".workflow-menu");
 	node.maxHeight?.set($(window).height() - 55);
 	$('[data-toggle="tooltip"]').tooltip()
@@ -146,12 +146,13 @@ Template.instance_list.events
 		dataTable.search(
 			$('#instance_search').val(),
 		).draw();
+		Session.set('instance_search_val', $('#instance_search').val())
 
 	'click [name="show_all_ins"]': (event) ->
 		Session.set("flowId", undefined);
 
 	'click [name="create_ins_btn"]': (event) ->
-#判断是否为欠费工作区
+		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
@@ -167,3 +168,5 @@ Template.instance_list.events
 	'click #instance_search_tip_close_btn': (event, template) ->
 		Session.set("instance_more_search_selector", undefined)
 		Session.set("flowId", undefined)
+		#清空搜索框
+		$('#instance_search').val("").trigger('keyup')

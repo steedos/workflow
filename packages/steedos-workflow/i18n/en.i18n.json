@@ -195,12 +195,13 @@
 
 	"instance_search_advanced_search": "Advanced search",
 	"instance_search_flow": "Flow",
-	"isntance_search_name": "Instance Name",
+	"instance_search_name": "Instance Name",
 	"instance_search_applicant_name": "Applicant Name",
 	"instance_search_applicant_organization_name": "Applicant Organization Name",
 	"instance_search_submit_date": "Submit Date",
 	"instance_search_start": "Start",
 	"instance_search_end": "End",
+	"instance_search_result_tip": "Search Result",
 
 	"instance": {
 		"formatter": {
