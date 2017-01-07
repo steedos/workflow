@@ -96,22 +96,9 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 		Session.set("next_step_multiple", null);
 		Session.set("next_user_multiple", null);
 		Session.set("box", params.box);
-		console.log "call get_instance_data"
 
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
-
-#		WorkflowManager.callInstanceDataMethod params.instanceId, ()->
-#			console.log "response get_instance_data"
-#
-#			Session.set("judge", null);
-#			Session.set("next_step_id", null);
-#			Session.set("next_step_multiple", null);
-#			Session.set("next_user_multiple", null);
-#			Session.set("instanceId", params.instanceId);
-#			Session.set("box", params.box);
-#			Session.set("instance_change", false);
-#			Session.set("instance_loading", false);
 
 	triggersExit: [(context, redirect) ->
 #		ins发生变化 并且 是传阅  || ins发生变化 并且 表单不是只读

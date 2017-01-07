@@ -1,9 +1,5 @@
 WorkflowManager = {
-	formVersionsCache: {},
-	flowVersionsCache: {},
-	instanceCache: null,
-	instanceModified: new ReactiveVar(false),
-    localInstances: new Mongo.Collection()
+	instanceModified: new ReactiveVar(false)
 };
 
 if (Meteor.isClient) {
@@ -93,60 +89,8 @@ WorkflowManager.getSpaceRoles = function (spaceId) {
 	return roles;
 };
 
-WorkflowManager.callInstanceDataMethod = function (instanceId, callback) {
-	if (!instanceId)
-		return;
-
-	instance = db.instances.findOne(instanceId);
-	formCached = false
-	flowCached = false
-
-	if (instance) {
-		if (WorkflowManager.formVersionsCache[instance.form_version])
-			formCached = true;
-		if (WorkflowManager.flowVersionsCache[instance.flow_version])
-			flowCached = true;
-	}
-
-	Meteor.call("get_instance_data", instanceId, formCached, flowCached, function (error, result) {
-		if (error) {
-			console.error(error.message);
-			toastr.error(error.message);
-			return;
-		}
-
-		if (!result.instance) {
-			// 服务端 instance 还没保存好。
-			setTimeout(function () {
-				WorkflowManager.callInstanceDataMethod(instanceId, callback);
-			}, 300);
-			return;
-		}
-		delete WorkflowManager["instanceCache"]
-		WorkflowManager.instanceCache = result.instance;
-        if(WorkflowManager.localInstances.findOne({_id: result.instance._id})){
-            WorkflowManager.localInstances.update(result.instance._id, result.instance)
-        }else{
-            WorkflowManager.localInstances.insert(result.instance)
-        }
-		WorkflowManager.instanceModified.set(false);
-		if (result.form_version) {
-			console.log("get form version " + result.form_version._id)
-			WorkflowManager.formVersionsCache[result.form_version._id] = result.form_version
-		}
-		if (result.flow_version) {
-			console.log("get flow version " + result.flow_version._id)
-			WorkflowManager.flowVersionsCache[result.flow_version._id] = result.flow_version
-		}
-
-		callback();
-
-	});
-}
-
 WorkflowManager.getInstance = function () {
     return db.instances.findOne({_id: Session.get("instanceId")})
-	// return WorkflowManager.instanceCache
 };
 
 
@@ -162,8 +106,6 @@ WorkflowManager.getInstanceFormVersion = function () {
             rev =  _.clone(form.current)
         else
             rev =  _.clone(form.historys.findPropertyByPK("_id", instance.form_version))
-
-		// rev = EJSON.clone(WorkflowManager.formVersionsCache[instance.form_version])
 
 		field_permission = WorkflowManager.getInstanceFieldPermission();
 		rev.fields.forEach(
@@ -210,8 +152,6 @@ WorkflowManager.getInstanceFlowVersion = function () {
             return _.clone(flow.current)
         else
             return _.clone(flow.historys.findPropertyByPK("_id", instance.flow_version))
-
-		// return EJSON.clone(WorkflowManager.flowVersionsCache[instance.flow_version])
 	}
 };
 

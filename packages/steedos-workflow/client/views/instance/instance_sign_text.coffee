@@ -34,5 +34,4 @@ Template.instanceSignText.helpers
 
 Template.instanceSignText.events
 	'click .instance-sign-text-btn': (event, template)->
-		debugger;
 		console.log("click .instance-sign-text-btn");

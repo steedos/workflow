@@ -66,7 +66,6 @@ Template.instance_view.helpers
 				return "box-danger"
 	show: ->
 		if Steedos.instanceSpace.ready() && Steedos.flowSpace.ready() && Steedos.formSpace.ready()
-			debugger;
 			Session.set("instance_loading", false);
 			instance = WorkflowManager.getInstance()
 			if instance
