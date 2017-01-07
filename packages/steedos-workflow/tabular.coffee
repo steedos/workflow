@@ -6,8 +6,9 @@
 					$(".instance-list").scrollTop(0).ready ->
 						$(".instance-list").perfectScrollbar("update")
 			createdRow: ( row, data, dataIndex ) ->
-				if data._id == Session.get("instanceId")
-					row.setAttribute("class", "selected")
+				if Meteor.isClient
+					if data._id == Session.get("instanceId")
+						row.setAttribute("class", "selected")
 			columns: [
 				{
 					data: "name", 
