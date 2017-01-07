@@ -14,7 +14,7 @@ adminDelButton = {
 	data: '_id'
 	title: ''
 	createdCell: (node, cellData, rowData) ->
-	 $(node).html(Blaze.toHTMLWithData Template.adminDeleteBtn, {_id: cellData}, node)
+		$(node).html(Blaze.toHTMLWithData Template.adminDeleteBtn, {_id: cellData}, node)
 	width: '40px'
 	orderable: false
 }
@@ -25,8 +25,8 @@ adminEditDelButtons = [
 ]
 
 defaultColumns = () -> [
-  data: '_id',
-  title: 'ID'
+	data: '_id',
+	title: 'ID'
 ]
 
 
@@ -65,7 +65,7 @@ adminCreateTables = (collections) ->
 			sub: collection.sub
 			columns: columns
 			extraFields: collection.extraFields
-			#dom: adminTablesDom
+#dom: adminTablesDom
 			selector: collection.selector
 			pageLength: collection.pageLength
 			lengthChange: false

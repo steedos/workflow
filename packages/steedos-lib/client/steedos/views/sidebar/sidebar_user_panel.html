@@ -4,19 +4,8 @@
 			<div class="img-circle {{noneUploadedPicture}}" style="background-image: url({{avatarURL avatar}});"></div>
 		</div>
 		<div class="pull-left info dropdown-toggle" data-toggle="dropdown">
-			<p>{{spaceName}}</p>
-			<a href="#"><i class="ion-record text-success"></i> {{displayName}}</a>
+			<p>{{displayName}}</p>
+			<a href="#"><i class="ion-record text-success"></i> {{_ "Online"}}</a>
 		</div>
-	    <ul class="nav dropdown-menu dropdown-space">
-	      {{#each spaces}}
-	        <li class="switchSpace">
-	          <a>
-	            <i class="fa fa-globe"></i>
-	            <span>{{name}}</span>
-	            <span class="pull-right-container"><span class="pull-right label bg-red">{{getBadge "workflow" _id}}</span></span>
-	          </a>
-	        </li>
-	      {{/each}}
-	    </ul>
 	</div>
 </template>

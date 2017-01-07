@@ -4,7 +4,7 @@ Template.steedos_contacts_org_user_list.helpers
             return true
         return false;
     selector: ->
-        query = {space: Session.get("spaceId"), user_accepted: true};
+        query = {space: Session.get("spaceId")};
         orgId = Session.get("contacts_orgId");
         query.organizations = {$in: [orgId]};
         return query;

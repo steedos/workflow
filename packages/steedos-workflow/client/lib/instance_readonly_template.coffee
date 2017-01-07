@@ -217,7 +217,7 @@ _getTemplateData = (user, space, instance)->
 	steedosData = {}
 
 	if Meteor.isClient
-		steedosData = WorkflowManager_format.getAutoformSchemaValues()
+		steedosData = _.clone(WorkflowManager_format.getAutoformSchemaValues())
 		steedosData.insname = instance.name
 		steedosData.ins_state = instance.state
 		steedosData.ins_final_decision = instance.ins_final_decision

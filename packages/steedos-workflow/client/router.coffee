@@ -69,7 +69,7 @@ workflowSpaceRoutes.route '/:box/',
 		Steedos.setSpaceId(params.spaceId)
 
 		Session.set("box", params.box);
-		Session.set("flowId", undefined);
+#		Session.set("flowId", undefined);
 		Session.set("instanceId", null);
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"

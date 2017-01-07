@@ -4,6 +4,7 @@
 	"mail_drafts": "Drafts",
 	"mail_junk": "Junk",
 	"mail_trash": "Trash",
+	"mail_check_all": "Check All",
 	"mail_delete": "Delete",
 	"mail_refresh": "Refresh",
 	"mail_page_forward": "Forward",
