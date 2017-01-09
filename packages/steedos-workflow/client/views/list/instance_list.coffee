@@ -97,6 +97,10 @@ Template.instance_list.helpers
 
 		return false;
 
+	hasApproves: ->
+		if InstanceManager.getUserInboxInstances().length > 0 && Session.get("box") == "inbox"
+			return true
+		return false
 
 Template.instance_list.onCreated ->
 	self = this;
