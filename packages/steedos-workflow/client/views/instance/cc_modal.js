@@ -71,9 +71,6 @@ Template.instance_cc_modal.events({
                 toastr.success(t("instance_cc_done"));
 
                 Modal.hide(template);
-                WorkflowManager.callInstanceDataMethod(Session.get('instanceId'), function() {
-                    Session.set("change_date", new Date().getTime())
-                });
             }
         });
 

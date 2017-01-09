@@ -42,24 +42,17 @@ workflowSpaceRoutes.route '/',
 workflowSpaceRoutes.route '/print/:instanceId',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
-		Session.set("instanceId", null);
-		Session.set("instance_loading", true);
-
-		console.log "call get_instance_data"
+		Session.set('instancePrint', true);
+		Session.set("judge", null);
+		Session.set("next_step_id", null);
+		Session.set("next_step_multiple", null);
+		Session.set("next_user_multiple", null);
+		Session.set("instanceId", params.instanceId);
+		Session.set("box", queryParams.box);
+		Session.set("instance_change", false);
 
 		BlazeLayout.render 'printLayout',
 			main: "instancePrint"
-		WorkflowManager.callInstanceDataMethod params.instanceId, ()->
-			console.log "response get_instance_data"
-			Session.set('instancePrint', true);
-			Session.set("judge", null);
-			Session.set("next_step_id", null);
-			Session.set("next_step_multiple", null);
-			Session.set("next_user_multiple", null);
-			Session.set("instanceId", params.instanceId);
-			Session.set("box", queryParams.box);
-			Session.set("instance_change", false);
-			Session.set("instance_loading", false);
 	triggersExit: [(context, redirect) ->
 		Session.set('instancePrint', undefined);
 	]
