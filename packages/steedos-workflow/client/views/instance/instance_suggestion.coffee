@@ -14,6 +14,12 @@ Template.instance_suggestion.helpers
 			else if (judge == "rejected")
 				return "box-danger"
 
+	show_toggle_button: ->
+		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
+		if isShow
+			isShow = WorkflowManager.getInstance().state != "draft"
+		return isShow
+
 	show_suggestion: ->
 		return !ApproveManager.isReadOnly() || InstanceManager.isInbox();
 
@@ -155,6 +161,35 @@ Template.instance_suggestion.helpers
 		instance = WorkflowManager.getInstance();
 		return InstanceManager.isCC(instance);
 
+	enabled_submit: ->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return "display: none;";
+		flow = db.flows.findOne(ins.flow);
+		if !flow
+			return "display: none;";
+		if InstanceManager.isInbox()
+			return "";
+		if !ApproveManager.isReadOnly()
+			return "";
+		else
+			return "display: none;";
+
+	enabled_save: ->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return "display: none;";
+		flow = db.flows.findOne(ins.flow);
+		if !flow
+			return "display: none;";
+
+		if InstanceManager.isInbox()
+			return "";
+
+		if !ApproveManager.isReadOnly()
+			return "";
+		else
+			return "display: none;";
 
 Template.instance_suggestion.events
 
@@ -187,6 +222,32 @@ Template.instance_suggestion.events
 
 	'input #suggestion': (event, template) ->
 		Session.set("instance_my_approve_description", $("#suggestion").val())
+
+	'click #instance_submit': (event)->
+		if WorkflowManager.isArrearageSpace()
+			ins = WorkflowManager.getInstance();
+			if ins.state == "draft"
+				toastr.error(t("spaces_isarrearageSpace"));
+				return
+		if !ApproveManager.isReadOnly()
+			InstanceManager.checkFormValue();
+		if($(".has-error").length == 0)
+			Session.set("instance_change", false);
+			InstanceManager.submitIns();
+		InstanceManager.fixInstancePosition()
+
+	'change input[name=judge]': (event)->
+		if $('input[name=judge]:checked').val() == "approved"
+			InstanceManager.checkSuggestion()
+		InstanceManager.fixInstancePosition()
+
+	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
+		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
+		InstanceManager.fixInstancePosition()
+
+	'click .btn-instance-update': (event)->
+		InstanceManager.saveIns();
+		Session.set("instance_change", false);
 
 Template.instance_suggestion.onCreated ->
 	console.log("instance_suggestion onCreated...");

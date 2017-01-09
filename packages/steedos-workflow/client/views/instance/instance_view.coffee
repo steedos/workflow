@@ -84,12 +84,20 @@ Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile()
-		$(".instance").perfectScrollbar();
+		$('.instance').perfectScrollbar().on 'ps-y-reach-end', ->
+			unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
+				$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
+				InstanceManager.fixInstancePosition(true)
 
 Template.instance_view.events
 	'change .instance .form-control,.instance .suggestion-control,.instance .checkbox input,.instance .af-radio-group input,.instance .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);
+
 	'change .ins-file-input': (event, template)->
 		InstanceManager.uploadAttach(event.target.files, false)
 
 		$(".ins-file-input").val('')
+
+	'click .btn-instance-back': (event)->
+		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
+		FlowRouter.go(backURL)
