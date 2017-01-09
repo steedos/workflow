@@ -84,10 +84,12 @@ Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile()
-		$('.instance').perfectScrollbar().on 'ps-y-reach-end', ->
-			unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
-				$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-				InstanceManager.fixInstancePosition(true)
+		$('.instance').perfectScrollbar()
+		if Session.get("box") == "inbox"
+			$('.instance').on 'ps-y-reach-end', ->
+				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
+					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
+					InstanceManager.fixInstancePosition(true)
 
 Template.instance_view.events
 	'change .instance .form-control,.instance .suggestion-control,.instance .checkbox input,.instance .af-radio-group input,.instance .af-checkbox-group input': (event, template) ->

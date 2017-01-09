@@ -127,15 +127,14 @@ Template.instance_list.events
 		box = Session.get("box");
 		spaceId = Session.get("spaceId");
 
-		if row.hasClass('selected')
-			row.removeClass('selected');
-			FlowRouter.go("/workflow/space/" + spaceId + "/" + box);
+		# if row.hasClass('selected')
+		# 	row.removeClass('selected');
+		# 	FlowRouter.go("/workflow/space/" + spaceId + "/" + box);
 
-		else
-			dataTable.$('tr.selected').removeClass('selected');
-			row.addClass('selected');
-			FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
-
+		# else
+		dataTable.$('tr.selected').removeClass('selected');
+		row.addClass('selected');
+		FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
 
 
 	'click .dropdown-menu li a': (event) ->
