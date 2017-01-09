@@ -44,15 +44,15 @@ InstanceManager.getNextStepOptions = function() {
 	var autoFormDoc = {};
 	if (AutoForm.getFormValues("instanceform")) {
 		autoFormDoc = AutoForm.getFormValues("instanceform").insertDoc;
-	} else if (Session.get("form_values")) {
-		autoFormDoc = Session.get("form_values")
+	} else if (Session.get("instance_form_values")) {
+		autoFormDoc = Session.get("instance_form_values").values
 	}
 
 	var nextSteps = ApproveManager.getNextSteps(instance, currentStep, judge, autoFormDoc, form_version.fields);
 
 	var next_step_options = []
 	if (nextSteps && nextSteps.length > 0) {
-		var next_step_id = Session.get("next_step_id");
+		var next_step_id = "";
 		var next_step_type = null;
 		nextSteps.forEach(function(step) {
 			var option = {
@@ -60,7 +60,7 @@ InstanceManager.getNextStepOptions = function() {
 				text: step.name,
 				type: step.step_type
 			}
-			if (!next_step_id && current_next_steps && current_next_steps.length > 0) {
+			if (current_next_steps && current_next_steps.length > 0) {
 				if (current_next_steps[0].step == step.id) {
 					next_step_id = step.id
 				}
@@ -76,7 +76,7 @@ InstanceManager.getNextStepOptions = function() {
 
 		} else {
 
-			if (!next_step_id && Session.get("judge") == 'rejected') {
+			if (Session.get("judge") == 'rejected') {
 				start_option = next_step_options.findPropertyByPK("type", "start");
 				next_step_id = start_option.id
 			} else if (Session.get("judge") != 'rejected') {
