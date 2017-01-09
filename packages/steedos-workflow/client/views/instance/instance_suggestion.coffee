@@ -45,7 +45,7 @@ Template.instance_suggestion.helpers
 	next_step_options: ->
 		ins_applicant = Session.get("ins_applicant");
 		instance_form_values = Session.get("instance_form_values")
-		if instance_form_values.instanceId == Session.get("instanceId")
+		if instance_form_values?.instanceId == Session.get("instanceId")
 			return InstanceManager.getNextStepOptions();
 
 #next_user_options: ->
@@ -54,7 +54,7 @@ Template.instance_suggestion.helpers
 
 	next_user_context: ->
 		instance_form_values = Session.get("instance_form_values")
-		if instance_form_values.instanceId != Session.get("instanceId")
+		if instance_form_values?.instanceId != Session.get("instanceId")
 			return {}
 		console.log("next_user_context run ...");
 
