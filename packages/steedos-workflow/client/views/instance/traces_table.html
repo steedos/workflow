@@ -26,9 +26,11 @@
                                         </tr>
                                         {{/if}}
                                     {{else}}
-                                        <tr class="approve-item description">
-                                            <td class="description" colspan="3">{{myApproveDescription this._id}}</td>
-                                        </tr>
+                                        {{#if (unempty (myApproveDescription this._id))}}
+                                            <tr class="approve-item description">
+                                                <td class="description" colspan="3">{{myApproveDescription this._id}}</td>
+                                            </tr>
+                                        {{/if}}
                                     {{/if}}
 
                                     <tr class="approve-item">
