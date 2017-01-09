@@ -642,8 +642,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 			return approve._id is approve_id
 		)
 		outbox_users = instance.outbox_users
-		outbox_users = outbox_users.unshift(trace_approve.handler)
-		outbox_users = outbox_users.unshift(trace_approve.user)
+		outbox_users.unshift(trace_approve.handler)
+		outbox_users.unshift(trace_approve.user)
 		setObj.outbox_users = _.uniq(outbox_users)
 
 		instance_traces.push(newTrace)
