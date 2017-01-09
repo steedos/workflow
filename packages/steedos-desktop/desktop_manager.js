@@ -22,6 +22,12 @@ if (Steedos.isNode()){
 		}
 	});
 
+	// App 再次打开是显示GlobalWin
+	nw.App.on("open",function(args){
+		globalWin.show();
+		globalWin.focus();
+	}); 
+
 	// 客户端最小化后任务栏有图标
 	var desktopTitle = process.cwd().split("\\")[2];
 

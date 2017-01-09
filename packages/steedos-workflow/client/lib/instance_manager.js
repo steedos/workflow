@@ -1113,7 +1113,7 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 		}
 
 		if (result) {
-            toastr.success(TAPi18n.__("forward_instance_success"));
+			toastr.success(TAPi18n.__("forward_instance_success"));
 			FlowRouter.go("/workflow/space/" + space_id + "/draft/" + result);
 		}
 
@@ -1134,9 +1134,25 @@ InstanceManager.getUserInboxInstances = function() {
 
 // 取回申请单
 InstanceManager.retrieveIns = function(reason) {
-    var instance = WorkflowManager.getInstance();
-    if (instance) {
-        instance.retrieve_comment = reason;
-        UUflow_api.post_retrieve(instance);
-    }
+	var instance = WorkflowManager.getInstance();
+	if (instance) {
+		instance.retrieve_comment = reason;
+		UUflow_api.post_retrieve(instance);
+	}
 }
+
+InstanceManager.fixInstancePosition = function(isNeedToScrollTop){
+	if($(".instance-wrapper .instance-view").hasClass("suggestion-active")){
+		var suggestionBoxH = $(".instance-wrapper .instance-suggestion").height();
+		$(".instance-wrapper .instance").css("bottom",suggestionBoxH + 4);
+	}
+	else{
+		$(".instance-wrapper .instance").css("bottom",0);
+	}
+	if(isNeedToScrollTop){
+		setTimeout(function(){
+			$('.instance').scrollTop($('.instance .instance-form').height() + $('.instance-traces').height());
+		},1);
+	}
+}
+

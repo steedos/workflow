@@ -65,6 +65,9 @@ AT.prototype.atInputHelpers = {
             return T9n.get(placeholder, markIfMissing=false);
         }
     },
+    isPassword: function(){
+        return (this.type == "password")
+    }
 };
 
 AT.prototype.atInputEvents = {

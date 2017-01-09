@@ -1,27 +1,38 @@
 <template name="instance_view">
-    {{> instance_button}}
-    <div class="instance {{instanceStyle instance.flow}}">
-        {{> instance_suggestion}}
-        <div class="instance-form box {{instance_box_style }}">
-            <div class="box-body">
-                <div class="col-md-12">
+    <div class="navigation-bar">
+        <button type="button" class="btn btn-default btn-instance-back hidden" data-toggle="tooltip" data-placement="bottom" title="返回"><i class="ion ion-chevron-left"></i></button>
+        <span class="navigation-title">{{instance.name}}</span>
+        <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
+        {{> instance_button}}
+    </div>
+    <div class="instance-view">
+        {{#if unequals 'draft' instance.state}}
+            {{> instance_suggestion}}
+        {{/if}}
+        <div class="instance {{instanceStyle instance.flow}}">
+            <div class="instance-form box {{instance_box_style }}">
+                <div class="box-body">
+                    <div class="col-md-12">
 
-                    {{#if isIReadable}}
-                        {{{readOnlyView}}}
-                    {{else}}
-                        {{#if isTableView}}
-                            {{> instanceform_table}}
+                        {{#if isIReadable}}
+                            {{{readOnlyView}}}
                         {{else}}
-                            {{> instanceform}}
+                            {{#if isTableView}}
+                                {{> instanceform_table}}
+                            {{else}}
+                                {{> instanceform}}
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
 
-                    {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                    </div>
                 </div>
             </div>
+            {{#if unequals 'draft' instance.state}}
+                {{> Template.dynamic template=(tracesTemplateName instance.flow) data=instance.traces}}
+            {{else}}
+                {{> instance_suggestion}}
+            {{/if}}
         </div>
-        {{#if unequals 'draft' instance.state}}
-            {{> Template.dynamic template=(tracesTemplateName instance.flow) data=instance.traces}}
-        {{/if}}
     </div>
 </template>
