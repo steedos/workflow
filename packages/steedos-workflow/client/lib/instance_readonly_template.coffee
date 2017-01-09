@@ -57,6 +57,9 @@ InstanceReadOnlyTemplate.imageSign = """
 	<img src="{{imageURL user}}" class="image-sign" />
 """
 
+InstanceReadOnlyTemplate.instanceSignText = ""
+
+
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 	template = InstanceReadOnlyTemplate[tempalteName]
 
@@ -74,6 +77,7 @@ InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("imageSign", steedosData);
+		InstanceReadOnlyTemplate.create("instanceSignText", {});
 		InstanceReadOnlyTemplate.create("instance_attachment", {});
 
 
