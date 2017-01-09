@@ -5,6 +5,10 @@
 				if !Steedos.isMobile()
 					$(".instance-list").scrollTop(0).ready ->
 						$(".instance-list").perfectScrollbar("update")
+			createdRow: ( row, data, dataIndex ) ->
+				if Meteor.isClient
+					if data._id == FlowRouter.current().params.instanceId
+						row.setAttribute("class", "selected")
 			columns: [
 				{
 					data: "name", 

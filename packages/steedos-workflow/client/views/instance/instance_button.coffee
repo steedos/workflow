@@ -170,6 +170,21 @@ Template.instance_button.events
 			Session.set("instance_change", false);
 			InstanceManager.deleteIns()
 
+# <<<<<<< HEAD
+# =======
+# 	'click #instance_submit': (event)->
+# 		if WorkflowManager.isArrearageSpace()
+# 			ins = WorkflowManager.getInstance();
+# 			if ins.state == "draft"
+# 				toastr.error(t("spaces_isarrearageSpace"));
+# 				return
+# 		if !ApproveManager.isReadOnly()
+# 			InstanceManager.checkFormValue();
+# 		if($(".has-error").length == 0)
+# 			Session.set("instance_change", false);
+# 			InstanceManager.submitIns();
+
+# >>>>>>> refs/remotes/origin/master
 	'click #instance_force_end': (event)->
 		swal {
 			title: t("instance_cancel_title"),

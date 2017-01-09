@@ -197,12 +197,13 @@
 
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
-	"isntance_search_name": "申请单标题",
+	"instance_search_name": "申请单标题",
 	"instance_search_applicant_name": "申请人姓名",
 	"instance_search_applicant_organization_name": "申请人所属部门名称",
 	"instance_search_submit_date": "提交日期",
 	"instance_search_start": "起",
 	"instance_search_end": "至",
+	"instance_search_result_tip": "搜索的结果",
 
 	"instance": {
 		"formatter": {
@@ -379,5 +380,6 @@
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "请填写取回的理由",
 	"Retrieved successfully": "取回成功!",
-	"Instance State retrieved": "已取回"
+	"Instance State retrieved": "已取回",
+    "instance_chrome_print_warning": "请使用Chrome浏览器进行打印"
 }

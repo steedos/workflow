@@ -15,6 +15,7 @@ Template.masterLayout.onRendered ->
 	$('body').removeClass('fixed');
 
 
+
 Template.masterLayout.helpers 
 	# minHeight: ->
 	# 	return Template.instance().minHeight.get() + 'px'
@@ -27,8 +28,3 @@ Template.masterLayout.events
 		NavigationController.back(); 
 
 
-$('body').on 'click', ->
-	Steedos.fixSideBarScroll()
-
-$(window).resize ->
-	Steedos.fixSideBarScroll()

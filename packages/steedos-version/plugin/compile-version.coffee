@@ -1,5 +1,7 @@
 exec = Npm.require('child_process').exec
 os = Npm.require('os')
+Future = Npm.require('fibers/future')
+async = Npm.require('async')
 
 Plugin.registerCompiler
 	extensions: ['info']
@@ -8,7 +10,11 @@ Plugin.registerCompiler
 
 class VersionCompiler
 	processFilesForTarget: (files) ->
-		files.forEach (file) ->
+		future = new Future
+
+		processFile = (file, cb) ->
+			return cb() if not file.getDisplayPath().match /steedos\.info$/
+
 			output = JSON.parse file.getContentsAsString()
 			output.build =
 				date: new Date().toISOString()
@@ -16,8 +22,8 @@ class VersionCompiler
 				arch: process.arch
 				platform: process.platform
 				osRelease: os.release()
-				totalMemmory: os.totalmem()
-				freeMemmory: os.freemem()
+				totalMemory: os.totalmem()
+				freeMemory: os.freemem()
 				cpus: os.cpus().length
 
 			if process.env.TRAVIS_BUILD_NUMBER
@@ -45,8 +51,12 @@ class VersionCompiler
 							output.commit?.branch = result.replace('\n', '')
 
 						output = """
-							Steedos.Info = #{JSON.stringify(output, null, 4)}
+							Steedos.Info = #{JSON.stringify(output, null, 4)};
 						"""
 
-						console.log output
-						file.addJavaScript({ data: output, path: file.getPathInPackage() + '.js' });
+						file.addJavaScript({ data: output, path: file.getPathInPackage() + '.js' })
+						cb()
+
+		async.each files, processFile, future.resolver()
+
+		future.wait()

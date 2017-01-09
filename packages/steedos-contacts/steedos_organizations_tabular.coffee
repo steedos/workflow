@@ -23,19 +23,23 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-name'>" + doc.name + "</div>"
+				console.log doc
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-name #{colorClass}'>" + doc.email + "</div>"
 		},
 		{
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-email #{colorClass}'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "mobile",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-mobile'>" + (doc.mobile || "") + "</div>"
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-mobile #{colorClass}'>" + (doc.mobile || "") + "</div>"
 		},
 		{
 			data: "",
@@ -60,7 +64,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #  style: 'single'
 	dom: "tp",
 #  order:[[1,"desc"]]
-	extraFields: ["_id", "name", "email", "sort_no"],
+	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,
@@ -95,24 +99,27 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 		{
 			data: "name",
 			render: (val, type, doc) ->
-				return "<div class='contacts-name'>" + doc.name + "</div>"
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			render: (val, type, doc) ->
-				return "<div class='contacts-email'>" + doc.email + "</div>"
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-email #{colorClass}'>" + doc.email + "</div>"
 		},
 		{
 			data: "mobile",
 			render: (val, type, doc) ->
-				return "<div class='contacts-mobile'>" + (doc.mobile || "") + "</div>"
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-mobile #{colorClass}'>" + (doc.mobile || "") + "</div>"
 		}
 
 	],
 
 	dom: "tp",
 	order: [[1, "desc"]]
-	extraFields: ["_id", "name", "email"],
+	extraFields: ["_id", "name", "email" ,"user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,
