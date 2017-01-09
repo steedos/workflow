@@ -27,9 +27,12 @@ Template.instance_suggestion.helpers
 		return InstanceManager.getCurrentStep();
 
 	currentApprove: ->
-		instance = WorkflowManager.getInstance();
-
 		approve = {}
+
+		if !InstanceManager.isInbox()
+			return approve
+
+		instance = WorkflowManager.getInstance();
 
 		if InstanceManager.isCC(instance)
 			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
