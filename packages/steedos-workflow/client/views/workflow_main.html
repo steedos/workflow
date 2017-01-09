@@ -6,7 +6,9 @@
 			</div>
 			{{#if instanceId}}
 			<div class="instance-wrapper">
+				{{#if isNeedToShowInstance}}
 					{{> instance_view}}
+				{{/if}}
 			</div>
 			{{/if}}
 				
