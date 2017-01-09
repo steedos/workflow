@@ -218,8 +218,8 @@ Template.instance_suggestion.events
         if !ApproveManager.isReadOnly()
             InstanceManager.checkFormValue();
         if($(".has-error").length == 0)
-            InstanceManager.submitIns();
             Session.set("instance_change", false);
+            InstanceManager.submitIns();
         InstanceManager.fixInstancePosition()
 
     'change input[name=judge]': (event)->
