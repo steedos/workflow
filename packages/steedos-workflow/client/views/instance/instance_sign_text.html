@@ -1,0 +1,40 @@
+<template name="instanceSignText">
+    {{#if show step}}
+        <div class="td-height">
+            {{#each trace step}}
+                {{#if is_finished}}
+                    {{#if (include judge "approved,rejected,submitted") }}
+                        {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
+                        &emsp;&emsp;{{handler_name}}&nbsp;
+                        {{formatDate finish_date '{"format":"YYYY-MM-DD"}'}}<br>
+                    {{/if}}
+                {{else}}
+                    {{#if (include judge "approved,rejected,submitted") }}
+                        {{#if isMyApprove _id}}
+                            {{#if (unempty (myApproveDescription _id))}}
+                                {{myApproveDescription _id}}<br>
+                                &emsp;&emsp;{{handler_name}}&nbsp;
+                                {{formatDate finish_date '{"format":"YYYY-MM-DD"}'}}<br>
+                            {{/if}}
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            {{/each}}
+        </div>
+        <div class="instance-sign-text">
+            <a class="instance-sign-text-btn">签批</a>
+        </div>
+    {{else}}
+        <div class="td-height">
+            {{#each trace step}}
+                {{#if is_finished}}
+                    {{#if (include judge "approved,rejected,submitted") }}
+                        {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
+                        &emsp;&emsp;{{handler_name}}&nbsp;
+                        {{formatDate finish_date '{"format":"YYYY-MM-DD"}'}}<br>
+                    {{/if}}
+                {{/if}}
+            {{/each}}
+        </div>
+    {{/if}}
+</template>

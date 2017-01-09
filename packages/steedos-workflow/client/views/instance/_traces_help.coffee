@@ -77,6 +77,13 @@ TracesTemplate.helpers =
 	_t: (key)->
 		return TAPi18n.__(key)
 
+	myApproveDescription: (approveId)->
+		if Meteor.isClient
+			if InstanceManager.isInbox()
+				myApprove = InstanceManager.getCurrentApprove()
+				if myApprove.id == approveId
+					return Session.get("instance_my_approve_description")
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date

@@ -7,7 +7,7 @@
 		unless instanceId
 			return this.ready()
 
-		console.log '[publish] instance ' + instanceId
+		console.log '[publish] instance_data ' + instanceId
 
 		instance = db.instances.findOne({_id: instanceId})
 

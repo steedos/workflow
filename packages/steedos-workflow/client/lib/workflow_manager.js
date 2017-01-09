@@ -1,7 +1,4 @@
 WorkflowManager = {
-	formVersionsCache: {},
-	flowVersionsCache: {},
-	instanceCache: null,
 	instanceModified: new ReactiveVar(false)
 };
 
@@ -92,54 +89,8 @@ WorkflowManager.getSpaceRoles = function (spaceId) {
 	return roles;
 };
 
-WorkflowManager.callInstanceDataMethod = function (instanceId, callback) {
-	if (!instanceId)
-		return;
-
-	instance = db.instances.findOne(instanceId);
-	formCached = false
-	flowCached = false
-
-	if (instance) {
-		if (WorkflowManager.formVersionsCache[instance.form_version])
-			formCached = true;
-		if (WorkflowManager.flowVersionsCache[instance.flow_version])
-			flowCached = true;
-	}
-
-	Meteor.call("get_instance_data", instanceId, formCached, flowCached, function (error, result) {
-		if (error) {
-			console.error(error.message);
-			toastr.error(error.message);
-			return;
-		}
-
-		if (!result.instance) {
-			// 服务端 instance 还没保存好。
-			setTimeout(function () {
-				WorkflowManager.callInstanceDataMethod(instanceId, callback);
-			}, 300);
-			return;
-		}
-		delete WorkflowManager["instanceCache"]
-		WorkflowManager.instanceCache = result.instance;
-		WorkflowManager.instanceModified.set(false);
-		if (result.form_version) {
-			console.log("get form version " + result.form_version._id)
-			WorkflowManager.formVersionsCache[result.form_version._id] = result.form_version
-		}
-		if (result.flow_version) {
-			console.log("get flow version " + result.flow_version._id)
-			WorkflowManager.flowVersionsCache[result.flow_version._id] = result.flow_version
-		}
-
-		callback();
-
-	});
-}
-
 WorkflowManager.getInstance = function () {
-	return WorkflowManager.instanceCache
+    return db.instances.findOne({_id: Session.get("instanceId")})
 };
 
 
@@ -149,8 +100,12 @@ WorkflowManager.getInstanceFormVersion = function () {
 		instance = WorkflowManager.getInstance();
 
 	if (instance) {
+        var form = db.forms.findOne({_id: instance.form})
 
-		rev = EJSON.clone(WorkflowManager.formVersionsCache[instance.form_version])
+        if(instance.form_version == form.current._id)
+            rev =  _.clone(form.current)
+        else
+            rev =  _.clone(form.historys.findPropertyByPK("_id", instance.form_version))
 
 		field_permission = WorkflowManager.getInstanceFieldPermission();
 		rev.fields.forEach(
@@ -189,9 +144,14 @@ WorkflowManager.getInstanceFormVersion = function () {
 };
 
 WorkflowManager.getInstanceFlowVersion = function () {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		return EJSON.clone(WorkflowManager.flowVersionsCache[instance.flow_version])
+        var flow = db.flows.findOne({_id: instance.flow})
+
+        if(instance.flow_version == flow.current._id)
+            return _.clone(flow.current)
+        else
+            return _.clone(flow.historys.findPropertyByPK("_id", instance.flow_version))
 	}
 };
 
