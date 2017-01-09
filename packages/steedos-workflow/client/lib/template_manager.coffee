@@ -6,7 +6,6 @@ formId = 'instanceform';
 TemplateManager._template =
     default: '''
 		<div class="box-header  with-border">
-            <span class="help-block"></span>
             <div class="applicant-wrapper">
                 <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
                 {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
@@ -28,8 +27,6 @@ TemplateManager._template =
 	'''
     table: '''
 		<div class="box-header  with-border">
-            <h3 class="box-title">{{instance.name}}</h3>
-            <span class="help-block"></span>
             <div class="applicant-wrapper">
 			    <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
 			    {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
