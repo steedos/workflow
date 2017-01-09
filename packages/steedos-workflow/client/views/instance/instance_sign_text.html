@@ -11,9 +11,11 @@
                 {{else}}
                     {{#if (include judge "approved,rejected,submitted") }}
                         {{#if isMyApprove _id}}
-                            {{myApproveDescription _id}}<br>
-                            &emsp;&emsp;{{handler_name}}&nbsp;
-                            {{formatDate finish_date '{"format":"YYYY-MM-DD"}'}}<br>
+                            {{#if (unempty (myApproveDescription _id))}}
+                                {{myApproveDescription _id}}<br>
+                                &emsp;&emsp;{{handler_name}}&nbsp;
+                                {{formatDate finish_date '{"format":"YYYY-MM-DD"}'}}<br>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/if}}
