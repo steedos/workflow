@@ -77,7 +77,7 @@ Template.instance_view.onRendered ->
 					InstanceManager.fixInstancePosition(true)
 
 Template.instance_view.events
-	'change .instance .form-control,.instance .suggestion-control,.instance .checkbox input,.instance .af-radio-group input,.instance .af-checkbox-group input': (event, template) ->
+	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);
 
 	'change .ins-file-input': (event, template)->

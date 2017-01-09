@@ -29,7 +29,7 @@ Template.instance_suggestion.helpers
 	currentApprove: ->
 		approve = {}
 
-		if !InstanceManager.isInbox()
+		if Session.get("box") != "inbox" && Session.get("box") != "draft"
 			return approve
 
 		instance = WorkflowManager.getInstance();
@@ -37,8 +37,10 @@ Template.instance_suggestion.helpers
 		if InstanceManager.isCC(instance)
 			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
 		approve = InstanceManager.getCurrentApprove();
-		Session.set("instance_my_approve_description", approve.description)
-		return approve
+
+		if approve
+			Session.set("instance_my_approve_description", approve.description)
+			return approve
 	next_step_multiple: ->
 		Session.get("next_step_multiple")
 
