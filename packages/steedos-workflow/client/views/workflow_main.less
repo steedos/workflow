@@ -89,7 +89,7 @@
 	top: 0px;
 	bottom: 0px;
 	overflow: hidden;
-	background: #ecf0f5;
+	background: white;
 
 	.pull-right{
 		.dropdown-menu{
@@ -187,6 +187,10 @@
 					display:none;
 				}
 			}
+			.instance-traces {
+			    padding-bottom: 20px;
+			    margin-bottom: 0px;
+			}
 		}
 	}
 
@@ -212,7 +216,6 @@
 			margin: 15px 10px 15px -10px;
 			border-radius: 0 5px 5px 0;
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-			background-color: #fff;
 		}
 	}
 	.workflow-main.instance-show {
@@ -228,37 +231,58 @@
 	}
 }
 
+
 @media (max-width: 1280px) {
 	.workflow-main {
 		.instance-list-wrapper {
 			display: block;
-			width: 100%;
+			margin: 10px 10px 10px 10px;
+			border-radius: 5px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+			width: auto;
 			left: 0;
+    		right: 0px;
 			border-right: 0px;
 			transition: 0.3s ease-in-out;
 		}
 		.instance-wrapper {
-			left: 100%;
-			width: 100%;
+			display: none;
+			margin: 10px 10px 10px 10px;
+			border-radius: 5px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+			width: auto;
+			left: 0;
+    		right: 0px;
 			transition: 0.3s ease-in-out;
 		}
 	}
 	.workflow-main.instance-show {
 		.instance-list-wrapper {
 			display: none;
-			left: -100%;
-			width: 100%;
-			transition: 0.3s ease-in-out;
 		}
 		.instance-wrapper {
+			display: block;
+			width: auto;
 			left: 0;
-			width: 100%;
-			transition: 0.3s ease-in-out;
+    		right: 0px;
 			.navigation-bar{
 				.btn-instance-back{
 					display: inline-block!important;
 				}
 			}
+		}
+	}
+}
+
+
+@media (max-width: 767px){
+	
+	.workflow-main {
+		.instance-list-wrapper {
+			margin: 0px 0px 0px 0px;
+		}
+		.instance-wrapper {
+			margin: 0px 0px 0px 0px;
 		}
 	}
 }
