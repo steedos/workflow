@@ -876,7 +876,10 @@
                 if (isValid(targetMoment)) {
                     date = targetMoment;
                     viewDate = date.clone();
-                    if(date * 1 != oldDate * 1){
+                    if(oldDate && date * 1 != oldDate * 1){
+                        console.log("oldDate is :" + oldDate *1)
+                        console.log("date is :" + date *1)
+                        console.log(date * 1 != oldDate * 1)
                         input.val(date.format(actualFormat)).trigger('change');
                     }else{
                         input.val(date.format(actualFormat));
