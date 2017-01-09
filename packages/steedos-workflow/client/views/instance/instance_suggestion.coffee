@@ -209,18 +209,14 @@ Template.instance_suggestion.events
 				Session.set("next_user_multiple", false)
 			Session.set("next_step_id", $("#nextSteps").val())
 
-
-	'change #suggestion': (event, template) ->
-		console.log("change #suggestion");
-		if ApproveManager.isReadOnly()
-			return;
-		InstanceManager.checkSuggestion();
-
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
 		Modal.show 'opinion_modal'
 
 	'input #suggestion': (event, template) ->
+		if ApproveManager.isReadOnly()
+			return;
+		InstanceManager.checkSuggestion();
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 
 	'click #instance_submit': (event)->
