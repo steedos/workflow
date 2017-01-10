@@ -1,7 +1,7 @@
 <template name="instance_view">
     <div class="navigation-bar">
         <button type="button" class="btn btn-default btn-instance-back hidden" data-toggle="tooltip" data-placement="bottom" title="返回"><i class="ion ion-chevron-left"></i></button>
-        <span class="navigation-title">{{instance.name}}</span>
+        <span class="navigation-title text-overflow">{{instance.name}}</span>
         <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
         {{> instance_button}}
     </div>
