@@ -135,6 +135,9 @@ InstanceManager.getNextUserOptions = function() {
 
 		var instance = WorkflowManager.getInstance();
 		var currentApprove = InstanceManager.getCurrentApprove();
+        if(!currentApprove){
+            return next_user_options
+        }
 		var current_next_steps = currentApprove.next_steps;
 
 		var next_user_ids = [];

@@ -10,7 +10,7 @@ InstanceReadOnlyTemplate.instance_attachment = """
 """
 
 InstanceReadOnlyTemplate.afSelectUserRead = """
-	<input readonly name="{{name}}" id="{{atts.id}}" class="{{atts.class}}" disabled value='{{value}}'/>
+	<div readonly name="{{name}}" id="{{atts.id}}" class="{{atts.class}}" disabled value='{{value}}'>{{value}}</div>
 """
 
 
@@ -248,11 +248,11 @@ InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
 
 	return moment(date).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
 
-InstanceReadOnlyTemplate.getInstanceView = (user, space, instance)->
+InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
-	instanceTemplate = TemplateManager.getTemplate(instance.flow);
+	instanceTemplate = TemplateManager.getTemplate(instance.flow, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
 
@@ -319,16 +319,22 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 	return body;
 
 
-InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance)->
+InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
-	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance);
+	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance, options);
 
 	if !Steedos.isMobile()
 		flow = db.flows.findOne({_id: instance.flow});
 		if flow?.instance_style == 'table'
 			instance_style = "instance-table"
 
-	trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
+	if options?.templateName == 'table'
+		instance_style = "instance-table"
+
+	if !options || options.showTrace == true
+		trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
+	else
+		trace = ""
 
 	hash = (new Date()).getTime()
 
@@ -339,10 +345,17 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance)->
 			instanceBoxStyle = "box-success"
 		else if (instance.final_decision == "rejected")
 			instanceBoxStyle = "box-danger"
-
-	attachment = InstanceReadOnlyTemplate.getAttachmentView(user, space, instance)
+	if !options || options.showAttachments == true
+		attachment = InstanceReadOnlyTemplate.getAttachmentView(user, space, instance)
+	else
+		attachment = ""
 
 	absoluteUrl = Meteor.absoluteUrl();
+
+	width = "960px"
+
+	if options?.width
+		width = ""
 
 	html = """
 		<!DOCTYPE html>
@@ -353,32 +366,39 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance)->
 
 				<style>
 					.steedos{
-						width: 960px;
+						width: #{width};
 						margin-left: auto;
 						margin-right: auto;
+					}
+
+					.instance-view .instance-name{
+						display: block !important
 					}
 
 					body{
 						background: azure !important;
 					}
+
+					#{options?.styles}
 				</style>
 			</head>
 			<body>
 				<div class="steedos">
-					<div class="instance #{instance_style}">
-						<div class="instance-form box #{instanceBoxStyle}">
-							<div class="box-body">
-								<div class="col-md-12">
-									#{body}
-									#{attachment}
+					<div class="instance-view">
+						<div class="instance #{instance_style}">
+							<div class="instance-form box #{instanceBoxStyle}">
+								<div class="box-body">
+									<div class="col-md-12">
+										#{body}
+										#{attachment}
+									</div>
 								</div>
 							</div>
 						</div>
+						#{trace}
 					</div>
-					#{trace}
 				</div>
 			</body>
 		</html>
 	"""
-
 	return html
