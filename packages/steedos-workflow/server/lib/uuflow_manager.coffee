@@ -1274,7 +1274,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 # 生成HTML格式只读表单和签核历程, 由于此方法生成的html数据会作为邮件内容发送，为了再邮件中样式显示正常，
 # 请不要写单独的css，所有样式请写在html标签的style属性中。
 uuflowManager.ins_html = (current_user_info, ins)->
-	options = {templateName: 'table', showTrace: false, showAttachments: false}
+	options = {templateName: 'table', showTrace: true, showAttachments: false}
 	options.width = "764px"
 	options.styles = "
 		body {
@@ -1285,14 +1285,14 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  background: transparent !important;
 		  border: none;
 		}.instance-name{
-		  width: 764px !important;
+		  width: #{options.width} !important;
 		}.steedos table {
 		  border-spacing: 0;
 		  border-collapse: collapse;
 		}.box {
 		  background: #ffffff;
 		}.steedos .form-table {
-		  width: 764px;
+		  width: #{options.width};
 		  border: solid 2px #000000;
 		  border-collapse: collapse;
 		  table-layout: fixed;
@@ -1331,10 +1331,10 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  border-right: 0px !important;
 		}.steedos-table table .number {
 		  text-align: right;
-		}.steedos-table .panel-body .panel-heading {
+		}.steedos-table.panel-heading{
 		  background-color: #f5f5f5;
 		  border-color: #ddd;
-		}.callout.callout-default {
+		}.callout .callout-default {
 		  border-color: #D2D6DE;
 		  color: gray;
 		  background-color: #F1F1F1;
@@ -1343,6 +1343,20 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  padding: 4px 12px;
 		  border-radius: 0px;
 		  border-left: none;
+		}.traces{
+			width: #{options.width};
+		}.traces td{
+			padding: 4px 12px;
+		}.traces .approved{
+			color: green;
+		}.traces .rejected{
+			color: red;
+		}.traces .terminated{
+			color: black;
+		}.traces .reassigned{
+			color: black;
+		}.traces .retrieved{
+			color: black;
 		}
 	"
 
