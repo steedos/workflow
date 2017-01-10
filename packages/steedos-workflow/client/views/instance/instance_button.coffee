@@ -143,6 +143,11 @@ Template.instance_button.helpers
 				return ""
 		return "display: none;"
 
+	enabled_traces: ->
+		if Session.get("box") == "draft"
+			return false
+		else
+			return true
 
 Template.instance_button.events
 
@@ -244,3 +249,6 @@ Template.instance_button.events
 
 			InstanceManager.retrieveIns(reason);
 			sweetAlert.close();
+
+	'click .btn-trace-list': (event, template) ->
+		$(".instance").scrollTop($(".instance .instance-form").height())
