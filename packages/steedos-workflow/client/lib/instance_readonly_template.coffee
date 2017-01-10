@@ -354,6 +354,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	width = "960px"
 
+#	如果给table的parent设置width，则会导致阿里云邮箱显示table 异常
 	if options?.width
 		width = ""
 
