@@ -23,9 +23,8 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
-				console.log doc
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-name #{colorClass}'>" + doc.email + "</div>"
+				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
