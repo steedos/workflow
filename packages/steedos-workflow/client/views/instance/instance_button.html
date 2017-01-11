@@ -15,7 +15,9 @@
 				<li style={{enabled_reassign}}><a id="instance_reassign"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
 				<li style={{enabled_relocate}}><a id="instance_relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
 				<li style={{enabled_retrieve}}><a id="instance_retrieve"><i class="fa fa-undo"></i>{{_ 'instance_retrieve'}}</a></li>
-				<li style={{enabled_traces}}><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_ 'instance_approval_history'}}</a></li>
+				{{#if enabled_traces}}
+					<li><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_ 'instance_approval_history'}}</a></li>
+				{{/if}}
 			</ul>
 		</div>
 	</div>
