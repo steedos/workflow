@@ -42,6 +42,9 @@ InstanceAttachmentTemplate.helpers = {
             'metadata.current': true
         }).fetch();
 
+        if (Session && Session.get("instancePrint") && attachments.length < 1)
+            return false
+
         if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments.length > 0)
             return true;
         else
