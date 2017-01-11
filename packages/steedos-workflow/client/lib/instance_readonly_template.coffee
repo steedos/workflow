@@ -10,7 +10,7 @@ InstanceReadOnlyTemplate.instance_attachment = """
 """
 
 InstanceReadOnlyTemplate.afSelectUserRead = """
-	<div readonly name="{{name}}" id="{{atts.id}}" class="{{atts.class}}" disabled value='{{value}}'>{{value}}</div>
+	{{value}}
 """
 
 
@@ -46,7 +46,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 					{{#if showLabel}}
 						<label>{{getLabel code}}</label>
 					{{/if}}
-					<div class='{{getCfClass this}} form-control' readonly disabled >{{{getValue code}}}</div>
+					<div class='{{getCfClass this}} form-control' readonly>{{{getValue code}}}</div>
 				{{/if}}
 			{{/if}}
 		{{/with}}
@@ -357,17 +357,20 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	absoluteUrl = Meteor.absoluteUrl();
 
 	width = "960px"
-
 #	如果给table的parent设置width，则会导致阿里云邮箱显示table 异常
 	if options?.width
 		width = ""
+
+	css = "#{absoluteUrl}/merged-stylesheets.css?hash=#{hash}"
+	if options?.styles
+		css = ""
 
 	html = """
 		<!DOCTYPE html>
 		<html>
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-				<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{absoluteUrl}/merged-stylesheets.css?hash=#{hash}">
+				<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{css}">
 
 				<style>
 					.steedos{
@@ -377,7 +380,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					}
 
 					.instance-view .instance-name{
-						display: block !important
+						display: inline !important
 					}
 					.box-tools{
 						display: none;
