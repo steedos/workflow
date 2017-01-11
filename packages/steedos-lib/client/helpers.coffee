@@ -186,6 +186,7 @@ TemplateHelpers =
 				locale = "en-us"
 
 	getBadge: (appId, spaceId)->
+		appId = if appId then appId else Steedos.getAppNameFromRoutePath()
 		if !appId
 			return;
 		badge = 0
@@ -193,6 +194,10 @@ TemplateHelpers =
 			subscriptions = db.rocketchat_subscription.find().fetch()
 			_.each subscriptions, (s)->
 				badge = badge + s.unread
+		else if appId == "cms"
+			if CMS?.helpers?.unReadCount
+				db.cms_sites.find({space:spaceId}).fetch().forEach (site)->
+					badge += CMS.helpers.unReadCount(site._id)
 		else 
 			if spaceId
 				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: spaceId, key: "badge"})

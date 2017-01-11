@@ -15,27 +15,6 @@ Template.app_list_box_modal.helpers
 	apps: ()->
 		return Steedos.getSpaceApps()
 
-	getBadge: (appId, spaceId)->
-		if !appId
-			return;
-		badge = 0
-		if appId == "chat"
-			subscriptions = db.rocketchat_subscription.find().fetch()
-			_.each subscriptions, (s)->
-				badge = badge + s.unread
-		else 
-			if spaceId
-				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: spaceId, key: "badge"})
-				if b
-					badge = b.value?[appId]
-			else
-				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: null, key: "badge"})
-				if b
-					badge = b.value?[appId]
-		if badge 
-			return badge
-
-
 Template.app_list_box_modal.onRendered ->
 	$(".app-list-box-modal-body").css("max-height", ($(window).height()-140) + "px");
 
