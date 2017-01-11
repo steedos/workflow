@@ -589,7 +589,10 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 			ins_html = ''
 
 			if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users'].includes(send_from)
-				ins_html = uuflowManager.ins_html(current_user_info, instance)
+				try
+					ins_html = uuflowManager.ins_html(current_user_info, instance)
+				catch e
+					console.error e
 
 			body = pushManager.get_body(parameters, lang)
 			title = pushManager.get_title(parameters, lang)
