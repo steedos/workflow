@@ -15,7 +15,7 @@
 		handle2 = null
 
 		# only return user joined spaces, and observes when user join or leave a space
-		handle = db.space_users.find({user: this.userId}).observe
+		handle = db.space_users.find({user: this.userId, user_accepted: true}).observe
 			added: (doc) ->
 				if doc.space
 					if userSpaces.indexOf(doc.space) < 0
