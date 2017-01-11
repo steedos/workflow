@@ -278,11 +278,15 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 		</div>
 	"""
 
-InstanceReadOnlyTemplate.getTracesView = (user, space, instance)->
+InstanceReadOnlyTemplate.getTracesView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
-	tracesHtml = _getViewHtml('client/views/instance/traces.html')
+	flow = db.flows.findOne(instance.flow);
+	if flow.instance_style == "table" || options.templateName == "table"
+		tracesHtml = _getViewHtml('client/views/instance/traces_table.html')
+	else
+		tracesHtml = _getViewHtml('client/views/instance/traces.html')
 
 	traceCompiled = SpacebarsCompiler.compile(tracesHtml, {isBody: true});
 
@@ -375,6 +379,12 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					.instance-view .instance-name{
 						display: block !important
 					}
+					.box-tools{
+						display: none;
+					}
+					.box.collapsed-box .box-body,.box.collapsed-box .box-footer {
+					  display: block;
+					}
 
 					body{
 						background: azure !important;
@@ -395,8 +405,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 									</div>
 								</div>
 							</div>
+							#{trace}
 						</div>
-						#{trace}
 					</div>
 				</div>
 			</body>
