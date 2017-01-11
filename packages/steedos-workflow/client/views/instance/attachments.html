@@ -7,28 +7,31 @@
                 <a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent" title="{{this.name}}">{{this.name}}</a>
             {{/if}}
 
-            {{#if canEdit this.name this.metadata.locked_by}}
-                {{#if isNode}}
-                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
-                {{else}}
-                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
-                {{/if}}
-            {{/if}}
-
-            <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
-            {{#if IsImageAttachment this}}
-                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
-                    <i class="ion ion-ios-search-strong"></i>
-                </a>
+            {{#if isPrint}}
             {{else}}
-                {{#if IsHtmlAttachment this}}
-                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
+                {{#if canEdit this.name this.metadata.locked_by}}
+                    {{#if isNode}}
+                        <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
+                    {{else}}
+                        <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
+                    {{/if}}
+                {{/if}}
+
+                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}" >{{_ "Versions"}}</a>
+                {{#if IsImageAttachment this}}
+                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
                         <i class="ion ion-ios-search-strong"></i>
                     </a>
+                {{else}}
+                    {{#if IsHtmlAttachment this}}
+                        <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
+                            <i class="ion ion-ios-search-strong"></i>
+                        </a>
+                    {{/if}}
                 {{/if}}
-            {{/if}}
-            {{#if can_delete this.metadata.approve this.metadata.parent}}
-                {{> _file_DeleteButton file_id=this._id}}
+                {{#if can_delete this.metadata.approve this.metadata.parent}}
+                    {{> _file_DeleteButton file_id=this._id}}
+                {{/if}}
             {{/if}}
         </td>
     </tr>

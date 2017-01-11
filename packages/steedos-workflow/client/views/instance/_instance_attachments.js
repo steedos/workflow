@@ -4,6 +4,9 @@ InstanceAttachmentTemplate.helpers = {
         if (!ins)
             return "display: none;";
 
+        if (Session && Session.get("instancePrint"))
+            return "display: none;"
+
         if (InstanceManager.isCC(ins))
             return "display: none;";
 

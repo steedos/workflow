@@ -86,7 +86,14 @@ Template.instance_attachment.helpers({
 
 	IsHtmlAttachment: function(attachment) {
 		return attachment.original.type == "text/html"
-	}
+	},
+
+    isPrint: function () {
+        if (Session && Session.get("instancePrint"))
+            return true
+        else
+            false
+    }
 });
 
 Template.instance_attachment.events({
