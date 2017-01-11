@@ -14,7 +14,7 @@ _getFlowByForm = (form)->
 
 			step.approver_users = []
 
-			step.approve_orgs = []
+			step.approver_orgs = []
 	#			users_name = []
 	#			if !_.isEmpty(step.approver_users)
 	#				users_name = db.users.find({_id: {$in: step.approver_users}}, {fields: {steedos_id : 1}}).fetch().getProperty("steedos_id");
