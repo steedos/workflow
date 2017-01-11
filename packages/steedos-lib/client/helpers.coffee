@@ -186,7 +186,7 @@ TemplateHelpers =
 				locale = "en-us"
 
 	getBadge: (appId, spaceId)->
-		appId = if appId then appId else Steedos.getAppNameFromRoutePath()
+		appId = if appId then appId else Steedos.getAppName()
 		if !appId
 			return;
 		badge = 0

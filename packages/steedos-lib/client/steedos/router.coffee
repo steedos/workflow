@@ -16,7 +16,7 @@ FlowRouter.triggers.enter [
 	()-> 
 		Tracker.autorun ->
 			if Session.get "is_tap_loaded"
-				appName = Steedos.getAppNameFromRoutePath()
+				appName = Steedos.getAppName()
 				switch appName
 					when 'workflow'
 						title = "Steedos Workflow"

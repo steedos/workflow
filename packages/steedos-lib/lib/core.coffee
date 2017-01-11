@@ -66,7 +66,7 @@ if Meteor.isClient
 				$(".sidebar-menu").css("width", "100%");
 
 	# 根据当前路由路径前缀，得到当前所属app名字
-	Steedos.getAppNameFromRoutePath = (path)->
+	Steedos.getAppName = (path)->
 		unless path
 			path = FlowRouter.current().path
 		if /^\/?workflow\b/.test(path)
