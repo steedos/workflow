@@ -31,16 +31,20 @@ TemplateManager._template =
 		{{/each}}
 	'''
 	table: '''
-		<div class="box-header  with-border">
-			<div class="instance-name">
-				<h3 class="box-title">{{instance.name}}</h3>
-            	<span class="help-block"></span>
-			</div>
-            <div class="applicant-wrapper">
-			    <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
-			    {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-			</div>
-        </div>
+		<table class="box-header  with-border" style="width: 100%;display: inline-table;">
+			<tr class="instance-name">
+				<td class="instance-table-name-td">
+					<h3 class="box-title">{{instance.name}}</h3>
+					<span class="help-block"></span>
+				</td>
+			</tr>
+            <tr class="applicant-wrapper">
+				<td class="instance-table-wrapper-td">
+					<label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
+					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+				</td>
+			</tr>
+        </table>
 		<table class="form-table">
 		    {{#each table_fields}}
 		        {{#if includes this.type 'section,table'}}

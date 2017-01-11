@@ -1275,7 +1275,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 # 请不要写单独的css，所有样式请写在html标签的style属性中。
 uuflowManager.ins_html = (current_user_info, ins)->
 	options = {templateName: 'table', showTrace: true, showAttachments: false}
-	options.width = "764px"
+	options.width = "765px"  #此处宽度不能设置为偶数，否则会引起子表与主表线条对不齐的bug
 	options.styles = "
 		body {
 		  background: #ffffff !important;
@@ -1315,9 +1315,15 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  border-top: solid 1px #000000;
 		  border-right: solid 1px #000000;
 		  border-bottom: solid 1px #000000;
-		}.table-bordered {
+		  padding: 0px;
+		}.panel-heading{
+		  padding: 4px 12px;
+		  font-weight: bold;
+		  color: #333;
+		  background-color: #f5f5f5;
+		}.table-bordered tr:last-child th {
 		  border-bottom: none;
-		}.steedos-table .table-bordered tr:last-child th {
+		}.table-bordered tr:last-child td {
 		  border-bottom: none;
 		}.steedos-table th:first-child{
 		  border-left: 0px !important;
@@ -1325,42 +1331,79 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  border-left: 0px !important;
 		}.steedos-table table thead .title {
 		  min-width: 50px;
-		}.instance-table .steedos-table th:last-child{
+		}.steedos-table th:last-child{
 		  border-right: 0px !important;
 		}.steedos-table td:last-child {
 		  border-right: 0px !important;
 		}.steedos-table table .number {
 		  text-align: right;
-		}.steedos-table.panel-heading{
-		  background-color: #f5f5f5;
-		  border-color: #ddd;
-		}.callout .callout-default {
+		}.callout-default{
 		  border-color: #D2D6DE;
-		  color: gray;
+		  color: #333;
 		  background-color: #F1F1F1;
+		  font-weight: bold;
 		}.instance-table .callout {
 		  margin: 0px;
 		  padding: 4px 12px;
 		  border-radius: 0px;
 		  border-left: none;
-		}.traces{
-			width: #{options.width};
-		}.traces td{
-			padding: 4px 12px;
-		}.traces .approved{
+		}.approved{
 			color: green;
-		}.traces .rejected{
+		}.rejected{
 			color: red;
-		}.traces .terminated{
+		}.terminated{
 			color: black;
-		}.traces .reassigned{
+		}.reassigned{
 			color: black;
-		}.traces .retrieved{
+		}.retrieved{
 			color: black;
+		}.trace-approve-talbe td {
+    		text-align: left;
+    		border: none;
+		}.traces td table {
+   			width: 100%;
+		}.approve-item .name{
+			width: 40%;
+		}.approve-item .finish-date{
+			width: 35%;
+		}.td-stepname{
+			padding: 4px 12px;
+		}.td-approve td{
+			padding: 4px 12px;
+		}.applicant-wrapper {
+    		font-weight: bolder;
 		}
 	"
 
-	return InstanceReadOnlyTemplate.getInstanceHtml(current_user_info, ins.space, ins, options)
+	instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(current_user_info, ins.space, ins, options)
+
+#	处理outlook 中，对部分css不支持的处理
+	instanceHtml = instanceHtml.replace('style="width: 100%;display: inline-table;"', '')
+
+	instanceHtml = instanceHtml.replace('class="instance-table-name-td"', 'class="instance-table-name-td" style="width:' + options.width + ';border:0px"')
+	instanceHtml = instanceHtml.replace('class="instance-table-wrapper-td"', 'class="instance-table-wrapper-td" style="width:' + options.width + ';border:0px"')
+
+	instanceHtml = instanceHtml.replace('class="instance-name"', 'class="instance-name" style="width:' + options.width + '"')
+	instanceHtml = instanceHtml.replace('class="form-table"', 'class="form-table" style="width:' + options.width + '"')
+	instanceHtml = instanceHtml.replace('class="table table-condensed traces"', 'class="table table-condensed traces" style="width:' + options.width + ';border:solid 2.0px #000000"')
+
+	instanceHtml = instanceHtml.replace(/class="td-title "/g, 'class="td-title" style="width:14%"')
+	instanceHtml = instanceHtml.replace(/class="td-stepname"/g, 'class="td-stepname" style="width:' + 765 * 20/100 + 'px"')
+
+	instanceHtml = instanceHtml.replace(/class="td-childfield"/g, 'class="td-childfield" style="padding:0px"')
+
+	instanceHtml = instanceHtml.replace(/class="status approved"/g, 'class="status approved" style="color: green;"')
+	instanceHtml = instanceHtml.replace(/class="status rejected"/g, 'class="status rejected" style="color: red;"')
+
+	instanceHtml = instanceHtml.replace(/<table>/g, '<table style="width:100%;border:none">')
+	instanceHtml = instanceHtml.replace(/<td class="name">/g, '<td class="name" style="width: 40%;">')
+	instanceHtml = instanceHtml.replace(/<td class="finish-date">/g, '<td class="finish-date" style="width: 35%;">')
+
+
+#	instanceHtml = instanceHtml.replace(/class="td-approve"/g, 'class="td-approve" width="100%"')
+	console.log instanceHtml
+
+	return instanceHtml
 
 uuflowManager.create_instance = (instance_from_client, user_info)->
 	space_id = instance_from_client["space"]
