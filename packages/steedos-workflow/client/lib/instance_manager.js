@@ -1094,11 +1094,13 @@ InstanceManager.getCCApprove = function(userId, is_finished) {
 	var rev = {};
 
 	traces.forEach(function(t) {
-		t.approves.forEach(function(approve) {
-			if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
-				rev = approve
-			}
-		});
+        if(t.approves){
+            t.approves.forEach(function(approve) {
+                if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+                    rev = approve
+                }
+            });
+        }
 	})
 
 	return rev;

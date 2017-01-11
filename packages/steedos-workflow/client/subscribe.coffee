@@ -22,8 +22,18 @@ Tracker.autorun (c)->
 #	console.log("subscribe instance...");
 	instanceId = Session.get("instanceId")
 	#	Steedos.instanceSpace.clear(); # 清理已订阅数据
+	if instanceId
+		instance = db.instances.findOne({_id: instanceId});
 
-	instance = db.instances.findOne({_id: instanceId});
+		if instance
+			Steedos.subscribeInstance(instance);
+		else
+			Steedos.instanceSpace.subscribe("instance_data", instanceId)
 
-	if instance
-		Steedos.subscribeInstance(instance);
+Tracker.autorun (c) ->
+	if Steedos.instanceSpace.ready()
+		if Session.get("instanceId")
+			instance = db.instances.findOne({_id: Session.get("instanceId")});
+			if !instance
+				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
+				Session.set("instance_loading", false);

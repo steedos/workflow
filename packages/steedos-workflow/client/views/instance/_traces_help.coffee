@@ -81,7 +81,7 @@ TracesTemplate.helpers =
 		if Meteor.isClient
 			if InstanceManager.isInbox()
 				myApprove = InstanceManager.getCurrentApprove()
-				if myApprove.id == approveId
+				if myApprove && myApprove.id == approveId
 					return Session.get("instance_my_approve_description")
 
 if Meteor.isServer
