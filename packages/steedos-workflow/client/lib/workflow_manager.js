@@ -102,10 +102,12 @@ WorkflowManager.getInstanceFormVersion = function () {
 	if (instance) {
         var form = db.forms.findOne({_id: instance.form})
 
-        if(instance.form_version == form.current._id)
+        if(form.current && instance.form_version == form.current._id)
             rev =  _.clone(form.current)
-        else
+        else if (form.historys)
             rev =  _.clone(form.historys.findPropertyByPK("_id", instance.form_version))
+        else
+            return rev
 
 		field_permission = WorkflowManager.getInstanceFieldPermission();
 		rev.fields.forEach(
@@ -148,10 +150,12 @@ WorkflowManager.getInstanceFlowVersion = function () {
 	if (instance) {
         var flow = db.flows.findOne({_id: instance.flow})
 
-        if(instance.flow_version == flow.current._id)
+        if(flow.current && instance.flow_version == flow.current._id)
             return _.clone(flow.current)
-        else
+        else if(flow.historys)
             return _.clone(flow.historys.findPropertyByPK("_id", instance.flow_version))
+        else
+            return null
 	}
 };
 

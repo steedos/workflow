@@ -4,7 +4,7 @@ InstanceformTemplate.helpers =
 		data = {
 			name: 'ins_applicant',
 			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'},
-			value: instance.applicant_name
+			value: steedos_instance.applicant_name
 		}
 		if not steedos_instance || steedos_instance.state != "draft"
 			data.atts.disabled = true
