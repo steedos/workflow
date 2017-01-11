@@ -195,18 +195,17 @@ TemplateHelpers =
 			_.each subscriptions, (s)->
 				badge = badge + s.unread
 		else if appId == "cms"
+			# spaceId为空时统计所有space计数值
 			if CMS?.helpers?.unReadCount
-				db.cms_sites.find({space:spaceId}).fetch().forEach (site)->
+				spaceSelector = if spaceId then {space:spaceId} else {}
+				db.cms_sites.find(spaceSelector).fetch().forEach (site)->
 					badge += CMS.helpers.unReadCount(site._id)
 		else 
-			if spaceId
-				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: spaceId, key: "badge"})
-				if b
-					badge = b.value?[appId]
-			else
-				b = db.steedos_keyvalues.findOne({user: Meteor.userId(), space: null, key: "badge"})
-				if b
-					badge = b.value?[appId]
+			# spaceId为空时统计所有space计数值
+			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
+			b = db.steedos_keyvalues.findOne(spaceSelector)
+			if b
+				badge = b.value?[appId]
 		if badge 
 			return badge
 
