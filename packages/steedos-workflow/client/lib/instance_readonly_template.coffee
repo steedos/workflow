@@ -292,7 +292,7 @@ InstanceReadOnlyTemplate.getTracesView = (user, space, instance, options)->
 	steedosData = _getTemplateData(user, space, instance)
 
 	flow = db.flows.findOne(instance.flow);
-	if flow.instance_style == "table" || options.templateName == "table"
+	if flow.instance_style == "table" || options?.templateName == "table"
 		tracesHtml = _getViewHtml('client/views/instance/traces_table.html')
 	else
 		tracesHtml = _getViewHtml('client/views/instance/traces.html')
