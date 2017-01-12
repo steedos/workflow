@@ -75,6 +75,7 @@
 
 	"OK": "OK",
 	"Cancel": "Cancel",
+	"About": "About Steedos",
 
 	"primary_email_needed": "Setup your primary email",
 	"primary_email_needed_description": "Please enter your primary email address here. You can use this email address to signin steedos, or reset your password.",
@@ -88,6 +89,13 @@
 	"steedos_quick_guide": "Quick Guide",
 	"steedos_help": "Help",
 	"steedos_home": "Home",
+	"steedos_apps": "Steedos Apps",
+	"steedos_about": "About",
+	"steedos_info": "Steedos Apps is a cloud-based productivity suite that helps you and your team connect and get work done from anywhere on any device.",
+	"steedos_version": "Version",
+	"steedos_commit_date": "Commit Date",
+	"steedos_build_date": "Build Date",
+	"steedos_copyright": "© HotLong Software. All rights reserverd.",
 
 	"Profile_saved_successfully": "Profile saved successfully",
 	"Old_and_new_password_required": "Old and new password required",
