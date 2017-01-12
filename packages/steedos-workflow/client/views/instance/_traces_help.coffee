@@ -102,7 +102,6 @@ TracesTemplate.events =
 		instanceId = Session.get('instanceId')
 		approveId = event.target.dataset.approve
 		# CALL 删除approve函数。
-		InstanceManager.saveIns()
 		Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
 			if err
 				toastr.error err

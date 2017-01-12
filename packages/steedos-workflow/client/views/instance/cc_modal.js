@@ -43,8 +43,6 @@ Template.instance_cc_modal.events({
             return;
         }
 
-        InstanceManager.saveIns();
-
         //调用cc 接口。
         var instance = WorkflowManager.getInstance();
         var myApprove;
