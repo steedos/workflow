@@ -349,8 +349,6 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	else
 		trace = ""
 
-	hash = (new Date()).getTime()
-
 	instanceBoxStyle = "";
 
 	if instance && instance.final_decision
@@ -370,16 +368,23 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	if options?.width
 		width = ""
 
-	css = "#{absoluteUrl}/merged-stylesheets.css?hash=#{hash}"
+	allCss = WebAppInternals.refreshableAssets.allCss
+
+	allCssLink = ""
+
+	allCss.forEach (css) ->
+		cssHref = absoluteUrl + css.url
+		allCssLink += """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
+
 	if options?.styles
-		css = ""
+		allCssLink = ""
 
 	html = """
 		<!DOCTYPE html>
 		<html>
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-				<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{css}">
+				#{allCssLink}
 
 				<style>
 					.steedos{
