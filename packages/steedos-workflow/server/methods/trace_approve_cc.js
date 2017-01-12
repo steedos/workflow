@@ -143,14 +143,16 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            t.approves.forEach(function(a) {
-                if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
-                    a.is_finished = true;
-                    a.finish_date = new Date();
-                    a.description = description;
-                    a.judge = "submitted";
-                }
-            });
+            if (t.approves){
+                t.approves.forEach(function(a) {
+                    if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
+                        a.is_finished = true;
+                        a.finish_date = new Date();
+                        a.description = description;
+                        a.judge = "submitted";
+                    }
+                });
+            }
         })
 
         ins_cc_users.forEach(function(u) {
@@ -194,23 +196,26 @@ Meteor.methods({
         var trace_id, remove_user_id, multi = false;
 
         traces.forEach(function(t) {
-            t.approves.forEach(function(a) {
-                if (a._id == approveId) {
-                    trace_id = a.trace;
-                    remove_user_id = a.user;
-                }
-            });
-
+            if(t.approves){
+                t.approves.forEach(function(a) {
+                    if (a._id == approveId) {
+                        trace_id = a.trace;
+                        remove_user_id = a.user;
+                    }
+                });
+            }
         })
 
         traces.forEach(function(t) {
             if (t._id == trace_id) {
-                t.approves.forEach(function(a) {
-                    if (!(a._id == approveId && a.type == 'cc' && a.is_finished == false)) {
-                        new_approves.push(a);
-                    }
-                });
-                t.approves = new_approves;
+                if(t.approves){
+                    t.approves.forEach(function(a) {
+                        if (!(a._id == approveId && a.type == 'cc' && a.is_finished == false)) {
+                            new_approves.push(a);
+                        }
+                    });
+                    t.approves = new_approves;
+                }
             }
 
         })
@@ -261,12 +266,14 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            t.approves.forEach(function(a) {
-                if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
-                    a.description = description;
-                    a.judge = "submitted";
-                }
-            });
+            if(t.approves){
+                t.approves.forEach(function(a) {
+                    if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
+                        a.description = description;
+                        a.judge = "submitted";
+                    }
+                });
+            }
         })
 
         setObj.traces = traces;
