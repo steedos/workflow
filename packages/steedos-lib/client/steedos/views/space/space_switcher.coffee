@@ -10,6 +10,12 @@ Template.space_switcher.helpers
 				return space.name
 		return t("Steedos")
 
+	isNeedToShowRedDot: ()->
+		currentSpaceBadge = Steedos.getBadge null,Steedos.spaceId()
+		currentSpaceBadge = if currentSpaceBadge then currentSpaceBadge else 0
+		allSpaceBadge = Steedos.getBadge()
+		allSpaceBadge = if allSpaceBadge then allSpaceBadge else 0
+		return allSpaceBadge - currentSpaceBadge
 
 Template.space_switcher.events
 
