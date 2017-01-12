@@ -21,7 +21,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 # },
 		{
 			data: "name",
-			orderable: false,
+			orderable: true,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
@@ -55,6 +55,12 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			width: '1px',
 			render: (val, type, doc) ->
 				return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
+		},
+		{
+			data: "sort_no",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 
 	],
@@ -62,7 +68,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-#  order:[[1,"desc"]]
+	order:[[5,"desc"],[0,"asc"]],
 	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
