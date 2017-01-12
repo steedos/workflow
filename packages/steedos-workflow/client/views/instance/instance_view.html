@@ -13,6 +13,7 @@
             <div class="instance-form box {{instance_box_style }}">
                 <div class="box-body">
                     <div class="col-md-12">
+                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
 
                         {{#if isIReadable}}
                             {{{readOnlyView}}}
@@ -24,7 +25,6 @@
                             {{/if}}
                         {{/if}}
 
-                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
                     </div>
                 </div>
             </div>
