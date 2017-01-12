@@ -6,3 +6,5 @@ Workflow = {}
 @InstanceformTemplate = {};
 
 @InstanceAttachmentTemplate = {};
+
+@InstanceSignText = {}
