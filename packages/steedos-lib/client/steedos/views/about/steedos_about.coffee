@@ -4,8 +4,7 @@ Template.steedosAbout.helpers
 
 	steedosCommitDate: ->
 		if Steedos.Info.commit
-			Steedos.Info.commit.date
-
+			moment(new Date(Steedos.Info.commit.date)).format("YYYY-MM-DD HH:mm:ss")
 	steedosBuildDate: ->
 		if Steedos.Info.build
-			Steedos.Info.build.date
+			moment(new Date(Steedos.Info.build.date)).format("YYYY-MM-DD HH:mm:ss")
