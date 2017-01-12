@@ -3,7 +3,9 @@ Template.steedosAbout.helpers
 		Steedos.Info.version
 
 	steedosCommitDate: ->
-		Steedos.Info.commit.date
+		if Steedos.Info.commit
+			Steedos.Info.commit.date
 
 	steedosBuildDate: ->
-		Steedos.Info.build.date
+		if Steedos.Info.build
+			Steedos.Info.build.date
