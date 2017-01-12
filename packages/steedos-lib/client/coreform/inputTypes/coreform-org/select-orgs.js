@@ -40,7 +40,9 @@ AutoForm.addInputType("selectorg",{
 Template.afSelectOrg.events({
   'click .selectOrg, touchstart .selectOrg': function (event, template) {
     console.log("show cf_organization_modal");
-
+      if(Modal.allowMultiple){
+          return ;
+      }
     if ("disabled" in template.data.atts)
         return;
     //var data = {orgs:WorkflowManager.getSpaceOrganizations()};
