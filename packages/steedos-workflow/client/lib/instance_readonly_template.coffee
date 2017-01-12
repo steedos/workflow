@@ -57,9 +57,6 @@ InstanceReadOnlyTemplate.imageSign = """
 	<img src="{{imageURL user}}" class="image-sign" />
 """
 
-InstanceReadOnlyTemplate.instanceSignText = ""
-
-
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 	template = InstanceReadOnlyTemplate[tempalteName]
 
@@ -71,14 +68,26 @@ InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 	Template[tempalteName].steedosData = steedosData
 	Template[tempalteName].helpers InstanceformTemplate.helpers
 
+InstanceReadOnlyTemplate.createInstanceSignText = (steedosData)->
+	instanceSignTextHtml = _getViewHtml('client/views/instance/instance_sign_text.html')
+
+	instanceSignTextCompiled = SpacebarsCompiler.compile(instanceSignTextHtml, {isBody: true});
+
+	instanceSignTextRenderFunction = eval(instanceSignTextCompiled);
+
+	Template.instanceSignText = new Blaze.Template("instanceSignText", instanceSignTextRenderFunction);
+	Template.instanceSignText.steedosData = steedosData
+	Template.instanceSignText.helpers InstanceSignText.helpers
+
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("imageSign", steedosData);
-		InstanceReadOnlyTemplate.create("instanceSignText", {});
 		InstanceReadOnlyTemplate.create("instance_attachment", {});
+		InstanceReadOnlyTemplate.createInstanceSignText(steedosData)
+
 
 
 InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->

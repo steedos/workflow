@@ -139,6 +139,7 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/instance_attachments.html', 'server');
 
 	api.addFiles('client/views/instance/_instance_attachments.js', ['client', 'server']);
+    api.addFiles('client/views/instance/_instance_sign_text.coffee', ['client', 'server']);
 
 	api.addFiles('client/views/instance/select_flow_modal.less', 'client')
 	api.addFiles('client/views/instance/select_flow_modal.html', 'client')
@@ -280,6 +281,7 @@ Package.onUse(function(api) {
 	api.addFiles('tabular.coffee');
 
     api.addFiles('client/views/instance/instance_sign_text.html', 'client');
+    api.addAssets('client/views/instance/instance_sign_text.html', 'server');
     api.addFiles('client/views/instance/instance_sign_text.coffee', 'client');
 
 	api.export("WorkflowManager");
