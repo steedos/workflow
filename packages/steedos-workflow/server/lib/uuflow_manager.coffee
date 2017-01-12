@@ -1399,10 +1399,6 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	instanceHtml = instanceHtml.replace(/<td class="name">/g, '<td class="name" style="width: 40%;">')
 	instanceHtml = instanceHtml.replace(/<td class="finish-date">/g, '<td class="finish-date" style="width: 35%;">')
 
-
-#	instanceHtml = instanceHtml.replace(/class="td-approve"/g, 'class="td-approve" width="100%"')
-	console.log instanceHtml
-
 	return instanceHtml
 
 uuflowManager.create_instance = (instance_from_client, user_info)->
