@@ -127,9 +127,9 @@ if Meteor.isClient
 
 			authToken = {};
 			authToken["spaceId"] = Steedos.getSpaceId()
-			if Steedos.isMobile()
-				authToken["X-User-Id"] = Meteor.userId();
-				authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+#			if Steedos.isMobile()
+			authToken["X-User-Id"] = Meteor.userId();
+			authToken["X-Auth-Token"] = Accounts._storedLoginToken();
 
 			url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
 
