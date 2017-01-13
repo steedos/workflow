@@ -75,6 +75,28 @@ Template.instance_view.onRendered ->
 				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
+	else
+		preScrollTop = 0
+		loap = 0
+		$(".instance").scroll (event)->
+			clearTimeout loap
+			self = this
+			# 这里增加setTimeout除了优化性能外，更重要的是解决触发次数过多造成的动画效果不流畅问题
+			loap = setTimeout ->
+				scrollTop = self.scrollTop
+				scrollH = self.scrollHeight
+				viewH = $(self).innerHeight()
+				diffValue = (scrollH-viewH) - scrollTop
+				if diffValue < 20
+					debugger
+					if scrollTop >= preScrollTop
+						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
+							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
+							setTimeout ->
+								InstanceManager.fixInstancePosition(true)
+							,100
+					preScrollTop = scrollTop
+			,100
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
