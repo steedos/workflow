@@ -199,6 +199,17 @@
 
 }
 
+.mobile-safari{
+	.instance-wrapper {
+		.instance-view{
+			.instance {
+				/*增加padding-top纯粹为解决iphone（只有iphone,ipad,mac没有问题）的safari上会在底部留下padding-bottom高度的黑色块*/
+				padding-top:1px!important;
+			}
+		}
+	}
+}
+
 @media (min-width: 1281px) {
 	.workflow-main {
 		.instance-list-wrapper {
