@@ -3,131 +3,131 @@ Template.instance_button.helpers
 	enabled_save: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
-			return "display: none;";
+			return false
 		flow = db.flows.findOne(ins.flow);
 		if !flow
-			return "display: none;";
+			return false
 
 		if InstanceManager.isInbox()
-			return "";
+			return true
 
 		if !ApproveManager.isReadOnly()
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_delete: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
-			return "display: none;";
+			return false
 		space = db.spaces.findOne(ins.space);
 		if !space
-			return "display: none;";
+			return false
 		fl = db.flows.findOne({'_id': ins.flow});
 		if !fl
-			return "display: none;";
+			return false
 		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
 		if !curSpaceUser
-			return "display: none;";
+			return false
 		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
 		if !organizations
-			return "display: none;";
+			return false
 
 		if Session.get("box") == "draft" || (Session.get("box") == "monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box") == "monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_print: ->
 #		如果是手机版APP，则不显示打印按钮
 		if Meteor.isCordova
-			return "display:none";
-		return "";
+			return false
+		return true
 
 
 	enabled_add_attachment: ->
 		if !ApproveManager.isReadOnly()
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_terminate: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
-			return "display: none;";
+			return false
 		if (Session.get("box") == "pending" || Session.get("box") == "inbox") && ins.state == "pending" && ins.applicant == Meteor.userId()
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_reassign: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
-			return "display: none;";
+			return false
 		space = db.spaces.findOne(ins.space);
 		if !space
-			return "display: none;";
+			return false
 		fl = db.flows.findOne({'_id': ins.flow});
 		if !fl
-			return "display: none;";
+			return false
 		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
 		if !curSpaceUser
-			return "display: none;";
+			return false
 		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
 		if !organizations
-			return "display: none;";
+			return false
 
 		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_relocate: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
-			return "display: none;";
+			return false
 		space = db.spaces.findOne(ins.space);
 		if !space
-			return "display: none;";
+			return false
 		fl = db.flows.findOne({'_id': ins.flow});
 		if !fl
-			return "display: none;";
+			return false
 		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
 		if !curSpaceUser
-			return "display: none;";
+			return false
 		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
 		if !organizations
-			return "display: none;";
+			return false
 
 		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_cc: ->
 		if InstanceManager.isInbox()
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	enabled_forward: ->
 		is_paid = WorkflowManager.isPaidSpace(Session.get('spaceId'));
 		if is_paid
 			ins = WorkflowManager.getInstance()
 			if !ins
-				return "display: none;"
+				return false
 
-			if ins.state != "draft" && !Steedos.isMobile()
-				return ""
+			if ins.state != "draft"
+				return true
 			else
-				return "display: none;"
+				return false
 		else
-			return "display: none;"
+			return false
 
 	enabled_retrieve: ->
 		ins = WorkflowManager.getInstance()
 		if !ins
-			return "display: none;"
+			return false
 
 		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
 			last_trace = _.find(ins.traces, (t)->
@@ -140,8 +140,8 @@ Template.instance_button.helpers
 			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
 			previous_trace_approves = previous_trace.approves
 			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId()
-				return ""
-		return "display: none;"
+				return true
+		return false
 
 	enabled_traces: ->
 		if Session.get("box") == "draft"
