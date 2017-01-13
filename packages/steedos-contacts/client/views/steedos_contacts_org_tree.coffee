@@ -31,7 +31,7 @@ Template.steedos_contacts_org_tree.onRendered ->
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
 				# this.select_node(node)
-				cb(ContactsManager.getOrgNode(node,true))
+				cb(ContactsManager.getOrgNode(node, Session.get('contacts_is_org_admin'))) # 普通用户只显示非隐藏的组织
 
 		plugins: ["wholerow", "search"]
 

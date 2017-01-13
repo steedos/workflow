@@ -118,13 +118,19 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-mobile #{colorClass}'>" + (doc.mobile || "") + "</div>"
+		},
+		{
+			data: "sort_no",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 
 	],
 
 	dom: "tp",
-	order: [[1, "desc"]]
-	extraFields: ["_id", "name", "email" ,"user_accepted"],
+	order:[[3,"desc"], [0,"asc"]],
+	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,
@@ -144,6 +150,7 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 		space_user = db.space_users.findOne({user: userId,space:space}, {fields: {_id: 1}})
 		unless space_user
 			return {make_a_bad_selector: 1}
+		selector.user_accepted = true # 普通用户只读个人联系人只显示已启用的用户
 		return selector
 	pagingType: "numbers"
 });
