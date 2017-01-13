@@ -541,7 +541,7 @@ if(Meteor.isClient){
     });
 
     Template.afTable.events({
-        'click .steedos-table .steedosTable-item-add, touchstart .steedos-table .steedosTable-item-add': function(event, template) {
+        'click .steedos-table .steedosTable-item-add': function(event, template) {
             var name = template.data.name;
 
             var tableValue = SteedosTable.getTableValue(name);
@@ -551,7 +551,7 @@ if(Meteor.isClient){
             SteedosTable.showModal(name, new_item_index, "add");
         },
 
-        'click .steedos-table .steedosTable-item-field, touchstart .steedos-table .steedosTable-item-field': function(event, template) {
+        'click .steedos-table .steedosTable-item-field': function(event, template) {
             if (template.data.atts.editable) {
                 var field = template.data.name;
                 var index = event.currentTarget.dataset.index;
@@ -559,7 +559,7 @@ if(Meteor.isClient){
             }
         },
 
-        'click .steedos-table .steedosTable-item-remove, touchstart .steedos-table .steedosTable-item-remove': function(event, template) {
+        'click .steedos-table .steedosTable-item-remove': function(event, template) {
             var field = template.data.name;
             var item_index = event.currentTarget.dataset.index;
             Session.set("instance_change", true);

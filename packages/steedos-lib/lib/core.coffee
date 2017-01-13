@@ -15,6 +15,9 @@ if Meteor.isClient
 	Steedos.isMobile = ()->
 		return $(window).width() < 767
 
+	Steedos.isPad = ()->
+		return /iP(ad)/.test(navigator.userAgent)
+
 	Steedos.openWindow = (url, target)->
 		target = "_blank"
 		options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
@@ -48,7 +51,7 @@ if Meteor.isClient
 
 	# 左侧sidebar滚动条自适应
 	Steedos.fixSideBarScroll = ()->
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isPad()
 			return
 		if !$(".sidebar").perfectScrollbar
 			return

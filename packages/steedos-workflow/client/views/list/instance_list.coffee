@@ -117,7 +117,7 @@ Template.instance_list.onRendered ->
 	node = $(".workflow-menu");
 	node.maxHeight?.set($(window).height() - 55);
 	$('[data-toggle="tooltip"]').tooltip()
-	if !Steedos.isMobile()
+	if !Steedos.isMobile() && !Steedos.isPad()
 		$(".instance-list").perfectScrollbar({suppressScrollX: true});
 
 Template.instance_list.events

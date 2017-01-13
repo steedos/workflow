@@ -84,10 +84,3 @@ Array.prototype.findPropertyByPK = function (h, l) {
     });
     return r;
 }
-
-// if (Meteor.isClient) {
-//     document.ontouchstart = function()
-//     {
-//         this.click()
-//     }
-// }

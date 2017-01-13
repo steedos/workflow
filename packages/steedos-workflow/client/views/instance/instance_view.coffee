@@ -68,7 +68,7 @@ Template.instance_view.helpers
 Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")
 	$('[data-toggle="tooltip"]').tooltip()
-	if !Steedos.isMobile()
+	if !Steedos.isMobile() && !Steedos.isPad()
 		$('.instance').perfectScrollbar()
 		if Session.get("box") == "inbox"
 			$('.instance').on 'ps-y-reach-end', ->

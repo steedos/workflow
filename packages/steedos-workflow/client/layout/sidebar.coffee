@@ -13,7 +13,7 @@ Template.workflowSidebar.helpers
 
 Template.workflowSidebar.events
 
-	'click .instance_new, touchstart .instance_new, touchend .instance_new': (event, template)->
+	'click .instance_new': (event, template)->
 		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"))

@@ -2,7 +2,7 @@
 			name: "instances",
 			collection: db.instances,
 			drawCallback: (settings)->
-				if !Steedos.isMobile()
+				if !Steedos.isMobile() && !Steedos.isPad()
 					$(".instance-list").scrollTop(0).ready ->
 						$(".instance-list").perfectScrollbar("update")
 			createdRow: ( row, data, dataIndex ) ->
