@@ -15,7 +15,6 @@ Template.cf_space_user_list.events
 		$('input[name="cf_contacts_ids"]', $(".cf_space_user_list_table")).each ->
 			$(this).prop('checked', event.target.checked).trigger('change')
 	'click .for-input': (event, template) ->
-#		alert(event.type + event.currentTarget.dataset.user)
 		values = CFDataManager.getContactModalValue();
 		userId = event.currentTarget.dataset.user
 		if values.getProperty("id").indexOf(userId) < 0
