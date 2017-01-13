@@ -88,7 +88,6 @@ Template.instance_view.onRendered ->
 				viewH = $(self).innerHeight()
 				diffValue = (scrollH-viewH) - scrollTop
 				if diffValue < 20
-					debugger
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
