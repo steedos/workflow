@@ -1,20 +1,20 @@
 db.space_users = new Meteor.Collection('space_users')
 
 db.space_users._simpleSchema = new SimpleSchema
-	space: 
+	space:
 		type: String,
-		autoform: 
+		autoform:
 			type: "hidden",
 			defaultValue: ->
 				return Session.get("spaceId");
-	name: 
+	name:
 		type: String,
 		max: 50,
 	email:
 		type: String,
 		regEx: SimpleSchema.RegEx.Email,
 		optional: true
-		autoform: 
+		autoform:
 			type: "hidden"
 	user:
 		type: String,
@@ -22,21 +22,21 @@ db.space_users._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
-	organization: 
+	organization:
 		type: String,
 		optional: true,
-		autoform: 
+		autoform:
 			omit: true
 
-	organizations: 
+	organizations:
 		type: [String],
-		autoform: 
+		autoform:
 			type: "selectorg"
 			multiple: true
 			defaultValue: ->
 				return []
 
-	manager: 
+	manager:
 		type: String,
 		optional: true,
 		autoform:
@@ -52,7 +52,7 @@ db.space_users._simpleSchema = new SimpleSchema
 	user_accepted:
 		type: Boolean,
 		optional: true,
-		autoform: 
+		autoform:
 			defaultValue: true
 
 	created:
@@ -80,12 +80,12 @@ db.space_users._simpleSchema = new SimpleSchema
 if Meteor.isClient
 	db.space_users._simpleSchema.i18n("space_users")
 	db.space_users._sortFunction = (doc1, doc2) ->
+		if not doc1.sort_no
+			doc1.sort_no = 100
+		if not doc2.sort_no
+			doc2.sort_no = 100
 		if (doc1.sort_no == doc2.sort_no)
 			return doc1.name?.localeCompare(doc2.name)
-		else if (doc1.sort_no is undefined)
-			return 1
-		else if (doc2.sort_no is undefined)
-			return -1
 		else if (doc1.sort_no > doc2.sort_no)
 			return -1
 		else
@@ -110,7 +110,7 @@ db.space_users.helpers
 			return organizations?.getProperty('fullname').join('<br/>')
 		return
 
-if (Meteor.isServer) 
+if (Meteor.isServer)
 
 	db.space_users.before.insert (userId, doc) ->
 		doc.created_by = userId;
@@ -139,7 +139,7 @@ if (Meteor.isServer)
 			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
-			
+
 		creator = db.users.findOne(userId)
 
 		if (!doc.user) && (doc.email)
@@ -225,7 +225,7 @@ if (Meteor.isServer)
 
 		if modifier.$set.organizations && modifier.$set.organizations.length > 0
 			modifier.$set.organization = modifier.$set.organizations[0]
-	
+
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 		self = this
 		modifier.$set = modifier.$set || {};
@@ -302,13 +302,13 @@ if (Meteor.isServer)
 		selector = {}
 		if spaceId
 			selector.space = spaceId
-		else 
+		else
 			selector.space = {$in: user.spaces()}
 
 		console.log '[publish] space_users ' + spaceId
 
 		return db.space_users.find(selector)
-	
+
 
 
 	Meteor.publish 'my_space_users', ()->
@@ -326,4 +326,3 @@ if (Meteor.isServer)
 		console.log '[publish] my_space_user '
 
 		return db.space_users.find({space: spaceId, user: this.userId})
-	
