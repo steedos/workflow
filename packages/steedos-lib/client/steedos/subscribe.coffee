@@ -62,12 +62,11 @@ Tracker.autorun (c)->
 					$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
 			else
 				$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{accountZoomValue.name}")
-		unless Steedos.isMobile()
-			accountBgBodyValue = Steedos.getAccountBgBodyValue()
-			if accountBgBodyValue.url
-				$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
-			else
-				$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/sea.jpg')"
+		accountBgBodyValue = Steedos.getAccountBgBodyValue()
+		if accountBgBodyValue.url
+			$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
+		else
+			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/sea.jpg')"
 
 
 Steedos.subsForwardRelated = new SubsManager()
