@@ -38,7 +38,8 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 
 			jsonData = req.files[0].data.toString("utf-8")
 			try
-				steedosImport.workflow(uid, spaceId, jsonData);
+				form = JSON.parse(jsonData)
+				steedosImport.workflow(uid, spaceId, form);
 				res.statusCode = 200;
 			catch e
 				console.error e
