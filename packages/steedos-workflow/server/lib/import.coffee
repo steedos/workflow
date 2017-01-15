@@ -1,10 +1,6 @@
 steedosImport = {}
 
-steedosImport.workflow = (uid, spaceId, jsonData)->
-	try
-		form = JSON.parse(jsonData)
-	catch e
-		console.log e;
+steedosImport.workflow = (uid, spaceId, form)->
 
 	if _.isEmpty(form)
 		throw  new Exception('无效的json data')
@@ -48,9 +44,9 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 
 		form.is_valid = false #设置已验证为 false
 
-		form.create = new Date()
+		form.created = new Date()
 
-		form.create_by = uid
+		form.created_by = uid
 
 		form.historys = []
 
@@ -60,9 +56,9 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 
 		form.current.form = form_id
 
-		form.current.create = new Date()
+		form.current.created = new Date()
 
-		form.current.create_by = uid
+		form.current.created_by = uid
 
 		form.current.modified = new Date()
 
@@ -89,9 +85,9 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 
 			flow.current_no = 0 #重置编号起始为0
 
-			flow.create = new Date()
+			flow.created = new Date()
 
-			flow.create_by = uid
+			flow.created_by = uid
 
 			#		设置提交部门为：全公司
 			perms = {
@@ -115,9 +111,9 @@ steedosImport.workflow = (uid, spaceId, jsonData)->
 
 			flow.current.form_version = form.current._id
 
-			flow.current.create = new Date()
+			flow.current.created = new Date()
 
-			flow.current.create_by = uid
+			flow.current.created_by = uid
 
 			flow.current.modified = new Date()
 
