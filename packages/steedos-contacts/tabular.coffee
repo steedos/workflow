@@ -27,6 +27,18 @@ TabularTables.contacts = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
+		},
+		{
+			data: "sort_no",
+			title: "",
+			orderable: true,
+			visible: false
+		},
+		{
+			data: "name",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 
 	],
@@ -34,7 +46,7 @@ TabularTables.contacts = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-#      order:[[1,"desc"]]
+	order:[[3,"desc"],[4,"asc"]],
 	extraFields: ["_id", "name", "email", "sort_no"],
 	lengthChange: false,
 	pageLength: 100,
