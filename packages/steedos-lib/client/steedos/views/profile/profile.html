@@ -138,7 +138,7 @@
                     <div class="row skin-setting">
                       {{#each skins}}
                         <div class="col-xs-4 col-sm-3 col-md-2 col-lg-1">
-                          <a href="javascript:void(0);" data-skin_name="{{name}}" data-skin_tag="{{tag}}" class="thumbnail btn-default skin-setting-item-wrap skin-{{name}} clearfix full-opacity-hover {{isCurrentSkinNameWaitingSave name}} {{isCurrentSkinNameActive name}}">
+                          <a data-skin_name="{{name}}" data-skin_tag="{{tag}}" class="thumbnail btn-default skin-setting-item-wrap skin-{{name}} clearfix full-opacity-hover {{isCurrentSkinNameWaitingSave name}} {{isCurrentSkinNameActive name}}">
                             <div class="skin-setting-item">
                               <div class="skin-setting-head">
                                 <span class="skin-setting-side bg-{{tag}}-active"></span>
@@ -166,7 +166,7 @@
                     <div class="row zoom-setting">
                       {{#each zooms}}
                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                          <a href="javascript:void(0);" data-zoom_name="{{name}}" data-zoom_size="{{size}}" class="thumbnail btn-default zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave name}} {{isCurrentZoomNameActive name}}">
+                          <a data-zoom_name="{{name}}" data-zoom_size="{{size}}" class="thumbnail zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave name}} {{isCurrentZoomNameActive name}}">
                             <div class="zoom-setting-item zoom-{{name}}">
                               {{title}}
                             </div>
@@ -187,14 +187,14 @@
                     <div class="row bg-body-setting">
                       {{#each bgBodys}}
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                          <a href="javascript:void(0)" class="thumbnail {{isCurrentBgUrlWaitingSave url}} {{isCurrentBgUrlActive url}}" bg={{url}}>
+                          <a class="thumbnail {{isCurrentBgUrlWaitingSave url}} {{isCurrentBgUrlActive url}}" bg={{url}}>
                             <div class="bg-body" style="background-image:url({{url}})"></div>
                           </a>
                         </div>
                       {{/each}}
                       {{#if accountBgBodyValue.avatar}}
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                          <a href="javascript:void(0)" class="thumbnail {{isCurrentBgUrlWaitingSave(getAvatarFilePath(accountBgBodyValue.avatar))}} {{isCurrentBgUrlActive(getAvatarFilePath(accountBgBodyValue.avatar))}}" bg={{getAvatarFilePath(accountBgBodyValue.avatar)}}>
+                          <a class="thumbnail {{isCurrentBgUrlWaitingSave(getAvatarFilePath(accountBgBodyValue.avatar))}} {{isCurrentBgUrlActive(getAvatarFilePath(accountBgBodyValue.avatar))}}" bg={{getAvatarFilePath(accountBgBodyValue.avatar)}}>
                             <div class="bg-body" style="background-image:url({{getAvatarFilePath accountBgBodyValue.avatar}})"></div>
                           </a>
                         </div>
