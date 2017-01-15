@@ -65,6 +65,11 @@ Template.instance_view.helpers
 			else if (ins.final_decision == "rejected")
 				return "box-danger"
 
+	formDescription: ->
+		ins = WorkflowManager.getInstance();
+		if ins
+			return WorkflowManager.getForm(ins.form)?.description
+
 Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")
 	$('[data-toggle="tooltip"]').tooltip()
