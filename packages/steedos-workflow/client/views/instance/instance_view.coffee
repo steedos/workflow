@@ -75,7 +75,7 @@ Template.instance_view.onRendered ->
 				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
-	else
+	else if Session.get("box") == "inbox"
 		preScrollTop = 0
 		loap = 0
 		$(".instance").scroll (event)->
