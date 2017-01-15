@@ -184,7 +184,10 @@ AccountsTemplates.submitCallback = function(error, state, onSuccess) {
       } else {
         // If error.details is an object, we may try to set fields errors from it
         _.each(error.details, function(error, fieldId) {
-          AccountsTemplates.getField(fieldId).setError(error);
+          var field = AccountsTemplates.getField(fieldId);
+          if (field) {
+            field.setError(error);
+          }
         });
       }
     } else {
