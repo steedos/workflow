@@ -72,6 +72,9 @@ db.space_users._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			omit: true
+	mobile: 
+		type: String,
+		optional: true
 
 
 if Meteor.isClient

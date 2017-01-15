@@ -24,21 +24,21 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
+				return "<div class='contacts-name #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-email #{colorClass}'>" + (doc.email || "") + "</div>"
+				return "<div class='contacts-email #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "mobile",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-mobile #{colorClass}'>" + (doc.mobile || "") + "</div>"
+				return "<div class='contacts-mobile #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.mobile || "") + "</div>"
 		},
 		{
 			data: "",
@@ -75,7 +75,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #  style: 'single'
 	dom: "tp",
 	order:[[5,"desc"],[6,"asc"]],
-	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,
@@ -111,19 +111,19 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 			data: "name",
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
+				return "<div class='contacts-name #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-email #{colorClass}'>" + doc.email + "</div>"
+				return "<div class='contacts-email #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.email + "</div>"
 		},
 		{
 			data: "mobile",
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-mobile #{colorClass}'>" + (doc.mobile || "") + "</div>"
+				return "<div class='contacts-mobile #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.mobile || "") + "</div>"
 		},
 		{
 			data: "sort_no",
@@ -136,7 +136,7 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 
 	dom: "tp",
 	order:[[3,"desc"], [0,"asc"]],
-	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,

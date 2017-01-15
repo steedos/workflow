@@ -21,6 +21,11 @@
 	"steedos_emailjs_add_to_contacts": "Add to contacts",
 	"steedos_emailjs_compose": "Compose email",
 
+	"steedos_contacts_space_users_name":"Name",
+	"steedos_contacts_space_users_email":"Email",
+	"steedos_contacts_space_users_mobile":"Mobile",
+	"steedos_contacts_space_users_organizations":"Organizations",
+
 	"address_groups": "Address Groups",
 	"address_groups_name": "Group Name",
 	"address_books": "Address Books",
@@ -50,9 +55,9 @@
 	"steedos_contacts_error_space_user_not_found": "Space user is not found",
 	"steedos_contacts_error_space_user_not_found_dragging": "Dragging Space user data not found",
 	"steedos_contacts_error_contact_exists": "Contact already exists",
-    "steedos_contacts_export": "Export",
-    "address_books_mobile": "Mobile",
-    "address_books_company": "Company",
-    "steedos_contacts__books_export_error": "Please select export users.",
-    "steedos_contact_books_exprot_vcf_title": "Export vCard..."
+	"steedos_contacts_export": "Export",
+	"address_books_mobile": "Mobile",
+	"address_books_company": "Company",
+	"steedos_contacts__books_export_error": "Please select export users.",
+	"steedos_contact_books_exprot_vcf_title": "Export vCard..."
 }

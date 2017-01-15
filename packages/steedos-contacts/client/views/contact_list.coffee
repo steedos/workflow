@@ -49,6 +49,10 @@ Template.contacts_list.events
             $("#contact-list-search-key").val(),
         ).draw();
 
+    'click .contacts-info': (event, template)->
+        Modal.allowMultiple = true;
+        Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
+
 Template.contacts_list.onRendered ->
     TabularTables.contacts.customData = @data
     TabularTables.contactsBooks.customData = @data

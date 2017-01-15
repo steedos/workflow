@@ -38,7 +38,7 @@ db.organizations.adminConfig =
 		{name: "users_count()"},
 	]
 	extraFields: ["space", "name", "users"]
-	newFormFields: "space,name,parent,sort_no,hidden,users,admins"
+	newFormFields: "space,name,parent,sort_no,hidden,users,admins,fullname"
 	editFormFields: "name,parent,sort_no,hidden,users,admins"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
@@ -54,9 +54,9 @@ db.space_users.adminConfig =
 		{name: "organization_name()"},
 		{name: "user_accepted"}
 	]
-	extraFields: ["space", "user", 'organizations', "manager"]
-	newFormFields: "space,name,email,organizations,manager,sort_no,user_accepted"
-	editFormFields: "space,name,organizations,manager,sort_no,user_accepted"
+	extraFields: ["space", "user", "organizations", "manager"]
+	newFormFields: "space,name,email,mobile,organizations,manager,sort_no,user_accepted"
+	editFormFields: "space,name,mobile,organizations,manager,sort_no,user_accepted"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 

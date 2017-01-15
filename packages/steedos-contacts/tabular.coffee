@@ -20,13 +20,13 @@ TabularTables.contacts = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-name'>" + doc.name + "</div>"
+				return "<div class='contacts-name contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
+				return "<div class='contacts-email contacts-info' data-id='#{doc._id}'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "sort_no",
@@ -47,7 +47,7 @@ TabularTables.contacts = new Tabular.Table({
 #  style: 'single'
 	dom: "tp",
 	order:[[3,"desc"],[4,"asc"]],
-	extraFields: ["_id", "name", "email", "sort_no"],
+	extraFields: ["_id", "name", "email", "sort_no", "organizations"],
 	lengthChange: false,
 	pageLength: 100,
 	info: false,

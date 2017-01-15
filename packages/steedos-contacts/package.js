@@ -112,6 +112,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_invite_users_modal.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_import_books_modal.html', 'client');
 	api.addFiles('client/views/steedos_contacts_import_books_modal.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_space_user_info_modal.html', 'client');
+	api.addFiles('client/views/steedos_contacts_space_user_info_modal.coffee', 'client');
 
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
