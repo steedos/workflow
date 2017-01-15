@@ -293,7 +293,9 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport' , 'steedosImport'], ['server']);
+    api.addFiles('server/flow-template/workflow_template.coffee', 'server');
+
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport' , 'steedosImport' , 'workflowTemplate'], ['server']);
 
 });
 
