@@ -379,6 +379,19 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	if options?.styles
 		allCssLink = ""
 
+	form = db.forms.findOne({_id: instance.form});
+	formDescriptionHtml = ""
+	if form
+		formDescription = form.description
+		if formDescription
+			formDescriptionHtml = """
+				<div class="box-header  with-border instance-header">
+					<div>
+						#{formDescription}
+					</div>
+				</div>
+				"""
+
 	html = """
 		<!DOCTYPE html>
 		<html>
@@ -415,6 +428,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					<div class="instance-view">
 						<div class="instance #{instance_style}">
 							<div class="instance-form box #{instanceBoxStyle}">
+								#{formDescriptionHtml}
 								<div class="box-body">
 									<div class="col-md-12">
 										#{body}

@@ -24,6 +24,13 @@
         	    <!--{{#if isTableView flow}}-->
 				    <div class="instance instance-table">
                         <div class="instance-form box {{instance_box_style }}">
+                            {{#if formDescription}}
+                                <div class="box-header  with-border instance-header">
+                                    <div>
+                                        {{{formDescription}}}
+                                    </div>
+                                </div>
+                            {{/if}}
                             <div class="box-body">
                                 <div class="col-md-12">
                                     {{> Template.dynamic template="instance_attachments" data=instance.attachments}}

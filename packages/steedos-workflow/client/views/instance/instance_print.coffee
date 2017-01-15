@@ -28,6 +28,11 @@ Template.instancePrint.helpers
 		if steedos_instance
 			return InstanceReadOnlyTemplate.getInstanceView(db.users.findOne({_id: Meteor.userId()}), Session.get("spaceId"), steedos_instance);
 
+	formDescription: ->
+		ins = WorkflowManager.getInstance();
+		if ins
+			return WorkflowManager.getForm(ins.form)?.description
+
 Template.instancePrint.step = 1;
 
 Template.instancePrint.plusFontSize = (node)->

@@ -102,6 +102,10 @@ WorkflowManager.getInstanceFormVersion = function () {
 	if (instance) {
         var form = db.forms.findOne({_id: instance.form})
 
+        if(!form){
+            return rev;
+        }
+
         if(form.current && instance.form_version == form.current._id)
             rev =  _.clone(form.current)
         else if (form.historys)
@@ -149,6 +153,10 @@ WorkflowManager.getInstanceFlowVersion = function () {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
         var flow = db.flows.findOne({_id: instance.flow})
+
+        if(!flow){
+            return null;
+        }
 
         if(flow.current && instance.flow_version == flow.current._id)
             return _.clone(flow.current)
