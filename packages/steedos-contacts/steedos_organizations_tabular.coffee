@@ -1,7 +1,7 @@
 TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	name: "steedosContactsOrganizations",
 	collection: db.space_users,
-	createdRow:(row,data,index)-> 
+	createdRow:(row,data,index)->
 		$(row).addClass("drag-source").attr "draggable",true
 	columns: [
 # {
@@ -21,7 +21,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 # },
 		{
 			data: "name",
-			orderable: true,
+			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-name #{colorClass}'>" + doc.name + "</div>"
@@ -61,6 +61,12 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			title: "",
 			orderable: true,
 			visible: false
+		},
+		{
+			data: "name",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 
 	],
@@ -68,7 +74,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-	order:[[5,"desc"],[0,"asc"]],
+	order:[[5,"desc"],[6,"asc"]],
 	extraFields: ["_id", "name", "email", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,

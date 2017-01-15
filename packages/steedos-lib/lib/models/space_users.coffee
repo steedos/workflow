@@ -44,10 +44,7 @@ db.space_users._simpleSchema = new SimpleSchema
 
 	sort_no:
 		type: Number,
-		optional: true,
-		defaultValue: 100,
-		autoform:
-			defaultValue: 100
+		optional: true
 
 	user_accepted:
 		type: Boolean,
@@ -80,12 +77,12 @@ db.space_users._simpleSchema = new SimpleSchema
 if Meteor.isClient
 	db.space_users._simpleSchema.i18n("space_users")
 	db.space_users._sortFunction = (doc1, doc2) ->
-		if not doc1.sort_no
-			doc1.sort_no = 100
-		if not doc2.sort_no
-			doc2.sort_no = 100
 		if (doc1.sort_no == doc2.sort_no)
 			return doc1.name?.localeCompare(doc2.name)
+		else if (doc1.sort_no is undefined)
+			return 1
+		else if (doc2.sort_no is undefined)
+			return -1
 		else if (doc1.sort_no > doc2.sort_no)
 			return -1
 		else
