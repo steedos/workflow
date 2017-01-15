@@ -66,7 +66,7 @@ Tracker.autorun (c)->
 		if accountBgBodyValue.url
 			$("body").css "backgroundImage","url(#{accountBgBodyValue.url})"
 		else
-			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/sea.jpg')"
+			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
 
 
 Steedos.subsForwardRelated = new SubsManager()
