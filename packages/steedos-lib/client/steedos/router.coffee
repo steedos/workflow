@@ -100,8 +100,6 @@ FlowRouter.route '/steedos/springboard',
 			FlowRouter.go "/steedos/sign-in";
 			return true
 
-		Steedos.setAppId(null);
-
 		NavigationController.reset();
 		
 		BlazeLayout.render 'masterLayout',

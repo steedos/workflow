@@ -97,7 +97,6 @@ if Meteor.isClient
 			FlowRouter.go("/steedos/springboard")
 			return
 
-		Steedos.setAppId app_id
 		on_click = app.on_click
 		if app.is_use_ie
 			if Steedos.isNode()

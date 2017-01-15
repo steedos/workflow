@@ -116,23 +116,6 @@ TemplateHelpers =
 			else
 				return false
 
-	setAppId: (appId)->
-		if appId != Session.get("appId")
-			Session.set("appId", appId)
-			localStorage.setItem("appId:" + Meteor.userId(), if appId then appId else "");
-
-	getAppId: ()->
-
-		appId = Session.get("appId")
-		if appId
-			return appId
-
-		appId = localStorage.getItem("appId:" + Meteor.userId())
-		if appId
-			return appId
-		else
-			return undefined;
-
 	getSpaceApps: ()->
 		selector = {}
 		if Steedos.getSpaceId()
