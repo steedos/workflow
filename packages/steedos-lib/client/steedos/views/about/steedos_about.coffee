@@ -8,3 +8,7 @@ Template.steedosAbout.helpers
 	steedosBuildDate: ->
 		if Steedos.Info.build
 			moment(new Date(Steedos.Info.build.date)).format("YYYY-MM-DD HH:mm:ss")
+
+Template.steedosAbout.events
+	'click .steedos-about': (event)->
+		Steedos.openWindow("https://www.steedos.com/");
