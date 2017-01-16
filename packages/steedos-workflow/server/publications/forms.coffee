@@ -1,34 +1,46 @@
-  Meteor.publish 'forms', (spaceId)->
-  
-    unless this.userId
-      return this.ready()
-    
-    unless spaceId
-      return this.ready()
+Meteor.publish 'forms', (spaceId)->
+	unless this.userId
+		return this.ready()
 
-    console.log '[publish] forms for space ' + spaceId
+	unless spaceId
+		return this.ready()
 
-    return db.forms.find({space: spaceId}, {fields: {name: 1, category: 1, state:1}})
+	console.log '[publish] forms for space ' + spaceId
+
+	return db.forms.find({space: spaceId}, {fields: {name: 1, category: 1, state: 1, description: 1}})
 
 
-  Meteor.publish 'form', (spaceId, formId, versionId) ->
-	  unless this.userId
-		  return this.ready()
+Meteor.publish 'form_version', (spaceId, formId, versionId) ->
+	unless this.userId
+		return this.ready()
 
-	  unless spaceId
-		  return this.ready()
+	unless spaceId
+		return this.ready()
 
-	  unless formId
-		  return this.ready()
+	unless formId
+		return this.ready()
 
-	  unless versionId
-		  return this.ready()
+	unless versionId
+		return this.ready()
 
-	  console.log "[publish] form for space:#{spaceId}, formId:#{spaceId}, versionId: #{versionId} "
+	console.log "[publish] form_version for space:#{spaceId}, formId:#{formId}, versionId: #{versionId} "
 
-	  form = db.forms.find({_id: formId, "historys._id": versionId}, {fields: {"historys.$": 1, current: 1, description: 1}})
+	self = this;
 
-	  if form.count() < 1
-		  form = db.forms.find({_id: formId}, {fields: {current: 1, description: 1}})
+	getFormVersion = (id , versionId)->
+		form = db.forms.findOne({_id : id});
+		form_version = form.current
+		if form_version._id != versionId
+			form_version = form.historys.findPropertyByPK("_id", versionId)
+		console.log "form_version._id: #{form_version._id}"
+		return form_version
 
-	  return form
+	handle = db.forms.find({_id: formId}).observeChanges {
+		changed: (id)->
+			self.changed("form_versions", versionId, getFormVersion(id, versionId));
+	}
+
+	self.added("form_versions", versionId, getFormVersion(formId, versionId));
+	self.ready();
+	self.onStop ()->
+		handle.stop()

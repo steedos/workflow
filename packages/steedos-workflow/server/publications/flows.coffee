@@ -25,7 +25,7 @@ Meteor.publish 'flows', (spaceId)->
 	})
 
 
-Meteor.publish 'flow', (spaceId, flowId, versionId) ->
+Meteor.publish 'flow_version', (spaceId, flowId, versionId) ->
 	unless this.userId
 		return this.ready()
 
@@ -38,11 +38,25 @@ Meteor.publish 'flow', (spaceId, flowId, versionId) ->
 	unless versionId
 		return this.ready()
 
-	console.log "[publish] flow for space:#{spaceId}, flowId:#{spaceId}, versionId: #{versionId} "
+	console.log "[publish] flow for space:#{spaceId}, flowId:#{flowId}, versionId: #{versionId} "
 
-	flow = db.flows.find({_id: flowId, "historys._id": versionId}, {fields: {"historys.$": 1, current: 1}})
+	self = this;
 
-	if flow.count() < 1
-		flow = db.flows.find({_id: flowId}, {fields: {current: 1}})
+	getFlowVersion = (id , versionId)->
+		flow = db.flows.findOne({_id : id});
+		flow_version = flow.current
+		if flow_version._id != versionId
+			flow_version = flow.historys.findPropertyByPK("_id", versionId)
+		console.log "flow_version._id: #{flow_version._id}"
+		return flow_version
 
-	return flow
+	handle = db.flows.find({_id: flowId}).observeChanges {
+		changed: (id)->
+			self.changed("flow_versions", versionId, getFlowVersion(id, versionId));
+	}
+
+
+	self.added("flow_versions", versionId, getFlowVersion(flowId, versionId));
+	self.ready();
+	self.onStop ()->
+		handle.stop()
