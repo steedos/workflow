@@ -1,6 +1,6 @@
 steedosImport = {}
 
-steedosImport.workflow = (uid, spaceId, form)->
+steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 	if _.isEmpty(form)
 		throw  new Exception('无效的json data')
@@ -31,7 +31,6 @@ steedosImport.workflow = (uid, spaceId, form)->
 
 		form_id = Meteor.uuid()
 
-		#	form_version_id = Meteor.uuid()
 		flows = form.flows
 
 		delete form.flows
@@ -39,8 +38,10 @@ steedosImport.workflow = (uid, spaceId, form)->
 		form._id = form_id
 
 		form.space = spaceId
-
-		form.state = 'disabled' #设置状态为 未启用
+		if enabled
+			form.state = 'enabled'
+		else
+			form.state = 'disabled' #设置状态为 未启用
 
 		form.is_valid = false #设置已验证为 false
 
@@ -50,7 +51,7 @@ steedosImport.workflow = (uid, spaceId, form)->
 
 		form.historys = []
 
-		#	form.current._id = form_version_id
+		form.current._id = Meteor.uuid()
 
 		form.current._rev = 1 #重置版本号
 
@@ -79,7 +80,10 @@ steedosImport.workflow = (uid, spaceId, form)->
 
 			flow.space = spaceId
 
-			flow.state = 'disabled'
+			if enabled
+				flow.state = 'enabled'
+			else
+				flow.state = 'disabled' #设置状态为 未启用
 
 			flow.is_valid = false
 
@@ -104,6 +108,8 @@ steedosImport.workflow = (uid, spaceId, form)->
 			}
 
 			flow.perms = perms
+
+			flow.current._id = Meteor.uuid()
 
 			flow.current.flow = flow_id
 

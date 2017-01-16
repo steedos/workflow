@@ -31,7 +31,7 @@ if Meteor.isServer
 
 		if template_forms && template_forms instanceof Array
 			template_forms.forEach (form)->
-				steedosImport.workflow(owner_id, space_id, form);
+				steedosImport.workflow(owner_id, space_id, form, true);
 
 		# 根据locale和模板创建表单流程
 #		template_space_id = null
