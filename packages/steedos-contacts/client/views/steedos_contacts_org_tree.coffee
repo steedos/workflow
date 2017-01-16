@@ -37,6 +37,9 @@ Template.steedos_contacts_org_tree.onRendered ->
 
 	$("#steedos_contacts_org_tree").on('select_node.jstree', (e, data) ->
 		$(".contacts-list-wrapper").hide();
+		if $("#contact-list-search-key")
+			$("#contact-list-search-key").val("")
+			$('#contact-list-search-btn').trigger('click')
 	)
 	$(document.body).removeClass('loading')
 
