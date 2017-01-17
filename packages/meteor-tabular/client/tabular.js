@@ -394,8 +394,10 @@ var tabularOnRendered = function () {
     //console.log('LOADING', isLoading);
     if (isLoading) {
       template.$('.dataTables_processing').show();
+      template.$('.dataTable').hide();
     } else {
       template.$('.dataTables_processing').hide();
+      template.$('.dataTable').show();
     }
   });
 
