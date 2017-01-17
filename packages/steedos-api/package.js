@@ -39,7 +39,7 @@ Package.onUse(function(api) {
 	api.use('cfs:standard-packages');
 	api.use('raix:push');
 	api.use('simple:json-routes@2.1.0');
-	api.use('aldeed:tabular@1.6.0');
+    api.use('aldeed:tabular@1.6.1');
 	api.use('steedos:lib');
 
 
