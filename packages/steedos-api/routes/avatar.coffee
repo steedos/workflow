@@ -41,10 +41,11 @@ Meteor.startup ->
 			res.setHeader 'content-type', 'image/svg+xml'
 			res.setHeader 'cache-control', 'public, max-age=31536000'
 
-			colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
+			# colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
 
-			position = username.length % colors.length
-			color = colors[position]
+			# position = username.length % colors.length
+			# color = colors[position]
+			color = "#D6DADC"
 
 			initials = ''
 			if username.charCodeAt(0)>255
@@ -57,7 +58,7 @@ Meteor.startup ->
 			svg = """
 			<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 			<svg xmlns="http://www.w3.org/2000/svg" pointer-events="none" width="#{width}" height="#{height}" style="width: #{width}px; height: #{height}px; background-color: #{color};">
-				<text text-anchor="middle" y="50%" x="50%" dy="0.36em" pointer-events="auto" fill="#ffffff" font-family="Helvetica, Arial, Lucida Grande, sans-serif" style="font-weight: 400; font-size: #{fontSize}px;">
+				<text text-anchor="middle" y="50%" x="50%" dy="0.36em" pointer-events="auto" fill="#4d4d4d" font-family="-apple-system, BlinkMacSystemFont, Helvetica, Arial, Microsoft Yahei, SimHei" style="font-weight: 400; font-size: #{fontSize}px;">
 					#{initials}
 				</text>
 			</svg>
