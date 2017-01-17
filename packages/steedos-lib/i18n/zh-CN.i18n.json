@@ -221,7 +221,7 @@
 	"space_users_id": "ID",
 	"space_users_user": "用户ID",
 	"space_users_space_name()": "工作区",
-	"space_users_name": "名称",
+	"space_users_name": "姓名",
 	"space_users_email": "邮件",
 	"space_users_organization": "所属部门",
 	"space_users_organizations": "所属部门",
@@ -368,5 +368,6 @@
 	"zoom_title_extra_large": "超大字体",
 	"profile_save_zoom_setting": "保存字体",
 	"profile_save_zoom_suc": "字体保存成功",
-	"space_balance_insufficient": "工作区余额不足"
+	"space_balance_insufficient": "工作区余额不足",
+    "close": "关闭"
 }
