@@ -1,6 +1,7 @@
 		TabularTables.instances = new Tabular.Table({
 			name: "instances",
 			collection: db.instances,
+			pub: "instance_tabular",
 			drawCallback: (settings)->
 				if !Steedos.isMobile() && !Steedos.isPad()
 					$(".instance-list").scrollTop(0).ready ->
@@ -22,7 +23,15 @@
 						if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 							cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
-						return "<div class='instance-name'>" + doc.name + cc_view +  "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
+						myApprove = db.my_approves.findOne({_id: doc._id})
+
+						read = ""
+
+						if myApprove?.is_read == false
+							if Session.get("box") == 'inbox'
+								read = "unread"
+
+						return "<div class='instance-read-bar #{read}'></div><div class='instance-name'>" + doc.name + cc_view +  "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
 				},
 				{
 					data: "modified",

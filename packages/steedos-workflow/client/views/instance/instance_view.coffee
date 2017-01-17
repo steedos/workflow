@@ -71,7 +71,11 @@ Template.instance_view.helpers
 			return WorkflowManager.getForm(ins.form)?.description
 
 Template.instance_view.onRendered ->
+	if Session.get("box") == "inbox"
+		InstanceManager.setApproveHaveRead(Session.get("instanceId"))
+
 	$(".workflow-main").addClass("instance-show")
+
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题

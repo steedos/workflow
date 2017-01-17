@@ -4,8 +4,12 @@ Steedos.flowVersionSpace = new SubsManager();
 
 Steedos.formVersionSpace = new SubsManager();
 
+#Steedos.instanceMyApproveSpace = new SubsManager();
+
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
+
+db.my_approves = new Mongo.Collection("my_approves");
 
 Steedos.subscribeFlowVersion = (space, flowId, flow_version)->
 #	flow 存在，并且存在current和historys属性，但是未能根据flow_version 找到记录时，清理缓存数据
@@ -45,3 +49,7 @@ Tracker.autorun (c) ->
 				console.error "instance not find ,id is instanceId"
 				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 				Session.set("instance_loading", false);
+
+#Tracker.autorun (c) ->
+#	if Session.get("spaceId")
+#		Steedos.instanceMyApproveSpace.subscribe("instance_my_approves", Session.get("spaceId"))

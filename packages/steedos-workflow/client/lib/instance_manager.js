@@ -1161,3 +1161,13 @@ InstanceManager.fixInstancePosition = function(isNeedToScrollTop){
 	}
 }
 
+
+InstanceManager.setApproveHaveRead = function (instanceId) {
+    var ins = WorkflowManager.getInstance()
+    var myApprove = db.my_approves.findOne({_id:ins._id}, {fields: {trace: 1, id: 1, is_read: 1}})
+    if(myApprove && myApprove.is_read == false)
+        Meteor.call("set_approve_have_read", ins._id, myApprove.trace ,myApprove.id,  function(error, result) {
+            console.log(error)
+            console.log(result)
+        });
+}

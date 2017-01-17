@@ -201,6 +201,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_modal.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_modal.less', 'client');
 
+    api.addFiles('client/views/list/instance_list.less', 'client');
 	api.addFiles('client/views/list/instance_list.html', 'client');
 	api.addFiles('client/views/list/instance_list.coffee', 'client');
 
@@ -234,6 +235,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/trace_approve_cc.js', 'server');
 	api.addFiles('server/methods/forward_instance.js', 'server');
 	api.addFiles('server/methods/cfs_instances.js', 'server');
+    api.addFiles('server/methods/instance_approve.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
@@ -270,6 +272,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/forms.coffee', 'server');
 	api.addFiles('server/publications/instance_data.coffee', 'server');
 	api.addFiles('server/publications/instance_list.coffee', 'server');
+    api.addFiles('server/publications/instance_tabular.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');

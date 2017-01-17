@@ -112,6 +112,7 @@ Template.instance_list.onCreated ->
 		self.maxHeight?.set($(window).height() - 55);
 
 Template.instance_list.onRendered ->
+	console.log "instance_list.onRendered"
 	#dataTable = $(".datatable-instances").DataTable();
 	#dataTable.select();
 	node = $(".workflow-menu");
