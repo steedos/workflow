@@ -418,7 +418,7 @@ pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
 	try
 		from_displayName = reply_user.name
 
-		Email.send
+		MailQueue.send
 			to: to_user.email
 			from: from_displayName + ' on ' + Meteor.settings.email.from
 			subject: subject

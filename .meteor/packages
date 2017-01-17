@@ -131,3 +131,5 @@ reywood:publish-composite
 
 #fix bug for package 'kadira:flow-router' with ie8/9
 tomwasd:history-polyfill
+
+steedos:mailqueue

@@ -28,7 +28,7 @@ Meteor.startup ->
     
     config = {
         debug: true
-        keepNotifications: true
+        keepNotifications: false
         sendInterval: 1000
         sendBatchSize: 10
         production: true
