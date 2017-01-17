@@ -34,7 +34,7 @@ Package.onUse(function(api) {
 	api.use('nimble:restivus@0.8.7');
 	api.use('aldeed:simple-schema@1.3.3');
 	api.use('aldeed:collection2@2.5.0');
-	api.use('aldeed:tabular@1.6.0');
+	api.use('aldeed:tabular@2.1.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.1');
 	api.use('cfs:standard-packages@0.5.9');
@@ -139,7 +139,7 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/instance_attachments.html', 'server');
 
 	api.addFiles('client/views/instance/_instance_attachments.js', ['client', 'server']);
-    api.addFiles('client/views/instance/_instance_sign_text.coffee', ['client', 'server']);
+	api.addFiles('client/views/instance/_instance_sign_text.coffee', ['client', 'server']);
 
 	api.addFiles('client/views/instance/select_flow_modal.less', 'client')
 	api.addFiles('client/views/instance/select_flow_modal.html', 'client')
@@ -269,10 +269,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_data.coffee', 'server');
 	api.addFiles('server/publications/instance_list.coffee', 'server');
 
-    api.addFiles('server/lib/export.coffee', 'server');
-    api.addFiles('routes/export.coffee', 'server');
-    api.addFiles('server/lib/import.coffee', 'server');
-    api.addFiles('routes/import.coffee', 'server');
+	api.addFiles('server/lib/export.coffee', 'server');
+	api.addFiles('routes/export.coffee', 'server');
+	api.addFiles('server/lib/import.coffee', 'server');
+	api.addFiles('routes/import.coffee', 'server');
 	// EJS
 	api.addAssets('server/ejs/export_instances.ejs', 'server');
 
@@ -280,9 +280,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('tabular.coffee');
 
-    api.addFiles('client/views/instance/instance_sign_text.html', 'client');
-    api.addAssets('client/views/instance/instance_sign_text.html', 'server');
-    api.addFiles('client/views/instance/instance_sign_text.coffee', 'client');
+	api.addFiles('client/views/instance/instance_sign_text.html', 'client');
+	api.addAssets('client/views/instance/instance_sign_text.html', 'server');
+	api.addFiles('client/views/instance/instance_sign_text.coffee', 'client');
 
 	api.export("WorkflowManager");
 	api.export("InstanceManager");
@@ -293,7 +293,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-    api.addFiles('server/flow-template/workflow_template.coffee', 'server');
+	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 
 	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport' , 'steedosImport' , 'workflowTemplate'], ['server']);
 

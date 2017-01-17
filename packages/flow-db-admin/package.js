@@ -31,7 +31,7 @@ Package.onUse(function(api) {
     'alanning:roles@1.2.13',
     'raix:handlebar-helpers@0.2.5',
     'momentjs:moment@2.10.6',
-    'aldeed:tabular@1.4.0',
+    'aldeed:tabular@2.1.1',
     'steedos:admin-lte',
     'check'
     ],

@@ -34,7 +34,7 @@ Package.onUse(function(api) {
 	api.use('nimble:restivus@0.8.7');
 	api.use('aldeed:simple-schema@1.3.3');
 	api.use('aldeed:collection2@2.5.0');
-	api.use('aldeed:tabular@1.6.0');
+	api.use('aldeed:tabular@2.1.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.1');
 	api.use('cfs:standard-packages@0.5.9');
