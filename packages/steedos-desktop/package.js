@@ -27,7 +27,7 @@ Package.onUse(function(api) {
 	api.use('simple:json-routes');
 	api.use('aldeed:simple-schema');
 	api.use('aldeed:collection2');
-	api.use('aldeed:tabular@2.1.1');
+	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform');
 	api.use('matb33:collection-hooks');
 	api.use('cfs:standard-packages@0.5.9');
