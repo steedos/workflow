@@ -43,7 +43,10 @@ Meteor.startup ->
 
 			colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4','#009688','#4CAF50','#8BC34A','#CDDC39','#FFC107','#FF9800','#FF5722','#795548','#9E9E9E','#607D8B']
 
-			color_index = username.charCodeAt(0);
+			username_array = Array.from(username)
+			color_index = 0
+			_.each username_array, (item) ->
+				color_index += item.charCodeAt(0);
 
 			position = color_index % colors.length
 			color = colors[position]

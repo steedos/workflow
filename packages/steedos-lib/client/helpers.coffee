@@ -345,9 +345,10 @@ TemplateHelpers =
 
 	skinName: (defaultName)->
 		unless defaultName
-			defaultName = "green"
-		accountSkinValue = Steedos.getAccountSkinValue()
-		return if accountSkinValue.name then accountSkinValue.name else defaultName
+			defaultName = "blue"
+		# accountSkinValue = Steedos.getAccountSkinValue()
+		# return if accountSkinValue.name then accountSkinValue.name else defaultName
+		return defaultName
 
 
 
