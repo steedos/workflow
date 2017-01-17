@@ -23,12 +23,10 @@
 						if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 							cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
-						myApprove = db.my_approves.findOne({_id: doc._id})
-
 						read = ""
-
-						if myApprove?.is_read == false
-							if Session.get("box") == 'inbox'
+						if Session.get("box") == 'inbox'
+							myApprove = db.my_approves.findOne({_id: doc._id})
+							if myApprove?.is_read == false
 								read = "unread"
 
 						return "<div class='instance-read-bar #{read}'></div><div class='instance-name'>" + doc.name + cc_view +  "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"

@@ -4,7 +4,6 @@ Meteor.methods
 
 		if instance?.traces?.length > 0
 			trace = instance.traces[0]
-			console.log(trace);
 
 			trace.approves.forEach (approve)->
 				if approve._id == approveId
