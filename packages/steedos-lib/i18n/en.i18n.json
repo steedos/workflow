@@ -328,7 +328,7 @@
 		"infoThousands": ",",
 		"lengthMenu": "Show _MENU_ entries",
 		"loadingRecords": "Loading...",
-		"processing": "Processing...",
+		"processing": "Loading...",
 		"search": "Search:",
 		"zeroRecords": "No matching records found",
 		"zero": "None ",

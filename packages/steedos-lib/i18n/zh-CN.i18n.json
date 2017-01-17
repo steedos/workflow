@@ -342,7 +342,7 @@
 		"infoThousands": ",",
 		"lengthMenu": "显示 _MENU_ 项记录",
 		"loadingRecords": "载入中...",
-		"processing": "处理中...",
+		"processing": "加载中...",
 		"search": "搜索:",
 		"zeroRecords": "没有记录",
 		"zero": "没有",
