@@ -45,7 +45,7 @@ TabularTables.contacts = new Tabular.Table({
 
 #select:
 #  style: 'single'
-	dom: "tp",
+	dom: "tpr",
 	order:[[3,"desc"],[4,"asc"]],
 	extraFields: ["_id", "name", "email", "sort_no", "organizations"],
 	lengthChange: false,
