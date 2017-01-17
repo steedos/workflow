@@ -48,7 +48,7 @@ var tabularOnRendered = function () {
       // the first subscription, which will then trigger the
       // second subscription.
 
-      template.tabular.isLoading.set(true);
+      // template.tabular.isLoading.set(true);
       //console.log('data', template.tabular.data);
 
       // Update skip
@@ -188,6 +188,17 @@ var tabularOnRendered = function () {
     }
   });
 
+  template.autorun(function() {
+    // these 5 are the parameters passed to "tabular_getInfo" subscription
+    // so when they *change*, set the isLoading flag to true
+    template.tabular.tableName.get();
+    template.tabular.pubSelector.get();
+    template.tabular.sort.get();
+    template.tabular.skip.get();
+    template.tabular.limit.get();
+    template.tabular.isLoading.set(true);
+  });
+
   // First Subscription
   // Subscribe to an array of _ids that should be on the
   // current page of the table, plus some aggregate
@@ -200,6 +211,10 @@ var tabularOnRendered = function () {
       return;
     }
 
+    function onReady() {
+      template.tabular.isLoading.set(false);
+    }
+
     //console.log('tabular_getInfo autorun');
 
     Meteor.subscribe(
@@ -208,7 +223,8 @@ var tabularOnRendered = function () {
       template.tabular.pubSelector.get(),
       template.tabular.sort.get(),
       template.tabular.skip.get(),
-      template.tabular.limit.get()
+      template.tabular.limit.get(),
+      onReady
     );
   });
 

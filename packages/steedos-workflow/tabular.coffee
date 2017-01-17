@@ -52,7 +52,7 @@
 
 			#select:
 			#  style: 'single'
-			dom: "tp",
+			dom: "tpr",
 			order:[[1,"desc"]]
 			extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users"],
 			lengthChange: false,
