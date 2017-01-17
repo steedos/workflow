@@ -27,7 +27,7 @@ if Meteor.isServer
 		if user.locale == "zh-cn"
 			template_forms = workflowTemplate["zh-CN"]
 		else
-			template_forms = workflowTemplate[user.locale]
+			template_forms = workflowTemplate["en"]
 
 		if template_forms && template_forms instanceof Array
 			template_forms.forEach (form)->

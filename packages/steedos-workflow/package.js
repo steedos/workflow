@@ -34,7 +34,7 @@ Package.onUse(function(api) {
 	api.use('nimble:restivus@0.8.7');
 	api.use('aldeed:simple-schema@1.3.3');
 	api.use('aldeed:collection2@2.5.0');
-    api.use('aldeed:tabular@1.6.1');
+	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.1');
 	api.use('cfs:standard-packages@0.5.9');
@@ -201,7 +201,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_modal.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_modal.less', 'client');
 
-    api.addFiles('client/views/list/instance_list.less', 'client');
+	api.addFiles('client/views/list/instance_list.less', 'client');
 	api.addFiles('client/views/list/instance_list.html', 'client');
 	api.addFiles('client/views/list/instance_list.coffee', 'client');
 
@@ -235,7 +235,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/trace_approve_cc.js', 'server');
 	api.addFiles('server/methods/forward_instance.js', 'server');
 	api.addFiles('server/methods/cfs_instances.js', 'server');
-    api.addFiles('server/methods/instance_approve.coffee', 'server');
+	api.addFiles('server/methods/instance_approve.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
@@ -272,7 +272,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/forms.coffee', 'server');
 	api.addFiles('server/publications/instance_data.coffee', 'server');
 	api.addFiles('server/publications/instance_list.coffee', 'server');
-    api.addFiles('server/publications/instance_tabular.coffee', 'server');
+	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');
@@ -299,6 +299,25 @@ Package.onUse(function(api) {
 	api.export('TemplateManager');
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
+
+	// workflow_template（zh-CN）
+	api.addFiles('server/flow-template/zh-CN/payment_request.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/travel_expenses.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/car_rental_request.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/outgoing_request.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/invoice_request.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/daily_expenses.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
+	
+	// workflow_template（en）
+	api.addFiles('server/flow-template/en/capex.coffee', 'server');
+	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');
+	api.addFiles('server/flow-template/en/loan_request.coffee', 'server');
+	api.addFiles('server/flow-template/en/pay_my_invoice.coffee', 'server');
+	api.addFiles('server/flow-template/en/salary_advance.coffee', 'server');
+	api.addFiles('server/flow-template/en/travel_expenses.coffee', 'server');
 
 	api.addFiles('server/startup.coffee', 'server');
 
