@@ -246,7 +246,7 @@ Template.opinion_modal.events({
     },
 
     'click #opinion_modal_ok': function(event, template) {
-        $("#suggestion").val(Session.get('flow_comment')).trigger('change');
+        $("#suggestion").val(Session.get('flow_comment')).trigger('input');
         Modal.hide(template);
     }
 })

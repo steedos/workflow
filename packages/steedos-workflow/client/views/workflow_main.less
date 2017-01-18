@@ -129,7 +129,7 @@
 			width: 48px;
 			height: 48px;
 			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
-			border: solid 1px green;
+			border: solid 1px #08C;
 			outline: none!important;
 			/*
 			-webkit-animation: bs linear 2s 1.5s infinite;
@@ -288,6 +288,10 @@
 			left: 0;
 			right: 0px;
 			transition: 0.3s ease-in-out;
+			.instance{
+				/*这里加margin-bottom: 1px;纯粹是因为在两栏的模式下，底部出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
+				margin-bottom: 1px;
+			}
 		}
 	}
 	.workflow-main.instance-show {

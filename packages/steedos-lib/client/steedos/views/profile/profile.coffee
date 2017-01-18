@@ -89,15 +89,15 @@ Template.profile.helpers
   zooms:[{
     name:"normal",
     size:"1",
-    title:"标准"
+    title:t("zoom_title_normal")
   },{
     name:"large",
     size:"1.2",
-    title:"大字体"
+    title:t("zoom_title_large")
   },{
     name:"extra-large",
     size:"1.35",
-    title:"超大字体"
+    title:t("zoom_title_extra_large")
   }]
 
   btn_save_i18n: () ->
