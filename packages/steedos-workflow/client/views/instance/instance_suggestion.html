@@ -1,6 +1,6 @@
 <template name="instance_suggestion">
     {{#if show_toggle_button}}
-        <button type="button" class="btn btn-success btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
+        <button type="button" class="btn btn-primary btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
     {{/if}}
     {{#if show_suggestion}}
         <div class="instance-suggestion well animated fadeInUp">
@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <button type="button" class="btn btn-success" id="instance_submit" title="{{_ 'instance_submit'}}" style={{enabled_submit}}>{{_ "instance_submit"}}</button>
+                            <button type="button" class="btn btn-primary" id="instance_submit" title="{{_ 'instance_submit'}}" style={{enabled_submit}}>{{_ "instance_submit"}}</button>
                             <button type="button" class="btn btn-transparent btn-remove"><i class="ion ion-close-round"></i></button>
                         </div>
                     </div>
