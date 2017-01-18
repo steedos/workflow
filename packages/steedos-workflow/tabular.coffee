@@ -26,7 +26,7 @@ TabularTables.instances = new Tabular.Table({
 				unread = ''
 
 				if Session.get("box") == 'inbox' && doc.is_read == false
-					unread = '<i class="ion ion-record unread" style="font-size: 60%;"></i>'
+					unread = '<i class="ion ion-record unread"></i>'
 
 				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
 		},
