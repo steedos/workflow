@@ -15,7 +15,6 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 	getMyApprove = (userId, instanceId)->
 		instance = db.instances.findOne({_id: instanceId})
-
 		if !instance
 			return
 
@@ -34,76 +33,28 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			return {id: myApprove._id, instance: myApprove.instance, trace: myApprove.trace, is_read: myApprove.is_read, step: notFinishedTraces[0].step}
 		return null
 
-#	my_approves 对象的 _id 值为 instance._id
 	handle = db.instances.find({_id: {$in: ids}}).observeChanges {
 		changed: (id)->
+			instance = db.instances.findOne({_id: id}, {fields: fields})
 			myApprove = getMyApprove(self.userId, id)
 			if myApprove
-				self.changed("my_approves", id, myApprove);
-#			else
-#				self.removed("my_approves", id)
-#		removed: (id)->
-#			self.removed("my_approves", id)
+				instance.is_read = myApprove.is_read
+			else
+				instance.is_read = true
+
+			self.changed("instances", id, instance);
+		removed: (id)->
+			self.removed("instances", id);
 	}
 
 	ids.forEach (id)->
+		instance = db.instances.findOne({_id: id}, {fields: fields})
 		myApprove = getMyApprove(self.userId, id)
 		if myApprove
-			self.added("my_approves", id, myApprove);
-
-	self.ready();
-	self.onStop ()->
-		handle.stop()
-
-	return db.instances.find({_id: {$in: ids}}, {fields: fields})
-
-Meteor.publish "instance_my_approves", (space)->
-	console.log "instance_tabular user is #{this.userId}"
-
-	unless this.userId
-		return this.ready()
-
-	self = this;
-
-	getMyApprove = (userId, instance)->
-
-		if !instance
-			return
-
-		if !instance.traces || instance.traces.length < 1
-			return
-
-		notFinishedTraces = instance.traces.filterProperty("is_finished", false)
-
-		if notFinishedTraces.length < 1
-			return
-
-		approves = notFinishedTraces[0].approves.filterProperty("is_finished", false).filterProperty("handler", userId);
-
-		if approves.length > 0
-			myApprove = approves[0]
-			return {id: myApprove._id, instance: myApprove.instance, trace: myApprove.trace, is_read: myApprove.is_read, step: notFinishedTraces[0].step}
-		return null
-
-	query = {space: space, $or: [{inbox_users: self.userId}, {cc_users: self.userId}]}
-
-	handle = db.instances.find(query).observeChanges {
-		changed: (id)->
-			instance = db.instances.findOne({_id: id})
-			if instance
-				myApprove = getMyApprove(self.userId, instance)
-				if myApprove
-					self.changed("my_approves", id, myApprove);
-				else
-					self.removed("my_approves", id)
-		removed: (id)->
-			self.removed("my_approves", id)
-	}
-
-	db.instances.find(query).forEach (instance)->
-		myApprove = getMyApprove(self.userId, instance)
-		if myApprove
-			self.added("my_approves", instance._id, myApprove);
+			instance.is_read = myApprove.is_read
+		else
+			instance.is_read = true
+		self.added("instances", id, instance);
 
 	self.ready();
 	self.onStop ()->

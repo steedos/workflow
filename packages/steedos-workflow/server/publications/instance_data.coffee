@@ -9,8 +9,4 @@
 
 		console.log '[publish] instance_data ' + instanceId
 
-		instance = db.instances.findOne({_id: instanceId})
-
-		return [
-			db.instances.find({_id: instanceId}),
-		]
+		return db.instances.find({_id: instanceId})
