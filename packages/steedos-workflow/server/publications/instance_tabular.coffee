@@ -1,6 +1,6 @@
 
 Meteor.publish "instance_tabular", (tableName, ids, fields)->
-	console.log "instance_tabular user is #{this.userId}"
+#	console.log "instance_tabular user is #{this.userId}"
 
 	unless this.userId
 		return this.ready()
