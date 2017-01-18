@@ -1,6 +1,6 @@
 Meteor.methods({
 
-	draft_save_instance: function(ins) {
+	draft_save_instance: function (ins) {
 		if (!this.userId)
 			return;
 		var result = true;
@@ -31,7 +31,7 @@ Meteor.methods({
 		var flow_id = instance.flow;
 		var form_id = instance.form;
 		var traces = instance.traces;
-		var current_trace = _.find(traces, function(t) {
+		var current_trace = _.find(traces, function (t) {
 			return t._id == trace_id;
 		});
 
@@ -63,7 +63,7 @@ Meteor.methods({
 
 		if (flow.current._id != instance.flow_version) {
 			result = "upgraded";
-			start_step = _.find(flow.current.steps, function(s) {
+			var start_step = _.find(flow.current.steps, function (s) {
 				return s.step_type == "start";
 			});
 			// 流程已升级
@@ -71,6 +71,7 @@ Meteor.methods({
 			setObj.form_version = flow.current.form_version;
 			// 存入当前最新版flow中开始节点的step_id
 			setObj["traces.$.step"] = start_step._id;
+			setObj["traces.$.name"] = start_step.name;
 		}
 
 		if (instance.applicant != applicant_id) {
@@ -102,7 +103,7 @@ Meteor.methods({
 			setObj.applicant_organization_name = organization.name;
 			setObj.applicant_organization_fullname = organization.fullname;
 
-			current_trace.approves.forEach(function(a) {
+			current_trace.approves.forEach(function (a) {
 				if (a._id == approve_id) {
 					a.user = applicant_id;
 					a.user_name = user.name;
@@ -111,7 +112,7 @@ Meteor.methods({
 
 		}
 
-		current_trace.approves.forEach(function(a) {
+		current_trace.approves.forEach(function (a) {
 			if (a._id == approve_id) {
 				a.values = values;
 				a.description = description;
@@ -142,7 +143,7 @@ Meteor.methods({
 		return result;
 	},
 
-	inbox_save_instance: function(approve) {
+	inbox_save_instance: function (approve) {
 		if (!this.userId)
 			return;
 
@@ -166,10 +167,10 @@ Meteor.methods({
 
 		var traces = instance.traces;
 
-		var current_trace = _.find(traces, function(t) {
+		var current_trace = _.find(traces, function (t) {
 			return t._id == trace_id;
 		});
-		var current_approve = _.find(current_trace.approves, function(a) {
+		var current_approve = _.find(current_trace.approves, function (a) {
 			return a._id == approve_id;
 		});
 
@@ -202,13 +203,13 @@ Meteor.methods({
 		});
 		var step = null;
 		if (flow.current._id == flow_version) {
-			flow.current.steps.forEach(function(s) {
+			flow.current.steps.forEach(function (s) {
 				if (s._id == step_id)
 					step = s;
 			})
 		} else {
-			flow.historys.forEach(function(h) {
-				h.steps.forEach(function(s) {
+			flow.historys.forEach(function (h) {
+				h.steps.forEach(function (s) {
 					if (s._id == step_id)
 						step = s;
 				})
@@ -219,7 +220,7 @@ Meteor.methods({
 			return false;
 		var step_type = step.step_type;
 
-		current_trace.approves.forEach(function(a) {
+		current_trace.approves.forEach(function (a) {
 			if (a._id == approve_id) {
 				a.is_read = true;
 				a.read_date = new Date();

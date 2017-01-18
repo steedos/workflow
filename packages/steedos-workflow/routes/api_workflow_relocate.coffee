@@ -5,7 +5,6 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-
 			instance = uuflowManager.getInstance(instance_from_client["id"])
 			# 验证instance为审核中状态
 			uuflowManager.isInstancePending(instance)
@@ -23,19 +22,20 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 			if (not permissions.includes("admin")) and (not space.admins.includes(current_user))
 				throw new Meteor.Error('error!', "用户没有对当前流程的管理权限")
 
-			space_id             = instance.space
-			instance_id          = last_trace.instance
-			inbox_users          = instance.inbox_users
+			space_id = instance.space
+			instance_id = last_trace.instance
+			inbox_users = instance.inbox_users
 			relocate_inbox_users = instance_from_client["relocate_inbox_users"]
-			relocate_comment     = instance_from_client["relocate_comment"]
-			relocate_next_step   = instance_from_client["relocate_next_step"]
-			not_in_inbox_users   = _.difference(inbox_users, relocate_inbox_users)
-			new_inbox_users      = _.difference(relocate_inbox_users, inbox_users)
+			relocate_comment = instance_from_client["relocate_comment"]
+			relocate_next_step = instance_from_client["relocate_next_step"]
+			not_in_inbox_users = _.difference(inbox_users, relocate_inbox_users)
+			new_inbox_users = _.difference(relocate_inbox_users, inbox_users)
 
 			# 获取一个flow
 			flow = uuflowManager.getFlow(instance.flow)
 			next_step = uuflowManager.getStep(instance, flow, relocate_next_step)
 			next_step_type = next_step.step_type
+			next_step_name = next_step.name
 			current_setp = uuflowManager.getStep(instance, flow, last_trace.step)
 			current_setp_type = current_setp.step_type
 
@@ -100,11 +100,12 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				newTrace.previous_trace_ids = [last_trace._id]
 				newTrace.is_finished = true
 				newTrace.step = relocate_next_step
+				newTrace.name = next_step_name
 				newTrace.start_date = now
 				newTrace.finish_date = now
 				if next_step.timeout_hours
 					due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
-					newTrace.due_date = new Date(due_time)				
+					newTrace.due_date = new Date(due_time)
 				newTrace.approves = []
 				# 更新instance记录
 				setObj.state = "completed"
@@ -118,10 +119,11 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				newTrace.previous_trace_ids = [last_trace._id]
 				newTrace.is_finished = false
 				newTrace.step = relocate_next_step
+				newTrace.name = next_step_name
 				newTrace.start_date = now
 				if next_step.timeout_hours
 					due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
-					newTrace.due_date = new Date(due_time)				
+					newTrace.due_date = new Date(due_time)
 				newTrace.approves = []
 				_.each(relocate_inbox_users, (next_step_user_id)->
 					# 插入下一步trace.approve记录
@@ -183,12 +185,12 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, relocate_comment, current_user_info)
 
 		JsonRoutes.sendResult res,
-				code: 200
-				data: {}
+			code: 200
+			data: {}
 	catch e
 		console.error e.stack
 		JsonRoutes.sendResult res,
 			code: 200
-			data: { errors: [{errorMessage: e.message}] }
+			data: {errors: [{errorMessage: e.message}]}
 	
 		
