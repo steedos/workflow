@@ -393,14 +393,16 @@ var tabularOnRendered = function () {
     var isLoading = template.tabular.isLoading.get();
     //console.log('LOADING', isLoading);
     if (isLoading) {
-      template.$('.dataTables_processing').show();
-      template.$('.dataTable').hide();
-      template.$('.dataTables_paginate').hide();
+      // template.$('.dataTables_processing').show();
+      // template.$('.dataTable').hide();
+      // template.$('.dataTables_paginate').hide();
+      $("body").addClass("loading")
       
     } else {
-      template.$('.dataTables_processing').hide();
-      template.$('.dataTable').show();
-      template.$('.dataTables_paginate').show();
+      // template.$('.dataTables_processing').hide();
+      // template.$('.dataTable').show();
+      // template.$('.dataTables_paginate').show();
+      $("body").removeClass("loading")
     }
   });
 

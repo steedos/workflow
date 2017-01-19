@@ -105,7 +105,7 @@ InstanceformTemplate.helpers =
 
 			approves = []
 
-			trace.approves.forEach (approve) ->
+			trace.approves?.forEach (approve) ->
 				if trace.is_finished == true
 # 已结束的显示为核准/驳回/取消申请
 					if approve.judge == 'approved'

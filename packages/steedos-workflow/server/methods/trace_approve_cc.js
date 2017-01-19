@@ -106,12 +106,14 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            t.approves.forEach(function(a) {
-                if (a.type == 'cc' && a.user == current_user_id) {
-                    a.is_read = true;
-                    a.read_date = new Date();
-                }
-            });
+            if(t.approves) {
+                t.approves.forEach(function (a) {
+                    if (a.type == 'cc' && a.user == current_user_id) {
+                        a.is_read = true;
+                        a.read_date = new Date();
+                    }
+                });
+            }
         })
 
         // setObj.modified = new Date();
