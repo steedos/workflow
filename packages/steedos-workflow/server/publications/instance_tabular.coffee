@@ -35,7 +35,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		if !myApprove
 			is_read = false
 			instance.traces.forEach (trace) ->
-				trace?.approves.forEach (approve) ->
+				trace?.approves?.forEach (approve) ->
 					if approve.type == 'cc' and approve.user == userId and approve.is_finished == false
 						if approve.is_read
 							is_read = true

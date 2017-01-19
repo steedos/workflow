@@ -60,10 +60,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group" id="nextStepUsers_div">
-                                <div class="input-group">
-                                    <div class="input-group-addon">{{_ "instance_next_step_users"}}</div>
-                                    {{>Template.dynamic  template="afSelectUser" data=next_user_context}}
-                                </div>
+                                {{#if isReady}}
+                                    <div class="input-group">
+                                        <div class="input-group-addon">{{_ "instance_next_step_users"}}</div>
+                                        {{>afSelectUser next_user_context}}
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
