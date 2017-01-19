@@ -266,7 +266,6 @@ ContactsManager.checkOrgAdmin = function(){
         Session.set('contacts_is_org_admin', true);
         return;
     }
-    $("body").addClass("loading");
     console.log("calling method check_org_admin,orgId:" + orgId);
     Meteor.call('check_org_admin', orgId, function(error, is_suc) {
         if (is_suc) {
