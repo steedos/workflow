@@ -2,6 +2,7 @@ TabularTables.instances = new Tabular.Table({
 	name: "instances",
 	collection: db.instances,
 	pub: "instance_tabular",
+	sub: Steedos.subsSpace,
 	drawCallback: (settings)->
 		if !Steedos.isMobile() && !Steedos.isPad()
 			$(".instance-list").scrollTop(0).ready ->
