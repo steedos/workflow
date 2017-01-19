@@ -1,8 +1,9 @@
+Steedos.subs["InstanceInbox"] = new SubsManager
+Steedos.subs["InstanceInbox"].subscribe("user_inbox_instance");
+
+
 Steedos.subs["Instance"] = new SubsManager
 	cacheLimit: 20
-
-# Steedos.subsBootstrap.subscribe("user_inbox_instance");
-
 
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
