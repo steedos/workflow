@@ -1,4 +1,5 @@
 Steedos.subsWorkflow = new SubsManager();
+Steedos.subsWorkflow.subscribe("user_inbox_instance")
 
 
 db.form_versions = new Mongo.Collection("form_versions");
@@ -28,6 +29,7 @@ Tracker.autorun (c)->
 
 		if instance
 			Steedos.subscribeInstance(instance);
+			Steedos.subsWorkflow.subscribe("cfs_instances", instanceId)
 		else
 			Steedos.subsWorkflow.subscribe("instance_data", instanceId)
 
