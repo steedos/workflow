@@ -4,8 +4,6 @@ Steedos.flowVersionSpace = new SubsManager();
 
 Steedos.formVersionSpace = new SubsManager();
 
-#Steedos.instanceMyApproveSpace = new SubsManager();
-
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
 
@@ -49,7 +47,3 @@ Tracker.autorun (c) ->
 				console.error "instance not find ,id is instanceId"
 				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 				Session.set("instance_loading", false);
-
-#Tracker.autorun (c) ->
-#	if Session.get("spaceId")
-#		Steedos.instanceMyApproveSpace.subscribe("instance_my_approves", Session.get("spaceId"))

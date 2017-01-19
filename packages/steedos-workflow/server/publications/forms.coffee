@@ -23,7 +23,7 @@ Meteor.publish 'form_version', (spaceId, formId, versionId) ->
 	unless versionId
 		return this.ready()
 
-	console.log "[publish] form_version for space:#{spaceId}, formId:#{formId}, versionId: #{versionId} "
+#	console.log "[publish] form_version for space:#{spaceId}, formId:#{formId}, versionId: #{versionId} "
 
 	self = this;
 

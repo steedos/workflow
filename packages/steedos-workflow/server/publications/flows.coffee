@@ -38,7 +38,7 @@ Meteor.publish 'flow_version', (spaceId, flowId, versionId) ->
 	unless versionId
 		return this.ready()
 
-	console.log "[publish] flow for space:#{spaceId}, flowId:#{flowId}, versionId: #{versionId} "
+#	console.log "[publish] flow for space:#{spaceId}, flowId:#{flowId}, versionId: #{versionId} "
 
 	self = this;
 
