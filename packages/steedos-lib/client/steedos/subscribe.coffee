@@ -89,7 +89,7 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c) ->
 	if Meteor.userId()
-		if Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready()
+		if Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready() and Steedos.subsWorkflow?.ready()
 			$("body").removeClass("loading")
 		else
 			$("body").addClass("loading")
