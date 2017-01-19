@@ -82,6 +82,9 @@ Template.instance_view.onRendered ->
 		$('.instance').perfectScrollbar().css("right","-1px")
 		if Session.get("box") == "inbox"
 			$('.instance').on 'ps-y-reach-end', ->
+				if this.scrollTop == 0
+					# 内容高度不足已出现滚动条时也会触发该事件，需要排除掉。
+					return
 				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
