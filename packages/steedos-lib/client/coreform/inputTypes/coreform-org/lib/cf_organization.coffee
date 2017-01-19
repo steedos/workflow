@@ -26,8 +26,6 @@ Template.cf_organization.onRendered ->
 
   $.jstree.defaults.checkbox.three_state = false;
 
-  $(document.body).addClass('loading');
-
   plugins = ["wholerow", "conditionalselect"];
 
   Template.cf_organization.multiple = this.data.multiple;
@@ -56,7 +54,5 @@ Template.cf_organization.onRendered ->
           return Template.cf_organization.conditionalselect(node);
 
         plugins: plugins
-  $(document.body).removeClass('loading');
-
 
 Template.cf_organization.events
