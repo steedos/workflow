@@ -8,17 +8,22 @@ SubsManager.prototype.isLoading = ()->
 
 
 
-
-Tracker.autorun (c) ->
-	isLoading = false;
+Steedos.isLoading = ()->
+	console.log ("Loading state: " + "TabularLoading" + "," + Session.get("TabularLoading") )
+	console.log ("Loading state: " + "Bootstrap" + "," + Steedos.subsBootstrap.isLoading()  )
+	console.log ("Loading state: " + "Space" + "," + Steedos.subsSpace.isLoading()  )
+	if Session.get("TabularLoading")
+		return true
 	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpace.isLoading() 
-		isLoading = true
+		return true
 	_.each Steedos.subs, (value, key, list)->
 		console.log ("Loading state: " + key + "," + Steedos.subs[key].isLoading()  )
 		if Steedos.subs[key].isLoading() 
-			isLoading = true
-	console.log("Loading state: " + isLoading)
-	if isLoading
+			return true
+	return false
+
+Tracker.autorun (c) ->
+	if Steedos.isLoading()
 		$("body").addClass("loading")
 	else
 		$("body").removeClass("loading")
