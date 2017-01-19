@@ -48,7 +48,7 @@ TabularTables.instances = new Tabular.Table({
 		}
 	],
 
-	dom: "tpr",
+	dom: "tp",
 	order: [[1, "desc"]]
 	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
 	lengthChange: false,
