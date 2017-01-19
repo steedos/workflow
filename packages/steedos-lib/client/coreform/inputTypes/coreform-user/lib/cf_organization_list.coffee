@@ -2,8 +2,6 @@ Template.cf_organization_list.helpers
 
 
 Template.cf_organization_list.onRendered ->
-  $(document.body).addClass('loading');
-  console.log "loaded_organizations ok...";
   $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
           # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
@@ -26,8 +24,6 @@ Template.cf_organization_list.onRendered ->
                   Session.set("cf_orgAndChild", CFDataManager.getOrgAndChild(Session.get("cf_selectOrgId")));
                       
             plugins: ["wholerow"]
-
-  $(document.body).removeClass('loading');
 
 
 
