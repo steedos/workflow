@@ -111,7 +111,7 @@ Template.afSelectUser.events({
         cssHeightKey = "max-height"
         if (Steedos.isMobile())
             cssHeightKey = "height"
-        $(".contacts-modal-body").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
+        $(".contacts-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
     }
 });
 

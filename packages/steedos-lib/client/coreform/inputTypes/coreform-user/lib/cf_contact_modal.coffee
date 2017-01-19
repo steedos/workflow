@@ -42,12 +42,12 @@ Template.cf_contact_modal.events
 		Modal.allowMultiple = false;
 
 	'click .organization-active': (event, template) ->
-# Modal.show("cf_users_organization_modal");
+		# Modal.show("cf_users_organization_modal");
 		$('#cf_users_organization_modal_div').show()
 		cssHeightKey = "max-height"
 		if Steedos.isMobile()
 			cssHeightKey = "height"
-		$(".cf-users-organization-modal-body").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
+		$(".cf-users-organization-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
 
 	'hide.bs.modal #cf_contact_modal': (event, template) ->
 		Modal.allowMultiple = false;
@@ -59,6 +59,6 @@ Template.cf_contact_modal.onRendered ->
 	cssHeightKey = "max-height"
 	if Steedos.isMobile()
 		cssHeightKey = "height"
-	$(".cf-organization-list").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
-	$(".cf-spaceusers-list").css(cssHeightKey, ($(window).height() - 180 - 25) + "px");
+	$(".cf-organization-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+	$(".cf-spaceusers-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
 
