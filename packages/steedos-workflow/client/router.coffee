@@ -6,12 +6,10 @@ checkUserSigned = (context, redirect) ->
 FlowRouter.route '/workflow',
 	triggersEnter: [checkUserSigned],
 	action: (params, queryParams)->
-		$("body").addClass("loading")
 		Tracker.autorun (c)->
 			if Steedos.subsBootstrap.ready("my_spaces")
 				spaceId = Steedos.getSpaceId()
 				if spaceId
-					$("body").removeClass("loading")
 					c.stop();
 					FlowRouter.go "/workflow/space/" + spaceId + "/inbox"
 

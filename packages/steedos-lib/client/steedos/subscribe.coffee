@@ -44,7 +44,6 @@ Tracker.autorun (c)->
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
 		if FlowRouter.current().path == "/"
-			$("body").removeClass("loading")
 			firstApp = Steedos.getSpaceFirstApp()
 			if firstApp
 				Steedos.openApp firstApp._id
@@ -85,3 +84,14 @@ Tracker.autorun (c)->
 	if Session.get("document_title")
 		console.log "set document_title"
 		$(document).attr("title", Session.get("document_title"));
+
+
+
+Tracker.autorun (c) ->
+	if Meteor.userId()
+		if Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready()
+			$("body").removeClass("loading")
+		else
+			$("body").addClass("loading")
+	else
+		$("body").removeClass("loading")

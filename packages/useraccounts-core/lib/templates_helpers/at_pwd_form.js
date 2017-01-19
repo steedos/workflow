@@ -286,9 +286,7 @@ AT.prototype.atPwdFormEvents = {
         // Forgot Password Token
         //----------------
         if (state === "forgotPwdToken"){
-            $("body").addClass("loading");
             Meteor.call("VerifyForgotPwdToken", forgot_pwd_token, function (error) {
-                $("body").removeClass("loading");
                 if(error){
                     AccountsTemplates.submitCallback(error, state, function(){
                         AccountsTemplates.state.form.set("result", AccountsTemplates.texts.info.pwdReset);
