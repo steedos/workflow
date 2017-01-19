@@ -86,19 +86,20 @@ Template.profile.helpers
     tag:"green"
   }]
 
-  zooms:[{
-    name:"normal",
-    size:"1",
-    title:t("zoom_title_normal")
-  },{
-    name:"large",
-    size:"1.2",
-    title:t("zoom_title_large")
-  },{
-    name:"extra-large",
-    size:"1.35",
-    title:t("zoom_title_extra_large")
-  }]
+  zooms:->
+    return [{
+      name:"normal",
+      size:"1",
+      title:t("zoom_title_normal")
+    },{
+      name:"large",
+      size:"1.2",
+      title:t("zoom_title_large")
+    },{
+      name:"extra-large",
+      size:"1.35",
+      title:t("zoom_title_extra_large")
+    }]
 
   btn_save_i18n: () ->
     return TAPi18n.__ 'Submit'
