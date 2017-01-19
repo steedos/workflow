@@ -3,7 +3,6 @@ Steedos.subsBootstrap.subscribe('userData')
 Steedos.subsBootstrap.subscribe('apps')
 Steedos.subsBootstrap.subscribe('my_spaces')
 Steedos.subsBootstrap.subscribe("steedos_keyvalues")
-Steedos.subsBootstrap.subscribe("user_inbox_instance")
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
@@ -32,14 +31,6 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("my_space_user", spaceId)
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
-
-Steedos.subsInstance = new SubsManager();
-
-Tracker.autorun (c)->
-	instanceId = Session.get('instanceId')
-	Steedos.subsInstance.reset()
-	if instanceId
-		Steedos.subsInstance.subscribe("cfs_instances", instanceId)
 
 Tracker.autorun (c)->
 	if Steedos.subsSpace.ready("apps")
