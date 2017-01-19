@@ -1,11 +1,11 @@
-  Meteor.publish 'categories', (spaceId)->
-  
-    unless this.userId
-      return this.ready()
-    
-    unless spaceId
-      return this.ready()
+Meteor.publish 'categories', (spaceId)->
 
-    console.log '[publish] categories for space ' + spaceId
+	unless this.userId
+		return this.ready()
+	
+	unless spaceId
+		return this.ready()
 
-    return db.categories.find({space: spaceId}, {fields: {name: 1, space: 1}})
+	console.log '[publish] categories for space ' + spaceId
+
+	return db.categories.find({space: spaceId}, {fields: {name: 1, space: 1}})
