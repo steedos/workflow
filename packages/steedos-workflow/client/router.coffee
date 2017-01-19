@@ -39,7 +39,7 @@ workflowSpaceRoutes.route '/',
 
 workflowSpaceRoutes.route '/print/:instanceId',
 	action: (params, queryParams)->
-		Steedos.subsSpace.subscribe("instance_data", params.instanceId)
+		Steedos.subsWorkflow.subscribe("instance_data", params.instanceId)
 		Steedos.setSpaceId(params.spaceId)
 		Session.set('instancePrint', true);
 		Session.set("judge", null);
