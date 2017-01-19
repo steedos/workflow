@@ -77,7 +77,6 @@ Template.instance_suggestion.helpers
 
 		form_values = instance_form_values.values
 		users = InstanceManager.getNextUserOptions();
-
 		data = {
 			dataset: {},
 			name: 'nextStepUsers',
@@ -144,7 +143,6 @@ Template.instance_suggestion.helpers
 
 			data.value = selectedUser
 			data.dataset['values'] = selectedUser.getProperty("id").toString()
-
 		return data;
 
 	judge: ->
@@ -179,6 +177,9 @@ Template.instance_suggestion.helpers
 			return "";
 		else
 			return "display: none;";
+
+	isReady: ->
+		return Session.get("instance_suggestion_ready");
 
 Template.instance_suggestion.events
 
@@ -235,7 +236,7 @@ Template.instance_suggestion.onCreated ->
 
 Template.instance_suggestion.onRendered ->
 	console.log("instance_suggestion.onRendered...")
-
+	Session.set("instance_suggestion_ready", true)
 	currentStep = InstanceManager.getCurrentStep();
 	# 当前步骤为会签时，不显示下一步步骤、处理人
 	if currentStep && currentStep.step_type == 'counterSign'
@@ -250,3 +251,6 @@ Template.instance_suggestion.onRendered ->
 		nextStep = WorkflowManager.getInstanceStep(next_step_id)
 		if nextStep && nextStep.step_type == 'end'
 			$("#nextStepUsers_div").hide();
+
+Template.instance_suggestion.onDestroyed ->
+	Session.set("instance_suggestion_ready", false)
