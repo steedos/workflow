@@ -18,17 +18,20 @@ TabularTables.instances = new Tabular.Table({
 				modifiedFromNow = moment(doc.modified).fromNow();
 
 				cc_view = "";
-
+				step_current_name_view = "";
 				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
 				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 					cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
+				else
+					if Session.get("box") != 'draft' && doc.step_current_name
+						step_current_name_view = "<label class='instance-step-current-name'>(" + doc.step_current_name + ")</label> "
 
 				unread = ''
 
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
-				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
+				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + step_current_name_view + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + doc.applicant_name + "</div>"
 		},
 		{
 			data: "modified",
@@ -46,7 +49,7 @@ TabularTables.instances = new Tabular.Table({
 
 	dom: "tpr",
 	order: [[1, "desc"]]
-	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read"],
+	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
 	lengthChange: false,
 	pageLength: 10,
 	info: false,
