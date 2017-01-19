@@ -2,6 +2,7 @@ TabularTables.instances = new Tabular.Table({
 	name: "instances",
 	collection: db.instances,
 	pub: "instance_tabular",
+	sub: Steedos.subsSpace,
 	drawCallback: (settings)->
 		if !Steedos.isMobile() && !Steedos.isPad()
 			$(".instance-list").scrollTop(0).ready ->
@@ -47,7 +48,7 @@ TabularTables.instances = new Tabular.Table({
 		}
 	],
 
-	dom: "tpr",
+	dom: "tp",
 	order: [[1, "desc"]]
 	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
 	lengthChange: false,
