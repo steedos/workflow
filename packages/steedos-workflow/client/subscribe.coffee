@@ -1,4 +1,4 @@
-Steedos.subsWorkflow = new SubsManager();
+# Steedos.subsWorkflow = new SubsManager();
 
 
 db.form_versions = new Mongo.Collection("form_versions");
@@ -7,16 +7,16 @@ db.flow_versions = new Mongo.Collection("flow_versions");
 db.my_approves = new Mongo.Collection("my_approves");
 
 Steedos.subscribeFlowVersion = (space, flowId, flow_version)->
-	Steedos.subsWorkflow.subscribe("flow_version", space, flowId , flow_version)
+	Steedos.subsSpace.subscribe("flow_version", space, flowId , flow_version)
 
 Steedos.subscribeFormVersion = (space, formId, form_version)->
-	Steedos.subsWorkflow.subscribe("form_version", space, formId , form_version)
+	Steedos.subsSpace.subscribe("form_version", space, formId , form_version)
 
 Steedos.subscribeInstance = (instance)->
 #	console.log("instance.space: #{instance.space}, instance.flow: #{instance.flow}, instance.flow_version: #{instance.flow_version}")
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
-	Steedos.subsWorkflow.subscribe("instance_data", instance._id)
+	Steedos.subsSpace.subscribe("instance_data", instance._id)
 
 
 Tracker.autorun (c)->
@@ -29,13 +29,14 @@ Tracker.autorun (c)->
 		if instance
 			Steedos.subscribeInstance(instance);
 		else
-			Steedos.subsWorkflow.subscribe("instance_data", instanceId)
+			Steedos.subsSpace.subscribe("instance_data", instanceId)
 
 Tracker.autorun (c) ->
-	if Steedos.subsWorkflow.ready()
+	if Steedos.subsSpace.ready()
 		if Session.get("instanceId")
 			instance = db.instances.findOne({_id: Session.get("instanceId")});
 			if !instance
 				console.error "instance not find ,id is instanceId"
 				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 				Session.set("instance_loading", false);
+	
