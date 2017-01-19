@@ -138,7 +138,6 @@ if Meteor.isClient
 
 			Steedos.openWindow(url);
 
-
 	Steedos.checkSpaceBalance = (spaceId)->
 		unless spaceId
 			spaceId = Steedos.spaceId()
@@ -151,6 +150,22 @@ if Meteor.isClient
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
 
+	Steedos.getModalMaxHeight = (offset)->
+		reValue = $(window).height() - 180 - 25
+		unless SC.browser.isiOS or Steedos.isMobile()
+			# ios及手机上不需要为zoom放大功能额外计算
+			accountZoomValue = Steedos.getAccountZoomValue()
+			switch accountZoomValue.name
+				when 'large'
+					console.log "Steedos.getModalMaxHeight - large -0"
+					# 测下来这里不需要额外减数
+					reValue -= 0
+				when 'extra-large'
+					console.log "Steedos.getModalMaxHeight - extra-large -25"
+					reValue -= 25
+		if offset
+			reValue -= offset
+		return reValue + "px";
 
 
 
