@@ -10,7 +10,7 @@ Template.workflow_main.helpers
 		return Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready();
 
 	isNeedToShowInstance: ->
-		if Steedos.subsSpace.ready()
+		if Steedos.subsWorkflow.ready()
 			Session.set("instance_loading", false);
 			instance = WorkflowManager.getInstance()
 			if instance
