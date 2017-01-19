@@ -209,6 +209,14 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
 	api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
 
+
+	api.addFiles('client/steedos/views/about/steedos_about.html', 'client');
+	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
+	api.addFiles('client/steedos/views/about/steedos_about.css', 'client');
+	
+	api.addFiles('client/loading.coffee', 'client');
+
+
 	api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v2.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
@@ -216,10 +224,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/steedos/startup/migrations/v5.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
-
-	api.addFiles('client/steedos/views/about/steedos_about.html', 'client');
-	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
-	api.addFiles('client/steedos/views/about/steedos_about.css', 'client');
 	// methods
 	api.addFiles('server/methods/setKeyValue.js', 'server');
 	api.addFiles('server/methods/billing_settleup.coffee', 'server');

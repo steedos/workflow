@@ -1,8 +1,10 @@
+Steedos.subs["InstanceTabular"] = new SubsManager()
+
 TabularTables.instances = new Tabular.Table({
 	name: "instances",
 	collection: db.instances,
 	pub: "instance_tabular",
-	#sub: Steedos.subsSpace,
+	sub: Steedos.subs["InstanceTabular"],
 	drawCallback: (settings)->
 		if !Steedos.isMobile() && !Steedos.isPad()
 			$(".instance-list").scrollTop(0).ready ->

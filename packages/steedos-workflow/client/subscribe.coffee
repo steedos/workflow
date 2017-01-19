@@ -1,7 +1,7 @@
-Steedos.subsInstance = new SubsManager
-	cacheLimit: 100
+Steedos.subs["Instance"] = new SubsManager
+	cacheLimit: 20
 
-Steedos.subsBootstrap.subscribe("user_inbox_instance");
+# Steedos.subsBootstrap.subscribe("user_inbox_instance");
 
 
 db.form_versions = new Mongo.Collection("form_versions");
@@ -10,16 +10,16 @@ db.flow_versions = new Mongo.Collection("flow_versions");
 db.my_approves = new Mongo.Collection("my_approves");
 
 Steedos.subscribeFlowVersion = (space, flowId, flow_version)->
-	Steedos.subsInstance.subscribe("flow_version", space, flowId , flow_version)
+	Steedos.subs["Instance"].subscribe("flow_version", space, flowId , flow_version)
 
 Steedos.subscribeFormVersion = (space, formId, form_version)->
-	Steedos.subsInstance.subscribe("form_version", space, formId , form_version)
+	Steedos.subs["Instance"].subscribe("form_version", space, formId , form_version)
 
 Steedos.subscribeInstance = (instance)->
 #	console.log("instance.space: #{instance.space}, instance.flow: #{instance.flow}, instance.flow_version: #{instance.flow_version}")
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
-	Steedos.subsInstance.subscribe("instance_data", instance._id)
+	Steedos.subs["Instance"].subscribe("instance_data", instance._id)
 
 
 Tracker.autorun (c)->
@@ -27,16 +27,16 @@ Tracker.autorun (c)->
 	instanceId = Session.get("instanceId")
 	#	Steedos.instanceSpace.clear(); # 清理已订阅数据
 	if instanceId
-		Steedos.subsInstance.subscribe("cfs_instances", instanceId)
+		Steedos.subs["Instance"].subscribe("cfs_instances", instanceId)
 
 		instance = db.instances.findOne({_id: instanceId});
 		if instance
 			Steedos.subscribeInstance(instance);
 		else
-			Steedos.subsInstance.subscribe("instance_data", instanceId)
+			Steedos.subs["Instance"].subscribe("instance_data", instanceId)
 
 Tracker.autorun (c) ->
-	if Steedos.subsInstance.ready()
+	if Steedos.subs["Instance"].ready()
 		if Session.get("instanceId")
 			instance = db.instances.findOne({_id: Session.get("instanceId")});
 			if !instance
