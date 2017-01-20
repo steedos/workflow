@@ -16,11 +16,14 @@ Steedos.isLoading = ()->
 		return true
 	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpace.isLoading() 
 		return true
-	_.each Steedos.subs, (value, key, list)->
-		# console.log ("Loading state: " + key + "," + Steedos.subs[key].isLoading()  )
+
+	reValue = false
+	for key of Steedos.subs
 		if Steedos.subs[key].isLoading() 
-			return true
-	return false
+			reValue = true
+			break
+
+	return reValue
 
 Tracker.autorun (c) ->
 	if Steedos.isLoading()
