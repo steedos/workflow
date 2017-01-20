@@ -109,18 +109,21 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 	columns: [
 		{
 			data: "name",
+			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-name #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
+			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-email #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.email + "</div>"
 		},
 		{
 			data: "mobile",
+			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-mobile #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.mobile || "") + "</div>"
@@ -130,12 +133,18 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 			title: "",
 			orderable: true,
 			visible: false
+		},
+		{
+			data: "name",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 
 	],
 
 	dom: "tpr",
-	order:[[3,"desc"], [0,"asc"]],
+	order:[[3,"desc"], [4,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,
