@@ -73,7 +73,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 
 #select:
 #  style: 'single'
-	dom: "tpr",
+	dom: "tp",
 	order:[[5,"desc"],[6,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,
@@ -143,7 +143,7 @@ TabularTables.steedosContactsOrganizationsReadOnly = new Tabular.Table({
 
 	],
 
-	dom: "tpr",
+	dom: "tp",
 	order:[[3,"desc"], [4,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,

@@ -30,7 +30,7 @@
 
       #select:
       #  style: 'single'
-      dom: "tpr",
+      dom: "tp",
       order:[[1,"desc"]]
       extraFields: ["_id", "name", "email"],
       lengthChange: false,
