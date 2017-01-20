@@ -17,16 +17,16 @@ Steedos.isLoading = ()->
 	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpace.isLoading() 
 		return true
 
-	reValue = false
 	for key of Steedos.subs
 		if Steedos.subs[key].isLoading() 
-			reValue = true
-			break
+			return true
 
-	return reValue
+	return false
 
-Tracker.autorun (c) ->
-	if Steedos.isLoading()
-		$("body").addClass("loading")
-	else
-		$("body").removeClass("loading")
+Meteor.startup ->
+	Tracker.autorun (c) ->
+		if Steedos.isLoading()
+			$("body").addClass("loading")
+		else
+			$("body").removeClass("loading")
+
