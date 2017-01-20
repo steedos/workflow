@@ -403,6 +403,10 @@ var tabularOnRendered = function () {
     }
   });
 
+  template.autorun(function () {
+    Session.set("TabularLoading", template.tabular.isLoading.get());
+  });
+
   // force table paging to reset to first page when we change page length
   $tableElement.on('length.dt', function () {
     resetTablePaging = true;

@@ -1,13 +1,16 @@
 Template.instance_more_search_modal.onRendered(function() {
-	$("#instance_more_search_submit_date_start").datetimepicker({
-		format: "YYYY-MM-DD"
-	});
+    if(!Steedos.isMobile()){
+        $("#instance_more_search_submit_date_start").datetimepicker({
+            format: "YYYY-MM-DD"
+        });
 
-	$("#instance_more_search_submit_date_end").datetimepicker({
-		format: "YYYY-MM-DD"
-	});
+        $("#instance_more_search_submit_date_end").datetimepicker({
+            format: "YYYY-MM-DD"
+        });
+    }
 
-	$("#instance_more_search_modal .modal-body").css("max-height", ($(window).height() - 180 - 25) + "px");
+	$("#instance_more_search_modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
+	
 })
 
 Template.instance_more_search_modal.helpers({
