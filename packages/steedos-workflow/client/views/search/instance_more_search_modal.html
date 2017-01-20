@@ -36,22 +36,30 @@
                     <div class="form-group">
                         <label class="control-label">{{_ 'instance_search_submit_date'}}</label>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="{{#if isMobile}}col-xs-12{{else}}col-xs-6{{/if}}">
                                 <div class="input-group date">
                                     <div class="input-group-addon">{{_ 'instance_search_start'}}</div>
-                                    <div class="input-group-addon">
+                                    <div class="input-group-addon submit-date-icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-left" id="instance_more_search_submit_date_start">
+                                    {{#if isMobile}}
+                                        <input type="date" class="form-control pull-left" id="instance_more_search_submit_date_start">
+                                    {{else}}
+                                        <input type="text" class="form-control pull-left" id="instance_more_search_submit_date_start">
+                                    {{/if}}
                                 </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="{{#if isMobile}}col-xs-12 submit_date_end{{else}}col-xs-6{{/if}}">
                                 <div class="input-group date">
                                     <div class="input-group-addon">{{_ 'instance_search_end'}}</div>
-                                    <div class="input-group-addon">
+                                    <div class="input-group-addon submit-date-icon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control pull-right" id="instance_more_search_submit_date_end">
+                                    {{#if isMobile}}
+                                        <input type="date" class="form-control pull-left" id="instance_more_search_submit_date_end">
+                                    {{else}}
+                                        <input type="text" class="form-control pull-right" id="instance_more_search_submit_date_end">
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
