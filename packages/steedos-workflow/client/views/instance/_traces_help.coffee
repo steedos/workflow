@@ -99,13 +99,16 @@ if Meteor.isServer
 
 TracesTemplate.events =
 	'click .cc-approve-remove': (event, template) ->
-		instanceId = Session.get('instanceId')
-		approveId = event.target.dataset.approve
-		# CALL 删除approve函数。
-		Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
-			if err
-				toastr.error err
-			if result == true
-				toastr.success(TAPi18n.__("remove_cc_approve"));
+		if event.currentTarget.dataset.calling * 1 != 1
+			event.currentTarget.dataset.calling = 1
+			$("i",event.currentTarget).addClass("fa-spin")
+			instanceId = Session.get('instanceId')
+			approveId = event.target.dataset.approve
+			# CALL 删除approve函数。
+			Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
+				if err
+					toastr.error err
+				if result == true
+					toastr.success(TAPi18n.__("remove_cc_approve"));
+				return
 			return
-		return
