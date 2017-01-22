@@ -45,7 +45,7 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 		return console.log("onUnload ok....");
 	#select:
 	#  style: 'single'
-	dom: "tpr",
+	dom: "tp",
 	order:[[2,"desc"],[3,"asc"]],
 	extraFields: ["_id", "name", "email", "user", "sort_no"],
 	lengthChange: false,
