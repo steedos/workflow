@@ -8,7 +8,7 @@ var url, net, path, http, https, fs;
 
 if (Steedos.isNode()) {
 	// turn off SSL validation checking
-	if (window.location.protocol == "https:"){
+	if (window.location.protocol == "https:") {
 		process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 	}
 
@@ -23,11 +23,11 @@ if (Steedos.isNode()) {
 
 
 // http请求
-OfficeOnline.http.downloadFile = function(file_url, download_dir, filename){
+OfficeOnline.http.downloadFile = function(file_url, download_dir, filename) {
 	$(document.body).addClass("loading");
-	
+
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
-	
+
 	var filePath = path.join(download_dir, filename);
 	var file = fs.createWriteStream(filePath);
 	var dfile = http.get(encodeURI(file_url), function(res) {
@@ -52,7 +52,7 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename){
 	})
 }
 
-OfficeOnline.http.uploadFile = function(fileDataInfo, files){
+OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
 		host: url.parse(Meteor.absoluteUrl()).hostname,
@@ -74,14 +74,14 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files){
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
 
-			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath);
-
 			// 解锁 
 			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
+
+			// 成功上传后删除本地文件
+			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 
@@ -91,17 +91,17 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files){
 		console.log('problem with request:' + e.message);
 		toastr.error(e.message);
 	});
-	
+
 	//上传附件
 	NodeManager.uploadAttach(fileDataInfo, files, req);
 }
 
 // https请求
-OfficeOnline.https.downloadFile = function(file_url, download_dir, filename){
+OfficeOnline.https.downloadFile = function(file_url, download_dir, filename) {
 	$(document.body).addClass("loading");
-	
+
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
-	
+
 	var filePath = path.join(download_dir, filename);
 	var file = fs.createWriteStream(filePath);
 	var dfile = https.get(encodeURI(file_url), function(res) {
@@ -127,7 +127,7 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename){
 }
 
 
-OfficeOnline.https.uploadFile = function(fileDataInfo, files){
+OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
 		host: url.parse(Meteor.absoluteUrl()).hostname,
@@ -149,14 +149,14 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files){
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
 
-			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath);
-
 			// 解锁 
 			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
+
+			// 成功上传后删除本地文件
+			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 
@@ -172,11 +172,11 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files){
 }
 
 //上传附件
-OfficeOnline.uploadFile = function(fileDataInfo, files){
-	return OfficeOnline[window.location.protocol.replace(":","")].uploadFile(fileDataInfo, files);
+OfficeOnline.uploadFile = function(fileDataInfo, files) {
+	return OfficeOnline[window.location.protocol.replace(":", "")].uploadFile(fileDataInfo, files);
 }
 
 //下载附件
-OfficeOnline.downloadFile = function(file_url, download_dir, filename){
-	return OfficeOnline[window.location.protocol.replace(":","")].downloadFile(file_url, download_dir, filename);
+OfficeOnline.downloadFile = function(file_url, download_dir, filename) {
+	return OfficeOnline[window.location.protocol.replace(":", "")].downloadFile(file_url, download_dir, filename);
 }
