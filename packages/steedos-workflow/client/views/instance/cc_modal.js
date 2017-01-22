@@ -43,6 +43,9 @@ Template.instance_cc_modal.events({
             return;
         }
 
+        $("#cc_modal_ok").attr("disabled", true)
+        $("#cc_modal_ok").html("<i class='ion ion-load-c fa-spin'></i>")
+
         //调用cc 接口。
         var instance = WorkflowManager.getInstance();
         var myApprove;
