@@ -108,6 +108,8 @@ TracesTemplate.events =
 			Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
 				if err
 					toastr.error err
+					event.currentTarget.dataset.calling = 0
+					$("i",event.currentTarget).removeClass("fa-spin")
 				if result == true
 					toastr.success(TAPi18n.__("remove_cc_approve"));
 				return
