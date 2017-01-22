@@ -287,27 +287,23 @@ Template.profile.events
 
 	'click #personalization .zoom-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset
-		zoom_name = dataset.zoom_name
-		zoom_size = dataset.zoom_size
+		name = dataset.name
+		size = dataset.size
 		btn_save = $("#personalization button.btn-save-zoom")[0]
-		btn_save.dataset.zoom_name = zoom_name
-		btn_save.dataset.zoom_size = zoom_size
-		if SC.browser.isiOS
-			if zoom_size
-				$("meta[name=viewport]").attr("content", "initial-scale=#{zoom_size}, user-scalable=no")
-		else
-			$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{zoom_name}")
-		Session.set("waiting_save_profile_zoom_name", zoom_name)
+		btn_save.dataset.name = name
+		btn_save.dataset.size = size
+		Steedos.applyAccountZoomValue btn_save.dataset
+		Session.set("waiting_save_profile_zoom_name", name)
 
 	'click #personalization button.btn-save-zoom': (event)->
 		dataset = event.currentTarget.dataset
-		zoom_name = dataset.zoom_name
-		zoom_size = dataset.zoom_size
+		name = dataset.name
+		size = dataset.size
 		accountZoomValue = Steedos.getAccountZoomValue()
 		unless accountZoomValue
 			accountZoomValue = {}
-		accountZoomValue.name = zoom_name
-		accountZoomValue.size = zoom_size
+		accountZoomValue.name = name
+		accountZoomValue.size = size
 		Meteor.call 'setKeyValue', 'zoom', accountZoomValue, (error, is_suc) ->
 			if is_suc
 				Session.set("waiting_save_profile_zoom_name", "")

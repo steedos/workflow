@@ -40,23 +40,21 @@ Tracker.autorun (c)->
 				Steedos.openApp firstApp._id
 			else
 				FlowRouter.go("/steedos/springboard")
-
-Tracker.autorun (c)->
-	if Steedos.subsBootstrap.ready("steedos_keyvalues")
-		accountZoomValue = Steedos.getAccountZoomValue()
-		if accountZoomValue.name
-			if SC.browser.isiOS
-				if accountZoomValue.size
-					$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
-				else
-					$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
+Meteor.startup ->
+	accountZoomValue = {}
+	accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
+	accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
+	Steedos.applyAccountZoomValue accountZoomValue
+	Tracker.autorun (c)->
+		if Steedos.subsBootstrap.ready("steedos_keyvalues")
+			accountZoomValue = Steedos.getAccountZoomValue()
+			Steedos.applyAccountZoomValue accountZoomValue,true
+			
+			accountBgBodyValue = Steedos.getAccountBgBodyValue()
+			if accountBgBodyValue.url
+				$("body").css "backgroundImage","url(#{Meteor.absoluteUrl(accountBgBodyValue.url)})"
 			else
-				$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large").addClass("zoom-#{accountZoomValue.name}")
-		accountBgBodyValue = Steedos.getAccountBgBodyValue()
-		if accountBgBodyValue.url
-			$("body").css "backgroundImage","url(#{Meteor.absoluteUrl(accountBgBodyValue.url)})"
-		else
-			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
+				$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
 
 
 Steedos.subsForwardRelated = new SubsManager()

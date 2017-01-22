@@ -45,6 +45,32 @@ if Meteor.isClient
 		else
 			return {};
 
+	Steedos.applyAccountZoomValue = (accountZoomValue,isNeedToLocal)->
+		unless Steedos.userId()
+			# 如果是登录界面，则取localStorage中字体设置，而不是直接应用空设置
+			accountZoomValue = {}
+			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
+			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
+		if SC.browser.isiOS
+			if accountZoomValue.size
+				$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
+			else
+				$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
+		else
+			$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
+			if accountZoomValue.name
+				$("body").addClass("zoom-#{accountZoomValue.name}")
+		if isNeedToLocal
+			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的字体设置
+			# 登录界面不设置localStorage，因为登录界面accountZoomValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的字体设置
+			if Steedos.userId()
+				if accountZoomValue.name
+					localStorage.setItem("accountZoomValue.name",accountZoomValue.name)
+					localStorage.setItem("accountZoomValue.size",accountZoomValue.size)
+				else
+					localStorage.removeItem("accountZoomValue.name")
+					localStorage.removeItem("accountZoomValue.size")
+
 	Steedos.showHelp = ()->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
