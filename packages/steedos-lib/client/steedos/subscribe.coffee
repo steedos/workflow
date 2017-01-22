@@ -45,16 +45,18 @@ Meteor.startup ->
 	accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 	accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
 	Steedos.applyAccountZoomValue accountZoomValue
+
+	accountBgBodyValue = {}
+	accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
+	Steedos.applyAccountBgBodyValue accountBgBodyValue
+
 	Tracker.autorun (c)->
 		if Steedos.subsBootstrap.ready("steedos_keyvalues")
 			accountZoomValue = Steedos.getAccountZoomValue()
 			Steedos.applyAccountZoomValue accountZoomValue,true
 			
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
-			if accountBgBodyValue.url
-				$("body").css "backgroundImage","url(#{Meteor.absoluteUrl(accountBgBodyValue.url)})"
-			else
-				$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
+			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
 
 
 Steedos.subsForwardRelated = new SubsManager()

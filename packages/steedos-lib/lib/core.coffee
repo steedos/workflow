@@ -31,6 +31,37 @@ if Meteor.isClient
 		else
 			return {};
 
+	Steedos.applyAccountBgBodyValue = (accountBgBodyValue,isNeedToLocal)->
+		if Meteor.loggingIn()
+			# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+			return
+		unless Steedos.userId()
+			# 如果是登录界面，则取localStorage中设置，而不是直接应用空设置
+			accountBgBodyValue = {}
+			accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
+			accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
+
+		url = accountBgBodyValue.url
+		avatar = accountBgBodyValue.avatar
+		if accountBgBodyValue.url
+			if url == avatar
+				$("body").css "backgroundImage","url(#{Meteor.absoluteUrl('api/files/avatars/' + avatar)})"
+			else
+				$("body").css "backgroundImage","url(#{url})"
+		else
+			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
+
+		if isNeedToLocal
+			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
+			# 登录界面不设置localStorage，因为登录界面accountBgBodyValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
+			if Steedos.userId()
+				if url
+					localStorage.setItem("accountBgBodyValue.url",url)
+					localStorage.setItem("accountBgBodyValue.avatar",avatar)
+				else
+					localStorage.removeItem("accountBgBodyValue.url")
+					localStorage.removeItem("accountBgBodyValue.avatar")
+
 	Steedos.getAccountSkinValue = ()->
 		accountSkin = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"skin"})
 		if accountSkin
@@ -50,7 +81,7 @@ if Meteor.isClient
 			# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
 			return
 		unless Steedos.userId()
-			# 如果是登录界面，则取localStorage中字体设置，而不是直接应用空设置
+			# 如果是登录界面，则取localStorage中设置，而不是直接应用空设置
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
@@ -64,8 +95,8 @@ if Meteor.isClient
 			if accountZoomValue.name
 				$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
-			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的字体设置
-			# 登录界面不设置localStorage，因为登录界面accountZoomValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的字体设置
+			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
+			# 登录界面不设置localStorage，因为登录界面accountZoomValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
 			if Steedos.userId()
 				if accountZoomValue.name
 					localStorage.setItem("accountZoomValue.name",accountZoomValue.name)

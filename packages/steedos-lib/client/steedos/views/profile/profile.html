@@ -187,15 +187,15 @@
                     <div class="row bg-body-setting">
                       {{#each bgBodys}}
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                          <a class="thumbnail {{isCurrentBgUrlWaitingSave url}} {{isCurrentBgUrlActive url}}" bg={{url}}>
+                          <a class="thumbnail {{isCurrentBgUrlWaitingSave url}} {{isCurrentBgUrlActive url}}" data-url={{url}}>
                             <div class="bg-body" style="background-image:url({{url}})"></div>
                           </a>
                         </div>
                       {{/each}}
                       {{#if accountBgBodyValue.avatar}}
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
-                          <a class="thumbnail {{isCurrentBgUrlWaitingSave(getAvatarFilePath(accountBgBodyValue.avatar))}} {{isCurrentBgUrlActive(getAvatarFilePath(accountBgBodyValue.avatar))}}" bg={{getAvatarFilePath(accountBgBodyValue.avatar)}}>
-                            <div class="bg-body" style="background-image:url({{getAvatarFilePath accountBgBodyValue.avatar}})"></div>
+                          <a class="thumbnail {{isCurrentBgUrlWaitingSave(accountBgBodyValue.avatar)}} {{isCurrentBgUrlActive(accountBgBodyValue.avatar)}}" data-url={{accountBgBodyValue.avatar}}>
+                            <div class="bg-body" style="background-image:url({{avatarUrl accountBgBodyValue.avatar}})"></div>
                           </a>
                         </div>
                       {{/if}}

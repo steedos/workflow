@@ -38,10 +38,8 @@ Template.profile.helpers
 		return if url == Steedos.getAccountBgBodyValue().url then "active" else ""
 
 	isCurrentBgUrlWaitingSave: (url)->
+		debugger
 		return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
-
-	getAvatarFilePath: (avatar)->
-		return Meteor.absoluteUrl('api/files/avatars/' + avatar)
 
 	bgBodys: [{
 		name: "birds",
@@ -218,17 +216,22 @@ Template.profile.events
 				swal t("email_set_primary_success"), "", "success"
 
 	'click #personalization .bg-body-setting a.thumbnail': (event)->
-		bg = $(event.currentTarget).attr("bg")
-		$("#personalization button.btn-save-bg").attr("bg", bg)
-		$("body").css("backgroundImage", "url(#{bg})")
-		Session.set("waiting_save_profile_bg", bg)
+		dataset = event.currentTarget.dataset
+		url = dataset.url
+		accountBgBodyValue = Steedos.getAccountBgBodyValue()
+		btn_save = $("#personalization button.btn-save-bg")[0]
+		btn_save.dataset.url = url
+		btn_save.dataset.avatar = accountBgBodyValue.avatar
+		Steedos.applyAccountBgBodyValue(btn_save.dataset)
+		Session.set("waiting_save_profile_bg", url)
 
 	'click #personalization button.btn-save-bg': (event)->
-		bg = $(event.currentTarget).attr("bg")
+		dataset = event.currentTarget.dataset
+		url = dataset.url
 		accountBgBodyValue = Steedos.getAccountBgBodyValue()
 		unless accountBgBodyValue
 			accountBgBodyValue = {}
-		accountBgBodyValue.url = bg
+		accountBgBodyValue.url = url
 		Meteor.call 'setKeyValue', 'bg_body', accountBgBodyValue, (error, is_suc) ->
 			if is_suc
 				Session.set("waiting_save_profile_bg", "")
@@ -240,16 +243,16 @@ Template.profile.events
 	'change #personalization .btn-upload-bg-file .avatar-file': (event, template) ->
 		oldAvatar = Steedos.getAccountBgBodyValue().avatar
 		if oldAvatar
-			Session.set("waiting_save_profile_bg", '/api/files/avatars/' + oldAvatar)
+			Session.set("waiting_save_profile_bg", oldAvatar)
 		file = event.target.files[0];
 		fileObj = db.avatars.insert file
 		fileId = fileObj._id
-		bg = "/api/files/avatars/#{fileId}"
-		bgUrl = Meteor.absoluteUrl("api/files/avatars/#{fileId}")
-		console.log "the upload bg file url is:#{bg}"
+		url = fileId
+		absUrl = Meteor.absoluteUrl("api/files/avatars/#{fileId}")
+		console.log "the upload bg file absUrl is:#{absUrl}"
 		setTimeout(()->
-			$("body").css("backgroundImage", "url(#{bgUrl})")
-			Meteor.call 'setKeyValue', 'bg_body', {'url': bg, 'avatar': fileId}, (error, is_suc) ->
+			Steedos.applyAccountBgBodyValue({url:url, avatar:fileId})
+			Meteor.call 'setKeyValue', 'bg_body', {'url': url, 'avatar': fileId}, (error, is_suc) ->
 				if is_suc
 					Session.set("waiting_save_profile_bg", "")
 					toastr.success t('profile_save_bg_suc')

@@ -350,6 +350,8 @@ TemplateHelpers =
 		# return if accountSkinValue.name then accountSkinValue.name else defaultName
 		return defaultName
 
+	avatarUrl: (avatar)->
+		return Meteor.absoluteUrl('api/files/avatars/' + avatar)
 
 
 
