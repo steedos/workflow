@@ -32,11 +32,8 @@ if Meteor.isClient
 			return {};
 
 	Steedos.applyAccountBgBodyValue = (accountBgBodyValue,isNeedToLocal)->
-		if Meteor.loggingIn()
-			# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
-			return
-		unless Steedos.userId()
-			# 如果是登录界面，则取localStorage中设置，而不是直接应用空设置
+		if Meteor.loggingIn() or !Steedos.userId()
+			# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
 			accountBgBodyValue = {}
 			accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
 			accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
@@ -52,6 +49,9 @@ if Meteor.isClient
 			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
 
 		if isNeedToLocal
+			if Meteor.loggingIn()
+				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+				return
 			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
 			# 登录界面不设置localStorage，因为登录界面accountBgBodyValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
 			if Steedos.userId()
@@ -77,14 +77,12 @@ if Meteor.isClient
 			return {};
 
 	Steedos.applyAccountZoomValue = (accountZoomValue,isNeedToLocal)->
-		if Meteor.loggingIn()
-			# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
-			return
-		unless Steedos.userId()
-			# 如果是登录界面，则取localStorage中设置，而不是直接应用空设置
+		if Meteor.loggingIn() or !Steedos.userId()
+			# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
+		
 		if SC.browser.isiOS
 			if accountZoomValue.size
 				$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
@@ -95,6 +93,9 @@ if Meteor.isClient
 			if accountZoomValue.name
 				$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
+			if Meteor.loggingIn()
+				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+				return
 			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
 			# 登录界面不设置localStorage，因为登录界面accountZoomValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
 			if Steedos.userId()

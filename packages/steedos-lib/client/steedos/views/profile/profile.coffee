@@ -38,7 +38,6 @@ Template.profile.helpers
 		return if url == Steedos.getAccountBgBodyValue().url then "active" else ""
 
 	isCurrentBgUrlWaitingSave: (url)->
-		debugger
 		return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
 
 	bgBodys: [{
