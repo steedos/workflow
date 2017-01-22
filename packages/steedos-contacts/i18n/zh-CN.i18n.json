@@ -58,6 +58,7 @@
 	"address_books_mobile": "手机",
 	"address_books_company": "单位",
 	"steedos_contacts__books_export_error": "请选择联系人",
-	"steedos_contact_books_exprot_vcf_title": "导出vCard..."
+	"steedos_contact_books_exprot_vcf_title": "导出vCard...",
 
+	"mail_subject_empty": "[无主题]"
 }
