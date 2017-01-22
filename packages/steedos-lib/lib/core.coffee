@@ -46,6 +46,9 @@ if Meteor.isClient
 			return {};
 
 	Steedos.applyAccountZoomValue = (accountZoomValue,isNeedToLocal)->
+		if Meteor.loggingIn()
+			# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+			return
 		unless Steedos.userId()
 			# 如果是登录界面，则取localStorage中字体设置，而不是直接应用空设置
 			accountZoomValue = {}
