@@ -42,18 +42,19 @@ Tracker.autorun (c)->
 				FlowRouter.go("/steedos/springboard")
 
 
-# Meteor.startup之前就从localStorage读取并设置字体大小及背景图
-accountZoomValue = {}
-accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
-accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
-Steedos.applyAccountZoomValue accountZoomValue
-
-accountBgBodyValue = {}
-accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
-accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
-Steedos.applyAccountBgBodyValue accountBgBodyValue
 
 Meteor.startup ->
+	# Meteor.startup之前就从localStorage读取并设置字体大小及背景图
+	accountZoomValue = {}
+	accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
+	accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
+	Steedos.applyAccountZoomValue accountZoomValue
+
+	accountBgBodyValue = {}
+	accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
+	accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
+	Steedos.applyAccountBgBodyValue accountBgBodyValue
+	
 	Tracker.autorun (c)->
 		if Steedos.subsBootstrap.ready("steedos_keyvalues")
 			accountZoomValue = Steedos.getAccountZoomValue()
