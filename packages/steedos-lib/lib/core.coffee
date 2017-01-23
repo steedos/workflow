@@ -83,7 +83,7 @@ if Meteor.isClient
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
 		
-		if SC.browser.isiOS
+		if Steedos.isiOS()
 			if accountZoomValue.size
 				$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
 			else
@@ -213,7 +213,7 @@ if Meteor.isClient
 
 	Steedos.getModalMaxHeight = (offset)->
 		reValue = $(window).height() - 180 - 25
-		unless SC.browser.isiOS or Steedos.isMobile()
+		unless Steedos.isiOS() or Steedos.isMobile()
 			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()
 			switch accountZoomValue.name
@@ -228,6 +228,26 @@ if Meteor.isClient
 			reValue -= offset
 		return reValue + "px";
 
+	Steedos.isiOS = (userAgent, language)->
+		DEVICE =
+			android: 'android'
+			blackberry: 'blackberry'
+			desktop: 'desktop'
+			ipad: 'ipad'
+			iphone: 'iphone'
+			ipod: 'ipod'
+			mobile: 'mobile'
+		browser = {}
+		conExp = '(?:[\\/:\\::\\s:;])'
+		numExp = '(\\S+[^\\s:;:\\)]|)'
+		userAgent = (userAgent or navigator.userAgent).toLowerCase()
+		language = language or navigator.language or navigator.browserLanguage
+		device = userAgent.match(new RegExp('(android|ipad|iphone|ipod|blackberry)')) or userAgent.match(new RegExp('(mobile)')) or [
+		  ''
+		  DEVICE.desktop
+		]
+		browser.device = device[1]
+		return browser.device == DEVICE.ipad or browser.device == DEVICE.iphone or browser.device == DEVICE.ipod
 
 
 
