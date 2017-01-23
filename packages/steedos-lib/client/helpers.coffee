@@ -353,6 +353,11 @@ TemplateHelpers =
 	avatarUrl: (avatar)->
 		return Meteor.absoluteUrl('api/files/avatars/' + avatar)
 
+	isZoomNormal: ()->
+		name = Steedos.getAccountZoomValue().name
+		unless name
+			return true
+		return name == "normal"
 
 
 _.extend Steedos, TemplateHelpers

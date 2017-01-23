@@ -30,6 +30,11 @@ Template.steedos_contacts_group_book_list.helpers
 	is_disabled: ->
 		return !Session.get("contacts_groupId") || Session.get("contacts_groupId")=='root'
 
+	isSearchNeeded: ->
+		unless Steedos.isMobile()
+			return true
+		return Steedos.isZoomNormal()
+
 Template.steedos_contacts_group_book_list.events
 	'click #reverse': (event, template) ->
 		$('input[name="contacts_ids"]', $("#contacts_list")).each ->
