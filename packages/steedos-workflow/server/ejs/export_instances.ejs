@@ -19,6 +19,10 @@
 			<Column ss:Width="150"/>
 			<!-- 申请单状态 -->
 			<Column ss:Width="150"/>
+			<!-- 当前步骤 -->
+			<Column ss:Width="150"/>
+			<!-- 当前步骤开始时间 -->
+			<Column ss:Width="150"/>
 
 			<% _.each(fields, function(field){ %>
 				<% if (field.type != "table" && field.type != "section") { 
@@ -44,6 +48,9 @@
 				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.initiator_org',{},lang) %></Data></Cell>
 				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.submit_date',{},lang) %></Data></Cell>
 				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.status',{},lang) %></Data></Cell>
+				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.status',{},lang) %></Data></Cell>
+				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.current_step_name',{},lang) %></Data></Cell>
+				<Cell><Data ss:Type="String"><%= TAPi18n.__('export.current_step_start_date',{},lang) %></Data></Cell>
 				<% _.each(fields, function(field) { %>
 					<% if (field.type != "table" && field.type != "section") { %>
 						<Cell><Data ss:Type="String"><%= field.name ? field.name : field.code %></Data></Cell>
@@ -120,6 +127,11 @@
 						}
 					%>
 					<Cell><Data ss:Type="String"><%= state_str %></Data></Cell>
+					<%
+						var current_trace = _.last(ins["traces"]);
+					%>
+					<Cell><Data ss:Type="String"><%= current_trace.name %></Data></Cell>
+					<Cell><Data ss:Type="String"><%= moment(current_trace["start_date"].getTime()+(current_trace["start_date"].getTimezoneOffset()-timezoneoffset)*60*1000).format(TAPi18n.__('instance.formatter.date.export_datetime',{},lang)) %></Data></Cell>
 					<% _.each(fields, function(field){ %>
 						<% if (field.type != "table" && field.type != "section") { %>
 							<% if (!ins["values"] || !ins["values"][field.code]) { %>
