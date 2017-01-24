@@ -102,11 +102,14 @@ WorkflowManager.getInstanceFormVersion = function() {
 		instance = WorkflowManager.getInstance();
 
 	if (instance) {
-        var rev = db.form_versions.findOne({_id: instance.form_version, form: instance.form})
+		var rev = db.form_versions.findOne({
+			_id: instance.form_version,
+			form: instance.form
+		})
 
-        if(!rev){
-            return;
-        }
+		if (!rev) {
+			return;
+		}
 
 		field_permission = WorkflowManager.getInstanceFieldPermission();
 		rev.fields.forEach(
@@ -147,7 +150,10 @@ WorkflowManager.getInstanceFormVersion = function() {
 WorkflowManager.getInstanceFlowVersion = function() {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-        return db.flow_versions.findOne({_id: instance.flow_version, flow: instance.flow})
+		return db.flow_versions.findOne({
+			_id: instance.flow_version,
+			flow: instance.flow
+		})
 	}
 };
 
@@ -646,17 +652,19 @@ WorkflowManager.getMyAdminOrMonitorFlows = function() {
 		space: Session.get('spaceId'),
 		'user': Meteor.userId()
 	});
-	organizations = db.organizations.find({
-		_id: {
-			$in: curSpaceUser.organizations
-		}
-	}).fetch();
-	flows = db.flows.find();
-	flows.forEach(function(fl) {
-		if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
-			flow_ids.push(fl._id);
-		}
-	})
+	if (curSpaceUser) {
+		organizations = db.organizations.find({
+			_id: {
+				$in: curSpaceUser.organizations
+			}
+		}).fetch();
+		flows = db.flows.find();
+		flows.forEach(function(fl) {
+			if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+				flow_ids.push(fl._id);
+			}
+		})
+	}
 	return flow_ids;
 };
 
@@ -708,6 +716,8 @@ WorkflowManager.getFlowListData = function(show_type) {
 
 	categories.sortByName();
 
+	var isSpaceAdmin = Steedos.isSpaceAdmin();
+
 	categories.forEach(function(c) {
 		var forms = WorkflowManager.getCategoriesForms(c._id);
 		forms.sortByName();
@@ -720,7 +730,9 @@ WorkflowManager.getFlowListData = function(show_type) {
 				if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 					f.flows.push(fl);
 				} else if (show_type == 'show') {
-					if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+					if (isSpaceAdmin) {
+						f.flows.push(fl);
+					} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
 					}
 				}
@@ -742,7 +754,9 @@ WorkflowManager.getFlowListData = function(show_type) {
 			if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 				f.flows.push(fl);
 			} else if (show_type == 'show') {
-				if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+				if (isSpaceAdmin) {
+					f.flows.push(fl);
+				} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
 					f.flows.push(fl);
 				}
 			}

@@ -59,5 +59,7 @@
 	"address_books_mobile": "Mobile",
 	"address_books_company": "Company",
 	"steedos_contacts__books_export_error": "Please select export users.",
-	"steedos_contact_books_exprot_vcf_title": "Export vCard..."
+	"steedos_contact_books_exprot_vcf_title": "Export vCard...",
+
+	"mail_subject_empty": "[No Subject]"
 }
