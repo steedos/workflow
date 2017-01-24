@@ -49,7 +49,7 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
                 ApproveManager.error.nextSteps = '未能根据条件找到下一步';
             break;
         case 'end': //结束
-            return next_steps;
+            return nextSteps;
         case 'sign': //审批
             if (judge == 'approved') { //核准
                 lines.forEach(function(line) {
