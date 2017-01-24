@@ -9,7 +9,7 @@ InstanceManager.runFormula = function(fieldCode) {
 
 	Form_formula.run(fieldCode, "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);
 
-	Session.set("form_values", AutoForm.getFormValues("instanceform").insertDoc);
+	Session.set("instance_form_values", {instanceId: Session.get("instanceId"), values: AutoForm.getFormValues("instanceform").insertDoc});
 }
 
 
