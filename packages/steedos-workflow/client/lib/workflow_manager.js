@@ -652,17 +652,19 @@ WorkflowManager.getMyAdminOrMonitorFlows = function() {
 		space: Session.get('spaceId'),
 		'user': Meteor.userId()
 	});
-	organizations = db.organizations.find({
-		_id: {
-			$in: curSpaceUser.organizations
-		}
-	}).fetch();
-	flows = db.flows.find();
-	flows.forEach(function(fl) {
-		if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
-			flow_ids.push(fl._id);
-		}
-	})
+	if (curSpaceUser) {
+		organizations = db.organizations.find({
+			_id: {
+				$in: curSpaceUser.organizations
+			}
+		}).fetch();
+		flows = db.flows.find();
+		flows.forEach(function(fl) {
+			if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+				flow_ids.push(fl._id);
+			}
+		})
+	}
 	return flow_ids;
 };
 
