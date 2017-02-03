@@ -70,6 +70,10 @@ Template.relocate_modal.events({
         }
     },
 
+    'click #relocate_help': function(event, template) {
+        window.open(t("relocate_help"));
+    },
+
     'click #relocate_modal_ok': function(event, template) {
         var sv = $("#relocate_steps").val();
         if (!sv) {

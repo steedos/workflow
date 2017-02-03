@@ -134,6 +134,14 @@
 
 	"spaces_isarrearageSpace": "your space is arrearage",
 
+	"cc_help": "https://www.steedos.com/us/help/workflow/instance_carboncopy.html",
+	"relocate_help": "https://www.steedos.com/us/help/workflow/instance_relocate.html",
+	"reassign_help": "https://www.steedos.com/us/help/workflow/instance_reassign.html",
+	"help": "",
+	"help": "",
+	"help": "",
+	"help": "",
+
 	// inbox
 	"Inbox Suggestion NextSteps Label": "Next step: ",
 	"Inbox Suggestion NextSteps Handler Label": "Assignee: ",

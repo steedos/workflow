@@ -136,6 +136,13 @@
 
 	"spaces_isarrearageSpace": "您的工作区已欠费",
 
+	"cc_help": "https://www.steedos.com/cn/help/workflow/instance_carboncopy.html",
+	"relocate_help": "https://www.steedos.com/cn/help/workflow/instance_relocate.html",
+	"reassign_help": "https://www.steedos.com/cn/help/workflow/instance_reassign.html",
+	"help": "",
+	"help": "",
+	"help": "",
+
 	// inbox
 	"Inbox Suggestion NextSteps Label": "下一步骤: ",
 	"Inbox Suggestion NextSteps Handler Label": "处理人: ",

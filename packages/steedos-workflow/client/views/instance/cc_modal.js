@@ -34,6 +34,10 @@ Template.instance_cc_modal.events({
         $("#instance_curstepName", $("#instance_cc_modal")).html(s.name);
     },
 
+    'click #cc_help': function(event, template) {
+        window.open(t("cc_help"));
+    },
+
     'click #cc_modal_ok': function(event, template) {
 
         var val = AutoForm.getFieldValue("cc_users", "instanceCCForm");
