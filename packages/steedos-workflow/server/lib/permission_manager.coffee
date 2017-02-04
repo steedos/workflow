@@ -51,13 +51,13 @@ permissionManager.getFlowPermissions = (flow_id, user_id)->
 		if flow.perms.users_can_admin
 			users_can_admin = flow.perms.users_can_admin
 			if users_can_admin.includes(user_id)
-				my_permissions.push("add")
+				my_permissions.push("admin")
 
 		if flow.perms.orgs_can_admin
 			orgs_can_admin = flow.perms.orgs_can_admin
 			_.each(org_ids, (org_id)->
 				if orgs_can_admin.includes(org_id)
-					my_permissions.push("add")
+					my_permissions.push("admin")
 			)
 
 	my_permissions = _.uniq(my_permissions)
