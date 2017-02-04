@@ -23,17 +23,8 @@ Template.instance_button.helpers
 		space = db.spaces.findOne(ins.space);
 		if !space
 			return false
-		fl = db.flows.findOne({'_id': ins.flow});
-		if !fl
-			return false
-		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
-		if !curSpaceUser
-			return false
-		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
-		if !organizations
-			return false
 
-		if Session.get("box") == "draft" || (Session.get("box") == "monitor" && space.admins.contains(Meteor.userId())) || (Session.get("box") == "monitor" && WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
+		if Session.get("box") == "draft" || (Session.get("box") == "monitor" && space.admins.contains(Meteor.userId()))
 			return true
 		else
 			return false
