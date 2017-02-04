@@ -4,7 +4,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content ins-modal">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default" id="export_filter_help">
+                            <i class="ion ion-help-circled" title="{{_ "Help"}}"></i>
+                        </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <h4 class="modal-title" id="myModalLabel">{{_ "workflow_export_filter"}}</h4>
                 </div>
                 <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
@@ -34,9 +41,9 @@
                                                     {{name}}
                                                 </h4>
                                             </div>
-                                        </a>   
+                                        </a>
                                         <div class='panel-collapse collapse {{getCategorieClass _id}}' id ="categories_{{_id}}">
-                                            <div class='weui_cells_weui_cells_access'> 
+                                            <div class='weui_cells_weui_cells_access'>
                                                 {{#each forms}}
                                                     {{#each flows}}
                                                         {{#if isChecked _id}}
@@ -51,8 +58,8 @@
                                                     {{/each}}
                                                 {{/each}}
                                             </div>
-                                        </div> 
-                                    </div>   
+                                        </div>
+                                    </div>
                                 {{/if}}
                             {{/each}}
                         </div>
@@ -62,6 +69,3 @@
         </div>
     </div>
 </template>
-
-
-

@@ -137,10 +137,8 @@
 	"cc_help": "https://www.steedos.com/us/help/workflow/instance_carboncopy.html",
 	"relocate_help": "https://www.steedos.com/us/help/workflow/instance_relocate.html",
 	"reassign_help": "https://www.steedos.com/us/help/workflow/instance_reassign.html",
-	"help": "",
-	"help": "",
-	"help": "",
-	"help": "",
+	"forward_help": "https://www.steedos.com/us/help/workflow/instance_forward.html",
+	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_monitor.html",
 
 	// inbox
 	"Inbox Suggestion NextSteps Label": "Next step: ",
