@@ -63,7 +63,9 @@ Meteor.startup ->
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
 
 	Tracker.autorun (c)->
-		if !Meteor.userId() and FlowRouter.current().path != "/steedos/sign-in"
+		currentPath = FlowRouter.current().path
+		if !Meteor.userId() and !/^\/steedos\b/.test(currentPath)
+			# 没有登录且路由不以/steedos开头则跳转到登录界面
 			console.log "login session is lost,will route to sign-in page."
 			FlowRouter.go "/steedos/sign-in";
 
