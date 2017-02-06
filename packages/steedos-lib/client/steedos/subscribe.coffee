@@ -62,6 +62,9 @@ Meteor.startup ->
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
 
+	Tracker.autorun (c)->
+		if !Meteor.userId() and FlowRouter.current().path != "/steedos/sign-in"
+			FlowRouter.go "/steedos/sign-in";
 
 Steedos.subsForwardRelated = new SubsManager()
 
