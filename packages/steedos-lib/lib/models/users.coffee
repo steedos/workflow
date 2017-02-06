@@ -164,6 +164,9 @@ if Meteor.isServer
 		if !doc.roles
 			doc.roles = ["user"]
 
+		if !doc.utcOffset
+			doc.utcOffset = 8
+
 		_.each doc.emails, (obj)->
 			db.users.checkEmailValid(obj.address);
 		

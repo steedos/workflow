@@ -9,10 +9,12 @@ if Meteor.isServer
 
 
 if Meteor.isClient
-        Tracker.autorun (c)->
-                user = Meteor.user()
-                if user
-                        utcOffset = moment().utcOffset() / 60
-                        if user.utcOffset isnt utcOffset
-                                Meteor.call 'updateUserUtcOffset', utcOffset, (e,r)->
-                                        c.stop()
+        Meteor.startup ->
+                Tracker.autorun (c)->
+                        user = Meteor.user()
+                        # 系统启动时，可能取不到 user.utcOffset 字段
+                        if user and user.utcOffset
+                                utcOffset = moment().utcOffset() / 60
+                                if user.utcOffset isnt utcOffset
+                                        Meteor.call 'updateUserUtcOffset', utcOffset, (e,r)->
+                                                c.stop()
