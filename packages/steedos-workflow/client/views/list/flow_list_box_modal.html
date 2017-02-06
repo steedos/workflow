@@ -3,7 +3,12 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content ins-modal">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default" id="new_help">
+              <i class="ion ion-help-circled" title="{{_ "Help"}}"></i>
+            </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
           <h4 class="modal-title" id="myModalLabel">{{_ "Select a flow"}}</h4>
         </div>
         <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
