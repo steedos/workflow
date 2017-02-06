@@ -22,8 +22,6 @@ Template.steedos_contacts_org_user_list.helpers
 		return Steedos.isMobile();
 
 	getOrgName: ()->
-		unless Steedos.isMobile()
-			return ""
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
 Template.steedos_contacts_org_user_list.events

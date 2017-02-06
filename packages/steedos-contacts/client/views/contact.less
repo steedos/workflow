@@ -155,15 +155,15 @@
 	}
 
 	.org-bar{
-		// height: 34px;
-		// padding: 5px;
-		padding-top: 14px;
-		cursor: pointer;
-		text-align: center;
-		background: #f9f9f9;
+		&.navigation-bar{
+			padding-top: 14px;
+			cursor: pointer;
+			text-align: center;
+			background: #f9f9f9;
+		}
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 1281px) {
 		.contacts-main {
 			.contacts-list-wrapper {
 				display: block;
@@ -206,7 +206,7 @@
 		}
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 1280px) {
 		.contacts-main {
 			.contacts-list-wrapper {
 				display: block;
@@ -352,8 +352,4 @@
 			}
 		}
 	}
-}
-
-#steedos_contacts_show_orgs{
-	background:#fff;
 }
