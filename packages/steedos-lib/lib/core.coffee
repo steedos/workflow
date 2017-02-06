@@ -82,16 +82,10 @@ if Meteor.isClient
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
-		
-		if Steedos.isiOS()
-			if accountZoomValue.size
-				$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
-			else
-				$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
-		else
-			$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
-			if accountZoomValue.name
-				$("body").addClass("zoom-#{accountZoomValue.name}")
+
+		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
+		if accountZoomValue.name
+			$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
 				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
