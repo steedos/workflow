@@ -48,7 +48,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		instance = db.instances.findOne({_id: instanceId}, {fields: {flow: 1, flow_version: 1, "traces.step":1, "traces": {$slice: -1}}})
 		if instance
 			flow = db.flows.findOne({_id: instance.flow}, {fields: {current: 1, historys: 1}})
-			if instance.traces?[0]?.step
+			if flow && instance.traces?[0]?.step
 				step = uuflowManager.getStep(instance, flow, instance.traces?[0]?.step)
 				if step?.name
 					stepCurrentName = step.name

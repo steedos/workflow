@@ -44,11 +44,11 @@ Meteor.publish 'flow_version', (spaceId, flowId, versionId) ->
 
 	getFlowVersion = (id , versionId)->
 		flow = db.flows.findOne({_id : id});
-		flow_version = flow.current
-		if flow_version._id != versionId
-			flow_version = flow.historys.findPropertyByPK("_id", versionId)
-		console.log "flow_version._id: #{flow_version._id}"
-		return flow_version
+		if flow
+			flow_version = flow.current
+			if flow_version._id != versionId
+				flow_version = flow.historys.findPropertyByPK("_id", versionId)
+			return flow_version
 
 	handle = db.flows.find({_id: flowId}).observeChanges {
 		changed: (id)->
