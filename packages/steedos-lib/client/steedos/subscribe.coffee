@@ -64,6 +64,7 @@ Meteor.startup ->
 
 	Tracker.autorun (c)->
 		if !Meteor.userId() and FlowRouter.current().path != "/steedos/sign-in"
+			console.log "login session is lost,will route to sign-in page."
 			FlowRouter.go "/steedos/sign-in";
 
 Steedos.subsForwardRelated = new SubsManager()
