@@ -92,10 +92,10 @@
                           <span>{{this.address}}</span>
                           {{#if this.verified}}
                             {{#if isPrimary this.address}}
-                              <span>{{_ 'email_is_primary'}}</span>
+                              <span class="text-muted">{{_ 'email_is_primary'}}</span>
                             {{/if}}
                           {{else}}
-                            <span>{{_ 'email_unvrified'}}</span>
+                            <span class="text-muted">{{_ 'email_unvrified'}}</span>
                           {{/if}}
                           
                             <span class="pull-right">
