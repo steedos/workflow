@@ -166,7 +166,7 @@ FlowRouter.route '/steedos/sso',
 			Meteor._debug("cookie login success");
 			FlowRouter.go(returnurl);
 
-FlowRouter.route '/steedos/about',
+FlowRouter.route '/admin/about',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "steedosAbout"
