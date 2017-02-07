@@ -2,7 +2,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	name: "steedosContactsOrganizations",
 	collection: db.space_users,
 	createdRow:(row,data,index)->
-		if Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
+		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$(row).addClass("drag-source").attr "draggable",true
 	columns: [
 		{
@@ -32,7 +32,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				if Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
+				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 					return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
 		},
 		{
@@ -41,7 +41,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				if Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
+				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 					return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
 		},
 		{
