@@ -641,7 +641,7 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 		push_body = new Object
 		push_body["badge"] = badge
 		user_info = db.users.findOne({_id: to_user})
-		this.send_message([user_info.steedos_id], push_body, user_info)
+		this.send_message([user_info.steedos_id], push_body, user_info) if user_info
 	catch e
 		console.error e.stack
 
