@@ -1,5 +1,6 @@
 Template.AdminDashboardView.rendered = ->
 	table = @$('.dataTable').DataTable();
+	this.$("table").wrap("<div class = 'table-responsive'></div>")
 
 Template.AdminDashboardView.helpers
 	hasDocuments: ->
