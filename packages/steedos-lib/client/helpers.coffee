@@ -206,7 +206,10 @@ TemplateHelpers =
 	fromNow: (posted)->
 		return moment(posted).fromNow()
 
-
+	dateFormat: (value, formatString) ->
+		if !formatString
+			formatString = "YYYY-MM-DD"
+		return moment(value).format(formatString)
 
 	isPaid: (app)->
 		if !app
