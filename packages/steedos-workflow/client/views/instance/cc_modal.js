@@ -35,7 +35,7 @@ Template.instance_cc_modal.events({
     },
 
     'click #cc_help': function(event, template) {
-        window.open(t("cc_help"));
+        Steedos.openWindow(t("cc_help"));
     },
 
     'click #cc_modal_ok': function(event, template) {

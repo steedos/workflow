@@ -4,12 +4,14 @@
       <div class="modal-content ins-modal">
         <div class="modal-header">
           <div class="btn-group pull-right">
-            <button type="button" class="btn btn-default" id="new_help">
-              <i class="ion ion-help-circled" title="{{_ "Help"}}"></i>
-            </button>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
-          <h4 class="modal-title" id="myModalLabel">{{_ "Select a flow"}}</h4>
+          <h4 class="modal-title" id="myModalLabel">
+            {{_ "Select a flow"}}
+            <a class="btn btn-lg btn-link btn-help" id="new_help">
+              <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
+            </a>
+          </h4>
         </div>
         <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
           {{> flow_list_box}}

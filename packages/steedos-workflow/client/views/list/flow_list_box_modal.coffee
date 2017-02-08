@@ -4,4 +4,4 @@ Template.flow_list_box_modal.onRendered ->
 
 Template.flow_list_box_modal.events
     'click #new_help': (event, template) ->
-        window.open(t("new_help"));
+        Steedos.openWindow(t("new_help"));

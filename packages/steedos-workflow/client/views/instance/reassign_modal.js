@@ -42,7 +42,7 @@ Template.reassign_modal.events({
     },
 
     'click #reassign_help': function(event, template) {
-        window.open(t("reassign_help"));
+        Steedos.openWindow(t("reassign_help"));
     },
 
     'click #reassign_modal_ok': function(event, template) {

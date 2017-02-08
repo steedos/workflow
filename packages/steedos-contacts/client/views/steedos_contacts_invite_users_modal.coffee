@@ -54,4 +54,4 @@ Template.steedos_contacts_invite_users_modal.events
     )
 
   'click #invite_users_help': (event, template) ->
-    window.open(t("invite_users_help"));
+    Steedos.openWindow(t("invite_users_help"));

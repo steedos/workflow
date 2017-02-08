@@ -43,4 +43,4 @@ Template.flow_list_modal.events
             Session.set("categorie_id", categorie);
 
     'click #export_filter_help': (event, template) ->
-        window.open(t("export_filter_help"));
+        Steedos.openWindow(t("export_filter_help"));
