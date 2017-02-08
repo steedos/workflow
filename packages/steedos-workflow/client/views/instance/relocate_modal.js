@@ -71,7 +71,7 @@ Template.relocate_modal.events({
     },
 
     'click #relocate_help': function(event, template) {
-        window.open(t("relocate_help"));
+        Steedos.openWindow(t("relocate_help"));
     },
 
     'click #relocate_modal_ok': function(event, template) {

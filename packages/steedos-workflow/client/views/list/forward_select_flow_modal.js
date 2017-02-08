@@ -42,7 +42,7 @@ Template.forward_select_flow_modal.onRendered(function() {
 
 Template.forward_select_flow_modal.events({
     'click #forward_help': function(event, template) {
-        window.open(t("forward_help"));
+        Steedos.openWindow(t("forward_help"));
     },
 
     'click #forward_flow_ok': function(event, template) {
