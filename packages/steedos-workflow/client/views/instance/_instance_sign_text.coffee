@@ -1,6 +1,8 @@
 InstanceSignText.helpers =
 	show: (stepName)->
 		if Meteor.isClient
+			if Session.get('instancePrint')
+				return false
 			if InstanceManager.isInbox()
 				currentStep = InstanceManager.getCurrentStep();
 				return currentStep?.name == stepName
