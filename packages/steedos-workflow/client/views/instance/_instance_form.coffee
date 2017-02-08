@@ -308,7 +308,8 @@ InstanceformTemplate.helpers =
 		return TAPi18n.__(key)
 	getField: (code)->
 		form_version = Template.instance().view.template.steedosData.form_version
-		return form_version.fields.findPropertyByPK("code", code)
+		if form_version
+			return form_version.fields.findPropertyByPK("code", code)
 
 	getValue: (code)->
 		instance = Template.instance().view.template.steedosData.instance
