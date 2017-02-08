@@ -149,15 +149,18 @@ TemplateManager.getTemplate = (flowId, templateName) ->
 
 	if Session?.get("instancePrint")
 		if flow?.print_template
-			return flow.print_template
+			return "<div class='instance-template'>" + flow.print_template + "</div>"
 		else
-			return TemplateManager._template.table
+			if flow?.instance_template
+				return "<div class='instance-template'>" + flow.instance_template + "</div>"
+			else
+				return TemplateManager._template.table
 	else
 		if Steedos.isMobile()
 			return TemplateManager._template.default
 
 		if flow?.instance_template
-			return flow.instance_template
+			return "<div class='instance-template'>" + flow.instance_template + "</div>"
 
 		if flow?.instance_style
 			return TemplateManager._template[flow.instance_style]

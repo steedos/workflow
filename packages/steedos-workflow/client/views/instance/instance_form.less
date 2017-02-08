@@ -409,6 +409,10 @@ textarea {
     border-collapse: collapse;
     border: 2px solid @instanceTableStyleBorderColor;
     table-layout: fixed;
+    
+    tbody, tr{
+      border-color: inherit;
+    }
 
     .td-title{
       width: 14%;
@@ -723,6 +727,252 @@ textarea {
 
 .instance-view .instance-name{
   display: none;
+}
+
+.no-border{
+  border: none;
+}
+
+.border-right{
+  border-right: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-right-none{
+  border-right: 0px !important;
+}
+
+.border-left{
+  border-left: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-left-none{
+  border-left: 0px !important;
+}
+
+.border-top{
+  border-top: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-top-none{
+  border-top: 0px !important;
+}
+
+.border-bottom{
+  border-bottom: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-bottom-none{
+  border-bottom: 0px !important;
+}
+
+.nowrap{
+  white-space: nowrap;
+}
+
+.verticle-mode {
+  writing-mode: tb-lr;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+  letter-spacing: 12px;
+  padding-top: 12px !important;
+  height:140px;
+}
+
+.verticle-mode label {
+  display: inline;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+}
+
+.td-center{
+  vertical-align: middle !important;
+  text-align: center;
+}
+
+.inline-left{
+  display: inline;
+  float: left;
+}
+
+.inline-right{
+  display: inline;
+  float: right;
+}
+
+
+.font-14{
+  font-size: 14px;
+}
+
+.font-16{
+  font-size: 16px;
+}
+
+.font-18{
+  font-size: 18px;
+}
+
+.font-24{
+  font-size: 24px;
+}
+
+.font-family-simsun{
+  font-family: "SimSun";
+}
+
+.font-family-simhei{
+  font-family: "SimHei";
+}
+
+.font-family-yahei{
+  font-family: "Microsoft Yahei";
+}
+
+.font-family-kaiti{
+  font-family: "KaiTi";
+}
+
+.font-family-kaiti-gb2312{
+  font-family: "KaiTi_GB2312";
+}
+
+.font-family-fangsong{
+  font-family: "FangSong";
+}
+
+.font-family-fangsong-gb2312{
+  font-family: "FangSong_GB2312";
+}
+
+.font-color-red{
+  color: red !important;;
+}
+
+.font-color-black{
+  color: black !important;;
+}
+
+.font-color-blue{
+  color: blue !important;;
+}
+
+.font-color-green{
+  color: green !important;;
+}
+
+.font-color-grey{
+  color: grey !important;;
+}
+
+.font-color-white{
+  color: white !important;
+}
+
+.border-color-red{
+  border-color: red !important;
+}
+
+.border-color-black{
+  border-color: black !important;;
+}
+
+.border-color-white{
+  border-color: white !important;;
+}
+
+.text-align-center{
+  text-align: center;
+}
+
+.text-align-left{
+  text-align: left;
+}
+
+.text-align-right{
+  text-align: right;
+}
+
+.font-weight-bold{
+  font-weight: bold;
+}
+
+.instance-template{
+  td{
+    vertical-align: top;
+    padding: 5px 10px;
+
+    label {
+      color: inherit;
+      margin-bottom: 0px;
+    }
+  }
+
+  .max-width-700{
+    max-width: 700px;
+  }
+
+  .max-width-720{
+    max-width: 720px;
+  }
+
+  .min-height{
+    min-height: 140px;
+  }
+
+  .form-group[disabled],.form-control[disabled]{
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border: none;
+    padding: 0px;
+  }
+
+  input{
+    font-size: inherit;
+    padding: 0px;
+    min-height: 22px !important;
+    font-weight: inherit;
+  }
+
+  textarea{
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0px;
+  }
+
+  select{
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  .form-group{
+    color: black;
+  }
+
+  .applicant-wrapper{
+    .form-control{
+      color: black !important;
+    }
+  }
+
+  .instance-title .form-group {
+    color: inherit;
+    .form-control{
+      text-align: inherit;
+    }
+  }
+
+  .form-control{
+    font-size: inherit;
+    color: inherit !important;
+    background-color: #fff !important;
+  }
 }
 
 // .ins-opinion-modal{

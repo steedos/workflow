@@ -10,7 +10,7 @@ InstanceReadOnlyTemplate.instance_attachment = """
 """
 
 InstanceReadOnlyTemplate.afSelectUserRead = """
-	{{value}}
+	<div class='selectUser form-control ins_applicant'>{{value}}</div>
 """
 
 
