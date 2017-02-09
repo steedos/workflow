@@ -124,10 +124,10 @@
 	"node_office_exists_message": "文件已存在，是否替换？",
 	"node_office_workflow": "审批王",
 
-	"workflow_export_thismonth": "当月",
-	"workflow_export_lastmonth": "上月",
-	"workflow_export_thisyear": "当年",
-	"workflow_export_all": "所有",
+	"workflow_export_thismonth": "导出当月申请单",
+	"workflow_export_lastmonth": "导出上月申请单",
+	"workflow_export_thisyear": "导出当年申请单",
+	"workflow_export_all": "导出所有申请单",
 	"workflow_export_filter": "按流程过滤",
 
 

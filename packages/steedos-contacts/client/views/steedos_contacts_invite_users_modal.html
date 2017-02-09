@@ -4,7 +4,12 @@
             <div class="modal-content ins-modal">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="modalLabel2">{{_ 'steedos_contacts_invite_users'}}</h4>
+                    <h4 class="modal-title" id="modalLabel2">
+                        {{_ 'steedos_contacts_invite_users'}}
+                        <a class="btn btn-lg btn-link btn-help" id="invite_users_help">
+                            <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
+                        </a>
+                    </h4>
                 </div>
 
                 <div class="modal-body">
@@ -12,11 +17,6 @@
                     <textarea autofocus="autofocus" class="form-control" style="border-radius: 4px;width:100%;min-height:200px;"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <div class="pull-left">
-                        <a class="btn btn-lg btn-link btn-help" id="invite_users_help">
-                            <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
-                        </a>
-                    </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
                     <button type="button" class="btn btn-primary" >{{_ "OK"}}</button>
                 </div>
