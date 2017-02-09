@@ -123,10 +123,10 @@
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
 
-	"workflow_export_thismonth": "This Month",
-	"workflow_export_lastmonth": "Last Month",
-	"workflow_export_thisyear": "This Year",
-	"workflow_export_all": "All",
+	"workflow_export_thismonth": "Export the current month's instances",
+	"workflow_export_lastmonth": "Export the last month's instances",
+	"workflow_export_thisyear": "Export the current year's instances",
+	"workflow_export_all": "Export all instances",
 	"workflow_export_filter": "Tilter according to process",
 
 	"workflow_export_search": "Search for instances according to the flow",
