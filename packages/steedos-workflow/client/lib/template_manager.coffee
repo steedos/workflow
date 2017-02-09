@@ -47,22 +47,33 @@ TemplateManager._template =
         </table>
 		<table class="form-table">
 		    {{#each table_fields}}
-		        {{#if includes this.type 'section,table'}}
-		            {{{tr_start}}}
-		                <td class="td-childfield" colspan = '{{td_colspan}}'>
-		                   {{> afFormGroup name=this.code label=false}}
-		                </td>
-		            {{{tr_end}}}
-		        {{else}}
-		            {{{tr_start}}}
-		                <td class="td-title {{#if is_required}}is-required{{/if}}">
-		                    {{afFieldLabelText name=this.code}}
-		                </td>
-		                <td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
-		                    {{> afFormGroup name=this.code label=false}}
-		                </td>
-		            {{{tr_end}}}
-		        {{/if}}
+				{{#if isOpinionField this}}
+					{{{tr_start}}}
+						<td class="td-title {{#if is_required}}is-required{{/if}}">
+							{{afFieldLabelText name=this.code}}
+						</td>
+						<td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
+							{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
+						</td>
+					{{{tr_end}}}
+				{{else}}
+					{{#if includes this.type 'section,table'}}
+						{{{tr_start}}}
+							<td class="td-childfield" colspan = '{{td_colspan}}'>
+							   {{> afFormGroup name=this.code label=false}}
+							</td>
+						{{{tr_end}}}
+					{{else}}
+						{{{tr_start}}}
+							<td class="td-title {{#if is_required}}is-required{{/if}}">
+								{{afFieldLabelText name=this.code}}
+							</td>
+							<td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
+								{{> afFormGroup name=this.code label=false}}
+							</td>
+						{{{tr_end}}}
+					{{/if}}
+				{{/if}}
 		        
 		    {{/each}}
 		</table>

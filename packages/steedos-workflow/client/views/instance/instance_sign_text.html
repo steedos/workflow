@@ -1,6 +1,6 @@
 <template name="instanceSignText">
     {{#if show step}}
-        <div class="td-height">
+        <div class="min-height">
             {{#each trace step}}
                 {{#if is_finished}}
                     {{#if (include judge "approved,rejected,submitted") }}
@@ -23,7 +23,7 @@
             <a class="instance-sign-text-btn">{{_ "instance_sign"}}</a>
         </div>
     {{else}}
-        <div class="td-height">
+        <div class="min-height">
             {{#each trace step}}
                 {{#if is_finished}}
                     {{#if (include judge "approved,rejected,submitted") }}

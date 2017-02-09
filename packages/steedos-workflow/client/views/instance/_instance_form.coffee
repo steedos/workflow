@@ -357,6 +357,16 @@ InstanceformTemplate.helpers =
 #			form_version = Template.instance().view.template.steedosData.form_version
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
+	isOpinionField: (field)->
+		return field.formula?.indexOf("[traces.") > -1
+
+	getOpinionFieldStepName: (field)->
+		if field.formula?.indexOf("[traces.") > -1
+			s1 = field.formula.replace("[","").replace("]","")
+			if s1.split(".").length > 1
+				return s1.split(".")[1]
+
+
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
 		return Template.instance().view.template.steedosData.form_version
