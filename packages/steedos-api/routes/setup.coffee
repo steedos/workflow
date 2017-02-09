@@ -90,6 +90,7 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 	username = req.body["username"]
 	password = req.body["password"]
 	extended_login = req.body["extended_login"]
+	app_id = req.body["app_id"]
 
 	bcryptPassword = SHA256(password);
 
@@ -106,19 +107,32 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 		res.end();
 		return
 
+	token = null
+	if app_id
+		loginTokens = user.services?.resume?.loginTokens
+		if loginTokens
+			app_login_token = _.find(loginTokens, (t)->
+				return t.app_id is app_id
+			)
+			token = app_login_token.token if app_login_token
 
-	authToken = Accounts._generateStampedLoginToken()
-	hashedToken = Accounts._hashStampedToken authToken
-	Accounts._insertHashedLoginToken user._id, hashedToken
+	if not token
+		authToken = Accounts._generateStampedLoginToken()
+		token = authToken.token
+		hashedToken = Accounts._hashStampedToken authToken
+		if app_id
+			hashedToken.app_id = app_id
+			hashedToken.token = token
+		Accounts._insertHashedLoginToken user._id, hashedToken
 
 	# set cookie to response
 	# maxAge 3 month
-	Setup.setAuthCookies(req, res, user._id, authToken.token)
+	Setup.setAuthCookies(req, res, user._id, token)
 
 	JsonRoutes.sendResult res, 
 		data: 
 			userId: user._id
-			authToken: authToken.token
+			authToken: token
 			apps: []
 			dsInfo: 
 				dsid: user._id
