@@ -219,7 +219,7 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                 }else{
                     var afField = $("[name='" + field_prefix + formula_field.code + "']")
                     var afValue = Form_formula.field_values[formula_field.code];
-                    if(_.isEmpty(afValue)){
+                    if(_.isNaN(afValue) || (!_.isNumber(afValue) && _.isEmpty(afValue))){
                         afValue = '';
                     }
                     if("DIV" == afField.prop("tagName")){
