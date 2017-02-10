@@ -390,6 +390,5 @@
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
     "instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
-    "instance_sign": "签批",
-	"instance_cc_label_text": "传阅"
+    "instance_sign": "签批"
 }
