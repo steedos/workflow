@@ -347,6 +347,15 @@ textarea {
   }
 }
 
+.instance-sign{
+  border: solid 1px #d2d6de;
+  padding: 5px 10px;
+  color: black;
+}
+
+.min-height{
+  min-height: 90px;
+}
 
 .instance-table{
   .instance-form{
@@ -359,6 +368,16 @@ textarea {
       padding: 0px;
       margin-bottom: 0px;
     }
+  }
+
+  .instance-sign{
+    border: 0px !important;
+    padding: 0px;
+  }
+
+  .opinion-field{
+    padding: 5px 10px;
+    background: inherit !important;
   }
 
   .cfTextarea[disabled],.cfTextarea[readonly]{
@@ -418,6 +437,7 @@ textarea {
       width: 14%;
       text-align: center;
       border: solid 1px @instanceTableStyleBorderColor;
+      border-color: inherit !important;
       padding:4px 12px;
       vertical-align: middle;
       text-align:left;
@@ -433,6 +453,7 @@ textarea {
       // width: 36%;
       text-align: left;
       border: solid 1px @instanceTableStyleBorderColor;
+      border-color: inherit !important;
       vertical-align: middle;
       &.readonly{
         background:#F9F9F9;
@@ -441,8 +462,11 @@ textarea {
 
     .td-childfield{
       border-top: solid 1px @instanceTableStyleBorderColor;
+      border-top-color: inherit !important;
       border-right: solid 1px @instanceTableStyleBorderColor;
+      border-right-color: inherit !important;
       border-bottom: solid 1px @instanceTableStyleBorderColor;
+      border-bottom-color: inherit !important;
     }
 
     /*子表与子表相邻时，会出现子表间没有边线的问题，这里判断并加上，由于meteor编译的问题，这里是tr标签与td标签相邻*/
@@ -920,10 +944,6 @@ textarea {
       color: inherit;
       margin-bottom: 0px;
     }
-  }
-
-  .min-height{
-    min-height: 140px;
   }
 
   .form-group[disabled],.form-control[disabled]{

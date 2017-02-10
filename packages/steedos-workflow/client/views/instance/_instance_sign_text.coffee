@@ -9,7 +9,7 @@ InstanceSignText.helpers =
 		return false
 
 	defaultDescription: ()->
-		return Template.instance().data.default
+		return Template.instance().data.default || TAPi18n.__("default_opinion")
 
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
@@ -43,3 +43,13 @@ InstanceSignText.helpers =
 
 	now: ()->
 		return new Date();
+
+	isReadOnly: ()->
+		if Meteor.isClient
+			return ApproveManager.isReadOnly()
+		return false
+
+if Meteor.isServer
+	InstanceSignText.helpers.defaultDescription = ->
+		locale = Template.instance().view.template.steedosData.locale
+		return Template.instance().data.default || TAPi18n.__("default_opinion", {}, locale)

@@ -77,6 +77,10 @@ Form_formula.getFormulaFieldVariable = function(prefix,fields){
         var formula = new Object();
         var field = fields[i];
 
+        if(InstanceformTemplate.helpers.isOpinionField(field)){
+            continue;
+        }
+
         if (field.type != "table"&&field.type != "section"){
             if (field.formula && field.formula!=''){
                 formula["code"] = field.code;
@@ -90,6 +94,11 @@ Form_formula.getFormulaFieldVariable = function(prefix,fields){
             var sectionFields = field.fields;
             if(sectionFields) {
                 for(var k=0;k<sectionFields.length;k++){
+
+                    if(InstanceformTemplate.helpers.isOpinionField(sectionFields[k])){
+                        continue;
+                    }
+
                     if(sectionFields[k].formula && sectionFields[k].formula != ''){
                         var formula = new Object();
                         formula["code"] = sectionFields[k].code;

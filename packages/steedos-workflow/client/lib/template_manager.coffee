@@ -18,16 +18,25 @@ TemplateManager._template =
             <span class="help-block"></span>
         </div>
 		{{#each steedos_form.fields}}
-		    {{#if includes this.type 'section,table'}}
-		        <div class="col-md-12">
-		            {{> afFormGroup name=this.code label=false}}
-		        </div>
-		    {{else}}
-		        <div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-		        {{> afFormGroup name=this.code}}
-		        </div>
+			{{#if isOpinionField this}}
+				<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
+					<div class="form-group opinion-field">
+						<label class="control-label">{{afFieldLabelText name=this.code}}</label>
+
+						{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
+					</div>
+				</div>
+			{{else}}
+				{{#if includes this.type 'section,table'}}
+					<div class="col-md-12">
+						{{> afFormGroup name=this.code label=false}}
+					</div>
+				{{else}}
+					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
+					{{> afFormGroup name=this.code}}
+					</div>
+				{{/if}}
 		    {{/if}}
-		    
 		{{/each}}
 	'''
 	table: '''
@@ -52,7 +61,7 @@ TemplateManager._template =
 						<td class="td-title {{#if is_required}}is-required{{/if}}">
 							{{afFieldLabelText name=this.code}}
 						</td>
-						<td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
+						<td class="td-field opinion-field" colspan = '{{td_colspan}}'>
 							{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
 						</td>
 					{{{tr_end}}}
