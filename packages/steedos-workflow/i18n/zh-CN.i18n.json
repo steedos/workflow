@@ -77,8 +77,8 @@
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 
-	"Instance State approved": " 已核准",
-	"Instance State rejected": " 已驳回",
+	"Instance State approved": "已核准",
+	"Instance State rejected": "已驳回",
 	"Instance State terminated": "已取消",
 	"Instance State finished": "已完成",
 	"Instance State pending": "审核中",

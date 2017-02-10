@@ -76,8 +76,8 @@
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
 
-	"Instance State approved": " Approved",
-	"Instance State rejected": " Rejected",
+	"Instance State approved": "Approved",
+	"Instance State rejected": "Rejected",
 	"Instance State terminated": "Cancelled",
 	"Instance State finished": "Completed",
 	"Instance State pending": "In Progress",
