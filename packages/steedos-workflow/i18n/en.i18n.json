@@ -16,7 +16,8 @@
 	"menu_navigation": "Navigation",
 
 	"Workflow": "Workflow",
-	"instance_new": "New",
+
+	"form_new": "New",
 
 	"instances": "Instances",
 	"instances_name": "Title",
@@ -150,7 +151,7 @@
 
 	"All flows": "All flows",
 	"Select a flow": "Select a flow",
-	"Fill in the form": "填写表单",
+	"Fill in form": "Fill in form",
 
 	"Flow upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
 
