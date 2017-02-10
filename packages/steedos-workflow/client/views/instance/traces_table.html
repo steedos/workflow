@@ -37,10 +37,12 @@
                                         <td class="name">
                                             {{this.handler_name}}
                                             {{#if isCC this}}
-                                                <label class='cc-label'>({{_t "instance_cc_title"}})</label>
-                                                {{#if showDeleteButton this}}
-                                                    <span class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
-                                                {{/if}}
+                                                <label class='cc-label'>
+                                                    <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
+                                                    {{#if showDeleteButton this}}
+                                                        <span class="btn-box-tool cc-approve-remove hidden-xs" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
+                                                    {{/if}}
+                                                </label>
                                             {{/if}}
                                         </td>
                                         {{#if unempty this.finish_date}}
