@@ -91,6 +91,7 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 	password = req.body["password"]
 	extended_login = req.body["extended_login"]
 	app_id = req.body["app_id"]
+	client_id = req.body["client_id"]
 
 	bcryptPassword = SHA256(password);
 
@@ -108,11 +109,11 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 		return
 
 	token = null
-	if app_id
+	if app_id and client_id
 		loginTokens = user.services?.resume?.loginTokens
 		if loginTokens
 			app_login_token = _.find(loginTokens, (t)->
-				return t.app_id is app_id
+				return t.app_id is app_id and t.client_id is client_id
 			)
 			token = app_login_token.token if app_login_token
 
@@ -120,8 +121,9 @@ JsonRoutes.add "post", "/api/setup/login", (req, res, next) ->
 		authToken = Accounts._generateStampedLoginToken()
 		token = authToken.token
 		hashedToken = Accounts._hashStampedToken authToken
-		if app_id
+		if app_id and client_id
 			hashedToken.app_id = app_id
+			hashedToken.client_id = client_id
 			hashedToken.token = token
 		Accounts._insertHashedLoginToken user._id, hashedToken
 
