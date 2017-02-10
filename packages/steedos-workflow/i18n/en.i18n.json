@@ -388,5 +388,6 @@
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
     "instance_chrome_print_warning": "Please use the Chrome browser to print.",
-    "instance_sign": "Sign"
+    "instance_sign": "Sign",
+	"instance_cc_label_text": "Carbon Copy"
 }
