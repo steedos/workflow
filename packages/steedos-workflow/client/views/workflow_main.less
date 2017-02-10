@@ -150,6 +150,7 @@
 			right:0;
 			bottom: 0;
 			left:0;
+			/*这里的z-index不能去掉，因为在某些情况下部分内容会被覆盖，比如选中驳回，先输入意见栏内容再删除内容，会提示意见不能为空，这时就会出现部分内容会被覆盖的情况*/
 			z-index: 99;
 			border-radius:0;
 			display:none;
