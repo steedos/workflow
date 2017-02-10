@@ -33,9 +33,9 @@ TracesTemplate.helpers =
 		approveStatusIcon = undefined
 		switch approveJudge
 			when 'approved'
-				approveStatusIcon = 'ion ion-checkmark-round'
+				approveStatusIcon = 'ion ion-ios-checkmark-outline'
 			when 'rejected'
-				approveStatusIcon = 'ion ion-close-round'
+				approveStatusIcon = 'ion ion-ios-close-outline'
 			when 'terminated'
 				approveStatusIcon = ''
 			when 'reassigned'

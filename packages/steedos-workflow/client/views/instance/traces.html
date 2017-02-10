@@ -25,11 +25,11 @@
                             </td>
                             {{#if unempty this.finish_date}}
                                 <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
+                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
                             {{else}}
                                 <td class="finish-date"></td>
                                 {{#unless isCC this}}
-                                    <td class="status {{this.judge}}">{{_t "instance_in_progress"}}</td>
+                                    <td class="status pending"><span class='ion ion-ios-circle-outline'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
                                 {{/unless}}
                             {{/if}}
 
