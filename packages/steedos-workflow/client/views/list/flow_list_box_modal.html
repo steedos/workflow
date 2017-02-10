@@ -7,14 +7,14 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <h4 class="modal-title" id="myModalLabel">
-            {{_ "Select a flow"}}
+            {{_ "Fill in intance"}}
             <a class="btn btn-lg btn-link btn-help" id="new_help">
               <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
             </a>
           </h4>
+          <h5 class="modal-title" id="myModalLabel1"><i class="fa fa-map-marker"></i> {{_ "Select a flow"}}</h5> 
         </div>
-        <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
-          {{> flow_list_box}}
+        <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'> {{> flow_list_box}}
         </div>
       </div>
     </div>
