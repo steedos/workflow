@@ -39,13 +39,13 @@
                         </tr>
                         {{#if this.is_finished}}
                             {{#if unempty this.description}}
-                                <tr class="approve-item">
+                                <tr class="approve-item approve-description">
                                     <td class="description" colspan="3">{{this.description}}</td>
                                 </tr>
                             {{/if}}
                         {{else}}
                             {{#if (unempty (myApproveDescription this._id))}}
-                                <tr class="approve-item">
+                                <tr class="approve-item approve-description">
                                     <td class="description" colspan="3">{{myApproveDescription this._id}}</td>
                                 </tr>
                             {{/if}}
