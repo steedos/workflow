@@ -85,6 +85,7 @@ alanning:roles
 sach:flow-db-admin
 
 steedos:jstree
+steedos:webui-popover
 steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
