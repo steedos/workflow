@@ -4,8 +4,26 @@ CoreForm = {};
 
 CoreForm.instanceform = {};
 
+Form_formula.initFormScripts = function () {
+    console.log("run Form_formula.initFormScripts")
+    try{
+        form_version = WorkflowManager.getInstanceFormVersion();
+        form_script = form_version.form_script;
+        if(form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0){
+            //装载表单脚本
+            eval(form_script);
+        }else{
+            CoreForm = {};
+            CoreForm.instanceform = {};
+            console.log("脚本为空, 退出运算程序");
+        }
+    }catch (e){
+        console.log("初始化表单脚本出错，错误信息: \n" + e);
+    }
+}
 
-Form_formula.initFormScripts = function(formKey, eventName){
+
+Form_formula.runFormScripts = function(formKey, eventName){
     try {
         
         form_version = WorkflowManager.getInstanceFormVersion();
@@ -13,9 +31,8 @@ Form_formula.initFormScripts = function(formKey, eventName){
 
         // 过滤换行：/\n/g ； 过滤空格 tab : /\s/g
         if(form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0){
-            //装载表单脚本
-            eval(form_script);
-            
+
+
             //运行OnLoad()脚本;
             if (CoreForm["form_OnLoad"] instanceof Function){
                 eval("CoreForm.form_OnLoad();");

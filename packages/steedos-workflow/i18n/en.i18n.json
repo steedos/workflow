@@ -388,5 +388,6 @@
 	"Instance State retrieved": "Retrieved",
     "instance_chrome_print_warning": "Please use the Chrome browser to print.",
     "instance_sign": "Sign",
-    "default_opinion": "Already read"
+    "instance_default_opinion": "Already read",
+    "instance_submit_date": "Submit date"
 }

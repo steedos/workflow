@@ -2,6 +2,116 @@ TemplateManager = {};
 
 formId = 'instanceform';
 
+
+TemplateManager.handleTableTemplate = (instance) ->
+
+	pageTitle = """
+		{{instance.name}}
+	"""
+
+	pageTitleTrClass = "instance-name"
+
+	if CoreForm?.pageTitleFieldName
+		pageTitle = """
+				{{> afFormGroup name="#{CoreForm.pageTitleFieldName}" label=false}}
+		"""
+		pageTitleTrClass = ""
+
+	template = """
+	<div class='instance-template'>
+		<table class="table-page-title form-table no-border text-align-center" style="width: 100%;display: inline-table;">
+			<tr class="#{pageTitleTrClass}">
+				<td class="instance-table-name-td page-title">
+					#{pageTitle}
+				</td>
+			</tr>
+
+        </table>
+		<table class="table-page-body form-table">
+			    <tr style="height:0px">
+					<th style='width: 16%'></th>
+					<th></th>
+					<th style='width: 16%'></th>
+					<th></th>
+				</tr>
+	""";
+
+	table_fields = InstanceformTemplate.helpers.table_fields(instance)
+
+	table_fields.forEach (table_field)->
+
+		required = ""
+		if !CoreForm?.pageTitleFieldName || CoreForm?.pageTitleFieldName != table_field.code
+			if table_field.is_required
+				required = "is-required"
+
+			if InstanceformTemplate.helpers.isOpinionField(table_field)
+				template += table_field.tr_start
+				template += """
+					<td class="td-title #{required}">
+						{{afFieldLabelText name="#{table_field.code}"}}
+					</td>
+					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
+						{{> instanceSignText step="#{InstanceformTemplate.helpers.getOpinionFieldStepName(table_field)}"}}
+					</td>
+				"""
+				template += table_field.tr_end
+			else
+				if InstanceformTemplate.helpers.includes(table_field.type, 'section,table')
+					template += table_field.tr_start
+					template += """
+						<td class="td-childfield td-childfield-#{table_field.code}" colspan = "#{table_field.td_colspan}">
+						   {{> afFormGroup name="#{table_field.code}" label=false}}
+						</td>
+					"""
+					template += table_field.tr_end
+				else
+					template += table_field.tr_start
+					template += """
+						<td class="td-title td-title-#{table_field.code} #{required}">
+							{{afFieldLabelText name="#{table_field.code}"}}
+						</td>
+						<td class="td-field td-field-#{table_field.code} #{table_field.permission}" colspan = "#{table_field.td_colspan}">
+							{{> afFormGroup name="#{table_field.code}" label=false}}
+						</td>
+					"""
+					template += table_field.tr_end
+
+	template += """
+		</table>
+
+		<table class="table-page-footer form-table no-border">
+			<tr style="height:0px">
+				<th style='width: 16%'></th>
+				<th></th>
+				<th style='width: 16%'></th>
+				<th></th>
+			</tr>
+			<tr class="applicant-wrapper">
+				<td class="nowrap">
+					<div>
+						<label class="control-label">{{_t "instance_initiator"}}：</label>
+					</div>
+				</td>
+				<td class="instance-table-wrapper-td">
+					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+				</td>
+				<td class="nowrap">
+					<div>
+						<label>{{_t "instance_submit_date"}}：</label>
+					</div>
+				</td>
+				<td class="td-field">
+					<div class="form-group">
+						{{formatDate instance.submit_date '{"format":"YYYY-MM-DD"}'}}
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	"""
+	return template
+
 #此处模板公用与：instance 编辑、查看、打印、转发时生成附件、发送邮件body部分(table 模板)
 #如果有修改，请测试确认其他功能是否正常。
 TemplateManager._template =
@@ -39,54 +149,56 @@ TemplateManager._template =
 		    {{/if}}
 		{{/each}}
 	'''
-	table: '''
-		<table class="box-header  with-border" style="width: 100%;display: inline-table;">
-			<tr class="instance-name">
-				<td class="instance-table-name-td">
-					<h3 class="box-title">{{instance.name}}</h3>
-					<span class="help-block"></span>
-				</td>
-			</tr>
-            <tr class="applicant-wrapper">
-				<td class="instance-table-wrapper-td">
-					<label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
-					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-				</td>
-			</tr>
-        </table>
-		<table class="form-table">
-		    {{#each table_fields}}
-				{{#if isOpinionField this}}
-					{{{tr_start}}}
-						<td class="td-title {{#if is_required}}is-required{{/if}}">
-							{{afFieldLabelText name=this.code}}
-						</td>
-						<td class="td-field opinion-field" colspan = '{{td_colspan}}'>
-							{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
-						</td>
-					{{{tr_end}}}
-				{{else}}
-					{{#if includes this.type 'section,table'}}
-						{{{tr_start}}}
-							<td class="td-childfield" colspan = '{{td_colspan}}'>
-							   {{> afFormGroup name=this.code label=false}}
-							</td>
-						{{{tr_end}}}
-					{{else}}
-						{{{tr_start}}}
-							<td class="td-title {{#if is_required}}is-required{{/if}}">
-								{{afFieldLabelText name=this.code}}
-							</td>
-							<td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
-								{{> afFormGroup name=this.code label=false}}
-							</td>
-						{{{tr_end}}}
-					{{/if}}
-				{{/if}}
-		        
-		    {{/each}}
-		</table>
-	'''
+	table: (instance)->
+		return TemplateManager.handleTableTemplate(instance)
+#	table: '''
+#		<table class="box-header  with-border" style="width: 100%;display: inline-table;">
+#			<tr class="instance-name">
+#				<td class="instance-table-name-td">
+#					<h3 class="box-title">{{instance.name}}</h3>
+#					<span class="help-block"></span>
+#				</td>
+#			</tr>
+#            <tr class="applicant-wrapper">
+#				<td class="instance-table-wrapper-td">
+#					<label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
+#					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+#				</td>
+#			</tr>
+#        </table>
+#		<table class="form-table">
+#		    {{#each table_fields}}
+#				{{#if isOpinionField this}}
+#					{{{tr_start}}}
+#						<td class="td-title {{#if is_required}}is-required{{/if}}">
+#							{{afFieldLabelText name=this.code}}
+#						</td>
+#						<td class="td-field opinion-field" colspan = '{{td_colspan}}'>
+#							{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
+#						</td>
+#					{{{tr_end}}}
+#				{{else}}
+#					{{#if includes this.type 'section,table'}}
+#						{{{tr_start}}}
+#							<td class="td-childfield" colspan = '{{td_colspan}}'>
+#							   {{> afFormGroup name=this.code label=false}}
+#							</td>
+#						{{{tr_end}}}
+#					{{else}}
+#						{{{tr_start}}}
+#							<td class="td-title {{#if is_required}}is-required{{/if}}">
+#								{{afFieldLabelText name=this.code}}
+#							</td>
+#							<td class="td-field {{permission}}" colspan = '{{td_colspan}}'>
+#								{{> afFormGroup name=this.code label=false}}
+#							</td>
+#						{{{tr_end}}}
+#					{{/if}}
+#				{{/if}}
+#
+#		    {{/each}}
+#		</table>
+#	'''
 
 TemplateManager._templateHelps =
 	applicantContext: ->
@@ -161,10 +273,12 @@ instance_box_style: ->
 			return "box-danger"
 
 
-TemplateManager.getTemplate = (flowId, templateName) ->
-	flow = db.flows.findOne(flowId);
+TemplateManager.getTemplate = (instance, templateName) ->
+	flow = db.flows.findOne(instance.flow);
 
 	if templateName
+		if templateName == 'table'
+			return TemplateManager._template.table(instance)
 		return TemplateManager._template[templateName]
 
 	if Session?.get("instancePrint")
@@ -174,7 +288,7 @@ TemplateManager.getTemplate = (flowId, templateName) ->
 			if flow?.instance_template
 				return "<div class='instance-template'>" + flow.instance_template + "</div>"
 			else
-				return TemplateManager._template.table
+				return TemplateManager._template.table(instance)
 	else
 		if Steedos.isMobile()
 			return TemplateManager._template.default
@@ -183,16 +297,19 @@ TemplateManager.getTemplate = (flowId, templateName) ->
 			return "<div class='instance-template'>" + flow.instance_template + "</div>"
 
 		if flow?.instance_style
+			if flow.instance_style == 'table'
+				return TemplateManager._template.table(instance)
 			return TemplateManager._template[flow.instance_style]
 		else
 			return TemplateManager._template.default
 
-TemplateManager.exportTemplate = (flowId) ->
-	template = TemplateManager.getTemplate(flowId);
+#TemplateManager.exportTemplate = (flowId) ->
+#	template = TemplateManager.getTemplate(flowId);
+#
+#	flow = WorkflowManager.getFlow(flowId);
+#
+#	if flow?.instance_template
+#		return template;
+#
+#	return template;
 
-	flow = WorkflowManager.getFlow(flowId);
-
-	if flow?.instance_template
-		return template;
-
-	return template;

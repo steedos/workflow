@@ -186,12 +186,25 @@ InstanceformTemplate.helpers =
 #    return instance.attachments;
 
 
-	table_fields: ->
-		form_version = WorkflowManager.getInstanceFormVersion();
+	table_fields: (instance)->
+		if Meteor.isClient
+			form_version = WorkflowManager.getInstanceFormVersion();
+		else
+			getFormVersion = (id , versionId)->
+				form = db.forms.findOne({_id : id});
+				form_version = form.current
+				if form_version._id != versionId
+					form_version = form.historys.findPropertyByPK("_id", versionId)
+				return form_version
+
+			form_version = getFormVersion(instance.form, instance.form_version)
 		if form_version
 			fields = _.clone(form_version.fields);
 
 			fields.forEach (field, index) ->
+
+				td_colspan = 1;
+
 				if field.formula
 					field.permission = "readonly";
 
@@ -250,7 +263,7 @@ InstanceformTemplate.helpers =
 
 					if index == 0
 # tr_start = "<tr>"; 由于Template的编译bug，导致每次给一个tr开始时，会自动补头或补尾。因此在第一行返回一个空字符串.
-						tr_start = "";
+						tr_start = "<tr>";
 					else
 						if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
 							if field.type == 'table'
@@ -465,7 +478,7 @@ InstanceformTemplate.onCreated = ()->
 	if !instance
 		return;
 
-	template = TemplateManager.getTemplate(instance.flow);
+	template = TemplateManager.getTemplate(instance);
 
 	compiled = SpacebarsCompiler.compile(template, {isBody: true});
 

@@ -261,7 +261,7 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
-	instanceTemplate = TemplateManager.getTemplate(instance.flow, options?.templateName);
+	instanceTemplate = TemplateManager.getTemplate(instance, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
 

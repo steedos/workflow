@@ -9,7 +9,7 @@ InstanceSignText.helpers =
 		return false
 
 	defaultDescription: ()->
-		return Template.instance().data.default || TAPi18n.__("default_opinion")
+		return Template.instance().data.default || TAPi18n.__("instance_default_opinion")
 
 	traces: ()->
 		InstanceformTemplate.helpers.traces()

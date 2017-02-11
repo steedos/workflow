@@ -298,6 +298,8 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
+    api.export('CoreForm');
+
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 
 	// workflow_template（zh-CN）
