@@ -1,11 +1,11 @@
 Form_formula = {};
-
 CoreForm = {};
-
 CoreForm.instanceform = {};
 
 Form_formula.initFormScripts = function () {
     console.log("run Form_formula.initFormScripts")
+    CoreForm = {};
+    CoreForm.instanceform = {};
     try{
         form_version = WorkflowManager.getInstanceFormVersion();
         form_script = form_version.form_script;
@@ -13,8 +13,6 @@ Form_formula.initFormScripts = function () {
             //装载表单脚本
             eval(form_script);
         }else{
-            CoreForm = {};
-            CoreForm.instanceform = {};
             console.log("脚本为空, 退出运算程序");
         }
     }catch (e){

@@ -17,6 +17,12 @@ TemplateManager.handleTableTemplate = (instance) ->
 		"""
 		pageTitleTrClass = ""
 
+	if CoreForm?.pageTitle
+		pageTitle = """
+			#{CoreForm.pageTitle}
+		"""
+		pageTitleTrClass = ""
+
 	template = """
 	<div class='instance-template'>
 		<table class="table-page-title form-table no-border text-align-center" style="width: 100%;display: inline-table;">
