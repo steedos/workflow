@@ -34,10 +34,10 @@ TracesTemplate.helpers =
 		switch approveJudge
 			when 'approved'
 				# 已核准
-				approveStatusIcon = 'ion ion-ios-checkmark-outline'
+				approveStatusIcon = 'ion ion-checkmark-round'
 			when 'rejected'
 				# 已驳回
-				approveStatusIcon = 'ion ion-ios-close-outline'
+				approveStatusIcon = 'ion ion-close-round'
 			when 'terminated'
 				# 已取消
 				approveStatusIcon = 'fa fa-ban'
