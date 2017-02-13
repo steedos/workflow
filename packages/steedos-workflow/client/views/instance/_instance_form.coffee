@@ -190,14 +190,7 @@ InstanceformTemplate.helpers =
 		if Meteor.isClient
 			form_version = WorkflowManager.getInstanceFormVersion();
 		else
-			getFormVersion = (id , versionId)->
-				form = db.forms.findOne({_id : id});
-				form_version = form.current
-				if form_version._id != versionId
-					form_version = form.historys.findPropertyByPK("_id", versionId)
-				return form_version
-
-			form_version = getFormVersion(instance.form, instance.form_version)
+			form_version = WorkflowManager.getFormVersion(instance.form, instance.form_version)
 		if form_version
 			fields = _.clone(form_version.fields);
 

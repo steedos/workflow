@@ -331,10 +331,24 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	return body;
 
+InstanceReadOnlyTemplate.getOnLoadScript = (instance)->
+	form_version = WorkflowManager.getFormVersion(instance.form, instance.form_version)
+
+	form_script = form_version.form_script;
+
+	if form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0
+		form_script = "CoreForm = {};CoreForm.instanceform = {};" + form_script
+		form_script += "window.onload = CoreForm.form_OnLoad();"
+	else
+		form_script = ""
+
+
 
 InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance, options);
+
+	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance)
 
 	if !Steedos.isMobile()
 		flow = db.flows.findOne({_id: instance.flow});
@@ -398,7 +412,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 			<head>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				#{allCssLink}
-
+				<script src="https://www.steedos.com/website/libs/jquery.min.js" type="text/javascript"></script>
 				<style>
 					.steedos{
 						width: #{width};
@@ -441,6 +455,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					</div>
 				</div>
 			</body>
+			<script>#{onLoadScript}</script>
 		</html>
 	"""
+
 	return html
