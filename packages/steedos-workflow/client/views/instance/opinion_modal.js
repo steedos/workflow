@@ -34,13 +34,8 @@ Template.opinion_modal.events({
     },
 
     'dblclick .list-group-item': function(event, template) {
-        var so = event.target.dataset.opinion,
-            c = Session.get('flow_comment'),
-            new_c;
-        new_c = c ? (c + so) : so;
-
-        Session.set('flow_selected_opinion', so);
-        Session.set('flow_comment', new_c)
+        Session.set('flow_selected_opinion', event.target.dataset.opinion);
+        $(".ins-opinion-modal #opinion_modal_ok").trigger("click");
     },
 
     'click #instance_flow_opinions_to': function(event, template) {
@@ -246,7 +241,10 @@ Template.opinion_modal.events({
     },
 
     'click #opinion_modal_ok': function(event, template) {
-        $("#suggestion").val(Session.get('flow_comment')).trigger('input');
+        var oldVal = $("#suggestion").val();
+        var selectedVal = Session.get('flow_selected_opinion');
+        selectedVal = selectedVal ? selectedVal : "";
+        $("#suggestion").val(oldVal + selectedVal).trigger('input');
         Modal.hide(template);
     }
 })
