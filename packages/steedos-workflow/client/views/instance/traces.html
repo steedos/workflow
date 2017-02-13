@@ -17,19 +17,21 @@
                         <tr class="approve-item">
                             <td class="name">{{this.handler_name}}
                                 {{#if isCC this}}
-                                    <label class='cc-label'>({{_t "instance_cc_title"}})</label>
-                                    {{#if showDeleteButton this}}
-                                        <span class="pull-right btn-box-tool cc-approve-remove" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
-                                    {{/if}}
+                                    <label class='cc-label'>
+                                        <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
+                                        {{#if showDeleteButton this}}
+                                            <span class="btn-box-tool cc-approve-remove hidden-xs" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
+                                        {{/if}}
+                                    </label>
                                 {{/if}}
                             </td>
                             {{#if unempty this.finish_date}}
                                 <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;{{getApproveStatusText this.judge}}</td>
+                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
                             {{else}}
                                 <td class="finish-date"></td>
                                 {{#unless isCC this}}
-                                    <td class="status {{this.judge}}">{{_t "instance_in_progress"}}</td>
+                                    <td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
                                 {{/unless}}
                             {{/if}}
 
@@ -37,13 +39,13 @@
                         </tr>
                         {{#if this.is_finished}}
                             {{#if unempty this.description}}
-                                <tr class="approve-item">
+                                <tr class="approve-item approve-description">
                                     <td class="description" colspan="3">{{this.description}}</td>
                                 </tr>
                             {{/if}}
                         {{else}}
                             {{#if (unempty (myApproveDescription this._id))}}
-                                <tr class="approve-item">
+                                <tr class="approve-item approve-description">
                                     <td class="description" colspan="3">{{myApproveDescription this._id}}</td>
                                 </tr>
                             {{/if}}

@@ -1,6 +1,7 @@
 <template name="flow_list_box">
     <div class='box box-solid flow_list_box'>
         <div class='box-group' id='flow_accordion'>
+        <div class="form-subtitle"> {{_ "Select a flow"}}</div>
             {{#each flow_list_data.categories}}
                 {{#if empty this}}
                     <div class='panel box box-default'>

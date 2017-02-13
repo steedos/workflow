@@ -38,9 +38,14 @@
 				padding-left: 15px;
 		}
 		.toolbar{
-			.pull-right{
+			background: rgba(238, 238, 238, 0.72);
+			.instance-search-box{
+				margin-right:5px;
 				.input-group{
 					width:200px;
+					.form-control{
+						border-radius: 6px;
+					}
 					.btn{
 						margin-left: -34px;
 					}
@@ -50,9 +55,13 @@
 		
 		@media screen and (max-width: 767px){
 			.toolbar{
-				.pull-right{
+				.instance-search-box{
+					position: absolute;
+					left: 8px;
+					right: 8px;
+					margin-right: 0!important;
 					.input-group{
-						width:160px;
+						width:100%;
 					}
 				}
 			}
@@ -141,8 +150,8 @@
 			right:0;
 			bottom: 0;
 			left:0;
-			/*这里去掉z-index是为了解决IE11上文字会变模糊的问题（不是所有的申请单都有这个问题）*/
-			/*z-index: 99;*/
+			/*这里的z-index不能去掉，因为在某些情况下部分内容会被覆盖，比如选中驳回，先输入意见栏内容再删除内容，会提示意见不能为空，这时就会出现部分内容会被覆盖的情况*/
+			z-index: 99;
 			border-radius:0;
 			display:none;
 			padding: 0 4px;
@@ -217,6 +226,13 @@
 		}
 	}
 
+}
+
+/*为了解决IE11上文字会变模糊的问题（不是所有的申请单都有这个问题）*/
+/*Internet Explorer 11 only*/
+_:-ms-fullscreen,
+:root .instance-wrapper .instance-view .instance-suggestion{
+	box-shadow:none;
 }
 
 .mobile-safari{

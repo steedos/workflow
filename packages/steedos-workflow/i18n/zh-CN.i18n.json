@@ -16,7 +16,8 @@
 	"menu_navigation": "导航",
 
 	"Workflow": "审批王",
-	"instance_new": "新建",
+
+	"form_new": "新建表单",
 
 	"instances": "申请单",
 	"instances_name": "标题",
@@ -77,8 +78,8 @@
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 
-	"Instance State approved": " 已核准",
-	"Instance State rejected": " 已驳回",
+	"Instance State approved": "已核准",
+	"Instance State rejected": "已驳回",
 	"Instance State terminated": "已取消",
 	"Instance State finished": "已完成",
 	"Instance State pending": "审核中",
@@ -151,7 +152,8 @@
 	"User Management": "用户管理",
 
 	"All flows": "所有流程",
-	"Select a flow": "选择流程",
+	"Select a flow": "请选择流程",
+	"Fill in form": "填写表单",
 
 	"Flow upgraded": "流程已升级，请检查您填写的内容是否符合修改后的要求。",
 

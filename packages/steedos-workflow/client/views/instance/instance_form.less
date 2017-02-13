@@ -70,6 +70,12 @@
 .approve-item{
     height: 30px;
     font-size: 13px;
+    &.approve-description{
+      height:auto;
+      .description{
+        padding-top:0px;
+      }
+    }
 }
 
 .approve-item > .name{
@@ -94,6 +100,10 @@
 
 .approve-item > .retrieved{
   color: black;
+}
+
+.approve-item > .pending{
+  color: #777;
 }
 
 .approve-item > .description{
@@ -670,8 +680,12 @@ textarea {
 .cc-label{
   color: #999;
   font-weight: 400;
-  padding-left: 5px;
   display: initial;
+  border-radius: 12px;
+  margin-left: 4px;
+  .cc-approve-remove{
+    margin-left:4px;
+  }
 }
 
 .selected .cc-label{
@@ -703,6 +717,12 @@ textarea {
   border-top: 1px dashed #d2d6de !important;
   margin-bottom: 5px;
   border-radius: 0px;
+  table.traces{
+    .approve-item{
+      td{
+      }
+    }
+  }
 }
 
 .instance .form-group .form-control{
