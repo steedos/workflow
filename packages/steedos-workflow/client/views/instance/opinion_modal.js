@@ -54,19 +54,22 @@ Template.opinion_modal.events({
         swal({
             title: t('instance_opinion_input'),
             type: "input",
-            showCancelButton: false,
+            showCancelButton: true,
             closeOnConfirm: false,
             confirmButtonText: t('OK'),
-            cancelButtonText: t('Cancel')
+            cancelButtonText: t('Cancel'),
+            showLoaderOnConfirm: true
         }, function(inputValue) {
-            if (inputValue === false) return false;
+            if (inputValue === false){
+                Modal.show('opinion_modal');
+                return false;
+            }
             if (inputValue === "") {
                 swal.showInputError(t('instance_opinion_input'));
                 return false
             }
 
-            Modal.show('opinion_modal');
-
+            inputValue = inputValue.trim();
             var opinions = [];
             var o = db.steedos_keyvalues.findOne({
                 user: Meteor.userId(),
@@ -80,12 +83,7 @@ Template.opinion_modal.events({
                 opinions = o.value.workflow;
                 // 判断是否已经存在
                 if (opinions.includes(inputValue)) {
-                    swal({
-                        title: t('instance_opinion_exists'),
-                        type: "warning",
-                        closeOnConfirm: true,
-                        confirmButtonText: t('OK')
-                    });
+                    swal.showInputError(t('instance_opinion_exists'));
                     return false;
                 }
 
@@ -97,6 +95,7 @@ Template.opinion_modal.events({
             Meteor.call('setKeyValue', 'flow_opinions', {
                 workflow: opinions
             }, function(error, result) {
+                Modal.show('opinion_modal');
                 if (error) {
                     swal({
                         title: t('instance_opinion_error'),
@@ -114,12 +113,101 @@ Template.opinion_modal.events({
                         closeOnConfirm: true,
                         confirmButtonText: t('OK')
                     });
+                    Session.set('flow_selected_opinion', inputValue);
                 }
 
             });
 
 
         });
+    },
+
+    'click #instance_flow_opinions_edit': function(event, template) {
+        Modal.hide(template);
+
+        var opinions = [];
+        var o = db.steedos_keyvalues.findOne({
+            user: Meteor.userId(),
+            key: 'flow_opinions',
+            'value.workflow': {
+                $exists: true
+            }
+        });
+        if (o) {
+            opinions = o.value.workflow;
+            var index = opinions.indexOf(Session.get('flow_selected_opinion'));
+            if (index > -1) {
+                swal({
+                    title: t('instance_opinion_edit'),
+                    type: "input",
+                    inputValue: opinions[index],
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: t('OK'),
+                    cancelButtonText: t('Cancel'),
+                    showLoaderOnConfirm: true
+                }, function(inputValue) {
+                    if (inputValue === false){
+                        Modal.show('opinion_modal');
+                        return false;
+                    }
+                    if (inputValue === "") {
+                        swal.showInputError(t('instance_opinion_input'));
+                        return false
+                    }
+
+                    inputValue = inputValue.trim();
+                    var opinions = [];
+                    var o = db.steedos_keyvalues.findOne({
+                        user: Meteor.userId(),
+                        key: 'flow_opinions',
+                        'value.workflow': {
+                            $exists: true
+                        }
+                    });
+
+                    if (o) {
+                        opinions = o.value.workflow;
+                        // 判断是否已经存在
+                        var indexOfOptions = opinions.indexOf(inputValue);
+                        if (indexOfOptions > -1 && indexOfOptions != index) {
+                            swal.showInputError(t('instance_opinion_exists'));
+                            return false;
+                        }
+
+                        opinions[index] = inputValue;
+                    } else {
+                        opinions = [inputValue];
+                    }
+
+                    Meteor.call('setKeyValue', 'flow_opinions', {
+                        workflow: opinions
+                    }, function(error, result) {
+                        Modal.show('opinion_modal');
+                        if (error) {
+                            swal({
+                                title: t('instance_opinion_error'),
+                                type: "error",
+                                text: error,
+                                closeOnConfirm: true,
+                                confirmButtonText: t('OK')
+                            });
+                        }
+
+                        if (result == true) {
+                            swal({
+                                title: t('instance_opinion_edit_success'),
+                                type: "success",
+                                closeOnConfirm: true,
+                                confirmButtonText: t('OK')
+                            });
+                            Session.set('flow_selected_opinion', inputValue);
+                        }
+                    });
+
+                });
+            }
+        }
     },
 
     'click #instance_flow_opinions_minus': function(event, template) {
@@ -236,9 +324,9 @@ Template.opinion_modal.events({
         }
     },
 
-    'change #instance_flow_comment': function(event, template) {
-        Session.set('flow_comment', event.target.value);
-    },
+    // 'change #instance_flow_comment': function(event, template) {
+    //     Session.set('flow_comment', event.target.value);
+    // },
 
     'click #opinion_modal_ok': function(event, template) {
         var oldVal = $("#suggestion").val();

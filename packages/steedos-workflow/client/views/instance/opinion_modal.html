@@ -9,8 +9,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <table style="width: 100%;table-layout: fixed;">
-                        <tbody>
+                    <table style="width: 100%;">
                         <tr>
                             <td style="width: 45%;vertical-align: top;word-wrap: break-word;">
                                 <div class="list-group"
@@ -30,6 +29,9 @@
                             <td colspan="3" class="btn-group">
                                 <button type="button" class="btn btn-default" id="instance_flow_opinions_plus"><i
                                         class="ion ion-plus-round"></i></button>
+                                <button type="button" class="btn btn-default" id="instance_flow_opinions_edit"
+                                        disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
+                                        class="ion ion-edit"></i></button>
                                 <button type="button" class="btn btn-default" id="instance_flow_opinions_minus"
                                         disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
                                         class="ion ion-minus-round"></i></button>
@@ -41,7 +43,6 @@
                                         class="ion ion-arrow-down-c"></i></button>
                             </td>
                         </tr>
-                        </tbody>
                     </table>
 
                 </div>

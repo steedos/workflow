@@ -393,5 +393,8 @@
     "instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
     "instance_sign": "签批",
     "instance_default_opinion": "已阅",
-    "instance_submit_date": "提交日期"
+    "instance_submit_date": "提交日期",
+
+	"instance_opinion_edit": "请修改常用意见",
+	"instance_opinion_edit_success": "修改成功"
 }
