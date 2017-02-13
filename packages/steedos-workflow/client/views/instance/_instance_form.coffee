@@ -186,12 +186,18 @@ InstanceformTemplate.helpers =
 #    return instance.attachments;
 
 
-	table_fields: ->
-		form_version = WorkflowManager.getInstanceFormVersion();
+	table_fields: (instance)->
+		if Meteor.isClient
+			form_version = WorkflowManager.getInstanceFormVersion();
+		else
+			form_version = WorkflowManager.getFormVersion(instance.form, instance.form_version)
 		if form_version
 			fields = _.clone(form_version.fields);
 
 			fields.forEach (field, index) ->
+
+				td_colspan = 1;
+
 				if field.formula
 					field.permission = "readonly";
 
@@ -250,7 +256,7 @@ InstanceformTemplate.helpers =
 
 					if index == 0
 # tr_start = "<tr>"; 由于Template的编译bug，导致每次给一个tr开始时，会自动补头或补尾。因此在第一行返回一个空字符串.
-						tr_start = "";
+						tr_start = "<tr>";
 					else
 						if (pre_fields.length + pre_wide_fields.length) % 2 == 0 || field.is_wide
 							if field.type == 'table'
@@ -357,6 +363,16 @@ InstanceformTemplate.helpers =
 #			form_version = Template.instance().view.template.steedosData.form_version
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
+	isOpinionField: (field)->
+		return field.formula?.indexOf("{traces.") > -1
+
+	getOpinionFieldStepName: (field)->
+		if field.formula?.indexOf("{traces.") > -1
+			s1 = field.formula.replace("{","").replace("}","")
+			if s1.split(".").length > 1
+				return s1.split(".")[1]
+
+
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
 		return Template.instance().view.template.steedosData.form_version
@@ -455,7 +471,7 @@ InstanceformTemplate.onCreated = ()->
 	if !instance
 		return;
 
-	template = TemplateManager.getTemplate(instance.flow);
+	template = TemplateManager.getTemplate(instance);
 
 	compiled = SpacebarsCompiler.compile(template, {isBody: true});
 
@@ -502,8 +518,6 @@ InstanceformTemplate.onRendered = ()->
 		judge = currentApprove.judge
 		currentStep = InstanceManager.getCurrentStep();
 		form_version = WorkflowManager.getInstanceFormVersion();
-
-		Form_formula.initFormScripts("instanceform", "onload");
 
 		formula_fields = Form_formula.getFormulaFieldVariable("Form_formula.field_values", form_version.fields);
 		Form_formula.run("", "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);

@@ -70,7 +70,13 @@ Template.instance_view.helpers
 		if ins
 			return WorkflowManager.getForm(ins.form)?.description
 
+Template.instance_view.onCreated ->
+	Form_formula.initFormScripts()
+
 Template.instance_view.onRendered ->
+
+	Form_formula.runFormScripts("instanceform", "onload");
+
 	if Session.get("box") == "inbox"
 		InstanceManager.setApproveHaveRead(Session.get("instanceId"))
 

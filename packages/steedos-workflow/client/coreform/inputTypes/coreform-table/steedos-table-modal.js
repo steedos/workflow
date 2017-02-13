@@ -76,7 +76,10 @@ Template.steedosTableModal.events({
     
 })
 
+Template.steedosTableModal.create = function () {
+    Form_formula.initFormScripts()
+}
 
 Template.steedosTableModal.rendered = function(){
-    Form_formula.initFormScripts(this.data.field.code, "onload");
+    Form_formula.runFormScripts(this.data.field.code, "onload");
 }

@@ -188,7 +188,7 @@ Meteor.methods({
 
         //将原表单内容存储为第一个附件
         if (hasSaveInstanceToAttachment) {
-            try {
+            // try {
 
                 instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins)
                 var instanceFile = new FS.File();
@@ -217,9 +217,9 @@ Meteor.methods({
                     })
                 })
 
-            } catch (e) {
-                console.error(e);
-            }
+            // } catch (e) {
+            //     console.error(e);
+            // }
         }
 
 

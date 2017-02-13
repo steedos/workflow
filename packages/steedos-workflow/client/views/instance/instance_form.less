@@ -357,6 +357,15 @@ textarea {
   }
 }
 
+.instance-sign{
+  border: solid 1px #d2d6de;
+  padding: 5px 10px;
+  color: black;
+}
+
+.min-height{
+  min-height: 90px;
+}
 
 .instance-table{
   .instance-form{
@@ -369,6 +378,16 @@ textarea {
       padding: 0px;
       margin-bottom: 0px;
     }
+  }
+
+  .instance-sign{
+    border: 0px !important;
+    padding: 0px;
+  }
+
+  .opinion-field{
+    padding: 5px 10px;
+    background: inherit !important;
   }
 
   .cfTextarea[disabled],.cfTextarea[readonly]{
@@ -402,7 +421,8 @@ textarea {
     margin:0px 0px;
     text-align: left;
     .form-control.ins_applicant{
-      padding:4px 12px;
+      padding: 0px !important;
+      height: 100%;
       //width:120px;
       display:inline;
       background:transparent !important;
@@ -419,14 +439,20 @@ textarea {
     border-collapse: collapse;
     border: 2px solid @instanceTableStyleBorderColor;
     table-layout: fixed;
+    
+    tbody, tr{
+      border-color: inherit;
+    }
 
     .td-title{
       width: 14%;
       text-align: center;
       border: solid 1px @instanceTableStyleBorderColor;
+      border-color: inherit !important;
       padding:4px 12px;
       vertical-align: middle;
       text-align:left;
+      font-weight: bold;
       &.is-required{
         &:after{
           content:"*";
@@ -439,16 +465,24 @@ textarea {
       // width: 36%;
       text-align: left;
       border: solid 1px @instanceTableStyleBorderColor;
+      border-color: inherit !important;
       vertical-align: middle;
+      .form-group{
+        color: black;
+      }
       &.readonly{
-        background:#F9F9F9;
+        background:#FFFFFF;
       }
     }
 
     .td-childfield{
       border-top: solid 1px @instanceTableStyleBorderColor;
+      border-top-color: inherit !important;
       border-right: solid 1px @instanceTableStyleBorderColor;
+      border-right-color: inherit !important;
       border-bottom: solid 1px @instanceTableStyleBorderColor;
+      border-bottom-color: inherit !important;
+      padding: 0px !important;
     }
 
     /*子表与子表相邻时，会出现子表间没有边线的问题，这里判断并加上，由于meteor编译的问题，这里是tr标签与td标签相邻*/
@@ -550,6 +584,7 @@ textarea {
 
     .af-radio-group,.af-checkbox-group,.checkbox{
       padding-left: 12px;
+      padding-top: 6px;
     }
     .checkbox{
       min-height: 32px;
@@ -743,6 +778,217 @@ textarea {
 
 .instance-view .instance-name{
   display: none;
+}
+
+.no-border{
+  border: 0px !important;
+  td{
+    border: 0px !important;
+  }
+}
+
+.border-right{
+  border-right: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-right-none{
+  border-right: 0px !important;
+
+  td:last-child{
+    border-right: 0px !important;
+  }
+}
+
+.border-left{
+  border-left: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-left-none{
+  border-left: 0px !important;
+  td:first-child{
+    border-left: 0px !important;
+  }
+}
+
+.border-top{
+  border-top: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-top-none{
+  border-top: 0px !important;
+  tr:first-child{
+    td{
+      border-top: 0px !important;
+    }
+  }
+}
+
+.border-bottom{
+  border-bottom: solid 1px red !important;
+  border-color: inherit !important;
+}
+
+.border-bottom-none{
+  border-bottom: 0px !important;
+  tr:last-child{
+    td{
+      border-bottom: 0px !important;
+    }
+  }
+}
+
+.nowrap{
+  white-space: nowrap;
+}
+
+.verticle-mode {
+  writing-mode: tb-lr;
+  -webkit-writing-mode: vertical-lr;
+  writing-mode: vertical-lr;
+  letter-spacing: 12px;
+  padding-top: 12px !important;
+  height:140px;
+}
+
+.verticle-mode label {
+  display: inline;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+}
+
+.td-center{
+  vertical-align: middle !important;
+  text-align: center;
+}
+
+.inline-left{
+  display: inline;
+  float: left;
+}
+
+.inline-right{
+  display: inline;
+  float: right;
+}
+
+.font-color-red{
+  color: red !important;;
+}
+
+.font-color-black{
+  color: black !important;;
+}
+
+.border-color-red{
+  border-color: red !important;
+}
+
+.border-color-black{
+  border-color: black !important;;
+}
+
+.text-align-center{
+  text-align: center;
+}
+
+.text-align-left{
+  text-align: left;
+}
+
+.text-align-right{
+  text-align: right;
+}
+
+.font-weight-bold{
+  font-weight: bold;
+}
+
+.instance-template{
+
+  .form-table{
+    td{
+      border-width: 1px;
+      border-style: solid !important;
+      border-color: inherit !important;
+    }
+  }
+
+  td{
+    vertical-align: top;
+    padding: 5px 10px;
+
+    label {
+      color: inherit;
+      margin-bottom: 0px;
+    }
+  }
+
+  .form-group[disabled],.form-control[disabled]{
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important;
+    border: none;
+    padding: 0px;
+  }
+
+  input{
+    font-size: inherit;
+    padding: 0px;
+    min-height: 22px !important;
+    font-weight: inherit;
+  }
+
+  textarea{
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0px;
+  }
+
+  select{
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+  }
+
+  .form-group{
+    color: black;
+  }
+
+  .applicant-wrapper{
+    .form-control{
+      color: black !important;
+    }
+  }
+
+  .instance-title,.page-title,.instance-title .form-group,.page-title .form-group {
+    color: inherit;
+    text-align: inherit;
+    font-weight: bold;
+    font-size: 24px;
+    .form-control{
+      text-align: inherit;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .form-group{
+      text-align: center;
+      text-align: -webkit-center;
+    }
+    select{
+      height: 41px !important;
+      max-width: 600px;
+    }
+  }
+
+  .form-control{
+    font-size: inherit;
+    color: inherit !important;
+    background-color: transparent !important;
+  }
 }
 
 // .ins-opinion-modal{
