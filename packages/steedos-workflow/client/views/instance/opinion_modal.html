@@ -9,46 +9,33 @@
                 </div>
 
                 <div class="modal-body">
-                    <table style="width: 100%;">
-                        <tr>
-                            <td style="width: 45%;vertical-align: top;word-wrap: break-word;">
-                                <div class="list-group"
-                                     style="overflow-x: auto;height: 400px;border: solid 1px;border-radius: 4px;border-color: #d2d6de;">
-                                    {{#if opinions}}
-                                        {{#each opinions}}
-                                            <div class="list-group-item {{#if active this}}active{{/if}}"
-                                                 style="border: 0px;" data-opinion="{{this}}">{{ this }}</div>
-                                        {{/each}}
-                                    {{else}}
-                                        <p style="padding:8px;">{{_ 'instance_opinion_add_tip'}}</p>
-                                    {{/if}}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="btn-group">
-                                <button type="button" class="btn btn-default" id="instance_flow_opinions_plus"><i
-                                        class="ion ion-plus-round"></i></button>
-                                <button type="button" class="btn btn-default" id="instance_flow_opinions_edit"
-                                        disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
-                                        class="ion ion-edit"></i></button>
-                                <button type="button" class="btn btn-default" id="instance_flow_opinions_minus"
-                                        disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
-                                        class="ion ion-minus-round"></i></button>
-                                <button type="button" class="btn btn-default" id="instance_flow_opinions_up"
-                                        disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
-                                        class="ion ion-arrow-up-c"></i></button>
-                                <button type="button" class="btn btn-default" id="instance_flow_opinions_down"
-                                        disabled="{{#if not_selected_opinion}}disabled{{/if}}"><i
-                                        class="ion ion-arrow-down-c"></i></button>
-                            </td>
-                        </tr>
-                    </table>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
-                    <button type="button" class="btn btn-primary" id="opinion_modal_ok">{{_ "OK"}}</button>
+                    <div class="list-group">
+                        {{#if opinions}}
+                            {{#each opinions}}
+                                <button type="button" class="list-group-item btn-select-opinion" data-opinion="{{this}}">
+                                    {{ this }}
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-transparent btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <li><a class="btn-edit-opinion" data-opinion="{{this}}"><i class="ion ion-ios-compose-outline"></i>编辑</a></li>
+                                            <li><a class="btn-remove-opinion" data-opinion="{{this}}"><i class="ion ion-android-close"></i>删除</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a class="btn-moveup-opinion" data-opinion="{{this}}"><i class="ion ion-arrow-up-c"></i>向上移动</a></li>
+                                            <li><a class="btn-movedown-opinion" data-opinion="{{this}}"><i class="ion ion-arrow-down-c"></i>向下移动</a></li>
+                                        </ul>
+                                    </div>
+                                </button>
+                            {{/each}}
+                            <button type="button" class="list-group-item btn-new-opinion">
+                                <i class="ion ion-plus-round"></i> 添加
+                            </button>
+                        {{else}}
+                            <p style="padding:8px;">{{_ 'instance_opinion_add_tip'}}</p>
+                        {{/if}}
+                    </div>
                 </div>
             </div>
         </div>

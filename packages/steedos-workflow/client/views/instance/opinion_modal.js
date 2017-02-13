@@ -12,43 +12,20 @@ Template.opinion_modal.helpers({
             opinions = o.value.workflow;
         }
         return opinions;
-    },
-
-    flow_comment: function() {
-        return Session.get('flow_comment');
-    },
-
-    active: function(opinion) {
-        return opinion == Session.get('flow_selected_opinion');
-    },
-
-    not_selected_opinion: function() {
-        return !Session.get('flow_selected_opinion');
     }
 })
 
 Template.opinion_modal.events({
 
-    'click .list-group-item': function(event, template) {
-        Session.set('flow_selected_opinion', event.target.dataset.opinion);
+    'click .btn-select-opinion': function(event, template) {
+        var oldVal = $("#suggestion").val();
+        var selectedVal = event.target.dataset.opinion;
+        selectedVal = selectedVal ? selectedVal : "";
+        $("#suggestion").val(oldVal + selectedVal).focus();
+        Modal.hide(template);
     },
 
-    'dblclick .list-group-item': function(event, template) {
-        Session.set('flow_selected_opinion', event.target.dataset.opinion);
-        $(".ins-opinion-modal #opinion_modal_ok").trigger("click");
-    },
-
-    'click #instance_flow_opinions_to': function(event, template) {
-        var so = Session.get('flow_selected_opinion');
-        if (so) {
-            var c = Session.get('flow_comment'),
-                new_c;
-            new_c = c ? (c + so) : so;
-            Session.set('flow_comment', new_c)
-        }
-    },
-
-    'click #instance_flow_opinions_plus': function(event, template) {
+    'click .btn-new-opinion': function(event, template) {
         Modal.hide(template);
 
         swal({
@@ -113,7 +90,6 @@ Template.opinion_modal.events({
                         closeOnConfirm: true,
                         confirmButtonText: t('OK')
                     });
-                    Session.set('flow_selected_opinion', inputValue);
                 }
 
             });
@@ -122,9 +98,8 @@ Template.opinion_modal.events({
         });
     },
 
-    'click #instance_flow_opinions_edit': function(event, template) {
+    'click .btn-edit-opinion': function(event, template) {
         Modal.hide(template);
-
         var opinions = [];
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
@@ -135,7 +110,7 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(Session.get('flow_selected_opinion'));
+            var index = opinions.indexOf(event.target.dataset.opinion);
             if (index > -1) {
                 swal({
                     title: t('instance_opinion_edit'),
@@ -169,8 +144,8 @@ Template.opinion_modal.events({
                     if (o) {
                         opinions = o.value.workflow;
                         // 判断是否已经存在
-                        var indexOfOptions = opinions.indexOf(inputValue);
-                        if (indexOfOptions > -1 && indexOfOptions != index) {
+                        var indexOfOpinions = opinions.indexOf(inputValue);
+                        if (indexOfOpinions > -1 && indexOfOpinions != index) {
                             swal.showInputError(t('instance_opinion_exists'));
                             return false;
                         }
@@ -201,7 +176,6 @@ Template.opinion_modal.events({
                                 closeOnConfirm: true,
                                 confirmButtonText: t('OK')
                             });
-                            Session.set('flow_selected_opinion', inputValue);
                         }
                     });
 
@@ -210,7 +184,7 @@ Template.opinion_modal.events({
         }
     },
 
-    'click #instance_flow_opinions_minus': function(event, template) {
+    'click .btn-remove-opinion': function(event, template) {
         var opinions = [];
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
@@ -221,15 +195,13 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(Session.get('flow_selected_opinion'));
+            var index = opinions.indexOf(event.target.dataset.opinion);
             if (index > -1) {
                 opinions.splice(index, 1);
 
                 Meteor.call('setKeyValue', 'flow_opinions', {
                     workflow: opinions
                 }, function(error, result) {
-                    Session.set('flow_selected_opinion', undefined);
-
                     if (error) {
                         swal({
                             title: t('instance_opinion_error'),
@@ -254,8 +226,8 @@ Template.opinion_modal.events({
         }
     },
 
-    'click #instance_flow_opinions_up': function(event, template) {
-        var selected = Session.get('flow_selected_opinion');
+    'click .btn-moveup-opinion': function(event, template) {
+        var selected = event.target.dataset.opinion;
         var opinions = [];
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
@@ -289,8 +261,8 @@ Template.opinion_modal.events({
         }
     },
 
-    'click #instance_flow_opinions_down': function(event, template) {
-        var selected = Session.get('flow_selected_opinion');
+    'click .btn-movedown-opinion': function(event, template) {
+        var selected = event.target.dataset.opinion;
         var opinions = [];
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
@@ -322,17 +294,5 @@ Template.opinion_modal.events({
 
             });
         }
-    },
-
-    // 'change #instance_flow_comment': function(event, template) {
-    //     Session.set('flow_comment', event.target.value);
-    // },
-
-    'click #opinion_modal_ok': function(event, template) {
-        var oldVal = $("#suggestion").val();
-        var selectedVal = Session.get('flow_selected_opinion');
-        selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).trigger('input');
-        Modal.hide(template);
     }
 })
