@@ -9,25 +9,27 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="list-group">
+                    <div class="list-group slippylist" style="margin-bottom: 0;">
                         {{#if opinions}}
-                            <button type="button" class="list-group-item btn-new-opinion demo-no-reorder">
-                                <i class="ion ion-plus-round demo-no-reorder"></i> 添加
+                            <button type="button" class="list-group-item btn-new-opinion slip-no-reorder">
+                                <i class="ion ion-plus-round slip-no-reorder"></i> 添加
                             </button>
                             {{#each opinions}}
-                                <button type="button" class="list-group-item btn-select-opinion" data-opinion="{{this}}">
+                                <button type="button" class="list-group-item btn-select-opinion slippylist-item" data-opinion="{{this}}">
+                                    <button type="button" class="btn btn-default btn-transparent btn-sm instant">
+                                    </button>
                                     {{ this }}
                                     <div class="pull-right">
-                                        <button type="button" class="btn btn-default dropdown-toggle btn-transparent btn-sm demo-no-reorder" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="caret demo-no-reorder"></span>
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-transparent btn-sm" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="caret slip-no-reorder"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <li><a class="btn-edit-opinion" data-opinion="{{this}}"><i class="ion ion-ios-compose-outline"></i>编辑</a></li>
-                                            <li><a class="btn-remove-opinion" data-opinion="{{this}}"><i class="ion ion-android-close"></i>删除</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a class="btn-moveup-opinion" data-opinion="{{this}}"><i class="ion ion-arrow-up-c"></i>向上移动</a></li>
-                                            <li><a class="btn-movedown-opinion" data-opinion="{{this}}"><i class="ion ion-arrow-down-c"></i>向下移动</a></li>
+                                        <ul class="dropdown-menu dropdown-menu-right slip-no-reorder" role="menu">
+                                            <li><a class="btn-edit-opinion slip-no-reorder" data-opinion="{{this}}"><i class="ion ion-ios-compose-outline"></i>编辑</a></li>
+                                            <li><a class="btn-remove-opinion slip-no-reorder" data-opinion="{{this}}"><i class="ion ion-android-close"></i>删除</a></li>
+                                            <li role="separator" class="divider slip-no-reorder"></li>
+                                            <li><a class="btn-moveup-opinion slip-no-reorder" data-opinion="{{this}}"><i class="ion ion-arrow-up-c"></i>向上移动</a></li>
+                                            <li><a class="btn-movedown-opinion slip-no-reorder" data-opinion="{{this}}"><i class="ion ion-arrow-down-c"></i>向下移动</a></li>
                                         </ul>
                                     </div>
                                 </button>

@@ -11,4 +11,8 @@ Package.onUse(function(api) {
     'src/slip.js',
   ], 'client');
 
+  api.addFiles([
+    'src/slip.css',
+  ], 'client');
+
 });
