@@ -11,12 +11,15 @@
                 <div class="modal-body">
                     <div class="list-group">
                         {{#if opinions}}
+                            <button type="button" class="list-group-item btn-new-opinion demo-no-reorder">
+                                <i class="ion ion-plus-round demo-no-reorder"></i> 添加
+                            </button>
                             {{#each opinions}}
                                 <button type="button" class="list-group-item btn-select-opinion" data-opinion="{{this}}">
                                     {{ this }}
                                     <div class="pull-right">
-                                        <button type="button" class="btn btn-default dropdown-toggle btn-transparent btn-sm" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="caret"></span>
+                                        <button type="button" class="btn btn-default dropdown-toggle btn-transparent btn-sm demo-no-reorder" data-toggle="dropdown" aria-expanded="false">
+                                            <span class="caret demo-no-reorder"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -29,9 +32,6 @@
                                     </div>
                                 </button>
                             {{/each}}
-                            <button type="button" class="list-group-item btn-new-opinion">
-                                <i class="ion ion-plus-round"></i> 添加
-                            </button>
                         {{else}}
                             <p style="padding:8px;">{{_ 'instance_opinion_add_tip'}}</p>
                         {{/if}}

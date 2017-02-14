@@ -18,11 +18,11 @@ Template.opinion_modal.helpers({
 Template.opinion_modal.events({
 
     'click .btn-select-opinion': function(event, template) {
-        var oldVal = $("#suggestion").val();
-        var selectedVal = event.target.dataset.opinion;
-        selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).focus();
-        Modal.hide(template);
+        // var oldVal = $("#suggestion").val();
+        // var selectedVal = event.target.dataset.opinion;
+        // selectedVal = selectedVal ? selectedVal : "";
+        // $("#suggestion").val(oldVal + selectedVal).focus();
+        // Modal.hide(template);
     },
 
     'click .btn-new-opinion': function(event, template) {
@@ -296,3 +296,53 @@ Template.opinion_modal.events({
         }
     }
 })
+
+Template.opinion_modal.onRendered(function(){
+    var list = $(".list-group")[0];
+    list.addEventListener('slip:beforereorder', function(e){
+        if (/demo-no-reorder/.test(e.target.className)) {
+            e.preventDefault();
+        }
+    }, false);
+    list.addEventListener('slip:beforewait', function(e){
+        //保证直接上下移动而不是左右移动
+        e.preventDefault();
+    }, false);
+    list.addEventListener('slip:reorder', function(e){
+        var opinions = [];
+        var o = db.steedos_keyvalues.findOne({
+            user: Meteor.userId(),
+            key: 'flow_opinions',
+            'value.workflow': {
+                $exists: true
+            }
+        });
+        if (o) {
+            var opinions = o.value.workflow;
+            // 后面的计算要执行减一的原因是顶部有一个item是添加按钮。
+            var movedItem = opinions[event.detail.originalIndex-1];
+            opinions.splice(event.detail.originalIndex-1, 1); // Remove item from the previous position
+            opinions.splice(event.detail.spliceIndex-1, 0, movedItem); // Insert item in the new position
+
+            e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
+
+            Meteor.call('setKeyValue', 'flow_opinions', {
+                workflow: opinions
+            }, function(error, result) {
+
+                if (error) {
+                    swal({
+                        title: "Error!",
+                        type: "error",
+                        text: error,
+                        closeOnConfirm: true,
+                        confirmButtonText: t('OK')
+                    });
+                }
+
+            });
+        }
+        return false;
+    }, false);
+    new Slip(list);
+});
