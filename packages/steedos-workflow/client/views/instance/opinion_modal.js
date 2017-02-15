@@ -326,6 +326,10 @@ Template.opinion_modal.onRendered(function(){
                 $("body").removeClass("loading");
                 if (error) {
                     toastr.error(t('instance_opinion_error') + error.message);
+                    Modal.hide('opinion_modal');
+                    setTimeout(function(){
+                        Modal.show('opinion_modal');
+                    },1000);
                 }
             });
         }
