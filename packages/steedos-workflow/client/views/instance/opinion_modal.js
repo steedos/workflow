@@ -18,11 +18,16 @@ Template.opinion_modal.helpers({
 Template.opinion_modal.events({
 
     'click .btn-select-opinion': function(event, template) {
-        // var oldVal = $("#suggestion").val();
-        // var selectedVal = event.target.dataset.opinion;
-        // selectedVal = selectedVal ? selectedVal : "";
-        // $("#suggestion").val(oldVal + selectedVal).focus();
-        // Modal.hide(template);
+        debugger;
+        var target = $(event.currentTarget);
+        if(!(target.hasClass("btn-select-opinion"))){
+            return;
+        }
+        var oldVal = $("#suggestion").val();
+        var selectedVal = event.target.dataset.opinion;
+        selectedVal = selectedVal ? selectedVal : "";
+        $("#suggestion").val(oldVal + selectedVal).focus();
+        Modal.hide(template);
     },
 
     'click .btn-new-opinion': function(event, template) {
@@ -110,7 +115,7 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(event.target.dataset.opinion);
+            var index = opinions.indexOf(event.currentTarget.dataset.opinion);
             if (index > -1) {
                 swal({
                     title: t('instance_opinion_edit'),
@@ -195,7 +200,7 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(event.target.dataset.opinion);
+            var index = opinions.indexOf(event.currentTarget.dataset.opinion);
             if (index > -1) {
                 opinions.splice(index, 1);
 
@@ -299,21 +304,21 @@ Template.opinion_modal.events({
 
 Template.opinion_modal.onRendered(function(){
     var list = $(".slippylist")[0];
-    list.addEventListener('slip:beforereorder', function(e){
-        if (/slip-no-reorder/.test(e.target.className)) {
-            e.preventDefault();
+    list.addEventListener('slip:beforereorder', function(event){
+        if (/slip-no-reorder/.test(event.target.className)) {
+            event.preventDefault();
         }
     }, false);
-    list.addEventListener('slip:beforeswipe', function(e){
+    list.addEventListener('slip:beforeswipe', function(event){
         // 不做左右方向的移动
-        e.preventDefault();
+        event.preventDefault();
     }, false);
-    list.addEventListener('slip:beforewait', function(e){
+    list.addEventListener('slip:beforewait', function(event){
         //保证class中有instant的才上下移动，否则长按才上下移动
-        if (e.target.className.indexOf('instant') >= 0) e.preventDefault();
+        if (event.target.className.indexOf('instant') >= 0) event.preventDefault();
     }, false);
-    list.addEventListener('slip:reorder', function(e){
-        if(e.detail.spliceIndex <= 0){
+    list.addEventListener('slip:reorder', function(event){
+        if(event.detail.spliceIndex <= 0){
             //不可以元素拖到第一行，因为第一行是添加按钮
             return false;
         }
@@ -328,11 +333,11 @@ Template.opinion_modal.onRendered(function(){
         if (o) {
             var opinions = o.value.workflow;
             // 后面的计算要执行减一的原因是顶部有一个item是添加按钮。
-            var movedItem = opinions[e.detail.originalIndex-1];
-            opinions.splice(e.detail.originalIndex-1, 1); // Remove item from the previous position
-            opinions.splice(e.detail.spliceIndex-1, 0, movedItem); // Insert item in the new position
+            var movedItem = opinions[event.detail.originalIndex-1];
+            opinions.splice(event.detail.originalIndex-1, 1); // Remove item from the previous position
+            opinions.splice(event.detail.spliceIndex-1, 0, movedItem); // Insert item in the new position
 
-            e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
+            event.target.parentNode.insertBefore(event.target, event.detail.insertBefore);
 
             Meteor.call('setKeyValue', 'flow_opinions', {
                 workflow: opinions
