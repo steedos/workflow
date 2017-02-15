@@ -43,8 +43,6 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 
 				data.forEach (row, index)->
 					try
-						console.time('import' + index)
-# ...
 						dept_fullname = row[0]
 						depts = dept_fullname.split('/')
 						depts_length = depts.length
@@ -70,14 +68,16 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 							udoc.services = {password: {bcrypt: "$2a$10$o2qrOKUtfICH/c3ATkxrwu11h5u5I.Mc4ANU6pMbBjUaNs6C3f2sG"}}
 							udoc.created = now
 							udoc.modified = now
+							if row.length >= 7
+								udoc.username = row[6]
 							user_id = db.users.direct.insert(udoc)
 							if row.length >= 6
 								Accounts.setPassword(user_id, row[5], {logout: false})
 						# 新建organization
-						if depts[0] == '所有用户组'
-							i = 1
-						else
-							i = 2
+#						if depts[0] == '所有用户组'
+#							i = 1
+#						else
+						i = 2
 
 						fullname = root_org_name
 						parent_org_id = root_org_id
@@ -162,9 +162,8 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 									suq.organizations = []
 								suq.organizations.push(space_user_org._id)
 								db.space_users.direct.update({space: space_id, user: user_id}, {$set: {organizations: _.uniq(suq.organizations)}})
-								space_user_org.updateUsers()
 
-						console.timeEnd('import' + index)
+								space_user_org.updateUsers()
 					catch e
 # ...
 						console.error email
