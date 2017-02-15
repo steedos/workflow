@@ -18,13 +18,13 @@ Template.opinion_modal.helpers({
 Template.opinion_modal.events({
 
     'click .btn-select-opinion': function(event, template) {
-        debugger;
-        var target = $(event.currentTarget);
-        if(!(target.hasClass("btn-select-opinion"))){
+        console.log("click .btn-select-opinion");
+        if($(event.currentTarget).css("zIndex") != "auto"){
+            // 触发slip:reorder事件，拖动到最顶部无效区域时会触发该事件，且zIndex属性为"99999"，默认为"auto"
             return;
         }
         var oldVal = $("#suggestion").val();
-        var selectedVal = event.target.dataset.opinion;
+        var selectedVal = event.currentTarget.dataset.opinion;
         selectedVal = selectedVal ? selectedVal : "";
         $("#suggestion").val(oldVal + selectedVal).focus();
         Modal.hide(template);
@@ -187,6 +187,7 @@ Template.opinion_modal.events({
                 });
             }
         }
+        return false;
     },
 
     'click .btn-remove-opinion': function(event, template) {
@@ -229,6 +230,7 @@ Template.opinion_modal.events({
                 });
             }
         }
+        return false;
     },
 
     'click .btn-moveup-opinion': function(event, template) {
@@ -305,19 +307,23 @@ Template.opinion_modal.events({
 Template.opinion_modal.onRendered(function(){
     var list = $(".slippylist")[0];
     list.addEventListener('slip:beforereorder', function(event){
+        console.log("slip:beforereorder");
         if (/slip-no-reorder/.test(event.target.className)) {
             event.preventDefault();
         }
     }, false);
     list.addEventListener('slip:beforeswipe', function(event){
+        console.log("slip:beforeswipe");
         // 不做左右方向的移动
         event.preventDefault();
     }, false);
     list.addEventListener('slip:beforewait', function(event){
+        console.log("slip:beforewait");
         //保证class中有instant的才上下移动，否则长按才上下移动
         if (event.target.className.indexOf('instant') >= 0) event.preventDefault();
     }, false);
     list.addEventListener('slip:reorder', function(event){
+        console.log("slip:reorder");
         if(event.detail.spliceIndex <= 0){
             //不可以元素拖到第一行，因为第一行是添加按钮
             return false;
