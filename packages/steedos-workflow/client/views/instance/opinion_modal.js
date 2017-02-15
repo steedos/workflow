@@ -40,14 +40,14 @@ Template.opinion_modal.events({
             closeOnConfirm: false,
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel'),
-            showLoaderOnConfirm: true
+            showLoaderOnConfirm: false
         }, function(inputValue) {
             if (inputValue === false){
                 Modal.show('opinion_modal');
                 return false;
             }
             if (inputValue === "") {
-                swal.showInputError(t('instance_opinion_input'));
+                toastr.error(t('instance_opinion_input'));
                 return false
             }
 
@@ -65,7 +65,7 @@ Template.opinion_modal.events({
                 opinions = o.value.workflow;
                 // 判断是否已经存在
                 if (opinions.includes(inputValue)) {
-                    swal.showInputError(t('instance_opinion_exists'));
+                    toastr.error(t('instance_opinion_exists'));
                     return false;
                 }
 
@@ -74,27 +74,19 @@ Template.opinion_modal.events({
                 opinions = [inputValue];
             }
 
+            $("body").addClass("loading");
             Meteor.call('setKeyValue', 'flow_opinions', {
                 workflow: opinions
             }, function(error, result) {
-                Modal.show('opinion_modal');
+                $("body").removeClass("loading");
                 if (error) {
-                    swal({
-                        title: t('instance_opinion_error'),
-                        type: "error",
-                        text: error,
-                        closeOnConfirm: true,
-                        confirmButtonText: t('OK')
-                    });
+                    toastr.error(t('instance_opinion_error') + error.message);
                 }
 
                 if (result == true) {
-                    swal({
-                        title: t('instance_opinion_add_success'),
-                        type: "success",
-                        closeOnConfirm: true,
-                        confirmButtonText: t('OK')
-                    });
+                    Modal.show('opinion_modal');
+                    swal.close();
+                    toastr.success(t('instance_opinion_add_success'));
                 }
 
             });
@@ -125,14 +117,14 @@ Template.opinion_modal.events({
                     closeOnConfirm: false,
                     confirmButtonText: t('OK'),
                     cancelButtonText: t('Cancel'),
-                    showLoaderOnConfirm: true
+                    showLoaderOnConfirm: false
                 }, function(inputValue) {
                     if (inputValue === false){
                         Modal.show('opinion_modal');
                         return false;
                     }
                     if (inputValue === "") {
-                        swal.showInputError(t('instance_opinion_input'));
+                        toastr.error(t('instance_opinion_input'));
                         return false
                     }
 
@@ -151,7 +143,7 @@ Template.opinion_modal.events({
                         // 判断是否已经存在
                         var indexOfOpinions = opinions.indexOf(inputValue);
                         if (indexOfOpinions > -1 && indexOfOpinions != index) {
-                            swal.showInputError(t('instance_opinion_exists'));
+                            toastr.error(t('instance_opinion_exists'));
                             return false;
                         }
 
@@ -159,28 +151,19 @@ Template.opinion_modal.events({
                     } else {
                         opinions = [inputValue];
                     }
-
+                    $("body").addClass("loading");
                     Meteor.call('setKeyValue', 'flow_opinions', {
                         workflow: opinions
                     }, function(error, result) {
-                        Modal.show('opinion_modal');
+                        $("body").removeClass("loading");
                         if (error) {
-                            swal({
-                                title: t('instance_opinion_error'),
-                                type: "error",
-                                text: error,
-                                closeOnConfirm: true,
-                                confirmButtonText: t('OK')
-                            });
+                            toastr.error(t('instance_opinion_error') + error.message);
                         }
 
                         if (result == true) {
-                            swal({
-                                title: t('instance_opinion_edit_success'),
-                                type: "success",
-                                closeOnConfirm: true,
-                                confirmButtonText: t('OK')
-                            });
+                            Modal.show('opinion_modal');
+                            swal.close();
+                            toastr.success(t('instance_opinion_edit_success'));
                         }
                     });
 
@@ -205,26 +188,17 @@ Template.opinion_modal.events({
             if (index > -1) {
                 opinions.splice(index, 1);
 
+                $("body").addClass("loading");
                 Meteor.call('setKeyValue', 'flow_opinions', {
                     workflow: opinions
                 }, function(error, result) {
+                    $("body").removeClass("loading");
                     if (error) {
-                        swal({
-                            title: t('instance_opinion_error'),
-                            type: "error",
-                            text: error,
-                            closeOnConfirm: true,
-                            confirmButtonText: t('OK')
-                        });
+                        toastr.error(t('instance_opinion_error') + error.message);
                     }
 
                     if (result == true) {
-                        swal({
-                            title: t('instance_opinion_remove_success'),
-                            type: "success",
-                            closeOnConfirm: true,
-                            confirmButtonText: t('OK')
-                        });
+                        toastr.success(t('instance_opinion_remove_success'));
                     }
 
                 });
@@ -345,17 +319,13 @@ Template.opinion_modal.onRendered(function(){
 
             event.target.parentNode.insertBefore(event.target, event.detail.insertBefore);
 
+            $("body").addClass("loading");
             Meteor.call('setKeyValue', 'flow_opinions', {
                 workflow: opinions
             }, function(error, result) {
+                $("body").removeClass("loading");
                 if (error) {
-                    swal({
-                        title: "Error!",
-                        type: "error",
-                        text: error,
-                        closeOnConfirm: true,
-                        confirmButtonText: t('OK')
-                    });
+                    toastr.error(t('instance_opinion_error') + error.message);
                 }
             });
         }
