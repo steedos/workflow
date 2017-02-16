@@ -1011,7 +1011,7 @@ InstanceManager.uploadAttach = function(files, isAddVersion) {
 		}
 
 		$.ajax({
-			url: Meteor.absoluteUrl('s3/'),
+			url: Steedos.absoluteUrl('s3/'),
 			type: 'POST',
 			async: true,
 			data: fd,

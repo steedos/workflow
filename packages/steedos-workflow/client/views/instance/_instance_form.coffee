@@ -414,7 +414,7 @@ if Meteor.isServer
 		spaceUserSign = db.space_user_signs.findOne({space: space, user: user});
 
 		if spaceUserSign?.sign
-			return Meteor.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
+			return Steedos.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
 
 	InstanceformTemplate.helpers._t = (key)->
 		locale = Template.instance().view.template.steedosData.locale
