@@ -18,6 +18,12 @@ Meteor.methods({
         var current_user_id = this.userId;
         var space_id = instance.space;
 
+        var from_user_name = db.users.findOne(current_user_id, {
+            fields: {
+                name: 1
+            }
+        }).name
+
         traces.forEach(function(t) {
             if (t._id == trace_id) {
                 t.approves.forEach(function(a) {
@@ -64,7 +70,8 @@ Meteor.methods({
                         'is_read': false,
                         // 'is_error' : false,
                         // 'values' :  ???
-                        'from_user': current_user_id
+                        'from_user': current_user_id,
+                        'from_user_name': from_user_name
                     };
                     t.approves.push(appr);
                 })
@@ -106,8 +113,8 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            if(t.approves) {
-                t.approves.forEach(function (a) {
+            if (t.approves) {
+                t.approves.forEach(function(a) {
                     if (a.type == 'cc' && a.user == current_user_id) {
                         a.is_read = true;
                         a.read_date = new Date();
@@ -145,7 +152,7 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            if (t.approves){
+            if (t.approves) {
                 t.approves.forEach(function(a) {
                     if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
                         a.is_finished = true;
@@ -198,7 +205,7 @@ Meteor.methods({
         var trace_id, remove_user_id, multi = false;
 
         traces.forEach(function(t) {
-            if(t.approves){
+            if (t.approves) {
                 t.approves.forEach(function(a) {
                     if (a._id == approveId) {
                         trace_id = a.trace;
@@ -210,7 +217,7 @@ Meteor.methods({
 
         traces.forEach(function(t) {
             if (t._id == trace_id) {
-                if(t.approves){
+                if (t.approves) {
                     t.approves.forEach(function(a) {
                         if (!(a._id == approveId && a.type == 'cc' && a.is_finished == false)) {
                             new_approves.push(a);
@@ -268,7 +275,7 @@ Meteor.methods({
         var current_user_id = this.userId;
 
         traces.forEach(function(t) {
-            if(t.approves){
+            if (t.approves) {
                 t.approves.forEach(function(a) {
                     if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
                         a.description = description;
