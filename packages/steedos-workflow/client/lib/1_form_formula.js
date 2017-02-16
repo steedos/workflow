@@ -324,7 +324,7 @@ function init_formula_values(fields, autoFormDoc){
     var data = JSON.stringify(data);
 
     $.ajax({
-        url: Meteor.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
+        url: Steedos.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
         type: 'POST',
         async: false,
         data: data,
