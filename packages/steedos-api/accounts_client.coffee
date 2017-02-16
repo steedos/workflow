@@ -9,7 +9,7 @@ Setup.validate = (cb)->
 			"X-Auth-Token": loginToken
 	$.ajax
 		type: "POST",
-		url: Meteor.absoluteUrl("api/setup/validate"),
+		url: Steedos.absoluteUrl("api/setup/validate"),
 		contentType: "application/json",
 		dataType: 'json',
 		data: JSON.stringify(requestData),
@@ -27,7 +27,7 @@ Setup.logout = () ->
 
 		$.ajax
 			type: "POST",
-			url: Meteor.absoluteUrl("api/setup/logout"),
+			url: Steedos.absoluteUrl("api/setup/logout"),
 			dataType: 'json',
 			xhrFields: 
 			   withCredentials: true

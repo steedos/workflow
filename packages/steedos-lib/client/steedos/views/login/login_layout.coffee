@@ -27,7 +27,7 @@ Template.loginLayout.events
                 FlowRouter.go("/steedos/sign-up")
 
         'click #previousVersion': (e,t)->
-                Steedos.openWindow(Meteor.absoluteUrl("system/steedos/"))
+                Steedos.openWindow(Steedos.absoluteUrl("system/steedos/"))
 
         'click #quickGuide': (e, t) ->
                 if Steedos.getLocale() == "zh-cn"

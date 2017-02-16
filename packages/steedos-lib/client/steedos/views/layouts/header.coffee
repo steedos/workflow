@@ -11,7 +11,7 @@ Template.masterHeader.helpers
 		return Meteor.user()?.avatar
 
 	avatarURL: (avatar,w,h,fs) ->
-		return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=#{w}&h=#{h}&fs=#{fs}&avatar=#{avatar}");
+		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?w=#{w}&h=#{h}&fs=#{fs}&avatar=#{avatar}");
 
 	spaceId: ->
 		return Steedos.getSpaceId()

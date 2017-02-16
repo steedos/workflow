@@ -10,7 +10,7 @@ Template.sidebarUserPanel.helpers
 		return Meteor.user()?.avatar
 
 	avatarURL: (avatar) ->
-		return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=50&h=50&fs=30&avatar=#{avatar}");
+		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?w=50&h=50&fs=30&avatar=#{avatar}");
 
 	noneUploadedPicture: ->
 		user = Meteor.user()

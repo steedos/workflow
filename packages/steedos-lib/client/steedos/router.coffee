@@ -145,7 +145,7 @@ FlowRouter.route '/designer',
 			FlowRouter.go "/steedos/sign-in";
 			return true
 		
-		url = Meteor.absoluteUrl("applications/designer/current/" + Steedos.getLocale() + "/"+ "?spaceId=" + Steedos.getSpaceId());
+		url = Steedos.absoluteUrl("applications/designer/current/" + Steedos.getLocale() + "/"+ "?spaceId=" + Steedos.getSpaceId());
 		
 		Steedos.openWindow(url);
 		

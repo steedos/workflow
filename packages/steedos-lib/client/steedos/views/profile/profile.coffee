@@ -11,7 +11,7 @@ Template.profile.helpers
 
 	avatarURL: (avatar) ->
 		if Meteor.user()
-			return Meteor.absoluteUrl("avatar/#{Meteor.userId()}?w=220&h=200&fs=100&avatar=#{avatar}");
+			return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?w=220&h=200&fs=100&avatar=#{avatar}");
 
 	emails: ()->
 		return Meteor.user()?.emails
@@ -247,7 +247,7 @@ Template.profile.events
 		fileObj = db.avatars.insert file
 		fileId = fileObj._id
 		url = fileId
-		absUrl = Meteor.absoluteUrl("api/files/avatars/#{fileId}")
+		absUrl = Steedos.absoluteUrl("api/files/avatars/#{fileId}")
 		console.log "the upload bg file absUrl is:#{absUrl}"
 		setTimeout(()->
 			Steedos.applyAccountBgBodyValue({url:url, avatar:fileId})

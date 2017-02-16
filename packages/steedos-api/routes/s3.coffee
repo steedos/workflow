@@ -145,7 +145,7 @@ JsonRoutes.add "get", "/s3/",  (req, res, next) ->
   id = req.query.version_id;
 
   res.statusCode = 302;
-  res.setHeader "Location", Meteor.absoluteUrl("api/files/instances/") + id + "?download=1"
+  res.setHeader "Location", Steedos.absoluteUrl("api/files/instances/") + id + "?download=1"
   res.end();
 
 
