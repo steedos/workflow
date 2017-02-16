@@ -222,7 +222,7 @@ if Meteor.isServer
 			db.space_users.direct.update spaceUserObj._id, 
 				$set:
 					name: userObj.name,
-					email: userObj.emails[0].address,
+					email: userObj.emails?[0]?.address,
 					space: spaceId,
 					user: userObj._id,
 					user_accepted: user_accepted
@@ -230,7 +230,7 @@ if Meteor.isServer
 			root_org = db.organizations.findOne({space: spaceId, is_company:true})
 			db.space_users.direct.insert
 				name: userObj.name,
-				email: userObj.emails[0].address,
+				email: userObj.emails?[0]?.address,
 				space: spaceId,
 				organization: root_org._id,
 				organizations: [root_org._id],
