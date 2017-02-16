@@ -18,7 +18,7 @@ AjaxCollection::_send = (selector, options, api) ->
     "X-Auth-Token": Accounts._storedLoginToken()
   rev = undefined
   settings = 
-    url: Steedos.absoluteUrl() + '/api/collection/' + api
+    url: Steedos.absoluteUrl('api/collection/' + api )
     type: 'POST'
     async: false
     data: JSON.stringify(config)
