@@ -909,6 +909,7 @@ textarea {
 .instance-template{
 
   .section{
+    color: inherit !important;
     .control-label{
       color: inherit !important;
     }
@@ -959,7 +960,11 @@ textarea {
     color: inherit;
     font-weight: inherit;
   }
-
+  .td-childfield{
+    &>.form-group{
+      color: inherit;
+    }
+  }
   .form-group{
     color: black;
   }
