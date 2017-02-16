@@ -517,7 +517,7 @@ textarea {
       }
       .form-control{
         border:none;
-        min-height: 32px;
+        min-height: 22px;
       }
 
       &.has-error{
@@ -994,11 +994,11 @@ textarea {
 .ins-opinion-modal{
   .list-group{
     .list-group-item{
-      .pull-right{
-        .btn-sm{
-          margin-top: -5px;
-          margin-left: -5px;
-        }
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      .btn-sm{
+        margin: -5px -2px;
       }
     }
   }
