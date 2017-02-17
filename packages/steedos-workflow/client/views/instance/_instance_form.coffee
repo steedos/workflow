@@ -138,6 +138,7 @@ InstanceformTemplate.helpers =
 					description: approve.description
 					is_finished: approve.is_finished
 					type: approve.type
+					opinion_field_code: approve.opinion_field_code
 
 
 			if step

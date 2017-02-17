@@ -71,7 +71,8 @@ Meteor.methods({
                         // 'is_error' : false,
                         // 'values' :  ???
                         'from_user': current_user_id,
-                        'from_user_name': from_user_name
+                        'from_user_name': from_user_name,
+                        'opinion_field_code': approve.opinion_field_code
                     };
                     t.approves.push(appr);
                 })

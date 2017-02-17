@@ -394,5 +394,7 @@
     "instance_submit_date": "Submit date",
 
 	"instance_opinion_edit": "Edit the opinion",
-	"instance_opinion_edit_success": "Edit successfully!"
+	"instance_opinion_edit_success": "Edit successfully!",
+    "instance_opinion_field": "Sign field",
+    "instance_cc_error_opinion_field_required": "Please select the sign field"
 }

@@ -1,28 +1,71 @@
 Template.instance_cc_modal.helpers({
 
-    fields: function() {
-        return new SimpleSchema({
+    fields: function () {
+
+        var form_version = WorkflowManager.getInstanceFormVersion();
+        var currentStep = InstanceManager.getCurrentStep();
+
+        var currentApprove = InstanceManager.getCurrentApprove();
+
+        var opinionFields = _.filter(form_version.fields, function (field) {
+            if(currentApprove.type == "cc"){
+                return InstanceformTemplate.helpers.isOpinionField(field) && field.code == currentApprove.opinion_field_code;
+            }
+            return InstanceformTemplate.helpers.isOpinionField(field) && InstanceformTemplate.helpers.getOpinionFieldStepName(field) == currentStep.name
+        });
+        var modalFields = {
             cc_users: {
                 autoform: {
                     type: "selectuser",
                     multiple: true
                 },
-                optional: true,
+                optional: false,
                 type: [String],
                 label: TAPi18n.__("instance_cc_user")
             }
-        });
+        }
+
+        if(opinionFields.length > 0){
+            modalFields.opinion_field = {
+                autoform:{
+                    type: "select"
+                },
+                type: String,
+                label: TAPi18n.__("instance_opinion_field")
+            }
+            var options = new Array();
+            opinionFields.forEach(function(field){
+                var label = (field.name != null && field.name.length > 0) ? field.name : field.code;
+                options.push({label: label, value: field.code})
+            });
+
+
+            modalFields.opinion_field.autoform.options = options
+
+            if(options.length == 1){
+                modalFields.opinion_field.autoform.defaultValue = options[0].value;
+            }
+        }
+
+        return new SimpleSchema(modalFields);
     },
 
-    values: function() {
+    values: function () {
         return {};
+    },
+
+    showOpinionFields: function(fields){
+        if(fields.schema("opinion_field")){
+            return true;
+        }
+        return false;
     }
 })
 
 
 Template.instance_cc_modal.events({
 
-    'show.bs.modal #instance_cc_modal': function(event) {
+    'show.bs.modal #instance_cc_modal': function (event) {
 
         var cc_users = $("input[name='cc_users']", $("#instance_cc_modal"))[0];
 
@@ -34,11 +77,11 @@ Template.instance_cc_modal.events({
         $("#instance_curstepName", $("#instance_cc_modal")).html(s.name);
     },
 
-    'click #cc_help': function(event, template) {
+    'click #cc_help': function (event, template) {
         Steedos.openWindow(t("cc_help"));
     },
 
-    'click #cc_modal_ok': function(event, template) {
+    'click #cc_modal_ok': function (event, template) {
 
         var val = AutoForm.getFieldValue("cc_users", "instanceCCForm");
 
@@ -46,6 +89,16 @@ Template.instance_cc_modal.events({
             toastr.error(TAPi18n.__("instance_cc_error_users_required"));
             return;
         }
+
+        var opinion_field_code = AutoForm.getFieldValue("opinion_field", "instanceCCForm");
+
+        if(AutoForm.getFormSchema("instanceCCForm").schema("opinion_field")){
+            if (!opinion_field_code || opinion_field_code.length < 1) {
+                toastr.error(TAPi18n.__("instance_cc_error_opinion_field_required"));
+                return;
+            }
+        }
+
 
         $("#cc_modal_ok").attr("disabled", true)
         $("#cc_modal_ok").html("<i class='ion ion-load-c fa-spin'></i>")
@@ -64,13 +117,16 @@ Template.instance_cc_modal.events({
             }
         }
 
-        Meteor.call('cc_do', myApprove, val, function(error, result) {
+        myApprove.opinion_field_code = opinion_field_code;
+
+        Meteor.call('cc_do', myApprove, val, function (error, result) {
             WorkflowManager.instanceModified.set(false);
 
             if (error) {
                 Modal.hide(template);
                 toastr.error("error");
-            };
+            }
+            ;
 
             if (result == true) {
                 toastr.success(t("instance_cc_done"));

@@ -18,6 +18,9 @@
             <p data-required="true">
               {{> afFormGroup name="cc_users"}}
             </p>
+            {{#if showOpinionFields fields}}
+                {{> afFormGroup name="opinion_field"}}
+            {{/if}}
             <!-- <textarea class="form-control" id="cc_modal_text" placeholder=></textarea> -->
           {{/autoForm}}
         </div>

@@ -396,5 +396,7 @@
     "instance_submit_date": "提交日期",
 
 	"instance_opinion_edit": "请修改常用意见",
-	"instance_opinion_edit_success": "修改成功"
+	"instance_opinion_edit_success": "修改成功",
+    "instance_opinion_field": "签批字段",
+    "instance_cc_error_opinion_field_required": "请选择签批字段"
 }
