@@ -4,9 +4,9 @@ Template.cf_space_user_list.helpers
 		if userOptions != undefined && userOptions != null
 			query.user = {$in: userOptions.split(",")};
 		else
-			orgAndChild = Session.get("cf_orgAndChild");
-			query.organizations = {$in: orgAndChild};
-		# console.log("query is " + JSON.stringify(query));
+			if !Session.get("cf_contact_list_search")
+				orgAndChild = Session.get("cf_orgAndChild");
+				query.organizations = {$in: orgAndChild};
 		return query;
 
 
