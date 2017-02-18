@@ -378,6 +378,11 @@ textarea {
       padding: 0px;
       margin-bottom: 0px;
     }
+    .table-page-footer{
+      td{
+        padding-left:0;
+      }
+    }
   }
 
   .instance-sign{
@@ -398,7 +403,6 @@ textarea {
   }
 
   .instance_attachments {
-    //margin-top: 18px;
 
     .ins-attach-view {
       border-bottom: solid 1px @instanceTableStyleBorderColor;
@@ -407,7 +411,6 @@ textarea {
   }
 
   .attachments-list{
-    //margin-top:8px;
     .attachments{
       margin-bottom: 0px;
     }
@@ -449,7 +452,7 @@ textarea {
       text-align: center;
       border: solid 1px @instanceTableStyleBorderColor;
       border-color: inherit !important;
-      padding:4px 12px;
+      padding:6px;
       vertical-align: middle;
       text-align:left;
       font-weight: bold;
@@ -462,10 +465,10 @@ textarea {
     }
 
     .td-field{
-      // width: 36%;
       text-align: left;
       border: solid 1px @instanceTableStyleBorderColor;
       border-color: inherit !important;
+      padding:6px;
       vertical-align: middle;
       .form-group{
         color: black;
@@ -598,19 +601,22 @@ textarea {
 
   .instance-traces{
     background:#fff;
-    //margin-top:10px;
+    .box-header{
+      padding-left: 14px;
+      margin-bottom: -10px;
+      font-size: 18px;
+    }
     table.traces{
-      margin-top:8px;
       tr{
         background:#fff;
       }
       background:transparent;
-      border: solid 1px @instanceTableStyleBorderColor;
+      border: solid 2px @instanceTableStyleBorderColor;
       td{
         background:transparent;
         border: solid 1px @instanceTableStyleBorderColor;
         vertical-align: middle;
-        padding: 4px 12px;
+        padding: 6px;
         font-weight:normal;
         font-size:14px;
         &.td-stepname{
@@ -655,19 +661,17 @@ textarea {
         }
       }
     }
+  }
+}
 
-
-    .box{
-      box-shadow:0 0 0;
-      margin-bottom: 0px;
+.instance-print{
+  .instance-table{
+    .instance-traces{
       .box-header{
-        padding: 0px;
-        padding-bottom: 5px;
-        border-bottom: 0px;
-      }
-
-      .box-body{
-        padding-top: 0px;
+        padding-left: 0;
+        .box-tools{
+          top: 10px;
+        }
       }
     }
   }
