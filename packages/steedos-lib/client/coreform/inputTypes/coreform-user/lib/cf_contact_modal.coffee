@@ -53,14 +53,14 @@ Template.cf_contact_modal.events
 		Modal.allowMultiple = false;
 		return true;
 
-	'input #contact-list-search-key': (event, template) ->
-		if $("#contact-list-search-key").val()
+	'input #cf-contact-list-search-key': (event, template) ->
+		if $("#cf-contact-list-search-key").val()
 			Session.set("cf_contact_list_search", true)
 		else
 			Session.set("cf_contact_list_search", false)
 		dataTable = $(".cf_space_user_list_table").DataTable();
 		dataTable.search(
-			$("#contact-list-search-key").val(),
+			$("#cf-contact-list-search-key").val(),
 		).draw();
 
 Template.cf_contact_modal.onRendered ->
