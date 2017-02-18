@@ -42,7 +42,7 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 		},{
 			data: "email",
 			title: "",
-			orderable: true,
+			orderable: false,
 			visible: false
 		}
 	],
@@ -52,7 +52,7 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 	#  style: 'single'
 	dom: "tp",
 	order:[[2,"desc"],[3,"asc"]],
-	extraFields: ["_id", "name", "email", "user", "sort_no"],
+	extraFields: ["_id", "name", "user", "sort_no", "email"],
 	lengthChange: false,
 	pageLength: 100,
 	info: false,
