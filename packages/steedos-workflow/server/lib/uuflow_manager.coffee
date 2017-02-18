@@ -1385,16 +1385,16 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(current_user_info, ins.space, ins, options)
 
 #	处理outlook 中，对部分css不支持的处理
-	instanceHtml = instanceHtml.replace('style="width: 100%;display: inline-table;"', 'style="border:0px;text-align: center;"')
+	instanceHtml = instanceHtml.replace('style="width: 100%;display: inline-table;"', 'style="border:0px;text-align: center;width:765px;"')
 
 	instanceHtml = instanceHtml.replace('class="instance-table-name-td"', 'class="instance-table-name-td" style="width:' + options.width + ';border:0px"')
-	instanceHtml = instanceHtml.replace('class="instance-table-wrapper-td"', 'class="instance-table-wrapper-td" style="width:' + options.width + ';border:0px"')
+#	instanceHtml = instanceHtml.replace('class="instance-table-wrapper-td"', 'class="instance-table-wrapper-td" style="width:' + options.width + ';border:0px"')
 
 	instanceHtml = instanceHtml.replace('class="instance-name"', 'class="instance-name" style="width:' + options.width + '"')
-	instanceHtml = instanceHtml.replace('class="form-table"', 'class="form-table" style="width:' + options.width + '"')
+	instanceHtml = instanceHtml.replace('class="table-page-body form-table"', 'class="table-page-body form-table" style="width:' + options.width + '"')
 	instanceHtml = instanceHtml.replace('class="table table-condensed traces"', 'class="table table-condensed traces" style="width:' + options.width + ';border:solid 2.0px #000000"')
 
-	instanceHtml = instanceHtml.replace('class="table-page-footer form-table no-border"', 'class="table-page-footer form-table no-border" style="border:0px"')
+	instanceHtml = instanceHtml.replace('class="table-page-footer form-table no-border"', 'class="table-page-footer form-table no-border" style="border:0px;width:765px;"')
 
 	instanceHtml = instanceHtml.replace(/class="td-title "/g, 'class="td-title" style="width:14%"')
 	instanceHtml = instanceHtml.replace(/class="td-stepname"/g, 'class="td-stepname" style="width:' + 765 * 20/100 + 'px"')
