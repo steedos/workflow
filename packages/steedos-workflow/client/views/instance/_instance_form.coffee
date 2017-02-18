@@ -373,6 +373,14 @@ InstanceformTemplate.helpers =
 			if s1.split(".").length > 1
 				return s1.split(".")[1]
 
+	showCCOpinion: (field)->
+		if field.formula?.indexOf("{traces.") > -1
+			s1 = field.formula.replace("{","").replace("}","")
+			if s1.split(".").length > 2
+				if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
+					return true
+		return false
+
 
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->

@@ -16,7 +16,12 @@ InstanceSignText.helpers =
 
 	trace: (stepName)->
 		traces = InstanceformTemplate.helpers.traces()
-		return traces[stepName]
+		approve = traces[stepName]
+
+		if Template.instance().data.only_cc_opinion
+			approve = approve?.filterProperty("type","cc")
+
+		return approve
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
@@ -39,6 +44,9 @@ InstanceSignText.helpers =
 					return true
 				else
 					return false
+
+			if !InstanceManager.isCC(ins) && Template.instance().data.only_cc_opinion
+				return false
 
 			if InstanceManager.getCurrentApprove()
 				return true
