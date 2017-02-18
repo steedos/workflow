@@ -25,7 +25,11 @@ Template.instance_view.helpers
 		steedos_instance = WorkflowManager.getInstance();
 		if steedos_instance
 			return InstanceReadOnlyTemplate.getInstanceView(db.users.findOne({_id: Meteor.userId()}), Session.get("spaceId"), steedos_instance);
+
 	isIReadable: ()->
+		ins = WorkflowManager.getInstance();
+		if InstanceManager.isCC(ins)
+			return false
 		return ApproveManager.isReadOnly();
 
 	instanceStyle: (flowId)->

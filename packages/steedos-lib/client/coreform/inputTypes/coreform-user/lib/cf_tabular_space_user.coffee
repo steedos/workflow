@@ -39,6 +39,11 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 			title: "",
 			orderable: true,
 			visible: false
+		},{
+			data: "email",
+			title: "",
+			orderable: true,
+			visible: false
 		}
 	],
 	onUnload:() ->

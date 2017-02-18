@@ -3,25 +3,26 @@
         {{#if show step}}
             <div class="min-height">
                 {{#each trace step}}
-                    {{#if is_finished}}
-                        {{#if (include judge "approved,rejected,submitted") }}
-                            {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
-                            &emsp;&emsp;{{handler_name}}&nbsp;
-                            {{formatDate finish_date format}}<br>
-                        {{/if}}
-                    {{else}}
-                        {{#if isMyApprove _id}}
-                            {{#if (unempty (myApproveDescription _id))}}
-                                {{myApproveDescription _id}}<br>
+                    {{#if isOpinionOfField this}}
+                        {{#if is_finished}}
+                            {{#if (include judge "approved,rejected,submitted") }}
+                                {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
                                 &emsp;&emsp;{{handler_name}}&nbsp;
-                                {{formatDate now format}}<br>
+                                {{formatDate finish_date format}}<br>
+                            {{/if}}
+                        {{else}}
+                            {{#if isMyApprove _id}}
+                                {{#if (unempty (myApproveDescription _id))}}
+                                    {{myApproveDescription _id}}<br>
+                                    &emsp;&emsp;{{handler_name}}&nbsp;
+                                    {{formatDate now format}}<br>
+                                {{/if}}
                             {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/each}}
             </div>
-            {{#if isReadOnly}}
-            {{else}}
+            {{#if isMyApprove}}
                 <div class="instance-sign-text">
                     <a class="instance-sign-text-btn">{{_ "instance_sign"}}</a>
                 </div>
@@ -29,11 +30,13 @@
         {{else}}
             <div class="min-height">
                 {{#each trace step}}
-                    {{#if is_finished}}
-                        {{#if (include judge "approved,rejected,submitted") }}
-                            {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
-                            &emsp;&emsp;{{handler_name}}&nbsp;
-                            {{formatDate finish_date format}}<br>
+                    {{#if isOpinionOfField this}}
+                        {{#if is_finished}}
+                            {{#if (include judge "approved,rejected,submitted") }}
+                                {{#if (unempty description)}}{{description}}{{else}}{{defaultDescription}}{{/if}}<br>
+                                &emsp;&emsp;{{handler_name}}&nbsp;
+                                {{formatDate finish_date format}}<br>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/each}}

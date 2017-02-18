@@ -58,7 +58,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
 					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
-						{{> instanceSignText step="#{InstanceformTemplate.helpers.getOpinionFieldStepName(table_field)}"}}
+						{{> instanceSignText name="#{table_field.code}" step="#{InstanceformTemplate.helpers.getOpinionFieldStepName(table_field)}" only_cc_opinion=#{InstanceformTemplate.helpers.showCCOpinion(table_field)} }}
 					</td>
 				"""
 				template += table_field.tr_end
@@ -139,7 +139,7 @@ TemplateManager._template =
 					<div class="form-group opinion-field">
 						<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
-						{{> instanceSignText step=(getOpinionFieldStepName this) default=''}}
+						{{> instanceSignText name=this.code step=(getOpinionFieldStepName this) only_cc_opinion=(showCCOpinion this) default=''}}
 					</div>
 				</div>
 			{{else}}

@@ -138,6 +138,7 @@ InstanceformTemplate.helpers =
 					description: approve.description
 					is_finished: approve.is_finished
 					type: approve.type
+					opinion_field_code: approve.opinion_field_code
 
 
 			if step
@@ -371,6 +372,14 @@ InstanceformTemplate.helpers =
 			s1 = field.formula.replace("{","").replace("}","")
 			if s1.split(".").length > 1
 				return s1.split(".")[1]
+
+	showCCOpinion: (field)->
+		if field.formula?.indexOf("{traces.") > -1
+			s1 = field.formula.replace("{","").replace("}","")
+			if s1.split(".").length > 2
+				if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
+					return true
+		return false
 
 
 if Meteor.isServer

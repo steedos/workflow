@@ -297,6 +297,17 @@ if Meteor.isServer
 			i++
 		return isOrgAdmin
 
+	Steedos.absoluteUrl = (url)->
+		if (Meteor.isCordova)
+			return Meteor.absoluteUrl(url);
+		else
+			if url?.startsWith("/")
+				return url
+			else if url
+				return "/" + url;
+			else
+				return "/"
+
 
 # This will add underscore.string methods to Underscore.js
 # except for include, contains, reverse and join that are 
