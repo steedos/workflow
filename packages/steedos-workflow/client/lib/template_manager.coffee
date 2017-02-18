@@ -139,7 +139,7 @@ TemplateManager._template =
 					<div class="form-group opinion-field">
 						<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
-						{{> instanceSignText name=this.code step=(getOpinionFieldStepName this) default=''}}
+						{{> instanceSignText name=this.code step=(getOpinionFieldStepName this) only_cc_opinion=(showCCOpinion this) default=''}}
 					</div>
 				</div>
 			{{else}}
