@@ -97,7 +97,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 					</div>
 				</td>
 				<td class="nowrap">
-					<div class='pull-right'>
+					<div class='pull-left'>
 						<div class='inline-left'>
 							<label>{{_t "instance_submit_date"}}：</label>
 						</div>
