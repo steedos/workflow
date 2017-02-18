@@ -1279,23 +1279,28 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	options.styles = "
 		body {
 		  background: #ffffff !important;
+		}.steedos .pull-right {
+			float: right !important;
+		}.steedos .inline-left{
+			display: inline;float: left;
+		}.steedos .inline-right{
+			display: inline;float: right;
 		}.steedos .no-border{
 		  border: 0px;
 		}.steedos .no-border td{
 		  border: 0px;
 		}.steedos tr:nth-child(2) td{
 		  border-top: 0px !important;
-		}.ins_applicant{
-		  padding: 4px 12px;
+		}.steedos .ins_applicant{
 		  display: inline;
 		  background: transparent !important;
 		  border: none;
-		}.instance-name{
+		}.steedos .instance-name{
 		  width: #{options.width} !important;
 		}.steedos table {
 		  border-spacing: 0;
 		  border-collapse: collapse;
-		}.box {
+		}.steedos .box {
 		  background: #ffffff;
 		}.steedos .form-table {
 		  width: #{options.width};
@@ -1407,6 +1412,11 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	instanceHtml = instanceHtml.replace(/<table>/g, '<table style="width:100%;border:none">')
 	instanceHtml = instanceHtml.replace(/<td class="name">/g, '<td class="name" style="width: 40%;">')
 	instanceHtml = instanceHtml.replace(/<td class="finish-date">/g, '<td class="finish-date" style="width: 35%;">')
+
+	instanceHtml = instanceHtml.replace(/inline-left'/g, "inline-left' style='display: inline;float: left;'")
+	instanceHtml = instanceHtml.replace(/inline-right'/g, "inline-right' style='display: inline;float: right;'")
+	instanceHtml = instanceHtml.replace(/pull-right'/g, "pull-right' style='float: right;'")
+
 
 	return instanceHtml
 
