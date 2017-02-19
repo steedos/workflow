@@ -1,20 +1,43 @@
-@media screen and (max-width: 767px){
-	/*手机上隐藏右上角的顶部栏*/
+.steedos {
 	.main-header {
-		display: none;
-	}
-	.login{
-		.main-header {
-			display: block;
+		.logo {
+			width: 50px;
+			.logo-mini {
+				display: block;
+				.ion {
+					font-size: 25px;
+	    			line-height: 50px;
+				}
+			}
+		}
+		.navbar {
+			background: rgba(0, 0, 0, 0.7);
+			margin-left: 50px;
+			.appName {
+				font-size: 20px;
+			}
 		}
 	}
-	.main-sidebar{
+	.main-sidebar {
+		top: 50px;
 		.main-header {
-			display: block;
+			display: none;
+		}
+		.user-panel {
+			display: none;
+		}
+		.sidebar {
+			top: 0px;
 		}
 	}
-	/*当上面的顶部栏被隐藏后，底部高度会出现空白，设置为满屏高度就能解决问题*/
+	.content-wrapper {
+		top: 50px;
+	}
+}
+
+@media screen and (max-width: 767px){
 	.steedos{
+		/*当上面的顶部栏被隐藏后，底部高度会出现空白，设置为满屏高度就能解决问题*/
 		height: 100%;
 		.skin-admin-lte{
 			height: 100%;
@@ -22,5 +45,37 @@
 				height: 100%;
 			}
 		}
+		/*手机上隐藏右上角的顶部栏*/
+		.main-header {
+			display: none;
+		}
+		.login{
+			.main-header {
+				display: block;
+			}
+		}
+		.main-sidebar{
+			top: 0px;
+			.main-header {
+				display: block;
+				.logo {
+					width: 230px;
+					.logo-mini {
+						display: none;
+					}
+				}
+			}
+			.user-panel {
+				display: block;
+			}
+			.sidebar {
+				top: 50px;
+			}
+		}
+		.content-wrapper {
+			top: 0px;
+		}
 	}
+
 }
+
