@@ -146,9 +146,8 @@ if Meteor.isServer
 		if (doc.profile?.mobile && !doc.mobile)
 			doc.mobile = doc.profile.mobile
 
-		# if !doc.steedos_id
-		# 	doc._id = db.users._makeNewID()
-		# 	doc.steedos_id = doc._id 
+		if !doc.steedos_id && doc.username
+			doc.steedos_id = doc.username 
 
 		if !doc.name
 			doc.name = doc.steedos_id.split('@')[0]
@@ -163,6 +162,9 @@ if Meteor.isServer
 			doc.active = true
 		if !doc.roles
 			doc.roles = ["user"]
+
+		if !doc.utcOffset
+			doc.utcOffset = 8
 
 		_.each doc.emails, (obj)->
 			db.users.checkEmailValid(obj.address);

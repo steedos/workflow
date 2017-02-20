@@ -16,7 +16,7 @@ SteedosDataManager.getSpaceUsers = function (spaceId, userIds) {
   var spaceUsers;
   
   $.ajax({
-    url: Meteor.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
+    url: Steedos.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,
@@ -49,7 +49,7 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   var spaceUsers;
   var data = JSON.stringify(data);
   $.ajax({
-    url: Meteor.absoluteUrl('api/workflow/getFormulaUserObjects') + '?' + $.param(q),
+    url: Steedos.absoluteUrl('api/workflow/getFormulaUserObjects') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,

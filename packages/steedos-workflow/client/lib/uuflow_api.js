@@ -6,7 +6,7 @@ UUflow_api.post_draft = function (flowId) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/drafts?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/drafts?" + $.param(uobj);
 	var data = {
 		"Instances": [{
 			"flow": flowId,
@@ -91,7 +91,7 @@ UUflow_api.delete_draft = function (instanceId) {
 	uobj.methodOverride = "DELETE";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/remove?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/remove?" + $.param(uobj);
 	var data = {
 		"Instances": [{
 			"id": instanceId
@@ -130,7 +130,7 @@ UUflow_api.post_submit = function (instance) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/submit?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/submit?" + $.param(uobj);
 	var data = {
 		"Instances": [instance]
 	};
@@ -220,7 +220,7 @@ UUflow_api.post_engine = function (approve) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/engine?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/engine?" + $.param(uobj);
 	var data = {
 		"Approvals": [approve]
 	};
@@ -261,7 +261,7 @@ UUflow_api.post_terminate = function (instance) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/terminate?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/terminate?" + $.param(uobj);
 	var data = {
 		"Instances": [instance]
 	};
@@ -304,7 +304,7 @@ UUflow_api.put_reassign = function (instance) {
 	uobj.methodOverride = "PUT";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/reassign?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/reassign?" + $.param(uobj);
 	var data = {
 		"Instances": [instance]
 	};
@@ -346,7 +346,7 @@ UUflow_api.put_relocate = function (instance) {
 	uobj.methodOverride = "PUT";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/relocate?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/relocate?" + $.param(uobj);
 	var data = {
 		"Instances": [instance]
 	};
@@ -389,7 +389,7 @@ UUflow_api.post_archive = function (insId) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/archive?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/archive?" + $.param(uobj);
 	var data = {
 		"Instances": [{
 			id: insId
@@ -431,7 +431,7 @@ UUflow_api.get_export = function (spaceId, flowId, type) {
 	uobj.flow_id = flowId;
 	uobj.timezoneoffset = new Date().getTimezoneOffset();
 	uobj.type = type;
-	var url = Meteor.absoluteUrl() + "api/workflow/export/instances?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/export/instances?" + $.param(uobj);
 	window.open(url, '_parent', 'EnableViewPortScale=yes');
 };
 
@@ -453,7 +453,7 @@ UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, body) {
 	var nextStepUsers = [];
 	var data = JSON.stringify(body);
 	$.ajax({
-		url: Meteor.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
+		url: Steedos.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
 		type: 'POST',
 		async: false,
 		data: data,
@@ -486,7 +486,7 @@ UUflow_api.getSpaceUsers = function (spaceId, userIds) {
 	var spaceUsers;
 	data = JSON.stringify(data);
 	$.ajax({
-		url: Meteor.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
+		url: Steedos.absoluteUrl('api/workflow/getSpaceUsers') + '?' + $.param(q),
 		type: 'POST',
 		async: false,
 		data: data,
@@ -515,7 +515,7 @@ UUflow_api.post_retrieve = function (instance) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Meteor.absoluteUrl() + "api/workflow/retrieve?" + $.param(uobj);
+	var url = Steedos.absoluteUrl() + "api/workflow/retrieve?" + $.param(uobj);
 	var data = {
 		"Instances": [{
 			_id: instance._id,

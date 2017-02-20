@@ -27,22 +27,20 @@ Template.flow_list_modal.events
 
     'click .flow_list_modal .weui_cell': (event) ->
         flow = event.currentTarget.dataset.flow;
-        
-        Modal.hide('flow_list_modal');  
-        
-        if !flow 
+
+        Modal.hide('flow_list_modal');
+
+        if !flow
             Session.set("flowId", undefined);
-        else    
+        else
             Session.set("flowId", flow);
 
         categorie = event.currentTarget.parentElement.parentElement.id;
-        
+
         if !categorie
             Session.set("categorie_id", undefined);
-        else    
-            Session.set("categorie_id", categorie); 
-       
+        else
+            Session.set("categorie_id", categorie);
 
-
-
-
+    'click #export_filter_help': (event, template) ->
+        Steedos.openWindow(t("export_filter_help"));

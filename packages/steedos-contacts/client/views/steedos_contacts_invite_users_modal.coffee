@@ -47,8 +47,11 @@ Template.steedos_contacts_invite_users_modal.events
         else
           toastr.error error.message
 
-      if result 
+      if result
         Modal.hide()
         toastr.success(TAPi18n.__('steedos_contacts_invite_users_success'))
 
     )
+
+  'click #invite_users_help': (event, template) ->
+    Steedos.openWindow(t("invite_users_help"));

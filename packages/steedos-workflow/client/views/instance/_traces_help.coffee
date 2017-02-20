@@ -33,17 +33,23 @@ TracesTemplate.helpers =
 		approveStatusIcon = undefined
 		switch approveJudge
 			when 'approved'
+				# 已核准
 				approveStatusIcon = 'ion ion-checkmark-round'
 			when 'rejected'
+				# 已驳回
 				approveStatusIcon = 'ion ion-close-round'
 			when 'terminated'
-				approveStatusIcon = ''
+				# 已取消
+				approveStatusIcon = 'fa fa-ban'
 			when 'reassigned'
+				# 转签核
 				approveStatusIcon = 'ion ion-android-contact'
 			when 'relocated'
+				# 重定位
 				approveStatusIcon = 'ion ion-arrow-shrink'
 			when 'retrieved'
-				approveStatusIcon = ''
+				# 已取回
+				approveStatusIcon = 'fa fa-undo'
 			else
 				approveStatusIcon = ''
 				break
@@ -59,16 +65,22 @@ TracesTemplate.helpers =
 		approveStatusText = undefined
 		switch approveJudge
 			when 'approved'
+				# 已核准
 				approveStatusText = TAPi18n.__('Instance State approved', {}, locale)
 			when 'rejected'
+				# 已驳回
 				approveStatusText = TAPi18n.__('Instance State rejected', {}, locale)
 			when 'terminated'
+				# 已取消
 				approveStatusText = TAPi18n.__('Instance State terminated', {}, locale)
 			when 'reassigned'
+				# 转签核
 				approveStatusText = TAPi18n.__('Instance State reassigned', {}, locale)
 			when 'relocated'
+				# 重定位
 				approveStatusText = TAPi18n.__('Instance State relocated', {}, locale)
 			when 'retrieved'
+				# 已取回
 				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
 			else
 				approveStatusText = ''

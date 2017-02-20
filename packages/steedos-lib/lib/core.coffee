@@ -42,7 +42,7 @@ if Meteor.isClient
 		avatar = accountBgBodyValue.avatar
 		if accountBgBodyValue.url
 			if url == avatar
-				$("body").css "backgroundImage","url(#{Meteor.absoluteUrl('api/files/avatars/' + avatar)})"
+				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl('api/files/avatars/' + avatar)})"
 			else
 				$("body").css "backgroundImage","url(#{url})"
 		else
@@ -82,16 +82,10 @@ if Meteor.isClient
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
-		
-		if Steedos.isiOS()
-			if accountZoomValue.size
-				$("meta[name=viewport]").attr("content","initial-scale=#{accountZoomValue.size}, user-scalable=no")
-			else
-				$("meta[name=viewport]").attr("content","initial-scale=1, user-scalable=no")
-		else
-			$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
-			if accountZoomValue.name
-				$("body").addClass("zoom-#{accountZoomValue.name}")
+
+		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
+		if accountZoomValue.name
+			$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
 				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
@@ -165,7 +159,7 @@ if Meteor.isClient
 				exec = nw.require('child_process').exec
 				if on_click
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
-					open_url = Meteor.absoluteUrl(path)
+					open_url = Steedos.absoluteUrl(path)
 				else
 					open_url = app.url
 				cmd = "start iexplore.exe \"#{open_url}\""
@@ -195,7 +189,7 @@ if Meteor.isClient
 			authToken["X-User-Id"] = Meteor.userId();
 			authToken["X-Auth-Token"] = Accounts._storedLoginToken();
 
-			url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
+			url = Steedos.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
 
 			Steedos.openWindow(url);
 
@@ -302,6 +296,17 @@ if Meteor.isServer
 				break
 			i++
 		return isOrgAdmin
+
+	Steedos.absoluteUrl = (url)->
+		if (Meteor.isCordova)
+			return Meteor.absoluteUrl(url);
+		else
+			if url?.startsWith("/")
+				return url
+			else if url
+				return "/" + url;
+			else
+				return "/"
 
 
 # This will add underscore.string methods to Underscore.js

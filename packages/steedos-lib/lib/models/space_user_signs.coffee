@@ -40,7 +40,7 @@ db.space_user_signs.attachSchema db.space_user_signs._simpleSchema;
 
 db.space_user_signs.helpers
 	signImage: ()->
-		return "<img style='max-width: 120px;max-height: 80px;' src='" + Meteor.absoluteUrl() + "/api/files/avatars/" + this.sign + "' />"
+		return "<img style='max-width: 120px;max-height: 80px;' src='" + Steedos.absoluteUrl() + "/api/files/avatars/" + this.sign + "' />"
 
 	userName:()->
 		user =  SteedosDataManager.spaceUserRemote.findOne({

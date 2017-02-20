@@ -16,7 +16,8 @@
 	"menu_navigation": "Navigation",
 
 	"Workflow": "Workflow",
-	"instance_new": "New",
+
+	"form_new": "New",
 
 	"instances": "Instances",
 	"instances_name": "Title",
@@ -76,8 +77,8 @@
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
 
-	"Instance State approved": " Approved",
-	"Instance State rejected": " Rejected",
+	"Instance State approved": "Approved",
+	"Instance State rejected": "Rejected",
 	"Instance State terminated": "Cancelled",
 	"Instance State finished": "Completed",
 	"Instance State pending": "In Progress",
@@ -123,16 +124,23 @@
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
 
-	"workflow_export_thismonth": "This Month",
-	"workflow_export_lastmonth": "Last Month",
-	"workflow_export_thisyear": "This Year",
-	"workflow_export_all": "All",
+	"workflow_export_thismonth": "Export the current month's instances",
+	"workflow_export_lastmonth": "Export the last month's instances",
+	"workflow_export_thisyear": "Export the current year's instances",
+	"workflow_export_all": "Export all instances",
 	"workflow_export_filter": "Tilter according to process",
 
 	"workflow_export_search": "Search for instances according to the flow",
 	"workflow_export_data": "Export Data",
 
 	"spaces_isarrearageSpace": "your space is arrearage",
+
+	"cc_help": "https://www.steedos.com/us/help/workflow/instance_carboncopy.html",
+	"relocate_help": "https://www.steedos.com/us/help/workflow/instance_relocate.html",
+	"reassign_help": "https://www.steedos.com/us/help/workflow/instance_reassign.html",
+	"forward_help": "https://www.steedos.com/us/help/workflow/instance_forward.html",
+	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_monitor.html",
+	"new_help": "https://www.steedos.com/us/help/workflow/instance_add.html",
 
 	// inbox
 	"Inbox Suggestion NextSteps Label": "Next step: ",
@@ -143,6 +151,7 @@
 
 	"All flows": "All flows",
 	"Select a flow": "Select a flow",
+	"Fill in form": "New Request",
 
 	"Flow upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
 
@@ -382,5 +391,12 @@
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
-	"instance_sign": "Sign"
+	"instance_sign": "Sign",
+	"instance_default_opinion": "Already read",
+	"instance_submit_date": "Submit date",
+
+	"instance_opinion_edit": "Edit the opinion",
+	"instance_opinion_edit_success": "Edit successfully!",
+	"instance_opinion_field": "Sign field",
+	"instance_cc_error_opinion_field_required": "Please select the sign field"
 }

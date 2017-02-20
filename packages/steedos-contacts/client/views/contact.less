@@ -18,13 +18,8 @@
 		bottom: 0px;
 		border-right: 1px solid #d2d6de;
 
-		//-webkit-transition: right 0.3s ease-in-out;
-		//-o-transition: right 0.3s ease-in-out;
-		//transition: right 0.3s ease-in-out;
-
 		.contacts-tree{
 			background-color: #fff;
-			// border: 1px solid #d2d6de;
 			height: calc(~"100% - 51px");
 			overflow-y: auto;
 			.box-solid{
@@ -160,15 +155,15 @@
 	}
 
 	.org-bar{
-		// height: 34px;
-		// padding: 5px;
-		padding-top: 14px;
-		cursor: pointer;
-		text-align: center;
-		background: #f9f9f9;
+		&.navigation-bar{
+			padding-top: 14px;
+			cursor: pointer;
+			text-align: center;
+			background: #f9f9f9;
+		}
 	}
 
-	@media (min-width: 768px) {
+	@media (min-width: 1281px) {
 		.contacts-main {
 			.contacts-list-wrapper {
 				display: block;
@@ -211,7 +206,7 @@
 		}
 	}
 
-	@media (max-width: 767px) {
+	@media (max-width: 1280px) {
 		.contacts-main {
 			.contacts-list-wrapper {
 				display: block;

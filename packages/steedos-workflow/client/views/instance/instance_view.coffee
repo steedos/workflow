@@ -25,7 +25,11 @@ Template.instance_view.helpers
 		steedos_instance = WorkflowManager.getInstance();
 		if steedos_instance
 			return InstanceReadOnlyTemplate.getInstanceView(db.users.findOne({_id: Meteor.userId()}), Session.get("spaceId"), steedos_instance);
+
 	isIReadable: ()->
+		ins = WorkflowManager.getInstance();
+		if InstanceManager.isCC(ins)
+			return false
 		return ApproveManager.isReadOnly();
 
 	instanceStyle: (flowId)->
@@ -70,7 +74,13 @@ Template.instance_view.helpers
 		if ins
 			return WorkflowManager.getForm(ins.form)?.description
 
+Template.instance_view.onCreated ->
+	Form_formula.initFormScripts()
+
 Template.instance_view.onRendered ->
+
+	Form_formula.runFormScripts("instanceform", "onload");
+
 	if Session.get("box") == "inbox"
 		InstanceManager.setApproveHaveRead(Session.get("instanceId"))
 

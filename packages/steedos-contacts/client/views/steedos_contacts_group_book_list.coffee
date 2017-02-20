@@ -104,3 +104,5 @@ Template.steedos_contacts_group_book_list.onRendered ->
 
 	ContactsManager.handerContactModalValueLabel();
 	$("#contact_list_load").hide();
+
+	$(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

@@ -16,6 +16,7 @@ Template.steedos_contacts_org_tree.onRendered ->
 		window.getSelection()?.removeAllRanges()
 		if data.selected.length
 			Session.set("contact_showBooks", false)
+			Session.set("contact_list_search", false);
 			Session.set("contacts_orgId", data.selected[0]);
 			ContactsManager.checkOrgAdmin();
 		return

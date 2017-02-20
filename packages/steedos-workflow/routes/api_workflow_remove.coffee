@@ -15,9 +15,8 @@ JsonRoutes.add 'post', '/api/workflow/remove', (req, res, next) ->
 			space = uuflowManager.getSpace(space_id)
 			# 获取一个space下的一个user
 			space_user = uuflowManager.getSpaceUser(space_id, current_user)
-			# 判断一个用户是否是一个instance的提交者或者申请人 或SpaceAdmin或FlowAdmin
-			permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
-			if (instance.submitter isnt current_user) and (not space.admins.includes current_user ) and (not permissions.includes "admin")
+			# 判断一个用户是否是一个instance的提交者或者申请人 或SpaceAdmin
+			if (instance.submitter isnt current_user) and (not space.admins.includes current_user)
 				throw new  Meteor.Error('error!', "您不能删除此申请单。")
 
 			delete_obj = db.instances.findOne(instance_from_client["id"])

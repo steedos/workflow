@@ -386,6 +386,15 @@ WorkflowManager.getInstanceFormVersion = function () {
     return form_version;
 };
 
+WorkflowManager.getFormVersion = function(id , versionId){
+    var form = db.forms.findOne({_id : id});
+    var form_version = form.current
+    if(form_version._id != versionId){
+        form_version = form.historys.findPropertyByPK("_id", versionId)
+    }
+    return form_version;
+}
+
 WorkflowManager.getInstanceFlowVersion = function () {
 
     var instance = Template.instance().view.template.steedosData.instance

@@ -16,7 +16,8 @@
 	"menu_navigation": "导航",
 
 	"Workflow": "审批王",
-	"instance_new": "新建",
+
+	"form_new": "新建表单",
 
 	"instances": "申请单",
 	"instances_name": "标题",
@@ -77,8 +78,8 @@
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 
-	"Instance State approved": " 已核准",
-	"Instance State rejected": " 已驳回",
+	"Instance State approved": "已核准",
+	"Instance State rejected": "已驳回",
 	"Instance State terminated": "已取消",
 	"Instance State finished": "已完成",
 	"Instance State pending": "审核中",
@@ -124,10 +125,10 @@
 	"node_office_exists_message": "文件已存在，是否替换？",
 	"node_office_workflow": "审批王",
 
-	"workflow_export_thismonth": "当月",
-	"workflow_export_lastmonth": "上月",
-	"workflow_export_thisyear": "当年",
-	"workflow_export_all": "所有",
+	"workflow_export_thismonth": "导出当月申请单",
+	"workflow_export_lastmonth": "导出上月申请单",
+	"workflow_export_thisyear": "导出当年申请单",
+	"workflow_export_all": "导出所有申请单",
 	"workflow_export_filter": "按流程过滤",
 
 
@@ -135,6 +136,13 @@
 	"workflow_export_data": "导出申请单",
 
 	"spaces_isarrearageSpace": "您的工作区已欠费",
+
+	"cc_help": "https://www.steedos.com/cn/help/workflow/instance_carboncopy.html",
+	"relocate_help": "https://www.steedos.com/cn/help/workflow/instance_relocate.html",
+	"reassign_help": "https://www.steedos.com/cn/help/workflow/instance_reassign.html",
+	"forward_help": "https://www.steedos.com/cn/help/workflow/instance_forward.html",
+	"export_filter_help": "https://www.steedos.com/cn/help/workflow/instance_monitor.html",
+	"new_help": "https://www.steedos.com/cn/help/workflow/instance_add.html",
 
 	// inbox
 	"Inbox Suggestion NextSteps Label": "下一步骤: ",
@@ -144,7 +152,8 @@
 	"User Management": "用户管理",
 
 	"All flows": "所有流程",
-	"Select a flow": "选择流程",
+	"Select a flow": "请选择流程",
+	"Fill in form": "填写表单",
 
 	"Flow upgraded": "流程已升级，请检查您填写的内容是否符合修改后的要求。",
 
@@ -179,7 +188,7 @@
 	"workflow_select_an_app": "应用",
 	"workflow_suggestion_placeholder": "请填写意见",
 
-	"instance_opinion_title": "批示",
+	"instance_opinion_title": "常用意见",
 	"instance_opinion_input": "请输入常用意见",
 	"instance_opinion_add_success": "添加成功!",
 	"instance_opinion_remove_success": "移除成功!",
@@ -384,5 +393,12 @@
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
 	"instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
-	"instance_sign": "签批"
+	"instance_sign": "签批",
+	"instance_default_opinion": "已阅",
+	"instance_submit_date": "提交日期",
+
+	"instance_opinion_edit": "请修改常用意见",
+	"instance_opinion_edit_success": "修改成功",
+	"instance_opinion_field": "签批字段",
+	"instance_cc_error_opinion_field_required": "请选择签批字段"
 }

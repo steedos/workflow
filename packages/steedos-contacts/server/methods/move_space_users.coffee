@@ -27,12 +27,16 @@ Meteor.methods
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
-			i = 0
-			while i < org_ids.length
-				if org_ids[i] is from_org_id
-					org_ids[i] = to_org_id
+			if org_ids && org_ids instanceof Array
+				org_ids.remove(org_ids.indexOf(from_org_id))
+				org_ids.push(to_org_id)
 
-				i++
+#			i = 0
+#			while i < org_ids.length
+#				if org_ids[i] is from_org_id
+#					org_ids[i] = to_org_id
+#
+#				i++
 
 			db.space_users.update({_id: space_user_id}, {$set: {organizations: _.uniq(org_ids)}})
 

@@ -11,8 +11,16 @@ TemplateHelpers =
 	session: (v)->
 		return Session.get(v)
 		
-	absoluteUrl: ->
-		return Meteor.absoluteUrl()
+	absoluteUrl: (url)->	
+		if (Meteor.isCordova) 
+			return Meteor.absoluteUrl(url);
+		else 
+			if url?.startsWith("/")
+				return url
+			else if url
+				return "/" + url;
+			else 
+				return "/"
 
 	urlPrefix: ->
 		return __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
@@ -206,7 +214,10 @@ TemplateHelpers =
 	fromNow: (posted)->
 		return moment(posted).fromNow()
 
-
+	dateFormat: (value, formatString) ->
+		if !formatString
+			formatString = "YYYY-MM-DD"
+		return moment(value).format(formatString)
 
 	isPaid: (app)->
 		if !app

@@ -20,7 +20,7 @@
 	"steedos_emailjs_serach": "搜索邮件",
 	"steedos_emailjs_add_to_contacts": "添加至联系人",
 	"steedos_emailjs_compose": "写邮件",
-	
+
 	"steedos_contacts_space_users_name":"姓名",
 	"steedos_contacts_space_users_email":"邮箱",
 	"steedos_contacts_space_users_mobile":"电话",
@@ -60,5 +60,7 @@
 	"steedos_contacts__books_export_error": "请选择联系人",
 	"steedos_contact_books_exprot_vcf_title": "导出vCard...",
 
-	"mail_subject_empty": "[无主题]"
+	"mail_subject_empty": "[无主题]",
+
+	"invite_users_help": "https://www.steedos.com/cn/help/workflow/admin_space_users.html"
 }

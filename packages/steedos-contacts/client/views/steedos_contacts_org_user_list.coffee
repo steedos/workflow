@@ -5,8 +5,11 @@ Template.steedos_contacts_org_user_list.helpers
 		return false;
 	selector: ->
 		query = {space: Session.get("spaceId")};
-		orgId = Session.get("contacts_orgId");
-		query.organizations = {$in: [orgId]};
+		if !Session.get("contact_list_search")
+			orgId = Session.get("contacts_orgId");
+			query.organizations = {$in: [orgId]};
+		if !Session.get('contacts_is_org_admin')
+			query.user_accepted = true
 		return query;
 
 	books_selector: ->
@@ -16,14 +19,12 @@ Template.steedos_contacts_org_user_list.helpers
 		return query;
 
 	is_admin: ()->
-		return Session.get('contacts_is_org_admin')
+		return Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
 
 	isMobile: ()->
 		return Steedos.isMobile();
 
 	getOrgName: ()->
-		unless Steedos.isMobile()
-			return ""
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
 Template.steedos_contacts_org_user_list.events
@@ -50,6 +51,10 @@ Template.steedos_contacts_org_user_list.events
 
 	'click #contact-list-search-btn': (event, template) ->
 		console.log("contact-list-search-btn click");
+		if $("#contact-list-search-key").val()
+			Session.set("contact_list_search", true)
+		else
+			Session.set("contact_list_search", false)
 		dataTable = $(".datatable-steedos-contacts").DataTable();
 		dataTable.search(
 			$("#contact-list-search-key").val(),
@@ -103,3 +108,5 @@ Template.steedos_contacts_org_user_list.onRendered ->
 
 	ContactsManager.handerContactModalValueLabel();
 	$("#contact_list_load").hide();
+
+	$(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

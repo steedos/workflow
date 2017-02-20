@@ -26,7 +26,7 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render:  (val, type, doc) ->
-				return "<label data-user='" + doc.user + "' class='for-input'><div class='user-name'><img src='" + Steedos.absoluteUrl() + "/avatar/"+doc.user+"?w=30&h=30&fs=14" +"' class='selectTag-profile img-circle'><font>" + doc.name + "</font></div></label>"
+				return "<label data-user='" + doc.user + "' class='for-input'><div class='user-name'><img src='" + Steedos.absoluteUrl() + "avatar/"+doc.user+"?w=28&h=25&fs=14" +"' class='selectTag-profile img-circle'><font>" + doc.name + "</font></div></label>"
 		},
 		{
 			data: "sort_no",
@@ -39,6 +39,11 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 			title: "",
 			orderable: true,
 			visible: false
+		},{
+			data: "email",
+			title: "",
+			orderable: false,
+			visible: false
 		}
 	],
 	onUnload:() ->
@@ -47,7 +52,7 @@ TabularTables.cf_tabular_space_user = new Tabular.Table({
 	#  style: 'single'
 	dom: "tp",
 	order:[[2,"desc"],[3,"asc"]],
-	extraFields: ["_id", "name", "email", "user", "sort_no"],
+	extraFields: ["_id", "name", "user", "sort_no", "email"],
 	lengthChange: false,
 	pageLength: 100,
 	info: false,

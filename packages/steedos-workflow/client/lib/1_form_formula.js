@@ -1,11 +1,27 @@
 Form_formula = {};
-
 CoreForm = {};
-
 CoreForm.instanceform = {};
 
+Form_formula.initFormScripts = function () {
+    console.log("run Form_formula.initFormScripts")
+    CoreForm = {};
+    CoreForm.instanceform = {};
+    try{
+        form_version = WorkflowManager.getInstanceFormVersion();
+        form_script = form_version.form_script;
+        if(form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0){
+            //装载表单脚本
+            eval(form_script);
+        }else{
+            console.log("脚本为空, 退出运算程序");
+        }
+    }catch (e){
+        console.log("初始化表单脚本出错，错误信息: \n" + e);
+    }
+}
 
-Form_formula.initFormScripts = function(formKey, eventName){
+
+Form_formula.runFormScripts = function(formKey, eventName){
     try {
         
         form_version = WorkflowManager.getInstanceFormVersion();
@@ -13,9 +29,8 @@ Form_formula.initFormScripts = function(formKey, eventName){
 
         // 过滤换行：/\n/g ； 过滤空格 tab : /\s/g
         if(form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0){
-            //装载表单脚本
-            eval(form_script);
-            
+
+
             //运行OnLoad()脚本;
             if (CoreForm["form_OnLoad"] instanceof Function){
                 eval("CoreForm.form_OnLoad();");
@@ -77,6 +92,10 @@ Form_formula.getFormulaFieldVariable = function(prefix,fields){
         var formula = new Object();
         var field = fields[i];
 
+        if(InstanceformTemplate.helpers.isOpinionField(field)){
+            continue;
+        }
+
         if (field.type != "table"&&field.type != "section"){
             if (field.formula && field.formula!=''){
                 formula["code"] = field.code;
@@ -90,6 +109,11 @@ Form_formula.getFormulaFieldVariable = function(prefix,fields){
             var sectionFields = field.fields;
             if(sectionFields) {
                 for(var k=0;k<sectionFields.length;k++){
+
+                    if(InstanceformTemplate.helpers.isOpinionField(sectionFields[k])){
+                        continue;
+                    }
+
                     if(sectionFields[k].formula && sectionFields[k].formula != ''){
                         var formula = new Object();
                         formula["code"] = sectionFields[k].code;
@@ -219,7 +243,7 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                 }else{
                     var afField = $("[name='" + field_prefix + formula_field.code + "']")
                     var afValue = Form_formula.field_values[formula_field.code];
-                    if(_.isEmpty(afValue)){
+                    if(_.isNaN(afValue) || (!_.isNumber(afValue) && _.isEmpty(afValue))){
                         afValue = '';
                     }
                     if("DIV" == afField.prop("tagName")){
@@ -300,7 +324,7 @@ function init_formula_values(fields, autoFormDoc){
     var data = JSON.stringify(data);
 
     $.ajax({
-        url: Meteor.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
+        url: Steedos.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
         type: 'POST',
         async: false,
         data: data,

@@ -1291,17 +1291,28 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	options.styles = "
 		body {
 		  background: #ffffff !important;
-		}.ins_applicant{
-		  padding: 4px 12px;
+		}.steedos .pull-right {
+			float: right !important;
+		}.steedos .inline-left{
+			display: inline;float: left;
+		}.steedos .inline-right{
+			display: inline;float: right;
+		}.steedos .no-border{
+		  border: 0px;
+		}.steedos .no-border td{
+		  border: 0px;
+		}.steedos tr:nth-child(2) td{
+		  border-top: 0px !important;
+		}.steedos .ins_applicant{
 		  display: inline;
 		  background: transparent !important;
 		  border: none;
-		}.instance-name{
+		}.steedos .instance-name{
 		  width: #{options.width} !important;
 		}.steedos table {
 		  border-spacing: 0;
 		  border-collapse: collapse;
-		}.box {
+		}.steedos .box {
 		  background: #ffffff;
 		}.steedos .form-table {
 		  width: #{options.width};
@@ -1314,8 +1325,9 @@ uuflowManager.ins_html = (current_user_info, ins)->
 		  border: solid 1px #000000;
 		  border-collapse: collapse;
 		}.steedos th {
-		  border: solid 1px #000000;
+		  border: 0px;
 		  border-collapse: collapse;
+		  padding: 0px;
 		}.steedos .td-title{
 		  padding: 4px 12px;
 		}.steedos .td-field {
@@ -1389,15 +1401,17 @@ uuflowManager.ins_html = (current_user_info, ins)->
 
 	instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(current_user_info, ins.space, ins, options)
 
-	#	处理outlook 中，对部分css不支持的处理
-	instanceHtml = instanceHtml.replace('style="width: 100%;display: inline-table;"', '')
+#	处理outlook 中，对部分css不支持的处理
+	instanceHtml = instanceHtml.replace('style="width: 100%;display: inline-table;"', 'style="border:0px;text-align: center;width:765px;"')
 
 	instanceHtml = instanceHtml.replace('class="instance-table-name-td"', 'class="instance-table-name-td" style="width:' + options.width + ';border:0px"')
-	instanceHtml = instanceHtml.replace('class="instance-table-wrapper-td"', 'class="instance-table-wrapper-td" style="width:' + options.width + ';border:0px"')
+#	instanceHtml = instanceHtml.replace('class="instance-table-wrapper-td"', 'class="instance-table-wrapper-td" style="width:' + options.width + ';border:0px"')
 
 	instanceHtml = instanceHtml.replace('class="instance-name"', 'class="instance-name" style="width:' + options.width + '"')
-	instanceHtml = instanceHtml.replace('class="form-table"', 'class="form-table" style="width:' + options.width + '"')
+	instanceHtml = instanceHtml.replace('class="table-page-body form-table"', 'class="table-page-body form-table" style="width:' + options.width + '"')
 	instanceHtml = instanceHtml.replace('class="table table-condensed traces"', 'class="table table-condensed traces" style="width:' + options.width + ';border:solid 2.0px #000000"')
+
+	instanceHtml = instanceHtml.replace('class="table-page-footer form-table no-border"', 'class="table-page-footer form-table no-border" style="border:0px;width:765px;"')
 
 	instanceHtml = instanceHtml.replace(/class="td-title "/g, 'class="td-title" style="width:14%"')
 	instanceHtml = instanceHtml.replace(/class="td-stepname"/g, 'class="td-stepname" style="width:' + 765 * 20 / 100 + 'px"')
@@ -1410,6 +1424,11 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	instanceHtml = instanceHtml.replace(/<table>/g, '<table style="width:100%;border:none">')
 	instanceHtml = instanceHtml.replace(/<td class="name">/g, '<td class="name" style="width: 40%;">')
 	instanceHtml = instanceHtml.replace(/<td class="finish-date">/g, '<td class="finish-date" style="width: 35%;">')
+
+	instanceHtml = instanceHtml.replace(/inline-left'/g, "inline-left' style='display: inline;float: left;'")
+	instanceHtml = instanceHtml.replace(/inline-right'/g, "inline-right' style='display: inline;float: right;'")
+	instanceHtml = instanceHtml.replace(/pull-right'/g, "pull-right' style='float: right;'")
+
 
 	return instanceHtml
 

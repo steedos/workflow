@@ -72,6 +72,7 @@ span,a{
 .btn-transparent {
 	background-color: transparent;
 	color: #444;
+	border: none;
 	&.btn:focus, &.btn:active:focus, &.btn.active:focus, &.btn.focus, &.btn:active.focus, &.btn.active.focus{
 		outline:none;
 		box-shadow: none;
@@ -79,6 +80,18 @@ span,a{
 }
 
 .modal{
+	.modal-header{
+		.btn-help{
+			margin-left:4px;
+			padding:0px;
+		}
+	}
+	.modal-footer{
+		.btn-help{
+			margin-top:6px;
+			padding:0px;
+		}
+	}
 	.modal-body{
 		overflow-x:hidden;
 		overflow-y:auto;
@@ -88,6 +101,8 @@ span,a{
 .zoom-normal{
 }
 .zoom-large{
+	-ms-text-size-adjust: auto;
+	-webkit-text-size-adjust: auto;
 	zoom:120%;
 	.modal{
 		zoom:80%;
@@ -133,6 +148,8 @@ span,a{
 	}
 }
 .zoom-extra-large{
+	-ms-text-size-adjust: auto;
+	-webkit-text-size-adjust: auto;
 	zoom:135%;
 	.modal{
 		zoom:74%;
@@ -233,4 +250,18 @@ _:-ms-fullscreen,
 	}
 }
 
+.dataTables_wrapper{
+	.table-responsive{
+		border: none;
+	}
+}
 
+.modal-dialog .modal-content{
+	border-radius: 4px;
+}
+
+.list-group{
+	button.list-group-item{
+		outline:none;
+	}
+}

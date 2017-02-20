@@ -204,8 +204,8 @@ Template.instance_suggestion.events
 		Modal.show 'opinion_modal'
 
 	'input #suggestion': (event, template) ->
-		if ApproveManager.isReadOnly()
-			return;
+#		if ApproveManager.isReadOnly()
+#			return;
 		InstanceManager.checkSuggestion();
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 

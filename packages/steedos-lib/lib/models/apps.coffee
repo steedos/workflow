@@ -39,7 +39,8 @@ db.apps._simpleSchema = new SimpleSchema
 		optional: true
 	secret:
 		type: String
-		max: 200
+		max: 16
+		min: 16
 		optional: true
 	internal:
 		type: Boolean

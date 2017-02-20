@@ -5,7 +5,12 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{_ "instance_forward_title"}}</h4>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{_ "instance_forward_title"}}
+                        <a class="btn btn-lg btn-link btn-help" id="forward_help">
+                            <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
+                        </a>
+                    </h4>
                     <div class="box-title">{{_ "instanceForwardNote"}}</div>
                 </div>
                 <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>

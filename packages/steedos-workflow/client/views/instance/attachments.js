@@ -55,7 +55,7 @@ Template.instance_attachment.helpers({
 
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		url = Meteor.absoluteUrl("api/files/instances/") + _rev;
+		url = Steedos.absoluteUrl("api/files/instances/") + _rev;
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -268,7 +268,7 @@ Template.ins_attach_version_modal.helpers({
 
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		url = Meteor.absoluteUrl("api/files/instances/") + _rev;
+		url = Steedos.absoluteUrl("api/files/instances/") + _rev;
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -387,7 +387,7 @@ Template.ins_attach_edit_modal.onRendered(function() {
 	});
 	if (f) {
 		TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
-		url = Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
+		url = Steedos.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
 		console.log(url);
 		TANGER_OCX_OBJ.OpenFromURL(url);
 

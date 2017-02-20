@@ -41,6 +41,10 @@ Template.reassign_modal.events({
         }
     },
 
+    'click #reassign_help': function(event, template) {
+        Steedos.openWindow(t("reassign_help"));
+    },
+
     'click #reassign_modal_ok': function(event, template) {
         var val = AutoForm.getFieldValue("reassign_users", "reassign");
         if (!val) {

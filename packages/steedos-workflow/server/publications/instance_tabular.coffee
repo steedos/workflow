@@ -46,8 +46,13 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 	getStepCurrentName = (instanceId) ->
 		instance = db.instances.findOne({_id: instanceId}, {fields: {"traces.name":1, "traces": {$slice: -1}}})
 		if instance
-			return instance.traces?[0]?.name || ""
-		return ""
+			flow = db.flows.findOne({_id: instance.flow}, {fields: {current: 1, historys: 1}})
+			if flow && instance.traces?[0]?.step
+				step = uuflowManager.getStep(instance, flow, instance.traces?[0]?.step)
+				if step?.name
+					stepCurrentName = step.name
+
+		return stepCurrentName
 
 	handle = db.instances.find({_id: {$in: ids}}).observeChanges {
 		changed: (id)->
