@@ -503,6 +503,12 @@ textarea {
       }
     }
 
+    select{
+      &.form-control{
+        padding:0;
+      }
+    }
+
     .form-group{
       margin-bottom: 0px;
       .callout{
@@ -590,12 +596,16 @@ textarea {
       padding-left: 12px;
       padding-top: 6px;
     }
-    .checkbox{
-      min-height: 32px;
+    .form-group > .checkbox{
       vertical-align: middle;
       margin: 0px;
       label{
-        margin: 6px 0px;
+        margin: 0px;
+        min-height: 20px;
+        line-height: 20px;
+        input{
+          margin-top: 0px;
+        }
       }
     }
   }
@@ -744,11 +754,41 @@ textarea {
 }
 
 .instance .form-group .af-radio-group, .af-checkbox-group{
-  min-height: 34px;
+  /*min-height: 34px;*/
+  min-height: 22px;
 }
 
-.instance .form-group .checkbox{
-  min-height: 24px;
+.instance .form-group > .checkbox{
+  min-height: 22px;
+  line-height:22px;
+  padding-left: 0px;
+  padding-top: 0px;
+  margin-top: 6px;
+}
+
+.mobile-safari{
+  .instance .form-group > .checkbox{
+    label{
+      line-height:25px;
+    }
+  }
+}
+
+/*CSS-Hack for Microsoft Edge Browser 12+ edge浏览器垂直居中*/
+_:-ms-lang(x),
+_:-webkit-full-screen,
+.instance.instance-table .form-group > .checkbox{
+  label{
+    line-height:22px;
+  }
+}
+
+/*CSS-Hack for Internet Explorer 11 only edge浏览器垂直居中*/
+_:-ms-fullscreen,
+:root .instance .form-group > .checkbox {
+  label{
+    line-height:20px;
+  }
 }
 
 .instance .instance_attachments{
