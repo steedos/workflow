@@ -572,19 +572,19 @@ textarea {
           border-bottom:none;
           tr:last-child{
             th{
-              border-bottom:none;
+              border-bottom:none!important;
             }
             td{
-              border-bottom:none;
+              border-bottom:none!important;
             }
           }
           @-moz-document url-prefix() {
             tr:last-child{
               th{
-                border-bottom:solid 1px @instanceTableStyleBorderColor;
+                border-bottom:solid 1px @instanceTableStyleBorderColor!important;
               }
               td{
-                border-bottom:solid 1px @instanceTableStyleBorderColor;
+                border-bottom:solid 1px @instanceTableStyleBorderColor!important;
               }
             }
           }
