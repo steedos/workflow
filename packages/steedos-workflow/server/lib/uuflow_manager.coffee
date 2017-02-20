@@ -226,7 +226,7 @@ uuflowManager.setFormFieldVariable = (fields, __values, space_id) ->
 	try
 		_.each(fields, (field)->
 			if field.type is "table" #子表
-#得到已引用的子表字段
+				#得到已引用的子表字段
 				subform_fields_all = field.fields
 				_subform_values = new Object
 				_.each(subform_fields_all, (current_field)->
@@ -324,7 +324,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 	step_type = step.step_type
 	nextSteps = new Array
 	if step_type is "condition"
-#step的lines中查询出state=submitted且instance.fields满足其条件的line
+		#step的lines中查询出state=submitted且instance.fields满足其条件的line
 		__values = uuflowManager.getUpdatedValues(instance)
 		current_approve = null
 		# 获取当前Approve
@@ -499,7 +499,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 
 uuflowManager.getUpdatedValues = (instance) ->
 
-# 取得最新的approve
+	# 取得最新的approve
 	trace_approve = null
 	_.each(instance.traces, (trace)->
 		if trace.is_finished is false
@@ -540,11 +540,11 @@ uuflowManager.getInstanceName = (instance) ->
 	return rev.trim()
 
 uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_version) ->
-# 如果permissions为null，则approve_values为{}
+	# 如果permissions为null，则approve_values为{}
 	if permissions is null
 		approve_values = new Object
 	else
-# 获得instance中的所有字段
+		# 获得instance中的所有字段
 		instance_form = db.forms.findOne(form_id)
 		form_v = null
 		if form_version is instance_form.current._id
@@ -588,21 +588,22 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 	next_step_id = next_steps[0]["step"]
 	next_step = uuflowManager.getStep(instance, flow, next_step_id)
 	next_step_type = next_step.step_type
+	next_step_name = next_step.name
 	# 判断next_step是否为结束结点
 	if next_step_type is "end"
-# 若是结束结点
+		# 若是结束结点
 		instance_traces = instance.traces
 		i = 0
 		while i < instance_traces.length
 			if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+				# 更新当前trace记录
 				instance_traces[i].is_finished = true
 				instance_traces[i].finish_date = new Date
 				instance_traces[i].judge = judge
 				h = 0
 				while h < instance_traces[i].approves.length
 					if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+						# 更新当前trace.approve记录
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].handler = current_user
 						instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -622,6 +623,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		newTrace.previous_trace_ids = [trace_id]
 		newTrace.is_finished = true
 		newTrace.step = next_step_id
+		newTrace.name = next_step_name
 		newTrace.start_date = new Date
 		newTrace.finish_date = new Date
 		newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
@@ -649,8 +651,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.traces = instance_traces
 		setObj.inbox_users = []
 	else
-# 若不是结束结点
-# 先判断nextsteps.step.users是否为空
+		# 若不是结束结点
+		# 先判断nextsteps.step.users是否为空
 		next_step_users = next_steps[0]["users"]
 		if next_step_users is null or next_step_users.length is 0
 			throw new Meteor.Error('error!', "未指定下一步处理人")
@@ -658,24 +660,24 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 			if next_step_users.length > 1 and next_step.step_type isnt "counterSign"
 				throw new Meteor.Error('error!', "不能指定多个处理人")
 			else
-# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
+				# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
 				next_user_ids = getHandlersManager.getHandlers(instance_id, next_step_id)
 				if _.difference(next_step_users, next_user_ids).length > 0
 					throw new Meteor.Error('error!', "指定的下一步处理人有误")
 				else
-# 若合法，执行流转操作
+					# 若合法，执行流转操作
 					instance_traces = instance.traces
 					i = 0
 					while i < instance_traces.length
 						if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+							# 更新当前trace记录
 							instance_traces[i].is_finished = true
 							instance_traces[i].finish_date = new Date
 							instance_traces[i].judge = judge
 							h = 0
 							while h < instance_traces[i].approves.length
 								if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+									# 更新当前trace.approve记录
 									instance_traces[i].approves[h].is_finished = true
 									instance_traces[i].approves[h].handler = current_user
 									instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -695,10 +697,11 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.previous_trace_ids = [trace_id]
 					newTrace.is_finished = false
 					newTrace.step = next_step_id
+					newTrace.name = next_step_name
 					newTrace.start_date = new Date
 					newTrace.approves = new Array
 					_.each next_step_users, (next_step_user_id)->
-# 插入下一步trace.approve记录
+						# 插入下一步trace.approve记录
 						newApprove = new Object
 						newApprove._id = new Mongo.ObjectID()._str
 						newApprove.instance = instance_id
@@ -756,7 +759,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 		throw new Meteor.Error('error!', "单签结点还未选择处理意见，操作失败")
 	else
 		if judge is "approved"
-# 验证next_steps.step是否合法,判断next_steps.step是否在其中
+			# 验证next_steps.step是否合法,判断next_steps.step是否在其中
 			nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
 
 			# 判断next_steps.step是否在nextSteps中,若不在则不合法
@@ -768,21 +771,22 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 			next_step_id = next_steps[0]["step"]
 			next_step = uuflowManager.getStep(instance, flow, next_step_id)
 			next_step_type = next_step["step_type"]
+			next_step_name = next_step["name"]
 			# 判断next_step是否为结束结点
 			if next_step_type is "end"
-# 若是结束结点
+				# 若是结束结点
 				instance_traces = instance.traces
 				i = 0
 				while i < instance_traces.length
 					if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+						# 更新当前trace记录
 						instance_traces[i].is_finished = true
 						instance_traces[i].finish_date = new Date
 						instance_traces[i].judge = judge
 						h = 0
 						while h < instance_traces[i].approves.length
 							if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+								# 更新当前trace.approve记录
 								instance_traces[i].approves[h].is_finished = true
 								instance_traces[i].approves[h].handler = current_user
 								instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -800,6 +804,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				newTrace.previous_trace_ids = [trace_id]
 				newTrace.is_finished = true
 				newTrace.step = next_step_id
+				newTrace.name = next_step_name
 				newTrace.start_date = new Date
 				newTrace.finish_date = new Date
 				newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
@@ -827,8 +832,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.traces = instance_traces
 				setObj.inbox_users = []
 			else
-# 若不是结束结点
-# 先判断nextsteps.step.users是否为空
+				# 若不是结束结点
+				# 先判断nextsteps.step.users是否为空
 				next_step_users = next_steps[0]["users"]
 				if next_step_users is null or next_step_users.length is 0
 					throw new Meteor.Error('error!', "未指定下一步处理人")
@@ -836,24 +841,24 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					if next_step_users.length > 1 and next_step["step_type"] isnt "counterSign"
 						throw new Meteor.Error('error!', "不能指定多个处理人")
 					else
-# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
+						# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
 						next_user_ids = getHandlersManager.getHandlers(instance_id, next_step_id)
 						if _.difference(next_step_users, next_user_ids).length > 0
 							throw new Meteor.Error('error!', "指定的下一步处理人有误")
 						else
-# 若合法，执行流转操作
+							# 若合法，执行流转操作
 							instance_traces = instance.traces
 							i = 0
 							while i < instance_traces.length
 								if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+									# 更新当前trace记录
 									instance_traces[i].is_finished = true
 									instance_traces[i].finish_date = new Date
 									instance_traces[i].judge = judge
 									h = 0
 									while h < instance_traces[i].approves.length
 										if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+											# 更新当前trace.approve记录
 											instance_traces[i].approves[h].is_finished = true
 											instance_traces[i].approves[h].handler = current_user
 											instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -871,10 +876,11 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.previous_trace_ids = [trace_id]
 							newTrace.is_finished = false
 							newTrace.step = next_step_id
+							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
 							_.each next_step_users, (next_step_user_id)->
-# 插入下一步trace.approve记录
+								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
 								newApprove.instance = instance_id
@@ -927,7 +933,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 			if not description
 				throw new Meteor.Error('error!', "请填写驳回理由")
 			else
-# 验证next_steps.step是否合法,判断next_steps.step是否在其中
+				# 验证next_steps.step是否合法,判断next_steps.step是否在其中
 				nextSteps = uuflowManager.getNextSteps(instance, flow, step, "rejected")
 				# 判断next_steps.step是否在nextSteps中,若不在则不合法
 				_.each next_steps, (approve_next_step)->
@@ -937,21 +943,22 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				next_step_id = next_steps[0]["step"]
 				next_step = uuflowManager.getStep(instance, flow, next_step_id)
 				next_step_type = next_step["step_type"]
+				next_step_name = next_step["name"]
 				# 判断next_step是否为结束结点
 				if next_step_type is "end"
-# 若是结束结点
+					# 若是结束结点
 					instance_traces = instance.traces
 					i = 0
 					while i < instance_traces.length
 						if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+							# 更新当前trace记录
 							instance_traces[i].is_finished = true
 							instance_traces[i].finish_date = new Date
 							instance_traces[i].judge = judge
 							h = 0
 							while h < instance_traces[i].approves.length
 								if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+									# 更新当前trace.approve记录
 									instance_traces[i].approves[h].is_finished = true
 									instance_traces[i].approves[h].handler = current_user
 									instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -969,6 +976,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					newTrace.previous_trace_ids = [trace_id]
 					newTrace.is_finished = true
 					newTrace.step = next_step_id
+					newTrace.name = next_step_name
 					newTrace.start_date = new Date
 					newTrace.finish_date = new Date
 					newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
@@ -996,8 +1004,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					setObj.traces = instance_traces
 					setObj.inbox_users = []
 				else
-# 若不是结束结点
-# 先判断nextsteps.step.users是否为空
+					# 若不是结束结点
+					# 先判断nextsteps.step.users是否为空
 					next_step_users = next_steps[0]["users"]
 					if next_step_users is null or next_step_users.length is 0
 						throw new Meteor.Error('error!', "未指定下一步处理人")
@@ -1005,24 +1013,24 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 						if next_step_users.length > 1 and next_step["step_type"] isnt "counterSign"
 							throw new Meteor.Error('error!', "不能指定多个处理人")
 						else
-# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
+							# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
 							next_user_ids = getHandlersManager.getHandlers(instance_id, next_step_id)
 							if _.difference(next_step_users, next_user_ids).length > 0
 								throw new Meteor.Error('error!', "指定的下一步处理人有误")
 							else
-# 若合法，执行流转操作
+								# 若合法，执行流转操作
 								instance_traces = instance.traces
 								i = 0
 								while i < instance_traces.length
 									if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+										# 更新当前trace记录
 										instance_traces[i].is_finished = true
 										instance_traces[i].finish_date = new Date
 										instance_traces[i].judge = judge
 										h = 0
 										while h < instance_traces[i].approves.length
 											if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+												# 更新当前trace.approve记录
 												instance_traces[i].approves[h].is_finished = true
 												instance_traces[i].approves[h].handler = current_user
 												instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -1040,10 +1048,11 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.previous_trace_ids = [trace_id]
 								newTrace.is_finished = false
 								newTrace.step = next_step_id
+								newTrace.name = next_step_name
 								newTrace.start_date = new Date
 								newTrace.approves = new Array
 								_.each next_step_users, (next_step_user_id)->
-# 插入下一步trace.approve记录
+									# 插入下一步trace.approve记录
 									newApprove = new Object
 									newApprove._id = new Mongo.ObjectID()._str
 									newApprove.instance = instance_id
@@ -1102,7 +1111,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 	if not judge
 		throw new Meteor.Error('error!', "请选择核准或驳回。")
 	else
-# 验证next_steps.step是否合法,判断next_steps.step是否在其中
+		# 验证next_steps.step是否合法,判断next_steps.step是否在其中
 		nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
 		# 判断next_steps.step是否在nextSteps中,若不在则不合法
 		_.each next_steps, (approve_next_step)->
@@ -1113,6 +1122,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 		next_step_id = next_steps[0]["step"]
 		next_step = uuflowManager.getStep(instance, flow, next_step_id)
 		next_step_type = next_step["step_type"]
+		next_step_name = next_step["name"]
 
 		instance_traces = instance.traces
 		isAllApproveFinished = true
@@ -1122,7 +1132,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				h = 0
 				while h < instance_traces[i].approves.length
 					if instance_traces[i].approves[h]._id is approve_id
-# 更新当前trace.approve记录
+						# 更新当前trace.approve记录
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].handler = current_user
 						instance_traces[i].approves[h].handler_name = current_user_info.name
@@ -1141,7 +1151,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			i = 0
 			while i < instance_traces.length
 				if instance_traces[i]._id is trace_id
-# 更新当前trace记录
+					# 更新当前trace记录
 					instance_traces[i].is_finished = true
 					instance_traces[i].finish_date = new Date
 					instance_traces[i].judge = "submitted"
@@ -1149,13 +1159,14 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 
 			# 判断next_step是否为结束结点
 			if next_step_type is "end"
-# 插入下一步trace记录
+				# 插入下一步trace记录
 				newTrace = new Object
 				newTrace._id = new Mongo.ObjectID()._str
 				newTrace.instance = instance_id
 				newTrace.previous_trace_ids = [trace_id]
 				newTrace.is_finished = true
 				newTrace.step = next_step_id
+				newTrace.name = next_step_name
 				newTrace.start_date = new Date
 				newTrace.finish_date = new Date
 				newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
@@ -1178,8 +1189,8 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				instance_traces.push(newTrace)
 				setObj.traces = instance_traces
 			else
-# 若不是结束结点
-# 先判断nextsteps.step.users是否为空
+				# 若不是结束结点
+				# 先判断nextsteps.step.users是否为空
 				next_step_users = next_steps[0]["users"]
 				if next_step_users is null or next_step_users.length is 0
 					throw new Meteor.Error('error!', "未指定下一步处理人")
@@ -1187,22 +1198,23 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 					if next_step_users.length > 1 and next_step["step_type"] isnt "counterSign"
 						throw new Meteor.Error('error!', "不能指定多个处理人")
 					else
-# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
+						# 验证next_user是否合法，调用getHandlersManager.getHandlers(:instance_id,当前trace对应的step_id),判断next_user是否在其返回的结果中
 						next_user_ids = getHandlersManager.getHandlers(instance_id, next_step_id)
 						if _.difference(next_step_users, next_user_ids).length > 0
 							throw new Meteor.Error('error!', "指定的下一步处理人有误")
 						else
-# 插入下一步trace记录
+							# 插入下一步trace记录
 							newTrace = new Object
 							newTrace._id = new Mongo.ObjectID()._str
 							newTrace.instance = instance_id
 							newTrace.previous_trace_ids = [trace_id]
 							newTrace.is_finished = false
 							newTrace.step = next_step_id
+							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
 							_.each next_step_users, (next_step_user_id)->
-# 插入下一步trace.approve记录
+								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
 								newApprove.instance = instance_id
@@ -1247,7 +1259,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							instance_traces.push(newTrace)
 							setObj.traces = instance_traces
 		else
-# 当前trace未结束
+			# 当前trace未结束
 			instance_trace = _.find(instance_traces, (trace)->
 				return trace._id is trace_id
 			)
@@ -1275,7 +1287,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 # 请不要写单独的css，所有样式请写在html标签的style属性中。
 uuflowManager.ins_html = (current_user_info, ins)->
 	options = {templateName: 'table', showTrace: true, showAttachments: false}
-	options.width = "765px"  #此处宽度不能设置为偶数，否则会引起子表与主表线条对不齐的bug
+	options.width = "765px" #此处宽度不能设置为偶数，否则会引起子表与主表线条对不齐的bug
 	options.styles = "
 		body {
 		  background: #ffffff !important;
@@ -1402,7 +1414,7 @@ uuflowManager.ins_html = (current_user_info, ins)->
 	instanceHtml = instanceHtml.replace('class="table-page-footer form-table no-border"', 'class="table-page-footer form-table no-border" style="border:0px;width:765px;"')
 
 	instanceHtml = instanceHtml.replace(/class="td-title "/g, 'class="td-title" style="width:14%"')
-	instanceHtml = instanceHtml.replace(/class="td-stepname"/g, 'class="td-stepname" style="width:' + 765 * 20/100 + 'px"')
+	instanceHtml = instanceHtml.replace(/class="td-stepname"/g, 'class="td-stepname" style="width:' + 765 * 20 / 100 + 'px"')
 
 	instanceHtml = instanceHtml.replace(/class="td-childfield"/g, 'class="td-childfield" style="padding:0px"')
 
@@ -1487,13 +1499,13 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	trace_obj._id = Meteor.uuid()
 	trace_obj.instance = ins_obj._id
 	trace_obj.is_finished = false
-	# 当前最新版flow中开始节点的step_id
-	step_id = undefined
-	flow.current.steps.forEach (step) ->
-		if step.step_type == 'start'
-			step_id = step._id
+	# 当前最新版flow中开始节点
+	start_step = _.find(flow.current.steps, (step)->
+		return step.step_type is 'start'
+	)
+	trace_obj.step = start_step._id
+	trace_obj.name = start_step.name
 
-	trace_obj.step = step_id
 	trace_obj.start_date = now
 	# 新建Approve
 	appr_obj = {}
@@ -1578,12 +1590,9 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 先执行暂存的操作
 	# ================begin================
 	form = db.forms.findOne(instance.form)
-	# 获取Flow当前版本开始节点step_id
-	steps = flow.current.steps
-	step_id = null
-	_.each(steps, (step)->
-		if step.step_type is "start"
-			step_id = step._id
+	# 获取Flow当前版本开始节点
+	start_step = _.find(flow.current.steps, (step)->
+		return step.step_type is 'start'
 	)
 
 	instance_traces = instance.traces
@@ -1592,8 +1601,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	flow_has_upgrade = false
 	# 判断:applicant和原instance的applicant是否相等
 	if applicant_id is instance.applicant
-# applicant和原instance的applicant相等
-# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
+		# applicant和原instance的applicant相等
+		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
 		if instance.flow_version is flow.current._id
 			instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
@@ -1604,7 +1613,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			setObj.modified = new Date
 			setObj.modified_by = current_user
 		else
-# 流程已升级
+			# 流程已升级
 			flow_has_upgrade = true
 			# 更新instance记录
 			setObj.flow_version = flow.current._id
@@ -1612,12 +1621,13 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			setObj.modified = new Date
 			setObj.modified_by = current_user
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
-			instance_traces[0].step = step_id
+			instance_traces[0].step = start_step._id
+			instance_traces[0].name = start_step.name
 			instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
 
 	else
-# applicant和原instance的applicant不相等
+		# applicant和原instance的applicant不相等
 		user = uuflowManager.getUser(applicant_id)
 		applicant = uuflowManager.getSpaceUser(space_id, applicant_id)
 		# 获取applicant所在的部门信息
@@ -1641,7 +1651,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 				setObj.modified = new Date
 				setObj.modified_by = current_user
 		else
-# 流程已升级
+			# 流程已升级
 			flow_has_upgrade = true
 			# 更新instance记录
 			setObj.flow_version = flow.current._id
@@ -1649,7 +1659,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			setObj.modified = new Date
 			setObj.modified_by = current_user
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
-			instance_traces[0].step = step_id
+			instance_traces[0].step = start_step._id
+			instance_traces[0].name = start_step.name
 			instance_traces[0]["approves"][0].values = values
 
 	setObj.traces = instance_traces
@@ -1664,7 +1675,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	if (not approve["next_steps"]) or (approve["next_steps"].length is 0)
 		throw new Meteor.Error('error!', "还未指定下一步和处理人，提交失败")
 	else
-# 验证next_steps里面是否只有一个step
+		# 验证next_steps里面是否只有一个step
 		if approve["next_steps"].length > 1
 			throw new Meteor.Error('error!', "不能指定多个后续步骤")
 		else
@@ -1681,7 +1692,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 判断next_step是否为结束结点
 	if next_step.step_type is "end"
 
-# 更新approve
+		# 更新approve
 		traces[0]["approves"][0].is_finished = true
 		traces[0]["approves"][0].finish_date = new Date
 		# 更新trace
@@ -1695,6 +1706,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		newTrace.previous_trace_ids = [trace["id"]]
 		newTrace.is_finished = true
 		newTrace.step = next_step._id
+		newTrace.name = next_step.name
 		newTrace.start_date = new Date
 		newTrace.finish_date = new Date
 		# 更新instance记录
@@ -1715,7 +1727,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		traces.push(newTrace)
 		upObj.traces = traces
 	else # next_step不为结束节点
-# 取得下一步处理人
+		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
 		# 判断nextsteps.step.users是否为空
 		if (not next_step_users) or (next_step_users.length is 0)
@@ -1724,13 +1736,13 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			if next_step_users.length > 1 and next_step.step_type isnt "counterSign"
 				throw new Meteor.Error('error!', "不能指定多个处理人")
 			else
-# 验证下一步处理人next_user是否合法
+				# 验证下一步处理人next_user是否合法
 				checkUsers = getHandlersManager.getHandlers(instance_id, approve["next_steps"][0]["step"])
 				if _.difference(next_step_users, checkUsers).length > 0
 					throw new Meteor.Error('error!', "指定的下一步处理人有误")
 				else
-# 若合法，执行流转操作
-# 更新approve
+					# 若合法，执行流转操作
+					# 更新approve
 					traces[0]["approves"][0].is_finished = true
 					traces[0]["approves"][0].finish_date = new Date
 					# 更新trace
@@ -1744,6 +1756,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					nextTrace.previous_trace_ids = [trace["id"]]
 					nextTrace.is_finished = false
 					nextTrace.step = next_step._id
+					nextTrace.name = next_step.name
 					nextTrace.start_date = new Date
 					if next_step.timeout_hours
 						due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)

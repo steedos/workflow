@@ -44,8 +44,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		return myApprove
 
 	getStepCurrentName = (instanceId) ->
-		stepCurrentName = ""
-		instance = db.instances.findOne({_id: instanceId}, {fields: {flow: 1, flow_version: 1, "traces.step":1, "traces": {$slice: -1}}})
+		instance = db.instances.findOne({_id: instanceId}, {fields: {"traces.name":1, "traces": {$slice: -1}}})
 		if instance
 			flow = db.flows.findOne({_id: instance.flow}, {fields: {current: 1, historys: 1}})
 			if flow && instance.traces?[0]?.step

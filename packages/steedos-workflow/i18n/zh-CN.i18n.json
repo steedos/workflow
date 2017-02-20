@@ -365,6 +365,8 @@
 		"initiator_org": "提交人所属部门",
 		"submit_date": "提交日期",
 		"status": "状态",
+		"current_step_name": "当前步骤",
+		"current_step_start_date": "当前步骤开始日期",
 		"state": {
 			"pending": "审核中",
 			"approved": "已核准",
@@ -382,21 +384,21 @@
 	"forwardFlowText": "请填写转发说明",
 	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
 
-    "button_preview": "预览",
-    "remove_cc_approve": "传阅删除成功",
-    "forward_instance_success": "文件转发成功",
+	"button_preview": "预览",
+	"remove_cc_approve": "传阅删除成功",
+	"forward_instance_success": "文件转发成功",
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "请填写取回的理由",
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
-    "instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
-    "instance_sign": "签批",
-    "instance_default_opinion": "已阅",
-    "instance_submit_date": "提交日期",
+	"instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
+	"instance_sign": "签批",
+	"instance_default_opinion": "已阅",
+	"instance_submit_date": "提交日期",
 
 	"instance_opinion_edit": "请修改常用意见",
 	"instance_opinion_edit_success": "修改成功",
-    "instance_opinion_field": "签批字段",
-    "instance_cc_error_opinion_field_required": "请选择签批字段"
+	"instance_opinion_field": "签批字段",
+	"instance_cc_error_opinion_field_required": "请选择签批字段"
 }

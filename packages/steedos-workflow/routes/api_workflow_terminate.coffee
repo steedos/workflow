@@ -98,6 +98,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 				# newTrace.type = "terminated"
 				newTrace.is_finished = true
 				newTrace.step = flow_ver_end_step._id
+				newTrace.name = flow_ver_end_step.name
 				newTrace.start_date = now
 				newTrace.finish_date = now
 				newTrace.judge = "terminated"

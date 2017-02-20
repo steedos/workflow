@@ -363,6 +363,8 @@
 		"initiator_org": "Initiator's Organization",
 		"submit_date": "Submit Time",
 		"status": "Status",
+		"current_step_name": "Current Step Name",
+		"current_step_start_date": "Current Step Start Time",
 		"state": {
 			"pending": "In Progress",
 			"approved": "Approved",
@@ -380,21 +382,21 @@
 	"forwardFlowText": "Forward description",
 	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
 
-    "button_preview": "Preview",
-    "remove_cc_approve": "Deleted success",
-    "forward_instance_success": "Forward success",
+	"button_preview": "Preview",
+	"remove_cc_approve": "Deleted success",
+	"forward_instance_success": "Forward success",
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Enter your comments here",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
-    "instance_chrome_print_warning": "Please use the Chrome browser to print.",
-    "instance_sign": "Sign",
-    "instance_default_opinion": "Already read",
-    "instance_submit_date": "Submit date",
+	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
+	"instance_sign": "Sign",
+	"instance_default_opinion": "Already read",
+	"instance_submit_date": "Submit date",
 
 	"instance_opinion_edit": "Edit the opinion",
 	"instance_opinion_edit_success": "Edit successfully!",
-    "instance_opinion_field": "Sign field",
-    "instance_cc_error_opinion_field_required": "Please select the sign field"
+	"instance_opinion_field": "Sign field",
+	"instance_cc_error_opinion_field_required": "Please select the sign field"
 }
