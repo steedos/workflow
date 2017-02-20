@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "cookies": {
+      "version": "0.6.1",
+      "dependencies": {
+        "depd": {
+          "version": "1.1.0"
+        },
+        "keygrip": {
+          "version": "1.0.1"
+        }
+      }
+    }
+  }
+}

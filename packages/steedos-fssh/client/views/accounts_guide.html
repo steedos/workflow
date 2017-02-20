@@ -1,0 +1,21 @@
+<template name="portal_home">
+
+	<div class="navigation-bar">
+
+        <button type="button" class="btn btn-default" data-toggle="offcanvas">
+            <i class="fa fa-bars"></i>
+        </button>
+
+		<span class="navigation-title dropdown">
+			{{Dashboard.name}}
+		</span>
+		<div class="pull-right">
+		</div>
+	</div>
+	<div class="cell content portal-home-content container-fluid">
+	    <div class="freeboard-panes row" id="freeboard-panes-{{Dashboard._id}}">
+			{{{freeboardTemplate Dashboard._id Dashboard.freeboard}}}
+	    </div>
+	</div>
+
+</template>
