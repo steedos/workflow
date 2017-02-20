@@ -3,7 +3,7 @@ if Meteor.isServer
         unless this.userId
             return this.ready()
         
-        console.log '[publish] apps ' + spaceId
+        # console.log '[publish] apps ' + spaceId
 
         selector = {space: {$exists: false}}
         if spaceId

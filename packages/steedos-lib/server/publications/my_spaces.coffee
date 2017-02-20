@@ -6,7 +6,7 @@
 		unless this.userId
 			return this.ready()
 
-		console.log '[publish] user spaces'
+		# console.log '[publish] user spaces'
 
 		self = this;
 		userSpaces = []

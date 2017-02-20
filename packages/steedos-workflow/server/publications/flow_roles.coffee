@@ -8,6 +8,6 @@
 		unless spaceId
 			return this.ready()
 
-		console.log '[publish] flow_roles for space ' + spaceId
+		# console.log '[publish] flow_roles for space ' + spaceId
 
 		return db.flow_roles.find({space: spaceId}, {fields: {name:1}});

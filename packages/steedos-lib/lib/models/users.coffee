@@ -216,7 +216,7 @@ if Meteor.isServer
 		unless this.userId
 			return this.ready()
 
-		console.log '[publish] userData'
+		# console.log '[publish] userData'
 
 		db.users.find this.userId,
 			fields:

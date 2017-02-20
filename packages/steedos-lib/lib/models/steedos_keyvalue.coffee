@@ -27,7 +27,7 @@ if Meteor.isServer
     selector = 
       user: this.userId
 
-    console.log '[publish] steedos_keyvalues ' + this.userId
+    # console.log '[publish] steedos_keyvalues ' + this.userId
 
     return db.steedos_keyvalues.find(selector)
 
