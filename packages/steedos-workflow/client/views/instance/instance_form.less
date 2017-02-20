@@ -608,6 +608,13 @@ textarea {
         }
       }
     }
+    .form-group > .af-radio-group,.form-group > .af-checkbox-group{
+      label{
+        input{
+          margin-top:0px;
+        }
+      }
+    }
   }
 
   .instance-traces{
@@ -765,11 +772,27 @@ textarea {
   padding-top: 0px;
   margin-top: 6px;
 }
+.instance .form-group > .af-radio-group,.instance .form-group > .af-checkbox-group{
+  padding-left: 0px;
+  padding-top: 0px;
+}
 
 .mobile-safari{
-  .instance .form-group > .checkbox{
-    label{
-      line-height:25px;
+  .instance,.steedos-table-modal{
+    .form-group > .checkbox,.form-group > .af-radio-group,.form-group > .af-checkbox-group{
+      label{
+        line-height:25px;
+      }
+    }
+  }
+}
+
+.android{
+  .steedos-table-modal{
+    .form-group > .checkbox{
+      label{
+        line-height:25px;
+      }
     }
   }
 }
@@ -777,7 +800,7 @@ textarea {
 /*CSS-Hack for Microsoft Edge Browser 12+ edge浏览器垂直居中*/
 _:-ms-lang(x),
 _:-webkit-full-screen,
-.instance.instance-table .form-group > .checkbox{
+.instance.instance-table .form-group > .checkbox,.instance.instance-table .form-group > .af-radio-group,.instance.instance-table .form-group > .af-checkbox-group{
   label{
     line-height:22px;
   }
