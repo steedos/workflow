@@ -1,5 +1,7 @@
 .steedos {
 	.main-header {
+	    background: rgba(0, 0, 0, 0.8);
+    	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
 		.logo {
 			width: 50px;
 			.logo-mini {
@@ -11,8 +13,8 @@
 			}
 		}
 		.navbar {
-			background: rgba(0, 0, 0, 0.7);
 			margin-left: 50px;
+			background-color: transparent;
 			.appName {
 				font-size: 20px;
 			}
@@ -33,6 +35,15 @@
 	.content-wrapper {
 		top: 50px;
 	}
+}
+
+.steedos.login {
+		.main-header {
+			.navbar.navbar-static-top {
+				margin-left: 0px;
+				box-shadow: 0 0 0 0;
+			}
+		}
 }
 
 @media screen and (max-width: 767px){
@@ -77,5 +88,11 @@
 		}
 	}
 
+
+	.steedos.login {
+			.main-header {
+				display: block;
+			}
+	}
 }
 
