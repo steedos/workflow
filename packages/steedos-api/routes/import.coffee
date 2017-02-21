@@ -3,22 +3,47 @@
 # 在列名行（第一行）前增加符号 井号 用于注释掉列名行
 # 需要参数space_id
 csv = Npm.require('csv')
-
+Cookies = Npm.require("cookies")
 JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 	console.log '====api/import'
 	console.log req.query
 
 	query = req.query
 
+
+	# TODO 用户登录验证
+	cookies = new Cookies( req, res );
+
+	# first check request body
+	if req.body
+		userId = req.body["X-User-Id"]
+		authToken = req.body["X-Auth-Token"]
+
+	# then check cookie
+	if !userId or !authToken
+		userId = cookies.get("X-User-Id")
+		authToken = cookies.get("X-Auth-Token")
+
+	if !(userId and authToken)
+		JsonRoutes.sendResult res,
+			code: 401,
+			data:
+				"error": "Validate Request -- Missing X-Auth-Token",
+				"success": false
+		return;
+
+
 	if !query || !query.space_id
 		JsonRoutes.sendResult res, data:
 			msg: '缺少参数space_id'
+		return;
 
 	space_id = query.space_id
 	space = db.spaces.findOne(space_id)
-	if !space
+	if !space || !space?.admins.includes(userId)
 		JsonRoutes.sendResult res, data:
 			msg: '参数space_id非法'
+		return;
 
 	owner_id = space.owner
 
@@ -162,7 +187,8 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 									suq.organizations = []
 								suq.organizations.push(space_user_org._id)
 								db.space_users.direct.update({space: space_id, user: user_id}, {$set: {organizations: _.uniq(suq.organizations)}})
-
+								if row.length >= 6
+									Accounts.setPassword(user_id, row[5], {logout: false})
 								space_user_org.updateUsers()
 					catch e
 # ...
