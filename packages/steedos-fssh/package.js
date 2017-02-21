@@ -27,7 +27,7 @@ Package.onUse(function(api) {
     // api.use('webapp', 'server');
     
     api.use('flemay:less-autoprefixer@1.2.0');
-    // api.use('simple:json-routes@2.1.0');
+    api.use('simple:json-routes@2.1.0');
     // api.use('nimble:restivus@0.8.7');
     // api.use('aldeed:simple-schema@1.3.3');
     // api.use('aldeed:collection2@2.5.0');
@@ -37,8 +37,8 @@ Package.onUse(function(api) {
     // api.use('cfs:standard-packages@0.5.9');
     // api.use('iyyang:cfs-aliyun')
     // api.use('cfs:s3');
-    // api.use('kadira:blaze-layout@2.3.0');
-    // api.use('kadira:flow-router@2.10.1');
+    api.use('kadira:blaze-layout@2.3.0');
+    api.use('kadira:flow-router@2.10.1');
 
     // api.use('meteorhacks:ssr@2.2.0');
     // api.use('steedos:lib@0.0.1');
