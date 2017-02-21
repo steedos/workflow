@@ -25,6 +25,18 @@ Meteor.methods saveMailAccount: (options) ->
 
 	Accounts.setPassword(currentUserId, password, {logout: false})
 
+	currentUser = Accounts.user()
+	if currentUser.emails?.length > 0
+		currentEmail = currentUser.emails.findPropertyByPK("address",email)
+		unless currentEmail.verified
+			# 把当前邮件地址对应的邮件verified设置为true
+			db.users.update {
+				_id: currentUserId
+				"emails.address": email
+			}, $set: "emails.$.verified": true
+
+
+
 	return true
 
 
