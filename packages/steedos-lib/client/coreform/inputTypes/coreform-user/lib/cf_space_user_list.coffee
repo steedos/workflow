@@ -45,7 +45,7 @@ Template.cf_space_user_list.events
 		CFDataManager.handerContactModalValueLabel();
 
 	'input #cf-contact-list-search-key': (event, template) ->
-		if $("#cf-contact-list-search-key").val() && $("#cf-contact-list-search-key").val().length > 1
+		if $("#cf-contact-list-search-key").val() && $("#cf-contact-list-search-key").val().length > 0
 			Session.set("cf_contact_list_search", true)
 		else if Session.get("cf_contact_list_search")
 			Session.set("cf_contact_list_search", false)
