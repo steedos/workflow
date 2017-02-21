@@ -68,7 +68,7 @@ InstanceManager.getNextStepOptions = function() {
 
 		// 默认选中第一个
 		if (next_step_options.length == 1) {
-			next_step_options[0].selected = true
+			next_step_options[0].selected = 'selected'
 			next_step_id = next_step_options[0].id
             Session.set("next_step_id", next_step_id);
 		} else {
@@ -80,10 +80,10 @@ InstanceManager.getNextStepOptions = function() {
 			} else {
 
                 //Session存储的下一步步骤是否在计算结果中，如果在，则选中
-                if(Session.get("next_step_id")){
-                    var session_next_step = next_step_options.findPropertyByPK("id", Session.get("next_step_id"))
+                if($("#nextSteps") && $("#nextSteps").val()){
+                    var session_next_step = next_step_options.findPropertyByPK("id", $("#nextSteps").val())
                     if(_.isObject(session_next_step)){
-                        next_step_id = Session.get("next_step_id")
+                        next_step_id = $("#nextSteps").val()
                     }
                 }else if(current_next_steps && current_next_steps.length > 0){
                     //选中已暂存的值
@@ -95,7 +95,7 @@ InstanceManager.getNextStepOptions = function() {
                 }else if(Session.get("judge") != 'rejected') {
                     next_step_options.unshift({
                         id: '',
-                        selected: true,
+                        selected: 'selected',
                         text: TAPi18n.__("Select placeholder"),
                         disabled: 'disabled'
                     });
@@ -110,7 +110,7 @@ InstanceManager.getNextStepOptions = function() {
 
 		next_step_options.forEach(function(option) {
 			if (option.id == next_step_id) {
-				option.selected = true
+				option.selected = 'selected'
 				next_step_type = option.type
 			}
 		});
@@ -126,6 +126,9 @@ InstanceManager.getNextStepOptions = function() {
 	} else {
 		Session.set("next_step_id", null);
 	}
+	console.log('---next_step_id---')
+    console.log(next_step_id)
+	console.log(next_step_options)
 	return next_step_options;
 }
 
