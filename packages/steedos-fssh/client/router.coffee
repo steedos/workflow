@@ -2,24 +2,24 @@ checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
 		FlowRouter.go '/steedos/sign-in';
 
-portalRoutes = FlowRouter.group
+fsshRoutes = FlowRouter.group
 	triggersEnter: [ checkUserSigned ],
-	prefix: '/portal',
-	name: 'portalRoutes'
+	prefix: '/fssh',
+	name: 'fsshRoutes'
 
 
-portalRoutes.route '/',
+fsshRoutes.route '/',
 	action: (params, queryParams)->
-		FlowRouter.go "/portal/home"
-		$("body").addClass("sidebar-collapse")
+		FlowRouter.go "/fssh/accounts-guide"
+		# $("body").addClass("sidebar-collapse")
 
 
-portalRoutes.route '/home',
+fsshRoutes.route '/accounts-guide',
 	action: (params, queryParams)->
-		$("body").addClass("sidebar-collapse")
+		# $("body").addClass("sidebar-collapse")
 		if Meteor.userId()
 			BlazeLayout.render 'masterLayout',
-				main: "portal_home"
+				main: "accounts_guide"
 
 
 
