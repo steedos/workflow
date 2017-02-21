@@ -26,6 +26,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				return t._id is previous_trace_id
 			)
 			previous_trace_step_id = previous_trace.step
+			previous_trace_name = previous_trace.name
 			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
 			previous_trace_approves = previous_trace.approves
 			if previous_trace_approves.length isnt 1
@@ -91,6 +92,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			newTrace.previous_trace_ids = [last_trace_id]
 			newTrace.is_finished = false
 			newTrace.step = previous_trace_step_id
+			newTrace.name = previous_trace_name
 			newTrace.start_date = now
 			if previous_step.timeout_hours
 				due_time = new Date().getTime() + (1000 * 60 * 60 * previous_step.timeout_hours)

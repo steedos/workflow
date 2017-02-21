@@ -124,24 +124,6 @@ if Meteor.isClient
 				$(".sidebar").perfectScrollbar()
 				$(".sidebar-menu").css("width", "100%");
 
-	# 根据当前路由路径前缀，得到当前所属app名字
-	Steedos.getAppName = (path)->
-		unless path
-			path = FlowRouter.current().path
-		if /^\/?workflow\b/.test(path)
-			return "workflow"
-		else if /^\/?cms\b/.test(path)
-			return "cms"
-		else if /^\/?emailjs\b/.test(path)
-			return "emailjs"
-		else if /^\/?contacts\b/.test(path)
-			return "contacts"
-		else if /^\/?portal\b/.test(path)
-			return "portal"
-		else if /^\/?admin\b/.test(path)
-			return "admin"
-		else
-			return ""
 
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()

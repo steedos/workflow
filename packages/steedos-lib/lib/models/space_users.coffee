@@ -305,7 +305,7 @@ if (Meteor.isServer)
 		else
 			selector.space = {$in: user.spaces()}
 
-		console.log '[publish] space_users ' + spaceId
+		# console.log '[publish] space_users ' + spaceId
 
 		return db.space_users.find(selector)
 
@@ -315,7 +315,7 @@ if (Meteor.isServer)
 		unless this.userId
 			return this.ready()
 
-		console.log '[publish] my_space_users '
+		# console.log '[publish] my_space_users '
 
 		return db.space_users.find({user: this.userId})
 
@@ -323,6 +323,6 @@ if (Meteor.isServer)
 		unless this.userId
 			return this.ready()
 
-		console.log '[publish] my_space_user '
+		# console.log '[publish] my_space_user '
 
 		return db.space_users.find({space: spaceId, user: this.userId})

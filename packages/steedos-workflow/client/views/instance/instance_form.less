@@ -378,6 +378,12 @@ textarea {
       padding: 0px;
       margin-bottom: 0px;
     }
+    .table-page-footer{
+      td{
+        padding-left:0px;
+        padding-right:0px;
+      }
+    }
   }
 
   .instance-sign{
@@ -398,7 +404,6 @@ textarea {
   }
 
   .instance_attachments {
-    //margin-top: 18px;
 
     .ins-attach-view {
       border-bottom: solid 1px @instanceTableStyleBorderColor;
@@ -407,7 +412,6 @@ textarea {
   }
 
   .attachments-list{
-    //margin-top:8px;
     .attachments{
       margin-bottom: 0px;
     }
@@ -427,6 +431,7 @@ textarea {
       display:inline;
       background:transparent !important;
       border:none;
+      min-height: 20px !important;
     }
   }
 
@@ -445,14 +450,13 @@ textarea {
     }
 
     .td-title{
-      width: 14%;
+      width: 16%;
       text-align: center;
       border: solid 1px @instanceTableStyleBorderColor;
       border-color: inherit !important;
-      padding:4px 12px;
+      padding:6px;
       vertical-align: middle;
       text-align:left;
-      font-weight: bold;
       &.is-required{
         &:after{
           content:"*";
@@ -462,10 +466,10 @@ textarea {
     }
 
     .td-field{
-      // width: 36%;
       text-align: left;
       border: solid 1px @instanceTableStyleBorderColor;
       border-color: inherit !important;
+      padding:6px;
       vertical-align: middle;
       .form-group{
         color: black;
@@ -496,6 +500,12 @@ textarea {
       border-bottom-color: #ffffff;
       &:disabled{
         border-bottom:none;
+      }
+    }
+
+    select{
+      &.form-control{
+        padding:0;
       }
     }
 
@@ -562,19 +572,19 @@ textarea {
           border-bottom:none;
           tr:last-child{
             th{
-              border-bottom:none;
+              border-bottom:none!important;
             }
             td{
-              border-bottom:none;
+              border-bottom:none!important;
             }
           }
           @-moz-document url-prefix() {
             tr:last-child{
               th{
-                border-bottom:solid 1px @instanceTableStyleBorderColor;
+                border-bottom:solid 1px @instanceTableStyleBorderColor!important;
               }
               td{
-                border-bottom:solid 1px @instanceTableStyleBorderColor;
+                border-bottom:solid 1px @instanceTableStyleBorderColor!important;
               }
             }
           }
@@ -586,35 +596,49 @@ textarea {
       padding-left: 12px;
       padding-top: 6px;
     }
-    .checkbox{
-      min-height: 32px;
+    .form-group > .checkbox{
       vertical-align: middle;
       margin: 0px;
       label{
-        margin: 6px 0px;
+        margin: 0px;
+        min-height: 20px;
+        line-height: 20px;
+        input{
+          margin-top: 0px;
+        }
+      }
+    }
+    .form-group > .af-radio-group,.form-group > .af-checkbox-group{
+      label{
+        input{
+          margin-top:0px;
+        }
       }
     }
   }
 
   .instance-traces{
     background:#fff;
-    //margin-top:10px;
+    .box-header{
+      padding-left: 14px;
+      margin-bottom: -10px;
+      font-size: 18px;
+    }
     table.traces{
-      margin-top:8px;
       tr{
         background:#fff;
       }
       background:transparent;
-      border: solid 1px @instanceTableStyleBorderColor;
+      border: solid 2px @instanceTableStyleBorderColor;
       td{
         background:transparent;
         border: solid 1px @instanceTableStyleBorderColor;
         vertical-align: middle;
-        padding: 4px 12px;
+        padding: 6px;
         font-weight:normal;
         font-size:14px;
         &.td-stepname{
-          width: 20%;
+          width: 16%;
         }
         &.td-approve{
           padding:0px;
@@ -655,19 +679,17 @@ textarea {
         }
       }
     }
+  }
+}
 
-
-    .box{
-      box-shadow:0 0 0;
-      margin-bottom: 0px;
+.instance-print{
+  .instance-table{
+    .instance-traces{
       .box-header{
-        padding: 0px;
-        padding-bottom: 5px;
-        border-bottom: 0px;
-      }
-
-      .box-body{
-        padding-top: 0px;
+        padding-left: 0;
+        .box-tools{
+          top: 10px;
+        }
       }
     }
   }
@@ -732,18 +754,62 @@ textarea {
 }
 
 .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
-  height: 34px !important;
-  line-height: 31px;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  height: 22px !important;
+  line-height: 20px;
 }
 
 .instance .form-group .af-radio-group, .af-checkbox-group{
-  min-height: 34px;
+  /*min-height: 34px;*/
+  min-height: 22px;
 }
 
-.instance .form-group .checkbox{
-  min-height: 24px;
+.instance .form-group > .checkbox{
+  min-height: 22px;
+  line-height:22px;
+  padding-left: 0px;
+  padding-top: 0px;
+  margin-top: 6px;
+}
+.instance .form-group > .af-radio-group,.instance .form-group > .af-checkbox-group{
+  padding-left: 0px;
+  padding-top: 0px;
+}
+
+.mobile-safari{
+  .instance,.steedos-table-modal{
+    .form-group > .checkbox,.form-group > .af-radio-group,.form-group > .af-checkbox-group{
+      label{
+        line-height:25px;
+      }
+    }
+  }
+}
+
+.android{
+  .steedos-table-modal{
+    .form-group > .checkbox{
+      label{
+        line-height:25px;
+      }
+    }
+  }
+}
+
+/*CSS-Hack for Microsoft Edge Browser 12+ edge浏览器垂直居中*/
+_:-ms-lang(x),
+_:-webkit-full-screen,
+.instance.instance-table .form-group > .checkbox,.instance.instance-table .form-group > .af-radio-group,.instance.instance-table .form-group > .af-checkbox-group{
+  label{
+    line-height:22px;
+  }
+}
+
+/*CSS-Hack for Internet Explorer 11 only edge浏览器垂直居中*/
+_:-ms-fullscreen,
+:root .instance .form-group > .checkbox {
+  label{
+    line-height:20px;
+  }
 }
 
 .instance .instance_attachments{
@@ -907,6 +973,12 @@ textarea {
 }
 
 .instance-template{
+
+  tr:nth-child(2){
+    td{
+      border-top: 0px !important;
+    }
+  }
 
   .section{
     color: inherit !important;

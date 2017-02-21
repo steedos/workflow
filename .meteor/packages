@@ -117,9 +117,9 @@ comerc:autoform-selectize
 
 steedos:theme-qhd
 steedos:theme
-#steedos:emailjs
+steedos:emailjs
 steedos:contacts
-#steedos:portal
+steedos:portal
 steedos:desktop
 
 

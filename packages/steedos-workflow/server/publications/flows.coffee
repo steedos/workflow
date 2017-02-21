@@ -9,7 +9,7 @@ Meteor.publish 'flows', (spaceId)->
 	if db.flows.find({space: spaceId}).count() == 0
 		db.spaces.createTemplateFormAndFlow(spaceId)
 
-	console.log '[publish] flows for space ' + spaceId
+	# console.log '[publish] flows for space ' + spaceId
 
 	return db.flows.find({space: spaceId}, {
 		fields: {

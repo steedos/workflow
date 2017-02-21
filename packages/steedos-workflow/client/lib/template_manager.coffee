@@ -87,29 +87,25 @@ TemplateManager.handleTableTemplate = (instance) ->
 		</table>
 
 		<table class="table-page-footer form-table no-border">
-			<tr style="height:0px">
-				<th style='width: 16%'></th>
-				<th></th>
-				<th style='width: 16%'></th>
-				<th></th>
-			</tr>
 			<tr class="applicant-wrapper">
 				<td class="nowrap">
-					<div>
+					<div class='inline-left'>
 						<label class="control-label">{{_t "instance_initiator"}}：</label>
 					</div>
-				</td>
-				<td class="instance-table-wrapper-td">
-					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-				</td>
-				<td class="nowrap">
-					<div>
-						<label>{{_t "instance_submit_date"}}：</label>
+					<div class='instance-table-wrapper-td inline-left'>
+						{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
 					</div>
 				</td>
-				<td class="td-field">
-					<div class="form-group">
-						{{formatDate instance.submit_date '{"format":"YYYY-MM-DD"}'}}
+				<td class="nowrap">
+					<div class='pull-left'>
+						<div class='inline-left'>
+							<label>{{_t "instance_submit_date"}}：</label>
+						</div>
+						<div class='inline-right'>
+							<div class="form-group">
+								{{formatDate instance.submit_date '{"format":"YYYY-MM-DD"}'}}
+							</div>
+						</div>
 					</div>
 				</td>
 			</tr>

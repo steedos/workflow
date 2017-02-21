@@ -53,16 +53,6 @@ Template.cf_contact_modal.events
 		Modal.allowMultiple = false;
 		return true;
 
-	'input #cf-contact-list-search-key': (event, template) ->
-		if $("#cf-contact-list-search-key").val()
-			Session.set("cf_contact_list_search", true)
-		else
-			Session.set("cf_contact_list_search", false)
-		dataTable = $(".cf_space_user_list_table").DataTable();
-		dataTable.search(
-			$("#cf-contact-list-search-key").val(),
-		).draw();
-
 Template.cf_contact_modal.onRendered ->
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
 	CFDataManager.handerContactModalValueLabel();

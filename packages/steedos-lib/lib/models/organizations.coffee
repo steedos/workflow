@@ -440,7 +440,7 @@ if (Meteor.isServer)
 		selector = 
 			space: spaceId
 
-		console.log '[publish] organizations ' + spaceId
+		# console.log '[publish] organizations ' + spaceId
 
 		return db.organizations.find(selector)
 
@@ -452,6 +452,6 @@ if (Meteor.isServer)
 		unless spaceId
 			return this.ready()
 
-		console.log '[publish] my_organizations ' + spaceId
+		# console.log '[publish] my_organizations ' + spaceId
 
 		return db.organizations.find({space: spaceId, users: this.userId})

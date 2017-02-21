@@ -24,7 +24,10 @@ InstanceManager.getFormField = function(fieldId) {
 	return null;
 }
 
-
+/**
+ * 计算下一步步骤
+ * @returns {Array}
+ */
 InstanceManager.getNextStepOptions = function() {
 
 	console.log("calculate next_step_options")
@@ -60,37 +63,50 @@ InstanceManager.getNextStepOptions = function() {
 				text: step.name,
 				type: step.step_type
 			}
-			if (current_next_steps && current_next_steps.length > 0) {
-				if (current_next_steps[0].step == step.id) {
-					next_step_id = step.id
-				}
-			}
 			next_step_options.push(option)
 		});
 
 		// 默认选中第一个
 		if (next_step_options.length == 1) {
-
 			next_step_options[0].selected = true
 			next_step_id = next_step_options[0].id
-
+            Session.set("next_step_id", next_step_id);
 		} else {
 
 			if (Session.get("judge") == 'rejected') {
 				start_option = next_step_options.findPropertyByPK("type", "start");
 				next_step_id = start_option.id
-			} else if (Session.get("judge") != 'rejected') {
-				next_step_options.unshift({
-					id: '',
-					selected: true,
-					text: TAPi18n.__("Select placeholder"),
-					disabled: 'disabled'
-				});
-			}
+                Session.set("next_step_id", next_step_id);
+			} else {
+
+                //Session存储的下一步步骤是否在计算结果中，如果在，则选中
+                if(Session.get("next_step_id")){
+                    var session_next_step = next_step_options.findPropertyByPK("id", Session.get("next_step_id"))
+                    if(_.isObject(session_next_step)){
+                        next_step_id = Session.get("next_step_id")
+                    }
+                }else if(current_next_steps && current_next_steps.length > 0){
+                    //选中已暂存的值
+                    var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
+                    if (_.isObject(db_next_step)) {
+                        next_step_id = db_next_step.id
+                        Session.set("next_step_id", next_step_id);
+                    }
+                }else if(Session.get("judge") != 'rejected') {
+                    next_step_options.unshift({
+                        id: '',
+                        selected: true,
+                        text: TAPi18n.__("Select placeholder"),
+                        disabled: 'disabled'
+                    });
+                    Session.set("next_step_id", null);
+                }
+            }
+
 
 		}
 
-		Session.set("next_step_id", next_step_id);
+		// Session.set("next_step_id", next_step_id);
 
 		next_step_options.forEach(function(option) {
 			if (option.id == next_step_id) {

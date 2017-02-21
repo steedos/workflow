@@ -5,7 +5,7 @@ Meteor.publish 'forms', (spaceId)->
 	unless spaceId
 		return this.ready()
 
-	console.log '[publish] forms for space ' + spaceId
+	# console.log '[publish] forms for space ' + spaceId
 
 	return db.forms.find({space: spaceId}, {fields: {name: 1, category: 1, state: 1, description: 1}})
 
@@ -32,7 +32,7 @@ Meteor.publish 'form_version', (spaceId, formId, versionId) ->
 		form_version = form.current
 		if form_version._id != versionId
 			form_version = form.historys.findPropertyByPK("_id", versionId)
-		console.log "form_version._id: #{form_version._id}"
+		# console.log "form_version._id: #{form_version._id}"
 		return form_version
 
 	handle = db.forms.find({_id: formId}).observeChanges {
