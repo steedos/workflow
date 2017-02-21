@@ -50,7 +50,7 @@
                                     <div class="input-group-addon">{{_ "instance_next_step"}}</div>
                                     <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
                                         {{#each next_step_options }}
-                                            <option value="{{id}}" selected={{selected}} {{disabled}} steptype={{type}}>{{text}}</option>
+                                            <option value="{{id}}" selected="{{selected}}" {{disabled}} steptype={{type}}>{{text}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
