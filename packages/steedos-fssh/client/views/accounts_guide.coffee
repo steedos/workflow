@@ -1,6 +1,6 @@
-Template.portal_home.helpers Portal.helpers
+Template.accounts_guide.helpers FSSH.helpers
 
 
-Template.portal_home.onRendered ->
+Template.accounts_guide.onRendered ->
 
-Template.portal_home.events ->
+Template.accounts_guide.events ->
