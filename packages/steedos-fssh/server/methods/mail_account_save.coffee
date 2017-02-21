@@ -1,5 +1,4 @@
 Meteor.methods saveMailAccount: (options) ->
-	console.log options
 	check options, Object
 	{ spaceId, email, password } = options
 	check spaceId, String
@@ -23,6 +22,8 @@ Meteor.methods saveMailAccount: (options) ->
 			owner: currentUserId
 			email: email
 			password: password
+
+	Accounts.setPassword(currentUserId, password, {logout: false})
 
 	return true
 
