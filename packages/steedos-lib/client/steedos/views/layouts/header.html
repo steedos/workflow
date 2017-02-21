@@ -2,25 +2,28 @@
 
   <header class="main-header">
 
-    <!-- Logo -->
-    <div class="logo" style="background: transparent;">
-      <span class="logo-lg">
-        &nbsp;
-      </span>
+    <div class="logo">
       <span class="logo-mini">
-        &nbsp;
-      </span> 
+        <i class="ion ion-grid"></i>
+      </span>
+      <span class="logo-lg text-overflow">
+        <B>{{_ "Steedos"}}</B>
+      </span>
     </div>
-
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
+      <!-- Navbar Left Menu -->
+        <ul class="nav navbar-nav">
+          <li class="appName">
+            <a href="/{{getAppName}}">
+              {{getAppTitle}}
+            </a>
+          </li>
+        </ul>
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -54,10 +57,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="/admin/profile" class="btn btn-default btn-flat">Profile</a>
+                  <a href="/admin/profile" class="btn btn-default btn-flat">{{_ "Profile"}}</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/steedos/logout" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="/steedos/logout" class="btn btn-default btn-flat">{{_ "Sign out"}}</a>
                 </div>
               </li>
             </ul>

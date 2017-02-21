@@ -17,6 +17,7 @@ Template.masterHeader.helpers
 		return Steedos.getSpaceId()
 
 
+
 Template.masterHeader.events
 
 	'click .main-header .logo': (event) ->
