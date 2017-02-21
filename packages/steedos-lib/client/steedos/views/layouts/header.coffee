@@ -17,7 +17,11 @@ Template.masterHeader.helpers
 		return Steedos.getSpaceId()
 
 
+
 Template.masterHeader.events
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .steedos-help': (event) ->
+		Steedos.showHelp();
