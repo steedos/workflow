@@ -17,9 +17,23 @@ fsshRoutes.route '/',
 fsshRoutes.route '/accounts-guide',
 	action: (params, queryParams)->
 		# $("body").addClass("sidebar-collapse")
-		if Meteor.userId()
-			BlazeLayout.render 'masterLayout',
-				main: "accounts_guide"
+		# if Meteor.userId()
+		# 	BlazeLayout.render 'masterLayout',
+		# 		main: "accounts_guide_modal"
 
 
 
+
+# FlowRouter.route '/', 
+# 	action: (params, queryParams)->
+# 		alert(1)
+
+
+
+# FlowRouter.triggers.enter [
+# 	()->
+# 		console.log FlowRouter.current().path
+# 		if Session.get("router-path") == "/"
+# 			console.error "show accounts guide............"
+# 			Modal.show "app_list_box_modal"
+# ]
