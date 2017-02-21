@@ -1,5 +1,4 @@
 Meteor.methods saveMailAccount: (options) ->
-	console.log options
 	check options, Object
 	{ spaceId, email, password } = options
 	check spaceId, String
@@ -23,6 +22,20 @@ Meteor.methods saveMailAccount: (options) ->
 			owner: currentUserId
 			email: email
 			password: password
+
+	Accounts.setPassword(currentUserId, password, {logout: false})
+
+	currentUser = Accounts.user()
+	if currentUser.emails?.length > 0
+		currentEmail = currentUser.emails.findPropertyByPK("address",email)
+		unless currentEmail.verified
+			# 把当前邮件地址对应的邮件verified设置为true
+			db.users.update {
+				_id: currentUserId
+				"emails.address": email
+			}, $set: "emails.$.verified": true
+
+
 
 	return true
 

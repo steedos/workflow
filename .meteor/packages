@@ -115,7 +115,7 @@ cfs:s3
 jeremy:selectize
 comerc:autoform-selectize
 
-steedos:theme-qhd
+# steedos:theme-qhd
 steedos:theme
 steedos:emailjs
 steedos:contacts
