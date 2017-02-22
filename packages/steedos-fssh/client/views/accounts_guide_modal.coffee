@@ -67,4 +67,11 @@ Template.accounts_guide_modal.events
 				toastr.error(error.reason)
 
 	'click .btn-close': (event,template) ->
-		Modal.hide "accounts_guide_modal"
+		currentUserId = Meteor.userId()
+		mail_account = db.mail_accounts.findOne({owner:currentUserId})
+		if mail_account
+			Modal.hide "accounts_guide_modal"
+		else
+			toastr.error("您的账户没有通过验证！")
+
+
