@@ -293,8 +293,6 @@ if Meteor.isServer
 if Meteor.isServer
 	crypto = Npm.require('crypto');
 	Steedos.decrypt = (password, key, iv)->
-		unless iv
-			iv = '-mail-2016fzb2e8'
 		try
 			key32 = ""
 			len = key.length
@@ -319,8 +317,6 @@ if Meteor.isServer
 			return password;
 
 	Steedos.encrypt = (password, key, iv)->
-		unless iv
-			iv = '-mail-2016fzb2e8'
 		key32 = ""
 		len = key.length
 		if len < 32
