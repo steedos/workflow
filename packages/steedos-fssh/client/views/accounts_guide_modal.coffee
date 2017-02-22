@@ -37,7 +37,9 @@ Template.accounts_guide_modal.events
 		unless login_password
 			toastr.error("PTR域账户密码不能为空")
 			return
+		$(document.body).addClass('loading')
 		Meteor.call 'saveAuthUser', { spaceId, auth_name, login_name, login_password }, (error, is_suc) ->
+			$(document.body).removeClass('loading')
 			if is_suc
 				toastr.success "保存成功！"
 			else
@@ -55,7 +57,9 @@ Template.accounts_guide_modal.events
 		unless login_password
 			toastr.error("CNPC域账户密码不能为空")
 			return
+		$(document.body).addClass('loading')
 		Meteor.call 'saveAuthUser', { spaceId, auth_name, login_name, login_password }, (error, is_suc) ->
+			$(document.body).removeClass('loading')
 			if is_suc
 				toastr.success "保存成功！"
 			else
