@@ -4,22 +4,26 @@ Template.accounts_guide_modal.onRendered ->
 
 Template.accounts_guide_modal.events
 	'click .btn-validate-email': (event,template) ->
-		debugger
 		spaceId = Session.get "spaceId"
 		email = $("#accounts-guide-email-name").val()
 		password = $("#accounts-guide-email-password").val()
 		unless password
 			toastr.error("邮箱密码不能为空")
 			return
-		Meteor.call 'saveMailAccount', { spaceId, email, password }, (error, is_suc) ->
+
+		FSSH.checkAccount {user: email,pass: password}, (error, is_suc)->
 			if is_suc
-				toastr.success "保存成功！"
+				Meteor.call 'saveMailAccount', { spaceId, email, password }, (error, is_suc) ->
+					if is_suc
+						toastr.success "验证通过，账户密码已同步！"
+					else
+						console.error error
+						toastr.error(error.reason)
 			else
 				console.error error
 				toastr.error(error.reason)
 
 	'click .btn-save-ptr': (event,template) ->
-		debugger
 		spaceId = Session.get "spaceId"
 		auth_name = "ptr"
 		login_name = $("#accounts-guide-ptr-name").val()
@@ -38,7 +42,6 @@ Template.accounts_guide_modal.events
 				toastr.error(error.reason)
 
 	'click .btn-save-cnpc': (event,template) ->
-		debugger
 		spaceId = Session.get "spaceId"
 		auth_name = "cnpc"
 		login_name = $("#accounts-guide-cnpc-name").val()
