@@ -290,6 +290,55 @@ if Meteor.isServer
 			else
 				return "/"
 
+if Meteor.isServer
+	crypto = Npm.require('crypto');
+	Steedos.decrypt = (password, key, iv)->
+		try
+			key32 = ""
+			len = key.length
+			if len < 32
+				c = ""
+				i = 0
+				m = 32 - len
+				while i < m
+					c = " " + c
+					i++
+				key32 = key + c
+			else if len >= 32
+				key32 = key.slice(0, 32)
+
+			decipher = crypto.createDecipheriv('aes-256-cbc', new Buffer(key32, 'utf8'), new Buffer(iv, 'utf8'))
+
+			decipherMsg = Buffer.concat([decipher.update(password, 'base64'), decipher.final()])
+
+			password = decipherMsg.toString();
+			return password;
+		catch e
+			return password;
+
+	Steedos.encrypt = (password, key, iv)->
+		key32 = ""
+		len = key.length
+		if len < 32
+			c = ""
+			i = 0
+			m = 32 - len
+			while i < m
+				c = " " + c
+				i++
+			key32 = key + c
+		else if len >= 32
+			key32 = key.slice(0, 32)
+
+		cipher = crypto.createCipheriv('aes-256-cbc', new Buffer(key32, 'utf8'), new Buffer(iv, 'utf8'))
+
+		cipheredMsg = Buffer.concat([cipher.update(new Buffer(password, 'utf8')), cipher.final()])
+
+		password = cipheredMsg.toString('base64')
+
+		return password;
+
+
 
 # This will add underscore.string methods to Underscore.js
 # except for include, contains, reverse and join that are 

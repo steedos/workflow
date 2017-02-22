@@ -63,6 +63,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/admin.coffee');
 
 	api.addFiles('server/methods/mail_account_save.coffee', 'server');
+	api.addFiles('server/methods/auth_user_save.coffee', 'server');
 	
 	api.addFiles('client/views/_helpers.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.html', 'client');

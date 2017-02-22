@@ -128,8 +128,8 @@ TemplateHelpers =
 		selector = {}
 		if Steedos.getSpaceId()
 			space = db.spaces.findOne(Steedos.getSpaceId())
-			if space?.apps_enabled?.length>0
-				selector._id = {$in: space.apps_enabled}
+			# if space?.apps_enabled?.length>0
+			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
 		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}});
@@ -138,8 +138,8 @@ TemplateHelpers =
 		selector = {}
 		if Steedos.getSpaceId()
 			space = db.spaces.findOne(Steedos.getSpaceId())
-			if space?.apps_enabled?.length>0
-				selector._id = {$in: space.apps_enabled}
+			# if space?.apps_enabled?.length>0
+			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
 		return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
@@ -148,8 +148,8 @@ TemplateHelpers =
 		selector = {}
 		if Steedos.getSpaceId()
 			space = db.spaces.findOne(Steedos.getSpaceId())
-			if space?.apps_enabled?.length>0
-				selector._id = {$in: space.apps_enabled}
+			# if space?.apps_enabled?.length>0
+			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
 		selector._id = "#{app_id}"
@@ -159,8 +159,8 @@ TemplateHelpers =
 		selector = {}
 		if Steedos.getSpaceId()
 			space = db.spaces.findOne(Steedos.getSpaceId())
-			if space?.apps_enabled?.length>0
-				selector._id = {$in: space.apps_enabled}
+			# if space?.apps_enabled?.length>0
+			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
 		selector.url = "#{app_url}"
