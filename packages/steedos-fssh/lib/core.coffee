@@ -1,7 +1,6 @@
 FSSH = 
 	checkAccount: (userAuth, callback)->
 		try
-			debugger
 			if !AccountManager.getMailDomain(userAuth.user)
 				callback {reason:'账户验证失败, 无效的邮件域名'},false
 			imapClient = ImapClientManager.getClient(userAuth)

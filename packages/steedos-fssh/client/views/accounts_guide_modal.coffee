@@ -11,15 +11,18 @@ Template.accounts_guide_modal.events
 			toastr.error("邮箱密码不能为空")
 			return
 
+		$(document.body).addClass('loading')
 		FSSH.checkAccount {user: email,pass: password}, (error, is_suc)->
 			if is_suc
 				Meteor.call 'saveMailAccount', { spaceId, email, password }, (error, is_suc) ->
+					$(document.body).removeClass('loading')
 					if is_suc
 						toastr.success "验证通过，账户密码已同步！"
 					else
 						console.error error
 						toastr.error(error.reason)
 			else
+				$(document.body).removeClass('loading')
 				console.error error
 				toastr.error(error.reason)
 
