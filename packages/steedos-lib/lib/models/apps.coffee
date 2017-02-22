@@ -65,10 +65,11 @@ db.apps.attachSchema db.apps._simpleSchema;
 db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/emailjs", "/admin", "/portal", "/contacts"]
 
 db.apps.isInternalApp = (url) ->
-	if db.apps.INTERNAL_APPS.indexOf(url) >= 0
-		return true
-	else
-		return false
+	if url
+		for app_url in db.apps.INTERNAL_APPS
+			if url.startsWith(app_url)
+				return true
+	return false
 
 
 
