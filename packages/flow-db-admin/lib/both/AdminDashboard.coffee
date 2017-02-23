@@ -59,7 +59,7 @@ if Meteor.isClient
 		Session.set('admin_collection_name', collectionName);
 		Modal.show("AdminDashboardNewModal", doc)
 
-		$(".admin-dashboard-body").css("max-height", ($(window).height() - 30 * 2 - 56) + "px");
+		$(".admin-dashboard-body").css("max-height", Steedos.getModalMaxHeight());
 
 		$('#admin_new').on('hidden.bs.modal', (e) ->
 			if callback
@@ -75,7 +75,7 @@ if Meteor.isClient
 		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
 			Modal.show("AdminDashboardEditModal")
 
-			$(".admin-dashboard-body").css("max-height", ($(window).height() - 30 * 2 - 56) + "px");
+			$(".admin-dashboard-body").css("max-height", Steedos.getModalMaxHeight());
 
 			$('#admin_edit').on('hidden.bs.modal', (e) ->
 				if callback
