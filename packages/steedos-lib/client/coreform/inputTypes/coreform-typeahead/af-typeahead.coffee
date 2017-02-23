@@ -1,9 +1,9 @@
 AutoForm.addInputType 'typeahead',
 	template: 'afTypeAhead'
 	valueIn: (val, atts) ->
-		console.log '---------------------------valueIn---------------------------'
-		return val;
+		return val
 	valueOut: ->
+		return this.val()
 
 	valueConverters:
 		'stringArray': AutoForm.valueConverters.stringToStringArray
@@ -46,14 +46,10 @@ Template.afTypeAhead.onRendered ->
 				cb options
 
 	$('#' + id).typeahead {
-		hint: true
+		hint: false
 		highlight: true
 		minLength: 0
 	},
 		name: name
 		limit: 10
 		source: substringMatcher(options.getProperty("label"))
-
-	$('#' + id).bind 'typeahead:select', (ev, suggestion) ->
-		console.log 'Selection: ' + suggestion
-		return
