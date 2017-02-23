@@ -59,7 +59,7 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "email_format_error");
 
 		# 不能重复添加相同的email
-		exists = db.address_books.find({owner: Meteor.userId(), email: doc.email}).count()
+		exists = db.address_books.find({owner: Meteor.userId(), group: doc.group, email: doc.email}).count()
 		if exists > 0
 			throw new Meteor.Error(400, "steedos_contacts_error_contact_exists")
 			
