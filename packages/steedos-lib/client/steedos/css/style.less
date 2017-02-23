@@ -196,51 +196,153 @@ span,a{
 }
 
 
-/*IE11不支持zoom，所以全部重置为normal，否则可能会样式错乱，比较modal弹出层*/
+/*IE11不支持zoom需要特别定制*/
 _:-ms-fullscreen,
-:root .zoom-large,.zoom-extra-large{
-	zoom:normal;
+:root .zoom-large{
 	.modal{
 		zoom:normal;
-
 		.modal-header{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 		}
 		.modal-footer{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 		}
 		.modal-zoom{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 		}
 
 		.box{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 			.box{
 				/*这里是为了兼容出现两层box嵌套的情况*/
 				zoom:normal;
+				width:auto;
 			}
 		}
 		&.forward-select-flow-modal{
 			.modal-body>div{
-				zoom:normal;
+				zoom:120%;
+				width:83%;
 			}
 		}
 		&#instance_cc_modal{
 			.modal-body>form{
-				zoom:normal;
+				zoom:120%;
+				width:83%;
 			}
 		}
 		.admin-dashboard-body>form{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 		}
 		.modal-body>.weui_grids{
-			zoom:normal;
+			zoom:120%;
+			width:83%;
 		}
 		.mail-account-modal{
 			.modal-body>form{
-				zoom:normal;
+				zoom:120%;
+				width:83%;
 			}
 		}
+	}
+}
+
+/*IE11不支持zoom需要特别定制*/
+_:-ms-fullscreen,
+:root .zoom-extra-large{
+	.modal{
+		zoom:normal;
+		.modal-header{
+			zoom:135%;
+			width:74%;
+		}
+		.modal-footer{
+			zoom:135%;
+			width:74%;
+		}
+		.modal-zoom{
+			zoom:135%;
+			width:74%;
+		}
+
+		.box{
+			zoom:135%;
+			width:74%;
+			.box{
+				/*这里是为了兼容出现两层box嵌套的情况*/
+				zoom:normal;
+				width:auto;
+			}
+		}
+		&.forward-select-flow-modal{
+			.modal-body>div{
+				zoom:135%;
+				width:74%;
+			}
+		}
+		&#instance_cc_modal{
+			.modal-body>form{
+				zoom:135%;
+				width:74%;
+			}
+		}
+		.admin-dashboard-body>form{
+			zoom:135%;
+			width:74%;
+		}
+		.modal-body>.weui_grids{
+			zoom:135%;
+			width:74%;
+		}
+		.mail-account-modal{
+			.modal-body>form{
+				zoom:135%;
+				width:74%;
+			}
+		}
+	}
+}
+
+/*IE11 .zoom-large,.zoom-extra-large字体放大需要该样式*/
+@media screen and(-ms-high-contrast:active),(-ms-high-contrast:none) {
+	html{
+		height:100%;
+	}
+}
+
+/*IE11 CSS hack*/
+_:-ms-fullscreen,
+:root .zoom-large,.zoom-extra-large{
+	overflow:hidden;
+	.app-wrapper{
+		position:relative!important;
+	}
+}
+
+/*IE11 CSS hack*/
+_:-ms-fullscreen,
+:root .zoom-large{
+	margin-right: -7px;
+	margin-bottom: -7px;
+	.app-wrapper{
+		width: 83%;
+		height: 83%;
+	}
+}
+
+/*IE11 CSS hack*/
+_:-ms-fullscreen,
+:root .zoom-extra-large{
+	margin-right: -2px;
+	margin-bottom: -2px;
+	.app-wrapper{
+		width: 74%;
+		height: 74%;
 	}
 }
 
