@@ -1,40 +1,40 @@
 <template name="opinion_modal">
-    <div class="modal fade ins-opinion-modal" id="opinion_modal" role="dialog" aria-labelledby="opinion_modal_label">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content ins-modal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="opinion_modal_label">{{_ "instance_opinion_title"}}</h4>
-                </div>
+	<div class="modal fade ins-opinion-modal" id="opinion_modal" role="dialog" aria-labelledby="opinion_modal_label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="opinion_modal_label">{{_ "instance_opinion_title"}}</h4>
+				</div>
 
-                <div class="modal-body modal-zoom">
-                    <div class="list-group slippylist" style="margin-bottom: 0;">
-                        <button type="button" class="list-group-item btn-new-opinion slip-no-reorder">
-                            <i class="ion ion-plus-round slip-no-reorder"></i> 添加
-                        </button>
-                        {{#each opinions}}
-                            <button type="button" class="list-group-item btn-select-opinion slippylist-item" data-opinion="{{this}}">
-                                {{ this }}
-                                <div class="pull-right">
-                                    <button type="button" class="btn btn-default btn-transparent btn-sm btn-edit-opinion slip-no-reorder" data-opinion="{{this}}">
-                                        <i class="ion ion-ios-compose-outline slip-no-reorder"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-transparent btn-sm btn-remove-opinion slip-no-reorder" data-opinion="{{this}}">
-                                        <i class="ion ion-android-close slip-no-reorder"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-transparent btn-sm instant">
-                                        <i class="ion ion-drag instant"></i>
-                                    </button>
-                                </div>
-                            </button>
-                        {{/each}}
-                        {{#unless opinions}}
-                            <p style="padding:8px;">{{_ 'instance_opinion_add_tip'}}</p>
-                        {{/unless}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="modal-body modal-zoom panel panel-default">
+					<div class="panel-heading btn-new-opinion">
+						<i class="ion ion-plus-round slip-no-reorder"></i> 添加
+					</div>
+					<div class="list-group slippylist" style="margin-bottom: 0;">
+						{{#each opinions}}
+							<button type="button" class="list-group-item btn-select-opinion slippylist-item" data-opinion="{{this}}">
+								{{ this }}
+								<div class="pull-right">
+									<button type="button" class="btn btn-default btn-transparent btn-sm btn-edit-opinion slip-no-reorder" data-opinion="{{this}}">
+										<i class="ion ion-ios-compose-outline slip-no-reorder"></i>
+									</button>
+									<button type="button" class="btn btn-default btn-transparent btn-sm btn-remove-opinion slip-no-reorder" data-opinion="{{this}}">
+										<i class="ion ion-android-close slip-no-reorder"></i>
+									</button>
+									<button type="button" class="btn btn-default btn-transparent btn-sm instant">
+										<i class="ion ion-drag instant"></i>
+									</button>
+								</div>
+							</button>
+						{{/each}}
+						{{#unless opinions}}
+							<p style="padding:8px;">{{_ 'instance_opinion_add_tip'}}</p>
+						{{/unless}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>

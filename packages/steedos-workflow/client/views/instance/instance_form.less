@@ -1075,6 +1075,15 @@ _:-ms-fullscreen,
 }
 
 .ins-opinion-modal{
+  .btn-new-opinion{
+    cursor: pointer;
+    background: #fff;
+    &:hover,&:focus{
+      color: #555;
+      text-decoration: none;
+      background-color: #f5f5f5;
+    }
+  }
   .list-group{
     .list-group-item{
       user-select: none;
@@ -1082,6 +1091,9 @@ _:-ms-fullscreen,
       -webkit-user-select: none;
       .btn-sm{
         margin: -5px -2px;
+      }
+      .pull-right{
+        margin-right: -8px;
       }
     }
   }
