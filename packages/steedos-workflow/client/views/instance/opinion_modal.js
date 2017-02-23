@@ -279,6 +279,8 @@ Template.opinion_modal.events({
 })
 
 Template.opinion_modal.onRendered(function(){
+     $(".ins-opinion-modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
+
     var list = $(".slippylist")[0];
     list.addEventListener('slip:beforereorder', function(event){
         console.log("slip:beforereorder");
