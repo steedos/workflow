@@ -40,19 +40,20 @@ db.spaces._simpleSchema = new SimpleSchema
 			collection: 'avatars'
 			accept: 'image/*'
 			
-	apps_enabled:
-		type: [String],
-		optional: true,
-		autoform:
-			type: "select-checkbox"
-			options: ()->
-				options = []
-				objs = db.apps.find({})
-				objs.forEach (obj) ->
-					options.push
-						label: t(obj.name),
-						value: obj._id
-				return options
+	# apps_enabled:
+	# 	type: [String],
+	# 	optional: true,
+	# 	autoform:
+	# 		omit: true
+	# 		type: "select-checkbox"
+	# 		options: ()->
+	# 			options = []
+	# 			objs = db.apps.find({})
+	# 			objs.forEach (obj) ->
+	# 				options.push
+	# 					label: t(obj.name),
+	# 					value: obj._id
+	# 			return options
 
 	apps_paid:
 		type: [String],
@@ -150,9 +151,9 @@ if Meteor.isServer
 		doc.admins = [userId]
 
 		# 必须启用 admin app
-		if doc.apps_enabled
-			if _.indexOf(doc.apps_enabled, "admin")<0
-				doc.apps_enabled.push("admin")
+		# if doc.apps_enabled
+		# 	if _.indexOf(doc.apps_enabled, "admin")<0
+		# 		doc.apps_enabled.push("admin")
 
 	db.spaces.after.insert (userId, doc) ->
 		db.spaces.createTemplateOrganizations(doc._id)
@@ -184,9 +185,9 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "spaces_error_space_admins_required");
 
 		# 必须启用 admin app
-		if modifier.$set.apps_enabled
-			if _.indexOf(modifier.$set.apps_enabled, "admin")<0
-				modifier.$set.apps_enabled.push("admin")
+		# if modifier.$set.apps_enabled
+		# 	if _.indexOf(modifier.$set.apps_enabled, "admin")<0
+		# 		modifier.$set.apps_enabled.push("admin")
 
 	db.spaces.after.update (userId, doc, fieldNames, modifier, options) ->
 		self = this

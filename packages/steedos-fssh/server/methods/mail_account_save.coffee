@@ -40,9 +40,3 @@ Meteor.methods saveMailAccount: (options) ->
 	return true
 
 
-
-
-
-
-
-	# throw new Meteor.Error(400, "steedos_contacts_error_space_user_not_found");
