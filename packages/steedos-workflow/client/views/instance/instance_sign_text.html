@@ -1,7 +1,7 @@
 <template name="instanceSignText">
     <div class="instance-sign">
         {{#if show step}}
-            <div class="min-height">
+            <div class="instance-sign-content">
                 {{#each trace step}}
                     {{#if isOpinionOfField this}}
                         {{#if is_finished}}
@@ -28,7 +28,7 @@
                 </div>
             {{/if}}
         {{else}}
-            <div class="min-height">
+            <div class="instance-sign-content">
                 {{#each trace step}}
                     {{#if isOpinionOfField this}}
                         {{#if is_finished}}
