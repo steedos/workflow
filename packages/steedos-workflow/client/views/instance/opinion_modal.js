@@ -279,6 +279,8 @@ Template.opinion_modal.events({
 })
 
 Template.opinion_modal.onRendered(function(){
+     $(".ins-opinion-modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
+
     var list = $(".slippylist")[0];
     list.addEventListener('slip:beforereorder', function(event){
         console.log("slip:beforereorder");
@@ -298,10 +300,6 @@ Template.opinion_modal.onRendered(function(){
     }, false);
     list.addEventListener('slip:reorder', function(event){
         console.log("slip:reorder");
-        if(event.detail.spliceIndex <= 0){
-            //不可以元素拖到第一行，因为第一行是添加按钮
-            return false;
-        }
         var opinions = [];
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
@@ -312,10 +310,9 @@ Template.opinion_modal.onRendered(function(){
         });
         if (o) {
             var opinions = o.value.workflow;
-            // 后面的计算要执行减一的原因是顶部有一个item是添加按钮。
-            var movedItem = opinions[event.detail.originalIndex-1];
-            opinions.splice(event.detail.originalIndex-1, 1); // Remove item from the previous position
-            opinions.splice(event.detail.spliceIndex-1, 0, movedItem); // Insert item in the new position
+            var movedItem = opinions[event.detail.originalIndex];
+            opinions.splice(event.detail.originalIndex, 1); // Remove item from the previous position
+            opinions.splice(event.detail.spliceIndex, 0, movedItem); // Insert item in the new position
 
             event.target.parentNode.insertBefore(event.target, event.detail.insertBefore);
 

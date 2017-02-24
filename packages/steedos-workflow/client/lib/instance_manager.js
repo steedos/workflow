@@ -9,7 +9,10 @@ InstanceManager.runFormula = function(fieldCode) {
 
 	Form_formula.run(fieldCode, "", formula_fields, AutoForm.getFormValues("instanceform").insertDoc, form_version.fields);
 
-	Session.set("instance_form_values", {instanceId: Session.get("instanceId"), values: AutoForm.getFormValues("instanceform").insertDoc});
+	Session.set("instance_form_values", {
+		instanceId: Session.get("instanceId"),
+		values: AutoForm.getFormValues("instanceform").insertDoc
+	});
 }
 
 
@@ -70,38 +73,38 @@ InstanceManager.getNextStepOptions = function() {
 		if (next_step_options.length == 1) {
 			next_step_options[0].selected = 'selected'
 			next_step_id = next_step_options[0].id
-            Session.set("next_step_id", next_step_id);
+			Session.set("next_step_id", next_step_id);
 		} else {
 
 			if (Session.get("judge") == 'rejected') {
 				start_option = next_step_options.findPropertyByPK("type", "start");
 				next_step_id = start_option.id
-                Session.set("next_step_id", next_step_id);
+				Session.set("next_step_id", next_step_id);
 			} else {
 
-                //Session存储的下一步步骤是否在计算结果中，如果在，则选中
-                if($("#nextSteps") && $("#nextSteps").val()){
-                    var session_next_step = next_step_options.findPropertyByPK("id", $("#nextSteps").val())
-                    if(_.isObject(session_next_step)){
-                        next_step_id = $("#nextSteps").val()
-                    }
-                }else if(current_next_steps && current_next_steps.length > 0){
-                    //选中已暂存的值
-                    var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
-                    if (_.isObject(db_next_step)) {
-                        next_step_id = db_next_step.id
-                        Session.set("next_step_id", next_step_id);
-                    }
-                }else if(Session.get("judge") != 'rejected') {
-                    next_step_options.unshift({
-                        id: '',
-                        selected: 'selected',
-                        text: TAPi18n.__("Select placeholder"),
-                        disabled: 'disabled'
-                    });
-                    Session.set("next_step_id", null);
-                }
-            }
+				//Session存储的下一步步骤是否在计算结果中，如果在，则选中
+				if ($("#nextSteps") && $("#nextSteps").val()) {
+					var session_next_step = next_step_options.findPropertyByPK("id", $("#nextSteps").val())
+					if (_.isObject(session_next_step)) {
+						next_step_id = $("#nextSteps").val()
+					}
+				} else if (current_next_steps && current_next_steps.length > 0) {
+					//选中已暂存的值
+					var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
+					if (_.isObject(db_next_step)) {
+						next_step_id = db_next_step.id
+						Session.set("next_step_id", next_step_id);
+					}
+				} else if (Session.get("judge") != 'rejected') {
+					next_step_options.unshift({
+						id: '',
+						selected: 'selected',
+						text: TAPi18n.__("Select placeholder"),
+						disabled: 'disabled'
+					});
+					Session.set("next_step_id", null);
+				}
+			}
 
 
 		}
@@ -127,7 +130,7 @@ InstanceManager.getNextStepOptions = function() {
 		Session.set("next_step_id", null);
 	}
 	console.log('---next_step_id---')
-    console.log(next_step_id)
+	console.log(next_step_id)
 	console.log(next_step_options)
 	return next_step_options;
 }
@@ -154,9 +157,9 @@ InstanceManager.getNextUserOptions = function() {
 
 		var instance = WorkflowManager.getInstance();
 		var currentApprove = InstanceManager.getCurrentApprove();
-        if(!currentApprove){
-            return next_user_options
-        }
+		if (!currentApprove) {
+			return next_user_options
+		}
 		var current_next_steps = currentApprove.next_steps;
 
 		var next_user_ids = [];
@@ -657,9 +660,9 @@ InstanceManager.saveIns = function() {
 			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
 				$('body').removeClass("loading");
 				WorkflowManager.instanceModified.set(false);
-				if (result == true){
+				if (result == true) {
 					toastr.success(TAPi18n.__('Saved successfully'));
-                }else {
+				} else {
 					toastr.error(error.reason);
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/inbox/");
 				}
@@ -1113,13 +1116,13 @@ InstanceManager.getCCApprove = function(userId, is_finished) {
 	var rev = {};
 
 	traces.forEach(function(t) {
-        if(t.approves){
-            t.approves.forEach(function(approve) {
-                if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
-                    rev = approve
-                }
-            });
-        }
+		if (t.approves) {
+			t.approves.forEach(function(approve) {
+				if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+					rev = approve
+				}
+			});
+		}
 	})
 
 	return rev;
@@ -1165,38 +1168,81 @@ InstanceManager.retrieveIns = function(reason) {
 	}
 }
 
-InstanceManager.fixInstancePosition = function(isNeedToScrollTop){
-	if($(".instance-wrapper .instance-view").hasClass("suggestion-active")){
+InstanceManager.fixInstancePosition = function(isNeedToScrollTop) {
+	if ($(".instance-wrapper .instance-view").hasClass("suggestion-active")) {
 		var suggestionBoxH = $(".instance-wrapper .instance-suggestion").height();
-		$(".instance-wrapper .instance").css("bottom",suggestionBoxH + 4);
+		$(".instance-wrapper .instance").css("bottom", suggestionBoxH + 4);
+	} else {
+		$(".instance-wrapper .instance").css("bottom", 0);
 	}
-	else{
-		$(".instance-wrapper .instance").css("bottom",0);
-	}
-	if(isNeedToScrollTop){
-		setTimeout(function(){
+	if (isNeedToScrollTop) {
+		setTimeout(function() {
 			$('.instance').scrollTop($('.instance .instance-form').height() + $('.instance-traces').height());
-		},1);
+		}, 1);
 	}
 }
 
 
-InstanceManager.setApproveHaveRead = function (instanceId) {
-    var ins = WorkflowManager.getInstance()
-    if(ins.is_read == false){
-        var myApprove = InstanceManager.getCurrentApprove()
-        if(myApprove){
-            Meteor.call("set_approve_have_read", ins._id, myApprove.trace ,myApprove.id,  function(error, result) {
-                console.log('set read')
-            });
-        }else{
-            var ccApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
-            if(!_.isEmpty(ccApprove)){
-                Meteor.call("cc_read", ccApprove,  function(error, result) {
-                    console.log('set read')
-                });
-            }
+InstanceManager.setApproveHaveRead = function(instanceId) {
+	var ins = WorkflowManager.getInstance()
+	if (ins.is_read == false) {
+		var myApprove = InstanceManager.getCurrentApprove()
+		if (myApprove) {
+			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {
+				console.log('set read')
+			});
+		} else {
+			var ccApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
+			if (!_.isEmpty(ccApprove)) {
+				Meteor.call("cc_read", ccApprove, function(error, result) {
+					console.log('set read')
+				});
+			}
 
-        }
-    }
+		}
+	}
+}
+
+InstanceManager.instanceformChangeEvent = function(event) {
+	var code, error, step, type, v;
+
+	if (ApproveManager.isReadOnly()) {
+		return;
+	}
+
+	code = event.target.name;
+
+	type = event.target.type;
+
+	if (type === 'number') {
+		v = event.target.value;
+		try {
+			if (!v) {
+				v = 0.00;
+			}
+			if (typeof v === 'string') {
+				v = parseFloat(v);
+			}
+			step = event.target.step;
+			if (step) {
+				v = v.toFixed(step.length - 2);
+			} else {
+				v = v.toFixed(0);
+			}
+			event.target.value = v;
+		} catch (_error) {
+			error = _error;
+			console.log(v + error);
+		}
+	}
+
+	console.log("instanceform form-control change, code is " + code);
+
+	InstanceManager.checkFormFieldValue(event.target);
+
+	InstanceManager.runFormula(code);
+
+	if (code === 'ins_applicant') {
+		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
+	}
 }
