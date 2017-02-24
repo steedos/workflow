@@ -746,18 +746,34 @@ textarea {
 }
 
 .instance .form-group .form-control{
-  height: 100% !important;
+  height: 100%!important;
   min-height: 34px;
-  word-break:break-all;
+  word-break: break-all;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  vertical-align: middle;
 }
-.instance{
-  .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
-    height: 22px !important;
-    line-height: 20px;
-  }
+
+/*CSS-Hack for Internet Explorer 11 only edge浏览器垂直居中*/
+_:-ms-fullscreen,
+:root .instance .form-group .form-control {
+  padding-top: 6px;
+}
+
+/*CSS-Hack for Microsoft Edge Browser 12+浏览器垂直居中*/
+_:-ms-lang(x),
+_:-webkit-full-screen,
+.instance .form-group .form-control {
+  padding-top: 6px;
+}
+
+.instance-table.instance .form-group .form-control{
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
+  height: 22px!important;
   line-height: 20px;
 }
 
