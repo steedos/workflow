@@ -77,11 +77,16 @@ var s_autoform = function (schema, field) {
         case 'input' :
             schema.type = String;
             autoform.disabled = (permission == 'readonly');
-            if (field.is_textarea) {
-                autoform.type = 'coreform-textarea';
-                autoform.rows = field.rows;
-            } else {
-                autoform.type = 'text';
+
+            if(options != null && options.length > 0){
+                autoform.type = 'typeahead';
+            }else{
+                if (field.is_textarea) {
+                    autoform.type = 'coreform-textarea';
+                    autoform.rows = field.rows;
+                } else {
+                    autoform.type = 'text';
+                }
             }
             break;
         case 'section' : //div
