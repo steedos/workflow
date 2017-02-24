@@ -74,4 +74,8 @@ Template.accounts_guide_modal.events
 		else
 			toastr.error("您的账户没有通过验证！")
 
+	'click .btn-logout': (event,template) ->
+		$("body").addClass("loading")
+		Modal.hide "accounts_guide_modal"
+
 

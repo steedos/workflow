@@ -512,7 +512,7 @@ textarea {
       margin-bottom: 0px;
       .callout{
         margin: 0px;
-        padding:4px 12px;
+        padding:4px 6px;
         border-radius: 0px;
         border-left: none;
         h4{
@@ -750,9 +750,14 @@ textarea {
   min-height: 34px;
   word-break:break-all;
 }
+.instance{
+  .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
+    height: 22px !important;
+    line-height: 20px;
+  }
+}
 
 .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
-  height: 22px !important;
   line-height: 20px;
 }
 
