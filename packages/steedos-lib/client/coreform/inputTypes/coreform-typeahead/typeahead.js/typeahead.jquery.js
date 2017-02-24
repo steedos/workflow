@@ -6,7 +6,7 @@
 
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define("typeahead.js", [ "jquery" ], function(a0) {
+        define("typeahead.js", ["jquery"], function(a0) {
             return factory(a0);
         });
     } else if (typeof exports === "object") {
@@ -51,6 +51,7 @@
             bind: $.proxy,
             each: function(collection, cb) {
                 $.each(collection, reverseArgs);
+
                 function reverseArgs(index, value) {
                     return cb(value, index);
                 }
@@ -96,6 +97,7 @@
             },
             templatify: function templatify(obj) {
                 return $.isFunction(obj) ? obj : template;
+
                 function template() {
                     return String(obj);
                 }
@@ -106,7 +108,9 @@
             debounce: function(func, wait, immediate) {
                 var timeout, result;
                 return function() {
-                    var context = this, args = arguments, later, callNow;
+                    var context = this,
+                        args = arguments,
+                        later, callNow;
                     later = function() {
                         timeout = null;
                         if (!immediate) {
@@ -131,7 +135,8 @@
                     result = func.apply(context, args);
                 };
                 return function() {
-                    var now = new Date(), remaining = wait - (now - previous);
+                    var now = new Date(),
+                        remaining = wait - (now - previous);
                     context = this;
                     args = arguments;
                     if (remaining <= 0) {
@@ -167,6 +172,7 @@
             highlight: "tt-highlight"
         };
         return build;
+
         function build(o) {
             var www, classes;
             classes = _.mixin({}, defaultClassNames, o);
@@ -186,12 +192,14 @@
                 }
             };
         }
+
         function buildHtml(c) {
             return {
                 wrapper: '<span class="' + c.wrapper + '"></span>',
                 menu: '<div class="' + c.menu + '"></div>'
             };
         }
+
         function buildSelectors(classes) {
             var selectors = {};
             _.each(classes, function(v, k) {
@@ -199,6 +207,7 @@
             });
             return selectors;
         }
+
         function buildCss() {
             var css = {
                 wrapper: {
@@ -256,6 +265,7 @@
             select: "selected",
             autocomplete: "autocompleted"
         };
+
         function EventBus(o) {
             if (!o || !o.el) {
                 $.error("EventBus initialized without el");
@@ -288,13 +298,15 @@
     }();
     var EventEmitter = function() {
         "use strict";
-        var splitter = /\s+/, nextTick = getNextTick();
+        var splitter = /\s+/,
+            nextTick = getNextTick();
         return {
             onSync: onSync,
             onAsync: onAsync,
             off: off,
             trigger: trigger
         };
+
         function on(method, types, cb, context) {
             var type;
             if (!cb) {
@@ -312,12 +324,15 @@
             }
             return this;
         }
+
         function onAsync(types, cb, context) {
             return on.call(this, "async", types, cb, context);
         }
+
         function onSync(types, cb, context) {
             return on.call(this, "sync", types, cb, context);
         }
+
         function off(types) {
             var type;
             if (!this._callbacks) {
@@ -329,6 +344,7 @@
             }
             return this;
         }
+
         function trigger(types) {
             var type, callbacks, args, syncFlush, asyncFlush;
             if (!this._callbacks) {
@@ -337,14 +353,16 @@
             types = types.split(splitter);
             args = [].slice.call(arguments, 1);
             while ((type = types.shift()) && (callbacks = this._callbacks[type])) {
-                syncFlush = getFlush(callbacks.sync, this, [ type ].concat(args));
-                asyncFlush = getFlush(callbacks.async, this, [ type ].concat(args));
+                syncFlush = getFlush(callbacks.sync, this, [type].concat(args));
+                asyncFlush = getFlush(callbacks.async, this, [type].concat(args));
                 syncFlush() && nextTick(asyncFlush);
             }
             return this;
         }
+
         function getFlush(callbacks, context, args) {
             return flush;
+
             function flush() {
                 var cancelled;
                 for (var i = 0, len = callbacks.length; !cancelled && i < len; i += 1) {
@@ -353,6 +371,7 @@
                 return !cancelled;
             }
         }
+
         function getNextTick() {
             var nextTickFn;
             if (window.setImmediate) {
@@ -370,6 +389,7 @@
             }
             return nextTickFn;
         }
+
         function bindContext(fn, context) {
             return fn.bind ? fn.bind(context) : function() {
                 fn.apply(context, [].slice.call(arguments, 0));
@@ -392,9 +412,10 @@
             if (!o.node || !o.pattern) {
                 return;
             }
-            o.pattern = _.isArray(o.pattern) ? o.pattern : [ o.pattern ];
+            o.pattern = _.isArray(o.pattern) ? o.pattern : [o.pattern];
             regex = getRegex(o.pattern, o.caseSensitive, o.wordsOnly);
             traverse(o.node, hightlightTextNode);
+
             function hightlightTextNode(textNode) {
                 var match, patternNode, wrapperNode;
                 if (match = regex.exec(textNode.data)) {
@@ -407,6 +428,7 @@
                 }
                 return !!match;
             }
+
             function traverse(el, hightlightTextNode) {
                 var childNode, TEXT_NODE_TYPE = 3;
                 for (var i = 0; i < el.childNodes.length; i++) {
@@ -419,8 +441,10 @@
                 }
             }
         };
+
         function getRegex(patterns, caseSensitive, wordsOnly) {
-            var escapedPatterns = [], regexStr;
+            var escapedPatterns = [],
+                regexStr;
             for (var i = 0, len = patterns.length; i < len; i++) {
                 escapedPatterns.push(_.escapeRegExChars(patterns[i]));
             }
@@ -440,6 +464,7 @@
             38: "up",
             40: "down"
         };
+
         function Input(o, www) {
             o = o || {};
             if (!o.input) {
@@ -483,25 +508,25 @@
             _managePreventDefault: function managePreventDefault(keyName, $e) {
                 var preventDefault;
                 switch (keyName) {
-                  case "up":
-                  case "down":
-                    preventDefault = !withModifier($e);
-                    break;
+                    case "up":
+                    case "down":
+                        preventDefault = !withModifier($e);
+                        break;
 
-                  default:
-                    preventDefault = false;
+                    default:
+                        preventDefault = false;
                 }
                 preventDefault && $e.preventDefault();
             },
             _shouldTrigger: function shouldTrigger(keyName, $e) {
                 var trigger;
                 switch (keyName) {
-                  case "tab":
-                    trigger = !withModifier($e);
-                    break;
+                    case "tab":
+                        trigger = !withModifier($e);
+                        break;
 
-                  default:
-                    trigger = true;
+                    default:
+                        trigger = true;
                 }
                 return trigger;
             },
@@ -525,7 +550,8 @@
                 }
             },
             bind: function() {
-                var that = this, onBlur, onFocus, onKeydown, onInput;
+                var that = this,
+                    onBlur, onFocus, onKeydown, onInput;
                 onBlur = _.bind(this._onBlur, this);
                 onFocus = _.bind(this._onFocus, this);
                 onKeydown = _.bind(this._onKeydown, this);
@@ -619,6 +645,7 @@
             }
         });
         return Input;
+
         function buildOverflowHelper($input) {
             return $('<pre aria-hidden="true"></pre>').css({
                 position: "absolute",
@@ -636,9 +663,11 @@
                 textTransform: $input.css("text-transform")
             }).insertAfter($input);
         }
+
         function areQueriesEquivalent(a, b) {
             return Input.normalizeQuery(a) === Input.normalizeQuery(b);
         }
+
         function withModifier($e) {
             return $e.altKey || $e.ctrlKey || $e.metaKey || $e.shiftKey;
         }
@@ -651,6 +680,7 @@
             obj: "tt-selectable-object"
         };
         nameGenerator = _.getIdGenerator();
+
         function Dataset(o, www) {
             o = o || {};
             o.templates = o.templates || {};
@@ -744,7 +774,8 @@
                 this._resetLastSuggestion();
             },
             _getSuggestionsFragment: function getSuggestionsFragment(query, suggestions) {
-                var that = this, fragment;
+                var that = this,
+                    fragment;
                 fragment = document.createDocumentFragment();
                 _.each(suggestions, function getSuggestionNode(suggestion) {
                     var $el, context;
@@ -782,7 +813,10 @@
                 }, obj) : obj;
             },
             update: function update(query) {
-                var that = this, canceled = false, syncCalled = false, rendered = 0;
+                var that = this,
+                    canceled = false,
+                    syncCalled = false,
+                    rendered = 0;
                 this.cancel();
                 this.cancel = function cancel() {
                     canceled = true;
@@ -791,6 +825,7 @@
                 };
                 this.source(query, sync, async);
                 !syncCalled && sync([]);
+
                 function sync(suggestions) {
                     if (syncCalled) {
                         return;
@@ -803,6 +838,7 @@
                         that.trigger("asyncRequested", query);
                     }
                 }
+
                 function async(suggestions) {
                     suggestions = suggestions || [];
                     if (!canceled && rendered < that.limit) {
@@ -827,13 +863,16 @@
             }
         });
         return Dataset;
+
         function getDisplayFn(display) {
             display = display || _.stringify;
             return _.isFunction(display) ? display : displayFn;
+
             function displayFn(obj) {
                 return obj[display];
             }
         }
+
         function getTemplates(templates, displayFn) {
             return {
                 notFound: templates.notFound && _.templatify(templates.notFound),
@@ -842,16 +881,20 @@
                 footer: templates.footer && _.templatify(templates.footer),
                 suggestion: templates.suggestion || suggestionTemplate
             };
+
             function suggestionTemplate(context) {
                 return $("<div>").text(displayFn(context));
             }
         }
+
         function isValidName(str) {
-            return /^[_a-zA-Z0-9-]+$/.test(str);
+            // return /^[_a-zA-Z0-9-]+$/.test(str);
+            return true;
         }
     }();
     var Menu = function() {
         "use strict";
+
         function Menu(o, www) {
             var that = this;
             o = o || {};
@@ -862,6 +905,7 @@
             this.$node = $(o.node);
             this.query = null;
             this.datasets = _.map(o.datasets, initializeDataset);
+
             function initializeDataset(oDataset) {
                 var node = that.$node.find(oDataset.node).first();
                 oDataset.node = node.length ? node : $("<div>").appendTo(that.$node);
@@ -885,6 +929,7 @@
             },
             _allDatasetsEmpty: function allDatasetsEmpty() {
                 return _.every(this.datasets, isDatasetEmpty);
+
                 function isDatasetEmpty(dataset) {
                     return dataset.isEmpty();
                 }
@@ -909,7 +954,8 @@
                 }
             },
             bind: function() {
-                var that = this, onSelectableClick;
+                var that = this,
+                    onSelectableClick;
                 onSelectableClick = _.bind(this._onSelectableClick, this);
                 this.$node.on("click.tt", this.selectors.selectable, onSelectableClick);
                 _.each(this.datasets, function(dataset) {
@@ -965,6 +1011,7 @@
                     _.each(this.datasets, updateDataset);
                 }
                 return isValidUpdate;
+
                 function updateDataset(dataset) {
                     dataset.update(query);
                 }
@@ -973,6 +1020,7 @@
                 _.each(this.datasets, clearDataset);
                 this.query = null;
                 this.$node.addClass(this.classes.empty);
+
                 function clearDataset(dataset) {
                     dataset.clear();
                 }
@@ -981,6 +1029,7 @@
                 this.$node.off(".tt");
                 this.$node = $("<div>");
                 _.each(this.datasets, destroyDataset);
+
                 function destroyDataset(dataset) {
                     dataset.destroy();
                 }
@@ -991,6 +1040,7 @@
     var DefaultMenu = function() {
         "use strict";
         var s = Menu.prototype;
+
         function DefaultMenu() {
             Menu.apply(this, [].slice.call(arguments, 0));
         }
@@ -1034,6 +1084,7 @@
     }();
     var Typeahead = function() {
         "use strict";
+
         function Typeahead(o, www) {
             var onFocused, onBlurred, onEnterKeyed, onTabKeyed, onEscKeyed, onUpKeyed, onDownKeyed, onLeftKeyed, onRightKeyed, onQueryChanged, onWhitespaceChanged;
             o = o || {};
@@ -1295,6 +1346,7 @@
             }
         });
         return Typeahead;
+
         function c(ctx) {
             var methods = [].slice.call(arguments, 1);
             return function() {
@@ -1321,6 +1373,7 @@
                 o = o || {};
                 www = WWW(o.classNames);
                 return this.each(attach);
+
                 function attach() {
                     var $input, $wrapper, $hint, $menu, defaultHint, defaultMenu, eventBus, input, menu, typeahead, MenuConstructor;
                     _.each(datasets, function(d) {
@@ -1421,14 +1474,16 @@
                 return this;
             },
             select: function select(el) {
-                var success = false, $el = $(el);
+                var success = false,
+                    $el = $(el);
                 ttEach(this.first(), function(t) {
                     success = t.select($el);
                 });
                 return success;
             },
             autocomplete: function autocomplete(el) {
-                var success = false, $el = $(el);
+                var success = false,
+                    $el = $(el);
                 ttEach(this.first(), function(t) {
                     success = t.autocomplete($el);
                 });
@@ -1474,12 +1529,15 @@
             $.fn.typeahead = old;
             return this;
         };
+
         function ttEach($els, fn) {
             $els.each(function() {
-                var $input = $(this), typeahead;
+                var $input = $(this),
+                    typeahead;
                 (typeahead = $input.data(keys.typeahead)) && fn(typeahead, $input);
             });
         }
+
         function buildHintFromInput($input, www) {
             return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr("id name placeholder required").attr({
                 autocomplete: "off",
@@ -1487,6 +1545,7 @@
                 tabindex: -1
             });
         }
+
         function prepInput($input, www) {
             $input.data(keys.attrs, {
                 dir: $input.attr("dir"),
@@ -1503,6 +1562,7 @@
             } catch (e) {}
             return $input;
         }
+
         function getBackgroundStyles($el) {
             return {
                 backgroundAttachment: $el.css("background-attachment"),
@@ -1515,6 +1575,7 @@
                 backgroundSize: $el.css("background-size")
             };
         }
+
         function revert($input) {
             var www, $wrapper;
             www = $input.data(keys.www);
@@ -1528,6 +1589,7 @@
                 $wrapper.remove();
             }
         }
+
         function $elOrNull(obj) {
             var isValid, $el;
             isValid = _.isJQuery(obj) || _.isElement(obj);
