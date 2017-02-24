@@ -5,12 +5,8 @@
 		</button>
 		{{#if is_admin}}
 		<div class="btn-group" >
-			<button type="button" class="btn btn-primary btn-flat" id="steedos_contacts_invite_users_btn">
-				{{#if isMobile}}
-					<i class="ion ion-plus-round"></i>
-				{{else}}
-					{{_ 'steedos_contacts_invite_users'}}
-				{{/if}}
+			<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{_ 'steedos_contacts_invite_users'}}" class="btn btn-default btn-flat" id="steedos_contacts_invite_users_btn">
+				<i class="ion ion-plus-round"></i>
 			</button>
 		</div>
 		{{/if}}

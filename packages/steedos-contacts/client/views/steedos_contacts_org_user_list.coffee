@@ -101,6 +101,8 @@ Template.steedos_contacts_org_user_list.events
 		return false
 
 Template.steedos_contacts_org_user_list.onRendered ->
+	$('[data-toggle="tooltip"]').tooltip()
+	
 	TabularTables.steedosContactsOrganizations.customData = @data
 	TabularTables.steedosContactsBooks.customData = @data
 	
