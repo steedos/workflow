@@ -124,6 +124,9 @@ Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);
 
+	'typeahead:change .form-control': (event) ->
+		Session.set("instance_change", true)
+
 	'change .ins-file-input': (event, template)->
 		InstanceManager.uploadAttach(event.target.files, false)
 

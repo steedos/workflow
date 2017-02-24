@@ -139,6 +139,13 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-url/url.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-url/url.js', 'client');
 
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/bloodhound.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.bundle.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.jquery.js', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.less', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.html', 'client');
+    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
+
 	api.addFiles('client/lib/ajax_collection.coffee', 'client');
 
 	api.addFiles('client/lib/steedos_data_manager.js', 'client');

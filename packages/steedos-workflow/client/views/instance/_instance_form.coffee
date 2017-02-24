@@ -433,42 +433,10 @@ if Meteor.isServer
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->
-		if ApproveManager.isReadOnly()
-			return;
+		InstanceManager.instanceformChangeEvent(event)
 
-		code = event.target.name;
-
-		type = event.target.type;
-
-		if type == 'number'
-			v = event.target.value;
-			try
-				if !v
-					v = 0.00;
-
-				if typeof(v) == 'string'
-					v = parseFloat(v)
-
-				step = event.target.step
-
-				if step
-					v = v.toFixed(step.length - 2)
-				else
-					v = v.toFixed(0)
-
-				event.target.value = v;
-			catch error
-				console.log(v + error)
-
-
-		console.log("instanceform form-control change, code is " + code);
-
-		InstanceManager.checkFormFieldValue(event.target);
-
-		InstanceManager.runFormula(code);
-
-		if code == 'ins_applicant'
-			Session.set("ins_applicant", InstanceManager.getApplicantUserId());
+	'typeahead:change .form-control': (event) ->
+		InstanceManager.instanceformChangeEvent(event)
 
 	'click .cfTextarea a': (event)->
 		event.preventDefault();
