@@ -147,7 +147,7 @@ Template.instance_button.events
 		uobj["box"] = Session.get("box")
 		uobj["X-User-Id"] = Meteor.userId()
 		uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-		Steedos.openWindow(Meteor.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
+		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
 
 	'click #instance_update': (event)->
 		InstanceManager.saveIns();
