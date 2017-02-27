@@ -1,4 +1,4 @@
-git checkout master
+git checkout fssh
 git pull
 git submodule update --init --recursive
 
