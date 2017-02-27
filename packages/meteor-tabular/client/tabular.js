@@ -428,6 +428,7 @@ var tabularOnDestroyed = function () {
       typeof this.tabular.tableDef.onUnload === 'function') {
     this.tabular.tableDef.onUnload();
   }
+  Session.set("TabularLoading",false);
 };
 
 if (typeof Template.tabular.onDestroyed === 'function') {
