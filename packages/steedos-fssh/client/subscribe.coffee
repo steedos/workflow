@@ -8,3 +8,5 @@ Meteor.startup ->
 			unless db.mail_accounts.findOne({owner:currentUserId})
 				unless /^\/emailjs\b/.test(FlowRouter.current().path)
 					Modal.show "accounts_guide_modal"
+		else if $(".accounts-guide-modal").length
+			Modal.hide "accounts_guide_modal"
