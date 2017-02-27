@@ -121,7 +121,7 @@ steedos:emailjs
 steedos:contacts
 steedos:portal
 steedos:desktop
-# steedos:fssh
+steedos:fssh
 
 
 
