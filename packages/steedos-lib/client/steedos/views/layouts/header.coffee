@@ -25,3 +25,6 @@ Template.masterHeader.events
 
 	'click .steedos-help': (event) ->
 		Steedos.showHelp();
+
+	'click .btn-logout': (event,template) ->
+		$("body").addClass("loading")
