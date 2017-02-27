@@ -476,6 +476,9 @@ textarea {
       &.readonly{
         background:#FFFFFF;
       }
+      .form-control{
+        padding:0;
+      }
     }
 
     .td-childfield{
@@ -506,10 +509,6 @@ textarea {
       &.form-control{
         padding:0;
       }
-    }
-
-    .td-field-URL .form-control{
-      padding:0;
     }
 
     .form-group{
@@ -608,6 +607,9 @@ textarea {
         line-height: 20px;
         input{
           margin-top: 0px;
+          .safari & {
+            margin-top:4px;
+          }
         }
       }
     }
@@ -615,6 +617,9 @@ textarea {
       label{
         input{
           margin-top:0px;
+          .safari & {
+            margin-top:4px;
+          }
         }
       }
     }
@@ -779,6 +784,11 @@ _:-webkit-full-screen,
 .form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
   padding-top: 0;
   padding-bottom: 0;
+  line-height: 32px!important;
+}
+
+.instance .form-group input[type=datetime-local].form-control, .instance .form-group input[type=date].form-control{
+  height:32px;
 }
 
 .instance .form-group .af-radio-group, .af-checkbox-group{
