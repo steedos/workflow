@@ -141,7 +141,7 @@ if Meteor.isClient
 				exec = nw.require('child_process').exec
 				if on_click
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
-					open_url = Steedos.absoluteUrl(path)
+					open_url = Meteor.absoluteUrl(path)
 				else
 					open_url = app.url
 				cmd = "start iexplore.exe \"#{open_url}\""
@@ -171,8 +171,7 @@ if Meteor.isClient
 			authToken["X-User-Id"] = Meteor.userId();
 			authToken["X-Auth-Token"] = Accounts._storedLoginToken();
 
-			url = Steedos.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
-
+			url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
 			Steedos.openWindow(url);
 
 	Steedos.checkSpaceBalance = (spaceId)->
