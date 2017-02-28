@@ -69,6 +69,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/accounts_guide_modal.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.less', 'client');
 
+	api.addFiles('client/customize.less', 'client');
+
 	api.addFiles('client/subscribe.coffee', 'client');
 
 	// EXPORT
