@@ -140,6 +140,11 @@ Template.instance_button.helpers
 		else
 			return true
 
+
+Template.instance_button.onRendered ->
+	$('[data-toggle="tooltip"]').tooltip()
+
+
 Template.instance_button.events
 
 	'click .btn-instance-to-print': (event)->
