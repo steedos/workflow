@@ -1,3 +1,9 @@
 {
-	"Steedos": "Steedos"
+	"Steedos": "Steedos",
+	"users_steedos_id": "Steedos ID",
+	"users_error_steedos_id_required": "Steedos ID is required",
+	"users_error_steedos_id_readonly": "Steedos ID can not be modified",
+	"users_error": {
+		"steedos_id_required": "Steedos ID 不能为空"
+	}
 }
