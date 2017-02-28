@@ -46,7 +46,7 @@ if Meteor.isClient
 			else
 				$("body").css "backgroundImage","url(#{url})"
 		else
-			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/birds.jpg')"
+			$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/flower.jpg')"
 
 		if isNeedToLocal
 			if Meteor.loggingIn()

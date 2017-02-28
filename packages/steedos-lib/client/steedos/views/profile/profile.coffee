@@ -41,11 +41,14 @@ Template.profile.helpers
 		return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
 
 	bgBodys: [{
+		name: "flower",
+		url: "/packages/steedos_theme/client/background/flower.jpg"
+	}, {
+		name: "beach",
+		url: "/packages/steedos_theme/client/background/beach.jpg"
+	}, {
 		name: "birds",
 		url: "/packages/steedos_theme/client/background/birds.jpg"
-	}, {
-		name: "fish",
-		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}, {
 		name: "books",
 		url: "/packages/steedos_theme/client/background/books.jpg"
@@ -56,11 +59,8 @@ Template.profile.helpers
 		name: "sea",
 		url: "/packages/steedos_theme/client/background/sea.jpg"
 	}, {
-		name: "flower",
-		url: "/packages/steedos_theme/client/background/flower.jpg"
-	}, {
-		name: "beach",
-		url: "/packages/steedos_theme/client/background/beach.jpg"
+		name: "fish",
+		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}]
 
 	isCurrentSkinNameActive: (name)->
