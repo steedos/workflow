@@ -41,11 +41,14 @@ Template.profile.helpers
 		return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
 
 	bgBodys: [{
+		name: "flower",
+		url: "/packages/steedos_theme/client/background/flower.jpg"
+	}, {
+		name: "beach",
+		url: "/packages/steedos_theme/client/background/beach.jpg"
+	}, {
 		name: "birds",
 		url: "/packages/steedos_theme/client/background/birds.jpg"
-	}, {
-		name: "fish",
-		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}, {
 		name: "books",
 		url: "/packages/steedos_theme/client/background/books.jpg"
@@ -56,11 +59,8 @@ Template.profile.helpers
 		name: "sea",
 		url: "/packages/steedos_theme/client/background/sea.jpg"
 	}, {
-		name: "flower",
-		url: "/packages/steedos_theme/client/background/flower.jpg"
-	}, {
-		name: "beach",
-		url: "/packages/steedos_theme/client/background/beach.jpg"
+		name: "fish",
+		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}]
 
 	isCurrentSkinNameActive: (name)->
@@ -150,8 +150,8 @@ Template.profile.events
 				toastr.error t(error.reason)
 				$(document.body).removeClass('loading')
 			else
-# Inserted new doc with ID fileDoc._id, and kicked off the data upload using HTTP
-# 理论上这里不需要加setTimeout，但是当上传图片很快成功的话，定阅到Avatar变化时可能请求不到上传成功的图片
+				# Inserted new doc with ID fileDoc._id, and kicked off the data upload using HTTP
+				# 理论上这里不需要加setTimeout，但是当上传图片很快成功的话，定阅到Avatar变化时可能请求不到上传成功的图片
 				setTimeout(()->
 					Meteor.call "updateUserAvatar", fileDoc._id, (error, result)->
 						if result?.error
@@ -220,7 +220,7 @@ Template.profile.events
 		accountBgBodyValue = Steedos.getAccountBgBodyValue()
 		btn_save = $("#personalization button.btn-save-bg")[0]
 		btn_save.dataset.url = url
-		btn_save.dataset.avatar = accountBgBodyValue.avatar
+		btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 		Steedos.applyAccountBgBodyValue(btn_save.dataset)
 		Session.set("waiting_save_profile_bg", url)
 
@@ -255,6 +255,11 @@ Template.profile.events
 				if is_suc
 					Session.set("waiting_save_profile_bg", "")
 					toastr.success t('profile_save_bg_suc')
+					
+					accountBgBodyValue = Steedos.getAccountBgBodyValue()
+					btn_save = $("#personalization button.btn-save-bg")[0]
+					btn_save.dataset.url = url
+					btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 				else
 					console.error error
 					toastr.error(error)
@@ -331,4 +336,4 @@ Meteor.startup ->
 					toastr.error error.reason
 				else
 					toastr.error error
-      
+	  

@@ -1,4 +1,16 @@
 <template name="instance_button">
+	<div class="pull-left instance-left-buttons">
+		{{#if enabled_print}}
+			<button type="button" class="btn btn-default btn-instance-to-print" data-toggle="tooltip" data-placement="bottom" title="{{_ 'instance_print'}}">
+				<i class="ion ion-printer"></i>
+			</button>
+		{{/if}}
+		{{#if enabled_forward}}
+			<button type="button" class="btn btn-default btn-instance-forward" data-toggle="tooltip" data-placement="bottom" title="{{_ 'instance_forward_title'}}">
+				<i class="fa fa-clone"></i>
+			</button>
+		{{/if}}
+	</div>
 	<div class="pull-right">
 		<div class="btn-group">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -7,31 +19,31 @@
 			</button>
 			<ul class="dropdown-menu" role="menu">
 				{{#if enabled_save}}
-					<li><a id="instance_update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
+					<li><a class="btn-instance-update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
 				{{/if}}
 				{{#if enabled_delete}}
-					<li><a id="instance_remove"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
+					<li><a class="btn-instance-remove"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
 				{{/if}}
 				{{#if enabled_print}}
-					<li><a id="instance_to_print"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
+					<li><a class="btn-instance-to-print"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
 				{{/if}}
 				{{#if enabled_cc}}
-					<li><a id="instance_cc"><i class=" fa fa-user-plus" aria-hidden="true"></i>{{_ 'instance_cc_title'}}</a></li>
+					<li><a class="btn-instance-cc"><i class=" fa fa-user-plus" aria-hidden="true"></i>{{_ 'instance_cc_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_forward}}
-					<li><a id="instance_forward"><i class="fa fa-clone" aria-hidden="true"></i>{{_ 'instance_forward_title'}}</a></li>
+					<li><a class="btn-instance-forward"><i class="fa fa-clone" aria-hidden="true"></i>{{_ 'instance_forward_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_terminate}}
-					<li><a id="instance_force_end"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
+					<li><a class="btn-instance-force-end"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
 				{{/if}}
 				{{#if enabled_reassign}}
-					<li><a id="instance_reassign"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
+					<li><a class="btn-instance-reassign"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
 				{{/if}}
 				{{#if enabled_relocate}}
-					<li><a id="instance_relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
+					<li><a class="btn-instance-relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
 				{{/if}}
 				{{#if enabled_retrieve}}
-					<li><a id="instance_retrieve"><i class="fa fa-undo"></i>{{_ 'instance_retrieve'}}</a></li>
+					<li><a class="btn-instance-retrieve"><i class="fa fa-undo"></i>{{_ 'instance_retrieve'}}</a></li>
 				{{/if}}
 				{{#if enabled_traces}}
 					<li><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_ 'instance_approval_history'}}</a></li>
