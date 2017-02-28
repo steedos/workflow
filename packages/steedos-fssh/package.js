@@ -22,6 +22,7 @@ Package.onUse(function(api) {
 	// api.use('underscore');
 	api.use('tracker');
 	api.use('session');
+	api.use('useraccounts:bootstrap');
 	api.use('blaze');
 	api.use('templating');
 	// api.use('webapp', 'server');
