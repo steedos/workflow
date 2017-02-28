@@ -142,18 +142,18 @@ Template.instance_button.helpers
 
 Template.instance_button.events
 
-	'click #instance_to_print': (event)->
+	'click .btn-instance-to-print': (event)->
 		uobj = {}
 		uobj["box"] = Session.get("box")
 		uobj["X-User-Id"] = Meteor.userId()
 		uobj["X-Auth-Token"] = Accounts._storedLoginToken()
 		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
 
-	'click #instance_update': (event)->
+	'click .btn-instance-update': (event)->
 		InstanceManager.saveIns();
 		Session.set("instance_change", false);
 
-	'click #instance_remove': (event)->
+	'click .btn-instance-remove': (event)->
 		swal {
 			title: t("Are you sure?"),
 			type: "warning",
@@ -166,22 +166,7 @@ Template.instance_button.events
 			Session.set("instance_change", false);
 			InstanceManager.deleteIns()
 
-# <<<<<<< HEAD
-# =======
-# 	'click #instance_submit': (event)->
-# 		if WorkflowManager.isArrearageSpace()
-# 			ins = WorkflowManager.getInstance();
-# 			if ins.state == "draft"
-# 				toastr.error(t("spaces_isarrearageSpace"));
-# 				return
-# 		if !ApproveManager.isReadOnly()
-# 			InstanceManager.checkFormValue();
-# 		if($(".has-error").length == 0)
-# 			Session.set("instance_change", false);
-# 			InstanceManager.submitIns();
-
-# >>>>>>> refs/remotes/origin/master
-	'click #instance_force_end': (event)->
+	'click .btn-instance-force-end': (event)->
 		swal {
 			title: t("instance_cancel_title"),
 			text: t("instance_cancel_reason"),
@@ -202,17 +187,17 @@ Template.instance_button.events
 			InstanceManager.terminateIns(reason);
 			sweetAlert.close();
 
-	'click #instance_reassign': (event, template) ->
+	'click .btn-instance-reassign': (event, template) ->
 		Modal.show('reassign_modal')
 
-	'click #instance_relocate': (event, template) ->
+	'click .btn-instance-relocate': (event, template) ->
 		Modal.show('relocate_modal')
 
 
-	'click #instance_cc': (event, template) ->
+	'click .btn-instance-cc': (event, template) ->
 		Modal.show('instance_cc_modal');
 
-	'click #instance_forward': (event, template) ->
+	'click .btn-instance-forward': (event, template) ->
 		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
@@ -220,7 +205,7 @@ Template.instance_button.events
 
 		Modal.show("forward_select_flow_modal")
 
-	'click #instance_retrieve': (event, template) ->
+	'click .btn-instance-retrieve': (event, template) ->
 		swal {
 			title: t("instance_retrieve"),
 			text: t("instance_retrieve_reason"),
