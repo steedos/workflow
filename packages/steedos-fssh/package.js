@@ -60,7 +60,6 @@ Package.onUse(function(api) {
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	api.addFiles('lib/core.coffee');
-	api.addFiles('lib/admin.coffee');
 
 	api.addFiles('server/methods/mail_account_save.coffee', 'server');
 	api.addFiles('server/methods/auth_user_save.coffee', 'server');
@@ -70,7 +69,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/accounts_guide_modal.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.less', 'client');
 
-	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
 	// EXPORT
