@@ -178,7 +178,6 @@
 	"workflow_form_edit": "表单样式",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
-	"flows_instance_style": "表单样式",
 	"flows_print_template": "打印模板",
 	"flows_instance_template": "表单模板",
 
@@ -401,6 +400,6 @@
 	"instance_opinion_edit_success": "修改成功",
 	"instance_opinion_field": "签批字段",
 	"instance_cc_error_opinion_field_required": "请选择签批字段",
-	
+
 	"instance_suggestion_toggle": "签批"
 }

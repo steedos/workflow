@@ -277,6 +277,7 @@ instance_box_style: ->
 
 TemplateManager.getTemplate = (instance, templateName) ->
 	flow = db.flows.findOne(instance.flow);
+	form = WorkflowManager.getForm(instance.form);
 
 	if templateName
 		if templateName == 'table'
@@ -298,10 +299,10 @@ TemplateManager.getTemplate = (instance, templateName) ->
 		if flow?.instance_template
 			return "<div class='instance-template'>" + flow.instance_template + "</div>"
 
-		if flow?.instance_style
-			if flow.instance_style == 'table'
+		if form?.instance_style
+			if form.instance_style == 'table'
 				return TemplateManager._template.table(instance)
-			return TemplateManager._template[flow.instance_style]
+			return TemplateManager._template[form.instance_style]
 		else
 			return TemplateManager._template.default
 

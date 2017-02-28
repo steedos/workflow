@@ -351,8 +351,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance)
 
 	if !Steedos.isMobile()
-		flow = db.flows.findOne({_id: instance.flow});
-		if flow?.instance_style == 'table'
+		form = WorkflowManager.getForm(instance.form);
+		if form?.instance_style == 'table'
 			instance_style = "instance-table"
 
 	if options?.templateName == 'table'
