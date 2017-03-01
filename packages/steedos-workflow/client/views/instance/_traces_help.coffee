@@ -126,3 +126,8 @@ TracesTemplate.events =
 					toastr.success(TAPi18n.__("remove_cc_approve"));
 				return
 			return
+
+	'click .approve-item': (event, template) ->
+		debugger;
+		Modal.show("instance_trace_detail_modal", this)
+		
