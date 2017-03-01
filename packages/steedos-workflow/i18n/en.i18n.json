@@ -173,7 +173,7 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Form Style",
+	"workflow_form_edit": "Flow Script",
 	"flows_template": "Instance Template",
 	"flows_name": "Flow Name",
 	"flows_print_template": "Print Template",
