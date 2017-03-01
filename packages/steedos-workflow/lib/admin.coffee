@@ -3,7 +3,6 @@ db.flows.adminConfig =
 	color: "blue"
 	tableColumns: [
 		{name: "name"},
-		{name: "instance_style"},
 	]
 	selector: Admin.selectorCheckSpaceAdmin
 	showDelColumn: false

@@ -7,7 +7,7 @@ Meteor.publish 'forms', (spaceId)->
 
 	# console.log '[publish] forms for space ' + spaceId
 
-	return db.forms.find({space: spaceId}, {fields: {name: 1, category: 1, state: 1, description: 1}})
+	return db.forms.find({space: spaceId}, {fields: {name: 1, category: 1, state: 1, description: 1, instance_style: 1}})
 
 
 Meteor.publish 'form_version', (spaceId, formId, versionId) ->
