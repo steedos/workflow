@@ -17,7 +17,6 @@ Meteor.publish 'flows', (spaceId)->
 			form: 1,
 			state: 1,
 			perms: 1,
-			instance_style: 1,
 			print_template: 1,
 			instance_template: 1,
 			events: 1
