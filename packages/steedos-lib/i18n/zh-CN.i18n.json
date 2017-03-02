@@ -378,7 +378,6 @@
 	"billings_credits": "存入",
 	"billings_balance": "余额",
 	"billings": "账务",
-	"billings_billing_date_i18n()": "日期",
 	"billings_transaction_i18n()": "交易说明",
 	"billing_tranDetail": {
 		"starting": "初始化账户",
