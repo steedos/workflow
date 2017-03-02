@@ -5,85 +5,87 @@
 				<div class="modal-header">
 					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{traceDetailModalTitle}}</h4>
 				</div>
-				<div class="modal-body modal-zoom">
-					<div class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">处理人</label>
-							<div class="col-sm-10">
-								<p class="form-control-static">
-									{{this.handler_name}}
-								</p>
+				<div class="modal-body modal-zoom weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_hd">
+							<span class="weui_label">处理人</span>
+						</div>
+						<div class="weui_cell_bd weui_cell_primary text-muted">
+							<span class="weui_input">{{this.handler_name}}</span>
+						</div>
+					</div>
+					{{#if this.from_user_name}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">传阅自</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">{{this.from_user_name}}</span>
 							</div>
 						</div>
-						{{#if this.from_user_name}}
-							<div class="form-group">
-								<label class="col-sm-2 control-label">传阅自</label>
-								<div class="col-sm-10">
-									<p class="form-control-static">
-										{{this.from_user_name}}
-									</p>
+					{{/if}}
+					{{#if unempty this.finish_date}}
+						{{#if getApproveStatusText this.judge}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">操作</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input status {{this.judge}}">
+										<span class='{{getApproveStatusIcon this.judge}}'></span>
+										<span>{{getApproveStatusText this.judge}}</span>
+									</span>
 								</div>
 							</div>
 						{{/if}}
-						{{#if unempty this.finish_date}}
-							{{#if getApproveStatusText this.judge}}
-								<div class="form-group">
-									<label class="col-sm-2 control-label">操作</label>
-									<div class="col-sm-10">
-										<p class="form-control-static status {{this.judge}}">
-											<span class='{{getApproveStatusIcon this.judge}}'></span>
-											<span>{{getApproveStatusText this.judge}}</span>
-										</p>
-									</div>
+					{{else}}
+						{{#unless isCC this}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">操作</span>
 								</div>
-							{{/if}}
-						{{else}}
-							{{#unless isCC this}}
-								<div class="form-group">
-									<label class="col-sm-2 control-label">操作</label>
-									<div class="col-sm-10">
-										<p class="form-control-static status pending">
-											<span class='ion ion-ios-loop'></span>
-											<span>{{_t "instance_in_progress"}}</span>
-										</p>
-									</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input status pending">
+										<span class='ion ion-ios-loop'></span>
+										<span>{{_t "instance_in_progress"}}</span>
+									</span>
 								</div>
-							{{/unless}}
-						{{/if}}
-						{{#if this.is_finished}}
-							{{#if unempty this.description}}
-								<div class="form-group">
-									<label class="col-sm-2 control-label">处理意见</label>
-									<div class="col-sm-10">
-										<p class="form-control-static">
-											{{this.description}}
-										</p>
-									</div>
+							</div>
+						{{/unless}}
+					{{/if}}
+					{{#if this.is_finished}}
+						{{#if unempty this.description}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">处理意见</span>
 								</div>
-							{{/if}}
-						{{else}}
-							{{#if (unempty (myApproveDescription this._id))}}
-								<div class="form-group">
-									<label class="col-sm-2 control-label">处理意见</label>
-									<div class="col-sm-10">
-										<p class="form-control-static">
-											{{myApproveDescription this._id}}
-										</p>
-									</div>
-								</div>
-							{{/if}}
-						{{/if}}
-						{{#if unempty this.finish_date}}
-							<div class="form-group">
-								<label class="col-sm-2 control-label">处理时间</label>
-								<div class="col-sm-10">
-									<p class="form-control-static">
-										{{dateFormat this.finish_date}}
-									</p>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input">{{this.description}}</span>
 								</div>
 							</div>
 						{{/if}}
-					</div>
+					{{else}}
+						{{#if (unempty (myApproveDescription this._id))}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">处理意见</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input">{{myApproveDescription this._id}}</span>
+								</div>
+							</div>
+						{{/if}}
+					{{/if}}
+					{{#if unempty this.finish_date}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">处理时间</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">{{dateFormat this.finish_date}}</span>
+							</div>
+						</div>
+					{{/if}}
 				</div>
 				<div class="modal-footer">
 					{{#if showDeleteButton this}}
