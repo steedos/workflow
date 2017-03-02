@@ -369,5 +369,22 @@
 	"profile_save_zoom_setting": "保存字体",
 	"profile_save_zoom_suc": "字体保存成功",
 	"space_balance_insufficient": "工作区余额不足",
-    "close": "关闭"
+	"close": "关闭",
+
+	"billings_billing_date": "日期",
+	"billings_transaction": "交易说明",
+	"billings_user_count": "人数",
+	"billings_debits": "支出",
+	"billings_credits": "存入",
+	"billings_balance": "余额",
+	"billings": "账务",
+	"billings_transaction_i18n()": "交易说明",
+	"billing_tranDetail": {
+		"starting": "初始化账户",
+		"payment": "付款",
+		"workflow": "审批王专业版",
+		"chat": "享聊专业版",
+		"adjustment": "账单调整"
+	}
+
 }

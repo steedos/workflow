@@ -355,5 +355,21 @@
 	"profile_save_zoom_setting": "Save Font Zoom",
 	"profile_save_zoom_suc": "Font Zoom Saved Successful",
 	"space_balance_insufficient": "The space balance insufficient",
-    "close": "Close"
+	"close": "Close",
+
+	"billings_billing_date": "Date",
+	"billings_transaction": "Transaction Details",
+	"billings_user_count": "User Count",
+	"billings_debits": "Debits",
+	"billings_credits": "Credits",
+	"billings_balance": "Balance",
+	"billings": "Billing",
+	"billings_transaction_i18n()": "Transaction Details",
+	"billing_tranDetail": {
+		"starting": "Starting balance",
+		"payment": "Payment",
+		"workflow": "Workflow Professional",
+		"chat": "Chat Professional",
+		"adjustment": "Service adjustment"
+	}
 }
