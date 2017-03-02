@@ -135,8 +135,22 @@ TracesTemplate.events =
 				return
 			return
 
+	'click .instance-trace-detail-modal .btn-cc-approve-remove': (event, template) ->
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		# CALL 删除approve函数。
+		$("body").addClass("loading")
+		Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
+			$("body").removeClass("loading")
+			if err
+				toastr.error err
+			if result == true
+				toastr.success(TAPi18n.__("remove_cc_approve"));
+				Modal.hide "instance_trace_detail_modal"
+			return
+		return
+
 	'click .approve-item': (event, template) ->
-		debugger;
 		Session.set "instance_trace_detail_modal_title", $(event.currentTarget).prevAll(".trace-item").first().find(".trace-step-name").text()
 		Modal.show "instance_trace_detail_modal", this
 
