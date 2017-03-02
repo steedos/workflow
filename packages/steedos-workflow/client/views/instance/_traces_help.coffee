@@ -96,6 +96,9 @@ TracesTemplate.helpers =
 				if myApprove && myApprove.id == approveId
 					return Session.get("instance_my_approve_description")
 
+	traceDetailModalTitle: ->
+		return Session.get("instance_trace_detail_modal_title")
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
@@ -133,6 +136,8 @@ TracesTemplate.events =
 			return
 
 	'click .approve-item': (event, template) ->
+		debugger;
+		Session.set "instance_trace_detail_modal_title", $(event.currentTarget).prevAll(".trace-item").first().find(".trace-step-name").text()
 		Modal.show "instance_trace_detail_modal", this
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
