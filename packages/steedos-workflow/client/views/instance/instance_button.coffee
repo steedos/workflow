@@ -102,16 +102,12 @@ Template.instance_button.helpers
 			return false
 
 	enabled_forward: ->
-		is_paid = WorkflowManager.isPaidSpace(Session.get('spaceId'));
-		if is_paid
-			ins = WorkflowManager.getInstance()
-			if !ins
-				return false
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return false
 
-			if ins.state != "draft"
-				return true
-			else
-				return false
+		if ins.state != "draft"
+			return true
 		else
 			return false
 
