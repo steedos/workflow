@@ -2,8 +2,6 @@ db.billings = new Meteor.Collection('billings')
 
 
 db.billings.helpers
-	billing_date_i18n: ()->
-		return moment(this.billing_date).format('ll');
 	transaction_i18n: ()->
 		t = this.transaction
 		d = ""

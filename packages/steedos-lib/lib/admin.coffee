@@ -28,7 +28,7 @@ db.billings.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
-		{name: "billing_date_i18n()"},
+		{name: "billing_date"},
 		{name: "transaction_i18n()"},
 		{name: "user_count"},
 		{name: "debits"},
@@ -42,6 +42,7 @@ db.billings.adminConfig =
 	showDelColumn: false
 	disableAdd: true
 	pageLength: 100
+	order: [[0, "desc"]]
 
 Meteor.startup ->
 	@space_user_signs = db.space_user_signs

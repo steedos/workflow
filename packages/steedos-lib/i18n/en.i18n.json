@@ -364,7 +364,6 @@
 	"billings_credits": "Credits",
 	"billings_balance": "Balance",
 	"billings": "Billing",
-	"billings_billing_date_i18n()": "Date",
 	"billings_transaction_i18n()": "Transaction Details",
 	"billing_tranDetail": {
 		"starting": "Starting balance",
