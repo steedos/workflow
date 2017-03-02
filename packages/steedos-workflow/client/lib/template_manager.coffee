@@ -32,9 +32,9 @@ TemplateManager.handleTableTemplate = (instance) ->
 				</td>
 			</tr>
 
-        </table>
+		</table>
 		<table class="table-page-body form-table">
-			    <tr style="height:0px">
+				<tr style="height:0px">
 					<th style='width: 16%'></th>
 					<th></th>
 					<th style='width: 16%'></th>
@@ -121,14 +121,14 @@ TemplateManager._template =
 		<div class="box-header  with-border">
 			<div class="instance-name">
 				<h3 class="box-title">{{instance.name}}</h3>
-            	<span class="help-block"></span>
+				<span class="help-block"></span>
 			</div>
-            <div class="applicant-wrapper">
-                <label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
-                {{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-            </div>
-            <span class="help-block"></span>
-        </div>
+			<div class="applicant-wrapper">
+				<label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
+				{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+			</div>
+			<span class="help-block"></span>
+		</div>
 		{{#each steedos_form.fields}}
 			{{#if isOpinionField this}}
 				<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
@@ -148,7 +148,7 @@ TemplateManager._template =
 					{{> afFormGroup name=this.code}}
 					</div>
 				{{/if}}
-		    {{/if}}
+			{{/if}}
 		{{/each}}
 	'''
 	table: (instance)->
