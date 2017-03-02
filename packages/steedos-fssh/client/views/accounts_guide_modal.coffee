@@ -70,7 +70,29 @@ Template.accounts_guide_modal.events
 		currentUserId = Meteor.userId()
 		mail_account = db.mail_accounts.findOne({owner:currentUserId})
 		if mail_account
-			Modal.hide "accounts_guide_modal"
+			spaceId = Session.get "spaceId"
+			auth_users = []
+			auth_name = "ptr"
+			login_name = $("#accounts-guide-ptr-name").val()
+			login_password = $("#accounts-guide-ptr-password").val()
+			if login_name and login_password
+				auth_users.push { spaceId, auth_name, login_name, login_password }
+			auth_name = "cnpc"
+			login_name = $("#accounts-guide-cnpc-name").val()
+			login_password = $("#accounts-guide-cnpc-password").val()
+			if login_name and login_password
+				auth_users.push { spaceId, auth_name, login_name, login_password }
+			if auth_users.length
+				Meteor.call 'saveAuthUsers', auth_users, (error, is_suc) ->
+					$(document.body).removeClass('loading')
+					if is_suc
+						Modal.hide "accounts_guide_modal"
+						toastr.success "保存成功！"
+					else
+						console.error error
+						toastr.error(error.reason)
+			else
+				Modal.hide "accounts_guide_modal"
 		else
 			toastr.error("您的账户没有通过验证！")
 
