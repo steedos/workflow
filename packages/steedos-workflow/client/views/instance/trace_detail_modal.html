@@ -76,16 +76,40 @@
 							</div>
 						{{/if}}
 					{{/if}}
+					<div class="weui_cell">
+						<div class="weui_cell_hd">
+							<span class="weui_label">开始时间</span>
+						</div>
+						<div class="weui_cell_bd weui_cell_primary text-muted">
+							<span class="weui_input">{{dateFormat this.start_date}}</span>
+						</div>
+					</div>
 					{{#if unempty this.finish_date}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
-								<span class="weui_label">处理时间</span>
+								<span class="weui_label">结束时间</span>
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">{{dateFormat this.finish_date}}</span>
 							</div>
 						</div>
 					{{/if}}
+					{{#unless this.is_finished}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">已读</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">
+									{{#if this.is_read}}
+										是
+									{{else}}
+										否
+									{{/if}}
+								</span>
+							</div>
+						</div>
+					{{/unless}}
 				</div>
 				<div class="modal-footer">
 					{{#if showDeleteButton this}}
