@@ -410,5 +410,6 @@
 	"instance_approve_read_yes": "yes",
 	"instance_approve_read_no": "no",
 	"instance_approve_cc_remove": "cancel cc",
-	"instance_approve_close_modal": "close"
+	"instance_approve_close_modal": "close",
+	"instance_approve_title_label": "Handler:"
 }
