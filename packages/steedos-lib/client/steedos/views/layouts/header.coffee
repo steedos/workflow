@@ -16,6 +16,9 @@ Template.masterHeader.helpers
 	spaceId: ->
 		return Steedos.getSpaceId()
 
+	workflowApp: ->
+		return db.apps.findOne({_id:"workflow"})
+
 
 
 Template.masterHeader.events
