@@ -22,6 +22,18 @@ Template.masterHeader.helpers
 	cmsApp: ->
 		return db.apps.findOne({_id:"cms"})
 
+	getBadgeForWorkflowApp: ->
+		workflowApp = db.apps.findOne({_id:"workflow"})
+		unless workflowApp
+			return 0
+		return Steedos.getBadge(workflowApp._id,null)
+
+	getBadgeForCmsApp: ->
+		cmsApp = db.apps.findOne({_id:"cms"})
+		unless cmsApp
+			return 0
+		return Steedos.getBadge(cmsApp._id,null)
+
 
 
 Template.masterHeader.events
