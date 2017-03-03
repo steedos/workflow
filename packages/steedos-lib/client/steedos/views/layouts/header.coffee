@@ -19,6 +19,9 @@ Template.masterHeader.helpers
 	workflowApp: ->
 		return db.apps.findOne({_id:"workflow"})
 
+	cmsApp: ->
+		return db.apps.findOne({_id:"cms"})
+
 
 
 Template.masterHeader.events
