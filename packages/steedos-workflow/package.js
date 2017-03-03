@@ -176,6 +176,9 @@ Package.onUse(function(api) {
 
 	api.addAssets('client/views/instance/traces.html', 'server');
 	api.addAssets('client/views/instance/traces_table.html', 'server');
+	
+	api.addFiles('client/views/instance/trace_detail_modal.html', 'client');
+	api.addFiles('client/views/instance/trace_detail_modal.js', 'client');
 
 	api.addFiles('client/views/instance/cc_modal.html', 'client');
 	api.addFiles('client/views/instance/cc_modal.js', 'client');

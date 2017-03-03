@@ -70,6 +70,7 @@
 .approve-item{
     height: 30px;
     font-size: 13px;
+    cursor:pointer;
     &.approve-description{
       height:auto;
       .description{
@@ -82,27 +83,27 @@
     font-weight: bold;
 }
 
-.approve-item > .approved{
+.approve-item > .approved, .instance-trace-detail-modal .approved{
     color: green;
 }
 
-.approve-item > .rejected{
+.approve-item > .rejected, .instance-trace-detail-modal .rejected{
     color: red;
 }
 
-.approve-item > .terminated{
+.approve-item > .terminated, .instance-trace-detail-modal .terminated{
     color: black;
 }
 
-.approve-item > .reassigned{
+.approve-item > .reassigned, .instance-trace-detail-modal .reassigned{
     color: black;
 }
 
-.approve-item > .retrieved{
+.approve-item > .retrieved, .instance-trace-detail-modal .retrieved{
   color: black;
 }
 
-.approve-item > .pending{
+.approve-item > .pending, .instance-trace-detail-modal .pending{
   color: #777;
 }
 
@@ -709,37 +710,6 @@ textarea {
   padding-left: 0px;
 }
 
-.cc-label{
-  color: #999;
-  font-weight: 400;
-  display: initial;
-  border-radius: 12px;
-  margin-left: 4px;
-  .cc-approve-remove{
-    margin-left:4px;
-  }
-}
-
-.selected .cc-label{
-  color: #FFFFFF;
-  font-weight: 400;
-  padding-left: 5px;
-  display: initial;
-}
-
-.cc-approve-remove{
-  padding: 0px;
-  color: #97a0b3 !important;
-  cursor: pointer;
-  .ion{
-    font-size: 90%;
-  }
-}
-
-.cc-approve-remove:hover{
-  color: #606c84 !important;
-}
-
 .instance-form{
   margin-bottom: 0px;
   border-radius: 0px;
@@ -754,6 +724,37 @@ textarea {
       td{
       }
     }
+  }
+  
+  .cc-label{
+    color: #999;
+    font-weight: 400;
+    display: initial;
+    border-radius: 12px;
+    margin-left: 4px;
+    .cc-approve-remove{
+      margin-left:4px;
+    }
+  }
+
+  .selected .cc-label{
+    color: #FFFFFF;
+    font-weight: 400;
+    padding-left: 5px;
+    display: initial;
+  }
+
+  .cc-approve-remove{
+    padding: 0px;
+    color: #97a0b3 !important;
+    cursor: pointer;
+    .ion{
+      font-size: 90%;
+    }
+  }
+
+  .cc-approve-remove:hover{
+    color: #606c84 !important;
   }
 }
 

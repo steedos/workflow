@@ -1,0 +1,115 @@
+<template name="instance_trace_detail_modal" >
+	<div class="modal fade instance-trace-detail-modal" id="instance_trace_detail_modal" role="dialog" aria-labelledby="instance_trace_detail_modal_label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{this.handler_name}}</h4>
+				</div>
+				<div class="modal-body modal-zoom weui_cells weui_cells_form">
+					{{#if this.from_user_name}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">传阅自</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">{{this.from_user_name}}</span>
+							</div>
+						</div>
+					{{/if}}
+					{{#if unempty this.finish_date}}
+						{{#if getApproveStatusText this.judge}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">操作</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input status {{this.judge}}">
+										<span class='{{getApproveStatusIcon this.judge}}'></span>
+										<span>{{getApproveStatusText this.judge}}</span>
+									</span>
+								</div>
+							</div>
+						{{/if}}
+					{{else}}
+						{{#unless isCC this}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">操作</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input status pending">
+										<span class='ion ion-ios-loop'></span>
+										<span>{{_t "instance_in_progress"}}</span>
+									</span>
+								</div>
+							</div>
+						{{/unless}}
+					{{/if}}
+					{{#if this.is_finished}}
+						{{#if unempty this.description}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">处理意见</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input">{{this.description}}</span>
+								</div>
+							</div>
+						{{/if}}
+					{{else}}
+						{{#if (unempty (myApproveDescription this._id))}}
+							<div class="weui_cell">
+								<div class="weui_cell_hd">
+									<span class="weui_label">处理意见</span>
+								</div>
+								<div class="weui_cell_bd weui_cell_primary text-muted">
+									<span class="weui_input">{{myApproveDescription this._id}}</span>
+								</div>
+							</div>
+						{{/if}}
+					{{/if}}
+					<div class="weui_cell">
+						<div class="weui_cell_hd">
+							<span class="weui_label">开始时间</span>
+						</div>
+						<div class="weui_cell_bd weui_cell_primary text-muted">
+							<span class="weui_input">{{dateFormat this.start_date}}</span>
+						</div>
+					</div>
+					{{#if unempty this.finish_date}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">结束时间</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">{{dateFormat this.finish_date}}</span>
+							</div>
+						</div>
+					{{/if}}
+					{{#unless this.is_finished}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label">已读</span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">
+									{{#if this.is_read}}
+										是
+									{{else}}
+										否
+									{{/if}}
+								</span>
+							</div>
+						</div>
+					{{/unless}}
+				</div>
+				<div class="modal-footer">
+					{{#if showDeleteButton this}}
+						<button type="button" class="btn btn-default btn-cc-approve-remove pull-left" data-approve="{{_id}}">取消传阅</button>
+					{{/if}}
+					<button type="button" class="btn btn-primary btn-close">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

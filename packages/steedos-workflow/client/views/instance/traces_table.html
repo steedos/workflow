@@ -39,9 +39,6 @@
                                             {{#if isCC this}}
                                                 <label class='cc-label'>
                                                     <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
-                                                    {{#if showDeleteButton this}}
-                                                        <span class="btn-box-tool cc-approve-remove hidden-xs" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
-                                                    {{/if}}
                                                 </label>
                                             {{/if}}
                                         </td>
@@ -49,7 +46,11 @@
                                             <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                             <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
                                         {{else}}
-                                            <td class="finish-date"></td>
+                                            <td class="finish-date">
+                                                {{#if this.is_read}}
+                                                    已读
+                                                {{/if}}
+                                            </td>
                                             <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
                                         {{/if}}
                                     </tr>
