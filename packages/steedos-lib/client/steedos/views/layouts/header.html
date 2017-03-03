@@ -24,7 +24,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           {{#if getBadgeForWorkflowApp}}
-            <li class="notifications-menu">
+            <li class="notifications-menu" data-toggle="tooltip" data-placement="bottom" title="{{_ workflowApp.name}}">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
                 <i class="ion ion-ios-list-outline"></i>
                 <span class="label label-danger">{{getBadgeForWorkflowApp}}</span>
@@ -32,7 +32,7 @@
             </li>
           {{/if}}
           {{#if getBadgeForCmsApp}}
-            <li class="notifications-menu">
+            <li class="notifications-menu" data-toggle="tooltip" data-placement="bottom" title="{{_ cmsApp.name}}">
               <a href="{{urlPrefix}}/cms/">
                 <i class="ion ion-ios-book-outline"></i>
                 <span class="label label-warning">{{getBadgeForCmsApp}}</span>

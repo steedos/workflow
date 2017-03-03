@@ -35,6 +35,9 @@ Template.masterHeader.helpers
 		return Steedos.getBadge(cmsApp._id,null)
 
 
+Template.masterHeader.onRendered ->
+	$('[data-toggle="tooltip"]').tooltip()
+
 
 Template.masterHeader.events
 
