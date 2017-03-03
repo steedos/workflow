@@ -9,7 +9,7 @@
 					{{#if this.from_user_name}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
-								<span class="weui_label">传阅自</span>
+								<span class="weui_label">{{_t "instance_approve_from_user_name_label"}}</span>
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">{{this.from_user_name}}</span>
@@ -20,7 +20,7 @@
 						{{#if getApproveStatusText this.judge}}
 							<div class="weui_cell">
 								<div class="weui_cell_hd">
-									<span class="weui_label">操作</span>
+									<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
 									<span class="weui_input status {{this.judge}}">
@@ -34,7 +34,7 @@
 						{{#unless isCC this}}
 							<div class="weui_cell">
 								<div class="weui_cell_hd">
-									<span class="weui_label">操作</span>
+									<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
 									<span class="weui_input status pending">
@@ -49,7 +49,7 @@
 						{{#if unempty this.description}}
 							<div class="weui_cell">
 								<div class="weui_cell_hd">
-									<span class="weui_label">处理意见</span>
+									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
 									<span class="weui_input">{{this.description}}</span>
@@ -60,7 +60,7 @@
 						{{#if (unempty (myApproveDescription this._id))}}
 							<div class="weui_cell">
 								<div class="weui_cell_hd">
-									<span class="weui_label">处理意见</span>
+									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
 									<span class="weui_input">{{myApproveDescription this._id}}</span>
@@ -70,7 +70,7 @@
 					{{/if}}
 					<div class="weui_cell">
 						<div class="weui_cell_hd">
-							<span class="weui_label">开始时间</span>
+							<span class="weui_label">{{_t "instance_approve_start_date_label"}}</span>
 						</div>
 						<div class="weui_cell_bd weui_cell_primary text-muted">
 							<span class="weui_input">{{dateFormat this.start_date}}</span>
@@ -79,7 +79,7 @@
 					{{#if unempty this.finish_date}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
-								<span class="weui_label">结束时间</span>
+								<span class="weui_label">{{_t "instance_approve_finish_date_label"}}</span>
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">{{dateFormat this.finish_date}}</span>
@@ -89,14 +89,14 @@
 					{{#unless this.is_finished}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
-								<span class="weui_label">已读</span>
+								<span class="weui_label">{{_t "instance_approve_read"}}</span>
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">
 									{{#if this.is_read}}
-										是
+										{{_t "instance_approve_read_yes"}}
 									{{else}}
-										否
+										{{_t "instance_approve_read_no"}}
 									{{/if}}
 								</span>
 							</div>
@@ -105,9 +105,9 @@
 				</div>
 				<div class="modal-footer">
 					{{#if showDeleteButton this}}
-						<button type="button" class="btn btn-default btn-cc-approve-remove pull-left" data-approve="{{_id}}">取消传阅</button>
+						<button type="button" class="btn btn-default btn-cc-approve-remove pull-left" data-approve="{{_id}}">{{_t "instance_approve_cc_remove"}}</button>
 					{{/if}}
-					<button type="button" class="btn btn-primary btn-close">关闭</button>
+					<button type="button" class="btn btn-primary btn-close">{{_t "instance_approve_close_modal"}}</button>
 				</div>
 			</div>
 		</div>

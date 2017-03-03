@@ -399,5 +399,16 @@
 	"instance_opinion_field": "Sign field",
 	"instance_cc_error_opinion_field_required": "Please select the sign field",
 
-	"instance_suggestion_toggle": "Sign"
+	"instance_suggestion_toggle": "Sign",
+
+	"instance_approve_read": "Read",
+	"instance_approve_from_user_name_label": "cc from",
+	"instance_approve_status_text_label": "status",
+	"instance_approve_description_label": "suggestion",
+	"instance_approve_start_date_label": "start date",
+	"instance_approve_finish_date_label": "finish date",
+	"instance_approve_read_yes": "yes",
+	"instance_approve_read_no": "no",
+	"instance_approve_cc_remove": "cancel cc",
+	"instance_approve_close_modal": "close"
 }

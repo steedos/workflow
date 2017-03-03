@@ -401,5 +401,16 @@
 	"instance_opinion_field": "签批字段",
 	"instance_cc_error_opinion_field_required": "请选择签批字段",
 
-	"instance_suggestion_toggle": "签批"
+	"instance_suggestion_toggle": "签批",
+
+	"instance_approve_read": "已读",
+	"instance_approve_from_user_name_label": "传阅自",
+	"instance_approve_status_text_label": "操作",
+	"instance_approve_description_label": "处理意见",
+	"instance_approve_start_date_label": "开始时间",
+	"instance_approve_finish_date_label": "结束时间",
+	"instance_approve_read_yes": "是",
+	"instance_approve_read_no": "否",
+	"instance_approve_cc_remove": "取消传阅",
+	"instance_approve_close_modal": "关闭"
 }
