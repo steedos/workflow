@@ -359,6 +359,24 @@ _:-ms-fullscreen,
 			.navigation-bar{
 				.btn-instance-back{
 					display: inline-block!important;
+					&.visible-xs-inline-block{
+						display:none!important;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@media (max-width: 767px) {
+	.workflow-main.instance-show {
+		.instance-wrapper {
+			.navigation-bar{
+				.btn-instance-back{
+					&.visible-xs-inline-block{
+						display:inline-block!important;
+					}
 				}
 			}
 		}
