@@ -3,17 +3,9 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content ins-modal">
 				<div class="modal-header">
-					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{traceDetailModalTitle}}</h4>
+					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{this.handler_name}}</h4>
 				</div>
 				<div class="modal-body modal-zoom weui_cells weui_cells_form">
-					<div class="weui_cell">
-						<div class="weui_cell_hd">
-							<span class="weui_label">处理人</span>
-						</div>
-						<div class="weui_cell_bd weui_cell_primary text-muted">
-							<span class="weui_input">{{this.handler_name}}</span>
-						</div>
-					</div>
 					{{#if this.from_user_name}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
