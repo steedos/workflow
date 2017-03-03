@@ -53,7 +53,7 @@ Meteor.methods({
                         }
                     });
                     var appr = {
-                        '_id': Meteor.uuid(),
+                        '_id': new Mongo.ObjectID()._str,
                         'instance': ins_id,
                         'trace': trace_id,
                         'is_finished': false,
@@ -72,7 +72,8 @@ Meteor.methods({
                         // 'values' :  ???
                         'from_user': current_user_id,
                         'from_user_name': from_user_name,
-                        'opinion_field_code': approve.opinion_field_code
+                        'opinion_field_code': approve.opinion_field_code,
+                        'from_approve_id': approve_id
                     };
                     t.approves.push(appr);
                 })

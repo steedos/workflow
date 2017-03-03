@@ -58,7 +58,7 @@ if Meteor.isServer
 #			new_form.created = now
 #
 #			current = {}
-#			current._id = Meteor.uuid()
+#			current._id = new Mongo.ObjectID()._str
 #			current.form = new_form._id
 #			current._rev = 1
 #			current.start_date = now
@@ -94,7 +94,7 @@ if Meteor.isServer
 #				new_flow.created = now
 #
 #				new_current = {}
-#				new_current._id = Meteor.uuid()
+#				new_current._id = new Mongo.ObjectID()._str
 #				new_current._rev = 1
 #				new_current.flow = new_flow._id
 #				new_current.form_version = new_form.current._id
@@ -106,7 +106,7 @@ if Meteor.isServer
 #				new_current.modified = now
 #
 #				new_perms = {}
-#				new_perms._id = Meteor.uuid()
+#				new_perms._id = new Mongo.ObjectID()._str
 #				new_perms.orgs_can_add = [root_org._id]
 #
 #				new_flow.perms = new_perms

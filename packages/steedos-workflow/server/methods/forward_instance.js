@@ -55,7 +55,7 @@ Meteor.methods({
 
         // 新建Trace
         var trace_obj = {};
-        trace_obj._id = Meteor.uuid();
+        trace_obj._id = new Mongo.ObjectID()._str;
         trace_obj.instance = ins_obj._id;
         trace_obj.is_finished = false;
 
@@ -70,7 +70,7 @@ Meteor.methods({
 
         // 新建Approve
         var appr_obj = {};
-        appr_obj._id = Meteor.uuid();
+        appr_obj._id = new Mongo.ObjectID()._str;
         appr_obj.instance = ins_obj._id;
         appr_obj.trace = trace_obj._id;
         appr_obj.is_finished = false;

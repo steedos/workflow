@@ -13,7 +13,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 			category = db.categories.findOne({space: spaceId, name: form.category_name}, {fields: {_id: 1}})
 
 			if _.isEmpty(category)
-				category_id = Meteor.uuid();
+				category_id = new Mongo.ObjectID()._str;
 				db.categories.direct.insert({
 					_id: category_id,
 					name: form.category_name,
@@ -29,7 +29,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			delete form.category_name
 
-		form_id = Meteor.uuid()
+		form_id = new Mongo.ObjectID()._str
 
 		flows = form.flows
 
@@ -51,7 +51,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 		form.historys = []
 
-		form.current._id = Meteor.uuid()
+		form.current._id = new Mongo.ObjectID()._str
 
 		form.current._rev = 1 #重置版本号
 
@@ -72,7 +72,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 		new_form_ids.push(form_id)
 
 		flows.forEach (flow)->
-			flow_id = Meteor.uuid()
+			flow_id = new Mongo.ObjectID()._str
 
 			flow._id = flow_id
 
@@ -95,7 +95,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			#		设置提交部门为：全公司
 			perms = {
-				_id: Meteor.uuid()
+				_id: new Mongo.ObjectID()._str
 				users_can_add: []
 				orgs_can_add: db.organizations.find({
 					space: spaceId,
@@ -109,7 +109,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			flow.perms = perms
 
-			flow.current._id = Meteor.uuid()
+			flow.current._id = new Mongo.ObjectID()._str
 
 			flow.current.flow = flow_id
 
