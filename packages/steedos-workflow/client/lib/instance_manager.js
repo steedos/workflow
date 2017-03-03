@@ -840,7 +840,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 				a.historys = his;
 				a.current = {
-					"_id": Meteor.uuid(),
+					"_id": new Mongo.ObjectID()._str,
 					"_rev": fileObj._id,
 					"length": fileObj.size,
 					"approve": my_approve_id,
@@ -855,7 +855,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 		if (!hasRepeatedFile) {
 			var attach = {
-				"_id": Meteor.uuid(),
+				"_id": new Mongo.ObjectID()._str,
 				"filename": fileName,
 				"contentType": fileObj.type,
 				"modified": curTime,
@@ -863,7 +863,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 				"created": curTime,
 				"created_by": userId,
 				"current": {
-					"_id": Meteor.uuid(),
+					"_id": new Mongo.ObjectID()._str,
 					"_rev": fileObj._id,
 					"length": fileObj.size,
 					"approve": InstanceManager.getMyApprove().id,
