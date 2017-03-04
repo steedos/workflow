@@ -1,9 +1,9 @@
 <template name="instance_button">
 	<div class="pull-left instance-left-buttons">
 	    <button type="button" class="btn btn-default btn-instance-back hidden" data-toggle="tooltip" data-placement="bottom" title="返回"><i class="ion ion-chevron-left"></i></button>
-		{{#if enabled_print}}
-			<button type="button" class="btn btn-default btn-instance-to-print" data-toggle="tooltip" data-placement="bottom" title="{{_ 'instance_print'}}">
-				<i class="ion ion-printer"></i>
+		{{#if enabled_cc}}
+			<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom" title="{{_ 'instance_cc_title'}}">
+				<i class=" fa fa-user-plus" aria-hidden="true"></i>
 			</button>
 		{{/if}}
 		{{#if enabled_forward}}
