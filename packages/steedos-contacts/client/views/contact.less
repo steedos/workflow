@@ -55,6 +55,9 @@
 		.navigation-title {
 			overflow: visible !important;
 		}
+		.navigation-bar{
+			overflow: hidden;
+		}
 
 		.dataTables_wrapper {
 			
@@ -89,6 +92,12 @@
 
 		.pull-right{
 			width: 200px;
+		}
+
+		@media screen and (max-width: 1024px){
+			.pull-right{
+				width: 160px;
+			}
 		}
 
 		@media screen and (max-width: 767px){
@@ -190,7 +199,7 @@
 				.navigation-bar{
 					display: block;
 				}
-			}   
+			}
 			.contacts-wrapper {
 				width: 65%;
 				left: 35%;
