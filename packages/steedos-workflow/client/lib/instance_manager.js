@@ -1171,7 +1171,7 @@ InstanceManager.retrieveIns = function(reason) {
 InstanceManager.fixInstancePosition = function(isNeedToScrollTop) {
 	if ($(".instance-wrapper .instance-view").hasClass("suggestion-active")) {
 		var suggestionBoxH = $(".instance-wrapper .instance-suggestion").height();
-		$(".instance-wrapper .instance").css("bottom", suggestionBoxH + 4);
+		$(".instance-wrapper .instance").css("bottom", suggestionBoxH + 2);
 	} else {
 		$(".instance-wrapper .instance").css("bottom", 0);
 	}
