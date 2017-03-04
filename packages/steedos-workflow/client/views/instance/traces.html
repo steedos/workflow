@@ -11,7 +11,7 @@
                 {{#each this}}
 
                     <tr class="trace-item">
-                        <td colspan='3'>{{getStepName this.step}}</td>
+                        <td colspan='3' class = "trace-step-name">{{getStepName this.step}}</td>
                     </tr>
                     {{#each this.approves}}
                         <tr class="approve-item">
@@ -19,9 +19,6 @@
                                 {{#if isCC this}}
                                     <label class='cc-label'>
                                         <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
-                                        {{#if showDeleteButton this}}
-                                            <span class="btn-box-tool cc-approve-remove hidden-xs" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
-                                        {{/if}}
                                     </label>
                                 {{/if}}
                             </td>
@@ -29,7 +26,11 @@
                                 <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                 <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
                             {{else}}
-                                <td class="finish-date"></td>
+                                <td class="finish-date">
+                                    {{#if this.is_read}}
+                                        {{_t "instance_approve_read"}}
+                                    {{/if}}
+                                </td>
                                 {{#unless isCC this}}
                                     <td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
                                 {{/unless}}

@@ -23,14 +23,6 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			readonly: true
 
-	instance_style: 
-		type: String
-		optional: true
-		autoform:
-			options:[{label: '默认', value:'default'}, {label: '表格', value:'table'}]
-			defaultValue: 'default'
-
-
 	print_template: 
 		type: String,
 		optional: true

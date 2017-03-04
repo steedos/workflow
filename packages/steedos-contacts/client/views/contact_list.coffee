@@ -62,4 +62,4 @@ Template.contacts_list.onRendered ->
     ContactsManager.handerContactModalValueLabel();
     $("#contact_list_load").hide();
 
-    $(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")
+    # $(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

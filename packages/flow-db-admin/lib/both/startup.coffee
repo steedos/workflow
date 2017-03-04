@@ -72,6 +72,8 @@ adminCreateTables = (collections) ->
 			autoWidth: false
 			info: false
 			changeSelector: collection.changeSelector
+			order: if collection.order then collection.order else []
+
 
 
 adminPublishTables = (collections) ->

@@ -22,6 +22,7 @@ Package.onUse(function(api) {
 	// api.use('underscore');
 	api.use('tracker');
 	api.use('session');
+	api.use('useraccounts:bootstrap');
 	api.use('blaze');
 	api.use('templating');
 	// api.use('webapp', 'server');
@@ -60,17 +61,18 @@ Package.onUse(function(api) {
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	api.addFiles('lib/core.coffee');
-	api.addFiles('lib/admin.coffee');
 
 	api.addFiles('server/methods/mail_account_save.coffee', 'server');
 	api.addFiles('server/methods/auth_user_save.coffee', 'server');
+	api.addFiles('server/methods/auth_users_save.coffee', 'server');
 	
 	api.addFiles('client/views/_helpers.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.html', 'client');
 	api.addFiles('client/views/accounts_guide_modal.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.less', 'client');
 
-	api.addFiles('client/router.coffee', 'client');
+	api.addFiles('client/customize.less', 'client');
+
 	api.addFiles('client/subscribe.coffee', 'client');
 
 	// EXPORT

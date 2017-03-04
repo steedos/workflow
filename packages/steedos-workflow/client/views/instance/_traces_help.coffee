@@ -111,18 +111,45 @@ if Meteor.isServer
 
 TracesTemplate.events =
 	'click .cc-approve-remove': (event, template) ->
+		event.stopPropagation()
 		if event.currentTarget.dataset.calling * 1 != 1
 			event.currentTarget.dataset.calling = 1
 			$("i",event.currentTarget).addClass("fa-spin")
 			instanceId = Session.get('instanceId')
 			approveId = event.target.dataset.approve
 			# CALL 删除approve函数。
+			$("body").addClass("loading")
 			Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
+				$("body").removeClass("loading")
 				if err
 					toastr.error err
 					event.currentTarget.dataset.calling = 0
 					$("i",event.currentTarget).removeClass("fa-spin")
 				if result == true
 					toastr.success(TAPi18n.__("remove_cc_approve"));
+					if $(".instance-trace-detail-modal").length
+						Modal.hide "instance_trace_detail_modal"
 				return
 			return
+
+	'click .instance-trace-detail-modal .btn-cc-approve-remove': (event, template) ->
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		# CALL 删除approve函数。
+		$("body").addClass("loading")
+		Meteor.call 'cc_remove', instanceId, approveId, (err, result) ->
+			$("body").removeClass("loading")
+			if err
+				toastr.error err
+			if result == true
+				toastr.success(TAPi18n.__("remove_cc_approve"));
+				Modal.hide "instance_trace_detail_modal"
+			return
+		return
+
+	'click .approve-item': (event, template) ->
+		Modal.show "instance_trace_detail_modal", this
+
+	'click .instance-trace-detail-modal .btn-close': (event, template) ->
+		Modal.hide "instance_trace_detail_modal"
+		

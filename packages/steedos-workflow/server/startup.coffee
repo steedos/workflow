@@ -1,5 +1,6 @@
 Meteor.startup ->
-	MailQueue.Configure
-		sendInterval: 1000
-		sendBatchSize: 10
-		keepMails: false
+	if Meteor.settings.cron?.mailqueue_interval
+		MailQueue.Configure
+			sendInterval: Meteor.settings.cron.mailqueue_interval
+			sendBatchSize: 10
+			keepMails: false

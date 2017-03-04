@@ -26,10 +26,13 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 
 Meteor.startup ->
     
+    if not Meteor.settings.cron?.push_interval
+        return
+
     config = {
         debug: true
         keepNotifications: false
-        sendInterval: 1000
+        sendInterval: Meteor.settings.cron.push_interval
         sendBatchSize: 10
         production: true
     }

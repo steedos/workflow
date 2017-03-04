@@ -175,10 +175,9 @@
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
-	"workflow_form_edit": "表单样式",
+	"workflow_form_edit": "流程脚本",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
-	"flows_instance_style": "表单样式",
 	"flows_print_template": "打印模板",
 	"flows_instance_template": "表单模板",
 
@@ -197,7 +196,7 @@
 	"instance_opinion_exists": "常用意见已存在",
 	"instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
 
-	"instance_forward_title": "文件转发",
+	"instance_forward_title": "转发",
 
 	"form_field_checkbox_yes": "是",
 	"form_field_checkbox_no": "否",
@@ -401,6 +400,18 @@
 	"instance_opinion_edit_success": "修改成功",
 	"instance_opinion_field": "签批字段",
 	"instance_cc_error_opinion_field_required": "请选择签批字段",
-	
-	"instance_suggestion_toggle": "签批"
+
+	"instance_suggestion_toggle": "签批",
+
+	"instance_approve_read": "已读",
+	"instance_approve_from_user_name_label": "传阅自",
+	"instance_approve_status_text_label": "操作",
+	"instance_approve_description_label": "处理意见",
+	"instance_approve_start_date_label": "开始时间",
+	"instance_approve_finish_date_label": "结束时间",
+	"instance_approve_read_yes": "是",
+	"instance_approve_read_no": "否",
+	"instance_approve_cc_remove": "取消传阅",
+	"instance_approve_close_modal": "关闭",
+	"instance_approve_title_label": "处理人："
 }
