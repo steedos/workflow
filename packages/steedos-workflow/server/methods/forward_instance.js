@@ -132,14 +132,14 @@ Meteor.methods({
 						var old_v = old_values[key];
 						if (old_v) {
 							// 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
-							if (field.type == 'select' || field.type == 'radio') {
-								var options = field.options.split('\n');
+							if (f.type == 'select' || f.type == 'radio') {
+								var options = f.options.split('\n');
 								if (!options.includes(old_v))
 									return;
 							}
 
-							if (field.type == 'multiSelect') {
-								var options = field.options.split('\n');
+							if (f.type == 'multiSelect') {
+								var options = f.options.split('\n');
 								var old_multiSelected = old_v.split(',');
 								var new_multiSelected = _.intersection(options, old_multiSelected);
 								old_v = new_multiSelected.join(',');
@@ -149,10 +149,46 @@ Meteor.methods({
 						}
 					})
 				}
-			} else {
-				if (field.type == 'table') {
-					return;
+			} else if (field.type == 'table') {
+				if (!_.isEmpty(old_values[field.code])) {
+					new_values[field.code] = new Array;
+					old_values[field.code].forEach(function(old_table_row_values) {
+						var new_table_row_values = {};
+
+						if (!_.isEmpty(field.fields)) {
+							field.fields.forEach(function(f) {
+								// 跨工作区转发不复制选人选组
+								if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
+									return;
+								}
+								var key = f.code;
+								var old_v = old_table_row_values[key];
+								if (old_v) {
+									// 校验 单选，多选，下拉框 字段值是否在新表单对应字段的可选值范围内
+									if (f.type == 'select' || f.type == 'radio') {
+										var options = f.options.split('\n');
+										if (!options.includes(old_v))
+											return;
+									}
+
+									if (f.type == 'multiSelect') {
+										var options = f.options.split('\n');
+										var old_multiSelected = old_v.split(',');
+										var new_multiSelected = _.intersection(options, old_multiSelected);
+										old_v = new_multiSelected.join(',');
+									}
+
+									new_table_row_values[key] = old_v;
+								}
+							})
+						}
+
+						if (!_.isEmpty(new_table_row_values)) {
+							new_values[field.code].push(new_table_row_values);
+						}
+					})
 				}
+			} else {
 				// 跨工作区转发不复制选人选组
 				if (['group', 'user'].includes(field.type) && old_space_id != space_id) {
 					return;
