@@ -377,13 +377,14 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-	"save Instance To Attachment": "Save instance to attachment.",
+	"saveInstanceToAttachment": "Save instance to attachment.",
 	"forwardFlowText": "Forward description",
 	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
 
 	"button_preview": "Preview",
 	"remove_cc_approve": "Deleted success",
 	"forward_instance_success": "Forward success",
+	"isForwardAttachments": "Is forward attachments.",
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Enter your comments here",

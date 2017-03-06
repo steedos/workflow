@@ -1133,8 +1133,8 @@ InstanceManager.unlockAttach = function(file_id) {
 }
 
 // 申请单转发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description) {
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, function(error, result) {
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, function(error, result) {
 		if (error) {
 			toastr.error(error.message);
 		}
