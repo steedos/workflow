@@ -12,12 +12,14 @@ Package.onUse(function(api) {
 	api.use('nooitaf:colors');
 	api.use('raix:eventemitter');
 	api.use('templating', 'client');
+    api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router', 'client');
 
 	api.addFiles('ansispan.js', 'client');
 	api.addFiles('logger.coffee', 'client');
 	api.addFiles('client/viewLogs.coffee', 'client');
 	api.addFiles('client/views/viewLogs.html', 'client');
+	api.addFiles('client/views/viewLogs.less', 'client');
 	api.addFiles('client/views/viewLogs.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 
