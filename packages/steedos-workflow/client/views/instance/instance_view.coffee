@@ -89,7 +89,7 @@ Template.instance_view.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
-		$('.instance').perfectScrollbar().css("right","-1px")
+		$('.instance').perfectScrollbar({suppressScrollX: true}).css("right","-1px")
 		if Session.get("box") == "inbox"
 			$('.instance').on 'ps-y-reach-end', ->
 				if this.scrollTop == 0
