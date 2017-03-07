@@ -16,9 +16,10 @@ Package.onUse(function(api) {
 
 	api.addFiles('ansispan.js', 'client');
 	api.addFiles('logger.coffee', 'client');
-	// api.addFiles('client/viewLogs.coffee', 'client');
-	// api.addFiles('client/views/viewLogs.html', 'client');
-	// api.addFiles('client/views/viewLogs.coffee', 'client');
+	api.addFiles('client/viewLogs.coffee', 'client');
+	api.addFiles('client/views/viewLogs.html', 'client');
+	api.addFiles('client/views/viewLogs.coffee', 'client');
+	api.addFiles('client/router.coffee', 'client');
 
 	api.addFiles('server.coffee', 'server');
 
