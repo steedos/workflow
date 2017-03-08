@@ -339,6 +339,9 @@ Meteor.publish 'stdout', ->
 	# if RocketChat.authz.hasPermission(@userId, 'view-logs') isnt true
 	# 	return @ready()
 
+	unless Steedos.isCloudAdmin()
+		return @ready()
+
 	for item in StdOut.queue
 		@added 'stdout', item.id,
 			string: item.string

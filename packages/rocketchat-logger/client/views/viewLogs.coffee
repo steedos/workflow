@@ -5,8 +5,8 @@ Template.viewLogs.onCreated ->
 
 Template.viewLogs.helpers
 	hasPermission: ->
+		# return true
 		return Steedos.isCloudAdmin()
-		# return RocketChat.authz.hasAllPermission 'view-logs'
 
 	logs: ->
 		return stdout.find({}, {sort: {ts: 1}})
