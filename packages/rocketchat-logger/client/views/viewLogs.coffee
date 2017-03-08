@@ -5,7 +5,7 @@ Template.viewLogs.onCreated ->
 
 Template.viewLogs.helpers
 	hasPermission: ->
-		return true
+		return Steedos.isCloudAdmin()
 		# return RocketChat.authz.hasAllPermission 'view-logs'
 
 	logs: ->
@@ -34,12 +34,16 @@ Template.viewLogs.onRendered ->
 	template = this
 
 	template.isAtBottom = ->
+		unless wrapper
+			return;
 		if wrapper.scrollTop >= wrapper.scrollHeight - wrapper.clientHeight
 			newLogs.className = "new-logs not"
 			return true
 		return false
 
 	template.sendToBottom = ->
+		unless wrapper
+			return;
 		wrapper.scrollTop = wrapper.scrollHeight - wrapper.clientHeight
 		newLogs.className = "new-logs not"
 
@@ -57,6 +61,8 @@ Template.viewLogs.onRendered ->
 	template.sendToBottomIfNecessary()
 
 	if not window.MutationObserver?
+		unless wrapperUl
+			return;
 		wrapperUl.addEventListener 'DOMSubtreeModified', ->
 			template.sendToBottomIfNecessaryDebounced()
 	else
@@ -64,6 +70,8 @@ Template.viewLogs.onRendered ->
 			mutations.forEach (mutation) ->
 				template.sendToBottomIfNecessaryDebounced()
 
+		unless wrapperUl
+			return;
 		observer.observe wrapperUl,
 			childList: true
 
