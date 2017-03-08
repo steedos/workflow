@@ -297,15 +297,6 @@
 			type: 'success'
 			level: 0
 
-@SteedosLogger = new Logger 'Steedos',
-	sections:
-		workflow: 'Workflow',
-		cms: 'CMS',
-	methods:
-		startup:
-			type: 'success'
-			level: 0
-
 processString = (string, date) ->
 	if string[0] is '{'
 		try
