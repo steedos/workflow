@@ -12,7 +12,7 @@ Package.onUse(function(api) {
 	api.use('nooitaf:colors');
 	api.use('raix:eventemitter');
 	api.use('templating', 'client');
-    api.use('flemay:less-autoprefixer@1.2.0');
+	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router', 'client');
 
 	api.addFiles('ansispan.js', 'client');
