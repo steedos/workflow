@@ -45,8 +45,6 @@ Template.viewLogs.onRendered ->
 
 	template.checkIfScrollIsAtBottom = ->
 		template.atBottom = template.isAtBottom()
-		readMessage.enable()
-		readMessage.read()
 
 	template.sendToBottomIfNecessary = ->
 		if template.atBottom is true and template.isAtBottom() isnt true
