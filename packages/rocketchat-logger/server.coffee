@@ -326,7 +326,10 @@ StdOut = new class extends EventEmitter
 			# if RocketChat?.settings?.get('Log_View_Limit')? and @queue.length > RocketChat.settings.get('Log_View_Limit')
 			# 	@queue.shift()
 
-			if @queue.length > 1000
+			view_limit = Meteor.settings?logger?view_limit
+			unless view_limit
+				view_limit = 1000
+			if @queue.length > view_limit
 				@queue.shift()
 
 			@emit 'write', string, item
