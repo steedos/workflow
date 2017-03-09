@@ -326,10 +326,10 @@ StdOut = new class extends EventEmitter
 			# if RocketChat?.settings?.get('Log_View_Limit')? and @queue.length > RocketChat.settings.get('Log_View_Limit')
 			# 	@queue.shift()
 
-			view_limit = Meteor.settings?logger?view_limit
-			unless view_limit
-				view_limit = 1000
-			if @queue.length > view_limit
+			viewLimit = Meteor.settings?.logger?.viewLimit
+			unless viewLimit
+				viewLimit = 1000
+			if @queue.length > viewLimit
 				@queue.shift()
 
 			@emit 'write', string, item
@@ -359,6 +359,14 @@ Meteor.publish 'stdout', ->
 
 	return
 
+Meteor.startup ->
+	if Meteor.settings?.logger?.enabled
+		if Meteor.settings?.logger?.showPackage
+			LoggerManager.showPackage = true;
+		if Meteor.settings?.logger?.showFileAndLine
+			LoggerManager.showFileAndLine = true;
+		if Meteor.settings?.logger?.logLevel
+			LoggerManager.logLevel = Meteor.settings.logger.logLevel;
 
-
+		LoggerManager.enable(true);
 
