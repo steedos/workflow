@@ -14,7 +14,8 @@ Meteor.startup ->
 					confirmButtonText: "注销"
 				, (reason) ->
 					$("body").addClass("loading")
-					FlowRouter.go "/steedos/logout"
+					Meteor.logout ->
+						$("body").removeClass("loading")
 				return
 			else
 				sweetAlert.close()
