@@ -11,7 +11,10 @@ Meteor.startup ->
 					text: "请联系管理员确定您的账户已加入工作平台。",
 					type: "warning",
 					showCancelButton: false,
-					showConfirmButton: false
+					confirmButtonText: "注销"
+				, (reason) ->
+					$("body").addClass("loading")
+					FlowRouter.go "/steedos/logout"
 				return
 			else
 				sweetAlert.close()
