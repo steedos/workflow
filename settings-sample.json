@@ -101,5 +101,12 @@
     "appuid": "xxx",
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
+  },
+  "logger" : {
+    "enabled" : true,
+    "showPackage" : true,
+    "showFileAndLine" : true,
+    "logLevel" : 2,
+    "viewLimit" : 1000
   }
 }
