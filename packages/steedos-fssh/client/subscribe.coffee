@@ -1,7 +1,7 @@
 Meteor.startup ->
 	Tracker.autorun (c)->
 		currentUserId = Meteor.userId()
-		if currentUserId and Steedos.subsMail.ready()
+		if currentUserId and Steedos.subsMail.ready() and Steedos.subsSpace.ready()
 			if Meteor.loggingIn()
 				# 正在登录中，则不做处理，因为此时Meteor.userId()不足于证明已登录状态
 				return
