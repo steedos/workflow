@@ -42,6 +42,7 @@
   "username": "Username",
   "usernameOrEmail": "Username or email",
   "with": "with",
+  "requiredField": "Required Field",
   "maxAllowedLength": "Maximum allowed length",
   "minRequiredLength": "Minimum required length",
   "resendVerificationEmail": "Send email again",
