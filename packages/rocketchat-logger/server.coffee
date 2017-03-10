@@ -342,7 +342,12 @@ Meteor.publish 'stdout', ->
 	# if RocketChat.authz.hasPermission(@userId, 'view-logs') isnt true
 	# 	return @ready()
 
-	unless Steedos.isCloudAdmin()
+	unless @userId
+		return @ready()
+	
+	user = db.users.findOne(@userId, {fields: {is_cloudadmin: 1}})
+
+	unless user
 		return @ready()
 
 	for item in StdOut.queue
