@@ -45,6 +45,8 @@ aldeed:collection2
 
 
 
+rocketchat:logger
+
 
 underscorestring:underscore.string
 momentjs:moment
@@ -80,8 +82,6 @@ francocatena:status
 faisalman:ua-parser-js
 smoral:sweetalert
 raix:push
-
-rocketchat:logger
 
 alanning:roles
 sach:flow-db-admin
