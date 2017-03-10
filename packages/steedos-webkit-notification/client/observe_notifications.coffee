@@ -76,11 +76,13 @@ Meteor.startup ->
             console.log("add addListener")
 
         Push.onNotification = (data) ->
+            console.log 'Push.onNotification--------------------1'
             box = 'inbox'# inbox、outbox、draft、pending、completed
             if data && data.payload
                 if data.payload.space and data.payload.instance
                     instance_url = '/workflow/space/' + data.payload.space + '/' + box + '/' + data.payload.instance
-                    window.open instance_url
+                    console.log "#{instance_url}"
+                    # window.open instance_url
             return
 
         #后台运行时，点击推送消息
