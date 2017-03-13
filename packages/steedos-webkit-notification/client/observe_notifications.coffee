@@ -80,7 +80,8 @@ Meteor.startup ->
             if data && data.payload
                 if data.payload.space and data.payload.instance
                     instance_url = '/workflow/space/' + data.payload.space + '/' + box + '/' + data.payload.instance
-                    window.open instance_url
+                    # 执行下面的代码会有BUG:会把下一步骤处理人的手机APP强行跳转到待审核相应单子。见：手机app申请人提交申请单，下一步处理人恰好审批王处于打开状态时，下一步处理人的ios app会刷新 #1018
+                    # window.open instance_url
             return
 
         #后台运行时，点击推送消息
