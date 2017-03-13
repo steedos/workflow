@@ -12,7 +12,7 @@ TemplateHelpers =
 		return Session.get(v)
 		
 	absoluteUrl: (url)->	
-		if (Meteor.isCordova || this.isNode())
+		if (Meteor.isCordova) 
 			return Meteor.absoluteUrl(url);
 		else 
 			if url?.startsWith("/")
