@@ -116,7 +116,10 @@ var s_autoform = function (schema, field) {
                 autoform.dateTimePickerOptions = {
                     showClear: true,
                     format: "YYYY-MM-DD",
-                    locale: Session.get("TAPi18n::loaded_lang")
+                    locale: Session.get("TAPi18n::loaded_lang"),
+                    widgetPositioning:{
+                        horizontal: 'right'
+                    }
                 }
             }
             break;
@@ -130,7 +133,10 @@ var s_autoform = function (schema, field) {
                 autoform.dateTimePickerOptions = {
                     showClear: true,
                     format: "YYYY-MM-DD HH:mm",
-                    locale: Session.get("TAPi18n::loaded_lang")
+                    locale: Session.get("TAPi18n::loaded_lang"),
+                    widgetPositioning:{
+                        horizontal: 'right'
+                    }
                 }
             }
             break;
