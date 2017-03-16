@@ -33,8 +33,8 @@ Template.space_info.events
 
     'click .btn-new-space': (event)->
         swal({
-            title: "请输入工作区名称", 
-            text: "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。", 
+            title: t("spaces_new_swal_title"), 
+            text: t("spaces_new_swal_help"), 
             type: "input",
             confirmButtonText: t('OK'),
             cancelButtonText: t('Cancel'),
@@ -52,8 +52,9 @@ Template.space_info.events
                     return false
 
                 if r && r._id
+                    swal.close()
                     Steedos.setSpaceId(r._id)
-                    toastr.success "工作区已创建成功"
+                    toastr.success t("spaces_new_swal_success")
         )
 
     'click .btn-edit-space': (event)->

@@ -20,9 +20,9 @@
                 {{#if isSpaceOwner}}
                   <li>
                     <a class="btn-edit-space">
-                      <b>编辑工作区</b>
+                      <b>{{_ "spaces_edit"}}</b>
                       <div class="menu-item-help">
-                        修改工作区名称、所有者及管理员。
+                        {{_ "spaces_edit_help"}}
                       </div>
                     </a>
                   </li>
@@ -31,9 +31,9 @@
                   <li role="separator" class="divider"></li>
                   <li>
                     <a class="btn-new-space">
-                      <b>新建工作区</b>
+                      <b>{{_ "spaces_new"}}</b>
                       <div class="menu-item-help">
-                        一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。
+                        {{_ "spaces_new_help"}}
                       </div>
                     </a>
                   </li>
@@ -48,7 +48,7 @@
       <div class="weui_cells weui_cells_form">
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">名称</span>
+            <span class="weui_label">{{_ "spaces_name"}}</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{space.name}}</span>
@@ -56,7 +56,7 @@
         </div>
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">所有者</span>
+            <span class="weui_label">{{_ "spaces_owner"}}</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{spaceOwnerName space.owner}}</span>
@@ -64,7 +64,7 @@
         </div>
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">管理员</span>
+            <span class="weui_label">{{_ "spaces_admins"}}</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{adminsNames space.admins}}</span>
