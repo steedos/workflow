@@ -26,27 +26,26 @@
 						<li class="{{menuClass 'admin/profile/'}}"><a href="/admin/profile/"><i class="ion ion-android-person"></i><span>{{_ "Account Settings"}}</span></a></li>
 
 
-						{{#if isSpaceAdmin}}
-							<li class="treeview">
-								<a href="javascript:void(0)">
-									<i class="ion ion-ios-cloud-outline"></i>
-									<span>{{_ "steedos_system"}}</span>
-									<span class="pull-right-container">
-										<i class="fa fa-angle-left pull-right"></i>
-									</span>
-								</a>
-								<ul class="treeview-menu">
-									{{#if isSpaceOwner}}
-										<li class="{{menuClass 'admin/space/info'}}"><a href="/admin/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
-									{{/if}}
+						<li class="treeview">
+							<a href="javascript:void(0)">
+								<i class="ion ion-ios-cloud-outline"></i>
+								<span>{{_ "steedos_system"}}</span>
+								<span class="pull-right-container">
+									<i class="fa fa-angle-left pull-right"></i>
+								</span>
+							</a>
+							<ul class="treeview-menu">
+								<li class="{{menuClass 'admin/space/info'}}"><a href="/admin/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
+								{{#if isSpaceAdmin}}
 									{{#if isNotSync}}
 										<li class="{{menuClass 'admin/organizations'}} fix-collection-helper"><a href="/admin/organizations"><i class="fa fa-sitemap"></i><span>{{_ "contacts_organizations"}}</span></a></li>
 										<!-- <li class="{{menuClass 'admin/view/space_users'}} fix-collection-helper"><a href="/admin/view/space_users"><i class="ion ion-person-stalker"></i><span>{{_ "space_users"}}</span></a></li> -->
 									{{/if}}
 									<li class="{{menuClass 'admin/customize_apps'}}"><a href="/admin/customize_apps"><i class="ion ion-ios-keypad"></i><span>{{_ "steedos_customize_apps"}}</span></a></li>
-								</ul>
-							</li>
-						{{/if}}
+									<li class="{{menuClass 'admin/view/billings'}}"><a href="/admin/view/billings"><i class="ion ion-social-usd-outline"></i><span>{{_ "billings"}}</span></a></li>
+								{{/if}}
+							</ul>
+						</li>
 						
 						{{#if isWorkflowAdmin}}
 							<li class="treeview">

@@ -2,11 +2,11 @@ InstanceReadOnlyTemplate = {};
 
 
 InstanceReadOnlyTemplate.instance_attachment = """
-    <tr>
-        <td class="ins-attach-view">
-          	{{this.name}}
-        </td>
-    </tr>
+	<tr>
+		<td class="ins-attach-view">
+			{{this.name}}
+		</td>
+	</tr>
 """
 
 InstanceReadOnlyTemplate.afSelectUserRead = """
@@ -26,19 +26,19 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 				{{#if equals type 'table'}}
 					<div class="panel panel-default steedos-table">
 						<div class="panel-body" style="padding:0px;">
-						  	<div class="panel-heading" >
+							<div class="panel-heading" >
 								<label class='control-label'>{{getLabel code}}</label>
 								<span class="description">{{{description}}}</span>
 							</div>
 							<div style="padding:0px;overflow-x:auto;">
-								  <table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" data-schema-key="{{this.name}}">
-									  <thead id="{{this.name}}Thead" name="{{this.name}}Thead">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" data-schema-key="{{this.name}}">
+										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
 											{{{getTableThead this}}}
-									  </thead>
-									  <tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
+										</thead>
+										<tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
 											{{{getTableBody this}}}
-									  </tbody>
-								  </table>
+										</tbody>
+									</table>
 							</div>
 						</div>
 					</div>
@@ -351,8 +351,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance)
 
 	if !Steedos.isMobile()
-		flow = db.flows.findOne({_id: instance.flow});
-		if flow?.instance_style == 'table'
+		form = db.forms.findOne(instance.form);
+		if form?.instance_style == 'table'
 			instance_style = "instance-table"
 
 	if options?.templateName == 'table'

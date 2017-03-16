@@ -34,6 +34,12 @@ FlowRouter.triggers.enter [
 						title = "Steedos"
 				if title
 					Session.set "document_title", t(title)
+	()-> 
+		# 变更路由时记录url作为下次登录的url
+		if Meteor.userId()
+			lastUrl = FlowRouter.current().path
+			if lastUrl != '/'
+				localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
 ]
 
 FlowRouter.route '/', 

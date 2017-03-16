@@ -1,10 +1,10 @@
 <template name="instance_traces_table" >
 
-    <div class="box box-solid collapsed-box instance-traces">
+    <div class="box box-solid instance-traces">
         <div class="box-header">
             <div class="pull-left"><B>{{_t "instance_approval_history"}}</B></div>
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse" id="tracesCollapse"><i class="fa fa-plus"></i>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" id="tracesCollapse"><i class="fa fa-minus"></i>
                 </button>
             </div>
         </div>
@@ -39,9 +39,6 @@
                                             {{#if isCC this}}
                                                 <label class='cc-label'>
                                                     <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
-                                                    {{#if showDeleteButton this}}
-                                                        <span class="btn-box-tool cc-approve-remove hidden-xs" data-approve="{{_id}}"><i class="ion ion-close-round" aria-hidden="true" data-approve="{{_id}}"></i></span>
-                                                    {{/if}}
                                                 </label>
                                             {{/if}}
                                         </td>
@@ -49,7 +46,11 @@
                                             <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                             <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
                                         {{else}}
-                                            <td class="finish-date"></td>
+                                            <td class="finish-date">
+                                                {{#if this.is_read}}
+                                                    {{_t "instance_approve_read"}}
+                                                {{/if}}
+                                            </td>
                                             <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
                                         {{/if}}
                                     </tr>

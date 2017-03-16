@@ -55,7 +55,7 @@ Template.instance_attachment.helpers({
 
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		url = Steedos.absoluteUrl("api/files/instances/") + _rev;
+		url = Meteor.absoluteUrl("api/files/instances/") + _rev;
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -88,12 +88,12 @@ Template.instance_attachment.helpers({
 		return attachment.original.type == "text/html"
 	},
 
-    isPrint: function () {
-        if (Session && Session.get("instancePrint"))
-            return true
-        else
-            false
-    }
+	isPrint: function() {
+		if (Session && Session.get("instancePrint"))
+			return true
+		else
+			false
+	}
 });
 
 Template.instance_attachment.events({

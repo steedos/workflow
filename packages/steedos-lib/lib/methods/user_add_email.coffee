@@ -113,6 +113,9 @@ if Meteor.isClient
     Tracker.autorun (c) ->
 
         if Meteor.user()
+          if Meteor.loggingIn()
+            # 正在登录中，则不做处理，因为此时Meteor.userId()不足于证明已登录状态
+            return
             primaryEmail = Meteor.user().emails?[0]?.address
             if !primaryEmail
                 Steedos.users_add_email();

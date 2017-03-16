@@ -127,6 +127,11 @@
 				padding-right: 8px;
 				padding-left: 8px;
 			}
+			@media (max-width: 767px) {
+				& {
+					display:none;
+				}
+			}
 		}
 	}
 
@@ -183,7 +188,8 @@
 			display:none;
 			padding: 0 4px;
 			margin-bottom:0px;
-			box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.5);
+			/*box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.5);*/
+			box-shadow: 0 4px 4px -4px black inset;
 			.form-group{
 				margin-bottom:8px;
 			}
@@ -260,7 +266,6 @@
 /*Internet Explorer 11 only*/
 _:-ms-fullscreen,
 :root .instance-wrapper .instance-view .instance-suggestion{
-	box-shadow:none;
 	#instance_flow_opinions{
 		margin: -36px 4px;
 	}
@@ -354,9 +359,24 @@ _:-ms-fullscreen,
 			.navigation-bar{
 				.btn-instance-back{
 					display: inline-block!important;
+					&.visible-xs-inline-block{
+						display:none!important;
+					}
 				}
-				.instance-left-buttons{
-					display:none;
+			}
+		}
+	}
+}
+
+
+@media (max-width: 767px) {
+	.workflow-main.instance-show {
+		.instance-wrapper {
+			.navigation-bar{
+				.btn-instance-back{
+					&.visible-xs-inline-block{
+						display:inline-block!important;
+					}
 				}
 			}
 		}

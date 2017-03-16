@@ -2,6 +2,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	name: "steedosContactsOrganizations",
 	collection: db.space_users,
 	createdRow:(row,data,index)->
+		row.dataset.id = data._id
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$(row).addClass("drag-source").attr "draggable",true
 	columns: [
@@ -10,21 +11,21 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-name #{colorClass} contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
+				return "<div class='contacts-name #{colorClass} nowrap'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-email #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.email || "") + "</div>"
+				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "mobile",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-mobile #{colorClass} contacts-info' data-id='#{doc._id}'>" + (doc.mobile || "") + "</div>"
+				return "<div class='contacts-mobile #{colorClass} nowrap'>" + (doc.mobile || "") + "</div>"
 		},
 		{
 			data: "",

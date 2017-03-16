@@ -1496,7 +1496,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.values = new Object
 	# 新建Trace
 	trace_obj = {}
-	trace_obj._id = Meteor.uuid()
+	trace_obj._id = new Mongo.ObjectID()._str
 	trace_obj.instance = ins_obj._id
 	trace_obj.is_finished = false
 	# 当前最新版flow中开始节点
@@ -1509,7 +1509,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	trace_obj.start_date = now
 	# 新建Approve
 	appr_obj = {}
-	appr_obj._id = Meteor.uuid()
+	appr_obj._id = new Mongo.ObjectID()._str
 	appr_obj.instance = ins_obj._id
 	appr_obj.trace = trace_obj._id
 	appr_obj.is_finished = false

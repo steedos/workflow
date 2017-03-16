@@ -59,31 +59,31 @@ pwdField = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 AccountsTemplates.addFields([
   {
-      _id: "username",
-      type: "text",
-      displayName: "username",
-      required: true,
-      minLength: 5,
-  },
-  {
-      _id: 'email',
-      type: 'email',
-      required: false
-      displayName: "email",
-      re: /.+@(.+){2,}\.(.+){2,}/,
-      errStr: 'Invalid email',
-  },
-  {
-      _id: 'username_and_email',
-      type: 'text',
-      required: true,
-      displayName: "Login",
-  },
-  pwdField,
-  {
     _id: 'name',
     type: 'text'
   },
+  {
+    _id: "username",
+    type: "text",
+    displayName: "username",
+    required: true,
+    minLength: 5,
+  },
+  {
+    _id: 'email',
+    type: 'email',
+    required: false
+    displayName: "email",
+    re: /.+@(.+){2,}\.(.+){2,}/,
+    errStr: 'Invalid email',
+  },
+  {
+    _id: 'username_and_email',
+    type: 'text',
+    required: true,
+    displayName: "Login",
+  },
+  pwdField,
   {
     _id: 'company',
     type: 'text'
@@ -98,3 +98,7 @@ AccountsTemplates.addFields([
 if Meteor.isServer
   Accounts.emailTemplates.siteName = "Steedos";
   Accounts.emailTemplates.from = Meteor.settings.email?.from;
+
+
+if Meteor.settings?.public?.accounts?.disableAccountRegistration
+  AccountsTemplates.options.forbidClientAccountCreation = true

@@ -45,6 +45,8 @@ aldeed:collection2
 
 
 
+rocketchat:logger
+
 
 underscorestring:underscore.string
 momentjs:moment

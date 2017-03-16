@@ -53,6 +53,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 	handle = db.instances.find({_id: {$in: ids}}).observeChanges {
 		changed: (id)->
 			instance = db.instances.findOne({_id: id}, {fields: fields})
+			return if not instance
 			myApprove = getMyApprove(self.userId, id)
 			if myApprove
 				instance.is_read = myApprove.is_read
@@ -66,6 +67,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 	ids.forEach (id)->
 		instance = db.instances.findOne({_id: id}, {fields: fields})
+		return if not instance
 		myApprove = getMyApprove(self.userId, id)
 		if myApprove
 			instance.is_read = myApprove.is_read

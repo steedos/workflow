@@ -42,14 +42,14 @@
 	"instance_relocate": "Relocate",
 	"instance_print": "Print",
 
-	"flow_roles": "Flow Roles",
-	"flow_roles_name": "Name",
+	"flow_roles": "Flow Positions",
+	"flow_roles_name": "Position Name",
 
-	"flow_positions": "Flow Positions",
-	"flow_positions_role": "Role",
+	"flow_positions": "Positions Users",
+	"flow_positions_role": "Position",
 	"flow_positions_org": "Organization",
 	"flow_positions_users": "Users",
-	"flow_positions_role_name()": "Role",
+	"flow_positions_role_name()": "Position",
 	"flow_positions_org_name()": "Organization",
 	"flow_positions_users_name()": "Users",
 
@@ -173,10 +173,9 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Form Style",
+	"workflow_form_edit": "Flow Script",
 	"flows_template": "Instance Template",
 	"flows_name": "Flow Name",
-	"flows_instance_style": "Form Style",
 	"flows_print_template": "Print Template",
 	"flows_instance_template": "Form Template",
 
@@ -378,13 +377,14 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-	"save Instance To Attachment": "Save instance to attachment.",
+	"saveInstanceToAttachment": "Save instance to attachment.",
 	"forwardFlowText": "Forward description",
 	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
 
 	"button_preview": "Preview",
 	"remove_cc_approve": "Deleted success",
 	"forward_instance_success": "Forward success",
+	"isForwardAttachments": "Is forward attachments.",
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Enter your comments here",
@@ -399,6 +399,18 @@
 	"instance_opinion_edit_success": "Edit successfully!",
 	"instance_opinion_field": "Sign field",
 	"instance_cc_error_opinion_field_required": "Please select the sign field",
-	
-	"instance_suggestion_toggle": "Sign"
+
+	"instance_suggestion_toggle": "Sign",
+
+	"instance_approve_read": "Read",
+	"instance_approve_from_user_name_label": "cc from",
+	"instance_approve_status_text_label": "status",
+	"instance_approve_description_label": "suggestion",
+	"instance_approve_start_date_label": "start date",
+	"instance_approve_finish_date_label": "finish date",
+	"instance_approve_read_yes": "yes",
+	"instance_approve_read_no": "no",
+	"instance_approve_cc_remove": "cancel cc",
+	"instance_approve_close_modal": "close",
+	"instance_approve_title_label": "Handler:"
 }

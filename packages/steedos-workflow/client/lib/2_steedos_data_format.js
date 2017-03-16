@@ -116,7 +116,10 @@ var s_autoform = function (schema, field) {
                 autoform.dateTimePickerOptions = {
                     showClear: true,
                     format: "YYYY-MM-DD",
-                    locale: Session.get("TAPi18n::loaded_lang")
+                    locale: Session.get("TAPi18n::loaded_lang"),
+                    widgetPositioning:{
+                        horizontal: 'right'
+                    }
                 }
             }
             break;
@@ -130,7 +133,10 @@ var s_autoform = function (schema, field) {
                 autoform.dateTimePickerOptions = {
                     showClear: true,
                     format: "YYYY-MM-DD HH:mm",
-                    locale: Session.get("TAPi18n::loaded_lang")
+                    locale: Session.get("TAPi18n::loaded_lang"),
+                    widgetPositioning:{
+                        horizontal: 'right'
+                    }
                 }
             }
             break;
@@ -148,6 +154,7 @@ var s_autoform = function (schema, field) {
             }
             autoform.readonly = (permission == 'readonly');
             autoform.type = (permission == 'readonly') ? 'text' : 'select';
+            autoform.disabled = (permission == 'readonly');
             break;
         case 'radio' :
             schema.type = [String];
@@ -173,11 +180,13 @@ var s_autoform = function (schema, field) {
             schema.type = String;
             autoform.type = "steedosEmail";
             autoform.readonly = (permission == 'readonly');
+            autoform.disabled = (permission == 'readonly');
             break;
         case 'url' :
             schema.type = String;
             autoform.type = "steedosUrl";
             autoform.readonly = (permission == 'readonly');
+            autoform.disabled = (permission == 'readonly');
             break;
         case 'group' :
             if (is_multiselect) {
@@ -195,6 +204,7 @@ var s_autoform = function (schema, field) {
         default:
             schema.type = String;
             autoform.readonly = (permission == 'readonly');
+            autoform.disabled = (permission == 'readonly');
             autoform.type = type;
             break; //地理位置
     }

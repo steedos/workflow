@@ -10,13 +10,13 @@ Template.instancePrint.helpers
 		return WorkflowManager.getInstance();
 
 # 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
-	isTableView: (flowId)->
-		flow = WorkflowManager.getFlow(flowId);
+	isTableView: (formId)->
+		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
 			return false
 
-		if flow?.instance_style == 'table'
+		if form?.instance_style == 'table'
 			return true
 		return false
 

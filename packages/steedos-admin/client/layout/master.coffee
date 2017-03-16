@@ -22,7 +22,7 @@ Template.adminLayout.helpers
 
 	isAdminRoute: ()->
 		path = Session.get("router-path")
-		return (path.startsWith("/admin/new") || path.startsWith("/admin/edit") || path.startsWith("/admin/view"))
+		return (path.startsWith("/admin/new/") || path.startsWith("/admin/edit/") || path.startsWith("/admin/view/"))
 
 	isAdminDetailRoute: ()->
 		path = Session.get("router-path")

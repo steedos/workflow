@@ -42,14 +42,14 @@
 	"instance_relocate": "重定位",
 	"instance_print": "打印",
 
-	"flow_roles": "角色",
-	"flow_roles_name": "角色名称",
+	"flow_roles": "岗位",
+	"flow_roles_name": "岗位名称",
 
-	"flow_positions": "岗位",
-	"flow_positions_role": "角色",
+	"flow_positions": "岗位成员",
+	"flow_positions_role": "岗位",
 	"flow_positions_org": "管辖范围",
 	"flow_positions_users": "岗位成员",
-	"flow_positions_role_name()": "角色",
+	"flow_positions_role_name()": "岗位",
 	"flow_positions_org_name()": "管辖范围",
 	"flow_positions_users_name()": "岗位成员",
 
@@ -175,10 +175,9 @@
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
-	"workflow_form_edit": "表单样式",
+	"workflow_form_edit": "流程脚本",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
-	"flows_instance_style": "表单样式",
 	"flows_print_template": "打印模板",
 	"flows_instance_template": "表单模板",
 
@@ -383,6 +382,8 @@
 	"saveInstanceToAttachment": "将原表单存储为附件",
 	"forwardFlowText": "请填写转发说明",
 	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
+	"isForwardAttachments": "是否转发附件",
+
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",
@@ -401,6 +402,18 @@
 	"instance_opinion_edit_success": "修改成功",
 	"instance_opinion_field": "签批字段",
 	"instance_cc_error_opinion_field_required": "请选择签批字段",
-	
-	"instance_suggestion_toggle": "签批"
+
+	"instance_suggestion_toggle": "签批",
+
+	"instance_approve_read": "已读",
+	"instance_approve_from_user_name_label": "传阅自",
+	"instance_approve_status_text_label": "操作",
+	"instance_approve_description_label": "处理意见",
+	"instance_approve_start_date_label": "开始时间",
+	"instance_approve_finish_date_label": "结束时间",
+	"instance_approve_read_yes": "是",
+	"instance_approve_read_no": "否",
+	"instance_approve_cc_remove": "取消传阅",
+	"instance_approve_close_modal": "关闭",
+	"instance_approve_title_label": "处理人："
 }

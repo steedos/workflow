@@ -840,7 +840,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 				a.historys = his;
 				a.current = {
-					"_id": Meteor.uuid(),
+					"_id": new Mongo.ObjectID()._str,
 					"_rev": fileObj._id,
 					"length": fileObj.size,
 					"approve": my_approve_id,
@@ -855,7 +855,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 		if (!hasRepeatedFile) {
 			var attach = {
-				"_id": Meteor.uuid(),
+				"_id": new Mongo.ObjectID()._str,
 				"filename": fileName,
 				"contentType": fileObj.type,
 				"modified": curTime,
@@ -863,7 +863,7 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 				"created": curTime,
 				"created_by": userId,
 				"current": {
-					"_id": Meteor.uuid(),
+					"_id": new Mongo.ObjectID()._str,
 					"_rev": fileObj._id,
 					"length": fileObj.size,
 					"approve": InstanceManager.getMyApprove().id,
@@ -985,9 +985,11 @@ InstanceManager.uploadAttach = function(files, isAddVersion) {
 	if (is_paid) {
 		limitSize = maximumFileSize;
 		warnStr = t("workflow_attachment_paid_size_limit");
+		$("body").removeClass("loading");
 	} else {
 		limitSize = freeMaximumFileSize;
 		warnStr = t("workflow_attachment_free_size_limit");
+		$("body").removeClass("loading");
 	}
 
 	var fd, file, fileName, i;
@@ -1133,8 +1135,8 @@ InstanceManager.unlockAttach = function(file_id) {
 }
 
 // 申请单转发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description) {
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, function(error, result) {
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, function(error, result) {
 		if (error) {
 			toastr.error(error.message);
 		}
@@ -1171,7 +1173,7 @@ InstanceManager.retrieveIns = function(reason) {
 InstanceManager.fixInstancePosition = function(isNeedToScrollTop) {
 	if ($(".instance-wrapper .instance-view").hasClass("suggestion-active")) {
 		var suggestionBoxH = $(".instance-wrapper .instance-suggestion").height();
-		$(".instance-wrapper .instance").css("bottom", suggestionBoxH + 4);
+		$(".instance-wrapper .instance").css("bottom", suggestionBoxH + 2);
 	} else {
 		$(".instance-wrapper .instance").css("bottom", 0);
 	}

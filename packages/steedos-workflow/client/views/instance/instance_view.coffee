@@ -10,13 +10,13 @@ Template.instance_view.helpers
 		return !(a == b)
 
 	# 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
-	isTableView: (flowId)->
-		flow = WorkflowManager.getFlow(flowId);
+	isTableView: (formId)->
+		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
 			return false
 
-		if flow?.instance_style == 'table'
+		if form?.instance_style == 'table'
 			return true
 		# return true
 		return false;
@@ -32,23 +32,23 @@ Template.instance_view.helpers
 			return false
 		return ApproveManager.isReadOnly();
 
-	instanceStyle: (flowId)->
-		flow = WorkflowManager.getFlow(flowId);
+	instanceStyle: (formId)->
+		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
 			return ""
 
-		if flow?.instance_style == 'table'
+		if form?.instance_style == 'table'
 			return "instance-table"
 		return "";
 
-	tracesTemplateName: (flowId)->
-		flow = WorkflowManager.getFlow(flowId);
+	tracesTemplateName: (formId)->
+		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
 			return "instance_traces"
 
-		if flow?.instance_style == 'table'
+		if form?.instance_style == 'table'
 			return "instance_traces_table"
 		# return true
 		return "instance_traces";
@@ -89,7 +89,7 @@ Template.instance_view.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
-		$('.instance').perfectScrollbar().css("right","-1px")
+		$('.instance').perfectScrollbar({suppressScrollX: true}).css("right","-1px")
 		if Session.get("box") == "inbox"
 			$('.instance').on 'ps-y-reach-end', ->
 				if this.scrollTop == 0

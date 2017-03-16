@@ -20,13 +20,13 @@ TabularTables.contacts = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-name contacts-info' data-id='#{doc._id}'>" + doc.name + "</div>"
+				return "<div class='contacts-name contacts-info nowrap' data-id='#{doc._id}'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-email contacts-info' data-id='#{doc._id}'>" + (doc.email || "") + "</div>"
+				return "<div class='contacts-email contacts-info nowrap' data-id='#{doc._id}'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "sort_no",

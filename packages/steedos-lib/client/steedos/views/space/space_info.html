@@ -9,14 +9,66 @@
       <span class="navigation-title dropdown">
         {{_ "spaces"}}
       </span>
-      <div class="pull-right">
-      </div>
+      {{#if isRightDropdownNeeded}}
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="fa fa-ellipsis-h fa-1"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                {{#if isSpaceOwner}}
+                  <li>
+                    <a class="btn-edit-space">
+                      <b>编辑工作区</b>
+                      <div class="menu-item-help">
+                        修改工作区名称、所有者及管理员。
+                      </div>
+                    </a>
+                  </li>
+                {{/if}}
+                {{#unless isDisableAddSpace}}
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a class="btn-new-space">
+                      <b>新建工作区</b>
+                      <div class="menu-item-help">
+                        一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。
+                      </div>
+                    </a>
+                  </li>
+                {{/unless}}
+            </ul>
+          </div>
+        </div>
+      {{/if}}
     </div>
     
     <section class="admin-content">
-      <div class="box box-default">
-        <div class="box-body">
-          {{> quickForm collection="db.spaces" doc=space id="updateSpace" schema=schema type="update" fields="name,owner,admins" buttonContent=btn_save_i18n}}
+      <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">名称</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{space.name}}</span>
+          </div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">所有者</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{spaceOwnerName space.owner}}</span>
+          </div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">管理员</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{adminsNames space.admins}}</span>
+          </div>
         </div>
       </div>
     </section>

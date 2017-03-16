@@ -229,10 +229,10 @@ Field.prototype.validate = function(value, strict) {
   if (_.isUndefined(value) || value === '') {
     if (!!strict) {
       if (this.required) {
-        this.setError(AccountsTemplates.texts.requiredField);
+        this.setError(T9n.get("requiredField"));
         this.setValidating(false);
 
-        return AccountsTemplates.texts.requiredField;
+        return T9n.get("requiredField");
       } else {
         this.setSuccess();
         this.setValidating(false);
@@ -250,18 +250,18 @@ Field.prototype.validate = function(value, strict) {
   var valueLength = value.length;
   var minLength = this.minLength;
   if (minLength && valueLength < minLength) {
-    this.setError(AccountsTemplates.texts.minRequiredLength + ": " + minLength);
+    this.setError(T9n.get("minRequiredLength") + ": " + minLength);
     this.setValidating(false);
 
-    return AccountsTemplates.texts.minRequiredLength + ": " + minLength;
+    return T9n.get("minRequiredLength") + ": " + minLength;
   }
 
   var maxLength = this.maxLength;
   if (maxLength && valueLength > maxLength) {
-    this.setError(AccountsTemplates.texts.maxAllowedLength + ": " + maxLength);
+    this.setError(T9n.get("maxAllowedLength") + ": " + maxLength);
     this.setValidating(false);
 
-    return AccountsTemplates.texts.maxAllowedLength + ": " + maxLength;
+    return T9n.get("maxAllowedLength") + ": " + maxLength;
   }
 
   if (this.re && valueLength && !value.match(this.re)) {

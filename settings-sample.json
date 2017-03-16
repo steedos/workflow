@@ -48,6 +48,12 @@
     },
     "cfs": {
       "store": "OSS"
+    },
+    "admin" : {
+      "disableAddSpace" : false
+    },
+    "accounts":{
+      "disableAccountRegistration" : false
     }
   },
   "push": {
@@ -89,7 +95,9 @@
     "bqq": "0 * * * * *",
     "dingtalk": "0 * * * * *",
     "statistics": "0 0 23 * * *",
-    "billing": "0 * * * * *"
+    "billing": "0 * * * * *",
+    "mailqueue_interval": 1000,
+    "push_interval": 1000
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
@@ -99,5 +107,12 @@
     "appuid": "xxx",
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
+  },
+  "logger" : {
+    "enabled" : true,
+    "showPackage" : true,
+    "showFileAndLine" : true,
+    "logLevel" : 2,
+    "viewLimit" : 1000
   }
 }
