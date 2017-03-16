@@ -51,6 +51,9 @@
     },
     "admin" : {
       "disableAddSpace" : false
+    },
+    "accounts":{
+      "disableAccountRegistration" : false
     }
   },
   "push": {

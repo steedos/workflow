@@ -98,3 +98,7 @@ AccountsTemplates.addFields([
 if Meteor.isServer
   Accounts.emailTemplates.siteName = "Steedos";
   Accounts.emailTemplates.from = Meteor.settings.email?.from;
+
+
+if Meteor.settings?.public?.accounts?.disableAccountRegistration
+  AccountsTemplates.options.forbidClientAccountCreation = true
