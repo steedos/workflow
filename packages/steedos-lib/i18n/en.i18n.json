@@ -379,5 +379,7 @@
 	"spaces_new_help": "A space is a work area, you can invite colleagues, work partners to join the work area, and then work together.",
 	"spaces_new_swal_title": "Please enter the space name",
 	"spaces_new_swal_help": "A space is a work area, you can invite colleagues, work partners to join the work area, and then work together.",
-	"spaces_new_swal_success": "Space created successfully."
+	"spaces_new_swal_success": "Space created successfully.",
+
+	"space_info": "Space Info"
 }

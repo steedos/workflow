@@ -393,5 +393,7 @@
 	"spaces_new_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
 	"spaces_new_swal_title": "请输入工作区名称",
 	"spaces_new_swal_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
-	"spaces_new_swal_success": "工作区创建成功"
+	"spaces_new_swal_success": "工作区创建成功",
+
+	"space_info": "工作区信息"
 }
