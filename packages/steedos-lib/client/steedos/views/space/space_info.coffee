@@ -14,7 +14,7 @@ Template.space_info.helpers
         return if user then user.name else ""
 
     adminsNames: (ids) ->
-        return CFDataManager.getFormulaSpaceUsers(ids).getProperty("name").join(",")
+        return CFDataManager.getFormulaSpaceUsers(ids)?.getProperty("name").join(",")
 
 Template.space_info.events
 
@@ -35,7 +35,7 @@ Template.space_info.events
             Meteor.call 'adminInsertDoc', {name:name}, "spaces", (e,r)->
                 $("body").removeClass("loading")
                 if e
-                    swal("Error", e, "error")
+                    toastr.error e.message
                     return false
 
                 if r && r._id
