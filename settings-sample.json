@@ -48,6 +48,9 @@
     },
     "cfs": {
       "store": "OSS"
+    },
+    "admin" : {
+      "disableAddSpace" : false
     }
   },
   "push": {

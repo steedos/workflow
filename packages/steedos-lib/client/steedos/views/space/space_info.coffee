@@ -16,6 +16,19 @@ Template.space_info.helpers
     adminsNames: (ids) ->
         return CFDataManager.getFormulaSpaceUsers(ids)?.getProperty("name").join(",")
 
+    isDisableAddSpace: ->
+        return Meteor.settings?.public?.admin?.disableAddSpace
+
+    isRightDropdownNeeded: ->
+        isSpaceAdmin = Steedos.isSpaceAdmin()
+        isSpaceOwner = Steedos.isSpaceOwner()
+        disableAddSpace = Meteor.settings?.public?.admin?.disableAddSpace
+        unless isSpaceAdmin
+            return false
+        if isSpaceOwner
+            return true
+        return !disableAddSpace
+
 Template.space_info.events
 
     'click .btn-new-space': (event)->
