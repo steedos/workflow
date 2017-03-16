@@ -20,25 +20,27 @@ Template.space_info.events
 
     'click .btn-new-space': (event)->
         swal({
-          title: "请输入工作区名称", 
-          text: "", 
-          type: "input",
-          showCancelButton: true,
-          closeOnCancel: true,
-          closeOnConfirm: false,
-          showLoaderOnConfirm: true
+            title: "请输入工作区名称", 
+            text: "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。", 
+            type: "input",
+            confirmButtonText: t('OK'),
+            cancelButtonText: t('Cancel'),
+            showCancelButton: true,
+            closeOnCancel: true,
+            closeOnConfirm: false
         }, (name) ->
-          if !name
-            return false
+            if !name
+                return false
+            $("body").addClass("loading")
+            Meteor.call 'adminInsertDoc', {name:name}, "spaces", (e,r)->
+                $("body").removeClass("loading")
+                if e
+                    swal("Error", e, "error")
+                    return false
 
-          Meteor.call 'adminInsertDoc', {name:name}, "spaces", (e,r)->
-            if e
-              swal("Error", e, "error")
-              return false
-
-            if r && r._id
-              Steedos.setSpaceId(r._id)
-              toastr.success "工作区已创建成功"
+                if r && r._id
+                    Steedos.setSpaceId(r._id)
+                    toastr.success "工作区已创建成功"
         )
 
     'click .btn-edit-space': (event)->
