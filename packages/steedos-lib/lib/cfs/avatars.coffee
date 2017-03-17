@@ -37,3 +37,7 @@ db.avatars.allow
     return true;
   download: ->
     return true;
+
+
+db.avatars.files.before.insert((userId, doc) ->
+  doc.userId = userId;
