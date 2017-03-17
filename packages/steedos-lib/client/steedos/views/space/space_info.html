@@ -7,16 +7,68 @@
       </button>
 
       <span class="navigation-title dropdown">
-        {{_ "spaces"}}
+        {{_ "space_info"}}
       </span>
-      <div class="pull-right">
-      </div>
+      {{#if isRightDropdownNeeded}}
+        <div class="pull-right">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="fa fa-ellipsis-h fa-1"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                {{#if isSpaceOwner}}
+                  <li>
+                    <a class="btn-edit-space">
+                      <b>{{_ "spaces_edit"}}</b>
+                      <div class="menu-item-help">
+                        {{_ "spaces_edit_help"}}
+                      </div>
+                    </a>
+                  </li>
+                {{/if}}
+                {{#unless isDisableAddSpace}}
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a class="btn-new-space">
+                      <b>{{_ "spaces_new"}}</b>
+                      <div class="menu-item-help">
+                        {{_ "spaces_new_help"}}
+                      </div>
+                    </a>
+                  </li>
+                {{/unless}}
+            </ul>
+          </div>
+        </div>
+      {{/if}}
     </div>
     
     <section class="admin-content">
-      <div class="box box-default">
-        <div class="box-body">
-          {{> quickForm collection="db.spaces" doc=space id="updateSpace" schema=schema type="update" fields="name,owner,admins" buttonContent=btn_save_i18n}}
+      <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">{{_ "spaces_name"}}</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{space.name}}</span>
+          </div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">{{_ "spaces_owner"}}</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{spaceOwnerName space.owner}}</span>
+          </div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_hd">
+            <span class="weui_label">{{_ "spaces_admins"}}</span>
+          </div>
+          <div class="weui_cell_bd weui_cell_primary text-muted">
+            <span class="weui_input">{{adminsNames space.admins}}</span>
+          </div>
         </div>
       </div>
     </section>

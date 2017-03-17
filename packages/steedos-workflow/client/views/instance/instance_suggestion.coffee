@@ -88,6 +88,9 @@ Template.instance_suggestion.helpers
 			}
 		};
 
+		unless nextStep
+			data.atts.disabled = true
+
 		next_user = $("input[name='nextStepUsers']");
 
 

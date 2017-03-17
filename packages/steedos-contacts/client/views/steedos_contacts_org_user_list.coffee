@@ -61,9 +61,11 @@ Template.steedos_contacts_org_user_list.events
 		).draw();
 
 	'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
+		event.stopPropagation()
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
 	'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
+		event.stopPropagation()
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
 
 	'click #steedos_contacts_invite_users_btn': (event, template) ->
@@ -76,7 +78,7 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .contacts-info': (event, template)->
+	'click .datatable-steedos-contacts tbody tr': (event, template)->
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'selectstart #contacts_list .drag-source': (event, template)->

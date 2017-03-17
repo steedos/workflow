@@ -985,9 +985,11 @@ InstanceManager.uploadAttach = function(files, isAddVersion) {
 	if (is_paid) {
 		limitSize = maximumFileSize;
 		warnStr = t("workflow_attachment_paid_size_limit");
+		$("body").removeClass("loading");
 	} else {
 		limitSize = freeMaximumFileSize;
 		warnStr = t("workflow_attachment_free_size_limit");
+		$("body").removeClass("loading");
 	}
 
 	var fd, file, fileName, i;

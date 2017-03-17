@@ -42,14 +42,14 @@
 	"instance_relocate": "Relocate",
 	"instance_print": "Print",
 
-	"flow_roles": "Flow Roles",
-	"flow_roles_name": "Name",
+	"flow_roles": "Flow Positions",
+	"flow_roles_name": "Position Name",
 
-	"flow_positions": "Flow Positions",
-	"flow_positions_role": "Role",
+	"flow_positions": "Positions Users",
+	"flow_positions_role": "Position",
 	"flow_positions_org": "Organization",
 	"flow_positions_users": "Users",
-	"flow_positions_role_name()": "Role",
+	"flow_positions_role_name()": "Position",
 	"flow_positions_org_name()": "Organization",
 	"flow_positions_users_name()": "Users",
 

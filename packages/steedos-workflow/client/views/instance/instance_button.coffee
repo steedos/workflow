@@ -90,7 +90,7 @@ Template.instance_button.helpers
 		if !organizations
 			return false
 
-		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
+		if Session.get("box") == "monitor" && ins.state != "draft" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
 			return true
 		else
 			return false
@@ -116,11 +116,9 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
-			last_trace = _.find(ins.traces, (t)->
-				return t.is_finished is false
-			)
-			previous_trace_id = last_trace.previous_trace_ids[0];
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+			last_trace = _.last(ins.traces)
+			previous_trace_id = last_trace.previous_trace_ids[0]
 			previous_trace = _.find(ins.traces, (t)->
 				return t._id is previous_trace_id
 			)

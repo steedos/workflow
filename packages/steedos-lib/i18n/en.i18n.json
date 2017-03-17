@@ -371,5 +371,15 @@
 		"workflow": "Workflow Professional",
 		"chat": "Chat Professional",
 		"adjustment": "Service adjustment"
-	}
+	},
+
+	"spaces_edit": "Edit Space",
+	"spaces_edit_help": "Edit the name,owner and admins of space.",
+	"spaces_new": "Create Space",
+	"spaces_new_help": "A space is a work area, you can invite colleagues, work partners to join the work area, and then work together.",
+	"spaces_new_swal_title": "Please enter the space name",
+	"spaces_new_swal_help": "A space is a work area, you can invite colleagues, work partners to join the work area, and then work together.",
+	"spaces_new_swal_success": "Space created successfully.",
+
+	"space_info": "Space Info"
 }

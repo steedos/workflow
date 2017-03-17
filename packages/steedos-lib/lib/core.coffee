@@ -225,15 +225,6 @@ if Meteor.isClient
 		return browser.device == DEVICE.ipad or browser.device == DEVICE.iphone or browser.device == DEVICE.ipod
 
 
-
-	#定义系统关闭函数，下次登录时自动跳转URL
-	window.onunload = ()->
-		# 判断用户是否登录
-		if Meteor.userId()
-			lastUrl = FlowRouter.current().path
-			localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
-
-
 if Meteor.isServer
 	#TODO 添加服务端是否手机的判断(依据request)
 	Steedos.isMobile = ()->
