@@ -1,0 +1,30 @@
+@import '../variables';
+@import '../mixins';
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+   transform: rotate(360deg);
+ }
+}
+
+.ball-clip-rotate {
+
+  > div {
+    @include balls();
+    @include global-animation();
+
+    border: 2px solid $primary-color;
+    border-bottom-color: transparent;
+    height: 26px;
+    width: 26px;
+    background: transparent !important;
+    display: inline-block;
+    animation: rotate 0.75s 0s linear infinite;
+  }
+}
