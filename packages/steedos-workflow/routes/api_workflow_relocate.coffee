@@ -6,15 +6,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
 			instance = uuflowManager.getInstance(instance_from_client["id"])
-			# 验证instance为审核中状态
-			uuflowManager.isInstancePending(instance)
-			# 验证当前执行转签核的trace未结束
-			last_trace_from_client = _.last(instance_from_client["traces"])
-			last_trace = _.find(instance.traces, (t)->
-				return t._id is last_trace_from_client["id"]
-			)
-			if last_trace.is_finished is true
-				return
+			
+			last_trace = _.last(instance.traces)
 
 			# 验证login user_id对该流程有管理申请单的权限
 			permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
@@ -45,6 +38,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 			i = 0
 			while i < traces.length
 				if traces[i]._id is last_trace._id
+					if not traces[i].approves
+						traces[i].approves = new Array
 					# 更新当前trace.approve记录
 					h = 0
 					while h < traces[i].approves.length
@@ -154,6 +149,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newTrace.approves.push(newApprove)
 				)
 				setObj.inbox_users = relocate_inbox_users
+				setObj.state = "pending"
 
 			instance.outbox_users.push(current_user)
 			instance.outbox_users = instance.outbox_users.concat(inbox_users)
