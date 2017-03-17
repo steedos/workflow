@@ -39,5 +39,5 @@ db.avatars.allow
     return true;
 
 
-db.avatars.files.before.insert((userId, doc) ->
+db.avatars.files.before.insert (userId, doc) ->
   doc.userId = userId;
