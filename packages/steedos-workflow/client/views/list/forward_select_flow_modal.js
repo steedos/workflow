@@ -53,8 +53,8 @@ Template.forward_select_flow_modal.events({
 		if (!flow)
 			return;
 
-		Modal.hide(template);
 		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), $("#isForwardAttachments")[0].checked);
+		Modal.hide(template);
 	},
 
 	'click #forward_flow': function(event, tempalte) {
