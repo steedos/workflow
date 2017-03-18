@@ -29,13 +29,13 @@
 						<li class="treeview">
 							<a href="javascript:void(0)">
 								<i class="ion ion-ios-cloud-outline"></i>
-								<span>{{_ "steedos_system"}}</span>
+								<span>{{_ "spaces"}}</span>
 								<span class="pull-right-container">
 									<i class="fa fa-angle-left pull-right"></i>
 								</span>
 							</a>
 							<ul class="treeview-menu">
-								<li class="{{menuClass 'admin/space/info'}}"><a href="/admin/space/info"><i class="ion ion-android-globe"></i><span>{{_ "spaces"}}</span></a></li>
+								<li class="{{menuClass 'admin/space/info'}}"><a href="/admin/space/info"><i class="ion ion-android-globe"></i><span>{{_ "space_info"}}</span></a></li>
 								{{#if isSpaceAdmin}}
 									{{#if isNotSync}}
 										<li class="{{menuClass 'admin/organizations'}} fix-collection-helper"><a href="/admin/organizations"><i class="fa fa-sitemap"></i><span>{{_ "contacts_organizations"}}</span></a></li>

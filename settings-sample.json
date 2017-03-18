@@ -1,4 +1,5 @@
 {
+  //公开节点，即前后端都需要的节点
   "public": {
     "webservices": {
       "account": {
@@ -49,11 +50,13 @@
     "cfs": {
       "store": "OSS"
     },
+    //系统设置相关
     "admin" : {
-      "disableAddSpace" : false
+      "disableAddSpace" : false//是否禁止创建新工作区
     },
+    //账户相关
     "accounts":{
-      "disableAccountRegistration" : false
+      "disableAccountRegistration" : false//是否禁止注册新用户
     }
   },
   "push": {
@@ -108,11 +111,12 @@
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
   },
+  //日志相关
   "logger" : {
-    "enabled" : true,
-    "showPackage" : true,
-    "showFileAndLine" : true,
-    "logLevel" : 2,
-    "viewLimit" : 1000
+    "enabled" : true,//是否启用日志
+    "showPackage" : true,//是否显示包前缀
+    "showFileAndLine" : true,//是否显示文件及行号
+    "logLevel" : 2,//日志级别，0为只输出error日志，2为输出所有级别日志
+    "viewLimit" : 1000//日志最大记录数
   }
 }
