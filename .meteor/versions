@@ -89,6 +89,7 @@ kadira:flow-router@2.12.1
 launch-screen@1.0.12
 less@2.7.5
 livedata@1.0.18
+loaders-css@0.1.2
 localstorage@1.0.11
 logging@1.1.15
 matb33:collection-hooks@0.8.4
