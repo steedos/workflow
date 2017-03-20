@@ -8,10 +8,10 @@ Meteor.methods
 		if user.username is username
 			return username
 
-		nameValidation = new RegExp '^[0-9a-zA-Z-_.]+$'
+		nameValidation = new RegExp '^[0-9a-zA-Z-_.\u4e00-\u9fa5]+$'
 
 		if not nameValidation.test username
-			throw new Meteor.Error 'username-invalid', "#{username} is not a valid username, use only letters, numbers, dots, hyphens and underscores"
+			throw new Meteor.Error 'username-invalid', "#{username} is not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores"
 
 		if user.username != undefined
 			if username.toLowerCase() != user.username.toLowerCase()

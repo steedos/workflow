@@ -384,6 +384,6 @@
 	"space_info": "Space Info",
 	"Change username": "Change username",
 	"Change username successfully": "Change username successfully",
-	"username-invalid": "Not a valid username, use only letters, numbers, dots, hyphens and underscores",
+	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
 	"username-unavailable": "This username is already in use"
 }

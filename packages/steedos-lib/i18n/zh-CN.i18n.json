@@ -398,6 +398,6 @@
 	"space_info": "工作区信息",
 	"Change username": "更改用户名",
 	"Change username successfully": "更改用户名成功",
-	"username-invalid": "用户名非法，仅使用字母，数字，点，连字符和下划线",
+	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
 	"username-unavailable": "此用户名已经被使用，请填写其他用户名"
 }
