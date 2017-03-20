@@ -2,46 +2,6 @@
   //公开节点，即前后端都需要的节点
   "public": {
     "webservices": {
-      "account": {
-        "status": "active",
-        "url": "https://setup.steedos.com:443"
-      },
-      "admin": {
-        "status": "active",
-        "url": "https://adminws.steedos.com:443"
-      },
-      "attachments": {
-        "status": "active",
-        "url": "https://attachmentsws.steedos.com:443"
-      },
-      "chat": {
-        "status": "active",
-        "url": "https://chatws.steedos.com:443"
-      },
-      "contacts": {
-        "status": "active",
-        "url": "https://contactsws.steedos.com:443"
-      },
-      "keyvalue": {
-        "status": "active",
-        "url": "https://keyvaluews.steedos.com:443"
-      },
-      "push": {
-        "status": "active",
-        "url": "https://pushws.steedos.com:443"
-      },
-      "s3": {
-        "status": "active",
-        "url": "https://s3ws.steedos.com"
-      },
-      "ubiquity": {
-        "status": "active",
-        "url": "https://ubiquityws.steedos.com:443"
-      },
-      "uuflow": {
-        "status": "active",
-        "url": "https://uuflowws.steedos.com:443"
-      },
       "www": {
         "status": "active",
         "url": "https://www.steedos.com:443"
