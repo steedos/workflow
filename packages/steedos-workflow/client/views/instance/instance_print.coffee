@@ -31,7 +31,9 @@ Template.instancePrint.helpers
 	formDescription: ->
 		ins = WorkflowManager.getInstance();
 		if ins
-			return WorkflowManager.getForm(ins.form)?.description
+			insDes = WorkflowManager.getForm(ins.form)?.description
+			insDes = insDes.replace(/\n/g,"<br/>")
+			return insDes
 
 Template.instancePrint.step = 1;
 

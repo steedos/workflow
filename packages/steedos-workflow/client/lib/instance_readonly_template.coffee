@@ -398,6 +398,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	if form
 		formDescription = form.description
 		if formDescription
+			formDescription = formDescription.replace(/\n/g,"<br/>")
 			formDescriptionHtml = """
 				<div class="box-header  with-border instance-header">
 					<div>
