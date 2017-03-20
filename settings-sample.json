@@ -51,12 +51,13 @@
       "store": "OSS"
     },
     //系统设置相关
-    "admin" : {
-      "disableAddSpace" : false//是否禁止创建新工作区
+    "admin": {
+      "disableAddSpace": false //是否禁止创建新工作区
     },
     //账户相关
-    "accounts":{
-      "disableAccountRegistration" : false//是否禁止注册新用户
+    "accounts": {
+      "disableAccountRegistration": false, //是否禁止注册新用户
+      "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+"
     }
   },
   "push": {
@@ -112,11 +113,11 @@
     "push_app_key": "xxx"
   },
   //日志相关
-  "logger" : {
-    "enabled" : true,//是否启用日志
-    "showPackage" : true,//是否显示包前缀
-    "showFileAndLine" : true,//是否显示文件及行号
-    "logLevel" : 2,//日志级别，0为只输出error日志，2为输出所有级别日志
-    "viewLimit" : 1000//日志最大记录数
+  "logger": {
+    "enabled": true, //是否启用日志
+    "showPackage": true, //是否显示包前缀
+    "showFileAndLine": true, //是否显示文件及行号
+    "logLevel": 2, //日志级别，0为只输出error日志，2为输出所有级别日志
+    "viewLimit": 1000 //日志最大记录数
   }
 }
