@@ -381,5 +381,9 @@
 	"spaces_new_swal_help": "A space is a work area, you can invite colleagues, work partners to join the work area, and then work together.",
 	"spaces_new_swal_success": "Space created successfully.",
 
-	"space_info": "Space Info"
+	"space_info": "Space Info",
+	"Change username": "Change username",
+	"Change username successfully": "Change username successfully",
+	"username-invalid": "Not a valid username, use only letters, numbers, dots, hyphens and underscores",
+	"username-unavailable": "This username is already in use"
 }

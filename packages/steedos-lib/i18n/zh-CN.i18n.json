@@ -395,5 +395,9 @@
 	"spaces_new_swal_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
 	"spaces_new_swal_success": "工作区创建成功",
 
-	"space_info": "工作区信息"
+	"space_info": "工作区信息",
+	"Change username": "更改用户名",
+	"Change username successfully": "更改用户名成功",
+	"username-invalid": "用户名非法，仅使用字母，数字，点，连字符和下划线",
+	"username-unavailable": "此用户名已经被使用，请填写其他用户名"
 }
