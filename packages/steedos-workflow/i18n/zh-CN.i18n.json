@@ -42,14 +42,14 @@
 	"instance_relocate": "重定位",
 	"instance_print": "打印",
 
-	"flow_roles": "角色",
-	"flow_roles_name": "角色名称",
+	"flow_roles": "岗位",
+	"flow_roles_name": "岗位名称",
 
-	"flow_positions": "岗位",
-	"flow_positions_role": "角色",
+	"flow_positions": "岗位成员",
+	"flow_positions_role": "岗位",
 	"flow_positions_org": "管辖范围",
 	"flow_positions_users": "岗位成员",
-	"flow_positions_role_name()": "角色",
+	"flow_positions_role_name()": "岗位",
 	"flow_positions_org_name()": "管辖范围",
 	"flow_positions_users_name()": "岗位成员",
 
@@ -382,6 +382,8 @@
 	"saveInstanceToAttachment": "将原表单存储为附件",
 	"forwardFlowText": "请填写转发说明",
 	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
+	"isForwardAttachments": "是否转发附件",
+
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",

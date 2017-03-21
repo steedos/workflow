@@ -40,7 +40,7 @@ Package.onUse(function(api) {
 
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager');
-	
+
 	api.use('steedos:version');
 
 	api.use(['webapp'], 'server');
@@ -139,12 +139,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-url/url.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-url/url.js', 'client');
 
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/bloodhound.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.bundle.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.jquery.js', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.less', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.html', 'client');
-    api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/bloodhound.js', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.bundle.js', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.jquery.js', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.less', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.html', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
 
 	api.addFiles('client/lib/ajax_collection.coffee', 'client');
 
@@ -235,6 +235,7 @@ Package.onUse(function(api) {
 	// methods
 	api.addFiles('server/methods/setKeyValue.js', 'server');
 	api.addFiles('server/methods/billing_settleup.coffee', 'server');
+	api.addFiles('server/methods/setUsername.coffee', 'server');
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
@@ -251,7 +252,10 @@ Package.onUse(function(api) {
 	api.addFiles('lib/admin.coffee');
 
 	api.addFiles('steedos.info');
-	
+
+	// functions
+	api.addFiles('server/functions/checkUsernameAvailability.coffee', 'server');
+
 	// EXPORT
 	api.export('Steedos');
 	api.export('db');

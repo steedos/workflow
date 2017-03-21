@@ -9,7 +9,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			retrieve_comment = instance_from_client['retrieve_comment']
 
 			# 验证instance为审核中状态
-			uuflowManager.isInstancePending(instance)
+			# uuflowManager.isInstancePending(instance)
 			# 校验申请单是当前用户已审核过的单子或者当前用户是提交人或申请人
 			if (not instance.outbox_users.includes(current_user)) and (instance.submitter isnt current_user and instance.applicant isnt current_user)
 				throw new Meteor.Error('error', '当前用户不符合取回条件')
@@ -17,9 +17,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			traces = instance.traces
 
 			#获取最新的trace， 即取回步骤
-			last_trace = _.find(traces, (t)->
-				return t.is_finished is false
-			)
+			last_trace = _.last(traces)
 			last_trace_id = last_trace._id
 			previous_trace_id = last_trace.previous_trace_ids[0];
 			previous_trace = _.find(traces, (t)->
@@ -44,6 +42,8 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			now = new Date
 			_.each traces, (t)->
 				if t._id is last_trace_id
+					if not t.approves
+						t.approves = new Array
 					# 更新当前trace.approve记录
 					_.each t.approves, (appr)->
 						appr.start_date = now
@@ -130,6 +130,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			setObj.modified_by = current_user
 			traces.push(newTrace)
 			setObj.traces = traces
+			setObj.state = "pending"
 
 			r = db.instances.update({_id: instance_id}, {$set: setObj})
 			if r

@@ -25,8 +25,8 @@
 	"Profile Information": "账户信息",
 	"Language": "语言",
 	"Timezone": "时区",
-	"Full Name": "姓名",
-	"Name": "名称",
+	"Full Name": "全名",
+	"Name": "姓名",
 	"Gender": "性别",
 	"Male": "男",
 	"Female": "女",
@@ -385,6 +385,19 @@
 		"workflow": "审批王专业版",
 		"chat": "享聊专业版",
 		"adjustment": "账单调整"
-	}
+	},
 
+	"spaces_edit": "编辑工作区",
+	"spaces_edit_help": "修改工作区名称、所有者及管理员。",
+	"spaces_new": "新建工作区",
+	"spaces_new_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
+	"spaces_new_swal_title": "请输入工作区名称",
+	"spaces_new_swal_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
+	"spaces_new_swal_success": "工作区创建成功",
+
+	"space_info": "工作区信息",
+	"Change username": "更改用户名",
+	"Change username successfully": "更改用户名成功",
+	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
+	"username-unavailable": "此用户名已经被使用，请填写其他用户名"
 }

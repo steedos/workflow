@@ -23,6 +23,13 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <li>
+            <div class="loader">
+              <div class="line-spin-fade-loader">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+              </div>
+            </div>
+          </li>
           {{#if getBadgeForWorkflowApp}}
             <li class="notifications-menu">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/" data-toggle="tooltip" data-placement="bottom" title="{{_ workflowApp.name}}">

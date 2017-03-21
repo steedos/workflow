@@ -25,20 +25,18 @@
 				</a>
 			</div>
 		</div>
-		{{#if isSpaceAdmin}}
-			<div class="row admin-grids dark-grids">
-				{{#if isSpaceOwner}}
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/space/info/" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="ion ion-android-globe"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "spaces"}}
-							</div>
-						</a>
+		<div class="row admin-grids dark-grids">
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+				<a href="/admin/space/info/" class="admin-grid-item btn btn-block">
+					<div class="admin-grid-icon">
+						<i class="ion ion-android-globe"></i>
 					</div>
-				{{/if}}
+					<div class="admin-grid-label">
+						{{_ "space_info"}}
+					</div>
+				</a>
+			</div>
+			{{#if isSpaceAdmin}}
 				{{#if isNotSync}}
 					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
 						<a href="/admin/organizations/" class="admin-grid-item btn btn-block">
@@ -71,8 +69,8 @@
 						</div>
 					</a>
 				</div>
-			</div>
-		{{/if}}
+			{{/if}}
+		</div>
 		{{#if isWorkflowAdmin}}
 			<div class="row admin-grids">
 				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">

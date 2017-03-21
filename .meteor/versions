@@ -89,6 +89,7 @@ kadira:flow-router@2.12.1
 launch-screen@1.0.12
 less@2.7.5
 livedata@1.0.18
+loaders-css@0.1.2
 localstorage@1.0.11
 logging@1.1.15
 matb33:collection-hooks@0.8.4
@@ -119,6 +120,7 @@ mrt:moment@2.14.1
 mrt:moment-timezone@0.2.1
 natestrauser:animate-css@3.5.1
 nimble:restivus@0.8.11
+nooitaf:colors@0.0.3
 npm-bcrypt@0.9.1
 npm-mongo@1.5.49
 oauth@1.1.11
@@ -142,6 +144,7 @@ reactive-var@1.0.10
 reload@1.1.10
 retry@1.0.8
 reywood:publish-composite@1.4.2
+rocketchat:logger@0.0.1
 routepolicy@1.0.11
 sach:flow-db-admin@1.1.5
 service-configuration@1.0.10

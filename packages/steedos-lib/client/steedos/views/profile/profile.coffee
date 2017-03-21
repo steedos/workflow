@@ -319,6 +319,29 @@ Template.profile.events
 				console.error error
 				toastr.error(error)
 
+	'click .change-username': (event, template) ->
+		user = Meteor.user()
+		swal {
+			title: t('Change username')
+			type: "input"
+			inputValue: user.username || ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			Meteor.call "setUsername", inputValue.trim(), (error, results)->
+				if results
+					toastr.remove()
+					toastr.success t('Change username successfully')
+					swal.close()
+
+				if error
+					toastr.remove()
+					toastr.error(TAPi18n.__(error.error))
 
 Meteor.startup ->
 	AutoForm.hooks
@@ -336,4 +359,3 @@ Meteor.startup ->
 					toastr.error error.reason
 				else
 					toastr.error error
-	  

@@ -14,6 +14,3 @@ FSSH =
 				callback {reason:'账户验证失败'},false
 		catch e
 			callback {reason:'账户验证失败',message:e.message},false
-
-# 不允许注册新用户
-AccountsTemplates.options.forbidClientAccountCreation = true

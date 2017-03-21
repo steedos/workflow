@@ -126,6 +126,11 @@ span,a{
 		.modal-zoom{
 			zoom:120%;
 		}
+		&.accounts-guide-modal{
+			.modal-dialog{
+				width:721px;
+			}
+		}
 
 		.box{
 			zoom:120%;
@@ -172,6 +177,11 @@ span,a{
 		}
 		.modal-zoom{
 			zoom:135%;
+		}
+		&.accounts-guide-modal{
+			.modal-dialog{
+				width:811px;
+			}
 		}
 
 		.box{
@@ -222,6 +232,11 @@ _:-ms-fullscreen,
 		.modal-zoom{
 			zoom:120%;
 			width:83%;
+		}
+		&.accounts-guide-modal{
+			.modal-dialog{
+				width:723px;
+			}
 		}
 
 		.box{
@@ -343,6 +358,10 @@ _:-ms-fullscreen,
 		width: 83%;
 		height: 83%;
 	}
+	&.zoom-setting-item{
+		width: 83%;
+		margin-bottom: 0px;
+	}
 }
 
 /*IE11 CSS hack*/
@@ -353,6 +372,10 @@ _:-ms-fullscreen,
 	.app-wrapper{
 		width: 74%;
 		height: 74%;
+	}
+	&.zoom-setting-item{
+		width: 74%;
+		margin-bottom: 0px;
 	}
 }
 
@@ -367,6 +390,15 @@ _:-ms-fullscreen,
 .dropdown-menu{
 	a:hover{
 		cursor: pointer;
+	}
+	.menu-item-help{
+		margin-top: 4px;
+		padding-top: 4px;
+		font-size: 0.9em;
+		color: #999;
+		width: 280px;
+		word-wrap: break-word;
+		white-space: normal;
 	}
 }
 
@@ -390,3 +422,20 @@ _:-ms-fullscreen,
 #serverList{
 	z-index:9999999999!important;
 }
+
+
+.main-header{
+	.loader{
+		margin-top: 24px;
+		margin-right: 20px;
+		transform: scale(0.3,0.3);
+		display:none;
+		.loading-header &{
+			display:block;
+		}
+	}
+}
+
+
+
+
