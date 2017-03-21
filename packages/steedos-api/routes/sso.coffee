@@ -65,6 +65,9 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 
 			returnurl = redirectUrl + "?X-STEEDOS-WEB-ID=" + steedos_id + "&X-STEEDOS-AUTHTOKEN=" + steedos_token
 
+			if user.username
+				returnurl += "&X-STEEDOS-USERNAME=#{user.username}"
+
 			res.setHeader "Location", returnurl
 			res.writeHead 302
 			res.end()
