@@ -17,7 +17,8 @@
     //账户相关
     "accounts": {
       "disableAccountRegistration": false, //是否禁止注册新用户
-      "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+"
+      "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
+      "loginExpirationInDays": 90
     }
   },
   "push": {
