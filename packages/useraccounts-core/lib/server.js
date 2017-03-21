@@ -77,7 +77,11 @@ AT.prototype._init = function() {
     // ...adds only user.services.*.id
     Meteor.publish("userRegisteredServices", function() {
       var userId = this.userId;
-      return Meteor.users.find(userId, {fields: {services: 1}});
+      return Meteor.users.find(userId, {
+        fields: {
+          services: 1
+        }
+      });
       /*
       if (userId) {
         var user = Meteor.users.findOne(userId);
@@ -134,9 +138,9 @@ AT.prototype._init = function() {
       } else {
         // we got the username, lets check there's at lease one verified email
         var emailVerified = _.chain(user.emails)
-        .pluck('verified')
-        .any()
-        .value();
+          .pluck('verified')
+          .any()
+          .value();
 
         if (!emailVerified) {
           ok = false;
@@ -156,7 +160,7 @@ AT.prototype._init = function() {
     var settingsSecretKey = Meteor.settings.reCaptcha && Meteor.settings.reCaptcha.secretKey;
 
     if (!atSecretKey && !settingsSecretKey) {
-      throw new Meteor.Error(401, "User Accounts: reCaptcha secret key not found! Please provide it or set showReCaptcha to false." );
+      throw new Meteor.Error(401, "User Accounts: reCaptcha secret key not found! Please provide it or set showReCaptcha to false.");
     }
   }
 
@@ -175,7 +179,8 @@ AccountsTemplates = new AT();
 //    });
 
 Accounts.config({
-  forbidClientAccountCreation: true
+  forbidClientAccountCreation: true,
+  loginExpirationInDays: Meteor.settings.public.accounts ? Meteor.settings.public.accounts.loginExpirationInDays : undefined
 });
 
 // Initialization

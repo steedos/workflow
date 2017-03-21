@@ -72,7 +72,7 @@ Template.instance_view.helpers
 	formDescription: ->
 		ins = WorkflowManager.getInstance();
 		if ins
-			return WorkflowManager.getForm(ins.form)?.description
+			return WorkflowManager.getForm(ins.form)?.description?.replace(/\n/g,"<br/>")
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()

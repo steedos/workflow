@@ -1,5 +1,8 @@
 Template.space_switcher.helpers
 
+	isOnlyOneSpace: ->
+		return db.spaces.find().fetch().length <= 1
+
 	spaces: ->
 		return db.spaces.find();
 

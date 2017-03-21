@@ -103,6 +103,9 @@ Template.profile.helpers
 
 
 Template.profile.onRendered ->
+	profileName = FlowRouter.current()?.params?.profileName
+	if profileName
+		$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
 
 Template.profile.onCreated ->
