@@ -128,8 +128,8 @@
 				padding-left: 8px;
 			}
 			@media (max-width: 767px) {
-				& {
-					display:none;
+				& .btn-instance-to-print,.btn-instance-forward,.visible-xs-inline-block{
+					display: none;
 				}
 			}
 		}
@@ -302,6 +302,14 @@ _:-ms-fullscreen,
 			margin: 15px 10px 15px -10px;
 			border-radius: 0 5px 5px 0;
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+			.navigation-bar{
+				.btn-instance-back{
+					display: inline-block!important;
+					&.visible-xs-inline-block{
+						display:none!important;
+					}
+				}
+			}
 		}
 	}
 	.workflow-main.instance-show {
@@ -367,22 +375,6 @@ _:-ms-fullscreen,
 		}
 	}
 }
-
-
-@media (max-width: 767px) {
-	.workflow-main.instance-show {
-		.instance-wrapper {
-			.navigation-bar{
-				.btn-instance-back{
-					&.visible-xs-inline-block{
-						display:inline-block!important;
-					}
-				}
-			}
-		}
-	}
-}
-
 
 @media (max-width: 767px){
 	.steedos {
