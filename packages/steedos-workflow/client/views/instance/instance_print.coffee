@@ -100,5 +100,5 @@ Template.instancePrint.onRendered ->
 
 	Form_formula.runFormScripts("instanceform", "onload");
 
-	if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
-		toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
+	# if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
+	# 	toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
