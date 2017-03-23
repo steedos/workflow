@@ -63,7 +63,25 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 
 			steedos_token = cipheredMsg.toString('base64')
 
-			returnurl = redirectUrl + "?X-STEEDOS-WEB-ID=" + steedos_id + "&X-STEEDOS-AUTHTOKEN=" + steedos_token
+			# des-cbc
+			des_iv = "-8762-fc"
+			key8 = ""
+			len = steedos_id.length
+			if len < 8
+				c = ""
+				i = 0
+				m = 8 - len
+				while i < m
+					c = " " + c
+					i++
+				key8 = steedos_id + c
+			else if len >= 8
+				key8 = steedos_id.slice(0,8)
+			des_cipher = crypto.createCipheriv('des-cbc', new Buffer(key8, 'utf8'), new Buffer(des_iv, 'utf8'))
+			des_cipheredMsg = Buffer.concat([des_cipher.update(new Buffer(now, 'utf8')), des_cipher.final()])
+			des_steedos_token = des_cipheredMsg.toString('base64')
+
+			returnurl = redirectUrl + "?X-STEEDOS-WEB-ID=" + steedos_id + "&X-STEEDOS-AUTHTOKEN=" + steedos_token + "&STEEDOS-AUTHTOKEN=" + des_steedos_token
 
 			if user.username
 				returnurl += "&X-STEEDOS-USERNAME=#{user.username}"

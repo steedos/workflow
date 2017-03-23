@@ -142,11 +142,14 @@ Template.instance_button.onRendered ->
 Template.instance_button.events
 
 	'click .btn-instance-to-print': (event)->
-		uobj = {}
-		uobj["box"] = Session.get("box")
-		uobj["X-User-Id"] = Meteor.userId()
-		uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
+		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
+				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
+		else
+				uobj = {}
+				uobj["box"] = Session.get("box")
+				uobj["X-User-Id"] = Meteor.userId()
+				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
 
 	'click .btn-instance-update': (event)->
 		InstanceManager.saveIns();

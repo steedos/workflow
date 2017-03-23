@@ -30,6 +30,15 @@
               </div>
             </div>
           </li>
+          
+          {{#if isNode}}
+            <li class="notifications-menu">
+              <a href="javascript:" data-toggle="tooltip" data-placement="bottom" title="{{_ "refresh"}}">
+                <i class="ion ion-refresh"></i>
+              </a>
+            </li>
+          {{/if}}
+
           {{#if getBadgeForWorkflowApp}}
             <li class="notifications-menu">
               <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/" data-toggle="tooltip" data-placement="bottom" title="{{_ workflowApp.name}}">
