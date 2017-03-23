@@ -25,6 +25,13 @@ Admin.adminSidebarHelpers =
 	isPortalAdmin: ()->
 		return Steedos.getSpaceAppByUrl("/portal/home")
 
+	sidebarMenu: ()->
+		return Admin.menuTemplate.getSidebarMenuTemplate()
+
+	homeMenu: ()->
+		return Admin.menuTemplate.getHomeTemplate()
+
+
 Template.adminSidebar.helpers Admin.adminSidebarHelpers
 
 Template.adminSidebar.events
@@ -40,3 +47,58 @@ Template.adminSidebar.events
 
 	'click .steedos-help': (event) ->
 		Steedos.showHelp();
+
+
+
+
+Admin.menuTemplate = 
+	getSidebarMenuTemplate: ()->
+		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+			children = db.admin_menus.find(parent:rootMenu._id)
+			if children.count()
+				items = children.map (menu, index) ->
+					return """
+						<li><a href="#{menu.url}"><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
+					"""
+				return """
+					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="#{rootMenu.icon}"></i>
+							<span>#{t(rootMenu.title)}</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							#{items.join("")}
+						</ul>
+					</li>
+				"""
+			else
+				return ""
+		return reTemplates.join("")
+	getHomeTemplate: ()->
+		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+			children = db.admin_menus.find(parent:rootMenu._id)
+			if children.count()
+				items = children.map (menu, index) ->
+					return """
+						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+							<a href="#{menu.url}" class="admin-grid-item btn btn-block">
+								<div class="admin-grid-icon">
+									<i class="#{menu.icon}"></i>
+								</div>
+								<div class="admin-grid-label">
+									#{t(menu.title)}
+								</div>
+							</a>
+						</div>
+					"""
+				return """
+					<div class="row admin-grids">
+						#{items.join("")}
+					</div>
+				"""
+			else
+				return ""
+		return reTemplates.join("")
