@@ -52,11 +52,16 @@ Template.adminSidebar.events
 
 
 Admin.menuTemplate = 
+
 	getSidebarMenuTemplate: ()->
 		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+			unless Admin.menuTemplate.checkRoles(rootMenu)
+				return ""
 			children = db.admin_menus.find(parent:rootMenu._id)
 			if children.count()
 				items = children.map (menu, index) ->
+					unless Admin.menuTemplate.checkRoles(menu)
+						return ""
 					return """
 						<li><a href="#{menu.url}"><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
 					"""
@@ -77,11 +82,16 @@ Admin.menuTemplate =
 			else
 				return ""
 		return reTemplates.join("")
+
 	getHomeTemplate: ()->
 		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+			unless Admin.menuTemplate.checkRoles(rootMenu)
+				return ""
 			children = db.admin_menus.find(parent:rootMenu._id)
 			if children.count()
 				items = children.map (menu, index) ->
+					unless Admin.menuTemplate.checkRoles(menu)
+						return ""
 					return """
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
 							<a href="#{menu.url}" class="admin-grid-item btn btn-block">
@@ -102,3 +112,29 @@ Admin.menuTemplate =
 			else
 				return ""
 		return reTemplates.join("")
+
+	checkRoles: (rootMenu)->
+		unless rootMenu
+			return false
+		isChecked = true
+		if !rootMenu.parent and rootMenu.app
+			# 只有第一层menu需要判断是否有APP权限
+			isChecked = !!Steedos.getSpaceAppById(rootMenu.app)
+		if isChecked and rootMenu.roles?.length
+			roles = rootMenu.roles
+			for i in [1..roles.length]
+				role = roles[i-1]
+				switch role
+					when "space_admin"
+						unless Steedos.isSpaceAdmin()
+							isChecked = false
+					when "space_owner"
+						unless Steedos.isSpaceOwner()
+							isChecked = false
+					when "cloud_admin"
+						unless Steedos.isCloudAdmin()
+							isChecked = false
+				unless isChecked
+					break 
+			return isChecked
+		return isChecked

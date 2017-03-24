@@ -81,6 +81,7 @@ if Meteor.isClient
 		return db.admin_menus.insert menu
 
 
+	# 账户设置
 	Admin.addMenu 
 		_id: "account"
 		title: "Account Settings"
@@ -126,6 +127,12 @@ if Meteor.isClient
 		url: "/admin/profile/personalization"
 		sort: 50
 		parent: "account"
+
+
+	# 工作区设置
+
+
+
 
 
 	Admin.MENUS = [
