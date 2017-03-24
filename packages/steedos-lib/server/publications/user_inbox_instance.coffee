@@ -1,5 +1,4 @@
 Meteor.publishComposite "user_inbox_instance", ()->
-    # console.log("user_inbox_instance...")
     unless this.userId
         return this.ready()
 

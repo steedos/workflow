@@ -77,7 +77,6 @@ if Meteor.isServer
 
 	db.apps.before.insert (userId, doc) ->
 		doc.internal = db.apps.isInternalApp(doc.url)
-		console.log doc
 
 	db.apps.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};

@@ -5,7 +5,6 @@ var request = Npm.require('request');
  **/
 function log() {
     args = Array.prototype.slice.call(arguments);
-    console.log(args)
 }
 
 

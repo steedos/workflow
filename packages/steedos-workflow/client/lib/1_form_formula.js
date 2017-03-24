@@ -3,7 +3,7 @@ CoreForm = {};
 CoreForm.instanceform = {};
 
 Form_formula.initFormScripts = function () {
-    console.log("run Form_formula.initFormScripts")
+
     CoreForm = {};
     CoreForm.instanceform = {};
     try{
@@ -146,7 +146,6 @@ Form_formula.getFormulaFieldVariable = function(prefix,fields){
         //给公式添加前缀
         formulas[j]["formula"] = Form_formula.prependPrefixForFormula(prefix,formulas[j]["formula"]);
     }
-    //console.log("formula_field is \n" + JSON.stringify(formulas));
     //console.debug("退出 getFormulaFieldVariable 消耗时间：" + (new Date() * 1 - startTrack) + "ms");
     return formulas;
 };
@@ -204,7 +203,6 @@ Form_formula.mixin = function(dest, src){
 Form_formula.field_values = null;
 
 Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fields){
-    console.log('Form_formula.run......');
     var startTrack = new Date * 1;
     var run = false;
 
@@ -232,8 +230,6 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
         if(run){
             try{
                 var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
-                //console.log("formula is " + formula_field.formula);
-                //console.log("fileValue is " + fileValue);
                 if('digits' in formula_field){
                     var value = Form_formula.field_values[formula_field.code];
                     if(typeof(value) == 'number'){
@@ -259,7 +255,6 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
         }
     }
     console.debug("消耗时间s2 ：" + (new Date * 1 - startTrack) + "ms");
-    console.log('Form_formula.run end......');
 };
 
 Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
@@ -267,7 +262,6 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
     var next_steps = new Array();
 
     lines = step.lines;
-    console.log("Form_formula.getNextStepsFromCondition run...")
     Form_formula.field_values = init_formula_values(fields,autoFormDoc);
     //CoreForm.mainFormController.getPath("mainFormView.__values");
 
@@ -307,7 +301,6 @@ function init_formula_values(fields, autoFormDoc){
         return {};
     }
 
-    console.log("init_formula_values run...");
 
     var formula_values, q = {};
 

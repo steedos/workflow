@@ -17,14 +17,12 @@ Steedos.subscribeFormVersion = (space, formId, form_version)->
 	Steedos.subs["Instance"].subscribe("form_version", space, formId , form_version)
 
 Steedos.subscribeInstance = (instance)->
-#	console.log("instance.space: #{instance.space}, instance.flow: #{instance.flow}, instance.flow_version: #{instance.flow_version}")
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
 	Steedos.subs["Instance"].subscribe("instance_data", instance._id)
 
 
 Tracker.autorun (c)->
-#	console.log("subscribe instance...");
 	instanceId = Session.get("instanceId")
 	#	Steedos.instanceSpace.clear(); # 清理已订阅数据
 	if instanceId

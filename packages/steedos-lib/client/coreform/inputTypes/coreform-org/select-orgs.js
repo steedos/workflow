@@ -1,7 +1,6 @@
 AutoForm.addInputType("selectorg",{
     template:"afSelectOrg",
     valueIn: function(val, atts){
-        console.log("value in...");
         if("string" == typeof(val))
             val = CFDataManager.getFormulaOrganizations(val);
 
@@ -39,7 +38,6 @@ AutoForm.addInputType("selectorg",{
 
 Template.afSelectOrg.events({
   'click .selectOrg': function (event, template) {
-    console.log("show cf_organization_modal");
       if(Modal.allowMultiple){
           return ;
       }

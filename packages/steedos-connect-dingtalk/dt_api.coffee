@@ -26,7 +26,7 @@ Dingtalk.suiteAccessTokenGet = (suite_key, suite_secret, suite_ticket) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with suiteAccessTokenGet. " + err), {response: err});
 
 # 获取企业的永久授权码
@@ -59,7 +59,7 @@ Dingtalk.permanentCodeGet = (suite_access_token, tmp_auth_code) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with permanentCodeGet. " + err), {response: err});
 
 # 获取企业授权的access_token
@@ -89,7 +89,7 @@ Dingtalk.corpTokenGet = (suite_access_token, auth_corpid, permanent_code) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with corpTokenGet. " + err), {response: err});
 
 
@@ -121,7 +121,7 @@ Dingtalk.activateSuitePost = (suite_access_token, suite_key, auth_corpid, perman
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with activateSuitePost. " + err), {response: err});
 
 
@@ -147,7 +147,7 @@ Dingtalk.departmentGet = (access_token, department_id) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with departmentGet. " + err), {response: err});
 
 # 获取部门列表
@@ -161,8 +161,8 @@ Dingtalk.departmentListGet = (access_token) ->
           access_token: access_token
       }
     );
-    # console.log response
     if (response.error_code) 
+      console.error err
       throw response.msg
 
     if response.data.errcode > 0 
@@ -171,7 +171,7 @@ Dingtalk.departmentListGet = (access_token) ->
     return response.data.department
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with departmentListGet. " + err), {response: err});
 
 # 获取部门成员（详情）
@@ -186,8 +186,8 @@ Dingtalk.userListGet = (access_token, department_id) ->
           department_id: department_id
       }
     );
-    # console.log response
     if (response.error_code) 
+      console.error err
       throw response.msg
 
     if response.data.errcode > 0 
@@ -196,7 +196,7 @@ Dingtalk.userListGet = (access_token, department_id) ->
     return response.data.userlist
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with userListGet. " + err), {response: err});
 
 # 获取access_token
@@ -211,8 +211,8 @@ Dingtalk.getToken = (corpid, corpsecret) ->
           corpsecret: corpsecret
       }
     );
-    # console.log response
     if (response.error_code) 
+      console.error err
       throw response.msg
 
     if response.data.errcode > 0 
@@ -221,7 +221,7 @@ Dingtalk.getToken = (corpid, corpsecret) ->
     return response.data.access_token
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with getToken. " + err), {response: err});
 
 # 获取jsapi_ticket
@@ -253,7 +253,7 @@ Dingtalk.jsapiTicketGet = (access_token) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with jsapiTicketGet. " + err), {response: err});
 
 # 获取企业授权的授权数据
@@ -330,7 +330,7 @@ Dingtalk.authInfoGet = (suite_access_token, suite_key, auth_corpid, permanent_co
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with authInfoGet. " + err), {response: err});
 
 
@@ -365,7 +365,7 @@ Dingtalk.userInfoGet = (access_token, code) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with userInfoGet. " + err), {response: err});
 
 # 获取成员详情
@@ -417,7 +417,7 @@ Dingtalk.userGet = (access_token, userid) ->
     return response.data
 
   catch err
-    console.log err
+    console.error err
     throw _.extend(new Error("Failed to complete OAuth handshake with userGet. " + err), {response: err});
 
 

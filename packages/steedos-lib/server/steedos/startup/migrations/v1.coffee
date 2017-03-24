@@ -3,7 +3,6 @@ Meteor.startup ->
         version: 1
         name: '在线编辑时，需给文件增加lock 属性，防止多人同时编辑 #429, 附件页面使用cfs显示'
         up: ->
-            console.log('version 1 up')
             console.time('upgrade_cfs_instance')
             try
                 update_cfs_instance = (parent_id, space_id, instance_id, attach_version, isCurrent)->
@@ -28,7 +27,6 @@ Meteor.startup ->
 
                     i++
 
-                console.log i
             catch e
                 console.error(e)
 
