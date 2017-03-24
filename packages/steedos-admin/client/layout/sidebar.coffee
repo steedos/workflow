@@ -62,8 +62,12 @@ Admin.menuTemplate =
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkRoles(menu)
 						return ""
+					# 二级菜单才有url及onclick函数
+					if typeof menu.onclick == "function"
+						$("body").on "click", ".admin-menu-#{menu._id}", ->
+							menu.onclick()
 					return """
-						<li><a href="#{menu.url}"><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
+						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}"><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
 					"""
 				return """
 					<li class="treeview">
@@ -94,7 +98,7 @@ Admin.menuTemplate =
 						return ""
 					return """
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-							<a href="#{menu.url}" class="admin-grid-item btn btn-block">
+							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}">
 								<div class="admin-grid-icon">
 									<i class="#{menu.icon}"></i>
 								</div>
