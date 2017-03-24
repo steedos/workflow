@@ -213,6 +213,11 @@ if (Meteor.isServer)
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
+		if !modifier.$set.user_accepted
+			if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
+				throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
+
+
 		if modifier.$set.email
 			if modifier.$set.email != doc.email
 				throw new Meteor.Error(400, "space_users_error_email_readonly");
@@ -276,6 +281,9 @@ if (Meteor.isServer)
 		# 不能删除当前工作区的拥有者
 		if space.owner == doc.user
 			throw new Meteor.Error(400, "space_users_error_remove_space_owner");
+
+		if space.admins.indexOf(doc.user) > 0
+			throw new Meteor.Error(400,"space_users_error_remove_space_admins");
 
 
 	db.space_users.after.remove (userId, doc) ->
