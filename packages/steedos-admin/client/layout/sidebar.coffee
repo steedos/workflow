@@ -54,10 +54,10 @@ Template.adminSidebar.events
 Admin.menuTemplate = 
 
 	getSidebarMenuTemplate: ()->
-		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
 			unless Admin.menuTemplate.checkRoles(rootMenu)
 				return ""
-			children = db.admin_menus.find(parent:rootMenu._id)
+			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
 			if children.count()
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkRoles(menu)
@@ -88,10 +88,10 @@ Admin.menuTemplate =
 		return reTemplates.join("")
 
 	getHomeTemplate: ()->
-		reTemplates = db.admin_menus.find(parent:null).map (rootMenu, rootIndex) ->
+		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
 			unless Admin.menuTemplate.checkRoles(rootMenu)
 				return ""
-			children = db.admin_menus.find(parent:rootMenu._id)
+			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
 			if children.count()
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkRoles(menu)
