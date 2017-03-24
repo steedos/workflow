@@ -54,6 +54,7 @@ Package.onUse(function(api) {
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
     api.addFiles('lib/core.coffee');
+    api.addFiles('lib/admin_menu.coffee');
     api.addFiles('lib/admin.coffee');
     
 
