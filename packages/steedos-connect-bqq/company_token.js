@@ -1,8 +1,6 @@
 JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
   var config = ServiceConfiguration.configurations.findOne({service: 'bqq'});
   var response;
-  console.log("companyToken")
-  console.log(req.query)
   try {
     response = HTTP.get(
       "https://openapi.b.qq.com/oauth2/companyToken", {
@@ -22,11 +20,11 @@ JsonRoutes.add("get", "/api/bqq/companyToken", function (req, res, next) {
       throw response.data.msg;
 
   } catch (err) {
+    console.error(err);
     throw _.extend(new Error("Failed to complete OAuth handshake with QQ. " + err),
                    {response: err});
   }
 
-  console.log(response.data);
 
   BQQ.syncCompany(response.data.data);
 
@@ -84,7 +82,6 @@ JsonRoutes.add("get", "/api/bqq/notify", function (req, res, next) {
         throw response.data.msg;
 
     } catch (err) {
-      console.log(err);
       throw _.extend(new Error("Failed to verify hashskey with QQ. " + err),
                      {response: err});
     }

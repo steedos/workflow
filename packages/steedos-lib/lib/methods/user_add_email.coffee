@@ -28,7 +28,6 @@ if Meteor.isServer
 
       Accounts.sendVerificationEmail(this.userId, email);
 
-      console.log("add email " + email + " for user " + this.userId)
       return {}
 
     users_remove_email: (email) ->
@@ -52,7 +51,6 @@ if Meteor.isServer
       else
         return {error: true, message: "email_at_least_one"}
 
-      console.log("remove email " + email + " for user " + this.userId)
       return {}
 
     users_verify_email: (email) ->
@@ -66,7 +64,6 @@ if Meteor.isServer
 
       Accounts.sendVerificationEmail(this.userId, email);
 
-      console.log("verify email " + email + " for user " + this.userId)
       return {}
 
     users_set_primary_email: (email) ->
@@ -103,7 +100,6 @@ if Meteor.isClient
             closeOnConfirm: false,
             animation: "slide-from-top"
         , (inputValue) ->
-            console.log("You wrote", inputValue);
             Meteor.call "users_add_email", inputValue, (error, result)->
                 if result?.error
                     toastr.error result.message

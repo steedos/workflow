@@ -17,7 +17,6 @@ Template.flow_list_box.events
     'click .flow_list_box .weui_cell': (event) ->
         flow = event.currentTarget.dataset.flow;
 
-        console.log("newIns flow is " + flow)
 
         if !flow 
             return ;

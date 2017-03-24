@@ -3,7 +3,6 @@ BQQ = {};
 OAuth.registerService('bqq', 2, null, function(query) {
 
   var response = BQQ.getTokenResponse(query);
-  console.log(response);
   if (response.company_id) {
     spaceExists = db.spaces.find({"services.bqq.company_id": response.company_id}).count()>0;
     if (!spaceExists)
@@ -23,7 +22,6 @@ BQQ.getTokenResponse = function (query) {
   if (!config)
     throw new ServiceConfiguration.ConfigError();
 
-  console.log("bqq getTokenResponse: " + query.code);
   var tokenResponse;
   try {
     tokenResponse = HTTP.get(

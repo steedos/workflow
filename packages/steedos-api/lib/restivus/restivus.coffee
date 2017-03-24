@@ -294,7 +294,7 @@ class @Restivus
         try
           auth = Auth.loginWithPassword user, @bodyParams.password
         catch e
-          console.log e
+          console.error e
           return {} =
             statusCode: e.error
             body: status: 'error', message: e.reason

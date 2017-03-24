@@ -54,14 +54,12 @@ Template.instance_suggestion.helpers
 			return InstanceManager.getNextStepOptions();
 
 #next_user_options: ->
-#    console.log("next_user_options run ...");
 #    return InstanceManager.getNextUserOptions();
 
 	next_user_context: ->
 		instance_form_values = Session.get("instance_form_values")
 		if instance_form_values?.instanceId != Session.get("instanceId")
-			return {}
-		console.log("next_user_context run ...");
+			return {};
 
 		ins_applicant = Session.get("ins_applicant");
 
@@ -187,7 +185,6 @@ Template.instance_suggestion.helpers
 Template.instance_suggestion.events
 
 	'change .suggestion': (event) ->
-		console.log("change .suggestion");
 		if ApproveManager.isReadOnly()
 			return;
 		judge = $("[name='judge']").filter(':checked').val();
@@ -238,7 +235,6 @@ Template.instance_suggestion.onCreated ->
 	console.log("instance_suggestion onCreated...");
 
 Template.instance_suggestion.onRendered ->
-	console.log("instance_suggestion.onRendered...")
 	Session.set("instance_suggestion_ready", true)
 	currentStep = InstanceManager.getCurrentStep();
 	# 当前步骤为会签时，不显示下一步步骤、处理人

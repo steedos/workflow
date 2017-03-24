@@ -150,7 +150,6 @@ NodeManager.getFileSHA1 = function(filePath, filename, callback) {
 	fd.on('end', function() {
 		hash.end();
 		var SHA1 = hash.read();
-		console.log('hash.read() ' + SHA1); // the desired sha1sum
 		callback(SHA1);
 	});
 }
@@ -259,7 +258,6 @@ NodeManager.editFile = function(file_url, filename) {
 		fs.exists(download_dir, function(exists) {
 			if (exists == true) {
 				var fPath = download_dir + filename;
-				console.log(fPath);
 				fs.exists(fPath, function(exists) {
 					if (exists == true) {
 						swal({

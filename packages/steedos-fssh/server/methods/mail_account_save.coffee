@@ -11,12 +11,10 @@ Meteor.methods saveMailAccount: (options) ->
 
 	mail_account = db.mail_accounts.findOne({owner:currentUserId})
 	if mail_account
-		console.log "saveMailAccount db.mail_accounts.update,email:#{email}"
 		db.mail_accounts.update {
 			_id: mail_account._id
 		}, $set: password: password
 	else
-		console.log "saveMailAccount db.mail_accounts.insert,email:#{email}"
 		db.mail_accounts.insert
 			space: spaceId
 			owner: currentUserId

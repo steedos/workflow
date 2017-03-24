@@ -24,7 +24,6 @@ Template.afTypeAhead.helpers
 Template.afTypeAhead.events
 
 Template.afTypeAhead.onRendered ->
-	console.log "Template.afTypeAhead.onRendered"
 
 	options = @data.selectOptions
 

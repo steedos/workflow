@@ -1,7 +1,6 @@
 Cookies = Npm.require("cookies")
 #TODO 确认data 中的instance
 JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req, res, next) ->
-#	console.log req
 	cookies = new Cookies(req, res);
 
 	# first check request body
