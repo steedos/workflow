@@ -784,7 +784,7 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 	}
 }
 
-// 转签核
+// 重定位
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
@@ -1135,15 +1135,14 @@ InstanceManager.unlockAttach = function(file_id) {
 }
 
 // 申请单转发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments) {
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, function(error, result) {
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, function(error, result) {
 		if (error) {
 			toastr.error(error.message);
 		}
 
-		if (result) {
+		if (!_.isEmpty(result)) {
 			toastr.success(TAPi18n.__("forward_instance_success"));
-			FlowRouter.go("/workflow/space/" + space_id + "/draft/" + result);
 		}
 
 	})

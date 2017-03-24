@@ -415,5 +415,8 @@
 	"instance_approve_read_no": "否",
 	"instance_approve_cc_remove": "取消传阅",
 	"instance_approve_close_modal": "关闭",
-	"instance_approve_title_label": "处理人："
+	"instance_approve_title_label": "处理人：",
+
+	"instance_forward_users": "转发对象",
+	"instance_forward_error_users_required": "请选择转发对象!"
 }
