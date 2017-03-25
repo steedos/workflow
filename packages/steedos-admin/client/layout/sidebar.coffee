@@ -66,8 +66,12 @@ Admin.menuTemplate =
 					if typeof menu.onclick == "function"
 						$("body").on "click", ".admin-menu-#{menu._id}", ->
 							menu.onclick()
+
+					if menu.target == "_blank"
+						targetStr = "target=\"_blank\""
+
 					return """
-						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}"><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
+						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}" #{targetStr}><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
 					"""
 				return """
 					<li class="treeview">
@@ -84,7 +88,18 @@ Admin.menuTemplate =
 					</li>
 				"""
 			else
-				return ""
+				if typeof rootMenu.onclick == "function"
+					$("body").on "click", ".admin-menu-#{rootMenu._id}", ->
+						rootMenu.onclick()
+
+				unless Admin.menuTemplate.checkRoles(rootMenu)
+						return ""
+				if rootMenu.target == "_blank"
+					targetStr = "target=\"_blank\""
+
+				return """
+					<li><a class="admin-menu-#{rootMenu._id}" href="#{rootMenu.url}" #{targetStr}><i class="#{rootMenu.icon}"></i><span>#{t(rootMenu.title)}</span></a></li>
+				"""
 		return reTemplates.join("")
 
 	getHomeTemplate: ()->
@@ -114,18 +129,40 @@ Admin.menuTemplate =
 					</div>
 				"""
 			else
-				return ""
+				unless Admin.menuTemplate.checkRoles(rootMenu)
+						return ""
+				if rootMenu.target == "_blank"
+					targetStr = "target=\"_blank\""
+				return """
+					<div class="row admin-grids">
+						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-rootMenu-#{rootMenu._id}" #{targetStr}>
+								<div class="admin-grid-icon">
+									<i class="#{rootMenu.icon}"></i>
+								</div>
+								<div class="admin-grid-label">
+									#{t(rootMenu.title)}
+								</div>
+							</a>
+						</div>
+					</div>
+				"""
 		return reTemplates.join("")
 
-	checkRoles: (rootMenu)->
-		unless rootMenu
+	checkRoles: (menu)->
+		unless menu
 			return false
 		isChecked = true
-		if !rootMenu.parent and rootMenu.app
+		if menu.app
 			# 只有第一层menu需要判断是否有APP权限
-			isChecked = !!Steedos.getSpaceAppById(rootMenu.app)
-		if isChecked and rootMenu.roles?.length
-			roles = rootMenu.roles
+			isChecked = !!Steedos.getSpaceAppById(menu.app)
+
+		if menu.app and menu.paid
+			unless Steedos.isPaidSpace()
+				isChecked = false
+
+		if isChecked and menu.roles?.length
+			roles = menu.roles
 			for i in [1..roles.length]
 				role = roles[i-1]
 				switch role
