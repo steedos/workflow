@@ -31,7 +31,6 @@ ApproveManager.isReadOnly = function() {
 
 ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc, fields) {
     ApproveManager.error.nextSteps = '';
-    console.log("getNextSteps");
     if (!currentStep)
         return;
 
@@ -339,7 +338,6 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 // };
 
 ApproveManager.getNextStepsSelectValue = function() {
-    console.log("getNextStepsSelectValue");
     return $("#nextSteps").val();
 }
 

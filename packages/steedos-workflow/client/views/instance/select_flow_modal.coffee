@@ -31,7 +31,6 @@ Template.selectFlowModal.events
 		return
 	'click .flow_list_box .weui_cell': (event, template) ->
 		flow = event.currentTarget.dataset.flow
-		console.log 'forwardIns flow is ' + flow
 
 		if !flow
 			return

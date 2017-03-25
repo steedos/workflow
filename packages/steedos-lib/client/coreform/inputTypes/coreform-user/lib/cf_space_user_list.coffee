@@ -23,7 +23,6 @@ Template.cf_space_user_list.events
 			$("#"+userId).prop('checked', false).trigger('change')
 
 	'change .list_checkbox': (event, template) ->
-		console.log("change .list_checkbox");
 
 		target = event.target;
 

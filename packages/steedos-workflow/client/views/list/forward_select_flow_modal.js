@@ -42,8 +42,6 @@ Template.forward_select_flow_modal.events({
 	'click #forward_flow_ok': function(event, template) {
 		var flow = $("#forward_flow")[0].dataset.flow;
 
-		console.log("forwardIns flow is " + flow);
-
 		if (!flow)
 			return;
 

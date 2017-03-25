@@ -111,7 +111,6 @@ if Meteor.isClient
 			return
 		if !$(".sidebar").perfectScrollbar
 			return
-		console.log("fixSideBarScroll");
 		if $("body").hasClass("sidebar-collapse")
 			if $(".sidebar").hasClass("ps-container")
 				$(".sidebar").perfectScrollbar("destroy")
@@ -193,11 +192,9 @@ if Meteor.isClient
 			accountZoomValue = Steedos.getAccountZoomValue()
 			switch accountZoomValue.name
 				when 'large'
-					console.log "Steedos.getModalMaxHeight - large -0"
 					# 测下来这里不需要额外减数
 					reValue -= 0
 				when 'extra-large'
-					console.log "Steedos.getModalMaxHeight - extra-large -25"
 					reValue -= 25
 		if offset
 			reValue -= offset

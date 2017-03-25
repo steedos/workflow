@@ -15,7 +15,6 @@ Meteor.methods saveAuthUsers: (options) ->
 		{ spaceId, auth_name, login_name, login_password } = n
 		auth_user = db.apps_auth_users.findOne({space:spaceId,auth_name:auth_name,user:currentUserId})
 		if auth_user
-			console.log "saveAuthUsers db.apps_auth_users.update,auth_name:#{auth_name}"
 			db.apps_auth_users.update {
 				_id: auth_user._id
 			}, $set: {
@@ -23,7 +22,6 @@ Meteor.methods saveAuthUsers: (options) ->
 				login_password: login_password
 			}
 		else
-			console.log "saveAuthUsers db.apps_auth_users.insert,auth_name:#{auth_name}"
 			db.apps_auth_users.insert
 				space: spaceId
 				auth_name:auth_name

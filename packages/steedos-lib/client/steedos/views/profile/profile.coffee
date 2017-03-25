@@ -167,7 +167,6 @@ Template.profile.events
 	'click .add-email': (event, template) ->
 		$(document.body).addClass("loading")
 		inputValue = $('#newEmail').val()
-		console.log inputValue
 		Meteor.call "users_add_email", inputValue, (error, result)->
 			if result?.error
 				$(document.body).removeClass('loading')
@@ -251,7 +250,6 @@ Template.profile.events
 		fileId = fileObj._id
 		url = fileId
 		absUrl = Steedos.absoluteUrl("api/files/avatars/#{fileId}")
-		console.log "the upload bg file absUrl is:#{absUrl}"
 		setTimeout(()->
 			Steedos.applyAccountBgBodyValue({url:url, avatar:fileId})
 			Meteor.call 'setKeyValue', 'bg_body', {'url': url, 'avatar': fileId}, (error, is_suc) ->

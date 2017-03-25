@@ -4,7 +4,6 @@ CFDataManager = {};
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
 CFDataManager.getNode = function (node) {
-    // console.log(node);
 
     var orgs;
 

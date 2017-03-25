@@ -66,7 +66,6 @@ Meteor.startup ->
 		currentPath = FlowRouter.current().path
 		if !Meteor.userId() and !/^\/steedos\b/.test(currentPath)
 			# 没有登录且路由不以/steedos开头则跳转到登录界面
-			console.log "login session is lost,will route to sign-in page."
 			FlowRouter.go "/steedos/sign-in";
 
 Steedos.subsForwardRelated = new SubsManager()
@@ -83,6 +82,5 @@ Tracker.autorun (c)->
 
 Tracker.autorun (c)->
 	if Session.get("document_title")
-		console.log "set document_title"
 		$(document).attr("title", Session.get("document_title"));
 

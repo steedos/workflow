@@ -88,7 +88,6 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 	req.on('error', function(e) {
 		$(document.body).removeClass('loading');
 		$('.loading-text').text("");
-		console.log('problem with request:' + e.message);
 		toastr.error(e.message);
 	});
 
@@ -163,7 +162,6 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 	req.on('error', function(e) {
 		$(document.body).removeClass('loading');
 		$('.loading-text').text("");
-		console.log('problem with request:' + e.message);
 		toastr.error(e.message);
 	});
 

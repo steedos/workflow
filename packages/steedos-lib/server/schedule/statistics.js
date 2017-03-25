@@ -13,7 +13,6 @@ Meteor.startup(function () {
         return;
       go_next = false;
 
-      console.log('statistics schedule start!');
       console.time('statistics');
       // 日期格式化 
       var dateFormat = function (date) {

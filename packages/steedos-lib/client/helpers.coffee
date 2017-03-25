@@ -335,24 +335,23 @@ TemplateHelpers =
 						fileEntry.remove()
 						fileTransfer.download url, sPath, ((theFile) ->
 							$(document.body).removeClass 'loading'
-							console.log 'download complete: ' + theFile.toURL()
 							window.open theFile.toURL(), '_system', 'EnableViewPortScale=yes'
 						), (error) ->
 							$(document.body).removeClass 'loading'
-							console.log 'download error source ' + error.source
-							console.log 'download error target ' + error.target
-							console.log 'upload error code: ' + error.code
+							console.error 'download error source' + error.source
+							console.error 'download error target' + error.target
+							console.error 'upload error code: ' + error.code 
 				), (error) ->
 					$(document.body).removeClass 'loading'
-					console.log 'upload error code: ' + error.code
+					console.error 'upload error code: ' + error.code
 			), (error) ->
 				$(document.body).removeClass 'loading'
-				console.log 'get directoryEntry error source ' + error.source
-				console.log 'get directoryEntry error target ' + error.target
-				console.log 'get directoryEntry error code: ' + error.code
+				console.error 'get directoryEntry error source' + error.source
+				console.error 'get directoryEntry error target' + error.target
+				console.error 'get directoryEntry error code:' + error.code
 		), (error) ->
 			$(document.body).removeClass 'loading'
-			console.log 'resolveLocalFileSystemURL error code: ' + error.code
+			console.error 'resolveLocalFileSystemURL error code' + error.code
 
 	skinName: (defaultName)->
 		unless defaultName
