@@ -394,7 +394,30 @@ Meteor.methods({
 		})
 
 		if (approve.from_user != this.userId || approve.type != 'forward' || !approve.forward_instance) {
-			throw new Meteor.Error('error!', '不符合取消转发条件!');
+			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
+		}
+
+		var forward_instance_id = approve.forward_instance;
+		var forward_instance = db.instances.findOne(forward_instance_id);
+		if (forward_instance) {
+			if (forward_instance.state != "draft") {
+				throw new Meteor.Error('error!', 'instance_forward_instance_state_changed');
+			}
+			var inbox_users = forward_instance.inbox_users || [];
+
+			forward_instance.deleted = new Date();
+			forward_instance.deleted_by = this.userId;
+			var deleted_forward_instance_id = db.deleted_instances.insert(forward_instance);
+			if (deleted_forward_instance_id) {
+				db.instances.remove({
+					_id: forward_instance_id
+				});
+
+				// 删除申请单后重新计算inbox_users的badge
+				_.each(inbox_users, function(u_id) {
+					pushManager.send_message_to_specifyUser("current_user", u_id);
+				})
+			}
 		}
 
 		var set_obj = new Object;
@@ -413,27 +436,6 @@ Meteor.methods({
 		}, {
 			$set: set_obj
 		})
-
-		var forward_instance_id = approve.forward_instance;
-		var forward_instance = db.instances.findOne(forward_instance_id);
-		if (!forward_instance)
-			return true;
-
-		var inbox_users = forward_instance.inbox_users || [];
-
-		forward_instance.deleted = new Date();
-		forward_instance.deleted_by = this.userId;
-		var deleted_forward_instance_id = db.deleted_instances.insert(forward_instance);
-		if (deleted_forward_instance_id) {
-			db.instances.remove({
-				_id: forward_instance_id
-			});
-
-			// 删除申请单后重新计算inbox_users的badge
-			_.each(inbox_users, function(u_id) {
-				pushManager.send_message_to_specifyUser("current_user", u_id);
-			})
-		}
 
 		return true;
 	}
