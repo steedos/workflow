@@ -353,7 +353,6 @@ Meteor.methods({
 			forward_approves.push(appr);
 
 			new_ins_ids.push(new_ins_id);
-			console.error(user_id);
 			pushManager.send_message_to_specifyUser("current_user", user_id);
 		})
 
