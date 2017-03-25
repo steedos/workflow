@@ -31,6 +31,17 @@ Meteor.methods({
 
 		var new_ins_ids = new Array;
 
+		var current_trace = _.last(ins.traces);
+		var current_trace_id = current_trace._id;
+		var forward_approves = [];
+		var current_user_id = this.userId;
+		var from_user_name = db.users.findOne(current_user_id, {
+			fields: {
+				name: 1
+			}
+		}).name
+		var set_obj = new Object;
+
 		// 计算values
 		var old_values = ins.values,
 			new_values = {};
@@ -315,11 +326,117 @@ Meteor.methods({
 				})
 			}
 
+			// 给当前的申请单增加转发记录
+			var appr = {
+				'_id': new Mongo.ObjectID()._str,
+				'instance': instance_id,
+				'trace': current_trace_id,
+				'is_finished': true,
+				'user': user_id,
+				'user_name': user_info.name,
+				'handler': user_id,
+				'handler_name': user_info.name,
+				'handler_organization': space_user.organization,
+				'handler_organization_name': space_user_org_info.name,
+				'handler_organization_fullname': space_user_org_info.fullname,
+				'type': 'forward',
+				'start_date': new Date(),
+				'finish_date': new Date(),
+				'is_read': false,
+				'judge': 'submitted',
+				'from_user': current_user_id,
+				'from_user_name': from_user_name,
+				'forward_space': space_id,
+				'forward_instance': new_ins_id
+			};
+
+			forward_approves.push(appr);
+
 			new_ins_ids.push(new_ins_id);
+			console.error(user_id);
 			pushManager.send_message_to_specifyUser("current_user", user_id);
 		})
 
+		if (_.isEmpty(current_trace.approves)) {
+			current_trace.approves = new Array;
+		}
+		current_trace.approves = current_trace.approves.concat(forward_approves);
+		set_obj.modified = new Date();
+		set_obj.modified_by = current_user_id;
+		set_obj["traces.$.approves"] = current_trace.approves;
+		db.instances.update({
+			_id: instance_id,
+			"traces._id": current_trace_id
+		}, {
+			$set: set_obj
+		});
+
 		return new_ins_ids;
+	},
+
+
+	forward_remove: function(instance_id, trace_id, approve_id) {
+		check(instance_id, String);
+		check(trace_id, String);
+		check(approve_id, String);
+
+		var ins = db.instances.findOne(instance_id);
+
+		if (!ins) {
+			throw new Meteor.Error('params error!', 'record not exists!');
+		}
+
+		var trace = _.find(ins.traces, function(t) {
+			return t._id == trace_id;
+		});
+
+		var approve = _.find(trace.approves, function(appr) {
+			return appr._id == approve_id;
+		})
+
+		if (approve.from_user != this.userId || approve.type != 'forward' || !approve.forward_instance) {
+			throw new Meteor.Error('error!', '不符合取消转发条件!');
+		}
+
+		var set_obj = new Object;
+		var new_approves = new Array;
+		_.each(trace.approves, function(appr) {
+			if (appr._id != approve_id) {
+				new_approves.push(appr);
+			}
+		});
+		set_obj.modified = new Date();
+		set_obj.modified_by = this.userId;
+		set_obj["traces.$.approves"] = new_approves;
+		db.instances.update({
+			_id: instance_id,
+			"traces._id": trace_id
+		}, {
+			$set: set_obj
+		})
+
+		var forward_instance_id = approve.forward_instance;
+		var forward_instance = db.instances.findOne(forward_instance_id);
+		if (!forward_instance)
+			return true;
+
+		var inbox_users = forward_instance.inbox_users || [];
+
+		forward_instance.deleted = new Date();
+		forward_instance.deleted_by = this.userId;
+		var deleted_forward_instance_id = db.deleted_instances.insert(forward_instance);
+		if (deleted_forward_instance_id) {
+			db.instances.remove({
+				_id: forward_instance_id
+			});
+
+			// 删除申请单后重新计算inbox_users的badge
+			_.each(inbox_users, function(u_id) {
+				pushManager.send_message_to_specifyUser("current_user", u_id);
+			})
+		}
+
+		return true;
 	}
 
 

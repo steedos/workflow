@@ -418,5 +418,8 @@
 	"instance_approve_title_label": "处理人：",
 
 	"instance_forward_users": "转发对象",
-	"instance_forward_error_users_required": "请选择转发对象!"
+	"instance_forward_error_users_required": "请选择转发对象!",
+	"instance_approve_from_user_name_label_forward": "转发自",
+	"instance_approve_forward_remove": "取消转发",
+	"instance_approve_forward_remove_success": "取消转发成功"
 }

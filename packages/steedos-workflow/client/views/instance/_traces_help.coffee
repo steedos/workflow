@@ -95,6 +95,14 @@ TracesTemplate.helpers =
 				myApprove = InstanceManager.getCurrentApprove()
 				if myApprove && myApprove.id == approveId
 					return Session.get("instance_my_approve_description")
+	isForward: (approved) ->
+		if approved and approved.type == 'forward'
+			return true
+		false
+	showForwardDeleteButton: (approve) ->
+		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+			return true
+		false
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -152,4 +160,20 @@ TracesTemplate.events =
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
 		Modal.hide "instance_trace_detail_modal"
+
+	'click .instance-trace-detail-modal .btn-forward-approve-remove': (event, template) ->
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		traceId = event.target.dataset.trace
+		# CALL 删除approve函数。
+		$("body").addClass("loading")
+		Meteor.call 'forward_remove', instanceId, traceId, approveId, (err, result) ->
+			$("body").removeClass("loading")
+			if err
+				toastr.error err
+			if result == true
+				toastr.success(TAPi18n.__("instance_approve_forward_remove_success"));
+				Modal.hide "instance_trace_detail_modal"
+			return
+		return
 		

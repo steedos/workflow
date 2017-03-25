@@ -9,7 +9,12 @@
 					{{#if this.from_user_name}}
 						<div class="weui_cell">
 							<div class="weui_cell_hd">
-								<span class="weui_label">{{_t "instance_approve_from_user_name_label"}}</span>
+								{{#if isCC this}}
+									<span class="weui_label">{{_t "instance_approve_from_user_name_label"}}</span>
+								{{/if}}
+								{{#if isForward this}}
+									<span class="weui_label">{{_t "instance_approve_from_user_name_label_forward"}}</span>
+								{{/if}}
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">{{this.from_user_name}}</span>
@@ -32,17 +37,19 @@
 						{{/if}}
 					{{else}}
 						{{#unless isCC this}}
-							<div class="weui_cell">
-								<div class="weui_cell_hd">
-									<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
+							{{#unless isForward this}}
+								<div class="weui_cell">
+									<div class="weui_cell_hd">
+										<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
+									</div>
+									<div class="weui_cell_bd weui_cell_primary text-muted">
+										<span class="weui_input status pending">
+											<span class='ion ion-ios-loop'></span>
+											<span>{{_t "instance_in_progress"}}</span>
+										</span>
+									</div>
 								</div>
-								<div class="weui_cell_bd weui_cell_primary text-muted">
-									<span class="weui_input status pending">
-										<span class='ion ion-ios-loop'></span>
-										<span>{{_t "instance_in_progress"}}</span>
-									</span>
-								</div>
-							</div>
+							{{/unless}}
 						{{/unless}}
 					{{/if}}
 					{{#if this.is_finished}}
@@ -106,6 +113,9 @@
 				<div class="modal-footer">
 					{{#if showDeleteButton this}}
 						<button type="button" class="btn btn-default btn-cc-approve-remove pull-left" data-approve="{{_id}}">{{_t "instance_approve_cc_remove"}}</button>
+					{{/if}}
+					{{#if showForwardDeleteButton this}}
+						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_forward_remove"}}</button>
 					{{/if}}
 					<button type="button" class="btn btn-primary btn-close">{{_t "instance_approve_close_modal"}}</button>
 				</div>
