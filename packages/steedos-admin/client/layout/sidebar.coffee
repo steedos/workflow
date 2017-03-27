@@ -67,8 +67,8 @@ Admin.menuTemplate =
 						$("body").on "click", ".admin-menu-#{menu._id}", ->
 							menu.onclick()
 
-					if menu.target == "_blank"
-						targetStr = "target=\"_blank\""
+					if menu.target
+						targetStr = "target=#{menu.target}"
 
 					return """
 						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}" #{targetStr}><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
@@ -92,10 +92,8 @@ Admin.menuTemplate =
 					$("body").on "click", ".admin-menu-#{rootMenu._id}", ->
 						rootMenu.onclick()
 
-				unless Admin.menuTemplate.checkRoles(rootMenu)
-						return ""
-				if rootMenu.target == "_blank"
-					targetStr = "target=\"_blank\""
+				if rootMenu.target
+					targetStr = "target=#{rootMenu.target}"
 
 				return """
 					<li><a class="admin-menu-#{rootMenu._id}" href="#{rootMenu.url}" #{targetStr}><i class="#{rootMenu.icon}"></i><span>#{t(rootMenu.title)}</span></a></li>
@@ -111,9 +109,11 @@ Admin.menuTemplate =
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkRoles(menu)
 						return ""
+					if menu.target
+						targetStr = "target=#{menu.target}"
 					return """
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}">
+							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{menu.icon}"></i>
 								</div>
@@ -129,14 +129,12 @@ Admin.menuTemplate =
 					</div>
 				"""
 			else
-				unless Admin.menuTemplate.checkRoles(rootMenu)
-						return ""
-				if rootMenu.target == "_blank"
-					targetStr = "target=\"_blank\""
+				if rootMenu.target
+					targetStr = "target=#{rootMenu.target}"
 				return """
 					<div class="row admin-grids">
 						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-rootMenu-#{rootMenu._id}" #{targetStr}>
+							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-menu-#{rootMenu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{rootMenu.icon}"></i>
 								</div>
@@ -154,10 +152,10 @@ Admin.menuTemplate =
 			return false
 		isChecked = true
 		if menu.app
-			# 只有第一层menu需要判断是否有APP权限
 			isChecked = !!Steedos.getSpaceAppById(menu.app)
 
 		if menu.app and menu.paid
+			# 未来是按APP收费，所以判断是否付费要求带上app属性
 			unless Steedos.isPaidSpace()
 				isChecked = false
 

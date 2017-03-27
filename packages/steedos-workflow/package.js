@@ -176,7 +176,7 @@ Package.onUse(function(api) {
 
 	api.addAssets('client/views/instance/traces.html', 'server');
 	api.addAssets('client/views/instance/traces_table.html', 'server');
-	
+
 	api.addFiles('client/views/instance/trace_detail_modal.html', 'client');
 	api.addFiles('client/views/instance/trace_detail_modal.js', 'client');
 
@@ -229,6 +229,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/workflow_main.coffee', 'client');
 	api.addFiles('client/views/workflow_main.less', 'client');
 
+	api.addFiles('client/admin_menu.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
@@ -315,7 +316,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
-	
+
 	// workflow_template（en）
 	api.addFiles('server/flow-template/en/capex.coffee', 'server');
 	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');
