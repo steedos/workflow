@@ -14,3 +14,4 @@ FSSH =
 				callback {reason:'账户验证失败'},false
 		catch e
 			callback {reason:'账户验证失败',message:e.message},false
+

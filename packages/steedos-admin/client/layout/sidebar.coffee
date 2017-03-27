@@ -25,6 +25,13 @@ Admin.adminSidebarHelpers =
 	isPortalAdmin: ()->
 		return Steedos.getSpaceAppByUrl("/portal/home")
 
+	sidebarMenu: ()->
+		return Admin.menuTemplate.getSidebarMenuTemplate()
+
+	homeMenu: ()->
+		return Admin.menuTemplate.getHomeTemplate()
+
+
 Template.adminSidebar.helpers Admin.adminSidebarHelpers
 
 Template.adminSidebar.events
@@ -40,3 +47,135 @@ Template.adminSidebar.events
 
 	'click .steedos-help': (event) ->
 		Steedos.showHelp();
+
+
+
+
+Admin.menuTemplate = 
+
+	getSidebarMenuTemplate: ()->
+		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
+			unless Admin.menuTemplate.checkRoles(rootMenu)
+				return ""
+			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
+			if children.count()
+				items = children.map (menu, index) ->
+					unless Admin.menuTemplate.checkRoles(menu)
+						return ""
+					# 二级菜单才有url及onclick函数
+					if typeof menu.onclick == "function"
+						$("body").on "click", ".admin-menu-#{menu._id}", ->
+							menu.onclick()
+
+					if menu.target == "_blank"
+						targetStr = "target=\"_blank\""
+
+					return """
+						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}" #{targetStr}><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
+					"""
+				return """
+					<li class="treeview">
+						<a href="javascript:void(0)">
+							<i class="#{rootMenu.icon}"></i>
+							<span>#{t(rootMenu.title)}</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							#{items.join("")}
+						</ul>
+					</li>
+				"""
+			else
+				if typeof rootMenu.onclick == "function"
+					$("body").on "click", ".admin-menu-#{rootMenu._id}", ->
+						rootMenu.onclick()
+
+				unless Admin.menuTemplate.checkRoles(rootMenu)
+						return ""
+				if rootMenu.target == "_blank"
+					targetStr = "target=\"_blank\""
+
+				return """
+					<li><a class="admin-menu-#{rootMenu._id}" href="#{rootMenu.url}" #{targetStr}><i class="#{rootMenu.icon}"></i><span>#{t(rootMenu.title)}</span></a></li>
+				"""
+		return reTemplates.join("")
+
+	getHomeTemplate: ()->
+		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
+			unless Admin.menuTemplate.checkRoles(rootMenu)
+				return ""
+			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
+			if children.count()
+				items = children.map (menu, index) ->
+					unless Admin.menuTemplate.checkRoles(menu)
+						return ""
+					return """
+						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}">
+								<div class="admin-grid-icon">
+									<i class="#{menu.icon}"></i>
+								</div>
+								<div class="admin-grid-label">
+									#{t(menu.title)}
+								</div>
+							</a>
+						</div>
+					"""
+				return """
+					<div class="row admin-grids">
+						#{items.join("")}
+					</div>
+				"""
+			else
+				unless Admin.menuTemplate.checkRoles(rootMenu)
+						return ""
+				if rootMenu.target == "_blank"
+					targetStr = "target=\"_blank\""
+				return """
+					<div class="row admin-grids">
+						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-rootMenu-#{rootMenu._id}" #{targetStr}>
+								<div class="admin-grid-icon">
+									<i class="#{rootMenu.icon}"></i>
+								</div>
+								<div class="admin-grid-label">
+									#{t(rootMenu.title)}
+								</div>
+							</a>
+						</div>
+					</div>
+				"""
+		return reTemplates.join("")
+
+	checkRoles: (menu)->
+		unless menu
+			return false
+		isChecked = true
+		if menu.app
+			# 只有第一层menu需要判断是否有APP权限
+			isChecked = !!Steedos.getSpaceAppById(menu.app)
+
+		if menu.app and menu.paid
+			unless Steedos.isPaidSpace()
+				isChecked = false
+
+		if isChecked and menu.roles?.length
+			roles = menu.roles
+			for i in [1..roles.length]
+				role = roles[i-1]
+				switch role
+					when "space_admin"
+						unless Steedos.isSpaceAdmin()
+							isChecked = false
+					when "space_owner"
+						unless Steedos.isSpaceOwner()
+							isChecked = false
+					when "cloud_admin"
+						unless Steedos.isCloudAdmin()
+							isChecked = false
+				unless isChecked
+					break 
+			return isChecked
+		return isChecked
