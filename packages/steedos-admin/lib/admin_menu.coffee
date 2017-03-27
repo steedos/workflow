@@ -174,31 +174,31 @@ if Meteor.isClient
 		parent: "Steedos Workflow"
 
 
-	#test1测试
-	Admin.addMenu 
-		_id: "test1"
-		title: "Account Settings"
-		app: "workflow"
-		icon: "ion ion-android-person"
-		url: "/admin/profile/profile"
-		# onclick: ->
-		# 	console.log("Hello World")
-		# 	return false
-		target: "_blank"
-		# paid: true
-		sort: 40
+	# #test1测试
+	# Admin.addMenu 
+	# 	_id: "test1"
+	# 	title: "Account Settings"
+	# 	app: "workflow"
+	# 	icon: "ion ion-android-person"
+	# 	url: "/admin/profile/profile"
+	# 	# onclick: ->
+	# 	# 	console.log("Hello World")
+	# 	# 	return false
+	# 	target: "_blank"
+	# 	# paid: true
+	# 	sort: 40
 
-	#test2测试
-	Admin.addMenu 
-		_id: "test2"
-		title: "email"
-		app: "workflow"
-		icon: "ion ion-at"
-		url: "/admin/profile/profile"
-		# onclick: ->
-		# 	console.log("Hello World")
-		# 	return false
-		target: "_blank"
-		# paid: true
-		sort: 40
+	# #test2测试
+	# Admin.addMenu 
+	# 	_id: "test2"
+	# 	title: "email"
+	# 	app: "workflow"
+	# 	icon: "ion ion-at"
+	# 	url: "/admin/profile/profile"
+	# 	# onclick: ->
+	# 	# 	console.log("Hello World")
+	# 	# 	return false
+	# 	target: "_blank"
+	# 	# paid: true
+	# 	sort: 40
 
