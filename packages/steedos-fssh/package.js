@@ -9,7 +9,7 @@ Npm.depends({
   cookies: "0.6.1",
 });
 
-Package.onUse(function(api) { 
+Package.onUse(function(api) {
 	api.versionsFrom("1.2.1");
 
 	api.use('coffeescript');
@@ -19,14 +19,14 @@ Package.onUse(function(api) {
 	api.use('useraccounts:bootstrap');
 	api.use('blaze');
 	api.use('templating');
-	
+
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
 
 	api.use('tap:i18n@1.7.0');
-	
+
 	api.use('steedos:lib');
 	api.use('steedos:admin');
 	api.use('steedos:emailjs');
@@ -38,17 +38,18 @@ Package.onUse(function(api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.addFiles('lib/admin_menu.coffee')
 	api.addFiles('lib/core.coffee');
 
 	api.addFiles('server/methods/mail_account_save.coffee', 'server');
 	api.addFiles('server/methods/auth_user_save.coffee', 'server');
 	api.addFiles('server/methods/auth_users_save.coffee', 'server');
-	
+
 	api.addFiles('client/views/_helpers.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.html', 'client');
 	api.addFiles('client/views/accounts_guide_modal.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.less', 'client');
+
+	api.addFiles('client/admin_menu.coffee','client');
 
 	api.addFiles('client/customize.less', 'client');
 
@@ -58,7 +59,7 @@ Package.onUse(function(api) {
 	api.export('FSSH');
 
 
-	
+
 });
 
 Package.onTest(function(api) {
