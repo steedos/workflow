@@ -225,7 +225,9 @@ if Meteor.isClient
 		userId = Meteor.userId()
 		spaceId = Steedos.spaceId()
 		space_user = db.space_users.findOne(user:userId,space:spaceId)
-		organizations = space_user.organizations
+		organizations = space_user?.organizations
+		unless organizations
+			return []
 		if isIncludeParents
 			parents = _.flatten db.organizations.find(_id:{$in:organizations}).fetch().getProperty("parents")
 			return _.union organizations,parents

@@ -142,7 +142,23 @@ db.organizations.helpers
 			return this.users.length
 		else 
 			return 0
-		
+
+	calculateAllChildren: ->
+		children = []
+		childrenObjs = db.organizations.find({parents: {$in:[this._id]}}, {fields: {_id:1}})
+		childrenObjs.forEach (child) ->
+			children.push(child._id);
+		return children;
+
+	calculateUsers: (isIncludeParents)->
+		children = if isIncludeParents then this.calculateAllChildren() else this.calculateChildren()
+		users = []
+		children.forEach (child)->
+			child = db.organizations.findOne(child, {fields: {users:1}})
+			if child?.users?.length
+				users = users.concat child.users
+		return users
+
 
 if (Meteor.isServer) 
 
