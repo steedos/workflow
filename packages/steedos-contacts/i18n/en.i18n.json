@@ -63,5 +63,7 @@
 
 	"mail_subject_empty": "[No Subject]",
 
+	"contacts_organization_permission_alert": "Your account is automatically synchronized with a third-party system and can not maintain the organizational structure in Steedos",
+
 	"invite_users_help": "https://www.steedos.com/us/help/workflow/admin_space_users.html"
 }
