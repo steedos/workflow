@@ -28,7 +28,7 @@ if Meteor.isClient
 		parent: "workflow"
 
 	Admin.addMenu
-		_id: "Workflow Designer"
+		_id: "workflow_designer"
 		title: "Workflow Designer"
 		app: "workflow"
 		icon: "ion ion-shuffle"
