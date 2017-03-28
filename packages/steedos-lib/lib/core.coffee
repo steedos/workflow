@@ -221,6 +221,17 @@ if Meteor.isClient
 		browser.device = device[1]
 		return browser.device == DEVICE.ipad or browser.device == DEVICE.iphone or browser.device == DEVICE.ipod
 
+	Steedos.getUserOrganizations = (isIncludeParents)->
+		userId = Meteor.userId()
+		spaceId = Steedos.spaceId()
+		space_user = db.space_users.findOne(user:userId,space:spaceId)
+		organizations = space_user.organizations
+		if isIncludeParents
+			parents = _.flatten db.organizations.find(_id:{$in:organizations}).fetch().getProperty("parents")
+			return _.union organizations,parents
+		else
+			return organizations
+
 
 if Meteor.isServer
 	#TODO 添加服务端是否手机的判断(依据request)
