@@ -209,7 +209,7 @@ if (Meteor.isServer)
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
-		if !modifier.$set.user_accepted
+		if modifier.$set.user_accepted != undefined and !modifier.$set.user_accepted
 			if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 				throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
 
