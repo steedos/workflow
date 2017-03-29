@@ -1,7 +1,6 @@
 InstanceManager = {};
 
 InstanceManager.runFormula = function(fieldCode) {
-	console.log("InstanceManager.runFormula...");
 	var form_version = WorkflowManager.getInstanceFormVersion();
 	var formula_fields = []
 	if (form_version)
@@ -33,7 +32,6 @@ InstanceManager.getFormField = function(fieldId) {
  */
 InstanceManager.getNextStepOptions = function() {
 
-	console.log("calculate next_step_options")
 	if (ApproveManager.isReadOnly())
 		return []
 
@@ -129,9 +127,6 @@ InstanceManager.getNextStepOptions = function() {
 	} else {
 		Session.set("next_step_id", null);
 	}
-	console.log('---next_step_id---')
-	console.log(next_step_id)
-	console.log(next_step_options)
 	return next_step_options;
 }
 
@@ -147,7 +142,6 @@ InstanceManager.getNextStepOptions = function() {
 // }
 
 InstanceManager.getNextUserOptions = function() {
-	console.log("calculate next_user_options")
 
 	var next_user_options = []
 
@@ -808,7 +802,6 @@ InstanceManager.archiveIns = function(insId) {
 
 // 添加附件
 InstanceManager.addAttach = function(fileObj, isAddVersion) {
-	console.log("InstanceManager.addAttach");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
 		var state = instance.state;
@@ -816,12 +809,9 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 		var curTime = new Date();
 		var userId = Meteor.userId();
 		var fileName = fileObj.name;
-		console.log(fileName);
 		if (!fileName)
 			fileName = Session.get('filename');
 
-
-		console.log(fileName);
 
 		var attachs = instance.attachments || [];
 		var hasRepeatedFile = false;
@@ -915,7 +905,6 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 // 移除附件
 InstanceManager.removeAttach = function() {
-	console.log("InstanceManager.removeAttach");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
 		var state = instance.state;
@@ -1191,7 +1180,6 @@ InstanceManager.setApproveHaveRead = function(instanceId) {
 		var myApprove = InstanceManager.getCurrentApprove()
 		if (myApprove) {
 			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {
-				console.log('set read')
 			});
 		} else {
 			var ccApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
@@ -1238,7 +1226,6 @@ InstanceManager.instanceformChangeEvent = function(event) {
 		}
 	}
 
-	console.log("instanceform form-control change, code is " + code);
 
 	InstanceManager.checkFormFieldValue(event.target);
 

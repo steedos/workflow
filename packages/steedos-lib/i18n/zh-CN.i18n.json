@@ -267,6 +267,7 @@
 	"organizations_error_space_admins_only_for_org_admins": "只有该工作区的管理员才能处理“组织管理员”",
 	"organizations_error_org_admins_only": "无权访问，只有组织机构管理员可以执行此操作。",
 	"organizations_error_organization_has_users": "部门内有人员,所以不能删除",
+	"organizations_error_can_not_set_checkbox_true": "不能设置管理员或拥有者为无效",
 
 	"space_users_error_space_required": "工作区必填",
 	"space_users_error_space_not_found": "未找到该工作区",
@@ -279,6 +280,7 @@
 	"space_users_error_space_readonly": "无法修改工作区",
 	"space_users_error_user_readonly": "无法修改用户",
 	"space_users_error_remove_space_owner": "不能删除工作区拥有者",
+	"space_users_error_remove_space_admins": "不能删除工作区管理员",
 
 	"spaces_error_login_required": "login必填",
 	"spaces_error_space_owner_only": "您不是该工作区的所有者",
@@ -395,5 +397,10 @@
 	"spaces_new_swal_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
 	"spaces_new_swal_success": "工作区创建成功",
 
-	"space_info": "工作区信息"
+	"space_info": "工作区信息",
+	"Change username": "更改用户名",
+	"Change username successfully": "更改用户名成功",
+	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
+	"username-unavailable": "此用户名已经被使用，请填写其他用户名",
+	"refresh":"刷新"
 }

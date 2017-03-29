@@ -66,8 +66,6 @@ Template.afSelectUser_localData.helpers({
 
 Template.afSelectUser_localData.events({
   'click .selectUser': function (event, template) {
-    //console.log("click .selectUser...");
-    //console.log("s1 is " + parseInt(new Date().getTime()/1000
     if ("disabled" in template.data.atts)
         return;
 
@@ -77,7 +75,6 @@ Template.afSelectUser_localData.events({
 
     if(dataset.userOptions){
         data = {users:WorkflowManager.getUsers(dataset.userOptions.split(","))};
-        //console.log("s1.1 is " + parseInt(new Date().getTime()/1000));
     }else{
         data = {orgs:WorkflowManager.getSpaceOrganizations() , users:WorkflowManager.getSpaceUsers()};
     }
@@ -114,9 +111,7 @@ Template.afSelectUser_localData.events({
     }
 
     options.orgId = start_orgId;
-    //console.log("s2 is " + parseInt(new Date().getTime()/1000));
     SelectTag.show(options,"Template.afSelectUser_localData.confirm('"+template.data.name+"')");
-    //console.log("s3 is " + parseInt(new Date().getTime()/1000));
   }
 });
 

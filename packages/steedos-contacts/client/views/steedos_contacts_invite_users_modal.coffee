@@ -15,14 +15,12 @@ Template.steedos_contacts_invite_users_modal.events
 
     emails = emails_value.split(/，|;|；|,|\n/)
 
-    console.log emails
 
     regexp = new RegExp(/^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i)
 
     emails.forEach (email) ->
       # 去除空格
       email = email.replace(/\s/g, '')
-      console.log email
       # 去除空元素
       if email
         if regexp.test(email)
@@ -35,7 +33,6 @@ Template.steedos_contacts_invite_users_modal.events
     if is_all_correct != true
       return
 
-    console.log newEmails
 
     space_id = Session.get('spaceId')
     organizations = [Session.get('contacts_orgId')]

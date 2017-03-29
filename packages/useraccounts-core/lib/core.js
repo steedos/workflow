@@ -311,7 +311,7 @@ AT.prototype.texts = {
     hasError: "fa fa-times",
   },
   maxAllowedLength: "Maximum allowed length",
-  minRequiredLength: "Minimum required length",
+  minRequiredLength: "The minimum length can not be less than 5 digits",
   optionalField: "optional",
   pwdLink_pre: "",
   pwdLink_link: "forgotPassword",

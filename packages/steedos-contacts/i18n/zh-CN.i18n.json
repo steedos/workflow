@@ -62,5 +62,7 @@
 
 	"mail_subject_empty": "[无主题]",
 
+	"contacts_organization_permission_alert": "您的账户与第三方系统自动同步，无法在Steedos中维护组织结构",
+
 	"invite_users_help": "https://www.steedos.com/cn/help/workflow/admin_space_users.html"
 }

@@ -92,11 +92,20 @@ FlowRouter.route '/steedos/logout',
 
 
 FlowRouter.route '/admin/profile', 
+	action: (params, queryParams)->
+		FlowRouter.go "/admin/profile/profile"
+
+FlowRouter.route '/admin/profile/:profileName', 
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if Meteor.userId()
 			BlazeLayout.render 'adminLayout',
 				main: "profile"
+
+		Tracker.afterFlush ->
+			profileName = params?.profileName
+			if profileName
+				$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
 
 FlowRouter.route '/steedos/springboard', 

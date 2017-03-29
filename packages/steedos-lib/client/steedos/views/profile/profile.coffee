@@ -103,6 +103,9 @@ Template.profile.helpers
 
 
 Template.profile.onRendered ->
+	profileName = FlowRouter.current()?.params?.profileName
+	if profileName
+		$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
 
 Template.profile.onCreated ->
@@ -164,7 +167,6 @@ Template.profile.events
 	'click .add-email': (event, template) ->
 		$(document.body).addClass("loading")
 		inputValue = $('#newEmail').val()
-		console.log inputValue
 		Meteor.call "users_add_email", inputValue, (error, result)->
 			if result?.error
 				$(document.body).removeClass('loading')
@@ -248,7 +250,6 @@ Template.profile.events
 		fileId = fileObj._id
 		url = fileId
 		absUrl = Steedos.absoluteUrl("api/files/avatars/#{fileId}")
-		console.log "the upload bg file absUrl is:#{absUrl}"
 		setTimeout(()->
 			Steedos.applyAccountBgBodyValue({url:url, avatar:fileId})
 			Meteor.call 'setKeyValue', 'bg_body', {'url': url, 'avatar': fileId}, (error, is_suc) ->
@@ -319,6 +320,29 @@ Template.profile.events
 				console.error error
 				toastr.error(error)
 
+	'click .change-username': (event, template) ->
+		user = Meteor.user()
+		swal {
+			title: t('Change username')
+			type: "input"
+			inputValue: user.username || ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			Meteor.call "setUsername", inputValue.trim(), (error, results)->
+				if results
+					toastr.remove()
+					toastr.success t('Change username successfully')
+					swal.close()
+
+				if error
+					toastr.remove()
+					toastr.error(TAPi18n.__(error.error))
 
 Meteor.startup ->
 	AutoForm.hooks
@@ -336,4 +360,3 @@ Meteor.startup ->
 					toastr.error error.reason
 				else
 					toastr.error error
-	  

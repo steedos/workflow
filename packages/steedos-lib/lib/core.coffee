@@ -111,7 +111,6 @@ if Meteor.isClient
 			return
 		if !$(".sidebar").perfectScrollbar
 			return
-		console.log("fixSideBarScroll");
 		if $("body").hasClass("sidebar-collapse")
 			if $(".sidebar").hasClass("ps-container")
 				$(".sidebar").perfectScrollbar("destroy")
@@ -193,11 +192,9 @@ if Meteor.isClient
 			accountZoomValue = Steedos.getAccountZoomValue()
 			switch accountZoomValue.name
 				when 'large'
-					console.log "Steedos.getModalMaxHeight - large -0"
 					# 测下来这里不需要额外减数
 					reValue -= 0
 				when 'extra-large'
-					console.log "Steedos.getModalMaxHeight - extra-large -25"
 					reValue -= 25
 		if offset
 			reValue -= offset
@@ -223,6 +220,19 @@ if Meteor.isClient
 		]
 		browser.device = device[1]
 		return browser.device == DEVICE.ipad or browser.device == DEVICE.iphone or browser.device == DEVICE.ipod
+
+	Steedos.getUserOrganizations = (isIncludeParents)->
+		userId = Meteor.userId()
+		spaceId = Steedos.spaceId()
+		space_user = db.space_users.findOne(user:userId,space:spaceId)
+		organizations = space_user?.organizations
+		unless organizations
+			return []
+		if isIncludeParents
+			parents = _.flatten db.organizations.find(_id:{$in:organizations}).fetch().getProperty("parents")
+			return _.union organizations,parents
+		else
+			return organizations
 
 
 if Meteor.isServer

@@ -13,8 +13,6 @@ var TICKET_EXPIRES_IN = config.ticket_expires_in || 1000 * 60 * 20 //20分钟
 
 JsonRoutes.add("post", "/api/dingtalk/callback", function(req, res, next) {
 
-  console.log(req.query);
-  console.log(req.body);
   var signature = req.query.signature;
   var timestamp = req.query.timestamp;
   var nonce = req.query.nonce;
@@ -58,13 +56,11 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function(req, res, next) {
       //     res.reply();
       //   }
       // });
-      console.log('EventType is suite_ticket');
       var o = ServiceConfiguration.configurations.findOne({
         service: "dingtalk"
       });
       if (o) {
         r = Dingtalk.suiteAccessTokenGet(o.suite_key, o.suite_secret, message.SuiteTicket);
-        console.log(r);
         if (r && r.suite_access_token) {
           ServiceConfiguration.configurations.update(o._id, {
             $set: {
@@ -163,7 +159,6 @@ JsonRoutes.add("post", "/api/dingtalk/callback", function(req, res, next) {
 });
 
 Dingtalk.processCallback = function(message, req, res, next) {
-  console.log('message', message);
 
   res.reply();
 }
@@ -188,8 +183,6 @@ JsonRoutes.add("post", "/api/dingtalk/init", function(req, res, next) {
     });
   }
 
-  console.log(req.query);
-  console.log(req.body);
   var corpid = req.query.corpid;
   var corpsecret = req.query.corpsecret;
   var corp_name = req.query.corp_name;

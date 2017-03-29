@@ -44,7 +44,7 @@ Package.onUse(function(api) {
     api.use('momentjs:moment', 'client');
     api.use('mrt:moment-timezone', 'client');
 
-    api.use('steedos:lib'); 
+    api.use('steedos:lib');
     api.use('steedos:api');
     api.use('steedos:contacts');
 
@@ -55,7 +55,7 @@ Package.onUse(function(api) {
 
     api.addFiles('lib/core.coffee');
     api.addFiles('lib/admin.coffee');
-    
+
 
     api.addFiles('client/layout/master.html', 'client');
     api.addFiles('client/layout/master.coffee', 'client');
@@ -71,6 +71,7 @@ Package.onUse(function(api) {
     api.addFiles('client/views/admin_home.coffee', 'client');
     api.addFiles('client/views/admin_home.less', 'client');
 
+    api.addFiles('client/admin_menu.coffee', 'client');
     api.addFiles('client/router.coffee', 'client');
     api.addFiles('client/startup.coffee', 'client');
 

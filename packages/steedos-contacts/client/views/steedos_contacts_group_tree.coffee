@@ -6,13 +6,11 @@ Template.steedos_contacts_group_tree.helpers
 Template.steedos_contacts_group_tree.onRendered ->
   $('[data-toggle="tooltip"]').tooltip()
   $(document.body).addClass('loading')
-  console.log "loaded_organizations ok..."
 
   this.autorun ()->
     if Steedos.subsSpace.ready("address_groups")
       $("#steedos_contacts_group_tree").on('changed.jstree', (e, data) ->
             if data.selected.length
-              # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
               Session.set("contact_showBooks", true)
               Session.set("contacts_groupId", data.selected[0])
             return
@@ -33,7 +31,6 @@ Template.steedos_contacts_group_tree.onRendered ->
 
 Template.steedos_contacts_group_tree.events
   'click #search-btn': (event, template) ->
-    console.log 'click search-btn'
     $('#steedos_contacts_group_tree').jstree(true).search($("#search-key").val())
 
   'click #steedos_contacts_group_tree_add_btn': (event, template) ->

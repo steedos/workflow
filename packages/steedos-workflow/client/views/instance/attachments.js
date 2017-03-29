@@ -388,7 +388,6 @@ Template.ins_attach_edit_modal.onRendered(function() {
 	if (f) {
 		TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
 		url = Steedos.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
-		console.log(url);
 		TANGER_OCX_OBJ.OpenFromURL(url);
 
 		//设置office用户名
@@ -410,7 +409,6 @@ Template.ins_attach_edit_modal.onRendered(function() {
 Template.ins_attach_edit_modal.events({
 	// save attach
 	'click .btn-primary': function(event, template) {
-		console.log('edit modal save attach');
 		var filename = event.target.dataset.filename;
 
 		var TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
@@ -446,7 +444,6 @@ Template.ins_attach_edit_modal.events({
 
 	// 关闭编辑页面
 	'click .btn-default': function(event, template) {
-		console.log('edit modal close attach');
 		InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 	}
 

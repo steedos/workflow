@@ -452,7 +452,6 @@ InstanceformTemplate.onCreated = ()->
 
 	compiled = SpacebarsCompiler.compile(template, {isBody: true});
 
-	# console.log(compiled);
 
 	renderFunction = eval(compiled);
 
@@ -465,11 +464,9 @@ InstanceformTemplate.onCreated = ()->
 	Template.instance_custom_template.helpers InstanceformTemplate.helpers
 
 
-	console.log("InstanceformTemplate.onCreated..ok");
 
 
 InstanceformTemplate.onRendered = ()->
-	console.log("InstanceformTemplate.onRendered..start");
 	# t = this;
 
 	#t.subscribe "instance_data", Session.get("instanceId"), ->
@@ -501,6 +498,5 @@ InstanceformTemplate.onRendered = ()->
 		#在此处初始化session 中的 form_values 变量，用于触发下一步步骤计算
 		Session.set("instance_form_values", {instanceId: instance._id, values: AutoForm.getFormValues("instanceform").insertDoc});
 
-	console.log("InstanceformTemplate.onRendered..end");
 
 

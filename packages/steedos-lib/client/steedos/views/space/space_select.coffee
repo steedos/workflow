@@ -28,8 +28,6 @@ Template.space_select.events
           swal({
               title: "新建成功"
             }, () -> 
-              console.log(Session.get('spaceId'))
-              console.log("success")
               FlowRouter.go "/workflow/space/" + Session.get("spaceId")
           )
     )

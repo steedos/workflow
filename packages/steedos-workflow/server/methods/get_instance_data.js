@@ -1,7 +1,6 @@
 Meteor.methods({
 
 	get_instance_data: function (instance_id, formCached, flowCached) {
-		console.log("Method get_instance_data " + instance_id + ", " + formCached + ", " + flowCached);
 
 		check(instance_id, String);
 		check(formCached, Boolean);

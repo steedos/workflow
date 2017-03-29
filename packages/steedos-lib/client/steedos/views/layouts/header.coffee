@@ -34,6 +34,9 @@ Template.masterHeader.helpers
 			return 0
 		return Steedos.getBadge(cmsApp._id,null)
 
+	isNode: ->
+		return Steedos.isNode()
+
 
 Template.masterHeader.events
 
@@ -45,3 +48,6 @@ Template.masterHeader.events
 
 	'click .btn-logout': (event,template) ->
 		$("body").addClass("loading")
+
+	'click .ion.ion-refresh' : (event) ->
+		window.location.reload()

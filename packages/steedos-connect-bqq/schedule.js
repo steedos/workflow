@@ -13,7 +13,6 @@ Meteor.startup(function () {
         return;
       go_next = false;
 
-      console.log('bqq schedule start!');
       console.time('bqq');
       var spaces = db.spaces.find({"services.bqq.company_id": {$exists: true}, "services.bqq.company_token": {$exists: true}, "services.bqq.modified": {$exists: true} });
       var result = [];

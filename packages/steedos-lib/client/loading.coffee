@@ -9,9 +9,6 @@ SubsManager.prototype.isLoading = ()->
 
 
 Steedos.isLoading = ()->
-	# console.log ("Loading state: " + "TabularLoading" + "," + Session.get("TabularLoading") )
-	# console.log ("Loading state: " + "Bootstrap" + "," + Steedos.subsBootstrap.isLoading()  )
-	# console.log ("Loading state: " + "Space" + "," + Steedos.subsSpace.isLoading()  )
 	if Session.get("TabularLoading")
 		return true
 	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpace.isLoading() 

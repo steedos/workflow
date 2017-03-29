@@ -99,3 +99,9 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 		Session.set("instanceId", null);
 		Session.set('flow_selected_opinion', undefined);
 	]
+
+FlowRouter.route '/workflow/designer',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		Steedos.openWindow "/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}"
+		FlowRouter.go "/admin/home/"
