@@ -75,34 +75,8 @@
 						var state_str = "";
 						if (ins["state"] == "pending") {
 							// "审核中"
-							var step_id = "", step_name = "";
-							_.each(ins["traces"], function(t) {
-								if (t["is_finished"] == false) {
-									step_id = t["step"];
-								}
-							})
-							var flow = db.flows.findOne(ins["flow"]);
-							if (step_id && flow) {
-								var flow_rev = ins["flow_version"], isExistStep = null;
-								if (flow["current"]["_id"] == flow_rev){
-									isExistStep = _.find(flow["current"]["steps"], function(step){
-										return step["_id"] == step_id;
-									})
-								} else {
-									var history = _.find(flow["historys"], function(history){
-										return history["_id"] == flow_rev;
-									})
-									isExistStep = _.find(history["steps"], function(step){
-										return step["_id"] == step_id;
-									})
-								}
-
-								if (isExistStep) {
-									step_name = isExistStep["name"];
-								}
-							}
-
-							state_str = TAPi18n.__('export.state.pending', {}, lang) + "(" + step_name + ")";
+							var current_trace = _.last(ins["traces"]);
+							state_str = TAPi18n.__('export.state.pending', {}, lang) + "(" + current_trace.name + ")";
 						} else if (ins["state"] == "completed") {
 							if (ins["final_decision"]) {
 								var finalDecision = ins["final_decision"];
@@ -287,6 +261,10 @@
 				<Column ss:Width="150"/>
 				<!-- 申请单状态 -->
 				<Column ss:Width="150"/>
+				<!-- 当前步骤 -->
+				<Column ss:Width="150"/>
+				<!-- 当前步骤开始时间 -->
+				<Column ss:Width="150"/>
 				<% _.each(table_field.fields, function(field){ %>
 					<%
 						var wid = 150;
@@ -303,6 +281,8 @@
 					<Cell><Data ss:Type="String"><%= TAPi18n.__('export.initiator_org',{},lang) %></Data></Cell>
 					<Cell><Data ss:Type="String"><%= TAPi18n.__('export.submit_date',{},lang) %></Data></Cell>
 					<Cell><Data ss:Type="String"><%= TAPi18n.__('export.status',{},lang) %></Data></Cell>
+					<Cell><Data ss:Type="String"><%= TAPi18n.__('export.current_step_name',{},lang) %></Data></Cell>
+					<Cell><Data ss:Type="String"><%= TAPi18n.__('export.current_step_start_date',{},lang) %></Data></Cell>
 					<% _.each(table_field.fields, function(field) { %>
 								<Cell><Data ss:Type="String"><%= field.name ? field.name : field.code %></Data></Cell>
 					<% }) %>
@@ -320,34 +300,8 @@
 									var state_str = "";
 									if (ins["state"] == "pending") {
 										// "审核中"
-										var step_id = "", step_name = "";
-										_.each(ins["traces"], function(t) {
-											if (t["is_finished"] == false) {
-												step_id == t["step"];
-											}
-										})
-										var flow = db.flows.findOne(ins["flow"]);
-										if (step_id && flow) {
-											var flow_rev = ins["flow_version"], isExistStep = null;
-											if (flow["current"]["_id"] == flow_rev){
-												isExistStep = _.find(flow["current"]["steps"], function(step){
-													return step["_id"] == step_id;
-												})
-											} else {
-												var history = _.find(flow["historys"], function(history){
-													return history["_id"] == flow_rev;
-												})
-												isExistStep = _.find(history["steps"], function(step){
-													return step["_id"] == step_id;
-												})
-
-											}
-											if (isExistStep) {
-												step_name = isExistStep["name"]
-											}
-										}
-
-										state_str = TAPi18n.__('export.state.pending', {}, lang) + "(" + step_name + ")";
+										var current_trace = _.last(ins["traces"]);
+										state_str = TAPi18n.__('export.state.pending', {}, lang) + "(" + current_trace.name + ")";
 									} else if (ins["state"] == "completed") {
 										if (ins["final_decision"]) {
 											var finalDecision = ins["final_decision"];
@@ -371,6 +325,11 @@
 									}
 								%>
 								<Cell><Data ss:Type="String"><%= state_str %></Data></Cell>
+								<%
+									var current_trace = _.last(ins["traces"]);
+								%>
+								<Cell><Data ss:Type="String"><%= current_trace.name %></Data></Cell>
+								<Cell><Data ss:Type="String"><%= moment(current_trace["start_date"].getTime()+(current_trace["start_date"].getTimezoneOffset()-timezoneoffset)*60*1000).format(TAPi18n.__('instance.formatter.date.export_datetime',{},lang)) %></Data></Cell>
 								<% _.each(table_field.fields, function(field) { %>
 									<% if (!f_obj[field.code]) { %>
 										<Cell><Data ss:Type="String"><%= "" %></Data></Cell>
