@@ -259,6 +259,7 @@ pushManager.get_badge = (send_from, user_id)->
 			state: $in: [
 				'pending'
 				'completed'
+				'draft'
 			]
 			$or: [
 				{ inbox_users: user_id }

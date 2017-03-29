@@ -1,15 +1,16 @@
 Template.org_main.helpers
 	subsReady: ->
 		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready();
-	isMobile: ()->
-		return Steedos.isMobile();
-
-	isNotSync: (spaceId)->
-		if Steedos.isNotSync()
-			return true;
-		else
-			return false;
 
 Template.org_main.onRendered ->
-		if Steedos.isNotSync() == false || Steedos.isNotSync() == undefined
+		unless Steedos.isNotSync()
+			paths = FlowRouter.current().path.match(/\/[^\/]+/)
+			if paths?.length
+				rootPath = paths[0]
+			else
+				rootPath = "/admin"
+			if rootPath == "/contacts"
+				rootPath = "/contacts/books"
+			FlowRouter.go rootPath
 			toastr.error(t("contacts_organization_permission_alert"));
+				

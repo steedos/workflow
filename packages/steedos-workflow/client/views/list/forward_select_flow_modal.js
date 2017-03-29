@@ -1,34 +1,28 @@
 Template.forward_select_flow_modal.helpers({
-	flow_list_data: function() {
-		if (!Steedos.subsForwardRelated.ready()) {
-			return;
-		}
-
-		return WorkflowManager.getFlowListData('forward');
+	fields: function() {
+		return new SimpleSchema({
+			forward_users: {
+				autoform: {
+					type: "selectuser",
+					multiple: true
+				},
+				optional: true,
+				type: [String],
+				label: TAPi18n.__("instance_forward_users")
+			}
+		})
 	},
 
-	empty: function(categorie) {
-		if (!categorie.forms || categorie.forms.length < 1)
+	values: function() {
+		return {}
+	},
+
+	// 跨工作区只能转发给自己
+	is_show_selectuser: function() {
+		if (Session.get('forward_space_id') != Session.get('spaceId')) {
 			return false;
-		return true;
-	},
-
-	equals: function(a, b) {
-		return a == b;
-	},
-
-	spaces: function() {
-		return db.spaces.find();
-	},
-
-	spaceName: function() {
-		if (Session.get('forward_space_id')) {
-			space = db.spaces.findOne(Session.get("forward_space_id"))
-			if (space)
-				return space.name
 		}
-
-		return t("Steedos")
+		return true;
 	}
 
 })
@@ -46,13 +40,23 @@ Template.forward_select_flow_modal.events({
 	},
 
 	'click #forward_flow_ok': function(event, template) {
-		flow = $("#forward_flow")[0].dataset.flow;
-
+		var flow = $("#forward_flow")[0].dataset.flow;
 
 		if (!flow)
 			return;
 
-		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), $("#isForwardAttachments")[0].checked);
+		var selectedUsers = AutoForm.getFieldValue("forward_users", "forward_select_user");
+
+		if (Session.get('forward_space_id') != Session.get('spaceId')) {
+			selectedUsers = [Meteor.userId()];
+		}
+
+		if (_.isEmpty(selectedUsers)) {
+			toastr.error(TAPi18n.__("instance_forward_error_users_required"));
+			return;
+		}
+
+		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), $("#isForwardAttachments")[0].checked, selectedUsers);
 		Modal.hide(template);
 	},
 

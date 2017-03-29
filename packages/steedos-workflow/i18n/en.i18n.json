@@ -415,5 +415,14 @@
 	"instance_approve_read_no": "no",
 	"instance_approve_cc_remove": "cancel cc",
 	"instance_approve_close_modal": "close",
-	"instance_approve_title_label": "Handler:"
+	"instance_approve_title_label": "Handler:",
+
+	"instance_forward_users": "Forward users",
+	"instance_forward_error_users_required": "Users required!",
+	"instance_approve_from_user_name_label_forward": "forward from",
+	"instance_approve_forward_remove": "cancel forward",
+	"instance_approve_forward_remove_success": "cancel forward successfully!",
+	"instance_forward_instance_look": "Look the instance",
+	"instance_forward_cannot_cancel": "Can not cancel!",
+	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!"
 }
