@@ -95,6 +95,14 @@ TracesTemplate.helpers =
 				myApprove = InstanceManager.getCurrentApprove()
 				if myApprove && myApprove.id == approveId
 					return Session.get("instance_my_approve_description")
+	isForward: (approved) ->
+		if approved and approved.type == 'forward'
+			return true
+		false
+	showForwardDeleteButton: (approve) ->
+		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+			return true
+		false
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -152,4 +160,32 @@ TracesTemplate.events =
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
 		Modal.hide "instance_trace_detail_modal"
+
+	'click .instance-trace-detail-modal .btn-forward-approve-remove': (event, template) ->
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		traceId = event.target.dataset.trace
+		# CALL 删除approve函数。
+		$("body").addClass("loading")
+		Meteor.call 'forward_remove', instanceId, traceId, approveId, (err, result) ->
+			$("body").removeClass("loading")
+			if err
+				toastr.error TAPi18n.__(err.reason)
+			if result == true
+				toastr.success(TAPi18n.__("instance_approve_forward_remove_success"));
+				Modal.hide "instance_trace_detail_modal"
+			return
+		return
+
+	'click .instance-trace-detail-modal .btn-forward-instance-look': (event, template) ->
+		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
+				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
+		else
+				uobj = {}
+				uobj["box"] = Session.get("box")
+				uobj["X-User-Id"] = Meteor.userId()
+				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+				forward_space = event.target.dataset.forwardspace
+				forward_instance = event.target.dataset.forwardinstance
+				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
 		

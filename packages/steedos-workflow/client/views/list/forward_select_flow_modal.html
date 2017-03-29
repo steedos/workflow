@@ -23,6 +23,14 @@
                         <span class="help-block"></span>
                     </div>
 
+                    {{#if is_show_selectuser}}
+                        <div class="form-group">
+                            {{#autoForm id='forward_select_user' schema=fields doc=values }}
+                                  {{> afFormGroup name="forward_users"}}
+                            {{/autoForm}}
+                        </div>
+                    {{/if}}
+
                     <div class="form-group">
                         <textarea class="form-control" id="forward_flow_text" placeholder={{_ "forwardFlowText"}}></textarea>
                     </div>

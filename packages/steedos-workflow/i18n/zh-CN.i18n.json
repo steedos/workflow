@@ -383,10 +383,10 @@
 	"steedos": "华炎云",
 	"cc": "传阅",
 	"saveInstanceToAttachment": "将原表单存储为附件",
+
 	"forwardFlowText": "请填写分发说明",
 	"instanceForwardNote": "将当前选中的文件分发到新的流程，继续执行审批操作",
 	"isForwardAttachments": "是否分发附件",
-
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",
@@ -418,5 +418,15 @@
 	"instance_approve_read_no": "否",
 	"instance_approve_cc_remove": "取消传阅",
 	"instance_approve_close_modal": "关闭",
-	"instance_approve_title_label": "处理人："
+	"instance_approve_title_label": "处理人：",
+
+	"instance_forward_users": "转发对象",
+	"instance_forward_error_users_required": "请选择转发对象!",
+	"instance_approve_from_user_name_label_forward": "转发自",
+	"instance_approve_forward_remove": "取消转发",
+	"instance_approve_forward_remove_success": "取消转发成功",
+	"instance_forward_instance_look": "查看申请单",
+	"instance_forward_cannot_cancel": "不符合取消转发条件！",
+	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！"
+
 }
