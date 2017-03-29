@@ -32,8 +32,7 @@ if Meteor.isClient
 		title: "Workflow Designer"
 		app: "workflow"
 		icon: "ion ion-shuffle"
-		url: "/packages/steedos_admin/assets/designer/index.html?locale={{locale}}&space={{spaceId}}"
-		target: "_blank"
+		url: "/workflow/designer"
 		sort: 40
 		parent: "workflow"
 
