@@ -4,7 +4,6 @@ Template.org_main.helpers
 
 Template.org_main.onRendered ->
 		unless Steedos.isNotSync()
-			debugger
 			paths = FlowRouter.current().path.match(/\/[^\/]+/)
 			if paths?.length
 				rootPath = paths[0]
