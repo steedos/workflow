@@ -254,7 +254,7 @@
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__。",
-				"first_submit_inbox": "请__approve_type__:我提交了__instance_name__。",
+				"first_submit_inbox": "请__approve_type__:__instance_name__。",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__。",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__。",
 				"submit_pending_rejected_approve": "",
