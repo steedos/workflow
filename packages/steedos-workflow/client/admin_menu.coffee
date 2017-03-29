@@ -1,6 +1,6 @@
 if Meteor.isClient
 
-	#审批王设置
+	#审批王
 	Admin.addMenu
 		_id: "workflow"
 		title: "Steedos Workflow"
@@ -9,6 +9,7 @@ if Meteor.isClient
 		roles: ["space_admin"]
 		sort: 30
 
+	# 岗位
 	Admin.addMenu
 		_id: "flow_roles"
 		title: "flow_roles"
@@ -18,6 +19,7 @@ if Meteor.isClient
 		sort: 20
 		parent: "workflow"
 
+	# 岗位成员
 	Admin.addMenu
 		_id: "flow_positions"
 		title: "flow_positions"
@@ -27,6 +29,7 @@ if Meteor.isClient
 		sort: 30
 		parent: "workflow"
 
+	# 流程设计器
 	Admin.addMenu
 		_id: "workflow_designer"
 		title: "Workflow Designer"
@@ -36,16 +39,18 @@ if Meteor.isClient
 		sort: 40
 		parent: "workflow"
 
+	# 流程脚本
 	Admin.addMenu
 		_id: "workflow_form_edit"
 		title: "workflow_form_edit"
 		app: "workflow"
 		icon: "ion ion-ios-paper"
-		url: "admin/view/flows_template"
+		url: "/admin/view/flows_template"
 		paid: "true"
 		sort: 50
 		parent: "workflow"
 
+	# 图片签名
 	Admin.addMenu
 		_id: "space_user_signs"
 		title: "space_user_signs"

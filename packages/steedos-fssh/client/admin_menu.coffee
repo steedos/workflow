@@ -1,6 +1,7 @@
 if Meteor.isClient
 
-	# FSSH为Portal增加在steedos-admin中的菜单
+	# FSSH为Portal增加的菜单
+	# 验证域
 	Admin.addMenu 
 		_id: "apps_auths"
 		title: "apps_auths"
@@ -10,6 +11,7 @@ if Meteor.isClient
 		sort: 100
 		parent: "portal"
 
+	#域账户
 	Admin.addMenu 
 		_id: "apps_auth_users"
 		title: "apps_auth_users"
@@ -21,6 +23,7 @@ if Meteor.isClient
 		sort: 110
 		parent: "portal"
 
+	#邮件域
 	Admin.addMenu 
 		_id: "mail_domains"
 		title: "mail_domains"
