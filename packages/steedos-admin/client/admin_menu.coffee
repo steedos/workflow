@@ -32,6 +32,7 @@ if Meteor.isClient
 		icon: "ion ion-android-person"
 		sort: 10
 
+	# 个人信息
 	Admin.addMenu
 		_id: "profile"
 		title: "Profile"
@@ -40,6 +41,7 @@ if Meteor.isClient
 		sort: 10
 		parent: "account"
 
+	# 头像
 	Admin.addMenu
 		_id: "avatar"
 		title: "Avatar"
@@ -48,6 +50,7 @@ if Meteor.isClient
 		sort: 20
 		parent: "account"
 
+	# 账户
 	Admin.addMenu
 		_id: "account_info"
 		title: "Account"
@@ -56,6 +59,7 @@ if Meteor.isClient
 		sort: 30
 		parent: "account"
 
+	# 邮件
 	Admin.addMenu
 		_id: "email"
 		title: "email"
@@ -64,6 +68,7 @@ if Meteor.isClient
 		sort: 40
 		parent: "account"
 
+	# 个性化
 	Admin.addMenu
 		_id: "personalization"
 		title: "personalization"
@@ -73,13 +78,15 @@ if Meteor.isClient
 		parent: "account"
 
 
-	# 工作区设置
+
+	# 工作区
 	Admin.addMenu
 		_id: "spaces"
 		title: "spaces"
 		icon: "ion ion-ios-cloud-outline"
 		sort: 20
 
+	# 工作区信息
 	Admin.addMenu
 		_id: "space_info"
 		title: "space_info"
@@ -88,6 +95,7 @@ if Meteor.isClient
 		sort: 20
 		parent: "spaces"
 
+	# 组织架构
 	Admin.addMenu
 		_id: "contacts_organizations"
 		title: "contacts_organizations"
@@ -97,6 +105,7 @@ if Meteor.isClient
 		sort: 30
 		parent: "spaces"
 
+	# 自定义应用
 	Admin.addMenu
 		_id: "steedos_customize_apps"
 		title: "steedos_customize_apps"
@@ -106,6 +115,7 @@ if Meteor.isClient
 		sort: 40
 		parent: "spaces"
 
+	# 财务
 	Admin.addMenu
 		_id: "billings"
 		title: "billings"

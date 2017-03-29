@@ -243,7 +243,7 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 }
 
 // 编辑文件
-NodeManager.editFile = function(file_url, filename) {
+NodeManager.editFile = function(file_url, filename, isView) {
 	var download_dir = "";
 	//获取系统Documents路径
 	var userPath = process.env.USERPROFILE;
@@ -258,34 +258,39 @@ NodeManager.editFile = function(file_url, filename) {
 		fs.exists(download_dir, function(exists) {
 			if (exists == true) {
 				var fPath = download_dir + filename;
-				fs.exists(fPath, function(exists) {
-					if (exists == true) {
-						swal({
-							title: t("node_office_exists_message"),
-							text: fPath,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonText: t("node_office_confirm"),
-							cancelButtonText: t("node_office_cancel")
-						}, function(isConfirm) {
-							if (isConfirm) {
-								// 下载附件到本地
-								OfficeOnline.downloadFile(file_url, download_dir, filename);
-							} else {
-								NodeManager.vbsEditFile(download_dir, filename);
-							}
-						})
-					} else {
-						OfficeOnline.downloadFile(file_url, download_dir, filename);
-					}
-				})
+				// 查看模式下直接下载到本地打开
+				if (isView){
+					OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
+				} else{
+					fs.exists(fPath, function(exists) {
+						if (exists == true) {
+							swal({
+								title: t("node_office_exists_message"),
+								text: fPath,
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonText: t("node_office_confirm"),
+								cancelButtonText: t("node_office_cancel")
+							}, function(isConfirm) {
+								if (isConfirm) {
+									// 下载附件到本地
+									OfficeOnline.downloadFile(file_url, download_dir, filename);
+								} else {
+									NodeManager.vbsEditFile(download_dir, filename);
+								}
+							})
+						} else {
+							OfficeOnline.downloadFile(file_url, download_dir, filename);
+						}
+					})
+				}
 			} else {
 				// 新建路径并下载附件到本地
 				fs.mkdir(download_dir, function(err) {
 					if (err) {
 						toastr.error(err);
 					} else {
-						OfficeOnline.downloadFile(file_url, download_dir, filename);
+						OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
 					}
 				})
 			}

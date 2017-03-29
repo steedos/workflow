@@ -93,7 +93,11 @@ Template.instance_attachment.helpers({
 			return true
 		else
 			false
-	}
+	},
+
+	locked_info: function(locked_by_name) {
+		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
+	},
 });
 
 Template.instance_attachment.events({
@@ -134,6 +138,14 @@ Template.instance_attachment.events({
 		Session.set('cfs_filename', event.target.dataset.name);
 		Modal.show('ins_attach_edit_modal');
 	},
+	"click [name='ins_attach_isView']": function(event, template) {
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		var isView = true;
+		NodeManager.editFile(url, filename, isView);
+	}
 })
 
 Template._file_DeleteButton.events({
@@ -266,9 +278,25 @@ Template.ins_attach_version_modal.helpers({
 		return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
 	},
 
+	canEdit: function(filename, locked_by) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		if (InstanceManager.isCC(ins))
+			return false;
+
+		var locked = false;
+		if (locked_by) locked = true;
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename) && !locked)
+			return true;
+
+		return false;
+	},
+
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		url = Steedos.absoluteUrl("api/files/instances/") + _rev;
+		url = Meteor.absoluteUrl("api/files/instances/") + _rev;
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -321,6 +349,25 @@ Template.ins_attach_version_modal.events({
 	"click .btn-primary": function(event, template) {
 		InstanceManager.unlockAttach(event.target.id);
 	},
+	"click [name='ins_attach_isNode']": function(event, template) {
+		Modal.hide('ins_attach_version_modal');
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		// 编辑时锁定
+		InstanceManager.lockAttach(event.target.id);
+
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		NodeManager.editFile(url, filename);
+	},
+	"click [name='ins_attach_isView']": function(event, template) {
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		var isView = true;
+		NodeManager.editFile(url, filename, isView);
+	}
 })
 
 Template._file_version_DeleteButton.events({

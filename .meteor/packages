@@ -121,7 +121,7 @@ comerc:autoform-selectize
 steedos:theme
 steedos:emailjs
 steedos:contacts
-steedos:portal
+# steedos:portal
 steedos:desktop
 # steedos:fssh
 

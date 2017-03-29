@@ -5,6 +5,10 @@
       "www": {
         "status": "active",
         "url": "https://www.steedos.com:443"
+      },
+      "elasticsearch": {
+        "status": "active",
+        "url": "https://127.0.0.1:9200"
       }
     },
     "cfs": {

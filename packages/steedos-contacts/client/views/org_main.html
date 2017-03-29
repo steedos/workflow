@@ -1,19 +1,21 @@
 <template name="org_main">
   <div class="contacts-main contacts-show">
     {{#if subsReady}}
-      <div class="contacts-list-wrapper">
-        {{> steedos_contacts_org_tree}}
-      </div>
-      <div class="contacts-wrapper">
-      
-        {{> steedos_contacts_org_user_list}}
-        
-      </div>
-      <div class="row" style="display:none">
-        <div class="col-md-12">
-            {{> selectedValue}}
+      {{#if isNotSync}}
+        <div class="contacts-list-wrapper">
+          {{> steedos_contacts_org_tree}}
         </div>
-      </div>
+        <div class="contacts-wrapper">
+
+          {{> steedos_contacts_org_user_list}}
+
+        </div>
+        <div class="row" style="display:none">
+          <div class="col-md-12">
+              {{> selectedValue}}
+          </div>
+        </div>
+      {{/if}}
     {{else}}
       <div class="loading">
         {{> steedosLoading}}
