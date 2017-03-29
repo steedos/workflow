@@ -72,9 +72,12 @@
 	"Current Version": "（最新版本）",
 	"workflow_attachment_free_size_limit": "抱歉，免费版工作区只能上传1M以内的附件。",
 	"workflow_attachment_paid_size_limit": "您上传的附件大小不得超过100M",
+	"workflow_attachment_download": "下载",
+	"workflow_attachment_view": "查看",
+	"workflow_attachment_isReadOnly": "只读-",
 	"workflow_attachment_uploading": "正在上传 ",
 	"workflow_attachment_downloading": "正在下载 ",
-	"workflow_attachment_officeOnline": "在线编辑",
+	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 
