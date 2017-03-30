@@ -80,7 +80,7 @@ Meteor.methods({
             }
         })
 
-        setObj.cc_users = _.uniq(ins_cc_users.concat(cc_user_ids));
+        setObj.cc_users = ins_cc_users.concat(cc_user_ids);
 
 
         setObj.modified = new Date();
