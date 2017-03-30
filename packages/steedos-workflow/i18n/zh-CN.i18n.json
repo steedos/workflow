@@ -199,7 +199,7 @@
 	"instance_opinion_exists": "常用意见已存在",
 	"instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
 
-	"instance_forward_title": "分发",
+	"instance_forward_title": "转发",
 
 	"form_field_checkbox_yes": "是",
 	"form_field_checkbox_no": "否",
@@ -333,7 +333,7 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "__to_username__:<br/><br/>您好！<br/><br/>您的__instance_name__已被__lastApprove_usersname__驳回。<br/>__description__<br/><a href = __href__>请点击查看</a>。",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__分发给您__approve_type__。<br/>分发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
+				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
 			}
 		},
 		"remindMessage": {
@@ -384,13 +384,13 @@
 	"cc": "传阅",
 	"saveInstanceToAttachment": "将原表单存储为附件",
 
-	"forwardFlowText": "请填写分发说明",
-	"instanceForwardNote": "将当前选中的文件分发到新的流程，继续执行审批操作",
-	"isForwardAttachments": "是否分发附件",
+	"forwardFlowText": "请填写转发说明",
+	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
+	"isForwardAttachments": "是否转发附件",
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",
-	"forward_instance_success": "文件分发成功",
+	"forward_instance_success": "文件转发成功",
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "请填写取回的理由",
