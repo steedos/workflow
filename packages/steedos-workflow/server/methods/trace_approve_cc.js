@@ -5,7 +5,7 @@ Meteor.methods({
         var setObj = {};
         var ins_id = approve.instance;
         var trace_id = approve.trace;
-        var approve_id = approve.id;
+        var approve_id = approve._id;
         var instance = db.instances.findOne(ins_id, {
             fields: {
                 space: 1,
@@ -104,8 +104,6 @@ Meteor.methods({
     cc_read: function(approve) {
         var setObj = {};
         var ins_id = approve.instance;
-        var trace_id = approve.trace;
-        var approve_id = approve.id;
         var instance = db.instances.findOne(ins_id, {
             fields: {
                 traces: 1
