@@ -1,12 +1,16 @@
 {
-    "Steedos Workflow": "公文管理",
-    "inbox": "待办文件",
-    "outbox": "已办文件",
-    "draft": "待发文件",
-    "pending": "处理中",
-    "completed": "已结束",
-    "monitor": "监控箱",
-    "instance_new": "文件拟写",
+	"Steedos Workflow": "公文管理",
+	"inbox": "待办文件",
+	"outbox": "已办文件",
+	"draft": "待发文件",
+	"pending": "处理中",
+	"completed": "已结束",
+	"monitor": "监控箱",
+	"instance_new": "文件拟写",
 	"Fill in form": "文件拟写",
-    "instance_submit": "发送"
+	"instance_submit": "发送",
+	"instance_approval_history": "历史步骤",
+	"help": {
+		"approves": "历史步骤"
+	}
 }
