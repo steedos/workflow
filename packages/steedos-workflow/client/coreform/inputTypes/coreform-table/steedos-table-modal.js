@@ -18,7 +18,6 @@ Template.steedosTableModal.helpers({
 Template.steedosTableModal.events({
 
     'change .steedos-table-modal .form-control,.steedos-table-modal .checkbox input,.steedos-table-modal .af-radio-group input,.steedos-table-modal .af-checkbox-group input': function(event, template){
-        console.log("steedos-table-modal form-control change");
 
         var name = event.target.name;
 

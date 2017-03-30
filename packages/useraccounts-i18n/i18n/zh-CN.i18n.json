@@ -44,7 +44,7 @@
   "with": "与",
   "requiredField": "不能为空",
   "maxAllowedLength": "长度超出最大允许范围",
-  "minRequiredLength": "长度超出最小允许范围",
+  "minRequiredLength": "最小长度不能小于5位",
   "resendVerificationEmail": "再发一次",
   "resendVerificationEmailLink_pre": "没有收到验证邮件?",
   "resendVerificationEmailLink_link": "再发一次",

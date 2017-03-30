@@ -1,7 +1,6 @@
 if Meteor.isServer
 
 	db.spaces.createTemplateFormAndFlow = (space_id) ->
-		console.log('新建表单流程模板')
 
 		if db.forms.find({space: space_id}).count()>0
 			return false;

@@ -45,7 +45,7 @@ aldeed:collection2
 
 loaders-css
 
-rocketchat:logger
+# rocketchat:logger
 
 
 underscorestring:underscore.string
@@ -121,7 +121,7 @@ steedos:theme-qhd
 steedos:theme
 steedos:emailjs
 steedos:contacts
-steedos:portal
+# steedos:portal
 steedos:desktop
 # steedos:fssh
 

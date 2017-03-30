@@ -71,9 +71,12 @@
 	"Current Version": "（Current Version）",
 	"workflow_attachment_free_size_limit": "Sorry, Attachment larger than 1M is not accepted for free version.",
 	"workflow_attachment_paid_size_limit": "Failed to upload, because attachment size is over 100 MB.",
+	"workflow_attachment_download": "Download",
+	"workflow_attachment_view": "View",
+	"workflow_attachment_isReadOnly": "ReadOnly-",
 	"workflow_attachment_uploading": "Uploading ",
 	"workflow_attachment_downloading": "Downloading ",
-	"workflow_attachment_officeOnline": "Edit online",
+	"workflow_attachment_officeOnline": "Edit",
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
 
@@ -412,5 +415,14 @@
 	"instance_approve_read_no": "no",
 	"instance_approve_cc_remove": "cancel cc",
 	"instance_approve_close_modal": "close",
-	"instance_approve_title_label": "Handler:"
+	"instance_approve_title_label": "Handler:",
+
+	"instance_forward_users": "Forward users",
+	"instance_forward_error_users_required": "Users required!",
+	"instance_approve_from_user_name_label_forward": "forward from",
+	"instance_approve_forward_remove": "cancel forward",
+	"instance_approve_forward_remove_success": "cancel forward successfully!",
+	"instance_forward_instance_look": "Look the instance",
+	"instance_forward_cannot_cancel": "Can not cancel!",
+	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!"
 }

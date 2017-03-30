@@ -4,7 +4,6 @@ Template.cf_organization_list.helpers
 Template.cf_organization_list.onRendered ->
   $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
-          # console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
           Session.set("cf_selectOrgId", data.selected[0]);
           Session.set("cf_orgAndChild", CFDataManager.getOrgAndChild(Session.get("cf_selectOrgId")));
 

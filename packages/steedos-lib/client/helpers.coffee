@@ -186,11 +186,11 @@ TemplateHelpers =
 			_.each subscriptions, (s)->
 				badge = badge + s.unread
 		else if appId == "cms"
-			# spaceId为空时统计所有space计数值
-			if CMS?.helpers?.unReadCount
-				spaceSelector = if spaceId then {space:spaceId} else {}
-				db.cms_sites.find(spaceSelector).fetch().forEach (site)->
-					badge += CMS.helpers.unReadCount(site._id)
+			# spaceId为空时统计所有space计数值，返回不计数
+			if spaceId
+				badge = 0
+			else
+				badge = db.cms_unreads.find({user: Meteor.userId()}).count()
 		else 
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
@@ -335,24 +335,23 @@ TemplateHelpers =
 						fileEntry.remove()
 						fileTransfer.download url, sPath, ((theFile) ->
 							$(document.body).removeClass 'loading'
-							console.log 'download complete: ' + theFile.toURL()
 							window.open theFile.toURL(), '_system', 'EnableViewPortScale=yes'
 						), (error) ->
 							$(document.body).removeClass 'loading'
-							console.log 'download error source ' + error.source
-							console.log 'download error target ' + error.target
-							console.log 'upload error code: ' + error.code
+							console.error 'download error source' + error.source
+							console.error 'download error target' + error.target
+							console.error 'upload error code: ' + error.code 
 				), (error) ->
 					$(document.body).removeClass 'loading'
-					console.log 'upload error code: ' + error.code
+					console.error 'upload error code: ' + error.code
 			), (error) ->
 				$(document.body).removeClass 'loading'
-				console.log 'get directoryEntry error source ' + error.source
-				console.log 'get directoryEntry error target ' + error.target
-				console.log 'get directoryEntry error code: ' + error.code
+				console.error 'get directoryEntry error source' + error.source
+				console.error 'get directoryEntry error target' + error.target
+				console.error 'get directoryEntry error code:' + error.code
 		), (error) ->
 			$(document.body).removeClass 'loading'
-			console.log 'resolveLocalFileSystemURL error code: ' + error.code
+			console.error 'resolveLocalFileSystemURL error code' + error.code
 
 	skinName: (defaultName)->
 		unless defaultName

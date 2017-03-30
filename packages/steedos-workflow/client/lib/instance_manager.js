@@ -1,7 +1,6 @@
 InstanceManager = {};
 
 InstanceManager.runFormula = function(fieldCode) {
-	console.log("InstanceManager.runFormula...");
 	var form_version = WorkflowManager.getInstanceFormVersion();
 	var formula_fields = []
 	if (form_version)
@@ -33,7 +32,6 @@ InstanceManager.getFormField = function(fieldId) {
  */
 InstanceManager.getNextStepOptions = function() {
 
-	console.log("calculate next_step_options")
 	if (ApproveManager.isReadOnly())
 		return []
 
@@ -129,9 +127,6 @@ InstanceManager.getNextStepOptions = function() {
 	} else {
 		Session.set("next_step_id", null);
 	}
-	console.log('---next_step_id---')
-	console.log(next_step_id)
-	console.log(next_step_options)
 	return next_step_options;
 }
 
@@ -147,7 +142,6 @@ InstanceManager.getNextStepOptions = function() {
 // }
 
 InstanceManager.getNextUserOptions = function() {
-	console.log("calculate next_user_options")
 
 	var next_user_options = []
 
@@ -535,6 +529,18 @@ InstanceManager.getCurrentApprove = function() {
 
 	var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 
+
+	if (!currentApprove) {
+		// 当前是传阅
+		_.each(instance.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a.type == 'cc' && a.user == Meteor.userId() && a.is_finished == false) {
+					currentApprove = a;
+				}
+			})
+		})
+	}
+
 	if (!currentApprove)
 		return;
 
@@ -784,7 +790,7 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 	}
 }
 
-// 转签核
+// 重定位
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
@@ -808,7 +814,6 @@ InstanceManager.archiveIns = function(insId) {
 
 // 添加附件
 InstanceManager.addAttach = function(fileObj, isAddVersion) {
-	console.log("InstanceManager.addAttach");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
 		var state = instance.state;
@@ -816,12 +821,9 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 		var curTime = new Date();
 		var userId = Meteor.userId();
 		var fileName = fileObj.name;
-		console.log(fileName);
 		if (!fileName)
 			fileName = Session.get('filename');
 
-
-		console.log(fileName);
 
 		var attachs = instance.attachments || [];
 		var hasRepeatedFile = false;
@@ -915,7 +917,6 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 
 // 移除附件
 InstanceManager.removeAttach = function() {
-	console.log("InstanceManager.removeAttach");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
 		var state = instance.state;
@@ -1135,15 +1136,14 @@ InstanceManager.unlockAttach = function(file_id) {
 }
 
 // 申请单转发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments) {
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, function(error, result) {
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, function(error, result) {
 		if (error) {
 			toastr.error(error.message);
 		}
 
-		if (result) {
+		if (!_.isEmpty(result)) {
 			toastr.success(TAPi18n.__("forward_instance_success"));
-			FlowRouter.go("/workflow/space/" + space_id + "/draft/" + result);
 		}
 
 	})
@@ -1190,9 +1190,7 @@ InstanceManager.setApproveHaveRead = function(instanceId) {
 	if (ins.is_read == false) {
 		var myApprove = InstanceManager.getCurrentApprove()
 		if (myApprove) {
-			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {
-				console.log('set read')
-			});
+			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {});
 		} else {
 			var ccApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
 			if (!_.isEmpty(ccApprove)) {
@@ -1238,7 +1236,6 @@ InstanceManager.instanceformChangeEvent = function(event) {
 		}
 	}
 
-	console.log("instanceform form-control change, code is " + code);
 
 	InstanceManager.checkFormFieldValue(event.target);
 

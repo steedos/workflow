@@ -16,7 +16,6 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
     body = req.body,
     nextStepUsers = [];
 
-  // console.log("deal_type is " + deal_type);
 
   switch (deal_type) {
     case 'specifyUser':
@@ -109,7 +108,6 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
 
   var result = [];
 
-  // console.log(nextStepUsers);
 
   nextStepUsers.forEach(function(su) {
     var o = {

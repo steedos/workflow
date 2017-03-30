@@ -18,12 +18,15 @@ if (Steedos.isNode()) {
 	https = nw.require('https');
 	http = nw.require('http');
 	fs = nw.require('fs');
+	child_process = nw.require('child_process');
+	if (child_process)
+		exec = child_process.exec;
 
 }
 
 
 // http请求
-OfficeOnline.http.downloadFile = function(file_url, download_dir, filename) {
+OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, isView) {
 	$(document.body).addClass("loading");
 
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
@@ -37,12 +40,19 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename) {
 			file.end();
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
-			// 获取附件hash值
-			NodeManager.getFileSHA1(filePath, filename, function(sha1) {
-				NodeManager.fileSHA1 = sha1;
-			});
-			// 调用edit.vbs对word文档进行在线编辑
-			NodeManager.vbsEditFile(download_dir, filename);
+			if (isView){
+				// 获取华炎云安装路径
+				var homePath = process.cwd();
+				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + "Steedos.User.isView";
+				exec(cmd);
+			}else{
+				// 获取附件hash值
+				NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+					NodeManager.fileSHA1 = sha1;
+				});
+				// 调用edit.vbs对word文档进行在线编辑
+				NodeManager.vbsEditFile(download_dir, filename);
+			}
 		})
 	});
 	dfile.on('error', function(e) {
@@ -88,7 +98,6 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 	req.on('error', function(e) {
 		$(document.body).removeClass('loading');
 		$('.loading-text').text("");
-		console.log('problem with request:' + e.message);
 		toastr.error(e.message);
 	});
 
@@ -97,7 +106,7 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 }
 
 // https请求
-OfficeOnline.https.downloadFile = function(file_url, download_dir, filename) {
+OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, isView) {
 	$(document.body).addClass("loading");
 
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
@@ -111,12 +120,20 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename) {
 			file.end();
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
+			if (isView){
+				// 获取华炎云安装路径
+				var homePath = process.cwd();
+				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + "Steedos.User.isView";
+				console.log(cmd);
+				exec(cmd);
+			}else{
 			// 获取附件hash值
-			NodeManager.getFileSHA1(filePath, filename, function(sha1) {
-				NodeManager.fileSHA1 = sha1;
-			});
-			// 调用edit.vbs对word文档进行在线编辑
-			NodeManager.vbsEditFile(download_dir, filename);
+				NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+					NodeManager.fileSHA1 = sha1;
+				});
+				// 调用edit.vbs对word文档进行在线编辑
+				NodeManager.vbsEditFile(download_dir, filename);
+			}
 		})
 	});
 	dfile.on('error', function(e) {
@@ -163,7 +180,6 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 	req.on('error', function(e) {
 		$(document.body).removeClass('loading');
 		$('.loading-text').text("");
-		console.log('problem with request:' + e.message);
 		toastr.error(e.message);
 	});
 
@@ -177,6 +193,10 @@ OfficeOnline.uploadFile = function(fileDataInfo, files) {
 }
 
 //下载附件
-OfficeOnline.downloadFile = function(file_url, download_dir, filename) {
-	return OfficeOnline[window.location.protocol.replace(":", "")].downloadFile(file_url, download_dir, filename);
+OfficeOnline.downloadFile = function(file_url, download_dir, filename, isView) {
+	// 查看模式下文件名为“只读-文件名”
+	if (isView)
+		filename = t("workflow_attachment_isReadOnly") + filename;
+	
+	return OfficeOnline[window.location.protocol.replace(":", "")].downloadFile(file_url, download_dir, filename, isView);
 }

@@ -142,7 +142,23 @@ db.organizations.helpers
 			return this.users.length
 		else 
 			return 0
-		
+
+	calculateAllChildren: ->
+		children = []
+		childrenObjs = db.organizations.find({parents: {$in:[this._id]}}, {fields: {_id:1}})
+		childrenObjs.forEach (child) ->
+			children.push(child._id);
+		return children.uniq()
+
+	calculateUsers: (isIncludeParents)->
+		children = if isIncludeParents then this.calculateAllChildren() else this.calculateChildren()
+		users = []
+		children.forEach (child)->
+			child = db.organizations.findOne(child, {fields: {users:1}})
+			if child?.users?.length
+				users = users.concat child.users
+		return users.uniq()
+
 
 if (Meteor.isServer) 
 
@@ -172,7 +188,6 @@ if (Meteor.isServer)
 				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
 					isOrgAdmin = true
 			else if doc.is_company == true
-				console.log "db.organizations.before.insert,doc.is_company is true"
 				# 注册用户的时候会触发"before.insert"，且其userId为underfined，所以这里需要通过is_company来判断是否是新注册用户时进该函数。
 				isOrgAdmin = true
 			unless isOrgAdmin
@@ -440,7 +455,6 @@ if (Meteor.isServer)
 		selector = 
 			space: spaceId
 
-		# console.log '[publish] organizations ' + spaceId
 
 		return db.organizations.find(selector)
 
@@ -452,6 +466,5 @@ if (Meteor.isServer)
 		unless spaceId
 			return this.ready()
 
-		# console.log '[publish] my_organizations ' + spaceId
 
 		return db.organizations.find({space: spaceId, users: this.userId})

@@ -26,7 +26,6 @@ Template.contacts_list.events
             $(this).prop('checked', event.target.checked).trigger('change')
 
     'change .contacts-list-checkbox': (event, template) ->
-        console.log("change .contacts-list-checkbox");
 
         target = event.target;
 
@@ -43,7 +42,6 @@ Template.contacts_list.events
         ContactsManager.handerContactModalValueLabel();
 
     'click #contact-list-search-btn': (event, template) ->
-        console.log("contact-list-search-btn click");
         dataTable = $(".datatable-steedos-contacts").DataTable();
         dataTable.search(
             $("#contact-list-search-key").val(),

@@ -33,7 +33,6 @@ Template.steedos_contacts_org_user_list.events
 			$(this).prop('checked', event.target.checked).trigger('change')
 
 	'change .contacts-list-checkbox': (event, template) ->
-		console.log("change .contacts-list-checkbox");
 
 		target = event.target;
 
@@ -50,7 +49,6 @@ Template.steedos_contacts_org_user_list.events
 		ContactsManager.handerContactModalValueLabel();
 
 	'click #contact-list-search-btn': (event, template) ->
-		console.log("contact-list-search-btn click");
 		if $("#contact-list-search-key").val()
 			Session.set("contact_list_search", true)
 		else
@@ -82,11 +80,9 @@ Template.steedos_contacts_org_user_list.events
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
-		console.log "drag-source selectstart"
 		return false
 
 	'dragstart #contacts_list .drag-source': (event, template)->
-		console.log "drag-source dragstart"
 		event.originalEvent.dataTransfer.setData("Text","");
 		draggingId = $(event.currentTarget).find("#steedos_contacts_org_user_list_edit_btn").data("id")
 		Session.set("dragging_contacts_org_user_id",draggingId)
@@ -98,7 +94,6 @@ Template.steedos_contacts_org_user_list.events
 		event.originalEvent.dataTransfer.setDragImage?(cursorIcon[0], 16, 15)
 
 	'dragend #contacts_list .drag-source': (event, template)->
-		console.log "drag-source ondragend"
 		$(event.currentTarget).removeClass("drag-source-moving")
 		return false
 

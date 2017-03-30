@@ -20,13 +20,14 @@ Template.instance_list.helpers
 		box = Session.get("box")
 		if box == "inbox"
 			query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
-			query.state = {$in: ["pending", "completed"]}
+			# query.state = {$in: ["pending", "completed"]}
 			# query.inbox_users = Meteor.userId()
 		else if box == "outbox"
 			query.outbox_users = Meteor.userId()
 		else if box == "draft"
 			query.submitter = Meteor.userId()
 			query.state = "draft"
+			query.inbox_users = {$exists:false}
 		else if box == "pending"
 			uid = Meteor.userId()
 			query.$or = [{submitter: uid}, {applicant: uid}]
@@ -112,7 +113,6 @@ Template.instance_list.onCreated ->
 		self.maxHeight?.set($(window).height() - 55);
 
 Template.instance_list.onRendered ->
-	console.log "instance_list.onRendered"
 	#dataTable = $(".datatable-instances").DataTable();
 	#dataTable.select();
 	node = $(".workflow-menu");

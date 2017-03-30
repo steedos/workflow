@@ -33,7 +33,6 @@ Template.cf_organization.onRendered ->
   if this.data.multiple
     plugins.push("checkbox");
 
-  # console.log "loaded_organizations ok...";
   $("#cf_organizations_tree").on('changed.jstree', (e, data) ->
     if data.selected.length
       Session.set("cf_selectOrgId", data.selected[0]);

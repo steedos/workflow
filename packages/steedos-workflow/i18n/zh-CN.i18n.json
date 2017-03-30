@@ -30,7 +30,7 @@
 	"instance_next_step": "下一步骤",
 	"instance_next_step_users": "下一步处理人",
 	"instance_initiator": "提交人",
-	"instance_approval_history": "签核历程",
+	"instance_approval_history": "历史步骤",
 	"instance_in_progress": "处理中",
 
 	"instance_submit": "提交",
@@ -72,9 +72,12 @@
 	"Current Version": "（最新版本）",
 	"workflow_attachment_free_size_limit": "抱歉，免费版工作区只能上传1M以内的附件。",
 	"workflow_attachment_paid_size_limit": "您上传的附件大小不得超过100M",
+	"workflow_attachment_download": "下载",
+	"workflow_attachment_view": "查看",
+	"workflow_attachment_isReadOnly": "只读-",
 	"workflow_attachment_uploading": "正在上传 ",
 	"workflow_attachment_downloading": "正在下载 ",
-	"workflow_attachment_officeOnline": "在线编辑",
+	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 
@@ -196,7 +199,7 @@
 	"instance_opinion_exists": "常用意见已存在",
 	"instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
 
-	"instance_forward_title": "转发",
+	"instance_forward_title": "分发",
 
 	"form_field_checkbox_yes": "是",
 	"form_field_checkbox_no": "否",
@@ -254,7 +257,7 @@
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__。",
-				"first_submit_inbox": "请__approve_type__:我提交了__instance_name__。",
+				"first_submit_inbox": "请__approve_type__:__instance_name__。",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__。",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__。",
 				"submit_pending_rejected_approve": "",
@@ -330,7 +333,7 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "__to_username__:<br/><br/>您好！<br/><br/>您的__instance_name__已被__lastApprove_usersname__驳回。<br/>__description__<br/><a href = __href__>请点击查看</a>。",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
+				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__分发给您__approve_type__。<br/>分发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
 			}
 		},
 		"remindMessage": {
@@ -380,14 +383,14 @@
 	"steedos": "华炎云",
 	"cc": "传阅",
 	"saveInstanceToAttachment": "将原表单存储为附件",
-	"forwardFlowText": "请填写转发说明",
-	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
-	"isForwardAttachments": "是否转发附件",
 
+	"forwardFlowText": "请填写分发说明",
+	"instanceForwardNote": "将当前选中的文件分发到新的流程，继续执行审批操作",
+	"isForwardAttachments": "是否分发附件",
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",
-	"forward_instance_success": "文件转发成功",
+	"forward_instance_success": "文件分发成功",
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "请填写取回的理由",
@@ -415,5 +418,15 @@
 	"instance_approve_read_no": "否",
 	"instance_approve_cc_remove": "取消传阅",
 	"instance_approve_close_modal": "关闭",
-	"instance_approve_title_label": "处理人："
+	"instance_approve_title_label": "处理人：",
+
+	"instance_forward_users": "转发对象",
+	"instance_forward_error_users_required": "请选择转发对象!",
+	"instance_approve_from_user_name_label_forward": "转发自",
+	"instance_approve_forward_remove": "取消转发",
+	"instance_approve_forward_remove_success": "取消转发成功",
+	"instance_forward_instance_look": "查看申请单",
+	"instance_forward_cannot_cancel": "不符合取消转发条件！",
+	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！"
+
 }

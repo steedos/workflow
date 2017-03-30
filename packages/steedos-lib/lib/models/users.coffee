@@ -171,7 +171,6 @@ if Meteor.isServer
 		
 
 	db.users.after.insert (userId, doc) ->
-		console.log("db.users.after.insert")
 		if !(doc.spaces_invited?.length>0)
 			db.spaces.insert
 				name: doc.name + " " + trl("space")
@@ -216,7 +215,6 @@ if Meteor.isServer
 		unless this.userId
 			return this.ready()
 
-		# console.log '[publish] userData'
 
 		db.users.find this.userId,
 			fields:

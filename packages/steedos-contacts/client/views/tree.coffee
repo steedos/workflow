@@ -7,10 +7,8 @@ Template.contacts_tree.onRendered ->
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
   # this.autorun ()->
   #   if Steedos.subsSpace.ready("organizations")
-  console.log "loaded_organizations ok...";
   $("#organizations_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
-          console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
           Session.set("contact_showBooks", false)
           Session.set("contacts_orgId", data.selected[0]);
         return
@@ -26,7 +24,6 @@ Template.contacts_tree.onRendered ->
     if Steedos.subsSpace.ready("address_groups")
       $("#books_tree").on('changed.jstree', (e, data) ->
             if data.selected.length
-              console.log 'The selected node is: ' + data.instance.get_node(data.selected[0]).text
               Session.set("contact_showBooks", true)
               Session.set("contacts_groupId", data.selected[0]);
             return
@@ -45,6 +42,5 @@ Template.contacts_tree.onRendered ->
 
 Template.contacts_tree.events
   'click #search-btn': (event, template) ->
-    console.log 'click search-btn'
     $('#organizations_tree').jstree(true).search($("#search-key").val());
     $('#books_tree').jstree(true).search($("#search-key").val());
