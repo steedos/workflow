@@ -529,6 +529,18 @@ InstanceManager.getCurrentApprove = function() {
 
 	var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 
+
+	if (!currentApprove) {
+		// 当前是传阅
+		_.each(instance.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a.type == 'cc' && a.user == Meteor.userId() && a.is_finished == false) {
+					currentApprove = a;
+				}
+			})
+		})
+	}
+
 	if (!currentApprove)
 		return;
 
@@ -1178,8 +1190,7 @@ InstanceManager.setApproveHaveRead = function(instanceId) {
 	if (ins.is_read == false) {
 		var myApprove = InstanceManager.getCurrentApprove()
 		if (myApprove) {
-			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {
-			});
+			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {});
 		} else {
 			var ccApprove = InstanceManager.getCCApprove(Meteor.userId(), false);
 			if (!_.isEmpty(ccApprove)) {
