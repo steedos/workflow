@@ -7,7 +7,15 @@ Package.describe({
 
 Package.onUse(function(api) { 
     api.versionsFrom('1.0');
+    api.use('coffeescript');
+    api.use('blaze');
+    api.use('templating');
+
     api.use('flemay:less-autoprefixer@1.2.0');
+    api.use('simple:json-routes@2.1.0');
+    api.use('kadira:blaze-layout@2.3.0');
+    api.use('kadira:flow-router@2.10.1');
+    
     api.use('tap:i18n@1.7.0');
     api.use('tap:i18n', ['client', 'server']);
 
@@ -17,6 +25,7 @@ Package.onUse(function(api) {
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
     api.addFiles("client/customize.less", "client");
+    api.addFiles("client/customize.coffee", "client");
     // EXPORT
     
 });
