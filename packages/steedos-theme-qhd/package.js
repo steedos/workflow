@@ -26,6 +26,8 @@ Package.onUse(function(api) {
 
     api.addFiles("client/customize.less", "client");
     api.addFiles("client/customize.coffee", "client");
+    
+    api.addAssets("client/background/qhd-bg.jpg", "client");
     // EXPORT
     
 });
