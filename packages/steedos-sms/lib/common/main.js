@@ -1,0 +1,1 @@
+SMSQueue = new EventState();
