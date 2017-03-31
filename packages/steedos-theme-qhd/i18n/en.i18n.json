@@ -1,9 +1,13 @@
 {
-    "inbox": "Inbox",
-    "outbox": "Outbox",
-    "draft": "Draft",
-    "pending": "In Progress",
-    "completed": "Finished",
-    "monitor": "Monitor",
-    "instance_new": "New"
+	"inbox": "Inbox",
+	"outbox": "Outbox",
+	"draft": "Draft",
+	"pending": "In Progress",
+	"completed": "Finished",
+	"monitor": "Monitor",
+	"instance_new": "New",
+	"instance_approval_history": "Approval History",
+	"help": {
+		"approves": "Approval History"
+	}
 }

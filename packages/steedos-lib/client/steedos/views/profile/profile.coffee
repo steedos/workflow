@@ -40,28 +40,38 @@ Template.profile.helpers
 	isCurrentBgUrlWaitingSave: (url)->
 		return if url == Session.get("waiting_save_profile_bg") then "btn-warning" else "btn-default"
 
-	bgBodys: [{
-		name: "flower",
-		url: "/packages/steedos_theme/client/background/flower.jpg"
-	}, {
-		name: "beach",
-		url: "/packages/steedos_theme/client/background/beach.jpg"
-	}, {
-		name: "birds",
-		url: "/packages/steedos_theme/client/background/birds.jpg"
-	}, {
-		name: "books",
-		url: "/packages/steedos_theme/client/background/books.jpg"
-	}, {
-		name: "cloud",
-		url: "/packages/steedos_theme/client/background/cloud.jpg"
-	}, {
-		name: "sea",
-		url: "/packages/steedos_theme/client/background/sea.jpg"
-	}, {
-		name: "fish",
-		url: "/packages/steedos_theme/client/background/fish.jpg"
-	}]
+	bgBodys: ->
+		bgs = [{
+			name: "flower",
+			url: "/packages/steedos_theme/client/background/flower.jpg"
+		}, {
+			name: "beach",
+			url: "/packages/steedos_theme/client/background/beach.jpg"
+		}, {
+			name: "birds",
+			url: "/packages/steedos_theme/client/background/birds.jpg"
+		}, {
+			name: "books",
+			url: "/packages/steedos_theme/client/background/books.jpg"
+		}, {
+			name: "cloud",
+			url: "/packages/steedos_theme/client/background/cloud.jpg"
+		}, {
+			name: "sea",
+			url: "/packages/steedos_theme/client/background/sea.jpg"
+		}, {
+			name: "fish",
+			url: "/packages/steedos_theme/client/background/fish.jpg"
+		}]
+
+		background = Meteor.settings?.public?.admin?.background
+		if background
+			bgs.unshift 
+				name: "default",
+				url: background
+
+		return bgs
+
 
 	isCurrentSkinNameActive: (name)->
 		return if name == Steedos.getAccountSkinValue().name then "active" else ""

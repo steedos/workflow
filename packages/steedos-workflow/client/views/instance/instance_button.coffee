@@ -96,7 +96,11 @@ Template.instance_button.helpers
 			return false
 
 	enabled_cc: ->
-		if InstanceManager.isInbox()
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return false
+
+		if InstanceManager.isInbox() && ins.state != "draft"
 			return true
 		else
 			return false

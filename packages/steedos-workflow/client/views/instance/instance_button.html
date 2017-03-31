@@ -25,12 +25,6 @@
 				<span>{{_ 'instance_delete'}}</span>
 			</button>
 		{{/if}}
-		{{#if enabled_terminate}}
-			<button tyep="button" class="btn btn-default btn-instance-force-end" data-toggle="tooltip" data-placement="bottom">
-				<i class="fa fa-ban"></i>
-				<span>{{_ 'instance_cancel'}}</span>
-			</button>
-		{{/if}}
 		{{#if enabled_print}}
 			<button type="button" class="btn btn-default btn-instance-to-print" data-toggle="tooltip" data-placement="bottom">
 				<i class="ion ion-printer"></i>
@@ -61,6 +55,12 @@
 				<span>{{_ 'instance_forward_title'}}</span>
 			</button>
 		{{/if}}
+		{{#if enabled_terminate}}
+			<button tyep="button" class="btn btn-default btn-instance-force-end" data-toggle="tooltip" data-placement="bottom">
+				<i class="fa fa-ban"></i>
+				<span>{{_ 'instance_cancel'}}</span>
+			</button>
+		{{/if}}
 	</div>
 	<div class="pull-right">
 		<div class="btn-group">
@@ -81,9 +81,6 @@
 				{{#if enabled_delete}}
 					<li><a class="btn-instance-remove"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
 				{{/if}}
-				{{#if enabled_terminate}}
-					<li><a class="btn-instance-force-end"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
-				{{/if}}
 				{{#if enabled_print}}
 					<li><a class="btn-instance-to-print"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
 				{{/if}}
@@ -98,6 +95,9 @@
 				{{/if}}
 				{{#if enabled_forward}}
 					<li><a class="btn-instance-forward"><i class="fa fa-clone" aria-hidden="true"></i>{{_ 'instance_forward_title'}}</a></li>
+				{{/if}}
+				{{#if enabled_terminate}}
+					<li><a class="btn-instance-force-end"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
 				{{/if}}
 			</ul>
 		</div>

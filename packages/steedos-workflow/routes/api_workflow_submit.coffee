@@ -9,6 +9,9 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 			r = uuflowManager.submit_instance(instance_from_client, current_user_info)
 			if r.alerts
 				result.push(r)
+			if not _.isEmpty(instance_from_client['inbox_users'])
+				# 如果是转发就需要给当前用户发送push 重新计算badge
+				pushManager.send_message_to_specifyUser("current_user", current_user);
 
 		JsonRoutes.sendResult res,
 				code: 200
