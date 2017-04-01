@@ -135,7 +135,7 @@ if Meteor.isClient
 		
 		app = db.apps.findOne(app_id)
 		if !app
-			FlowRouter.go("/steedos/springboard")
+			FlowRouter.go("/")
 			return
 
 		on_click = app.on_click
