@@ -427,6 +427,11 @@
 	"instance_approve_forward_remove_success": "取消转发成功",
 	"instance_forward_instance_look": "查看申请单",
 	"instance_forward_cannot_cancel": "不符合取消转发条件！",
-	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！"
+	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！",
+	"instance_approve_modification_modal": "修改",
+	"instance_approve_save_modal": "保存",
+	"instance_approve_back_modal": "取消修改",
+	"instance_approve_modificationsave_modal": "您的修改保存成功"
+
 
 }

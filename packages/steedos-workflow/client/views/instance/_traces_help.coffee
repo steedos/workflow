@@ -24,6 +24,20 @@ TracesTemplate.helpers =
 		if approved and approved.type == 'cc' and approved.from_user == Meteor.userId() and approved.is_finished != true and !Session.get("instancePrint")
 			return true
 		false
+	isShowModificationButton: (approved) ->
+		approve_admins = Meteor.settings?.public?.workflow?.approve_admins
+		if approve_admins?.length
+			isShow = approve_admins?.contains Meteor.userId()
+		unless isShow
+			return false
+		return approved.handler == Meteor.userId()
+	isEditing: () ->
+		 return Template.instance().is_editing?.get()
+	isShowDescription: (approved)->
+		# debugger
+		if TracesTemplate.helpers.isShowModificationButton approved
+			return true
+		return approved.description?.toString().trim().length > 0
 	isCC: (approved) ->
 		if approved and approved.type == 'cc'
 			return true
@@ -188,4 +202,25 @@ TracesTemplate.events =
 				forward_space = event.target.dataset.forwardspace
 				forward_instance = event.target.dataset.forwardinstance
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
+	
+	'click .btn-modification'	: (event, template) ->
+		# debugger
+		template.is_editing.set(!template.is_editing.get());
+		Tracker.afterFlush ->
+			$("#instance_trace_detail_modal #finish_input").datetimepicker({
+				format: "YYYY-MM-DD HH:mm",
+				# datTracesTemplate.helpers.dateFormat.format.date new Date(date), "yyyy-MM-dd HH:mm"
+				widgetPositioning:{
+					horizontal: 'right'
+				}
+			})
+	'click .btn-cancelBut' : (event, template) ->
+		# debugger
+		template.is_editing.set(!template.is_editing.get());
+
+	'click .btn-saveBut' : (event, template) ->
+		toastr.success(t("instance_approve_modificationsave_modal"));
+			
+
+	
 		
