@@ -1,0 +1,28 @@
+<template name="admin_flows">
+
+    <section class="content admin flows">
+        <div class="box box-widget">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{_ "flow_list"}}</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" style="display: block;">
+
+                <button type="button" class="btn btn-primary" id="importFlow">{{_ "import_flow"}}</button>
+                <span class="help-block"></span>
+
+                {{> tabular table=TabularTables.Flows  selector=selector class="table table-striped table-bordered table-condensed"}}
+
+                {{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flows"  operation="update" dialogClass="modal-lg"}}
+                    {{_ "edit"}}
+                {{/afModal}}
+
+            </div>
+        </div>
+    </section>
+
+</template>

@@ -52,6 +52,8 @@ Package.onUse(function(api) {
 	api.use('momentjs:moment', ['client', 'server']);
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
+    api.use('yogiben:autoform-modals');
+
 	api.use('steedos:lib');
 	api.use('steedos:admin');
 
@@ -233,6 +235,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/admin_menu.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
+
+    api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
+    api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
+    api.addFiles('client/views/list/admin_flows.html', 'client');
+    api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');

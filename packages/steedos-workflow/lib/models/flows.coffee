@@ -23,120 +23,120 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			readonly: true
 
-	print_template: 
+	print_template:
 		type: String,
 		optional: true
-		autoform: 
+		autoform:
 			rows: 10,
 
-	instance_template: 
+	instance_template:
 		type: String,
 		optional: true
-		autoform: 
+		autoform:
 			rows: 10,
 
-	name_formula: 
+	name_formula:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	code_formula: 
+	code_formula:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	description: 
+	description:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	is_valid: 
+	is_valid:
 		type: Boolean
 		optional: true
 		autoform:
 			omit: true
 
-	form: 
+	form:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	flowtype: 
+	flowtype:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	state: 
+	state:
 		type: String
 		optional: true
 		defaultValue: "disabled"
 		autoform:
 			omit: true
 
-	is_deleted: 
+	is_deleted:
 		type: Boolean
 		optional: true
 		autoform:
 			omit: true
 
-	created: 
+	created:
 		type: Date
 		optional: true
 		autoform:
 			omit: true
 
-	created_by: 
+	created_by:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	help_text: 
+	help_text:
 		type: String
 		optional: true
 		autoform:
 			omit: true
 
-	current_no: 
+	current_no:
 		type: Number
 		optional: true
 		autoform:
 			omit: true
 
-	current: 
+	current:
 		type: Object
 		optional: true
 		blackbox: true
 		autoform:
 			omit: true
 
-	historys: 
+	historys:
 		type: [Object]
 		optional: true
 		blackbox: true
 		autoform:
 			omit: true
 
-	perms: 
+	perms:
 		type: Object
 		optional: true
 		blackbox: true
 		autoform:
 			omit: true
 
-	error_message: 
+	error_message:
 		type: Object
 		optional: true
 		blackbox: true
 		autoform:
 			omit: true
 
-	app: 
+	app:
 		type: String
 		optional: true
 		autoform:
@@ -155,6 +155,21 @@ if Meteor.isClient
 db.flows.attachSchema(db.flows._simpleSchema)
 
 if Meteor.isServer
+
+	db.flows.allow
+		insert: (userId, event) ->
+			return false
+
+		update: (userId, event) ->
+			console.log("db.flows.allow: " + userId)
+			console.log event
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, event) ->
+			return false
 	
 	db.flows.before.insert (userId, doc) ->
 		doc.created_by = userId;
@@ -164,6 +179,9 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flows.before.update (userId, doc, fieldNames, modifier, options) ->
+		console.log("db.flows.before.update...")
+
+		console.log modifier
 
 		modifier.$set = modifier.$set || {};
 
@@ -177,3 +195,27 @@ if Meteor.isServer
 
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
+
+new Tabular.Table
+	name: "Flows",
+	collection: db.flows,
+	columns: [
+		{data: "name", title: "name"},
+#		{data: "state", title: "state"},
+		{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<button type="button" class="btn btn-xs btn-default" id="editFlow"><i class="fa fa-pencil"></i></button>'
+		},{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow"href="/api/workflow/export/form?form=' + doc.form + '"><i class="fa fa-download"></i></a>'
+		},
+	]
+	extraFields: ["form","print_template","instance_template","events"]

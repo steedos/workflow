@@ -430,5 +430,10 @@
 	"webhooks_flow": "Flow",
 	"webhooks_payload_url": "URL",
 	"webhooks_content_type": "Content type",
-	"webhooks_active": "Active"
+	"webhooks_active": "Active",
+    "edit":"Edit",
+    "flow_list":"Flow List",
+    "import_flow": "Import Flow",
+    "import_flow_success": "Import success",
+    "import_flow_error": "Import failed"
 }

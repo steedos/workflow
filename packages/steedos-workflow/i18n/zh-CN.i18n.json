@@ -433,6 +433,10 @@
 	"webhooks_flow": "流程",
 	"webhooks_payload_url": "URL",
 	"webhooks_active": "激活",
-	"webhooks_content_type": "传输数据类型"
-
+	"webhooks_content_type": "传输数据类型",
+    "edit":"编辑",
+    "flow_list":"流程列表",
+    "import_flow": "导入流程",
+    "import_flow_success": "导入成功",
+    "import_flow_error": "导入失败"
 }

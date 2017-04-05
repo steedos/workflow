@@ -105,3 +105,9 @@ FlowRouter.route '/workflow/designer',
 	action: (params, queryParams)->
 		Steedos.openWindow "/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}"
 		FlowRouter.go "/admin/home/"
+
+FlowRouter.route '/admin/flows',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_flows"
