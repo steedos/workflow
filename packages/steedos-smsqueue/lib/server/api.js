@@ -58,7 +58,9 @@ SMSQueue.Configure = function(options) {
 			console.log(sms);
 		}
 
-		smsSender.send(sms.sms);
+		smsSender.send(sms.sms).catch(err => {
+			console.error(err)
+		});
 	}
 
 	// Universal send function

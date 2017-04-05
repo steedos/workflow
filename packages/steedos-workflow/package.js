@@ -80,6 +80,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/spaces.coffee');
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
+	api.addFiles('lib/models/webhooks.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -302,7 +303,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-    api.export('CoreForm');
+	api.export('CoreForm');
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 
