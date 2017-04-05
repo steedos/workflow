@@ -204,7 +204,7 @@ TracesTemplate.events =
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
 	
 	'click .btn-modification'	: (event, template) ->
-		# debugger
+		
 		template.is_editing.set(!template.is_editing.get());
 		Tracker.afterFlush ->
 			$("#instance_trace_detail_modal #finish_input").datetimepicker({
@@ -214,11 +214,12 @@ TracesTemplate.events =
 				}
 			})
 	'click .btn-cancelBut' : (event, template) ->
-		# debugger
+		
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->
-		toastr.success(t("instance_approve_modificationsave_modal"));
+		template.is_editing.set(!template.is_editing.get());
+		toastr.success(t("instance_approve_modal_modificationsave"));
 			
 
 	

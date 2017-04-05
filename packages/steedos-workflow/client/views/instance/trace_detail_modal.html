@@ -60,7 +60,7 @@
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
 								{{#if isEditing this}}
-									<input type="text" name="opinion_input" id="opinion_input" value="{{this.description}}" />
+									<input type="text" name="opinion_input" class="opinion_input" value="{{this.description}}" />
 								{{else}}
 									<span class="weui_input ">{{this.description}}</span>
 								{{/if}}
@@ -99,11 +99,9 @@
                                     {{else}}
                                        <input type="text" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" />
                                     {{/if}}
-									<!-- <input type="text" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" /> -->
 								{{else}}
 									<span class="weui_input">{{dateFormat this.finish_date}}</span>
 								{{/if}}
-								<!-- <span class="weui_input">{{dateFormat this.finish_date}}</span> -->
 							</div>
 						</div>
 					{{/if}}
@@ -145,19 +143,14 @@
 						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_forward_remove"}}</button>
 					{{/if}}
 					{{#if isEditing this}}
-						<button type="button" class="btn btn-default  btn-saveBut">{{_t "instance_approve_save_modal"}}</button>
-						<button type="button" class="btn btn-default  btn-cancelBut">{{_t "instance_approve_back_modal"}}</button>
+						<button type="button" class="btn btn-default  btn-saveBut">{{_t "instance_approve_modal_save"}}</button>
+						<button type="button" class="btn btn-default  btn-cancelBut">{{_t "instance_approve_moda_back"}}</button>
 					{{else}}
 						{{#if isShowModificationButton this}}
-							<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modification_modal"}}</button>
+							<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modal_modification"}}</button>
 						{{/if}}
 						<button type="button" class="btn btn-primary  btn-close">{{_t "instance_approve_close_modal"}}</button>
 						{{/if}}
-
-					<!-- {{#if isShowModificationButton this}}
-						<button type="button" class="btn btn-default  btn-modification">{{_t "instance_approve_modification_modal"}}</button>
-					{{/if}}
-					<button type="button" class="btn btn-default  btn-close">{{_t "instance_approve_close_modal"}}</button> -->
 
 				</div>
 			</div>
