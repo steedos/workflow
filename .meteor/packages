@@ -139,3 +139,4 @@ matb33:collection-hooks
 tomwasd:history-polyfill
 
 steedos:mailqueue
+steedos:smsqueue
