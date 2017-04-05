@@ -209,7 +209,6 @@ TracesTemplate.events =
 		Tracker.afterFlush ->
 			$("#instance_trace_detail_modal #finish_input").datetimepicker({
 				format: "YYYY-MM-DD HH:mm",
-				# datTracesTemplate.helpers.dateFormat.format.date new Date(date), "yyyy-MM-dd HH:mm"
 				widgetPositioning:{
 					horizontal: 'right'
 				}
