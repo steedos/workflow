@@ -137,3 +137,4 @@ reywood:publish-composite
 tomwasd:history-polyfill
 
 steedos:mailqueue
+steedos:smsqueue
