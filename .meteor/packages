@@ -13,7 +13,7 @@ blaze-html-templates@1.0.4
 check@1.2.3
 coffeescript@1.2.4_1
 ddp-rate-limiter@1.0.5
-ecmascript@0.5.8
+ecmascript@0.6.3 
 ejson@1.0.12
 email@1.1.17
 fastclick@1.0.12
@@ -53,7 +53,6 @@ momentjs:moment
 
 
 fortawesome:fontawesome
-twbs:bootstrap
 
 joshowens:timezone-picker
 useraccounts:core
@@ -85,7 +84,11 @@ raix:push
 
 alanning:roles
 sach:flow-db-admin
+reywood:publish-composite
 
+twbs:bootstrap
+#steedos:adminlte
+steedos:base
 steedos:slipjs
 steedos:jstree
 steedos:meteor-cookie-login
@@ -131,7 +134,6 @@ steedos:desktop
 matb33:collection-hooks
 
 
-reywood:publish-composite
 
 #fix bug for package 'kadira:flow-router' with ie8/9
 tomwasd:history-polyfill
