@@ -35,7 +35,7 @@ if Meteor.isClient
 				return
 			if !self._schema[key].label
 				self._schema[key].label = ()->
-					return t(prefix + "_" + key)
+					return t(prefix + "_" + key.replace(/\./g,"_"))
 		)
 
 	Tracker.autorun ->
@@ -69,7 +69,7 @@ if Meteor.isClient
 				_.each table.options.columns, (column) ->
 					if (!column.data || column.data == "_id")
 						return
-					column.title = t("" + table.collection._name + "_" + column.data);
+					column.title = t("" + table.collection._name + "_" + column.data.replace(/\./g,"_"));
 					if !table.options.language
 						table.options.language = {}
 					table.options.language.zeroRecords = t("dataTables.zero") + t(table.collection._name) 	
