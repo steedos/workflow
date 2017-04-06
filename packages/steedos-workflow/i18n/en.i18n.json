@@ -435,5 +435,6 @@
     "flow_list":"Flow List",
     "import_flow": "Import Flow",
     "import_flow_success": "Import success",
-    "import_flow_error": "Import failed"
+    "import_flow_error": "Import failed",
+    "import_flow_info":"Please select the flow you want to import"
 }

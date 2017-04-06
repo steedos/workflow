@@ -1,6 +1,6 @@
 Template.admin_flows.helpers
 	selector: ->
-		return {space: Session.get("spaceId")};
+		return {space: Session.get("spaceId"), is_deleted: false};
 
 Template.admin_flows.events
 	'click #editFlow': (event) ->

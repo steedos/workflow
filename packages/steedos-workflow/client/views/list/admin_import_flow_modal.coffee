@@ -5,6 +5,11 @@ Template.admin_import_flow_modal.helpers
 
 Template.admin_import_flow_modal.events
 	'click #import_flow_ok': (event)->
+
+		if $("#importFlowFile")[0].files.length == 0
+			toastr.warning(t("import_flow_info"))
+			return;
+
 		formData = new FormData();
 
 		formData.append('file-0', $("#importFlowFile")[0].files[0]);
