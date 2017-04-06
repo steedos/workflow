@@ -69,7 +69,7 @@ db.webhooks.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
-		{name: "flow"},
+		{name: "flow_name()"},
 		{name: "payload_url"},
 		{name: "active"}
 	]

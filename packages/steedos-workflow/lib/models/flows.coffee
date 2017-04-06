@@ -161,8 +161,6 @@ if Meteor.isServer
 			return false
 
 		update: (userId, event) ->
-			console.log("db.flows.allow: " + userId)
-			console.log event
 			if (!Steedos.isSpaceAdmin(event.space, userId))
 				return false
 			else
@@ -179,9 +177,6 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flows.before.update (userId, doc, fieldNames, modifier, options) ->
-		console.log("db.flows.before.update...")
-
-		console.log modifier
 
 		modifier.$set = modifier.$set || {};
 
@@ -219,3 +214,7 @@ new Tabular.Table
 		},
 	]
 	extraFields: ["form","print_template","instance_template","events"]
+	lengthChange: false
+	pageLength: 10
+	info: false
+	searching: true

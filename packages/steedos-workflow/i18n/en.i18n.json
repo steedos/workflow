@@ -431,10 +431,11 @@
 	"webhooks_payload_url": "URL",
 	"webhooks_content_type": "Content type",
 	"webhooks_active": "Active",
-    "edit":"Edit",
-    "flow_list":"Flow List",
-    "import_flow": "Import Flow",
-    "import_flow_success": "Import success",
-    "import_flow_error": "Import failed",
-    "import_flow_info":"Please select the flow you want to import"
+	"webhooks_flow_name()": "Flow",
+
+    "workflow_list":"Flow List",
+    "workflow_import_flow": "Import Flow",
+    "workflow_import_flow_success": "Import success",
+    "workflow_import_flow_error": "Import failed",
+    "workflow_import_flow_info":"Please select the flow you want to import"
 }

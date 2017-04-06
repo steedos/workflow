@@ -7,7 +7,7 @@ Template.admin_import_flow_modal.events
 	'click #import_flow_ok': (event)->
 
 		if $("#importFlowFile")[0].files.length == 0
-			toastr.warning(t("import_flow_info"))
+			toastr.warning(t("workflow_import_flow_info"))
 			return;
 
 		formData = new FormData();
@@ -21,9 +21,9 @@ Template.admin_import_flow_modal.events
 			contentType: false
 			data: formData
 			success: ()->
-				toastr.success(t("import_flow_success"))
+				toastr.success(t("workflow_import_flow_success"))
 				Modal.hide("admin_import_flow_modal")
 			error: (e)->
-				toastr.error(t("import_flow_error"));
+				toastr.error(t("workflow_import_flow_error"));
 				console.log e
 

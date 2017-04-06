@@ -46,4 +46,9 @@ if Meteor.isClient
 	db.webhooks._simpleSchema.i18n("webhooks")
 
 
-db.webhooks.attachSchema(db.webhooks._simpleSchema);
+db.webhooks.attachSchema(db.webhooks._simpleSchema)
+
+db.webhooks.helpers
+	flow_name: ()->
+		f = db.flows.findOne({_id: this.flow}, {fields: {name: 1}})
+		return f && f.name
