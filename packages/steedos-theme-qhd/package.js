@@ -5,7 +5,7 @@ Package.describe({
     git: ''
 });
 
-Package.onUse(function(api) { 
+Package.onUse(function(api) {
     api.versionsFrom('1.0');
     api.use('coffeescript');
     api.use('blaze');
@@ -15,7 +15,7 @@ Package.onUse(function(api) {
     api.use('simple:json-routes@2.1.0');
     api.use('kadira:blaze-layout@2.3.0');
     api.use('kadira:flow-router@2.10.1');
-    
+
     api.use('tap:i18n@1.7.0');
     api.use('tap:i18n', ['client', 'server']);
 
@@ -26,10 +26,14 @@ Package.onUse(function(api) {
 
     api.addFiles("client/customize.less", "client");
     api.addFiles("client/customize.coffee", "client");
-    
+
     api.addAssets("client/background/qhd.jpg", "client");
+
+    api.addFiles("server/routes/notify_wenshu.coffee", "server");
+
+
     // EXPORT
-    
+
 });
 
 Package.onTest(function(api) {

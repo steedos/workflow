@@ -45,7 +45,7 @@ if Meteor.isClient
 		title: "workflow_form_edit"
 		app: "workflow"
 		icon: "ion ion-ios-paper"
-		url: "/admin/view/flows_template"
+		url: "/admin/flows"
 		paid: "true"
 		sort: 50
 		parent: "workflow"

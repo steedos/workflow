@@ -427,6 +427,20 @@
 	"instance_approve_forward_remove_success": "取消转发成功",
 	"instance_forward_instance_look": "查看申请单",
 	"instance_forward_cannot_cancel": "不符合取消转发条件！",
-	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！"
+	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！",
 
+	"webhooks": "Webhooks",
+	"webhooks_flow": "流程",
+	"webhooks_payload_url": "URL",
+	"webhooks_active": "激活",
+	"webhooks_content_type": "传输数据类型",
+	"webhooks_flow_name()": "流程",
+	"webhooks_description": "描述",
+
+	"workflow_list": "流程列表",
+	"workflow_import_flow": "导入流程",
+	"workflow_import_flow_success": "导入成功",
+	"workflow_import_flow_error": "导入失败",
+	"workflow_import_flow_info": "请选择需要导入的流程",
+	"flows": "流程"
 }

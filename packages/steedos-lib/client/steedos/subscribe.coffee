@@ -39,7 +39,7 @@ Tracker.autorun (c)->
 			if firstApp
 				Steedos.openApp firstApp._id
 			else
-				FlowRouter.go("/steedos/springboard")
+				FlowRouter.go("/")
 
 
 # Meteor.startup之前就从localStorage读取并设置字体大小及背景图
