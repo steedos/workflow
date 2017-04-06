@@ -52,12 +52,13 @@ Package.onUse(function(api) {
 	api.use('momentjs:moment', ['client', 'server']);
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
-    api.use('yogiben:autoform-modals');
+	api.use('yogiben:autoform-modals');
 
 	api.use('steedos:lib');
 	api.use('steedos:admin');
 
 	api.use('steedos:mailqueue');
+	api.use('steedos:webhookqueue');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
@@ -236,10 +237,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
-    api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
-    api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
-    api.addFiles('client/views/list/admin_flows.html', 'client');
-    api.addFiles('client/views/list/admin_flows.coffee', 'client');
+	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
+	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
+	api.addFiles('client/views/list/admin_flows.html', 'client');
+	api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');

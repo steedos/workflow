@@ -179,6 +179,7 @@ steedos:smsqueue@0.0.1
 steedos:theme@0.0.1
 steedos:ui@0.0.1
 steedos:version@1.0.0
+steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
 summernote:summernote@0.8.2

@@ -432,11 +432,12 @@
 	"webhooks_content_type": "Content type",
 	"webhooks_active": "Active",
 	"webhooks_flow_name()": "Flow",
+	"webhooks_description": "Description",
 
-    "workflow_list":"Flow List",
-    "workflow_import_flow": "Import Flow",
-    "workflow_import_flow_success": "Import success",
-    "workflow_import_flow_error": "Import failed",
-    "workflow_import_flow_info":"Please select the flow you want to import",
-    "flows":"Flow"
+	"workflow_list": "Flow List",
+	"workflow_import_flow": "Import Flow",
+	"workflow_import_flow_success": "Import success",
+	"workflow_import_flow_error": "Import failed",
+	"workflow_import_flow_info": "Please select the flow you want to import",
+	"flows": "Flow"
 }
