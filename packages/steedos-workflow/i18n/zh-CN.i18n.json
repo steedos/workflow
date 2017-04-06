@@ -436,10 +436,9 @@
 	"webhooks_content_type": "传输数据类型",
 	"webhooks_flow_name()": "流程",
 
-	"edit": "编辑",
-	"flow_list": "流程列表",
-	"import_flow": "导入流程",
-	"import_flow_success": "导入成功",
-	"import_flow_error": "导入失败",
-	"import_flow_info": "请选择需要导入的流程"
+    "workflow_list":"流程列表",
+    "workflow_import_flow": "导入流程",
+    "workflow_import_flow_success": "导入成功",
+    "workflow_import_flow_error": "导入失败",
+    "workflow_import_flow_info":"请选择需要导入的流程"
 }
