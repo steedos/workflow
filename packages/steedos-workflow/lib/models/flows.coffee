@@ -214,3 +214,7 @@ new Tabular.Table
 		},
 	]
 	extraFields: ["form","print_template","instance_template","events"]
+	lengthChange: false
+	pageLength: 10
+	info: false
+	searching: true
