@@ -440,5 +440,6 @@
     "workflow_import_flow": "导入流程",
     "workflow_import_flow_success": "导入成功",
     "workflow_import_flow_error": "导入失败",
-    "workflow_import_flow_info":"请选择需要导入的流程"
+    "workflow_import_flow_info":"请选择需要导入的流程",
+    "flows":"流程"
 }
