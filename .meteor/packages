@@ -138,3 +138,5 @@ tomwasd:history-polyfill
 
 steedos:mailqueue
 steedos:smsqueue
+
+yogiben:autoform-modals

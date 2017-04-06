@@ -52,6 +52,8 @@ Package.onUse(function(api) {
 	api.use('momentjs:moment', ['client', 'server']);
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
+    api.use('yogiben:autoform-modals');
+
 	api.use('steedos:lib');
 	api.use('steedos:admin');
 
@@ -80,6 +82,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/spaces.coffee');
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
+	api.addFiles('lib/models/webhooks.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -233,6 +236,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
+    api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
+    api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
+    api.addFiles('client/views/list/admin_flows.html', 'client');
+    api.addFiles('client/views/list/admin_flows.coffee', 'client');
+
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
 	api.addFiles('server/methods/save_instance.js', 'server');
@@ -302,7 +310,7 @@ Package.onUse(function(api) {
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
 
-    api.export('CoreForm');
+	api.export('CoreForm');
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 

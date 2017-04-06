@@ -424,5 +424,17 @@
 	"instance_approve_forward_remove_success": "cancel forward successfully!",
 	"instance_forward_instance_look": "Look the instance",
 	"instance_forward_cannot_cancel": "Can not cancel!",
-	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!"
+	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!",
+
+	"webhooks": "Webhooks",
+	"webhooks_flow": "Flow",
+	"webhooks_payload_url": "URL",
+	"webhooks_content_type": "Content type",
+	"webhooks_active": "Active",
+    "edit":"Edit",
+    "flow_list":"Flow List",
+    "import_flow": "Import Flow",
+    "import_flow_success": "Import success",
+    "import_flow_error": "Import failed",
+    "import_flow_info":"Please select the flow you want to import"
 }
