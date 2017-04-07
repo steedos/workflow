@@ -59,11 +59,11 @@
 									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
-								{{#if isEditing this}}
-									<input type="text" name="opinion_input" class="opinion_input" value="{{this.description}}" />
-								{{else}}
-									<span class="weui_input ">{{this.description}}</span>
-								{{/if}}
+									{{#if isEditing this}}
+										<input type="text" name="opinion_input" class="opinion_input" value="{{this.description}}" />
+									{{else}}
+										<span class="weui_input ">{{this.description}}</span>
+									{{/if}}
 								</div>
 							</div>  
 						{{/if}}
@@ -74,7 +74,7 @@
 									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
-									<span class="weui_input">{{myApproveDescription this._id}}</span>
+									<span class="weui_input">{{{myApproveDescription this._id}}}</span>
 								</div>
 							</div>
 						{{/if}}

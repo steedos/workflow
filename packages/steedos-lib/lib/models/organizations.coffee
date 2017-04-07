@@ -151,9 +151,10 @@ db.organizations.helpers
 		return children.uniq()
 
 	calculateUsers: (isIncludeParents)->
-		children = if isIncludeParents then this.calculateAllChildren() else this.calculateChildren()
+		orgs = if isIncludeParents then this.calculateAllChildren() else this.calculateChildren()
+		orgs.push(this._id)
 		users = []
-		children.forEach (child)->
+		orgs.forEach (child)->
 			child = db.organizations.findOne(child, {fields: {users:1}})
 			if child?.users?.length
 				users = users.concat child.users
