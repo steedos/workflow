@@ -3,23 +3,23 @@ Template.registerHelpers = (dict) ->
 		Template.registerHelper k, v
 
 
-TemplateHelpers = 
+TemplateHelpers =
 
 	equals: (a, b)->
 		return a == b
-		
+
 	session: (v)->
 		return Session.get(v)
-		
-	absoluteUrl: (url)->	
-		if (Meteor.isCordova) 
+
+	absoluteUrl: (url)->
+		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
-		else 
+		else
 			if url?.startsWith("/")
 				return url
 			else if url
 				return "/" + url;
-			else 
+			else
 				return "/"
 
 	urlPrefix: ->
@@ -46,7 +46,7 @@ TemplateHelpers =
 		spaceId = Session.get("spaceId")
 		if !spaceId
 			spaceId = localStorage.getItem("spaceId:" + Meteor.userId())
-		
+
 		# check space exists
 		if spaceId
 			space = db.spaces.findOne(spaceId);
@@ -62,9 +62,9 @@ TemplateHelpers =
 		space = db.spaces.findOne();
 		if space
 			return space._id
-		
+
 		return undefined
-			
+
 	isSpaceAdmin: (spaceId)->
 		if !spaceId
 			spaceId = Steedos.getSpaceId()
@@ -94,7 +94,7 @@ TemplateHelpers =
 
 	spaces: ->
 		return db.spaces.find();
-		
+
 	isPaidSpace: (spaceId)->
 		if !spaceId
 			spaceId = Steedos.getSpaceId()
@@ -191,13 +191,13 @@ TemplateHelpers =
 				badge = 0
 			else
 				badge = db.cms_unreads.find({user: Meteor.userId()}).count()
-		else 
+		else
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
 			b = db.steedos_keyvalues.findOne(spaceSelector)
 			if b
 				badge = b.value?[appId]
-		if badge 
+		if badge
 			return badge
 
 
@@ -225,7 +225,7 @@ TemplateHelpers =
 		if Session.get('spaceId')
 			space = db.spaces.findOne(Session.get('spaceId'))
 			if space?.apps_paid?.length >0
-				return _.indexOf(space.apps_paid, app)>=0 
+				return _.indexOf(space.apps_paid, app)>=0
 
 	isAndroidApp: ()->
 		if Meteor.isCordova
@@ -241,7 +241,7 @@ TemplateHelpers =
 			if Meteor.userId() != userId
 				Accounts.connection.setUserId(userId);
 				Accounts.loginWithToken authToken,  (err) ->
-					if (err) 
+					if (err)
 						Meteor._debug("Error logging in with token: " + err);
 						Accounts.makeClientLoggedOut();
 					else if onSuccess
@@ -263,7 +263,7 @@ TemplateHelpers =
 		if spaceId
 			space = db.spaces.findOne({_id:spaceId,imo_cid:{$exists:false},"services.bqq.company_id":{$exists:false},"services.dingtalk.corp_id":{$exists:false}})
 			if space
-				return space.admins.includes(Meteor.userId())
+				return true
 
 	isNode: ()->
 		return process?.__nwjs
@@ -340,7 +340,7 @@ TemplateHelpers =
 							$(document.body).removeClass 'loading'
 							console.error 'download error source' + error.source
 							console.error 'download error target' + error.target
-							console.error 'upload error code: ' + error.code 
+							console.error 'upload error code: ' + error.code
 				), (error) ->
 					$(document.body).removeClass 'loading'
 					console.error 'upload error code: ' + error.code
@@ -394,4 +394,3 @@ TemplateHelpers =
 _.extend Steedos, TemplateHelpers
 
 Template.registerHelpers TemplateHelpers
-
