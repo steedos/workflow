@@ -5,26 +5,18 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 							aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="steps_modal_label">{{_ "instance_process_check"}}</h4>
+					<h4 class="modal-title" id="steps_modal_label">{{_ "instance_flow_steps"}}</h4>
 				</div>
 
 				<div class="modal-body modal-zoom panel panel-default">
 					<div class="list-group slippylist" style="margin-bottom: 0;">
 						{{#each steps }}
-						<div class="panel-heading flow_steps_show" style="border-bottom: : 1px red solid " >
-							<span>
+						<div class="panel-heading flow_steps_show" style="border-bottom: 1px #f4f4f4 solid;">
+							<div>
 								{{name}}
-							</span>
-							{{#each dealTypeName }}
-							<span style="float: right;">
-								{{ dealTypeName }}
-							</span>
-							{{/each }}
-							{{#each lines }}
-							<p>
-								{{ _id }}
-							</p>
-							{{/each }}
+								<span style="float: right;">{{ dealTypeName }}</span>
+							</div>
+							<div>{{ nextStepNames }}</div>
 						</div>	
 						{{/each}}
 						
