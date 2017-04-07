@@ -442,5 +442,8 @@
 	"workflow_import_flow_success": "导入成功",
 	"workflow_import_flow_error": "导入失败",
 	"workflow_import_flow_info": "请选择需要导入的流程",
-	"flows": "流程"
+	"flows": "流程",
+
+    "instance_readonly_view_url_copy": "复制链接",
+    "instance_readonly_view_url_copy_success": "链接已复制"
 }

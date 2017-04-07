@@ -439,5 +439,8 @@
 	"workflow_import_flow_success": "Import success",
 	"workflow_import_flow_error": "Import failed",
 	"workflow_import_flow_info": "Please select the flow you want to import",
-	"flows": "Flow"
+	"flows": "Flow",
+
+    "instance_readonly_view_url_copy": "Copy Link",
+    "instance_readonly_view_url_copy_success": "Copy successful"
 }
