@@ -218,8 +218,25 @@ TracesTemplate.events =
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->
-		template.is_editing.set(!template.is_editing.get());
-		toastr.success(t("instance_approve_modal_modificationsave"));
+		template.is_editing.set(!template.is_editing.get())
+
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		traceId = event.target.dataset.trace
+		opinion_input = $('#opinion_input').val()
+		finish_input = $('#finish_input').val()
+
+		$("body").addClass("loading")
+		Meteor.call 'change_approve_info', instanceId, traceId, approveId, opinion_input, finish_input, (err, result)->
+			$("body").removeClass("loading")
+			if err
+				toastr.error TAPi18n.__(err.reason)
+			if result == true
+				toastr.success(t("instance_approve_modal_modificationsave"))
+				Modal.hide "instance_trace_detail_modal"
+			return
+
+		
 			
 
 	
