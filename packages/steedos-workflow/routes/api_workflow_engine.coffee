@@ -150,6 +150,10 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					pushManager.send_instance_notification("submit_pending_inbox", instance, description, current_user_info)
 			#发送消息给当前用户
 			pushManager.send_message_current_user(current_user_info)
+
+			# 如果已经配置webhook并已激活则触发
+			pushManager.triggerWebhook(flow_id, instance, approve_from_client)
+
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {}

@@ -71,10 +71,11 @@ db.webhooks.adminConfig =
 	tableColumns: [
 		{name: "flow_name()"},
 		{name: "payload_url"},
-		{name: "active"}
+		{name: "active"},
+		{name: "description"}
 	]
-	extraFields: ["space", "flow", "payload_url", "content_type", "active"]
-	newFormFields: "space,flow,payload_url,content_type,active"
+	extraFields: ["space", "flow", "payload_url", "content_type", "active", "description"]
+	newFormFields: "space,flow,payload_url,content_type,active,description"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 

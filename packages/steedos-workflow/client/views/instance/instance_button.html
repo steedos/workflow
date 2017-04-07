@@ -61,12 +61,16 @@
 				<span>{{_ 'instance_cancel'}}</span>
 			</button>
 		{{/if}}
-		{{#if enabled_terminate}}
-			<button tyep="button" class="btn btn-default btn-instance-process " data-toggle="tooltip" data-placement="bottom">
-				<i class="fa fa-clone "></i>
-				<span>{{_ 'instance_process_check'}}</span>
-			</button>
-		{{/if}}
+		<button tyep="button" class="btn btn-default btn-instance-process " data-toggle="tooltip" data-placement="bottom">
+			<i class="fa fa-clone "></i>
+			<span>{{_ 'instance_process_check'}}</span>
+		</button>
+        {{#if enabled_copy}}
+        <button tyep="button" class="btn btn-default btn-instance-readonly-view-url-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{instance_readonly_view_url}}">
+            <i class="ion ion-ios-copy"></i>
+            <span>{{_ 'instance_readonly_view_url_copy'}}</span>
+        </button>
+        {{/if}}
 	</div>
 	<div class="pull-right">
 		<div class="btn-group">
@@ -105,6 +109,9 @@
 				{{#if enabled_terminate}}
 					<li><a class="btn-instance-force-end"><i class="fa fa-ban"></i>{{_ 'instance_cancel'}}</a></li>
 				{{/if}}
+                {{#if enabled_copy}}
+                    <li><a class="li-instance-readonly-view-url-copy"><i class="ion ion-ios-copy"></i>{{_ 'instance_readonly_view_url_copy'}}</a></li>
+                {{/if}}
 			</ul>
 		</div>
 	</div>
