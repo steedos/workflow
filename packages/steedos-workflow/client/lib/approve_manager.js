@@ -455,3 +455,8 @@ ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
 
     return nextStepUsers;
 }
+
+
+ApproveManager.handleDescription = function (description) {
+    
+}
