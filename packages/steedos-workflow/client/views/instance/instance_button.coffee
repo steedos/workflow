@@ -234,3 +234,7 @@ Template.instance_button.events
 
 	'click .btn-trace-list': (event, template) ->
 		$(".instance").scrollTop($(".instance .instance-form").height())
+
+	'click .btn-instance-process': (event, template)->
+		# Session.set('flow_comment', $("#suggestion").val())
+		Modal.show 'flow_steps_modal'

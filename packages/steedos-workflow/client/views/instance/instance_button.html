@@ -61,6 +61,12 @@
 				<span>{{_ 'instance_cancel'}}</span>
 			</button>
 		{{/if}}
+		{{#if enabled_terminate}}
+			<button tyep="button" class="btn btn-default btn-instance-process " data-toggle="tooltip" data-placement="bottom">
+				<i class="fa fa-clone "></i>
+				<span>{{_ 'instance_process_check'}}</span>
+			</button>
+		{{/if}}
 	</div>
 	<div class="pull-right">
 		<div class="btn-group">
