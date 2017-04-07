@@ -433,6 +433,17 @@
 	"webhooks_flow": "流程",
 	"webhooks_payload_url": "URL",
 	"webhooks_active": "激活",
-	"webhooks_content_type": "传输数据类型"
+	"webhooks_content_type": "传输数据类型",
+	"webhooks_flow_name()": "流程",
+	"webhooks_description": "描述",
 
+	"workflow_list": "流程列表",
+	"workflow_import_flow": "导入流程",
+	"workflow_import_flow_success": "导入成功",
+	"workflow_import_flow_error": "导入失败",
+	"workflow_import_flow_info": "请选择需要导入的流程",
+	"flows": "流程",
+
+    "instance_readonly_view_url_copy": "复制链接",
+    "instance_readonly_view_url_copy_success": "链接已复制"
 }

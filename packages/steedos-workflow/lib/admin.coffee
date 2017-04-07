@@ -1,12 +1,12 @@
-db.flows.adminConfig = 
-	icon: "globe"
-	color: "blue"
-	tableColumns: [
-		{name: "name"},
-	]
-	selector: Admin.selectorCheckSpaceAdmin
-	showDelColumn: false
-	routerAdmin: "/admin"
+#db.flows.adminConfig =
+#	icon: "globe"
+#	color: "blue"
+#	tableColumns: [
+#		{name: "name"},
+#	]
+#	selector: Admin.selectorCheckSpaceAdmin
+#	showDelColumn: false
+#	routerAdmin: "/admin"
 
 
 db.flow_roles.adminConfig = 
@@ -69,12 +69,13 @@ db.webhooks.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
-		{name: "flow"},
+		{name: "flow_name()"},
 		{name: "payload_url"},
-		{name: "active"}
+		{name: "active"},
+		{name: "description"}
 	]
-	extraFields: ["space", "flow", "payload_url", "content_type", "active"]
-	newFormFields: "space,flow,payload_url,content_type,active"
+	extraFields: ["space", "flow", "payload_url", "content_type", "active", "description"]
+	newFormFields: "space,flow,payload_url,content_type,active,description"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
@@ -85,7 +86,7 @@ Meteor.startup ->
 	@flow_positions = db.flow_positions
 	@webhooks = db.webhooks
 	AdminConfig?.collections_add
-		flows_template: db.flows.adminConfig
+#		flows_template: db.flows.adminConfig
 		flow_positions: db.flow_positions.adminConfig
 		flow_roles: db.flow_roles.adminConfig
 		webhooks: db.webhooks.adminConfig
