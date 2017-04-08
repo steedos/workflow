@@ -86,8 +86,8 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
-twbs:bootstrap
-#steedos:adminlte
+steedos:bootstrap
+steedos:adminlte
 steedos:base
 steedos:slipjs
 steedos:jstree
@@ -122,7 +122,7 @@ comerc:autoform-selectize
 
 # steedos:theme-qhd
 steedos:theme
-steedos:emailjs
+#steedos:emailjs
 steedos:contacts
 # steedos:portal
 steedos:desktop
