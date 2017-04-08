@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:adminlte',
-  version: '2.3.12_1',
+  version: '2.3.12_2',
   summary: 'AdminLTE dashboard theme',
   git: 'https://github.com/steedos/meteor-admin-lte.git',
   documentation: 'README.md'
@@ -15,6 +15,8 @@ Package.onUse(function(api) {
     'reactive-var'
   ], 'client');
 
+  api.use('twbs:bootstrap@3.3.6', 'client');
+  
   api.addFiles([
     'admin-lte.html',
     'admin-lte.js'
