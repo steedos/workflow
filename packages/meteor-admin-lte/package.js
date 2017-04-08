@@ -15,6 +15,8 @@ Package.onUse(function(api) {
     'reactive-var'
   ], 'client');
 
+  api.use('twbs:bootstrap@3.3.6');
+  
   api.addFiles([
     'admin-lte.html',
     'admin-lte.js'
