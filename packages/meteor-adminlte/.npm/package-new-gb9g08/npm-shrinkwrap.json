@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "admin-lte": {
+      "version": "2.3.11",
+      "resolved": "https://registry.npmjs.org/admin-lte/-/admin-lte-2.3.11.tgz",
+      "from": "admin-lte@2.3.11"
+    }
+  }
+}

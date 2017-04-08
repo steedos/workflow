@@ -20,8 +20,8 @@ Package.onUse(function(api) {
     'admin-lte.js'
   ], 'client');
 
-  api.addFiles([
-    'css/AdminLTE.css',
-    'css/_all-skins.css',
-  ], 'client');
+  // api.addFiles([
+  //   'css/AdminLTE.css',
+  //   'css/_all-skins.css',
+  // ], 'client');
 });

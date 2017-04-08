@@ -1,4 +1,4 @@
-.steedos.skin-blue {
+.steedos.fixed {
 
 	.main-header {
 		box-shadow: rgba(0,0,0,0.3) 0 1px 9px, rgba(255,255,255,0.2) 0 -1px 0 inset;
@@ -11,7 +11,7 @@
 		.logo {
 			width: 50px;
 			background-color: #0078D7;
-    		transition: background-color .467s cubic-bezier(.1,.9,.2,1) 34ms;
+			transition: background-color .467s cubic-bezier(.1,.9,.2,1) 34ms;
 			box-shadow: rgba(0, 0, 0, 0.3) 0 1px 9px, rgba(255, 255, 255, 0.2) 0 -1px 0 inset;
 			&:hover, &:active {
 				background-color: #104A7D;
@@ -26,38 +26,37 @@
 		}
 		.navbar {
 			/*float: left;*/
-    		margin: 0;
+			margin: 0;
 			margin-left: 50px;
 			background-color: transparent;
 			.navbar-title {
 				
 			}
 			.navbar-nav {
-			    float: left;
-    			margin: 0;
-				li {
-    				float: left;
+				float: left;
+				margin: 0;
+				>li {
 					a {
 						padding-left: 10px;
 						padding-right: 10px;
 						padding-top: 15px;
-    					padding-bottom: 15px;
+						padding-bottom: 15px;
 						&:hover, &:active, &:focus{
 							background: transparent;
 						}
 					}
 					.nav-brandingText {
 						padding-left: 20px;
-					    display: inline-block;
-					    font-family: "SegoeUI-SemiLight-final","Segoe UI SemiLight","Segoe UI WPC Semilight","Segoe UI",Segoe,Tahoma,Helvetica,Arial,sans-serif;
-					    font-size: 22px;
-					    -webkit-font-smoothing: antialiased;
+						display: inline-block;
+						font-family: "SegoeUI-SemiLight-final","Segoe UI SemiLight","Segoe UI WPC Semilight","Segoe UI",Segoe,Tahoma,Helvetica,Arial,sans-serif;
+						font-size: 22px;
+						-webkit-font-smoothing: antialiased;
 					}
 				}
 			}
 			.navbar-custom-menu {
 				padding-right: 10px;
-				li {
+				>li {
 					a {
 						padding-left: 5px;
 						padding-right: 5px;
@@ -84,66 +83,79 @@
 			} 
 		}
 	}
-    .main-sidebar {
-        background: rgba(0, 0, 0, 0.6);
-        box-shadow: 0 3px 6px rgba(0,0,0,.4);
+	.main-sidebar {
+		background: rgba(0, 0, 0, 0.6);
+		box-shadow: 0 3px 6px rgba(0,0,0,.4);
 		top: 0px;
 		margin-top: 50px;
-    	padding-top: 0px;
-       
-        .sidebar a {
-            color: #f6f6f6;
-        }
-        
-        .sidebar-menu > li.header {
-            color: #d8d8d8;
-            background: transparent;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+		padding-top: 0px;
+	   
+		.sidebar {
 
-        .sidebar-menu > li > a:active,
-        .sidebar-menu > li > a:focus,
-        .sidebar-menu > li.active > a,
-        .sidebar-menu > li.active > a:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.15);
-        }
+			.sidebar-menu > li.header {
+				color: #d8d8d8;
+				background: transparent;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+				overflow: visible;
+				padding: 10px 15px 10px 15px;
+				
+				.pull-right-container{
+					position: absolute;
+				    right: 0px;
+				    top: 50%;
+				    margin-top: -7px;
+				}
+			}
 
-        .sidebar-menu > li:hover > a,
-        .sidebar-menu > li > a:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.07);
-        }
+			.sidebar-menu > li > a {
+				color: #f6f6f6;
+			}
+			.sidebar-menu > li > a:active,
+			.sidebar-menu > li > a:focus,
+			.sidebar-menu > li.active > a,
+			.sidebar-menu > li.active > a:hover {
+				color: #ffffff;
+				background: rgba(255, 255, 255, 0.15);
+			}
 
-        .sidebar-menu > li > .treeview-menu {
-            background: transparent;
-            margin-left: 10px;
-        }
-        .sidebar-form input[type="text"], 
-        .sidebar-form input[type="text"] + .input-group-btn .btn,
-        .sidebar-form .btn {
-            background-color: rgba(0, 0, 0, 0.15);
-        }
-        .sidebar-form input[type="text"]:focus,
-        .sidebar-form input[type="text"]:focus + .input-group-btn .btn {
-            background-color: #fff;
-        }
-    }
-    .wrapper {
-        background: transparent;
-	    position: absolute;
-	    left: 0;
-	    right: 0;
-	    top: 0;
-	    bottom: 0;
-    }
+			.sidebar-menu > li:hover > a,
+			.sidebar-menu > li > a:hover {
+				color: #ffffff;
+				background: rgba(255, 255, 255, 0.07);
+			}
+
+			.sidebar-menu > li > .treeview-menu {
+				background: transparent;
+				margin-left: 10px;
+			}
+			.sidebar-form input[type="text"], 
+			.sidebar-form input[type="text"] + .input-group-btn .btn,
+			.sidebar-form .btn {
+				background-color: rgba(0, 0, 0, 0.15);
+			}
+			.sidebar-form input[type="text"]:focus,
+			.sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+				background-color: #fff;
+			}
+		}
+		
+	}
+	.wrapper {
+		background: transparent;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
 	.content-wrapper {
 		background: transparent;
 		position: absolute;
-	    left: 0;
-	    right: 0;
-	    top: 50px;
-	    bottom: 0;
+		left: 0;
+		right: 0;
+		top: 50px;
+		bottom: 0;
+		padding-top: 0px;
 	}
 
 	@media (min-width: 768px){
@@ -152,26 +164,45 @@
 		}
 	}
 
-	@media (max-width: 767px){
-		.main-header .logo {
-		    width: 50px;
-		    float: left;
-		}
-		.main-header .navbar {
-		    width: initial;
-		    .navbar-title {
-		    	display: none;
-		    }
-		}
+}
+
+
+@media (max-width: 767px){
+	.steedos.fixed {
+		.main-header{
+			display: none !important;
+			.logo {
+				width: 50px;
+				float: left;
+			}
+			.navbar {
+				width: initial;
+				.navbar-title {
+					display: none;
+				}
+				.navbar-custom-menu {
+					display: none;
+				}
+			}
+		} 
 		.content-wrapper, .right-side { 
-		    padding-top: 50px;
+			padding-top: 0px;
+			top: 0px;
+		}
+		.main-sidebar {
+			margin-top: 0px;
 		}
 	}
 
-}
-
-@media (min-width: 768px){
-	.steedos.sidebar-mini.sidebar-collapse .main-header .navbar {
-	    margin-left: 0px;
+	.steedos.skin-blue.sidebar-open {
+		.main-header{
+			display: block !important;
+			width: 230px;
+		}
+		.main-sidebar {
+			.main-header {
+				display: none !important;
+			}
+		}
 	}
 }

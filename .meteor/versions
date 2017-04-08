@@ -159,10 +159,9 @@ standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
 steedos:admin@0.0.1
 steedos:admin-lte@0.0.2
-steedos:adminlte@2.3.11_3
+steedos:adminlte@2.3.11_4
 steedos:api@0.0.1
 steedos:base@0.0.6
-steedos:bootstrap@3.3.7_1
 steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1
