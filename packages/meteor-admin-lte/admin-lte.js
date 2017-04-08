@@ -13,16 +13,16 @@ Template.AdminLTE.onCreated(function () {
 
   if (this.data) {
     skin = this.data.skin || skin;
-    fixed = this.data.fixed || fixed;
+    //fixed = this.data.fixed || fixed;
     sidebarMini = this.data.sidebarMini || sidebarMini;
   }
 
   fixed && $('body').addClass('fixed');
   sidebarMini && $('body').addClass('sidebar-mini');
-  self.removeClasses = function () {
-    fixed && $('body').removeClass('fixed');
-    sidebarMini && $('body').removeClass('sidebar-mini');
-  }
+  // self.removeClasses = function () {
+  //   fixed && $('body').removeClass('fixed');
+  //   sidebarMini && $('body').removeClass('sidebar-mini');
+  // }
 
 });
 
@@ -31,7 +31,7 @@ Template.AdminLTE.onRendered(function () {
 });
 
 Template.AdminLTE.onDestroyed(function () {
-  this.removeClasses();
+  // this.removeClasses();
   // this.style.remove();
   // this.skin.remove();
 });
