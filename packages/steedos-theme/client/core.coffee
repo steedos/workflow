@@ -21,7 +21,3 @@ Theme =
 		name: "fish",
 		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}]
-
-Meteor.startup ->
-	console.log "fixed"
-	$("body").addClass("fixed");
