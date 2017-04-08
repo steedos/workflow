@@ -225,7 +225,7 @@ TracesTemplate.events =
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->
-		template.is_editing.set(!template.is_editing.get())
+		# template.is_editing.set(!template.is_editing.get())
 
 		instanceId = Session.get('instanceId')
 		approveId = event.target.dataset.approve
