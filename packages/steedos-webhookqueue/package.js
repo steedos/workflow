@@ -20,6 +20,10 @@ Package.onUse(function(api) {
 
 	api.use('mongo', 'server');
 
+
+	api.use('steedos:lib');
+	api.use('steedos:smsqueue');
+
 	// Common api
 	api.addFiles([
 		'lib/common/main.js',

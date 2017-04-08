@@ -66,6 +66,5 @@
 	"emailjs_mail_refresh":"邮件服务器中断，请重新刷新！",
 	"mail_server_interrupte":"邮件服务器中断",
 	"emailjs_mail_cancel": "取消",
-	"emailjs_mail_refresh": "刷新",
 	"invite_users_help": "https://www.steedos.com/cn/help/workflow/admin_space_users.html"
 }
