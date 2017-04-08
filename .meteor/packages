@@ -86,6 +86,7 @@ raix:push
 alanning:roles
 sach:flow-db-admin
 
+steedos:mermaid
 steedos:slipjs
 steedos:jstree
 steedos:meteor-cookie-login

@@ -10,16 +10,9 @@
 
 				<div class="modal-body modal-zoom panel panel-default">
 					<div class="list-group slippylist" style="margin-bottom: 0;">
-						{{#each steps }}
-						<div class="panel-heading flow_steps_show" style="border-bottom: 1px #f4f4f4 solid;">
-							<div>
-								{{name}}
-								<span style="float: right;">{{ dealTypeName }}</span>
-							</div>
-							<div>{{ nextStepNames }}</div>
+						<div class="mermaid panel-heading flow_steps_show" id="graphDiv" style="border-bottom: 1px #f4f4f4 solid;">
+							{{{stepsSvg}}}
 						</div>	
-						{{/each}}
-						
 					</div>
 				</div>
 			</div>
