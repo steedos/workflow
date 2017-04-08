@@ -429,14 +429,27 @@
 	"instance_forward_cannot_cancel": "不符合取消转发条件！",
 	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！",
 
+	"instance_approve_modal_modification": "修改",
+	"instance_approve_modal_save": "保存",
+	"instance_approve_moda_back": "取消",
+	"instance_approve_modal_modificationsave": "您的修改保存成功",
+
+
+
+
 	"webhooks": "Webhooks",
 	"webhooks_flow": "流程",
 	"webhooks_payload_url": "URL",
 	"webhooks_active": "激活",
 	"webhooks_content_type": "传输数据类型",
+	"edit":"编辑",
+	"flow_list":"流程列表",
+	"import_flow": "导入流程",
+	"import_flow_success": "导入成功",
+	"import_flow_error": "导入失败",
+	"import_flow_info":"请选择需要导入的流程",
 	"webhooks_flow_name()": "流程",
 	"webhooks_description": "描述",
-
 	"workflow_list": "流程列表",
 	"workflow_import_flow": "导入流程",
 	"workflow_import_flow_success": "导入成功",
@@ -444,6 +457,12 @@
 	"workflow_import_flow_info": "请选择需要导入的流程",
 	"flows": "流程",
 
-    "instance_readonly_view_url_copy": "复制链接",
-    "instance_readonly_view_url_copy_success": "链接已复制"
+	"instance_readonly_view_url_copy": "复制链接",
+	"instance_readonly_view_url_copy_success": "链接已复制",
+	"instance_related_instances": "相关文件",
+	"instance_related_instances_title": "关联文件",
+	"instance_related_instances_placeholder": "请输入文件名称",
+
+	"workflow_install_desktop": "安装客户端"
+
 }
