@@ -16,10 +16,10 @@ Package.describe({
 Package.onUse(function (api) {
   api.versionsFrom(['METEOR@0.9.0', 'METEOR@1.0']);
   
-  api.use([
-    'jquery',
-    'twbs:bootstrap@3.3.1'
-  ], where);
+  // api.use([
+  //   'jquery',
+  //   'twbs:bootstrap@3.3.7'
+  // ], where);
 
   // no exports - summernote adds itself to jQuery
   api.addFiles([

@@ -219,7 +219,7 @@
 			style = document.documentElement.style;
 			shadows = (style.MozBoxShadow !== undefined) || (style.webkitBoxShadow !== undefined) || (style.oBoxShadow !== undefined) || (style.boxShadow !== undefined);
 			borderRad = (style.MozBorderRadius !== undefined) || (style.webkitBorderRadius !== undefined) || (style.oBorderRadius !== undefined) || (style.borderRadius !== undefined);
-			classNames = el.className ? el.className.split(" ") : [];
+			classNames = [];
 			if (shadows) {
 				classNames.push("box-shadow")
 			}
@@ -250,7 +250,11 @@
 			if ("createTouch" in document) {
 				classNames.push("touch")
 			}
-			el.className = classNames.join(" ")
+			for (i=0; i<classNames.length; i++)
+			{
+				$("body").addClass(classNames[i])
+			}
+			//el.className = classNames.join(" ")
 		};
 	</script>
 </head>
