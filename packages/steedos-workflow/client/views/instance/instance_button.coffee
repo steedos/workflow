@@ -138,10 +138,33 @@ Template.instance_button.helpers
 		else
 			return true
 
+	enabled_copy: ->
+		if Session.get("box") == "draft"
+			return false
+		else
+			return true
+
+	instance_readonly_view_url: ->
+		href = Meteor.absoluteUrl("workflow/space/"+Session.get("spaceId")+"/view/readonly/" + Session.get("instanceId"))
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return ""
+		instanceName = ins.name
+		return "[#{instanceName}](#{href})"
+
 
 Template.instance_button.onRendered ->
-	$('[data-toggle="tooltip"]').tooltip()
+	$('[data-toggle="tooltip"]').tooltip();
+	copyUrlClipboard = new Clipboard('.btn-instance-readonly-view-url-copy');
 
+	Template.instance_button.copyUrlClipboard = copyUrlClipboard
+
+	copyUrlClipboard.on 'success', (e) ->
+		toastr.success(t("instance_readonly_view_url_copy_success"))
+		e.clearSelection()
+
+Template.instance_button.onDestroyed ->
+	Template.instance_button.copyUrlClipboard.destroy();
 
 Template.instance_button.events
 
@@ -234,3 +257,6 @@ Template.instance_button.events
 
 	'click .btn-trace-list': (event, template) ->
 		$(".instance").scrollTop($(".instance .instance-form").height())
+
+	'click .li-instance-readonly-view-url-copy': (event, template)->
+		$(".btn-instance-readonly-view-url-copy").click();

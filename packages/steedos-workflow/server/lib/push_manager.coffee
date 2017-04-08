@@ -646,3 +646,12 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	catch e
 		console.error e.stack
 
+pushManager.triggerWebhook = (flow_id, instance, current_approve)->
+	if Meteor.settings.cron?.webhookqueue_interval
+		db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
+			WebhookQueue.send({
+					instance: instance,
+					current_approve: current_approve,
+					payload_url: w.payload_url,
+					content_type: w.content_type
+				})

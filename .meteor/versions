@@ -116,6 +116,7 @@ mongo-livedata@1.0.12
 mpowaga:autoform-summernote@0.4.3
 mpowaga:jquery-fileupload@9.11.2
 mpowaga:jquery-ui-widget@1.11.4
+mpowaga:string-template@0.1.0
 mrt:moment@2.14.1
 mrt:moment-timezone@0.2.1
 natestrauser:animate-css@3.5.1
@@ -179,6 +180,7 @@ steedos:smsqueue@0.0.1
 steedos:theme@0.0.9
 steedos:ui@0.0.1
 steedos:version@1.0.0
+steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
 summernote:summernote@0.8.2
@@ -201,5 +203,6 @@ useraccounts:flow-routing@1.14.2
 webapp@1.3.11
 webapp-hashing@1.0.9
 yogiben:autoform-file@0.4.2
+yogiben:autoform-modals@0.3.8
 yogiben:autoform-tags@0.2.0
 zimme:active-route@2.3.2
