@@ -150,7 +150,7 @@ Template.instance_button.helpers
 		if !ins
 			return ""
 		instanceName = ins.name
-		return "<a href='#{href}' target='_blank'>#{instanceName}</a>"
+		return "[#{instanceName}](#{href})"
 
 
 Template.instance_button.onRendered ->
