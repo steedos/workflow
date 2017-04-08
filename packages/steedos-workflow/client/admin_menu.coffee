@@ -60,3 +60,14 @@ if Meteor.isClient
 		paid: "true"
 		sort: 60
 		parent: "workflow"
+
+	# 统计分析
+	Admin.addMenu
+		_id: "instance_approves_statistics"
+		title: "instance_approves_statistics"
+		app: "workflow"
+		icon: "ion ion-link"
+		url: "/admin/instance_approves"
+		paid: "true"
+		sort: 70
+		parent: "workflow"
