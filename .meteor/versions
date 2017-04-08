@@ -158,8 +158,7 @@ srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
 steedos:admin@0.0.1
-steedos:admin-lte@0.0.2
-steedos:adminlte@2.3.11_4
+steedos:adminlte@2.3.12
 steedos:api@0.0.1
 steedos:base@0.0.6
 steedos:chat@0.0.1
@@ -177,7 +176,7 @@ steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
-steedos:theme@0.0.8
+steedos:theme@0.0.9
 steedos:ui@0.0.1
 steedos:version@1.0.0
 steedos:webkit-notification@0.0.1

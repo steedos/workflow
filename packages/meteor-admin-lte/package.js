@@ -1,6 +1,6 @@
 Package.describe({
-  name: 'steedos:admin-lte',
-  version: '0.0.2',
+  name: 'steedos:adminlte',
+  version: '2.3.12',
   summary: 'AdminLTE dashboard theme',
   git: 'https://github.com/steedos/meteor-admin-lte.git',
   documentation: 'README.md'
@@ -20,8 +20,8 @@ Package.onUse(function(api) {
     'admin-lte.js'
   ], 'client');
 
-  // api.addFiles([
-  //   'css/AdminLTE.css',
-  //   'css/_all-skins.css',
-  // ], 'client');
+  api.addFiles([
+    'css/AdminLTE.css',
+    'css/_all-skins.css',
+  ], 'client');
 });
