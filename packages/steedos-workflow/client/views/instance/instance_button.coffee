@@ -144,6 +144,12 @@ Template.instance_button.helpers
 		else
 			return true
 
+	enabled_related: ->
+		if Session.get("box") == "draft"
+			return true
+		else
+			return false
+
 	instance_readonly_view_url: ->
 		href = Meteor.absoluteUrl("workflow/space/"+Session.get("spaceId")+"/view/readonly/" + Session.get("instanceId"))
 		ins = WorkflowManager.getInstance()
@@ -260,3 +266,6 @@ Template.instance_button.events
 
 	'click .li-instance-readonly-view-url-copy': (event, template)->
 		$(".btn-instance-readonly-view-url-copy").click();
+
+	'click .btn-instance-related-instances': (event, template)->
+		Modal.show("related_instances_modal")

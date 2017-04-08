@@ -442,5 +442,8 @@
 	"flows": "Flow",
 
     "instance_readonly_view_url_copy": "Copy Link",
-    "instance_readonly_view_url_copy_success": "Copy successful"
+    "instance_readonly_view_url_copy_success": "Copy successful",
+    "instance_related_instances": "Related instances",
+    "instance_related_instances_title": "Linked instance",
+    "instance_related_instances_placeholder": "Please enter instance name"
 }

@@ -62,7 +62,7 @@
 									{{#if isEditing this}}
 										<input type="text" name="opinion_input" class="opinion_input" id="opinion_input" value="{{this.description}}" />
 									{{else}}
-										<span class="weui_input ">{{this.description}}</span>
+										<span class="weui_input ">{{markDownToHtml this.description}}</span>
 									{{/if}}
 								</div>
 							</div>  
@@ -74,7 +74,7 @@
 									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
-									<span class="weui_input">{{{myApproveDescription this._id}}}</span>
+									<span class="weui_input">{{{markDownToHtml (myApproveDescription this._id)}}}</span>
 								</div>
 							</div>
 						{{/if}}
