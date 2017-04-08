@@ -131,6 +131,13 @@ if Meteor.isServer
 	TracesTemplate.helpers.showDeleteButton = (approved) ->
 		return false;
 
+	markDownToHtml: (markDownString)->
+		if markDownString
+			renderer = new Markdown.Renderer();
+			renderer.link = ( href, title, text ) ->
+				return '<a target="_blank" href="'+ href +'" title="' + title + '">' + text + '</a>';
+			return Spacebars.SafeString(Markdown(markDownString), {renderer:renderer})
+
 TracesTemplate.events =
 	'click .cc-approve-remove': (event, template) ->
 		event.stopPropagation()
