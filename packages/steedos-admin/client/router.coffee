@@ -24,9 +24,3 @@ FlowRouter.route '/admin/organizations',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "org_main"
-
-FlowRouter.route '/admin/instance_approves',
-	triggersEnter: [ checkUserSigned ],
-	action: (params, queryParams)->
-		BlazeLayout.render 'adminLayout',
-			main: "instance_approves_main"
