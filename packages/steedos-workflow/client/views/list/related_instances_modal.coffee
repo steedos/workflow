@@ -8,3 +8,10 @@ Template.related_instances_modal.helpers
 #			return opts
 #		else
 #			return ""
+	schema: ->
+		return db.instances._simpleSchema;
+
+Template.related_instances_modal.events
+	'click .btn-submit-related-instances': ()->
+		$("#related_instances").submit();
+		$(".btn-data-dismiss").click();

@@ -1,6 +1,6 @@
 db.instances = new Meteor.Collection('instances')
 
-db.instances.attachSchema(new SimpleSchema({
+db.instances._simpleSchema = new SimpleSchema({
 	related_instances: {
 		type: [String],
 		optional: true,
@@ -12,7 +12,9 @@ db.instances.attachSchema(new SimpleSchema({
 			}
 		}
 	}
-}))
+})
+
+#db.instances.attachSchema db.instances._simpleSchema
 
 db.instances.helpers
 	applicant_name: ->
