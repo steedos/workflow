@@ -14,11 +14,10 @@ InstanceSignText.helpers =
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
-	trace: (stepName)->
+	trace: (stepName, only_cc_opinion)->
 		traces = InstanceformTemplate.helpers.traces()
 		approve = traces[stepName]
-
-		if Template.instance().data.only_cc_opinion
+		if only_cc_opinion
 			approve = approve?.filterProperty("type","cc")
 
 		return approve
@@ -36,7 +35,7 @@ InstanceSignText.helpers =
 
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
-	isMyApprove: (approveId) ->
+	isMyApprove: (only_cc_opinion) ->
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
 			if InstanceManager.isCC(ins) && Template.instance().data.name
@@ -45,7 +44,7 @@ InstanceSignText.helpers =
 				else
 					return false
 
-			if !InstanceManager.isCC(ins) && Template.instance().data.only_cc_opinion
+			if !InstanceManager.isCC(ins) && only_cc_opinion
 				return false
 
 			if InstanceManager.getCurrentApprove()
@@ -79,6 +78,14 @@ InstanceSignText.helpers =
 			renderer.link = ( href, title, text ) ->
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
+
+	steps: (field_formula, step,only_cc_opinion)->
+		steps = []
+		if !step
+			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
+		else
+			steps = [{stepName: step, only_cc_opinion: only_cc_opinion}]
+		return steps
 
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->

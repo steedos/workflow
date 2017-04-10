@@ -1,46 +1,52 @@
 <template name="instanceSignText">
     <div class="instance-sign">
-        {{#if show step}}
-            <div class="instance-sign-content">
-                {{#each trace step}}
-                    {{#if isOpinionOfField this}}
-                        {{#if is_finished}}
-                            {{#if (include judge "approved,rejected,submitted") }}
-                                {{#if (unempty description)}}{{{markDownToHtml description}}}{{else}}{{defaultDescription}}{{/if}}<br>
-                                &emsp;&emsp;{{handler_name}}&nbsp;
-                                {{formatDate finish_date format}}<br>
-                            {{/if}}
-                        {{else}}
-                            {{#if isMyApprove _id}}
-                                {{#if (unempty (myApproveDescription _id))}}
-                                    {{{markDownToHtml (myApproveDescription _id)}}}<br>
+        <div class="instance-sign-content">
+            {{#each (steps field_formula step only_cc_opinion)}}
+                {{#if show stepName}}
+                    {{#each trace stepName only_cc_opinion}}
+                        {{#if isOpinionOfField this}}
+                            {{#if is_finished}}
+                                {{#if (include judge "approved,rejected,submitted") }}
+                                    {{#if (unempty description)}}{{{markDownToHtml
+                                            description}}}{{else}}{{defaultDescription}}{{/if}}
                                     &emsp;&emsp;{{handler_name}}&nbsp;
-                                    {{formatDate now format}}<br>
+                                    {{formatDate finish_date format}}<br>
+                                {{/if}}
+                            {{else}}
+                                {{#if isMyApprove}}
+                                    {{#if (unempty (myApproveDescription _id))}}
+                                        {{{markDownToHtml (myApproveDescription _id)}}}
+                                        &emsp;&emsp;{{handler_name}}&nbsp;
+                                        {{formatDate now format}}<br>
+                                    {{/if}}
                                 {{/if}}
                             {{/if}}
                         {{/if}}
-                    {{/if}}
-                {{/each}}
-            </div>
-            {{#if isMyApprove}}
-                <div class="instance-sign-text">
-                    <a class="instance-sign-text-btn">{{_ "instance_sign"}}</a>
-                </div>
-            {{/if}}
-        {{else}}
-            <div class="instance-sign-content">
-                {{#each trace step}}
-                    {{#if isOpinionOfField this}}
-                        {{#if is_finished}}
-                            {{#if (include judge "approved,rejected,submitted") }}
-                                {{#if (unempty description)}}{{{markDownToHtml description}}}{{else}}{{defaultDescription}}{{/if}}<br>
-                                &emsp;&emsp;{{handler_name}}&nbsp;
-                                {{formatDate finish_date format}}<br>
+                    {{/each}}
+                {{else}}
+                    {{#each (trace stepName only_cc_opinion)}}
+                        {{#if isOpinionOfField this}}
+                            {{#if is_finished}}
+                                {{#if (include judge "approved,rejected,submitted") }}
+                                    {{#if (unempty description)}}{{{markDownToHtml
+                                            description}}}{{else}}{{defaultDescription}}{{/if}}
+                                    &emsp;&emsp;{{handler_name}}&nbsp;
+                                    {{formatDate finish_date format}}<br>
+                                {{/if}}
                             {{/if}}
                         {{/if}}
-                    {{/if}}
-                {{/each}}
-            </div>
-        {{/if}}
+                    {{/each}}
+                {{/if}}
+            {{/each}}
+        </div>
+        {{#each (steps field_formula step only_cc_opinion)}}
+            {{#if show stepName}}
+                {{#if isMyApprove only_cc_opinion}}
+                    <div class="instance-sign-text">
+                        <a class="instance-sign-text-btn">{{_ "instance_sign"}}</a>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{/each}}
     </div>
 </template>

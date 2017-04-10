@@ -114,6 +114,9 @@
                 <!--{{#if enabled_copy}}-->
                     <!--<li><a class="li-instance-readonly-view-url-copy"><i class="ion ion-ios-copy"></i>{{_ 'instance_readonly_view_url_copy'}}</a></li>-->
                 <!--{{/if}}-->
+                {{#if enabled_related}}
+                    <li><a class="btn-instance-related-instances"><i class="fa fa-link"></i>{{_ 'instance_related_instances_title'}}</a></li>
+                {{/if}}
 			</ul>
 		</div>
 	</div>
