@@ -90,4 +90,4 @@ InstanceSignText.helpers =
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
 		locale = Template.instance().view.template.steedosData.locale
-		return Template.instance().data.default || TAPi18n.__("default_opinion", {}, locale)
+		return Template.instance().data.default || TAPi18n.__("instance_default_opinion", {}, locale)
