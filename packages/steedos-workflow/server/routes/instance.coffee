@@ -18,7 +18,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Missing X-Auth-Token",
-				"instance": "1329598861",
 				"success": false
 		return;
 
@@ -30,7 +29,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Missing X-User-Id",
-				"instance": "1329598861",
 				"success": false
 		return;
 
@@ -43,7 +41,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Missing instance",
-				"instance": "1329598861",
 				"success": false
 		return;
 
@@ -54,7 +51,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Missing space or instance",
-				"instance": "1329598861",
 				"success": false
 		return;
 
@@ -65,7 +61,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Missing space",
-				"instance": "1329598861",
 				"success": false
 		return;
 
@@ -77,7 +72,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 				code: 401,
 				data:
 					"error": "Validate Request -- Missing sapceUser",
-					"instance": "1329598861",
 					"success": false
 			return;
 
@@ -87,7 +81,6 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 			code: 401,
 			data:
 				"error": "Validate Request -- Not Instance Permissions",
-				"instance": "1329598861",
 				"success": false
 		return;
 
