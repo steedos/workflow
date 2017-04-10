@@ -13,6 +13,13 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 				# 如果是转发就需要给当前用户发送push 重新计算badge
 				pushManager.send_message_to_specifyUser("current_user", current_user);
 
+			if _.isEmpty(r.alerts)
+				instance = db.instances.findOne(instance_from_client.id)
+				flow_id = instance.flow
+				current_approve = instance_from_client.traces[0].approves[0]
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(flow_id, instance, current_approve)
+
 		JsonRoutes.sendResult res,
 				code: 200
 				data: { result: result }
