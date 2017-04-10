@@ -6,14 +6,14 @@
                     {{#if isOpinionOfField this}}
                         {{#if is_finished}}
                             {{#if (include judge "approved,rejected,submitted") }}
-                                {{#if (unempty description)}}{{{description}}}{{else}}{{defaultDescription}}{{/if}}<br>
+                                {{#if (unempty description)}}{{{markDownToHtml description}}}{{else}}{{defaultDescription}}{{/if}}<br>
                                 &emsp;&emsp;{{handler_name}}&nbsp;
                                 {{formatDate finish_date format}}<br>
                             {{/if}}
                         {{else}}
                             {{#if isMyApprove _id}}
                                 {{#if (unempty (myApproveDescription _id))}}
-                                    {{{myApproveDescription _id}}}<br>
+                                    {{{markDownToHtml (myApproveDescription _id)}}}<br>
                                     &emsp;&emsp;{{handler_name}}&nbsp;
                                     {{formatDate now format}}<br>
                                 {{/if}}
@@ -33,7 +33,7 @@
                     {{#if isOpinionOfField this}}
                         {{#if is_finished}}
                             {{#if (include judge "approved,rejected,submitted") }}
-                                {{#if (unempty description)}}{{{description}}}{{else}}{{defaultDescription}}{{/if}}<br>
+                                {{#if (unempty description)}}{{{markDownToHtml description}}}{{else}}{{defaultDescription}}{{/if}}<br>
                                 &emsp;&emsp;{{handler_name}}&nbsp;
                                 {{formatDate finish_date format}}<br>
                             {{/if}}

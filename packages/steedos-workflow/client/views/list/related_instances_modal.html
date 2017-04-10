@@ -1,0 +1,24 @@
+<template name="related_instances_modal">
+    <div class="modal fade related_instances_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        {{_ "instance_related_instances_title"}}
+                    </h4>
+                </div>
+                <div class="modal-body modal-zoom" style='overflow-y:auto'>
+                    {{#autoForm id="related_instances" collection="db.instances" doc=instances_doc type="update" autosave=true}}
+                        {{> afFieldInput name="related_instances" multiple=true optionsMethodParams=instances_doc._id label = (_ "instance_related_instances") optionsPlaceholder= (_ "instance_related_instances_placeholder")}}
+                    {{/autoForm}}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{_ "OK"}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

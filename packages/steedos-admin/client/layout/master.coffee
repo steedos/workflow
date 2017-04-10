@@ -1,8 +1,3 @@
-
-Template.adminLayout.onRendered ->
-	$('body').removeClass('fixed');
-
-
 Template.adminLayout.helpers 
 	
 	subsReady: ->

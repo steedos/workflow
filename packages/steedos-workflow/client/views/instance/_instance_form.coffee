@@ -385,8 +385,8 @@ InstanceformTemplate.helpers =
 		if markDownString
 			renderer = new Markdown.Renderer();
 			renderer.link = ( href, title, text ) ->
-				return '<a target="_blank" href="'+ href +'" title="' + title + '">' + text + '</a>';
-			return Spacebars.SafeString(Markdown(markDownString), {renderer:renderer})
+				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
+			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
