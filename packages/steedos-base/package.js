@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:base',
-  version: '0.0.8',
+  version: '0.0.9',
   summary: 'Steedos libraries',
   git: 'https://github.com/steedos/platform/packages/steedos-theme'
 });
