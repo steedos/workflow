@@ -24,13 +24,14 @@ Package.onUse(function(api) {
   api.use('aldeed:simple-schema@1.5.3');
   api.use('aldeed:tabular@1.6.1');
 
+  api.use('steedos:i18n@0.0.2');
+  
   api.addFiles([
     'lib/core.coffee',
     'lib/tap-i18n.coffee']);
 
   api.addFiles([
     'client/core.coffee',
-    'client/locale.coffee',
     'client/api.coffee',
     'client/helpers.coffee',
     'client/layout/main.html',
