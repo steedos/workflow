@@ -9,9 +9,9 @@
                         {{_ "instance_related_instances_title"}}
                     </h4>
                 </div>
-                {{#autoForm id="related_instances" collection="db.instances" schema=schema doc=instances_doc type="update" autosave=false}}
+                {{#autoForm id="related_instances" collection="db.instances" schema=schema doc=instances_doc type="update" autosave=false placeholder= (_ "instance_related_instances_placeholder")}}
                     <div class="modal-body modal-zoom" style='overflow-y:auto'>
-                        {{> afFieldInput name="related_instances" multiple=true optionsMethodParams=instances_doc._id label = (_ "instance_related_instances") optionsPlaceholder= (_ "instance_related_instances_placeholder")}}
+                        {{> afFieldInput name="related_instances" multiple=true optionsMethodParams=instances_doc._id label = (_ "instance_related_instances")}}
                     </div>
 
                     <div class="modal-footer">
