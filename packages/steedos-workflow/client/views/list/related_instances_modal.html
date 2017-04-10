@@ -9,15 +9,16 @@
                         {{_ "instance_related_instances_title"}}
                     </h4>
                 </div>
-                <div class="modal-body modal-zoom" style='overflow-y:auto'>
-                    {{#autoForm id="related_instances" collection="db.instances" doc=instances_doc type="update" autosave=true}}
+                {{#autoForm id="related_instances" collection="db.instances" schema=schema doc=instances_doc type="update" autosave=false}}
+                    <div class="modal-body modal-zoom" style='overflow-y:auto'>
                         {{> afFieldInput name="related_instances" multiple=true optionsMethodParams=instances_doc._id label = (_ "instance_related_instances") optionsPlaceholder= (_ "instance_related_instances_placeholder")}}
-                    {{/autoForm}}
-                </div>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{_ "OK"}}</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-data-dismiss" data-dismiss="modal">{{_ "Cancel"}}</button>
+                        <button type="button" class="btn btn-primary btn-submit-related-instances">{{_ "OK"}}</button>
+                    </div>
+                {{/autoForm}}
             </div>
         </div>
     </div>

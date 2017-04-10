@@ -34,6 +34,7 @@
                             <div class="box-body">
                                 <div class="col-md-12">
                                     {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                                    {{> related_instances}}
                                     {{{readOnlyView}}}
                                 </div>
                             </div>
