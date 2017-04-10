@@ -41,6 +41,7 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager');
 
+	api.use('steedos:base');
 	api.use('steedos:version');
 
 	api.use(['webapp'], 'server');

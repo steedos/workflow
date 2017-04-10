@@ -8,7 +8,7 @@
                             {{#if is_finished}}
                                 {{#if (include judge "approved,rejected,submitted") }}
                                     {{#if (unempty description)}}{{{markDownToHtml
-                                            description}}}{{else}}{{defaultDescription}}{{/if}}
+                                            description}}}{{else}}{{{markDownToHtml defaultDescription}}}{{/if}}
                                     &emsp;&emsp;{{handler_name}}&nbsp;
                                     {{formatDate finish_date format}}<br>
                                 {{/if}}
@@ -29,7 +29,7 @@
                             {{#if is_finished}}
                                 {{#if (include judge "approved,rejected,submitted") }}
                                     {{#if (unempty description)}}{{{markDownToHtml
-                                            description}}}{{else}}{{defaultDescription}}{{/if}}
+                                            description}}}{{else}}{{markDownToHtml defaultDescription}}{{/if}}
                                     &emsp;&emsp;{{handler_name}}&nbsp;
                                     {{formatDate finish_date format}}<br>
                                 {{/if}}
