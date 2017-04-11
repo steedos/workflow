@@ -11,7 +11,8 @@ Template.instance_cc_modal.helpers({
             if(currentApprove.type == "cc"){
                 return InstanceformTemplate.helpers.isOpinionField(field) && field.code == currentApprove.opinion_field_code;
             }
-            return InstanceformTemplate.helpers.isOpinionField(field) && InstanceformTemplate.helpers.getOpinionFieldStepName(field) == currentStep.name
+            // return InstanceformTemplate.helpers.isOpinionField(field) && InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).includes(currentStep.name)
+            return InstanceformTemplate.helpers.isOpinionField(field) && InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty("stepName",currentStep.name).length > 0
         });
         var modalFields = {
             cc_users: {

@@ -53,6 +53,7 @@ Package.onUse(function(api) {
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
 	api.use('yogiben:autoform-modals');
+	api.use('vazco:universe-autoform-select');
 
 	api.use('steedos:lib');
 	api.use('steedos:admin');
@@ -84,7 +85,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
 	api.addFiles('lib/models/webhooks.coffee');
-	api.addFiles('lib/models/instance_approves.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -189,6 +189,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/cc_modal.js', 'client');
 	api.addFiles('client/views/instance/opinion_modal.html', 'client');
 	api.addFiles('client/views/instance/opinion_modal.js', 'client');
+	api.addFiles('client/views/instance/flow_steps_modal.less', 'client');
+	api.addFiles('client/views/instance/flow_steps_modal.html', 'client');
+	api.addFiles('client/views/instance/flow_steps_modal.coffee', 'client');
 
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
@@ -243,14 +246,16 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows.html', 'client');
 	api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
-	// instance_approves
-	api.addFiles('client/views/instance_approves/instance_approves_main.html', 'client');
-	api.addFiles('client/views/instance_approves/instance_approves_main.coffee', 'client');
-	api.addFiles('client/views/instance_approves/instance_approves_main.less', 'client');
-	api.addFiles('client/views/instance_approves/instance_approves_list.html', 'client');
-	api.addFiles('client/views/instance_approves/instance_approves_list.coffee', 'client');
-	api.addFiles('client/views/instance_approves/instance_approves_list.less', 'client');
-	api.addFiles('instance_approves_tabular.coffee');
+
+	api.addFiles('client/views/list/related_instances_modal.less', 'client');
+	api.addFiles('client/views/list/related_instances_modal.html', 'client');
+	api.addFiles('client/views/list/related_instances_modal.coffee', 'client');
+
+	api.addFiles('client/views/instance/_related_instances.coffee', ['client', 'server']);
+
+	api.addFiles('client/views/instance/related_instances.html', 'client');
+	api.addAssets('client/views/instance/related_instances.html', 'server');
+	api.addFiles('client/views/instance/related_instances.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -259,6 +264,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/forward_instance.js', 'server');
 	api.addFiles('server/methods/cfs_instances.js', 'server');
 	api.addFiles('server/methods/instance_approve.coffee', 'server');
+	api.addFiles('server/methods/instance_return.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 

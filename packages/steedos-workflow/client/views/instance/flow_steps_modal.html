@@ -1,0 +1,18 @@
+<template name="flow_steps_modal">
+	<div class="modal fade ins-flow-steps-modal" id="flow_steps_modal" role="dialog" aria-labelledby="flow_steps_modal_label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="steps_modal_label">{{_ "instance_flow_steps"}}</h4>
+				</div>
+				<div class="modal-body modal-zoom">
+					<div class="mermaid">
+						{{{stepsSvg}}}
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</template>  

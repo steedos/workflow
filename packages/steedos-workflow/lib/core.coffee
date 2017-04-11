@@ -8,3 +8,5 @@ Workflow = {}
 @InstanceAttachmentTemplate = {};
 
 @InstanceSignText = {}
+
+@RelatedInstances = {}

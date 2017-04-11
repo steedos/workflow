@@ -96,6 +96,9 @@ TracesTemplate.helpers =
 			when 'retrieved'
 				# 已取回
 				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
 			else
 				approveStatusText = ''
 				break
@@ -117,6 +120,12 @@ TracesTemplate.helpers =
 		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
 			return true
 		false
+	markDownToHtml: (markDownString)->
+		if markDownString
+			renderer = new Markdown.Renderer();
+			renderer.link = ( href, title, text ) ->
+				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
+			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -130,13 +139,6 @@ if Meteor.isServer
 
 	TracesTemplate.helpers.showDeleteButton = (approved) ->
 		return false;
-
-	markDownToHtml: (markDownString)->
-		if markDownString
-			renderer = new Markdown.Renderer();
-			renderer.link = ( href, title, text ) ->
-				return '<a target="_blank" href="'+ href +'" title="' + title + '">' + text + '</a>';
-			return Spacebars.SafeString(Markdown(markDownString), {renderer:renderer})
 
 TracesTemplate.events =
 	'click .cc-approve-remove': (event, template) ->

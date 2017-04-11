@@ -1,8 +1,3 @@
-
-Template.workflowLayout.onRendered ->
-	$('body').removeClass('fixed');
-
-
 Template.workflowLayout.helpers 
 	subsReady: ->
 		return Steedos.subsBootstrap.ready()
