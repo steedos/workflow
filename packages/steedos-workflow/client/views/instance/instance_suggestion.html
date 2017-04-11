@@ -71,7 +71,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" id="instance_submit" title="{{_ 'instance_submit'}}" style={{enabled_submit}}>{{_ "instance_submit"}}</button>
+                            {{#if enabled_submit}}
+                            <button type="button" class="btn btn-primary" id="instance_submit" title="{{_ 'instance_submit'}}" >{{_ "instance_submit"}}</button>
+                            {{/if}}
+                            {{#if enabled_return}}
+                            <button type="button" class="btn btn-primary" id="instance_return" title="{{_ 'instance_return'}}" >{{_ "instance_return"}}</button>
+                            {{/if}}
                             <button type="button" class="btn btn-transparent btn-remove"><i class="ion ion-close-round"></i></button>
                         </div>
                     </div>

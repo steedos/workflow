@@ -462,6 +462,12 @@
 	"instance_related_instances_title": "关联文件",
 	"instance_related_instances_placeholder": "请输入文件名称",
 
-	"workflow_install_desktop": "安装客户端"
+	"workflow_install_desktop": "安装客户端",
+
+	"instance_flow_steps": "流程图",
+
+	"instance_return": "退回",
+	"instance_return_success": "退回成功",
+	"instance_return_confirm": "确认退回申请单至前一步骤吗？"
 
 }

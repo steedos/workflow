@@ -86,6 +86,8 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
+steedos:mermaid
+
 steedos:adminlte
 steedos:base
 steedos:slipjs

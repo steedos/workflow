@@ -447,5 +447,11 @@
 	"instance_related_instances_title": "Linked instance",
 	"instance_related_instances_placeholder": "Please enter instance name",
 
-	"workflow_install_desktop": "Install Desktop"
+	"workflow_install_desktop": "Install Desktop",
+
+	"instance_flow_steps": "Flow Diagram",
+
+	"instance_return": "Return",
+	"instance_return_success": "Return successfully",
+	"instance_return_confirm": "Are you sure to return the instance to the previous step?
 }
