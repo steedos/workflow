@@ -6,7 +6,7 @@ _.extend Steedos,
 		window.open(url, target, options);
 
 	# 左侧sidebar滚动条自适应
-	fixSideBarScroll = ()->
+	fixSideBarScroll: ()->
 		if Steedos.isMobile() || Steedos.isPad()
 			return
 		if !$(".sidebar").perfectScrollbar
