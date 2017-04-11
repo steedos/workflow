@@ -468,6 +468,6 @@
 
 	"instance_return": "退回",
 	"instance_return_success": "退回成功",
-	"instance_return_confirm": "确认退回申请单至前一步骤吗？"
-
+	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
+	"Instance State returned": "已退回"
 }

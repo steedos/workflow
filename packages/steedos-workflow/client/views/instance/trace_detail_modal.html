@@ -147,11 +147,12 @@
 						<button type="button" class="btn btn-default  btn-cancelBut">{{_t "instance_approve_moda_back"}}</button>
 					{{else}}
 						{{#if isShowModificationButton this}}
-							<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modal_modification"}}</button>
+							{{#if this.is_finished}}
+								<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modal_modification"}}</button>
+							{{/if}}
 						{{/if}}
 						<button type="button" class="btn btn-primary  btn-close">{{_t "instance_approve_close_modal"}}</button>
-						{{/if}}
-
+					{{/if}}
 				</div>
 			</div>
 		</div>
