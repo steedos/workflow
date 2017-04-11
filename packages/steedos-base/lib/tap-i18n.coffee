@@ -55,8 +55,10 @@ if Meteor.isClient
 		Tracker.autorun ()->
 			if Session.get("steedos-locale") == "zh-cn"
 				TAPi18n.setLanguage("zh-CN")
+				T9n.setLanguage("zh-CN")
 			else
 				TAPi18n.setLanguage("en")
+				T9n.setLanguage("en")
 
 		Tracker.autorun ->
 			lang = Session.get("steedos-locale")
