@@ -4,7 +4,7 @@
 ###
 
 db = {}
-Steedos = 
+_.extend Steedos,
 	settings: {}
 	db: db
 	subs: {}
@@ -12,17 +12,6 @@ Steedos =
 @TabularTables = {};
 
 if Meteor.isClient
-
-	Steedos.isMobile = ()->
-		return $(window).width() < 767
-
-	Steedos.isPad = ()->
-		return /iP(ad)/.test(navigator.userAgent)
-
-	Steedos.openWindow = (url, target)->
-		target = "_blank"
-		options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
-		window.open(url, target, options);
 
 	Steedos.getAccountBgBodyValue = ()->
 		accountBgBody = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"bg_body"})
@@ -108,24 +97,6 @@ if Meteor.isClient
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
-
-	# 左侧sidebar滚动条自适应
-	Steedos.fixSideBarScroll = ()->
-		if Steedos.isMobile() || Steedos.isPad()
-			return
-		if !$(".sidebar").perfectScrollbar
-			return
-		if $("body").hasClass("sidebar-collapse")
-			if $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar("destroy")
-		else if $("body").hasClass('sidebar-open')
-			unless $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar()
-				$(".sidebar-menu").css("width", "100%");
-		else
-			unless $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar()
-				$(".sidebar-menu").css("width", "100%");
 
 
 	Steedos.openApp = (app_id)->
