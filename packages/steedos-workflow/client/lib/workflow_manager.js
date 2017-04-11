@@ -812,3 +812,29 @@ WorkflowManager.isArrearageSpace = function() {
 	}
 	return true;
 }
+if (Meteor.isClient) {
+	WorkflowManager.getStepDealTypeName = function(step){
+		var reName = "";
+		switch(step.deal_type) {
+			case 'pickupAtRuntime': 
+				reName = '审批时指定人员';
+				break;
+			case 'specifyUser':
+				reName = '指定人员';
+				break;
+			case 'applicantRole':
+				reName = '指定审批岗位';
+				break;
+			case 'applicantSuperior':
+				reName = '申请人上级';
+				break;
+			case 'applicant':
+				reName = '申请人';
+				break;
+			case 'orgField':
+				reName = '指定部门';
+				break;
+		}
+		return reName;
+	}
+}
