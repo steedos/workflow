@@ -449,5 +449,9 @@
 
 	"workflow_install_desktop": "Install Desktop",
 
-	"instance_flow_steps": "Flow Diagram"
+	"instance_flow_steps": "Flow Diagram",
+
+	"instance_return": "Return",
+	"instance_return_success": "Return successfully",
+	"instance_return_confirm": "Are you sure to return the instance to the previous step?
 }
