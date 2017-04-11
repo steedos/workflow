@@ -1,5 +1,5 @@
 <template name="flow_steps_modal">
-	<div class="modal fade ins-flow_steps_modal-modal" id="flow_steps_modal" role="dialog" aria-labelledby="flow_steps_modal_label">
+	<div class="modal fade ins-flow-steps-modal" id="flow_steps_modal" role="dialog" aria-labelledby="flow_steps_modal_label">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content ins-modal">
 				<div class="modal-header">
@@ -7,13 +7,10 @@
 							aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="steps_modal_label">{{_ "instance_flow_steps"}}</h4>
 				</div>
-
-				<div class="modal-body modal-zoom panel panel-default">
-					<div class="list-group slippylist" style="margin-bottom: 0;">
-						<div class="mermaid panel-heading flow_steps_show" id="graphDiv" style="border-bottom: 1px #f4f4f4 solid;">
-							{{{stepsSvg}}}
-						</div>	
-					</div>
+				<div class="modal-body modal-zoom">
+					<div class="mermaid">
+						{{{stepsSvg}}}
+					</div>	
 				</div>
 			</div>
 		</div>
