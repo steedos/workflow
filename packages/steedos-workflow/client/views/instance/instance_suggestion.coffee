@@ -166,21 +166,51 @@ Template.instance_suggestion.helpers
 		return InstanceManager.isCC(instance);
 
 	enabled_submit: ->
-		ins = WorkflowManager.getInstance();
+		ins = WorkflowManager.getInstance()
 		if !ins
-			return "display: none;";
-		flow = db.flows.findOne(ins.flow);
+			return false
+		flow = db.flows.findOne(ins.flow)
 		if !flow
-			return "display: none;";
+			return false
 		if InstanceManager.isInbox()
-			return "";
+			return true
 		if !ApproveManager.isReadOnly()
-			return "";
+			return true
 		else
-			return "display: none;";
+			return false
 
 	isReady: ->
 		return Session.get("instance_suggestion_ready");
+
+	enabled_return: ->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return false
+		flow = db.flows.findOne(ins.flow)
+		if !flow
+			return false
+
+		if !InstanceManager.isInbox()
+			return false
+
+		if InstanceManager.isCC(ins)
+			return false
+
+		if ins.traces.length < 2 # 通过转发生成的文件也在待审核箱中但是状态为draft并且ins.traces.length=1
+			return false
+
+		pre_trace = ins.traces[ins.traces.length - 2]
+		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
+		if pre_step && pre_step.step_type is "counterSign"
+			return false
+
+		cs = InstanceManager.getCurrentStep()
+		if _.isEmpty(cs)
+			return false
+		if cs.step_type is "submit"
+			return true
+
+		return false
 
 Template.instance_suggestion.events
 
@@ -230,6 +260,27 @@ Template.instance_suggestion.events
 	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
 		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
+
+	'click #instance_return': (event, template)->
+		swal {
+			title: TAPi18n.__("instance_return_confirm"),
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: t('Cancel'),
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t('OK'),
+			closeOnConfirm: true
+		}, () ->
+			$("body").addClass("loading")
+			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
+				$("body").removeClass("loading")
+				if err
+					toastr.error TAPi18n.__(err.reason)
+				if result == true
+					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+					toastr.success(TAPi18n.__('instance_return_success'));
+				return
+
 
 Template.instance_suggestion.onCreated ->
 	console.log("instance_suggestion onCreated...");
