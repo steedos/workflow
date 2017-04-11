@@ -1,6 +1,23 @@
 Template.flow_steps_modal.helpers
 	stepsSvg: ->
-		stepsScript = 'graph LR\n我我-->你\n你-->c\n我-->c';
+		steps = WorkflowManager.getInstanceFlowVersion()?.steps
+		nodes = ["graph LR"]
+		steps.forEach (step)->
+			lines = step.lines
+			if lines?.length
+				lines.forEach (line)->
+					toStepName = steps.findPropertyByPK("_id",line.to_step).name
+					nodes.push "	#{step._id}(#{step.name})-->#{line.to_step}(#{toStepName})"
+		stepsScript = nodes.join "\n"
+		console.log stepsScript
+		# stepsScript = '''
+		# 	graph LR
+		# 		A-->B
+		# 		A-->M
+		# 		B-->C
+		# 		C-->A
+		# 		D-->C
+		# 	'''
 		return mermaidAPI.render('flow-steps-svg', stepsScript);
 	steps: ->
 		# // debugger;

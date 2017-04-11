@@ -522,13 +522,11 @@ InstanceManager.getCurrentApprove = function() {
 
 	var currentTraces = instance.traces.filterProperty("is_finished", false);
 
-	if (currentTraces.length < 1)
-		return;
+	if (currentTraces.length) {
+		var currentApproves = currentTraces[0].approves.filterProperty("is_finished", false).filterProperty("handler", Meteor.userId());
 
-	var currentApproves = currentTraces[0].approves.filterProperty("is_finished", false).filterProperty("handler", Meteor.userId());
-
-	var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
-
+		var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
+	}
 
 	if (!currentApprove) {
 		// 当前是传阅

@@ -148,7 +148,7 @@ db.organizations.helpers
 		childrenObjs = db.organizations.find({parents: {$in:[this._id]}}, {fields: {_id:1}})
 		childrenObjs.forEach (child) ->
 			children.push(child._id);
-		return children.uniq()
+		return _.uniq children
 
 	calculateUsers: (isIncludeParents)->
 		orgs = if isIncludeParents then this.calculateAllChildren() else this.calculateChildren()
@@ -158,7 +158,7 @@ db.organizations.helpers
 		userOrgs.forEach (org)->
 			if org?.users?.length
 				users = users.concat org.users
-		return users.uniq()
+		return _.uniq users
 
 
 if (Meteor.isServer) 

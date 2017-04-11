@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:base',
-  version: '0.0.6',
+  version: '0.0.9',
   summary: 'Steedos libraries',
   git: 'https://github.com/steedos/platform/packages/steedos-theme'
 });
@@ -21,12 +21,17 @@ Package.onUse(function(api) {
   api.use('meteorhacks:subs-manager@1.6.4');
 
   api.use('tap:i18n@1.8.2');
+  api.use('aldeed:simple-schema@1.5.3');
+  api.use('aldeed:tabular@1.6.1');
 
+  api.use('steedos:i18n@0.0.2');
+  
   api.addFiles([
     'lib/core.coffee',
-    'lib/tap-i18n.coffee',
+    'lib/tap-i18n.coffee']);
+
+  api.addFiles([
     'client/core.coffee',
-    'client/locale.coffee',
     'client/api.coffee',
     'client/helpers.coffee',
     'client/layout/main.html',
@@ -40,7 +45,6 @@ Package.onUse(function(api) {
   ], "client");
 
   api.export('Steedos');
-
 });
 
 Package.onTest(function(api) {
