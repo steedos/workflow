@@ -56,11 +56,11 @@ Meteor.methods
 						a.is_read = true
 						a.is_finished = true
 						a.finish_date = now
-						a.judge = ""
+						a.judge = "returned"
 				# 更新当前trace记录
 				t.is_finished = true
 				t.finish_date = now
-				t.judge = ""
+				t.judge = "returned"
 
 		# 插入下一步trace记录
 		newTrace = new Object

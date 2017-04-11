@@ -96,6 +96,9 @@ TracesTemplate.helpers =
 			when 'retrieved'
 				# 已取回
 				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
 			else
 				approveStatusText = ''
 				break
