@@ -1,3 +1,5 @@
+import {moment} from 'meteor/momentjs:moment';
+
 Steedos.Helpers = 
 
 	isMobile: ()->
@@ -22,7 +24,23 @@ Steedos.Helpers =
 		
 	getLocale: ()->
 		return Session.get("steedos-locale")
-			
+
+	# （1）1小时之内的，显示为 “＊分钟前”，鼠标移动到时 显示日期
+	# （2）1-24小时之内的，显示为 “＊小时前”，鼠标移动到时 显示日期
+	# （3）当年的 ，显示为 “月－日”如“2-20”
+	# （4）去年及之前的，显示为“年－月－日”如“2015-4-20”
+	momentFromNow: (time)->
+		unless time instanceof Date
+			return ""
+		now = new Date()
+		hoursPart = Math.floor((now.getTime() - time.getTime())/(60*60*1000))
+		timeMoment = moment(time)
+		if hoursPart < 24
+			return timeMoment.fromNow()
+		else if now.getFullYear() == time.getFullYear()
+			return timeMoment.format('MM-DD')
+		else
+			return timeMoment.format('YYYY-MM-DD')
 
 _.extend Steedos, Steedos.Helpers
 
