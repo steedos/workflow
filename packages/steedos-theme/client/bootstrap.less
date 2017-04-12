@@ -10,8 +10,27 @@
             border-color: #ddd;
         }
         .admin-dashboard-body{
-            .form-group{
-                position: relative;/*为了解决AdminDashboardNewModal/AdminDashboardEditModal中日期时间控件定位问题*/
+            form{
+                .form-group{
+                    position: relative;/*为了解决AdminDashboardNewModal/AdminDashboardEditModal中日期时间控件定位问题*/
+                }
+                /*分组字段字体问题*/
+                .panel{
+                    .panel-heading{
+                        font-weight:bold;
+                        h3{
+                            font-size: 14px;
+                        }
+                    }
+                    .panel-body{
+                        .form-group{
+                            .control-label{
+                                font-size: 14px;
+                                font-weight: normal;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
