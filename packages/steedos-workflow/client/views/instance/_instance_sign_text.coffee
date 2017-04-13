@@ -16,11 +16,13 @@ InstanceSignText.helpers =
 
 	trace: (stepName, only_cc_opinion)->
 		traces = InstanceformTemplate.helpers.traces()
-		approve = traces[stepName]
+		approves = traces[stepName]
+		approves = _.filter approves, (a)->
+			return a.type isnt "forward"
 		if only_cc_opinion
-			approve = approve?.filterProperty("type","cc")
+			approves = approves?.filterProperty("type","cc")
 
-		return approve
+		return approves
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
