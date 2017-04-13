@@ -69,7 +69,7 @@ natestrauser:animate-css
 cfs:standard-packages
 cfs:filesystem
 cfs:ui
-chrismbeckett:toastr
+steedos:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform

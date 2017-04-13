@@ -19,6 +19,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/core.coffee',
     'client/core.less',
+    'client/bootstrap.less',
     'client/admin-lte.less'
   ], "client");
 
