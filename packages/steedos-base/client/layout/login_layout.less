@@ -1,15 +1,20 @@
 @media (min-width: 767px) {
 	.steedos.login {
-                .at-form {
-                        padding: 25px;
-                        margin-top: 50px;
-                }
+        .at-form {
+                padding: 25px;
+                margin-top: 0px;
+        }
 	}
 }
 
 .steedos.fixed {
     .login {
-
+        .content-wrapper {
+            display: flex;
+            align-items: center;
+            top: 0;
+            overflow: visible;
+        }
         /*background-color: rgba(0, 0, 0, 0.5);*/
         .main-header {
             background: transparent;
@@ -47,13 +52,7 @@
             color: black;
             max-width: 350px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-            position: absolute;
-            width: 350px;
-            /* height: 350px; */
             z-index: 15;
-            top: 50%;
-            left: 50%;
-            margin: -175px 0 0 -175px;
             .at-signin-link, .at-signup-link {
                 margin-top: 15px;
                 margin-bottom: 10px;
