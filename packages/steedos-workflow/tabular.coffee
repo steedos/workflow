@@ -18,7 +18,7 @@ TabularTables.instances = new Tabular.Table({
 			data: "name",
 			render: (val, type, doc) ->
 				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
-				modifiedFromNow = Steedos.momentFromNow(doc.modified);
+				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
 
 				cc_view = "";
 				step_current_name_view = "";

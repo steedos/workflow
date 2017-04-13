@@ -20,7 +20,9 @@ Package.onUse(function(api) {
     'client/core.coffee',
     'client/core.less',
     'client/bootstrap.less',
-    'client/admin-lte.less'
+    'client/admin-lte.less',
+    'client/sidebar.less' ,
+    'client/sidebar-black.less'    
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");
