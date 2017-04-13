@@ -1,3 +1,6 @@
+import {moment} from 'meteor/momentjs:moment';
+console.log(moment)
+
 Steedos.Helpers = 
 
 	isMobile: ()->

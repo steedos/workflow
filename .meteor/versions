@@ -51,7 +51,7 @@ cfs:upload-http@0.0.20
 cfs:worker@0.1.4
 check@1.2.3
 chrismbeckett:toastr@2.1.2_1
-coffeescript@1.11.1_3
+coffeescript@1.11.1_4
 comerc:autoform-selectize@2.3.2
 dburles:collection-helpers@1.0.4
 ddp@1.2.5
@@ -159,9 +159,9 @@ srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
 steedos:admin@0.0.1
-steedos:adminlte@2.3.12_2
+steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
-steedos:base@0.0.10
+steedos:base@0.0.11
 steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1
