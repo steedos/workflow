@@ -18,9 +18,8 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 					params = {
 						handler: current_approve.handler_name,
 						instance: hashData.instance.name,
-						description: current_approve.description,
+						description: current_approve.description
 						# insurl: "/workflow/space/#{hashData.instance.space}/view/readonly/#{hashData.instance._id}"
-						insurl: "workflow/"
 					}
 					# 发送手机短信
 					SMSQueue.send({
@@ -29,7 +28,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 							ParamString: JSON.stringify(params),
 							RecNum: user.mobile,
 							SignName: 'OA系统',
-							TemplateCode: 'SMS_60335446'
+							TemplateCode: 'SMS_61725087'
 						})
 					
 
