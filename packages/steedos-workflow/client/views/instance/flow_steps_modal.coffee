@@ -15,9 +15,14 @@ Template.flow_steps_modal.helpers
 			lines = step.lines
 			if lines?.length
 				lines.forEach (line)->
+					if step.name
+						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+						stepName = step.name.replace(/[\r\n]/g,"").replace(/[？]/g,"?")
+					else
+						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					dealTypeName = WorkflowManager.getStepDealTypeName step
-					nodes.push "	#{step._id}(<div class='graph-node'><div class='step-name'>#{step.name}</div></div>)-->#{line.to_step}(#{toStepName})"
+					toStepName = toStepName.replace(/[\r\n]/g,"").replace(/[？]/g,"?")
+					nodes.push "	#{step._id}(<div class='graph-node'><div class='step-name'>#{stepName}</div></div>)-->#{line.to_step}(#{toStepName})"
 
 		graphScript = nodes.join "\n"
 		return mermaidAPI.render('flow-steps-svg', graphScript)
