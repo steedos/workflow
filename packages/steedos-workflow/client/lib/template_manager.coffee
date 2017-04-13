@@ -58,7 +58,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
 					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
-						{{> instanceSignText name="#{table_field.code}" step="#{InstanceformTemplate.helpers.getOpinionFieldStepName(table_field)}" only_cc_opinion=#{InstanceformTemplate.helpers.showCCOpinion(table_field)} }}
+						{{> instanceSignText name="#{table_field.code}" field_formula="#{table_field.formula}"}}
 					</td>
 				"""
 				template += table_field.tr_end
@@ -118,7 +118,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 #如果有修改，请测试确认其他功能是否正常。
 TemplateManager._template =
 	default: '''
-		<div class="box-header  with-border">
+		<div class="with-border">
 			<div class="instance-name">
 				<h3 class="box-title">{{instance.name}}</h3>
 				<span class="help-block"></span>
@@ -131,7 +131,7 @@ TemplateManager._template =
 					<div class="form-group opinion-field">
 						<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
-						{{> instanceSignText name=this.code step=(getOpinionFieldStepName this) only_cc_opinion=(showCCOpinion this) default=''}}
+						{{> instanceSignText name=this.code field_formula=this.formula default=''}}
 					</div>
 				</div>
 			{{else}}

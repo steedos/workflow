@@ -161,7 +161,7 @@ standard-minifier-js@1.2.0
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_2
 steedos:api@0.0.1
-steedos:base@0.0.6
+steedos:base@0.0.10
 steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1
@@ -169,10 +169,12 @@ steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
 steedos:desktop@0.0.1
+steedos:i18n@0.0.2
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lib@0.0.1
 steedos:mailqueue@0.0.1
+steedos:mermaid@7.0.0
 steedos:meteor-cookie-login@0.0.5
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
