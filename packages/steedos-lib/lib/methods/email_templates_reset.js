@@ -1,4 +1,3 @@
-
 Accounts.emailTemplates = {
 	from: (function(){
 		var defaultFrom = "Steedos <noreply@message.steedos.com>";
