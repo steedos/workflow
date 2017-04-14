@@ -402,9 +402,11 @@ WorkflowManager.getFormVersion = function(id , versionId){
     return form_version;
 }
 
-WorkflowManager.getInstanceFlowVersion = function () {
+WorkflowManager.getInstanceFlowVersion = function (instance) {
 
-    var instance = Template.instance().view.template.steedosData.instance
+    if(!instance){
+        instance = Template.instance().view.template.steedosData.instance;
+    }
 
     var flow, flow_version;
     flow = db.flows.findOne(instance.flow);
