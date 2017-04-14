@@ -2,11 +2,11 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 	try
 		ins_id = req.params.ins_id
 
-		current_user = req.headers['X-User-Id']
+		current_user = req.headers['x-user-id']
 
-		auth_token = req.headers['X-Auth-Token']
+		auth_token = req.headers['x-auth-token']
 
-		space_id = req.headers['X_Space_Id']
+		space_id = req.headers['x-space-id']
 
 		if not current_user
 			throw new Meteor.Error('error', 'need header X-User-Id')
@@ -20,7 +20,7 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(current_user, space_id)
+		uuflowManager.isSpaceAdmin(space_id, current_user)
 
 		instance = db.instances.findOne(ins_id)
 		if not instance
