@@ -59,10 +59,12 @@
                 <div class="modal-body">
                     <div>
                         <span style="font-size: 17px;">{{_ "Versions"}}</span>
-                        <div class="ins-upload" style="float: right;{{enabled_add_attachment}}">
+                        {{#if enabled_add_attachment}}
+                        <div class="ins-upload" style="float: right;">
                           <span class="ion ion-plus-round"  title='{{_ "Attachments"}}'></span>
                           <input type="file" name="file" class="ins-file-version-input">
                         </div>
+                        {{/if}}
                     </div>
                     <table style="width:100%;max-width:100%;background-color: #f5f5f5;">
                         <tbody>

@@ -1,20 +1,38 @@
 InstanceAttachmentTemplate.helpers = {
-    enabled_add_attachment: function() {
+    enabled_edit_main_attachment: function() {
         var ins = WorkflowManager.getInstance();
         if (!ins)
-            return "display: none;";
+            return false
 
         if (Session && Session.get("instancePrint"))
-            return "display: none;"
+            return false
+
+        current_step = InstanceManager.getCurrentStep()
+
+        if (current_step && current_step.can_edit_main_attach)
+            return true
+
+        return false
+    },
+
+    enabled_edit_normal_attachment: function() {
+        var ins = WorkflowManager.getInstance();
+        if (!ins)
+            return false
+
+        if (Session && Session.get("instancePrint"))
+            return false
 
         if (InstanceManager.isCC(ins))
-            return "display: none;";
+            return false
 
         if (Session.get("box") == "draft" || Session.get("box") == "inbox")
-            return "";
+            return true
         else
-            return "display: none;";
+            return false
     },
+
+
 
     attachments: function() {
         var instanceId = Session.get('instanceId');
@@ -27,7 +45,7 @@ InstanceAttachmentTemplate.helpers = {
         }).fetch();
     },
 
-    showAttachments: function(){
+    showAttachments: function() {
         var ins = WorkflowManager.getInstance();
         if (!ins)
             return false;
@@ -51,22 +69,22 @@ InstanceAttachmentTemplate.helpers = {
             return false;
     },
 
-    _t: function(key){
+    _t: function(key) {
         return TAPi18n.__(key)
     }
 
 }
 
-if(Meteor.isServer){
-    InstanceAttachmentTemplate.helpers._t = function(key){
+if (Meteor.isServer) {
+    InstanceAttachmentTemplate.helpers._t = function(key) {
         locale = Template.instance().view.template.steedosData.locale
         return TAPi18n.__(key, {}, locale)
     }
-    InstanceAttachmentTemplate.helpers.enabled_add_attachment = function () {
-        return "display: none;"
+    InstanceAttachmentTemplate.helpers.enabled_add_attachment = function() {
+        return false
     };
 
-    InstanceAttachmentTemplate.helpers.attachments = function () {
+    InstanceAttachmentTemplate.helpers.attachments = function() {
         var instance = Template.instance().view.template.steedosData.instance;
         var attachments = cfs.instances.find({
             'metadata.instance': instance._id,
@@ -76,14 +94,14 @@ if(Meteor.isServer){
         return attachments;
     };
 
-    InstanceAttachmentTemplate.helpers.showAttachments = function () {
+    InstanceAttachmentTemplate.helpers.showAttachments = function() {
         var instance = Template.instance().view.template.steedosData.instance;
         var attachments = cfs.instances.find({
             'metadata.instance': instance._id,
             'metadata.current': true
         }).fetch();
 
-        if(attachments && attachments.length > 0){
+        if (attachments && attachments.length > 0) {
             return true;
         }
         return false;

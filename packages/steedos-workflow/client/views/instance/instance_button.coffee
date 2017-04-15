@@ -35,13 +35,6 @@ Template.instance_button.helpers
 			return false
 		return true
 
-
-	enabled_add_attachment: ->
-		if !ApproveManager.isReadOnly()
-			return true
-		else
-			return false
-
 	enabled_terminate: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
