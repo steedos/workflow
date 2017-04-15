@@ -1,112 +1,32 @@
 <template name="masterHeader">
-
-  <header class="main-header">
-
-    <div class="logo">
-      <span class="logo-mini">
-        <i class="ion ion-grid"></i>
-      </span>
-      <span class="logo-lg text-overflow">
-        <B>{{_ "Steedos"}}</B>
-      </span>
-    </div>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Navbar Left Menu -->
-        <ul class="nav navbar-nav">
-          <li class="appName">
-            <a href="/{{getAppName}}">
-              {{getAppTitle}}
-            </a>
-          </li>
-        </ul>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <li>
-            <div class="loader">
-              <div class="line-spin-fade-loader">
-                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-              </div>
-            </div>
-          </li>
-          
-          {{#if isNode}}
-            <li class="notifications-menu">
-              <a href="javascript:" data-toggle="tooltip" data-placement="bottom">
-                <span class="header-refresh">{{_ "refresh"}}</span>
-              </a>
-            </li>
-          {{/if}}
-
-          {{#if getBadgeForWorkflowApp}}
-            <li class="notifications-menu">
-              <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/" data-toggle="tooltip" data-placement="bottom" title="{{_ workflowApp.name}}">
-                <i class="ion ion-ios-list-outline"></i>
-                <span class="label label-danger">{{getBadgeForWorkflowApp}}</span>
-              </a>
-            </li>
-          {{/if}}
-          {{#if getBadgeForCmsApp}}
-            <li class="notifications-menu">
-              <a href="{{urlPrefix}}/cms/" data-toggle="tooltip" data-placement="bottom" title="{{_ cmsApp.name}}">
-                <i class="ion ion-ios-book-outline"></i>
-                <span class="label label-warning">{{getBadgeForCmsApp}}</span>
-              </a>
-            </li>
-          {{/if}}
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- <img src="{{avatarURL avatar 29 25 14}}" class="user-image" alt="User Image"> -->
-              <span class="hidden-xs">{{displayName}}</span>
-              <i class="fa fa-angle-down"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="{{avatarURL avatar 98 90 45}}" class="img-circle" alt="User Image">
-
-                <p>
-                  {{displayName}}
-                  <small>&nbsp;</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <!-- <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-              </li> -->
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="/admin/profile" class="btn btn-default btn-flat">{{_ "Account Settings"}}</a>
-                </div>
-                <div class="pull-right">
-                  <a href="/steedos/logout" class="btn btn-default btn-flat btn-logout">{{_ "Sign out"}}</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="/admin">{{_ "Steedos Admin"}}</a>
-          </li>
-          <li class="li-help">
-            <a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
-          </li>
-        </ul>
-      </div>
-
-    </nav>
-  </header>
+	<header class="main-header">
+		{{> headerLogo}}
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top">
+			<!-- Navbar Left Menu -->
+			<ul class="nav navbar-nav">
+				<li class="appName">
+					<a href="/{{getAppName}}">
+						{{getAppTitle}}
+					</a>
+				</li>
+			</ul>
+			<!-- Navbar Right Menu -->
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					{{> headerLoading}}
+					{{> headerRefresh}}
+					{{> headerWorkflowBadge}}
+					{{> headerCmsBadge}}
+					{{> headerAccount}}
+					<li>
+						<a href="/admin">{{_ "Steedos Admin"}}</a>
+					</li>
+					<li class="li-help">
+						<a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
 </template>

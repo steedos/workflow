@@ -90,33 +90,14 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 
 
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
-	cookies = new Cookies(req, res);
 
-	if req.headers
-		userId = req.headers["x-user-id"]
-		authToken = req.headers["x-auth-token"]
-
-	# then check cookie
-	if !userId or !authToken
-		userId = cookies.get("X-User-Id")
-		authToken = cookies.get("X-Auth-Token")
-
-	if !(userId and authToken)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing X-Auth-Token",
-				"success": false
-		return;
-
-	#user 、instace、space 校验
-	user = db.users.findOne({_id: userId})
+	user = Steedos.getAPILoginUser(req, res)
 
 	if !user
 		JsonRoutes.sendResult res,
 			code: 401,
 			data:
-				"error": "Validate Request -- Missing X-User-Id",
+				"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
 				"success": false
 		return;
 
@@ -130,24 +111,13 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 				"success": false
 		return;
 
-	console.log user.email
+	flowId = req.query?.flowId
 
-	#	是否工作区管理员
-	if !Steedos.isSpaceAdmin(spaceId, userId)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- No permission",
-				"success": false
-		return;
-
-	forms = req.query?.forms
-
-	if !forms
+	if !flowId
 		JsonRoutes.sendResult res,
 			code: 400,
 			data:
-				"error": "Validate Request -- Missing forms",
+				"error": "Validate Request -- Missing flowId",
 				"success": false
 		return;
 
@@ -155,9 +125,43 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
 	ret_sync_token = new Date().getTime()
 
-	forms = forms.split(",")
+	flowIds = flowId.split(",")
 
-	query.form = {$in: forms}
+
+	flows = db.flows.find({_id: {$in: flowIds}}).fetch()
+
+	i = 0
+	while i < flows.length
+		f = flows[i]
+		spaceUser = db.space_users.findOne({space: f.space, user: user._id})
+		if !spaceUser
+			JsonRoutes.sendResult res,
+				code: 401,
+				data:
+					"error": "Validate Request -- No permission, flow is #{f._id}",
+					"success": false
+			return;
+		else
+
+	#	是否工作区管理员
+		if !Steedos.isSpaceAdmin(spaceId, user._id)
+			spaceUserOrganizations = db.organizations.find({
+				_id: {
+					$in: spaceUser.organizations
+				}
+			}).fetch();
+
+			if !WorkflowManager.canMonitor(f, spaceUser, spaceUserOrganizations) && !WorkflowManager.canAdmin(f, spaceUser, spaceUserOrganizations)
+				JsonRoutes.sendResult res,
+					code: 401,
+					data:
+						"error": "Validate Request -- No permission, flow is #{f._id}",
+						"success": false
+				return;
+		i++
+
+
+	query.flow = {$in: flowIds}
 
 	query.space = spaceId
 
@@ -170,7 +174,8 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 	else
 		query.state = "completed"
 
-	instances = db.instances.find query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0}}
+#	最多返回500条数据
+	instances = db.instances.find query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0}, skip: 0, limit: 500}
 
 	JsonRoutes.sendResult res,
 			code: 200,
