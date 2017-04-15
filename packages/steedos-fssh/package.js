@@ -54,6 +54,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/customize.less', 'client');
 
 	api.addFiles('client/subscribe.coffee', 'client');
+	
+	api.addAssets('assets/images/fssh-icon.png', 'client');
 
 	// EXPORT
 	api.export('FSSH');
