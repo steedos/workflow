@@ -144,4 +144,5 @@ steedos:smsqueue
 steedos:webhookqueue
 
 yogiben:autoform-modals
+vazco:universe-selectize
 vazco:universe-autoform-select
