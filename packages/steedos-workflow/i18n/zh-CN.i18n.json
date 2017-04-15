@@ -464,7 +464,7 @@
 
 	"workflow_install_desktop": "安装客户端",
 
-	"instance_flow_steps": "流程图",
+	"workflow_chart": "流程图",
 
 	"instance_return": "退回",
 	"instance_return_success": "退回成功",

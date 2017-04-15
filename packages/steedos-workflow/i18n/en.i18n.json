@@ -449,7 +449,7 @@
 
 	"workflow_install_desktop": "Install Desktop",
 
-	"instance_flow_steps": "Flow Diagram",
+	"workflow_chart": "Workflow Chart",
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",

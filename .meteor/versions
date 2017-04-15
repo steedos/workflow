@@ -184,6 +184,7 @@ steedos:version@1.0.0
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
+steedos:workflow-chart@0.0.1
 summernote:summernote@0.8.2
 tap:i18n@1.8.2
 templating@1.2.15

@@ -44,10 +44,10 @@ Template.masterHeader.events
 		Modal.show "app_list_box_modal"
 
 	'click .steedos-help': (event) ->
-		Steedos.showHelp();
+		Steedos.showHelp()
 
 	'click .btn-logout': (event,template) ->
 		$("body").addClass("loading")
 
-	'click .ion.ion-refresh' : (event) ->
+	'click .header-refresh' : (event) ->
 		window.location.reload()
