@@ -1,0 +1,103 @@
+.steedos.fixed {
+
+	.main-sidebar {
+		background: rgba(255, 255, 255, 0.8);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+		border-radius: 0px;
+		top: 0px;
+		margin-top: 50px;
+		padding-top: 0px;
+	    bottom: 0px;
+    	min-height: auto;
+	    left: 0px;
+		
+		.sidebar {
+			top: 3px;
+			.space-switcher .space-name {
+				color: black;
+			}
+			.sidebar-menu > li.header {
+				color: #000000;
+				background: transparent;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+				overflow: visible;
+				padding: 10px 15px 10px 15px;
+				
+				.pull-right-container{
+					position: absolute;
+				    right: 0px;
+				    top: 50%;
+				    margin-top: -7px;
+				}
+				&.header-space-switcher{
+					padding: 12px 15px;
+				}
+			}
+
+			.sidebar-menu > li > a {
+				color: #000;
+			}
+			.sidebar-menu > li > a:active,
+			.sidebar-menu > li > a:focus,
+			.sidebar-menu > li.active > a,
+			.sidebar-menu > li.active > a:hover {
+				color: #0078D7;
+				background: rgba(150, 150, 150, 0.15);
+				border-left-color: #0078D7;
+			}
+
+			.sidebar-menu > li:hover > a,
+			.sidebar-menu > li > a:hover {
+				color: #0078D7;
+				background: rgba(150, 150, 150, 0.25);
+				border-left-color: #0078D7;
+			}
+
+			.sidebar-menu > li > .treeview-menu {
+				background: transparent;
+				margin-left: 10px;
+			}
+			.sidebar-form input[type="text"], 
+			.sidebar-form input[type="text"] + .input-group-btn .btn,
+			.sidebar-form .btn {
+				background-color: rgba(0, 0, 0, 0.15);
+			}
+			.sidebar-form input[type="text"]:focus,
+			.sidebar-form input[type="text"]:focus + .input-group-btn .btn {
+				background-color: #000;
+			}
+			.treeview-menu > li > a {
+				color: #333;
+			}
+		}
+		
+	}
+
+	@media (min-width: 768px){
+		.sidebar-toggle {
+			display: none;
+		}
+	}
+}
+
+
+@media (max-width: 767px){
+
+	.steedos.fixed {
+		.main-sidebar {
+			margin-top: 0px;
+			box-shadow: none;
+		}
+	}
+	.steedos.skin-blue.sidebar-open {
+		.main-header{
+			display: block !important;
+			width: 230px;
+		}
+		.main-sidebar {
+			.main-header {
+				display: none !important;
+			}
+		}
+	}
+}

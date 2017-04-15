@@ -66,7 +66,7 @@ Template.accounts_guide_modal.events
 				console.error error
 				toastr.error(error.reason)
 
-	'click .btn-close': (event,template) ->
+	'click .btn-save': (event,template) ->
 		currentUserId = Meteor.userId()
 		mail_account = db.mail_accounts.findOne({owner:currentUserId})
 		if mail_account
@@ -96,8 +96,12 @@ Template.accounts_guide_modal.events
 		else
 			toastr.error("您的账户没有通过验证！")
 
-	'click .btn-logout': (event,template) ->
-		$("body").addClass("loading")
+	'click .btn-cancel': (event,template) ->
+		currentUserId = Meteor.userId()
+		mail_account = db.mail_accounts.findOne({owner:currentUserId})
+		unless mail_account
+			toastr.error("您的账户没有通过验证！")
+			return
 		Modal.hide "accounts_guide_modal"
 
 

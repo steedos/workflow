@@ -41,6 +41,11 @@
                                                     <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
                                                 </label>
                                             {{/if}}
+                                            {{#if isForward this}}
+                                                <label class='cc-label'>
+                                                    <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
+                                                </label>
+                                            {{/if}}
                                         </td>
                                         {{#if unempty this.finish_date}}
                                             <td class="finish-date">{{dateFormat this.finish_date}}</td>

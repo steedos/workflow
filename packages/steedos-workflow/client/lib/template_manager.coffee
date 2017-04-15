@@ -118,7 +118,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 #如果有修改，请测试确认其他功能是否正常。
 TemplateManager._template =
 	default: '''
-		<div class="box-header  with-border">
+		<div class="with-border">
 			<div class="instance-name">
 				<h3 class="box-title">{{instance.name}}</h3>
 				<span class="help-block"></span>

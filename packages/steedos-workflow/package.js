@@ -189,9 +189,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/cc_modal.js', 'client');
 	api.addFiles('client/views/instance/opinion_modal.html', 'client');
 	api.addFiles('client/views/instance/opinion_modal.js', 'client');
-	api.addFiles('client/views/instance/flow_steps_modal.less', 'client');
-	api.addFiles('client/views/instance/flow_steps_modal.html', 'client');
-	api.addFiles('client/views/instance/flow_steps_modal.coffee', 'client');
 
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
@@ -285,6 +282,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_export.coffee', 'server');
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
+
+	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

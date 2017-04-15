@@ -6,7 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-	"node-schedule": "1.1.1"
+	"node-schedule": "1.1.1",
+	cookies: "0.6.1",
 });
 
 Package.onUse(function(api) {
@@ -89,7 +90,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/methods/user_avatar.coffee');
 
 
-	api.addFiles('lib/methods/emial_templates_reset.js');
+	api.addFiles('lib/methods/email_templates_reset.js');
 	api.addFiles('lib/methods/upgrade_data.js', 'server');
 
 	api.addFiles('lib/steedos/accounts.coffee');
@@ -172,6 +173,23 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/layouts/master.less', 'client');
 	api.addFiles('client/steedos/views/layouts/master.html', 'client');
 	api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
+	
+	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
+	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
+
+	api.addFiles('client/steedos/views/layouts/header_refresh.html', 'client');
+	api.addFiles('client/steedos/views/layouts/header_refresh.coffee', 'client');
+
+	api.addFiles('client/steedos/views/layouts/header_workflow_badge.html', 'client');
+	api.addFiles('client/steedos/views/layouts/header_workflow_badge.coffee', 'client');
+
+	api.addFiles('client/steedos/views/layouts/header_cms_badge.html', 'client');
+	api.addFiles('client/steedos/views/layouts/header_cms_badge.coffee', 'client');
+
+	api.addFiles('client/steedos/views/layouts/header_account.html', 'client');
+	api.addFiles('client/steedos/views/layouts/header_account.coffee', 'client');
+
+	api.addFiles('client/steedos/views/layouts/header_loading.html', 'client');
 
 	api.addFiles('client/steedos/views/layouts/header.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header.coffee', 'client');

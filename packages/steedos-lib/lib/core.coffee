@@ -4,7 +4,7 @@
 ###
 
 db = {}
-Steedos = 
+_.extend Steedos,
 	settings: {}
 	db: db
 	subs: {}
@@ -12,17 +12,6 @@ Steedos =
 @TabularTables = {};
 
 if Meteor.isClient
-
-	Steedos.isMobile = ()->
-		return $(window).width() < 767
-
-	Steedos.isPad = ()->
-		return /iP(ad)/.test(navigator.userAgent)
-
-	Steedos.openWindow = (url, target)->
-		target = "_blank"
-		options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
-		window.open(url, target, options);
 
 	Steedos.getAccountBgBodyValue = ()->
 		accountBgBody = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"bg_body"})
@@ -108,24 +97,6 @@ if Meteor.isClient
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
-
-	# 左侧sidebar滚动条自适应
-	Steedos.fixSideBarScroll = ()->
-		if Steedos.isMobile() || Steedos.isPad()
-			return
-		if !$(".sidebar").perfectScrollbar
-			return
-		if $("body").hasClass("sidebar-collapse")
-			if $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar("destroy")
-		else if $("body").hasClass('sidebar-open')
-			unless $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar()
-				$(".sidebar-menu").css("width", "100%");
-		else
-			unless $(".sidebar").hasClass("ps-container")
-				$(".sidebar").perfectScrollbar()
-				$(".sidebar-menu").css("width", "100%");
 
 
 	Steedos.openApp = (app_id)->
@@ -240,6 +211,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+	Cookies = Npm.require("cookies")
 	#TODO 添加服务端是否手机的判断(依据request)
 	Steedos.isMobile = ()->
 		return false;
@@ -293,6 +265,40 @@ if Meteor.isServer
 				return "/" + url;
 			else
 				return "/"
+
+#	通过request.headers、cookie 获得有效用户
+	Steedos.getAPILoginUser	= (req, res) ->
+		cookies = new Cookies(req, res);
+		if req.headers
+			userId = req.headers["x-user-id"]
+			authToken = req.headers["x-auth-token"]
+
+		# then check cookie
+		if !userId or !authToken
+			userId = cookies.get("X-User-Id")
+			authToken = cookies.get("X-Auth-Token")
+
+		if !userId or !authToken
+			return false
+
+		if Steedos.checkAuthToken(userId, authToken)
+			return db.users.findOne({_id: userId})
+
+		return false
+
+#	检查userId、authToken是否有效
+	Steedos.checkAuthToken = (userId, authToken) ->
+		if userId and authToken
+			hashedToken = Accounts._hashLoginToken(authToken)
+			user = Meteor.users.findOne
+				_id: userId,
+				"services.resume.loginTokens.hashedToken": hashedToken
+			if user
+				return true
+			else
+				return false
+		return false
+
 
 if Meteor.isServer
 	crypto = Npm.require('crypto');

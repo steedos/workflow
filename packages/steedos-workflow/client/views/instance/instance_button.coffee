@@ -284,5 +284,5 @@ Template.instance_button.events
 	'click .btn-instance-related-instances': (event, template)->
 		Modal.show("related_instances_modal")
 
-	'click .btn-flow-steps': (event, template)->
-		Modal.show 'flow_steps_modal'
+	'click .btn-workflow-chart': (event, template)->
+		Steedos.openWindow("/api/workflow/chart?instance_id=#{WorkflowManager.getInstance()?._id}")

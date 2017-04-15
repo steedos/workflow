@@ -150,6 +150,7 @@ Meteor.methods({
         var outbox_users = instance.outbox_users ? instance.outbox_users : [];
         var new_cc_users = [];
         var current_user_id = this.userId;
+        var current_approve;
 
         traces.forEach(function(t) {
             if (t.approves) {
@@ -159,6 +160,7 @@ Meteor.methods({
                         a.finish_date = new Date();
                         a.description = description;
                         a.judge = "submitted";
+                        current_approve = a;
                     }
                 });
             }
@@ -186,6 +188,12 @@ Meteor.methods({
         });
 
         pushManager.send_message_to_specifyUser("current_user", current_user_id);
+
+        instance = db.instances.findOne(ins_id);
+        flow_id = instance.flow;
+        // 如果已经配置webhook并已激活则触发
+        pushManager.triggerWebhook(flow_id, instance, current_approve)
+
         return true;
     },
 
