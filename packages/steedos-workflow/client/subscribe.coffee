@@ -1,6 +1,7 @@
 Steedos.subs["InstanceInbox"] = new SubsManager
 Steedos.subs["InstanceInbox"].subscribe("user_inbox_instance");
 
+Steedos.subs["related_instances"] = new SubsManager
 
 Steedos.subs["Instance"] = new SubsManager
 	cacheLimit: 20
@@ -42,4 +43,10 @@ Tracker.autorun (c) ->
 				console.error "instance not find ,id is instanceId"
 				FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box") + "/")
 				Session.set("instance_loading", false);
-	
+			else
+#				订阅相关文件
+				if instance.related_instances && _.isArray(instance.related_instances)
+					instance.related_instances.forEach (ins_id)->
+						instance = db.instances.findOne({_id: ins_id});
+						if !instance
+							Steedos.subs["related_instances"].subscribe("instance_data", ins_id)

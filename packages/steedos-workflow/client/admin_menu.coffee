@@ -60,3 +60,14 @@ if Meteor.isClient
 		paid: "true"
 		sort: 60
 		parent: "workflow"
+
+	# webhook
+	Admin.addMenu
+		_id: "webhooks"
+		title: "webhooks"
+		app: "workflow"
+		icon: "ion ion-link"
+		url: "/admin/view/webhooks"
+		paid: "true"
+		sort: 70
+		parent: "workflow"

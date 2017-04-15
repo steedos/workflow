@@ -1,0 +1,1 @@
+Template.related_instances.helpers RelatedInstances.helpers

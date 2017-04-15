@@ -367,11 +367,23 @@ InstanceformTemplate.helpers =
 	isOpinionField: (field)->
 		return field.formula?.indexOf("{traces.") > -1
 
-	getOpinionFieldStepName: (field)->
-		if field.formula?.indexOf("{traces.") > -1
-			s1 = field.formula.replace("{","").replace("}","")
-			if s1.split(".").length > 1
-				return s1.split(".")[1]
+	getOpinionFieldStepsName: (field_formula)->
+		opinionFields = new Array();
+		if field_formula && field_formula?.indexOf("{traces.") > -1
+			foo1 = field_formula.split(",")
+			foo1.forEach (foo)->
+				sf = {only_cc_opinion: false}
+				s1 = foo.replace("{","").replace("}","")
+				if s1.split(".").length > 1
+					sf.stepName = s1.split(".")[1]
+					if opinionFields.filterProperty("stepName",sf.stepName).length > 0
+						opinionFields.findPropertyByPK("stepName", sf.stepName)?.only_cc_opinion = true
+					else
+						if s1.split(".").length > 2
+							if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
+								sf.only_cc_opinion = true
+				opinionFields.push(sf);
+		return opinionFields
 
 	showCCOpinion: (field)->
 		if field.formula?.indexOf("{traces.") > -1
@@ -381,6 +393,12 @@ InstanceformTemplate.helpers =
 					return true
 		return false
 
+	markDownToHtml: (markDownString)->
+		if markDownString
+			renderer = new Markdown.Renderer();
+			renderer.link = ( href, title, text ) ->
+				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
+			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->

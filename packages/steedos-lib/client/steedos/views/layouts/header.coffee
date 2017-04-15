@@ -48,7 +48,6 @@ Template.masterHeader.events
 
 	'click .btn-logout': (event,template) ->
 		$("body").addClass("loading")
-		toastr.clear $(".toast-info")
 
 	'click .ion.ion-refresh' : (event) ->
 		window.location.reload()

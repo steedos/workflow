@@ -22,13 +22,13 @@
                                     {{#if this.is_finished}}
                                         {{#if unempty this.description}}
                                         <tr class="approve-description">
-                                            <td class="description" colspan="3">{{{this.description}}}</td>
+                                            <td class="description" colspan="3">{{{markDownToHtml this.description}}}</td>
                                         </tr>
                                         {{/if}}
                                     {{else}}
                                         {{#if (unempty (myApproveDescription this._id))}}
                                             <tr class="approve-description">
-                                                <td class="description" colspan="3">{{{myApproveDescription this._id}}}</td>
+                                                <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
                                             </tr>
                                         {{/if}}
                                     {{/if}}
@@ -39,6 +39,11 @@
                                             {{#if isCC this}}
                                                 <label class='cc-label'>
                                                     <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
+                                                </label>
+                                            {{/if}}
+                                            {{#if isForward this}}
+                                                <label class='cc-label'>
+                                                    <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
                                                 </label>
                                             {{/if}}
                                         </td>

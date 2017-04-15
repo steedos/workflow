@@ -455,3 +455,32 @@ ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
 
     return nextStepUsers;
 }
+
+
+ApproveManager.getRelatedInstancesFromDescription = function (description) {
+    var instanceIds = new Array();
+
+    if(description){
+
+        var foo1 = description.split(")");
+
+        foo1.forEach(function (f) {
+
+            foo2 = f.indexOf(Meteor.absoluteUrl("workflow/space/"));
+
+            if(foo2 > -1){
+
+                foo3 = f.substring(foo2, f.length);
+
+                foo4 = foo3.split("/view/readonly/");
+
+                if(foo4.length == 2){
+
+                    instanceIds.push(foo4[1])
+
+                }
+            }
+        })
+    }
+    return instanceIds
+}

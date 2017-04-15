@@ -24,6 +24,20 @@ TracesTemplate.helpers =
 		if approved and approved.type == 'cc' and approved.from_user == Meteor.userId() and approved.is_finished != true and !Session.get("instancePrint")
 			return true
 		false
+	isShowModificationButton: (approved) ->
+		approve_admins = Meteor.settings?.public?.workflow?.approve_admins
+		if approve_admins?.length
+			isShow = approve_admins?.contains Meteor.userId()
+		unless isShow
+			return false
+		return approved.handler == Meteor.userId()
+	isEditing: () ->
+		 return Template.instance().is_editing?.get()
+	isShowDescription: (approved)->
+		# debugger
+		if TracesTemplate.helpers.isShowModificationButton approved
+			return true
+		return approved.description?.toString().trim().length > 0
 	isCC: (approved) ->
 		if approved and approved.type == 'cc'
 			return true
@@ -82,6 +96,9 @@ TracesTemplate.helpers =
 			when 'retrieved'
 				# 已取回
 				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
 			else
 				approveStatusText = ''
 				break
@@ -103,6 +120,12 @@ TracesTemplate.helpers =
 		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
 			return true
 		false
+	markDownToHtml: (markDownString)->
+		if markDownString
+			renderer = new Markdown.Renderer();
+			renderer.link = ( href, title, text ) ->
+				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
+			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -188,4 +211,42 @@ TracesTemplate.events =
 				forward_space = event.target.dataset.forwardspace
 				forward_instance = event.target.dataset.forwardinstance
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
+	
+	'click .btn-modification'	: (event, template) ->
+		
+		template.is_editing.set(!template.is_editing.get());
+		Tracker.afterFlush ->
+			$("#instance_trace_detail_modal #finish_input").datetimepicker({
+				format: "YYYY-MM-DD HH:mm",
+				widgetPositioning:{
+					horizontal: 'right'
+				}
+			})
+	'click .btn-cancelBut' : (event, template) ->
+		
+		template.is_editing.set(!template.is_editing.get());
+
+	'click .btn-saveBut' : (event, template) ->
+		# template.is_editing.set(!template.is_editing.get())
+
+		instanceId = Session.get('instanceId')
+		approveId = event.target.dataset.approve
+		traceId = event.target.dataset.trace
+		opinion_input = $('#opinion_input').val()
+		finish_input = $('#finish_input').val()
+
+		$("body").addClass("loading")
+		Meteor.call 'change_approve_info', instanceId, traceId, approveId, opinion_input, finish_input, (err, result)->
+			$("body").removeClass("loading")
+			if err
+				toastr.error TAPi18n.__(err.reason)
+			if result == true
+				toastr.success(t("instance_approve_modal_modificationsave"))
+				Modal.hide "instance_trace_detail_modal"
+			return
+
+		
+			
+
+	
 		

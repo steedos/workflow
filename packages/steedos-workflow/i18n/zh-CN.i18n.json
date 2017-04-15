@@ -386,7 +386,7 @@
 
 	"forwardFlowText": "请填写转发说明",
 	"instanceForwardNote": "将当前选中的文件转发到新的流程，继续执行审批操作",
-	"isForwardAttachments": "是否转发附件",
+	"isForwardAttachments": "同时转发原表单附件",
 
 	"button_preview": "预览",
 	"remove_cc_approve": "传阅删除成功",
@@ -429,14 +429,26 @@
 	"instance_forward_cannot_cancel": "不符合取消转发条件！",
 	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！",
 
+	"instance_approve_modal_modification": "修改",
+	"instance_approve_modal_save": "保存",
+	"instance_approve_moda_back": "取消",
+	"instance_approve_modal_modificationsave": "您的修改保存成功",
+
+
+
 	"webhooks": "Webhooks",
 	"webhooks_flow": "流程",
 	"webhooks_payload_url": "URL",
 	"webhooks_active": "激活",
 	"webhooks_content_type": "传输数据类型",
+	"edit": "编辑",
+	"flow_list": "流程列表",
+	"import_flow": "导入流程",
+	"import_flow_success": "导入成功",
+	"import_flow_error": "导入失败",
+	"import_flow_info": "请选择需要导入的流程",
 	"webhooks_flow_name()": "流程",
 	"webhooks_description": "描述",
-
 	"workflow_list": "流程列表",
 	"workflow_import_flow": "导入流程",
 	"workflow_import_flow_success": "导入成功",
@@ -444,6 +456,18 @@
 	"workflow_import_flow_info": "请选择需要导入的流程",
 	"flows": "流程",
 
-    "instance_readonly_view_url_copy": "复制链接",
-    "instance_readonly_view_url_copy_success": "链接已复制"
+	"instance_readonly_view_url_copy": "复制链接",
+	"instance_readonly_view_url_copy_success": "链接已复制",
+	"instance_related_instances": "相关文件",
+	"instance_related_instances_title": "关联文件",
+	"instance_related_instances_placeholder": "请输入文件名称",
+
+	"workflow_install_desktop": "安装客户端",
+
+	"instance_flow_steps": "流程图",
+
+	"instance_return": "退回",
+	"instance_return_success": "退回成功",
+	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
+	"Instance State returned": "已退回"
 }

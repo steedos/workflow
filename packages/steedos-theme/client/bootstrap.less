@@ -1,0 +1,43 @@
+.steedos.fixed {
+    .modal {
+        .modal-header {
+            button.close {
+                padding: 2px 8px;
+            }
+        }
+        .btn-default {
+            background-color: #f4f4f4;
+            border-color: #ddd;
+        }
+        .admin-dashboard-body{
+            form{
+                .form-group{
+                    position: relative;/*为了解决AdminDashboardNewModal/AdminDashboardEditModal中日期时间控件定位问题*/
+                }
+                /*分组字段字体问题*/
+                .panel{
+                    .panel-heading{
+                        font-weight:bold;
+                        h3{
+                            font-size: 14px;
+                        }
+                    }
+                    .panel-body{
+                        .form-group{
+                            .control-label{
+                                font-size: 14px;
+                                font-weight: normal;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .dropdown-menu {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        border: 0;
+    }
+    
+}

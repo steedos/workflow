@@ -1,8 +1,13 @@
+**/bin/**
+**/build/*
+**/node_modules/*
+**/tmp/*
+**/.npm/*
+
 .build
 
 .meteor/local
 .meteor/meteorite
 
-node_modules
 
 settings.json

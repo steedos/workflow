@@ -12,7 +12,6 @@ Template.contactsLayout.onRendered ->
 	self = this;
 	self.minHeight.set($(window).height());
 
-	$('body').removeClass('fixed');
 	$(window).resize();
 
 

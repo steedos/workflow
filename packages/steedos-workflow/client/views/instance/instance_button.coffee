@@ -101,6 +101,9 @@ Template.instance_button.helpers
 			return false
 
 		if InstanceManager.isInbox() && ins.state != "draft"
+			cs = InstanceManager.getCurrentStep()
+			if cs && (cs.disableCC is true)
+				return false
 			return true
 		else
 			return false
@@ -109,6 +112,17 @@ Template.instance_button.helpers
 		ins = WorkflowManager.getInstance()
 		if !ins
 			return false
+
+		# 传阅的申请单不允许转发
+		if (InstanceManager.isCC(ins))
+			return false
+
+
+		# 设置了禁止转发则不允许转发
+		if InstanceManager.isInbox()
+			cs = InstanceManager.getCurrentStep()
+			if cs && (cs.disableForward is true)
+				return false
 
 		if ins.state != "draft"
 			return true
@@ -144,13 +158,19 @@ Template.instance_button.helpers
 		else
 			return true
 
+	enabled_related: ->
+		if Session.get("box") == "draft"
+			return true
+		else
+			return false
+
 	instance_readonly_view_url: ->
 		href = Meteor.absoluteUrl("workflow/space/"+Session.get("spaceId")+"/view/readonly/" + Session.get("instanceId"))
 		ins = WorkflowManager.getInstance()
 		if !ins
 			return ""
 		instanceName = ins.name
-		return "<a href='#{href}' target='_blank'>#{instanceName}</a>"
+		return "[#{instanceName}](#{href})"
 
 
 Template.instance_button.onRendered ->
@@ -260,3 +280,9 @@ Template.instance_button.events
 
 	'click .li-instance-readonly-view-url-copy': (event, template)->
 		$(".btn-instance-readonly-view-url-copy").click();
+
+	'click .btn-instance-related-instances': (event, template)->
+		Modal.show("related_instances_modal")
+
+	'click .btn-flow-steps': (event, template)->
+		Modal.show 'flow_steps_modal'

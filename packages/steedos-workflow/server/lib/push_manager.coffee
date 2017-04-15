@@ -283,14 +283,14 @@ pushManager.get_badge = (send_from, user_id)->
 
 	sk_all = db.steedos_keyvalues.findOne(
 		user: user_id
-		space: $exists: false
+		space: null
 		key: 'badge')
 	if sk_all
 		db.steedos_keyvalues.update { _id: sk_all._id }, $set: 'value.workflow': badge
 	else
 		sk_all_new = {}
 		sk_all_new.user = user_id
-		sk_all_new.space = undefined
+		sk_all_new.space = null
 		sk_all_new.key = 'badge'
 		sk_all_new.value = 'workflow': badge
 		db.steedos_keyvalues.insert sk_all_new

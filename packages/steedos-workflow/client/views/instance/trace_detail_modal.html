@@ -53,15 +53,19 @@
 						{{/unless}}
 					{{/if}}
 					{{#if this.is_finished}}
-						{{#if unempty this.description}}
+						{{#if isShowDescription this}}
 							<div class="weui_cell">
 								<div class="weui_cell_hd">
 									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
-									<span class="weui_input">{{{this.description}}}</span>
+									{{#if isEditing this}}
+										<input type="text" name="opinion_input" class="opinion_input" id="opinion_input" value="{{this.description}}" />
+									{{else}}
+										<span class="weui_input ">{{markDownToHtml this.description}}</span>
+									{{/if}}
 								</div>
-							</div>
+							</div>  
 						{{/if}}
 					{{else}}
 						{{#if (unempty (myApproveDescription this._id))}}
@@ -70,7 +74,7 @@
 									<span class="weui_label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui_cell_bd weui_cell_primary text-muted">
-									<span class="weui_input">{{{myApproveDescription this._id}}}</span>
+									<span class="weui_input">{{{markDownToHtml (myApproveDescription this._id)}}}</span>
 								</div>
 							</div>
 						{{/if}}
@@ -89,7 +93,15 @@
 								<span class="weui_label">{{_t "instance_approve_finish_date_label"}}</span>
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
-								<span class="weui_input">{{dateFormat this.finish_date}}</span>
+								{{#if isEditing this}}
+									{{#if isMobile}}
+                                       <input type="datetime-local" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" />
+                                    {{else}}
+                                       <input type="text" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" />
+                                    {{/if}}
+								{{else}}
+									<span class="weui_input">{{dateFormat this.finish_date}}</span>
+								{{/if}}
 							</div>
 						</div>
 					{{/if}}
@@ -108,6 +120,7 @@
 								</span>
 							</div>
 						</div>
+						
 					{{/unless}}
 					{{#if isForward this}}
 						<div class="weui_cell">
@@ -129,7 +142,17 @@
 					{{#if showForwardDeleteButton this}}
 						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_forward_remove"}}</button>
 					{{/if}}
-					<button type="button" class="btn btn-primary btn-close">{{_t "instance_approve_close_modal"}}</button>
+					{{#if isEditing this}}
+						<button type="button" class="btn btn-default  btn-saveBut" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_modal_save"}}</button>
+						<button type="button" class="btn btn-default  btn-cancelBut">{{_t "instance_approve_moda_back"}}</button>
+					{{else}}
+						{{#if isShowModificationButton this}}
+							{{#if this.is_finished}}
+								<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modal_modification"}}</button>
+							{{/if}}
+						{{/if}}
+						<button type="button" class="btn btn-primary  btn-close">{{_t "instance_approve_close_modal"}}</button>
+					{{/if}}
 				</div>
 			</div>
 		</div>
