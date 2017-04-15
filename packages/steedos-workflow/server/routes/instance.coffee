@@ -1,57 +1,18 @@
 Cookies = Npm.require("cookies")
-#TODO 确认data 中的instance
-JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req, res, next) ->
-	cookies = new Cookies(req, res);
 
-	if req.headers
-		userId = req.headers["x-user-id"]
-		authToken = req.headers["x-auth-token"]
+getInstanceReadOnly = (req, res, next) ->
+#	获取客户端请求IP
+	clientIp = req.headers['x-forwarded-for'] or req.connection.remoteAddress or req.socket.remoteAddress or req.connection.socket.remoteAddress
+#	获取白名单
+	whitelist = Meteor.settings.whitelist
 
-	# then check cookie
-	if !userId or !authToken
-		userId = cookies.get("X-User-Id")
-		authToken = cookies.get("X-Auth-Token")
+	user = Steedos.getAPILoginUser(req, res)
 
-	if !(userId and authToken)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing X-Auth-Token",
-				"success": false
-		return;
-
-	#user 、instace、space 校验
-	user = db.users.findOne({_id: userId})
-
-	if !user
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing X-User-Id",
-				"success": false
-		return;
+	spaceId = req.params.space
 
 	instanceId = req.params.instance_id
 
 	instance = db.instances.findOne({_id: instanceId});
-
-	if  !instance
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing instance",
-				"success": false
-		return;
-
-	spaceId = req.params.space
-
-	if instance.space != spaceId
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing space or instance",
-				"success": false
-		return;
 
 	space = db.spaces.findOne({_id: spaceId});
 
@@ -63,7 +24,36 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 				"success": false
 		return;
 
-	spaceUser = db.space_users.findOne({user: userId, space: spaceId});
+	if  !instance
+		JsonRoutes.sendResult res,
+			code: 401,
+			data:
+				"error": "Validate Request -- Missing instance",
+				"success": false
+		return;
+
+	if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
+		user = db.users.findOne({_id: space.owner})
+	else
+		if !user
+			JsonRoutes.sendResult res,
+				code: 401,
+				data:
+					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+					"success": false
+			return;
+
+	if instance.space != spaceId
+		JsonRoutes.sendResult res,
+			code: 401,
+			data:
+				"error": "Validate Request -- Missing space or instance",
+				"success": false
+		return;
+
+
+
+	spaceUser = db.space_users.findOne({user: user._id, space: spaceId});
 
 	if !spaceUser
 		if !space
@@ -87,6 +77,12 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", (req,
 
 	res.statusCode = 200
 	res.end(html)
+
+
+
+JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", getInstanceReadOnly
+
+JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instance_name", getInstanceReadOnly
 
 
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
