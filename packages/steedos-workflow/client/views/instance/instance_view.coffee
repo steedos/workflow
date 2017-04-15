@@ -127,10 +127,15 @@ Template.instance_view.events
 	'typeahead:change .form-control': (event) ->
 		Session.set("instance_change", true)
 
-	'change .ins-file-input': (event, template)->
-		InstanceManager.uploadAttach(event.target.files, false)
+	'change #ins_upload_main_attach': (event, template)->
+		InstanceManager.uploadAttach(event.target.files, false, true)
 
-		$(".ins-file-input").val('')
+		$("#ins_upload_main_attach").val('')
+
+	'change #ins_upload_normal_attach': (event, template)->
+		InstanceManager.uploadAttach(event.target.files, false, false)
+
+		$("#ins_upload_normal_attach").val('')
 
 	'click .btn-instance-back': (event)->
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")

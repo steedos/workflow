@@ -968,7 +968,11 @@ InstanceManager.removeAttach = function() {
 }
 
 // 上传附件
-InstanceManager.uploadAttach = function(files, isAddVersion) {
+InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
+	check(files, FileList);
+	check(isAddVersion, Boolean);
+	check(isMainAttach, Boolean);
+
 	$(document.body).addClass("loading");
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading"));
 
@@ -1031,6 +1035,10 @@ InstanceManager.uploadAttach = function(files, isAddVersion) {
 		if (isAddVersion) {
 			fd.append("isAddVersion", isAddVersion);
 			fd.append("parent", Session.get('attach_parent_id'));
+		}
+
+		if (isMainAttach) {
+			fd.append("main", isMainAttach);
 		}
 
 		$.ajax({

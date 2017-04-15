@@ -73,6 +73,8 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
           metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
+          if body['main'] == "true"
+            metadata.main = true
 
           if body['isAddVersion'] && body['parent']
             parent = body['parent']

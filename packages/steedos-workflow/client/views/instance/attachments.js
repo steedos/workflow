@@ -80,11 +80,15 @@ Template.instance_attachment.helpers({
 	},
 
 	IsImageAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		var type = attachment.original.type;
 		return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		return attachment.original.type == "text/html"
 	},
 
@@ -205,13 +209,13 @@ Template.ins_attach_version_modal.helpers({
 	enabled_add_attachment: function() {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
-			return "display: none;";
+			return false
 
 		if (InstanceManager.isCC(ins))
-			return "display: none;";
+			return false
 
 		var parent = Session.get('attach_parent_id');
-		if (!parent) return "display: none;";
+		if (!parent) return false
 
 		var current = cfs.instances.findOne({
 			'metadata.parent': parent,
@@ -219,12 +223,22 @@ Template.ins_attach_version_modal.helpers({
 		});
 
 		if (current && current.metadata && current.metadata.locked_by)
-			return "display: none;";
+			return false
 
-		if (Session.get("box") == "draft" || Session.get("box") == "inbox")
-			return "";
-		else
-			return "display: none;";
+		if (Session.get("box") == "draft" || Session.get("box") == "inbox") {
+			var current_step = InstanceManager.getCurrentStep();
+			// 如果是正文 则判断是否有编辑权限
+			if (current.metadata.main == true) {
+				if (current_step && current_step.can_edit_main_attach == true)
+					return true
+			} else {
+				// 如果是附件 则判断是否有编辑权限
+				if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+					return true
+			}
+		}
+
+		return false
 	},
 
 	current_can_delete: function(currentApproveId, parent_id) {
@@ -312,11 +326,15 @@ Template.ins_attach_version_modal.helpers({
 	},
 
 	IsImageAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		var type = attachment.original.type;
 		return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		return attachment.original.type == "text/html"
 	}
 })
@@ -325,8 +343,11 @@ Template.ins_attach_version_modal.helpers({
 Template.ins_attach_version_modal.events({
 
 	'change .ins-file-version-input': function(event, template) {
-
-		InstanceManager.uploadAttach(event.target.files, true);
+		if (this.metadata.main == true) {
+			InstanceManager.uploadAttach(event.target.files, true, true);
+		} else {
+			InstanceManager.uploadAttach(event.target.files, true, false);
+		}
 
 		$(".ins-file-version-input").val('')
 	},
