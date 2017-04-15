@@ -6,7 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-	"node-schedule": "1.1.1"
+	"node-schedule": "1.1.1",
+	cookies: "0.6.1",
 });
 
 Package.onUse(function(api) {
