@@ -97,6 +97,13 @@
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
   },
+  "sms": {
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
+  },
   //日志相关
   "logger": {
     "enabled": true, //是否启用日志
