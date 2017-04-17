@@ -86,11 +86,11 @@ Template.instance_view.onRendered ->
 
 	$(".workflow-main").addClass("instance-show")
 
-	$('[data-toggle="tooltip"]').tooltip()
+	isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
 		$('.instance').perfectScrollbar({suppressScrollX: true}).css("right","-1px")
-		if Session.get("box") == "inbox"
+		if isNeedActiveSuggestion
 			$('.instance').on 'ps-y-reach-end', ->
 				if this.scrollTop == 0
 					# 内容高度不足已出现滚动条时也会触发该事件，需要排除掉。
@@ -98,7 +98,7 @@ Template.instance_view.onRendered ->
 				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
-	else if Session.get("box") == "inbox"
+	else if isNeedActiveSuggestion
 		preScrollTop = 0
 		loap = 0
 		$(".instance").scroll (event)->
