@@ -390,7 +390,9 @@ Meteor.methods({requestPhoneVerification: function (phone) {
             userId = existingUser && existingUser._id;
         } else {
             // Create new user with phone number
-            userId = createUser({phone:phone});
+            // userId = createUser({phone:phone});
+            // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
+            throw new Error("Can't find user");
         }
     }
     Accounts.sendPhoneVerificationCode(userId, phone);
