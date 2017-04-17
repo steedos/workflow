@@ -11,20 +11,12 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		if (InstanceManager.isCC(ins)) {
-			return false;
-		}
-
-		var isCurrentApprove = false;
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
 		var isHistoryLenthZero = false;
 		var box = Session.get("box");
 		var isLocked = false;
-
-		var currentApprove = InstanceManager.getCurrentApprove();
-		if (currentApprove && (currentApprove.id == currentApproveId))
-			isCurrentApprove = true;
+		var can_remove_attach = false;
 
 		if (box == "draft" || box == "inbox")
 			isDraftOrInbox = true;
@@ -47,10 +39,38 @@ Template.instance_attachment.helpers({
 			'metadata.current': true
 		});
 
+		if (!current)
+			return false
+
 		if (current && current.metadata && current.metadata.locked_by)
 			isLocked = true;
 
-		return isCurrentApprove && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
+		var currentApprove = InstanceManager.getCurrentApprove();
+
+		if (!currentApprove)
+			return false;
+
+		_.each(ins.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a._id == currentApprove._id) {
+					var step = WorkflowManager.getInstanceStep(t.step);
+					if (current.metadata.main == true) {
+						if (step && step.can_edit_main_attach == true) {
+							if (current.metadata.owner == Meteor.userId() && ins.state == "draft")
+								can_remove_attach = true;
+						}
+					} else {
+						if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined)) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					}
+
+				}
+			})
+		})
+
+		return can_remove_attach && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
 	},
 
 	getUrl: function(_rev, isPreview) {
@@ -211,9 +231,6 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false
 
-		if (InstanceManager.isCC(ins))
-			return false
-
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return false
 
@@ -221,6 +238,9 @@ Template.ins_attach_version_modal.helpers({
 			'metadata.parent': parent,
 			'metadata.current': true
 		});
+
+		if (!current)
+			return false
 
 		if (current && current.metadata && current.metadata.locked_by)
 			return false
@@ -246,24 +266,12 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
-		if (InstanceManager.isCC(ins)) {
-			return false;
-		}
-
-		var isCurrentApprove = false;
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
 		var isHistoryLenthZero = false;
 		var box = Session.get("box");
 		var isLocked = false;
-
-		var currentApprove = InstanceManager.getCurrentApprove();
-
-		if (!currentApprove)
-			return false;
-
-		if (currentApprove.id == currentApproveId)
-			isCurrentApprove = true;
+		var can_remove_attach = false;
 
 		if (box == "draft" || box == "inbox")
 			isDraftOrInbox = true;
@@ -286,10 +294,38 @@ Template.ins_attach_version_modal.helpers({
 			'metadata.current': true
 		});
 
+		if (!current)
+			return false;
+
 		if (current && current.metadata && current.metadata.locked_by)
 			isLocked = true;
 
-		return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
+		var currentApprove = InstanceManager.getCurrentApprove();
+
+		if (!currentApprove)
+			return false;
+
+		_.each(ins.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a._id == currentApprove._id) {
+					var step = WorkflowManager.getInstanceStep(t.step);
+					if (current.metadata.main == true) {
+						if (step && step.can_edit_main_attach == true) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					} else {
+						if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined)) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					}
+
+				}
+			})
+		})
+
+		return can_remove_attach && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
 	},
 
 	canEdit: function(filename, locked_by) {
@@ -493,12 +529,23 @@ Template.ins_attach_edit_modal.events({
 		params.locked_by_name = Meteor.user().name;
 		params.upload_from = "IE";
 
+		var main_count = cfs.instances.find({
+			'metadata.parent': Session.get('attach_parent_id'),
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
+		if (main_count > 0) {
+			params.main = true;
+		}
+
 		var params_str = $.param(params);
 
 		var data = TANGER_OCX_OBJ.SaveToURL(Meteor.absoluteUrl('s3/'), "file", params_str, encodeURIComponent(filename), 0);
 
 		var json_data = eval('(' + data + ')');
 
+		// 先解锁
+		InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 		// 编辑时锁定
 		Session.set('cfs_file_id', json_data['version_id']);
 
