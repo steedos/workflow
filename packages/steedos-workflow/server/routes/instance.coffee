@@ -74,16 +74,19 @@ getInstanceReadOnly = (req, res, next) ->
 		return;
 
 	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance)
-
+	dataBuf = new Buffer(html);
+	res.setHeader('content-length', dataBuf.length)
+	res.setHeader('content-range', "bytes 0-#{dataBuf.length - 1}/#{dataBuf.length}")
 	res.statusCode = 200
 	res.end(html)
 
-
-
 JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id", getInstanceReadOnly
 
-JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instance_name", getInstanceReadOnly
-
+JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instance_name", (req, res, next)->
+	res.setHeader('Content-type', 'application/x-msdownload');
+	res.setHeader('Content-Disposition', 'attachment;filename='+encodeURI(req.params.instance_name));
+	res.setHeader('Transfer-Encoding', '')
+	return getInstanceReadOnly(req, res, next)
 
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
