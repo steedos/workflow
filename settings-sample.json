@@ -79,6 +79,13 @@
     },
     "webhookqueue_interval": 1000
   },
+  "sms": {
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
+  },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
   },
