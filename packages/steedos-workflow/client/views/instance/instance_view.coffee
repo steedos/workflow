@@ -128,6 +128,17 @@ Template.instance_view.events
 		Session.set("instance_change", true)
 
 	'change #ins_upload_main_attach': (event, template)->
+		# 正文最多只能有一个
+		main_attach_count = cfs.instances.find({
+			'metadata.instance': Session.get("instanceId"),
+			'metadata.current': true,
+			'metadata.main': true
+		}).count()
+
+		if main_attach_count >= 1
+			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
+			return
+
 		InstanceManager.uploadAttach(event.target.files, false, true)
 
 		$("#ins_upload_main_attach").val('')

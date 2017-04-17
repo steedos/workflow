@@ -7,6 +7,18 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
+		// 正文最多只能有一个
+		var main_attach_count = cfs.instances.find({
+			'metadata.instance': ins._id,
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
+
+		if (main_attach_count >= 1) {
+			return false;
+		}
+
+
 		// 开始节点并且设置了可以上传正文才显示上传正文的按钮
 		var current_step = InstanceManager.getCurrentStep();
 		if (current_step && current_step.step_type == "start" && current_step.can_edit_main_attach == true)
