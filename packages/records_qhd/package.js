@@ -6,8 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-	'form-data': '2.1.4',
-	'request'  : '2.81.0'
+	'request'  : '2.81.0',
+	'node-schedule' : '1.2.1'
 });
 
 Package.onUse(function (api) {
