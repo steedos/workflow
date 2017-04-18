@@ -10,6 +10,8 @@ RecordsQHD = {}
 #	│    └──────────────────── minute (0 - 59)
 #	└───────────────────────── second (0 - 59, OPTIONAL)
 
+RecordsQHDLogger = new Logger 'Records_QHD'
+
 RecordsQHD.recurrenceRule = "13 18 * * *"
 
 schedule = Npm.require('node-schedule')
@@ -39,17 +41,18 @@ RecordsQHD.contractInstanceToArchive = ()->
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
 	if !recurrenceRule
-		console.log "Miss recurrenceRule"
+		RecordsQHDLogger.error "Miss recurrenceRule"
 		return
 	if !_.isString(recurrenceRule)
-		console.log "RecurrenceRule is not String. https://github.com/node-schedule/node-schedule"
+		RecordsQHDLogger.error "RecurrenceRule is not String. https://github.com/node-schedule/node-schedule"
 		return
 
 	if !fun
-		console.error "Miss function"
+		RecordsQHDLogger.error "Miss function"
 	else if !_.isFunction(fun)
-		console.error "#{fun} is not function"
+		RecordsQHDLogger.error "#{fun} is not function"
 	else
+		RecordsQHDLogger.info "Add scheduleJobMaps: #{name}"
 		RecordsQHD.scheduleJobMaps[name] = schedule.scheduleJob recurrenceRule, fun
 
 RecordsQHD.startScheduleJob "RecordsQHD.contractInstanceToArchive", RecordsQHD.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.contractInstanceToArchive)
