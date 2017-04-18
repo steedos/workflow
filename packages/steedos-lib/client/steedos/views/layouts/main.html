@@ -261,10 +261,12 @@
 
 <body>
 	<script type="text/javascript">
-		$("body").addClass("loading");
-		if(SC.setupBodyClassNames){
-			SC.setupBodyClassNames();
-		}
+		$(function(){
+			$("body").addClass("loading");
+			if(SC.setupBodyClassNames){
+				SC.setupBodyClassNames();
+			}
+		});
 	</script>
 
 	<section class="loadingOverlay keyboard">

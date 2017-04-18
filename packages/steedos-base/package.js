@@ -52,12 +52,14 @@ Package.onUse(function(api) {
     'client/layout/layout.less',
     'client/layout/header.html',
     'client/layout/header.less',
-    'client/layout/sidebar.html',
+    'client/layout/sidebar.html'
   ], "client");
 
   api.addFiles('client/layout/login_layout.html', "client");
   api.addFiles('client/layout/login_layout.coffee', "client");
   api.addFiles('client/layout/login_layout.less', "client");
+  api.addFiles('client/layout/at_form.coffee', "client");
+  api.addFiles('client/layout/at_form.less', "client");
 
   api.export('Steedos');
 });
