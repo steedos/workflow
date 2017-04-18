@@ -33,18 +33,29 @@ InstancesToArchive::getNonContractInstances = ()->
 	});
 
 # 以POST 方式提交formData数据值url
-InstancesToArchive._postFormData = (url, formData) ->
+InstancesToArchive._postFormData = (url, formData, cb) ->
 	request.post {
 		url: url
 		formData: formData
 	}, (err, httpResponse, body) ->
+
+		cb err, httpResponse, body
+
 		if err
 			return console.error('upload failed:', err)
-		console.log "httpResponse.statusCode is #{httpResponse.statusCode}"
-		return
+		if httpResponse.statusCode == 200
+			console.log "httpResponse.statusCode is #{httpResponse.statusCode}"
+			return
+
+InstancesToArchive.success = (instance)->
+	console.info("[InstancesToArchive] success,id is #{instance._id}")
+	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
+
+InstancesToArchive.failed = (instance, error)->
+	console.error("[InstancesToArchive] failed,id is #{instance._id}. error: #{error}")
 
 InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
-	console.log("_sendContractInstance: #{instance.name}")
+	console.log("_sendContractInstance: #{instance._id}")
 #	表单数据
 	formData = {}
 
@@ -96,7 +107,15 @@ InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
 	formData.attach.push request(attachInfoUrl)
 
 #	发送数据
-	InstancesToArchive._postFormData(url, formData);
+	InstancesToArchive._postFormData url, formData, Meteor.bindEnvironment((err, httpResponse, body)->
+			if httpResponse.statusCode == 200
+				console.log instance._id + "--->" + formData.TITLE_PROPER
+				InstancesToArchive.success instance
+			else
+				InstancesToArchive.failed instance, err
+		)
+
+
 
 InstancesToArchive::sendContractInstances = (field_map)->
 	console.time("sendContractInstances")
@@ -105,7 +124,7 @@ InstancesToArchive::sendContractInstances = (field_map)->
 	that = @
 
 	instances.fetch().forEach (instance, i)->
-		if i > 100
+		if i > 300
 			return
 		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
 		InstancesToArchive._sendContractInstance url, instance, field_map
