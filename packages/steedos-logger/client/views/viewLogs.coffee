@@ -5,7 +5,6 @@ Template.viewLogs.onCreated ->
 
 Template.viewLogs.helpers
 	hasPermission: ->
-		# return true
 		return Steedos.isCloudAdmin()
 
 	logs: ->

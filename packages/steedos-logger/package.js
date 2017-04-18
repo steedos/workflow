@@ -1,7 +1,7 @@
 Package.describe({
-	name: 'rocketchat:logger',
-	version: '0.0.1',
-	summary: 'Logger for Rocket.Chat'
+	name: 'steedos:logger',
+	version: '0.0.2',
+	summary: 'Logger for Steedos'
 });
 
 Package.onUse(function(api) {
@@ -9,7 +9,7 @@ Package.onUse(function(api) {
 	api.use('underscore');
 	api.use('random');
 	api.use('logging');
-	api.use('nooitaf:colors');
+	// api.use('nooitaf:colors@0.0.3');
 	api.use('raix:eventemitter');
 	api.use('templating', 'client');
 	api.use('flemay:less-autoprefixer@1.2.0');

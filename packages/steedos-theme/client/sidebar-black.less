@@ -11,6 +11,9 @@
 		
 		.sidebar {
 
+			.space-switcher .space-name {
+				color: white;
+			}
 			.sidebar-menu > li.header {
 				color: #d8d8d8;
 				background: transparent;
@@ -59,6 +62,9 @@
 			.treeview-menu > li > a {
 				color: #f6f6f6;
 			}
+			.user-panel > .info, .user-panel > .info > a {
+				color: white;
+			}
 		}
 		
 	}
@@ -70,24 +76,3 @@
 	}
 }
 
-
-@media (max-width: 767px){
-
-	.steedos.fixed {
-		.main-sidebar {
-			margin-top: 0px;
-			box-shadow: none;
-		}
-	}
-	.steedos.skin-blue.sidebar-open {
-		.main-header{
-			display: block !important;
-			width: 230px;
-		}
-		.main-sidebar {
-			.main-header {
-				display: none !important;
-			}
-		}
-	}
-}

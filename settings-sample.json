@@ -79,6 +79,15 @@
     },
     "webhookqueue_interval": 1000
   },
+  //sms短信平台账户配置相关
+  "sms": {
+    //海外短信平台账户相关
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
+  },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
   },
@@ -87,6 +96,13 @@
     "appuid": "xxx",
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
+  },
+  "sms": {
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
   },
   //日志相关
   "logger": {
