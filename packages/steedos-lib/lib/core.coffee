@@ -3,12 +3,6 @@
 # @namespace Steedos
 ###
 
-db = {}
-_.extend Steedos,
-	settings: {}
-	db: db
-	subs: {}
-
 @TabularTables = {};
 
 if Meteor.isClient

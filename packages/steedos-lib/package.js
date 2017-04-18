@@ -71,7 +71,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/space_users.coffee');
 	api.addFiles('lib/models/organizations.coffee');
 	api.addFiles('lib/models/users_changelogs.coffee');
-	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
 	api.addFiles('lib/models/steedos_statistics.coffee');
 	api.addFiles('lib/models/space_user_signs.coffee');
