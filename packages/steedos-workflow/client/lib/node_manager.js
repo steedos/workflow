@@ -13,7 +13,7 @@ if (Steedos.isNode()) {
 	child_process = nw.require('child_process');
 	if (child_process)
 		exec = child_process.exec;
-	
+
 	// globalWin添加参数disableClose控制能否退出客户端，默认值为false，可退出
 	globalWin.disableClose = false;
 }
@@ -131,13 +131,25 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 		urlValue: Session.get('attach_parent_id')
 	}]
 
+	var main_count = cfs.instances.find({
+		'metadata.parent': Session.get('attach_parent_id'),
+		'metadata.current': true,
+		'metadata.main': true
+	}).count();
+	if (main_count > 0) {
+		fileDataInfo.push({
+			urlKey: "main",
+			urlValue: true
+		});
+	}
+
 	var files = [{
 			urlKey: "file",
 			urlValue: filePath
 		}]
-	// 上传接口
+		// 上传接口
 	OfficeOnline.uploadFile(fileDataInfo, files);
-	
+
 	Modal.hide("attachments_upload_modal");
 }
 
@@ -196,9 +208,9 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 
 		// 修改后附件大小
 		var states = fs.statSync(filePath);
-		
+
 		globalWin.disableClose = false;
-		
+
 		// 判断编辑后的文件hash值是否变化
 		NodeManager.getFileSHA1(filePath, filename, function(sha1) {
 			if (NodeManager.fileSHA1 != sha1) {
@@ -259,9 +271,9 @@ NodeManager.editFile = function(file_url, filename, isView) {
 			if (exists == true) {
 				var fPath = download_dir + filename;
 				// 查看模式下直接下载到本地打开
-				if (isView){
+				if (isView) {
 					OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
-				} else{
+				} else {
 					fs.exists(fPath, function(exists) {
 						if (exists == true) {
 							swal({
