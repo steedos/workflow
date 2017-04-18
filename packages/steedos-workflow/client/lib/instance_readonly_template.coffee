@@ -255,6 +255,9 @@ InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
 	else
 		passing = true;
 
+	if !utcOffset && utcOffset !=0
+		utcOffset = 8
+
 	return moment(date).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
 
 InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
