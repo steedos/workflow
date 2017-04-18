@@ -45,7 +45,7 @@ aldeed:collection2
 
 loaders-css
 
-# rocketchat:logger
+steedos:logger
 
 
 underscorestring:underscore.string
