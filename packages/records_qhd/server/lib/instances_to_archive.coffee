@@ -44,18 +44,18 @@ InstancesToArchive._postFormData = (url, formData, cb) ->
 		if err
 			return console.error('upload failed:', err)
 		if httpResponse.statusCode == 200
-			console.log "httpResponse.statusCode is #{httpResponse.statusCode}"
+#			console.info "httpResponse.statusCode is #{httpResponse.statusCode}"
 			return
 
 InstancesToArchive.success = (instance)->
-	console.info("[InstancesToArchive] success,id is #{instance._id}")
+	RecordsQHDLogger.instancesToArchive.info("[InstancesToArchive] success,id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	console.error("[InstancesToArchive] failed,id is #{instance._id}. error: #{error}")
+	RecordsQHDLogger.instancesToArchive.error("[InstancesToArchive] failed,id is #{instance._id}. error: #{error}")
 
 InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
-	console.log("_sendContractInstance: #{instance._id}")
+	RecordsQHDLogger.instancesToArchive.debug("_sendContractInstance: #{instance._id}")
 #	表单数据
 	formData = {}
 
@@ -109,7 +109,6 @@ InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
 #	发送数据
 	InstancesToArchive._postFormData url, formData, Meteor.bindEnvironment((err, httpResponse, body)->
 			if httpResponse.statusCode == 200
-				console.log instance._id + "--->" + formData.TITLE_PROPER
 				InstancesToArchive.success instance
 			else
 				InstancesToArchive.failed instance, err
@@ -118,7 +117,6 @@ InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
 
 
 InstancesToArchive::sendContractInstances = (field_map)->
-	console.time("sendContractInstances")
 	instances = @getContractInstances()
 
 	that = @
@@ -128,6 +126,4 @@ InstancesToArchive::sendContractInstances = (field_map)->
 			return
 		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
 		InstancesToArchive._sendContractInstance url, instance, field_map
-
-	console.timeEnd("sendContractInstances")
 

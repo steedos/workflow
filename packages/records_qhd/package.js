@@ -41,6 +41,7 @@ Package.onUse(function (api) {
 	api.export('InstancesToArchive');
 
 	api.export('RecordsQHD');
+	api.export('RecordsQHDLogger');
 
 });
 
