@@ -11,7 +11,7 @@ accounts-password@1.3.0
 accounts-twitter@1.1.11
 blaze-html-templates@1.0.4
 check@1.2.3
-coffeescript@1.2.4_1
+coffeescript@1.11.1_4
 ddp-rate-limiter@1.0.5
 ecmascript@0.6.3 
 ejson@1.0.12
@@ -45,7 +45,7 @@ aldeed:collection2
 
 loaders-css
 
-# rocketchat:logger
+steedos:logger
 
 
 underscorestring:underscore.string
@@ -69,7 +69,7 @@ natestrauser:animate-css
 cfs:standard-packages
 cfs:filesystem
 cfs:ui
-chrismbeckett:toastr
+steedos:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform
@@ -85,6 +85,8 @@ raix:push
 alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
+
+steedos:mermaid
 
 steedos:adminlte
 steedos:base
@@ -121,7 +123,7 @@ comerc:autoform-selectize
 
 # steedos:theme-qhd
 steedos:theme
-#steedos:emailjs
+# steedos:emailjs
 steedos:contacts
 # steedos:portal
 steedos:desktop
@@ -142,4 +144,10 @@ steedos:smsqueue
 steedos:webhookqueue
 
 yogiben:autoform-modals
+vazco:universe-selectize
 vazco:universe-autoform-select
+
+steedos:workflow-chart
+
+steedos:accounts-phone
+steedos:accounts

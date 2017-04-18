@@ -61,6 +61,17 @@ if Meteor.isClient
 		sort: 60
 		parent: "workflow"
 
+	# webhook
+	Admin.addMenu
+		_id: "webhooks"
+		title: "webhooks"
+		app: "workflow"
+		icon: "ion ion-link"
+		url: "/admin/view/webhooks"
+		paid: "true"
+		sort: 70
+		parent: "workflow"
+
 	# 统计分析
 	Admin.addMenu
 		_id: "instance_approves_statistics"
