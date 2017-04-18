@@ -14,14 +14,15 @@ InstanceSignText.helpers =
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
-	trace: (stepName)->
+	trace: (stepName, only_cc_opinion)->
 		traces = InstanceformTemplate.helpers.traces()
-		approve = traces[stepName]
+		approves = traces[stepName]
+		approves = _.filter approves, (a)->
+			return a.type isnt "forward"
+		if only_cc_opinion
+			approves = approves?.filterProperty("type","cc")
 
-		if Template.instance().data.only_cc_opinion
-			approve = approve?.filterProperty("type","cc")
-
-		return approve
+		return approves
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
@@ -36,7 +37,7 @@ InstanceSignText.helpers =
 
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
-	isMyApprove: (approveId) ->
+	isMyApprove: (only_cc_opinion) ->
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
 			if InstanceManager.isCC(ins) && Template.instance().data.name
@@ -45,7 +46,7 @@ InstanceSignText.helpers =
 				else
 					return false
 
-			if !InstanceManager.isCC(ins) && Template.instance().data.only_cc_opinion
+			if !InstanceManager.isCC(ins) && only_cc_opinion
 				return false
 
 			if InstanceManager.getCurrentApprove()
@@ -80,7 +81,15 @@ InstanceSignText.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
+	steps: (field_formula, step,only_cc_opinion)->
+		steps = []
+		if !step
+			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
+		else
+			steps = [{stepName: step, only_cc_opinion: only_cc_opinion}]
+		return steps
+
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
 		locale = Template.instance().view.template.steedosData.locale
-		return Template.instance().data.default || TAPi18n.__("default_opinion", {}, locale)
+		return Template.instance().data.default || TAPi18n.__("instance_default_opinion", {}, locale)

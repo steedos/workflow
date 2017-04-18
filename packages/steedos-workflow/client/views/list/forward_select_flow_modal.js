@@ -17,12 +17,16 @@ Template.forward_select_flow_modal.helpers({
 		return {}
 	},
 
-	// 跨工作区只能转发给自己
+	// 本工作去或者未设置禁止转发（step.disableForward=true）才能转发给工作区下其他用户，否则只能转发给自己
 	is_show_selectuser: function() {
-		if (Session.get('forward_space_id') != Session.get('spaceId')) {
-			return false;
+		if (Session.get('forward_space_id') == Session.get('spaceId')) {
+			if (InstanceManager.isInbox()) {
+				var cs = InstanceManager.getCurrentStep();
+				if (cs && (cs.disableForward != true))
+					return true;
+			}
 		}
-		return true;
+		return false;
 	}
 
 })

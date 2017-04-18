@@ -255,6 +255,9 @@ InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
 	else
 		passing = true;
 
+	if !utcOffset && utcOffset !=0
+		utcOffset = 8
+
 	return moment(date).utcOffset(utcOffset, passing).format("YYYY-MM-DD HH:mm");
 
 InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
@@ -331,6 +334,25 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	return body;
 
+InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance)->
+	steedosData = _getTemplateData(user, space, instance)
+
+	relatedInstancesHtml = _getViewHtml('client/views/instance/related_instances.html')
+
+	relatedInstancesCompiled = SpacebarsCompiler.compile(relatedInstancesHtml, {isBody: true});
+
+	relatedInstancesRenderFunction = eval(relatedInstancesCompiled);
+
+	Template.related_instances_view = new Blaze.Template("related_instances_view", relatedInstancesRenderFunction);
+
+	Template.related_instances_view.steedosData = steedosData
+
+	Template.related_instances_view.helpers RelatedInstances.helpers
+
+	body = Blaze.toHTMLWithData(Template.related_instances_view, {})
+
+	return body;
+
 InstanceReadOnlyTemplate.getOnLoadScript = (instance)->
 	form_version = WorkflowManager.getFormVersion(instance.form, instance.form_version)
 
@@ -374,6 +396,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 		attachment = InstanceReadOnlyTemplate.getAttachmentView(user, space, instance)
 	else
 		attachment = ""
+
+	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance)
 
 	absoluteUrl = Meteor.absoluteUrl();
 
@@ -448,6 +472,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 									<div class="col-md-12">
 										#{body}
 										#{attachment}
+										#{related_instances}
 									</div>
 								</div>
 							</div>

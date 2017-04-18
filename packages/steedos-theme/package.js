@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:theme',
-  version: '0.0.10',
+  version: '0.0.11',
   summary: 'Steedos Theme',
   git: 'https://github.com/steedos/apps/packages/steedos-theme'
 });
@@ -16,10 +16,16 @@ Package.onUse(function(api) {
 
   //api.use('steedos:adminlte@2.3.12');
 
+  api.addFiles("client/lib/weui.css", "client");
+
   api.addFiles([
     'client/core.coffee',
     'client/core.less',
-    'client/admin-lte.less'
+    'client/bootstrap.less',
+    'client/weui.less' , 
+    'client/admin-lte.less',   
+    'client/sidebar.less' ,
+    'client/sidebar-black.less'
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");

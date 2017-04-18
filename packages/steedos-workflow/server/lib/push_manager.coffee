@@ -283,14 +283,14 @@ pushManager.get_badge = (send_from, user_id)->
 
 	sk_all = db.steedos_keyvalues.findOne(
 		user: user_id
-		space: $exists: false
+		space: null
 		key: 'badge')
 	if sk_all
 		db.steedos_keyvalues.update { _id: sk_all._id }, $set: 'value.workflow': badge
 	else
 		sk_all_new = {}
 		sk_all_new.user = user_id
-		sk_all_new.space = undefined
+		sk_all_new.space = null
 		sk_all_new.key = 'badge'
 		sk_all_new.value = 'workflow': badge
 		db.steedos_keyvalues.insert sk_all_new
@@ -647,11 +647,10 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 		console.error e.stack
 
 pushManager.triggerWebhook = (flow_id, instance, current_approve)->
-	if Meteor.settings.cron?.webhookqueue_interval
-		db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
-			WebhookQueue.send({
-					instance: instance,
-					current_approve: current_approve,
-					payload_url: w.payload_url,
-					content_type: w.content_type
-				})
+	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
+		WebhookQueue.send({
+				instance: instance,
+				current_approve: current_approve,
+				payload_url: w.payload_url,
+				content_type: w.content_type
+			})

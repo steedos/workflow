@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:adminlte',
-  version: '2.3.12_2',
+  version: '2.3.12_3',
   summary: 'AdminLTE dashboard theme',
   git: 'https://github.com/steedos/meteor-admin-lte.git',
   documentation: 'README.md'

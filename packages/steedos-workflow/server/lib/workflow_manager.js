@@ -290,6 +290,13 @@ WorkflowManager.getFormulaUsers = function (spaceId, userIds) {
             'name': user.organization.name,
             'fullname': user.organization.fullname
         };
+
+		userObject.hr = {}
+
+		if(user.hr){
+		    userObject.hr = user.hr;
+        }
+
         userObject["roles"] = user.roles ? user.roles.getProperty('name') : [];
         spaceUsers.push(userObject);
     })
@@ -299,14 +306,14 @@ WorkflowManager.getFormulaUsers = function (spaceId, userIds) {
 
 WorkflowManager.getFormulaUserObjects = function (spaceId, userIds) {
     if (!userIds)
-        return;
+        return {organization: {}, hr: {}};
     return WorkflowManager.getFormulaUserObject(spaceId, userIds);
 }
 
 WorkflowManager.getFormulaUserObject = function (spaceId, userId) {
 
     if (!userId)
-        return;
+		return {organization: {}, hr: {}};
 
     if (userId instanceof Array) {
         return WorkflowManager.getFormulaUsers(spaceId, userId);
@@ -395,9 +402,11 @@ WorkflowManager.getFormVersion = function(id , versionId){
     return form_version;
 }
 
-WorkflowManager.getInstanceFlowVersion = function () {
+WorkflowManager.getInstanceFlowVersion = function (instance) {
 
-    var instance = Template.instance().view.template.steedosData.instance
+    if(!instance){
+        instance = Template.instance().view.template.steedosData.instance;
+    }
 
     var flow, flow_version;
     flow = db.flows.findOne(instance.flow);
@@ -484,10 +493,29 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 // 3 否则：return false;
 WorkflowManager.hasInstancePermissions = function (user, instance) {
 
-    approvedUsers = _.union(instance.outbox_users, instance.inbox_users, instance.cc_users, [instance.submitter], [instance.applicant]);
+    var approvedUsers = _.union(instance.outbox_users, instance.inbox_users, instance.cc_users, [instance.submitter], [instance.applicant]);
 
     if(approvedUsers.includes(user._id)){
         return true;
+    }
+
+    //被那些instance关联
+    var originalInstances = db.instances.find({related_instances: {$all: [instance._id]}},{fields: {outbox_users: 1, inbox_users: 1, cc_users: 1, submitter: 1, applicant: 1}})
+    console.log("originalInstances size is " + originalInstances.count());
+    if (originalInstances.count() >0){
+        var hasPermission = false;
+        _.some(originalInstances.fetch(), function (ins) {
+            console.log(ins)
+            havePermissionUsers = _.union(ins.outbox_users, ins.inbox_users, ins.cc_users, [ins.submitter], [ins.applicant]);
+            console.log(havePermissionUsers)
+            if(havePermissionUsers.includes(user._id)){
+                hasPermission = true;
+                return true;
+            }
+        })
+        if(hasPermission){
+            return true;
+        }
     }
 
     spaceUser = db.space_users.findOne({space: instance.space, user: user._id})

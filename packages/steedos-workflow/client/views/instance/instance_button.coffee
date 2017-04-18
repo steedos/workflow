@@ -35,13 +35,6 @@ Template.instance_button.helpers
 			return false
 		return true
 
-
-	enabled_add_attachment: ->
-		if !ApproveManager.isReadOnly()
-			return true
-		else
-			return false
-
 	enabled_terminate: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
@@ -101,6 +94,9 @@ Template.instance_button.helpers
 			return false
 
 		if InstanceManager.isInbox() && ins.state != "draft"
+			cs = InstanceManager.getCurrentStep()
+			if cs && (cs.disableCC is true)
+				return false
 			return true
 		else
 			return false
@@ -109,6 +105,17 @@ Template.instance_button.helpers
 		ins = WorkflowManager.getInstance()
 		if !ins
 			return false
+
+		# 传阅的申请单不允许转发
+		if (InstanceManager.isCC(ins))
+			return false
+
+
+		# 设置了禁止转发则不允许转发
+		if InstanceManager.isInbox()
+			cs = InstanceManager.getCurrentStep()
+			if cs && (cs.disableForward is true)
+				return false
 
 		if ins.state != "draft"
 			return true
@@ -269,3 +276,6 @@ Template.instance_button.events
 
 	'click .btn-instance-related-instances': (event, template)->
 		Modal.show("related_instances_modal")
+
+	'click .btn-workflow-chart': (event, template)->
+		Steedos.openWindow("/api/workflow/chart?instance_id=#{WorkflowManager.getInstance()?._id}")

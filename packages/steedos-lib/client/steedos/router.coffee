@@ -108,7 +108,7 @@ FlowRouter.route '/admin/profile/:profileName',
 				$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
 
-FlowRouter.route '/steedos/springboard', 
+FlowRouter.route '/springboard', 
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()

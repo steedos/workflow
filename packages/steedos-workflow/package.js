@@ -249,7 +249,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
 	api.addFiles('client/views/list/related_instances_modal.coffee', 'client');
 
+	api.addFiles('client/views/instance/_related_instances.coffee', ['client', 'server']);
+
 	api.addFiles('client/views/instance/related_instances.html', 'client');
+	api.addAssets('client/views/instance/related_instances.html', 'server');
 	api.addFiles('client/views/instance/related_instances.coffee', 'client');
 
 	// instance_approves
@@ -268,6 +271,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/forward_instance.js', 'server');
 	api.addFiles('server/methods/cfs_instances.js', 'server');
 	api.addFiles('server/methods/instance_approve.coffee', 'server');
+	api.addFiles('server/methods/instance_return.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
@@ -288,6 +292,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_export.coffee', 'server');
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
+
+	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

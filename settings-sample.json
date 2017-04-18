@@ -17,7 +17,7 @@
     //系统设置相关
     "admin": {
       "disableAddSpace": false, //是否禁止创建新工作区,
-      "background" : "/packages/steedos_theme-qhd/client/background/qhd.jpg"//增加默认背景图
+      "background": "/packages/steedos_theme-qhd/client/background/qhd.jpg" //增加默认背景图
     },
     //账户相关
     "accounts": {
@@ -26,8 +26,8 @@
       "loginExpirationInDays": 90
     },
     //审批王相关
-    "workflow":{
-      "approve_admins" : []//有修改审批意见权限的用户ID集合
+    "workflow": {
+      "approve_admins": [] //有修改审批意见权限的用户ID集合
     }
   },
   "push": {
@@ -71,7 +71,22 @@
     "statistics": "0 0 23 * * *",
     "billing": "0 * * * * *",
     "mailqueue_interval": 1000,
-    "push_interval": 1000
+    "push_interval": 1000,
+    "sms": {
+      "smsqueue_interval": 1000,
+      "accessKeyId": "xxx",
+      "accessKeySecret": "xxx"
+    },
+    "webhookqueue_interval": 1000
+  },
+  //sms短信平台账户配置相关
+  "sms": {
+    //海外短信平台账户相关
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
@@ -81,6 +96,13 @@
     "appuid": "xxx",
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
+  },
+  "sms": {
+    "twilio": {
+       "FROM": "XXXXXXXXXXXX", 
+       "ACCOUNT_SID": "XXXXXXXXXXXX", 
+       "AUTH_TOKEN": "XXXXXXXXXXXX"
+    }
   },
   //日志相关
   "logger": {

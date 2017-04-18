@@ -30,10 +30,12 @@ db.webhooks._simpleSchema = new SimpleSchema
 
 	content_type:
 		type: String
+		defaultValue: "application/json"
 		autoform:
-			type: "select"
-			options: ->
-				return [{label:"application/json", value:"application/json"}, {label:"application/x-www-form-urlencoded", value: "application/x-www-form-urlencoded"}]
+			type: "hidden"
+			# type: "select"
+			# options: ->
+			# 	return [{label:"application/json", value:"application/json"}, {label:"application/x-www-form-urlencoded", value: "application/x-www-form-urlencoded"}]
 
 	active:
 		type: Boolean

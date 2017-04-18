@@ -166,15 +166,15 @@ TemplateHelpers =
 		selector.url = "#{app_url}"
 		return db.apps.findOne(selector)
 
-	getLocale: ()->
-		if Meteor.user()?.locale
-			locale = Meteor.user().locale
-		else
-			l = window.navigator.userLanguage || window.navigator.language || 'en'
-			if l.indexOf("zh") >=0
-				locale = "zh-cn"
-			else
-				locale = "en-us"
+	# getLocale: ()->
+	# 	if Meteor.user()?.locale
+	# 		locale = Meteor.user().locale
+	# 	else
+	# 		l = window.navigator.userLanguage || window.navigator.language || 'en'
+	# 		if l.indexOf("zh") >=0
+	# 			locale = "zh-cn"
+	# 		else
+	# 			locale = "en-us"
 
 	getBadge: (appId, spaceId)->
 		appId = if appId then appId else Steedos.getAppName()
@@ -368,25 +368,6 @@ TemplateHelpers =
 		unless name
 			return true
 		return name == "normal"
-
-	# 根据当前路由路径前缀，得到当前所属app名字
-	getAppName: (path)->
-		unless path
-			path = FlowRouter.current().path
-		if /^\/?workflow\b/.test(path)
-			return "workflow"
-		else if /^\/?cms\b/.test(path)
-			return "cms"
-		else if /^\/?emailjs\b/.test(path)
-			return "emailjs"
-		else if /^\/?contacts\b/.test(path)
-			return "contacts"
-		else if /^\/?portal\b/.test(path)
-			return "portal"
-		else if /^\/?admin\b/.test(path)
-			return "admin"
-		else
-			return ""
 
 	getAppTitle: ->
 		return Session.get("document_title");

@@ -13,14 +13,13 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 		current_approve = hashData.current_approve
 		if current_approve.handler_name is "曹子玉"
 			if current_approve.description and current_approve.description isnt "已阅"
-				user = db.users.findOne({"emails.address": "wanghuaning@portqhd.com"})
+				user = db.users.findOne({"emails.address": "wanghuaning@portqhd.com"}, {fields: {mobile: 1}})
 				if user and user.mobile
 					params = {
 						handler: current_approve.handler_name,
 						instance: hashData.instance.name,
-						description: current_approve.description,
+						description: current_approve.description
 						# insurl: "/workflow/space/#{hashData.instance.space}/view/readonly/#{hashData.instance._id}"
-						insurl: "workflow/"
 					}
 					# 发送手机短信
 					SMSQueue.send({
@@ -29,7 +28,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 							ParamString: JSON.stringify(params),
 							RecNum: user.mobile,
 							SignName: 'OA系统',
-							TemplateCode: 'SMS_60335446'
+							TemplateCode: 'SMS_61725087'
 						})
 					
 
