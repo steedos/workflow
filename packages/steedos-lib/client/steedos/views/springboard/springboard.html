@@ -1,18 +1,18 @@
 <template name="springboard">
 
-<div class="springboard animated zoomIn">
-    <div class="navigation-bar">
+<div class="navigation-bar">
 
-        <button type="button" class="btn btn-default" data-toggle="offcanvas">
-            <i class="fa fa-bars"></i>
-        </button>
+    <button type="button" class="btn btn-default" data-toggle="offcanvas">
+        <i class="fa fa-bars"></i>
+    </button>
 
-        <span class="navigation-title">
-                {{_ "Steedos"}}
-        </span>
-        <div class="pull-right">
-        </div>
+    <span class="navigation-title">
+            {{_ "Steedos"}}
+    </span>
+    <div class="pull-right">
     </div>
+</div>
+<div class="springboard">
 
     <div class="bd">
         <div class="weui_grids">
@@ -32,4 +32,5 @@
     </div>
 </div>
 
+{{> baseTabbar}}
 </template>

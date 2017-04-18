@@ -16,13 +16,16 @@ Package.onUse(function(api) {
 
   //api.use('steedos:adminlte@2.3.12');
 
+  api.addFiles("client/lib/weui.css", "client");
+
   api.addFiles([
     'client/core.coffee',
     'client/core.less',
     'client/bootstrap.less',
-    'client/admin-lte.less',
+    'client/weui.less' , 
+    'client/admin-lte.less',   
     'client/sidebar.less' ,
-    'client/sidebar-black.less'    
+    'client/sidebar-black.less'
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");
