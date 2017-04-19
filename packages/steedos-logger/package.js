@@ -4,6 +4,10 @@ Package.describe({
 	summary: 'Logger for Steedos'
 });
 
+Npm.depends({
+	'chalk'  : '1.1.3'
+});
+
 Package.onUse(function(api) {
 	api.use('coffeescript');
 	api.use('underscore');
