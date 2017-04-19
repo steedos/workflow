@@ -9,7 +9,7 @@ Meteor.startup ->
 		SMSQueue.Configure
 			sendInterval: Meteor.settings.cron.sms.smsqueue_interval
 			sendBatchSize: 10
-			keepSMS: false
+			keepSMS: true
 			accessKeyId: Meteor.settings.cron.sms.accessKeyId
 			accessKeySecret: Meteor.settings.cron.sms.accessKeySecret
 
@@ -17,4 +17,4 @@ Meteor.startup ->
 		WebhookQueue.Configure
 			sendInterval: Meteor.settings.cron.webhookqueue_interval
 			sendBatchSize: 10
-			keepWebhooks: false
+			keepWebhooks: true
