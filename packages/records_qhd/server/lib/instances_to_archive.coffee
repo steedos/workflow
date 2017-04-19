@@ -1,5 +1,7 @@
 request = Npm.require('request')
 
+logger = new Logger 'Records_QHD -> InstancesToArchive'
+
 # spaces: Array 工作区ID
 # archive_server: String 档案系统服务
 # to_archive_api String 档案API
@@ -48,14 +50,14 @@ InstancesToArchive._postFormData = (url, formData, cb) ->
 			return
 
 InstancesToArchive.success = (instance)->
-	RecordsQHDLogger.instancesToArchive.info("[InstancesToArchive] success,id is #{instance._id}")
+	logger.info("success,id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	RecordsQHDLogger.instancesToArchive.error("[InstancesToArchive] failed,id is #{instance._id}. error: #{error}")
+	logger.error("failed,id is #{instance._id}. error: #{error}")
 
 InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
-	RecordsQHDLogger.instancesToArchive.debug("_sendContractInstance: #{instance._id}")
+	logger.debug("_sendContractInstance: #{instance._id}")
 #	表单数据
 	formData = {}
 
