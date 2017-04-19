@@ -2,6 +2,10 @@ request = Npm.require('request')
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
 
+#logger = console
+#
+#logger.debug = console.log
+
 # spaces: Array 工作区ID
 # archive_server: String 档案系统服务
 # to_archive_api String 档案API
@@ -44,20 +48,23 @@ InstancesToArchive._postFormData = (url, formData, cb) ->
 		cb err, httpResponse, body
 
 		if err
-			return console.error('upload failed:', err)
+			console.error('upload failed:', err)
+			return
 		if httpResponse.statusCode == 200
-#			console.info "httpResponse.statusCode is #{httpResponse.statusCode}"
+#			logger.info("success, name is #{formData.TITLE_PROPER}, id is #{formData.fileID}")
 			return
 
+InstancesToArchive.postFormDataAsync = Meteor.wrapAsync(InstancesToArchive._postFormData);
+
 InstancesToArchive.success = (instance)->
-	logger.info("success,id is #{instance._id}")
+	logger.info("success, name is #{instance.name}, id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	logger.error("failed,id is #{instance._id}. error: #{error}")
+	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: #{error}")
 
-InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
-	logger.debug("_sendContractInstance: #{instance._id}")
+InstancesToArchive._sendContractInstance = (url, instance, field_map, callback) ->
+
 #	表单数据
 	formData = {}
 
@@ -107,25 +114,25 @@ InstancesToArchive._sendContractInstance = (url, instance, field_map) ->
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
 	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
 	formData.attach.push request(attachInfoUrl)
+	logger.debug("_sendContractInstance: #{instance._id}")
 
 #	发送数据
-	InstancesToArchive._postFormData url, formData, Meteor.bindEnvironment((err, httpResponse, body)->
-			if httpResponse.statusCode == 200
-				InstancesToArchive.success instance
-			else
-				InstancesToArchive.failed instance, err
-		)
+	httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
 
+	if httpResponse.statusCode == 200
+		InstancesToArchive.success instance
+	else
+		InstancesToArchive.failed instance, err
 
 
 InstancesToArchive::sendContractInstances = (field_map)->
+	console.time("sendContractInstances")
 	instances = @getContractInstances()
 
 	that = @
-
+	console.log "instances.length is #{instances.count()}"
 	instances.fetch().forEach (instance, i)->
-		if i > 300
-			return
 		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
 		InstancesToArchive._sendContractInstance url, instance, field_map
 
+	console.timeEnd("sendContractInstances")
