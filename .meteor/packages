@@ -45,7 +45,7 @@ aldeed:collection2
 
 loaders-css
 
-# rocketchat:logger
+steedos:logger
 
 
 underscorestring:underscore.string
@@ -123,11 +123,11 @@ comerc:autoform-selectize
 
 steedos:theme-qhd
 steedos:theme
-#steedos:emailjs
+# steedos:emailjs
 steedos:contacts
-#steedos:portal
+# steedos:portal
 steedos:desktop
-#steedos:fssh
+# steedos:fssh
 
 
 
@@ -148,3 +148,6 @@ vazco:universe-selectize
 vazco:universe-autoform-select
 
 steedos:workflow-chart
+
+steedos:accounts-phone
+steedos:accounts

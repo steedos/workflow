@@ -1,22 +1,40 @@
 <template name="instance_attachments" >
     {{#if showAttachments}}
         <div class="instance_attachments col-md-12">
-            <div class="">
-                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
-
-                <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}' style={{enabled_add_attachment}}><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input"></div>
+            <div>
+                {{#if enabled_add_main_attachment}}
+                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
+                <div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_main_attach"></div>
+                {{else}}
+                    {{#with main_attachment}}
+                        <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
+                    {{/with}}
+                {{/if}}
+            </div>
+            <div class="attachments-list">
+                <table class='table table-condensed attachments' style="margin-bottom: 0px;">
+                    <tbody>
+                        {{#with main_attachment}}
+                            {{> Template.dynamic template="instance_attachment" data=this}}
+                        {{/with}}
+                    </tbody>
+                </table>
             </div>
 
+            <div>
+                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
+                {{#if enabled_edit_normal_attachment}}
+                <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_normal_attach"></div>
+                {{/if}}
+            </div>
             <div class="attachments-list">
-
-                <table class='table table-condensed attachments'>
+                <table class='table table-condensed attachments' style="margin-bottom: 0px;">
                     <tbody>
-                    {{#each attachments}}
+                    {{#each normal_attachments}}
                         {{> Template.dynamic template="instance_attachment" data=this}}
                     {{/each}}
                     </tbody>
                 </table>
-
             </div>
         </div>
     {{/if}}

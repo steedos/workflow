@@ -3,12 +3,6 @@
 # @namespace Steedos
 ###
 
-db = {}
-_.extend Steedos,
-	settings: {}
-	db: db
-	subs: {}
-
 @TabularTables = {};
 
 if Meteor.isClient
@@ -211,6 +205,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+	Cookies = Npm.require("cookies")
 	#TODO 添加服务端是否手机的判断(依据request)
 	Steedos.isMobile = ()->
 		return false;
@@ -264,6 +259,40 @@ if Meteor.isServer
 				return "/" + url;
 			else
 				return "/"
+
+#	通过request.headers、cookie 获得有效用户
+	Steedos.getAPILoginUser	= (req, res) ->
+		cookies = new Cookies(req, res);
+		if req.headers
+			userId = req.headers["x-user-id"]
+			authToken = req.headers["x-auth-token"]
+
+		# then check cookie
+		if !userId or !authToken
+			userId = cookies.get("X-User-Id")
+			authToken = cookies.get("X-Auth-Token")
+
+		if !userId or !authToken
+			return false
+
+		if Steedos.checkAuthToken(userId, authToken)
+			return db.users.findOne({_id: userId})
+
+		return false
+
+#	检查userId、authToken是否有效
+	Steedos.checkAuthToken = (userId, authToken) ->
+		if userId and authToken
+			hashedToken = Accounts._hashLoginToken(authToken)
+			user = Meteor.users.findOne
+				_id: userId,
+				"services.resume.loginTokens.hashedToken": hashedToken
+			if user
+				return true
+			else
+				return false
+		return false
+
 
 if Meteor.isServer
 	crypto = Npm.require('crypto');

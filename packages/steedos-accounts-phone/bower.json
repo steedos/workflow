@@ -1,0 +1,28 @@
+{
+  "name": "accounts-phone",
+  "version": "0.0.21",
+  "main": "./dist/accounts-phone.bundle.min.js",
+  "dependencies": {
+    "meteor-client-side": "~0.2.3",
+    "accounts-base-client-side": "~0.1.1"
+  },
+  "homepage": "https://github.com/okland/accounts-phone",
+  "description": "A login service based on mobile phone number, For Meteor.",
+  "keywords": [
+    "meteor",
+    "ddp",
+    "client",
+    "side",
+    "sms",
+    "accounts",
+    "phone"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

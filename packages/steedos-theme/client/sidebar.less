@@ -29,6 +29,9 @@
 				    top: 50%;
 				    margin-top: -7px;
 				}
+				&.header-space-switcher{
+					padding: 12px 15px;
+				}
 			}
 
 			.sidebar-menu > li > a {
@@ -66,6 +69,9 @@
 			.treeview-menu > li > a {
 				color: #333;
 			}
+			.user-panel > .info, .user-panel > .info > a {
+				color: black;
+			}
 		}
 		
 	}
@@ -83,14 +89,9 @@
 	.steedos.fixed {
 		.main-sidebar {
 			margin-top: 0px;
-			box-shadow: none;
 		}
 	}
-	.steedos.skin-blue.sidebar-open {
-		.main-header{
-			display: block !important;
-			width: 230px;
-		}
+	.steedos.fixed.sidebar-open {
 		.main-sidebar {
 			.main-header {
 				display: none !important;

@@ -157,6 +157,8 @@ spacebars-compiler@1.0.13
 srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
+steedos:accounts@0.0.1
+steedos:accounts-phone@0.0.1
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
@@ -172,6 +174,7 @@ steedos:i18n@0.0.2
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lib@0.0.1
+steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:mermaid@7.0.0
 steedos:meteor-cookie-login@0.0.5

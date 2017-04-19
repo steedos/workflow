@@ -1,0 +1,9 @@
+{
+	"Steedos": "工作平台",
+	"users_steedos_id": "平台账户",
+	"users_error_steedos_id_required": "平台账户为必填项",
+	"users_error_steedos_id_readonly": "平台账户无法修改",
+	"users_error": {
+		"steedos_id_required": "平台账户不能为空"
+	}
+}
