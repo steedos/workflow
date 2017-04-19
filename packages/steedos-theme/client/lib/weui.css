@@ -3,17 +3,6 @@
  * Copyright 2017 Tencent, Inc.
  * Licensed under the MIT license
  */
-html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-body {
-  line-height: 1.6;
-}
-* {
-  margin: 0;
-  padding: 0;
-}
 a img {
   border: 0;
 }
