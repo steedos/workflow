@@ -16,8 +16,8 @@ accountsRoutes.route '/setup/phone',
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_phone"
 
-# accountsRoutes.route '/setup/phone/verify',
-# 	action: (params, queryParams)->
-# 		BlazeLayout.render 'accountsLayout',
-# 			main: "accounts_phone_verify"
+accountsRoutes.route '/setup/phone/verify',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone_verify"
 
