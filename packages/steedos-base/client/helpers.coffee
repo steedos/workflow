@@ -68,6 +68,12 @@ Steedos.Helpers =
 		Steedos.deps?.miniute?.depend()
 		return Steedos.momentFromNow(time)
 
+	afModalInsert: ->
+		return t "afModal_insert"
+
+	afModalUpdate: ->
+		return t "afModal_update"
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->
