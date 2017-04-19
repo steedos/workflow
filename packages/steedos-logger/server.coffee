@@ -170,9 +170,9 @@
 					detailParts.push details.file
 				if details.line?
 					detailParts.push details.line
-
-		if @defaultTypes[options.type]?
-			prefix = prefix[@defaultTypes[options.type].color]
+#		由于colors 包的问题，服务端暂时不支持log color 显示
+#		if @defaultTypes[options.type]?
+#			prefix = prefix[@defaultTypes[options.type].color]
 
 		if detailParts.length > 0
 			prefix = "#{detailParts.join(' ')} #{prefix}"

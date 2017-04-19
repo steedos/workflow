@@ -50,19 +50,23 @@
           <div class="modal-content ins-modal">
                 {{#with attach_versions}}
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  {{#with attach_current_version}}
-                  <h4 class="modal-title" id="modalLabel2">{{ this.name }}</h4>
-                  {{/with}}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{#with attach_current_version}}
+                    <h4 class="modal-title" id="modalLabel2">{{ this.name }}</h4>
+                    {{/with}}
                 </div>
 
                 <div class="modal-body">
                     <div>
                         <span style="font-size: 17px;">{{_ "Versions"}}</span>
-                        <div class="ins-upload" style="float: right;{{enabled_add_attachment}}">
-                          <span class="ion ion-plus-round"  title='{{_ "Attachments"}}'></span>
-                          <input type="file" name="file" class="ins-file-version-input">
-                        </div>
+                        {{#if enabled_add_attachment}}
+                            {{#with attach_current_version}}
+                            <div class="ins-upload" style="float: right;">
+                                <span class="ion ion-plus-round"  title='{{_ "Attachments"}}'></span>
+                                <input type="file" name="file" class="ins-file-version-input">
+                            </div>
+                            {{/with}}
+                        {{/if}}
                     </div>
                     <table style="width:100%;max-width:100%;background-color: #f5f5f5;">
                         <tbody>

@@ -22,6 +22,7 @@ Package.onUse(function(api) {
   api.use('useraccounts:flow-routing@1.14.2');
   api.use('softwarerero:accounts-t9n@1.3.3');
 
+  api.use('matb33:collection-hooks');
   api.use('flemay:less-autoprefixer@1.2.0');
   api.use('kadira:flow-router@2.10.1');
   api.use('meteorhacks:subs-manager@1.6.4');
@@ -39,6 +40,8 @@ Package.onUse(function(api) {
     'lib/core.coffee',
     'lib/accounts.coffee',
     'lib/tap-i18n.coffee']);
+
+  api.addFiles('lib/models/apps.coffee');
 
   api.addFiles([
     'client/core.coffee',
@@ -60,8 +63,12 @@ Package.onUse(function(api) {
   api.addFiles('client/layout/login_layout.less', "client");
   api.addFiles('client/layout/at_form.coffee', "client");
   api.addFiles('client/layout/at_form.less', "client");
+  api.addFiles('client/layout/tabbar.html', "client");
+  api.addFiles('client/layout/tabbar.coffee', "client");
+  api.addFiles('client/layout/tabbar.less', "client");
 
   api.export('Steedos');
+  api.export('db');
 });
 
 Package.onTest(function(api) {
