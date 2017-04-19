@@ -40,7 +40,11 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
-	api.addFiles('client/views/accounts_phone.less', 'client');
+	
+	api.addFiles('client/views/accounts_phone_verify.html', 'client');
+	api.addFiles('client/views/accounts_phone_verify.coffee', 'client');
+
+	api.addFiles('client/views/accounts.less', 'client');
 
 	api.addFiles('client/router.coffee','client');
 	
