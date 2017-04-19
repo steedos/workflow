@@ -4,7 +4,7 @@
 JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 	try
 		hashData = req.body
-		console.log "===> /api/webhook/notify/wenshu"
+		
 		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
 			JsonRoutes.sendResult res,
 				code: 500
