@@ -10,9 +10,9 @@ TabularTables.instance_approves = new Tabular.Table({
 
 	dom: "tp",
 
-	extraFields: [],
+	extraFields: ["space"],
 	lengthChange: false,
-	pageLength: 100,
+	pageLength: 10,
 	info: false,
 	searching: true,
 	responsive:
