@@ -11,7 +11,10 @@ Template.viewLogs.helpers
 		return stdout.find({}, {sort: {ts: 1}})
 
 	ansispan: (string) ->
-		string = ansispan(string.replace(/\s/g, '&nbsp;').replace(/(\\n|\n)/g, '<br>'))
+
+#		string = ansispan(string.replace(/\s/g, '&nbsp;').replace(/(\\n|\n)/g, '<br>'))
+		string = ansispan(string)
+		string = string.replace(/(\\n|\n)/g, '<br>').replace(/\s/g, '&nbsp;')
 		string = string.replace(/(.\d{8}-\d\d:\d\d:\d\d\.\d\d\d\(?.{0,2}\)?)/, '<span class="time">$1</span>')
 		return string
 
