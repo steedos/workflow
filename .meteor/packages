@@ -149,5 +149,5 @@ vazco:universe-autoform-select
 
 steedos:workflow-chart
 
-steedos:accounts-phone
-steedos:accounts
+# steedos:accounts-phone
+# steedos:accounts
