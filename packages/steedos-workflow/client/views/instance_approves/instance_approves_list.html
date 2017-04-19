@@ -1,6 +1,15 @@
 <template name="instance_approves_list">
 	<div class="instance-list">
-		
+		<div class="toolbar">
+			<div class="pull-right instance-search-box">
+				<div class="input-group">
+					<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="instance_more_search"><span class="caret"></span></button>
+					</span>
+				</div>
+			</div>
+		</div>
 		<div class="search-tip-bar" style="{{is_display_search_tip}}">
 			<span>{{_ "instance_search_result_tip"}}</span>:
 			<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>

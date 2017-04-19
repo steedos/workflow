@@ -12,7 +12,7 @@ TabularTables.instance_approves = new Tabular.Table({
 
 	extraFields: [],
 	lengthChange: false,
-	pageLength: 10,
+	pageLength: 100,
 	info: false,
 	searching: true,
 	responsive:
