@@ -105,7 +105,7 @@ if Meteor.isClient
                     toastr.error result.message
                 else
                     swal t("primary_email_updated"), "", "success"
-
+###
     Tracker.autorun (c) ->
 
         if Meteor.user()
@@ -115,3 +115,4 @@ if Meteor.isClient
           primaryEmail = Meteor.user().emails?[0]?.address
           if !primaryEmail
               Steedos.users_add_email();
+###
