@@ -103,7 +103,7 @@ if (Meteor.isServer) {
 		locale = Template.instance().view.template.steedosData.locale
 		return TAPi18n.__(key, {}, locale)
 	}
-	InstanceAttachmentTemplate.helpers.enabled_edit_main_attachment = function() {
+	InstanceAttachmentTemplate.helpers.enabled_add_main_attachment = function() {
 		return false
 	};
 	InstanceAttachmentTemplate.helpers.enabled_edit_normal_attachment = function() {
