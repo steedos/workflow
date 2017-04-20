@@ -1,7 +1,9 @@
 <template name="instance_button">
 	<div class="pull-left instance-left-buttons">
 		<button type="button" class="btn btn-default btn-instance-back hidden" data-toggle="tooltip"
-				data-placement="bottom" title="返回"><i class="ion ion-chevron-left"></i></button>
+				data-placement="bottom" title="返回"><i class="ion ion-chevron-left"></i>
+				<span>{{_ 'back'}}</span>
+		</button>
 		{{#if enabled_save}}
 			<button tyep="button" class="btn btn-default btn-instance-update" data-toggle="tooltip"
 					data-placement="bottom">
