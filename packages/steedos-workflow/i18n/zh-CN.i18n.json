@@ -471,5 +471,7 @@
 	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
 	"Instance State returned": "已退回",
 
-	"instance_main_attachment": "正文"
+	"instance_main_attachment": "正文",
+
+	"flows_field_map": "字段关系"
 }

@@ -8,7 +8,8 @@ Package.describe({
 Npm.depends({
 	cookies: "0.6.1",
 	ejs: "2.5.5",
-	"ejs-lint": "0.2.0"
+	"ejs-lint": "0.2.0",
+	"eval": "0.1.2"
 });
 
 Package.onUse(function(api) {
@@ -351,7 +352,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/startup.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate'], ['server']);
+	api.addFiles('server/lib/instance_manager.coffee', 'server');
+
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager'], ['server']);
 
 });
 

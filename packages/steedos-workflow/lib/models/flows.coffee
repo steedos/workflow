@@ -148,6 +148,12 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform: 
 			rows: 10
 
+	field_map:
+		type: String
+		optional: true
+		autoform:
+			rows: 10
+
 
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
@@ -213,7 +219,7 @@ new Tabular.Table
 				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow"href="/api/workflow/export/form?form=' + doc.form + '"><i class="fa fa-download"></i></a>'
 		},
 	]
-	extraFields: ["form","print_template","instance_template","events"]
+	extraFields: ["form","print_template","instance_template","events","field_map"]
 	lengthChange: false
 	pageLength: 10
 	info: false
