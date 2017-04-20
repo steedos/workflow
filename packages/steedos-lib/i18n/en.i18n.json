@@ -221,6 +221,8 @@
 	"space_users_created_by": "Created By",
 	"space_users_modified_by": "Modified By",
 	"space_users_mobile": "Moblie",
+	"space_users_work_phone": "Work Phone",
+	"space_users_position": "Position",
 	"space_users_managers": "All Managers",
 	"space_users_apps": "Apps",
 	"space_users_sort_no": "Sort No.",
