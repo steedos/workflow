@@ -56,8 +56,8 @@ db.space_users.adminConfig =
 		{name: "user_accepted"}
 	]
 	extraFields: ["space", "user", "organizations", "manager"]
-	newFormFields: "space,name,email,mobile,organizations,manager,sort_no,user_accepted"
-	editFormFields: "space,name,mobile,organizations,manager,sort_no,user_accepted"
+	newFormFields: "space,name,email,mobile,work_phone,position,organizations,manager,sort_no,user_accepted"
+	editFormFields: "space,name,mobile,work_phone,position,organizations,manager,sort_no,user_accepted"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 

@@ -24,6 +24,8 @@
 	"steedos_contacts_space_users_name":"Name",
 	"steedos_contacts_space_users_email":"Email",
 	"steedos_contacts_space_users_mobile":"Mobile",
+	"steedos_contacts_space_users_workPhone": "Work Phone",
+	"steedos_contacts_space_users_position": "Position",
 	"steedos_contacts_space_users_organizations":"Organizations",
 
 	"address_groups": "Address Groups",

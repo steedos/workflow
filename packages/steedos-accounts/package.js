@@ -6,7 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-  cookies: "0.6.1",
+	cookies: "0.6.1",
+	phone: "1.0.3"
 });
 
 Package.onUse(function(api) {
@@ -17,6 +18,7 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('session');
 	api.use('useraccounts:bootstrap');
+	api.use('underscore');
 	api.use('blaze');
 	api.use('templating');
 
@@ -37,6 +39,8 @@ Package.onUse(function(api) {
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	api.addFiles('lib/core.coffee');
+
+	api.addFiles('server/methods/update_phone.coffee', 'server');
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
