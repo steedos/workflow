@@ -11,20 +11,12 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		if (InstanceManager.isCC(ins)) {
-			return false;
-		}
-
-		var isCurrentApprove = false;
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
 		var isHistoryLenthZero = false;
 		var box = Session.get("box");
 		var isLocked = false;
-
-		var currentApprove = InstanceManager.getCurrentApprove();
-		if (currentApprove && (currentApprove.id == currentApproveId))
-			isCurrentApprove = true;
+		var can_remove_attach = false;
 
 		if (box == "draft" || box == "inbox")
 			isDraftOrInbox = true;
@@ -47,10 +39,38 @@ Template.instance_attachment.helpers({
 			'metadata.current': true
 		});
 
+		if (!current)
+			return false
+
 		if (current && current.metadata && current.metadata.locked_by)
 			isLocked = true;
 
-		return isCurrentApprove && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
+		var currentApprove = InstanceManager.getCurrentApprove();
+
+		if (!currentApprove)
+			return false;
+
+		_.each(ins.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a._id == currentApprove._id) {
+					var step = WorkflowManager.getInstanceStep(t.step);
+					if (current.metadata.main == true) {
+						if (step && step.can_edit_main_attach == true) {
+							if (current.metadata.owner == Meteor.userId() && ins.state == "draft")
+								can_remove_attach = true;
+						}
+					} else {
+						if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined)) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					}
+
+				}
+			})
+		})
+
+		return can_remove_attach && isDraftOrInbox && isFlowEnable && isHistoryLenthZero && !isLocked;
 	},
 
 	getUrl: function(_rev, isPreview) {
@@ -80,11 +100,15 @@ Template.instance_attachment.helpers({
 	},
 
 	IsImageAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		var type = attachment.original.type;
 		return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		return attachment.original.type == "text/html"
 	},
 
@@ -205,26 +229,36 @@ Template.ins_attach_version_modal.helpers({
 	enabled_add_attachment: function() {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
-			return "display: none;";
-
-		if (InstanceManager.isCC(ins))
-			return "display: none;";
+			return false
 
 		var parent = Session.get('attach_parent_id');
-		if (!parent) return "display: none;";
+		if (!parent) return false
 
 		var current = cfs.instances.findOne({
 			'metadata.parent': parent,
 			'metadata.current': true
 		});
 
-		if (current && current.metadata && current.metadata.locked_by)
-			return "display: none;";
+		if (!current)
+			return false
 
-		if (Session.get("box") == "draft" || Session.get("box") == "inbox")
-			return "";
-		else
-			return "display: none;";
+		if (current && current.metadata && current.metadata.locked_by)
+			return false
+
+		if (Session.get("box") == "draft" || Session.get("box") == "inbox") {
+			var current_step = InstanceManager.getCurrentStep();
+			// 如果是正文 则判断是否有编辑权限
+			if (current.metadata.main == true) {
+				if (current_step && current_step.can_edit_main_attach == true)
+					return true
+			} else {
+				// 如果是附件 则判断是否有编辑权限
+				if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+					return true
+			}
+		}
+
+		return false
 	},
 
 	current_can_delete: function(currentApproveId, parent_id) {
@@ -232,24 +266,12 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
-		if (InstanceManager.isCC(ins)) {
-			return false;
-		}
-
-		var isCurrentApprove = false;
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
 		var isHistoryLenthZero = false;
 		var box = Session.get("box");
 		var isLocked = false;
-
-		var currentApprove = InstanceManager.getCurrentApprove();
-
-		if (!currentApprove)
-			return false;
-
-		if (currentApprove.id == currentApproveId)
-			isCurrentApprove = true;
+		var can_remove_attach = false;
 
 		if (box == "draft" || box == "inbox")
 			isDraftOrInbox = true;
@@ -272,10 +294,38 @@ Template.ins_attach_version_modal.helpers({
 			'metadata.current': true
 		});
 
+		if (!current)
+			return false;
+
 		if (current && current.metadata && current.metadata.locked_by)
 			isLocked = true;
 
-		return isCurrentApprove && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
+		var currentApprove = InstanceManager.getCurrentApprove();
+
+		if (!currentApprove)
+			return false;
+
+		_.each(ins.traces, function(t) {
+			_.each(t.approves, function(a) {
+				if (a._id == currentApprove._id) {
+					var step = WorkflowManager.getInstanceStep(t.step);
+					if (current.metadata.main == true) {
+						if (step && step.can_edit_main_attach == true) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					} else {
+						if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined)) {
+							if (current.metadata.owner == Meteor.userId())
+								can_remove_attach = true;
+						}
+					}
+
+				}
+			})
+		})
+
+		return can_remove_attach && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
 	},
 
 	canEdit: function(filename, locked_by) {
@@ -312,11 +362,15 @@ Template.ins_attach_version_modal.helpers({
 	},
 
 	IsImageAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		var type = attachment.original.type;
 		return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {
+		if (!attachment)
+			return;
 		return attachment.original.type == "text/html"
 	}
 })
@@ -325,8 +379,11 @@ Template.ins_attach_version_modal.helpers({
 Template.ins_attach_version_modal.events({
 
 	'change .ins-file-version-input': function(event, template) {
-
-		InstanceManager.uploadAttach(event.target.files, true);
+		if (this.metadata.main == true) {
+			InstanceManager.uploadAttach(event.target.files, true, true);
+		} else {
+			InstanceManager.uploadAttach(event.target.files, true, false);
+		}
 
 		$(".ins-file-version-input").val('')
 	},
@@ -472,12 +529,23 @@ Template.ins_attach_edit_modal.events({
 		params.locked_by_name = Meteor.user().name;
 		params.upload_from = "IE";
 
+		var main_count = cfs.instances.find({
+			'metadata.parent': Session.get('attach_parent_id'),
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
+		if (main_count > 0) {
+			params.main = true;
+		}
+
 		var params_str = $.param(params);
 
 		var data = TANGER_OCX_OBJ.SaveToURL(Meteor.absoluteUrl('s3/'), "file", params_str, encodeURIComponent(filename), 0);
 
 		var json_data = eval('(' + data + ')');
 
+		// 先解锁
+		InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 		// 编辑时锁定
 		Session.set('cfs_file_id', json_data['version_id']);
 

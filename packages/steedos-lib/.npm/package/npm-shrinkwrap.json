@@ -1,21 +1,34 @@
 {
   "dependencies": {
+    "cookies": {
+      "version": "0.6.1",
+      "resolved": "https://registry.npmjs.org/cookies/-/cookies-0.6.1.tgz",
+      "from": "cookies@0.6.1"
+    },
+    "cron-parser": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/cron-parser/-/cron-parser-1.1.0.tgz",
+      "from": "cron-parser@1.1.0"
+    },
+    "depd": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/depd/-/depd-1.1.0.tgz",
+      "from": "depd@>=1.1.0 <1.2.0"
+    },
+    "keygrip": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.1.tgz",
+      "from": "keygrip@>=1.0.0 <1.1.0"
+    },
+    "long-timeout": {
+      "version": "0.0.2",
+      "resolved": "https://registry.npmjs.org/long-timeout/-/long-timeout-0.0.2.tgz",
+      "from": "long-timeout@0.0.2"
+    },
     "node-schedule": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/node-schedule/-/node-schedule-1.1.1.tgz",
-      "from": "node-schedule@1.1.1",
-      "dependencies": {
-        "cron-parser": {
-          "version": "1.1.0",
-          "resolved": "https://registry.npmjs.org/cron-parser/-/cron-parser-1.1.0.tgz",
-          "from": "cron-parser@1.1.0"
-        },
-        "long-timeout": {
-          "version": "0.0.2",
-          "resolved": "https://registry.npmjs.org/long-timeout/-/long-timeout-0.0.2.tgz",
-          "from": "long-timeout@0.0.2"
-        }
-      }
+      "from": "node-schedule@1.1.1"
     }
   }
 }

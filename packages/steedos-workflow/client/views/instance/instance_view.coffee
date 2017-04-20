@@ -86,11 +86,11 @@ Template.instance_view.onRendered ->
 
 	$(".workflow-main").addClass("instance-show")
 
-	$('[data-toggle="tooltip"]').tooltip()
+	isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
 		$('.instance').perfectScrollbar({suppressScrollX: true}).css("right","-1px")
-		if Session.get("box") == "inbox"
+		if isNeedActiveSuggestion
 			$('.instance').on 'ps-y-reach-end', ->
 				if this.scrollTop == 0
 					# 内容高度不足已出现滚动条时也会触发该事件，需要排除掉。
@@ -98,7 +98,7 @@ Template.instance_view.onRendered ->
 				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
-	else if Session.get("box") == "inbox"
+	else if isNeedActiveSuggestion
 		preScrollTop = 0
 		loap = 0
 		$(".instance").scroll (event)->
@@ -127,10 +127,26 @@ Template.instance_view.events
 	'typeahead:change .form-control': (event) ->
 		Session.set("instance_change", true)
 
-	'change .ins-file-input': (event, template)->
-		InstanceManager.uploadAttach(event.target.files, false)
+	'change #ins_upload_main_attach': (event, template)->
+		# 正文最多只能有一个
+		main_attach_count = cfs.instances.find({
+			'metadata.instance': Session.get("instanceId"),
+			'metadata.current': true,
+			'metadata.main': true
+		}).count()
 
-		$(".ins-file-input").val('')
+		if main_attach_count >= 1
+			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
+			return
+
+		InstanceManager.uploadAttach(event.target.files, false, true)
+
+		$("#ins_upload_main_attach").val('')
+
+	'change #ins_upload_normal_attach': (event, template)->
+		InstanceManager.uploadAttach(event.target.files, false, false)
+
+		$("#ins_upload_normal_attach").val('')
 
 	'click .btn-instance-back': (event)->
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")

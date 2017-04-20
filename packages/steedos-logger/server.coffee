@@ -1,3 +1,6 @@
+chalk = Npm.require("chalk")
+chalk.enabled = true;
+
 @LoggerManager = new class extends EventEmitter
 	constructor: ->
 		@enabled = false
@@ -172,7 +175,8 @@
 					detailParts.push details.line
 
 		if @defaultTypes[options.type]?
-			prefix = prefix[@defaultTypes[options.type].color]
+#			prefix = prefix[@defaultTypes[options.type].color] 由于colors 包的问题，服务端暂时不支持log color 显示
+			prefix = chalk[@defaultTypes[options.type].color](prefix)
 
 		if detailParts.length > 0
 			prefix = "#{detailParts.join(' ')} #{prefix}"

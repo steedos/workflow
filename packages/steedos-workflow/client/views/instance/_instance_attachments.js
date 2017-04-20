@@ -1,91 +1,149 @@
 InstanceAttachmentTemplate.helpers = {
-    enabled_add_attachment: function() {
-        var ins = WorkflowManager.getInstance();
-        if (!ins)
-            return "display: none;";
+	enabled_add_main_attachment: function() {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false
 
-        if (Session && Session.get("instancePrint"))
-            return "display: none;"
+		if (Session && Session.get("instancePrint"))
+			return false
 
-        if (InstanceManager.isCC(ins))
-            return "display: none;";
+		// 正文最多只能有一个
+		var main_attach_count = cfs.instances.find({
+			'metadata.instance': ins._id,
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
 
-        if (Session.get("box") == "draft" || Session.get("box") == "inbox")
-            return "";
-        else
-            return "display: none;";
-    },
-
-    attachments: function() {
-        var instanceId = Session.get('instanceId');
-        if (!instanceId)
-            return;
-
-        return cfs.instances.find({
-            'metadata.instance': instanceId,
-            'metadata.current': true
-        }).fetch();
-    },
-
-    showAttachments: function(){
-        var ins = WorkflowManager.getInstance();
-        if (!ins)
-            return false;
-
-        var instanceId = Session.get('instanceId');
-        if (!instanceId)
-            return false;
+		if (main_attach_count >= 1) {
+			return false;
+		}
 
 
-        var attachments = cfs.instances.find({
-            'metadata.instance': instanceId,
-            'metadata.current': true
-        }).fetch();
+		// 开始节点并且设置了可以上传正文才显示上传正文的按钮
+		var current_step = InstanceManager.getCurrentStep();
+		if (current_step && current_step.step_type == "start" && current_step.can_edit_main_attach == true)
+			return true
 
-        if (Session && Session.get("instancePrint") && attachments.length < 1)
-            return false
+		return false
+	},
 
-        if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments.length > 0)
-            return true;
-        else
-            return false;
-    },
+	enabled_edit_normal_attachment: function() {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false
 
-    _t: function(key){
-        return TAPi18n.__(key)
-    }
+		if (Session && Session.get("instancePrint"))
+			return false
+
+		var current_step = InstanceManager.getCurrentStep();
+		if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+			return true
+
+		return false
+	},
+
+	main_attachment: function() {
+		var instanceId = Session.get('instanceId');
+		if (!instanceId)
+			return;
+
+		return cfs.instances.findOne({
+			'metadata.instance': instanceId,
+			'metadata.current': true,
+			'metadata.main': true
+		});
+	},
+
+	normal_attachments: function() {
+		var instanceId = Session.get('instanceId');
+		if (!instanceId)
+			return;
+
+		return cfs.instances.find({
+			'metadata.instance': instanceId,
+			'metadata.current': true,
+			'metadata.main': {
+				$ne: true
+			}
+		}).fetch();
+	},
+
+	showAttachments: function() {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		var instanceId = Session.get('instanceId');
+		if (!instanceId)
+			return false;
+
+
+		var attachments = cfs.instances.find({
+			'metadata.instance': instanceId,
+			'metadata.current': true
+		}).fetch();
+
+		if (Session && Session.get("instancePrint") && attachments.length < 1)
+			return false
+
+		if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments.length > 0)
+			return true;
+		else
+			return false;
+	},
+
+	_t: function(key) {
+		return TAPi18n.__(key)
+	}
 
 }
 
-if(Meteor.isServer){
-    InstanceAttachmentTemplate.helpers._t = function(key){
-        locale = Template.instance().view.template.steedosData.locale
-        return TAPi18n.__(key, {}, locale)
-    }
-    InstanceAttachmentTemplate.helpers.enabled_add_attachment = function () {
-        return "display: none;"
-    };
+if (Meteor.isServer) {
+	InstanceAttachmentTemplate.helpers._t = function(key) {
+		locale = Template.instance().view.template.steedosData.locale
+		return TAPi18n.__(key, {}, locale)
+	}
+	InstanceAttachmentTemplate.helpers.enabled_add_main_attachment = function() {
+		return false
+	};
+	InstanceAttachmentTemplate.helpers.enabled_edit_normal_attachment = function() {
+		return false
+	};
 
-    InstanceAttachmentTemplate.helpers.attachments = function () {
-        var instance = Template.instance().view.template.steedosData.instance;
-        var attachments = cfs.instances.find({
-            'metadata.instance': instance._id,
-            'metadata.current': true
-        }).fetch();
+	InstanceAttachmentTemplate.helpers.main_attachment = function() {
+		var instance = Template.instance().view.template.steedosData.instance;
+		var attachment = cfs.instances.findOne({
+			'metadata.instance': instance._id,
+			'metadata.current': true,
+			'metadata.main': true
+		});
 
-        return attachments;
-    };
+		return attachment;
+	};
 
-    InstanceAttachmentTemplate.helpers.showAttachments = function () {
-        var instance = Template.instance().view.template.steedosData.instance;
-        var attachments = cfs.instances.find({
-            'metadata.instance': instance._id,
-            'metadata.current': true
-        }).fetch();
+	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
+		var instance = Template.instance().view.template.steedosData.instance;
+		var attachments = cfs.instances.find({
+			'metadata.instance': instance._id,
+			'metadata.current': true,
+			'metadata.main': {
+				$ne: true
+			}
+		}).fetch();
 
-        if(attachments && attachments.length > 0){
-            return true;
-        }
-        return false;
-    }
+		return attachments;
+	};
+
+	InstanceAttachmentTemplate.helpers.showAttachments = function() {
+		var instance = Template.instance().view.template.steedosData.instance;
+		var attachments = cfs.instances.find({
+			'metadata.instance': instance._id,
+			'metadata.current': true
+		}).fetch();
+
+		if (attachments && attachments.length > 0) {
+			return true;
+		}
+		return false;
+	}
 }

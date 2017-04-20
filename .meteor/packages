@@ -45,7 +45,7 @@ aldeed:collection2
 
 loaders-css
 
-# rocketchat:logger
+steedos:logger
 
 
 underscorestring:underscore.string
@@ -130,7 +130,6 @@ steedos:desktop
 steedos:fssh
 
 
-
 # must place at last
 matb33:collection-hooks
 
@@ -143,8 +142,11 @@ steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
 
-yogiben:autoform-modals
+steedos:autoform-modals
 vazco:universe-selectize
 vazco:universe-autoform-select
 
 steedos:workflow-chart
+
+# steedos:accounts-phone
+# steedos:accounts

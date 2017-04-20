@@ -15,6 +15,27 @@ Steedos.Helpers =
 		else
 			return "Steedos"
 
+	# 根据当前路由路径前缀，得到当前所属app名字
+	getAppName: (path)->
+		unless path
+			path = FlowRouter.current().path
+		if /^\/?workflow\b/.test(path)
+			return "workflow"
+		else if /^\/?cms\b/.test(path)
+			return "cms"
+		else if /^\/?emailjs\b/.test(path)
+			return "emailjs"
+		else if /^\/?contacts\b/.test(path)
+			return "contacts"
+		else if /^\/?portal\b/.test(path)
+			return "portal"
+		else if /^\/?admin\b/.test(path)
+			return "admin"
+		else if /^\/?springboard\b/.test(path)
+			return "springboard"
+		else
+			return ""
+
 	getUserId: ()->
 		return Meteor.userId()
 
@@ -46,6 +67,12 @@ Steedos.Helpers =
 	momentReactiveFromNow: (time)->
 		Steedos.deps?.miniute?.depend()
 		return Steedos.momentFromNow(time)
+
+	afModalInsert: ->
+		return t "afModal_insert"
+
+	afModalUpdate: ->
+		return t "afModal_update"
 
 _.extend Steedos, Steedos.Helpers
 
