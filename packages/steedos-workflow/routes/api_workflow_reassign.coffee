@@ -36,11 +36,12 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			i = 0
 			while i < last_trace.approves.length
 				if not_in_inbox_users.includes(last_trace.approves[i].user)
-					if last_trace.approves[i].is_finished is false
+					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
 						last_trace.approves[i].judge = ""
 						last_trace.approves[i].description = ""
+						last_trace.approves[i].cost_time = last_trace.approves[i].finish_date - last_trace.approves[i].start_date
 				i++
 			# 在同一trace下插入转签核操作者的approve记录
 			current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
@@ -66,6 +67,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			assignee_appr.description = reassign_reason
 			assignee_appr.is_error = false
 			assignee_appr.values = new Object
+			assignee_appr.cost_time = assignee_appr.finish_date - assignee_appr.start_date
 			last_trace.approves.push(assignee_appr)
 			# 对新增的每位待审核人，各增加一条新的approve
 			_.each(new_inbox_users, (user_id)->

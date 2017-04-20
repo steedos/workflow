@@ -86,6 +86,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 						newApprove.description = terminate_reason
 						newApprove.is_error = false
 						newApprove.values = new Object
+						newApprove.cost_time = newApprove.finish_date - newApprove.start_date
 						traces[i].approves.push(newApprove)
 					i++
 	
