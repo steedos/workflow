@@ -13,6 +13,7 @@ Template.accounts_phone.events
 				toastr.error error.reason
 				console.log error
 				return
-			FlowRouter.go "/accounts/setup/phone/verify"
+			phone = "+86 #{phone}"
+			FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(phone)}"
 
 
