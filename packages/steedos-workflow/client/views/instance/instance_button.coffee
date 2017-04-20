@@ -278,4 +278,4 @@ Template.instance_button.events
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
-		return window.open("/api/workflow/chart?instance_id=#{WorkflowManager.getInstance()?._id}",'workflow_chart','EnableViewPortScale=yes')
+		Steedos.openWindow("/api/workflow/chart?instance_id=#{WorkflowManager.getInstance()?._id}",'workflow_chart','EnableViewPortScale=yes')
