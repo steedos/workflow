@@ -21,20 +21,22 @@ RecordsQHD.test = () ->
 
 RecordsQHD.scheduleJobMaps = {}
 
-RecordsQHD.contractInstanceToArchive = ()->
+RecordsQHD.instanceToArchive = ()->
 	records_qhd_sett = Meteor.settings.records_qhd
 
 	spaces = records_qhd_sett.spaces
 
 	archive_server = records_qhd_sett.archive_server
 
-	to_archive_api = records_qhd_sett.contract_instances.to_archive_api
-
 	flows = records_qhd_sett.contract_instances.flows
 
-	instancesToArchive = new InstancesToArchive(spaces, archive_server, to_archive_api, flows)
+	instancesToArchive = new InstancesToArchive(spaces, archive_server, flows)
 
-	instancesToArchive.sendContractInstances(to_archive_api)
+	contract_archive_api = records_qhd_sett.contract_instances.to_archive_api
+	instancesToArchive.sendContractInstances(contract_archive_api);
+
+	to_archive_api = records_qhd_sett.non_contract_instances.to_archive_api
+	instancesToArchive.sendNonContractInstances(to_archive_api)
 
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
@@ -53,4 +55,4 @@ RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 		logger.info "Add scheduleJobMaps: #{name}"
 		RecordsQHD.scheduleJobMaps[name] = schedule.scheduleJob recurrenceRule, fun
 
-RecordsQHD.startScheduleJob "RecordsQHD.contractInstanceToArchive", RecordsQHD.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.contractInstanceToArchive)
+RecordsQHD.startScheduleJob "RecordsQHD.instanceToArchive", RecordsQHD.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.instanceToArchive)

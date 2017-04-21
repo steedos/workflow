@@ -8,12 +8,10 @@ logger = new Logger 'Records_QHD -> InstancesToArchive'
 
 # spaces: Array 工作区ID
 # archive_server: String 档案系统服务
-# to_archive_api String 档案API
 # contract_flows： Array 合同类流程
-InstancesToArchive = (spaces, archive_server, to_archive_api, contract_flows) ->
+InstancesToArchive = (spaces, archive_server, contract_flows) ->
 	@spaces = spaces
 	@archive_server = archive_server
-	@to_archive_api = to_archive_api
 	@contract_flows = contract_flows
 	return
 
@@ -43,7 +41,15 @@ InstancesToArchive.success = (instance)->
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: #{error}")
+	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
+	logger.error error
+
+#	校验必填
+_checkParameter = (formData) ->
+	if !formData.FONDSID
+		return false
+	return true
+
 
 _minxiInstanceData = (formData, instance) ->
 
@@ -138,39 +144,42 @@ InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 
 	_minxiInstanceData(formData, instance)
 
-	logger.debug("_sendContractInstance: #{instance._id}")
+	if _checkParameter(formData)
 
-	#	发送数据
-	httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+		logger.debug("_sendContractInstance: #{instance._id}")
 
-	if httpResponse.statusCode == 200
-		InstancesToArchive.success instance
+		#	发送数据
+		httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+
+		if httpResponse.statusCode == 200
+			InstancesToArchive.success instance
+		else
+			InstancesToArchive.failed instance, httpResponse
 	else
-		InstancesToArchive.failed instance, httpResponse
+		InstancesToArchive.failed instance, "立档单位 不能为空"
 
 
-InstancesToArchive::sendContractInstances = () ->
+InstancesToArchive::sendContractInstances = (to_archive_api) ->
 	console.time("sendContractInstances")
 	instances = @getContractInstances()
 
 	that = @
 	console.log "instances.length is #{instances.count()}"
 	instances.fetch().forEach (instance, i)->
-		if i > 300
-			return;
-		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
+		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
 		InstancesToArchive._sendContractInstance url, instance
 
 	console.timeEnd("sendContractInstances")
 
 
-InstancesToArchive::sendNonContractInstances = () ->
+InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	console.time("sendNonContractInstances")
-	instances = getNonContractInstances()
+	instances = @getNonContractInstances()
 	that = @
-	console.log "instances.length is #{instances.count()}"
+	logger.info "instances.length is #{instances.count()}"
 	instances.fetch().forEach (instance, i)->
-		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
+		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
+		logger.debug "url is #{url}"
 		InstancesToArchive._sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
@@ -192,16 +201,20 @@ InstancesToArchive._sendNonContractInstance = (url, instance, callback) ->
 
 	formData.FILE_DATE = moment(instance.submit_date).format(format)
 
-	formData.TITLE_PROPER = encodeURI(instance.name) || encodeURI("无")
+	formData.TITLE_PROPER = instance.name || "无"
 
 	_minxiInstanceData(formData, instance)
 
-	logger.debug("_sendContractInstance: #{instance._id}")
+	if _checkParameter(formData)
 
-	#	发送数据
-	httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+		logger.debug("_sendContractInstance: #{instance._id}")
 
-	if httpResponse.statusCode == 200
-		InstancesToArchive.success instance
+		#	发送数据
+		httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+
+		if httpResponse.statusCode == 200
+			InstancesToArchive.success instance
+		else
+			InstancesToArchive.failed instance, httpResponse
 	else
-		InstancesToArchive.failed instance, err
+		InstancesToArchive.failed instance, "立档单位 不能为空"
