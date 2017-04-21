@@ -45,32 +45,25 @@ InstancesToArchive.success = (instance)->
 InstancesToArchive.failed = (instance, error)->
 	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: #{error}")
 
-_minxiInstanceData = (formData, instance, field_values, field_map) ->
+_minxiInstanceData = (formData, instance) ->
 
 	if !formData || !instance
 		return
 
 	format = "YYYY-MM-DD HH:mm:ss"
 
-	formData.attach = new Array()
-
 	formData.fileID = instance._id
 
-#	常量值处理
-	if field_values && _.isObject(field_values)
-		field_values_key = _.keys(field_values)
-		field_values_key.forEach (k)->
-			formData[k] = field_values[k]
+	field_values = InstanceManager.handlerInstanceByFieldMap(instance);
 
-#	表单字段处理
-	fieldsValues = instance.values
+	formData = _.extend formData, field_values
 
-	fieldNames = _.keys(field_map)
+	console.log formData
 
-	fieldNames.forEach (fieldName)->
-		key = field_map[fieldName]
+	fieldNames = _.keys(formData)
 
-		fieldValue = fieldsValues[key]
+	fieldNames.forEach (key)->
+		fieldValue = formData[key]
 
 		if _.isDate(fieldValue)
 			fieldValue = moment(fieldValue).format(format)
@@ -87,7 +80,9 @@ _minxiInstanceData = (formData, instance, field_values, field_map) ->
 		if !fieldValue
 			fieldValue = ''
 
-		formData[fieldName] = encodeURI(fieldValue)
+		formData[key] = encodeURI(fieldValue)
+
+	formData.attach = new Array()
 
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
@@ -136,12 +131,12 @@ InstancesToArchive.postFormDataAsync = Meteor.wrapAsync(InstancesToArchive._post
 
 
 
-InstancesToArchive._sendContractInstance = (url, instance, field_values, field_map, callback) ->
+InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 
 #	表单数据
 	formData = {}
 
-	_minxiInstanceData(formData, instance, field_values, field_map)
+	_minxiInstanceData(formData, instance)
 
 	logger.debug("_sendContractInstance: #{instance._id}")
 
@@ -151,35 +146,37 @@ InstancesToArchive._sendContractInstance = (url, instance, field_values, field_m
 	if httpResponse.statusCode == 200
 		InstancesToArchive.success instance
 	else
-		InstancesToArchive.failed instance, err
+		InstancesToArchive.failed instance, httpResponse
 
 
-InstancesToArchive::sendContractInstances = (field_values, field_map) ->
+InstancesToArchive::sendContractInstances = () ->
 	console.time("sendContractInstances")
 	instances = @getContractInstances()
 
 	that = @
 	console.log "instances.length is #{instances.count()}"
 	instances.fetch().forEach (instance, i)->
+		if i > 300
+			return;
 		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
-		InstancesToArchive._sendContractInstance url, instance, field_values, field_map
+		InstancesToArchive._sendContractInstance url, instance
 
 	console.timeEnd("sendContractInstances")
 
 
-InstancesToArchive::sendNonContractInstances = (field_values, field_map) ->
+InstancesToArchive::sendNonContractInstances = () ->
 	console.time("sendNonContractInstances")
 	instances = getNonContractInstances()
 	that = @
 	console.log "instances.length is #{instances.count()}"
 	instances.fetch().forEach (instance, i)->
 		url = that.archive_server + that.to_archive_api + '?externalId=' + instance._id
-		InstancesToArchive._sendNonContractInstance url, instance, field_values, field_map
+		InstancesToArchive._sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
 
 
-InstancesToArchive._sendNonContractInstance = (url, instance, field_values, field_map, callback) ->
+InstancesToArchive._sendNonContractInstance = (url, instance, callback) ->
 
 	format = "YYYY-MM-DD HH:mm:ss"
 
@@ -197,7 +194,7 @@ InstancesToArchive._sendNonContractInstance = (url, instance, field_values, fiel
 
 	formData.TITLE_PROPER = encodeURI(instance.name) || encodeURI("无")
 
-	_minxiInstanceData(formData, instance, field_values, field_map)
+	_minxiInstanceData(formData, instance)
 
 	logger.debug("_sendContractInstance: #{instance._id}")
 

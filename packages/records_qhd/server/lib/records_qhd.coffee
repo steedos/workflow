@@ -32,13 +32,9 @@ RecordsQHD.contractInstanceToArchive = ()->
 
 	flows = records_qhd_sett.contract_instances.flows
 
-	field_values = records_qhd_sett.contract_instances.field_values
-
-	field_map = records_qhd_sett.contract_instances.field_map
-
 	instancesToArchive = new InstancesToArchive(spaces, archive_server, to_archive_api, flows)
 
-	instancesToArchive.sendContractInstances(field_values, field_map)
+	instancesToArchive.sendContractInstances(to_archive_api)
 
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
