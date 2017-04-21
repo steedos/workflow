@@ -118,8 +118,13 @@ if Meteor.isClient
 						toastr.error error
 					return
 
-			return
-		if on_click
+		else if app.internal
+			FlowRouter.go(app.url)
+
+		else if app.is_use_iframe
+			Steedos.openWindow(Meteor.absoluteUrl("admin/open/by/iframe/" + app._id))
+
+		else if on_click
 			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
 			evalFunString = "(function(){#{on_click}})()"
 			try
@@ -129,10 +134,6 @@ if Meteor.isClient
 				console.error "catch some error when eval the on_click script for app link:"
 				console.error "#{e.message}\r\n#{e.stack}"
 		else
-			if app.internal
-				FlowRouter.go(app.url)
-				return
-
 			authToken = {};
 			authToken["spaceId"] = Steedos.getSpaceId()
 #			if Steedos.isMobile()
