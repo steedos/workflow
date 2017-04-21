@@ -51,7 +51,7 @@ Template.forward_select_flow_modal.events({
 
 		var selectedUsers = AutoForm.getFieldValue("forward_users", "forward_select_user");
 
-		if (Session.get('forward_space_id') != Session.get('spaceId')) {
+		if ((Session.get('forward_space_id') != Session.get('spaceId')) || Session.get("box") != "inbox") {
 			selectedUsers = [Meteor.userId()];
 		}
 
