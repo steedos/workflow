@@ -1,7 +1,7 @@
 <template name="instance_attachment" >
     <tr>
         <td class="ins-attach-view">
-            <a style="cursor: pointer;" name="ins_attach_version" class="ins_attach_version" data-parent="{{this.metadata.parent}}">{{this.name}}</a>
+            <a style="cursor: pointer;" name="ins_attach_version" data-parent="{{this.metadata.parent}}">{{this.name}}</a>
             {{#if this.metadata.locked_by}}
                 <span style="margin-left: 10px;">{{locked_info this.metadata.locked_by_name}}</span>
             {{/if}}
