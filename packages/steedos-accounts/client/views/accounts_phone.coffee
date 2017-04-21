@@ -1,4 +1,7 @@
 Template.accounts_phone.helpers
+	currentPhoneNumber: ->
+		return Accounts.getPhoneNumber()
+
 
 Template.accounts_phone.onRendered ->
 
