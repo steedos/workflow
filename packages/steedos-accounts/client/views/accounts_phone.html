@@ -2,27 +2,29 @@
 	<div class="container accounts-phone-wrapper">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<h3 class="accounts-phone-title">请输入您的手机号</h3>
-				<div class="weui-cells weui-cells_form">
-					<div class="weui-cell weui-cell_select weui-cell_select-after">
-						<div class="weui-cell__hd">
-							<label for="" class="weui-label">国家/地区</label>
+				<div class="accounts-phone-content">
+					<h3 class="accounts-phone-title">请输入您的手机号</h3>
+					<div class="weui-cells weui-cells_form">
+						<div class="weui-cell weui-cell_select weui-cell_select-after">
+							<div class="weui-cell__hd">
+								<label for="" class="weui-label">国家/地区</label>
+							</div>
+							<div class="weui-cell__bd">
+								<select class="weui-select" name="select2">
+									<option value="1">中国</option>
+								</select>
+							</div>
 						</div>
-						<div class="weui-cell__bd">
-							<select class="weui-select" name="select2">
-								<option value="1">中国</option>
-							</select>
+						<div class="weui-cell">
+							<div class="weui-cell__hd"><label class="weui-label">+86</label></div>
+							<div class="weui-cell__bd">
+								<input class="weui-input accounts-phone-number" type="number" pattern="[0-9]*" placeholder="请输入手机号">
+							</div>
 						</div>
 					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd"><label class="weui-label">+86</label></div>
-						<div class="weui-cell__bd">
-							<input class="weui-input accounts-phone-number" type="number" pattern="[0-9]*" placeholder="请输入手机号">
-						</div>
+					<div class="weui-btn-area">
+						<a class="weui-btn weui-btn_primary btn-send-code" href="javascript:">发送验证码</a>
 					</div>
-				</div>
-				<div class="weui-btn-area">
-					<a class="weui-btn weui-btn_primary btn-send-code" href="javascript:">发送验证码</a>
 				</div>
 			</div>
 		</div>

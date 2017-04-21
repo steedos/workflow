@@ -2,29 +2,31 @@
 	<div class="container accounts-phone-wrapper">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<h3 class="accounts-phone-title">请填写短信验证码</h3>
-				<div class="weui-cells weui-cells_form">
-					<div class="weui-cell">
-						<div class="weui-cell__hd"><label class="weui-label text-muted">手机号</label></div>
-						<div class="weui-cell__bd">
-							<span class="text-muted accounts-phone-number">{{number}}</span>
+				<div class="accounts-phone-content">
+					<h3 class="accounts-phone-title">请填写短信验证码</h3>
+					<div class="weui-cells weui-cells_form">
+						<div class="weui-cell">
+							<div class="weui-cell__hd"><label class="weui-label text-muted">手机号</label></div>
+							<div class="weui-cell__bd">
+								<span class="text-muted accounts-phone-number">{{number}}</span>
+							</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+							<div class="weui-cell__bd">
+								<input class="weui-input accounts-phone-code" type="number" pattern="[0-9]*" placeholder="请输入验证码">
+							</div>
 						</div>
 					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-						<div class="weui-cell__bd">
-							<input class="weui-input accounts-phone-code" type="number" pattern="[0-9]*" placeholder="请输入验证码">
-						</div>
+					<div class="weui-btn-area">
+						<a class="weui-btn weui-btn_primary btn-verify-code" href="javascript:">提交</a>
 					</div>
-				</div>
-				<div class="weui-btn-area">
-					<a class="weui-btn weui-btn_primary btn-verify-code" href="javascript:">提交</a>
-				</div>
-				<div class="weui-footer weui-btn-area">
-					<p class="weui-footer__links">
-						<a href="javascript:void(0);" class="weui-footer__link btn-code-unreceived">收不到验证码？</a>
-						<a href="javascript:void(0);" class="weui-footer__link btn-back">返回</a>
-					</p>
+					<div class="weui-footer weui-btn-area">
+						<p class="weui-footer__links">
+							<a href="javascript:void(0);" class="weui-footer__link btn-code-unreceived">收不到验证码？</a>
+							<a href="javascript:void(0);" class="weui-footer__link btn-back">返回</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
