@@ -27,11 +27,11 @@ FlowversionAPI =
 				lines.forEach (line)->
 					if step.name
 						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						stepName = step.name.replace(/[\r\n]/g,"").replace(/[？]/g,"?")
+						stepName = step.name.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`")
 					else
 						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					toStepName = toStepName.replace(/[\r\n]/g,"").replace(/[？]/g,"?")
+					toStepName = toStepName.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`")
 					nodes.push "	#{step._id}(<div class='graph-node'><div class='step-name'>#{stepName}</div></div>)-->#{line.to_step}(#{toStepName})"
 
 		graphSyntax = nodes.join "\n"
@@ -42,7 +42,7 @@ FlowversionAPI =
 		instance_id = query.instance_id
 
 		unless instance_id
-			FlowversionAPI.sendInvalidURLResponse res
+			FlowversionAPI.sendInvalidURLResponse res 
 
 		error_msg = ""
 		graphSyntax = ""
