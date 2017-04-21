@@ -10,6 +10,9 @@ FlowversionAPI =
 	sendAuthTokenExpiredResponse: (res)->
 		return @writeResponse(res, 401, "the auth_token has expired.");
 
+	replaceErrorSymbol: (str)->
+		return str.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`").replace(/[《{【\[（(]/g,"<").replace(/[》}\]】）)]/g,">")
+
 	generateGraphSyntax: (steps)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
@@ -27,11 +30,11 @@ FlowversionAPI =
 				lines.forEach (line)->
 					if step.name
 						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						stepName = step.name.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`")
+						stepName = FlowversionAPI.replaceErrorSymbol(step.name)
 					else
 						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					toStepName = toStepName.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`")
+					toStepName = FlowversionAPI.replaceErrorSymbol(toStepName)
 					nodes.push "	#{step._id}(<div class='graph-node'><div class='step-name'>#{stepName}</div></div>)-->#{line.to_step}(#{toStepName})"
 
 		graphSyntax = nodes.join "\n"
