@@ -1,3 +1,5 @@
+schedule = Npm.require('node-schedule')
+
 RecordsQHD = {}
 
 #	*    *    *    *    *    *
@@ -13,8 +15,6 @@ RecordsQHD = {}
 logger = new Logger 'Records_QHD'
 
 RecordsQHD.settings_records_qhd = Meteor.settings.records_qhd
-
-schedule = Npm.require('node-schedule')
 
 RecordsQHD.test = () ->
 	logger.debug "[#{new Date()}]run RecordsQHD.test"
