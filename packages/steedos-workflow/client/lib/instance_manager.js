@@ -969,7 +969,6 @@ InstanceManager.removeAttach = function() {
 
 // 上传附件
 InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
-	check(files, FileList);
 	check(isAddVersion, Boolean);
 	check(isMainAttach, Boolean);
 

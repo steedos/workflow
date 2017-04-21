@@ -46,14 +46,15 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 						t.approves = new Array
 					# 更新当前trace.approve记录
 					_.each t.approves, (appr)->
-						appr.start_date = now
-						appr.finish_date = now
-						appr.read_date = now
-						appr.is_error = false
-						appr.is_read = true
-						appr.is_finished = true
-						appr.finish_date = now
-						appr.judge = ""
+						if appr.is_finished == false and appr.type isnt "cc"
+							appr.start_date = now
+							appr.finish_date = now
+							appr.read_date = now
+							appr.is_error = false
+							appr.is_read = true
+							appr.is_finished = true
+							appr.judge = ""
+							appr.cost_time = appr.finish_date - appr.start_date
 					# 在同一trace下插入取回操作者的approve记录
 					current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
 					current_user_organization = db.organizations.findOne(current_space_user.organization)
@@ -78,6 +79,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 					retrieve_appr.description = retrieve_comment
 					retrieve_appr.is_error = false
 					retrieve_appr.values = new Object
+					retrieve_appr.cost_time = retrieve_appr.finish_date - retrieve_appr.start_date
 					t.approves.push(retrieve_appr)
 
 					# 更新当前trace记录

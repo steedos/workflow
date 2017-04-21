@@ -1,9 +1,10 @@
 _.extend Steedos,
 	
-	openWindow: (url, target)->
-		debugger
-		target = "_blank"
-		options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
+	openWindow: (url, target, options)->
+		unless target
+			target = "_blank"
+		unless options
+			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
 		window.open(url, target, options);
 
 	# 左侧sidebar滚动条自适应

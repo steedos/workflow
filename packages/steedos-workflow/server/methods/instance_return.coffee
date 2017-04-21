@@ -55,8 +55,8 @@ Meteor.methods
 						a.is_error = false
 						a.is_read = true
 						a.is_finished = true
-						a.finish_date = now
 						a.judge = "returned"
+						a.cost_time = a.finish_date - a.start_date
 				# 更新当前trace记录
 				t.is_finished = true
 				t.finish_date = now

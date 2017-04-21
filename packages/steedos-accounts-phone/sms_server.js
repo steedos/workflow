@@ -63,10 +63,11 @@ SMS.send = function (options) {
     for (var i = 0; i < sendHooks.length; i++)
         if (!sendHooks[i](options))
             return;
-    if (SMS.twilio) {
-        var client = Twilio(SMS.twilio.ACCOUNT_SID, SMS.twilio.AUTH_TOKEN);
+    var twilio = Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio;
+    if (twilio) {
+        var client = Twilio(twilio.ACCOUNT_SID, twilio.AUTH_TOKEN);
         // Include FROM in options if it is defined. 
-        SMS.twilio.FROM && (options.from = SMS.twilio.FROM);
+        twilio.FROM && (options.from = twilio.FROM);
         // Send SMS  API async func
         var sendSMSSync = Meteor.wrapAsync(client.sendMessage, client);
         // call the sync version of our API func with the parameters from the method call
