@@ -24,8 +24,8 @@ Package.onUse(function(api) {
     'client/bootstrap.less',
     'client/weui.less' , 
     'client/admin-lte.less',   
-    'client/sidebar.less' ,
-    'client/sidebar-black.less'
+    'client/sidebar.less',
+    'client/sidebar-light.less' 
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");
