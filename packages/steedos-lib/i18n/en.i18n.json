@@ -150,6 +150,7 @@
 	"apps_url": "URL",
 	"apps_on_click": "URL Script",
 	"apps_is_use_ie": "Use IE",
+	"apps_is_use_iframe": "Use iframe",
 	"apps_iconURL": "IconURL",
 	"apps_icon": "Icon",
 	"apps_space_sort": "Sort Index",
@@ -359,6 +360,6 @@
 	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
 	"username-unavailable": "This username is already in use",
 
-	"afModal_insert":"Create",
-	"afModal_update":"Update"
+	"afModal_insert": "Create",
+	"afModal_update": "Update"
 }
