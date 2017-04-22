@@ -158,6 +158,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 			setObj.outbox_users = _.uniq(instance.outbox_users)
 			setObj.modified = now
 			setObj.modified_by = current_user
+			setObj.is_archived = false
 			traces.push(newTrace)
 			setObj.traces = traces
 
