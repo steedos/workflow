@@ -36,10 +36,5 @@ Template.accounts_phone.events
 				FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
 			sweetAlert.close();
 
-	'click .btn-back': (event,template) ->
-		if Meteor.settings?.public?.phone?.forceAccountBindPhone and !Accounts.isPhoneVerified()
-			FlowRouter.go "/steedos/logout"
-		else
-			FlowRouter.go "/"
 
 
