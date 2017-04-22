@@ -133,6 +133,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			traces.push(newTrace)
 			setObj.traces = traces
 			setObj.state = "pending"
+			setObj.is_archived = false
 
 			r = db.instances.update({_id: instance_id}, {$set: setObj})
 			if r
