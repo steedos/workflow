@@ -378,5 +378,7 @@
 	"refresh": "刷新",
 
 	"afModal_insert": "创建",
-	"afModal_update": "修改"
+	"afModal_update": "修改",
+
+	"change_phone": "更改手机号"
 }
