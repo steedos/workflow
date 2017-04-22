@@ -163,6 +163,7 @@
 	"apps_auth_name": "验证域名",
 	"apps_on_click": "链接脚本",
 	"apps_is_use_ie": "使用IE打开",
+	"apps_is_use_iframe": "使用iframe打开",
 	"apps_iconURL": "图标链接",
 	"apps_icon": "图标",
 	"apps_space_sort": "排序号",
@@ -374,8 +375,8 @@
 	"Change username successfully": "更改用户名成功",
 	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
 	"username-unavailable": "此用户名已经被使用，请填写其他用户名",
-	"refresh":"刷新",
+	"refresh": "刷新",
 
-	"afModal_insert":"创建",
-	"afModal_update":"修改"
+	"afModal_insert": "创建",
+	"afModal_update": "修改"
 }

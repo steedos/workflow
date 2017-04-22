@@ -57,6 +57,12 @@ db.apps._simpleSchema = new SimpleSchema
 		autoform: 
 			omit: true
 
+	is_use_iframe: 
+		type: Boolean
+		optional: true
+		autoform: 
+			defaultValue: false
+
 if Meteor.isClient
 	db.apps._simpleSchema.i18n("apps")
 
