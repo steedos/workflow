@@ -23,7 +23,8 @@ InstancesToArchive::getContractInstances = ()->
 		is_archived: false,
 		is_deleted: false,
 		state: "completed",
-		final_decision: "approved"
+		"values.record_need": "true",
+		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	});
 
 InstancesToArchive::getNonContractInstances = ()->
@@ -33,7 +34,8 @@ InstancesToArchive::getNonContractInstances = ()->
 		is_archived: false,
 		is_deleted: false,
 		state: "completed",
-		final_decision: "approved"
+		"values.record_need": "true",
+		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	});
 
 InstancesToArchive.success = (instance)->
@@ -50,9 +52,22 @@ _checkParameter = (formData) ->
 		return false
 	return true
 
+getFileHistoryName = (fileName, historyName, stuff) ->
+	regExp = /\.[^\.]+/
+
+	fName = fileName.replace(regExp, "")
+
+	extensionHistory = regExp.exec(historyName)
+
+	if(extensionHistory)
+		fName = fName + "_" + stuff + extensionHistory
+	else
+		fName = fName + "_" + stuff
+
+	return fName
+
 
 _minxiInstanceData = (formData, instance) ->
-
 	if !formData || !instance
 		return
 
@@ -63,8 +78,6 @@ _minxiInstanceData = (formData, instance) ->
 	field_values = InstanceManager.handlerInstanceByFieldMap(instance);
 
 	formData = _.extend formData, field_values
-
-	console.log formData
 
 	fieldNames = _.keys(formData)
 
@@ -93,21 +106,55 @@ _minxiInstanceData = (formData, instance) ->
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
-	#	附件
-	attachFiles = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true
-	}).fetch();
-
 	#	正文附件
-	mainFile = attachFiles.filterProperty("main", true)
+	mainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": true
+	}).fetch()
+
 	mainFile.forEach (f) ->
 		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		#		正文附件历史版本
+		mainFileHistory = cfs.instances.find({
+			'metadata.instance': instance._id,
+			'metadata.current': {$ne: true},
+			"metadata.main": true,
+			"metadata.parent": f.metadata.parent
+		}, {sort: {uploadedAt: -1}}).fetch()
+
+		mainFileHistoryLength = mainFileHistory.length
+
+		mainFileHistory.forEach (fh, i) ->
+			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
+
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
 
 	#	非正文附件
-	nonMainFile = _.filter attachFiles, (af)-> return af.main != true
+	nonMainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": {$ne: true}
+	})
+
 	nonMainFile.forEach (f)->
 		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+
+		#	非正文附件历史版本
+		nonMainFileHistory = cfs.instances.find({
+			'metadata.instance': instance._id,
+			'metadata.current': {$ne: true},
+			"metadata.main": {$ne: true},
+			"metadata.parent": f.metadata.parent
+		}, {sort: {uploadedAt: -1}}).fetch()
+
+		nonMainFileHistoryLength = nonMainFileHistory.length
+
+		nonMainFileHistory.forEach (fh, i) ->
+			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
+
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
@@ -134,7 +181,6 @@ InstancesToArchive._postFormData = (url, formData, cb) ->
 			return
 
 InstancesToArchive.postFormDataAsync = Meteor.wrapAsync(InstancesToArchive._postFormData);
-
 
 
 InstancesToArchive._sendContractInstance = (url, instance, callback) ->
@@ -165,7 +211,7 @@ InstancesToArchive::sendContractInstances = (to_archive_api) ->
 
 	that = @
 	console.log "instances.length is #{instances.count()}"
-	instances.fetch().forEach (instance, i)->
+	instances.forEach (instance, i)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
 		InstancesToArchive._sendContractInstance url, instance
 
@@ -177,7 +223,7 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	instances = @getNonContractInstances()
 	that = @
 	logger.info "instances.length is #{instances.count()}"
-	instances.fetch().forEach (instance, i)->
+	instances.forEach (instance)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
 		logger.debug "url is #{url}"
 		InstancesToArchive._sendNonContractInstance url, instance
@@ -186,13 +232,12 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 
 
 InstancesToArchive._sendNonContractInstance = (url, instance, callback) ->
-
 	format = "YYYY-MM-DD HH:mm:ss"
 
-#	表单数据
+	#	表单数据
 	formData = {}
 
-#	设置归档日期
+	#	设置归档日期
 	now = new Date()
 
 	formData.guidangriqi = moment(now).format(format)
