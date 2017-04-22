@@ -16,16 +16,23 @@ Meteor.methods updatePhone: (options) ->
 
 	currentUser = Accounts.user()
 	currentNumber = currentUser.phone?.number
-	if currentNumber
-		if currentNumber != number
-			db.users.update {
-				_id: currentUserId
-			}, $set: phone: {number: number, verified: false}
-	else
-		db.users.update {
-			_id: currentUserId
-		}, $set: phone: {number: number, verified: false}
+	# 手机号不变，则不用更新
+	if currentNumber and currentNumber == number
+		return true
 
+	repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
+	if repeatNumberUser.phone.verified
+		throw new Meteor.Error(403, "该手机号已被其他用户注册")
+		return false
+	else
+		# 如果另一个用户手机号没有验证通过，则清除其账户下手机号相关字段
+		db.users.update {
+			_id: repeatNumberUser._id
+		}, $unset: "phone": 1,"services.phone": 1
+
+	db.users.update {
+		_id: currentUserId
+	}, $set: phone: {number: number, verified: false}
 
 	return true
 

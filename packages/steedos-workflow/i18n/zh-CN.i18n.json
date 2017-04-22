@@ -215,6 +215,11 @@
 	"instance_search_start": "起",
 	"instance_search_end": "至",
 	"instance_search_result_tip": "搜索的结果",
+	"instance_search_state": "申请单状态",
+	"instance_search_state_options": {
+		"pending": "流转中",
+		"completed": "已结束"
+	},
 
 	"instance": {
 		"formatter": {
@@ -471,5 +476,7 @@
 	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
 	"Instance State returned": "已退回",
 
-	"instance_main_attachment": "正文"
+	"instance_main_attachment": "正文",
+
+	"flows_field_map": "字段关系"
 }
