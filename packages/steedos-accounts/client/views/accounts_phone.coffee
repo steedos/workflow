@@ -1,4 +1,7 @@
 Template.accounts_phone.helpers
+	currentPhoneNumber: ->
+		return Accounts.getPhoneNumber()
+
 
 Template.accounts_phone.onRendered ->
 
@@ -32,5 +35,6 @@ Template.accounts_phone.events
 					return
 				FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
 			sweetAlert.close();
+
 
 
