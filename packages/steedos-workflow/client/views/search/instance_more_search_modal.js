@@ -1,19 +1,19 @@
 Template.instance_more_search_modal.onRendered(function() {
-	if(!Steedos.isMobile()){
+	if (!Steedos.isMobile()) {
 		$("#instance_more_search_submit_date_start").datetimepicker({
 			format: "YYYY-MM-DD"
 		});
 
 		$("#instance_more_search_submit_date_end").datetimepicker({
 			format: "YYYY-MM-DD",
-			widgetPositioning:{
+			widgetPositioning: {
 				horizontal: 'right'
 			}
 		});
 	}
 
 	$("#instance_more_search_modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
-	
+
 })
 
 Template.instance_more_search_modal.helpers({
@@ -27,6 +27,19 @@ Template.instance_more_search_modal.helpers({
 		}
 
 		return "";
+	},
+
+	state_options: function() {
+		return [{
+			value: "",
+			name: ""
+		}, {
+			value: "pending",
+			name: TAPi18n.__("instance_search_state_options.pending")
+		}, {
+			value: "completed",
+			name: TAPi18n.__("instance_search_state_options.completed")
+		}];
 	}
 })
 
@@ -59,6 +72,9 @@ Template.instance_more_search_modal.events({
 		// }
 
 		var and = [];
+		if ($('#instance_more_search_state').val()) {
+			selector.state = $('#instance_more_search_state').val();
+		}
 
 		if ($('#instance_more_search_name').val()) {
 			var name_key_words = $('#instance_more_search_name').val().split(" ");
