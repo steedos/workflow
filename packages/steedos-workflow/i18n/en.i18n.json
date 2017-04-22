@@ -461,5 +461,7 @@
 	"instance_return_confirm": "Are you sure to return the instance to the previous step?",
 	"Instance State returned": "Returned",
 
-	"instance_main_attachment": "Main attach"
+	"instance_main_attachment": "Main attach",
+
+	"flows_field_map": "Field Map"
 }
