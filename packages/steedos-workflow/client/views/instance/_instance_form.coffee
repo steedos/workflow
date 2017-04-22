@@ -78,12 +78,10 @@ InstanceformTemplate.helpers =
 
 	traces: ->
 		if Meteor.isServer
-			instance = Template.instance().view.template.steedosData.instance
-
+			steedosData = Template.instance()?.view?.template?.steedosData
+			instance = steedosData?.instance
 			flow = InstanceReadOnlyTemplate.getFlowVersion(instance);
-
-			locale = Template.instance().view.template.steedosData.locale
-
+			locale = steedosData?.locale
 			if locale.toLocaleLowerCase() == 'zh-cn'
 				locale = "zh-CN"
 		else
