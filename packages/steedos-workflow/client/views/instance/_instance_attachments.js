@@ -7,6 +7,10 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
+		if (Session.get("box") != "draft") {
+			return false
+		}
+
 		// 正文最多只能有一个
 		var main_attach_count = cfs.instances.find({
 			'metadata.instance': ins._id,
@@ -34,6 +38,10 @@ InstanceAttachmentTemplate.helpers = {
 
 		if (Session && Session.get("instancePrint"))
 			return false
+
+		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {
+			return false
+		}
 
 		var current_step = InstanceManager.getCurrentStep();
 		if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
@@ -103,7 +111,7 @@ if (Meteor.isServer) {
 		locale = Template.instance().view.template.steedosData.locale
 		return TAPi18n.__(key, {}, locale)
 	}
-	InstanceAttachmentTemplate.helpers.enabled_edit_main_attachment = function() {
+	InstanceAttachmentTemplate.helpers.enabled_add_main_attachment = function() {
 		return false
 	};
 	InstanceAttachmentTemplate.helpers.enabled_edit_normal_attachment = function() {

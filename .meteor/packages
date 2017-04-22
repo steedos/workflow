@@ -86,8 +86,6 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
-steedos:mermaid
-
 steedos:adminlte
 steedos:base
 steedos:slipjs
@@ -143,7 +141,7 @@ steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
 
-yogiben:autoform-modals
+steedos:autoform-modals
 vazco:universe-selectize
 vazco:universe-autoform-select
 

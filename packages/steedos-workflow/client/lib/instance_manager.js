@@ -969,7 +969,6 @@ InstanceManager.removeAttach = function() {
 
 // 上传附件
 InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
-	check(files, FileList);
 	check(isAddVersion, Boolean);
 	check(isMainAttach, Boolean);
 
@@ -1143,7 +1142,9 @@ InstanceManager.unlockAttach = function(file_id) {
 
 // 申请单转发
 InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers) {
+	$('body').addClass("loading");
 	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, function(error, result) {
+		$('body').removeClass("loading");
 		if (error) {
 			toastr.error(error.message);
 		}

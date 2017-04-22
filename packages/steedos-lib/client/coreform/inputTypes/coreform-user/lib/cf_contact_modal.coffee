@@ -5,7 +5,7 @@ Template.cf_contact_modal.helpers
 		return "";
 
 	modalStyle: (showOrg) ->
-		if showOrg && !Steedos.isMobile()
+		if !Steedos.isMobile()
 			return "modal-lg";
 		return "";
 

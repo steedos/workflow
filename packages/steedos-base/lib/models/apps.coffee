@@ -57,6 +57,12 @@ db.apps._simpleSchema = new SimpleSchema
 		autoform: 
 			omit: true
 
+	is_use_iframe: 
+		type: Boolean
+		optional: true
+		autoform: 
+			defaultValue: false
+
 if Meteor.isClient
 	db.apps._simpleSchema.i18n("apps")
 
@@ -77,6 +83,7 @@ if Meteor.isServer
 
 	db.apps.before.insert (userId, doc) ->
 		doc.internal = db.apps.isInternalApp(doc.url)
+		return
 
 	db.apps.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};

@@ -181,6 +181,9 @@ TracesTemplate.events =
 	'click .approve-item': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this
 
+	'click .approve-description': (event, template) ->
+		Modal.show "instance_trace_detail_modal", this
+
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
 		Modal.hide "instance_trace_detail_modal"
 

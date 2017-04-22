@@ -150,6 +150,7 @@
 	"apps_url": "URL",
 	"apps_on_click": "URL Script",
 	"apps_is_use_ie": "Use IE",
+	"apps_is_use_iframe": "Use iframe",
 	"apps_iconURL": "IconURL",
 	"apps_icon": "Icon",
 	"apps_space_sort": "Sort Index",
@@ -221,6 +222,8 @@
 	"space_users_created_by": "Created By",
 	"space_users_modified_by": "Modified By",
 	"space_users_mobile": "Moblie",
+	"space_users_work_phone": "Work Phone",
+	"space_users_position": "Position",
 	"space_users_managers": "All Managers",
 	"space_users_apps": "Apps",
 	"space_users_sort_no": "Sort No.",
@@ -355,5 +358,8 @@
 	"Change username": "Change username",
 	"Change username successfully": "Change username successfully",
 	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
-	"username-unavailable": "This username is already in use"
+	"username-unavailable": "This username is already in use",
+
+	"afModal_insert": "Create",
+	"afModal_update": "Update"
 }

@@ -160,6 +160,7 @@ Meteor.methods({
                         a.finish_date = new Date();
                         a.description = description;
                         a.judge = "submitted";
+                        a.cost_time = a.finish_date - a.start_date;
                         current_approve = a;
                     }
                 });

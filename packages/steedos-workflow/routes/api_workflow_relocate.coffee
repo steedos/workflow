@@ -43,14 +43,15 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					# 更新当前trace.approve记录
 					h = 0
 					while h < traces[i].approves.length
-						traces[i].approves[h].start_date = now
-						traces[i].approves[h].finish_date = now
-						traces[i].approves[h].read_date = now
-						traces[i].approves[h].is_error = false
-						traces[i].approves[h].is_read = true
-						traces[i].approves[h].is_finished = true
-						traces[i].approves[h].finish_date = now
-						traces[i].approves[h].judge = ""
+						if traces[i].approves[h].is_finished is false and traces[i].approves[h].type isnt "cc"
+							traces[i].approves[h].start_date = now
+							traces[i].approves[h].finish_date = now
+							traces[i].approves[h].read_date = now
+							traces[i].approves[h].is_error = false
+							traces[i].approves[h].is_read = true
+							traces[i].approves[h].is_finished = true
+							traces[i].approves[h].judge = ""
+							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
 
 						h++
 
@@ -78,6 +79,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					relocate_appr.description = relocate_comment
 					relocate_appr.is_error = false
 					relocate_appr.values = new Object
+					relocate_appr.cost_time = relocate_appr.finish_date - relocate_appr.start_date
 					traces[i].approves.push(relocate_appr)
 
 					# 更新当前trace记录

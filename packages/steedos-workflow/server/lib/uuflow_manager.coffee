@@ -613,6 +613,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 						# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
 						instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 					h++
 			i++
 
@@ -687,6 +688,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 									instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 									# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
 									instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+									instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -794,6 +796,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 								instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 								instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+								instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 							h++
 					i++
 
@@ -866,6 +869,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 											instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 											instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 											instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+											instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 										h++
 								i++
 
@@ -966,6 +970,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 									instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 									instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+									instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -1038,6 +1043,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 												instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 												instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 												instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+												instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 											h++
 									i++
 
@@ -1140,6 +1146,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 						instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 						instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 
 					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc'
 						isAllApproveFinished = false
@@ -1695,6 +1702,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		# 更新approve
 		traces[0]["approves"][0].is_finished = true
 		traces[0]["approves"][0].finish_date = new Date
+		traces[0]["approves"][0].cost_time = traces[0]["approves"][0].finish_date - traces[0]["approves"][0].start_date
 		# 更新trace
 		traces[0].is_finished = true
 		traces[0].judge = "submitted"
@@ -1745,6 +1753,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					# 更新approve
 					traces[0]["approves"][0].is_finished = true
 					traces[0]["approves"][0].finish_date = new Date
+					traces[0]["approves"][0].cost_time = traces[0]["approves"][0].finish_date - traces[0]["approves"][0].start_date
 					# 更新trace
 					traces[0].is_finished = true
 					traces[0].finish_date = new Date

@@ -34,6 +34,7 @@ Meteor.methods
 				if approve._id == approveId
 					approve.description = description
 					approve.finish_date = new Date(finish_date)
+					approve.cost_time = approve.finish_date - approve.start_date
 
 			db.instances.update({
 				_id: instanceId,

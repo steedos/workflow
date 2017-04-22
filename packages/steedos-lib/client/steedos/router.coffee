@@ -39,7 +39,8 @@ FlowRouter.triggers.enter [
 		if Meteor.userId()
 			lastUrl = FlowRouter.current().path
 			if lastUrl != '/'
-				localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
+				unless /^\/?steedos\b/.test(lastUrl)
+					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
 ]
 
 FlowRouter.route '/', 
@@ -61,7 +62,7 @@ FlowRouter.route '/',
 					FlowRouter.go "/contacts"
 				else if /^\/?portal\b/.test(lastUrl)
 					FlowRouter.go "/portal"
-				else if /^\/?admin\b/.test(lastUrl)
+				else 
 					FlowRouter.go "/admin"
 			else
 				firstApp = Steedos.getSpaceFirstApp()
