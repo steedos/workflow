@@ -93,7 +93,7 @@ Template.instance_attachment.helpers({
 
 		var locked = false;
 		if (locked_by) locked = true;
-		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename) && !locked)
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked)
 			return true;
 
 		return false;
@@ -338,7 +338,7 @@ Template.ins_attach_version_modal.helpers({
 
 		var locked = false;
 		if (locked_by) locked = true;
-		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isDocFile(filename) && !locked)
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked)
 			return true;
 
 		return false;
@@ -493,12 +493,21 @@ Template.ins_attach_edit_modal.onRendered(function() {
 		TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
 		url = Steedos.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
 		TANGER_OCX_OBJ.OpenFromURL(url);
+		
+		if (f.name().split('.').length < 2)
+			return false;
+		
+		var fileType = f.name().split('.').pop().toLowerCase();
 
-		//设置office用户名
-		with(TANGER_OCX_OBJ.ActiveDocument.Application) {
-			UserName = Meteor.user().name;
+		if (fileType == ('doc' || 'docx')){
+			//设置office用户名
+			with(TANGER_OCX_OBJ.ActiveDocument.Application) {
+				UserName = Meteor.user().name;
+			}
+
+			TANGER_OCX_OBJ.ActiveDocument.TrackRevisions = true;
 		}
-		TANGER_OCX_OBJ.ActiveDocument.TrackRevisions = true;
+		
 	}
 
 	setTimeout(function() {
