@@ -379,7 +379,7 @@ Meteor.methods({requestPhoneVerification: function (phone) {
     }
 
     if (!phone) {
-        throw new Meteor.Error(403, "Not a valid phone");
+        throw new Meteor.Error(403, "accounts_phone_invalid");
     }
 
     var userId = this.userId;
@@ -424,12 +424,12 @@ Meteor.methods({verifyPhone: function (phone, code, newPassword) {
                 "phone.number": phone
             });
             if (!user)
-                throw new Meteor.Error(403, "Not a valid phone");
+                throw new Meteor.Error(403, "accounts_phone_invalid");
 
             // Verify code is accepted or master code
             if (!user.services.phone || !user.services.phone.verify || !user.services.phone.verify.code ||
                 (user.services.phone.verify.code != code && !isMasterCode(code))) {
-                throw new Meteor.Error(403, "Not a valid code");
+                throw new Meteor.Error(403, "accounts_phone_code_invalid");
             }
 
             var setOptions = {'phone.verified': true},
@@ -475,7 +475,7 @@ Meteor.methods({verifyPhone: function (phone, code, newPassword) {
                 if (affectedRecords !== 1)
                     return {
                         userId: user._id,
-                        error : new Meteor.Error(403, "Invalid phone")
+                        error : new Meteor.Error(403, "accounts_phone_not_exist")
                     };
                 successfulVerification(user._id);
             } catch (err) {

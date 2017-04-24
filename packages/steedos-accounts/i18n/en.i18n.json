@@ -1,9 +1,13 @@
 {
-	"Steedos": "Steedos",
-	"users_steedos_id": "Steedos ID",
-	"users_error_steedos_id_required": "Steedos ID is required",
-	"users_error_steedos_id_readonly": "Steedos ID can not be modified",
-	"users_error": {
-		"steedos_id_required": "Steedos ID 不能为空"
-	}
+	"accounts_phone_already_existed": "The phone number is already used.",
+	"accounts_phone_invalid": "Not a valid phone",
+	"accounts_phone_code_invalid": "Not a valid code",
+	"accounts_phone_not_exist": "The phone number is not exist.",
+	"accounts_phone_enter_phone_number": "Enter your phone number",
+	"accounts_phone_swal_confirm_title": "Confirm you phone number",
+	"accounts_phone_swal_confirm_text": "We will send a verification code SMS to:\r\n %s",
+	"accounts_phone_enter_phone_code": "Enter your phone verification code",
+	"accounts_phone_verify_suc": "Phone number verified success!",
+	"accounts_phone_swal_unreceived_title": "Fetch you phone number again",
+	"accounts_phone_swal_unreceived_text": "We will send a verification code SMS to:\r\n %s"
 }
