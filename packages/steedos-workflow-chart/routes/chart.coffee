@@ -11,9 +11,9 @@ FlowversionAPI =
 		return @writeResponse(res, 401, "the auth_token has expired.");
 
 	replaceErrorSymbol: (str)->
-		return str.replace(/[\r\n]/g,"").replace(/[？]/g,"?").replace(/[、]/g,",").replace(/[“”‘’]/g,"'").replace(/[！]/g,"!").replace(/[：]/g,":").replace(/[~]/g,"--").replace(/[·]/g,"`").replace(/[《{【\[（(]/g,"<").replace(/[》}\]】）)]/g,">")
+		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
-	generateGraphSyntax: (steps)->
+	generateGraphSyntax: (steps,isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
 		# 	graph LR
@@ -30,15 +30,19 @@ FlowversionAPI =
 				lines.forEach (line)->
 					if step.name
 						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						stepName = FlowversionAPI.replaceErrorSymbol(step.name)
+						stepName = "<div class='graph-node'><div class='step-name'>#{step.name}</div></div>"
+						stepName = FlowversionAPI.replaceErrorSymbol(stepName)
 					else
 						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
 					toStepName = FlowversionAPI.replaceErrorSymbol(toStepName)
-					nodes.push "	#{step._id}(<div class='graph-node'><div class='step-name'>#{stepName}</div></div>)-->#{line.to_step}(#{toStepName})"
+					nodes.push "	#{step._id}(\"#{stepName}\")-->#{line.to_step}(\"#{toStepName}\")"
 
-		graphSyntax = nodes.join "\n"
-		return graphSyntax
+		if isConvertToString
+			graphSyntax = nodes.join "\n"
+			return graphSyntax
+		else
+			return nodes
 
 	sendHtmlResponse: (req, res)->
 		query = req.query
@@ -101,14 +105,19 @@ FlowversionAPI =
 				<body>
 					<div class = "loading">Loading...</div>
 					<div class = "error-msg">#{error_msg}</div>
-					<div class="mermaid">#{graphSyntax}</div>
+					<div class="mermaid"></div>
 					<script type="text/javascript">
 						mermaidAPI.initialize({
 							startOnLoad:false
 						});
 						$(function(){
-							var graphSyntax = $('.mermaid').text();
-							console.log(graphSyntax)
+							var graphNodes = #{JSON.stringify(graphSyntax)};
+							//方便前面可以通过调用mermaid.currentNodes调式，特意增加currentNodes属性。
+							mermaid.currentNodes = graphNodes;
+							var graphSyntax = graphNodes.join("\\n");
+							console.log(graphNodes);
+							console.log(graphSyntax);
+							console.log("You can access the graph nodes by 'mermaid.currentNodes' in the console of browser.");
 							$(".loading").remove();
 							var svgs = mermaidAPI.render('flow-steps-svg', graphSyntax);
 							$('.mermaid').html(svgs);
