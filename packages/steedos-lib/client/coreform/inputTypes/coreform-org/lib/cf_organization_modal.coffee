@@ -19,6 +19,9 @@ Template.cf_organization_modal.helpers
 
 		return org.name;
 
+	data: ()->
+		Template.instance().data
+
 Template.cf_organization_modal.events
 	'click #confirm': (event, template) ->
 		target = $("#"+template.data.targetId)
