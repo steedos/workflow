@@ -4,7 +4,8 @@ Template.forward_select_flow_modal.helpers({
 			forward_users: {
 				autoform: {
 					type: "selectuser",
-					multiple: true
+					multiple: true,
+					spaceId: Session.get("forward_space_id")
 				},
 				optional: true,
 				type: [String],

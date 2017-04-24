@@ -28,7 +28,7 @@
                             class="caret"></i></a>
                       <!-- <div class="dropdown-menu cf-contact-modal-menu" role="menu" aria-labelledby="dropdownMenu">
                        <div class="col-md-12">
-                        {{> cf_organization_list}}
+                        {{> cf_organization_list data}}
                       </div>
                     </div> -->
                   </span>
@@ -40,19 +40,19 @@
                     <div class="row">
                         {{#if isMobile}}
                             <div class="col-md-12 cf-spaceusers-list">
-                                {{> cf_space_user_list}}
+                                {{> cf_space_user_list data}}
                             </div>
                         {{else}}
                             {{#if showOrg}}
                                 <div class="col-md-5 cf-organization-list">
-                                    {{> cf_organization_list}}
+                                    {{> cf_organization_list data}}
                                 </div>
                                 <div class="col-md-7 cf-spaceusers-list">
-                                    {{> cf_space_user_list}}
+                                    {{> cf_space_user_list data}}
                                 </div>
                             {{else}}
                                 <div class="col-md-12 cf-spaceusers-list">
-                                    {{> cf_space_user_list}}
+                                    {{> cf_space_user_list data}}
                                 </div>
                             {{/if}}
                         {{/if}}

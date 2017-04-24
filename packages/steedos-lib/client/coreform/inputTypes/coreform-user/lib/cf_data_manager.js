@@ -3,14 +3,14 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (node) {
+CFDataManager.getNode = function (spaceId, node) {
 
     var orgs;
 
     if (node.id == '#')
-        orgs = CFDataManager.getRoot();
+        orgs = CFDataManager.getRoot(spaceId);
     else
-        orgs = CFDataManager.getChild(node.id);
+        orgs = CFDataManager.getChild(spaceId, node.id);
 
     return handerOrg(orgs);
 }
@@ -229,9 +229,10 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 }
 
 
-CFDataManager.getRoot = function () {
+CFDataManager.getRoot = function (spaceId) {
     return SteedosDataManager.organizationRemote.find({
-        is_company: true
+        is_company: true,
+		space: spaceId
     }, {
         fields: {
             _id: 1,
@@ -246,9 +247,10 @@ CFDataManager.getRoot = function () {
 };
 
 
-CFDataManager.getChild = function (parentId) {
+CFDataManager.getChild = function (spaceId, parentId) {
     var childs = SteedosDataManager.organizationRemote.find({
         parent: parentId,
+		space: spaceId,
         hidden: {$ne: true}
     }, {
         fields: {

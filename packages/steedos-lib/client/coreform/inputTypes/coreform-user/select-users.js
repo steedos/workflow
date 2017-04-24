@@ -101,6 +101,8 @@ Template.afSelectUser.events({
         options.multiple = multiple;
         options.showOrg = showOrg;
 
+		options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+
         if (values && values.length > 0) {
             options.defaultValues = values.split(",");
         }
