@@ -631,8 +631,13 @@ Meteor.startup(function () {
 
     /** Disable user profile editing **/
     Meteor.users.deny({
-        update: function () {
-            return true;
+        update: function (userId, doc, fieldNames, modifier, options) {
+            if(modifier.$set.phone){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     });
 });
