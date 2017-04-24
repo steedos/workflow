@@ -27,6 +27,7 @@
 
 	"instance_approve": "核准",
 	"instance_reject": "驳回",
+	"instance_readed": "已阅",
 	"instance_next_step": "下一步骤",
 	"instance_next_step_users": "下一步处理人",
 	"instance_initiator": "提交人",
@@ -478,5 +479,7 @@
 
 	"instance_main_attachment": "正文",
 
-	"flows_field_map": "字段关系"
+	"flows_field_map": "字段关系",
+
+	"Instance State readed": "已阅"
 }
