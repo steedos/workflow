@@ -27,6 +27,7 @@
 
 	"instance_approve": "Approve",
 	"instance_reject": "Reject",
+	"instance_readed": "Readed",
 	"instance_next_step": "Next Step",
 	"instance_next_step_users": "Next Step User(s)",
 	"instance_initiator": "Initiator",
@@ -463,5 +464,7 @@
 
 	"instance_main_attachment": "Main attach",
 
-	"flows_field_map": "Field Map"
+	"flows_field_map": "Field Map",
+
+	"Instance State readed": "Readed"
 }

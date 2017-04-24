@@ -631,8 +631,13 @@ Meteor.startup(function () {
 
     /** Disable user profile editing **/
     Meteor.users.deny({
-        update: function () {
-            return true;
+        update: function (userId, doc, fieldNames, modifier, options) {
+            if(modifier.$set.phone){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     });
 });
@@ -687,7 +692,7 @@ var normalizePhone = function (phone) {
 var isMasterCode = function (code) {
     return code && Accounts._options.phoneVerificationMasterCode &&
         code == Accounts._options.phoneVerificationMasterCode;
-}
+};
 
 /**
  * Get random phone verification code
@@ -702,7 +707,7 @@ var getRandomCode = function (length) {
         output += getRandomDigit();
     }
     return output;
-}
+};
 
 /**
  * Return random 1-9 digit
@@ -710,5 +715,5 @@ var getRandomCode = function (length) {
  */
 var getRandomDigit = function () {
     return Math.floor((Math.random() * 9) + 1);
-}
+};
 

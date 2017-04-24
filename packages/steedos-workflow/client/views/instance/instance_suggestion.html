@@ -24,6 +24,11 @@
                                     <label class="radio-inline">
                                         <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
                                     </label>
+                                    {{#if includes currentStep.step_type 'counterSign'}}
+                                        <label class="radio-inline">
+                                            <input type='radio' name='judge' value="readed" class='suggestion' checked="{{#if equals judge 'readed'}}checked{{/if}}"/>{{_ "instance_readed"}}
+                                        </label>
+                                    {{/if}}
                                 {{/if}}
                             {{/if}}
                             </div>
