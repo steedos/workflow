@@ -14,7 +14,7 @@ InstanceSignText.helpers =
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
-	trace: (stepName, only_cc_opinion)->
+	trace: (stepName, only_cc_opinion, image_sign)->
 		traces = InstanceformTemplate.helpers.traces()
 
 		approves = _.clone(traces[stepName])
@@ -94,13 +94,24 @@ InstanceSignText.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
-	steps: (field_formula, step,only_cc_opinion)->
+	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
 		if !step
 			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
 		else
-			steps = [{stepName: step, only_cc_opinion: only_cc_opinion}]
+			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
 		return steps
+
+	imageSignData: (handler) ->
+		return {user:handler}
+
+	showSignImage: (handler, image_sign) ->
+		spaceUserSign = ImageSign.helpers.spaceUserSign(handler);
+
+		if spaceUserSign?.sign && image_sign
+			return true
+		else
+			return false
 
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->

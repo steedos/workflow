@@ -1,5 +1,6 @@
 Workflow = {}
 
+@ImageSign = {};
 
 @TracesTemplate = {};
 
