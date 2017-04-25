@@ -229,6 +229,10 @@ TracesTemplate.events =
 						horizontal: 'right'
 					}
 				})
+				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
+				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
+					$(".modal-body").scrollTop(100)
+	
 	'click .btn-cancelBut' : (event, template) ->
 		
 		template.is_editing.set(!template.is_editing.get());
