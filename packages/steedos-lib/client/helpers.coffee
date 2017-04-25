@@ -309,6 +309,12 @@ TemplateHelpers =
 			when 'xlsx'
 				unless Steedos.isNode()
 					return true
+			when 'ppt'
+				unless Steedos.isNode()
+					return true
+			when 'pptx'
+				unless Steedos.isNode()
+					return true
 			else
 				return false
 		false
