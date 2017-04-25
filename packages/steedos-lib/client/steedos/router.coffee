@@ -45,7 +45,7 @@ FlowRouter.triggers.enter [
 
 FlowRouter.route '/', 
 	action: (params, queryParams)->
-		if (!Meteor.userId())
+		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
 		else
 			# 登录最近关闭的URL
