@@ -241,7 +241,6 @@ Meteor.methods({
 			appr_obj.read_date = now;
 			appr_obj.is_read = false;
 			appr_obj.is_error = false;
-			appr_obj.description = description;
 
 			appr_obj.values = new_values;
 
@@ -347,7 +346,8 @@ Meteor.methods({
 				'from_user': current_user_id,
 				'from_user_name': from_user_name,
 				'forward_space': space_id,
-				'forward_instance': new_ins_id
+				'forward_instance': new_ins_id,
+				'description': description
 			};
 
 			forward_approves.push(appr);
