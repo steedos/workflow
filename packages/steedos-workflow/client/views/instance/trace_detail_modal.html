@@ -97,7 +97,7 @@
 									{{#if isMobile}}
                                        <input type="datetime-local" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" />
                                     {{else}}
-                                       <input type="text" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" />
+                                       <input type="text" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
                                     {{/if}}
 								{{else}}
 									<span class="weui_input">{{dateFormat this.finish_date}}</span>

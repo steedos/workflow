@@ -219,15 +219,16 @@ TracesTemplate.events =
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
 	
 	'click .btn-modification'	: (event, template) ->
-		
 		template.is_editing.set(!template.is_editing.get());
-		Tracker.afterFlush ->
-			$("#instance_trace_detail_modal #finish_input").datetimepicker({
-				format: "YYYY-MM-DD HH:mm",
-				widgetPositioning:{
-					horizontal: 'right'
-				}
-			})
+		unless Steedos.isMobile()
+			Tracker.afterFlush ->
+				$("#instance_trace_detail_modal #finish_input").datetimepicker({
+					format: "YYYY-MM-DD HH:mm",
+					ignoreReadonly:true,
+					widgetPositioning:{
+						horizontal: 'right'
+					}
+				})
 	'click .btn-cancelBut' : (event, template) ->
 		
 		template.is_editing.set(!template.is_editing.get());
