@@ -250,8 +250,8 @@ if Meteor.isServer
 			i++
 		return isOrgAdmin
 
-	Steedos.absoluteUrl = (url)->
-		if (Meteor.isCordova)
+	Steedos.absoluteUrl = (url, absolute)->
+		if (Meteor.isCordova || absolute)
 			return Meteor.absoluteUrl(url);
 		else
 			if url?.startsWith("/")
