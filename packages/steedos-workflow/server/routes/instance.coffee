@@ -32,16 +32,17 @@ getInstanceReadOnly = (req, res, next, options) ->
 				"success": false
 		return;
 
-	if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
-		user = db.users.findOne({_id: space.owner})
-	else
-		if !user
-			JsonRoutes.sendResult res,
-				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
-			return;
+	if !user
+		if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
+			user = db.users.findOne({_id: space.owner})
+		else
+			if !user
+				JsonRoutes.sendResult res,
+					code: 401,
+					data:
+						"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+						"success": false
+				return;
 
 	if instance.space != spaceId
 		JsonRoutes.sendResult res,
@@ -63,7 +64,6 @@ getInstanceReadOnly = (req, res, next, options) ->
 					"error": "Validate Request -- Missing sapceUser",
 					"success": false
 			return;
-
 	#校验user是否对instance有查看权限
 	if !WorkflowManager.hasInstancePermissions(user, instance)
 		JsonRoutes.sendResult res,
