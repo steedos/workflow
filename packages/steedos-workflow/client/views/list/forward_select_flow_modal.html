@@ -6,12 +6,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">
-                        {{_ "instance_forward_title"}}
+                        {{title}}
                         <a class="btn btn-lg btn-link btn-help" id="forward_help">
                             <i class="ion ion-ios-help-outline" title="{{_ "Help"}}"></i>
                         </a>
                     </h4>
-                    <div class="box-title">{{_ "instanceForwardNote"}}</div>
+                    <div class="box-title">{{note}}</div>
                 </div>
                 <div class="modal-body flow-list-box-modal-body" style='overflow-y:auto'>
                     <div class="form-group">
@@ -39,7 +39,7 @@
                         <label class="checkbox-inline fix-indent"><input type="checkbox" id="saveInstanceToAttachment"/>{{_ "saveInstanceToAttachment"}}</label>
                     </div>
                     <div class="instance-to-attachment af-checkbox-group">
-                        <label class="checkbox-inline fix-indent"><input type="checkbox" id="isForwardAttachments"/>{{_ "isForwardAttachments"}}</label>
+                        <label class="checkbox-inline fix-indent"><input type="checkbox" id="isForwardAttachments"/>{{take_attachments}}</label>
                     </div>
                 </div>
 

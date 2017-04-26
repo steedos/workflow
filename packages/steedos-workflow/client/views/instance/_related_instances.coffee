@@ -18,7 +18,13 @@ RelatedInstances.helpers =
 			return db.instances.find({_id: {$in: ins.related_instances}}, {fields: {space: 1, name: 1}}).fetch()
 
 	related_instace_url: (ins) ->
-		return Meteor.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id)
+
+		absolute = false
+
+		if Meteor.isServer
+			absolute = Template.instance().view.template.steedosData.absolute
+
+		return Steedos.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id, absolute)
 
 	_t: (key)->
 		if Meteor.isClient

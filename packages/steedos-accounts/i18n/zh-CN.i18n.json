@@ -1,9 +1,13 @@
 {
-	"Steedos": "工作平台",
-	"users_steedos_id": "平台账户",
-	"users_error_steedos_id_required": "平台账户为必填项",
-	"users_error_steedos_id_readonly": "平台账户无法修改",
-	"users_error": {
-		"steedos_id_required": "平台账户不能为空"
-	}
+	"accounts_phone_already_existed": "该手机号已被其他用户注册",
+	"accounts_phone_invalid": "手机号无效",
+	"accounts_phone_code_invalid": "验证码无效",
+	"accounts_phone_not_exist": "该手机号不存在",
+	"accounts_phone_enter_phone_number": "请输入手机号",
+	"accounts_phone_swal_confirm_title": "确认手机号码",
+	"accounts_phone_swal_confirm_text": "我们将发送验证码短信到这个号码：\r\n %s",
+	"accounts_phone_enter_phone_code": "请输入验证码",
+	"accounts_phone_verify_suc": "手机号验证通过！",
+	"accounts_phone_swal_unreceived_title": "重新获取验证码",
+	"accounts_phone_swal_unreceived_text": "我们将发送验证码短信到这个号码：\r\n %s"
 }

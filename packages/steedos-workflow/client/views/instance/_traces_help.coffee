@@ -13,8 +13,11 @@ TracesTemplate.helpers =
 			false
 	append: (a, b) ->
 		a + b
-	dateFormat: (date) ->
-		$.format.date new Date(date), "yyyy-MM-dd HH:mm"
+	dateFormat: (date,isMobile) ->
+		if isMobile == true
+			return $.format.date new Date(date), "yyyy-MM-ddTHH:mm"
+		else
+			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
 	getStepName: (stepId) ->
 		step = WorkflowManager.getInstanceStep(stepId)
 		if step
@@ -99,6 +102,9 @@ TracesTemplate.helpers =
 			when 'returned'
 				# 已退回
 				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
+			when 'readed'
+				# 已阅
+				approveStatusText = TAPi18n.__('Instance State readed', {}, locale)
 			else
 				approveStatusText = ''
 				break
@@ -126,6 +132,14 @@ TracesTemplate.helpers =
 			renderer.link = ( href, title, text ) ->
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
+	isDistribute: (approve) ->
+		if approve and approve.type == 'distribute'
+			return true
+		false
+	showDistributeDeleteButton: (approve) ->
+		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+			return true
+		false
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -216,15 +230,20 @@ TracesTemplate.events =
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
 	
 	'click .btn-modification'	: (event, template) ->
-		
 		template.is_editing.set(!template.is_editing.get());
-		Tracker.afterFlush ->
-			$("#instance_trace_detail_modal #finish_input").datetimepicker({
-				format: "YYYY-MM-DD HH:mm",
-				widgetPositioning:{
-					horizontal: 'right'
-				}
-			})
+		unless Steedos.isMobile()
+			Tracker.afterFlush ->
+				$("#instance_trace_detail_modal #finish_input").datetimepicker({
+					format: "YYYY-MM-DD HH:mm",
+					ignoreReadonly:true,
+					widgetPositioning:{
+						horizontal: 'right'
+					}
+				})
+				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
+				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
+					$(".modal-body").scrollTop(100)
+	
 	'click .btn-cancelBut' : (event, template) ->
 		
 		template.is_editing.set(!template.is_editing.get());

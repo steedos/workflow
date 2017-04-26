@@ -21,7 +21,7 @@ Template.cf_organization.conditionalselect = (node)->
 
 
 Template.cf_organization.onRendered ->
-
+  spaceId = Template.instance().data.spaceId
   CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(@data.defaultValues));
 
   $.jstree.defaults.checkbox.three_state = false;
@@ -47,7 +47,7 @@ Template.cf_organization.onRendered ->
             themes: { "stripes" : true },
             data:  (node, cb) ->
               Session.set("cf_selectOrgId", node.id);
-              cb(CFDataManager.getNode(node));
+              cb(CFDataManager.getNode(spaceId, node));
             three_state: false
         conditionalselect: (node) ->
           return Template.cf_organization.conditionalselect(node);

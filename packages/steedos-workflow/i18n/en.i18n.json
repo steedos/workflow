@@ -27,6 +27,7 @@
 
 	"instance_approve": "Approve",
 	"instance_reject": "Reject",
+	"instance_readed": "Readed",
 	"instance_next_step": "Next Step",
 	"instance_next_step_users": "Next Step User(s)",
 	"instance_initiator": "Initiator",
@@ -426,8 +427,8 @@
 	"instance_forward_error_users_required": "Users required!",
 	"instance_approve_from_user_name_label_forward": "forward from",
 	"instance_approve_forward_remove": "cancel forward",
-	"instance_approve_forward_remove_success": "cancel forward successfully!",
-	"instance_forward_instance_look": "Look the instance",
+	"instance_approve_forward_remove_success": "cancel successfully!",
+	"instance_forward_instance_look": "Look the forwarded instance",
 	"instance_forward_cannot_cancel": "Can not cancel!",
 	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!",
 
@@ -463,5 +464,16 @@
 
 	"instance_main_attachment": "Main attach",
 
-	"flows_field_map": "Field Map"
+	"flows_field_map": "Field Map",
+
+	"Instance State readed": "Readed",
+	"instance_distribute_title": "Distribute",
+	"instance_distribute_users": "Users",
+	"instance_distribute_error_users_required": "Users required!",
+	"instance_distribute_approve_from_user_name_label": "distribute from",
+	"instance_distribute_approve_remove": "cancel distribute",
+	"instance_distribute_instance_look": "Look the distributed instance",
+	"instance_distribute_note": "Distribute the currently selected instance to a new workflow and proceed with the approval process.",
+	"instance_distribute_attachments": "Is distribute attachments.",
+	"instance_distribute_success": "Distribute success"
 }

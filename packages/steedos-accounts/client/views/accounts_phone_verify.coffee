@@ -9,11 +9,11 @@ Template.accounts_phone_verify.events
 	'click .btn-verify-code': (event,template) ->
 		number = $(".accounts-phone-number").text()
 		unless number
-			toastr.error "手机号无效"
+			toastr.error t "accounts_phone_invalid"
 			return
 		code = $("input.accounts-phone-code").val()
 		unless code
-			toastr.error "请输入验证码"
+			toastr.error t "accounts_phone_enter_phone_code"
 			return
 
 		$(document.body).addClass('loading')
@@ -22,22 +22,22 @@ Template.accounts_phone_verify.events
 				Accounts.verifyPhone number, code, (error) ->
 					$(document.body).removeClass('loading')
 					if error
-						toastr.error error.reason
-						console.log error
+						toastr.error t error.reason
+						console.error error
 						return
-					toastr.success "手机号验证通过！"
+					toastr.success t "accounts_phone_verify_suc"
 					FlowRouter.go "/admin"
 			else
 				$(document.body).removeClass('loading')
-				toastr.error error.reason
-				console.log error
+				toastr.error t error.reason
+				console.error error
 
 
 	'click .btn-code-unreceived': (event,template) ->
 		number = $(".accounts-phone-number").text()
 		swal {
-			title: "重新获取验证码",
-			text: "我们将发送验证码短信到这个号码：\r\n#{number}",
+			title: t("accounts_phone_swal_unreceived_title"),
+			text: t("accounts_phone_swal_unreceived_text",number),
 			confirmButtonColor: "#DD6B55",
 			type: "warning",
 			confirmButtonText: t('OK'),
@@ -52,8 +52,8 @@ Template.accounts_phone_verify.events
 			Accounts.requestPhoneVerification number, (error)->
 				$(document.body).removeClass('loading')
 				if error
-					toastr.error error.reason
-					console.log error
+					toastr.error t error.reason
+					console.error error
 					return
 			sweetAlert.close();
 

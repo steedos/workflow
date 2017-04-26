@@ -687,13 +687,9 @@ WorkflowManager.getMyCanAddFlows = function() {
 	return flow_ids;
 };
 
-WorkflowManager.getFlowListData = function(show_type) {
+WorkflowManager.getFlowListData = function(show_type, space_id) {
 	//{categories:[],uncategories:[]}
-	var spaceId = Session.get('spaceId');
-
-	if (show_type == 'forward' && Session.get('forward_space_id')) {
-		spaceId = Session.get('forward_space_id');
-	}
+	var spaceId = space_id ? space_id : Session.get('spaceId');
 
 	var curUserId = Meteor.userId();
 	var curSpaceUser = db.space_users.findOne({
@@ -724,17 +720,22 @@ WorkflowManager.getFlowListData = function(show_type) {
 			var flows = WorkflowManager.getFormFlows(f._id);
 			flows.sortByName();
 			f.flows = new Array();
-			flows.forEach(function(fl) {
-				if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
-					f.flows.push(fl);
-				} else if (show_type == 'show') {
-					if (isSpaceAdmin) {
+			if (show_type == "distribute") {
+				f.flows = flows;
+			} else {
+				flows.forEach(function(fl) {
+					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
-					} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
-						f.flows.push(fl);
+					} else if (show_type == 'show') {
+						if (isSpaceAdmin) {
+							f.flows.push(fl);
+						} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+							f.flows.push(fl);
+						}
 					}
-				}
-			});
+				});
+			}
+
 		});
 
 		c.forms = forms;
@@ -748,17 +749,21 @@ WorkflowManager.getFlowListData = function(show_type) {
 		var flows = WorkflowManager.getFormFlows(f._id);
 		flows.sortByName();
 		f.flows = new Array();
-		flows.forEach(function(fl) {
-			if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
-				f.flows.push(fl);
-			} else if (show_type == 'show') {
-				if (isSpaceAdmin) {
+		if (show_type == "distribute") {
+			f.flows = flows;
+		} else {
+			flows.forEach(function(fl) {
+				if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 					f.flows.push(fl);
-				} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
-					f.flows.push(fl);
+				} else if (show_type == 'show') {
+					if (isSpaceAdmin) {
+						f.flows.push(fl);
+					} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+						f.flows.push(fl);
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 
 	re.categories = categories;
@@ -813,10 +818,10 @@ WorkflowManager.isArrearageSpace = function() {
 	return true;
 }
 if (Meteor.isClient) {
-	WorkflowManager.getStepDealTypeName = function(step){
+	WorkflowManager.getStepDealTypeName = function(step) {
 		var reName = "";
-		switch(step.deal_type) {
-			case 'pickupAtRuntime': 
+		switch (step.deal_type) {
+			case 'pickupAtRuntime':
 				reName = '审批时指定人员';
 				break;
 			case 'specifyUser':

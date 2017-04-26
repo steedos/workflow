@@ -14,15 +14,28 @@ InstanceSignText.helpers =
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
-	trace: (stepName, only_cc_opinion)->
+	trace: (stepName, only_cc_opinion, image_sign)->
 		traces = InstanceformTemplate.helpers.traces()
-		approves = traces[stepName]
+
+		approves = _.clone(traces[stepName])
+
 		approves = _.filter approves, (a)->
 			return a.type isnt "forward"
 		if only_cc_opinion
 			approves = approves?.filterProperty("type","cc")
 
-		return approves
+		approvesGroup = _.groupBy(approves, "handler");
+
+		hasNext = (approve, approvesGroup) ->
+			handlerApproves = approvesGroup[approve.handler]
+			return _.indexOf(handlerApproves, approve) + 1 < handlerApproves.length
+
+		approves.forEach (approve) ->
+#			有输入意见或者是最新的approve时，才显示用户意见
+			if approve.description || !hasNext(approve, approvesGroup)
+				approve._display = true
+
+		return approves?.filterProperty("_display", true)
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
@@ -81,13 +94,24 @@ InstanceSignText.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
-	steps: (field_formula, step,only_cc_opinion)->
+	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
 		if !step
 			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
 		else
-			steps = [{stepName: step, only_cc_opinion: only_cc_opinion}]
+			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
 		return steps
+
+	imageSignData: (handler) ->
+		return {user:handler}
+
+	showSignImage: (handler, image_sign) ->
+		spaceUserSign = ImageSign.helpers.spaceUserSign(handler);
+
+		if spaceUserSign?.sign && image_sign
+			return true
+		else
+			return false
 
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->

@@ -2,7 +2,8 @@ Template.selectFlowModal.helpers
 	flow_list_data: ->
 		if !Steedos.subsForwardRelated.ready()
 			return
-		WorkflowManager.getFlowListData 'forward'
+		console.log this
+		WorkflowManager.getFlowListData this.action_type, Session.get('space_drop_down_selected_value')
 	empty: (categorie) ->
 		if !categorie.forms or categorie.forms.length < 1
 			return false
@@ -11,23 +12,24 @@ Template.selectFlowModal.helpers
 		a == b
 	spaces: ->
 		db.spaces.find()
-	spaceName: ->
-		if Session.get('forward_space_id')
-			space = db.spaces.findOne(Session.get('forward_space_id'))
-			if space
-				return space.name
-		if Session.get("spaceId")
-			space = db.spaces.findOne(Session.get('spaceId'))
-			if space
-				return space.name
-		t 'Steedos'
+
 	showSpaces: ->
 		return db.spaces.find().fetch().length != 1
 
+	selected: (space_id)->
+		if Session.get('space_drop_down_selected_value') is space_id
+			return true
+
+		return false
+
+Template.selectFlowModal.onRendered ()->
+	if (!Session.get('space_drop_down_selected_value'))
+		Session.set('space_drop_down_selected_value', Session.get('spaceId'))
+
 Template.selectFlowModal.events
-	'click .dropdown-menu li': (event, template) ->
-		space_id = @_id
-		Session.set 'forward_space_id', space_id
+	'change #space_drop_down_box': (event, template) ->
+		console.log "space_drop_down_box"
+		Session.set('space_drop_down_selected_value', $('#space_drop_down_box').val())
 		return
 	'click .flow_list_box .weui_cell': (event, template) ->
 		flow = event.currentTarget.dataset.flow
@@ -37,7 +39,7 @@ Template.selectFlowModal.events
 
 		if template.data?.onSelectFlow
 			if typeof(template.data.onSelectFlow) == 'function'
-				template.data?.onSelectFlow(db.flows.findOne({_id:flow} ,{fields: {_id: 1, name: 1}}));
+				template.data?.onSelectFlow(db.flows.findOne({_id:flow} ,{fields: {_id: 1, name: 1, space: 1}}));
 
 		Modal.hide 'selectFlow'
 		Modal.allowMultiple = false;

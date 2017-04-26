@@ -24,4 +24,4 @@ if Meteor.isClient
 				if /^\/steedos\//.test routerPath
 					return
 				unless Accounts.isPhoneVerified()
-					FlowRouter.go("/accounts/setup/phone")
+					Steedos.openWindow(Steedos.absoluteUrl("/accounts/setup/phone"),'setup_phone')

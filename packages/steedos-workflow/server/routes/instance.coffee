@@ -1,6 +1,6 @@
 Cookies = Npm.require("cookies")
 
-getInstanceReadOnly = (req, res, next) ->
+getInstanceReadOnly = (req, res, next, options) ->
 #	获取客户端请求IP
 	clientIp = req.headers['x-forwarded-for'] or req.connection.remoteAddress or req.socket.remoteAddress or req.connection.socket.remoteAddress
 #	获取白名单
@@ -32,16 +32,17 @@ getInstanceReadOnly = (req, res, next) ->
 				"success": false
 		return;
 
-	if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
-		user = db.users.findOne({_id: space.owner})
-	else
-		if !user
-			JsonRoutes.sendResult res,
-				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
-			return;
+	if !user
+		if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
+			user = db.users.findOne({_id: space.owner})
+		else
+			if !user
+				JsonRoutes.sendResult res,
+					code: 401,
+					data:
+						"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+						"success": false
+				return;
 
 	if instance.space != spaceId
 		JsonRoutes.sendResult res,
@@ -63,7 +64,6 @@ getInstanceReadOnly = (req, res, next) ->
 					"error": "Validate Request -- Missing sapceUser",
 					"success": false
 			return;
-
 	#校验user是否对instance有查看权限
 	if !WorkflowManager.hasInstancePermissions(user, instance)
 		JsonRoutes.sendResult res,
@@ -73,7 +73,7 @@ getInstanceReadOnly = (req, res, next) ->
 				"success": false
 		return;
 
-	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance)
+	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
 	dataBuf = new Buffer(html);
 	res.setHeader('content-length', dataBuf.length)
 	res.setHeader('content-range', "bytes 0-#{dataBuf.length - 1}/#{dataBuf.length}")
@@ -86,7 +86,10 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instan
 	res.setHeader('Content-type', 'application/x-msdownload');
 	res.setHeader('Content-Disposition', 'attachment;filename='+encodeURI(req.params.instance_name));
 	res.setHeader('Transfer-Encoding', '')
-	return getInstanceReadOnly(req, res, next)
+
+	options = {absolute: true}
+
+	return getInstanceReadOnly(req, res, next, options)
 
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 

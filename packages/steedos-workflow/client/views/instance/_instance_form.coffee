@@ -363,14 +363,19 @@ InstanceformTemplate.helpers =
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
 	isOpinionField: (field)->
-		return field.formula?.indexOf("{traces.") > -1
+		return (field.formula?.indexOf("{traces.") > -1 || field.formula?.indexOf("{signature.traces.") > -1)
 
 	getOpinionFieldStepsName: (field_formula)->
 		opinionFields = new Array();
-		if field_formula && field_formula?.indexOf("{traces.") > -1
+		if field_formula && (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1)
 			foo1 = field_formula.split(",")
 			foo1.forEach (foo)->
-				sf = {only_cc_opinion: false}
+				sf = {only_cc_opinion: false, image_sign: false}
+
+				if foo.indexOf("{signature.") > -1
+					sf.image_sign = true
+					foo = foo.replace("{signature.","");
+
 				s1 = foo.replace("{","").replace("}","")
 				if s1.split(".").length > 1
 					sf.stepName = s1.split(".")[1]
@@ -384,8 +389,8 @@ InstanceformTemplate.helpers =
 		return opinionFields
 
 	showCCOpinion: (field)->
-		if field.formula?.indexOf("{traces.") > -1
-			s1 = field.formula.replace("{","").replace("}","")
+		if field.formula?.indexOf("{traces.") > -1 || field.formula?.indexOf("{signature.traces.") > -1
+			s1 = field.formula.replace("{signature.","").replace("{","").replace("}","")
 			if s1.split(".").length > 2
 				if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
 					return true
@@ -432,14 +437,6 @@ if Meteor.isServer
 	Template.registerHelper "afFieldLabelText", (op)->
 		form_version = Template.instance().view.template.steedosData.form_version
 		InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
-
-	Template.registerHelper "imageURL", (user)->
-		space = Template.instance().view.template.steedosData.space
-
-		spaceUserSign = db.space_user_signs.findOne({space: space, user: user});
-
-		if spaceUserSign?.sign
-			return Steedos.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
 
 	InstanceformTemplate.helpers._t = (key)->
 		locale = Template.instance().view.template.steedosData.locale
@@ -493,7 +490,7 @@ InstanceformTemplate.onRendered = ()->
 
 	#$("#ins_applicant").select2().val(instance.applicant).trigger('change');
 	#$("#ins_applicant").val(instance.applicant);
-	$("input[name='ins_applicant']")[0].dataset.values = instance.applicant;
+	$("input[name='ins_applicant']")[0]?.dataset.values = instance.applicant;
 	$("input[name='ins_applicant']").val(instance.applicant_name)
 
 

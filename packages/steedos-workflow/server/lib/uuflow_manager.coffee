@@ -115,7 +115,7 @@ uuflowManager.getStep = (instance, flow, step_id) ->
 	return isExistStep
 
 uuflowManager.isJudgeLegal = (judge) ->
-	if judge isnt "approved" and judge isnt "rejected"
+	if judge isnt "approved" and judge isnt "rejected" and judge isnt "readed"
 		throw new Meteor.Error('error!', "judge有误")
 	return
 

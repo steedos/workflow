@@ -121,11 +121,11 @@ comerc:autoform-selectize
 
 steedos:theme-qhd
 steedos:theme
-#steedos:emailjs
+# steedos:emailjs
 steedos:contacts
-#steedos:portal
+# steedos:portal
 steedos:desktop
-#steedos:fssh
+# steedos:fssh
 
 
 
@@ -134,7 +134,7 @@ matb33:collection-hooks
 
 
 
-#fix bug for package 'kadira:flow-router' with ie8/9
+# fix bug for package 'kadira:flow-router' with ie8/9
 tomwasd:history-polyfill
 
 steedos:mailqueue
@@ -146,4 +146,7 @@ vazco:universe-selectize
 vazco:universe-autoform-select
 
 steedos:workflow-chart
-steedos:records-qhd
+# steedos:records-qhd
+
+# steedos:accounts-phone
+# steedos:accounts

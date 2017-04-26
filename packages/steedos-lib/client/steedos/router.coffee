@@ -45,13 +45,13 @@ FlowRouter.triggers.enter [
 
 FlowRouter.route '/', 
 	action: (params, queryParams)->
-		if (!Meteor.userId())
+		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
 		else
 			# 登录最近关闭的URL
 			lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
 			# 这时不能用lastUrl.startsWith，因为那样无法判断后面是否加了其他字符
-			if lastUrl
+			if (!Steedos.isMobile() && lastUrl)
 				if /^\/?workflow\b/.test(lastUrl)
 					FlowRouter.go "/workflow"
 				else if /^\/?cms\b/.test(lastUrl)
@@ -65,13 +65,15 @@ FlowRouter.route '/',
 				else 
 					FlowRouter.go "/admin"
 			else
-				firstApp = Steedos.getSpaceFirstApp()
-				if !firstApp
-					# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
-					BlazeLayout.render 'steedosLoading'
-					$("body").addClass('loading')
-				else
-					Steedos.openApp firstApp._id
+				Tracker.autorun (c)->
+					firstApp = Steedos.getSpaceFirstApp()
+					if !firstApp
+						# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
+						BlazeLayout.render 'steedosLoading'
+						$("body").addClass('loading')
+					else
+						Steedos.openApp firstApp._id
+						c.stop()
 
 
 # FlowRouter.route '/steedos', 

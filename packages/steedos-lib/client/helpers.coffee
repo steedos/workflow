@@ -292,7 +292,7 @@ TemplateHelpers =
 			return true
 		false
 
-	isDocFile: (filename) ->
+	isOfficeFile: (filename) ->
 		#无文件类型时
 		if filename.split('.').length < 2
 			return false
@@ -303,6 +303,18 @@ TemplateHelpers =
 				return true
 			when 'docx'
 				return true
+			when 'xls'
+				unless Steedos.isNode()
+					return true
+			when 'xlsx'
+				unless Steedos.isNode()
+					return true
+			when 'ppt'
+				unless Steedos.isNode()
+					return true
+			when 'pptx'
+				unless Steedos.isNode()
+					return true
 			else
 				return false
 		false

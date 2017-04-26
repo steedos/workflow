@@ -9,14 +9,14 @@ Template.accounts_phone.events
 	'click .btn-send-code': (event,template) ->
 		number = $("input.accounts-phone-number").val()
 		unless number
-			toastr.error "请输入手机号"
+			toastr.error t "accounts_phone_enter_phone_number"
 			return
 
 		number = "+86 #{number}"
 
 		swal {
-			title: "确认手机号码",
-			text: "我们将发送验证码短信到这个号码：\r\n#{number}",
+			title: t("accounts_phone_swal_confirm_title"),
+			text: t("accounts_phone_swal_confirm_text",number),
 			confirmButtonColor: "#DD6B55",
 			confirmButtonText: t('OK'),
 			cancelButtonText: t('Cancel'),
@@ -30,7 +30,7 @@ Template.accounts_phone.events
 			Accounts.requestPhoneVerification number, (error)->
 				$(document.body).removeClass('loading')
 				if error
-					toastr.error error.reason
+					toastr.error t(error.reason)
 					console.log error
 					return
 				FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"

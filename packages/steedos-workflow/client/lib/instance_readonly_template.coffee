@@ -53,10 +53,6 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 	</div>
 """
 
-InstanceReadOnlyTemplate.imageSign = """
-	<img src="{{imageURL user}}" class="image-sign" />
-"""
-
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 	template = InstanceReadOnlyTemplate[tempalteName]
 
@@ -79,13 +75,21 @@ InstanceReadOnlyTemplate.createInstanceSignText = (steedosData)->
 	Template.instanceSignText.steedosData = steedosData
 	Template.instanceSignText.helpers InstanceSignText.helpers
 
+InstanceReadOnlyTemplate.createImageSign = (steedosData) ->
+	imageSignHtml = _getViewHtml('client/views/instance/image_sign.html')
+	imageSignCompiled = SpacebarsCompiler.compile(imageSignHtml, {isBody: true});
+	imageSignRenderFunction = eval(imageSignCompiled);
+	Template.imageSign = new Blaze.Template("imageSign", imageSignRenderFunction);
+	Template.imageSign.steedosData = steedosData
+	Template.imageSign.helpers ImageSign.helpers
+
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
-		InstanceReadOnlyTemplate.create("imageSign", steedosData);
 		InstanceReadOnlyTemplate.create("instance_attachment", {});
+		InstanceReadOnlyTemplate.createImageSign(steedosData)
 		InstanceReadOnlyTemplate.createInstanceSignText(steedosData)
 
 
@@ -264,6 +268,11 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
+
 	instanceTemplate = TemplateManager.getTemplate(instance, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
@@ -334,8 +343,13 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	return body;
 
-InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance)->
+InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance, options)->
 	steedosData = _getTemplateData(user, space, instance)
+
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
 
 	relatedInstancesHtml = _getViewHtml('client/views/instance/related_instances.html')
 
@@ -397,7 +411,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	else
 		attachment = ""
 
-	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance)
+	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance, options)
 
 	absoluteUrl = Meteor.absoluteUrl();
 

@@ -1,5 +1,5 @@
 Meteor.methods({
-	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers) {
+	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type) {
 		if (!this.userId)
 			return;
 
@@ -10,6 +10,7 @@ Meteor.methods({
 		check(description, String);
 		check(isForwardAttachments, Boolean);
 		check(selectedUsers, Array);
+		check(action_type, Match.OneOf('forward', 'distribute'));
 
 		var ins = db.instances.findOne(instance_id);
 		var old_space_id = ins.space;
@@ -241,7 +242,6 @@ Meteor.methods({
 			appr_obj.read_date = now;
 			appr_obj.is_read = false;
 			appr_obj.is_error = false;
-			appr_obj.description = description;
 
 			appr_obj.values = new_values;
 
@@ -257,7 +257,9 @@ Meteor.methods({
 			if (hasSaveInstanceToAttachment) {
 				// try {
 
-				instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins)
+				instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins, {
+					absolute: true
+				})
 				var instanceFile = new FS.File();
 				instanceFile.attachData(Buffer.from(instanceHtml, "utf-8"), {
 					type: "text/html"
@@ -339,7 +341,7 @@ Meteor.methods({
 				'handler_organization': space_user.organization,
 				'handler_organization_name': space_user_org_info.name,
 				'handler_organization_fullname': space_user_org_info.fullname,
-				'type': 'forward',
+				'type': action_type,
 				'start_date': new Date(),
 				'finish_date': new Date(),
 				'is_read': false,
@@ -347,7 +349,8 @@ Meteor.methods({
 				'from_user': current_user_id,
 				'from_user_name': from_user_name,
 				'forward_space': space_id,
-				'forward_instance': new_ins_id
+				'forward_instance': new_ins_id,
+				'description': description
 			};
 
 			forward_approves.push(appr);
@@ -393,7 +396,7 @@ Meteor.methods({
 			return appr._id == approve_id;
 		})
 
-		if (approve.from_user != this.userId || approve.type != 'forward' || !approve.forward_instance) {
+		if (approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
 			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
 		}
 

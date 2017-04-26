@@ -98,6 +98,10 @@ Template.instancePrint.onCreated ->
 
 Template.instancePrint.onRendered ->
 
+	$("body").css("background-image","");
+	$("body").css("background","silver");
+	$("#tracesCollapse")?.click()
+
 	Form_formula.runFormScripts("instanceform", "onload");
 
 	# if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0

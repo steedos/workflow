@@ -354,6 +354,9 @@ Template.profile.events
 					toastr.remove()
 					toastr.error(TAPi18n.__(error.error))
 
+	'click .btn-change-phone': (event, template) ->
+		Steedos.openWindow(Steedos.absoluteUrl("/accounts/setup/phone"),'setup_phone')
+
 Meteor.startup ->
 	AutoForm.hooks
 		updateProfile:
