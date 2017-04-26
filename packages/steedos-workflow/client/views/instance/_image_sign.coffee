@@ -14,5 +14,10 @@ ImageSign.helpers =
 
 		spaceUserSign = ImageSign.helpers.spaceUserSign(userId);
 
+		absolute = false
+
+		if Meteor.isServer
+			absolute = Template.instance().view.template.steedosData.absolute
+
 		if spaceUserSign?.sign
-			return Steedos.absoluteUrl("api/files/avatars/" + spaceUserSign.sign);
+			return Steedos.absoluteUrl("api/files/avatars/" + spaceUserSign.sign, absolute);

@@ -256,7 +256,7 @@ Meteor.methods({
 			if (hasSaveInstanceToAttachment) {
 				// try {
 
-				instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins)
+				instanceHtml = InstanceReadOnlyTemplate.getInstanceHtml(user_info, space_id, ins, {absolute: true})
 				var instanceFile = new FS.File();
 				instanceFile.attachData(Buffer.from(instanceHtml, "utf-8"), {
 					type: "text/html"

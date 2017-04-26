@@ -268,6 +268,11 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
+
 	instanceTemplate = TemplateManager.getTemplate(instance, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
@@ -338,8 +343,13 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	return body;
 
-InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance)->
+InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance, options)->
 	steedosData = _getTemplateData(user, space, instance)
+
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
 
 	relatedInstancesHtml = _getViewHtml('client/views/instance/related_instances.html')
 
@@ -401,7 +411,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	else
 		attachment = ""
 
-	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance)
+	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance, options)
 
 	absoluteUrl = Meteor.absoluteUrl();
 
