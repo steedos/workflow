@@ -6,7 +6,7 @@
 					{{#each trace stepName only_cc_opinion image_sign}}
 						{{#if isOpinionOfField this}}
 							{{#if is_finished}}
-								{{#if (include judge "approved,rejected,submitted") }}
+								{{#if (include judge "approved,rejected,submitted,readed") }}
 									{{#if (unempty description)}}{{{markDownToHtml
 											description}}}{{else}}{{{markDownToHtml defaultDescription}}}{{/if}}
 									{{#if (showSignImage handler ../image_sign)}}
@@ -35,7 +35,7 @@
 					{{#each (trace stepName only_cc_opinion image_sign)}}
 						{{#if isOpinionOfField this}}
 							{{#if is_finished}}
-								{{#if (include judge "approved,rejected,submitted") }}
+								{{#if (include judge "approved,rejected,submitted,readed") }}
 									{{#if (unempty description)}}
 										{{{markDownToHtml description}}}
 									{{else}}
