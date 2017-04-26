@@ -65,13 +65,15 @@ FlowRouter.route '/',
 				else 
 					FlowRouter.go "/admin"
 			else
-				firstApp = Steedos.getSpaceFirstApp()
-				if !firstApp
-					# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
-					BlazeLayout.render 'steedosLoading'
-					$("body").addClass('loading')
-				else
-					Steedos.openApp firstApp._id
+				Tracker.autorun (c)->
+					firstApp = Steedos.getSpaceFirstApp()
+					if !firstApp
+						# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
+						BlazeLayout.render 'steedosLoading'
+						$("body").addClass('loading')
+					else
+						Steedos.openApp firstApp._id
+						c.stop()
 
 
 # FlowRouter.route '/steedos', 
