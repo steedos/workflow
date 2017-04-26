@@ -194,7 +194,7 @@ if Meteor.isClient
 	Steedos.getUserOrganizations = (isIncludeParents)->
 		userId = Meteor.userId()
 		spaceId = Steedos.spaceId()
-		space_user = db.space_users.findOne(user:userId,space:spaceId)
+		space_user = db.space_users.findOne({user:userId,space:spaceId},fields:{organizations:1})
 		organizations = space_user?.organizations
 		unless organizations
 			return []
@@ -204,6 +204,17 @@ if Meteor.isClient
 		else
 			return organizations
 
+if Meteor.isServer
+	Steedos.getUserOrganizations = (spaceId,userId,isIncludeParents)->
+		space_user = db.space_users.findOne({user:userId,space:spaceId},fields:{organizations:1})
+		organizations = space_user?.organizations
+		unless organizations
+			return []
+		if isIncludeParents
+			parents = _.flatten db.organizations.find(_id:{$in:organizations}).fetch().getProperty("parents")
+			return _.union organizations,parents
+		else
+			return organizations
 
 if Meteor.isServer
 	Cookies = Npm.require("cookies")
