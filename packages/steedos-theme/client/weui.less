@@ -12,8 +12,8 @@
 	}
 	.weui-tabbar__item.weui-bar__item_on {
 		.weui-tabbar__icon, .weui-tabbar__label {
-    		color: #09BB07;
-    	}
+			color: #09BB07;
+		}
 	}
 }
 
@@ -21,5 +21,18 @@
 @media (min-width: 768px){
 	.weui-tabbar {
 		display: none;
+	}
+}
+
+.weui_cell,.weui-cell{
+	input.weui_input,input.weui-input,textarea.weui_input,textarea.weui-input{
+		color:#000;
+	}
+	input[type=datetime-local].weui-input,input[type=date].weui-input{
+		padding: 0;
+		height: auto;
+	}
+	textarea.weui-input{
+		height: 75px;
 	}
 }
