@@ -28,17 +28,25 @@ Package.onUse(function (api) {
 	api.use('tap:i18n@1.8.2');
 	api.use('steedos:workflow');
 
-	api.addFiles('lib/core.coffee');
+	// api.addFiles('lib/core.coffee');
 
 	// api.addFiles('lib/models/instance.coffee');
 
+	api.addFiles('server/lib/steedos_request.coffee', 'server');
+
 	api.addFiles('server/lib/instances_to_archive.coffee', 'server');
+
+	api.addFiles('server/lib/instances_to_contracts.coffee', 'server');
 
 	api.addFiles('server/lib/records_qhd.coffee', 'server');
 
 	// api.export('db');
 
+	api.export('steedosRequest');
+
 	api.export('InstancesToArchive');
+
+	api.export('InstancesToContracts');
 
 	api.export('RecordsQHD');
 
