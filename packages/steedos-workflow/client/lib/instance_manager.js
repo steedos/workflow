@@ -1140,17 +1140,21 @@ InstanceManager.unlockAttach = function(file_id) {
 	Meteor.call('cfs_instances_unlock', file_id);
 }
 
-// 申请单转发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers) {
+// 申请单转发/分发
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type) {
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, function(error, result) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, function(error, result) {
 		$('body').removeClass("loading");
 		if (error) {
 			toastr.error(error.message);
 		}
 
 		if (!_.isEmpty(result)) {
-			toastr.success(TAPi18n.__("forward_instance_success"));
+			if (action_type == "forward") {
+				toastr.success(TAPi18n.__("forward_instance_success"));
+			} else if (action_type == "distribute") {
+				toastr.success(TAPi18n.__("instance_distribute_success"));
+			}
 		}
 
 	})

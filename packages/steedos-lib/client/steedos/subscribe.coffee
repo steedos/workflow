@@ -71,7 +71,7 @@ Meteor.startup ->
 Steedos.subsForwardRelated = new SubsManager()
 
 Tracker.autorun (c)->
-	space_id = Session.get('forward_space_id')
+	space_id = Session.get('space_drop_down_selected_value')
 	Steedos.subsForwardRelated.reset();
 	if space_id
 		Steedos.subsForwardRelated.subscribe("my_space_user", space_id);

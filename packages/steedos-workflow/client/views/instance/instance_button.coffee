@@ -110,17 +110,31 @@ Template.instance_button.helpers
 		if (InstanceManager.isCC(ins))
 			return false
 
-
-		# 设置了禁止转发则不允许转发
+		# 待审核箱不显示转发
 		if InstanceManager.isInbox()
-			cs = InstanceManager.getCurrentStep()
-			if cs && (cs.disableForward is true)
-				return false
+			return false
 
 		if ins.state != "draft"
 			return true
 		else
 			return false
+
+	enabled_distribute: ->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return false
+
+		# 传阅的申请单不允许分发
+		if (InstanceManager.isCC(ins))
+			return false
+
+		# 设置了允许分发才显示分发按钮
+		if InstanceManager.isInbox()
+			cs = InstanceManager.getCurrentStep()
+			if cs && (cs.allowDistribute is true)
+				return true
+		
+		return false
 
 	enabled_retrieve: ->
 		ins = WorkflowManager.getInstance()
@@ -245,7 +259,15 @@ Template.instance_button.events
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
 
-		Modal.show("forward_select_flow_modal")
+		Modal.show("forward_select_flow_modal", {action_type:"forward"})
+
+	'click .btn-instance-distribute': (event, template) ->
+		#判断是否为欠费工作区
+		if WorkflowManager.isArrearageSpace()
+			toastr.error(t("spaces_isarrearageSpace"));
+			return;
+
+		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
 		swal {

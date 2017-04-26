@@ -65,6 +65,13 @@
 				<span>{{_ 'instance_forward_title'}}</span>
 			</button>
 		{{/if}}
+		{{#if enabled_distribute}}
+			<button type="button" class="btn btn-default btn-instance-distribute" data-toggle="tooltip"
+					data-placement="bottom">
+				<i class="fa fa-clone"></i>
+				<span>{{_ 'instance_distribute_title'}}</span>
+			</button>
+		{{/if}}
 		{{#if enabled_terminate}}
 			<button tyep="button" class="btn btn-default btn-instance-force-end" data-toggle="tooltip"
 					data-placement="bottom">

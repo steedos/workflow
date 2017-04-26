@@ -15,6 +15,9 @@
 								{{#if isForward this}}
 									<span class="weui_label">{{_t "instance_approve_from_user_name_label_forward"}}</span>
 								{{/if}}
+								{{#if isDistribute this}}
+									<span class="weui_label">{{_t "instance_distribute_approve_from_user_name_label"}}</span>
+								{{/if}}
 							</div>
 							<div class="weui_cell_bd weui_cell_primary text-muted">
 								<span class="weui_input">{{this.from_user_name}}</span>
@@ -38,17 +41,19 @@
 					{{else}}
 						{{#unless isCC this}}
 							{{#unless isForward this}}
-								<div class="weui_cell">
-									<div class="weui_cell_hd">
-										<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
+								{{#unless isDistribute this}}
+									<div class="weui_cell">
+										<div class="weui_cell_hd">
+											<span class="weui_label">{{_t "instance_approve_status_text_label"}}</span>
+										</div>
+										<div class="weui_cell_bd weui_cell_primary text-muted">
+											<span class="weui_input status pending">
+												<span class='ion ion-ios-loop'></span>
+												<span>{{_t "instance_in_progress"}}</span>
+											</span>
+										</div>
 									</div>
-									<div class="weui_cell_bd weui_cell_primary text-muted">
-										<span class="weui_input status pending">
-											<span class='ion ion-ios-loop'></span>
-											<span>{{_t "instance_in_progress"}}</span>
-										</span>
-									</div>
-								</div>
+								{{/unless}}
 							{{/unless}}
 						{{/unless}}
 					{{/if}}
@@ -134,6 +139,18 @@
 							</div>
 						</div>
 					{{/if}}
+					{{#if isDistribute this}}
+						<div class="weui_cell">
+							<div class="weui_cell_hd">
+								<span class="weui_label"></span>
+							</div>
+							<div class="weui_cell_bd weui_cell_primary text-muted">
+								<span class="weui_input">
+									<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_distribute_instance_look"}}</button>
+								</span>
+							</div>
+						</div>
+					{{/if}}
 				</div>
 				<div class="modal-footer">
 					{{#if showDeleteButton this}}
@@ -141,6 +158,9 @@
 					{{/if}}
 					{{#if showForwardDeleteButton this}}
 						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_forward_remove"}}</button>
+					{{/if}}
+					{{#if showDistributeDeleteButton this}}
+						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_distribute_approve_remove"}}</button>
 					{{/if}}
 					{{#if isEditing this}}
 						<button type="button" class="btn btn-default  btn-saveBut" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_modal_save"}}</button>
