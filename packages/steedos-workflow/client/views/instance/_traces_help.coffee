@@ -129,6 +129,14 @@ TracesTemplate.helpers =
 			renderer.link = ( href, title, text ) ->
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
+	isDistribute: (approve) ->
+		if approve and approve.type == 'distribute'
+			return true
+		false
+	showDistributeDeleteButton: (approve) ->
+		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+			return true
+		false
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->

@@ -427,12 +427,12 @@
 	"instance_approve_title_label": "处理人：",
 
 	"instance_forward_users": "转发对象",
-	"instance_forward_error_users_required": "请选择转发对象!",
+	"instance_forward_error_users_required": "请选择对象!",
 	"instance_approve_from_user_name_label_forward": "转发自",
 	"instance_approve_forward_remove": "取消转发",
-	"instance_approve_forward_remove_success": "取消转发成功",
+	"instance_approve_forward_remove_success": "取消成功",
 	"instance_forward_instance_look": "查看转发后申请单",
-	"instance_forward_cannot_cancel": "不符合取消转发条件！",
+	"instance_forward_cannot_cancel": "不符合取消条件！",
 	"instance_forward_instance_state_changed": "申请单状态已更新，不能取消！",
 
 	"instance_approve_modal_modification": "修改",
@@ -481,5 +481,14 @@
 
 	"flows_field_map": "字段关系",
 
-	"Instance State readed": "已阅"
+	"Instance State readed": "已阅",
+	"instance_distribute_title": "分发",
+	"instance_distribute_users": "分发对象",
+	"instance_distribute_error_users_required": "请选择分发对象!",
+	"instance_distribute_approve_from_user_name_label": "分发自",
+	"instance_distribute_approve_remove": "取消分发",
+	"instance_distribute_instance_look": "查看分发后申请单",
+	"instance_distribute_note": "将当前选中的文件分发到新的流程，继续执行审批操作",
+	"instance_distribute_attachments": "同时分发原表单附件",
+	"instance_distribute_success": "文件分发成功"
 }
