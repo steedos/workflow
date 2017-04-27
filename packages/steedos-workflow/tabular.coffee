@@ -19,13 +19,15 @@ TabularTables.instances = new Tabular.Table({
 			render: (val, type, doc) ->
 				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
 				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
-
+				console.log "-------doc-------"+JSON.stringify(doc)
 				form_name = WorkflowManager.getFlow(doc.flow).name
+				console.log "-----form_name------"+form_name
 				cc_view = "";
 				step_current_name_view = "";
 				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
 				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 					cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
+					step_current_name_view = "<div class='form-name'>#{form_name}<span>(#{doc.step_current_name})</span></div>"					
 				else
 					if Session.get("box") != 'draft' && doc.step_current_name
 						#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
@@ -38,7 +40,7 @@ TabularTables.instances = new Tabular.Table({
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
-				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + step_current_name_view + "</div>"
+				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div>" + step_current_name_view
 		},
 		{
 			data: "modified",
