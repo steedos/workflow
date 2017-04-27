@@ -475,5 +475,6 @@
 	"instance_distribute_instance_look": "Look the distributed instance",
 	"instance_distribute_note": "Distribute the currently selected instance to a new workflow and proceed with the approval process.",
 	"instance_distribute_attachments": "Is distribute attachments.",
-	"instance_distribute_success": "Distribute success"
+	"instance_distribute_success": "Distribute success",
+	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__"
 }

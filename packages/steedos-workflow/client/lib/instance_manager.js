@@ -1146,7 +1146,23 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, function(error, result) {
 		$('body').removeClass("loading");
 		if (error) {
-			toastr.error(error.message);
+			if (error.error == 'no_permission') {
+				if (action_type == 'forward') {
+					toastr.error(TAPi18n.__('instance_no_add_permission', {
+						actiontype: TAPi18n.__("instance_forward_title"),
+						usernames: error.details
+					}));
+				} else if (action_type == 'distribute') {
+					toastr.error(TAPi18n.__('instance_no_add_permission', {
+						actiontype: TAPi18n.__("instance_distribute_title"),
+						usernames: error.details
+					}));
+				}
+
+			} else {
+				toastr.error(error.message);
+			}
+
 		}
 
 		if (!_.isEmpty(result)) {
