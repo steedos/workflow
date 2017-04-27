@@ -23,8 +23,10 @@ RelatedInstances.helpers =
 
 		if Meteor.isServer
 			absolute = Template.instance().view.template.steedosData.absolute
-
-		return Steedos.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id, absolute)
+		if absolute
+			return Meteor.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id)
+		else
+			return Steedos.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id)
 
 	_t: (key)->
 		if Meteor.isClient
