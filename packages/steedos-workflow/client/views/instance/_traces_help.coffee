@@ -13,8 +13,8 @@ TracesTemplate.helpers =
 			false
 	append: (a, b) ->
 		a + b
-	dateFormat: (date,isMobile) ->
-		if isMobile == true
+	dateFormat: (date,isAndroidOrIOS) ->
+		if isAndroidOrIOS == true
 			return $.format.date new Date(date), "yyyy-MM-ddTHH:mm"
 		else
 			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"

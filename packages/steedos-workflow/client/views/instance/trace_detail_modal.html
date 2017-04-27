@@ -99,7 +99,7 @@
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
 								{{#if isEditing this}}
-									{{#if isMobile}}
+									{{#if isMobileDevice}}
                                        <input type="datetime-local" class="weui-input" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date true}}" />
                                     {{else}}
                                        <input type="text" class="weui-input" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
