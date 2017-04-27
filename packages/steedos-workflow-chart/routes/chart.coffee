@@ -75,12 +75,13 @@ FlowversionAPI =
 					<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 					<title>Workflow Chart</title>
 					<link rel="stylesheet" href="/packages/steedos_workflow-chart/assets/mermaid/dist/mermaid.css"/>
-					<script type="text/javascript" src="/packages/steedos_workflow-chart/assets/jquery/jquery-1.11.2.min.js"></script>
+					<script type="text/javascript" src="/lib/jquery/jquery-1.11.2.min.js"></script>
 					<script type="text/javascript" src="/packages/steedos_workflow-chart/assets/mermaid/dist/mermaid.min.js"></script>
 					<style>
 						body { 
 							font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 							text-align: center;
+							background-color: #fff;
 						}
 						.loading{
 							position: absolute;
