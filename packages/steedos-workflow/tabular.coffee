@@ -19,21 +19,19 @@ TabularTables.instances = new Tabular.Table({
 			render: (val, type, doc) ->
 				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
 				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
-				console.log "-------doc-------"+JSON.stringify(doc)
-				form_name = WorkflowManager.getFlow(doc.flow).name
-				console.log "-----form_name------"+form_name
+				flow_name = WorkflowManager.getFlow(doc.flow).name
 				cc_view = "";
 				step_current_name_view = "";
 				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
 				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 					cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
-					step_current_name_view = "<div class='form-name'>#{form_name}<span>(#{doc.step_current_name})</span></div>"					
+					step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"					
 				else
 					if Session.get("box") != 'draft' && doc.step_current_name
 						#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
-						step_current_name_view = "<div class='form-name'>#{form_name}<span>(#{doc.step_current_name})</span></div>"	
+						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"	
 					else
-						step_current_name_view = "<div class='form-name'>#{form_name}</div>"
+						step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
 
 				unread = ''
 
