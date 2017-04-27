@@ -13,7 +13,7 @@ FlowversionAPI =
 	replaceErrorSymbol: (str)->
 		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
-	generateGraphSyntax: (steps,isConvertToString)->
+	generateGraphSyntax: (steps, currentStepId, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
 		# 	graph LR
@@ -38,6 +38,8 @@ FlowversionAPI =
 					toStepName = FlowversionAPI.replaceErrorSymbol(toStepName)
 					nodes.push "	#{step._id}(\"#{stepName}\")-->#{line.to_step}(\"#{toStepName}\")"
 
+		if currentStepId
+			nodes.push "	class #{currentStepId} current-step-node;"
 		if isConvertToString
 			graphSyntax = nodes.join "\n"
 			return graphSyntax
@@ -53,12 +55,13 @@ FlowversionAPI =
 
 		error_msg = ""
 		graphSyntax = ""
-		instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1}}
+		instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1,traces: {$slice: -1}}}
 		if instance
+			currentStepId = instance.traces?[0]?.step
 			flowversion = WorkflowManager.getInstanceFlowVersion(instance)
 			steps = flowversion?.steps
 			if steps?.length
-				graphSyntax = this.generateGraphSyntax steps
+				graphSyntax = this.generateGraphSyntax steps,currentStepId
 			else
 				error_msg = "没有找到当前申请单的流程步骤数据"
 		else
@@ -99,6 +102,11 @@ FlowversionAPI =
 							text-align: center;
 							font-size: 20px;
 							color: #a94442;
+						}
+						.node.current-step-node rect{
+							fill: #cde498;
+							stroke: #13540c;
+							stroke-width: 2px;
 						}
 					</style>
 				</head>
