@@ -38,7 +38,7 @@ TabularTables.instances = new Tabular.Table({
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
-				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified text-muted' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + step_current_name_view + "</div>"
+				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span class='text-muted'>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified text-muted' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + step_current_name_view + "</div>"
 		},
 		{
 			data: "modified",
