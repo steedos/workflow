@@ -24,7 +24,7 @@ Meteor.methods({
 		}
 
 		var forward_users = new Array;
-		if (old_space_id != space_id) {
+		if (_.isEmpty(selectedUsers)) {
 			forward_users = [this.userId];
 		} else {
 			forward_users = selectedUsers;
