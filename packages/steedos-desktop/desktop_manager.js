@@ -56,7 +56,7 @@ if (Steedos.isNode()){
 					var lastUrl = FlowRouter.current().path;
 					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
 				}
-				globalWin.close(true);
+				nw.App.quit();
 			}else{
 				globalWin.show();
 				globalWin.focus();
