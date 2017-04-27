@@ -29,16 +29,16 @@ TabularTables.instances = new Tabular.Table({
 				else
 					if Session.get("box") != 'draft' && doc.step_current_name
 						#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
-						step_current_name_view = "<div class='form-name'>#{form_name}<span class='text-muted'>(#{doc.step_current_name})</span></div>"	
+						step_current_name_view = "<div class='form-name text-muted'>#{form_name}<span class='text-muted'>(#{doc.step_current_name})</span></div>"	
 					else
-						step_current_name_view = "<div class='form-name'>#{form_name}</div>"
+						step_current_name_view = "<div class='form-name text-muted'>#{form_name}</div>"
 
 				unread = ''
 
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
-				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + step_current_name_view + "</div>"
+				return "<div class='instance-read-bar'>#{unread}</div><div class='instance-name'>" + doc.name + cc_view + "<span>" + doc.applicant_name + "</span>" + "</div><div class='instance-modified text-muted' title='" + modifiedString + "'>" + modifiedFromNow + "</div><div class='instance-applicant'>" + step_current_name_view + "</div>"
 		},
 		{
 			data: "modified",
