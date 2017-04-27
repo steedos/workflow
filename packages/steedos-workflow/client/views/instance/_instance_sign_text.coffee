@@ -30,9 +30,23 @@ InstanceSignText.helpers =
 			handlerApproves = approvesGroup[approve.handler]
 			return _.indexOf(handlerApproves, approve) + 1 < handlerApproves.length
 
+		haveDescriptionApprove = (approve, approvesGroup) ->
+			handlerApproves = approvesGroup[approve.handler]
+
+			descriptionApproves = _.filter handlerApproves, (a)->
+				if a.description
+					return true
+				return false
+
+			if descriptionApproves.length == 0
+				return false
+
+			return true
+
+
 		approves.forEach (approve) ->
-#			有输入意见或者是最新的approve时，才显示用户意见
-			if approve.description || !hasNext(approve, approvesGroup)
+#			有输入意见 或 最新一条并且用户没有输入过意见
+			if approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 				approve._display = true
 
 		return approves?.filterProperty("_display", true)
