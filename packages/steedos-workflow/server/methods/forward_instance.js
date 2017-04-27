@@ -30,6 +30,33 @@ Meteor.methods({
 			forward_users = selectedUsers;
 		}
 
+		// 校验分发对象是否有分发流程的提交权限
+		console.log(selectedUsers);
+		var no_permission_user_ids = new Array();
+		_.each(forward_users, function(uid) {
+			var permissions = permissionManager.getFlowPermissions(flow_id, uid);
+			console.log(permissions);
+			if (!permissions.includes("add")) {
+				// throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
+				no_permission_user_ids.push(uid);
+			}
+		})
+		if (!_.isEmpty(no_permission_user_ids)) {
+			var no_permission_users_name = new Array();
+			db.users.find({
+				_id: {
+					$in: no_permission_user_ids
+				}
+			}, {
+				fields: {
+					name: 1
+				}
+			}).forEach(function(u) {
+				no_permission_users_name.push(u.name);
+			});
+			throw new Meteor.Error('no_permission', "该申请人没有提交此申请单的权限。", no_permission_users_name.join(','))
+		}
+
 		var new_ins_ids = new Array;
 
 		var current_trace = _.last(ins.traces);
