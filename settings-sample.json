@@ -31,7 +31,7 @@
     },
     //通讯录相关
     "contacts": {
-      "hidden_users": []//不显示人员的用户ID集合
+      "hidden_users": [] //不显示人员的用户ID集合
     }
   },
   "push": {
@@ -76,21 +76,7 @@
     "billing": "0 * * * * *",
     "mailqueue_interval": 1000,
     "push_interval": 1000,
-    "sms": {
-      "smsqueue_interval": 1000,
-      "accessKeyId": "xxx",
-      "accessKeySecret": "xxx"
-    },
     "webhookqueue_interval": 1000
-  },
-  //sms短信平台账户配置相关
-  "sms": {
-    //海外短信平台账户相关
-    "twilio": {
-       "FROM": "XXXXXXXXXXXX", 
-       "ACCOUNT_SID": "XXXXXXXXXXXX", 
-       "AUTH_TOKEN": "XXXXXXXXXXXX"
-    }
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
@@ -101,11 +87,18 @@
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
   },
+  //sms短信平台账户配置相关
   "sms": {
+    //海外短信平台账户相关
     "twilio": {
-       "FROM": "XXXXXXXXXXXX", 
-       "ACCOUNT_SID": "XXXXXXXXXXXX", 
-       "AUTH_TOKEN": "XXXXXXXXXXXX"
+      "FROM": "XXXXXXXXXXXX",
+      "ACCOUNT_SID": "XXXXXXXXXXXX",
+      "AUTH_TOKEN": "XXXXXXXXXXXX"
+    },
+    "aliyun": {
+      "smsqueue_interval": 1000,
+      "accessKeyId": "xxx",
+      "accessKeySecret": "xxx"
     }
   },
   //日志相关

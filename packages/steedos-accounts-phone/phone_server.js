@@ -1,11 +1,11 @@
 /// Default Accounts Config vars
 
 var AccountGlobalConfigs = {
-    verificationRetriesWaitTime        : 10 * 60 * 1000,
-    verificationWaitTime               : 20 * 1000,
-    verificationCodeLength             : 4,
-    verificationMaxRetries             : 2,
-    forbidClientAccountCreation        : false,
+    verificationRetriesWaitTime: 10 * 60 * 1000,
+    verificationWaitTime: 20 * 1000,
+    verificationCodeLength: 4,
+    verificationMaxRetries: 2,
+    forbidClientAccountCreation: false,
     sendPhoneVerificationCodeOnCreation: true
 };
 
@@ -46,7 +46,7 @@ Accounts._bcryptRounds = 10;
 //  - String (the plaintext password)
 //  - Object with 'digest' and 'algorithm' keys. 'algorithm' must be "sha-256".
 //
-var getPasswordString = function (password) {
+var getPasswordString = function(password) {
     if (typeof password === "string") {
         password = SHA256(password);
     } else { // 'password' is an object
@@ -64,7 +64,7 @@ var getPasswordString = function (password) {
 // SHA256 before bcrypt) or an object with properties `digest` and
 // `algorithm` (in which case we bcrypt `password.digest`).
 //
-var hashPassword = function (password) {
+var hashPassword = function(password) {
     password = getPasswordString(password);
     return bcryptHash(password, Accounts._bcryptRounds);
 };
@@ -75,7 +75,7 @@ var hashPassword = function (password) {
 // properties `digest` and `algorithm` (in which case we bcrypt
 // `password.digest`).
 //
-Accounts._checkPhonePassword = function (user, password) {
+Accounts._checkPhonePassword = function(user, password) {
     var result = {
         userId: user._id
     };
@@ -98,15 +98,19 @@ var checkPassword = Accounts._checkPhonePassword;
 // @param user {Object} with `id` or `phone`.
 // @returns A selector to pass to mongo to get the user record.
 
-var selectorFromUserQuery = function (user) {
+var selectorFromUserQuery = function(user) {
     if (user.id)
-        return {_id: user.id};
+        return {
+            _id: user.id
+        };
     else if (user.phone)
-        return {'phone.number': user.phone};
+        return {
+            'phone.number': user.phone
+        };
     throw new Error("shouldn't happen (validation missed something)");
 };
 
-var findUserFromUserQuery = function (user) {
+var findUserFromUserQuery = function(user) {
     var selector = selectorFromUserQuery(user);
 
     var user = Meteor.users.findOne(selector);
@@ -117,14 +121,14 @@ var findUserFromUserQuery = function (user) {
 };
 
 // XXX maybe this belongs in the check package
-var NonEmptyString = Match.Where(function (x) {
+var NonEmptyString = Match.Where(function(x) {
     check(x, String);
     return x.length > 0;
 });
 
-var userQueryValidator = Match.Where(function (user) {
+var userQueryValidator = Match.Where(function(user) {
     check(user, {
-        id   : Match.Optional(NonEmptyString),
+        id: Match.Optional(NonEmptyString),
         phone: Match.Optional(NonEmptyString)
     });
     if (_.keys(user).length !== 1)
@@ -133,8 +137,10 @@ var userQueryValidator = Match.Where(function (user) {
 });
 
 var passwordValidator = Match.OneOf(
-    String,
-    { digest: String, algorithm: String }
+    String, {
+        digest: String,
+        algorithm: String
+    }
 );
 
 // Handler to login with a phone.
@@ -151,12 +157,12 @@ var passwordValidator = Match.OneOf(
 //
 // Note that neither password option is secure without SSL.
 //
-Accounts.registerLoginHandler("phone", function (options) {
+Accounts.registerLoginHandler("phone", function(options) {
     if (!options.password || options.srp)
         return undefined; // don't handle
 
     check(options, {
-        user    : userQueryValidator,
+        user: userQueryValidator,
         password: passwordValidator
     });
 
@@ -173,20 +179,24 @@ Accounts.registerLoginHandler("phone", function (options) {
             // client doesn't know how to do such a thing.
             var verifier = user.services.phone.srp;
             var newVerifier = SRP.generateVerifier(options.password, {
-                identity: verifier.identity, salt: verifier.salt});
+                identity: verifier.identity,
+                salt: verifier.salt
+            });
 
             if (verifier.verifier !== newVerifier.verifier) {
                 return {
                     userId: user._id,
-                    error : new Meteor.Error(403, "Incorrect password")
+                    error: new Meteor.Error(403, "Incorrect password")
                 };
             }
 
-            return {userId: user._id};
+            return {
+                userId: user._id
+            };
         } else {
             // Tell the client to use the SRP upgrade process.
             throw new Meteor.Error(400, "old password format", EJSON.stringify({
-                format  : 'srp',
+                format: 'srp',
                 identity: user.services.phone.srp.identity
             }));
         }
@@ -213,13 +223,13 @@ Accounts.registerLoginHandler("phone", function (options) {
 // try the SRP upgrade path.
 //
 // XXX COMPAT WITH 0.8.1.3
-Accounts.registerLoginHandler("phone", function (options) {
+Accounts.registerLoginHandler("phone", function(options) {
     if (!options.srp || !options.password)
         return undefined; // don't handle
 
     check(options, {
-        user    : userQueryValidator,
-        srp     : String,
+        user: userQueryValidator,
+        srp: String,
         password: passwordValidator
     });
 
@@ -231,35 +241,38 @@ Accounts.registerLoginHandler("phone", function (options) {
         user.services.phone.bcrypt)
         return checkPassword(user, options.password);
 
-    if (!(user.services && user.services.phone
-        && user.services.phone.srp))
+    if (!(user.services && user.services.phone && user.services.phone.srp))
         throw new Meteor.Error(403, "User has no password set");
 
     var v1 = user.services.phone.srp.verifier;
     var v2 = SRP.generateVerifier(
-        null,
-        {
+        null, {
             hashedIdentityAndPassword: options.srp,
-            salt                     : user.services.phone.srp.salt
+            salt: user.services.phone.srp.salt
         }
     ).verifier;
     if (v1 !== v2)
         return {
             userId: user._id,
-            error : new Meteor.Error(403, "Incorrect password")
+            error: new Meteor.Error(403, "Incorrect password")
         };
 
     // Upgrade to bcrypt on successful login.
     var salted = hashPassword(options.password);
     Meteor.users.update(
-        user._id,
-        {
-            $unset: { 'services.phone.srp': 1 },
-            $set  : { 'services.phone.bcrypt': salted }
+        user._id, {
+            $unset: {
+                'services.phone.srp': 1
+            },
+            $set: {
+                'services.phone.bcrypt': salted
+            }
         }
     );
 
-    return {userId: user._id};
+    return {
+        userId: user._id
+    };
 });
 
 // Force change the users phone password.
@@ -270,21 +283,23 @@ Accounts.registerLoginHandler("phone", function (options) {
  * @param {String} userId The id of the user to update.
  * @param {String} newPassword A new password for the user.
  */
-Accounts.setPhonePassword = function (userId, newPlaintextPassword) {
+Accounts.setPhonePassword = function(userId, newPlaintextPassword) {
     var user = Meteor.users.findOne(userId);
     if (!user)
         throw new Meteor.Error(403, "User not found");
 
-    Meteor.users.update(
-        {_id: user._id},
-        {
-            $unset: {
-                'services.phone.srp'         : 1, // XXX COMPAT WITH 0.8.1.3
-                'services.phone.verify'      : 1,
-                'services.resume.loginTokens': 1
-            },
-            $set  : {'services.phone.bcrypt': hashPassword(newPlaintextPassword)} }
-    );
+    Meteor.users.update({
+        _id: user._id
+    }, {
+        $unset: {
+            'services.phone.srp': 1, // XXX COMPAT WITH 0.8.1.3
+            'services.phone.verify': 1,
+            'services.resume.loginTokens': 1
+        },
+        $set: {
+            'services.phone.bcrypt': hashPassword(newPlaintextPassword)
+        }
+    });
 };
 
 ///
@@ -299,7 +314,7 @@ Accounts.setPhonePassword = function (userId, newPlaintextPassword) {
  * @param {String} userId The id of the user to send email to.
  * @param {String} [phone] Optional. Which phone of the user's to send the SMS to. This phone must be in the user's `phones` list. Defaults to the first unverified phone in the list.
  */
-Accounts.sendPhoneVerificationCode = function (userId, phone) {
+Accounts.sendPhoneVerificationCode = function(userId, phone) {
     // XXX Also generate a link using which someone can delete this
     // account if they own said number but weren't those who created
     // this account.
@@ -320,7 +335,9 @@ Accounts.sendPhoneVerificationCode = function (userId, phone) {
     var waitTimeBetweenRetries = Accounts._options.verificationWaitTime;
     var maxRetryCounts = Accounts._options.verificationMaxRetries;
 
-    var verifyObject = {numOfRetries: 0};
+    var verifyObject = {
+        numOfRetries: 0
+    };
     if (user.services && user.services.phone && user.services.phone.verify) {
         verifyObject = user.services.phone.verify;
     }
@@ -349,149 +366,187 @@ Accounts.sendPhoneVerificationCode = function (userId, phone) {
     verifyObject.lastRetry = curTime;
     verifyObject.numOfRetries++;
 
-    Meteor.users.update(
-        {_id: userId},
-        {$set: {'services.phone.verify': verifyObject}});
+    Meteor.users.update({
+        _id: userId
+    }, {
+        $set: {
+            'services.phone.verify': verifyObject
+        }
+    });
 
     // before passing to template, update user object with new token
     Meteor._ensure(user, 'services', 'phone');
     user.services.phone.verify = verifyObject;
 
     var options = {
-        to  : phone,
+        to: phone,
         from: SMS.phoneTemplates.from,
         body: SMS.phoneTemplates.text(user, verifyObject.code)
     };
 
     try {
-        SMS.send(options);
+        if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio) {
+            SMS.send(options);
+        } else if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.aliyun) {
+            var params = {
+                code: verifyObject.code
+            };
+            // 发送手机短信
+            SMSQueue.send({
+                Format: 'JSON',
+                Action: 'SingleSendSms',
+                ParamString: JSON.stringify(params),
+                RecNum: phone.substring(3),
+                SignName: 'OA系统',
+                TemplateCode: 'SMS_63370455'
+            });
+        }
+
+
     } catch (e) {
         console.log('SMS Failed, Something bad happened!', e);
     }
 };
 
 // Send SMS with code to user.
-Meteor.methods({requestPhoneVerification: function (phone) {
-    if (phone) {
-        check(phone, String);
-        // Change phone format to international SMS format
-        phone = normalizePhone(phone);
-    }
-
-    if (!phone) {
-        throw new Meteor.Error(403, "accounts_phone_invalid");
-    }
-
-    var userId = this.userId;
-    if (!userId) {
-        // Get user by phone number
-        var existingUser = Meteor.users.findOne({'phone.number': phone}, {fields: {'_id': 1}});
-        if (existingUser) {
-            userId = existingUser && existingUser._id;
-        } else {
-            // Create new user with phone number
-            // userId = createUser({phone:phone});
-            // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-            throw new Error("Can't find user");
+Meteor.methods({
+    requestPhoneVerification: function(phone) {
+        if (phone) {
+            check(phone, String);
+            // Change phone format to international SMS format
+            phone = normalizePhone(phone);
         }
+
+        if (!phone) {
+            throw new Meteor.Error(403, "accounts_phone_invalid");
+        }
+
+        var userId = this.userId;
+        if (!userId) {
+            // Get user by phone number
+            var existingUser = Meteor.users.findOne({
+                'phone.number': phone
+            }, {
+                fields: {
+                    '_id': 1
+                }
+            });
+            if (existingUser) {
+                userId = existingUser && existingUser._id;
+            } else {
+                // Create new user with phone number
+                // userId = createUser({phone:phone});
+                // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
+                throw new Error("Can't find user");
+            }
+        }
+        Accounts.sendPhoneVerificationCode(userId, phone);
     }
-    Accounts.sendPhoneVerificationCode(userId, phone);
-}});
+});
 
 // Take code from sendVerificationPhone SMS, mark the phone as verified,
 // Change password if needed
 // and log them in.
-Meteor.methods({verifyPhone: function (phone, code, newPassword) {
-    var self = this;
-    // Check if needs to change password
+Meteor.methods({
+    verifyPhone: function(phone, code, newPassword) {
+        var self = this;
+        // Check if needs to change password
 
-    return Accounts._loginMethod(
-        self,
-        "verifyPhone",
-        arguments,
-        "phone",
-        function () {
-            check(code, String);
-            check(phone, String);
+        return Accounts._loginMethod(
+            self,
+            "verifyPhone",
+            arguments,
+            "phone",
+            function() {
+                check(code, String);
+                check(phone, String);
 
-            if (!code) {
-                throw new Meteor.Error(403, "Code is must be provided to method");
-            }
-            // Change phone format to international SMS format
-            phone = normalizePhone(phone);
-
-            var user = Meteor.users.findOne({
-                "phone.number": phone
-            });
-            if (!user)
-                throw new Meteor.Error(403, "accounts_phone_invalid");
-
-            // Verify code is accepted or master code
-            if (!user.services.phone || !user.services.phone.verify || !user.services.phone.verify.code ||
-                (user.services.phone.verify.code != code && !isMasterCode(code))) {
-                throw new Meteor.Error(403, "accounts_phone_code_invalid");
-            }
-
-            var setOptions = {'phone.verified': true},
-                unSetOptions = {'services.phone.verify': 1};
-
-            // If needs to update password
-            if (newPassword) {
-                check(newPassword, passwordValidator);
-                var hashed = hashPassword(newPassword);
-
-                // NOTE: We're about to invalidate tokens on the user, who we might be
-                // logged in as. Make sure to avoid logging ourselves out if this
-                // happens. But also make sure not to leave the connection in a state
-                // of having a bad token set if things fail.
-                var oldToken = Accounts._getLoginToken(self.connection.id);
-                Accounts._setLoginToken(user._id, self.connection, null);
-                var resetToOldToken = function () {
-                    Accounts._setLoginToken(user._id, self.connection, oldToken);
-                };
-
-                setOptions['services.phone.bcrypt'] = hashed;
-                unSetOptions['services.phone.srp'] = 1;
-            }
-
-            try {
-                var query = {
-                    _id                         : user._id,
-                    'phone.number'              : phone,
-                    'services.phone.verify.code': code
-                };
-                // Allow master code from settings
-                if (isMasterCode(code)) {
-                    delete query['services.phone.verify.code'];
+                if (!code) {
+                    throw new Meteor.Error(403, "Code is must be provided to method");
                 }
-                // Update the user record by:
-                // - Changing the password to the new one
-                // - Forgetting about the verification code that was just used
-                // - Verifying the phone, since they got the code via sms to phone.
-                var affectedRecords = Meteor.users.update(
-                    query,
-                    {$set     : setOptions,
-                        $unset: unSetOptions});
-                if (affectedRecords !== 1)
-                    return {
-                        userId: user._id,
-                        error : new Meteor.Error(403, "accounts_phone_not_exist")
+                // Change phone format to international SMS format
+                phone = normalizePhone(phone);
+
+                var user = Meteor.users.findOne({
+                    "phone.number": phone
+                });
+                if (!user)
+                    throw new Meteor.Error(403, "accounts_phone_invalid");
+
+                // Verify code is accepted or master code
+                if (!user.services.phone || !user.services.phone.verify || !user.services.phone.verify.code ||
+                    (user.services.phone.verify.code != code && !isMasterCode(code))) {
+                    throw new Meteor.Error(403, "accounts_phone_code_invalid");
+                }
+
+                var setOptions = {
+                        'phone.verified': true
+                    },
+                    unSetOptions = {
+                        'services.phone.verify': 1
                     };
-                successfulVerification(user._id);
-            } catch (err) {
-                resetToOldToken();
-                throw err;
+
+                // If needs to update password
+                if (newPassword) {
+                    check(newPassword, passwordValidator);
+                    var hashed = hashPassword(newPassword);
+
+                    // NOTE: We're about to invalidate tokens on the user, who we might be
+                    // logged in as. Make sure to avoid logging ourselves out if this
+                    // happens. But also make sure not to leave the connection in a state
+                    // of having a bad token set if things fail.
+                    var oldToken = Accounts._getLoginToken(self.connection.id);
+                    Accounts._setLoginToken(user._id, self.connection, null);
+                    var resetToOldToken = function() {
+                        Accounts._setLoginToken(user._id, self.connection, oldToken);
+                    };
+
+                    setOptions['services.phone.bcrypt'] = hashed;
+                    unSetOptions['services.phone.srp'] = 1;
+                }
+
+                try {
+                    var query = {
+                        _id: user._id,
+                        'phone.number': phone,
+                        'services.phone.verify.code': code
+                    };
+                    // Allow master code from settings
+                    if (isMasterCode(code)) {
+                        delete query['services.phone.verify.code'];
+                    }
+                    // Update the user record by:
+                    // - Changing the password to the new one
+                    // - Forgetting about the verification code that was just used
+                    // - Verifying the phone, since they got the code via sms to phone.
+                    var affectedRecords = Meteor.users.update(
+                        query, {
+                            $set: setOptions,
+                            $unset: unSetOptions
+                        });
+                    if (affectedRecords !== 1)
+                        return {
+                            userId: user._id,
+                            error: new Meteor.Error(403, "accounts_phone_not_exist")
+                        };
+                    successfulVerification(user._id);
+                } catch (err) {
+                    resetToOldToken();
+                    throw err;
+                }
+
+                // Replace all valid login tokens with new ones (changing
+                // password should invalidate existing sessions).
+                // 下面这句会造成注销登录状态，对我们无用
+                // Accounts._clearAllLoginTokens(user._id);
+
+                return {
+                    userId: user._id
+                };
             }
-
-            // Replace all valid login tokens with new ones (changing
-            // password should invalidate existing sessions).
-            // 下面这句会造成注销登录状态，对我们无用
-            // Accounts._clearAllLoginTokens(user._id);
-
-            return {userId: user._id};
-        }
-    );
-}});
+        );
+    }
+});
 
 ///
 /// CREATING USERS
@@ -502,11 +557,11 @@ Meteor.methods({verifyPhone: function (phone, code, newPassword) {
 // does the actual user insertion.
 //
 // returns the user id
-var createUser = function (options) {
+var createUser = function(options) {
     // Unknown keys allowed, because a onCreateUserHook can take arbitrary
     // options.
     check(options, Match.ObjectIncluding({
-        phone   : Match.Optional(String),
+        phone: Match.Optional(String),
         password: Match.Optional(passwordValidator)
     }));
 
@@ -514,20 +569,28 @@ var createUser = function (options) {
     if (!phone)
         throw new Meteor.Error(400, "Need to set phone");
 
-    var existingUser = Meteor.users.findOne(
-        {'phone.number': phone});
+    var existingUser = Meteor.users.findOne({
+        'phone.number': phone
+    });
 
     if (existingUser) {
         throw new Meteor.Error(403, "User with this phone number already exists");
     }
 
-    var user = {services: {}};
+    var user = {
+        services: {}
+    };
     if (options.password) {
         var hashed = hashPassword(options.password);
-        user.services.phone = { bcrypt: hashed };
+        user.services.phone = {
+            bcrypt: hashed
+        };
     }
 
-    user.phone = {number: phone, verified: false};
+    user.phone = {
+        number: phone,
+        verified: false
+    };
 
     try {
         return Accounts.insertUserDoc(options, user);
@@ -545,46 +608,50 @@ var createUser = function (options) {
 };
 
 // method for create user. Requests come from the client.
-Meteor.methods({createUserWithPhone: function (options) {
-    var self = this;
+Meteor.methods({
+    createUserWithPhone: function(options) {
+        var self = this;
 
-    check(options, Object);
-    if (options.phone) {
-        check(options.phone, String);
-        // Change phone format to international SMS format
-        options.phone = normalizePhone(options.phone);
-    }
-
-    return Accounts._loginMethod(
-        self,
-        "createUserWithPhone",
-        arguments,
-        "phone",
-        function () {
-            if (Accounts._options.forbidClientAccountCreation)
-                return {
-                    error: new Meteor.Error(403, "Signups forbidden")
-                };
-
-            // Create user. result contains id and token.
-            var userId = createUser(options);
-            // safety belt. createUser is supposed to throw on error. send 500 error
-            // instead of sending a verification email with empty userid.
-            if (!userId)
-                throw new Error("createUser failed to insert new user");
-
-            // If `Accounts._options.sendPhoneVerificationCodeOnCreation` is set, register
-            // a token to verify the user's primary phone, and send it to
-            // by sms.
-            if (options.phone && Accounts._options.sendPhoneVerificationCodeOnCreation) {
-                Accounts.sendPhoneVerificationCode(userId, options.phone);
-            }
-
-            // client gets logged in as the new user afterwards.
-            return {userId: userId};
+        check(options, Object);
+        if (options.phone) {
+            check(options.phone, String);
+            // Change phone format to international SMS format
+            options.phone = normalizePhone(options.phone);
         }
-    );
-}});
+
+        return Accounts._loginMethod(
+            self,
+            "createUserWithPhone",
+            arguments,
+            "phone",
+            function() {
+                if (Accounts._options.forbidClientAccountCreation)
+                    return {
+                        error: new Meteor.Error(403, "Signups forbidden")
+                    };
+
+                // Create user. result contains id and token.
+                var userId = createUser(options);
+                // safety belt. createUser is supposed to throw on error. send 500 error
+                // instead of sending a verification email with empty userid.
+                if (!userId)
+                    throw new Error("createUser failed to insert new user");
+
+                // If `Accounts._options.sendPhoneVerificationCodeOnCreation` is set, register
+                // a token to verify the user's primary phone, and send it to
+                // by sms.
+                if (options.phone && Accounts._options.sendPhoneVerificationCodeOnCreation) {
+                    Accounts.sendPhoneVerificationCode(userId, options.phone);
+                }
+
+                // client gets logged in as the new user afterwards.
+                return {
+                    userId: userId
+                };
+            }
+        );
+    }
+});
 
 // Create user directly on the server.
 //
@@ -598,7 +665,7 @@ Meteor.methods({createUserWithPhone: function (options) {
 // true", which we want to prevent the client from setting, but which a custom
 // method calling Accounts.createUser could set?
 //
-Accounts.createUserWithPhone = function (options, callback) {
+Accounts.createUserWithPhone = function(options, callback) {
     options = _.clone(options);
 
     // XXX allow an optional callback?
@@ -612,18 +679,27 @@ Accounts.createUserWithPhone = function (options, callback) {
 ///
 /// PASSWORD-SPECIFIC INDEXES ON USERS
 ///
-Meteor.users._ensureIndex('phone.number',
-    {unique: 1, sparse: 1});
-Meteor.users._ensureIndex('services.phone.verify.code',
-    {unique: 1, sparse: 1});
+Meteor.users._ensureIndex('phone.number', {
+    unique: 1,
+    sparse: 1
+});
+Meteor.users._ensureIndex('services.phone.verify.code', {
+    unique: 1,
+    sparse: 1
+});
 
 /*** Control published data *********/
-Meteor.startup(function () {
+Meteor.startup(function() {
     /** Publish phones to the client **/
-    Meteor.publish(null, function () {
+    Meteor.publish(null, function() {
         if (this.userId) {
-            return Meteor.users.find({_id: this.userId},
-                {fields: {'phone': 1}});
+            return Meteor.users.find({
+                _id: this.userId
+            }, {
+                fields: {
+                    'phone': 1
+                }
+            });
         } else {
             this.ready();
         }
@@ -631,11 +707,10 @@ Meteor.startup(function () {
 
     /** Disable user profile editing **/
     Meteor.users.deny({
-        update: function (userId, doc, fieldNames, modifier, options) {
-            if(modifier.$set.phone){
+        update: function(userId, doc, fieldNames, modifier, options) {
+            if (modifier.$set.phone) {
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
         }
@@ -654,12 +729,12 @@ var onPhoneVerificationHook = new Hook({
  * @locus Server
  * @param {Function} func The callback to be called when phone verification is successful.
  */
-Accounts.onPhoneVerification = function (func) {
+Accounts.onPhoneVerification = function(func) {
     return onPhoneVerificationHook.register(func);
 };
 
-var successfulVerification = function (userId) {
-    onPhoneVerificationHook.each(function (callback) {
+var successfulVerification = function(userId) {
+    onPhoneVerificationHook.each(function(callback) {
         callback(userId);
         return true;
     });
@@ -668,7 +743,7 @@ var successfulVerification = function (userId) {
 // Give each login hook callback a fresh cloned copy of the attempt
 // object, but don't clone the connection.
 //
-var cloneAttemptWithConnection = function (connection, attempt) {
+var cloneAttemptWithConnection = function(connection, attempt) {
     var clonedAttempt = EJSON.clone(attempt);
     clonedAttempt.connection = connection;
     return clonedAttempt;
@@ -676,7 +751,7 @@ var cloneAttemptWithConnection = function (connection, attempt) {
 /************* Helper functions ********************/
 
 // Return normalized phone format
-var normalizePhone = function (phone) {
+var normalizePhone = function(phone) {
     // If phone equals to one of admin phone numbers return it as-is
     if (phone && Accounts._options.adminPhoneNumbers && Accounts._options.adminPhoneNumbers.indexOf(phone) != -1) {
         return phone;
@@ -689,7 +764,7 @@ var normalizePhone = function (phone) {
  * @param code
  * @returns {*|boolean}
  */
-var isMasterCode = function (code) {
+var isMasterCode = function(code) {
     return code && Accounts._options.phoneVerificationMasterCode &&
         code == Accounts._options.phoneVerificationMasterCode;
 };
@@ -699,7 +774,7 @@ var isMasterCode = function (code) {
  * @param length
  * @returns {string}
  */
-var getRandomCode = function (length) {
+var getRandomCode = function(length) {
     length = length || 4;
     var output = "";
     while (length-- > 0) {
@@ -713,7 +788,6 @@ var getRandomCode = function (length) {
  * Return random 1-9 digit
  * @returns {number}
  */
-var getRandomDigit = function () {
+var getRandomDigit = function() {
     return Math.floor((Math.random() * 9) + 1);
 };
-
