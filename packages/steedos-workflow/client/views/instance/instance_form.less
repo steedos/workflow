@@ -57,6 +57,9 @@
 
 .traces {
     font-size: 14px;
+    td{
+      border: none;
+    }
 }
 
 .trace-item{
@@ -71,12 +74,14 @@
     height: 30px;
     font-size: 13px;
     cursor:pointer;
-    &.approve-description{
-      height:auto;
-      .description{
-        padding-top:0px;
-      }
-    }
+}
+.approve-description{
+  border: none;
+  height: auto;
+  .description{
+    padding-top:0px;
+    border: none;
+  }
 }
 
 .approve-description{
