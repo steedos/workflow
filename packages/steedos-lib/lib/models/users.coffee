@@ -197,6 +197,10 @@ if Meteor.isServer
 
 		if userId
 			modifier.$set.modified_by = userId;
+
+		if modifier.$set['phone.verified'] is true
+			# substring(3) 是为了去掉 "+86"
+			modifier.$set.mobile = doc.phone.number.substring(3)
 		modifier.$set.modified = new Date();
 
 
@@ -204,9 +208,9 @@ if Meteor.isServer
 		modifier.$set = modifier.$set || {};
 		su_set = {}
 		if modifier.$set.name
-			su_set.name = modifier.$set.name
-		if modifier.$set.mobile
-			su_set.mobile = modifier.$set.mobile
+			su_set.name = doc.name
+		if modifier.$set.mobile or modifier.$set['phone.verified'] is true
+			su_set.mobile = doc.mobile
 		if not _.isEmpty(su_set)
 			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
 
