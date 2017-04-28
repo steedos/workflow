@@ -202,8 +202,13 @@ if Meteor.isServer
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
+		su_set = {}
 		if modifier.$set.name
-			db.space_users.direct.update({user: doc._id}, {$set: {name: modifier.$set.name}}, {multi: true})
+			su_set.name = modifier.$set.name
+		if modifier.$set.mobile
+			su_set.mobile = modifier.$set.mobile
+		if not _.isEmpty(su_set)
+			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
 
 
 	db.users.before.remove (userId, doc) ->
