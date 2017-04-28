@@ -123,7 +123,10 @@ db.space_users.helpers
 		return
 
 if (Meteor.isServer)
-
+	db.space_users.allow
+		update: (userId)->
+			if userId
+				return true
 	db.space_users.before.insert (userId, doc) ->
 		doc.created_by = userId;
 		doc.created = new Date();

@@ -50,14 +50,16 @@ Template.steedos_contacts_org_tree.events
 		$('#steedos_contacts_org_tree').jstree(true).search($("#search-key").val())
 
 	'click #steedos_contacts_org_tree_add_btn': (event, template) ->
-		doc = { parent: Session.get('contacts_orgId') }
-		AdminDashboard.modalNew 'organizations', doc, ()->
-			$.jstree.reference('#steedos_contacts_org_tree').refresh()
+		# doc = { parent: Session.get('contacts_orgId') }
+		# AdminDashboard.modalNew 'organizations', doc, ()->
+		# 	$.jstree.reference('#steedos_contacts_org_tree').refresh()
+		$('.btn-contacts-add').click();
 
 	'click #steedos_contacts_org_tree_edit_btn': (event, template) ->
-		AdminDashboard.modalEdit 'organizations', Session.get('contacts_orgId'), ()->
-			$.jstree.reference('#steedos_contacts_org_tree').refresh()
-
+		# AdminDashboard.modalEdit 'organizations', Session.get('contacts_orgId'), ()->
+		# 	$.jstree.reference('#steedos_contacts_org_tree').refresh()
+		$('.btn-contacts-edit').click();
+	
 	'click #steedos_contacts_org_tree_remove_btn': (event, template) ->
 		AdminDashboard.modalDelete 'organizations', Session.get('contacts_orgId'), ()->
 			orgTree = $.jstree.reference('#steedos_contacts_org_tree')

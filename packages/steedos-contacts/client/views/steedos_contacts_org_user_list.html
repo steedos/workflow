@@ -27,5 +27,8 @@
             {{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-steedos-contacts"}}
 		</div>
 	</div>
+	{{#afModal class="btn btn-default btn-flat btn-contacts-org-user-edit hidden" collection="db.space_users" operation="update" fields="name,mobile,work_phone,position,organizations,manager,sort_no,user_accepted" dialogClass="modal-lg modal-body-zoom" buttonContent=afModalUpdate}}
+        {{_ "organizations"}}
+    {{/afModal}}
 </template>
 

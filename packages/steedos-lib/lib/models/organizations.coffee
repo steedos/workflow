@@ -24,6 +24,9 @@ db.organizations._simpleSchema = new SimpleSchema
 		optional: true,
 		autoform:
 			type: "selectorg"
+			defaultValue: ->
+				org = db.organizations.findOne({})
+				return org._id
 	sort_no: 
 		type: Number
 		optional: true
@@ -442,6 +445,11 @@ if (Meteor.isServer)
 				created_by: userId,
 				created_by_name: sUser.name,
 				created: new Date()
+
+	db.organizations.allow
+		insert: (userId)->
+			if userId
+				return true
 	
 	Meteor.publish 'organizations', (spaceId)->
 		
