@@ -2,9 +2,28 @@ request = Npm.require('request')
 
 logger = new Logger 'Records_QHD -> InstancesToContracts'
 
+_fieldMap = """
+	{
+		projectName: values["计划编号"],
+		contractType: values["合同类型"],
+		chengBanDanWei: values["承办单位"],
+		chengBanRen: values["承办人员"],
+		otherUnit: values["对方单位"],
+		registeredCapital: values["对方注册资金"] * 1000,
+		contractAmount: values["价款酬金"],
+		signedDate: values["签订日期"],
+		startDate: values["开始日期"],
+		overDate: values["终止日期"],
+		remarks: values["备注"],
+		boP: values["收支类别"],
+		isConnectedTransaction: values["是否关联交易"],
+		contractId: values["合同编号"]
+	}
+"""
+
 InstancesToContracts = (spaces, contrats_server, contract_flows) ->
 	@spaces = spaces
-	contrats_server = contrats_server
+	@contrats_server = contrats_server
 	@contract_flows = contract_flows
 	return
 
@@ -20,21 +39,118 @@ InstancesToContracts::getContractInstances = ()->
 	});
 
 
+_minxiInstanceData = (formData, instance) ->
+	if !formData || !instance
+		return
+
+	format = "YYYY-MM-DD HH:mm:ss"
+
+	formData.fileID = instance._id
+
+	field_values = InstanceManager.handlerInstanceByFieldMap(instance, _fieldMap);
+
+	formData = _.extend formData, field_values
+
+	fieldNames = _.keys(formData)
+
+	fieldNames.forEach (key)->
+		fieldValue = formData[key]
+
+		if _.isDate(fieldValue)
+			fieldValue = moment(fieldValue).format(format)
+
+		if _.isObject(fieldValue)
+			fieldValue = fieldValue?.name
+
+		if _.isArray(fieldValue) && fieldValue.length > 0 && _.isObject(fieldValue)
+			fieldValue = fieldValue?.getProperty("name")?.join(",")
+
+		if _.isArray(fieldValue)
+			fieldValue = fieldValue?.join(",")
+
+		if !fieldValue
+			fieldValue = ''
+
+		formData[key] = encodeURI(fieldValue)
+
+	formData.attach = new Array()
+
+	#	提交人信息
+	user_info = db.users.findOne({_id: instance.applicant})
+
+	#	正文附件
+	mainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": true
+	}).fetch()
+
+	mainFile.forEach (f) ->
+		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+#		#		正文附件历史版本
+#		mainFileHistory = cfs.instances.find({
+#			'metadata.instance': instance._id,
+#			'metadata.current': {$ne: true},
+#			"metadata.main": true,
+#			"metadata.parent": f.metadata.parent
+#		}, {sort: {uploadedAt: -1}}).fetch()
+#
+#		mainFileHistoryLength = mainFileHistory.length
+#
+#		mainFileHistory.forEach (fh, i) ->
+#			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
+#
+#			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+
+	#	非正文附件
+	nonMainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": {$ne: true}
+	})
+
+	nonMainFile.forEach (f)->
+		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+
+#		#	非正文附件历史版本
+#		nonMainFileHistory = cfs.instances.find({
+#			'metadata.instance': instance._id,
+#			'metadata.current': {$ne: true},
+#			"metadata.main": {$ne: true},
+#			"metadata.parent": f.metadata.parent
+#		}, {sort: {uploadedAt: -1}}).fetch()
+#
+#		nonMainFileHistoryLength = nonMainFileHistory.length
+#
+#		nonMainFileHistory.forEach (fh, i) ->
+#			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
+#
+#			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+
+
+	#	原文
+	form = db.forms.findOne({_id: instance.form})
+	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
+	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
+	formData.attach.push request(attachInfoUrl)
+
+	return formData;
+
 
 InstancesToContracts::sendContractInstances = (api, callback)->
 	formData = {}
 
 	formData.attach = new Array()
 
-	formData.flow = encodeURI("合同审批流程")
+	instance = db.instances.findOne({_id: "CzScbQEt37nTN7mLB"})
 
-	instance = db.instances.findOne({_id: "NceuyeWzCqfdd3rdD"})
+	flow = db.flows.findOne({_id: instance.flow});
 
-	form = db.forms.findOne({_id: instance.form})
-	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
-	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
-	formData.attach.push request(attachInfoUrl)
+	if flow
+		formData.flowName = encodeURI(flow.name)
 
-	httpResponse = steedosRequest.postFormDataAsync "http://192.168.0.237:7001/qgbg/modules/contracts/rpc/import_contracts.jsp", formData, callback
+	_minxiInstanceData(formData, instance)
 
-	console.log httpResponse
+	httpResponse = steedosRequest.postFormDataAsync "http://192.168.0.237:7001/qgbg/webservice/rpc/import_contracts.jsp?externalId=#{instance._id}", formData, callback
+
+	console.log httpResponse.body

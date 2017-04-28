@@ -6,6 +6,9 @@ steedosRequest = {}
 steedosRequest.postFormData = (url, formData, cb) ->
 	request.post {
 		url: url
+		headers: {
+			'User-Agent': 'Mozilla/5.0'
+		}
 		formData: formData
 	}, (err, httpResponse, body) ->
 		cb err, httpResponse, body
