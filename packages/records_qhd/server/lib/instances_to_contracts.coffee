@@ -34,7 +34,6 @@ InstancesToContracts::getContractInstances = ()->
 		is_archived: false,
 		is_deleted: false,
 		state: "completed",
-		"values.record_need": "true",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	});
 
@@ -87,20 +86,6 @@ _minxiInstanceData = (formData, instance) ->
 
 	mainFile.forEach (f) ->
 		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-#		#		正文附件历史版本
-#		mainFileHistory = cfs.instances.find({
-#			'metadata.instance': instance._id,
-#			'metadata.current': {$ne: true},
-#			"metadata.main": true,
-#			"metadata.parent": f.metadata.parent
-#		}, {sort: {uploadedAt: -1}}).fetch()
-#
-#		mainFileHistoryLength = mainFileHistory.length
-#
-#		mainFileHistory.forEach (fh, i) ->
-#			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
-#
-#			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
 
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
@@ -111,21 +96,6 @@ _minxiInstanceData = (formData, instance) ->
 
 	nonMainFile.forEach (f)->
 		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-
-#		#	非正文附件历史版本
-#		nonMainFileHistory = cfs.instances.find({
-#			'metadata.instance': instance._id,
-#			'metadata.current': {$ne: true},
-#			"metadata.main": {$ne: true},
-#			"metadata.parent": f.metadata.parent
-#		}, {sort: {uploadedAt: -1}}).fetch()
-#
-#		nonMainFileHistoryLength = nonMainFileHistory.length
-#
-#		nonMainFileHistory.forEach (fh, i) ->
-#			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
-#
-#			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
 
 
 	#	原文
