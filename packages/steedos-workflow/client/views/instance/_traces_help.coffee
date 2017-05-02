@@ -221,14 +221,10 @@ TracesTemplate.events =
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
 		else
-				uobj = {}
-				uobj["box"] = Session.get("box")
-				uobj["X-User-Id"] = Meteor.userId()
-				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-				forward_space = event.target.dataset.forwardspace
-				forward_instance = event.target.dataset.forwardinstance
-				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/print/" + forward_instance + "?" + $.param(uobj)))
-	
+			forward_space = event.target.dataset.forwardspace
+			forward_instance = event.target.dataset.forwardinstance
+			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/view/readonly/" + forward_instance))
+
 	'click .btn-modification'	: (event, template) ->
 		template.is_editing.set(!template.is_editing.get());
 		unless Steedos.isAndroidOrIOS()

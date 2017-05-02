@@ -228,9 +228,9 @@ Meteor.methods({
 			ins_obj.is_archived = false;
 			ins_obj.is_deleted = false;
 			ins_obj.created = now;
-			ins_obj.created_by = user_id;
+			ins_obj.created_by = current_user_id;
 			ins_obj.modified = now;
-			ins_obj.modified_by = user_id;
+			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
 
 			// 新建Trace
