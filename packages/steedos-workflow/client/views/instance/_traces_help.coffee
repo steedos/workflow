@@ -231,7 +231,7 @@ TracesTemplate.events =
 	
 	'click .btn-modification'	: (event, template) ->
 		template.is_editing.set(!template.is_editing.get());
-		unless Steedos.isMobile()
+		unless Steedos.isAndroidOrIOS()
 			Tracker.afterFlush ->
 				$("#instance_trace_detail_modal #finish_input").datetimepicker({
 					format: "YYYY-MM-DD HH:mm",
