@@ -100,9 +100,9 @@
 							<div class="weui-cell__bd weui-cell_primary text-muted">
 								{{#if isEditing this}}
 									{{#if isAndroidOrIOS}}
-									   <input type="datetime-local" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date true}}" />
+										<input type="datetime-local" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date true}}" />
 									{{else}}
-									   <input type="text" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
+										<input type="text" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
 									{{/if}}
 								{{else}}
 									<span class="weui-input">{{dateFormat this.finish_date}}</span>
