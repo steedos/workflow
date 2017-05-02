@@ -20,7 +20,8 @@ InstanceSignText.helpers =
 		approves = _.clone(traces[stepName])
 
 		approves = _.filter approves, (a)->
-			return a.type isnt "forward"
+			return a.type isnt "forward" and a.type isnt "distribute"
+			
 		if only_cc_opinion
 			approves = approves?.filterProperty("type","cc")
 

@@ -300,4 +300,4 @@ Template.instance_button.events
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
-		Steedos.openWindow(Steedos.absoluteUrl("/api/workflow/chart?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')
+		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')

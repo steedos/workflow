@@ -28,6 +28,9 @@ TemplateHelpers =
 	isMobile: ->
 		return $(window).width()<767
 
+	isAndroidOrIOS: ->
+		return Steedos.isAndroidApp() || Steedos.isiOS()
+
 	userId: ->
 		return Meteor.userId()
 
