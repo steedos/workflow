@@ -20,7 +20,7 @@
 								{{/if}}
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui_input">{{this.from_user_name}}</span>
+								<span class="weui-input">{{this.from_user_name}}</span>
 							</div>
 						</div>
 					{{/if}}
@@ -31,7 +31,7 @@
 									<span class="weui-label">{{_t "instance_approve_status_text_label"}}</span>
 								</div>
 								<div class="weui-cell__bd weui-cell_primary text-muted">
-									<span class="weui_input status {{this.judge}}">
+									<span class="weui-input status {{this.judge}}">
 										<span class='{{getApproveStatusIcon this.judge}}'></span>
 										<span>{{getApproveStatusText this.judge}}</span>
 									</span>
@@ -47,7 +47,7 @@
 											<span class="weui-label">{{_t "instance_approve_status_text_label"}}</span>
 										</div>
 										<div class="weui-cell__bd weui-cell_primary text-muted">
-											<span class="weui_input status pending">
+											<span class="weui-input status pending">
 												<span class='ion ion-ios-loop'></span>
 												<span>{{_t "instance_in_progress"}}</span>
 											</span>
@@ -65,9 +65,9 @@
 								</div>
 								<div class="weui-cell__bd weui-cell_primary text-muted">
 									{{#if isEditing this}}
-										<textarea class="weui-input" name="opinion_input" id="opinion_input" value="{{this.description}}"></textarea>
+										<textarea class="form-control" name="opinion_input" id="opinion_input" value="{{this.description}}"></textarea>
 									{{else}}
-										<span class="weui_input ">{{markDownToHtml this.description}}</span>
+										<span class="weui-input ">{{markDownToHtml this.description}}</span>
 									{{/if}}
 								</div>
 							</div>  
@@ -79,7 +79,7 @@
 									<span class="weui-label">{{_t "instance_approve_description_label"}}</span>
 								</div>
 								<div class="weui-cell__bd weui-cell_primary text-muted">
-									<span class="weui_input">{{{markDownToHtml (myApproveDescription this._id)}}}</span>
+									<span class="weui-input">{{{markDownToHtml (myApproveDescription this._id)}}}</span>
 								</div>
 							</div>
 						{{/if}}
@@ -89,7 +89,7 @@
 							<span class="weui-label">{{_t "instance_approve_start_date_label"}}</span>
 						</div>
 						<div class="weui-cell__bd weui-cell_primary text-muted">
-							<span class="weui_input">{{dateFormat this.start_date}}</span>
+							<span class="weui-input">{{dateFormat this.start_date}}</span>
 						</div>
 					</div>
 					{{#if unempty this.finish_date}}
@@ -100,12 +100,12 @@
 							<div class="weui-cell__bd weui-cell_primary text-muted">
 								{{#if isEditing this}}
 									{{#if isAndroidOrIOS}}
-                                       <input type="datetime-local" class="weui-input" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date true}}" />
+                                       <input type="datetime-local" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date true}}" />
                                     {{else}}
-                                       <input type="text" class="weui-input" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
+                                       <input type="text" class="form-control" name="finish_input" id="finish_input" value="{{dateFormat this.finish_date}}" readonly="readonly"/>
                                     {{/if}}
 								{{else}}
-									<span class="weui_input">{{dateFormat this.finish_date}}</span>
+									<span class="weui-input">{{dateFormat this.finish_date}}</span>
 								{{/if}}
 							</div>
 						</div>
@@ -116,7 +116,7 @@
 								<span class="weui-label">{{_t "instance_approve_read"}}</span>
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui_input">
+								<span class="weui-input">
 									{{#if this.is_read}}
 										{{_t "instance_approve_read_yes"}}
 									{{else}}
@@ -133,7 +133,7 @@
 								<span class="weui-label"></span>
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui_input">
+								<span class="weui-input">
 									<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_forward_instance_look"}}</button>
 								</span>
 							</div>
@@ -145,7 +145,7 @@
 								<span class="weui-label"></span>
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui_input">
+								<span class="weui-input">
 									<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_distribute_instance_look"}}</button>
 								</span>
 							</div>
