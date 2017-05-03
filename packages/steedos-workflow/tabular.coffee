@@ -19,7 +19,7 @@ TabularTables.instances = new Tabular.Table({
 			render: (val, type, doc) ->
 				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
 				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
-				flow_name = WorkflowManager.getFlow(doc.flow).name
+				flow_name = WorkflowManager.getFlow(doc.flow)?.name
 				cc_view = "";
 				step_current_name_view = "";
 				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
