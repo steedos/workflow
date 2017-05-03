@@ -359,6 +359,17 @@ textarea {
       display: inline;
       border: none;
       background-color: #fff!important;
+      @media (max-width: 768px){
+        &{
+          width: 200px;
+        }
+        .zoom-extra-large &{
+          width: 130px;
+        }
+        .zoom-large &{
+          width: 146px;
+        }
+      }
     }
 
     #instanceform{
