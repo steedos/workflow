@@ -396,7 +396,7 @@
 	"isForwardAttachments": "Is forward attachments.",
 
 	"instance_retrieve": "Retrieve",
-	"instance_retrieve_reason": "Enter your comments here",
+	"instance_retrieve_reason": "Remarks",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",

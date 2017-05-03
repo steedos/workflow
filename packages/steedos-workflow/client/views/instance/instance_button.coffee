@@ -272,7 +272,7 @@ Template.instance_button.events
 	'click .btn-instance-retrieve': (event, template) ->
 		swal {
 			title: t("instance_retrieve"),
-			text: t("instance_retrieve_reason"),
+			inputPlaceholder: t("instance_retrieve_reason"),
 			type: "input",
 			confirmButtonText: t('OK'),
 			cancelButtonText: t('Cancel'),
@@ -283,9 +283,9 @@ Template.instance_button.events
 			if (reason == false)
 				return false;
 
-			if (reason == "")
-				swal.showInputError(t("instance_retrieve_reason"));
-				return false;
+#			if (reason == "")
+#				swal.showInputError(t("instance_retrieve_reason"));
+#				return false;
 
 			InstanceManager.retrieveIns(reason);
 			sweetAlert.close();
