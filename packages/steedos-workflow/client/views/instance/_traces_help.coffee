@@ -11,13 +11,16 @@ TracesTemplate.helpers =
 			a.toString().trim().length > 0
 		else
 			false
+
 	append: (a, b) ->
 		a + b
-	dateFormat: (date,isAndroidOrIOS) ->
-		if isAndroidOrIOS == true
-			return $.format.date new Date(date), "yyyy-MM-ddTHH:mm"
-		else
-			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
+	dateFormat: (date) ->
+			if Steedos.isMobile() && date?.getFullYear() == (new Date).getFullYear()
+				return $.format.date new Date(date), "MM-dd HH:mm"
+			else
+				return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
 	getStepName: (stepId) ->
 		step = WorkflowManager.getInstanceStep(stepId)
 		if step
