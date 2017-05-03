@@ -28,6 +28,7 @@ Package.onUse(function(api) {
     api.addFiles("client/customize.coffee", "client");
 
     api.addAssets("client/background/qhd.jpg", "client");
+    api.addAssets("client/images/logo.jpg", "client");
 
     api.addFiles("server/routes/notify_wenshu.coffee", "server");
 
