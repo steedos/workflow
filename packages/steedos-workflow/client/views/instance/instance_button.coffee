@@ -179,6 +179,12 @@ Template.instance_button.helpers
 		instanceName = ins.name
 		return "[#{instanceName}](#{href})"
 
+	enabled_suggest: ->
+		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
+		if isShow
+			isShow = WorkflowManager.getInstance().state != "draft"
+		return isShow
+
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -301,3 +307,7 @@ Template.instance_button.events
 
 	'click .btn-workflow-chart': (event, template)->
 		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')
+
+	'click .btn-suggestion-toggle': (event, template)->
+		$(".instance-wrapper .instance-view").addClass("suggestion-active")
+		InstanceManager.fixInstancePosition()
