@@ -188,7 +188,7 @@
 	"workflow_attach_locked_by": "locked by %s",
 
 	"workflow_select_an_app": "Steedos Apps",
-	"workflow_suggestion_placeholder": "Leave a comment",
+	"workflow_suggestion_placeholder": "Leave a comment,Click on the right button to select the common opinion.",
 
 	"instance_opinion_title": "Opinions",
 	"instance_opinion_input": "Add a opinion",

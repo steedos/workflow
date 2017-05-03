@@ -189,7 +189,7 @@
 	"workflow_attach_locked_by": "已被 %s 锁定",
 
 	"workflow_select_an_app": "应用",
-	"workflow_suggestion_placeholder": "请填写意见",
+	"workflow_suggestion_placeholder": "请填写意见，点击右侧按钮选择常用意见。",
 
 	"instance_opinion_title": "常用意见",
 	"instance_opinion_input": "请输入常用意见",
