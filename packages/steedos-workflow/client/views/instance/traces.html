@@ -41,14 +41,16 @@
                                         {{_t "instance_approve_read"}}
                                     {{/if}}
                                 </td>
-                                {{#unless isCC this}}
-                                    {{#unless isForward this}}
-                                    <td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
-                                    {{/unless}}
-                                {{/unless}}
+								{{#if isCC this}}
+									<td class="status pending"></td>
+								{{else}}
+									{{#if isForward this}}
+										<td class="status pending"></td>
+									{{else}}
+										<td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
+									{{/if}}
+								{{/if}}
                             {{/if}}
-
-
                         </tr>
                         {{#if this.is_finished}}
                             {{#if unempty this.description}}

@@ -7,7 +7,7 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
-		if (Session.get("box") != "draft") {
+		if (ins.state != "draft") {
 			return false
 		}
 
