@@ -12,5 +12,8 @@
 	"instance_approval_history": "历史步骤",
 	"help": {
 		"approves": "历史步骤"
-	}
+	},
+
+	"tabbar_cms": "集团信息",
+	"Steedos CMS": "集团信息"
 }
