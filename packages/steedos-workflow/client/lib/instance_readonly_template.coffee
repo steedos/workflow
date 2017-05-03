@@ -473,6 +473,11 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 						background: azure !important;
 					}
 
+					.instance-view .instance-traces{
+						padding-left: 15px;
+						padding-right: 15px;
+					}
+
 					#{options?.styles}
 				</style>
 			</head>
