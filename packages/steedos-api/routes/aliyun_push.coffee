@@ -24,7 +24,7 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 
 		if !_.isEmpty(aliyunTokens) and Meteor.settings.push?.aliyun
 			if Push.debug
-				console.log "xingeTokens: #{aliyunTokens}"
+				console.log "aliyunTokens: #{aliyunTokens}"
 			ALYPUSH = new (ALY.PUSH)(
 				accessKeyId: Meteor.settings.push.aliyun.accessKeyId
 				secretAccessKey: Meteor.settings.push.aliyun.secretAccessKey
@@ -57,7 +57,7 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 
 		if !_.isEmpty(huaweiTokens) and Meteor.settings.push?.huawei
 			if Push.debug
-				console.log "huaweiTokens: #{xingeTokens}"
+				console.log "huaweiTokens: #{huaweiTokens}"
 			msg = new HwPush.Message
 			msg.title(notification.title).content(notification.text)
 			notification = new HwPush.Notification(
