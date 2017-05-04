@@ -4,7 +4,7 @@ RelatedInstances.helpers =
 			ins = WorkflowManager.getInstance();
 		else
 			ins = Template.instance().view.template.steedosData.instance
-		if ins.related_instances && _.isArray(ins.related_instances)
+		if ins?.related_instances && _.isArray(ins?.related_instances)
 			return true
 		else
 			return false
@@ -14,7 +14,7 @@ RelatedInstances.helpers =
 			ins = WorkflowManager.getInstance();
 		else
 			ins = Template.instance().view.template.steedosData.instance
-		if ins.related_instances && _.isArray(ins.related_instances)
+		if ins?.related_instances && _.isArray(ins?.related_instances)
 			return db.instances.find({_id: {$in: ins.related_instances}}, {fields: {space: 1, name: 1}}).fetch()
 
 	related_instace_url: (ins) ->

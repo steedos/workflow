@@ -16,7 +16,7 @@ Steedos.subsSpace = new SubsManager();
 Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
 	
-	Steedos.subsSpace.reset();
+	Steedos.subsSpace.clear();
 	if spaceId
 		Steedos.subsSpace.subscribe("apps", spaceId)
 		# Steedos.subsSpace.subscribe("space_users", spaceId)

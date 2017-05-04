@@ -11,13 +11,16 @@ TracesTemplate.helpers =
 			a.toString().trim().length > 0
 		else
 			false
+
 	append: (a, b) ->
 		a + b
-	dateFormat: (date,isAndroidOrIOS) ->
-		if isAndroidOrIOS == true
-			return $.format.date new Date(date), "yyyy-MM-ddTHH:mm"
-		else
-			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
+	dateFormat: (date) ->
+			if Steedos.isMobile() && date?.getFullYear() == (new Date).getFullYear()
+				return $.format.date new Date(date), "MM-dd HH:mm"
+			else
+				return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
 	getStepName: (stepId) ->
 		step = WorkflowManager.getInstanceStep(stepId)
 		if step
@@ -141,6 +144,41 @@ TracesTemplate.helpers =
 			return true
 		false
 
+	finishDateSchema: () ->
+		if Steedos.isAndroidOrIOS()
+			return new SimpleSchema({
+				finish_date: {
+					autoform: {
+						type: "datetime-local"
+					},
+					optional: false,
+					type: Date
+				}
+			})
+		else
+			return new SimpleSchema({
+				finish_date: {
+					autoform: {
+						type: "bootstrap-datetimepicker"
+						readonly: true
+						dateTimePickerOptions:{
+							format: "YYYY-MM-DD HH:mm",
+							ignoreReadonly:true,
+							widgetPositioning:{
+								horizontal: 'right'
+							}
+						}
+					},
+					optional: false,
+					type: Date
+				}
+			})
+
+	finishDateValues: () ->
+		return {
+			finish_date:this.finish_date
+		};
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
@@ -229,13 +267,6 @@ TracesTemplate.events =
 		template.is_editing.set(!template.is_editing.get());
 		unless Steedos.isAndroidOrIOS()
 			Tracker.afterFlush ->
-				$("#instance_trace_detail_modal #finish_input").datetimepicker({
-					format: "YYYY-MM-DD HH:mm",
-					ignoreReadonly:true,
-					widgetPositioning:{
-						horizontal: 'right'
-					}
-				})
 				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
 				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
 					$(".modal-body").scrollTop(100)
@@ -251,7 +282,7 @@ TracesTemplate.events =
 		approveId = event.target.dataset.approve
 		traceId = event.target.dataset.trace
 		opinion_input = $('#opinion_input').val()
-		finish_input = $('#finish_input').val()
+		finish_input = moment(AutoForm.getFieldValue("finish_date", "finishDateAutoForm")).format("YYYY-MM-DD HH:mm")
 
 		$("body").addClass("loading")
 		Meteor.call 'change_approve_info', instanceId, traceId, approveId, opinion_input, finish_input, (err, result)->
@@ -262,9 +293,3 @@ TracesTemplate.events =
 				toastr.success(t("instance_approve_modal_modificationsave"))
 				Modal.hide "instance_trace_detail_modal"
 			return
-
-		
-			
-
-	
-		

@@ -346,6 +346,11 @@ textarea {
       &>.col-md-12{
         padding-right: 0px;
       }
+      @media (max-width: 768px){
+        .form-group{
+          margin-bottom:0px;
+        }
+      }
     }
     .box-header{
       padding: 0px 0px;
@@ -359,6 +364,17 @@ textarea {
       display: inline;
       border: none;
       background-color: #fff!important;
+      @media (max-width: 768px){
+        &{
+          width: 200px;
+        }
+        .zoom-extra-large &{
+          width: 130px;
+        }
+        .zoom-large &{
+          width: 146px;
+        }
+      }
     }
 
     #instanceform{
@@ -730,9 +746,15 @@ textarea {
 }
 
 .instance-traces{
-  border-top: 1px dashed #d2d6de !important;
+  /*border-top: 1px dashed #d2d6de !important;*/
   margin-bottom: 5px;
   border-radius: 0px;
+  .box-header{
+    background: #eee;
+    .box-title{
+      margin-left: 5px;
+    }
+  }
   table.traces{
     .approve-item{
       td{
@@ -881,8 +903,8 @@ _:-ms-fullscreen,
 }
 
 .image-sign{
-  max-width: 280px;
-  max-height: 220px;
+  max-width: 180px;
+  max-height: 90px;
 }
 
 .instance-sign-text{
