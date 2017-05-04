@@ -12,7 +12,7 @@ Npm.depends({
 });
 
 Package.onUse(function (api) {
-    api.use('npm-bcrypt@0.7.8_2', 'server');
+    api.use('npm-bcrypt@=0.7.8_2', 'server');
 
     api.use('accounts-base@1.0.2', ['client', 'server']);
     // Export Accounts (etc) to packages using this one.
@@ -35,7 +35,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-    api.use(['okland:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
+    api.use(['steedos:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
     api.addFiles('phone_tests_setup.js', 'server');
