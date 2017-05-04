@@ -240,11 +240,13 @@ Meteor.methods({
 			trace_obj.is_finished = false;
 
 			// 当前最新版flow中开始节点的step_id
-			var step_id, step_name;
+			var step_id, step_name, can_edit_main_attach, can_edit_normal_attach;
 			flow.current.steps.forEach(function(step) {
 				if (step.step_type == "start") {
 					step_id = step._id;
 					step_name = step.name;
+					can_edit_main_attach = step.can_edit_main_attach;
+					can_edit_normal_attach = step.can_edit_normal_attach;
 				}
 			})
 			trace_obj.step = step_id;
@@ -326,6 +328,15 @@ Meteor.methods({
 					'metadata.current': true
 				});
 				files.forEach(function(f) {
+					// 判断新的流程开始节点是否有编辑正文和编辑附件权限
+					if (f.metadata.main == true) {
+						if (can_edit_main_attach != true)
+							return;
+					} else {
+						if (can_edit_normal_attach != true)
+							return;
+					}
+
 					var newFile = new FS.File();
 					newFile.attachData(f.createReadStream('instances'), {
 						type: f.original.type
@@ -343,6 +354,9 @@ Meteor.methods({
 							approve: appr_obj._id,
 							current: true
 						};
+						if (f.metadata.main == true) {
+							metadata.main = true;
+						}
 						newFile.metadata = metadata;
 						var fileObj = collection.insert(newFile);
 						fileObj.update({
