@@ -19,6 +19,41 @@ Template.workflowMenuByFlow.helpers
             data.push(space);
         return data
 
+    boxActive: (box)->
+        if box == Session.get("box")
+            return "weui-bar__item_on"
+
+    isInbox: ()->
+        return Session.get("box") == "inbox"
+
     isSelected: (flowId)->
         if Session.get("flowId") == flowId
             return "selected"
+
+    maxHeight: ->
+        return Template.instance().maxHeight.get() - 51 + 'px'
+
+    showNavbar: ->
+        return Steedos.isMobile()
+
+Template.workflowMenuByFlow.events
+    'click .weui-navbar__item': (event, template)->
+
+        box = event.currentTarget.dataset?.box
+
+        FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + box + "/");
+
+Template.workflowMenuByFlow.onCreated ->
+    self = this;
+
+    self.maxHeight = new ReactiveVar(
+        $(window).height());
+
+    $(window).resize ->
+        self.maxHeight?.set($(".instance-list",$(".steedos")).height());
+
+
+Template.workflowMenuByFlow.onRendered ->
+    self = this;
+
+    self.maxHeight?.set($(".instance-list",$(".steedos")).height());
