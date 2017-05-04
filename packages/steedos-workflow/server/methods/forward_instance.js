@@ -31,11 +31,9 @@ Meteor.methods({
 		}
 
 		// 校验分发对象是否有分发流程的提交权限
-		console.log(selectedUsers);
 		var no_permission_user_ids = new Array();
 		_.each(forward_users, function(uid) {
 			var permissions = permissionManager.getFlowPermissions(flow_id, uid);
-			console.log(permissions);
 			if (!permissions.includes("add")) {
 				// throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
 				no_permission_user_ids.push(uid);
