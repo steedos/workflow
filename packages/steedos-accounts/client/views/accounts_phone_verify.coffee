@@ -26,7 +26,10 @@ Template.accounts_phone_verify.events
 						console.error error
 						return
 					toastr.success t "accounts_phone_verify_suc"
-					FlowRouter.go "/admin"
+					if window.name == "setup_phone"
+						window.close()
+					else
+						FlowRouter.go "/admin"
 			else
 				$(document.body).removeClass('loading')
 				toastr.error t error.reason
