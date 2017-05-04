@@ -9,7 +9,7 @@ _fieldMap = """
 		chengBanDanWei: values["承办单位"],
 		chengBanRen: values["承办人员"],
 		otherUnit: values["对方单位"],
-		registeredCapital: values["对方注册资金"] * 1000,
+		registeredCapital: values["对方注册资金"] * 10000,
 		contractAmount: values["价款酬金"],
 		signedDate: values["签订日期"],
 		startDate: values["开始日期"],
@@ -17,13 +17,14 @@ _fieldMap = """
 		remarks: values["备注"],
 		boP: values["收支类别"],
 		isConnectedTransaction: values["是否关联交易"],
-		contractId: values["合同编号"]
+		contractId: values["合同编号"],
+		contractName: values["合同名称"]
 	}
 """
 
-InstancesToContracts = (spaces, contrats_server, contract_flows) ->
+InstancesToContracts = (spaces, contracts_server, contract_flows) ->
 	@spaces = spaces
-	@contrats_server = contrats_server
+	@contracts_server = contracts_server
 	@contract_flows = contract_flows
 	return
 
@@ -108,19 +109,27 @@ _minxiInstanceData = (formData, instance) ->
 
 
 InstancesToContracts::sendContractInstances = (api, callback)->
+
+	that = @
+
 	formData = {}
 
 	formData.attach = new Array()
 
-	instance = db.instances.findOne({_id: "CzScbQEt37nTN7mLB"})
+#	instances = @getContractInstances()
 
-	flow = db.flows.findOne({_id: instance.flow});
+	instances = instance = db.instances.find({_id: "CzScbQEt37nTN7mLB"}).fetch()
 
-	if flow
-		formData.flowName = encodeURI(flow.name)
+	instances.forEach (instance)->
+		url = that.contracts_server + api + '?externalId=' + instance._id
 
-	_minxiInstanceData(formData, instance)
+		flow = db.flows.findOne({_id: instance.flow});
 
-	httpResponse = steedosRequest.postFormDataAsync "http://192.168.0.237:7001/qgbg/webservice/rpc/import_contracts.jsp?externalId=#{instance._id}", formData, callback
+		if flow
+			formData.flowName = encodeURI(flow.name)
 
-	console.log httpResponse.body
+		_minxiInstanceData(formData, instance)
+
+		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
+
+		console.log httpResponse.body

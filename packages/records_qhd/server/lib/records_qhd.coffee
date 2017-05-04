@@ -25,32 +25,34 @@ RecordsQHD.instanceToArchive = ()->
 
 	spaces = RecordsQHD.settings_records_qhd.spaces
 
-	archive_server = RecordsQHD.settings_records_qhd.archive_server
+	to_archive_sett = RecordsQHD.settings_records_qhd.to_archive
 
-	flows = RecordsQHD.settings_records_qhd?.contract_instances?.flows
+	archive_server = to_archive_sett.archive_server
 
-	to_archive_api = RecordsQHD.settings_records_qhd?.non_contract_instances?.to_archive_api
+	flows = to_archive_sett?.contract_instances?.flows
 
-	contract_archive_api = RecordsQHD.settings_records_qhd?.contract_instances?.to_archive_api
+	to_archive_api = to_archive_sett?.non_contract_instances?.to_archive_api
+
+	contract_archive_api = to_archive_sett?.contract_instances?.to_archive_api
 
 	if !spaces
 		logger.error "缺少settings配置: records_qhd.spaces"
 		return
 
 	if !archive_server
-		logger.error "缺少settings配置: records_qhd.archive_server"
+		logger.error "缺少settings配置: records_qhd.to_archive_sett.archive_server"
 		return
 
 	if !flows
-		logger.error "缺少settings配置: records_qhd.contract_instances.flows"
+		logger.error "缺少settings配置: records_qhd.to_archive_sett.contract_instances.flows"
 		return
 
 	if !contract_archive_api
-		logger.error "缺少settings配置: records_qhd.contract_instances.contract_archive_api"
+		logger.error "缺少settings配置: records_qhd.to_archive_sett.contract_instances.contract_archive_api"
 		return
 
 	if !to_archive_api
-		logger.error "缺少settings配置: records_qhd.non_contract_instances.to_archive_api"
+		logger.error "缺少settings配置: records_qhd.to_archive_sett.non_contract_instances.to_archive_api"
 		return
 
 	instancesToArchive = new InstancesToArchive(spaces, archive_server, flows)
@@ -62,16 +64,20 @@ RecordsQHD.instanceToArchive = ()->
 RecordsQHD.instanceToContracts = ()->
 	spaces = RecordsQHD.settings_records_qhd.spaces
 
-	archive_server = RecordsQHD.settings_records_qhd.archive_server
+	to_contracts_sett = RecordsQHD.settings_records_qhd.to_contracts
 
-	flows = RecordsQHD.settings_records_qhd?.contract_instances?.flows
+	contracts_server = to_contracts_sett?.contracts_server
+
+	api = to_contracts_sett?.api
+
+	flows = to_contracts_sett?.flows
 
 	if !spaces
 		logger.error "缺少settings配置: records_qhd.spaces"
 		return
 
-	if !archive_server
-		logger.error "缺少settings配置: records_qhd.archive_server"
+	if !contracts_server
+		logger.error "缺少settings配置: records_qhd.to_contracts_sett.contracts_server"
 		return
 
 	if !flows
@@ -79,9 +85,9 @@ RecordsQHD.instanceToContracts = ()->
 		return
 
 
-	instancesToContracts = new InstancesToContracts(spaces, archive_server, flows)
+	instancesToContracts = new InstancesToContracts(spaces, contracts_server, flows)
 
-	instancesToContracts.sendContractInstances("");
+	instancesToContracts.sendContractInstances(api);
 
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
