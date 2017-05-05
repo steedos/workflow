@@ -491,5 +491,7 @@
 	"instance_distribute_note": "将当前选中的文件分发到新的流程，继续执行审批操作",
 	"instance_distribute_attachments": "同时分发原表单附件",
 	"instance_distribute_success": "文件分发成功",
-	"instance_no_add_permission": "__actiontype__未成功。以下用户没有新建此申请单的权限：__usernames__"
+	"instance_no_add_permission": "__actiontype__未成功。以下用户没有新建此申请单的权限：__usernames__",
+
+	"instance_workflow_chart_ie_warning": "暂不支持在IE中查看流程图，请在客户端软件或chrome上执行该操作。"
 }
