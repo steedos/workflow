@@ -25,6 +25,10 @@
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
       "loginExpirationInDays": 90
     },
+    //手机号及其验证相关
+    "phone" : {
+      "forceAccountBindPhone" : false//强行弹出手机号绑定窗口
+    },
     //审批王相关
     "workflow": {
       "approve_admins": [] //有修改审批意见权限的用户ID集合
@@ -87,7 +91,7 @@
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
   },
-  //sms短信平台账户配置相关
+  //sms短信平台账户配置相关，优先识别海外平台，即twilio
   "sms": {
     //海外短信平台账户相关
     "twilio": {
@@ -95,6 +99,7 @@
       "ACCOUNT_SID": "XXXXXXXXXXXX",
       "AUTH_TOKEN": "XXXXXXXXXXXX"
     },
+    //国内短信平台账户相关
     "aliyun": {
       "smsqueue_interval": 1000,
       "accessKeyId": "xxx",
