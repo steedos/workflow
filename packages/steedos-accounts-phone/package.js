@@ -35,7 +35,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-    api.use(['okland:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
+    api.use(['steedos:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
     api.addFiles('phone_tests_setup.js', 'server');

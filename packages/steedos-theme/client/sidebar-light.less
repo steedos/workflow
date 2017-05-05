@@ -81,6 +81,28 @@
 			display: none;
 		}
 	}
+
+	&.sidebar-collapse{
+		.main-sidebar {		
+			.sidebar {
+				.sidebar-menu > li > a:hover {
+					background-color: rgba(255, 255, 255, 0.95);
+				}
+				.sidebar-menu > li > a:hover .pull-right-container{
+					background-color: rgba(255, 255, 255, 0);
+				}
+				.sidebar-menu > li > a:active,
+				.sidebar-menu > li > a:focus,
+				.sidebar-menu > li.active > a,
+				.sidebar-menu > li.active > a:hover {
+					background-color: rgba(255, 255, 255, 0.95);
+				}
+				.sidebar-menu > li.active > a:hover .pull-right-container{
+					background-color: rgba(255, 255, 255, 0);
+				}
+			}
+		}
+	}
 }
 
 
