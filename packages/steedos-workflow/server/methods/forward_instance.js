@@ -31,11 +31,9 @@ Meteor.methods({
 		}
 
 		// 校验分发对象是否有分发流程的提交权限
-		console.log(selectedUsers);
 		var no_permission_user_ids = new Array();
 		_.each(forward_users, function(uid) {
 			var permissions = permissionManager.getFlowPermissions(flow_id, uid);
-			console.log(permissions);
 			if (!permissions.includes("add")) {
 				// throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
 				no_permission_user_ids.push(uid);
@@ -228,9 +226,9 @@ Meteor.methods({
 			ins_obj.is_archived = false;
 			ins_obj.is_deleted = false;
 			ins_obj.created = now;
-			ins_obj.created_by = user_id;
+			ins_obj.created_by = current_user_id;
 			ins_obj.modified = now;
-			ins_obj.modified_by = user_id;
+			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
 
 			// 新建Trace
@@ -240,11 +238,13 @@ Meteor.methods({
 			trace_obj.is_finished = false;
 
 			// 当前最新版flow中开始节点的step_id
-			var step_id, step_name;
+			var step_id, step_name, can_edit_main_attach, can_edit_normal_attach;
 			flow.current.steps.forEach(function(step) {
 				if (step.step_type == "start") {
 					step_id = step._id;
 					step_name = step.name;
+					can_edit_main_attach = step.can_edit_main_attach;
+					can_edit_normal_attach = step.can_edit_normal_attach;
 				}
 			})
 			trace_obj.step = step_id;
@@ -326,6 +326,15 @@ Meteor.methods({
 					'metadata.current': true
 				});
 				files.forEach(function(f) {
+					// 判断新的流程开始节点是否有编辑正文和编辑附件权限
+					if (f.metadata.main == true) {
+						if (can_edit_main_attach != true)
+							return;
+					} else {
+						if (can_edit_normal_attach != true)
+							return;
+					}
+
 					var newFile = new FS.File();
 					newFile.attachData(f.createReadStream('instances'), {
 						type: f.original.type
@@ -343,6 +352,9 @@ Meteor.methods({
 							approve: appr_obj._id,
 							current: true
 						};
+						if (f.metadata.main == true) {
+							metadata.main = true;
+						}
 						newFile.metadata = metadata;
 						var fileObj = collection.insert(newFile);
 						fileObj.update({

@@ -179,6 +179,12 @@ Template.instance_button.helpers
 		instanceName = ins.name
 		return "[#{instanceName}](#{href})"
 
+	enabled_suggest: ->
+		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
+		if isShow
+			isShow = WorkflowManager.getInstance().state != "draft"
+		return isShow
+
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -272,7 +278,7 @@ Template.instance_button.events
 	'click .btn-instance-retrieve': (event, template) ->
 		swal {
 			title: t("instance_retrieve"),
-			text: t("instance_retrieve_reason"),
+			inputPlaceholder: t("instance_retrieve_reason"),
 			type: "input",
 			confirmButtonText: t('OK'),
 			cancelButtonText: t('Cancel'),
@@ -283,9 +289,9 @@ Template.instance_button.events
 			if (reason == false)
 				return false;
 
-			if (reason == "")
-				swal.showInputError(t("instance_retrieve_reason"));
-				return false;
+#			if (reason == "")
+#				swal.showInputError(t("instance_retrieve_reason"));
+#				return false;
 
 			InstanceManager.retrieveIns(reason);
 			sweetAlert.close();
@@ -300,4 +306,11 @@ Template.instance_button.events
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
+		if Steedos.isIE()
+			toastr.warning t("instance_workflow_chart_ie_warning")
+			return
 		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')
+
+	'click .btn-suggestion-toggle': (event, template)->
+		$(".instance-wrapper .instance-view").addClass("suggestion-active")
+		InstanceManager.fixInstancePosition()

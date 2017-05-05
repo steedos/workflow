@@ -188,7 +188,7 @@
 	"workflow_attach_locked_by": "locked by %s",
 
 	"workflow_select_an_app": "Steedos Apps",
-	"workflow_suggestion_placeholder": "Leave a comment",
+	"workflow_suggestion_placeholder": "Leave a comment,Click on the right button to select the common opinion.",
 
 	"instance_opinion_title": "Opinions",
 	"instance_opinion_input": "Add a opinion",
@@ -260,23 +260,23 @@
 			"body": {
 				"input": "input",
 				"approval": "approval",
-				"first_submit_applicant": "I have submitted a __instance_name__ request for you.",
-				"first_submit_inbox": "My __instance_name__ request needs your __approve_type__.",
-				"submit_pending_rejected_applicant_inbox": "Request for __instance_name__ has been rejected.",
-				"submit_pending_rejected_applicant": "Request for __instance_name__ has been rejected to __nextApprove_usersname__.",
+				"first_submit_applicant": "I have submitted a __instance_name__ request for you",
+				"first_submit_inbox": "My __instance_name__ request needs your __approve_type__",
+				"submit_pending_rejected_applicant_inbox": "Request for __instance_name__ has been rejected",
+				"submit_pending_rejected_applicant": "Request for __instance_name__ has been rejected to __nextApprove_usersname__",
 				"submit_pending_rejected_approve": "",
-				"submit_pending_rejected_inbox": "My __instance_name__ request needs your __approve_type__.",
-				"submit_pending_inbox": "My __instance_name__ request needs your __approve_type__.",
-				"submit_terminate_applicant": "Request for __instance_name__ has been cancelled.",
+				"submit_pending_rejected_inbox": "My __instance_name__ request needs your __approve_type__",
+				"submit_pending_inbox": "My __instance_name__ request needs your __approve_type__",
+				"submit_terminate_applicant": "Request for __instance_name__ has been cancelled",
 				"submit_terminate_approve": "",
-				"monitor_delete_applicant": "I have deleted your request for __instance_name__.",
-				"submit_completed_applicant": "I have approved your request for __instance_name__.",
+				"monitor_delete_applicant": "I have deleted your request for __instance_name__",
+				"submit_completed_applicant": "I have approved your request for __instance_name__",
 				"submit_completed_approve": "",
-				"approved_completed_applicant": "I have approved your request for __instance_name__.",
+				"approved_completed_applicant": "I have approved your request for __instance_name__",
 				"approved_completed_approve": "",
-				"rejected_completed_applicant": "I have rejected your request for __instance_name__.",
+				"rejected_completed_applicant": "I have rejected your request for __instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__."
+				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__"
 			}
 		},
 		"email": {
@@ -396,7 +396,7 @@
 	"isForwardAttachments": "Is forward attachments.",
 
 	"instance_retrieve": "Retrieve",
-	"instance_retrieve_reason": "Enter your comments here",
+	"instance_retrieve_reason": "Remarks",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -476,5 +476,7 @@
 	"instance_distribute_note": "Distribute the currently selected instance to a new workflow and proceed with the approval process.",
 	"instance_distribute_attachments": "Is distribute attachments.",
 	"instance_distribute_success": "Distribute success",
-	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__"
+	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
+
+	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome."
 }

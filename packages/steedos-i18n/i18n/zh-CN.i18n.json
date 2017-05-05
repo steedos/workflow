@@ -3,7 +3,6 @@
 	"accounts-sign-out": "注销",
 	"accounts-sign-up": "注册",
 
-
 	"dataTables": {
 		"none": "None",
 		"emptyTable": "",
@@ -31,6 +30,10 @@
 		"select": {
 			"rows": "选中%d行"
 		}
-	}
-
+	},
+	
+	"tabbar_workflow": "审批",
+	"tabbar_cms": "信息",
+	"tabbar_apps": "工作台",
+	"tabbar_admin": "我"
 }

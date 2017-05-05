@@ -1,5 +1,4 @@
 {
-	
 	"accounts-sign-in": "Sign In",
 	"accounts-sign-out": "Sign Out",
 	"accounts-sign-up": "Sign Up",
@@ -30,6 +29,10 @@
 		"select": {
 			"rows": "%d row(s) selected"
 		}
-	}
+	},
 
+	"tabbar_workflow": "Workflow",
+	"tabbar_cms": "Messages",
+	"tabbar_apps": "Apps",
+	"tabbar_admin": "Me"
 }

@@ -1,3 +1,9 @@
+Template.cf_space_user_list.onCreated ->
+	Session.set("cf_contact_list_search", false)
+
+Template.cf_space_user_list.onDestroyed ->
+	Session.set("cf_contact_list_search", false)
+
 Template.cf_space_user_list.helpers
 	selector: (userOptions)->
 		spaceId = Template.instance().data.spaceId

@@ -196,6 +196,9 @@ InstanceformTemplate.helpers =
 			fields.forEach (field, index) ->
 
 				td_colspan = 1;
+#				强制设置标头字段为宽字段
+				if CoreForm?.pageTitleFieldName == field.code
+					field.is_wide = true
 
 				if field.formula
 					field.permission = "readonly";
@@ -463,7 +466,10 @@ InstanceformTemplate.onCreated = ()->
 
 	template = TemplateManager.getTemplate(instance);
 
-	compiled = SpacebarsCompiler.compile(template, {isBody: true});
+	try
+		compiled = SpacebarsCompiler.compile(template, {isBody: true});
+	catch e
+		compiled = SpacebarsCompiler.compile("", {isBody: true});
 
 
 	renderFunction = eval(compiled);
