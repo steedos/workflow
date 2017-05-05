@@ -1,6 +1,7 @@
 ALY = Npm.require('aliyun-sdk');
 Xinge = Npm.require('xinge');
 HwPush = Npm.require('huawei-push');
+MiPush = Npm.require('xiaomi-push');
 
 Aliyun_push = {};
 
@@ -12,6 +13,7 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 		aliyunTokens = new Array
 		xingeTokens = new Array
 		huaweiTokens = new Array
+		miTokens = new Array
 
 		userTokens.forEach (userToken) ->
 			arr = userToken.split(':')
@@ -21,6 +23,8 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 				xingeTokens.push _.last(arr)
 			else if arr[0] is "huawei"
 				huaweiTokens.push _.last(arr)
+			else if arr[0] is "mi"
+				miTokens.push _.last(arr)
 
 		if !_.isEmpty(aliyunTokens) and Meteor.settings.push?.aliyun
 			if Push.debug
@@ -67,6 +71,18 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 			_.each huaweiTokens, (t)->
 				notification.send t, msg, callback
 
+		if !_.isEmpty(miTokens) and Meteor.settings.push?.mi
+			if Push.debug
+				console.log "miTokens: #{miTokens}"
+			msg = new MiPush.Message
+			msg.title(notification.title).description(notification.text)
+			notification = new MiPush.Notification(
+				production: Meteor.settings.push.mi.production
+				appSecret: Meteor.settings.push.mi.appSecret
+			)
+			_.each miTokens, (regid)->
+				notification.send regid, msg, callback
+
 
 Meteor.startup ->
 	
@@ -94,7 +110,7 @@ Meteor.startup ->
 
 	Push.Configure config
 	
-	if (Meteor.settings.push?.aliyun or Meteor.settings.push?.xinge or Meteor.settings.push?.huawei) and Push and typeof Push.sendGCM == 'function'
+	if (Meteor.settings.push?.aliyun or Meteor.settings.push?.xinge or Meteor.settings.push?.huawei or Meteor.settings.push?.mi) and Push and typeof Push.sendGCM == 'function'
 		
 		Push.old_sendGCM = Push.sendGCM;
 
@@ -164,13 +180,13 @@ Meteor.startup ->
 				console.log 'sendGCM', userTokens, notification
 
 			aliyunTokens = userTokens.filter((item) ->
-								item.indexOf('aliyun:') > -1 or item.indexOf('xinge:') > -1 or item.indexOf('huawei:') > -1
+								item.indexOf('aliyun:') > -1 or item.indexOf('xinge:') > -1 or item.indexOf('huawei:') > -1 or item.indexOf('mi:') > -1
 							)
 			if Push.debug
 				console.log 'aliyunTokens is ', aliyunTokens.toString()
 
 			gcmTokens = userTokens.filter((item) ->
-								item.indexOf("aliyun:") < 0 or item.indexOf("xinge:") < 0 or item.indexOf("huawei:") < 0
+								item.indexOf("aliyun:") < 0 or item.indexOf("xinge:") < 0 or item.indexOf("huawei:") < 0 or item.indexOf("mi:") < 0
 							)
 			if Push.debug
 				console.log 'gcmTokens is ' , gcmTokens.toString();
