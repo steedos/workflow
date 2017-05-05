@@ -75,6 +75,8 @@ _minxiInstanceData = (formData, instance) ->
 
 	formData.attach = new Array()
 
+	formData.originalAttach = new Array();
+
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
@@ -103,7 +105,7 @@ _minxiInstanceData = (formData, instance) ->
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
 	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
-	formData.attach.push request(attachInfoUrl)
+	formData.originalAttach.push request(attachInfoUrl)
 
 	return formData;
 
