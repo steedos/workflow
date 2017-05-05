@@ -165,24 +165,6 @@ _minxiInstanceData = (formData, instance) ->
 	return formData;
 
 
-# 以POST 方式提交formData数据值url
-InstancesToArchive._postFormData = (url, formData, cb) ->
-	request.post {
-		url: url
-		formData: formData
-	}, (err, httpResponse, body) ->
-		cb err, httpResponse, body
-
-		if err
-			console.error('upload failed:', err)
-			return
-		if httpResponse.statusCode == 200
-#			logger.info("success, name is #{formData.TITLE_PROPER}, id is #{formData.fileID}")
-			return
-
-InstancesToArchive.postFormDataAsync = Meteor.wrapAsync(InstancesToArchive._postFormData);
-
-
 InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 
 #	表单数据
@@ -195,7 +177,7 @@ InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 		logger.debug("_sendContractInstance: #{instance._id}")
 
 		#	发送数据
-		httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
 		if httpResponse.statusCode == 200
 			InstancesToArchive.success instance
@@ -255,7 +237,7 @@ InstancesToArchive._sendNonContractInstance = (url, instance, callback) ->
 		logger.debug("_sendContractInstance: #{instance._id}")
 
 		#	发送数据
-		httpResponse = InstancesToArchive.postFormDataAsync url, formData, callback
+		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
 		if httpResponse.statusCode == 200
 			InstancesToArchive.success instance

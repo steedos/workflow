@@ -34,7 +34,9 @@ Template.workflowMenuByFlow.helpers
         return Template.instance().maxHeight.get() - 51 + 'px'
 
     showNavbar: ->
-        return Steedos.isMobile()
+#        return Steedos.isMobile()
+        return false;
+
 
 Template.workflowMenuByFlow.events
     'click .weui-navbar__item': (event, template)->

@@ -4,18 +4,22 @@ InstanceManager = {}
 
 logger = new Logger 'Workflow -> InstanceManager'
 
-InstanceManager.handlerInstanceByFieldMap = (ins) ->
+InstanceManager.handlerInstanceByFieldMap = (ins, field_map) ->
 	res = ins
 	if ins
-		flow = db.flows.findOne({_id: ins.flow});
+		if !field_map
 
-		if flow?.field_map
+			flow = db.flows.findOne({_id: ins.flow});
 
+			if flow?.field_map
+				field_map = flow.field_map
+
+		if field_map
 			context = _.clone(ins)
 
 			context._ = _
 
-			script = "var instances = #{flow.field_map}; exports.instances = instances";
+			script = "var instances = #{field_map}; exports.instances = instances";
 			try
 				res = _eval(script, "handlerInstanceByFieldMap", context, false).instances
 			catch e
