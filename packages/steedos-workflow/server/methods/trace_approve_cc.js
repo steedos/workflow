@@ -10,7 +10,8 @@ Meteor.methods({
             fields: {
                 space: 1,
                 traces: 1,
-                cc_users: 1
+                cc_users: 1,
+                values: 1
             }
         });
         var ins_cc_users = instance.cc_users ? instance.cc_users : [];
@@ -75,6 +76,7 @@ Meteor.methods({
                         'opinion_field_code': approve.opinion_field_code,
                         'from_approve_id': approve_id
                     };
+                    uuflowManager.setRemindInfo(instance.values, appr)
                     t.approves.push(appr);
                 })
             }

@@ -702,6 +702,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.name = next_step_name
 					newTrace.start_date = new Date
 					newTrace.approves = new Array
+
+					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 					_.each next_step_users, (next_step_user_id)->
 						# 插入下一步trace.approve记录
 						newApprove = new Object
@@ -726,12 +728,13 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newApprove.is_read = false
 						newApprove.is_error = false
 						newApprove.values = new Object
+						uuflowManager.setRemindInfo(updated_values, newApprove)
 						newTrace.approves.push(newApprove)
 
 					# 更新instance记录
 					setObj.modified = new Date
 					setObj.modified_by = current_user
-					setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					setObj.values = updated_values
 					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -883,6 +886,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
+
+							updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 							_.each next_step_users, (next_step_user_id)->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
@@ -910,13 +915,14 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
+								uuflowManager.setRemindInfo(updated_values, newApprove)
 								newTrace.approves.push(newApprove)
 
 							# 更新instance记录
 							setObj.final_decision = judge
 							setObj.modified = new Date
 							setObj.modified_by = current_user
-							setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+							setObj.values = updated_values
 							instance.values = setObj.values
 							setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -1057,6 +1063,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.name = next_step_name
 								newTrace.start_date = new Date
 								newTrace.approves = new Array
+
+								updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 								_.each next_step_users, (next_step_user_id)->
 									# 插入下一步trace.approve记录
 									newApprove = new Object
@@ -1084,13 +1092,14 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									newApprove.is_read = false
 									newApprove.is_error = false
 									newApprove.values = new Object
+									uuflowManager.setRemindInfo(updated_values, newApprove)
 									newTrace.approves.push(newApprove)
 
 								# 更新instance记录
 								setObj.final_decision = judge
 								setObj.modified = new Date
 								setObj.modified_by = current_user
-								setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+								setObj.values = updated_values
 								instance.values = setObj.values
 								setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -1247,6 +1256,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
+								uuflowManager.setRemindInfo(instance.values, newApprove)
 								newTrace.approves.push(newApprove)
 
 							# 更新instance记录
@@ -1771,6 +1781,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
 						nextTrace.due_date = new Date(due_time)
 					nextTrace.approves = new Array
+
+					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 					# 插入下一步trace.approve记录
 					_.each(next_step_users, (next_step_user_id)->
 						nextApprove = new Object
@@ -1794,6 +1806,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						nextApprove.is_read = false
 						nextApprove.is_error = false
 						nextApprove.values = new Object
+						uuflowManager.setRemindInfo(updated_values, newApprove)
 						nextTrace.approves.push(nextApprove)
 					)
 					# 更新instance记录
@@ -1801,7 +1814,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					upObj.submit_date = new Date
 					upObj.state = "pending"
 					# 重新查找暂存之后的instance
-					upObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					upObj.values = updated_values
 					upObj.inbox_users = next_step_users
 					upObj.modified = new Date
 					upObj.modified_by = current_user
@@ -1905,3 +1918,36 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 		ins.applicant_steedos_id = applicant.steedos_id if applicant
 
 	return {ChangeSet: changeSet}
+
+### 文件催办
+根据instance.values.emergencylevel和instance.values.deadline给approve增加remind相关信息
+{
+	deadline: Date,
+	remind_date: Date
+}
+###
+uuflowManager.setRemindInfo = (values, approve)->
+	check values, Object 
+	check approve, Object 
+	check approve.start_date, Date
+	if values.emergencylevel and values.deadline
+		check values.emergencylevel, ["普通", "办文", "紧急", "特急"]  
+		check values.deadline, Date 
+
+		emergencylevel = values.emergencylevel
+		remind_date = null
+		start_time = approve.start_date.getTime()
+		day_time = 1*24*60*60*1000
+		if emergencylevel is "普通"
+			remind_date = new Date(start_time + 3*day_time)
+		else if emergencylevel is "办文"
+			remind_date = new Date(start_time + 1*day_time)
+		else if emergencylevel is "紧急"
+			remind_date = new Date(start_time + 0.5*day_time)
+		else if emergencylevel is "特急"
+			remind_date = new Date(start_time + 0.5*day_time)
+
+		approve.deadline = values.deadline
+		approve.remind_date = remind_date
+
+	return
