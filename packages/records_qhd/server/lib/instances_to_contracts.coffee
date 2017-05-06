@@ -28,11 +28,19 @@ InstancesToContracts = (spaces, contracts_server, contract_flows) ->
 	@contract_flows = contract_flows
 	return
 
+InstancesToContracts.success = (instance)->
+	logger.info("success, name is #{instance.name}, id is #{instance._id}")
+#	db.instances.direct.update({_id: instance._id}, {$set: {is_contract_archived: true}})
+
+InstancesToContracts.failed = (instance, error)->
+	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
+	logger.error error
+
 InstancesToContracts::getContractInstances = ()->
 	return db.instances.find({
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
-		is_archived: false,
+#		is_archived: false,
 		is_deleted: false,
 		state: "completed",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
@@ -88,7 +96,10 @@ _minxiInstanceData = (formData, instance) ->
 	}).fetch()
 
 	mainFile.forEach (f) ->
-		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		try
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		catch e
+			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
@@ -98,14 +109,20 @@ _minxiInstanceData = (formData, instance) ->
 	})
 
 	nonMainFile.forEach (f)->
-		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		try
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		catch e
+			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
 	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
-	formData.originalAttach.push request(attachInfoUrl)
+	try
+		formData.originalAttach.push request(attachInfoUrl)
+	catch e
+		logger.error "原文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 	return formData;
 
@@ -114,24 +131,31 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 	that = @
 
+
+
+	instances = @getContractInstances()
+
+	instances.forEach (instance)->
+		url = that.contracts_server + api + '?externalId=' + instance._id
+		InstancesToContracts.sendContractInstance url, instance
+
+
+
+InstancesToContracts.sendContractInstance = (url, instance, callback) ->
 	formData = {}
 
 	formData.attach = new Array()
 
-#	instances = @getContractInstances()
+	flow = db.flows.findOne({_id: instance.flow});
 
-	instances = instance = db.instances.find({_id: "CzScbQEt37nTN7mLB"}).fetch()
+	if flow
+		formData.flowName = encodeURI(flow.name)
 
-	instances.forEach (instance)->
-		url = that.contracts_server + api + '?externalId=' + instance._id
+	_minxiInstanceData(formData, instance)
 
-		flow = db.flows.findOne({_id: instance.flow});
+	httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
-		if flow
-			formData.flowName = encodeURI(flow.name)
-
-		_minxiInstanceData(formData, instance)
-
-		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
-
-		console.log httpResponse.body
+	if httpResponse.statusCode == 200
+		InstancesToContracts.success instance
+	else
+		InstancesToContracts.failed instance, httpResponse
