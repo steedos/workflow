@@ -2,10 +2,9 @@
 
 	{{#if subsReady}}
 		<div class="steedos app-wrapper steedos-contacts">
-			
+			{{# AdminLTE skin="blue" sidebarMini="true" }}
 				{{> masterHeader}}
 				{{> contactsSidebar}}
-
 
 				<div class="content-wrapper">
 					<div class="connection-status">
@@ -13,7 +12,7 @@
 					</div>
 					{{> Template.dynamic template=main}}
 				</div>
-			
+			{{/ AdminLTE}}
 		</div>
 	{{/if}}
 </template>

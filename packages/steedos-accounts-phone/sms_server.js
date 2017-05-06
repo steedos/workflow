@@ -87,7 +87,7 @@ SMS.send = function (options) {
 SMS.phoneTemplates = {
     from: '+972545999999',
     text: function (user, code) {
-        return '[steedos]You are binding your phone number, the verification code is ' + code + '. Do not forward.';
+        return '【Steedos】 ' + code + ' is your Steedos verification code.';
     }
 };
 
