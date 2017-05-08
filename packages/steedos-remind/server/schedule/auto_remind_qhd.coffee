@@ -28,6 +28,9 @@ Meteor.startup ->
 				_.each last_trace.approves, (ap)->
 					if ap.is_finished isnt true and ap.deadline and ap.remind_date
 						if ap.remind_date < now
+							user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, locale: 1}})
+							lang = if user.locale == 'zh-cn' then 'zh-cn' else 'en'
+							moment.locale(lang)
 							params = {
 								instance: ins.name
 							}
@@ -77,20 +80,18 @@ Meteor.startup ->
 								ap.remind_date = new Date(remind_datetime + 1*hour_time)
 								params.deadline = moment(ap.deadline).format('LLLL')
 
-
-							user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1}})
 							if user and user.mobile
 								console.log "===>SMSQueue.send: #{user.mobile}"
 								console.log params
 								# 发送手机短信
-								# SMSQueue.send({
-								# 	Format: 'JSON',
-								# 	Action: 'SingleSendSms',
-								# 	ParamString: JSON.stringify(params),
-								# 	RecNum: user.mobile,
-								# 	SignName: 'OA系统',
-								# 	TemplateCode: '???????????'
-								# })
+								SMSQueue.send({
+									Format: 'JSON',
+									Action: 'SingleSendSms',
+									ParamString: JSON.stringify(params),
+									RecNum: user.mobile,
+									SignName: 'OA系统',
+									TemplateCode: 'SMS_66340019'
+								})
 				db.instances.update({_id: ins._id, "traces._id": last_trace._id}, {$set: {'traces.$.approves': last_trace.approves}})
 
 			console.timeEnd 'remind'

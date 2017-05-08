@@ -1945,10 +1945,26 @@ uuflowManager.setRemindInfo = (values, approve)->
 			remind_date = new Date(start_time + 3*day_time)
 		else if priority is "办文"
 			remind_date = new Date(start_time + 1*day_time)
-		else if priority is "紧急"
+		else if priority is "紧急" or priority is "特急"
 			remind_date = new Date(start_time + 0.5*day_time)
-		else if priority is "特急"
-			remind_date = new Date(start_time + 0.5*day_time)
+			ins = db.instances.findOne({_id: approve.instance}, {fields: {name: 1}})
+			user = db.users.findOne({_id: approve.user}, {fields: {mobile: 1, locale: 1}})
+			lang = if user.locale == 'zh-cn' then 'zh-cn' else 'en'
+			moment.locale(lang)
+			params = {
+				instance: ins.name,
+				deadline: moment(deadline).format('LL')
+			}
+			if user and user.mobile
+				# 发送手机短信
+				SMSQueue.send({
+					Format: 'JSON',
+					Action: 'SingleSendSms',
+					ParamString: JSON.stringify(params),
+					RecNum: user.mobile,
+					SignName: 'OA系统',
+					TemplateCode: 'SMS_66340019'
+				})
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
