@@ -282,7 +282,7 @@ TracesTemplate.events =
 		approveId = event.target.dataset.approve
 		traceId = event.target.dataset.trace
 		opinion_input = $('#opinion_input').val()
-		finish_input = moment(AutoForm.getFieldValue("finish_date", "finishDateAutoForm")).format("YYYY-MM-DD HH:mm")
+		finish_input = AutoForm.getFieldValue("finish_date", "finishDateAutoForm")
 
 		$("body").addClass("loading")
 		Meteor.call 'change_approve_info', instanceId, traceId, approveId, opinion_input, finish_input, (err, result)->

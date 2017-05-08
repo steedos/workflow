@@ -32,6 +32,12 @@ Package.onUse(function (api) {
 
 	// api.addFiles('lib/models/instance.coffee');
 
+	api.addFiles('client/layout/master.html', 'client');
+
+	api.addFiles('client/views/to_contracts.html', 'client');
+
+	api.addFiles('client/router.coffee', 'client');
+
 	api.addFiles('server/lib/steedos_request.coffee', 'server');
 
 	api.addFiles('server/lib/instances_to_archive.coffee', 'server');
