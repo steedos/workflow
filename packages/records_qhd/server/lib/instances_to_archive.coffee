@@ -114,7 +114,10 @@ _minxiInstanceData = (formData, instance) ->
 	}).fetch()
 
 	mainFile.forEach (f) ->
-		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		try
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		catch e
+			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
 		mainFileHistory = cfs.instances.find({
 			'metadata.instance': instance._id,
@@ -127,8 +130,10 @@ _minxiInstanceData = (formData, instance) ->
 
 		mainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
-
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+			try
+				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+			catch e
+				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
@@ -138,8 +143,10 @@ _minxiInstanceData = (formData, instance) ->
 	})
 
 	nonMainFile.forEach (f)->
-		formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-
+		try
+			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+		catch e
+			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
 		nonMainFileHistory = cfs.instances.find({
 			'metadata.instance': instance._id,
@@ -152,15 +159,21 @@ _minxiInstanceData = (formData, instance) ->
 
 		nonMainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
-
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+			try
+				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+			catch e
+				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
 	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
-	formData.attach.push request(attachInfoUrl)
+
+	try
+		formData.attach.push request(attachInfoUrl)
+	catch e
+		logger.error "原文下载失败：#{f._id},#{f.name()}. error: " + e
 
 	return formData;
 
@@ -208,12 +221,12 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	instances.forEach (instance)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
 		logger.debug "url is #{url}"
-		InstancesToArchive._sendNonContractInstance url, instance
+		InstancesToArchive.sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
 
 
-InstancesToArchive._sendNonContractInstance = (url, instance, callback) ->
+InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 	format = "YYYY-MM-DD HH:mm:ss"
 
 	#	表单数据

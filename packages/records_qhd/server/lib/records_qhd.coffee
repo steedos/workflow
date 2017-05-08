@@ -62,6 +62,9 @@ RecordsQHD.instanceToArchive = ()->
 	instancesToArchive.sendNonContractInstances(to_archive_api)
 
 RecordsQHD.instanceToContracts = ()->
+
+	console.time "RecordsQHD.instanceToContracts"
+
 	spaces = RecordsQHD.settings_records_qhd.spaces
 
 	to_contracts_sett = RecordsQHD.settings_records_qhd.to_contracts
@@ -88,6 +91,8 @@ RecordsQHD.instanceToContracts = ()->
 	instancesToContracts = new InstancesToContracts(spaces, contracts_server, flows)
 
 	instancesToContracts.sendContractInstances(api);
+
+	console.timeEnd "RecordsQHD.instanceToContracts"
 
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
