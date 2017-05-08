@@ -1920,7 +1920,7 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 	return {ChangeSet: changeSet}
 
 ### 文件催办
-根据instance.values.emergencylevel和instance.values.deadline给approve增加remind相关信息
+根据instance.values.priority和instance.values.deadline给approve增加remind相关信息
 {
 	deadline: Date,
 	remind_date: Date
@@ -1930,21 +1930,21 @@ uuflowManager.setRemindInfo = (values, approve)->
 	check values, Object 
 	check approve, Object 
 	check approve.start_date, Date
-	if values.emergencylevel and values.deadline
-		check values.emergencylevel, ["普通", "办文", "紧急", "特急"]  
+	if values.priority and values.deadline
+		check values.priority, ["普通", "办文", "紧急", "特急"]  
 		check values.deadline, Date 
 
-		emergencylevel = values.emergencylevel
+		priority = values.priority
 		remind_date = null
 		start_time = approve.start_date.getTime()
 		day_time = 1*24*60*60*1000
-		if emergencylevel is "普通"
+		if priority is "普通"
 			remind_date = new Date(start_time + 3*day_time)
-		else if emergencylevel is "办文"
+		else if priority is "办文"
 			remind_date = new Date(start_time + 1*day_time)
-		else if emergencylevel is "紧急"
+		else if priority is "紧急"
 			remind_date = new Date(start_time + 0.5*day_time)
-		else if emergencylevel is "特急"
+		else if priority is "特急"
 			remind_date = new Date(start_time + 0.5*day_time)
 
 		approve.deadline = values.deadline
