@@ -24,10 +24,10 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('session');
 
-
+	api.use('steedos:lib');
 	api.use('steedos:workflow');
 
-
+	api.addFiles('server/ensureIndexes.coffee', 'server');
 	api.addFiles('server/schedule/auto_remind_qhd.coffee', 'server');
 
 });

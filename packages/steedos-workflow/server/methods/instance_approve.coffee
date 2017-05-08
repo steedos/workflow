@@ -23,7 +23,7 @@ Meteor.methods
 		check(traceId, String)
 		check(approveId, String)
 		check(description, String)
-		check(finish_date, String)
+		check(finish_date, Date)
 
 		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
 
@@ -33,7 +33,7 @@ Meteor.methods
 			trace.approves.forEach (approve)->
 				if approve._id == approveId
 					approve.description = description
-					approve.finish_date = new Date(finish_date)
+					approve.finish_date = finish_date
 					approve.cost_time = approve.finish_date - approve.start_date
 
 			db.instances.update({
