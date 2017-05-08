@@ -1931,8 +1931,11 @@ uuflowManager.setRemindInfo = (values, approve)->
 	check approve, Object 
 	check approve.start_date, Date
 	if values.priority and values.deadline
-		check values.priority, ["普通", "办文", "紧急", "特急"]  
-		check values.deadline, Date 
+		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
+		# 由于values中的date字段的值为String，故作如下校验
+		deadline = new Date(values.deadline)
+		if deadline.toString() is "Invalid Date"
+			return
 
 		priority = values.priority
 		remind_date = null
@@ -1947,7 +1950,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 		else if priority is "特急"
 			remind_date = new Date(start_time + 0.5*day_time)
 
-		approve.deadline = values.deadline
+		approve.deadline = deadline
 		approve.remind_date = remind_date
 
 	return
