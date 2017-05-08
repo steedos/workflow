@@ -38,7 +38,7 @@ Package.onUse(function (api) {
 
 	api.addFiles('server/lib/instances_to_contracts.coffee', 'server');
 
-	api.addFiles('server/lib/records_qhd.coffee', 'server');
+	api.addFiles('server/lib/records-qhd.coffee', 'server');
 
 	// api.export('db');
 

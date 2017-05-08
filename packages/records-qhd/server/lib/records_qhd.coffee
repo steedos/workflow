@@ -36,23 +36,23 @@ RecordsQHD.instanceToArchive = ()->
 	contract_archive_api = to_archive_sett?.contract_instances?.to_archive_api
 
 	if !spaces
-		logger.error "缺少settings配置: records_qhd.spaces"
+		logger.error "缺少settings配置: records-qhd.spaces"
 		return
 
 	if !archive_server
-		logger.error "缺少settings配置: records_qhd.to_archive_sett.archive_server"
+		logger.error "缺少settings配置: records-qhd.to_archive_sett.archive_server"
 		return
 
 	if !flows
-		logger.error "缺少settings配置: records_qhd.to_archive_sett.contract_instances.flows"
+		logger.error "缺少settings配置: records-qhd.to_archive_sett.contract_instances.flows"
 		return
 
 	if !contract_archive_api
-		logger.error "缺少settings配置: records_qhd.to_archive_sett.contract_instances.contract_archive_api"
+		logger.error "缺少settings配置: records-qhd.to_archive_sett.contract_instances.contract_archive_api"
 		return
 
 	if !to_archive_api
-		logger.error "缺少settings配置: records_qhd.to_archive_sett.non_contract_instances.to_archive_api"
+		logger.error "缺少settings配置: records-qhd.to_archive_sett.non_contract_instances.to_archive_api"
 		return
 
 	instancesToArchive = new InstancesToArchive(spaces, archive_server, flows)
@@ -76,15 +76,15 @@ RecordsQHD.instanceToContracts = ()->
 	flows = to_contracts_sett?.flows
 
 	if !spaces
-		logger.error "缺少settings配置: records_qhd.spaces"
+		logger.error "缺少settings配置: records-qhd.spaces"
 		return
 
 	if !contracts_server
-		logger.error "缺少settings配置: records_qhd.to_contracts_sett.contracts_server"
+		logger.error "缺少settings配置: records-qhd.to_contracts_sett.contracts_server"
 		return
 
 	if !flows
-		logger.error "缺少settings配置: records_qhd.contract_instances.flows"
+		logger.error "缺少settings配置: records-qhd.contract_instances.flows"
 		return
 
 
