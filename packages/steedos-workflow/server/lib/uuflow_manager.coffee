@@ -1952,5 +1952,6 @@ uuflowManager.setRemindInfo = (values, approve)->
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
+		approve.reminded_count = 0
 
 	return
