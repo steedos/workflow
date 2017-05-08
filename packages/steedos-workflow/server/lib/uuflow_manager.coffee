@@ -1806,7 +1806,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						nextApprove.is_read = false
 						nextApprove.is_error = false
 						nextApprove.values = new Object
-						uuflowManager.setRemindInfo(updated_values, newApprove)
+						uuflowManager.setRemindInfo(updated_values, nextApprove)
 						nextTrace.approves.push(nextApprove)
 					)
 					# 更新instance记录
