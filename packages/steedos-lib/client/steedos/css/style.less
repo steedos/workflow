@@ -115,120 +115,77 @@ span,a{
 	}
 }
 
+.zoom-standard(@zoom:120%, @inverseZoom:80%, @dialogWidth:721px){
+	-ms-text-size-adjust: auto;
+	-webkit-text-size-adjust: auto;
+	zoom:@zoom;
+	.modal{
+		zoom:@inverseZoom;
+		.modal-body-zoom{
+		  .modal-body{
+			zoom:@zoom;
+		  }
+		}
+		.modal-header{
+			zoom:@zoom;
+		}
+		.modal-footer{
+			zoom:@zoom;
+		}
+		.modal-zoom{
+			zoom:@zoom;
+		}
+		&.accounts-guide-modal{
+			.modal-dialog{
+				width:@dialogWidth;
+			}
+		}
+
+		.box{
+			zoom:@zoom;
+			.box{
+				/*这里是为了兼容出现两层box嵌套的情况*/
+				zoom:100%;
+			}
+		}
+		&.forward-select-flow-modal{
+			.modal-body>div{
+				zoom:@zoom;
+			}
+		}
+		&#instance_cc_modal{
+			.modal-body>form{
+				zoom:@zoom;
+			}
+		}
+		.admin-dashboard-body>form{
+			zoom:@zoom;
+		}
+		.modal-body>.weui_grids{
+			zoom:@zoom;
+		}
+		.mail-account-modal{
+			.modal-body>form{
+				zoom:@zoom;
+			}
+		}
+	}
+}
+
+.zoom-level(large){
+	.zoom-standard();
+}
+.zoom-level(extra_large){
+	.zoom-standard(135%, 74%, 811px);
+}
+
 .zoom-normal{
 }
 .zoom-large{
-	-ms-text-size-adjust: auto;
-	-webkit-text-size-adjust: auto;
-	zoom:120%;
-	.modal{
-		zoom:80%;
-        .modal-body-zoom{
-          .modal-body{
-            zoom:120%;
-          }
-        }
-		.modal-header{
-			zoom:120%;
-		}
-		.modal-footer{
-			zoom:120%;
-		}
-		.modal-zoom{
-			zoom:120%;
-		}
-		&.accounts-guide-modal{
-			.modal-dialog{
-				width:721px;
-			}
-		}
-
-		.box{
-			zoom:120%;
-			.box{
-				/*这里是为了兼容出现两层box嵌套的情况*/
-				zoom:100%;
-			}
-		}
-		&.forward-select-flow-modal{
-			.modal-body>div{
-				zoom:120%;
-			}
-		}
-		&#instance_cc_modal{
-			.modal-body>form{
-				zoom:120%;
-			}
-		}
-		.admin-dashboard-body>form{
-			zoom:120%;
-		}
-		.modal-body>.weui_grids{
-			zoom:120%;
-		}
-		.mail-account-modal{
-			.modal-body>form{
-				zoom:120%;
-			}
-		}
-	}
+	.zoom-level(large);
 }
 .zoom-extra-large{
-	-ms-text-size-adjust: auto;
-	-webkit-text-size-adjust: auto;
-	zoom:135%;
-	.modal{
-		zoom:74%;
-
-        .modal-body-zoom{
-          .modal-body{
-            zoom:135%;
-          }
-        }
-		.modal-header{
-			zoom:135%;
-		}
-		.modal-footer{
-			zoom:135%;
-		}
-		.modal-zoom{
-			zoom:135%;
-		}
-		&.accounts-guide-modal{
-			.modal-dialog{
-				width:811px;
-			}
-		}
-
-		.box{
-			zoom:135%;
-			.box{
-				/*这里是为了兼容出现两层box嵌套的情况*/
-				zoom:100%;
-			}
-		}
-		&.forward-select-flow-modal{
-			.modal-body>div{
-				zoom:135%;
-			}
-		}
-		&#instance_cc_modal{
-			.modal-body>form{
-				zoom:135%;
-			}
-		}
-		.admin-dashboard-body>form{
-			zoom:135%;
-		}
-		.modal-body>.weui_grids{
-			zoom:135%;
-		}
-		.mail-account-modal{
-			.modal-body>form{
-				zoom:135%;
-			}
-		}
-	}
+	.zoom-level(extra_large);
 }
 
 
