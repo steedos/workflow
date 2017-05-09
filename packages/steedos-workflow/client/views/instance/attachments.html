@@ -79,15 +79,15 @@
                                     <tr>
                                         <td class="ins-attach-version-view">
                                             <span>{{this.name}} {{_ "Current Version"}}</span>
-                                            {{#if canEdit this.name this.metadata.locked_by}}
-                                                {{#if isNode}}
-                                                    <a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
-                                                {{/if}}
-                                            {{/if}}
                                             {{#if isAndroidApp}}
                                                 <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_mobile">{{_ "workflow_attachment_download"}}</a>
                                             {{else}}
                                                 <a href="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" class="ins_attach_href" target="_parent" >{{_ "workflow_attachment_download"}}</a>
+                                            {{/if}}
+                                            {{#if canEdit this.name this.metadata.locked_by}}
+                                                {{#if isNode}}
+                                                    <a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
+                                                {{/if}}
                                             {{/if}}
                                             {{#if IsImageAttachment this}}
                                                 <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
@@ -107,15 +107,15 @@
                                     <tr>
                                         <td class="ins-attach-version-view">
                                             <span>{{this.name}}</span>
-                                            {{#if canEdit this.name this.metadata.locked_by}}
-                                                {{#if isNode}}
-                                                    <a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
-                                                {{/if}}
-                                            {{/if}}
                                             {{#if isAndroidApp}}
                                                 <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_mobile">{{_ "workflow_attachment_download"}}</a>
                                             {{else}}
                                                 <a href="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" class="ins_attach_href" target="_parent" >{{_ "workflow_attachment_download"}}</a>
+                                            {{/if}}
+                                            {{#if canEdit this.name this.metadata.locked_by}}
+                                                {{#if isNode}}
+                                                    <a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
+                                                {{/if}}
                                             {{/if}}
                                             <br/>
                                             <label style="margin-bottom:0px;">{{attach_version_info this.metadata.owner_name this.uploadedAt}}</label>
