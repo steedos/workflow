@@ -1,12 +1,14 @@
 <template name="instance_attachment" >
     <tr>
         <td class="ins-attach-view">
-            <a style="cursor: pointer;" name="ins_attach_version" data-parent="{{this.metadata.parent}}">{{this.name}}</a>
-            {{#if this.metadata.locked_by}}
-                <span style="margin-left: 10px;">{{locked_info this.metadata.locked_by_name}}</span>
-            {{/if}}
+            <span>{{this.name}}</span>
             {{#if isPrint}}
             {{else}}
+                {{#if isAndroidApp}}
+                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_mobile">{{_ "workflow_attachment_download"}}</a>
+                {{else}}
+                    <a href="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" class="ins_attach_href" target="_parent" >{{_ "workflow_attachment_download"}}</a>
+                {{/if}}
                 {{#if canEdit this.name this.metadata.locked_by}}
                     {{#if isNode}}
                         <a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
@@ -15,21 +17,16 @@
                         <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_edit" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
                     {{/if}}
                 {{/if}}
-                {{#if isAndroidApp}}
-                    <a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" name="ins_attach_mobile">{{_ "workflow_attachment_download"}}</a>
-                {{else}}
-                    <a href="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" class="ins_attach_href" target="_parent" >{{_ "workflow_attachment_download"}}</a>
-                {{/if}}
                 {{#if IsImageAttachment this}}
-                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
-                        <i class="ion ion-ios-search-strong"></i>
-                    </a>
+                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
                 {{else}}
                     {{#if IsHtmlAttachment this}}
-                        <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
-                            <i class="ion ion-ios-search-strong"></i>
-                        </a>
+                        <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
                     {{/if}}
+                {{/if}}
+                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_version" data-parent="{{this.metadata.parent}}">{{_ "workflow_attachment_versions"}}</a>
+                {{#if this.metadata.locked_by}}
+                    <span style="margin-left: 10px;">{{locked_info this.metadata.locked_by_name}}</span>
                 {{/if}}
                 {{#if can_delete this.metadata.approve this.metadata.parent}}
                     {{> _file_DeleteButton file_id=this._id}}
@@ -93,14 +90,10 @@
                                                 <a href="{{getUrl this._id}}" style="cursor: pointer;margin-left: 10px;" class="ins_attach_href" target="_parent" >{{_ "workflow_attachment_download"}}</a>
                                             {{/if}}
                                             {{#if IsImageAttachment this}}
-                                                <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id}}" class="swipebox">
-                                                    <i class="ion ion-ios-search-strong"></i>
-                                                </a>
+                                                <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
                                             {{else}}
                                                 {{#if IsHtmlAttachment this}}
-                                                    <a style="cursor: pointer;margin-left: 10px;" href="{{getUrl this._id true}}" class="post-attachment-html" target="_blank">
-                                                        <i class="ion ion-ios-search-strong"></i>
-                                                    </a>
+                                                    <a style="cursor: pointer;margin-left: 10px;" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
                                                 {{/if}}
                                             {{/if}}
                                             <br/>
