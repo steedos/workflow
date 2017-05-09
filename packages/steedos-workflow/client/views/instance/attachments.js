@@ -173,7 +173,7 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_preview']": function(event, template){
 		if (event.target.id){
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
-			window.open(url);
+			Steedos.openWindow(url);
 		}
 	}
 })
@@ -434,7 +434,7 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_preview']": function(event, template){
 		if (event.target.id){
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
-			window.open(url);
+			Steedos.openWindow(url);
 		}
 	}
 })
