@@ -6,7 +6,7 @@ Package.describe({
 });
 
 Npm.depends({
-	"node-schedule": "1.1.1"
+	"node-schedule": "1.2.1"
 });
 
 Package.onUse(function(api) {

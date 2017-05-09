@@ -1942,12 +1942,13 @@ uuflowManager.setRemindInfo = (values, approve)->
 		remind_date = null
 		start_time = approve.start_date.getTime()
 		day_time = 1*24*60*60*1000
+		hour_time = 1*60*60*1000
 		if priority is "普通"
 			remind_date = new Date(start_time + 3*day_time)
 		else if priority is "办文"
 			remind_date = new Date(start_time + 1*day_time)
 		else if priority is "紧急" or priority is "特急"
-			remind_date = new Date(start_time + 0.5*day_time)
+			remind_date = new Date(start_time + 4*hour_time)
 			ins = db.instances.findOne({_id: approve.instance}, {fields: {name: 1}})
 			user = db.users.findOne({_id: approve.user}, {fields: {mobile: 1}})
 			params = {
