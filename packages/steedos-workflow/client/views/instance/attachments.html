@@ -53,9 +53,9 @@
                     {{/with}}
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body modal-zoom">
                     <div>
-                        <span style="font-size: 18px;">{{_ "Versions"}}</span>
+                        <span style="font-size: 17px;">{{_ "Versions"}}</span>
                         {{#if enabled_add_attachment}}
                             {{#with attach_current_version}}
                             <div class="ins-upload" style="float: right;">
@@ -65,7 +65,7 @@
                             {{/with}}
                         {{/if}}
                     </div>
-                    <table style="width:100%;max-width:100%;background-color: #f5f5f5;font-size: 18px;">
+                    <table style="width:100%;max-width:100%;background-color: #f5f5f5;font-size: 15px;">
                         <tbody>
                             {{#each attach_versions}}
                                 {{#if this.metadata.current}}
