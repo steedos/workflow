@@ -26,6 +26,8 @@ db.users._simpleSchema = new SimpleSchema
 	mobile: 
 		type: String,
 		optional: true,
+		autoform:
+			readonly: true
 	locale: 
 		type: String,
 		optional: true,

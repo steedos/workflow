@@ -153,7 +153,7 @@
 	"users_timezone": "时区",
 	"users_emails": "邮件",
 	"users_createdAt": "创建日期",
-	"users_email_notification": "接受邮件通知",
+	"users_email_notification": "接收邮件通知",
 
 	"apps": "应用",
 	"apps_space": "工作区",

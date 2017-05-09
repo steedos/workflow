@@ -75,6 +75,7 @@
 	"workflow_attachment_download": "Download",
 	"workflow_attachment_view": "View",
 	"workflow_attachment_isReadOnly": "ReadOnly-",
+	"workflow_attachment_versions": "Versions",
 	"workflow_attachment_uploading": "Uploading ",
 	"workflow_attachment_downloading": "Downloading ",
 	"workflow_attachment_officeOnline": "Edit",

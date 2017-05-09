@@ -25,6 +25,16 @@
 					{{/each}}
 				</div>
 			{{/each}}
+			<div class="weui_cells weui_cells_access">
+				<a class="weui_cell" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
+					<div class="weui_cell_bd weui_cell_primary">{{_ "inbox"}}</div>
+				</a>
+			</div>
+			<div class="weui_cells weui_cells_access">
+				<a class="weui_cell"  href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
+					<div class="weui_cell_bd weui_cell_primary">{{_ "outbox"}}</div>
+				</a>
+			</div>
 		</div>
 	</div>
 	{{#if showNavbar}}
