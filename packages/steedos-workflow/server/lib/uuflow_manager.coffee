@@ -1923,7 +1923,8 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 根据instance.values.priority和instance.values.deadline给approve增加remind相关信息
 {
 	deadline: Date,
-	remind_date: Date
+	remind_date: Date,
+	reminded_count: Number
 }
 ###
 uuflowManager.setRemindInfo = (values, approve)->
@@ -1945,10 +1946,24 @@ uuflowManager.setRemindInfo = (values, approve)->
 			remind_date = new Date(start_time + 3*day_time)
 		else if priority is "办文"
 			remind_date = new Date(start_time + 1*day_time)
-		else if priority is "紧急"
+		else if priority is "紧急" or priority is "特急"
 			remind_date = new Date(start_time + 0.5*day_time)
-		else if priority is "特急"
-			remind_date = new Date(start_time + 0.5*day_time)
+			ins = db.instances.findOne({_id: approve.instance}, {fields: {name: 1}})
+			user = db.users.findOne({_id: approve.user}, {fields: {mobile: 1}})
+			params = {
+				instance: ins.name,
+				deadline: moment(deadline).format('MM-DD HH:mm')
+			}
+			if user and user.mobile
+				# 发送手机短信
+				SMSQueue.send({
+					Format: 'JSON',
+					Action: 'SingleSendSms',
+					ParamString: JSON.stringify(params),
+					RecNum: user.mobile,
+					SignName: 'OA系统',
+					TemplateCode: 'SMS_66340019'
+				})
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date

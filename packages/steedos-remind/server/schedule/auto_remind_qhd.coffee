@@ -28,6 +28,8 @@ Meteor.startup ->
 				_.each last_trace.approves, (ap)->
 					if ap.is_finished isnt true and ap.deadline and ap.remind_date
 						if ap.remind_date < now
+							user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1}})
+							moment_format = 'MM-DD HH:mm'
 							params = {
 								instance: ins.name
 							}
@@ -58,7 +60,7 @@ Meteor.startup ->
 										ap.remind_date = new Date(remind_datetime + 1*hour_time)
 									else
 										ap.remind_date = new Date(remind_datetime + 1*day_time)
-								params.deadline = moment(ap.deadline).format('LLLL')
+								params.deadline = moment(ap.deadline).format(moment_format)
 
 							# （3）“紧急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如半日内仍未处理，系统每半天自动发短信提醒：办结时限不变；距离办结时限为半日时，每半个工作日提醒四次；超过办结时限后仍然按照每半日四次提醒。
@@ -68,29 +70,27 @@ Meteor.startup ->
 									ap.remind_date = new Date(remind_datetime + 1*hour_time)
 								else
 									ap.remind_date = new Date(remind_datetime + 0.5*day_time)
-								params.deadline = moment(ap.deadline).format('LLLL')
+								params.deadline = moment(ap.deadline).format(moment_format)
 
 							# （4）“特急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如半日内仍未处理，系统每半个工作日提醒四次：办结时限不变；超过办结时限后仍然按照每半日四次提醒。
 							else if priority is "特急"
 								ap.reminded_count += 1
 								ap.remind_date = new Date(remind_datetime + 1*hour_time)
-								params.deadline = moment(ap.deadline).format('LLLL')
+								params.deadline = moment(ap.deadline).format(moment_format)
 
-
-							user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1}})
 							if user and user.mobile
 								console.log "===>SMSQueue.send: #{user.mobile}"
 								console.log params
 								# 发送手机短信
-								# SMSQueue.send({
-								# 	Format: 'JSON',
-								# 	Action: 'SingleSendSms',
-								# 	ParamString: JSON.stringify(params),
-								# 	RecNum: user.mobile,
-								# 	SignName: 'OA系统',
-								# 	TemplateCode: '???????????'
-								# })
+								SMSQueue.send({
+									Format: 'JSON',
+									Action: 'SingleSendSms',
+									ParamString: JSON.stringify(params),
+									RecNum: user.mobile,
+									SignName: 'OA系统',
+									TemplateCode: 'SMS_66340019'
+								})
 				db.instances.update({_id: ins._id, "traces._id": last_trace._id}, {$set: {'traces.$.approves': last_trace.approves}})
 
 			console.timeEnd 'remind'
