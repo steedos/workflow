@@ -21,7 +21,6 @@ Meteor.startup ->
 	      	go_next = false
 			console.time 'remind'
 			now = new Date
-			day_time = 1*24*60*60*1000
 			hour_time = 1*60*60*1000
 			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}).forEach (ins)->
 				console.log ins.name
@@ -37,18 +36,19 @@ Meteor.startup ->
 								instance: ins.name
 							}
 							reminded_count = ap.reminded_count
+							remind_date = ap.remind_date
 							remind_datetime = ap.remind_date.getTime()
 							# （1）“普通”：如三个工作日内未处理，系统自动发短信提醒：办结时限为二日内；
 							#  如二日后仍未处理，系统每天自动发短信提醒，办结时限为一日内。
 							if priority is "普通"
 								if reminded_count is 0
 									ap.reminded_count = 1
-									ap.remind_date = new Date(remind_datetime + 2*day_time)
+									ap.remind_date = Steedos.caculateWorkingTime(remind_date, 2)
 									params.deadline = "二日内"
 
 								else if reminded_count >= 1
 									ap.reminded_count += 1
-									ap.remind_date = new Date(remind_datetime + 1*day_time)
+									ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
 									params.deadline = "一日内"
 							# （2）“办文”：如一个工作日内未处理，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如一日后仍未处理，系统每天自动发短信提醒：办结时限不变；
@@ -56,13 +56,13 @@ Meteor.startup ->
 							else if priority is "办文"
 								if reminded_count is 0
 									ap.reminded_count = 1
-									ap.remind_date = new Date(remind_datetime + 1*day_time)
+									ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
 								else if reminded_count >= 1
 									ap.reminded_count += 1
 									if (now - ap.deadline) > 0  or (now - ap.deadline) < -4*hour_time # 超过了办结时限或者距离办结时限半日内
 										ap.remind_date = new Date(remind_datetime + 1*hour_time)
 									else
-										ap.remind_date = new Date(remind_datetime + 1*day_time)
+										Steedos.caculateWorkingTime(remind_date, 1)
 								params.deadline = moment(ap.deadline).format(moment_format)
 
 							# （3）“紧急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；

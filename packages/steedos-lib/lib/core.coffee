@@ -371,3 +371,30 @@ mixin = (obj) ->
 				return result.call(this, func.apply(_, args))
 
 #mixin(_s.exports())
+
+if Meteor.isServer
+	# 判断是否是节假日
+	Steedos.isHoliday = (date)->
+		if !date
+			date = new Date
+		check date, Date
+		day = date.getDay()
+		# 周六周日为假期
+		if day is 6 or day is 0
+			return true
+
+		return false
+	# 根据传入时间(date)计算几个工作日(days)后的时间,days目前只能是整数
+	Steedos.caculateWorkingTime = (date, days)->
+		check date, Date
+		check days, Number
+		param_date = date
+		caculateDate = (i, days)->
+			if i < days
+				param_date = new Date(param_date.getTime() + 24*60*60*1000)
+				if !Steedos.isHoliday(param_date)
+					i++
+				caculateDate(i, days)
+			return
+		caculateDate(0, days)
+		return param_date
