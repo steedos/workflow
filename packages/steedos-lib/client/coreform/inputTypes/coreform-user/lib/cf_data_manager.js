@@ -163,7 +163,7 @@ CFDataManager.handerContactModalValueLabel = function () {
         });
 
         valueLabel_div.show();
-        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+        confirmButton.html(confirmButton.prop("title") + "(" + values.length + ")");
     } else {
         confirmButton.html(confirmButton.prop("title"));
         valueLabel_div.hide();
@@ -221,7 +221,7 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
         });
 
         valueLabel_div.show();
-        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+        confirmButton.html(confirmButton.prop("title") + "(" + values.length + ")");
     } else {
         confirmButton.html(confirmButton.prop("title"));
         valueLabel_div.hide();
