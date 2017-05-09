@@ -76,6 +76,7 @@
 	"workflow_attachment_download": "下载",
 	"workflow_attachment_view": "查看",
 	"workflow_attachment_isReadOnly": "只读-",
+	"workflow_attachment_versions": "历史版本",
 	"workflow_attachment_uploading": "正在上传 ",
 	"workflow_attachment_downloading": "正在下载 ",
 	"workflow_attachment_officeOnline": "编辑",
