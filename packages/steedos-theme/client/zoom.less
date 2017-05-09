@@ -254,3 +254,13 @@ _:-ms-fullscreen,
 	}
 }
 
+/*字体放大时，点击按钮后下方的菜单在小屏幕下显示不全*/
+@media (max-width: 767px) {	
+	ul.dropdown-menu.dropdown-menu-right {
+		width: 225px;
+		.menu-item-help {
+			width: 185px;
+		}
+	}
+}
+
