@@ -185,6 +185,27 @@ Template.instance_button.helpers
 			isShow = WorkflowManager.getInstance().state != "draft"
 		return isShow
 
+	enabled_remind: ->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+		space = db.spaces.findOne(ins.space);
+		if !space
+			return false
+		fl = db.flows.findOne({'_id': ins.flow});
+		if !fl
+			return false
+		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
+		if !curSpaceUser
+			return false
+		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		if !organizations
+			return false
+
+		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations) || ins.applicant is Meteor.userId())
+			return true
+		return false
+
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -314,3 +335,10 @@ Template.instance_button.events
 	'click .btn-suggestion-toggle': (event, template)->
 		$(".instance-wrapper .instance-view").addClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
+
+	'click .btn-instance-remind': (event, template) ->
+		#判断是否为欠费工作区
+		if WorkflowManager.isArrearageSpace()
+			toastr.error(t("spaces_isarrearageSpace"));
+			return;
+		Modal.show('remind_modal')

@@ -494,5 +494,11 @@
 	"instance_distribute_success": "文件分发成功",
 	"instance_no_add_permission": "__actiontype__未成功。以下用户没有新建此申请单的权限：__usernames__",
 
-	"instance_workflow_chart_ie_warning": "暂不支持在IE中查看流程图，请在客户端软件或chrome上执行该操作。"
+	"instance_workflow_chart_ie_warning": "暂不支持在IE中查看流程图，请在客户端软件或chrome上执行该操作。",
+
+	"instance_remind_title": "催办",
+	"instance_remind_select_users": "催办对象",
+	"instance_remind_count": "催办次数",
+	"instance_remind_deadline": "办结时限",
+	"instance_remind_success": "催办成功"
 }

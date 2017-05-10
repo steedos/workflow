@@ -479,5 +479,11 @@
 	"instance_distribute_success": "Distribute success",
 	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
 
-	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome."
+	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome.",
+
+	"instance_remind_title": "Remind",
+	"instance_remind_select_users": "Users",
+	"instance_remind_count": "Times",
+	"instance_remind_deadline": "Deadline",
+	"instance_remind_success": "Remind successfully"
 }
