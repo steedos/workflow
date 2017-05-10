@@ -21,6 +21,10 @@ RecordsQHD.test = () ->
 
 RecordsQHD.scheduleJobMaps = {}
 
+RecordsQHD.run = ()->
+	RecordsQHD.instanceToArchive();
+	RecordsQHD.instanceToContracts();
+
 RecordsQHD.instanceToArchive = ()->
 
 	spaces = RecordsQHD.settings_records_qhd.spaces
@@ -61,11 +65,12 @@ RecordsQHD.instanceToArchive = ()->
 
 	instancesToArchive.sendNonContractInstances(to_archive_api)
 
-RecordsQHD.instanceToContracts = ()->
+RecordsQHD.instanceToContracts = (submit_date_start, submit_date_end, spaces)->
 
 	console.time "RecordsQHD.instanceToContracts"
 
-	spaces = RecordsQHD.settings_records_qhd.spaces
+	if !spaces
+		spaces = RecordsQHD.settings_records_qhd.spaces
 
 	to_contracts_sett = RecordsQHD.settings_records_qhd.to_contracts
 
@@ -88,11 +93,13 @@ RecordsQHD.instanceToContracts = ()->
 		return
 
 
-	instancesToContracts = new InstancesToContracts(spaces, contracts_server, flows)
+	instancesToContracts = new InstancesToContracts(spaces, contracts_server, flows, submit_date_start, submit_date_end)
 
-	instancesToContracts.sendContractInstances(api);
+	ret = instancesToContracts.sendContractInstances(api);
 
 	console.timeEnd "RecordsQHD.instanceToContracts"
+
+	return ret;
 
 RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 
@@ -112,4 +119,4 @@ RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 		RecordsQHD.scheduleJobMaps[name] = schedule.scheduleJob recurrenceRule, fun
 
 if RecordsQHD.settings_records_qhd?.recurrenceRule
-	RecordsQHD.startScheduleJob "RecordsQHD.instanceToArchive", RecordsQHD.settings_records_qhd.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.instanceToArchive)
+	RecordsQHD.startScheduleJob "RecordsQHD.instanceToArchive", RecordsQHD.settings_records_qhd?.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.run)

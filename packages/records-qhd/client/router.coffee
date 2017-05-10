@@ -24,8 +24,8 @@ workflowSpaceRoutes = FlowRouter.group
 # 		this.register 'flows', Meteor.subscribe("flows", params.spaceId)
 
 
-workflowSpaceRoutes.route '/to_contracts',
+workflowSpaceRoutes.route '/sync_contracts',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
-		BlazeLayout.render 'recordsQHDLayout',
-			main: "toContracts"
+		BlazeLayout.render 'adminLayout',
+			main: "recordsQHDSyncContracts"
