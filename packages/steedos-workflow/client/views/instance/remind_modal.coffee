@@ -90,16 +90,20 @@ Template.remind_modal.events
 		remind_deadline = AutoForm.getFieldValue("remind_deadline", "instance_remind_deadline")
 
 		if _.isEmpty(remind_users)
+			toastr.error TAPi18n.__('instance_remind_need_remind_users')
 			return
 
 		if _.isEmpty(remind_count)
+			toastr.error TAPi18n.__('instance_remind_need_remind_count')
 			return
 
 		if _.isEmpty(remind_deadline)
+			toastr.error TAPi18n.__('instance_remind_need_remind_deadline')
 			return
 
 		remind_count = parseInt(remind_count)
 		if remind_count < 1
+			toastr.error TAPi18n.__('instance_remind_invalid_remind_count')
 			return
 
 		if template.data.action_type isnt "admin"
