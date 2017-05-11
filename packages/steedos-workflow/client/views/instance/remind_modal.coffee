@@ -7,9 +7,22 @@ Template.remind_modal.helpers
 		last_trace = _.last(ins.traces)
 		users_id = new Array
 		users = new Array
-		_.each last_trace.approves, (ap)->
-			users_id.push(ap.user)
-			users.push({id: ap.user, name: ap.user_name})
+
+		if this.action_type is 'admin'
+			_.each last_trace.approves, (ap)->
+				if ap.is_finished isnt true
+					users_id.push(ap.user)
+					users.push({id: ap.user, name: ap.user_name})
+		else if this.action_type is 'applicant'
+			_.each last_trace.approves, (ap)->
+				if ap.is_finished isnt true and ap.type is undefined
+					users_id.push(ap.user)
+					users.push({id: ap.user, name: ap.user_name})
+		else if this.action_type is 'cc'
+			_.each last_trace.approves, (ap)->
+				if ap.is_finished isnt true and ap.type is 'cc'
+					users_id.push(ap.user)
+					users.push({id: ap.user, name: ap.user_name})
 
 		data = {
 			value: users
@@ -76,8 +89,24 @@ Template.remind_modal.events
 		remind_count = $('#instance_remind_count').val()
 		remind_deadline = AutoForm.getFieldValue("remind_deadline", "instance_remind_deadline")
 
+		if _.isEmpty(remind_users)
+			return
+
+		if _.isEmpty(remind_count)
+			return
+
+		if _.isEmpty(remind_deadline)
+			return
+
+		remind_count = parseInt(remind_count)
+		if remind_count < 1
+			return
+
+		if template.data.action_type isnt "admin"
+			remind_count = 1
+
 		$("body").addClass("loading")
-		Meteor.call 'instance_remind', remind_users, parseInt(remind_count), remind_deadline, Session.get('instanceId'), (err, result)->
+		Meteor.call 'instance_remind', remind_users, remind_count, remind_deadline, Session.get('instanceId'), (err, result)->
 			$("body").removeClass("loading")
 			if err
 				toastr.error TAPi18n.__(err.reason)

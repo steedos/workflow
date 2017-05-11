@@ -485,5 +485,9 @@
 	"instance_remind_select_users": "Users",
 	"instance_remind_count": "Times",
 	"instance_remind_deadline": "Deadline",
-	"instance_remind_success": "Remind successfully"
+	"instance_remind_success": "Remind successfully",
+	"instance_remind_need_remind_users": "Need users",
+	"instance_remind_need_remind_count": "Need times",
+	"instance_remind_need_remind_deadline": "Need deadline",
+	"instance_remind_invalid_remind_count": "Times can not less than 1"
 }

@@ -204,6 +204,18 @@ Template.instance_button.helpers
 
 		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations) || ins.applicant is Meteor.userId())
 			return true
+
+
+		# 传阅出去的申请单如果有还未处理的也可催办
+		cc_approves_not_finished = new Array
+		_.each ins.traces, (t)->
+			_.each t.approves, (ap)->
+				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
+					cc_approves_not_finished.push(ap)
+
+		if not _.isEmpty(cc_approves_not_finished)
+			return true
+
 		return false
 
 
@@ -339,19 +351,28 @@ Template.instance_button.events
 	'click .btn-instance-remind': (event, template) ->
 		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"));
-			return;
+			toastr.error(t("spaces_isarrearageSpace"))
+			return
 
 		param = {}
-		ins = WorkflowManager.getInstance();
-		space = db.spaces.findOne(ins.space);
-		fl = db.flows.findOne({'_id': ins.flow});
-		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
-		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		ins = WorkflowManager.getInstance()
+		space = db.spaces.findOne(ins.space)
+		fl = db.flows.findOne({'_id': ins.flow})
+		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()})
+		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch()
+		# 传阅出去的申请单如果有还未处理的也可催办
+		cc_approves_not_finished = new Array
+		_.each ins.traces, (t)->
+			_.each t.approves, (ap)->
+				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
+					cc_approves_not_finished.push(ap)
+
 		if space.admins.contains(Meteor.userId()) or WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
 			param.action_type = "admin"
 		else if ins.applicant is Meteor.userId()
 			param.action_type = "applicant"
+		else if not _.isEmpty(cc_approves_not_finished)
+			param.action_type = "cc"
 
 
 		Modal.show 'remind_modal', param
