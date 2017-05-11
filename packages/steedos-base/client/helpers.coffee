@@ -33,6 +33,8 @@ Steedos.Helpers =
 			return "admin"
 		else if /^\/?springboard\b/.test(path)
 			return "springboard"
+		else if /^\/?dashboard\b/.test(path)
+			return "dashboard"
 		else
 			return ""
 

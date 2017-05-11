@@ -22,29 +22,38 @@ _fieldMap = """
 	}
 """
 
-InstancesToContracts = (spaces, contracts_server, contract_flows) ->
+InstancesToContracts = (spaces, contracts_server, contract_flows, submit_date_start, submit_date_end) ->
 	@spaces = spaces
 	@contracts_server = contracts_server
 	@contract_flows = contract_flows
+	@submit_date_start = submit_date_start
+	@submit_date_end = submit_date_end
 	return
 
 InstancesToContracts.success = (instance)->
 	logger.info("success, name is #{instance.name}, id is #{instance._id}")
-#	db.instances.direct.update({_id: instance._id}, {$set: {is_contract_archived: true}})
+	db.instances.direct.update({_id: instance._id}, {$set: {is_contract_archived: true}})
 
 InstancesToContracts.failed = (instance, error)->
 	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
 	logger.error error
 
 InstancesToContracts::getContractInstances = ()->
-	return db.instances.find({
+
+	query = {
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
-#		is_archived: false,
 		is_deleted: false,
 		state: "completed",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
-	});
+	}
+
+	if @submit_date_start && @submit_date_end
+		query.submit_date = {$gte: @submit_date_start, $lte: @submit_date_end}
+	else
+		query.is_contract_archived = {$ne: true}
+
+	return db.instances.find(query);
 
 
 _minxiInstanceData = (formData, instance) ->
@@ -129,15 +138,33 @@ _minxiInstanceData = (formData, instance) ->
 
 InstancesToContracts::sendContractInstances = (api, callback)->
 
+	ret = {count:0, successCount: 0, instances: []}
+
 	that = @
-
-
 
 	instances = @getContractInstances()
 
+	successCount = 0
+
 	instances.forEach (instance)->
 		url = that.contracts_server + api + '?externalId=' + instance._id
-		InstancesToContracts.sendContractInstance url, instance
+
+		success = InstancesToContracts.sendContractInstance url, instance
+
+		r = {_id: instance._id, name: instance.name, applicant_name: instance.applicant_name, submit_date: instance.submit_date, is_contract_archived: true}
+
+		if success
+			successCount++
+		else
+			r.is_contract_archived = false
+
+		ret.instances.push r
+
+	ret.count = instances.count()
+
+	ret.successCount = successCount
+
+	return ret
 
 
 
@@ -157,5 +184,7 @@ InstancesToContracts.sendContractInstance = (url, instance, callback) ->
 
 	if httpResponse.statusCode == 200
 		InstancesToContracts.success instance
+		return true
 	else
 		InstancesToContracts.failed instance, httpResponse
+		return false
