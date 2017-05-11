@@ -11,13 +11,16 @@
                 <div class="modal-body">
                     <div class="modal-zoom">
                         <div class="form-group">
-                            {{#autoForm id='instance_remind_select_user' schema=select_user_fields doc=select_user_values }}
+
+                            <!-- {{#autoForm id='instance_remind_select_user' schema=select_user_fields doc=select_user_values }}
                                   {{> afFormGroup name="remind_users"}}
-                            {{/autoForm}}
+                            {{/autoForm}} -->
+                            <label for="instance_remind_select_users" class="control-label">{{_ 'instance_remind_select_users'}}</label>
+                            {{>afSelectUser user_context}}
                         </div>
                         <div class="form-group">
                             <label for="instance_remind_count" class="control-label">{{_ 'instance_remind_count'}}</label>
-                            <input type="number" id="instance_remind_count" class="form-control">
+                            <input type="number" id="instance_remind_count" value="1" class="form-control" disabled="{{#if disabled}}disabled{{/if}}">
                         </div>
                         <div class="form-group">
                             {{#autoForm id='instance_remind_deadline' schema=deadline_fields doc=deadline_values }}

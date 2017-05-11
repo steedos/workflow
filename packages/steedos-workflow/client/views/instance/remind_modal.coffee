@@ -1,20 +1,33 @@
 Template.remind_modal.helpers
-	select_user_fields: ()->
-		return new SimpleSchema({
-			remind_users: {
-				autoform: {
-					type: "selectuser",
-					multiple: true,
-					spaceId: Session.get('spaceId')
-				},
-				optional: true,
-				type: [String],
-				label: TAPi18n.__('instance_remind_select_users')
-			}
-		})
+	user_context: ()->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
 
-	select_user_values: ()->
-		return {}
+		last_trace = _.last(ins.traces)
+		users_id = new Array
+		users = new Array
+		_.each last_trace.approves, (ap)->
+			users_id.push(ap.user)
+			users.push({id: ap.user, name: ap.user_name})
+
+		data = {
+			value: users
+			dataset: {
+				showOrg: false,
+				multiple: true,
+				userOptions: users_id,
+				values: users_id.toString()
+			},
+			name: 'instance_remind_select_users',
+			atts: {
+				name: 'instance_remind_select_users',
+				id: 'instance_remind_select_users',
+				class: 'selectUser form-control'
+			}
+		}
+
+		return data
 
 	deadline_fields: ()->
 		if Steedos.isAndroidOrIOS()
@@ -46,13 +59,20 @@ Template.remind_modal.helpers
 	deadline_values: ()->
 		return {}
 
+	disabled: ()->
+		if this.action_type isnt "admin"
+			return true
+
+		return false
+
 Template.remind_modal.onRendered ()->
 	console.log "remind_modal onRendered"
 	$("#remind_modal .modal-body").css("max-height", Steedos.getModalMaxHeight())
 	
 Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->
-		remind_users = AutoForm.getFieldValue("remind_users", "instance_remind_select_user")
+		values = $("#instance_remind_select_users")[0].dataset.values
+		remind_users = if values then values.split(",") else []
 		remind_count = $('#instance_remind_count').val()
 		remind_deadline = AutoForm.getFieldValue("remind_deadline", "instance_remind_deadline")
 

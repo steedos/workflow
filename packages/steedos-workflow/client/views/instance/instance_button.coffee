@@ -341,4 +341,17 @@ Template.instance_button.events
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
-		Modal.show('remind_modal')
+
+		param = {}
+		ins = WorkflowManager.getInstance();
+		space = db.spaces.findOne(ins.space);
+		fl = db.flows.findOne({'_id': ins.flow});
+		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
+		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		if space.admins.contains(Meteor.userId()) or WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
+			param.action_type = "admin"
+		else if ins.applicant is Meteor.userId()
+			param.action_type = "applicant"
+
+
+		Modal.show 'remind_modal', param
