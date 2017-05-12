@@ -74,7 +74,9 @@ db.space_users._simpleSchema = new SimpleSchema
 			omit: true
 	mobile: 
 		type: String,
-		optional: true
+		optional: true,
+		autoform:
+			readonly: true
 	work_phone:
 		type: String,
 		optional: true
@@ -253,6 +255,11 @@ if (Meteor.isServer)
 				space: $ne: doc.space
 			}, { $set: name: doc.name }, multi: true
 
+		if modifier.$set.position
+			db.users.direct.update {_id: doc.user},
+				$set:
+					position: doc.position
+		
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
 				organizationObj = db.organizations.findOne(org)
