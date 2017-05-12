@@ -23,7 +23,6 @@ Meteor.startup ->
 			now = new Date
 			hour_time = 1*60*60*1000
 			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}).forEach (ins)->
-				console.log ins.name
 				priority = ins.values.priority
 
 				last_trace = _.last(ins.traces)
@@ -86,8 +85,6 @@ Meteor.startup ->
 								params.deadline = moment(deadline).format(moment_format)
 
 							if user and user.mobile
-								console.log "===>SMSQueue.send: #{user.mobile}"
-								console.log params
 								# 发送手机短信
 								SMSQueue.send({
 									Format: 'JSON',
