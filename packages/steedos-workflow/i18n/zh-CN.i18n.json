@@ -498,11 +498,14 @@
 
 	"instance_remind_title": "催办",
 	"instance_remind_select_users": "催办对象",
-	"instance_remind_count": "催办次数",
+	"instance_remind_count": "催办方式",
 	"instance_remind_deadline": "办结时限",
 	"instance_remind_success": "催办成功",
 	"instance_remind_need_remind_users": "缺少催办对象",
-	"instance_remind_need_remind_count": "缺少催办次数",
+	"instance_remind_need_remind_count": "缺少催办方式",
 	"instance_remind_need_remind_deadline": "缺少办结时限",
-	"instance_remind_invalid_remind_count": "催办次数最小为1"
+	"instance_remind_count_options": {
+		"single": "单次提醒",
+		"multi": "多次提醒"
+	}
 }

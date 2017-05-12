@@ -1950,24 +1950,31 @@ uuflowManager.setRemindInfo = (values, approve)->
 		else if priority is "紧急" or priority is "特急"
 			remind_date = new Date(start_time + 4*hour_time)
 			ins = db.instances.findOne({_id: approve.instance}, {fields: {name: 1}})
-			user = db.users.findOne({_id: approve.user}, {fields: {mobile: 1}})
-			params = {
-				instance: ins.name,
-				deadline: moment(deadline).format('MM-DD HH:mm')
-			}
-			if user and user.mobile
-				# 发送手机短信
-				SMSQueue.send({
-					Format: 'JSON',
-					Action: 'SingleSendSms',
-					ParamString: JSON.stringify(params),
-					RecNum: user.mobile,
-					SignName: 'OA系统',
-					TemplateCode: 'SMS_66340019'
-				})
+			uuflowManager.sendRemindSMS ins.name, deadline, [approve.user]
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
 		approve.reminded_count = 0
 
 	return
+
+# 发送催办短信
+uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
+	check ins_name, String
+	check deadline, Date
+	check users_id, Array
+
+	paramString = JSON.stringify({
+		instance: ins_name,
+		deadline: moment(deadline).format('MM-DD HH:mm')
+	})
+	db.users.find({_id: {$in: users_id}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
+		# 发送手机短信
+		SMSQueue.send({
+			Format: 'JSON',
+			Action: 'SingleSendSms',
+			ParamString: paramString,
+			RecNum: user.mobile,
+			SignName: 'OA系统',
+			TemplateCode: 'SMS_66340019'
+		})

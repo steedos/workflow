@@ -38,6 +38,9 @@ Meteor.startup ->
 							reminded_count = ap.reminded_count
 							remind_date = ap.remind_date
 							remind_datetime = ap.remind_date.getTime()
+							deadline = ap.deadline
+							if ap.manual_deadline
+								deadline = ap.manual_deadline
 							# （1）“普通”：如三个工作日内未处理，系统自动发短信提醒：办结时限为二日内；
 							#  如二日后仍未处理，系统每天自动发短信提醒，办结时限为一日内。
 							if priority is "普通"
@@ -59,28 +62,28 @@ Meteor.startup ->
 									ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
 								else if reminded_count >= 1
 									ap.reminded_count += 1
-									if (now - ap.deadline) > 0  or (now - ap.deadline) < -4*hour_time # 超过了办结时限或者距离办结时限半日内
+									if (now - deadline) > 0  or (now - deadline) < -4*hour_time # 超过了办结时限或者距离办结时限半日内
 										ap.remind_date = new Date(remind_datetime + 1*hour_time)
 									else
 										Steedos.caculateWorkingTime(remind_date, 1)
-								params.deadline = moment(ap.deadline).format(moment_format)
+								params.deadline = moment(deadline).format(moment_format)
 
 							# （3）“紧急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如半日内仍未处理，系统每半天自动发短信提醒：办结时限不变；距离办结时限为半日时，每半个工作日提醒四次；超过办结时限后仍然按照每半日四次提醒。
 							else if priority is "紧急"
 								ap.reminded_count += 1
-								if (now - ap.deadline) > 0  or (now - ap.deadline) < -4*hour_time # 超过了办结时限或者距离办结时限半日内
+								if (now - deadline) > 0  or (now - deadline) < -4*hour_time # 超过了办结时限或者距离办结时限半日内
 									ap.remind_date = new Date(remind_datetime + 1*hour_time)
 								else
 									ap.remind_date = new Date(remind_datetime + 4*hour_time)
-								params.deadline = moment(ap.deadline).format(moment_format)
+								params.deadline = moment(deadline).format(moment_format)
 
 							# （4）“特急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如半日内仍未处理，系统每半个工作日提醒四次：办结时限不变；超过办结时限后仍然按照每半日四次提醒。
 							else if priority is "特急"
 								ap.reminded_count += 1
 								ap.remind_date = new Date(remind_datetime + 1*hour_time)
-								params.deadline = moment(ap.deadline).format(moment_format)
+								params.deadline = moment(deadline).format(moment_format)
 
 							if user and user.mobile
 								console.log "===>SMSQueue.send: #{user.mobile}"

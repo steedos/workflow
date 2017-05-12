@@ -5,6 +5,8 @@ Template.remind_modal.helpers
 			return false
 
 		last_trace = _.last(ins.traces)
+		this.trace_id = last_trace._id
+
 		users_id = new Array
 		users = new Array
 
@@ -78,6 +80,15 @@ Template.remind_modal.helpers
 
 		return false
 
+	remind_count_options: ()->
+		return [{
+			value: "single",
+			name: TAPi18n.__("instance_remind_count_options.single")
+		}, {
+			value: "multi",
+			name: TAPi18n.__("instance_remind_count_options.multi")
+		}]
+
 Template.remind_modal.onRendered ()->
 	console.log "remind_modal onRendered"
 	$("#remind_modal .modal-body").css("max-height", Steedos.getModalMaxHeight())
@@ -93,24 +104,19 @@ Template.remind_modal.events
 			toastr.error TAPi18n.__('instance_remind_need_remind_users')
 			return
 
-		if _.isEmpty(remind_count)
+		if not remind_count
 			toastr.error TAPi18n.__('instance_remind_need_remind_count')
 			return
 
-		if _.isEmpty(remind_deadline)
+		if not remind_deadline
 			toastr.error TAPi18n.__('instance_remind_need_remind_deadline')
 			return
 
-		remind_count = parseInt(remind_count)
-		if remind_count < 1
-			toastr.error TAPi18n.__('instance_remind_invalid_remind_count')
-			return
-
 		if template.data.action_type isnt "admin"
-			remind_count = 1
+			remind_count = 'single'
 
 		$("body").addClass("loading")
-		Meteor.call 'instance_remind', remind_users, remind_count, remind_deadline, Session.get('instanceId'), (err, result)->
+		Meteor.call 'instance_remind', remind_users, remind_count, remind_deadline, Session.get('instanceId'), template.data.trace_id, (err, result)->
 			$("body").removeClass("loading")
 			if err
 				toastr.error TAPi18n.__(err.reason)
