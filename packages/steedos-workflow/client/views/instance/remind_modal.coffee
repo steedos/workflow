@@ -4,27 +4,24 @@ Template.remind_modal.helpers
 		if !ins
 			return false
 
-		last_trace = _.last(ins.traces)
-		this.trace_id = last_trace._id
-
 		users_id = new Array
 		users = new Array
 
-		if this.action_type is 'admin'
+		if this.action_types.includes 'admin' or this.action_types.includes 'applicant'
+			last_trace = _.last(ins.traces)
 			_.each last_trace.approves, (ap)->
-				if ap.is_finished isnt true
-					users_id.push(ap.user)
-					users.push({id: ap.user, name: ap.user_name})
-		else if this.action_type is 'applicant'
-			_.each last_trace.approves, (ap)->
-				if ap.is_finished isnt true and ap.type is undefined
-					users_id.push(ap.user)
-					users.push({id: ap.user, name: ap.user_name})
-		else if this.action_type is 'cc'
-			_.each last_trace.approves, (ap)->
-				if ap.is_finished isnt true and ap.type is 'cc'
-					users_id.push(ap.user)
-					users.push({id: ap.user, name: ap.user_name})
+				if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'
+					users_id.push ap.user
+					users.push {id: ap.user, name: ap.user_name}
+
+			this.trace_id = last_trace._id
+
+		else if this.action_types.includes 'cc'
+			_.each ins.traces, (t)->
+				_.each t.approves, (ap)->
+					if ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is Meteor.userId()
+						users_id.push(ap.user)
+						users.push({id: ap.user, name: ap.user_name})
 
 		data = {
 			value: users
@@ -75,7 +72,7 @@ Template.remind_modal.helpers
 		return {}
 
 	disabled: ()->
-		if this.action_type isnt "admin"
+		if not this.action_types.includes("admin")
 			return true
 
 		return false
@@ -112,11 +109,11 @@ Template.remind_modal.events
 			toastr.error TAPi18n.__('instance_remind_need_remind_deadline')
 			return
 
-		if template.data.action_type isnt "admin"
+		if template.data.action_types isnt "admin"
 			remind_count = 'single'
 
 		$("body").addClass("loading")
-		Meteor.call 'instance_remind', remind_users, remind_count, remind_deadline, Session.get('instanceId'), template.data.trace_id, (err, result)->
+		Meteor.call 'instance_remind', remind_users, remind_count, remind_deadline, Session.get('instanceId'), action_types, template.data.trace_id || "", (err, result)->
 			$("body").removeClass("loading")
 			if err
 				toastr.error TAPi18n.__(err.reason)

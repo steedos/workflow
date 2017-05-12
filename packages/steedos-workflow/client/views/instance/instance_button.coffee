@@ -202,8 +202,13 @@ Template.instance_button.helpers
 		if !organizations
 			return false
 
-		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations) || ins.applicant is Meteor.userId())
-			return true
+		this.remind_action_types = []
+
+		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
+			this.remind_action_types.push 'admin'
+
+		if Session.get("box") == "monitor" && ins.state == "pending" && ins.applicant is Meteor.userId()
+			this.remind_action_types.push 'applicant'
 
 
 		# 传阅出去的申请单如果有还未处理的也可催办
@@ -211,9 +216,12 @@ Template.instance_button.helpers
 		_.each ins.traces, (t)->
 			_.each t.approves, (ap)->
 				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
-					cc_approves_not_finished.push(ap)
+					cc_approves_not_finished.push(ap._id)
 
 		if not _.isEmpty(cc_approves_not_finished)
+			this.remind_action_types.push 'cc'
+
+		if this.remind_action_types.includes('admin') || this.remind_action_types.includes('applicant') || this.remind_action_types.includes('cc')
 			return true
 
 		return false
@@ -354,25 +362,5 @@ Template.instance_button.events
 			toastr.error(t("spaces_isarrearageSpace"))
 			return
 
-		param = {}
-		ins = WorkflowManager.getInstance()
-		space = db.spaces.findOne(ins.space)
-		fl = db.flows.findOne({'_id': ins.flow})
-		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()})
-		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch()
-		# 传阅出去的申请单如果有还未处理的也可催办
-		cc_approves_not_finished = new Array
-		_.each ins.traces, (t)->
-			_.each t.approves, (ap)->
-				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
-					cc_approves_not_finished.push(ap)
-
-		if space.admins.contains(Meteor.userId()) or WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
-			param.action_type = "admin"
-		else if ins.applicant is Meteor.userId()
-			param.action_type = "applicant"
-		else if not _.isEmpty(cc_approves_not_finished)
-			param.action_type = "cc"
-
-
+		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
