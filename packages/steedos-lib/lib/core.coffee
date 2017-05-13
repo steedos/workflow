@@ -71,7 +71,7 @@ if Meteor.isClient
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
 
 		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
-		if accountZoomValue.name
+		if accountZoomValue.name && !Session.get("instancePrint")
 			$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
