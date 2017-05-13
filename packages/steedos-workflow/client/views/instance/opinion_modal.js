@@ -25,7 +25,7 @@ Template.opinion_modal.events({
         var oldVal = $("#suggestion").val();
         var selectedVal = event.currentTarget.dataset.opinion;
         selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).focus();
+        $("#suggestion").val(oldVal + selectedVal).trigger("input").focus();
         Modal.hide(template);
     },
 

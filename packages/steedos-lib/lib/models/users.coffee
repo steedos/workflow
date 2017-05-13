@@ -28,6 +28,9 @@ db.users._simpleSchema = new SimpleSchema
 		optional: true,
 		autoform:
 			readonly: true
+	position:
+		type: String,
+		optional: true
 	locale: 
 		type: String,
 		optional: true,
@@ -213,6 +216,8 @@ if Meteor.isServer
 			su_set.name = doc.name
 		if modifier.$set.mobile or modifier.$set['phone.verified'] is true
 			su_set.mobile = doc.mobile
+		if modifier.$set.position
+			su_set.position = doc.position
 		if not _.isEmpty(su_set)
 			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
 
@@ -232,6 +237,7 @@ if Meteor.isServer
 				steedos_id: 1
 				name: 1
 				company: 1
+				position: 1
 				mobile: 1
 				locale: 1
 				username: 1
