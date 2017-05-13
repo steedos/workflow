@@ -148,6 +148,7 @@
 	"users_username": "用户名",
 	"users_email": "邮件",
 	"users_company": "公司",
+	"users_position": "职务",
 	"users_mobile": "手机",
 	"users_locale": "语言",
 	"users_timezone": "时区",
