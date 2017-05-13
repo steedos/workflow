@@ -7,7 +7,7 @@ Template.remind_modal.helpers
 		users_id = new Array
 		users = new Array
 
-		if this.action_types.includes 'admin' or this.action_types.includes 'applicant'
+		if this.action_types.includes('admin') or this.action_types.includes('applicant')
 			last_trace = _.last(ins.traces)
 			_.each last_trace.approves, (ap)->
 				if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'
@@ -16,7 +16,7 @@ Template.remind_modal.helpers
 
 			this.trace_id = last_trace._id
 
-		else if this.action_types.includes 'cc'
+		else if this.action_types.includes('cc')
 			_.each ins.traces, (t)->
 				_.each t.approves, (ap)->
 					if ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is Meteor.userId()
@@ -109,7 +109,9 @@ Template.remind_modal.events
 			toastr.error TAPi18n.__('instance_remind_need_remind_deadline')
 			return
 
-		if template.data.action_types isnt "admin"
+		action_types = template.data.action_types
+
+		if not action_types.includes("admin")
 			remind_count = 'single'
 
 		$("body").addClass("loading")

@@ -7,6 +7,7 @@ Meteor.methods
 		check action_types, Array
 		check trace_id, String
 
+		current_user_id = this.userId
 		last_remind_users = new Array
 		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1, traces: 1}})
 		if action_types.includes('admin') or action_types.includes('applicant')
@@ -28,7 +29,7 @@ Meteor.methods
 		else if action_types.includes('cc')
 			_.each ins.traces, (t)->
 				_.each t.approves, (ap)->
-					if remind_users.includes(ap.user) and ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is this.userId
+					if remind_users.includes(ap.user) and ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is current_user_id
 						last_remind_users.push ap.user
 
 		uuflowManager.sendRemindSMS ins.name, remind_deadline, last_remind_users

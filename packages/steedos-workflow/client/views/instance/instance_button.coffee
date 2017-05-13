@@ -218,7 +218,7 @@ Template.instance_button.helpers
 				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
 					cc_approves_not_finished.push(ap._id)
 
-		if not _.isEmpty(cc_approves_not_finished)
+		if (Session.get("box") == "monitor" or Session.get("box") == "inbox") and not _.isEmpty(cc_approves_not_finished)
 			this.remind_action_types.push 'cc'
 
 		if this.remind_action_types.includes('admin') || this.remind_action_types.includes('applicant') || this.remind_action_types.includes('cc')
