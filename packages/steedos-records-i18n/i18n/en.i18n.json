@@ -1,0 +1,14 @@
+{
+	"records_app_title": "Steedos Records",
+	"records_app_version":"Version",
+	"records_home_title":"Home",
+	"records_home_welcome":"Welcome to Steedos Records.",
+	"records_info_records":"Records",
+	"records_records_repository": "Records Repository",
+	"records_info_settings":"Settings",
+	"records_records_types":"Records Types",
+	"records_add_types":"Add Records Types",
+	"records_edit_types":"Edit Records Types",
+	"records_search_records":"Search",
+	"records_info_search":"search..."
+}

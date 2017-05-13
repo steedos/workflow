@@ -150,3 +150,6 @@ steedos:records-qhd
 
 steedos:accounts-phone
 steedos:accounts
+
+steedos:records
+steedos:records-i18n
