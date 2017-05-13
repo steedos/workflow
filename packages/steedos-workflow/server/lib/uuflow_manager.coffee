@@ -1968,7 +1968,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 		instance: ins_name,
 		deadline: moment(deadline).format('MM-DD HH:mm')
 	})
-	db.users.find({_id: {$in: users_id}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
+	db.users.find({_id: {$in: _.uniq(users_id)}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
 		# 发送手机短信
 		SMSQueue.send({
 			Format: 'JSON',

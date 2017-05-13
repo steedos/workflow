@@ -7,7 +7,14 @@ Template.remind_modal.helpers
 		users_id = new Array
 		users = new Array
 
-		if this.action_types.includes('admin') or this.action_types.includes('applicant')
+		if this.action_types.includes('admin')
+			_.each ins.traces, (t)->
+				_.each t.approves, (ap)->
+					if ap.is_finished isnt true and ap.type isnt 'forward' and ap.type isnt 'distribute'
+						users_id.push(ap.user)
+						users.push({id: ap.user, name: ap.user_name})
+
+		else if this.action_types.includes('applicant')
 			last_trace = _.last(ins.traces)
 			_.each last_trace.approves, (ap)->
 				if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'

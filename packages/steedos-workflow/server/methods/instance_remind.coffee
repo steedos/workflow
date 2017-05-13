@@ -10,21 +10,27 @@ Meteor.methods
 		current_user_id = this.userId
 		last_remind_users = new Array
 		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1, traces: 1}})
-		if action_types.includes('admin') or action_types.includes('applicant')
+		if action_types.includes('admin')
+			if remind_count is 'single'
+				_.each ins.traces, (t)->
+					_.each t.approves, (ap)->
+						if remind_users.includes(ap.user) and ap.is_finished isnt true
+							last_remind_users.push ap.user
+			else if remind_count is 'multi'
+				_.each ins.traces, (t)->
+					_.each t.approves, (ap)->
+						if remind_users.includes(ap.user) and ap.is_finished isnt true
+							last_remind_users.push ap.user
+							ap.manual_deadline = remind_deadline
+				if not _.isEmpty(last_remind_users)
+					db.instances.update({_id: instance_id}, {$set: {'traces': ins.traces}})
+
+		else if action_types.includes('applicant')
 			trace = _.find ins.traces, (t)->
 				return t._id is trace_id
-
-			if remind_count is 'single'
-				_.each trace.approves, (ap)->
-					if remind_users.includes(ap.user) and ap.is_finished isnt true
-						last_remind_users.push ap.user
-			else if remind_count is 'multi'
-				_.each trace.approves, (ap)->
-					if remind_users.includes(ap.user) and ap.is_finished isnt true
-						last_remind_users.push ap.user
-						ap.manual_deadline = remind_deadline
-				if not _.isEmpty(last_remind_users)
-					db.instances.update({_id: instance_id, 'traces._id': trace_id}, {$set: {'traces.$.approves': trace.approves}})
+			_.each trace.approves, (ap)->
+				if remind_users.includes(ap.user) and ap.is_finished isnt true
+					last_remind_users.push ap.user
 
 		else if action_types.includes('cc')
 			_.each ins.traces, (t)->
