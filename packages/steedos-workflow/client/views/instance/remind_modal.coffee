@@ -11,15 +11,17 @@ Template.remind_modal.helpers
 			_.each ins.traces, (t)->
 				_.each t.approves, (ap)->
 					if ap.is_finished isnt true and ap.type isnt 'forward' and ap.type isnt 'distribute'
-						users_id.push(ap.user)
-						users.push({id: ap.user, name: ap.user_name})
+						if not users_id.includes(ap.user) # 去重
+							users_id.push(ap.user)
+							users.push {id: ap.user, name: ap.user_name}
 
 		else if this.action_types.includes('applicant')
 			last_trace = _.last(ins.traces)
 			_.each last_trace.approves, (ap)->
 				if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'
-					users_id.push ap.user
-					users.push {id: ap.user, name: ap.user_name}
+					if not users_id.includes(ap.user) # 去重
+						users_id.push ap.user
+						users.push {id: ap.user, name: ap.user_name}
 
 			this.trace_id = last_trace._id
 
@@ -27,8 +29,9 @@ Template.remind_modal.helpers
 			_.each ins.traces, (t)->
 				_.each t.approves, (ap)->
 					if ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is Meteor.userId()
-						users_id.push(ap.user)
-						users.push({id: ap.user, name: ap.user_name})
+						if not users_id.includes(ap.user) # 去重
+							users_id.push(ap.user)
+							users.push {id: ap.user, name: ap.user_name}
 
 		data = {
 			value: users
