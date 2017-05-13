@@ -129,6 +129,7 @@
 
 textarea.suggestion-control{
     height: auto;
+    padding-right: 24px;
 }
 
 .button-group{
@@ -349,6 +350,9 @@ textarea {
       @media (max-width: 768px){
         .form-group{
           margin-bottom:0px;
+          &.opinion-field{
+            margin-bottom:10px;
+          }
         }
       }
     }
@@ -474,7 +478,7 @@ textarea {
     border-collapse: collapse;
     border: 2px solid @instanceTableStyleBorderColor;
     table-layout: fixed;
-    
+
     tbody, tr{
       border-color: inherit;
     }
@@ -761,7 +765,7 @@ textarea {
       }
     }
   }
-  
+
   .cc-label{
     color: #999;
     font-weight: 400;

@@ -88,15 +88,17 @@ Template.instance_list.helpers
 		return "display: none;"
 
 	maxHeight: ->
-		return Template.instance().maxHeight.get() - 55 + 'px'
+		return Template.instance()?.maxHeight.get() + 'px'
 
 	isShowMenu: ->
-		if Session.get("box") == 'inbox'
-			inboxInstances = InstanceManager.getUserInboxInstances();
-			if inboxInstances.length > 0
-				return true
+#		if Session.get("box") == 'inbox'
+#			inboxInstances = InstanceManager.getUserInboxInstances();
+#			if inboxInstances.length > 0
+#				return true
+#
+#		return false;
 
-		return false;
+		return true;
 
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0 && Session.get("box") == "inbox"
@@ -107,16 +109,20 @@ Template.instance_list.onCreated ->
 	self = this;
 
 	self.maxHeight = new ReactiveVar(
-		$(window).height() - 55);
+		$(window).height());
 
 	$(window).resize ->
-		self.maxHeight?.set($(window).height() - 55);
+		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
 Template.instance_list.onRendered ->
 	#dataTable = $(".datatable-instances").DataTable();
 	#dataTable.select();
-	node = $(".workflow-menu");
-	node.maxHeight?.set($(window).height() - 55);
+
+	self = this;
+
+	self.maxHeight?.set($(".instance-list",$(".steedos")).height());
+
+
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
 		$(".instance-list").perfectScrollbar({suppressScrollX: true});

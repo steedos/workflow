@@ -163,7 +163,7 @@ CFDataManager.handerContactModalValueLabel = function () {
         });
 
         valueLabel_div.show();
-        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+        confirmButton.html(confirmButton.prop("title") + "(" + values.length + ")");
     } else {
         confirmButton.html(confirmButton.prop("title"));
         valueLabel_div.hide();
@@ -221,7 +221,7 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
         });
 
         valueLabel_div.show();
-        confirmButton.html(confirmButton.prop("title") + " ( " + values.length + " ) ");
+        confirmButton.html(confirmButton.prop("title") + "(" + values.length + ")");
     } else {
         confirmButton.html(confirmButton.prop("title"));
         valueLabel_div.hide();
@@ -261,21 +261,25 @@ CFDataManager.getChild = function (spaceId, parentId) {
             children: 1,
             childrens: 1,
             sort_no: 1
+        },
+		sort: {
+			sort_no: -1,
+            name: 1
         }
     });
 
 
-    childs.sort(function (p1, p2) {
-        if (p1.sort_no == p2.sort_no) {
-            return p1.name.localeCompare(p2.name);
-        } else {
-            if (p1.sort_no < p2.sort_no) {
-                return 1
-            } else {
-                return -1;
-            }
-        }
-    });
+    // childs.sort(function (p1, p2) {
+    //     if (p1.sort_no == p2.sort_no) {
+    //         return p1.name.localeCompare(p2.name);
+    //     } else {
+    //         if (p1.sort_no < p2.sort_no) {
+    //             return 1
+    //         } else {
+    //             return -1;
+    //         }
+    //     }
+    // });
 
     return childs;
 }

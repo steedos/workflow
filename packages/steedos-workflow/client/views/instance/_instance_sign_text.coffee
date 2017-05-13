@@ -47,7 +47,7 @@ InstanceSignText.helpers =
 
 		approves.forEach (approve) ->
 #			有输入意见 或 最新一条并且用户没有输入过意见
-			if approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
+			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 				approve._display = true
 
 		return approves?.filterProperty("_display", true)

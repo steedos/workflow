@@ -75,6 +75,7 @@
 	"workflow_attachment_download": "Download",
 	"workflow_attachment_view": "View",
 	"workflow_attachment_isReadOnly": "ReadOnly-",
+	"workflow_attachment_versions": "Versions",
 	"workflow_attachment_uploading": "Uploading ",
 	"workflow_attachment_downloading": "Downloading ",
 	"workflow_attachment_officeOnline": "Edit",
@@ -476,5 +477,7 @@
 	"instance_distribute_note": "Distribute the currently selected instance to a new workflow and proceed with the approval process.",
 	"instance_distribute_attachments": "Is distribute attachments.",
 	"instance_distribute_success": "Distribute success",
-	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__"
+	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
+
+	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome."
 }

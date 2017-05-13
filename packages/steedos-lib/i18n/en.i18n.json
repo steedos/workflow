@@ -135,6 +135,7 @@
 	"users_username": "Username",
 	"users_email": "Email",
 	"users_company": "Company",
+	"users_position": "Position",
 	"users_mobile": "Moblie",
 	"users_locale": "Language",
 	"users_timezone": "Timezone",

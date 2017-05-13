@@ -87,7 +87,7 @@ SMS.send = function (options) {
 SMS.phoneTemplates = {
     from: '+972545999999',
     text: function (user, code) {
-        return 'Welcome your invitation code is: ' + code;
+        return '【Steedos】 ' + code + ' is your Steedos verification code.';
     }
 };
 

@@ -306,6 +306,9 @@ Template.instance_button.events
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
+		if Steedos.isIE()
+			toastr.warning t("instance_workflow_chart_ie_warning")
+			return
 		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')
 
 	'click .btn-suggestion-toggle': (event, template)->

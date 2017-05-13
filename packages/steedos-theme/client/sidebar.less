@@ -6,10 +6,15 @@
 		top: 0px;
 		margin-top: 50px;
 		padding-top: 0px;
-	    bottom: 0;
-    	min-height: auto;
+		bottom: 0;
+		min-height: auto;
 		
 		.sidebar {
+
+			.ion{
+				position: relative;
+				top: 1px;
+			}
 
 			.space-switcher .space-name {
 				color: white;
@@ -23,9 +28,9 @@
 				
 				.pull-right-container{
 					position: absolute;
-				    right: 0px;
-				    top: 50%;
-				    margin-top: -7px;
+					right: 0px;
+					top: 50%;
+					margin-top: -7px;
 				}
 			}
 
@@ -72,6 +77,48 @@
 	@media (min-width: 768px){
 		.sidebar-toggle {
 			display: none;
+		}
+	}
+
+	&.sidebar-collapse{
+		.main-sidebar {		
+			.sidebar {
+				.sidebar-menu > li > a {
+					color: #fff;
+				}
+				.sidebar-menu > li > a:hover {
+					color: #fff;
+					background: rgba(0, 0, 0, 0.7);
+				}
+				.sidebar-menu > li:hover > a {
+					background-color: rgba(0, 0, 0, 0.7);
+				}
+				.sidebar-menu > li:hover > a > .pull-right-container{
+					background-color: transparent;
+				}
+				.sidebar-menu > li > a:hover .pull-right-container{
+					background-color: rgba(255, 255, 255, 0);
+				}
+				.sidebar-menu > li > a:active,
+				.sidebar-menu > li > a:focus,
+				.sidebar-menu > li.active > a,
+				.sidebar-menu > li.active > a:hover {
+					color: #fff;
+					background: rgba(0, 0, 0, 0.7);
+				}
+				.sidebar-menu > li.active > a:hover .pull-right-container{
+					background-color: rgba(255, 255, 255, 0);
+				}
+				.sidebar-menu > li > .treeview-menu {
+					background: rgba(44, 59, 65, 0.8);
+				}
+				.sidebar-menu > li > .treeview:hover a {
+					background: rgba(44, 59, 65, 0.8);
+				}
+				.sidebar-menu > li > .treeview-menu {
+					margin-left: 0;
+				}
+			}
 		}
 	}
 }

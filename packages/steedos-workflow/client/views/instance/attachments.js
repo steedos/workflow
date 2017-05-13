@@ -169,6 +169,12 @@ Template.instance_attachment.events({
 		var filename = event.target.dataset.name;
 		var isView = true;
 		NodeManager.editFile(url, filename, isView);
+	},
+	"click [name='ins_attach_preview']": function(event, template){
+		if (event.target.id){
+			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
+			Steedos.openWindow(url);
+		}
 	}
 })
 
@@ -424,6 +430,12 @@ Template.ins_attach_version_modal.events({
 		var filename = event.target.dataset.name;
 		var isView = true;
 		NodeManager.editFile(url, filename, isView);
+	},
+	"click [name='ins_attach_preview']": function(event, template){
+		if (event.target.id){
+			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
+			Steedos.openWindow(url);
+		}
 	}
 })
 

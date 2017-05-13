@@ -355,7 +355,11 @@ Template.profile.events
 					toastr.error(TAPi18n.__(error.error))
 
 	'click .btn-change-phone': (event, template) ->
-		Steedos.openWindow(Steedos.absoluteUrl("/accounts/setup/phone"),'setup_phone')
+		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+
+	'click [name=mobile]': (event, template) ->
+		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+
 
 Meteor.startup ->
 	AutoForm.hooks
