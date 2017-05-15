@@ -105,8 +105,8 @@ Template.instance_list.helpers
 			return true
 		return false
 
-	showTableColumns: ->
-		return Session?.get("tableColumns") || true
+	tableTabular: ->
+		return Session?.get("tableColumns")
 
 Template.instance_list.onCreated ->
 	self = this;
@@ -114,7 +114,21 @@ Template.instance_list.onCreated ->
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
 
+	tableColumns = false
+
+	if $(window).width() < 1441 && $(window).width() > 766
+		tableColumns = true
+
+	Session.set("tableColumns", tableColumns)
+
 	$(window).resize ->
+		tableColumns = false
+
+		if $(window).width() < 1441 && $(window).width() > 766
+			tableColumns = true
+
+		Session.set("tableColumns", tableColumns)
+
 		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
 Template.instance_list.onRendered ->

@@ -1,113 +1,6 @@
 Steedos.subs["InstanceTabular"] = new SubsManager()
 
-
-getInstanceListColumns = () ->
-	defaultColumns = [
-		{
-			data: "name",
-			render: (val, type, doc) ->
-				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
-				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
-				flow_name = WorkflowManager.getFlow(doc.flow)?.name
-				cc_view = "";
-				step_current_name_view = "";
-				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
-				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
-					cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
-					step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
-				else
-					if Session.get("box") != 'draft' && doc.step_current_name
-#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
-						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
-					else
-						step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
-
-				unread = ''
-
-				if Session.get("box") == 'inbox' && doc.is_read == false
-					unread = '<i class="ion ion-record unread"></i>'
-
-				return """
-						<div class='instance-read-bar'>#{unread}</div>
-						<div class='instance-name'>#{doc.name}#{cc_view}
-							<span>#{doc.applicant_name}</span>
-						</div>
-						<div class='instance-detail'>#{step_current_name_view}
-							<span class='instance-modified' title='#{modifiedString}'>#{modifiedFromNow}</span>
-						</div>
-					"""
-		},
-		{
-			data: "modified",
-			visible: false,
-		},
-		{
-			data: "applicant_name",
-			visible: false,
-		},
-		{
-			data: "applicant_organization_name",
-			visible: false,
-		}
-	]
-
-	tableColumns = [
-		{
-			data: "name",
-			render: (val, type, doc) ->
-				cc_view = "";
-				step_current_name_view = "";
-				# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
-				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
-					cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
-
-				unread = ''
-
-				if Session.get("box") == 'inbox' && doc.is_read == false
-					unread = '<i class="ion ion-record unread"></i>'
-
-				return """
-						<div class='instance-read-bar'>#{unread}</div>
-						<div class='instance-name'>#{doc.name}#{cc_view}</div>
-					"""
-		},
-		{
-			data: "applicant_name"
-		},
-		{
-			data: "modified",
-			render: (val, type, doc) ->
-				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
-				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
-				return modifiedFromNow
-		},
-		{
-			data: "flow"
-			render: (val, type, doc) ->
-				flow_name = WorkflowManager.getFlow(doc.flow)?.name
-				step_current_name_view = "";
-				if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
-					step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
-				else
-					if Session.get("box") != 'draft' && doc.step_current_name
-						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
-					else
-						step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
-				return step_current_name_view
-		},
-
-	]
-
-	columns = defaultColumns
-
-	if Session?.get("tableColumns")
-		columns = tableColumns
-
-	return columns;
-
-
-
-TabularTables.instances = new Tabular.Table({
+_instancesListTabular = {
 	name: "instances",
 	collection: db.instances,
 	pub: "instance_tabular",
@@ -120,7 +13,6 @@ TabularTables.instances = new Tabular.Table({
 		if Meteor.isClient
 			if data._id == FlowRouter.current().params.instanceId
 				row.setAttribute("class", "selected")
-	columns: getInstanceListColumns(),
 	dom: "tp",
 	order: [[1, "desc"]]
 	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
@@ -146,4 +38,115 @@ TabularTables.instances = new Tabular.Table({
 		return selector
 	pagingType: "numbers"
 
-});
+}
+
+_tableColumns = [
+	{
+		data: "name",
+		render: (val, type, doc) ->
+			cc_view = "";
+			step_current_name_view = "";
+			# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
+			if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
+				cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
+
+			unread = ''
+
+			if Session.get("box") == 'inbox' && doc.is_read == false
+				unread = '<i class="ion ion-record unread"></i>'
+
+			return """
+						<div class='instance-read-bar'>#{unread}</div>
+						<div class='instance-name'>#{doc.name}#{cc_view}</div>
+					"""
+	},
+	{
+		data: "applicant_name"
+	},{
+		data: "submit_date",
+		render: (val, type, doc) ->
+			return Steedos.momentReactiveFromNow(doc.submit_date);
+	},
+	{
+		data: "modified",
+		render: (val, type, doc) ->
+			return Steedos.momentReactiveFromNow(doc.modified);
+	},
+	{
+		data: "flow"
+		render: (val, type, doc) ->
+			flow_name = WorkflowManager.getFlow(doc.flow)?.name
+			step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
+			return step_current_name_view
+	},{
+		data: "step_current_name"
+	}
+
+]
+
+_defaultColumns = [
+	{
+		data: "name",
+		render: (val, type, doc) ->
+			modifiedString = moment(doc.modified).format('YYYY-MM-DD');
+			modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
+			flow_name = WorkflowManager.getFlow(doc.flow)?.name
+			cc_view = "";
+			step_current_name_view = "";
+			# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
+			if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
+				cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
+				step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
+			else
+				if Session.get("box") != 'draft' && doc.step_current_name
+#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
+					step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
+				else
+					step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
+
+			unread = ''
+
+			if Session.get("box") == 'inbox' && doc.is_read == false
+				unread = '<i class="ion ion-record unread"></i>'
+
+			return """
+						<div class='instance-read-bar'>#{unread}</div>
+						<div class='instance-name'>#{doc.name}#{cc_view}
+							<span>#{doc.applicant_name}</span>
+						</div>
+						<div class='instance-detail'>#{step_current_name_view}
+							<span class='instance-modified' title='#{modifiedString}'>#{modifiedFromNow}</span>
+						</div>
+					"""
+	},
+	{
+		data: "modified",
+		visible: false,
+	},
+	{
+		data: "applicant_name",
+		visible: false,
+	},
+	{
+		data: "applicant_organization_name",
+		visible: false,
+	}
+]
+
+
+instancesListTabular = () ->
+	_instancesListTabular.name = "instances"
+	_instancesListTabular.columns = _defaultColumns
+	_instancesListTabular.order = [[1, "desc"]]
+	return _instancesListTabular;
+
+
+instancesListTableTabular = ()->
+	_instancesListTabular.name = "instancesListTable"
+	_instancesListTabular.columns = _tableColumns
+	_instancesListTabular.order = [[3, "desc"]]
+	return _instancesListTabular;
+
+TabularTables.instances = new Tabular.Table instancesListTabular()
+
+TabularTables.instancesListTable = new Tabular.Table instancesListTableTabular()
