@@ -125,6 +125,10 @@ InstanceSignText.helpers =
 	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
 		if !step
+
+			if !field_formula
+				field_formula = WorkflowManager.getInstanceFormVersion()?.fields?.findPropertyByPK("code", this.name)
+
 			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
 		else
 			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
