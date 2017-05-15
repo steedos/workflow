@@ -105,6 +105,9 @@ Template.instance_list.helpers
 			return true
 		return false
 
+	showTableColumns: ->
+		return Session?.get("tableColumns") || true
+
 Template.instance_list.onCreated ->
 	self = this;
 
