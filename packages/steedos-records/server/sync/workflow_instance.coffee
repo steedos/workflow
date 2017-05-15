@@ -1,7 +1,7 @@
 import { HTTP } from 'meteor/http'
 logger = new Logger 'Records_ES_Instances'
 @Records = {}
-@es_server=Meteor.settings.public.webservices.elasticsearch.url
+@es_server=Meteor.settings.public.webservices?.elasticsearch?.url
 # 定时器
 Meteor.startup ()->
 	if Meteor.settings.records?.sync_interval>0
