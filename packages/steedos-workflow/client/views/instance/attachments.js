@@ -347,8 +347,11 @@ Template.ins_attach_version_modal.helpers({
 
 		var locked = false;
 		if (locked_by) locked = true;
-		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked)
-			return true;
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
+			var current_step = InstanceManager.getCurrentStep();
+			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+				return true;
+		}
 
 		return false;
 	},
