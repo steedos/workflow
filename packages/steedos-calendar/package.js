@@ -1,14 +1,15 @@
 Package.describe({
-	name: 'steedos:records',
+	name: 'steedos:calendar',
 	version: '0.0.1',
-	summary: 'Steedos records system',
+	summary: 'Steedos calendar system',
 	git: ''
 });
 
-
 Npm.depends({
-    'request':'2.40.0',
-    mkdirp: "0.3.5"
+  'icalendar':'0.7.1',
+  'MD5':'1.3.0',
+  'moment-timezone':'0.5.13',
+  'uuid':'3.0.1'
 });
 
 Package.onUse(function(api) {
@@ -16,7 +17,7 @@ Package.onUse(function(api) {
 
     api.use('ecmascript');
     
-	api.use('reactive-var');
+    api.use('reactive-var');
     api.use('reactive-dict');
     api.use('coffeescript');
     api.use('random');
@@ -36,12 +37,9 @@ Package.onUse(function(api) {
     api.use('aldeed:tabular@1.6.1');
     api.use('aldeed:autoform@5.8.0');
     api.use('matb33:collection-hooks@0.8.1');
-    api.use('cfs:standard-packages@0.5.9');
     api.use('kadira:blaze-layout@2.3.0');
     api.use('kadira:flow-router@2.10.1');
-    api.use('iyyang:cfs-aliyun')
-    api.use('cfs:s3');
-    
+
     api.use('aldeed:autoform-bs-datetimepicker');
 
     api.use('meteorhacks:ssr@2.2.0');
@@ -53,40 +51,40 @@ Package.onUse(function(api) {
     api.use('momentjs:moment', 'client');
     api.use('mrt:moment-timezone', 'client');
 
-	api.use('steedos:adminlte');
+    api.use('steedos:adminlte');
     api.use('steedos:base');
     api.use('steedos:theme@0.0.11');
-    api.use('steedos:workflow');
     api.use('simple:json-routes@2.1.0');
-    api.use('http');
 
+    api.use('rzymek:fullcalendar@3.4.0');
 
-    api.addFiles('client/admin/record_types.html', 'client');
-    api.addFiles('client/admin/record_types.coffee', 'client');
-    api.addFiles('client/admin/record_types.less', 'client');
-
-    api.addFiles('client/home/home.html', 'client');
+    api.addFiles('client/event/event.html', 'client');
+    api.addFiles('client/event/event.coffee', 'client');
+    api.addFiles('client/event/event.less', 'client');
 
     api.addFiles('client/layout/layout.html', 'client');
     api.addFiles('client/layout/layout.less', 'client');
     api.addFiles('client/layout/sidebar.html', 'client');
-
-    api.addFiles('client/search/records_repository.html', 'client');
-    api.addFiles('client/search/records_repository.coffee', 'client');
-    api.addFiles('client/search/records_repository.less', 'client');
+    api.addFiles('client/layout/sidebar.coffee', 'client');
+    api.addFiles('client/layout/sidebar.less', 'client');
 
     api.addFiles('client/core.coffee', 'client');
+    api.addFiles('client/local.coffee', 'client');
     api.addFiles('client/router.coffee', 'client');
+    api.addFiles('client/subscribe.coffee', 'client');
 
-    api.addFiles('models/record_types.coffee');
+    api.addFiles('models/calendarchanges.coffee');
+    api.addFiles('models/calendarinstances.coffee');
+    api.addFiles('models/calendars.coffee');
+    api.addFiles('models/events.coffee');
 
-    api.addFiles('server/records-api-search/routes/records.coffee','server');
+    api.addFiles('server/methods/calendarInit.coffee','server');
+    api.addFiles('server/methods/selectGetUsers.coffee','server');
 
-    api.addFiles('server/sync/workflow_instance.coffee','server');
-    api.addFiles('server/sync/workflow_attachment.coffee','server');
+    api.addFiles('server/publications/calendars.coffee','server');
+    api.addFiles('server/publications/events.coffee','server');
     
     api.addFiles('server/main.coffee','server');
-
 
 });
 

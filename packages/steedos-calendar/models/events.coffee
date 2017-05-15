@@ -1,8 +1,9 @@
 @Events = new Mongo.Collection('calendar_objects');
-uuid = require('uuid');
 MD5 = require('MD5');
-icalendar = require('icalendar');
 created = new Date();
+if Meteor.isServer
+	uuid = require('uuid');
+	icalendar = require('icalendar');
 Events.attachSchema new SimpleSchema 
 	title:  
 		type: String
@@ -128,7 +129,7 @@ Events.attachSchema new SimpleSchema
 			omit: true
 
 
-if (Meteor.isServer) 
+if Meteor.isServer
 	Events.allow 
 		insert: (userId, doc) ->
 			return true

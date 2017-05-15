@@ -1,0 +1,48 @@
+{
+	"calendar_add_calendar": "Add a new Calendar",
+	"calendar_app_title": "Steedos Calendar",
+	"calendar_edit_calendar": "Edit Calendar",
+	"calendar_add_event":"Add a new event",
+	"calendar_edit_event":"Edit event",
+	"calendar_info_calendar": "Calendar Infomation",
+	"calendar_remove_event": "remove event",
+	"schemas": {
+	    "calendars": {
+	      "title": {
+	        "label": "标题",
+	        "placeholder": "请输入标题"
+	      },
+	      "members": {
+	        "label": "成员",
+	        "placeholder": "请选择成员"
+	      },
+	      "color": {
+	        "label": "color"
+	      }
+	    },
+		"events": {
+	      "title": {
+	        "label": "title",
+	        "placeholder": "Please Input event"
+	      },
+	      "members": {
+	        "label": "Members"
+	      },
+	      "allDay": {
+	        "label": "AllDay"
+	      },
+	      "description": {
+	        "label": "Description"
+	      },
+	      "start": {
+	        "label": "Start"
+	      },
+	      "end": {
+	        "label": "End"
+	      },
+	      "calendar": {
+	        "label": "Calendar"
+	      }	           
+	    }	    	    
+	  }
+}

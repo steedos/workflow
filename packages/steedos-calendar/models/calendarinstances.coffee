@@ -1,7 +1,6 @@
 @calendarinstances = new Mongo.Collection('calendar_instances');
-icalendar = require('icalendar');
-calendarinstances.attachSchema new SimpleSchema 
 
+calendarinstances.attachSchema new SimpleSchema 
 	principaluri:  
 		type: String
 		optional: true
