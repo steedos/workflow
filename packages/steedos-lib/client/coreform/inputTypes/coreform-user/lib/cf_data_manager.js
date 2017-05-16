@@ -3,12 +3,24 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node) {
+CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 
     var orgs;
 
     if (node.id == '#')
-        orgs = CFDataManager.getRoot(spaceId);
+
+        if(is_within_user_organizations){
+			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
+
+			_ids = uOrgs.getProperty("_id")
+
+			orgs = _.filter(uOrgs, function (org) {
+				return _.intersection(org.children, _ids).length < 1
+			})
+
+        }else{
+            orgs = CFDataManager.getRoot(spaceId);
+		}
     else
         orgs = CFDataManager.getChild(spaceId, node.id);
 
