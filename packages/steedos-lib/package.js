@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:lib',
-	version: '0.0.1',
+	version: '0.0.3',
 	summary: 'Steedos libraries',
 	git: ''
 });
@@ -19,40 +19,39 @@ Package.onUse(function(api) {
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
-	api.use('ddp-rate-limiter');
+	api.use('ddp-rate-limiter@1.0.5');
 	api.use('underscore');
-	api.use('underscorestring:underscore.string');
+	api.use('underscorestring:underscore.string@3.3.4');
 	api.use('tracker');
 	api.use('session');
 	api.use('accounts-base');
-	api.use('useraccounts:bootstrap');
+	api.use('useraccounts:bootstrap@1.14.2');
 
-	api.use('dburles:collection-helpers');
+	api.use('dburles:collection-helpers@1.0.4');
 	api.use('flemay:less-autoprefixer@1.2.0');
-	api.use('simple:json-routes');
-	api.use('aldeed:simple-schema');
-	api.use('aldeed:collection2');
+	api.use('simple:json-routes@2.1.0');
+	api.use('aldeed:simple-schema@1.5.3');
+	api.use('aldeed:collection2@2.10.0');
 	api.use('aldeed:tabular@1.6.1');
-	api.use('aldeed:autoform');
-	api.use('matb33:collection-hooks');
+	api.use('aldeed:autoform@5.8.0');
+	api.use('matb33:collection-hooks@0.8.4');
 	api.use('cfs:standard-packages@0.5.9');
-	api.use('iyyang:cfs-aliyun')
-	api.use('cfs:s3');
+	api.use('iyyang:cfs-aliyun@0.1.0')
+	api.use('cfs:s3@0.1.3');
 
 	api.use('kadira:flow-router@2.10.1');
-	api.use('meteorhacks:subs-manager');
+	api.use('meteorhacks:subs-manager@1.6.4');
 
-	api.use('steedos:base');
-	api.use('steedos:version');
+	api.use('steedos:base@0.0.13');
 
 	api.use(['webapp'], 'server');
 
-	api.use('momentjs:moment', 'client');
+	api.use('momentjs:moment@2.14.1', 'client');
 
 	// TAPi18n
-	api.use('templating', 'client');
+	api.use('templating@1.2.15', 'client');
 
-	api.use('tap:i18n', ['client', 'server']);
+	api.use('tap:i18n@1.8.2', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
@@ -269,7 +268,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 
-	api.addFiles('steedos.info');
+	api.addAssets('steedos.info',['client','server']);
 
 	// functions
 	api.addFiles('server/functions/checkUsernameAvailability.coffee', 'server');
