@@ -260,6 +260,11 @@ if (Meteor.isServer)
 				$set:
 					position: doc.position
 		
+		if modifier.$set.work_phone
+			db.users.direct.update {_id: doc.user},
+				$set:
+					work_phone: doc.work_phone
+		
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
 				organizationObj = db.organizations.findOne(org)

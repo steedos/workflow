@@ -28,6 +28,9 @@ db.users._simpleSchema = new SimpleSchema
 		optional: true,
 		autoform:
 			readonly: true
+	work_phone:
+		type: String,
+		optional: true
 	position:
 		type: String,
 		optional: true
@@ -218,6 +221,8 @@ if Meteor.isServer
 			su_set.mobile = doc.mobile
 		if modifier.$set.position
 			su_set.position = doc.position
+		if modifier.$set.work_phone
+			su_set.work_phone = doc.work_phone
 		if not _.isEmpty(su_set)
 			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
 
@@ -237,6 +242,7 @@ if Meteor.isServer
 				steedos_id: 1
 				name: 1
 				company: 1
+				work_phone: 1
 				position: 1
 				mobile: 1
 				locale: 1
