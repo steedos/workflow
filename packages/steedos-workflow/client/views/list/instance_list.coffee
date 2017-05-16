@@ -61,6 +61,8 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
+		_tableColumns()
+
 		return query
 
 	enabled_export: ->
@@ -105,8 +107,36 @@ Template.instance_list.helpers
 			return true
 		return false
 
-	tableTabular: ->
-		return Session?.get("tableColumns")
+_tableColumns = ()->
+	show = false
+
+	if $(window).width() < 1441 && $(window).width() > 766
+		show = true
+
+	table = $(".datatable-instances").DataTable();
+	thead = $("thead",$(".datatable-instances"))
+
+	table.column(0).visible(!show)
+
+	table.column(2).visible(show)
+	table.column(5).visible(show)
+	if Session.get("box") == "draft"
+		table.column(3).visible(false)
+		table.column(4).visible(false)
+		table.column(6).visible(false)
+		table.column(7).visible(false)
+	else
+		table.column(3).visible(show)
+		table.column(4).visible(show)
+		table.column(6).visible(show)
+		table.column(7).visible(show)
+
+
+	if show
+		thead.show()
+	else
+		thead.hide()
+
 
 Template.instance_list.onCreated ->
 	self = this;
@@ -114,20 +144,9 @@ Template.instance_list.onCreated ->
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
 
-	tableColumns = false
-
-	if $(window).width() < 1441 && $(window).width() > 766
-		tableColumns = true
-
-	Session.set("tableColumns", tableColumns)
-
 	$(window).resize ->
-		tableColumns = false
-
-		if $(window).width() < 1441 && $(window).width() > 766
-			tableColumns = true
-
-		Session.set("tableColumns", tableColumns)
+		_tableColumns();
+#		Session.set("tableColumns", tableColumns)
 
 		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
@@ -139,6 +158,7 @@ Template.instance_list.onRendered ->
 
 	self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
+	_tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()

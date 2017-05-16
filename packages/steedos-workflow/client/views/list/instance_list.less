@@ -11,30 +11,18 @@
   }
   .dataTables_wrapper{
 
-    .div-columns{
-      thead {
-        display: none;
+    thead {
+      th:first-child{
+        padding-left: 20px  !important;
       }
+
+      th{
+        white-space: nowrap;
+        min-width: 95px;
+      }
+
     }
-    .table-columns{
-      thead {
 
-        th:first-child{
-          padding-left: 20px  !important;
-        }
-
-        th{
-          white-space: nowrap;
-          min-width: 95px;
-        }
-
-        display: contents !important;
-      }
-
-      .flow-name{
-        padding-left: 0px !important;
-      }
-    }
   }
 
 

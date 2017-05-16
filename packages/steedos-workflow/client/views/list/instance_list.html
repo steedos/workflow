@@ -63,11 +63,9 @@
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
 
-	{{#if tableTabular}}
-		{{> tabular table=TabularTables.instancesListTable selector=selector class="table table-bordered table-striped dataTable datatable-instances table-columns" }}
-	{{else}}
-		{{> tabular table=TabularTables.instances selector=selector class="table table-bordered table-striped dataTable datatable-instances div-columns" }}
-	{{/if}}
+
+	{{> tabular table=TabularTables.instances selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+
 
 </div>
 
