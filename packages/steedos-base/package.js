@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:base',
-  version: '0.0.13',
+  version: '0.0.14',
   summary: 'Steedos libraries',
   git: 'https://github.com/steedos/platform/packages/steedos-theme'
 });
@@ -22,7 +22,7 @@ Package.onUse(function(api) {
   api.use('useraccounts:flow-routing@1.14.2');
   api.use('softwarerero:accounts-t9n@1.3.3');
 
-  api.use('matb33:collection-hooks');
+  api.use('matb33:collection-hooks@0.8.4');
   api.use('flemay:less-autoprefixer@1.2.0');
   api.use('kadira:flow-router@2.10.1');
   api.use('meteorhacks:subs-manager@1.6.4');
