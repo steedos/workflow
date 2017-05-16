@@ -44,7 +44,7 @@ Template.opinion_modal.events({
             showLoaderOnConfirm: false
         }, function(inputValue) {
             if (inputValue === false){
-                Modal.show('opinion_modal');
+                Modal.show('opinion_modal', template.data);
                 return false;
             }
             if (inputValue === "") {
@@ -85,7 +85,7 @@ Template.opinion_modal.events({
                 }
 
                 if (result == true) {
-                    Modal.show('opinion_modal');
+                    Modal.show('opinion_modal', template.data);
                     swal.close();
                     toastr.success(t('instance_opinion_add_success'));
                 }
@@ -121,7 +121,7 @@ Template.opinion_modal.events({
                     showLoaderOnConfirm: false
                 }, function(inputValue) {
                     if (inputValue === false){
-                        Modal.show('opinion_modal');
+                        Modal.show('opinion_modal', template.data);
                         return false;
                     }
                     if (inputValue === "") {
@@ -162,7 +162,7 @@ Template.opinion_modal.events({
                         }
 
                         if (result == true) {
-                            Modal.show('opinion_modal');
+                            Modal.show('opinion_modal', template.data);
                             swal.close();
                             toastr.success(t('instance_opinion_edit_success'));
                         }

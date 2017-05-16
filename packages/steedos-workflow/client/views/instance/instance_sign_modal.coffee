@@ -13,11 +13,11 @@ Template.instanceSignModal.events
 		Modal.allowMultiple = false
 		Modal.hide(template)
 
-	'shown.bs.modal .instance-sign-modal': ()->
-
-		if !Steedos.isMobile()
-			$modal_dialog = $(".instance-sign-modal").find('.modal-dialog');
-
-			m_top = ( $(window).height() - $modal_dialog.height() )/2;
-
-			$modal_dialog.css({'margin': m_top + 'px auto'})
+#	'shown.bs.modal .instance-sign-modal': ()->
+#
+#		if !Steedos.isMobile()
+#			$modal_dialog = $(".instance-sign-modal").find('.modal-dialog');
+#
+#			m_top = ( $(window).height() - $modal_dialog.height() )/2;
+#
+#			$modal_dialog.css({'margin': m_top + 'px auto'})
