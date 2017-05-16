@@ -22,10 +22,12 @@ Template.opinion_modal.events({
             // 触发slip:reorder事件，拖动到最顶部无效区域时会触发该事件，且zIndex属性为"99999"，默认为"auto"
             return;
         }
-        var oldVal = $("#suggestion").val();
+
+        var oldVal = Session.get("flow_comment");
         var selectedVal = event.currentTarget.dataset.opinion;
         selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).trigger("input").focus();
+        if(template.data.parentNode)
+			template.data.parentNode.val(oldVal + selectedVal).trigger("input").focus();
         Modal.hide(template);
     },
 

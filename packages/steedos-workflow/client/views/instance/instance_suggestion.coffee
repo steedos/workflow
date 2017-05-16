@@ -239,7 +239,7 @@ Template.instance_suggestion.events
 
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
-		Modal.show 'opinion_modal'
+		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
 #		if ApproveManager.isReadOnly()
