@@ -18,6 +18,7 @@ TabularTables.instances = new Tabular.Table({
 	columns: [
 		{
 			data: "_id",
+			orderable: false
 			render: (val, type, doc) ->
 				modifiedString = moment(doc.modified).format('YYYY-MM-DD');
 				modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
@@ -85,7 +86,8 @@ TabularTables.instances = new Tabular.Table({
 				if doc.submit_date
 					return moment(doc.submit_date).format('YYYY-MM-DD hh:mm');
 			,
-			visible: false
+			visible: false,
+			orderable: false
 		},
 		{
 			data: "flow"
@@ -93,21 +95,29 @@ TabularTables.instances = new Tabular.Table({
 				flow_name = WorkflowManager.getFlow(doc.flow)?.name
 				return flow_name
 			,
-			visible: false
+			visible: false,
+			orderable: false
 		},{
 			data: "step_current_name",
-			visible: false
+			visible: false,
+			orderable: false
 		},
 		{
 			data: "modified",
 			render: (val, type, doc) ->
 				return Steedos.momentReactiveFromNow(doc.modified);
 			,
+			visible: false,
+			orderable: false
+		},
+		{
+			data: "modified",
 			visible: false
 		}
 	],
 	dom: "tp",
-	order: [[7, "desc"]]
+	order: [[8, "desc"]],
+#	ordering: false,
 	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
 	lengthChange: false,
 	pageLength: 10,
