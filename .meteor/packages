@@ -96,6 +96,7 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
+steedos:version
 steedos:lib
 steedos:workflow
 steedos:api
@@ -152,3 +153,10 @@ steedos:accounts-phone
 steedos:accounts
 
 steedos:remind
+# steedos:calendar@0.0.1
+
+# steedos:calendar
+# steedos:calendar-i18n
+
+# steedos:records
+# steedos:records-i18n
