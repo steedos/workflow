@@ -15,6 +15,8 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 			_ids = uOrgs.getProperty("_id")
 
 			orgs = _.filter(uOrgs, function (org) {
+			    var children = org.children || []
+
 				return _.intersection(org.children, _ids).length < 1
 			})
 
