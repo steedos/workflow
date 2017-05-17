@@ -7,30 +7,29 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 
     var orgs;
 
-    if (node.id == '#')
-
-        if(is_within_user_organizations){
+    if (node.id == '#'){
+		if(is_within_user_organizations){
 			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
 
 			_ids = uOrgs.getProperty("_id")
 
 			orgs = _.filter(uOrgs, function (org) {
-			    var children = org.children || []
+				var children = org.children || []
 
 				return _.intersection(children, _ids).length < 1
 			})
 
-        }else{
-            orgs = CFDataManager.getRoot(spaceId);
+		}else{
+			orgs = CFDataManager.getRoot(spaceId);
 		}
+    }
     else
         orgs = CFDataManager.getChild(spaceId, node.id);
-
-    return handerOrg(orgs);
+    return handerOrg(orgs, node.id);
 }
 
 
-function handerOrg(orgs) {
+function handerOrg(orgs, parentId) {
 
     var nodes = new Array();
 
@@ -59,7 +58,7 @@ function handerOrg(orgs) {
         if (org.is_company == true) {
             node.state.opened = true;
         } else {
-            node.parent = org.parent;
+            node.parent = parentId;
             // node.icon = false;
             // node.icon = "fa fa-users";
         }
