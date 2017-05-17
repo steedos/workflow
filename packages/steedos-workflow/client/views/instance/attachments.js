@@ -178,13 +178,9 @@ Template.instance_attachment.events({
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
 			Steedos.openWindow(url);
 		}
-	}
-})
-
-Template._file_DeleteButton.events({
-
-	'click div': function(event, template) {
-		var file_id = template.data.file_id;
+	},
+	"click .ins-attach-delete": function(event, template){
+		var file_id = event.target.id;
 		if (!file_id) {
 			return false;
 		}
@@ -201,7 +197,6 @@ Template._file_DeleteButton.events({
 		})
 		return true;
 	}
-
 })
 
 
@@ -442,13 +437,9 @@ Template.ins_attach_version_modal.events({
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
 			Steedos.openWindow(url);
 		}
-	}
-})
-
-Template._file_version_DeleteButton.events({
-
-	'click div': function(event, template) {
-		var file_id = template.data.file_id;
+	},
+	"click .ins-attach-version-delete": function(event, template) {
+		var file_id = event.target.id;
 		if (!file_id) {
 			return false;
 		}

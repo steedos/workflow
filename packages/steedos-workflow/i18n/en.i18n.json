@@ -84,6 +84,7 @@
 	"workflow_attachment_officeOnline": "Edit",
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
+	"workflow_attachment_delete": "Delete",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
