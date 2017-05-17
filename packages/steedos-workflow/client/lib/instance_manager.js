@@ -81,10 +81,11 @@ InstanceManager.getNextStepOptions = function() {
 			} else {
 
 				//Session存储的下一步步骤是否在计算结果中，如果在，则选中
-				if ($("#nextSteps") && $("#nextSteps").val()) {
-					var session_next_step = next_step_options.findPropertyByPK("id", $("#nextSteps").val())
+				var checkedNextStepRadio = $("[name=instance_suggestion_next_step]:checked");
+				if (checkedNextStepRadio && checkedNextStepRadio.val()) {
+					var session_next_step = next_step_options.findPropertyByPK("id", checkedNextStepRadio.val())
 					if (_.isObject(session_next_step)) {
-						next_step_id = $("#nextSteps").val()
+						next_step_id = checkedNextStepRadio.val()
 					}
 				} else if (current_next_steps && current_next_steps.length > 0) {
 					//选中已暂存的值
@@ -94,12 +95,12 @@ InstanceManager.getNextStepOptions = function() {
 						Session.set("next_step_id", next_step_id);
 					}
 				} else if (Session.get("judge") != 'rejected') {
-					next_step_options.unshift({
-						id: '',
-						selected: 'selected',
-						text: TAPi18n.__("Select placeholder"),
-						disabled: 'disabled'
-					});
+					// next_step_options.unshift({
+					// 	id: '',
+					// 	selected: 'selected',
+					// 	text: TAPi18n.__("Select placeholder"),
+					// 	disabled: 'disabled'
+					// });
 					Session.set("next_step_id", null);
 				}
 			}
@@ -252,14 +253,13 @@ InstanceManager.checkFormValue = function() {
 
 //下一步步骤校验
 InstanceManager.checkNextStep = function() {
-	var nextSteps_parent_group = $("#nextSteps").parent();
+	var nextSteps_parent_group = $("[name=instance_suggestion_next_step]").closest(".form-group");
 
 	if (ApproveManager.error.nextSteps != '') {
 		showMessage(nextSteps_parent_group, ApproveManager.error.nextSteps);
 		ApproveManager.error.nextSteps = '';
 		return;
 	}
-
 	var value = ApproveManager.getNextStepsSelectValue();
 	if (value && value != '-1')
 		removeMessage(nextSteps_parent_group);
@@ -269,7 +269,7 @@ InstanceManager.checkNextStep = function() {
 
 //下一步处理人校验
 InstanceManager.checkNextStepUser = function() {
-	var nextStepUsers_parent_group = $("#nextStepUsers").parent();
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
 	if (ApproveManager.error.nextStepUsers != '') {
 		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);

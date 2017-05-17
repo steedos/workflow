@@ -71,3 +71,14 @@ if Meteor.isClient
 		paid: "true"
 		sort: 70
 		parent: "workflow"
+
+	# 分发设置
+	Admin.addMenu
+		_id: "distribute_manager"
+		title: "distribute_manager"
+		app: "workflow"
+		icon: "ion ion-ios-browsers"
+		url: "/admin/distribute/flows"
+		paid: "true"
+		sort: 80
+		parent: "workflow"

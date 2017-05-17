@@ -338,7 +338,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 // };
 
 ApproveManager.getNextStepsSelectValue = function() {
-    return $("#nextSteps").val();
+    return $("[name=instance_suggestion_next_step]:checked").val();
 }
 
 // ApproveManager.setNextStepsSelectValue = function(steps, value){

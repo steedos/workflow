@@ -24,6 +24,9 @@
 	"instances_applicant_name": "Applicant",
 	"instances_modified": "Modified",
 	"instances_applicant_organization_name": "Organization",
+	"instances_submit_date": "Submit Date",
+	"instances_flow": "Flow",
+	"instances_step_current_name": "Current step",
 
 	"instance_approve": "Approve",
 	"instance_reject": "Reject",
