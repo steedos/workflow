@@ -495,5 +495,6 @@
 	"instance_remind_count_options": {
 		"single": "single",
 		"multi": "multi"
-	}
+	},
+	"instance_opinion_title_select": "Select opinions"
 }

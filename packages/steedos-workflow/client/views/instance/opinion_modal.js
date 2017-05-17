@@ -22,10 +22,12 @@ Template.opinion_modal.events({
             // 触发slip:reorder事件，拖动到最顶部无效区域时会触发该事件，且zIndex属性为"99999"，默认为"auto"
             return;
         }
-        var oldVal = $("#suggestion").val();
+
+        var oldVal = Session.get("flow_comment");
         var selectedVal = event.currentTarget.dataset.opinion;
         selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).trigger("input").focus();
+        if(template.data.parentNode)
+			template.data.parentNode.val(oldVal + selectedVal).trigger("input").focus();
         Modal.hide(template);
     },
 
@@ -42,7 +44,7 @@ Template.opinion_modal.events({
             showLoaderOnConfirm: false
         }, function(inputValue) {
             if (inputValue === false){
-                Modal.show('opinion_modal');
+                Modal.show('opinion_modal', template.data);
                 return false;
             }
             if (inputValue === "") {
@@ -83,7 +85,7 @@ Template.opinion_modal.events({
                 }
 
                 if (result == true) {
-                    Modal.show('opinion_modal');
+                    Modal.show('opinion_modal', template.data);
                     swal.close();
                     toastr.success(t('instance_opinion_add_success'));
                 }
@@ -119,7 +121,7 @@ Template.opinion_modal.events({
                     showLoaderOnConfirm: false
                 }, function(inputValue) {
                     if (inputValue === false){
-                        Modal.show('opinion_modal');
+                        Modal.show('opinion_modal', template.data);
                         return false;
                     }
                     if (inputValue === "") {
@@ -160,7 +162,7 @@ Template.opinion_modal.events({
                         }
 
                         if (result == true) {
-                            Modal.show('opinion_modal');
+                            Modal.show('opinion_modal', template.data);
                             swal.close();
                             toastr.success(t('instance_opinion_edit_success'));
                         }

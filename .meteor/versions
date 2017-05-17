@@ -162,8 +162,8 @@ steedos:accounts-phone@0.0.1
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
-steedos:autoform-modals@0.3.8
-steedos:base@0.0.13
+steedos:autoform-modals@0.3.9_1
+steedos:base@0.0.14
 steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1
@@ -174,7 +174,7 @@ steedos:desktop@0.0.1
 steedos:i18n@0.0.2
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
-steedos:lib@0.0.1
+steedos:lib@0.0.3
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
@@ -185,7 +185,7 @@ steedos:smsqueue@0.0.1
 steedos:theme@0.0.11
 steedos:toastr@2.1.3
 steedos:ui@0.0.1
-steedos:version@1.0.0
+steedos:version@1.0.4
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
