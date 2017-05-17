@@ -73,3 +73,4 @@ new Tabular.Table
 	pageLength: 10
 	info: false
 	searching: true
+	autoWidth: false
