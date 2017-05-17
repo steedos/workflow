@@ -507,73 +507,29 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
 }
 
 WorkflowManager.getSpaceCategories = function(spaceId) {
-	var re = new Array();
 
-	var r = db.categories.find({
-		space: spaceId
-	});
-
-	r.forEach(function(c) {
-		re.push(c);
-	});
-
-	return re;
+	return db.categories.find({space: spaceId}, {sort: {sort_no: -1}}).fetch();
 };
 
 
 WorkflowManager.getCategoriesForms = function(categorieId) {
-	var re = new Array();
 
-	var forms = db.forms.find({
-		category: categorieId,
-		state: "enabled"
-	});
-	forms.forEach(function(f) {
-		re.push(f)
-	});
-
-	return re;
+	return db.forms.find({category: categorieId,state: "enabled"}).fetch();
 };
 
 WorkflowManager.getUnCategoriesForms = function() {
-	var re = new Array();
 
-	var forms = db.forms.find({
-		category: {
-			$in: [null, ""]
-		},
-		state: "enabled"
-	});
-	forms.forEach(function(f) {
-		re.push(f)
-	});
-
-	return re;
+	return forms = db.forms.find({category: {$in: [null, ""]},state: "enabled"}).fetch();
 };
 
 WorkflowManager.getFormFlows = function(formId) {
-	var re = new Array();
-	var flows = db.flows.find({
-		form: formId,
-		state: "enabled"
-	})
-	flows.forEach(function(f) {
-		re.push(f)
-	});
 
-	return re;
+	return db.flows.find({form: formId,state: "enabled"}).fetch();
 };
 
 WorkflowManager.getSpaceFlows = function(spaceId) {
-	var re = new Array();
 
-	var r = db.flows.find();
-
-	r.forEach(function(c) {
-		re.push(c);
-	});
-
-	return re;
+	return db.flows.find({space: spaceId}).fetch();
 };
 
 WorkflowManager.canAdd = function(fl, curSpaceUser, organizations) {
@@ -708,7 +664,7 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 
 	var categories = WorkflowManager.getSpaceCategories(spaceId);
 
-	categories.sortByName();
+	// categories.sortByName();
 
 	var isSpaceAdmin = Steedos.isSpaceAdmin();
 

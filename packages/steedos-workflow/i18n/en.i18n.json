@@ -483,5 +483,8 @@
 	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
 
 	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome.",
-	"instance_opinion_title_select": "Select opinions"
+	"instance_opinion_title_select": "Select opinions",
+	"categories": "Flow categories",
+	"categories_name": "Name",
+	"categories_sort_no": "Sort no"
 }
