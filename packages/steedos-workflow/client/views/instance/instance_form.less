@@ -273,14 +273,8 @@ textarea {
   margin-left: 10px;
 }
 
-.ins-attach-view .mouse-hover {
-  cursor: pointer;
-  display: none;
-  margin-left: 10px;
-}
-
 .ins-attach-view a {
-  color: #3c8dbc;
+  color: #3c8dbc !important;
 }
 
 .ins-attach-view a:hover {
@@ -288,10 +282,6 @@ textarea {
 }
 
 .ins-attach-view:hover .delete {
-  display: inline-block;
-}
-
-.ins-attach-view:hover .mouse-hover {
   display: inline-block;
 }
 
@@ -308,12 +298,6 @@ textarea {
   margin-left: 10px;
 }
 
-.ins-attach-version-view .mouse-hover {
-  cursor: pointer;
-  display: none;
-  margin-left: 10px;
-}
-
 .ins-attach-version-view a:hover {
   text-decoration: underline;
 }
@@ -322,9 +306,6 @@ textarea {
   display: inline-block;;
 }
 
-.ins-attach-version-view:hover .mouse-hover {
-  display: inline-block;;
-}
 
 .form-group {
   .select2 {
@@ -453,6 +434,14 @@ textarea {
     min-height:auto;
     p{
       margin: 0px;
+    }
+  }
+
+  .instance_attachments {
+
+    .ins-attach-view {
+      border-bottom: solid 1px @instanceTableStyleBorderColor;
+      border-top: solid 1px @instanceTableStyleBorderColor;
     }
   }
 
