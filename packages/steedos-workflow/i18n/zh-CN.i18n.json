@@ -22,7 +22,7 @@
 	"instances": "申请单",
 	"instances_name": "标题",
 	"instances_applicant_name": "申请人",
-	"instances_modified": "上一步处理时间",
+	"instances_modified": "处理时间",
 	"instances_applicant_organization_name": "部门",
 	"instances_submit_date": "提交时间",
 	"instances_flow": "流程",
