@@ -191,6 +191,10 @@
 
 	"workflow_attach_unlock": "Unlock",
 	"workflow_attach_locked_by": "locked by %s",
+	"workflow_attach_confirm_delete": "Are you sure?",
+	"workflow_attach_confirm_delete_messages": "You will not be able to recover this imaginary file!",
+	"workflow_attach_confirm": "Yes, delete it!",
+	"workflow_attach_cancel": "Cancel",
 
 	"workflow_select_an_app": "Steedos Apps",
 	"workflow_suggestion_placeholder": "Leave a comment,Click on the right button to select the common opinion.",
