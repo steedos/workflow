@@ -388,7 +388,7 @@ if Meteor.isServer
 	Steedos.caculateWorkingTime = (date, days)->
 		check date, Date
 		check days, Number
-		param_date = date
+		param_date = new Date date
 		caculateDate = (i, days)->
 			if i < days
 				param_date = new Date(param_date.getTime() + 24*60*60*1000)
@@ -398,3 +398,66 @@ if Meteor.isServer
 			return
 		caculateDate(0, days)
 		return param_date
+
+	# 计算半个工作日后的时间
+	# 参数 next如果为true则表示只计算date时间后面紧接着的time_points
+	Steedos.caculatePlusHalfWorkingDay = (date, next) ->
+		check date, Date
+		time_points = Meteor.settings.remind?.time_points
+		if not time_points or _.isEmpty(time_points)
+			throw new Meteor.Error 'error!', "time_points is null"
+
+		len = time_points.length
+		start_date = new Date date
+		end_date = new Date date
+		start_date.setHours time_points[0].hour
+		start_date.setMinutes time_points[0].minute
+		end_date.setHours time_points[len - 1].hour
+		end_date.setMinutes time_points[len - 1].minute
+
+		caculated_date = new Date date
+		
+		j = 0 
+		max_index = len - 1
+		if date < start_date
+			if next
+				j = 0
+			else
+				# 加半个time_points
+				j = len/2
+		else if date >= start_date and date < end_date
+			i = 0
+			while i < max_index
+				first_date = new Date date
+				second_date = new Date date
+				first_date.setHours time_points[i].hour
+				first_date.setMinutes time_points[i].minute
+				second_date.setHours time_points[i + 1].hour
+				second_date.setMinutes time_points[i + 1].minute
+				
+				if date >= first_date and date < second_date
+					break
+
+				i++
+
+			if next 
+				j = i + 1
+			else 
+				j = i + len/2
+
+		else if date >= end_date
+			if next 
+				j = max_index + 1
+			else
+				j = max_index + len/2
+
+		if j > max_index
+			# 隔天需判断节假日
+			caculated_date = Steedos.caculateWorkingTime date, 1
+			caculated_date.setHours time_points[j - max_index - 1].hour
+			caculated_date.setMinutes time_points[j - max_index - 1].minute
+		else if j <= max_index
+			caculated_date.setHours time_points[j].hour
+			caculated_date.setMinutes time_points[j].minute
+
+		return caculated_date
