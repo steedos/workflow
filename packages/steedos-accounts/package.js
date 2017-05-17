@@ -47,6 +47,9 @@ Package.onUse(function(api) {
 	
 	api.addFiles('client/views/accounts_phone_verify.html', 'client');
 	api.addFiles('client/views/accounts_phone_verify.coffee', 'client');
+	
+	api.addFiles('client/views/forgot_password_token.html', 'client');
+	api.addFiles('client/views/forgot_password_token.coffee', 'client');
 
 	api.addFiles('client/views/accounts.less', 'client');
 
