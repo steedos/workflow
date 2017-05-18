@@ -30,9 +30,11 @@
 						</div>
 					</div>
 				{{else}}
+					{{#if canView this.name}}
+						<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
+					{{/if}}
 					{{#if canEdit this.name this.metadata.locked_by}}
 						{{#if isNode}}
-							<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
 							<a href="#" data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
 						{{else}}
 							<a name="ins_attach_edit" id="{{this._id}}" class="mouse-hover" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
@@ -112,10 +114,8 @@
 													<a style="cursor: pointer;padding-left: 10px" class="ins-attach-version-delete" id="{{this._id}}">{{_ "workflow_attachment_delete"}}</a>
 												{{/if}}
 											{{else}}
-												{{#if canEdit this.name this.metadata.locked_by}}
-													{{#if isNode}}
-														<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
-													{{/if}}
+												{{#if canView this.name}}
+													<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
 												{{/if}}
 												{{#if IsImageAttachment this}}
 													<a class="mouse-hover" name="ins_attach_preview" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
@@ -139,10 +139,8 @@
 											{{#if isAndroidApp}}
 												<a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer" name="ins_attach_mobile">{{this.name}}</a>
 											{{/if}}
-											{{#if canEdit this.name this.metadata.locked_by}}
-												{{#if isNode}}
-													<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
-												{{/if}}
+											{{#if canView this.name}}
+												<a data-downloadurl="{{getUrl this._id}}" class="mouse-hover" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_view"}}</a>
 											{{/if}}
 											<br/>
 											<label style="margin-bottom:0px;">{{attach_version_info this.metadata.owner_name this.uploadedAt}}</label>
