@@ -420,7 +420,33 @@ textarea {
   }
 }
 
+.zoom-large,.zoom-extra-large{
+  .instance-table{
+    .bootstrap-datetimepicker-widget, bootstrap-datetimepicker-widget-left{
+      top: inherit !important;
+      left: inherit !important;
+      //right: inherit !important;
+    }
+
+    td:nth-child(2n+3),td:nth-child(2n+4), bootstrap-datetimepicker-widget-right{
+      .bootstrap-datetimepicker-widget{
+        left: auto !important;
+        right: 20px !important;
+      }
+    }
+  }
+}
+
 .instance-table{
+
+  .bootstrap-datetimepicker-widget{
+    table{
+      td{
+        border: none !important;
+      }
+    }
+  }
+
   .instance-form{
     .box-body{
       &>.col-md-12{
