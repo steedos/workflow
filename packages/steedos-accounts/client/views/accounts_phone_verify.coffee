@@ -25,10 +25,13 @@ Template.accounts_phone_verify.events
 						toastr.error t error.reason
 						console.error error
 						return
-					toastr.success t "accounts_phone_verify_suc"
 					if window.name == "setup_phone"
-						window.close()
+						toastr.success t "accounts_phone_verify_suc_wait"
+						setTimeout ->
+							window.close()
+						,5000
 					else
+						toastr.success t "accounts_phone_verify_suc"
 						FlowRouter.go "/admin"
 			else
 				$(document.body).removeClass('loading')
