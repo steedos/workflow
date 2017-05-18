@@ -117,3 +117,9 @@ FlowRouter.route '/admin/distribute/flows',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_distribute_flows"
+
+FlowRouter.route '/admin/categories',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_categories"

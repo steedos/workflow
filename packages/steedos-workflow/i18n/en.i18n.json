@@ -84,6 +84,7 @@
 	"workflow_attachment_officeOnline": "Edit",
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
+	"workflow_attachment_delete": "Delete",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
@@ -496,5 +497,8 @@
 		"single": "single",
 		"multi": "multi"
 	},
-	"instance_opinion_title_select": "Select opinions"
+	"instance_opinion_title_select": "Select opinions",
+	"categories": "Flow categories",
+	"categories_name": "Name",
+	"categories_sort_no": "Sort no"
 }

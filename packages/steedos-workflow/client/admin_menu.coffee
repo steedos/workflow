@@ -82,3 +82,14 @@ if Meteor.isClient
 	# 	paid: "true"
 	# 	sort: 80
 	# 	parent: "workflow"
+
+	# categories
+	Admin.addMenu
+		_id: "categories"
+		title: "categories"
+		app: "workflow"
+		icon: "ion ion-android-folder-open"
+		url: "/admin/categories"
+#		paid: "true"
+		sort: 45
+		parent: "workflow"

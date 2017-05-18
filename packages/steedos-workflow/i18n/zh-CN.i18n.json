@@ -22,7 +22,7 @@
 	"instances": "申请单",
 	"instances_name": "标题",
 	"instances_applicant_name": "申请人",
-	"instances_modified": "上一步处理时间",
+	"instances_modified": "处理时间",
 	"instances_applicant_organization_name": "部门",
 	"instances_submit_date": "提交时间",
 	"instances_flow": "流程",
@@ -85,6 +85,7 @@
 	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
+	"workflow_attachment_delete": "删除",
 
 	"Instance State approved": "已核准",
 	"Instance State rejected": "已驳回",
@@ -511,5 +512,8 @@
 		"single": "单次提醒",
 		"multi": "多次提醒"
 	},
-	"instance_opinion_title_select": "选择常用意见"
+	"instance_opinion_title_select": "选择常用意见",
+	"categories": "流程分类",
+	"categories_name": "名称",
+	"categories_sort_no": "排序号"
 }

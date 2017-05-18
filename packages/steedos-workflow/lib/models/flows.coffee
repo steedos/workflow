@@ -224,6 +224,7 @@ new Tabular.Table
 	pageLength: 10
 	info: false
 	searching: true
+	autoWidth: false
 
 new Tabular.Table
 	name: "DistributeFlows",
@@ -244,3 +245,4 @@ new Tabular.Table
 	pageLength: 10
 	info: false
 	searching: true
+	autoWidth: false

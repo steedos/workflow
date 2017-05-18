@@ -6,15 +6,15 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 
 		space_id = req.headers['x-space-id']
 
-		data = JSON.stringify(req.headers)
-		if not current_user
-			throw new Meteor.Error('error', 'need header X-User-Id')
-
-		if not auth_token
-			throw new Meteor.Error('error', 'need header X-Auth-Token')
-
-		if not space_id
-			throw new Meteor.Error('error', 'need header X_Space_Id')
+		user = Steedos.getAPILoginUser(req, res)
+		
+		if !user
+			JsonRoutes.sendResult res,
+				code: 401,
+				data:
+					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+					"success": false
+			return;
 
 		state = req.query.state
 		user_id = req.query.userid
