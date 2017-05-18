@@ -24,7 +24,7 @@
 								{{/if}}
 								<li><a name="ins_attach_version" data-parent="{{this.metadata.parent}}"><i class="ion ion-ios-copy-outline"></i>{{_ "workflow_attachment_versions"}}</a></li>
 								{{#if can_delete this.metadata.approve this.metadata.parent}}
-									<li><a class="ins-attach-delete" id="{{this._id}}"><i class="ion ion-close-round"></i>{{_ "workflow_attachment_delete"}}</a></li>
+									<li><a class="ins-attach-delete" id="{{this._id}}" data-name="{{this.name}}"><i class="ion ion-close-round"></i>{{_ "workflow_attachment_delete"}}</a></li>
 								{{/if}}
 							</ul>
 						</div>
@@ -50,7 +50,7 @@
 						<span style="margin-left: 10px;">{{locked_info this.metadata.locked_by_name}}</span>
 					{{/if}}
 					{{#if can_delete this.metadata.approve this.metadata.parent}}
-						<a class="mouse-hover ins-attach-delete" id="{{this._id}}">{{_ "workflow_attachment_delete"}}</a>
+						<a class="mouse-hover ins-attach-delete" id="{{this._id}}" data-name="{{this.name}}">{{_ "workflow_attachment_delete"}}</a>
 					{{/if}}
 				{{/if}}
 			{{/if}}
@@ -125,7 +125,7 @@
 													{{/if}}
 												{{/if}}
 												{{#if current_can_delete this.metadata.approve this.metadata.parent}}
-													<a class="mouse-hover ins-attach-version-delete" id="{{this._id}}">{{_ "workflow_attachment_delete"}}</a>
+													<a class="mouse-hover ins-attach-version-delete" id="{{this._id}}" data-name="{{this.name}}">{{_ "workflow_attachment_delete"}}</a>
 												{{/if}}
 											{{/if}}
 											<br/>
