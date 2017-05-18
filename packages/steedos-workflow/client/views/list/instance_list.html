@@ -3,7 +3,7 @@
 		<!-- <a href="/workflow/space/{{spaceId}}" class="btn btn-default" title='{{_ "Workflow"}}'>
 			<i class="ion ion-chevron-left"></i><span></span>
 		</a> -->
-		<button type="button" class="btn btn-default" data-toggle="offcanvas">
+		<button type="button" class="btn btn-default" data-toggle="offcanvas" id="sidebarOffcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
 		{{#if isShowMenu}}
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	<div class="search-tip-bar" style="{{is_display_search_tip}}">
-		<span>{{_ "instance_search_result_tip"}}</span>:
+		<span>{{_ "instance_search_result_tip"}}</span>: <label>{{filterFlowName}}</label>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
 

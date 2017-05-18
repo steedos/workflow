@@ -107,6 +107,9 @@ Template.instance_list.helpers
 			return true
 		return false
 
+	filterFlowName: ->
+		return db.flows.findOne(Session.get("flowId"))?.name
+
 _tableColumns = ()->
 	show = false
 
@@ -217,3 +220,10 @@ Template.instance_list.events
 		Session.set("flowId", undefined)
 		#清空搜索框
 		$('#instance_search').val("").trigger('keyup')
+
+	'click #sidebarOffcanvas': ()->
+		if !Steedos.isMobile() && !Steedos.isPad()
+			if !$("body").hasClass("sidebar-collapse")
+				$(".treeview-menu").perfectScrollbar()
+			else
+				$('.treeview-menu').perfectScrollbar('destroy');

@@ -11,6 +11,46 @@ Template.workflowSidebar.helpers
 		if box == Session.get("box")
 			return "active"
 
+	hasInbox: ()->
+		query = {}
+		query.$or = [{
+			inbox_users: Meteor.userId()
+		}, {
+			cc_users: Meteor.userId()
+		}]
+
+		query.space = Session.get("spaceId")
+
+		inboxInstances = db.instances.find(query).fetch();
+
+		return inboxInstances.length > 0
+
+	inboxInstancesFlow: ()->
+
+		inboxInstancesFlow = []
+
+		query = {}
+		query.$or = [{
+			inbox_users: Meteor.userId()
+		}, {
+			cc_users: Meteor.userId()
+		}]
+
+		query.space = Session.get("spaceId")
+
+		inboxInstances = db.instances.find(query).fetch();
+
+		inboxInstancesGroupByFlow = _.groupBy(inboxInstances, "flow");
+
+		flowIds = _.keys(inboxInstancesGroupByFlow);
+
+		flowIds.forEach (flowId)->
+			flow = db.flows.findOne(flowId, {fields:{name:1, space: 1}}) || {name: flowId};
+			flow.inbox_count = inboxInstancesGroupByFlow[flowId]?.length;
+			inboxInstancesFlow.push(flow)
+
+		return inboxInstancesFlow
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
