@@ -186,6 +186,7 @@ Template.instance_button.helpers
 		return isShow
 
 	enabled_remind: ->
+		return false
 		ins = WorkflowManager.getInstance();
 		if !ins
 			return false
