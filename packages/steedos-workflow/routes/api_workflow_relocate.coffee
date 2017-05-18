@@ -147,7 +147,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.is_read = false
 					newApprove.is_error = false
 					newApprove.values = new Object
-
+					uuflowManager.setRemindInfo(instance.values, newApprove)
 					newTrace.approves.push(newApprove)
 				)
 				setObj.inbox_users = relocate_inbox_users

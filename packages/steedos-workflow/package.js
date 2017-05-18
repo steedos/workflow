@@ -263,6 +263,10 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/related_instances.html', 'server');
 	api.addFiles('client/views/instance/related_instances.coffee', 'client');
 
+	api.addFiles('client/views/instance/remind_modal.html', 'client');
+	api.addFiles('client/views/instance/remind_modal.coffee', 'client');
+
+
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
 	api.addFiles('server/methods/save_instance.js', 'server');
@@ -271,6 +275,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/cfs_instances.js', 'server');
 	api.addFiles('server/methods/instance_approve.coffee', 'server');
 	api.addFiles('server/methods/instance_return.coffee', 'server');
+	api.addFiles('server/methods/instance_remind.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
