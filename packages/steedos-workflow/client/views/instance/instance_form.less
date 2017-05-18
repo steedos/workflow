@@ -422,16 +422,27 @@ textarea {
 
 .zoom-large,.zoom-extra-large{
   .instance-table{
-    .bootstrap-datetimepicker-widget, bootstrap-datetimepicker-widget-left{
-      top: inherit !important;
-      left: inherit !important;
-      //right: inherit !important;
+    .bootstrap-datetimepicker-widget-left{
+      .bootstrap-datetimepicker-widget{
+        top: inherit !important;
+        left: inherit !important;
+        //right: inherit !important;
+      }
     }
 
-    td:nth-child(2n+3),td:nth-child(2n+4), bootstrap-datetimepicker-widget-right{
+    .bootstrap-datetimepicker-widget-right{
       .bootstrap-datetimepicker-widget{
         left: auto !important;
         right: 20px !important;
+      }
+    }
+
+    td:nth-child(2n+3),td:nth-child(2n+4){
+      td:last-child, .bootstrap-datetimepicker-widget-right{
+        .bootstrap-datetimepicker-widget{
+          left: auto !important;
+          right: 20px !important;
+        }
       }
     }
   }
