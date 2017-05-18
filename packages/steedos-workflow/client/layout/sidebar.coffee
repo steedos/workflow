@@ -63,3 +63,6 @@ Template.workflowSidebar.events
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .inbxo-flow': (event, template)->
+		Session.set("flowId", this?._id);
