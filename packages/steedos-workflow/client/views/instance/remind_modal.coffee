@@ -90,11 +90,20 @@ Template.remind_modal.helpers
 	remind_count_options: ()->
 		return [{
 			value: "single",
-			name: TAPi18n.__("instance_remind_count_options.single")
+			name: TAPi18n.__("instance_remind_count_options.single"),
+			action_types: this.action_types
 		}, {
 			value: "multi",
-			name: TAPi18n.__("instance_remind_count_options.multi")
+			name: TAPi18n.__("instance_remind_count_options.multi"),
+			action_types: this.action_types
 		}]
+
+	isSingle: (value)->
+		if value is 'single'
+			return true
+
+		return false
+
 
 Template.remind_modal.onRendered ()->
 	console.log "remind_modal onRendered"
@@ -104,7 +113,11 @@ Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->
 		values = $("#instance_remind_select_users")[0].dataset.values
 		remind_users = if values then values.split(",") else []
-		remind_count = $('#instance_remind_count').val()
+		remind_count = ''
+		_.each $("[name='remind_count_options']"), (op)->
+			if op.checked
+				remind_count = op.value
+
 		remind_deadline = AutoForm.getFieldValue("remind_deadline", "instance_remind_deadline")
 
 		if _.isEmpty(remind_users)
@@ -121,7 +134,7 @@ Template.remind_modal.events
 
 		action_types = template.data.action_types
 
-		if not action_types.includes("admin")
+		if not action_types.includes("admin") or not remind_count
 			remind_count = 'single'
 
 		$("body").addClass("loading")

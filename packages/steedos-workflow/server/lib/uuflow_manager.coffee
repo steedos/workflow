@@ -1962,11 +1962,18 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 	check deadline, Date
 	check users_id, Array
 
+	skip_users = Meteor.settings.remind?.skip_users || []
+	send_users = []
+	_.each users_id, (uid)->
+		if not skip_users.includes(uid)
+			send_users.push(uid)
+
+	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 	paramString = JSON.stringify({
-		instance: ins_name,
+		instance_name: name,
 		deadline: moment(deadline).format('MM-DD HH:mm')
 	})
-	db.users.find({_id: {$in: _.uniq(users_id)}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
 		# 发送手机短信
 		SMSQueue.send({
 			Format: 'JSON',
@@ -1974,5 +1981,5 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 			ParamString: paramString,
 			RecNum: user.mobile,
 			SignName: 'OA系统',
-			TemplateCode: 'SMS_66340019'
+			TemplateCode: 'SMS_67200967'
 		})

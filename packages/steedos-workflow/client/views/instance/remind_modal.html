@@ -16,11 +16,13 @@
                         </div>
                         <div class="form-group">
                             <label for="instance_remind_count" class="control-label">{{_ 'instance_remind_count'}}</label>
-                            <select class="form-control"  id="instance_remind_count" disabled="{{#if disabled}}disabled{{/if}}">
+                            <div class="form-control" disabled="{{#if disabled}}disabled{{/if}}">
                                 {{#each remind_count_options }}
-                                    <option value="{{value}}" >{{name}}</option>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="remind_count_options" value="{{value}}" checked='{{#if isSingle this.value}}checked{{/if}}' disabled="{{#if disabled}}disabled{{/if}}"> {{name}}
+                                    </label>
                                 {{/each}}
-                            </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             {{#autoForm id='instance_remind_deadline' schema=deadline_fields doc=deadline_values }}

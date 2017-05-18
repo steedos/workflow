@@ -25,7 +25,7 @@ Meteor.startup ->
 			go_next = false
 			console.time 'remind'
 			now = new Date
-			hour_time = 1*60*60*1000
+			skip_users = Meteor.settings.remind?.skip_users || []
 			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
@@ -35,8 +35,9 @@ Meteor.startup ->
 							if ap.remind_date < now
 								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1}})
 								moment_format = 'MM-DD HH:mm'
+								name = if ins.name.length > 15 then ins.name.substr(0,12) + '...' else ins.name
 								params = {
-									instance: ins.name
+									instance_name: name
 								}
 								reminded_count = ap.reminded_count
 								remind_date = ap.remind_date
@@ -87,7 +88,7 @@ Meteor.startup ->
 									ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
 									params.deadline = moment(deadline).format(moment_format)
 
-								if user and user.mobile and (not remind_users.includes(user._id)) # 防止重复发送
+								if user and user.mobile and (not remind_users.includes(user._id)) and (not skip_users.includes(user._id)) # 防止重复发送
 									remind_users.push(user._id)
 									# 发送手机短信
 									SMSQueue.send({
@@ -96,7 +97,7 @@ Meteor.startup ->
 										ParamString: JSON.stringify(params),
 										RecNum: user.mobile,
 										SignName: 'OA系统',
-										TemplateCode: 'SMS_66340019'
+										TemplateCode: 'SMS_67200967'
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
