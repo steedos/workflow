@@ -186,10 +186,21 @@ Template.instance_button.helpers
 		return isShow
 
 	enabled_remind: ->
-		return false
 		ins = WorkflowManager.getInstance();
 		if !ins
 			return false
+
+		values = ins.values
+		if not values.priority or not values.deadline
+			return false
+		try
+			check values.priority, Match.OneOf('普通', '办文', '紧急', '特急')
+			# 由于values中的date字段的值为String，故作如下校验
+			if new Date(values.deadline).toString() is "Invalid Date"
+				return false
+		catch e
+			return false
+
 		space = db.spaces.findOne(ins.space);
 		if !space
 			return false
