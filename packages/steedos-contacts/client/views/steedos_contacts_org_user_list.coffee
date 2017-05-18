@@ -5,7 +5,10 @@ Template.steedos_contacts_org_user_list.helpers
 		return false;
 	selector: ->
 		if Meteor.settings.public?.contacts?.hidden_users
-			query = {space: Session.get("spaceId"), user: {$nin: Meteor.settings.public?.contacts?.hidden_users}};
+			if Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId())
+				query = {space: Session.get("spaceId")}
+			else
+				query = {space: Session.get("spaceId"), user: {$nin: Meteor.settings.public?.contacts?.hidden_users}}
 		else
 			query = {space: Session.get("spaceId")}
 		if !Session.get("contact_list_search")
