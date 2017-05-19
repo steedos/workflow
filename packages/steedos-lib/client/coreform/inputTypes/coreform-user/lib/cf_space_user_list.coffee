@@ -14,6 +14,9 @@ Template.cf_space_user_list.helpers
 			if !Session.get("cf_contact_list_search")
 				orgAndChild = Session.get("cf_orgAndChild");
 				query.organizations = {$in: orgAndChild};
+			else
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				query.organizations = {$in: orgs};
 		return query;
 
 
