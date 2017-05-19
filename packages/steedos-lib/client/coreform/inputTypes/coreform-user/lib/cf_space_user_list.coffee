@@ -7,6 +7,7 @@ Template.cf_space_user_list.onDestroyed ->
 Template.cf_space_user_list.helpers
 	selector: (userOptions)->
 		spaceId = Template.instance().data.spaceId
+		is_within_user_organizations = Template.instance().data.is_within_user_organizations
 		query = {space: spaceId, user_accepted: true};
 		if userOptions != undefined && userOptions != null
 			query.user = {$in: userOptions.split(",")};
@@ -15,8 +16,9 @@ Template.cf_space_user_list.helpers
 				orgAndChild = Session.get("cf_orgAndChild");
 				query.organizations = {$in: orgAndChild};
 			else
-				orgs = db.organizations.find().fetch().getProperty("_id")
-				query.organizations = {$in: orgs};
+				if is_within_user_organizations
+					orgs = db.organizations.find().fetch().getProperty("_id")
+					query.organizations = {$in: orgs};
 		return query;
 
 
