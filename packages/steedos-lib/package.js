@@ -49,6 +49,8 @@ Package.onUse(function(api) {
 
 	api.use('momentjs:moment@2.14.1', 'client');
 
+
+
 	// TAPi18n
 	api.use('templating@1.2.15', 'client');
 
@@ -120,6 +122,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_data_manager.js', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_tabular_space_user.coffee');
+
+	api.addFiles('client/coreform/inputTypes/coreform-user/server/methods/space_users.coffee', 'server');
 
 	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_contact_modal.less', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_contact_modal.html', 'client');

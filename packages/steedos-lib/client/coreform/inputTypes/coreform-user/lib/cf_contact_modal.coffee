@@ -24,6 +24,37 @@ Template.cf_contact_modal.helpers
 	data: ()->
 		Template.instance().data
 
+	selectedUsrsSchema: ()->
+		return new SimpleSchema({
+			selected_users: {
+				type: [String],
+				optional: true,
+				autoform: {
+					type: "universe-select",
+					afFieldInput: {
+						multiple: true,
+						optionsMethod: "getCFOptionSpaceUsers"
+					}
+				}
+			}
+		})
+
+	selectedUsers: ()->
+		return {selected_users: Template.instance().selected.get()}
+
+	optionsMethodParams: (userOptions)->
+		spaceId = Template.instance().data.spaceId
+		is_within_user_organizations = Template.instance().data.is_within_user_organizations
+		query = {space: spaceId, user_accepted: true};
+		if userOptions != undefined && userOptions != null
+			query.user = {$in: userOptions.split(",")};
+		else
+			if is_within_user_organizations
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				query.organizations = {$in: orgs};
+
+		return JSON.stringify({spaceId: spaceId, query: query, selected: Template.instance().selected.get()})
+
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
 		target = $("#" + template.data.targetId)
@@ -56,7 +87,39 @@ Template.cf_contact_modal.events
 		Modal.allowMultiple = false;
 		return true;
 
+	'change .list_checkbox': (event, template) ->
+
+		target = event.target;
+
+		if !template.data.multiple
+			CFDataManager.setContactModalValue([{id: target.value, name: target.dataset.name}]);
+			$("#confirm", $("#cf_contact_modal")).click();
+			return;
+
+		values = CFDataManager.getContactModalValue();
+
+		if target.checked == true
+			if values.getProperty("id").indexOf(target.value) < 0
+				values.push({id: target.value, name: target.dataset.name});
+		else
+			values.remove(values.getProperty("id").indexOf(target.value))
+
+		template.selected.set(values.getProperty("id"))
+
+		CFDataManager.setContactModalValue(values);
+
+		CFDataManager.handerContactModalValueLabel();
+
+Template.cf_contact_modal.onCreated ->
+	self = this;
+	self.selected = new ReactiveVar([]);
+
 Template.cf_contact_modal.onRendered ->
+
+	self = this;
+
+	self.selected.set self.data.defaultValues || []
+
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
 	CFDataManager.handerContactModalValueLabel();
 	cssHeightKey = "max-height"
