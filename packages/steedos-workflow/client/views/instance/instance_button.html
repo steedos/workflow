@@ -162,11 +162,7 @@
 							'instance_related_instances_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_remind}}
-					<button tyep="button" class="btn btn-default btn-instance-remind" data-toggle="tooltip"
-							data-placement="bottom">
-						<i class="ion ion-ios-bell"></i>
-						<span>{{_ 'instance_remind_title'}}</span>
-					</button>
+					<li><a class="btn-instance-remind"><i class="ion ion-ios-bell"></i>{{_ 'instance_remind_title'}}</a></li>
 				{{/if}}
 				<li><a class="btn-workflow-chart"><i class="ion ion-network"></i>{{_ 'workflow_chart'}}</a></li>
 			</ul>
