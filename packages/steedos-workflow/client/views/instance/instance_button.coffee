@@ -191,6 +191,8 @@ Template.instance_button.helpers
 			return false
 
 		values = ins.values
+		if not values
+			return false
 		if not values.priority or not values.deadline
 			return false
 		try
