@@ -1,30 +1,29 @@
 JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 	try
-		current_user = req.headers['X-User-Id']
+		user_id = req.headers['x-user-id']
 
-		auth_token = req.headers['X-Auth-Token']
+		auth_token = req.headers['x-auth-token']
 
-		space_id = req.headers['X_Space_Id']
+		space_id = req.headers['x-space-id']
 
-		if not current_user
-			throw new Meteor.Error('error', 'need header X-User-Id')
-
-		if not auth_token
-			throw new Meteor.Error('error', 'need header X-Auth-Token')
-
-		if not space_id
-			throw new Meteor.Error('error', 'need header X_Space_Id')
+		user = Steedos.getAPILoginUser(req, res)
+		
+		if !user
+			JsonRoutes.sendResult res,
+				code: 401,
+				data:
+					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+					"success": false
+			return;
 
 		state = req.query.state
-		user_id = req.query.userid
+		#user_id = req.query.userid
 
 		if not state
 			throw new Meteor.Error('error', 'state is null')
 
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
-		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(current_user, space_id)
 
 		find_instances = new Array
 		result_instances = new Array
@@ -37,6 +36,8 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 					inbox_users: user_id
 				}).fetch()
 			else
+				# 校验当前登录用户是否是space的管理员
+				uuflowManager.isSpaceAdmin(space_id,user_id)
 				find_instances = db.instances.find({
 					space: space_id,
 					state: "pending"
@@ -60,6 +61,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["applicant_organization_name"] = i["applicant_organization_name"]
 				h["submit_date"] = i["submit_date"]
 				h["step_name"] = step.name
+				h["space_id"] = space_id
 				result_instances.push(h)
 
 		JsonRoutes.sendResult res,

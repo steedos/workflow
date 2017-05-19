@@ -273,8 +273,14 @@ textarea {
   margin-left: 10px;
 }
 
+.ins-attach-view .mouse-hover {
+  cursor: pointer;
+  display: none;
+  margin-left: 10px;
+}
+
 .ins-attach-view a {
-  color: #3c8dbc !important;
+  color: #3c8dbc;
 }
 
 .ins-attach-view a:hover {
@@ -282,6 +288,10 @@ textarea {
 }
 
 .ins-attach-view:hover .delete {
+  display: inline-block;
+}
+
+.ins-attach-view:hover .mouse-hover {
   display: inline-block;
 }
 
@@ -298,6 +308,12 @@ textarea {
   margin-left: 10px;
 }
 
+.ins-attach-version-view .mouse-hover {
+  cursor: pointer;
+  display: none;
+  margin-left: 10px;
+}
+
 .ins-attach-version-view a:hover {
   text-decoration: underline;
 }
@@ -306,6 +322,9 @@ textarea {
   display: inline-block;;
 }
 
+.ins-attach-version-view:hover .mouse-hover {
+  display: inline-block;;
+}
 
 .form-group {
   .select2 {
@@ -401,7 +420,39 @@ textarea {
   }
 }
 
+.zoom-large,.zoom-extra-large{
+  .instance-table{
+
+    .bootstrap-datetimepicker-widget{
+      top: inherit !important;
+    }
+
+    td:not(:last-child),.bootstrap-datetimepicker-widget-left{
+      .bootstrap-datetimepicker-widget{
+        left: inherit !important;
+        //right: inherit !important;
+      }
+    }
+
+    td:last-child,.bootstrap-datetimepicker-widget-right{
+      .bootstrap-datetimepicker-widget{
+        left: auto !important;
+        right: 20px !important;
+      }
+    }
+  }
+}
+
 .instance-table{
+
+  .bootstrap-datetimepicker-widget{
+    table{
+      td{
+        border: none !important;
+      }
+    }
+  }
+
   .instance-form{
     .box-body{
       &>.col-md-12{
@@ -434,14 +485,6 @@ textarea {
     min-height:auto;
     p{
       margin: 0px;
-    }
-  }
-
-  .instance_attachments {
-
-    .ins-attach-view {
-      border-bottom: solid 1px @instanceTableStyleBorderColor;
-      border-top: solid 1px @instanceTableStyleBorderColor;
     }
   }
 
@@ -1145,6 +1188,10 @@ _:-ms-fullscreen,
     select{
       height: 41px !important;
       max-width: 600px;
+      margin: 0px auto;
+    }
+    input{
+      min-height: 41px !important;
     }
   }
 

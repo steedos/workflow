@@ -480,7 +480,8 @@ Meteor.methods({
                 }
 
                 var setOptions = {
-                        'phone.verified': true
+                        'phone.verified': true,
+                        'phone.modified': new Date()
                     },
                     unSetOptions = {
                         'services.phone.verify': 1

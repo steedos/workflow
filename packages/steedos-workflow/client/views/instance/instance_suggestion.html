@@ -18,15 +18,24 @@
                             {{else}}
                                 <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
                                 {{#if includes currentStep.step_type 'sign,counterSign'}}
-                                    <label class="radio-inline">
-                                        <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
-                                    </label>
                                     {{#if includes currentStep.step_type 'counterSign'}}
+                                        {{#unless hideCounterSignJudgeOptions}}
+                                            <label class="radio-inline">
+                                                <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type='radio' name='judge' value="readed" class='suggestion' checked="{{#if equals judge 'readed'}}checked{{/if}}"/>{{_ "instance_readed"}}
+                                            </label>
+                                        {{/unless}}
+                                    {{else}}
                                         <label class="radio-inline">
-                                            <input type='radio' name='judge' value="readed" class='suggestion' checked="{{#if equals judge 'readed'}}checked{{/if}}"/>{{_ "instance_readed"}}
+                                            <input type='radio' name='judge' value="approved" class='suggestion' checked="{{#if equals judge 'approved'}}checked{{/if}}" id="judge_approved"/>{{_ "instance_approve"}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type='radio' name='judge' value="rejected" class='suggestion' checked="{{#if equals judge 'rejected'}}checked{{/if}}"/>{{_ "instance_reject"}}
                                         </label>
                                     {{/if}}
                                 {{/if}}
@@ -49,19 +58,21 @@
                 {{#if isCC}}
                 {{else}}
                     <div class="row" id='instance_next'>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">{{_ "instance_next_step"}}</div>
-                                    <select class="nextSteps form-control" name="nextSteps" id="nextSteps" multiple={{next_step_multiple}}>
+                                    <div class="instance-suggestion-next-steps">
                                         {{#each next_step_options }}
-                                            <option value="{{id}}" selected="{{selected}}" {{disabled}} steptype={{type}}>{{text}}</option>
+                                            <label {{disabled}} class="radio">
+                                                <input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
+                                            </label>
                                         {{/each}}
-                                    </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group" id="nextStepUsers_div">
                                 {{#if isReady}}
                                     <div class="input-group">

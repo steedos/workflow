@@ -15,6 +15,13 @@ InstanceSignText.helpers =
 		InstanceformTemplate.helpers.traces()
 
 	trace: (stepName, only_cc_opinion, image_sign)->
+
+		instance = InstanceformTemplate.helpers.instance()
+
+		is_completed = instance?.state == "completed"
+
+		completed_date = if is_completed then _.last(instance.traces)?.finish_date?.getTime() else 0
+
 		traces = InstanceformTemplate.helpers.traces()
 
 		approves = _.clone(traces[stepName])
@@ -50,7 +57,13 @@ InstanceSignText.helpers =
 			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 				approve._display = true
 
-		return approves?.filterProperty("_display", true)
+		approves = _.filter approves, (a) ->
+			if is_completed
+				return a._display == true && a.is_finished && a.finish_date?.getTime() <= completed_date
+			else
+				return a._display == true
+
+		return approves
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
@@ -112,6 +125,10 @@ InstanceSignText.helpers =
 	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
 		if !step
+
+			if !field_formula
+				field_formula = WorkflowManager.getInstanceFormVersion()?.fields?.findPropertyByPK("code", this.name)
+
 			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
 		else
 			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]

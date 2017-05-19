@@ -212,6 +212,9 @@ Template.instance_suggestion.helpers
 
 		return false
 
+	hideCounterSignJudgeOptions: ->
+		return Meteor.settings.public?.workflow?.hideCounterSignJudgeOptions
+
 Template.instance_suggestion.events
 
 	'change .suggestion': (event) ->
@@ -221,17 +224,25 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
-	'change .nextSteps': (event) ->
-		if event.target.name == 'nextSteps'
-			if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
-				Session.set("next_user_multiple", true)
-			else
-				Session.set("next_user_multiple", false)
-			Session.set("next_step_id", $("#nextSteps").val())
+	# 'change .nextSteps': (event) ->
+	# 	if event.target.name == 'nextSteps'
+	# 		if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
+	# 			Session.set("next_user_multiple", true)
+	# 		else
+	# 			Session.set("next_user_multiple", false)
+	# 		Session.set("next_step_id", $("#nextSteps").val())
+
+	'change [name=instance_suggestion_next_step]': (event) ->
+		checkedNextStepRadio = $("[name=instance_suggestion_next_step]:checked")
+		if checkedNextStepRadio.attr("steptype") == 'counterSign'
+			Session.set("next_user_multiple", true)
+		else
+			Session.set("next_user_multiple", false)
+		Session.set("next_step_id", checkedNextStepRadio.val())
 
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
-		Modal.show 'opinion_modal'
+		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
 #		if ApproveManager.isReadOnly()

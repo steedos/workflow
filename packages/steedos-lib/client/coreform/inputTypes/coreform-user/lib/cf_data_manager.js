@@ -3,20 +3,39 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node) {
+CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 
     var orgs;
 
-    if (node.id == '#')
-        orgs = CFDataManager.getRoot(spaceId);
+    if (node.id == '#'){
+		if(is_within_user_organizations){
+			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
+
+			_ids = uOrgs.getProperty("_id")
+
+			orgs = _.filter(uOrgs, function (org) {
+				// var children = org.children || []
+
+                var parents = org.parents || []
+
+				return _.intersection(parents, _ids).length < 1
+			})
+
+            if(orgs.length > 0){
+			    orgs[0].open = true
+            }
+
+		}else{
+			orgs = CFDataManager.getRoot(spaceId);
+		}
+    }
     else
         orgs = CFDataManager.getChild(spaceId, node.id);
-
-    return handerOrg(orgs);
+    return handerOrg(orgs, node.id);
 }
 
 
-function handerOrg(orgs) {
+function handerOrg(orgs, parentId) {
 
     var nodes = new Array();
 
@@ -37,18 +56,20 @@ function handerOrg(orgs) {
         if (CFDataManager.getOrganizationModalValue().getProperty("id").includes(node.id)) {
             node.state.selected = true;
         }
-
         if (org.children && org.children.length > 0) {
             node.children = true;
         }
 
-        if (org.is_company == true) {
+        if (org.is_company == true || org.open == true) {
             node.state.opened = true;
+			node.state.selected = true;
         } else {
-            node.parent = org.parent;
+            // node.parent = parentId;
             // node.icon = false;
             // node.icon = "fa fa-users";
         }
+
+		node.parent = parentId;
 
         node.icon = 'fa fa-sitemap';
 

@@ -3,12 +3,13 @@
 		<!-- <a href="/workflow/space/{{spaceId}}" class="btn btn-default" title='{{_ "Workflow"}}'>
 			<i class="ion ion-chevron-left"></i><span></span>
 		</a> -->
-		<button type="button" class="btn btn-default" data-toggle="offcanvas">
+		<button type="button" class="btn btn-default" data-toggle="offcanvas" id="sidebarOffcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}} <i class="caret"></i>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}
+					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}} <i class="caret"></i>
 				</a>
 				<div class="dropdown-menu workflow-menu" style="max-height: {{maxHeight}}">
 					{{> workflowMenuByFlow}}
@@ -20,48 +21,53 @@
 			</span>
 		{{/if}}
 		<div class="pull-right">
-			<button type="button" data-toggle="tooltip" data-placement="left" class="btn btn-default instance_new" title="{{_ 'Fill in form'}}" name="create_ins_btn">
+			<button type="button" data-toggle="tooltip" data-placement="left" class="btn btn-default instance_new"
+					title="{{_ 'Fill in form'}}" name="create_ins_btn">
 				<i class="ion ion-plus"></i>
 			</button>
 		</div>
 	</div>
-	<div class="instance-list">
-		<div class="toolbar">
-			{{#if hasFlowId}}
-				<div class="btn-group hidden-xs" role="group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false" style="{{enabled_export}}" title={{_
-							"workflow_export_data"}}>
-						<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
-						<li><a href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
-						<li><a href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
-						<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
-					</ul>
-				</div>
-			{{/if}}
-			<div class="pull-right instance-search-box">
-				<!-- <div class="has-feedback">
+<div class="instance-list">
+	<div class="toolbar">
+		{{#if hasFlowId}}
+			<div class="btn-group hidden-xs" role="group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false" style="{{enabled_export}}" title={{_
+						"workflow_export_data"}}>
+					<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
+					<li><a href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
+					<li><a href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
+					<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
+				</ul>
+			</div>
+		{{/if}}
+		<div class="pull-right instance-search-box">
+			<!-- <div class="has-feedback">
 					<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}} style="width:200px">
 					<span class="ion-ios-search-strong form-control-feedback"></span>
 				</div> -->
-				<div class="input-group">
-					<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="instance_more_search"><span class="caret"></span></button>
+			<div class="input-group">
+				<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
+				<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="instance_more_search"><span
+								class="caret"></span></button>
 					</span>
-				</div>
 			</div>
 		</div>
-		<div class="search-tip-bar" style="{{is_display_search_tip}}">
-			<span>{{_ "instance_search_result_tip"}}</span>:
-			<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
-		</div>
-
-		{{> tabular table=TabularTables.instances selector=selector class="table table-striped table-condensed datatable-instances"}}
 	</div>
-	
-	{{> baseTabbar}}
+	<div class="search-tip-bar" style="{{is_display_search_tip}}">
+		<span>{{_ "instance_search_result_tip"}}</span>: <label>{{filterFlowName}}</label>
+		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
+	</div>
+
+
+	{{> tabular table=TabularTables.instances selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+
+
+</div>
+
+{{> baseTabbar}}
 </template>

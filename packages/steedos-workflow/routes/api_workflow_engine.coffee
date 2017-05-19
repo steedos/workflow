@@ -66,6 +66,9 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 						trace_approves[i].judge = "submitted"
 						trace_approves[i].description = description
 					else if step_type is "sign" or step_type is "counterSign"
+						# 如果是会签并且前台没有显示核准驳回已阅的radio则给judge默认submitted
+						if step_type is "counterSign" and not judge
+							judge = 'submitted'
 						# 判断前台传的judge是否合法
 						uuflowManager.isJudgeLegal(judge)
 						trace_approves[i].judge = judge

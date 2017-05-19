@@ -82,6 +82,17 @@ Template.instance_attachment.helpers({
 		return url;
 	},
 
+	canView: function(filename) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		if (InstanceManager.isCC(ins))
+			return false;
+		
+		if (Steedos.isNode() && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+			return true;
+	},
 
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
@@ -93,8 +104,11 @@ Template.instance_attachment.helpers({
 
 		var locked = false;
 		if (locked_by) locked = true;
-		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked)
-			return true;
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
+			var current_step = InstanceManager.getCurrentStep();
+			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+				return true;
+		}
 
 		return false;
 	},
@@ -170,35 +184,42 @@ Template.instance_attachment.events({
 		var isView = true;
 		NodeManager.editFile(url, filename, isView);
 	},
-	"click [name='ins_attach_preview']": function(event, template){
-		if (event.target.id){
+	"click [name='ins_attach_preview']": function(event, template) {
+		if (event.target.id) {
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
 			Steedos.openWindow(url);
 		}
-	}
-})
-
-Template._file_DeleteButton.events({
-
-	'click div': function(event, template) {
-		var file_id = template.data.file_id;
+	},
+	"click .ins-attach-delete": function(event, template){
+		var file_id = event.target.id;
+		var file_name = event.target.dataset.name;
 		if (!file_id) {
 			return false;
 		}
 		Session.set("file_id", file_id);
 
-		Meteor.call('cfs_instances_remove', file_id, function(error, result) {
-			if (error) {
-				toastr.error(error.message);
-			}
+		swal({
+			title: t('workflow_attach_confirm_delete'),
+			text: t("workflow_attach_confirm_delete_messages", file_name),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t("workflow_attach_confirm"),
+			cancelButtonText: t("workflow_attach_cancel"),
+			closeOnConfirm: true
+		},function(){
+			Meteor.call('cfs_instances_remove', file_id, function(error, result) {
+				if (error) {
+					toastr.error(error.message);
+				}
 
-			if (result) {
-				InstanceManager.removeAttach();
-			}
-		})
-		return true;
+				if (result) {
+					InstanceManager.removeAttach();
+				}
+			})
+			return true;
+		});
 	}
-
 })
 
 
@@ -334,6 +355,18 @@ Template.ins_attach_version_modal.helpers({
 		return can_remove_attach && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
 	},
 
+	canView: function(filename) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		if (InstanceManager.isCC(ins))
+			return false;
+		
+		if (Steedos.isNode() && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+			return true;
+	},
+	
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
@@ -344,8 +377,11 @@ Template.ins_attach_version_modal.helpers({
 
 		var locked = false;
 		if (locked_by) locked = true;
-		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked)
-			return true;
+		if ((Steedos.isIE() || Steedos.isNode()) && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
+			var current_step = InstanceManager.getCurrentStep();
+			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+				return true;
+		}
 
 		return false;
 	},
@@ -431,52 +467,58 @@ Template.ins_attach_version_modal.events({
 		var isView = true;
 		NodeManager.editFile(url, filename, isView);
 	},
-	"click [name='ins_attach_preview']": function(event, template){
-		if (event.target.id){
+	"click [name='ins_attach_preview']": function(event, template) {
+		if (event.target.id) {
 			url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
 			Steedos.openWindow(url);
 		}
-	}
-})
-
-Template._file_version_DeleteButton.events({
-
-	'click div': function(event, template) {
-		var file_id = template.data.file_id;
+	},
+	"click .ins-attach-version-delete": function(event, template) {
+		var file_id = event.target.id;
+		var file_name = event.target.dataset.name;
 		if (!file_id) {
 			return false;
 		}
 
 		Session.set("file_id", file_id);
 
-		Meteor.call('cfs_instances_remove', file_id, function(error, result) {
-			if (error) {
-				toastr.error(error.message);
-			}
+		swal({
+			title: t("workflow_attach_confirm_delete"),
+			text: t("workflow_attach_confirm_delete_messages",file_name),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t("workflow_attach_confirm"),
+			cancelButtonText: t("workflow_attach_cancel"),
+			closeOnConfirm: true
+		},function(){
+			Meteor.call('cfs_instances_remove', file_id, function(error, result) {
+				if (error) {
+					toastr.error(error.message);
+				}
 
-			if (result) {
-				var parent = Session.get('attach_parent_id');
-				var current = cfs.instances.find({
-					'metadata.parent': parent
-				}, {
-					sort: {
-						uploadedAt: -1
-					}
-				}).fetch()[0];
+				if (result) {
+					var parent = Session.get('attach_parent_id');
+					var current = cfs.instances.find({
+						'metadata.parent': parent
+					}, {
+						sort: {
+							uploadedAt: -1
+						}
+					}).fetch()[0];
 
-				Meteor.call('cfs_instances_set_current', current._id, function(error, result) {
-					if (error) {
-						toastr.error(error.message);
-					}
-
-					if (result) {
-						InstanceManager.removeAttach();
-					}
-				})
-
-			}
-		})
-		return true;
+					Meteor.call('cfs_instances_set_current', current._id, function(error, result) {
+						if (error) {
+							toastr.error(error.message);
+						}
+						if (result) {
+							InstanceManager.removeAttach();
+						}
+					})
+				}
+			})
+			return true;
+		});
 	}
 
 })
@@ -505,13 +547,13 @@ Template.ins_attach_edit_modal.onRendered(function() {
 		TANGER_OCX_OBJ = document.getElementById("TANGER_OCX_OBJ");
 		url = Steedos.absoluteUrl("api/files/instances/") + f._id + "/" + f.name() + "?download=true";
 		TANGER_OCX_OBJ.OpenFromURL(url);
-		
+
 		if (f.name().split('.').length < 2)
 			return false;
-		
+
 		var fileType = f.name().split('.').pop().toLowerCase();
 
-		if (fileType == ('doc' || 'docx')){
+		if (fileType == ('doc' || 'docx')) {
 			//设置office用户名
 			with(TANGER_OCX_OBJ.ActiveDocument.Application) {
 				UserName = Meteor.user().name;
@@ -519,7 +561,7 @@ Template.ins_attach_edit_modal.onRendered(function() {
 
 			TANGER_OCX_OBJ.ActiveDocument.TrackRevisions = true;
 		}
-		
+
 	}
 
 	setTimeout(function() {

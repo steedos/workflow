@@ -22,6 +22,7 @@ Template.cf_organization.conditionalselect = (node)->
 
 Template.cf_organization.onRendered ->
   spaceId = Template.instance().data.spaceId
+  is_within_user_organizations = Template.instance().data.is_within_user_organizations
   CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(@data.defaultValues));
 
   $.jstree.defaults.checkbox.three_state = false;
@@ -47,7 +48,7 @@ Template.cf_organization.onRendered ->
             themes: { "stripes" : true },
             data:  (node, cb) ->
               Session.set("cf_selectOrgId", node.id);
-              cb(CFDataManager.getNode(spaceId, node));
+              cb(CFDataManager.getNode(spaceId, node, is_within_user_organizations));
             three_state: false
         conditionalselect: (node) ->
           return Template.cf_organization.conditionalselect(node);

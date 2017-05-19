@@ -150,6 +150,7 @@
 	"users_company": "公司",
 	"users_position": "职务",
 	"users_mobile": "手机",
+	"users_work_phone": "固定电话",
 	"users_locale": "语言",
 	"users_timezone": "时区",
 	"users_emails": "邮件",

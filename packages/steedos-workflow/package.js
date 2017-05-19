@@ -193,6 +193,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/opinion_modal.html', 'client');
 	api.addFiles('client/views/instance/opinion_modal.js', 'client');
 
+	api.addFiles('client/views/instance/instance_sign_modal.html', 'client');
+	api.addFiles('client/views/instance/instance_sign_modal.less', 'client');
+	api.addFiles('client/views/instance/instance_sign_modal.coffee', 'client');
+
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_box.less', 'client');
@@ -246,6 +250,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows.html', 'client');
 	api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
+	api.addFiles('client/views/list/admin_categories.html', 'client');
+	api.addFiles('client/views/list/admin_categories.coffee', 'client');
 
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
@@ -257,6 +263,10 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/related_instances.html', 'server');
 	api.addFiles('client/views/instance/related_instances.coffee', 'client');
 
+	api.addFiles('client/views/instance/remind_modal.html', 'client');
+	api.addFiles('client/views/instance/remind_modal.coffee', 'client');
+
+
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
 	api.addFiles('server/methods/save_instance.js', 'server');
@@ -265,6 +275,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/cfs_instances.js', 'server');
 	api.addFiles('server/methods/instance_approve.coffee', 'server');
 	api.addFiles('server/methods/instance_return.coffee', 'server');
+	api.addFiles('server/methods/instance_remind.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
@@ -285,6 +296,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_export.coffee', 'server');
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
 

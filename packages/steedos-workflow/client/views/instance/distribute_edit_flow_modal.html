@@ -1,0 +1,31 @@
+<template name="distribute_edit_flow_modal">
+	<div class="modal fade" id="distribute_edit_flow_modal">
+		<div class="modal-dialog modal-lg modal-body-zoom" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">
+						{{_ "Edit"}}
+					</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="control-label">被分发时分发对象可选项</label>
+						<input type="button" id="xxx" class="form-control">
+					</div>
+					{{#each allow_distribute_steps}}
+						<div class="form-group">
+							<label class="control-label">{{this.name}}</label>
+							<input type="button" id="xxx" class="form-control" placeholder="分发流程可选项">
+						</div>
+					{{/each}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
+					<button type="button" class="btn btn-primary" id="distribute_edit_flow_modal_ok">{{_ "OK"}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

@@ -61,6 +61,8 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
+		_tableColumns()
+
 		return query
 
 	enabled_export: ->
@@ -105,6 +107,40 @@ Template.instance_list.helpers
 			return true
 		return false
 
+	filterFlowName: ->
+		return db.flows.findOne(Session.get("flowId"))?.name
+
+_tableColumns = ()->
+	show = false
+
+	if $(window).width() < 1441 && $(window).width() > 766
+		show = true
+
+	table = $(".datatable-instances").DataTable();
+	thead = $("thead",$(".datatable-instances"))
+
+	table.column(0).visible(!show)
+
+	table.column(2).visible(show)
+	table.column(5).visible(show)
+	if Session.get("box") == "draft"
+		table.column(3).visible(false)
+		table.column(4).visible(false)
+		table.column(6).visible(false)
+		table.column(7).visible(false)
+	else
+		table.column(3).visible(show)
+		table.column(4).visible(show)
+		table.column(6).visible(show)
+		table.column(7).visible(show)
+
+
+	if show
+		thead.show()
+	else
+		thead.hide()
+
+
 Template.instance_list.onCreated ->
 	self = this;
 
@@ -112,6 +148,9 @@ Template.instance_list.onCreated ->
 		$(window).height());
 
 	$(window).resize ->
+		_tableColumns();
+#		Session.set("tableColumns", tableColumns)
+
 		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
 Template.instance_list.onRendered ->
@@ -122,6 +161,7 @@ Template.instance_list.onRendered ->
 
 	self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
+	_tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
@@ -180,3 +220,10 @@ Template.instance_list.events
 		Session.set("flowId", undefined)
 		#清空搜索框
 		$('#instance_search').val("").trigger('keyup')
+
+	'click #sidebarOffcanvas': ()->
+		if !Steedos.isMobile() && !Steedos.isPad()
+			if !$("body").hasClass("sidebar-collapse")
+				$(".treeview-menu").perfectScrollbar()
+			else
+				$('.treeview-menu').perfectScrollbar('destroy');
