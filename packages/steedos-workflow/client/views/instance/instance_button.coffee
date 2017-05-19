@@ -149,7 +149,7 @@ Template.instance_button.helpers
 			)
 			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
 			previous_trace_approves = previous_trace.approves
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId()
+			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and previous_trace_approves[0].is_read isnt true
 				return true
 		return false
 
