@@ -364,6 +364,8 @@
 
 	"afModal_insert": "Create",
 	"afModal_update": "Update",
+	"afModal_remove": "Delete",
+	"afModal_remove_suc": "Successfully deleted",
 
 	"change_phone": "Change Phone Number"
 }

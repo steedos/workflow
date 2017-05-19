@@ -381,6 +381,8 @@
 
 	"afModal_insert": "创建",
 	"afModal_update": "修改",
+	"afModal_remove": "删除",
+	"afModal_remove_suc": "删除成功",
 
 	"change_phone": "更改手机号"
 }
