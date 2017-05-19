@@ -147,9 +147,14 @@ Template.instance_button.helpers
 			previous_trace = _.find(ins.traces, (t)->
 				return t._id is previous_trace_id
 			)
+			# 校验当前步骤是否已读
+			is_read = false
+			_.each last_trace.approves, (ap)->
+				if ap.is_read is true
+					is_read = true
 			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
 			previous_trace_approves = previous_trace.approves
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and previous_trace_approves[0].is_read isnt true
+			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
 				return true
 		return false
 
