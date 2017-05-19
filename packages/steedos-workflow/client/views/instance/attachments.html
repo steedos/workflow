@@ -1,11 +1,13 @@
 <template name="instance_attachment" >
 	<tr>
 		<td class="ins-attach-view">
-			<a href="{{getUrl this._id}}" style="cursor: pointer;" class="ins_attach_href" target="_parent" >{{this.name}}</a>
 			{{#if isPrint}}
+				<a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
 			{{else}}
 				{{#if isAndroidApp}}
 					<a href="#" data-downloadurl="{{getUrl this._id}}" name="ins_attach_mobile">{{this.name}}</a>
+				{{else}}
+					<a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
 				{{/if}}
 				{{#if isMobile}}
 					<div class="pull-right">
