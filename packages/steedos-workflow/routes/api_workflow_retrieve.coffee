@@ -125,6 +125,8 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			newApprove.is_error = false
 			newApprove.values = new Object
 
+			uuflowManager.setRemindInfo(instance.values, newApprove)
+
 			newTrace.approves.push(newApprove)
 			setObj.inbox_users = [current_user]
 

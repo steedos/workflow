@@ -26,12 +26,13 @@
       "loginExpirationInDays": 90
     },
     //手机号及其验证相关
-    "phone" : {
-      "forceAccountBindPhone" : false//强行弹出手机号绑定窗口
+    "phone": {
+      "forceAccountBindPhone": false //强行弹出手机号绑定窗口
     },
     //审批王相关
     "workflow": {
-      "approve_admins": [] //有修改审批意见权限的用户ID集合
+      "approve_admins": [], //有修改审批意见权限的用户ID集合
+      "hideCounterSignJudgeOptions": false // 会签时是否隐藏 核准 驳回 已阅 
     },
     //通讯录相关
     "contacts": {
@@ -53,6 +54,18 @@
     "gcm": {
       "projectNumber": "xxxxxx",
       "apiKey": "xxxxxxx"
+    },
+    "xinge": {
+      "accessId": 123456,
+      "secretKey": "xxxxxx"
+    },
+    "huawei": {
+      "appId": 123456,
+      "appSecret": "xxxxxx"
+    },
+    "mi": {
+      "appSecret": "xxxxx",
+      "production": true
     }
 
   },
@@ -113,5 +126,38 @@
     "showFileAndLine": true, //是否显示文件及行号
     "logLevel": 2, //日志级别，0为只输出error日志，2为输出所有级别日志
     "viewLimit": 1000 //日志最大记录数
+  },
+  "remind": {
+    "cron": {
+      "second": 0,
+      "minute": null, // null表示每分钟
+      "hour": [9, 10, 11, 13, 14, 15]
+    }, // 自动催办定时器执行规则
+    "time_points": [{
+      "hour": 8,
+      "minute": 30
+    }, {
+      "hour": 9,
+      "minute": 30
+    }, {
+      "hour": 10,
+      "minute": 30
+    }, {
+      "hour": 11,
+      "minute": 30
+    }, {
+      "hour": 14,
+      "minute": 30
+    }, {
+      "hour": 15,
+      "minute": 30
+    }, {
+      "hour": 16,
+      "minute": 30
+    }, {
+      "hour": 17,
+      "minute": 30
+    }], // 提醒时间的时间点集合
+    "skip_users": [] // 不发送通知的用户ID集合
   }
 }

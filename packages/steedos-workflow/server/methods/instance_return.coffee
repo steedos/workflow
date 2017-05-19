@@ -100,7 +100,7 @@ Meteor.methods
 			newApprove.is_read = false
 			newApprove.is_error = false
 			newApprove.values = new Object
-
+			uuflowManager.setRemindInfo(ins.values, newApprove)
 			newTrace.approves.push(newApprove)
 
 		setObj.inbox_users = new_inbox_users

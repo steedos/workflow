@@ -43,6 +43,7 @@ Package.onUse(function(api) {
 	api.use('meteorhacks:subs-manager@1.6.4');
 
 	api.use('steedos:base@0.0.13');
+	api.use('steedos:version');
 
 	api.use(['webapp'], 'server');
 
@@ -170,7 +171,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/layouts/master.less', 'client');
 	api.addFiles('client/steedos/views/layouts/master.html', 'client');
 	api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
-	
+
 	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
 
@@ -267,7 +268,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 
-	api.addAssets('steedos.info',['client','server']);
+	api.addFiles('steedos.info', ['client', 'server']);
 
 	// functions
 	api.addFiles('server/functions/checkUsernameAvailability.coffee', 'server');

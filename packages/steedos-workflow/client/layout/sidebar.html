@@ -1,44 +1,67 @@
 <template name="workflowSidebar">
-    <aside class="main-sidebar">
-        <header class="main-header">
-          <div class="logo" style="overflow: visible">
+	<aside class="main-sidebar">
+		<header class="main-header">
+			<div class="logo" style="overflow: visible">
             <span class="logo-lg text-overflow">
               <B>{{_ "Steedos Workflow"}}</B>
             </span>
-            <span class="logo-arrow">
+				<span class="logo-arrow">
               <i class="ion-ios-arrow-down ion"></i>
             </span>
-            <span class="logo-mini">
+				<span class="logo-mini">
               <i class="ion ion-grid"></i>
             </span>
-          </div>
-        </header>
-        <div class="sidebar" id="scrollspy">
-          {{> sidebarUserPanel}}
-          <ul class="nav sidebar-menu">
-            <li class="header header-workflow header-space-switcher">
-              {{> space_switcher}}
-            </li>
+			</div>
+		</header>
+		<div class="sidebar" id="scrollspy">
+			{{> sidebarUserPanel}}
+			<ul class="nav sidebar-menu">
+				<li class="header header-workflow header-space-switcher">
+					{{> space_switcher}}
+				</li>
 
-            <li class="instance_new"><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_ "Fill in form"}}</span></a></li>
+				<li class="instance_new"><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_
+						"Fill in form"}}</span></a></li>
 
-            <li class="inbox {{boxActive 'inbox'}}">
-              <a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
-                <i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
-                <span class="pull-right-container">
-                  <span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
-                </span>
-              </a>
-            </li>
-            <li class="outbox {{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
+				<li class="inbox {{boxActive 'inbox'}}">
+					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
+						<i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
+						<span class="pull-right-container">
+						  	<span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
+							<!--<i class="fa fa-angle-left pull-right"></i>-->
+						</span>
+					</a>
+					{{#if hasInbox}}
+						<ul class="treeview-menu menu-open" style="display: block;">
+							{{#each inboxInstancesFlow}}
+								<li>
+									<a class="inbxo-flow text-overflow" href="{{urlPrefix}}/workflow/space/{{space}}/inbox" undefined="">
+										<!--<i class="ion ion-clipboard"></i>-->
+										<span class="flow-name text-overflow">{{name}}</span>
+										<span class="pull-right-container">
+											<span class="label pull-right bg-red">{{inbox_count}}</span>
+										</span>
+									</a>
+								</li>
+							{{/each}}
+						</ul>
+					{{/if}}
+				</li>
+				<li class="outbox {{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i
+						class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
 
-            <!-- <li class="header">{{_ "My Applications"}}</li> -->
+				<!-- <li class="header">{{_ "My Applications"}}</li> -->
 
-            <li class="draft {{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
-            <li class="pending {{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i class="ion ion-ios-loop"></i><span>{{_ "pending"}}</span></a></li>
-            <li class="completed {{boxActive 'completed'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
-            <li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
-          </ul>
-        </div>
-    </aside>
+				<li class="draft {{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i
+						class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
+				<li class="pending {{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i
+						class="ion ion-ios-loop"></i><span>{{_ "pending"}}</span></a></li>
+				<li class="completed {{boxActive 'completed'}}"><a
+						href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i
+						class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
+				<li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i
+						class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
+			</ul>
+		</div>
+	</aside>
 </template>

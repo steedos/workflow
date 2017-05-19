@@ -212,6 +212,9 @@ Template.instance_suggestion.helpers
 
 		return false
 
+	hideCounterSignJudgeOptions: ->
+		return Meteor.settings.public?.workflow?.hideCounterSignJudgeOptions
+
 Template.instance_suggestion.events
 
 	'change .suggestion': (event) ->

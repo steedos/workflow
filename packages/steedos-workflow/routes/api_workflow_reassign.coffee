@@ -94,6 +94,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				new_appr.is_read = false
 				new_appr.is_error = false
 				new_appr.values = new Object
+				uuflowManager.setRemindInfo(instance.values, new_appr)
 				last_trace.approves.push(new_appr)
 			)
 

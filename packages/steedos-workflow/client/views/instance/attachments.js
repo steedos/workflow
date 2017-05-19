@@ -82,6 +82,17 @@ Template.instance_attachment.helpers({
 		return url;
 	},
 
+	canView: function(filename) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		if (InstanceManager.isCC(ins))
+			return false;
+		
+		if (Steedos.isNode() && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+			return true;
+	},
 
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
@@ -344,6 +355,18 @@ Template.ins_attach_version_modal.helpers({
 		return can_remove_attach && isDraftOrInbox && isFlowEnable && !isHistoryLenthZero && !isLocked;
 	},
 
+	canView: function(filename) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		if (InstanceManager.isCC(ins))
+			return false;
+		
+		if (Steedos.isNode() && Session.get('box') == 'inbox' && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+			return true;
+	},
+	
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)

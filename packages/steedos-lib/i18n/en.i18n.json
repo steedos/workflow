@@ -362,8 +362,11 @@
 	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
 	"username-unavailable": "This username is already in use",
 
-	"afModal_insert": "Create",
-	"afModal_update": "Update",
+	"afModal_insert": "Save",
+	"afModal_update": "Save",
+	"afModal_remove": "Delete",
+	"afModal_remove_suc": "Successfully deleted",
+	"afModal_cancel": "Cancel",
 
 	"change_phone": "Change Phone Number"
 }

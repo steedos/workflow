@@ -488,6 +488,19 @@
 	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
 
 	"instance_workflow_chart_ie_warning": "Do not support viewing the workflow chart in IE, please do this on client software or chrome.",
+
+	"instance_remind_title": "Remind",
+	"instance_remind_select_users": "Users",
+	"instance_remind_count": "Mode",
+	"instance_remind_deadline": "Deadline",
+	"instance_remind_success": "Remind successfully",
+	"instance_remind_need_remind_users": "Need users",
+	"instance_remind_need_remind_count": "Need mode",
+	"instance_remind_need_remind_deadline": "Need deadline",
+	"instance_remind_count_options": {
+		"single": "single",
+		"multi": "multi"
+	},
 	"instance_opinion_title_select": "Select opinions",
 	"categories": "Flow categories",
 	"categories_name": "Name",

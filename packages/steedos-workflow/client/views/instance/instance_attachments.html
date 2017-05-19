@@ -22,9 +22,13 @@
             </div>
 
             <div>
-                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
                 {{#if enabled_edit_normal_attachment}}
+                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
                 <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_normal_attach"></div>
+                {{else}}
+                    {{#with normal_attachments}}
+                        <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
+                    {{/with}}
                 {{/if}}
             </div>
             <div class="attachments-list">

@@ -118,7 +118,7 @@ var s_autoform = function (schema, field) {
                     format: "YYYY-MM-DD",
                     locale: Session.get("TAPi18n::loaded_lang"),
                     widgetPositioning:{
-                        horizontal: 'right'
+                        // horizontal: 'right'
                     }
                 }
             }
@@ -135,7 +135,7 @@ var s_autoform = function (schema, field) {
                     format: "YYYY-MM-DD HH:mm",
                     locale: Session.get("TAPi18n::loaded_lang"),
                     widgetPositioning:{
-                        horizontal: 'right'
+                        // horizontal: 'right'
                     }
                 }
             }

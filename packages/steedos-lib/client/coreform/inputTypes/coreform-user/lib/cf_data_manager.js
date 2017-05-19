@@ -21,6 +21,10 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 				return _.intersection(parents, _ids).length < 1
 			})
 
+            if(orgs.length > 0){
+			    orgs[0].open = true
+            }
+
 		}else{
 			orgs = CFDataManager.getRoot(spaceId);
 		}
@@ -52,18 +56,20 @@ function handerOrg(orgs, parentId) {
         if (CFDataManager.getOrganizationModalValue().getProperty("id").includes(node.id)) {
             node.state.selected = true;
         }
-
         if (org.children && org.children.length > 0) {
             node.children = true;
         }
 
-        if (org.is_company == true) {
+        if (org.is_company == true || org.open == true) {
             node.state.opened = true;
+			node.state.selected = true;
         } else {
-            node.parent = parentId;
+            // node.parent = parentId;
             // node.icon = false;
             // node.icon = "fa fa-users";
         }
+
+		node.parent = parentId;
 
         node.icon = 'fa fa-sitemap';
 

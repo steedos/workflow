@@ -76,6 +76,12 @@ Steedos.Helpers =
 	afModalUpdate: ->
 		return t "afModal_update"
 
+	afModalRemove: ->
+		return t "afModal_remove"
+
+	afModalCancel: ->
+		return t "afModal_cancel"
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->

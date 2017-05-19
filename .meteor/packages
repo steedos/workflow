@@ -152,6 +152,7 @@ steedos:records-qhd
 steedos:accounts-phone
 steedos:accounts
 
+steedos:remind
 # steedos:calendar@0.0.1
 
 # steedos:calendar
@@ -160,4 +161,5 @@ steedos:accounts
 # steedos:records
 # steedos:records-i18n
 
-
+steedos:freeboard
+steedos:dashboard
