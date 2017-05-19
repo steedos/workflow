@@ -31,7 +31,8 @@
     },
     //审批王相关
     "workflow": {
-      "approve_admins": [] //有修改审批意见权限的用户ID集合
+      "approve_admins": [], //有修改审批意见权限的用户ID集合
+      "hideCounterSignJudgeOptions": false // 会签时是否隐藏 核准 驳回 已阅 
     },
     //通讯录相关
     "contacts": {
