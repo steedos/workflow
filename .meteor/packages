@@ -160,3 +160,6 @@ steedos:remind
 
 # steedos:records
 # steedos:records-i18n
+
+steedos:freeboard
+steedos:dashboard

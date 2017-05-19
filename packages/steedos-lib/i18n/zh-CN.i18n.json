@@ -379,8 +379,11 @@
 	"username-unavailable": "此用户名已经被使用，请填写其他用户名",
 	"refresh": "刷新",
 
-	"afModal_insert": "创建",
-	"afModal_update": "修改",
+	"afModal_insert": "保存",
+	"afModal_update": "保存",
+	"afModal_remove": "删除",
+	"afModal_remove_suc": "删除成功",
+	"afModal_cancel": "取消",
 
 	"change_phone": "更改手机号"
 }
