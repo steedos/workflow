@@ -21,13 +21,6 @@ if Meteor.isClient
 		Meteor.autorun ->
 			# 没有验证手机时，强行跳转到手机验证路由
 			if Meteor.userId() and !Meteor.loggingIn()
-				routerPath = Session.get("router-path")
-				# 当前路由本身就在手机验证路由中则不需要跳转
-				if /^\/accounts\/setup\/phone\b/.test routerPath
-					return
-				# 登录相关路由不需要跳转
-				if /^\/steedos\//.test routerPath
-					return
 				if Accounts.isPhoneVerified()
 					expiredDays = Meteor.settings?.public?.phone?.expiredDays
 					if expiredDays
