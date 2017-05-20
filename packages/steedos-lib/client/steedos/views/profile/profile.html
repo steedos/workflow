@@ -86,9 +86,11 @@
                     <h2 style="margin-top: 40px;">{{_ 'Change username'}}</h2>
                     <hr style="margin-top: 0px;"/>
                     <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
-                    <h2 style="margin-top: 40px;">{{_ 'change_phone'}}</h2>
-                    <hr style="margin-top: 0px;"/>
-                    <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
+                    {{#if isPhoneEnabled}}
+                      <h2 style="margin-top: 40px;">{{_ 'change_phone'}}</h2>
+                      <hr style="margin-top: 0px;"/>
+                      <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
+                    {{/if}}
                   </div>
                 </div>
 
