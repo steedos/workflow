@@ -358,8 +358,9 @@ Template.profile.events
 		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
-		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
-
+		if Meteor.settings.public.phone
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+		return
 
 Meteor.startup ->
 	AutoForm.hooks

@@ -243,7 +243,7 @@ if (Meteor.isServer)
 				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
 				if repeatNumberUser
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
-				else
+				else if Meteor.settings.public.phone
 					paramString = JSON.stringify({
 						name: euser.name,
 						number: modifier.$set.mobile
@@ -299,20 +299,22 @@ if (Meteor.isServer)
 				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
 				# 更新users表中的相关字段
 				db.users.update({_id: doc.user}, {$set: user_set}, ()->
-					paramString = JSON.stringify({
-						name: euser.name,
-						number: modifier.$set.mobile
-					})
-					db.users.find({_id: doc.user, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
-						# 发送手机短信
-						SMSQueue.send({
-							Format: 'JSON',
-							Action: 'SingleSendSms',
-							ParamString: paramString,
-							RecNum: user.mobile,
-							SignName: 'OA系统',
-							TemplateCode: 'SMS_67660108'
+					if Meteor.settings.public.phone
+						paramString = JSON.stringify({
+							name: euser.name,
+							number: modifier.$set.mobile
 						})
+						db.users.find({_id: doc.user, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
+							# 发送手机短信
+							SMSQueue.send({
+								Format: 'JSON',
+								Action: 'SingleSendSms',
+								ParamString: paramString,
+								RecNum: user.mobile,
+								SignName: 'OA系统',
+								TemplateCode: 'SMS_67660108'
+							})
+					return
 				)
 
 		if modifier.$set.organizations
