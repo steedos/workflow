@@ -286,6 +286,7 @@
 	"space_users_error_user_readonly": "无法修改用户",
 	"space_users_error_remove_space_owner": "不能删除工作区拥有者",
 	"space_users_error_remove_space_admins": "不能删除工作区管理员",
+	"space_users_error_phone_already_existed": "该手机号已被其他用户注册",
 
 	"spaces_error_login_required": "login必填",
 	"spaces_error_space_owner_only": "您不是该工作区的所有者",
