@@ -28,6 +28,8 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 
 	api.use('tap:i18n@1.7.0');
+	
+	api.use('useraccounts:core');
 
 	api.use('steedos:accounts-phone');
 	api.use('steedos:base');
