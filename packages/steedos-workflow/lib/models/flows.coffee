@@ -154,6 +154,19 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			rows: 10
 
+	distribute_optional_users:
+		type: [Object]
+		optional: true
+		blackbox: true
+		autoform:
+			omit: true
+
+	'current.steps.$.distribute_optional_flows':
+		type: [String]
+		optional: true
+		autoform:
+			omit: true
+
 
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
@@ -220,27 +233,6 @@ new Tabular.Table
 		},
 	]
 	extraFields: ["form","print_template","instance_template","events","field_map"]
-	lengthChange: false
-	pageLength: 10
-	info: false
-	searching: true
-	autoWidth: false
-
-new Tabular.Table
-	name: "DistributeFlows",
-	collection: db.flows,
-	columns: [
-		{data: "name", title: "name"},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="distribute_edit_flow"><i class="fa fa-pencil"></i></button>'
-		}
-	]
-	extraFields: ["current", "distribute_optional_users"]
 	lengthChange: false
 	pageLength: 10
 	info: false
