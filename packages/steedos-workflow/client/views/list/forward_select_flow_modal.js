@@ -27,8 +27,7 @@ Template.forward_select_flow_modal.helpers({
 		var data = {
 			dataset: {
 				showOrg: true,
-				multiple: true,
-				spaceId: Session.get('forward_space_id')
+				multiple: true
 			},
 			name: 'forward_select_user',
 			atts: {
@@ -67,12 +66,6 @@ Template.forward_select_flow_modal.helpers({
 		return users_title;
 	}
 
-})
-
-Template.forward_select_flow_modal.onRendered(function() {
-	if (!Session.get('forward_space_id') && Session.get('spaceId')) {
-		Session.set('forward_space_id', Session.get('spaceId'));
-	}
 })
 
 
@@ -139,7 +132,7 @@ Template.forward_select_flow_modal.events({
 
 					var users = flow.distribute_optional_users || [];
 					if (!_.isEmpty(users)) {
-						forward_select_user.dataset.userOptions = _.pluck(users, "id").toString();
+						forward_select_user.dataset.userOptions = _.pluck(users, "id");
 						forward_select_user.dataset.showOrg = false;
 					} else {
 						delete forward_select_user.dataset.userOptions;
