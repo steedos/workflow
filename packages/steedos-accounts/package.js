@@ -43,6 +43,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/core.coffee');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
+	api.addFiles('server/methods/disable_phone.coffee', 'server');
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');

@@ -27,7 +27,8 @@
     },
     //手机号及其验证相关
     "phone": {
-      "forceAccountBindPhone": false //强行弹出手机号绑定窗口
+      "forceAccountBindPhone": false, //强行弹出手机号绑定窗口
+      "expiredDays": 30 //失效时间，forceAccountBindPhone为true时失效后重新强行弹出手机号绑定窗口
     },
     //审批王相关
     "workflow": {
