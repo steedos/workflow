@@ -243,7 +243,7 @@ if (Meteor.isServer)
 				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
 				if repeatNumberUser
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
-				else if Meteor.settings.public.phone
+				else if Steedos.isPhoneEnabled()
 					paramString = JSON.stringify({
 						name: euser.name,
 						number: modifier.$set.mobile
@@ -299,7 +299,7 @@ if (Meteor.isServer)
 				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
 				# 更新users表中的相关字段
 				db.users.update({_id: doc.user}, {$set: user_set}, ()->
-					if Meteor.settings.public.phone
+					if Steedos.isPhoneEnabled()
 						paramString = JSON.stringify({
 							name: euser.name,
 							number: modifier.$set.mobile

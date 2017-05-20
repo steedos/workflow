@@ -358,7 +358,7 @@ Template.profile.events
 		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
-		if Meteor.settings.public.phone
+		if Steedos.isPhoneEnabled()
 			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 		return
 
