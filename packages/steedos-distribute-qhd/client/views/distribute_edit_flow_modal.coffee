@@ -56,9 +56,7 @@ Template.distribute_edit_flow_modal.events
 		step_flows = new Array
 
 		_.each allow_distribute_steps, (s)->
-			selected_flows = AutoForm.getFieldValue("distribute_flows", s._id)
-			if selected_flows
-				step_flows.push({_id: s._id, distribute_optional_flows: selected_flows})
+			step_flows.push({_id: s._id, distribute_optional_flows: AutoForm.getFieldValue("distribute_flows", s._id)})
 
 		if _.isEmpty(selected_users_id) and _.isEmpty(step_flows)
 			return

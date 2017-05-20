@@ -23,30 +23,24 @@ Template.forward_select_flow_modal.helpers({
 		}
 	},
 
-	fields: function() {
-		var users_title = "";
-		if (this.action_type == "forward") {
-			users_title = TAPi18n.__('instance_forward_users');
-		} else if (this.action_type == "distribute") {
-			users_title = TAPi18n.__('instance_distribute_users');
-		};
-		return new SimpleSchema({
-			forward_users: {
-				autoform: {
-					type: "selectuser",
-					multiple: true,
-					spaceId: Session.get('forward_space_id')
-				},
-				optional: true,
-				type: [String],
-				label: users_title
+	user_context: function() {
+		var data = {
+			dataset: {
+				showOrg: true,
+				multiple: true,
+				spaceId: Session.get('forward_space_id')
+			},
+			name: 'forward_select_user',
+			atts: {
+				name: 'forward_select_user',
+				id: 'forward_select_user',
+				class: 'selectUser form-control'
 			}
-		})
+		}
+
+		return data
 	},
 
-	values: function() {
-		return {}
-	},
 
 	// 判断是转发还是分发
 	is_show_selectuser: function() {
@@ -61,6 +55,16 @@ Template.forward_select_flow_modal.helpers({
 		}
 
 		return false;
+	},
+
+	selectuser_title: function(action_type) {
+		var users_title = "";
+		if (this.action_type == "forward") {
+			users_title = TAPi18n.__('instance_forward_users');
+		} else if (this.action_type == "distribute") {
+			users_title = TAPi18n.__('instance_distribute_users');
+		};
+		return users_title;
 	}
 
 })
@@ -90,7 +94,8 @@ Template.forward_select_flow_modal.events({
 		if (!flow)
 			return;
 
-		var selectedUsers = AutoForm.getFieldValue("forward_users", "forward_select_user");
+		var values = $("#forward_select_user")[0].dataset.values;
+		var selectedUsers = values ? values.split(",") : [];
 
 		if (action_type == 'forward') {
 			selectedUsers = [Meteor.userId()];
@@ -109,13 +114,39 @@ Template.forward_select_flow_modal.events({
 		Modal.allowMultiple = true;
 		Modal.show("selectFlowModal", {
 			onSelectFlow: function(flow) {
-				$("#forward_flow")[0].dataset.flow = flow._id;
-				$("#forward_flow").val(flow.name);
+				var forward_select_user = $("#forward_select_user")[0];
 
+				// 切换了space
 				if (Session.get('forward_space_id') != flow.space) {
-					AutoForm.resetForm("forward_select_user");
 					Session.set('forward_space_id', flow.space);
+					forward_select_user.dataset.spaceId = flow.space;
 				}
+
+				// 切换了流程
+				if ($("#forward_flow")[0].dataset.flow != flow._id) {
+					$("#forward_flow")[0].dataset.flow = flow._id;
+					$("#forward_flow").val(flow.name);
+					forward_select_user.value = '';
+					forward_select_user.dataset.values = '';
+
+					var flow = db.flows.findOne({
+						_id: flow._id
+					}, {
+						fields: {
+							distribute_optional_users: 1
+						}
+					});
+
+					var users = flow.distribute_optional_users || [];
+					if (!_.isEmpty(users)) {
+						forward_select_user.dataset.userOptions = _.pluck(users, "id").toString();
+						forward_select_user.dataset.showOrg = false;
+					} else {
+						delete forward_select_user.dataset.userOptions;
+						delete forward_select_user.dataset.showOrg;
+					}
+				}
+
 			},
 			action_type: template.data.action_type
 		});

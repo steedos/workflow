@@ -47,11 +47,10 @@ Meteor.methods
 					if sf._id
 						s.distribute_optional_flows = sf.distribute_optional_flows
 
-		if not _.isEmpty(distribute_optional_users_id)
-			distribute_optional_users = new Array
-			db.users.find({_id: {$in: distribute_optional_users_id}}, {fields: {name: 1}}).forEach (u)->
-				distribute_optional_users.push({id: u._id, name: u.name})
-			setObj.distribute_optional_users = distribute_optional_users
+		distribute_optional_users = new Array
+		db.users.find({_id: {$in: distribute_optional_users_id}}, {fields: {name: 1}}).forEach (u)->
+			distribute_optional_users.push({id: u._id, name: u.name})
+		setObj.distribute_optional_users = distribute_optional_users
 
 		if not _.isEmpty(step_flows)
 			setObj['current.steps'] = flow.current.steps
