@@ -21,3 +21,11 @@ accountsRoutes.route '/setup/phone/:number',
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_phone_verify"
 
+
+FlowRouter.route '/steedos/forgot-password-token',
+	action: (params, queryParams)->
+		if Meteor.userId()
+			FlowRouter.go "/"
+		BlazeLayout.render 'loginLayout',
+			main: "forgot_password_token"
+
