@@ -1,7 +1,13 @@
 Template.accounts_phone.helpers
 	currentPhoneNumber: ->
 		return Accounts.getPhoneNumber()
-
+	title: ->
+		if Meteor.userId()
+			return t "accounts_phone_title"
+		else
+			return t "steedos_phone_title"
+	isBackButtonNeeded: ->
+		return !Meteor.userId()
 
 Template.accounts_phone.onRendered ->
 
@@ -38,6 +44,9 @@ Template.accounts_phone.events
 				else
 					FlowRouter.go "/steedos/setup/phone/#{encodeURIComponent(number)}"
 			sweetAlert.close();
+
+	'click .btn-back': (event,template) ->
+		FlowRouter.go "/steedos/sign-in"
 
 
 

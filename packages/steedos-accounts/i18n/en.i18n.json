@@ -11,7 +11,7 @@
 	"accounts_phone_verify_suc_wait": "Phone number verified success, closing the window!",
 	"accounts_phone_swal_unreceived_title": "Fetch you phone number again",
 	"accounts_phone_swal_unreceived_text": "We will send a verification code SMS to:\r\n %s",
-	"accounts_phone_title": "Enter your phone",
+	"accounts_phone_title": "Bind the phone number",
 	"accounts_phone_country_label": "country",
 	"accounts_phone_country_cn": "China",
 	"accounts_phone_placeholder": "Enter your phone",
@@ -19,7 +19,7 @@
 	"accounts_phone_verify_title": "Enter the SMS code",
 	"accounts_phone_number_label": "Number",
 	"accounts_phone_code_label": "Code",
-	"accounts_phone_code_placeholder": "Enter the verification code",
+	"accounts_phone_code_placeholder": "Enter the sms code",
 	"accounts_phone_verify_btn_send_title": "Send",
 	"accounts_phone_code_unreceived": "Fail to receive code?",
 	"accounts_phone_back": "Back",
@@ -27,5 +27,7 @@
 	"forgot_password_token_placeholder": "Enter the verification code",
 	"forgot_password_token_btn_ret_pwd_title": "Reset Password",
 	"forgot_password_token_code_unreceived": "Fail to receive code?",
-	"forgot_password_token_back": "Back"
+	"forgot_password_token_back": "Back",
+	"steedos_phone_title": "Login with phone",
+	"accounts_phone_switch_back_normal": "Login with username or email"
 }

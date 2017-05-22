@@ -2,6 +2,11 @@ Template.accounts_phone_verify.helpers
 	number: ->
 		number = FlowRouter.current().path.match(/phone\/(.+)/)?[1]
 		return decodeURIComponent number
+	title: ->
+		if Meteor.userId()
+			return t "accounts_phone_title"
+		else
+			return t "steedos_phone_title"
 
 Template.accounts_phone_verify.onRendered ->
 
