@@ -21,12 +21,13 @@ Meteor.methods
 			pinyin = /^[a-zA-Z\']*$/.test(searchText)
 			if (pinyin && searchText.length > 8) || (!pinyin && searchText.length > 1)
 				query = {state: 'enabled', name: {$regex: searchText}}
-				flows = db.flows.find(query, {limit: 10, fields: {name: 1}}).fetch()
+				flows = db.flows.find(query, {limit: 10, fields: {name: 1, space: 1}}).fetch()
 		else if values.length
-			flows = db.flows.find({_id: {$in: values}}, {fields: {name: 1}}).fetch()
+			flows = db.flows.find({_id: {$in: values}}, {fields: {name: 1, space: 1}}).fetch()
 
 		flows.forEach (f)->
-			opts.push({label: f.name, value: f._id})
+			space = db.spaces.findOne({_id: f.space}, {fields: {name: 1}})
+			opts.push({label: "[#{space.name}]#{f.name}", value: f._id})
 
 		return opts
 
