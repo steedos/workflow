@@ -21,6 +21,15 @@ accountsRoutes.route '/setup/phone/:number',
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_phone_verify"
 
+FlowRouter.route '/steedos/setup/phone',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone"
+
+FlowRouter.route '/steedos/setup/phone/:number',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone_verify"
 
 FlowRouter.route '/steedos/forgot-password-token',
 	action: (params, queryParams)->

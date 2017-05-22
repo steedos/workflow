@@ -65,5 +65,8 @@ Template.accounts_phone_verify.events
 
 
 	'click .btn-back': (event,template) ->
-		FlowRouter.go "/accounts/setup/phone"
+		if Meteor.userId()
+			FlowRouter.go "/accounts/setup/phone"
+		else
+			FlowRouter.go "/steedos/setup/phone"
 

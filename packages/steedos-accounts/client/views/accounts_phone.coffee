@@ -33,7 +33,10 @@ Template.accounts_phone.events
 					toastr.error t(error.reason)
 					console.log error
 					return
-				FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
+				if Meteor.userId()
+					FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
+				else
+					FlowRouter.go "/steedos/setup/phone/#{encodeURIComponent(number)}"
 			sweetAlert.close();
 
 
