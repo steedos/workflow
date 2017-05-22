@@ -44,7 +44,7 @@ Meteor.methods
 		_.each flow.current.steps, (s)->
 			if s.allowDistribute is true
 				_.each step_flows, (sf)->
-					if sf._id
+					if sf._id is s._id
 						s.distribute_optional_flows = sf.distribute_optional_flows
 
 		distribute_optional_users = new Array
