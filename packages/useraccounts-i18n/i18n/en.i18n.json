@@ -197,5 +197,7 @@
   "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.",
 
   "Username_and_email": "Username or email",
-  "Username": "Username"
+  "Username": "Username",
+
+  "loginWithPhone": "Login with phone"
 }

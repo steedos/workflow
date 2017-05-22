@@ -179,5 +179,7 @@
   "Unknown error": "未知错误",
 
   "Username_and_email": "用户名或邮件",
-  "Username": "用户名"
+  "Username": "用户名",
+
+  "loginWithPhone": "手机号登录"
 }
