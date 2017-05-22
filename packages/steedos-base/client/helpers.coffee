@@ -82,6 +82,9 @@ Steedos.Helpers =
 	afModalCancel: ->
 		return t "afModal_cancel"
 
+	isPhoneEnabled: ->
+		return !!Meteor.settings?.public?.phone
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->
