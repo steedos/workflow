@@ -222,7 +222,7 @@
 	"instance_search_submit_date": "Submit Date",
 	"instance_search_start": "Start",
 	"instance_search_end": "End",
-	"instance_search_result_tip": "Search Result",
+	"instance_search_result_tip": "Filtered Result",
 	"instance_search_state": "Instance State",
 	"instance_search_state_options": {
 		"pending": "Pending",
