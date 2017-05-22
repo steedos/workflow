@@ -185,10 +185,11 @@ Template.instance_button.helpers
 		return "[#{instanceName}](#{href})"
 
 	enabled_suggest: ->
-		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
-		if isShow
-			isShow = WorkflowManager.getInstance().state != "draft"
-		return isShow
+#		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
+#		if isShow
+#			isShow = WorkflowManager.getInstance().state != "draft"
+#		return isShow
+		return false
 
 	enabled_remind: ->
 		ins = WorkflowManager.getInstance();
