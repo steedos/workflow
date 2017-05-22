@@ -17,6 +17,13 @@ AT.prototype.atPwdLinkHelpers = {
     phoneLinkText: function(){
         return T9n.get("loginWithPhone", markIfMissing=false);
     },
+    showPhoneLink: function(){
+        if (Steedos) {
+            if (typeof Steedos.isPhoneEnabled === "function") {
+                return Steedos.isPhoneEnabled();
+            }
+        }
+    }
 };
 
 AT.prototype.atPwdLinkEvents = {
