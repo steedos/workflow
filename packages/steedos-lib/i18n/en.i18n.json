@@ -369,5 +369,6 @@
 	"afModal_remove_suc": "Successfully deleted",
 	"afModal_cancel": "Cancel",
 
-	"change_phone": "Change Phone Number"
+	"change_phone": "Change Phone Number",
+	"set_password_by_phone": "Reset password"
 }

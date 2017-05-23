@@ -386,5 +386,7 @@
 	"afModal_remove_suc": "删除成功",
 	"afModal_cancel": "取消",
 
-	"change_phone": "更改手机号"
+	"change_phone": "更改手机号",
+	"set_password_by_phone": "重置密码"
+
 }

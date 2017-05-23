@@ -362,6 +362,9 @@ Template.profile.events
 			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 		return
 
+	'click .btn-set-password-by-phone': (event, template) ->
+		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
+
 Meteor.startup ->
 	AutoForm.hooks
 		updateProfile:

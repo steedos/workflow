@@ -16,11 +16,11 @@ Template.accounts_phone_password.onRendered ->
 			isPhoneVerified = Accounts.isPhoneVerified()
 			if isPhoneVerified
 				console.log "here will send sms code for number:#{number}"
-	# Accounts.requestPhoneVerification number, (error)->
-	# 	if error
-	# 		toastr.error t error.reason
-	# 		console.error error
-	# 		return
+				# Accounts.requestPhoneVerification number, (error)->
+				# 	if error
+				# 		toastr.error t error.reason
+				# 		console.error error
+				# 		return
 
 Template.accounts_phone_password.events
 	'click .btn-verify-code': (event,template) ->

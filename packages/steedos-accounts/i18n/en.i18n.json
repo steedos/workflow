@@ -30,11 +30,12 @@
 	"forgot_password_token_back": "Back",
 	"steedos_phone_title": "Login with phone",
 	"accounts_phone_switch_back_normal": "Login with username or email",
-	"accounts_phone_password_title": "Set password by sms",
+	"accounts_phone_password_title": "Reset password by sms",
 	"accounts_phone_password_suc": "Password set success!",
 	"accounts_phone_password_suc_wait": "Password set success, closing the window!",
 	"accounts_phone_password_placeholder": "New password",
 	"accounts_phone_password_again_placeholder": "Enter password again",
 	"accounts_phone_password_invalid": "Password is invalid",
-	"accounts_phone_password_again_invalid": "Two passwords are different"
+	"accounts_phone_password_again_invalid": "Two passwords are different",
+	"accounts_phone_password_btn_save_title": "Set Password"
 }
