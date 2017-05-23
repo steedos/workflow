@@ -504,6 +504,9 @@ Meteor.methods({
 
                     setOptions['services.phone.bcrypt'] = hashed;
                     unSetOptions['services.phone.srp'] = 1;
+
+                    // 增加该行代码执行meteor内置的密码设置功能
+                    Accounts.setPassword(user._id, newPassword);
                 }
 
                 try {
@@ -530,6 +533,7 @@ Meteor.methods({
                             userId: user._id,
                             error: new Meteor.Error(403, "accounts_phone_not_exist")
                         };
+
                     successfulVerification(user._id);
                 } catch (err) {
                     resetToOldToken();
@@ -538,8 +542,10 @@ Meteor.methods({
 
                 // Replace all valid login tokens with new ones (changing
                 // password should invalidate existing sessions).
-                // 下面这句会造成注销登录状态，对我们无用
-                // Accounts._clearAllLoginTokens(user._id);
+                if(newPassword){
+                    // 下面这句会造成注销登录状态，只在修改密码时调用即可
+                    Accounts._clearAllLoginTokens(user._id);
+                }
 
                 return {
                     userId: user._id
