@@ -18,7 +18,7 @@ WorkflowManager.getRoleUsersbyOrgAndRole = function(spaceId, orgId, roleId) {
 
     orgPositions.forEach(function(orgPosition) {
         var roleUserIds = orgPosition.users;
-        roleUsers = roleUsers.concat(WorkflowManager.getUsers(spaceId, roleUserIds));
+        roleUsers = roleUsers.concat(WorkflowManager.getUsers(spaceId, roleUserIds, true));
     });
 
     if (orgPositions.length == 0) {
@@ -66,7 +66,7 @@ WorkflowManager.getRoleUsersByUsersAndRoles = function(spaceId, userIds, roleIds
     if (!userIds || !roleIds)
         return roleUsers;
 
-    var users = WorkflowManager.getUsers(spaceId, userIds);
+    var users = WorkflowManager.getUsers(spaceId, userIds, true);
 
     users.forEach(function(user) {
         roleUsers = roleUsers.concat(WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, user.organizations, roleIds));
@@ -149,7 +149,7 @@ WorkflowManager.getOrganizationsUsers = function(spaceId, orgs) {
     var orgUsers = new Array();
 
     orgs.forEach(function(org) {
-        orgUsers = orgUsers.concat(WorkflowManager.getUsers(spaceId, org.users));
+        orgUsers = orgUsers.concat(WorkflowManager.getUsers(spaceId, org.users, true));
     });
 
     return orgUsers;
@@ -249,7 +249,7 @@ WorkflowManager.getUser = function(spaceId, userId) {
     return spaceUser;
 };
 
-WorkflowManager.getUsers = function(spaceId, userIds) {
+WorkflowManager.getUsers = function(spaceId, userIds, notNeedDetails) {
 
     if ("string" == typeof(userIds)) {
         return [WorkflowManager.getUser(spaceId, userIds)]
@@ -265,14 +265,22 @@ WorkflowManager.getUsers = function(spaceId, userIds) {
             }
         });
 
-        spaceUsers.forEach(function(spaceUser) {
-            spaceUser.id = spaceUser.user;
-            spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
-            if (spaceUser.organization) {
-                spaceUser.roles = WorkflowManager.getUserRoles(spaceId, spaceUser.organization.id, spaceUser.id);
+        if (notNeedDetails == true) {
+            spaceUsers.forEach(function(spaceUser) {
+                spaceUser.id = spaceUser.user;
                 users.push(spaceUser);
-            }
-        })
+            })
+        } else {
+            spaceUsers.forEach(function(spaceUser) {
+                spaceUser.id = spaceUser.user;
+                spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
+                if (spaceUser.organization) {
+                    spaceUser.roles = WorkflowManager.getUserRoles(spaceId, spaceUser.organization.id, spaceUser.id);
+                    users.push(spaceUser);
+                }
+            })
+        }
+
     }
 
     return users;
