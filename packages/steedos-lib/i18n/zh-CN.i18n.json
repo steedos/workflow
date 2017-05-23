@@ -387,6 +387,7 @@
 	"afModal_cancel": "取消",
 
 	"change_phone": "更改手机号",
-	"set_password_by_phone": "重置密码"
+	"set_password_by_phone": "重置密码",
+	"account_phone_invalid": "请先绑定手机号"
 
 }

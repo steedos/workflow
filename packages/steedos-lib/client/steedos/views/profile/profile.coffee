@@ -363,7 +363,10 @@ Template.profile.events
 		return
 
 	'click .btn-set-password-by-phone': (event, template) ->
-		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
+		if Accounts.isPhoneVerified()
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
+		else
+			toastr.error t("account_phone_invalid")
 
 Meteor.startup ->
 	AutoForm.hooks
