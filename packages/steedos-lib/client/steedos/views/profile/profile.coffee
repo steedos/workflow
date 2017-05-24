@@ -131,8 +131,12 @@ Template.profile.onCreated ->
 		Password = $('#Password').val()
 		confirmPassword = $('#confirmPassword').val()
 
+		result = Steedos.validatePassword Password
+		if result.error
+			return toastr.error result.error.reason
+
 		if !oldPassword or !Password or !confirmPassword
-			toastr.warning t('Old_and_new_password_required')
+			toastr.error t('Old_and_new_password_required')
 
 		else if Password == confirmPassword
 			Accounts.changePassword oldPassword, Password, (error) ->

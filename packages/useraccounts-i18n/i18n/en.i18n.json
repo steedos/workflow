@@ -44,7 +44,7 @@
   "with": "with",
   "requiredField": "Required Field",
   "maxAllowedLength": "Maximum allowed length",
-  "minRequiredLength": "Minimum required length",
+  "minRequiredLength": "Minimum required length for ",
   "resendVerificationEmail": "Send email again",
   "resendVerificationEmailLink_pre": "Verification email lost?",
   "resendVerificationEmailLink_link": "Send again",

@@ -34,5 +34,7 @@
 	"tabbar_workflow": "Workflow",
 	"tabbar_cms": "Messages",
 	"tabbar_apps": "Apps",
-	"tabbar_admin": "Me"
+	"tabbar_admin": "Me",
+
+	"password_invalid": "The password must contain letters and numbers, and no less than 8 digits"
 }

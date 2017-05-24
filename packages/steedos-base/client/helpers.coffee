@@ -85,6 +85,23 @@ Steedos.Helpers =
 	isPhoneEnabled: ->
 		return !!Meteor.settings?.public?.phone
 
+	validatePassword: (pwd)->
+		reason = t "password_invalid"
+		valid = true
+		unless pwd
+			valid = false
+		unless /\d+/.test(pwd)
+			valid = false
+		unless /[a-zA-Z]+/.test(pwd)
+			valid = false
+		if pwd.length < 8
+			valid = false
+		if valid
+			return true
+		else
+			return error:
+				reason: reason
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->
