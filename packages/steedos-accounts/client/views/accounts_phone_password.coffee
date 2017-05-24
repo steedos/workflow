@@ -36,6 +36,10 @@ Template.accounts_phone_password.events
 		unless password
 			toastr.error t "accounts_phone_password_invalid"
 			return
+		result = Steedos.validatePassword password
+		if result.error
+			return toastr.error result.error.reason
+
 		password2 = $(".accounts-password-again").val()
 		unless password2 is password
 			toastr.error t "accounts_phone_password_again_invalid"
