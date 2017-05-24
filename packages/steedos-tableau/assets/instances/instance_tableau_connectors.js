@@ -171,23 +171,43 @@
 
 		var connectionData = JSON.parse(tableau.connectionData);
 		var flowId = connectionData.flowId;
+		var spaceId = connectionData.spaceId;
+
+		var approve = connectionData.approve;
+
+		var username = tableau.username
+
+		var password = tableau.password
+
+		var state = connectionData.state
+
+		var url_params = "?username=" + username + "&password=" + password;
+
+		if(approve){
+			url_params = url_params + "&approve=true"
+		}
+
+		if(state){
+			url_params = url_params + "&state=" + state
+		}
+
 
 		var valueFields = connectionData.valueFields;
-
 		if (!valueFields) {
 			valueFields = []
 		}
 
-		var sync_token_query = "";
-
 		if (last_sync_token > 0)
-			sync_token_query = "&sync_token=" + last_sync_token;
+			url_params =  url_params + "&sync_token=" + last_sync_token;
 
 
 		console.log("instancesConnector.getData...")
+
+		url = window.location.origin + "/api/workflow/instances/space/"+spaceId+"/flow/" + flowId + url_params
+
 		debugger;
 		settings = {
-			url: "http://192.168.0.134/api/workflow/instances?limit=5000&flowId=" + flowId + sync_token_query,
+			url: url,
 			type: 'GET',
 			crossDomain: true,
 			async: false,
@@ -324,6 +344,22 @@
 				connectionData.valueFields = JSON.parse(valueFields);
 			}
 
+			var approve = $("#approve").is(':checked');
+
+			connectionData.approve = approve;
+
+			var states = []
+
+			$("[name='state']:checked").each(function(){states.push($(this).val())})
+
+			connectionData.state = states.join(",")
+
+			var spaceId = $("#spaceId").val();
+
+			if(spaceId){
+				connectionData.spaceId = spaceId;
+			}
+
 			tableau.connectionData = JSON.stringify(connectionData);
 			tableau.submit();
 		}
@@ -337,8 +373,17 @@
 			var flowId = $("#flowId").val();
 
 			var username = $("#username").val();
+			if (!username) {
+				alert("请填写username")
+				return;
+			}
 
 			var password = $("#password").val();
+
+			if (!password) {
+				alert("请填写password")
+				return;
+			}
 
 			if (!flowId) {
 				alert("请填写流程Id")
