@@ -40,5 +40,6 @@
 	"accounts_phone_password_btn_save_title": "设置密码",
 	"accounts_phone_too_often_retries": "您操作太过频繁，请在 %s 秒后再发送！",
 	"accounts_phone_too_many_retries": "您操作次数过多，请在 %s 分钟后再发送！",
-	"accounts_phone_user_not_found": "该手机号未绑定到任何账户！"
+	"accounts_phone_user_not_found": "该手机号未绑定到任何账户！",
+	"accounts_phone_sms_failed": "短信发送失败！"
 }

@@ -404,7 +404,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
 
     } catch (e) {
-        console.log('SMS Failed, Something bad happened!', e);
+        console.error('SMS Failed, Something bad happened!', e);
+        throw new Meteor.Error(403, t("accounts_phone_sms_failed"));
     }
 };
 
