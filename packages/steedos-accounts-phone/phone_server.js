@@ -347,7 +347,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = "Too often retries, try again in " + waitTimeInSec + " seconds.";
+            errMsg = t("accounts_phone_too_often_retries",waitTimeInSec);
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
@@ -357,7 +357,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
         nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
         if (nextRetryDate > curTime) {
             var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
-                errMsg = "Too many retries, try again in " + waitTimeInMin + " minutes.";
+                errMsg = t("accounts_phone_too_many_retries",waitTimeInMin);
             throw new Meteor.Error(403, errMsg);
         }
     }
