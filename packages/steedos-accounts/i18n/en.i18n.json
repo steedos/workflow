@@ -38,6 +38,7 @@
 	"accounts_phone_password_invalid": "Password is invalid",
 	"accounts_phone_password_again_invalid": "Two passwords are different",
 	"accounts_phone_password_btn_save_title": "Set Password",
-	"accounts_phone_too_often_retries": "Too often retries, try again in %s seconds.",
-	"accounts_phone_too_many_retries": "Too many retries, try again in %s minutes."
+	"accounts_phone_too_often_retries": "Too often retries, try again in %s seconds!",
+	"accounts_phone_too_many_retries": "Too many retries, try again in %s minutes!",
+	"accounts_phone_user_not_found": "The phone number is not bound to any account!"
 }

@@ -423,7 +423,6 @@ Meteor.methods({
 
         var userId = this.userId;
         if (!userId) {
-            console.log("Meteor.methods.requestPhoneVerification,phone:======================"+phone);
             // Get user by phone number
             var existingUser = Meteor.users.findOne({
                 'phone.number': phone
@@ -438,7 +437,7 @@ Meteor.methods({
                 // Create new user with phone number
                 // userId = createUser({phone:phone});
                 // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-                throw new Meteor.Error(403, "Can't find user");
+                throw new Meteor.Error(403, t("accounts_phone_user_not_found"));
             }
         }
         Accounts.sendPhoneVerificationCode(userId, phone);
