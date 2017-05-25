@@ -25,9 +25,8 @@
 
                     {{#if is_show_selectuser}}
                         <div class="form-group">
-                            {{#autoForm id='forward_select_user' schema=fields doc=values }}
-                                  {{> afFormGroup name="forward_users"}}
-                            {{/autoForm}}
+                            <label for="forward_select_user" class="control-label">{{ selectuser_title ../action_type}}</label>
+                            {{>afSelectUser user_context}}
                         </div>
                     {{/if}}
 

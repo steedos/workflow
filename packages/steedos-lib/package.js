@@ -92,7 +92,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/methods/email_templates_reset.js');
 	api.addFiles('lib/methods/upgrade_data.js', 'server');
 
-	api.addFiles('lib/steedos/accounts.coffee');
 	api.addFiles('lib/steedos/push.coffee');
 
 

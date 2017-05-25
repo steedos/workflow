@@ -62,7 +62,7 @@ function handerOrg(orgs, parentId) {
 
         if (org.is_company == true || org.open == true) {
             node.state.opened = true;
-			node.state.selected = true;
+			// node.state.selected = true;
         } else {
             // node.parent = parentId;
             // node.icon = false;

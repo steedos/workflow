@@ -4,6 +4,8 @@ Steedos =
 	settings: {}
 	db: db
 	subs: {}
+	isPhoneEnabled: ->
+		return !!Meteor.settings?.public?.phone
 
 if Meteor.isServer
 	_.extend Steedos,

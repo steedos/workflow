@@ -21,3 +21,30 @@ accountsRoutes.route '/setup/phone/:number',
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_phone_verify"
 
+accountsRoutes.route '/setup/password',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone"
+
+accountsRoutes.route '/setup/password/code',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone_password_code"
+
+FlowRouter.route '/steedos/setup/phone',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone"
+
+FlowRouter.route '/steedos/setup/phone/:number',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_phone_verify"
+
+FlowRouter.route '/steedos/forgot-password-token',
+	action: (params, queryParams)->
+		if Meteor.userId()
+			FlowRouter.go "/"
+		BlazeLayout.render 'loginLayout',
+			main: "forgot_password_token"
+

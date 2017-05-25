@@ -28,6 +28,8 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 
 	api.use('tap:i18n@1.7.0');
+	
+	api.use('useraccounts:core');
 
 	api.use('steedos:accounts-phone');
 	api.use('steedos:base');
@@ -41,12 +43,19 @@ Package.onUse(function(api) {
 	api.addFiles('lib/core.coffee');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
+	api.addFiles('server/methods/disable_phone.coffee', 'server');
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
 	
 	api.addFiles('client/views/accounts_phone_verify.html', 'client');
 	api.addFiles('client/views/accounts_phone_verify.coffee', 'client');
+	
+	api.addFiles('client/views/accounts_phone_password_code.html', 'client');
+	api.addFiles('client/views/accounts_phone_password_code.coffee', 'client');
+	
+	api.addFiles('client/views/forgot_password_token.html', 'client');
+	api.addFiles('client/views/forgot_password_token.coffee', 'client');
 
 	api.addFiles('client/views/accounts.less', 'client');
 

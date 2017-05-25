@@ -43,6 +43,7 @@ InstanceManager.getNextStepOptions = function() {
 	}
 	var judge = Session.get("judge");
 	var currentStep = InstanceManager.getCurrentStep();
+
 	var form_version = WorkflowManager.getInstanceFormVersion();
 	// 待办：获取表单值
 	var autoFormDoc = {};
@@ -101,7 +102,9 @@ InstanceManager.getNextStepOptions = function() {
 					// 	text: TAPi18n.__("Select placeholder"),
 					// 	disabled: 'disabled'
 					// });
-					Session.set("next_step_id", null);
+					// 默认选中当前步骤的lines数组中第一个line的to_step
+					next_step_id = currentStep.lines[0].to_step;
+					Session.set("next_step_id", next_step_id);
 				}
 			}
 

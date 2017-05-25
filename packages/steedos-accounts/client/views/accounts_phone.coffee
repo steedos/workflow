@@ -1,13 +1,31 @@
 Template.accounts_phone.helpers
 	currentPhoneNumber: ->
 		return Accounts.getPhoneNumber()
-
+	title: ->
+		if Meteor.userId()
+			# 设置密码路由单独设置标题
+			isSetupPassword = /\/setup\/password\b/.test(FlowRouter.current().path)
+			if isSetupPassword
+				return t "accounts_phone_password_title"
+			else
+				return t "accounts_phone_title"
+		else
+			return t "steedos_phone_title"
+	isBackButtonNeeded: ->
+		return !Meteor.userId()
+	isSetupPassword: ->
+		return /\/setup\/password\b/.test(FlowRouter.current().path)
+		
 
 Template.accounts_phone.onRendered ->
 
 Template.accounts_phone.events
 	'click .btn-send-code': (event,template) ->
-		number = $("input.accounts-phone-number").val()
+		isSetupPassword = /\/setup\/password\b/.test(FlowRouter.current().path)
+		unless isSetupPassword
+			number = $("input.accounts-phone-number").val()
+		else
+			number = $(".accounts-phone-number").text()
 		unless number
 			toastr.error t "accounts_phone_enter_phone_number"
 			return
@@ -33,8 +51,17 @@ Template.accounts_phone.events
 					toastr.error t(error.reason)
 					console.log error
 					return
-				FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
+				if Meteor.userId()
+					if isSetupPassword
+						FlowRouter.go "/accounts/setup/password/code"
+					else
+						FlowRouter.go "/accounts/setup/phone/#{encodeURIComponent(number)}"
+				else
+					FlowRouter.go "/steedos/setup/phone/#{encodeURIComponent(number)}"
 			sweetAlert.close();
+
+	'click .btn-back': (event,template) ->
+		FlowRouter.go "/steedos/sign-in"
 
 
 

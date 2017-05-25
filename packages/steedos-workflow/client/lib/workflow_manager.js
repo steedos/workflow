@@ -508,28 +508,47 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
 
 WorkflowManager.getSpaceCategories = function(spaceId) {
 
-	return db.categories.find({space: spaceId}, {sort: {sort_no: -1}}).fetch();
+	return db.categories.find({
+		space: spaceId
+	}, {
+		sort: {
+			sort_no: -1
+		}
+	}).fetch();
 };
 
 
 WorkflowManager.getCategoriesForms = function(categorieId) {
 
-	return db.forms.find({category: categorieId,state: "enabled"}).fetch();
+	return db.forms.find({
+		category: categorieId,
+		state: "enabled"
+	}).fetch();
 };
 
 WorkflowManager.getUnCategoriesForms = function() {
 
-	return forms = db.forms.find({category: {$in: [null, ""]},state: "enabled"}).fetch();
+	return forms = db.forms.find({
+		category: {
+			$in: [null, ""]
+		},
+		state: "enabled"
+	}).fetch();
 };
 
 WorkflowManager.getFormFlows = function(formId) {
 
-	return db.flows.find({form: formId,state: "enabled"}).fetch();
+	return db.flows.find({
+		form: formId,
+		state: "enabled"
+	}).fetch();
 };
 
 WorkflowManager.getSpaceFlows = function(spaceId) {
 
-	return db.flows.find({space: spaceId}).fetch();
+	return db.flows.find({
+		space: spaceId
+	}).fetch();
 };
 
 WorkflowManager.canAdd = function(fl, curSpaceUser, organizations) {
@@ -668,6 +687,14 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 
 	var isSpaceAdmin = Steedos.isSpaceAdmin();
 
+	if (show_type == "distribute") {
+		// 如果设置了当前步骤可以分发的流程范围则使用此范围
+		var current_step = InstanceManager.getCurrentStep();
+		if (current_step.allowDistribute == true) {
+			var distribute_optional_flows = current_step.distribute_optional_flows || [];
+		}
+	}
+
 	categories.forEach(function(c) {
 		var forms = WorkflowManager.getCategoriesForms(c._id);
 		forms.sortByName();
@@ -677,7 +704,16 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 			flows.sortByName();
 			f.flows = new Array();
 			if (show_type == "distribute") {
-				f.flows = flows;
+				if (!_.isEmpty(distribute_optional_flows)) {
+					_.each(flows, function(flw) {
+						if (distribute_optional_flows.includes(flw._id)) {
+							f.flows.push(flw);
+						}
+					})
+				} else {
+					f.flows = flows;
+				}
+
 			} else {
 				flows.forEach(function(fl) {
 					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
@@ -706,7 +742,15 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 		flows.sortByName();
 		f.flows = new Array();
 		if (show_type == "distribute") {
-			f.flows = flows;
+			if (!_.isEmpty(distribute_optional_flows)) {
+				_.each(flows, function(flw) {
+					if (distribute_optional_flows.includes(flw._id)) {
+						f.flows.push(flw);
+					}
+				})
+			} else {
+				f.flows = flows;
+			}
 		} else {
 			flows.forEach(function(fl) {
 				if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {

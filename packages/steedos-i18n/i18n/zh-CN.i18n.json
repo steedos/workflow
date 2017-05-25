@@ -35,5 +35,7 @@
 	"tabbar_workflow": "审批",
 	"tabbar_cms": "信息",
 	"tabbar_apps": "工作台",
-	"tabbar_admin": "我"
+	"tabbar_admin": "我",
+
+	"password_invalid": "密码必须包含字母和数字，且不能少于8位"
 }

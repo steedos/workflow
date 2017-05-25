@@ -131,8 +131,12 @@ Template.profile.onCreated ->
 		Password = $('#Password').val()
 		confirmPassword = $('#confirmPassword').val()
 
+		result = Steedos.validatePassword Password
+		if result.error
+			return toastr.error result.error.reason
+
 		if !oldPassword or !Password or !confirmPassword
-			toastr.warning t('Old_and_new_password_required')
+			toastr.error t('Old_and_new_password_required')
 
 		else if Password == confirmPassword
 			Accounts.changePassword oldPassword, Password, (error) ->
@@ -358,8 +362,15 @@ Template.profile.events
 		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
-		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+		if Steedos.isPhoneEnabled()
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+		return
 
+	'click .btn-set-password-by-phone': (event, template) ->
+		if Accounts.isPhoneVerified()
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
+		else
+			toastr.error t("account_phone_invalid")
 
 Meteor.startup ->
 	AutoForm.hooks

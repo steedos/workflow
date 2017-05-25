@@ -26,7 +26,8 @@ Package.onUse(function(api) {
     'client/admin-lte.less',   
     'client/sidebar.less',
     'client/sidebar-light.less',
-    'client/zoom.less' 
+    'client/zoom.less',
+    'client/sweetalert.less' 
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");

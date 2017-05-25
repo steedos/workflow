@@ -136,6 +136,11 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     var applicantId = InstanceManager.getApplicantUserId();
 
     Session.set("next_step_users_showOrg", false);
+    var error_obj = {
+        deal_type: "",
+        step_name: nextStep.name,
+        params: {}
+    };
     switch (nextStep.step_type) {
         case 'condition':
             break;
@@ -171,7 +176,12 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             'approveRoleIds': approveRoleIds
                         };
                         nextStepUsers = UUflow_api.caculate_nextstep_users('applicantRole', Session.get('spaceId'), data);
-
+                        if (!nextStepUsers.length) {
+                            error_obj.deal_type = nextStep.deal_type;
+                            error_obj.params = {
+                                approver_roles: approveRoleIds
+                            };
+                        }
                         break;
                     case 'applicantSuperior': //申请人上级
                         var data = {
@@ -240,6 +250,8 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         nextStepUsers = UUflow_api.caculate_nextstep_users('specifyOrg', Session.get('spaceId'), data);
 
                         if (!nextStepUsers.length) {
+                            var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
+                            var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, specifyOrgIds);
                             ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
                         }
                         break;
@@ -310,6 +322,15 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     nextStepUsers.sort(function(p1, p2) {
         return p1.name.localeCompare(p2.name);
     });
+
+    if (error_obj.deal_type) {
+        Meteor.call('next_step_users_not_found', error_obj.deal_type, error_obj.step_name, error_obj.params, function(error, result) {
+            if (result) {
+                ApproveManager.error.nextStepUsers = result;
+                InstanceManager.checkNextStepUser();
+            }
+        })
+    }
 
     return nextStepUsers;
 };
@@ -457,24 +478,24 @@ ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
 }
 
 
-ApproveManager.getRelatedInstancesFromDescription = function (description) {
+ApproveManager.getRelatedInstancesFromDescription = function(description) {
     var instanceIds = new Array();
 
-    if(description){
+    if (description) {
 
         var foo1 = description.split(")");
 
-        foo1.forEach(function (f) {
+        foo1.forEach(function(f) {
 
             foo2 = f.indexOf(Meteor.absoluteUrl("workflow/space/"));
 
-            if(foo2 > -1){
+            if (foo2 > -1) {
 
                 foo3 = f.substring(foo2, f.length);
 
                 foo4 = foo3.split("/view/readonly/");
 
-                if(foo4.length == 2){
+                if (foo4.length == 2) {
 
                     instanceIds.push(foo4[1])
 

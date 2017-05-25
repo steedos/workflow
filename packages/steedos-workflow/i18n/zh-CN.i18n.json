@@ -224,7 +224,7 @@
 	"instance_search_submit_date": "提交日期",
 	"instance_search_start": "起",
 	"instance_search_end": "至",
-	"instance_search_result_tip": "搜索的结果",
+	"instance_search_result_tip": "过滤的结果",
 	"instance_search_state": "申请单状态",
 	"instance_search_state_options": {
 		"pending": "流转中",
@@ -519,5 +519,10 @@
 	"instance_opinion_title_select": "选择常用意见",
 	"categories": "流程分类",
 	"categories_name": "名称",
-	"categories_sort_no": "排序号"
+	"categories_sort_no": "排序号",
+
+	"next_step_users_not_found": {
+		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，请联络系统管理员"
+	}
+
 }

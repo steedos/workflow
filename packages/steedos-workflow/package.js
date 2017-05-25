@@ -189,7 +189,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/trace_detail_modal.js', 'client');
 
 	api.addFiles('client/views/instance/cc_modal.html', 'client');
-	api.addFiles('client/views/instance/cc_modal.js', 'client');
+	api.addFiles('client/views/instance/cc_modal.coffee', 'client');
 	api.addFiles('client/views/instance/opinion_modal.html', 'client');
 	api.addFiles('client/views/instance/opinion_modal.js', 'client');
 
@@ -276,6 +276,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_approve.coffee', 'server');
 	api.addFiles('server/methods/instance_return.coffee', 'server');
 	api.addFiles('server/methods/instance_remind.coffee', 'server');
+	api.addFiles('server/methods/next_step_users_not_found.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 

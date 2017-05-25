@@ -74,9 +74,7 @@ db.space_users._simpleSchema = new SimpleSchema
 			omit: true
 	mobile: 
 		type: String,
-		optional: true,
-		autoform:
-			readonly: true
+		optional: true
 	work_phone:
 		type: String,
 		optional: true
@@ -241,6 +239,40 @@ if (Meteor.isServer)
 		if modifier.$set.organizations && modifier.$set.organizations.length > 0
 			modifier.$set.organization = modifier.$set.organizations[0]
 
+		if modifier.$set.mobile
+			if  modifier.$set.mobile != doc.mobile
+				number = "+86" + modifier.$set.mobile
+				# 修改人
+				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
+				
+				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
+				if repeatNumberUser
+					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+				else if Steedos.isPhoneEnabled()
+					paramString = JSON.stringify({
+						name: euser.name,
+						number: modifier.$set.mobile
+					})
+					# 发送手机短信
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: doc.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108'
+					})
+
+					# 发送手机短信
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: modifier.$set.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108'
+					})
+
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 		self = this
 		modifier.$set = modifier.$set || {};
@@ -261,10 +293,24 @@ if (Meteor.isServer)
 					position: doc.position
 		
 		if modifier.$set.work_phone
-			db.users.direct.update {_id: doc.user},
+			db.users.update {_id: doc.user},
 				$set:
 					work_phone: doc.work_phone
 		
+		if modifier.$set.mobile
+			user_set = {}
+			user_set.phone = {}
+			user_set.mobile = doc.mobile
+			# 目前只考虑国内手机
+			user_set.phone.number = "+86" + doc.mobile
+			user_set.phone.verified = true
+			user_set.phone.modified = new Date()
+			if not _.isEmpty(user_set)
+				# 修改人
+				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
+				# 更新users表中的相关字段
+				db.users.update({_id: doc.user}, {$set: user_set})
+
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
 				organizationObj = db.organizations.findOne(org)

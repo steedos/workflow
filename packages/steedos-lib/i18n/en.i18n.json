@@ -273,6 +273,7 @@
 	"space_users_error_space_not_found": "Space can not be found",
 	"space_users_error_space_admins_only": "You are not the space admin",
 	"space_users_error_remove_space_owner": "The space owner can not be removed",
+	"space_users_error_phone_already_existed": "The phone number is already used.",
 
 	"spaces_error_login_required": "Login is required",
 	"spaces_error_space_owner_only": "You are not the space owner",
@@ -368,5 +369,7 @@
 	"afModal_remove_suc": "Successfully deleted",
 	"afModal_cancel": "Cancel",
 
-	"change_phone": "Change Phone Number"
+	"change_phone": "Change Phone Number",
+	"set_password_by_phone": "Reset password",
+	"account_phone_invalid": "Your phone is not valid"
 }

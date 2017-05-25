@@ -247,21 +247,33 @@ Field.prototype.validate = function(value, strict) {
     }
   }
 
+  if(this._id === "password"){
+    var result = Steedos ? Steedos.validatePassword(value) : "";
+    if (result.error){
+      this.setError(result.error.reason);
+      this.setValidating(false);
+
+      return result.error.reason
+    }
+  }
+
   var valueLength = value.length;
   var minLength = this.minLength;
   if (minLength && valueLength < minLength) {
-    this.setError(T9n.get("minRequiredLength") + ": " + minLength);
+    var reason = T9n.get("minRequiredLength") + minLength.toString();
+    this.setError(reason);
     this.setValidating(false);
 
-    return T9n.get("minRequiredLength") + ": " + minLength;
+    return reason;
   }
 
   var maxLength = this.maxLength;
   if (maxLength && valueLength > maxLength) {
-    this.setError(T9n.get("maxAllowedLength") + ": " + maxLength);
+    var reason = T9n.get("maxAllowedLength") + maxLength.toString();
+    this.setError(reason);
     this.setValidating(false);
 
-    return T9n.get("maxAllowedLength") + ": " + maxLength;
+    return reason;
   }
 
   if (this.re && valueLength && !value.match(this.re)) {
