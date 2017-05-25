@@ -40,19 +40,19 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		if spaceUser
 			orgArray = SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 			if orgArray
-				userInfo = {}
+				userInfo = []
 				orgFullname = ""
 				orgArray.forEach (org)->
-					orgFullname = org.fullname + ";" + orgFullname
+					orgFullname = org.fullname + "\r\n               " + orgFullname
 				# 定义复制信息的样式
-				userInfo[t('steedos_contacts_name')] = spaceUser.name
-				userInfo[t('steedos_contacts_email')] = spaceUser.email
-				userInfo[t('steedos_contacts_position')] = spaceUser.position
-				userInfo[t('steedos_contacts_mobile')] = spaceUser.mobile
-				userInfo[t('steedos_contacts_work_phone')] = spaceUser.work_phone
-				userInfo[t('steedos_contacts_organizations')] = orgFullname
+				userInfo.push("#{t('steedos_contacts_name')}:#{spaceUser.name}")
+				userInfo.push("#{t('steedos_contacts_email')}:#{if spaceUser.email then spaceUser.email else ""}")
+				userInfo.push("#{t('steedos_contacts_position')}:#{if spaceUser.position then spaceUser.position else ""}")
+				userInfo.push("#{t('steedos_contacts_mobile')}:#{if spaceUser.mobile then spaceUser.mobile else ""}")
+				userInfo.push("#{t('steedos_contacts_work_phone')}:#{if spaceUser.work_phone then spaceUser.work_phone else ""}")
+				userInfo.push("#{t('steedos_contacts_organizations')}:#{orgFullname}")
 				
-				info = JSON.stringify(userInfo).replace(/\{|}|"/g,'').split(',').join('\n')
+				info = userInfo.join('\n')
 		
 		return info
 
