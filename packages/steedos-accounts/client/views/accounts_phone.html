@@ -7,7 +7,11 @@
 					<div class="weui-cells weui-cells_form">
 						<div class="weui-cell">
 							<div class="weui-cell__bd">
-								<input class="weui-input accounts-phone-number" type="number" value="{{currentPhoneNumber}}" pattern="[0-9]*" placeholder="{{_ "accounts_phone_placeholder"}}">
+								{{#unless isSetupPassword}}
+									<input class="weui-input accounts-phone-number" type="number" value="{{currentPhoneNumber}}" pattern="[0-9]*" placeholder="{{_ "accounts_phone_placeholder"}}">
+								{{else}}
+									<span class="text-muted accounts-phone-number">{{currentPhoneNumber}}</span>
+								{{/unless}}
 							</div>
 						</div>
 					</div>
@@ -17,7 +21,7 @@
 					{{#if isBackButtonNeeded}}
 						<div class="weui-footer weui-btn-area">
 							<p class="weui-footer__links">
-								<a href="javascript:void(0);" class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
+								<a class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
 							</p>
 						</div>
 					{{/if}}

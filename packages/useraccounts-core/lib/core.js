@@ -375,7 +375,7 @@ AT.prototype._fields = [
     _id: "password",
     type: "password",
     required: true,
-    minLength: 6,
+    minLength: 8,
     displayName: {
         "default": "password",
         changePwd: "newPassword",

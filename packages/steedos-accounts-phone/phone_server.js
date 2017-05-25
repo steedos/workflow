@@ -51,7 +51,7 @@ var getPasswordString = function(password) {
         password = SHA256(password);
     } else { // 'password' is an object
         if (password.algorithm !== "sha-256") {
-            throw new Error("Invalid password hash algorithm. " +
+            throw new Meteor.Error(403, "Invalid password hash algorithm. " +
                 "Only 'sha-256' is allowed.");
         }
         password = password.digest;
@@ -107,7 +107,7 @@ var selectorFromUserQuery = function(user) {
         return {
             'phone.number': user.phone
         };
-    throw new Error("shouldn't happen (validation missed something)");
+    throw new Meteor.Error(403, "shouldn't happen (validation missed something)");
 };
 
 var findUserFromUserQuery = function(user) {
@@ -322,14 +322,14 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     // Make sure the user exists, and phone is one of their phones.
     var user = Meteor.users.findOne(userId);
     if (!user)
-        throw new Error("Can't find user");
+        throw new Meteor.Error(403, "Can't find user");
     // pick the first unverified phone if we weren't passed an phone.
     if (!phone && user.phone) {
         phone = user.phone && user.phone.number;
     }
     // make sure we have a valid phone
     if (!phone)
-        throw new Error("No such phone for user.");
+        throw new Meteor.Error(403, "No such phone for user.");
 
     // If sent more than max retry wait
     var waitTimeBetweenRetries = Accounts._options.verificationWaitTime;
@@ -347,8 +347,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = "Too often retries, try again in " + waitTimeInSec + " seconds.";
-        throw new Error(errMsg);
+            errMsg = t("accounts_phone_too_often_retries",waitTimeInSec);
+        throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
     if (verifyObject.numOfRetries > maxRetryCounts) {
@@ -357,8 +357,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
         nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
         if (nextRetryDate > curTime) {
             var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
-                errMsg = "Too many retries, try again in " + waitTimeInMin + " minutes.";
-            throw new Error(errMsg);
+                errMsg = t("accounts_phone_too_many_retries",waitTimeInMin);
+            throw new Meteor.Error(403, errMsg);
         }
     }
     verifyObject.code = getRandomCode(Accounts._options.verificationCodeLength);
@@ -404,7 +404,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
 
     } catch (e) {
-        console.log('SMS Failed, Something bad happened!', e);
+        console.error('SMS Failed, Something bad happened!', e);
+        throw new Meteor.Error(403, t("accounts_phone_sms_failed"));
     }
 };
 
@@ -437,7 +438,7 @@ Meteor.methods({
                 // Create new user with phone number
                 // userId = createUser({phone:phone});
                 // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-                throw new Error("Can't find user");
+                throw new Meteor.Error(403, t("accounts_phone_user_not_found"));
             }
         }
         Accounts.sendPhoneVerificationCode(userId, phone);
@@ -642,7 +643,7 @@ Meteor.methods({
                 // safety belt. createUser is supposed to throw on error. send 500 error
                 // instead of sending a verification email with empty userid.
                 if (!userId)
-                    throw new Error("createUser failed to insert new user");
+                    throw new Meteor.Error(403, "createUser failed to insert new user");
 
                 // If `Accounts._options.sendPhoneVerificationCodeOnCreation` is set, register
                 // a token to verify the user's primary phone, and send it to
@@ -677,7 +678,7 @@ Accounts.createUserWithPhone = function(options, callback) {
 
     // XXX allow an optional callback?
     if (callback) {
-        throw new Error("Accounts.createUser with callback not supported on the server yet.");
+        throw new Meteor.Error(403, "Accounts.createUser with callback not supported on the server yet.");
     }
 
     return createUser(options);
