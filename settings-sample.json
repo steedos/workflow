@@ -33,7 +33,9 @@
     //审批王相关
     "workflow": {
       "approve_admins": [], //有修改审批意见权限的用户ID集合
-      "hideCounterSignJudgeOptions": false // 会签时是否隐藏 核准 驳回 已阅 
+      "hideCounterSignJudgeOptions": false, // 会签时是否隐藏 核准 驳回 已阅
+      "cc_selection_within_user_organizations": false, //限制可传阅人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
+      "onlyFlowAdminsShowMonitorBox": true // 监控箱只有管理员（工作区管理员、流程管理员）才有
     },
     //通讯录相关
     "contacts": {

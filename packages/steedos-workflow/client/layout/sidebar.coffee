@@ -51,6 +51,23 @@ Template.workflowSidebar.helpers
 
 		return inboxInstancesFlow
 
+	isShowMonitorBox: ()->
+		if Meteor.settings.public?.workflow?.onlyFlowAdminsShowMonitorBox
+			space = db.spaces.findOne(Session.get("spaceId"))
+			if !space
+				return false
+
+			if space.admins.includes(Meteor.userId())
+				return true
+			else
+				flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()
+				if _.isEmpty(flow_ids)
+					return false
+				else
+					return true
+
+		return true
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->

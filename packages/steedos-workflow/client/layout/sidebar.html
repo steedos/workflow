@@ -59,8 +59,10 @@
 				<li class="completed {{boxActive 'completed'}}"><a
 						href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i
 						class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
+				{{#if isShowMonitorBox}}
 				<li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i
 						class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
+				{{/if}}
 			</ul>
 		</div>
 	</aside>
