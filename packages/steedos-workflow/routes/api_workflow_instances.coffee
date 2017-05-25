@@ -4,8 +4,8 @@
     username: (工作区管理员)登录名
     password: (工作区管理员)登录密码
     sync_token: 时间戳。如果传入，则返回此时间段之后的申请单
-    state: 申请单状态。值范围为：draft:草稿，pending：进行中，completed: 已完成
-    approve: 是否返回审批信息true/false
+    state: 申请单状态。值范围为：draft:草稿，pending：进行中，completed: 已完成。默认为completed
+    approve: 是否返回审批信息true/false。默认为false
 ###
 JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
 
