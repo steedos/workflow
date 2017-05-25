@@ -235,11 +235,16 @@ if (Meteor.isServer)
 		if modifier.$set.user
 			if modifier.$set.user != doc.user
 				throw new Meteor.Error(400, "space_users_error_user_readonly");
+
+		if modifier.$set.organizations && modifier.$set.organizations.length > 0
+			modifier.$set.organization = modifier.$set.organizations[0]
+
 		if modifier.$set.mobile
 			if  modifier.$set.mobile != doc.mobile
 				number = "+86" + modifier.$set.mobile
 				# 修改人
 				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
+				
 				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
 				if repeatNumberUser
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
@@ -248,19 +253,25 @@ if (Meteor.isServer)
 						name: euser.name,
 						number: modifier.$set.mobile
 					})
-					db.users.find({_id: doc.user, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
-						# 发送手机短信
-						SMSQueue.send({
-							Format: 'JSON',
-							Action: 'SingleSendSms',
-							ParamString: paramString,
-							RecNum: user.mobile,
-							SignName: 'OA系统',
-							TemplateCode: 'SMS_67660108'
-						})
+					# 发送手机短信
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: doc.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108'
+					})
 
-		if modifier.$set.organizations && modifier.$set.organizations.length > 0
-			modifier.$set.organization = modifier.$set.organizations[0]
+					# 发送手机短信
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: modifier.$set.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108'
+					})
 
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 		self = this
@@ -298,24 +309,7 @@ if (Meteor.isServer)
 				# 修改人
 				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
 				# 更新users表中的相关字段
-				db.users.update({_id: doc.user}, {$set: user_set}, ()->
-					if Steedos.isPhoneEnabled()
-						paramString = JSON.stringify({
-							name: euser.name,
-							number: modifier.$set.mobile
-						})
-						db.users.find({_id: doc.user, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
-							# 发送手机短信
-							SMSQueue.send({
-								Format: 'JSON',
-								Action: 'SingleSendSms',
-								ParamString: paramString,
-								RecNum: user.mobile,
-								SignName: 'OA系统',
-								TemplateCode: 'SMS_67660108'
-							})
-					return
-				)
+				db.users.update({_id: doc.user}, {$set: user_set})
 
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
