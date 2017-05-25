@@ -13,6 +13,14 @@ JsonRoutes.add 'get', '/api/workflow/tableau/space/:space/flow/:flow', (req, res
 
 	space = db.spaces.findOne({_id: spaceId})
 
+	if !space?.is_paid
+		JsonRoutes.sendResult res,
+			code: 404,
+			data:
+				"error": "Validate Request -- Non-paid space.",
+				"success": false
+		return;
+
 	html = ""
 
 	if flow && space
