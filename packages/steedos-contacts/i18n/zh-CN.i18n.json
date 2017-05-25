@@ -35,6 +35,8 @@
 	"steedos_contacts_mobile": "手机",
 	"steedos_contacts_work_phone": "固定电话",
 	"steedos_contacts_organizations": "所属部门",
+	"steedos_contacts_copy_successfully":"已成功拷贝到剪贴板！",
+	"steedos_contacts_copy_failed":"拷贝失败！",
 
 	"address_groups": "通讯录分组",
 	"address_groups_name": "组名",

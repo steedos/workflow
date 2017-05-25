@@ -57,21 +57,24 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 Template.steedos_contacts_space_user_info_modal.events
-
 	'click .steedos-info-close': (event,template) ->
 		Modal.hide('steedos_contacts_space_user_info_modal')
 
 
 Template.steedos_contacts_space_user_info_modal.onRendered ()->
-	clipboard = new Clipboard('.steedos-info-copy', text: (spaceUser) ->
+	copyInfoClipboard = new Clipboard('.steedos-info-copy', text: (spaceUser) ->
 		return spaceUser.dataset.info
 	)
-	clipboard.on 'success', (e) ->
-		console.log e
+
+	Template.steedos_contacts_space_user_info_modal.copyInfoClipboard = copyInfoClipboard
+	
+	copyInfoClipboard.on 'success', (e) ->
 		e.clearSelection()
-		toastr.success "已成功拷贝到剪贴板！"
+		toastr.success t("steedos_contacts_copy_successfully")
 		return
-	clipboard.on 'error', (e) ->
-		console.log e
-		toastr.error "拷贝失败！"
+	copyInfoClipboard.on 'error', (e) ->
+		toastr.error t("steedos_contacts_copy_failed")
 		return
+
+Template.steedos_contacts_space_user_info_modal.onDestroyed ->
+	Template.steedos_contacts_space_user_info_modal.copyInfoClipboard.destroy()
