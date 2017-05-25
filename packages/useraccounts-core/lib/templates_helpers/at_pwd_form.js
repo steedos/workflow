@@ -173,7 +173,9 @@ AT.prototype.atPwdFormEvents = {
 
 
             return Meteor.loginWithPassword(loginSelector, password, function(error) {
-                AccountsTemplates.submitCallback(error, state);
+                AccountsTemplates.submitCallback(error, state, function(){
+                    FlowRouter.go("/");
+                });
             });
         }
 
