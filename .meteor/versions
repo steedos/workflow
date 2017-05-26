@@ -144,6 +144,7 @@ reload@1.1.10
 retry@1.0.8
 reywood:publish-composite@1.4.2
 routepolicy@1.0.11
+rzymek:fullcalendar@3.4.0
 sach:flow-db-admin@1.1.5
 service-configuration@1.0.10
 session@1.1.6
@@ -164,6 +165,8 @@ steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:autoform-modals@0.3.9_4
 steedos:base@0.0.14
+steedos:calendar@0.0.2_2
+steedos:calendar-i18n@0.0.2_2
 steedos:chat@0.0.1
 steedos:cms@0.0.2
 steedos:connect-bqq@0.0.1

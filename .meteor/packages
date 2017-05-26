@@ -153,13 +153,10 @@ steedos:accounts-phone
 steedos:accounts
 
 steedos:remind
-# steedos:calendar@0.0.1
 
-# steedos:calendar
-# steedos:calendar-i18n
+steedos:calendar
 
 # steedos:records
-# steedos:records-i18n
 
 steedos:freeboard
 steedos:dashboard
