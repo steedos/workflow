@@ -54,7 +54,7 @@ Package.onUse(function(api) {
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
 	api.use('steedos:autoform-modals');
-	api.use('vazco:universe-autoform-select');
+	api.use('steedos:universe-autoform-select');
 
 	api.use('steedos:lib');
 	api.use('steedos:admin');

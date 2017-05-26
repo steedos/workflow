@@ -75,8 +75,11 @@ Template.instance_attachment.helpers({
 
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		// url = Meteor.absoluteUrl("api/files/instances/") + _rev;
-		url = window.location.origin + "/api/files/instances/" + _rev;
+		if (Steedos.isNode())
+			url = window.location.origin + "/api/files/instances/" + _rev;
+		else
+			url = Steedos.absoluteUrl("api/files/instances/") + _rev;
+
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -187,8 +190,11 @@ Template.instance_attachment.events({
 	},
 	"click [name='ins_attach_preview']": function(event, template) {
 		if (event.target.id) {
-			// url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
-			url = window.location.origin + "/api/files/instances/" + event.target.id;
+			if (Steedos.isNode())
+				url = window.location.origin + "/api/files/instances/" + event.target.id;
+			else
+				url = Steedos.absoluteUrl("api/files/instances/") + event.target.id;
+			
 			Steedos.openWindow(url);
 		}
 	},
@@ -390,8 +396,11 @@ Template.ins_attach_version_modal.helpers({
 
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
-		// url = Meteor.absoluteUrl("api/files/instances/") + _rev;
-		url = window.location.origin + "/api/files/instances/" + _rev;
+		if (Steedos.isNode())
+			url = window.location.origin + "/api/files/instances/" + _rev;
+		else
+			url = Steedos.absoluteUrl("api/files/instances/") + _rev;
+		
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -472,8 +481,11 @@ Template.ins_attach_version_modal.events({
 	},
 	"click [name='ins_attach_preview']": function(event, template) {
 		if (event.target.id) {
-			// url = Meteor.absoluteUrl("api/files/instances/") + event.target.id;
-			url = window.location.orgin + "/api/files/instances/" + event.target.id;
+			if (Steedos.isNode())
+				url = window.location.origin + "/api/files/instances/" + event.target.id;
+			else
+				url = Steedos.absoluteUrl("api/files/instances/") + event.target.id;
+			
 			Steedos.openWindow(url);
 		}
 	},
@@ -605,7 +617,10 @@ Template.ins_attach_edit_modal.events({
 			params.main = true;
 		}
 
-		var url = window.location.orgin + "/s3/"; 
+		if (Steedos.isNode())		
+			url = window.location.orgin + "/s3/";
+		else	
+			url = Meteor.absoluteUrl('s3/'); 
 		
 		var params_str = $.param(params);
 

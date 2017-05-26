@@ -65,8 +65,8 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, isVi
 OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
-		host: url.parse(Meteor.absoluteUrl()).hostname,
-		port: url.parse(Meteor.absoluteUrl()).port,
+		host: window.location.hostname,
+		port: window.location.port,
 		method: "POST",
 		path: "/s3/"
 	}
@@ -147,8 +147,8 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, isV
 OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
-		host: url.parse(Meteor.absoluteUrl()).hostname,
-		port: url.parse(Meteor.absoluteUrl()).port,
+		host: window.location.hostname,
+		port: window.location.port,
 		method: "POST",
 		path: "/s3/"
 	}

@@ -188,6 +188,7 @@ steedos:theme@0.0.11
 steedos:theme-qhd@0.0.1
 steedos:toastr@2.1.3
 steedos:ui@0.0.1
+steedos:universe-autoform-select@0.3.10
 steedos:version@1.0.4
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
@@ -210,7 +211,6 @@ url@1.0.10
 useraccounts:bootstrap@1.14.2
 useraccounts:core@1.14.2
 useraccounts:flow-routing@1.14.2
-vazco:universe-autoform-select@0.2.1
 vazco:universe-selectize@0.1.22
 webapp@1.3.11
 webapp-hashing@1.0.9
