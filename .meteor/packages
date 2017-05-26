@@ -144,7 +144,7 @@ steedos:webhookqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
-vazco:universe-autoform-select
+steedos:universe-autoform-select
 
 steedos:workflow-chart
 steedos:records-qhd
