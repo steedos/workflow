@@ -105,6 +105,38 @@ Template.instance_button.helpers
 		else
 			return false
 
+	#是否需要退回按钮
+	enabled_return: ->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return false
+		flow = db.flows.findOne(ins.flow)
+		if !flow
+			return false
+
+		if !InstanceManager.isInbox()
+			return false
+
+		if InstanceManager.isCC(ins)
+			return false
+
+		if ins.traces.length < 2 # 通过转发生成的文件也在待审核箱中但是状态为draft并且ins.traces.length=1
+			return false
+
+		pre_trace = ins.traces[ins.traces.length - 2]
+		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
+		if pre_step && pre_step.step_type is "counterSign"
+			return false
+
+		cs = InstanceManager.getCurrentStep()
+		if _.isEmpty(cs)
+			return false
+		if cs.step_type is "submit"
+			return true
+
+		return false
+
+
 	enabled_forward: ->
 		ins = WorkflowManager.getInstance()
 		if !ins
@@ -327,6 +359,26 @@ Template.instance_button.events
 
 	'click .btn-instance-cc': (event, template) ->
 		Modal.show('instance_cc_modal');
+
+	'click .btn-instance-return': (event, template) ->
+		swal {
+			title: TAPi18n.__("instance_return_confirm"),
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: t('Cancel'),
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t('OK'),
+			closeOnConfirm: true
+		}, () ->
+			$("body").addClass("loading")
+			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
+				$("body").removeClass("loading")
+				if err
+					toastr.error TAPi18n.__(err.reason)
+				if result == true
+					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+					toastr.success(TAPi18n.__('instance_return_success'));
+				return
 
 	'click .btn-instance-forward': (event, template) ->
 		#判断是否为欠费工作区
