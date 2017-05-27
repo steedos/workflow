@@ -122,7 +122,10 @@ _tableColumns = ()->
 	table.column(0).visible(!show)
 
 	table.column(2).visible(show)
-	table.column(5).visible(show)
+	if Session.get("flowId")
+		table.column(5).visible(false)
+	else
+		table.column(5).visible(show)
 	if Session.get("box") == "draft"
 		table.column(3).visible(false)
 		table.column(4).visible(false)
