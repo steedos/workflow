@@ -13,6 +13,12 @@ Template.instanceSignModal.events
 		Modal.allowMultiple = false
 		Modal.hide(template)
 
+	'click .instance-sign-opinion-btn': (event, template)->
+
+		val = ($("#modal_suggestion").val() || "") + event.target.text + t("instance_sign_period")
+
+		$("#modal_suggestion").val(val)
+
 #	'shown.bs.modal .instance-sign-modal': ()->
 #
 #		if !Steedos.isMobile()

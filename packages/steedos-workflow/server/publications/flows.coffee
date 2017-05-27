@@ -58,3 +58,24 @@ Meteor.publish 'flow_version', (spaceId, flowId, versionId) ->
 	self.ready();
 	self.onStop ()->
 		handle.stop()
+
+Meteor.publish 'distribute_optional_flows', (flow_ids)->
+	unless this.userId
+		return this.ready()
+
+	unless flow_ids
+		return this.ready()
+
+	return db.flows.find({_id: {$in: flow_ids}}, {
+		fields: {
+			name: 1,
+			form: 1,
+			state: 1,
+			perms: 1,
+			print_template: 1,
+			instance_template: 1,
+			events: 1,
+			space: 1,
+			distribute_optional_users: 1
+		}
+	})

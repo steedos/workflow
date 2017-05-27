@@ -14,6 +14,10 @@ Template.selectFlowModal.helpers
 		db.spaces.find()
 
 	showSpaces: ->
+		curret_step = InstanceManager.getCurrentStep()
+		if curret_step && curret_step.allowDistribute is true && curret_step.distribute_optional_flows.length > 0
+			return false
+
 		return db.spaces.find().fetch().length != 1
 
 	selected: (space_id)->
@@ -25,6 +29,9 @@ Template.selectFlowModal.helpers
 Template.selectFlowModal.onRendered ()->
 	if (!Session.get('space_drop_down_selected_value'))
 		Session.set('space_drop_down_selected_value', Session.get('spaceId'))
+	curret_step = InstanceManager.getCurrentStep()
+	if curret_step && curret_step.allowDistribute is true && curret_step.distribute_optional_flows
+		Session.set('distribute_optional_flows', curret_step.distribute_optional_flows)
 
 Template.selectFlowModal.events
 	'change #space_drop_down_box': (event, template) ->

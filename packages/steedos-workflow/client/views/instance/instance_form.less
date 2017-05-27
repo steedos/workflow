@@ -956,9 +956,18 @@ _:-ms-fullscreen,
 
 .instance-sign-text{
   text-align: right;
-  .instance-sign-text-btn{
+  .instance-sign-text-btn, .instance-sign-opinion-btn{
     text-decoration: underline;
     cursor:pointer;
+    user-select: none;
+  }
+}
+
+.instance-suggestion{
+  #instance_flow_opinions, .instance-sign-opinion-btn{
+    text-decoration: underline;
+    cursor:pointer;
+    user-select: none;
   }
 }
 
