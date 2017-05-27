@@ -523,6 +523,10 @@
 
 	"next_step_users_not_found": {
 		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，请联络系统管理员"
-	}
+	},
+	"instance_sign_read": "已阅",
+	"instance_sign_done": "已办",
+	"instance_sign_agree": "同意",
+	"instance_sign_period": "。"
 
 }
