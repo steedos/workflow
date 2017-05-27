@@ -92,8 +92,8 @@ Template.instance_button.helpers
 		ins = WorkflowManager.getInstance()
 		if !ins
 			return false
-
-		if InstanceManager.isInbox() && ins.state != "draft"
+		# 文件结束后，不可以再传阅，也不用再催办。
+		if InstanceManager.isInbox() && ins.state is "pending" 
 			cs = InstanceManager.getCurrentStep()
 			if cs && (cs.disableCC is true)
 				return false
@@ -194,6 +194,10 @@ Template.instance_button.helpers
 	enabled_remind: ->
 		ins = WorkflowManager.getInstance();
 		if !ins
+			return false
+
+		# 文件结束后，不可以再传阅，也不用再催办。
+		if ins.state != "pending"
 			return false
 
 		values = ins.values
