@@ -25,10 +25,11 @@
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
       "loginExpirationInDays": 90
     },
-    //手机号及其验证相关
+    //手机号及其验证相关，该属性不存在时不显示任务手机号相关界面及功能
     "phone": {
       "forceAccountBindPhone": false, //强行弹出手机号绑定窗口
-      "expiredDays": 30 //失效时间，forceAccountBindPhone为true时失效后重新强行弹出手机号绑定窗口
+      "expiredDays": 30, //失效时间，forceAccountBindPhone为true时失效后重新强行弹出手机号绑定窗口
+      "ignoredUsers": [] //不用设置手机号的用户ID集合，forceAccountBindPhone为true时需要忽略这些用户
     },
     //审批王相关
     "workflow": {
