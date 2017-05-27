@@ -678,12 +678,12 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 	}).fetch();
 
 	var re = {};
-
+	var distribute_optional_flows = [];
 	if (show_type == "distribute") {
 		// 如果设置了当前步骤可以分发的流程范围则使用此范围
 		var current_step = InstanceManager.getCurrentStep();
 		if (current_step.allowDistribute == true) {
-			var distribute_optional_flows = current_step.distribute_optional_flows || [];
+			distribute_optional_flows = current_step.distribute_optional_flows || [];
 		}
 	}
 
