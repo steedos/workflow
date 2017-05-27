@@ -72,6 +72,7 @@ Steedos.subsForwardRelated = new SubsManager()
 
 Tracker.autorun (c)->
 	space_id = Session.get('space_drop_down_selected_value')
+	distribute_optional_flows = Session.get('distribute_optional_flows')
 	Steedos.subsForwardRelated.reset();
 	if space_id
 		Steedos.subsForwardRelated.subscribe("my_space_user", space_id);
@@ -79,6 +80,8 @@ Tracker.autorun (c)->
 		Steedos.subsForwardRelated.subscribe("categories", space_id);
 		Steedos.subsForwardRelated.subscribe("forms", space_id);
 		Steedos.subsForwardRelated.subscribe("flows", space_id);
+	if distribute_optional_flows
+		Steedos.subsForwardRelated.subscribe("distribute_optional_flows", distribute_optional_flows);
 
 Tracker.autorun (c)->
 	if Session.get("document_title")
