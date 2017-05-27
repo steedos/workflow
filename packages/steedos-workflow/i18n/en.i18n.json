@@ -508,6 +508,10 @@
 
 	"next_step_users_not_found": {
 		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
-	}
+	},
+	"instance_sign_read": "Read",
+	"instance_sign_done": "Done",
+	"instance_sign_agree": "Agree",
+	"instance_sign_period": "。"
 
 }
