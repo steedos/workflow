@@ -90,9 +90,6 @@ Template.instance_attachment.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
-
-		if (InstanceManager.isCC(ins))
-			return false;
 		
 		if (Steedos.isNode() && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
@@ -101,9 +98,6 @@ Template.instance_attachment.helpers({
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
-			return false;
-
-		if (InstanceManager.isCC(ins))
 			return false;
 
 		var locked = false;
@@ -367,9 +361,6 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
-
-		if (InstanceManager.isCC(ins))
-			return false;
 		
 		if (Steedos.isNode() && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
@@ -378,9 +369,6 @@ Template.ins_attach_version_modal.helpers({
 	canEdit: function(filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
-			return false;
-
-		if (InstanceManager.isCC(ins))
 			return false;
 
 		var locked = false;
