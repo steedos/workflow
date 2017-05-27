@@ -21,6 +21,9 @@ if Meteor.isClient
 		Meteor.autorun (c)->
 			# 没有验证手机时，强行跳转到手机验证路由
 			if Meteor.userId() and !Meteor.loggingIn()
+				ignoredUsers = Meteor.settings?.public?.phone?.ignoredUsers
+				if ignoredUsers and ignoredUsers.contains Meteor.userId()
+					return
 				routerPath = FlowRouter.current()?.path
 				# 当前路由本身就在手机验证路由中则不需要跳转
 				if /^\/accounts\/setup\/phone\b/.test routerPath
