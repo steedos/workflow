@@ -31,7 +31,6 @@ TabularTables.instances = new Tabular.Table({
 					step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
 				else
 					if Session.get("box") != 'draft' && doc.step_current_name
-#step_current_name_view = "<label class='c'>(" + doc.step_current_name + ")</label> "
 						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
 					else
 						step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
