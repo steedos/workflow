@@ -273,25 +273,6 @@ Template.instance_suggestion.events
 		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
 
-	'click #instance_return': (event, template)->
-		swal {
-			title: TAPi18n.__("instance_return_confirm"),
-			type: "warning",
-			showCancelButton: true,
-			cancelButtonText: t('Cancel'),
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: t('OK'),
-			closeOnConfirm: true
-		}, () ->
-			$("body").addClass("loading")
-			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
-				$("body").removeClass("loading")
-				if err
-					toastr.error TAPi18n.__(err.reason)
-				if result == true
-					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
-					toastr.success(TAPi18n.__('instance_return_success'));
-				return
 
 
 Template.instance_suggestion.onCreated ->
