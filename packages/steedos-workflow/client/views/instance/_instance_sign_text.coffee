@@ -15,7 +15,6 @@ InstanceSignText.helpers =
 		InstanceformTemplate.helpers.traces()
 
 	trace: (stepName, only_cc_opinion, image_sign)->
-
 		instance = InstanceformTemplate.helpers.instance()
 
 		is_completed = instance?.state == "completed"
@@ -28,9 +27,9 @@ InstanceSignText.helpers =
 
 		approves = _.filter approves, (a)->
 			return a.type isnt "forward" and a.type isnt "distribute"
-			
+
 		if only_cc_opinion
-			approves = approves?.filterProperty("type","cc")
+			approves = approves?.filterProperty("type", "cc")
 
 		approvesGroup = _.groupBy(approves, "handler");
 
@@ -54,8 +53,10 @@ InstanceSignText.helpers =
 
 		approves.forEach (approve) ->
 #			有输入意见 或 最新一条并且用户没有输入过意见
-			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
+#			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
+			if !hasNext(approve, approvesGroup)
 				approve._display = true
+
 
 		approves = _.filter approves, (a) ->
 			if is_completed
@@ -72,9 +73,8 @@ InstanceSignText.helpers =
 		return InstanceformTemplate.helpers.unempty(val)
 
 	formatDate: (date, options)->
-
 		if !options
-			options = {"format":"YYYY-MM-DD"}
+			options = {"format": "YYYY-MM-DD"}
 
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
@@ -82,7 +82,7 @@ InstanceSignText.helpers =
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
 			if InstanceManager.isCC(ins) && Template.instance().data.name
-				if Template.instance().data.name ==  InstanceManager.getCurrentApprove()?.opinion_field_code
+				if Template.instance().data.name == InstanceManager.getCurrentApprove()?.opinion_field_code
 					return true
 				else
 					return false
@@ -118,9 +118,9 @@ InstanceSignText.helpers =
 	markDownToHtml: (markDownString)->
 		if markDownString
 			renderer = new Markdown.Renderer();
-			renderer.link = ( href, title, text ) ->
+			renderer.link = (href, title, text) ->
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
-			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
+			return Spacebars.SafeString(Markdown(markDownString, {renderer: renderer}))
 
 	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
@@ -129,13 +129,13 @@ InstanceSignText.helpers =
 			if !field_formula
 				field_formula = WorkflowManager.getInstanceFormVersion()?.fields?.findPropertyByPK("code", this.name).formula
 
-			steps =InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
+			steps = InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
 		else
 			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
 		return steps
 
 	imageSignData: (handler) ->
-		return {user:handler}
+		return {user: handler}
 
 	showSignImage: (handler, image_sign) ->
 		spaceUserSign = ImageSign.helpers.spaceUserSign(handler);
@@ -144,6 +144,15 @@ InstanceSignText.helpers =
 			return true
 		else
 			return false
+
+	lastApproveDescription: ()->
+		traces = InstanceformTemplate.helpers.traces()
+		currentStep = InstanceManager.getCurrentStep();
+		approves = _.clone(traces[currentStep.name])
+		if approves.length > 1
+			return approves[approves.length - 2]?.description
+
+		return "";
 
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
