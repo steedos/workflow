@@ -36,6 +36,10 @@ Template.instance_button.helpers
 		return true
 
 	enabled_terminate: ->
+		# 隐藏取消申请按钮
+		if Meteor.settings.public?.workflow?.hideTerminateButton
+			return false
+
 		ins = WorkflowManager.getInstance();
 		if !ins
 			return false
