@@ -105,7 +105,7 @@ TabularTables.instances = new Tabular.Table({
 		{
 			data: "modified",
 			render: (val, type, doc) ->
-				return Steedos.momentReactiveFromNow(doc.modified);
+				return moment(doc.modified).format('YYYY-MM-DD hh:mm');
 			,
 			visible: false,
 			orderable: false
