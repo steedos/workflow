@@ -679,14 +679,6 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 
 	var re = {};
 
-	re.categories = new Array();
-
-	var categories = WorkflowManager.getSpaceCategories(spaceId);
-
-	// categories.sortByName();
-
-	var isSpaceAdmin = Steedos.isSpaceAdmin();
-
 	if (show_type == "distribute") {
 		// 如果设置了当前步骤可以分发的流程范围则使用此范围
 		var current_step = InstanceManager.getCurrentStep();
@@ -695,26 +687,30 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 		}
 	}
 
-	categories.forEach(function(c) {
-		var forms = WorkflowManager.getCategoriesForms(c._id);
-		forms.sortByName();
+	if (distribute_optional_flows.length > 0) {
+		re.distribute_optional_flows = db.flows.find({
+			_id: {
+				$in: distribute_optional_flows
+			},
+			state: "enabled"
+		}).fetch();
+	} else {
+		re.categories = new Array();
 
-		forms.forEach(function(f) {
-			var flows = WorkflowManager.getFormFlows(f._id);
-			flows.sortByName();
-			f.flows = new Array();
-			if (show_type == "distribute") {
-				if (!_.isEmpty(distribute_optional_flows)) {
-					_.each(flows, function(flw) {
-						if (distribute_optional_flows.includes(flw._id)) {
-							f.flows.push(flw);
-						}
-					})
-				} else {
-					f.flows = flows;
-				}
+		var categories = WorkflowManager.getSpaceCategories(spaceId);
 
-			} else {
+		// categories.sortByName();
+
+		var isSpaceAdmin = Steedos.isSpaceAdmin();
+
+		categories.forEach(function(c) {
+			var forms = WorkflowManager.getCategoriesForms(c._id);
+			forms.sortByName();
+
+			forms.forEach(function(f) {
+				var flows = WorkflowManager.getFormFlows(f._id);
+				flows.sortByName();
+				f.flows = new Array();
 				flows.forEach(function(fl) {
 					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
@@ -726,32 +722,19 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 						}
 					}
 				});
-			}
+			});
 
+			c.forms = forms;
 		});
 
-		c.forms = forms;
-	});
+		var unCategorieForms = WorkflowManager.getUnCategoriesForms();
 
-	var unCategorieForms = WorkflowManager.getUnCategoriesForms();
+		unCategorieForms.sortByName();
 
-	unCategorieForms.sortByName();
-
-	unCategorieForms.forEach(function(f) {
-		var flows = WorkflowManager.getFormFlows(f._id);
-		flows.sortByName();
-		f.flows = new Array();
-		if (show_type == "distribute") {
-			if (!_.isEmpty(distribute_optional_flows)) {
-				_.each(flows, function(flw) {
-					if (distribute_optional_flows.includes(flw._id)) {
-						f.flows.push(flw);
-					}
-				})
-			} else {
-				f.flows = flows;
-			}
-		} else {
+		unCategorieForms.forEach(function(f) {
+			var flows = WorkflowManager.getFormFlows(f._id);
+			flows.sortByName();
+			f.flows = new Array();
 			flows.forEach(function(fl) {
 				if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 					f.flows.push(fl);
@@ -763,16 +746,16 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 					}
 				}
 			});
-		}
-	});
-
-	re.categories = categories;
-	if (unCategorieForms.length > 0)
-		re.categories.push({
-			name: TAPi18n.__('workflow_no_category'),
-			_id: '',
-			forms: unCategorieForms
 		});
+
+		re.categories = categories;
+		if (unCategorieForms.length > 0)
+			re.categories.push({
+				name: TAPi18n.__('workflow_no_category'),
+				_id: '',
+				forms: unCategorieForms
+			});
+	}
 
 	return re;
 };
