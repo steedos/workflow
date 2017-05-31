@@ -1969,11 +1969,13 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 			send_users.push(uid)
 
 	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
-	paramString = JSON.stringify({
-		instance_name: name,
-		deadline: moment(deadline).format('MM-DD HH:mm')
-	})
-	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1}}).forEach (user)->
+
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1}}).forEach (user)->
+		utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
+		paramString = JSON.stringify({
+			instance_name: name,
+			deadline: moment(deadline).utcOffset(utcOffset).format('MM-DD HH:mm')
+		})
 		# 发送手机短信
 		SMSQueue.send({
 			Format: 'JSON',
