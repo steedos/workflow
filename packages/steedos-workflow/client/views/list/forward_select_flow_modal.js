@@ -15,13 +15,13 @@ Template.forward_select_flow_modal.helpers({
 		}
 	},
 
-	take_attachments: function() {
-		if (this.action_type == "forward") {
-			return TAPi18n.__('isForwardAttachments');
-		} else if (this.action_type == "distribute") {
-			return TAPi18n.__('instance_distribute_attachments');
-		}
-	},
+	// take_attachments: function() {
+	// 	if (this.action_type == "forward") {
+	// 		return TAPi18n.__('isForwardAttachments');
+	// 	} else if (this.action_type == "distribute") {
+	// 		return TAPi18n.__('instance_distribute_attachments');
+	// 	}
+	// },
 
 	user_context: function() {
 		var data = {
@@ -98,8 +98,8 @@ Template.forward_select_flow_modal.events({
 			toastr.error(TAPi18n.__("instance_forward_error_users_required"));
 			return;
 		}
-
-		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), $("#isForwardAttachments")[0].checked, selectedUsers, action_type);
+		// $("#isForwardAttachments")[0].checked 默认为true
+		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), true, selectedUsers, action_type);
 		Modal.hide(template);
 	},
 
