@@ -91,7 +91,7 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 		
-		if (Steedos.isNode() && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
 	},
 
@@ -362,7 +362,7 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 		
-		if (Steedos.isNode() && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
 	},
 	
