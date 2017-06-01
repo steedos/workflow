@@ -26,6 +26,30 @@ InstanceEvent.attachEvents = function(flowId) {
 }
 
 /*
+ * return true：继续执行; false 中断后续操作
+ *  "instance-before-submit" / "instance-before-uploadAttach"
+ */
+InstanceEvent.run = function (element, eventName) {
+	var ins = WorkflowManager.getInstance();
+
+	if(!ins)
+		return true;
+
+	var eventStr = getFlowEvent(ins.flow);
+
+	if(!eventStr)
+		return true;
+
+	var event = jQuery.Event(eventName, {
+		// instance: instance
+	});
+
+	node.trigger(event);
+
+	return !event.isDefaultPrevented();
+}
+
+/*
 * return true：继续执行; false 中断后续操作
 */
 InstanceEvent.before.instanceSubmit = function() {
