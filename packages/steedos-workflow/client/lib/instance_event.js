@@ -44,7 +44,7 @@ InstanceEvent.run = function (element, eventName) {
 		// instance: instance
 	});
 
-	node.trigger(event);
+	element.trigger(event);
 
 	return !event.isDefaultPrevented();
 }
