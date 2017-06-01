@@ -10,7 +10,7 @@ function getFlowEvent(flowId) {
 	}
 }
 
-InstanceEvent.attachEvents = function(flowId) {
+InstanceEvent.initEvents = function(flowId) {
 
 	var eventStr = getFlowEvent(flowId);
 	if(eventStr){
@@ -23,6 +23,30 @@ InstanceEvent.attachEvents = function(flowId) {
 			console.error('flow Event Error: ' + e);
 		}
 	}
+}
+
+/*
+ * return true：继续执行; false 中断后续操作
+ *  "instance-before-submit" / "instance-before-uploadAttach"
+ */
+InstanceEvent.run = function (element, eventName) {
+	var ins = WorkflowManager.getInstance();
+
+	if(!ins)
+		return true;
+
+	var eventStr = getFlowEvent(ins.flow);
+
+	if(!eventStr)
+		return true;
+
+	var event = jQuery.Event(eventName, {
+		// instance: instance
+	});
+
+	element.trigger(event);
+
+	return !event.isDefaultPrevented();
 }
 
 /*

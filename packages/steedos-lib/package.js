@@ -262,6 +262,10 @@ Package.onUse(function(api) {
 	// managers
 	api.addFiles('server/lib/billing_manager.coffee', 'server');
 
+	//api
+	api.addFiles('route/api_get_apps.coffee', 'server');
+
+
 	// schedule
 	api.addFiles('server/schedule/statistics.js', 'server');
 	api.addFiles('server/schedule/billing.coffee', 'server');

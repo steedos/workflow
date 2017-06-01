@@ -82,7 +82,11 @@
 							{{#with attach_current_version}}
 							<div class="ins-upload" style="cursor: pointer;float: right;">
 								<span class="ion ion-plus-round"  title='{{_ "Attachments"}}'></span>
-								<input type="file" name="file" class="ins-file-version-input">
+								{{#if metadata.main}}
+									<input type="file" name="file" class="ins-file-version-input" id="ins_upload_main_attach_version">
+								{{else}}
+									<input type="file" name="file" class="ins-file-version-input" id="ins_upload_normal_attach_version">
+								{{/if}}
 							</div>
 							{{/with}}
 						{{/if}}

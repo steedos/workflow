@@ -33,7 +33,8 @@ Meteor.startup ->
 					_.each t.approves, (ap)->
 						if ap.is_finished isnt true and ap.deadline and ap.remind_date
 							if ap.remind_date < now
-								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1}})
+								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1}})
+								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
 								name = if ins.name.length > 15 then ins.name.substr(0,12) + '...' else ins.name
 								params = {
@@ -69,7 +70,7 @@ Meteor.startup ->
 											ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
 										else
 											Steedos.caculateWorkingTime(remind_date, 1)
-									params.deadline = moment(deadline).format(moment_format)
+									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)
 
 								# （3）“紧急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 								#  如半日内仍未处理，系统每半天自动发短信提醒：办结时限不变；距离办结时限为半日时，每半个工作日提醒四次；超过办结时限后仍然按照每半日四次提醒。
@@ -79,14 +80,14 @@ Meteor.startup ->
 										ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
 									else
 										ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date)
-									params.deadline = moment(deadline).format(moment_format)
+									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)
 
 								# （4）“特急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 								#  如半日内仍未处理，系统每半个工作日提醒四次：办结时限不变；超过办结时限后仍然按照每半日四次提醒。
 								else if priority is "特急"
 									ap.reminded_count += 1
 									ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
-									params.deadline = moment(deadline).format(moment_format)
+									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)
 
 								if user and user.mobile and (not remind_users.includes(user._id)) and (not skip_users.includes(user._id)) # 防止重复发送
 									remind_users.push(user._id)

@@ -504,7 +504,7 @@ InstanceformTemplate.onRendered = ()->
 	if !ApproveManager.isReadOnly()
 
 # instance from绑定事件
-		InstanceEvent.attachEvents(instance.flow);
+		InstanceEvent.initEvents(instance.flow);
 
 		currentApprove = InstanceManager.getCurrentApprove();
 
