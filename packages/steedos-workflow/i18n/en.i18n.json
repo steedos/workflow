@@ -512,6 +512,9 @@
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
-	"instance_sign_period": "。"
+	"instance_sign_period": "。",
+
+	"instance_cc_alert": "Please confirm whether it has been circulated",
+	"instance_cc_must_finished": "The cc users：__not_finished_users_name__ had not deal with this instance, so you can not submitt this instance to next step"
 
 }

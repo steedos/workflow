@@ -700,6 +700,9 @@ InstanceManager.submitIns = function() {
 	if (!InstanceEvent.before.instanceSubmit())
 		return;
 
+	if (!InstanceManager.isCCAlertOrMustFinished())
+		return;
+
 	var instance = WorkflowManager.getInstance();
 
 	if (instance) {
@@ -1274,4 +1277,35 @@ InstanceManager.instanceformChangeEvent = function(event) {
 	if (code === 'ins_applicant') {
 		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
 	}
+}
+
+InstanceManager.isCCAlertOrMustFinished = function() {
+	var c = InstanceManager.getCurrentStep();
+	if (c && c.cc_must_finished == true) {
+		var ins = WorkflowManager.getInstance();
+		if (ins) {
+			var trace = _.find(ins.traces, function(t) {
+				return t.step == c._id;
+			});
+			var not_finished_users_name = new Array(),
+				user_id = Meteor.userId();
+			_.each(trace.approves, function(a) {
+				if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
+					not_finished_users_name.push(a.user_name);
+				}
+			})
+			if (!_.isEmpty(not_finished_users_name)) {
+				toastr.error(TAPi18n.__('instance_cc_must_finished', {
+					not_finished_users_name: not_finished_users_name.toString()
+				}));
+				return false;
+			}
+		}
+	}
+
+	if (c && c.cc_alert == true) {
+		toastr.warning(TAPi18n.__('instance_cc_alert'));
+	}
+
+	return true;
 }
