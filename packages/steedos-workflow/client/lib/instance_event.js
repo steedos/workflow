@@ -10,7 +10,7 @@ function getFlowEvent(flowId) {
 	}
 }
 
-InstanceEvent.attachEvents = function(flowId) {
+InstanceEvent.initEvents = function(flowId) {
 
 	var eventStr = getFlowEvent(flowId);
 	if(eventStr){

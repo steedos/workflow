@@ -139,13 +139,19 @@ Template.instance_view.events
 			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
 			return
 
+
+		if event.target.files.length > 0
+			if !InstanceEvent.run($("#ins_upload_main_attach"), "instance-before-upload")
+				$("#ins_upload_main_attach").val('')
+				return
+
 		InstanceManager.uploadAttach(event.target.files, false, true)
 
 		$("#ins_upload_main_attach").val('')
 
 	'change #ins_upload_normal_attach': (event, template)->
 		if event.target.files.length > 0
-			if !InstanceEvent.run($("#ins_upload_normal_attach"), "instance-before-uploadAttach")
+			if !InstanceEvent.run($("#ins_upload_normal_attach"), "instance-before-upload")
 				$("#ins_upload_normal_attach").val('')
 				return
 

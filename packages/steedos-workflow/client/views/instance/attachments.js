@@ -421,6 +421,16 @@ Template.ins_attach_version_modal.helpers({
 Template.ins_attach_version_modal.events({
 
 	'change .ins-file-version-input': function(event, template) {
+
+		element = $("#"+ event.currentTarget.id)
+
+		if(event.target.files.length > 0){
+			if(!InstanceEvent.run(element, "instance-before-upload")){
+				$("#ins_upload_main_attach").val('')
+				return
+			}
+		}
+
 		if (this.metadata.main == true) {
 			InstanceManager.uploadAttach(event.target.files, true, true);
 		} else {
@@ -526,6 +536,18 @@ Template.ins_attach_version_modal.events({
 	}
 
 })
+
+Template.ins_attach_version_modal.onRendered(function() {
+
+	var instance = WorkflowManager.getInstance();
+
+	if(!instance)
+		return;
+
+	InstanceEvent.initEvents(instance.flow);
+
+})
+
 
 Template.ins_attach_edit_modal.helpers({
 
