@@ -274,7 +274,27 @@ if Meteor.isServer
 
 #	通过request.headers、cookie 获得有效用户
 	Steedos.getAPILoginUser	= (req, res) ->
+
+		username = req.query?.username
+
+		password = req.query?.password
+
+		if username && password
+			user = db.users.findOne({steedos_id: username})
+
+			if !user
+				return false
+
+			result = Accounts._checkPassword user, password
+
+			if result.error
+				throw new Error(result.error)
+			else
+				return user
+
+
 		cookies = new Cookies(req, res);
+
 		if req.headers
 			userId = req.headers["x-user-id"]
 			authToken = req.headers["x-auth-token"]

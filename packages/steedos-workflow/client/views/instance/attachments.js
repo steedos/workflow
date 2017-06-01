@@ -1,6 +1,30 @@
 Template.instance_attachments.helpers(InstanceAttachmentTemplate.helpers)
 
+Template.instance_attachments.onCreated(function() {
+	self = this;
+	self.workflowMainAttachTitle = new ReactiveVar(true);
+})
+
 Template.instance_attachments.onRendered(function() {
+
+	var ins = WorkflowManager.getInstance();
+	if (!ins )
+		self.workflowMainAttachTitle.set(true);
+
+	var current_step = InstanceManager.getCurrentStep();
+
+	var main_attach_count = cfs.instances.find({
+		'metadata.instance': ins._id,
+		'metadata.current': true,
+		'metadata.main': true
+	}).count();
+
+	if (current_step.can_edit_main_attach == true || main_attach_count > 0) {
+		self.workflowMainAttachTitle.set(true);
+	}else{
+		self.workflowMainAttachTitle.set(false);
+	}
+
 	$('.swipebox').swipebox();
 });
 
