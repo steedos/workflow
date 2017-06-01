@@ -171,6 +171,8 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		sync_token = new Date(Number(req.query.sync_token))
 		query.modified = {$gt: sync_token}
 
+	query.final_decision = {$ne: "terminated"}
+
 	if req.query?.state
 		query.state = {$in: req.query.state.split(",")}
 	else
