@@ -40,4 +40,9 @@ if Meteor.isClient
 					if Steedos.isMobile()
 						Steedos.openWindow(setupUrl,'setup_phone')
 					else
-						FlowRouter.go setupUrl
+						toastr.error(null,t("accounts_phone_toastr_alert"),{
+							timeOut: 0,
+							extendedTimeOut: 0,
+							onclick: ->
+								Steedos.openWindow(setupUrl,'setup_phone')
+						})
