@@ -700,7 +700,7 @@ InstanceManager.submitIns = function() {
 	if (!InstanceEvent.before.instanceSubmit())
 		return;
 
-	if (!InstanceManager.isCCAlertOrMustFinished())
+	if (!InstanceManager.isCCMustFinished())
 		return;
 
 	var instance = WorkflowManager.getInstance();
@@ -1279,7 +1279,7 @@ InstanceManager.instanceformChangeEvent = function(event) {
 	}
 }
 
-InstanceManager.isCCAlertOrMustFinished = function() {
+InstanceManager.isCCMustFinished = function() {
 	var c = InstanceManager.getCurrentStep();
 	if (c && c.cc_must_finished == true) {
 		var ins = WorkflowManager.getInstance();
@@ -1301,10 +1301,6 @@ InstanceManager.isCCAlertOrMustFinished = function() {
 				return false;
 			}
 		}
-	}
-
-	if (c && c.cc_alert == true) {
-		toastr.warning(TAPi18n.__('instance_cc_alert'));
 	}
 
 	return true;

@@ -260,8 +260,22 @@ Template.instance_suggestion.events
 		if !ApproveManager.isReadOnly()
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)
-			Session.set("instance_change", false);
-			InstanceManager.submitIns();
+			c = InstanceManager.getCurrentStep();
+			if c && c.cc_alert == true 
+				swal {
+					title: TAPi18n.__('instance_cc_alert'),
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: t('form_field_checkbox_yes'),
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: t('form_field_checkbox_no'),
+					closeOnConfirm: true
+				}, () ->
+					Session.set("instance_change", false);
+					InstanceManager.submitIns();
+			else 
+				Session.set("instance_change", false);
+				InstanceManager.submitIns();
 		InstanceManager.fixInstancePosition()
 
 	'change input[name=judge]': (event)->
