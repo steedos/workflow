@@ -255,16 +255,16 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 }
 
 // 编辑文件
-NodeManager.editFile = function(file_url, filename, isView) {
+NodeManager.downloadFile = function(file_url, filename, arg) {
 	//获取系统Documents路径
 	var download_dir = process.env.USERPROFILE + "\\Steedos\\";
 	fs.exists(download_dir, function(exists) {
 		if (exists == true) {
 			// 判断附件保存路径是否存在
 			var fPath = download_dir + filename;
-			// 查看模式下直接下载到本地打开
-			if (isView) {
-				OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
+			// 查看或转为pdf时下直接下载到本地
+			if (arg) {
+				OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
 			} else {
 				fs.exists(fPath, function(exists) {
 					if (exists == true) {
@@ -294,7 +294,7 @@ NodeManager.editFile = function(file_url, filename, isView) {
 				if (err) {
 					toastr.error(err);
 				} else {
-					OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
+					OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
 				}
 			})
 		}

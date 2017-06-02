@@ -189,7 +189,7 @@ Template.instance_attachment.events({
 
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
-		NodeManager.editFile(url, filename);
+		NodeManager.downloadFile(url, filename);
 	},
 	"click [name='ins_attach_edit']": function(event, template) {
 		Session.set("attach_id", event.target.id);
@@ -203,8 +203,8 @@ Template.instance_attachment.events({
 		Session.set('attach_parent_id', event.target.dataset.parent);
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
-		var isView = true;
-		NodeManager.editFile(url, filename, isView);
+		var arg = "Steedos.User.isView";
+		NodeManager.downloadFile(url, filename, arg);
 	},
 	"click [name='ins_attach_preview']": function(event, template) {
 		if (event.target.id) {
@@ -215,6 +215,24 @@ Template.instance_attachment.events({
 			
 			Steedos.openWindow(url);
 		}
+	},
+	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		var arg = "Steedos.User.isDocToPdf";
+		swal({
+			title: t("workflow_attach_to_pdf"),
+			text: t("workflow_attach_to_pdf_message", filename),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonText: t("node_office_confirm"),
+			cancelButtonText: t("node_office_cancel"),
+			closeOnConfirm: true
+		}, function() {
+			NodeManager.downloadFile(url, filename, arg);
+		})
 	},
 	"click .ins-attach-delete": function(event, template){
 		var file_id = event.target.id;
@@ -491,15 +509,15 @@ Template.ins_attach_version_modal.events({
 
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
-		NodeManager.editFile(url, filename);
+		NodeManager.downloadFile(url, filename);
 	},
 	"click [name='ins_attach_isView']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
-		var isView = true;
-		NodeManager.editFile(url, filename, isView);
+		var arg = "Steedos.User.isView";
+		NodeManager.downloadFile(url, filename, arg);
 	},
 	"click [name='ins_attach_preview']": function(event, template) {
 		if (event.target.id) {
@@ -510,6 +528,24 @@ Template.ins_attach_version_modal.events({
 			
 			Steedos.openWindow(url);
 		}
+	},
+	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		var arg = "Steedos.User.isDocToPdf";
+		swal({
+			title: t("workflow_attach_to_pdf"),
+			text: t("workflow_attach_to_pdf_message", filename),
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonText: t("node_office_confirm"),
+			cancelButtonText: t("node_office_cancel"),
+			closeOnConfirm: true
+		}, function() {
+			NodeManager.downloadFile(url, filename, arg);
+		})
 	},
 	"click .ins-attach-version-delete": function(event, template) {
 		var file_id = event.target.id;
