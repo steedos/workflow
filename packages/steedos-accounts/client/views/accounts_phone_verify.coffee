@@ -30,8 +30,11 @@ Template.accounts_phone_verify.events
 						toastr.error t error.reason
 						console.error error
 						return
-					if Steedos.isMobile()
-						toastr.success t "accounts_phone_verify_suc_wait"
+					if window.name == "setup_phone" or Steedos.isAndroidOrIOS()
+						if Steedos.isAndroidOrIOS()
+							toastr.success t "accounts_phone_verify_suc_wait_mobile"
+						else
+							toastr.success t "accounts_phone_verify_suc_wait"
 						setTimeout ->
 							window.close()
 						,5000
