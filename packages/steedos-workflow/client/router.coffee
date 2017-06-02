@@ -117,3 +117,10 @@ FlowRouter.route '/admin/categories',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_categories"
+
+
+FlowRouter.route '/admin/instance_number_rules',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_instance_number_rules"

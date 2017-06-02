@@ -530,6 +530,12 @@
 	"instance_sign_period": "。",
 
 	"instance_cc_alert": "请确认是否需传阅",
-	"instance_cc_must_finished": "当前步骤被传阅人员：__not_finished_users_name__ 还未处理，故不能提交至下一步"
+	"instance_cc_must_finished": "当前步骤被传阅人员：__not_finished_users_name__ 还未处理，故不能提交至下一步",
+	"instance_number_rules": "流程编号规则",
+	"instance_number_rules_name": "名称",
+	"instance_number_rules_year": "年份",
+	"instance_number_rules_first_number": "起始序号",
+	"instance_number_rules_number": "序号",
+	"instance_number_rules_rules": "编号规则"
 
 }
