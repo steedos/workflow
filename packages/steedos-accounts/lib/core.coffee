@@ -41,6 +41,7 @@ if Meteor.isClient
 						Steedos.openWindow(setupUrl,'setup_phone')
 					else
 						toastr.error(null,t("accounts_phone_toastr_alert"),{
+							closeButton: true,
 							timeOut: 0,
 							extendedTimeOut: 0,
 							onclick: ->
