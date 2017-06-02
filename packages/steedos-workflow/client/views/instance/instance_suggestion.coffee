@@ -266,13 +266,14 @@ Template.instance_suggestion.events
 					title: TAPi18n.__('instance_cc_alert'),
 					type: "warning",
 					showCancelButton: true,
-					cancelButtonText: t('form_field_checkbox_yes'),
+					cancelButtonText: t('form_field_checkbox_no'),
 					confirmButtonColor: "#DD6B55",
-					confirmButtonText: t('form_field_checkbox_no'),
+					confirmButtonText: t('form_field_checkbox_yes'),
 					closeOnConfirm: true
-				}, () ->
-					Session.set("instance_change", false);
-					InstanceManager.submitIns();
+				}, (isConfirm) ->
+					if (!isConfirm)
+						Session.set("instance_change", false);
+						InstanceManager.submitIns();
 			else 
 				Session.set("instance_change", false);
 				InstanceManager.submitIns();
