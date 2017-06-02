@@ -10,7 +10,13 @@
             </label>
             <label style="display:none"><input type="checkbox" value="true" {{atts}} /> {{afFieldLabelText name=this.name}}</label>
         {{else}}
-            <label><input type="checkbox" value="true" {{atts}} /> {{afFieldLabelText name=this.name}}</label>
+			{{#if skipLabel}}
+				<label><input type="checkbox" value="true" {{atts}} /> {{afFieldLabelText name=this.name}}</label>
+			{{else}}
+				<label style="width: 100%;"><input type="checkbox" value="true" {{atts}} /></label>
+			{{/if}}
+
+
         {{/if}}
     </div>
 </template>
