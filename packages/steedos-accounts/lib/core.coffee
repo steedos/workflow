@@ -36,7 +36,7 @@ if Meteor.isClient
 					if expiredDays
 						Accounts.disablePhoneWithoutExpiredDays(expiredDays)
 				else
-					setupUrl = Steedos.absoluteUrl("/accounts/setup/phone")
+					setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 					if Steedos.isMobile()
 						Steedos.openWindow(setupUrl,'setup_phone')
 					else

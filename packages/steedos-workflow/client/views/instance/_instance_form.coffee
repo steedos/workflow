@@ -501,10 +501,12 @@ InstanceformTemplate.onRendered = ()->
 
 
 	ApproveManager.error = {nextSteps: '', nextStepUsers: ''};
-	if !ApproveManager.isReadOnly()
 
-# instance from绑定事件
+	# instance from绑定事件
+	if Session.get("box") == 'inbox'
 		InstanceEvent.initEvents(instance.flow);
+
+	if !ApproveManager.isReadOnly()
 
 		currentApprove = InstanceManager.getCurrentApprove();
 

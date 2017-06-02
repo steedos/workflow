@@ -27,7 +27,7 @@ InstanceEvent.initEvents = function(flowId) {
 
 /*
  * return true：继续执行; false 中断后续操作
- *  "instance-before-submit" / "instance-before-uploadAttach"
+ *  "instance-before-submit" / "instance-before-upload"
  */
 InstanceEvent.run = function (element, eventName) {
 	var ins = WorkflowManager.getInstance();
