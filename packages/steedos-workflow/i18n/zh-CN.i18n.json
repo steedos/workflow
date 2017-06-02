@@ -527,6 +527,9 @@
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
 	"instance_sign_agree": "同意",
-	"instance_sign_period": "。"
+	"instance_sign_period": "。",
+
+	"instance_cc_alert": "请确认是否已传阅",
+	"instance_cc_must_finished": "当前步骤被传阅人员：__not_finished_users_name__ 还未处理，故不能提交至下一步"
 
 }

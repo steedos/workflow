@@ -1,6 +1,30 @@
 Template.instance_attachments.helpers(InstanceAttachmentTemplate.helpers)
 
+Template.instance_attachments.onCreated(function() {
+	self = this;
+	self.workflowMainAttachTitle = new ReactiveVar(true);
+})
+
 Template.instance_attachments.onRendered(function() {
+
+	var ins = WorkflowManager.getInstance();
+	if (!ins )
+		self.workflowMainAttachTitle.set(true);
+
+	var current_step = InstanceManager.getCurrentStep();
+
+	var main_attach_count = cfs.instances.find({
+		'metadata.instance': ins._id,
+		'metadata.current': true,
+		'metadata.main': true
+	}).count();
+
+	if (current_step.can_edit_main_attach == true || main_attach_count > 0) {
+		self.workflowMainAttachTitle.set(true);
+	}else{
+		self.workflowMainAttachTitle.set(false);
+	}
+
 	$('.swipebox').swipebox();
 });
 
@@ -421,6 +445,16 @@ Template.ins_attach_version_modal.helpers({
 Template.ins_attach_version_modal.events({
 
 	'change .ins-file-version-input': function(event, template) {
+
+		element = $("#"+ event.currentTarget.id)
+
+		if(event.target.files.length > 0){
+			if(!InstanceEvent.run(element, "instance-before-upload")){
+				$("#ins_upload_main_attach").val('')
+				return
+			}
+		}
+
 		if (this.metadata.main == true) {
 			InstanceManager.uploadAttach(event.target.files, true, true);
 		} else {
@@ -526,6 +560,18 @@ Template.ins_attach_version_modal.events({
 	}
 
 })
+
+Template.ins_attach_version_modal.onRendered(function() {
+
+	var instance = WorkflowManager.getInstance();
+
+	if(!instance)
+		return;
+
+	InstanceEvent.initEvents(instance.flow);
+
+})
+
 
 Template.ins_attach_edit_modal.helpers({
 

@@ -1,4 +1,8 @@
 InstanceAttachmentTemplate.helpers = {
+
+	showMainTitle: function () {
+		return Template.instance().workflowMainAttachTitle.get();
+	},
 	enabled_add_main_attachment: function() {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
@@ -7,16 +11,19 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
-		if (ins.state != "draft") {
-			return false
-		}
+		var current_step = InstanceManager.getCurrentStep();
 
-		// 正文最多只能有一个
 		var main_attach_count = cfs.instances.find({
 			'metadata.instance': ins._id,
 			'metadata.current': true,
 			'metadata.main': true
 		}).count();
+
+		if (current_step.can_edit_main_attach == true && main_attach_count < 1) {
+			return true
+		}
+
+		// 正文最多只能有一个
 
 		if (main_attach_count >= 1) {
 			return false;
@@ -153,5 +160,16 @@ if (Meteor.isServer) {
 			return true;
 		}
 		return false;
+	}
+
+	InstanceAttachmentTemplate.helpers.showMainTitle = function () {
+		var instance = Template.instance().view.template.steedosData.instance;
+		var main_attach_count = cfs.instances.find({
+			'metadata.instance': instance._id,
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
+
+		return main_attach_count > 0
 	}
 }

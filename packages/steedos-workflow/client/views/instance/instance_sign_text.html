@@ -7,6 +7,7 @@
 						{{#if isOpinionOfField this}}
 							{{#if is_finished}}
 								{{#if (include judge "approved,rejected,submitted,readed") }}
+									<div class="instance-sign-item">
 									{{#if (unempty description)}}{{{markDownToHtml
 											description}}}{{else}}{{{markDownToHtml defaultDescription}}}{{/if}}
 									{{#if (showSignImage handler ../image_sign)}}
@@ -14,18 +15,19 @@
 									{{else}}
 										&emsp;&emsp;{{handler_name}}
 									{{/if}}
-									{{formatDate finish_date format}}<br>
+									{{formatDate finish_date format}}</div>
 								{{/if}}
 							{{else}}
 								{{#if isMyApprove}}
 									{{#if (unempty (myApproveDescription _id))}}
+										<div class="instance-sign-item">
 										{{{markDownToHtml (myApproveDescription _id)}}}
 										{{#if (showSignImage handler ../image_sign)}}
 											&emsp;&emsp;{{> imageSign (imageSignData handler)}}
 										{{else}}
 											&emsp;&emsp;{{handler_name}}
 										{{/if}}
-										{{formatDate now format}}<br>
+										{{formatDate now format}}</div>
 									{{/if}}
 								{{/if}}
 							{{/if}}
@@ -36,6 +38,7 @@
 						{{#if isOpinionOfField this}}
 							{{#if is_finished}}
 								{{#if (include judge "approved,rejected,submitted,readed") }}
+									<div class="instance-sign-item">
 									{{#if (unempty description)}}
 										{{{markDownToHtml description}}}
 									{{else}}
@@ -46,7 +49,7 @@
 									{{else}}
 										&emsp;&emsp;{{handler_name}}
 									{{/if}}
-									{{formatDate finish_date format}}<br>
+									{{formatDate finish_date format}}</div>
 								{{/if}}
 							{{/if}}
 						{{/if}}

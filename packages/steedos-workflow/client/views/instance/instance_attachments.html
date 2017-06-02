@@ -2,13 +2,11 @@
     {{#if showAttachments}}
         <div class="instance_attachments col-md-12">
             <div>
-                {{#if enabled_add_main_attachment}}
-                <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
-                <div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_main_attach"></div>
-                {{else}}
-                    {{#with main_attachment}}
-                        <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
-                    {{/with}}
+				{{#if showMainTitle}}
+					<span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
+				{{/if}}
+				{{#if enabled_add_main_attachment}}
+					<div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_main_attach"></div>
                 {{/if}}
             </div>
             <div class="attachments-list">

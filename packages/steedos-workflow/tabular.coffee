@@ -83,7 +83,7 @@ TabularTables.instances = new Tabular.Table({
 			data: "submit_date",
 			render: (val, type, doc) ->
 				if doc.submit_date
-					return moment(doc.submit_date).format('YYYY-MM-DD hh:mm');
+					return moment(doc.submit_date).format('YYYY-MM-DD HH:mm');
 			,
 			visible: false,
 			orderable: false
@@ -104,7 +104,7 @@ TabularTables.instances = new Tabular.Table({
 		{
 			data: "modified",
 			render: (val, type, doc) ->
-				return moment(doc.modified).format('YYYY-MM-DD hh:mm');
+				return moment(doc.modified).format('YYYY-MM-DD HH:mm');
 			,
 			visible: false,
 			orderable: false
