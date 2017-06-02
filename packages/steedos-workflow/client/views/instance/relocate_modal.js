@@ -52,6 +52,8 @@ Template.relocate_modal.events({
     'change #relocate_steps': function(event) {
         var v = $("#relocate_steps").val();
         var relocate_users = $("input[name='relocate_users']")[0];
+        relocate_users.value = "";
+        relocate_users.dataset.values = '';
         if (v) {
             var s = WorkflowManager.getInstanceStep(v);
             if (s.step_type == "start" || s.step_type == "end") {
@@ -64,6 +66,15 @@ Template.relocate_modal.events({
                 relocate_users.dataset.multiple = true;
             } else {
                 relocate_users.dataset.multiple = false;
+            }
+
+            var next_step_users = ApproveManager.getNextStepUsers(WorkflowManager.getInstance(), s._id);
+            if (!_.isEmpty(next_step_users)) {
+                relocate_users.dataset.userOptions = _.pluck(next_step_users, "id");
+                relocate_users.dataset.showOrg = false;
+            } else {
+                delete relocate_users.dataset.userOptions;
+                relocate_users.dataset.showOrg = true;
             }
         } else {
             $("#relocate_users_p").css("display", "");
