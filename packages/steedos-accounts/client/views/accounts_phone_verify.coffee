@@ -30,7 +30,7 @@ Template.accounts_phone_verify.events
 						toastr.error t error.reason
 						console.error error
 						return
-					if window.name == "setup_phone"
+					if Steedos.isMobile()
 						toastr.success t "accounts_phone_verify_suc_wait"
 						setTimeout ->
 							window.close()
