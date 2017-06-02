@@ -52,7 +52,6 @@ FlowRouter.route '/',
 		else
 			# 登录最近关闭的URL
 			lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
-			console.log "================lastUrl:#{lastUrl}"
 			# 这时不能用lastUrl.startsWith，因为那样无法判断后面是否加了其他字符
 			if (!Steedos.isMobile() && lastUrl)
 				if /^\/?workflow\b/.test(lastUrl)
