@@ -64,6 +64,8 @@ FlowRouter.route '/',
 					FlowRouter.go "/contacts"
 				else if /^\/?portal\b/.test(lastUrl)
 					FlowRouter.go "/portal"
+				else if /^\/?accounts\b/.test(lastUrl)
+					FlowRouter.go "/accounts"
 				else 
 					FlowRouter.go "/admin"
 			else
@@ -74,8 +76,10 @@ FlowRouter.route '/',
 						BlazeLayout.render 'steedosLoading'
 						$("body").addClass('loading')
 					else
-						Steedos.openApp firstApp._id
 						c.stop()
+						currentPath = FlowRouter.current().path
+						if currentPath == "/"
+							Steedos.openApp firstApp._id
 
 
 # FlowRouter.route '/steedos', 

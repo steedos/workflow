@@ -32,15 +32,6 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("my_organizations", spaceId)
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
-Tracker.autorun (c)->
-	if Steedos.subsSpace.ready("apps")
-		if FlowRouter.current().path == "/"
-			firstApp = Steedos.getSpaceFirstApp()
-			if firstApp
-				Steedos.openApp firstApp._id
-			else
-				FlowRouter.go("/")
-
 
 # Meteor.startup之前就从localStorage读取并设置字体大小及背景图
 accountZoomValue = {}

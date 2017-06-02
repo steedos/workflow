@@ -7,8 +7,8 @@ FlowRouter.route '/records',
 	triggersEnter: [checkUserSigned]
 
 
-workflowSpaceRoutes = FlowRouter.group
-	prefix: '/records/space/:spaceId',
+recordsQHDRoutes = FlowRouter.group
+	prefix: '/records_qhd',
 	name: 'records',
 	triggersEnter: [checkUserSigned],
 # subscriptions: (params, queryParams) ->
@@ -24,8 +24,8 @@ workflowSpaceRoutes = FlowRouter.group
 # 		this.register 'flows', Meteor.subscribe("flows", params.spaceId)
 
 
-workflowSpaceRoutes.route '/sync_contracts',
+recordsQHDRoutes.route '/sync_contracts',
 	action: (params, queryParams)->
-		Steedos.setSpaceId(params.spaceId)
+#		Steedos.setSpaceId(params.spaceId)
 		BlazeLayout.render 'adminLayout',
 			main: "recordsQHDSyncContracts"
