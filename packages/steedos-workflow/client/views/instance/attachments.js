@@ -440,7 +440,7 @@ Template.ins_attach_version_modal.helpers({
 		return false;
 	},
 
-	canConvertToPdf: function(filename, locked_by) {
+	canConvertToPdf: function(mainFile, filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
