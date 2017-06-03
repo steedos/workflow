@@ -529,6 +529,8 @@
 	"instance_number_rules_number_builder_error_title": "Builder number error",
 	"instance_number_rules_number_builder_error_not_exist": "The number rule does not exist: ",
 	"ConfirmDeletion?": "Are you sure?",
-	"instance_number_rules_name_only": "The name can not be repeated"
+	"instance_number_rules_name_only": "The name can not be repeated",
+	"flows_btn_export_title": "Export",
+	"flows_btn_copylink_title": "Copy Link"
 
 }
