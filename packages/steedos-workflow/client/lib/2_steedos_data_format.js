@@ -244,7 +244,7 @@ var s_schema = function (label, field) {
 
     schema.autoform = new s_autoform(schema, field);
 
-	if(field.default_value.indexOf("auto_number(") < -0){
+	if(!field.default_value || field.default_value.indexOf("auto_number(") < -0){
 		schema.autoform.defaultValue = field.default_value;
     }
 
