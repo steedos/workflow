@@ -516,7 +516,7 @@ InstanceformTemplate.onRendered = ()->
 		instanceNumberFields.each ()->
 			if !$(this).val()
 
-				key = $(this).data("formula")?.replace("numberBuilder(", "").replace(")", "")
+				key = $(this).data("formula")?.replace("auto_number(", "").replace(")", "")
 
 				key = key.replace(/\"/g, "").replace(/\'/g, "")
 
@@ -524,7 +524,6 @@ InstanceformTemplate.onRendered = ()->
 					key = key.replace("{","").replace("}","")
 					key = key.trim()
 					key = AutoForm.getFieldValue(key, 'instanceform')
-
 				InstanceNumberRules.instanceNumberBuilder $(this), key
 
 		judge = currentApprove.judge
