@@ -119,7 +119,7 @@ Template.instance_attachment.helpers({
 			return true;
 	},
 
-	canEdit: function(filename, locked_by) {
+	canEdit: function(mainFile, filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
@@ -128,8 +128,17 @@ Template.instance_attachment.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
-			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
-				return true;
+
+			if(current_step){
+				if(mainFile){
+					return current_step.can_edit_main_attach
+				}else{
+					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+						return true
+					}
+					
+				}
+			}
 		}
 
 		return false;
@@ -408,7 +417,7 @@ Template.ins_attach_version_modal.helpers({
 			return true;
 	},
 	
-	canEdit: function(filename, locked_by) {
+	canEdit: function(mainFile, filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
@@ -417,10 +426,17 @@ Template.ins_attach_version_modal.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
-			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
-				return true;
+			if(current_step){
+				if(mainFile){
+					return current_step.can_edit_main_attach
+				}else{
+					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+						return true
+					}
+					
+				}
+			}
 		}
-
 		return false;
 	},
 
@@ -432,8 +448,16 @@ Template.ins_attach_version_modal.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
-			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
-				return true;
+			if(current_step){
+				if(mainFile){
+					return current_step.can_edit_main_attach
+				}else{
+					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+						return true
+					}
+					
+				}
+			}
 		}
 	},
 
