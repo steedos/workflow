@@ -82,3 +82,13 @@ if Meteor.isClient
 #		paid: "true"
 		sort: 45
 		parent: "workflow"
+
+	Admin.addMenu
+		_id: "instance_number_rules"
+		title: "instance_number_rules"
+		app: "workflow"
+		icon: "ion ion-ios-refresh-outline"
+		url: "/admin/instance_number_rules"
+		paid: "true"
+		sort: 55
+		parent: "workflow"
