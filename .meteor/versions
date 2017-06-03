@@ -170,6 +170,7 @@ steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
+steedos:dashboard@0.0.1
 steedos:desktop@0.0.1
 steedos:freeboard@1.1.3_5
 steedos:i18n@0.0.2
