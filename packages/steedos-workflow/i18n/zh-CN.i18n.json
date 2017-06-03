@@ -193,7 +193,7 @@
 	"flows_instance_template": "表单模板",
 
 	"workflow_attach_unlock": "解锁",
-	"workflow_attach_locked_by": "已被 %s 锁定",
+	"workflow_attach_locked_by": "%s 正在编辑",
 	"workflow_attach_confirm_delete": "确认删除",
 	"workflow_attach_confirm_delete_messages": "你确定删除'%s'吗？",
 	"workflow_attach_confirm": "删除",
