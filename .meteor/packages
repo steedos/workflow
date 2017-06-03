@@ -156,10 +156,10 @@ steedos:remind
 
 # steedos:calendar
 
-steedos:records
+# steedos:records
 
 steedos:freeboard
-# steedos:dashboard
+steedos:dashboard
 
 # steedos:distribute-qhd
 
