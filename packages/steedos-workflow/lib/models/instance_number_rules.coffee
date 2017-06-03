@@ -79,6 +79,8 @@ if Meteor.isServer
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
 
+		console.log userId + "; insert instance_number_rules",  doc
+
 	db.instance_number_rules.before.update (userId, doc, fieldNames, modifier, options) ->
 
 		modifier.$set = modifier.$set || {};
@@ -89,10 +91,14 @@ if Meteor.isServer
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
 
+		console.log userId + "; update instance_number_rules",  doc
+
 	db.instance_number_rules.before.remove (userId, doc) ->
 
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
+
+		console.log userId + "; remove instance_number_rules",  doc
 
 new Tabular.Table
 	name: "instance_number_rules",
