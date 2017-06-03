@@ -523,7 +523,7 @@ InstanceformTemplate.onRendered = ()->
 				if key.indexOf("{") > -1
 					key = key.replace("{","").replace("}","")
 					key = key.trim()
-					key = currentApprove?.values?[key]
+					key = AutoForm.getFieldValue(key, 'instanceform')
 
 				InstanceNumberRules.instanceNumberBuilder $(this), key
 

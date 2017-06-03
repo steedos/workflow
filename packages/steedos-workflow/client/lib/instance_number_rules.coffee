@@ -3,6 +3,6 @@ InstanceNumberRules = {};
 InstanceNumberRules.instanceNumberBuilder = (element, name) ->
 	Meteor.call "instanceNumberBuilder", name, (error, result) ->
 		if error
-			toastr.error(error.reason, "编号生成失败")
+			toastr.error(t("instance_number_rules_number_builder_error_not_exist") + error.reason, t("instance_number_rules_number_builder_error_title"))
 		else
 			element?.val(result).trigger("change")

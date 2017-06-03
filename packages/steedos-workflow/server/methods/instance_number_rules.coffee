@@ -3,12 +3,10 @@ _eval = Npm.require('eval')
 Meteor.methods
 	instanceNumberBuilder: (name)->
 
-		console.log name
-
 		numberRules = db.instance_number_rules.findOne({name: name})
 
 		if !numberRules
-			throw new  Meteor.Error('error!', "流程编号规则不存在：#{name}")
+			throw new  Meteor.Error('error!', "#{name}")
 
 		date = new Date()
 
@@ -33,8 +31,6 @@ Meteor.methods
 
 		script = "var newNo = '#{rules}'; exports.newNo = newNo";
 
-		console.log script
-
 		try
 			res = _eval(script, "newNo", context, false).newNo
 
@@ -42,7 +38,5 @@ Meteor.methods
 
 		catch e
 			res = {_error: e}
-
-		console.log res
 
 		return res;

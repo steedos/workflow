@@ -116,6 +116,14 @@ new Tabular.Table
 			width: '1px',
 			render: (val, type, doc) ->
 				return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
+		},
+		{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<button type="button" class="btn btn-xs btn-default" id="remove"><i class="fa fa-times"></i></button>'
 		}
 	]
 	extraFields: ["space"]

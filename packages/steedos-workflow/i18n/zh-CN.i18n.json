@@ -536,6 +536,8 @@
 	"instance_number_rules_year": "年份",
 	"instance_number_rules_first_number": "起始序号",
 	"instance_number_rules_number": "序号",
-	"instance_number_rules_rules": "编号规则"
-
+	"instance_number_rules_rules": "编号规则",
+	"instance_number_rules_number_builder_error_title": "文件编号生成失败",
+	"instance_number_rules_number_builder_error_not_exist": "流程编号规则不存在: ",
+	"ConfirmDeletion?": "确认删除?"
 }
