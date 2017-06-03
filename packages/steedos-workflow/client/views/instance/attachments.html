@@ -8,7 +8,7 @@
 					<a href="#" data-downloadurl="{{getUrl this._id}}" name="ins_attach_mobile">{{this.name}}</a>
 				{{else}}
 					{{#if isNode}}
-						{{#if canEdit this.name this.metadata.locked_by}}
+						{{#if canEdit this.metadata.main this.name this.metadata.locked_by}}
 							<a href="#" data-downloadurl="{{getUrl this._id}}" style="cursor: pointer" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{this.name}}</a>
 						{{else}}
 							{{#if canView this.name}}
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 				{{else}}
-					{{#if canEdit this.name this.metadata.locked_by}}
+					{{#if canEdit this.metadata.main this.name this.metadata.locked_by}}
 						{{#if isIE}}
 							<a name="ins_attach_edit" id="{{this._id}}" class="mouse-hover" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
 						{{/if}}
@@ -179,10 +179,10 @@
 							<button type="button" class="btn btn-primary pull-left" id="{{this._id}}">{{_ 'workflow_attach_unlock'}}</button>
 						{{else}}
 							{{#if isNode}}	
-								{{#if canEdit this.name this.metadata.locked_by}}
+								{{#if canEdit this.metadata.main this.name this.metadata.locked_by}}
 									<button type="button" data-downloadurl="{{getUrl this._id}}" class="btn btn-default pull-left" name="ins_attach_isNode" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</button>
 								{{/if}}
-								{{#if canConvertToPdf this.name this.metadata.locked_by}}
+								{{#if canConvertToPdf this.metadata.main this.name this.metadata.locked_by}}
 									<button type="button" data-downloadurl="{{getUrl this._id}}" class="btn btn-default pull-left" name="ins_attach_convert_to_pdf" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_wordToPdf"}}</button>
 								{{/if}}
 							{{/if}}

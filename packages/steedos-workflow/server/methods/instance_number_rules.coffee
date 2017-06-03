@@ -48,6 +48,8 @@ Meteor.methods
 
 			db.instance_number_rules.update({_id: numberRules._id}, {$set: {year: _YYYY, number: _NUMBER}})
 
+			console.log this.userId, res
+
 		catch e
 			res = {_error: e}
 

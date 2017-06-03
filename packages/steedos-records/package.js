@@ -58,6 +58,7 @@ Package.onUse(function(api) {
     api.use('steedos:theme@0.0.11');
     api.use('steedos:workflow');
     api.use('simple:json-routes@2.1.0');
+    api.use('steedos:records-i18n');
     api.use('http');
 
 

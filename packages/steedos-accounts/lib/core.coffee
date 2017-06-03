@@ -39,9 +39,17 @@ if Meteor.isClient
 					setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 					# 这里不可以用Steedos.isMobile()，因为android浏览器上会出现死循环一直刷新界面
 					if Steedos.isAndroidOrIOS()
-						Steedos.openWindow(setupUrl,'setup_phone')
+						console.log 'will come soon for setup_phone'
+						# Steedos.openWindow(setupUrl,'setup_phone')
 					else
-						toastr.error(null,t("accounts_phone_toastr_alert"),{
+						unless Accounts.phoneToastrs
+							Accounts.phoneToastrs = []
+						if Accounts.phoneToastrs.length
+							Accounts.phoneToastrs.forEach (n,i)->
+								toastr.clear n
+							Accounts.phoneToastrs = []
+
+						Accounts.phoneToastrs.push toastr.error(null,t("accounts_phone_toastr_alert"),{
 							closeButton: true,
 							timeOut: 0,
 							extendedTimeOut: 0,
