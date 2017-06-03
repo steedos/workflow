@@ -86,7 +86,8 @@
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 	"workflow_attachment_delete": "删除",
-	"workflow_attachment_convert_to_pdf": "正在将'%s'转换为pdf格式文件...",
+	"workflow_attachment_convert_to_pdf": "正在将 '%s' 转换为pdf格式文件...",
+	"workflow_attachment_wordToPdf": "转为pdf",
 
 	"Instance State approved": "已核准",
 	"Instance State rejected": "已驳回",

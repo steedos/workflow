@@ -424,6 +424,19 @@ Template.ins_attach_version_modal.helpers({
 		return false;
 	},
 
+	canConvertToPdf: function(filename, locked_by) {
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+		var locked = false;
+		if (locked_by) locked = true;
+		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
+			var current_step = InstanceManager.getCurrentStep();
+			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+				return true;
+		}
+	},
+
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
 		if (Steedos.isNode())
@@ -535,6 +548,7 @@ Template.ins_attach_version_modal.events({
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
 		var arg = "Steedos.User.isDocToPdf";
+		Modal.hide('ins_attach_version_modal');
 		swal({
 			title: t("workflow_attach_to_pdf"),
 			text: t("workflow_attach_to_pdf_message", filename),
