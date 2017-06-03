@@ -16,14 +16,14 @@ Meteor.methods
 
 		_YYYY = date.getFullYear()
 
-		_NUMBER = numberRules.number + 1
+		_NUMBER = (numberRules.number || 0) + 1
 
 		context.YYYY = _.clone(_YYYY)
 
 		context.MM = date.getMonth() + 1
 
 		if context.YYYY != numberRules.year
-			_NUMBER = numberRules.first_number
+			_NUMBER = numberRules.first_number || 1
 
 		context.NUMBER = _.clone(_NUMBER)
 

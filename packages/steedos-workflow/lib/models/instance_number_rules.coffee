@@ -1,16 +1,5 @@
 db.instance_number_rules = new Meteor.Collection('instance_number_rules')
 
-if Meteor.isServer
-	db.instance_number_rules.before.insert (userId, doc) ->
-		doc.created_by = userId;
-		doc.created = new Date();
-		if doc.current
-			doc.current.created_by = userId;
-			doc.current.created = new Date();
-			doc.current.modified_by = userId;
-			doc.current.modified = new Date();
-
-
 db.instance_number_rules._simpleSchema = new SimpleSchema
 	space:
 		type: String,
@@ -81,6 +70,11 @@ if Meteor.isServer
 	db.instance_number_rules.before.insert (userId, doc) ->
 		doc.created_by = userId;
 		doc.created = new Date();
+
+		rules = db.instance_number_rules.findOne({"name": doc.name})
+
+		if rules
+			throw new Meteor.Error(400, "instance_number_rules_name_only");
 
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");

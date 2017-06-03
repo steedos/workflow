@@ -542,5 +542,6 @@
 	"instance_number_rules_rules": "编号规则",
 	"instance_number_rules_number_builder_error_title": "文件编号生成失败",
 	"instance_number_rules_number_builder_error_not_exist": "流程编号规则不存在: ",
-	"ConfirmDeletion?": "确认删除?"
+	"ConfirmDeletion?": "确认删除?",
+	"instance_number_rules_name_only": "名称已存在"
 }
