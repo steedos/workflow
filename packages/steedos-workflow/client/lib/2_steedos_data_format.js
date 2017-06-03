@@ -248,7 +248,7 @@ var s_schema = function (label, field) {
 
     if(schema.autoform.disabled == false){
 
-		if(field.default_value && field.default_value.indexOf("numberBuilder(") > -1){
+		if(field.default_value && field.default_value.indexOf("auto_number(") > -1){
 
 			schema.autoform["data-new-number"] = true
 

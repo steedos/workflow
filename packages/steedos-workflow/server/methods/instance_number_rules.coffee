@@ -22,6 +22,18 @@ Meteor.methods
 
 		context.MM = date.getMonth() + 1
 
+		context.mm = date.getMonth() + 1
+
+		if context.MM < 10
+			context.MM = "0" + context.MM
+
+		context.DD = date.getDate()
+
+		context.dd = date.getDate()
+
+		if context.DD < 10
+			context.DD = "0" + context.DD
+
 		if context.YYYY != numberRules.year
 			_NUMBER = numberRules.first_number || 1
 
