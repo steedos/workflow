@@ -64,8 +64,6 @@ FlowRouter.route '/',
 					FlowRouter.go "/contacts"
 				else if /^\/?portal\b/.test(lastUrl)
 					FlowRouter.go "/portal"
-				else if /^\/?accounts\b/.test(lastUrl)
-					FlowRouter.go "/accounts"
 				else 
 					FlowRouter.go "/admin"
 			else

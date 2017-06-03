@@ -9,6 +9,7 @@
 	"accounts_phone_enter_phone_code": "Enter the verification code",
 	"accounts_phone_verify_suc": "Phone number verified success!",
 	"accounts_phone_verify_suc_wait": "Phone number verified success, closing the window!",
+	"accounts_phone_verify_suc_wait_mobile": "Phone number verified success, you can close the window.",
 	"accounts_phone_swal_unreceived_title": "Fetch you phone number again",
 	"accounts_phone_swal_unreceived_text": "We will send a verification code SMS to:\r\n %s",
 	"accounts_phone_title": "Bind the phone number",
@@ -41,5 +42,6 @@
 	"accounts_phone_too_often_retries": "Too often retries, try again in %s seconds!",
 	"accounts_phone_too_many_retries": "Too many retries, try again in %s minutes!",
 	"accounts_phone_user_not_found": "The phone number is not bound to any account!",
-	"accounts_phone_sms_failed": "SMS Failed, Something bad happened!"
+	"accounts_phone_sms_failed": "SMS Failed, Something bad happened!",
+	"accounts_phone_toastr_alert": "You do not bind the phone number, click to start binding!"
 }

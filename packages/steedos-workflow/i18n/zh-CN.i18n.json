@@ -81,11 +81,12 @@
 	"workflow_attachment_isReadOnly": "只读-",
 	"workflow_attachment_versions": "历史版本",
 	"workflow_attachment_uploading": "正在上传 ",
-	"workflow_attachment_downloading": "正在下载 ",
+	"workflow_attachment_downloading": "正在下载 %s...",
 	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
 	"workflow_attachment_delete": "删除",
+	"workflow_attachment_convert_to_pdf": "正在将'%s'转换为pdf格式文件...",
 
 	"Instance State approved": "已核准",
 	"Instance State rejected": "已驳回",
@@ -196,6 +197,8 @@
 	"workflow_attach_confirm_delete_messages": "你确定删除'%s'吗？",
 	"workflow_attach_confirm": "删除",
 	"workflow_attach_cancel": "取消",
+	"workflow_attach_to_pdf": "转为pdf",
+	"workflow_attach_to_pdf_message": "是否将'%s'转为pdf格式文件？",
 
 	"workflow_select_an_app": "应用",
 	"workflow_suggestion_placeholder": "请填写意见，点击右侧按钮选择常用意见。",
@@ -529,7 +532,7 @@
 	"instance_sign_agree": "同意",
 	"instance_sign_period": "。",
 
-	"instance_cc_alert": "请确认是否已传阅",
+	"instance_cc_alert": "请确认是否需传阅",
 	"instance_cc_must_finished": "当前步骤被传阅人员：__not_finished_users_name__ 还未处理，故不能提交至下一步"
 
 }

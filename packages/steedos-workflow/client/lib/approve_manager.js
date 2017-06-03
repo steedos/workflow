@@ -156,6 +156,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                     case 'pickupAtRuntime': //审批时指定人员
                         Session.set("next_step_users_showOrg", true);
                         var currentApprove = InstanceManager.getCurrentApprove();
+                        if (!currentApprove) break;
                         var current_next_steps = currentApprove.next_steps;
                         var userIds = current_next_steps && current_next_steps[0] ? current_next_steps[0].users : [];
                         if (!_.isEmpty(userIds)) {
@@ -209,6 +210,23 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                     'userFieldValue': userFieldValue
                                 };
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
+                            } else {
+                                var fieldValue = instance.values[userField.code];
+                                var user_field_value;
+                                if (fieldValue instanceof Array) {
+                                    user_field_value = _.pluck(fieldValue, "id");
+                                } else if (fieldValue instanceof Object) {
+                                    user_field_value = fieldValue.id;
+                                }
+
+                                if (user_field_value) {
+                                    var data = {
+                                        'userField': userField,
+                                        'userFieldValue': user_field_value
+                                    };
+                                    nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
+                                }
+
                             }
                         }
                         if (!nextStepUsers.length) {
@@ -232,6 +250,22 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                     'orgFieldValue': orgFieldValue
                                 };
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
+                            } else {
+                                var fieldValue = instance.values[orgField.code];
+                                var org_field_value;
+                                if (fieldValue instanceof Array) {
+                                    org_field_value = _.pluck(fieldValue, "id");
+                                } else if (fieldValue instanceof Object) {
+                                    org_field_value = fieldValue.id;
+                                }
+
+                                if (org_field_value) {
+                                    var data = {
+                                        'orgField': orgField,
+                                        'orgFieldValue': org_field_value
+                                    };
+                                    nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
+                                }
                             }
                         }
                         if (!nextStepUsers.length) {
@@ -270,6 +304,23 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 
                                 };
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
+                            } else {
+                                var fieldValue = instance.values[userField.code];
+                                var user_field_value;
+                                if (fieldValue instanceof Array) {
+                                    user_field_value = _.pluck(fieldValue, "id");
+                                } else if (fieldValue instanceof Object) {
+                                    user_field_value = fieldValue.id;
+                                }
+
+                                if (user_field_value) {
+                                    var data = {
+                                        'userField': userField,
+                                        'userFieldValue': user_field_value,
+                                        'approverRoleIds': approverRoleIds
+                                    };
+                                    nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
+                                }
                             }
                         }
                         if (!nextStepUsers.length) {
@@ -297,6 +348,23 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 
                                 };
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('orgFieldRole', Session.get('spaceId'), data);
+                            } else {
+                                var fieldValue = instance.values[orgField.code];
+                                var org_field_value;
+                                if (fieldValue instanceof Array) {
+                                    org_field_value = _.pluck(fieldValue, "id");
+                                } else if (fieldValue instanceof Object) {
+                                    org_field_value = fieldValue.id;
+                                }
+
+                                if (org_field_value) {
+                                    var data = {
+                                        'orgField': orgField,
+                                        'orgFieldValue': org_field_value,
+                                        'approverRoleIds': approverRoleIds
+                                    };
+                                    nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
+                                }
                             }
                         }
                         if (nextStepUsers < 1) {

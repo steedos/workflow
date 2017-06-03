@@ -9,6 +9,7 @@
 	"accounts_phone_enter_phone_code": "请输入验证码",
 	"accounts_phone_verify_suc": "手机号验证通过！",
 	"accounts_phone_verify_suc_wait": "手机号验证通过，窗口关闭中，请稍候！",
+	"accounts_phone_verify_suc_wait_mobile": "手机号验证通过，请关闭窗口！",
 	"accounts_phone_swal_unreceived_title": "重新获取验证码",
 	"accounts_phone_swal_unreceived_text": "我们将发送验证码短信到这个号码：\r\n %s",
 	"accounts_phone_title": "绑定手机号",
@@ -41,5 +42,6 @@
 	"accounts_phone_too_often_retries": "您操作太过频繁，请在 %s 秒后再发送！",
 	"accounts_phone_too_many_retries": "您操作次数过多，请在 %s 分钟后再发送！",
 	"accounts_phone_user_not_found": "该手机号未绑定到任何账户！",
-	"accounts_phone_sms_failed": "短信发送失败！"
+	"accounts_phone_sms_failed": "短信发送失败！",
+	"accounts_phone_toastr_alert": "您未绑定手机号，点击开始绑定！"
 }
