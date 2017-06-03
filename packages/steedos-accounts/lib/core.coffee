@@ -37,7 +37,8 @@ if Meteor.isClient
 						Accounts.disablePhoneWithoutExpiredDays(expiredDays)
 				else
 					setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
-					if Steedos.isMobile()
+					# 这里不可以用Steedos.isMobile()，因为android浏览器上会出现死循环一直刷新界面
+					if Steedos.isAndroidOrIOS()
 						Steedos.openWindow(setupUrl,'setup_phone')
 					else
 						toastr.error(null,t("accounts_phone_toastr_alert"),{
