@@ -42,7 +42,14 @@ if Meteor.isClient
 						console.log 'will come soon for setup_phone'
 						# Steedos.openWindow(setupUrl,'setup_phone')
 					else
-						toastr.error(null,t("accounts_phone_toastr_alert"),{
+						unless Accounts.phoneToastrs
+							Accounts.phoneToastrs = []
+						if Accounts.phoneToastrs.length
+							Accounts.phoneToastrs.forEach (n,i)->
+								toastr.clear n
+							Accounts.phoneToastrs = []
+
+						Accounts.phoneToastrs.push toastr.error(null,t("accounts_phone_toastr_alert"),{
 							closeButton: true,
 							timeOut: 0,
 							extendedTimeOut: 0,
