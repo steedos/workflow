@@ -149,14 +149,14 @@
 
 		var instancesTableSchema = {
 			id: "spaceInstances",
-			alias: "test get space instances",
+			alias: "space instances",
 			columns: insCols,
 			incrementColumnId: "sync_token"
 		};
 
 		var approvesTableSchema = {
 			id: "spaceInstanceApproves",
-			alias: "test get space instances approves",
+			alias: "space instances approves",
 			columns: approvesCols,
 			incrementColumnId: "sync_token"
 		};
@@ -205,7 +205,6 @@
 
 		url = window.location.origin + "/api/workflow/instances/space/"+spaceId+"/flow/" + flowId + url_params
 
-		debugger;
 		settings = {
 			url: url,
 			type: 'GET',
