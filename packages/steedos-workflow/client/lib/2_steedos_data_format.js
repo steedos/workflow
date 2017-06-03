@@ -244,7 +244,21 @@ var s_schema = function (label, field) {
 
     schema.autoform = new s_autoform(schema, field);
 
-    schema.autoform.defaultValue = field.default_value;
+	schema.autoform.defaultValue = field.default_value;
+
+    if(schema.autoform.disabled == false){
+
+		if(field.default_value && field.default_value.indexOf("auto_number(") > -1){
+
+			schema.autoform["data-new-number"] = true
+
+			schema.autoform["data-formula"] = field.default_value
+
+			schema.autoform.defaultValue = ""
+
+        }
+
+    }
 
     if (fieldType == 'section') {
         schema.autoform.description = field.description
