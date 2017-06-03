@@ -1,0 +1,38 @@
+<template name="admin_instance_number_rules">
+
+	<section class="admin instance-number-rules">
+		<div class="navigation-bar">
+
+			<button type="button" class="btn btn-default" data-toggle="offcanvas">
+				<i class="fa fa-bars"></i>
+			</button>
+
+			<span class="navigation-title">
+				{{_ "instance_number_rules"}}
+			</span>
+
+			<div class="pull-right">
+				<button type="button" class="btn btn-primary" id="create">{{_ "Create"}}</button>
+			</div>
+		</div>
+		<div class="admin-content">
+			<div class="box-body" style="display: block;">
+				{{> tabular table=TabularTables.instance_number_rules  selector=selector class="table dataTable no-footer"}}
+
+				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.instance_number_rules"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}
+					{{_ "Edit"}}
+				{{/afModal}}
+
+				{{#afModal class="btn btn-primary record-types-create hidden" collection="db.instance_number_rules"  operation="insert" dialogClass="modal-lg modal-body-zoom" buttonContent=insertButtonContent}}
+					{{_ "Create"}}
+				{{/afModal}}
+
+				{{#afModal class="btn btn-danger record-types-remove hidden" collection="db.instance_number_rules" operation="remove" doc=_id buttonContent=removeButtonContent prompt=removePrompt }}
+					{{_ "Delete"}}
+				{{/afModal}}
+
+			</div>
+		</div>
+	</section>
+
+</template>

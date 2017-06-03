@@ -510,6 +510,23 @@ InstanceformTemplate.onRendered = ()->
 
 		currentApprove = InstanceManager.getCurrentApprove();
 
+
+		instanceNumberFields = $("[data-formula]", $("#instanceform"))
+
+		instanceNumberFields.each ()->
+			if !$(this).val()
+
+				key = $(this).data("formula")?.replace("numberBuilder(", "").replace(")", "")
+
+				key = key.replace(/\"/g, "").replace(/\'/g, "")
+
+				if key.indexOf("{") > -1
+					key = key.replace("{","").replace("}","")
+					key = key.trim()
+					key = AutoForm.getFieldValue(key, 'instanceform')
+
+				InstanceNumberRules.instanceNumberBuilder $(this), key
+
 		judge = currentApprove.judge
 		currentStep = InstanceManager.getCurrentStep();
 		form_version = WorkflowManager.getInstanceFormVersion();

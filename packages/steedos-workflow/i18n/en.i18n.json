@@ -518,6 +518,15 @@
 	"instance_sign_period": "。",
 
 	"instance_cc_alert": "Please confirm whether it need to circulate",
-	"instance_cc_must_finished": "The cc users：__not_finished_users_name__ had not deal with this instance, so you can not submitt this instance to next step"
+	"instance_cc_must_finished": "The cc users：__not_finished_users_name__ had not deal with this instance, so you can not submitt this instance to next step",
+	"instance_number_rules": "Instance number rules",
+	"instance_number_rules_name": "Name",
+	"instance_number_rules_year": "Year",
+	"instance_number_rules_first_number": "Start sequence",
+	"instance_number_rules_number": "Sequence",
+	"instance_number_rules_rules": "Rules",
+	"instance_number_rules_number_builder_error_title": "Builder number error",
+	"instance_number_rules_number_builder_error_not_exist": "The number rule does not exist: ",
+	"ConfirmDeletion?": "Are you sure?"
 
 }

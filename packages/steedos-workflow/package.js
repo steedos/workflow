@@ -86,6 +86,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
 	api.addFiles('lib/models/webhooks.coffee');
+	api.addFiles('lib/models/instance_number_rules.coffee');
 
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
@@ -103,6 +104,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/instance_readonly_template.coffee', ['client', 'server']);
 	api.addFiles('client/lib/template_manager.coffee', ['client', 'server']);
 	api.addFiles('client/lib/office_online.js', 'client');
+	api.addFiles('client/lib/instance_number_rules.coffee', 'client');
 
 
 	//add client file
@@ -266,6 +268,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/remind_modal.html', 'client');
 	api.addFiles('client/views/instance/remind_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/admin_instance_number_rules.html', 'client');
+	api.addFiles('client/views/list/admin_instance_number_rules.coffee', 'client');
+
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -277,6 +282,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_return.coffee', 'server');
 	api.addFiles('server/methods/instance_remind.coffee', 'server');
 	api.addFiles('server/methods/next_step_users_not_found.coffee', 'server');
+	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 
@@ -345,6 +351,8 @@ Package.onUse(function(api) {
 	api.export('TemplateManager');
 
 	api.export('CoreForm');
+
+	api.export('InstanceNumberRules');
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 
