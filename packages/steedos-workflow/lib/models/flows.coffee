@@ -229,7 +229,7 @@ new Tabular.Table
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '"><i class="fa fa-download"></i></a>'
+				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '">' + t("flows_btn_export_title") + '</a>'
 		},{
 			data: "",
 			title: "",
@@ -239,7 +239,7 @@ new Tabular.Table
 
 				tableauUrl = Meteor.absoluteUrl("api/workflow/tableau/space/#{doc.space}/flow/#{doc._id}")
 
-				return '<button type="button" class="btn btn-xs btn-default" id="copyTableauUrl" data-clipboard-text="'+ tableauUrl + '"><i class="fa fa-bar-chart"></i></button>'
+				return '<button type="button" class="btn btn-xs btn-default" id="copyTableauUrl" data-clipboard-text="'+ tableauUrl + '">'+ t("flows_btn_copylink_title") + '</button>'
 		},
 	]
 	extraFields: ["form","print_template","instance_template","events","field_map","space"]
