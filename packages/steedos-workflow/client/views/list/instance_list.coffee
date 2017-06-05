@@ -233,6 +233,13 @@ Template.instance_list.events
 				$('.treeview-menu').perfectScrollbar('destroy');
 
 	'click .btn-toogle-columns': (event)->
-		# currentTarget = $(event.currentTarget)
-		# currentTarget.toggleClass("three-columns")
+		currentTarget = $(event.currentTarget)
+		icon = currentTarget.find("i")
+		icon.toggleClass("fa-expand").toggleClass("fa-compress")
+		# if currentTarget.hasClass("fa-expand")
+		# 	currentTarget.removeClass("fa-expand")
+		# 	currentTarget.addClass("fa-compress")
+		# else
+		# 	currentTarget.addClass("fa-expand")
+		# 	currentTarget.removeClass("fa-compress")
 		$("body").toggleClass("three-columns")
