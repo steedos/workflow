@@ -159,11 +159,11 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 
 InstanceReadOnlyTemplate.getLabel = (fields, code) ->
 	field = fields.findPropertyByPK("code", code)
-
-	if field.name
-		return field.name
-	else
-		return field.code
+	if field
+		if field.name
+			return field.name
+		else
+			return field.code
 
 
 InstanceReadOnlyTemplate.getInstanceFormVersion = (instance)->
