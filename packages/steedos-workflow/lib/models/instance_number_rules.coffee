@@ -88,8 +88,8 @@ if Meteor.isServer
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
-		if (!Steedos.isSpaceAdmin(doc.space, userId))
-			throw new Meteor.Error(400, "error_space_admins_only");
+#		if (!Steedos.isSpaceAdmin(doc.space, userId))
+#			throw new Meteor.Error(400, "error_space_admins_only");
 
 		console.log userId + "; update instance_number_rules",  doc
 
