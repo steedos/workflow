@@ -34,7 +34,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 					space: space_id,
 					state: "pending",
 					inbox_users: user_id
-				}).fetch()
+				},{sort:{modified:-1}}).fetch()
 			else
 				# 校验当前登录用户是否是space的管理员
 				uuflowManager.isSpaceAdmin(space_id,user_id)
@@ -62,6 +62,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["submit_date"] = i["submit_date"]
 				h["step_name"] = step.name
 				h["space_id"] = space_id
+				h["modified"] = moment(i["modified"]).format('YYYY-MM-DD HH:mm')
 				result_instances.push(h)
 
 		JsonRoutes.sendResult res,
