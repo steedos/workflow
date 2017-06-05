@@ -39,7 +39,7 @@ Template.instance_suggestion.helpers
 		approve = InstanceManager.getCurrentApprove();
 
 		if approve
-			approve.description = approve.description || InstanceSignText.helpers.lastApproveDescription()
+			approve.description = approve.description || InstanceSignText.helpers.lastMyApproveDescription()
 			Session.set("instance_my_approve_description", approve.description)
 			return approve
 	next_step_multiple: ->

@@ -145,10 +145,13 @@ InstanceSignText.helpers =
 		else
 			return false
 
-	lastApproveDescription: ()->
+	lastMyApproveDescription: ()->
 		traces = InstanceformTemplate.helpers.traces()
 		currentStep = InstanceManager.getCurrentStep();
 		approves = _.clone(traces[currentStep.name])
+
+		approves = approves.filterProperty("handler", Meteor.userId())
+
 		if approves.length > 1
 			return approves[approves.length - 2]?.description
 

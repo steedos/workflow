@@ -244,9 +244,15 @@ var s_schema = function (label, field) {
 
     schema.autoform = new s_autoform(schema, field);
 
-	if(!field.default_value || field.default_value.indexOf("auto_number(") < -0){
+	if(!field.default_value || field.default_value.indexOf("auto_number(") < 0){
 		schema.autoform.defaultValue = field.default_value;
     }
+
+    if(field.default_value && field.default_value == "{now}"){
+        if(field.type == 'date' || field.type == 'dateTime'){
+            schema.autoform.defaultValue = new Date();
+        }
+	}
 
     if(schema.autoform.disabled == false){
 
