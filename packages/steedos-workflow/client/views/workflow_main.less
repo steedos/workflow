@@ -313,95 +313,115 @@ _:-ms-fullscreen,
 	}
 }
 
-@media (min-width: 1441px) {
-	.workflow-main {
-		.instance-list-wrapper {
-			display: block;
-			right: 60%;
-
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			background-color: #fff;
-			z-index: 2;
-		}
-		.instance-wrapper {
-			left: 100%;
-			width: 60%;
-			transform: translate(0, 0);
-
-			margin: 15px 10px 15px -10px;
-			border-radius: 0 5px 5px 0;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-			.navigation-bar{
-				.btn-instance-back{
-					display: inline-block!important;
-					&.visible-xs-inline-block{
-						display:none!important;
-					}
-				}
+.steedos{
+	.toogle-columns-box{
+		margin:0 -6px;
+		.btn-toogle-columns{
+			i{
+				margin-top: 6px;
+				color: #aaa;
 			}
 		}
 	}
-	.workflow-main.instance-show {
-		.instance-list-wrapper {
-			right: 60%;
-			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
-		}
-		.instance-wrapper {
-			width: 60%;
-			left: 40%;
-			background: white;
-			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+	.toogle-columns-box{
+		display: none;
+	}
+	@media (min-width: 1441px) {
+		.toogle-columns-box{
+			display: block;
 		}
 	}
 }
 
-
-@media (max-width: 1440px) {
-	.workflow-main {
-		.instance-list-wrapper {
-			display: block;
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			width: auto;
-			left: 0;
-			right: 0px;
-			border-right: 0px;
-			transition: 0.3s ease-in-out;
+.workflow-main {
+	.instance-list-wrapper {
+		display: block;
+		margin: 10px 10px 10px 10px;
+		border-radius: 5px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+		width: auto;
+		left: 0;
+		right: 0px;
+		border-right: 0px;
+		transition: 0.3s ease-in-out;
+	}
+	.instance-wrapper {
+		display: none;
+		margin: 10px 10px 10px 10px;
+		border-radius: 5px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+		width: auto;
+		left: 0;
+		right: 0px;
+		transition: 0.3s ease-in-out;
+		.instance{
+			/*这里加margin-bottom: 1px;纯粹是因为在两栏的模式下，底部出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
+			margin-bottom: 1px;
 		}
-		.instance-wrapper {
-			display: none;
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			width: auto;
-			left: 0;
-			right: 0px;
-			transition: 0.3s ease-in-out;
-			.instance{
-				/*这里加margin-bottom: 1px;纯粹是因为在两栏的模式下，底部出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
-				margin-bottom: 1px;
+	}
+}
+.workflow-main.instance-show {
+	.instance-list-wrapper {
+		display: none;
+	}
+	.instance-wrapper {
+		display: block;
+		width: auto;
+		left: 0;
+		right: 0px;
+		.navigation-bar{
+			.btn-instance-back{
+				display: inline-block!important;
+				&.visible-xs-inline-block{
+					display:none!important;
+				}
 			}
 		}
 	}
-	.workflow-main.instance-show {
-		.instance-list-wrapper {
-			display: none;
-		}
-		.instance-wrapper {
-			display: block;
-			width: auto;
-			left: 0;
-			right: 0px;
-			.navigation-bar{
-				.btn-instance-back{
-					display: inline-block!important;
-					&.visible-xs-inline-block{
-						display:none!important;
+}
+
+@media (min-width: 1441px) {
+	.three-columns{
+		.workflow-main {
+			.instance-list-wrapper {
+				display: block;
+				right: 60%;
+
+				margin: 10px 10px 10px 10px;
+				border-radius: 5px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+				background-color: #fff;
+				z-index: 2;
+			}
+			.instance-wrapper {
+				left: 100%;
+				width: 60%;
+				transform: translate(0, 0);
+
+				margin: 15px 10px 15px -10px;
+				border-radius: 0 5px 5px 0;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+				.navigation-bar{
+					.btn-instance-back{
+						display: inline-block!important;
+						&.visible-xs-inline-block{
+							display:none!important;
+						}
 					}
 				}
+			}
+		}
+		.workflow-main.instance-show {
+			.instance-list-wrapper {
+				display: block;
+				right: 60%;
+				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+			}
+			.instance-wrapper {
+				width: 60%;
+				left: 40%;
+				background: white;
+				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
 			}
 		}
 	}
