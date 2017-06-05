@@ -23,7 +23,8 @@ Template.instance_list.helpers
 			# query.state = {$in: ["pending", "completed"]}
 			# query.inbox_users = Meteor.userId()
 		else if box == "outbox"
-			query.outbox_users = Meteor.userId()
+			uid = Meteor.userId()
+			query.$or = [{outbox_users: uid}, {$or: [{submitter: uid}, {applicant: uid}], state: "pending"}]
 		else if box == "draft"
 			query.submitter = Meteor.userId()
 			query.state = "draft"
@@ -230,3 +231,15 @@ Template.instance_list.events
 				$(".treeview-menu").perfectScrollbar()
 			else
 				$('.treeview-menu').perfectScrollbar('destroy');
+
+	'click .btn-toogle-columns': (event)->
+		currentTarget = $(event.currentTarget)
+		icon = currentTarget.find("i")
+		icon.toggleClass("fa-expand").toggleClass("fa-compress")
+		# if currentTarget.hasClass("fa-expand")
+		# 	currentTarget.removeClass("fa-expand")
+		# 	currentTarget.addClass("fa-compress")
+		# else
+		# 	currentTarget.addClass("fa-expand")
+		# 	currentTarget.removeClass("fa-compress")
+		$("body").toggleClass("three-columns")
