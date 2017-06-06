@@ -236,10 +236,4 @@ Template.instance_list.events
 		currentTarget = $(event.currentTarget)
 		icon = currentTarget.find("i")
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")
-		# if currentTarget.hasClass("fa-expand")
-		# 	currentTarget.removeClass("fa-expand")
-		# 	currentTarget.addClass("fa-compress")
-		# else
-		# 	currentTarget.addClass("fa-expand")
-		# 	currentTarget.removeClass("fa-compress")
 		$("body").toggleClass("three-columns")
