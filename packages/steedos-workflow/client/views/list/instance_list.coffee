@@ -114,7 +114,8 @@ Template.instance_list.helpers
 _tableColumns = ()->
 	show = false
 
-	if ($(window).width() < 1441 && $(window).width() > 766) or !$("body").hasClass("three-columns")
+	winWidth = $(window).width()
+	if (winWidth > 766) and (winWidth < 1441 or !$("body").hasClass("three-columns"))
 		show = true
 
 	table = $(".datatable-instances").DataTable();
