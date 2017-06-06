@@ -212,7 +212,7 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
 
     if (!Form_formula.field_values || true){
         console.debug("消耗时间s0 ：" + (new Date * 1 - startTrack) + "ms");
-        Form_formula.field_values = init_formula_values(fields,autoFormDoc);
+        Form_formula.field_values = Form_formula.init_formula_values(fields,autoFormDoc);
         console.debug("消耗时间s1 ：" + (new Date * 1 - startTrack) + "ms");
     }
 
@@ -262,7 +262,7 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
     var next_steps = new Array();
 
     lines = step.lines;
-    Form_formula.field_values = init_formula_values(fields,autoFormDoc);
+    Form_formula.field_values = Form_formula.init_formula_values(fields,autoFormDoc);
     //CoreForm.mainFormController.getPath("mainFormView.__values");
 
     lines.forEach(function(line){
@@ -291,7 +291,7 @@ Form_formula.getNextStepsFromCondition = function(step, autoFormDoc, fields){
     * formula_values
 **/
 
-function init_formula_values(fields, autoFormDoc){
+Form_formula.init_formula_values = function(fields, autoFormDoc){
 
     var approver = localStorage.getItem("Meteor.userId");
 

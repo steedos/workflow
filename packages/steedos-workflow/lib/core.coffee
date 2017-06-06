@@ -11,3 +11,5 @@ Workflow = {}
 @InstanceSignText = {}
 
 @RelatedInstances = {}
+
+@InstanceMacro = {context: {}}

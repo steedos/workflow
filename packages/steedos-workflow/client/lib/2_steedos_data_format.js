@@ -59,18 +59,26 @@ var number_step = function (digits) {
 
 var s_autoform = function (schema, field) {
 
-    type = field.type;
+    var type = field.type;
 
-    options = field.options;
+    var options = field.options;
 
-    permission = field.permission == 'editable' ? 'editable' : 'readonly';
+    var optionsArr = []
 
-    is_multiselect = field.is_multiselect;
+	if(InstanceMacro.check(options)){
+		optionsArr = InstanceMacro.run(options);
+	}else if(options != null && options.length > 0){
+		optionsArr = options.split("\n");
+    }
+
+    var permission = field.permission == 'editable' ? 'editable' : 'readonly';
+
+    var is_multiselect = field.is_multiselect;
 
     if (field["formula"])
         permission = "readonly";
 
-    autoform = {};
+    var autoform = {};
 
     //字段类型转换
     switch (type) {
@@ -209,10 +217,9 @@ var s_autoform = function (schema, field) {
             break; //地理位置
     }
 
-    if (options != null && options.length > 0) {
+    if (optionsArr != null && optionsArr.length > 0) {
 
         var afoptions = new Array();
-        var optionsArr = options.split("\n");
 
         for (var s = 0; s < optionsArr.length; s++) {
             afoptions.push({label: optionsArr[s], value: optionsArr[s]});
@@ -248,11 +255,9 @@ var s_schema = function (label, field) {
 		schema.autoform.defaultValue = field.default_value;
     }
 
-    if(field.default_value && field.default_value == "{now}"){
-        if(field.type == 'date' || field.type == 'dateTime'){
-            schema.autoform.defaultValue = new Date();
-        }
-	}
+    if(InstanceMacro.check(field.default_value)){
+		schema.autoform.defaultValue = InstanceMacro.run(field.default_value);
+    }
 
     if(schema.autoform.disabled == false){
 
