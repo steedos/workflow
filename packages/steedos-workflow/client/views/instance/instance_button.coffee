@@ -124,6 +124,14 @@ Template.instance_button.helpers
 			return false
 
 		pre_trace = ins.traces[ins.traces.length - 2]
+
+		is_relocated = false
+		_.each pre_trace.approves, (ap)->
+			if ap.judge is 'relocated'
+				is_relocated = true
+		if is_relocated
+			return false
+
 		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
 		if pre_step && pre_step.step_type is "counterSign"
 			return false
