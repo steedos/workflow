@@ -79,8 +79,8 @@ InstanceAttachmentTemplate.helpers = {
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
-			}
-		}).fetch();
+			},
+		},{sort: {'uploadedAt':1}}).fetch();
 	},
 
 	showAttachments: function() {
