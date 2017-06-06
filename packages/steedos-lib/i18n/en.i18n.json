@@ -371,5 +371,7 @@
 
 	"change_phone": "Change Phone Number",
 	"set_password_by_phone": "Reset password",
-	"account_phone_invalid": "Your phone is not valid"
+	"account_phone_invalid": "Your phone is not valid",
+
+	"back_admin_home": "Back"
 }
