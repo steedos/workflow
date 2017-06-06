@@ -114,7 +114,7 @@ Template.instance_list.helpers
 _tableColumns = ()->
 	show = false
 
-	if $(window).width() < 1441 && $(window).width() > 766
+	if ($(window).width() < 1441 && $(window).width() > 766) or !$("body").hasClass("three-columns")
 		show = true
 
 	table = $(".datatable-instances").DataTable();
@@ -237,3 +237,4 @@ Template.instance_list.events
 		icon = currentTarget.find("i")
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")
 		$("body").toggleClass("three-columns")
+		$(window).trigger("resize")
