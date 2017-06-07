@@ -40,8 +40,22 @@ TabularTables.instances = new Tabular.Table({
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
+				priorityIcon = ""
+				priorityIconClass = ""
+				priorityValue = doc.values?.priority
+				switch priorityValue
+					when "特急"
+						priorityIconClass = "danger"
+					when "紧急"
+						priorityIconClass = "warning"
+					when "办文"
+						priorityIconClass = "muted"
+				if priorityIconClass
+					priorityIcon = "<i class='ion ion-flag icon-priority icon-priority-#{priorityIconClass}'></i>"
+
 				return """
 							<div class='instance-read-bar'>#{unread}</div>
+							<div class='instance-priority-bar'>#{priorityIcon}</div>
 							<div class='instance-name'>#{doc.name}#{cc_view}
 								<span>#{doc.applicant_name}</span>
 							</div>
