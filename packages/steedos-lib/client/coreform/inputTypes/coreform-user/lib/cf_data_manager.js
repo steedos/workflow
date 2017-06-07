@@ -56,9 +56,12 @@ function handerOrg(orgs, parentId) {
         if (CFDataManager.getOrganizationModalValue().getProperty("id").includes(node.id)) {
             node.state.selected = true;
         }
-        if (org.children && org.children.length > 0) {
-            node.children = true;
-        }
+
+        // if (org.children && org.children.length > 0) {
+        //     node.children = true;
+        // }
+
+		node.children = true;
 
         if (org.is_company == true || org.open == true) {
             node.state.opened = true;
