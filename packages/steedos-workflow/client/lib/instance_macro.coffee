@@ -6,7 +6,7 @@
 ###
 
 InstanceMacro.check = (macro) ->
-	if _.isString(macro) && macro.indexOf("{") > -1 && macro.indexOf("}") > -1
+	if _.isString(macro) && macro.indexOf("{") > -1 && macro.indexOf("}") > -1 && macro.indexOf("auto_number(") < 0
 		return true;
 	return false
 
