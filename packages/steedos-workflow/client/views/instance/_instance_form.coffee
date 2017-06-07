@@ -446,6 +446,13 @@ if Meteor.isServer
 
 		return TAPi18n.__(key, {}, locale)
 
+	InstanceformTemplate.helpers.ins_attach_download_url = (_id, absolute)->
+		if absolute
+			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
+		else
+			return Steedos.absoluteUrl("/api/files/instances/#{_id}?download=true");
+
+
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->

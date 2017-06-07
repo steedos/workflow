@@ -4,7 +4,7 @@ InstanceReadOnlyTemplate = {};
 InstanceReadOnlyTemplate.instance_attachment = """
 	<tr>
 		<td class="ins-attach-view">
-			{{this.name}}
+			<a href="{{ins_attach_download_url _id absolute}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
 		</td>
 	</tr>
 """
@@ -88,7 +88,7 @@ InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
-		InstanceReadOnlyTemplate.create("instance_attachment", {});
+		InstanceReadOnlyTemplate.create("instance_attachment", {absolute: steedosData.absolute});
 		InstanceReadOnlyTemplate.createImageSign(steedosData)
 		InstanceReadOnlyTemplate.createInstanceSignText(steedosData)
 
