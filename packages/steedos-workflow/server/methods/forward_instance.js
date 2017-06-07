@@ -194,6 +194,17 @@ Meteor.methods({
 
 		})
 
+		// 计算申请单标题
+		var instance_name = "";
+		var name_forumla = form.current.name_forumla;
+		if (name_forumla) {
+			var iscript = name_forumla.replace("{", "new_values['").replace("}", "']");
+			var rev = eval(iscript);
+			instance_name = rev || flow.name;
+		} else {
+			instance_name = flow.name;
+		}
+
 		_.each(forward_users, function(user_id) {
 
 			var user_info = db.users.findOne(user_id);
@@ -213,7 +224,7 @@ Meteor.methods({
 			ins_obj.flow_version = flow.current._id;
 			ins_obj.form = flow.form;
 			ins_obj.form_version = flow.current.form_version;
-			ins_obj.name = flow.name;
+			ins_obj.name = instance_name;
 			ins_obj.submitter = user_id;
 			ins_obj.submitter_name = user_info.name;
 			ins_obj.applicant = user_id;

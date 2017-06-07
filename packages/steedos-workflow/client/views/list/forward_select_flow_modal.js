@@ -87,11 +87,13 @@ Template.forward_select_flow_modal.events({
 		if (!flow)
 			return;
 
-		var values = $("#forward_select_user")[0].dataset.values;
-		var selectedUsers = values ? values.split(",") : [];
+		var selectedUsers = [];
 
 		if (action_type == 'forward') {
 			selectedUsers = [Meteor.userId()];
+		} else if (action_type == 'distribute') {
+			var values = $("#forward_select_user")[0].dataset.values;
+			selectedUsers = values ? values.split(",") : [];
 		}
 
 		if (_.isEmpty(selectedUsers)) {
@@ -112,31 +114,34 @@ Template.forward_select_flow_modal.events({
 				// 切换了space
 				if (Session.get('forward_space_id') != flow.space) {
 					Session.set('forward_space_id', flow.space);
-					forward_select_user.dataset.spaceId = flow.space;
+					if (forward_select_user)
+						forward_select_user.dataset.spaceId = flow.space;
 				}
 
 				// 切换了流程
 				if ($("#forward_flow")[0].dataset.flow != flow._id) {
 					$("#forward_flow")[0].dataset.flow = flow._id;
 					$("#forward_flow").val(flow.name);
-					forward_select_user.value = '';
-					forward_select_user.dataset.values = '';
+					if (forward_select_user) {
+						forward_select_user.value = '';
+						forward_select_user.dataset.values = '';
 
-					var flow = db.flows.findOne({
-						_id: flow._id
-					}, {
-						fields: {
-							distribute_optional_users: 1
+						var flow = db.flows.findOne({
+							_id: flow._id
+						}, {
+							fields: {
+								distribute_optional_users: 1
+							}
+						});
+
+						var users = flow.distribute_optional_users || [];
+						if (!_.isEmpty(users)) {
+							forward_select_user.dataset.userOptions = _.pluck(users, "id");
+							forward_select_user.dataset.showOrg = false;
+						} else {
+							delete forward_select_user.dataset.userOptions;
+							delete forward_select_user.dataset.showOrg;
 						}
-					});
-
-					var users = flow.distribute_optional_users || [];
-					if (!_.isEmpty(users)) {
-						forward_select_user.dataset.userOptions = _.pluck(users, "id");
-						forward_select_user.dataset.showOrg = false;
-					} else {
-						delete forward_select_user.dataset.userOptions;
-						delete forward_select_user.dataset.showOrg;
 					}
 				}
 
