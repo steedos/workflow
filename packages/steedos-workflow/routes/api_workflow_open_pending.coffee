@@ -52,6 +52,11 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				current_step_id = current_trace["step"]
 				step = uuflowManager.getStep(i, flow, current_step_id)
 
+				approves = current_trace.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
+				if approves.length > 0
+					approve = approves[0]
+					is_read = approve.is_read
+
 				h = new Object
 				h["id"] = i["_id"]
 				h["flow_name"] = flow.name
@@ -63,6 +68,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["step_name"] = step.name
 				h["space_id"] = space_id
 				h["modified"] = moment(i["modified"]).format('YYYY-MM-DD HH:mm')
+				h["is_read"] = is_read
 				result_instances.push(h)
 
 		JsonRoutes.sendResult res,
