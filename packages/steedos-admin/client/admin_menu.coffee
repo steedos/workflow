@@ -84,6 +84,7 @@ if Meteor.isClient
 		_id: "spaces"
 		title: "spaces"
 		icon: "ion ion-ios-cloud-outline"
+		roles:["space_admin"]
 		sort: 20
 
 	# 工作区信息
@@ -92,6 +93,7 @@ if Meteor.isClient
 		title: "space_info"
 		icon: "ion ion-android-globe"
 		url: "/admin/space/info"
+		roles:["space_admin"]
 		sort: 20
 		parent: "spaces"
 

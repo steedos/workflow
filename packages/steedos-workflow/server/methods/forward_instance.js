@@ -328,7 +328,7 @@ Meteor.methods({
 				files.forEach(function(f) {
 					// 判断新的流程开始节点是否有编辑正文和编辑附件权限
 					if (f.metadata.main == true) {
-						if (can_edit_main_attach != true)
+						if (can_edit_main_attach != true && can_edit_normal_attach != true)
 							return;
 					} else {
 						if (can_edit_normal_attach != true)
@@ -352,7 +352,7 @@ Meteor.methods({
 							approve: appr_obj._id,
 							current: true
 						};
-						if (f.metadata.main == true) {
+						if (f.metadata.main == true && can_edit_main_attach == true) {
 							metadata.main = true;
 						}
 						newFile.metadata = metadata;

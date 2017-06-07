@@ -260,34 +260,8 @@ NodeManager.downloadFile = function(file_url, filename, arg) {
 	var download_dir = process.env.USERPROFILE + "\\Steedos\\";
 	fs.exists(download_dir, function(exists) {
 		if (exists == true) {
-			// 判断附件保存路径是否存在
-			var fPath = download_dir + filename;
-			// 查看或转为pdf时下直接下载到本地
-			if (arg) {
-				OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
-			} else {
-				fs.exists(fPath, function(exists) {
-					if (exists == true) {
-						swal({
-							title: t("node_office_exists_message"),
-							text: fPath,
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonText: t("node_office_confirm"),
-							cancelButtonText: t("node_office_cancel")
-						}, function(isConfirm) {
-							if (isConfirm) {
-								// 下载附件到本地
-								OfficeOnline.downloadFile(file_url, download_dir, filename);
-							} else {
-								NodeManager.vbsEditFile(download_dir, filename);
-							}
-						})
-					} else {
-						OfficeOnline.downloadFile(file_url, download_dir, filename);
-					}
-				})
-			}
+			// 直接下载到本地覆盖之前的同名版本
+			OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
 		}else {
 			// 新建路径并下载附件到本地
 			fs.mkdir(download_dir, function(err) {

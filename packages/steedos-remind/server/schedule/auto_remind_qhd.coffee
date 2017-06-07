@@ -61,15 +61,11 @@ Meteor.startup ->
 								#  如一日后仍未处理，系统每天自动发短信提醒：办结时限不变；
 								#  距离办结时限为半日时，则每半个工作日提醒四次；超过办结时限后仍然按照每半日四次提醒。
 								else if priority is "办文"
-									if reminded_count is 0
-										ap.reminded_count = 1
+									ap.reminded_count += 1
+									if Steedos.caculatePlusHalfWorkingDay(now) > deadline # 超过了办结时限或者距离办结时限半日内
+										ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
+									else
 										ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
-									else if reminded_count >= 1
-										ap.reminded_count += 1
-										if Steedos.caculatePlusHalfWorkingDay(now) > deadline # 超过了办结时限或者距离办结时限半日内
-											ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
-										else
-											Steedos.caculateWorkingTime(remind_date, 1)
 									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)
 
 								# （3）“紧急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；

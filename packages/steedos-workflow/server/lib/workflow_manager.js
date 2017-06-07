@@ -273,7 +273,11 @@ WorkflowManager.getUsers = function(spaceId, userIds, notNeedDetails) {
         } else {
             spaceUsers.forEach(function(spaceUser) {
                 spaceUser.id = spaceUser.user;
+
                 spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
+
+                spaceUser.organizations = WorkflowManager.getOrganizations(spaceUser.organizations);
+
                 if (spaceUser.organization) {
                     spaceUser.roles = WorkflowManager.getUserRoles(spaceId, spaceUser.organization.id, spaceUser.id);
                     users.push(spaceUser);
@@ -298,6 +302,11 @@ WorkflowManager.getFormulaUsers = function(spaceId, userIds) {
             'name': user.organization.name,
             'fullname': user.organization.fullname
         };
+
+		userObject["organizations"] = {
+		    'name': user.organizations.getProperty("name"),
+			'fullname': user.organizations.getProperty("fullname")
+        }
 
         userObject.hr = {}
 

@@ -145,6 +145,21 @@ Admin.menuTemplate =
 						</div>
 					</div>
 				"""
+		if Steedos.isMobile()
+			reTemplates.push """
+				<div class="row admin-grids">
+					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
+							<div class="admin-grid-icon">
+								<i class="ion ion-power"></i>
+							</div>
+							<div class="admin-grid-label">
+								#{t("Logout")}
+							</div>
+						</a>
+					</div>
+				</div>
+			"""
 		return reTemplates.join("")
 
 	checkRoles: (menu)->

@@ -1947,8 +1947,12 @@ uuflowManager.setRemindInfo = (values, approve)->
 			remind_date = Steedos.caculateWorkingTime(start_date, 1)
 		else if priority is "紧急" or priority is "特急"
 			remind_date = Steedos.caculatePlusHalfWorkingDay start_date
-			ins = db.instances.findOne({_id: approve.instance}, {fields: {name: 1}})
-			uuflowManager.sendRemindSMS ins.name, deadline, [approve.user]
+			ins = db.instances.findOne(approve.instance)
+			if ins.state is 'draft'
+				flow = db.flows.findOne({_id: ins.flow}, {fields: {current_no: 1}})
+				ins.code = flow.current_no + 1 + ''
+			ins.values = values
+			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user]
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
