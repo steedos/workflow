@@ -4,8 +4,11 @@ InstanceSignText.helpers =
 			if Session.get('instancePrint')
 				return false
 			if InstanceManager.isInbox()
-				currentStep = InstanceManager.getCurrentStep();
-				return currentStep?.name == stepName
+				myApprove = InstanceManager.getCurrentApprove()
+				if myApprove
+					instance = WorkflowManager.getInstance();
+					myTrace = instance?.traces?.findPropertyByPK("_id", myApprove.trace)
+					return myTrace?.name == stepName
 		return false
 
 	defaultDescription: ()->
