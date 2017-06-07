@@ -2,8 +2,12 @@ Template.instanceSignText.helpers InstanceSignText.helpers
 
 Template.instanceSignText.events
 	'click .instance-sign-text-btn': (event, template)->
-#		$(".instance-view .btn-suggestion-toggle").click()
-		Modal.show("instanceSignModal")
+		form_version = WorkflowManager.getInstanceFormVersion();
+		fields = form_version?.fields
+
+		modal_title = fields?.findPropertyByPK("code", template.data.name)?.name || template.data.name
+
+		Modal.show("instanceSignModal", {modal_title: modal_title})
 		
 Template.instanceSignText.onDestroyed ->
 	Session.set("instance_my_approve_description", null)
