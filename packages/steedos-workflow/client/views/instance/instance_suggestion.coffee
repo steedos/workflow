@@ -216,6 +216,18 @@ Template.instance_suggestion.helpers
 	hideCounterSignJudgeOptions: ->
 		return Meteor.settings.public?.workflow?.hideCounterSignJudgeOptions
 
+	cc_opinion_field_code: ->
+		cc_approve = InstanceManager.getCurrentApprove();
+
+		if cc_approve.opinion_field_code
+			form_version = WorkflowManager.getInstanceFormVersion();
+			fields = form_version?.fields
+
+			return fields?.findPropertyByPK("code", cc_approve.opinion_field_code)?.name || cc_approve.opinion_field_code
+
+		return t("instance_cc_title")
+
+
 Template.instance_suggestion.events
 
 	'change .suggestion': (event) ->

@@ -251,15 +251,17 @@ var s_schema = function (label, field) {
 
     schema.autoform = new s_autoform(schema, field);
 
-	if(!field.default_value || field.default_value.indexOf("auto_number(") < 0){
-		schema.autoform.defaultValue = field.default_value;
-    }
 
-    if(InstanceMacro.check(field.default_value)){
-		schema.autoform.defaultValue = InstanceMacro.run(field.default_value);
-    }
 
     if(schema.autoform.disabled == false){
+
+		if(!field.default_value || field.default_value.indexOf("auto_number(") < 0){
+			schema.autoform.defaultValue = field.default_value;
+		}
+
+		if(InstanceMacro.check(field.default_value)){
+			schema.autoform.defaultValue = InstanceMacro.run(field.default_value);
+		}
 
 		if(field.default_value && field.default_value.indexOf("auto_number(") > -1){
 

@@ -664,16 +664,21 @@ InstanceManager.saveIns = function() {
 			if (instance.attachments && myApprove) {
 				myApprove.attachments = instance.attachments;
 			}
-			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+
+			if(!_.isEmpty(myApprove) && !_.isEmpty(myApprove._id)){
+				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+					$('body').removeClass("loading");
+					WorkflowManager.instanceModified.set(false);
+					if (result == true) {
+						toastr.success(TAPi18n.__('Saved successfully'));
+					} else {
+						toastr.error(error.reason);
+						FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/inbox/");
+					}
+				});
+			}else {
 				$('body').removeClass("loading");
-				WorkflowManager.instanceModified.set(false);
-				if (result == true) {
-					toastr.success(TAPi18n.__('Saved successfully'));
-				} else {
-					toastr.error(error.reason);
-					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/inbox/");
-				}
-			});
+			}
 		}
 	} else {
 		$('body').removeClass("loading");

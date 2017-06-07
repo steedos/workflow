@@ -15,10 +15,10 @@ Template.selectFlowModal.helpers
 
 	showSpaces: ->
 		curret_step = InstanceManager.getCurrentStep()
-		if curret_step && curret_step.allowDistribute is true && curret_step.distribute_optional_flows.length > 0
+		if curret_step && curret_step.allowDistribute is true && curret_step.distribute_optional_flows && curret_step.distribute_optional_flows.length > 0
 			return false
 
-		return db.spaces.find().fetch().length != 1
+		return db.spaces.find().count() != 1
 
 	selected: (space_id)->
 		if Session.get('space_drop_down_selected_value') is space_id

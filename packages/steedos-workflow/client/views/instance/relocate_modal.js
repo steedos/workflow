@@ -92,10 +92,10 @@ Template.relocate_modal.events({
         }
 
         var reason = $("#relocate_modal_text").val();
-        if (!reason) {
-            toastr.error(TAPi18n.__('Instance Relocate Hint'));
-            return;
-        }
+        // if (!reason) {
+        //     toastr.error(TAPi18n.__('Instance Relocate Hint'));
+        //     return;
+        // }
 
         var uv = null;
         var s = WorkflowManager.getInstanceStep(sv);
