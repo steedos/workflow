@@ -68,9 +68,22 @@ TabularTables.instances = new Tabular.Table({
 				if Session.get("box") == 'inbox' && doc.is_read == false
 					unread = '<i class="ion ion-record unread"></i>'
 
+				priorityIcon = ""
+				priorityIconClass = ""
+				priorityValue = doc.values?.priority
+				switch priorityValue
+					when "特急"
+						priorityIconClass = "danger"
+					when "紧急"
+						priorityIconClass = "warning"
+					when "办文"
+						priorityIconClass = "muted"
+				if priorityIconClass
+					priorityIcon = "<i class='ion ion-flag icon-priority icon-priority-#{priorityIconClass}'></i>"
+
 				return """
 						<div class='instance-read-bar'>#{unread}</div>
-						<div class='instance-name'>#{doc.name}#{cc_view}</div>
+						<div class='instance-name'>#{doc.name}#{cc_view}#{priorityIcon}</div>
 					"""
 			visible: false,
 			orderable: false
@@ -116,7 +129,7 @@ TabularTables.instances = new Tabular.Table({
 	],
 	dom: "tp",
 	order: [[8, "desc"]],
-	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name"],
+	extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version", "flow_version", "cc_users", "is_read", "step_current_name", "values.priority"],
 	lengthChange: false,
 	pageLength: 10,
 	info: false,
