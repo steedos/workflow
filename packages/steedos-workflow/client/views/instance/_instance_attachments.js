@@ -85,16 +85,23 @@ InstanceAttachmentTemplate.helpers = {
 		if (!ins)
 			return false
 
-		// 如果是被分发的申请单，则显示原申请单文件
-		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
-
-		return cfs.instances.find({
-			'metadata.instance': instanceId,
+		var selector = {
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
 			},
-		}, {
+		};
+
+		if (ins.distribute_from_instance) {
+			// 如果是被分发的申请单，则显示原申请单文件, 如果选择了将原表单存储为附件也要显示
+			selector['metadata.instance'] = {
+				$in: [ins.distribute_from_instance, ins._id]
+			};
+		} else {
+			selector['metadata.instance'] = ins._id;
+		}
+
+		return cfs.instances.find(selector, {
 			sort: {
 				'uploadedAt': 1
 			}
