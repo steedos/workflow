@@ -244,7 +244,7 @@ Meteor.methods({
 			if (action_type == 'distribute') {
 				ins_obj.distribute_from_instance = instance_id
 
-				if(related){
+				if (related) {
 					ins_obj.related_instances = [instance_id]
 				}
 
@@ -341,7 +341,7 @@ Meteor.methods({
 				// }
 			}
 
-			if (isForwardAttachments) {
+			if (isForwardAttachments && action_type == 'forward') {
 				var files = collection.find({
 					'metadata.instance': instance_id,
 					'metadata.current': true
