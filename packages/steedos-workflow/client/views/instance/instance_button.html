@@ -127,16 +127,16 @@
 					<li><a class="btn-instance-update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
 				{{/if}}
 				{{#if enabled_relocate}}
-					<li><a class="btn-instance-relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}
-					</a></li>
+					<li><a class="btn-instance-relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
 				{{/if}}
 				{{#if enabled_reassign}}
-					<li><a class="btn-instance-reassign"><i class="ion ion-android-contact"></i>{{_
-							'instance_reassign'}}</a></li>
+					<li><a class="btn-instance-reassign"><i class="ion ion-android-contact"></i>{{_ 'instance_reassign'}}</a></li>
+				{{/if}}
+				{{#if enabled_distribute}}
+					<li><a class="btn-instance-distribute"><i class="fa fa-clone"></i>{{_ 'instance_distribute_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_delete}}
-					<li><a class="btn-instance-remove"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a>
-					</li>
+					<li><a class="btn-instance-remove"><i class="ion ion-close-circled"></i>{{_ 'instance_delete'}}</a></li>
 				{{/if}}
 				{{#if enabled_print}}
 					<li><a class="btn-instance-to-print"><i class="ion ion-printer"></i>{{_ 'instance_print'}}</a></li>
