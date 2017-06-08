@@ -62,7 +62,7 @@
                       {{else}}
                         <i class="ion ion-android-person account-default-avatar" aria-hidden="true"></i>
                       {{/if}}
-                      <div class="btn btn-primary btn-sm change-avatar">{{_ 'Change Avatar'}}
+                      <div class="btn btn-primary btn-sm change-avatar {{#unless user.avatar}}miss-avator{{/unless}}">{{_ 'Change Avatar'}}
                         <input type="file" class="avatar-file" accept="image/*">
                       </div>
                     </div>
