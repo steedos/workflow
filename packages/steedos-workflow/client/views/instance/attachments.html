@@ -14,7 +14,15 @@
 							{{#if canView this.name}}
 								<a data-downloadurl="{{getUrl this._id}}" style="cursor: pointer" name="ins_attach_isView" id="{{this._id}}" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{this.name}}</a>
 							{{else}}
-								<a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
+								{{#if IsImageAttachment this}}
+									<a name="ins_attach_preview" style="cursor: pointer" id="{{this._id}}">{{this.name}}</a>
+								{{else}}
+									{{#if IsHtmlAttachment this}}
+										<a name="ins_attach_preview" style="cursor: pointer" id="{{this._id}}">{{this.name}}</a>
+									{{else}}
+										<a href="{{getUrl this._id}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
+									{{/if}}
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{else}}
@@ -49,11 +57,14 @@
 							<a name="ins_attach_edit" id="{{this._id}}" class="mouse-hover" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_officeOnline"}}</a>
 						{{/if}}
 					{{/if}}
-					{{#if IsImageAttachment this}}
-						<a name="ins_attach_preview" class="mouse-hover" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
+					{{#if isNode}}
 					{{else}}
-						{{#if IsHtmlAttachment this}}
+						{{#if IsImageAttachment this}}
 							<a name="ins_attach_preview" class="mouse-hover" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
+						{{else}}
+							{{#if IsHtmlAttachment this}}
+								<a name="ins_attach_preview" class="mouse-hover" id="{{this._id}}">{{_ "workflow_attachment_view"}}</a>
+							{{/if}}
 						{{/if}}
 					{{/if}}
 					<a name="ins_attach_version" class="mouse-hover" data-parent="{{this.metadata.parent}}">{{_ "workflow_attachment_versions"}}</a>
