@@ -322,6 +322,18 @@ TemplateHelpers =
 				return false
 		false
 
+	isPdfFile: (filename) ->
+		# 无文件类型时
+		if filename.split('.').length < 2
+			return false
+		# 获取文件类型
+		type = filename.split('.').pop().toLowerCase()
+		
+		if type == 'pdf'
+			return true
+		
+		false
+	
 	isMac: ()->
 		os = navigator.platform
 		macs = ['Mac68K', 'MacPPC', 'Macintosh', 'MacIntel']

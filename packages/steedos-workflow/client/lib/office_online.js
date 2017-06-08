@@ -51,7 +51,12 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 				}
 				// 获取华炎云安装路径
 				var homePath = process.cwd();
-				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+				var cmd = "";
+				if (path.extname(filename) == '.pdf')
+					cmd = 'start "" ' + '\"' + filePath + '\"';
+				else 
+					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+				
 				var child = exec(cmd);
 				child.on('close',function(){
 					// 转换为pdf后需上传
@@ -152,7 +157,12 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 				}
 				// 获取华炎云安装路径
 				var homePath = process.cwd();
-				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+				var cmd = "";
+				if (path.extname(filename) == '.pdf')
+					cmd = 'start "" ' + '\"' + filePath + '\"';
+				else 
+					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+
 				var child = exec(cmd);
 				child.on('close',function(){
 					// 转换为pdf后需上传
