@@ -241,6 +241,11 @@ Meteor.methods({
 			ins_obj.modified = now;
 			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
+			if (action_type == 'distribute') {
+				ins_obj.distribute_from_instance = instance_id
+			} else if (action_type == 'forward') {
+				ins_obj.forward_from_instance = instance_id
+			}
 
 			// 新建Trace
 			var trace_obj = {};
