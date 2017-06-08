@@ -113,7 +113,7 @@ TabularTables.instances = new Tabular.Table({
 					return moment(doc.submit_date).format('YYYY-MM-DD HH:mm');
 			,
 			visible: false,
-			orderable: false
+			orderable: true
 		},
 		{
 			data: "flow"
@@ -134,7 +134,7 @@ TabularTables.instances = new Tabular.Table({
 				return moment(doc.modified).format('YYYY-MM-DD HH:mm');
 			,
 			visible: false,
-			orderable: false
+			orderable: true
 		},
 		{
 			data: "modified",

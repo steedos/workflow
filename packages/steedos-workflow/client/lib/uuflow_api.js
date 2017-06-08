@@ -113,7 +113,7 @@ UUflow_api.post_submit = function(instance) {
 
 		success: function(responseText, status) {
 			$(document.body).removeClass("loading");
-
+			Session.set("instance_change", false);
 			if (responseText.errors) {
 				responseText.errors.forEach(function(e) {
 					toastr.error(e.errorMessage);
@@ -173,7 +173,7 @@ UUflow_api.post_engine = function(approve) {
 				});
 				return;
 			}
-
+			Session.set("instance_change", false);
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Submitted successfully'));
 		},
