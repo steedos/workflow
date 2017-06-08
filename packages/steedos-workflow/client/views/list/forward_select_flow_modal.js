@@ -166,5 +166,5 @@ Template.forward_select_flow_modal.onRendered(function () {
 
 	InstanceEvent.initEvents(instance.flow);
 
-	InstanceEvent.run($(".instance-" + this.data.action_type + "-modal"), "instance-" + this.data.action_type + "-onload")
+	InstanceEvent.run($(".instance-" + this.data.action_type + "-modal"), "onload")
 })
