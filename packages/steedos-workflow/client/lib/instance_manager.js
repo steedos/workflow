@@ -605,6 +605,7 @@ InstanceManager.saveIns = function() {
 					toastr.success(TAPi18n.__('Saved successfully'));
 				}
 			})
+			return;
 		}
 	}
 
@@ -665,7 +666,7 @@ InstanceManager.saveIns = function() {
 				myApprove.attachments = instance.attachments;
 			}
 
-			if(!_.isEmpty(myApprove) && !_.isEmpty(myApprove._id)){
+			if (!_.isEmpty(myApprove) && !_.isEmpty(myApprove._id)) {
 				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
 					$('body').removeClass("loading");
 					WorkflowManager.instanceModified.set(false);
@@ -676,7 +677,7 @@ InstanceManager.saveIns = function() {
 						FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/inbox/");
 					}
 				});
-			}else {
+			} else {
 				$('body').removeClass("loading");
 			}
 		}

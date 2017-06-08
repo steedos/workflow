@@ -6,6 +6,9 @@ Steedos.subs["related_instances"] = new SubsManager
 Steedos.subs["Instance"] = new SubsManager
 	cacheLimit: 20
 
+Steedos.subs["instances_draft"] = new SubsManager
+	cacheLimit: 99
+
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
 
@@ -22,6 +25,10 @@ Steedos.subscribeInstance = (instance)->
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
 	Steedos.subs["Instance"].subscribe("instance_data", instance._id)
 
+Tracker.autorun (c) ->
+	if Meteor.userId and Steedos.spaceId()
+		Steedos.subs["instances_draft"].clear()
+		Steedos.subs["instances_draft"].subscribe "instances_draft", Steedos.spaceId()
 
 Tracker.autorun (c)->
 	instanceId = Session.get("instanceId")

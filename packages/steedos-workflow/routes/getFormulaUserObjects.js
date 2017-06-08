@@ -19,7 +19,7 @@ JsonRoutes.add("post", "/api/workflow/getFormulaUserObjects", function (req, res
   JsonRoutes.sendResult(res, {
     code: 200,
     data: {
-      'formulaUser': users
+      'spaceUsers': users
     }
   });
 })

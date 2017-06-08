@@ -235,6 +235,9 @@ Template.instance_list.events
 				$('.treeview-menu').perfectScrollbar('destroy');
 
 	'click .btn-toogle-columns': (event)->
+		if Session.get("instanceId")
+			backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
+			FlowRouter.go(backURL)
 		currentTarget = $(event.currentTarget)
 		icon = currentTarget.find("i")
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")

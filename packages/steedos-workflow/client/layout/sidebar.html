@@ -52,8 +52,15 @@
 
 				<!-- <li class="header">{{_ "My Applications"}}</li> -->
 
-				<li class="draft {{boxActive 'draft'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/"><i
-						class="ion ion-compose"></i><span>{{_ "draft"}}</span></a></li>
+				<li class="draft {{boxActive 'draft'}}">
+					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">		<i class="ion ion-compose"></i><span>{{_ "draft"}}</span>
+						<span class="pull-right-container">
+						{{#if draftCount}}
+						  	<span class="label pull-right bg-special">{{draftCount}}</span>
+						{{/if}}
+						</span>
+					</a>
+				</li>
 				<li class="pending {{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i
 						class="ion ion-ios-loop"></i><span>{{_ "pending"}}</span></a></li>
 				<li class="completed {{boxActive 'completed'}}"><a
