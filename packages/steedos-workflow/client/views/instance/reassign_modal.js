@@ -1,10 +1,42 @@
 Template.reassign_modal.helpers({
 
     fields: function() {
+
+        var userOptions = null;
+
+        var showOrg = true;
+
+		var instance = WorkflowManager.getInstance();
+
+		var space = db.spaces.findOne(instance.space);
+
+        var flow = db.flows.findOne({'_id': instance.flow});
+
+		var curSpaceUser = db.space_users.findOne({space: instance.space, 'user': Meteor.userId()});
+
+		var organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		if(space.admins.contains(Meteor.userId())){
+
+		}else if(WorkflowManager.canAdmin(flow, curSpaceUser, organizations)){
+			var currentStep = InstanceManager.getCurrentStep()
+
+			userOptions = ApproveManager.getNextStepUsers(instance, currentStep._id).getProperty("id").join(",")
+
+			showOrg = Session.get("next_step_users_showOrg")
+        }else{
+			userOptions = "0"
+			showOrg = false
+        }
+
+        console.log("userOptions", userOptions)
+		console.log("showOrg", showOrg)
+
         return new SimpleSchema({
             reassign_users: {
                 autoform: {
-                    type: "selectuser"
+                    type: "selectuser",
+					userOptions: userOptions,
+					showOrg: showOrg
                 },
                 optional: true,
                 type: String,
