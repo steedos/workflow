@@ -100,7 +100,7 @@ Template.forward_select_flow_modal.events({
 		} else if (action_type == 'distribute') {
 			var values = $("#forward_select_user")[0].dataset.values;
 			selectedUsers = values ? values.split(",") : [];
-			related = $("#instance_distribute_related").prop("checked")
+			related = $("#instance_related").prop("checked")
 		}
 
 		if (_.isEmpty(selectedUsers)) {
@@ -157,4 +157,14 @@ Template.forward_select_flow_modal.events({
 		});
 	}
 
+})
+
+
+Template.forward_select_flow_modal.onRendered(function () {
+
+	instance = WorkflowManager.getInstance();
+
+	InstanceEvent.initEvents(instance.flow);
+
+	InstanceEvent.run($(".instance-" + this.data.action_type + "-modal"), "onload")
 })

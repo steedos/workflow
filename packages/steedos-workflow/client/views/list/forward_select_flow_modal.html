@@ -1,5 +1,5 @@
 <template name="forward_select_flow_modal">
-    <div class="modal fade forward-select-flow-modal" id="forward_select_flow_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade forward-select-flow-modal instance-{{action_type}}-modal" id="forward_select_flow_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content ins-modal">
                 <div class="modal-header">
@@ -42,8 +42,8 @@
                     </div> -->
 
 					{{#if is_distribute}}
-						<div class="instance-to-attachment af-checkbox-group">
-							<label class="checkbox-inline fix-indent"><input type="checkbox" id="instance_distribute_related"/>{{_ "instance_distribute_related_instances_title"}}</label>
+						<div class="instance-to-related af-checkbox-group">
+							<label class="checkbox-inline fix-indent"><input type="checkbox" id="instance_related"/>{{_ "instance_distribute_related_instances_title"}}</label>
 						</div>
 					{{/if}}
                 </div>
