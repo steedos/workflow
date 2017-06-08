@@ -30,7 +30,7 @@ Template.instance_button.helpers
 			return false
 
 	enabled_print: ->
-#		如果是手机版APP，则不显示打印按钮
+		# 如果是手机版APP，则不显示打印按钮
 		if Meteor.isCordova
 			return false
 		return true

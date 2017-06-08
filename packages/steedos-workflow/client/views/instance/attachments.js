@@ -8,7 +8,7 @@ Template.instance_attachments.onCreated(function() {
 Template.instance_attachments.onRendered(function() {
 
 	var ins = WorkflowManager.getInstance();
-	if (!ins )
+	if (!ins)
 		self.workflowMainAttachTitle.set(true);
 
 	var current_step = InstanceManager.getCurrentStep();
@@ -21,7 +21,7 @@ Template.instance_attachments.onRendered(function() {
 
 	if (current_step.can_edit_main_attach == true || main_attach_count > 0) {
 		self.workflowMainAttachTitle.set(true);
-	}else{
+	} else {
 		self.workflowMainAttachTitle.set(false);
 	}
 
@@ -34,6 +34,10 @@ Template.instance_attachment.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
 
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
@@ -114,7 +118,7 @@ Template.instance_attachment.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
-		
+
 		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
 	},
@@ -124,19 +128,23 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
+
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
 
-			if(current_step){
-				if(mainFile){
+			if (current_step) {
+				if (mainFile) {
 					return current_step.can_edit_main_attach
-				}else{
-					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+				} else {
+					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
 						return true
 					}
-					
+
 				}
 			}
 		}
@@ -221,7 +229,7 @@ Template.instance_attachment.events({
 				url = window.location.origin + "/api/files/instances/" + event.target.id;
 			else
 				url = Steedos.absoluteUrl("api/files/instances/") + event.target.id;
-			
+
 			Steedos.openWindow(url);
 		}
 	},
@@ -243,7 +251,7 @@ Template.instance_attachment.events({
 			NodeManager.downloadFile(url, filename, arg);
 		})
 	},
-	"click .ins-attach-delete": function(event, template){
+	"click .ins-attach-delete": function(event, template) {
 		var file_id = event.target.id;
 		var file_name = event.target.dataset.name;
 		if (!file_id) {
@@ -260,7 +268,7 @@ Template.instance_attachment.events({
 			confirmButtonText: t("workflow_attach_confirm"),
 			cancelButtonText: t("workflow_attach_cancel"),
 			closeOnConfirm: true
-		},function(){
+		}, function() {
 			Meteor.call('cfs_instances_remove', file_id, function(error, result) {
 				if (error) {
 					toastr.error(error.message);
@@ -311,6 +319,10 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false
 
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
+
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return false
 
@@ -345,6 +357,10 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
 
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
@@ -412,28 +428,32 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
-		
+
 		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename))
 			return true;
 	},
-	
+
 	canEdit: function(mainFile, filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
 
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
+
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
-			if(current_step){
-				if(mainFile){
+			if (current_step) {
+				if (mainFile) {
 					return current_step.can_edit_main_attach
-				}else{
-					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+				} else {
+					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
 						return true
 					}
-					
+
 				}
 			}
 		}
@@ -448,14 +468,14 @@ Template.ins_attach_version_modal.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
-			if(current_step){
-				if(mainFile){
+			if (current_step) {
+				if (mainFile) {
 					return current_step.can_edit_main_attach
-				}else{
-					if(current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined){
+				} else {
+					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
 						return true
 					}
-					
+
 				}
 			}
 		}
@@ -467,7 +487,7 @@ Template.ins_attach_version_modal.helpers({
 			url = window.location.origin + "/api/files/instances/" + _rev;
 		else
 			url = Steedos.absoluteUrl("api/files/instances/") + _rev;
-		
+
 		if (!(typeof isPreview == "boolean" && isPreview) && !Steedos.isMobile()) {
 			url = url + "?download=true";
 		}
@@ -501,10 +521,10 @@ Template.ins_attach_version_modal.events({
 
 	'change .ins-file-version-input': function(event, template) {
 
-		element = $("#"+ event.currentTarget.id)
+		element = $("#" + event.currentTarget.id)
 
-		if(event.target.files.length > 0){
-			if(!InstanceEvent.run(element, "instance-before-upload")){
+		if (event.target.files.length > 0) {
+			if (!InstanceEvent.run(element, "instance-before-upload")) {
 				$("#ins_upload_main_attach").val('')
 				return
 			}
@@ -562,7 +582,7 @@ Template.ins_attach_version_modal.events({
 				url = window.location.origin + "/api/files/instances/" + event.target.id;
 			else
 				url = Steedos.absoluteUrl("api/files/instances/") + event.target.id;
-			
+
 			Steedos.openWindow(url);
 		}
 	},
@@ -596,14 +616,14 @@ Template.ins_attach_version_modal.events({
 
 		swal({
 			title: t("workflow_attach_confirm_delete"),
-			text: t("workflow_attach_confirm_delete_messages",file_name),
+			text: t("workflow_attach_confirm_delete_messages", file_name),
 			type: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
 			confirmButtonText: t("workflow_attach_confirm"),
 			cancelButtonText: t("workflow_attach_cancel"),
 			closeOnConfirm: true
-		},function(){
+		}, function() {
 			Meteor.call('cfs_instances_remove', file_id, function(error, result) {
 				if (error) {
 					toastr.error(error.message);
@@ -639,7 +659,7 @@ Template.ins_attach_version_modal.onRendered(function() {
 
 	var instance = WorkflowManager.getInstance();
 
-	if(!instance)
+	if (!instance)
 		return;
 
 	InstanceEvent.initEvents(instance.flow);
@@ -725,11 +745,11 @@ Template.ins_attach_edit_modal.events({
 			params.main = true;
 		}
 
-		if (Steedos.isNode())		
+		if (Steedos.isNode())
 			url = window.location.orgin + "/s3/";
-		else	
-			url = Meteor.absoluteUrl('s3/'); 
-		
+		else
+			url = Meteor.absoluteUrl('s3/');
+
 		var params_str = $.param(params);
 
 		var data = TANGER_OCX_OBJ.SaveToURL(url, "file", params_str, encodeURIComponent(filename), 0);

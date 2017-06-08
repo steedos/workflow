@@ -1,6 +1,6 @@
 InstanceAttachmentTemplate.helpers = {
 
-	showMainTitle: function () {
+	showMainTitle: function() {
 		return Template.instance().workflowMainAttachTitle.get();
 	},
 	enabled_add_main_attachment: function() {
@@ -9,6 +9,10 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 
 		if (Session && Session.get("instancePrint"))
+			return false
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
 			return false
 
 		var current_step = InstanceManager.getCurrentStep();
@@ -46,6 +50,10 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		if (ins.distribute_from_instance)
+			return false
+
 		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {
 			return false
 		}
@@ -80,7 +88,11 @@ InstanceAttachmentTemplate.helpers = {
 			'metadata.main': {
 				$ne: true
 			},
-		},{sort: {'uploadedAt':1}}).fetch();
+		}, {
+			sort: {
+				'uploadedAt': 1
+			}
+		}).fetch();
 	},
 
 	showAttachments: function() {
@@ -93,15 +105,15 @@ InstanceAttachmentTemplate.helpers = {
 			return false;
 
 
-		var attachments = cfs.instances.find({
+		var attachments_count = cfs.instances.find({
 			'metadata.instance': instanceId,
 			'metadata.current': true
-		}).fetch();
+		}).count();
 
-		if (Session && Session.get("instancePrint") && attachments.length < 1)
+		if (Session && Session.get("instancePrint") && attachments_count < 1)
 			return false
 
-		if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments.length > 0)
+		if (Session.get("box") == "draft" || Session.get("box") == "inbox" || attachments_count > 0)
 			return true;
 		else
 			return false;
@@ -162,7 +174,7 @@ if (Meteor.isServer) {
 		return false;
 	}
 
-	InstanceAttachmentTemplate.helpers.showMainTitle = function () {
+	InstanceAttachmentTemplate.helpers.showMainTitle = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
 		var main_attach_count = cfs.instances.find({
 			'metadata.instance': instance._id,
