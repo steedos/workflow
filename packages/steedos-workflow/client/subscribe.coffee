@@ -24,6 +24,8 @@ Steedos.subscribeInstance = (instance)->
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
 	Steedos.subs["Instance"].subscribe("instance_data", instance._id)
+	if instance.distribute_from_instance
+		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instance)
 
 Tracker.autorun (c) ->
 	if Meteor.userId and Steedos.spaceId()
