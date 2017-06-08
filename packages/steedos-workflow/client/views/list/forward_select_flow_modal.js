@@ -64,6 +64,10 @@ Template.forward_select_flow_modal.helpers({
 			users_title = TAPi18n.__('instance_distribute_users');
 		};
 		return users_title;
+	},
+
+	is_distribute: function () {
+		return this.action_type == "distribute"
 	}
 
 })
@@ -89,11 +93,14 @@ Template.forward_select_flow_modal.events({
 
 		var selectedUsers = [];
 
+		var related = false;
+
 		if (action_type == 'forward') {
 			selectedUsers = [Meteor.userId()];
 		} else if (action_type == 'distribute') {
 			var values = $("#forward_select_user")[0].dataset.values;
 			selectedUsers = values ? values.split(",") : [];
+			related = $("#instance_distribute_related").prop("checked")
 		}
 
 		if (_.isEmpty(selectedUsers)) {
@@ -101,7 +108,7 @@ Template.forward_select_flow_modal.events({
 			return;
 		}
 		// $("#isForwardAttachments")[0].checked 默认为true
-		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), true, selectedUsers, action_type);
+		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), true, selectedUsers, action_type, related);
 		Modal.hide(template);
 	},
 

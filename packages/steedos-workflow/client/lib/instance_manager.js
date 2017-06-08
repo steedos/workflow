@@ -1153,9 +1153,9 @@ InstanceManager.unlockAttach = function(file_id) {
 }
 
 // 申请单转发/分发
-InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type) {
+InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, function(error, result) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
 		$('body').removeClass("loading");
 		if (error) {
 			if (error.error == 'no_permission') {

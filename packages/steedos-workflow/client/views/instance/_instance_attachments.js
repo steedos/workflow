@@ -66,9 +66,12 @@ InstanceAttachmentTemplate.helpers = {
 	},
 
 	main_attachment: function() {
-		var instanceId = Session.get('instanceId');
-		if (!instanceId)
-			return;
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false
+
+		// 如果是被分发的申请单，则显示原申请单文件
+		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
 
 		return cfs.instances.findOne({
 			'metadata.instance': instanceId,
@@ -78,9 +81,12 @@ InstanceAttachmentTemplate.helpers = {
 	},
 
 	normal_attachments: function() {
-		var instanceId = Session.get('instanceId');
-		if (!instanceId)
-			return;
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false
+
+		// 如果是被分发的申请单，则显示原申请单文件
+		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
 
 		return cfs.instances.find({
 			'metadata.instance': instanceId,
@@ -100,10 +106,8 @@ InstanceAttachmentTemplate.helpers = {
 		if (!ins)
 			return false;
 
-		var instanceId = Session.get('instanceId');
-		if (!instanceId)
-			return false;
-
+		// 如果是被分发的申请单，则显示原申请单文件
+		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
 
 		var attachments_count = cfs.instances.find({
 			'metadata.instance': instanceId,

@@ -546,5 +546,6 @@
 	"ConfirmDeletion?": "确认删除?",
 	"instance_number_rules_name_only": "名称已存在",
 	"flows_btn_export_title": "导出",
-	"flows_btn_copylink_title": "复制链接"
+	"flows_btn_copylink_title": "复制链接",
+	"instance_distribute_related_instances_title": "自动创建关联文件"
 }

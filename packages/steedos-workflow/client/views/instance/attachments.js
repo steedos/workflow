@@ -290,9 +290,18 @@ Template.ins_attach_version_modal.helpers({
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return;
 
-		return cfs.instances.find({
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return;
+
+		var selector = {
 			'metadata.parent': parent
-		}, {
+		};
+		// 如果是被分发的申请单，则不显示文件的历史版本
+		if (ins.distribute_from_instance)
+			selector['metadata.current'] = true;
+
+		return cfs.instances.find(selector, {
 			sort: {
 				uploadedAt: -1
 			}

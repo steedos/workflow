@@ -531,6 +531,7 @@
 	"ConfirmDeletion?": "Are you sure?",
 	"instance_number_rules_name_only": "The name can not be repeated",
 	"flows_btn_export_title": "Export",
-	"flows_btn_copylink_title": "Copy Link"
+	"flows_btn_copylink_title": "Copy Link",
+	"instance_distribute_related_instances_title": "Automatically create associated files"
 
 }
