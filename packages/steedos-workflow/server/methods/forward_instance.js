@@ -1,5 +1,5 @@
 Meteor.methods({
-	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type) {
+	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
 		if (!this.userId)
 			return;
 
@@ -243,6 +243,11 @@ Meteor.methods({
 			ins_obj.inbox_users = [user_id];
 			if (action_type == 'distribute') {
 				ins_obj.distribute_from_instance = instance_id
+
+				if(related){
+					ins_obj.related_instances = [instance_id]
+				}
+
 			} else if (action_type == 'forward') {
 				ins_obj.forward_from_instance = instance_id
 			}

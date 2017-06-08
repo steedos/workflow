@@ -40,6 +40,12 @@
                     <!-- <div class="instance-to-attachment af-checkbox-group">
                         <label class="checkbox-inline fix-indent"><input type="checkbox" id="isForwardAttachments" checked="checked"/>{{take_attachments}}</label>
                     </div> -->
+
+					{{#if is_distribute}}
+						<div class="instance-to-attachment af-checkbox-group">
+							<label class="checkbox-inline fix-indent"><input type="checkbox" id="instance_distribute_related"/>{{_ "instance_distribute_related_instances_title"}}</label>
+						</div>
+					{{/if}}
                 </div>
 
                 <div class="modal-footer">
