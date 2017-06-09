@@ -532,6 +532,7 @@
 	"instance_number_rules_name_only": "The name can not be repeated",
 	"flows_btn_export_title": "Export",
 	"flows_btn_copylink_title": "Copy Link",
-	"instance_distribute_related_instances_title": "Automatically create associated files"
+	"instance_distribute_related_instances_title": "Automatically create associated files",
+	"instance_next_step_users_placeholder": "Please select the approver"
 
 }
