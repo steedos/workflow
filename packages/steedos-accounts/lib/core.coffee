@@ -56,3 +56,18 @@ if Meteor.isClient
 							onclick: ->
 								Steedos.openWindow(setupUrl,'setup_phone')
 						})
+						
+						swal {
+							title: t("accounts_phone_swal_alert"),
+							type: "warning",
+							confirmButtonText: t('accounts_phone_swal_alert_ok'),
+							cancelButtonText: t('Cancel'),
+							showCancelButton: true,
+							closeOnConfirm: false
+						}, (reason) ->
+							# 用户选择取消
+							if (reason == false)
+								return false;
+
+							Steedos.openWindow(setupUrl,'setup_phone')
+							sweetAlert.close();
