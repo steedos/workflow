@@ -219,7 +219,10 @@ Template.instance_button.helpers
 
 	enabled_related: ->
 		if Session.get("box") == "draft"
-			return true
+			current_step = InstanceManager.getCurrentStep()
+			if current_step
+				if (current_step.can_edit_main_attach || current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined)
+					return true
 		else
 			return false
 

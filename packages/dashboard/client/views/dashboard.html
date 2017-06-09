@@ -1,0 +1,20 @@
+<template name="dashboardView">
+	<div class="dashboard-wrapper">
+		<!-- <div class="navigation-bar">
+			<button type="button" class="btn btn-default" data-toggle="offcanvas">
+				<i class="fa fa-bars"></i>
+			</button>
+			<span class="navigation-title text-overflow">{{currentDashboardName}}</span>
+			<button type="button" class="btn btn-default btn-edit-dashboard">
+				<i class="ion ion-ios-compose-outline"></i>
+			</button>
+		</div> -->
+		<div class="dashboard-content">
+			<iframe src="/packages/steedos_freeboard/index.html?dashboardId={{dashboardId}}&spaceId={{spaceId}}"></iframe>
+		</div>
+	</div>
+	{{#afModal class="btn btn-primary btn-dashboard-edit hidden" collection="db.portal_dashboards" operation="update" omitFields="modified_by,modified" dialogClass="modal-lg modal-body-zoom" buttonContent=afModalUpdate}}
+		{{_ "edit_dashboard"}}
+	{{/afModal}}
+	<!-- {{> baseTabbar}} -->
+</template>
