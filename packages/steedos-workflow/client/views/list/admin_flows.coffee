@@ -16,7 +16,10 @@ Template.admin_flows.events
 		Modal.show("admin_import_flow_modal");
 
 Template.admin_flows.onRendered ->
-	copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
-	copyTableauUrlClipboard.on 'success', (e) ->
+	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
+	this.copyTableauUrlClipboard.on 'success', (e) ->
 		toastr.success(t("instance_readonly_view_url_copy_success"))
 		e.clearSelection()
+
+Template.admin_flows.onDestroyed ->
+	this.copyTableauUrlClipboard.destroy();
