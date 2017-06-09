@@ -1,0 +1,21 @@
+<template name="dashboardLayout">
+	{{#if subsReady}}
+		<div class="steedos app-wrapper dashboard">
+			{{# AdminLTE skin="blue" sidebarMini="true" }}
+				{{> dashboardHeader}}
+				{{#if isSidebarNeedShow}}
+					{{> dashboardSidebar}}
+				{{/if}}
+				<div class="content-wrapper {{addNosidebarClass}}">
+					<div class="connection-status">
+						{{> status}}
+					</div>
+					{{> Template.dynamic template=main}}
+					</div>
+			{{/ AdminLTE}}
+		</div>
+	{{/if}}
+
+	{{> autoformModals}}
+</template>
+
