@@ -748,8 +748,26 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 			});
 		});
 
+		categories = _.filter(categories, function (categorie) {
+
+			var  flows = 0;
+
+			categorie.forms.forEach(function (form) {
+				flows += form.flows.length
+			})
+
+			return flows > 0
+		})
+
 		re.categories = categories;
-		if (unCategorieForms.length > 0)
+
+		var unCategorieFlows = 0
+
+		unCategorieForms.forEach(function (form) {
+			unCategorieFlows += form.flows.length
+		})
+
+		if (unCategorieFlows > 0)
 			re.categories.push({
 				name: TAPi18n.__('workflow_no_category'),
 				_id: '',

@@ -43,5 +43,7 @@
 	"accounts_phone_too_many_retries": "您操作次数过多，请在 %s 分钟后再发送！",
 	"accounts_phone_user_not_found": "该手机号未绑定到任何账户！",
 	"accounts_phone_sms_failed": "短信发送失败！",
-	"accounts_phone_toastr_alert": "您未绑定手机号，点击开始绑定！"
+	"accounts_phone_toastr_alert": "您未绑定手机号，点击开始绑定！",
+	"accounts_phone_swal_alert": "您未绑定手机号！",
+	"accounts_phone_swal_alert_ok": "开始绑定"
 }
