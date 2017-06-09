@@ -32,6 +32,14 @@ if Meteor.isClient
 				if /^\/steedos\//.test routerPath
 					return
 				if Accounts.isPhoneVerified()
+					# 关闭toastr弹出框
+					if Accounts.phoneToastrs?.length
+						Accounts.phoneToastrs.forEach (n,i)->
+							toastr.clear n
+
+					# 关闭sweetAlert弹出框
+					$(".accounts-phone-swal-alert .cancel").trigger("click")
+
 					expiredDays = Meteor.settings?.public?.phone?.expiredDays
 					if expiredDays
 						Accounts.disablePhoneWithoutExpiredDays(expiredDays)
@@ -58,6 +66,7 @@ if Meteor.isClient
 						})
 						
 						swal {
+							customClass : "accounts-phone-swal-alert"
 							title: t("accounts_phone_swal_alert"),
 							type: "warning",
 							confirmButtonText: t('accounts_phone_swal_alert_ok'),
