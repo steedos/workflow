@@ -170,6 +170,7 @@ Template.instance_list.onRendered ->
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
+		$(".instance-list > div:eq(2)").addClass("dataTables_container")
 		$(".instance-list").perfectScrollbar({suppressScrollX: true});
 		$(".instance-list .dataTables_wrapper").perfectScrollbar();
 
