@@ -56,6 +56,9 @@ Template.cf_contact_modal.events
 		Modal.allowMultiple = false;
 		return true;
 
+#	'click .value-label-remove': (event, tem) ->
+#		debugger;
+
 Template.cf_contact_modal.onRendered ->
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
 	CFDataManager.handerContactModalValueLabel();
