@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.1',
+	version: '0.0.2',
 	summary: 'Steedos Accounts',
 	git: ''
 });
@@ -32,7 +32,7 @@ Package.onUse(function(api) {
 	api.use('steedos:useraccounts-core@1.14.2');
 
 	api.use('steedos:accounts-phone');
-	api.use('steedos:base@0.0.14');
+	api.use('steedos:base@0.0.15');
 
 
 
