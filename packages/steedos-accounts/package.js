@@ -1,8 +1,9 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.2',
+	version: '0.0.2_1',
 	summary: 'Steedos Accounts',
-	git: ''
+	git: '',
+	documentation: null
 });
 
 Npm.depends({
@@ -31,7 +32,7 @@ Package.onUse(function(api) {
 	
 	api.use('steedos:useraccounts-core@1.14.2');
 
-	api.use('steedos:accounts-phone');
+	api.use('steedos:accounts-phone@0.0.1');
 	api.use('steedos:base@0.0.15');
 
 
