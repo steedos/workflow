@@ -260,8 +260,11 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 
 					var cf_org_jstree = $("#cf_organizations_tree").jstree();
 
-					if(cf_org_jstree.get_node(el.dataset.value)){
-						$("#cf_organizations_tree").jstree("uncheck_node", el.dataset.value)
+					var org_node = cf_org_jstree.get_node(el.dataset.value)
+
+					if(org_node){
+						Template.cf_organization.conditionalselect(org_node)
+						$("#cf_organizations_tree").jstree("uncheck_node", org_node.id)
 					}else{
 						val.remove(index)
 
