@@ -14,6 +14,11 @@
 						<label for="distribute_edit_flow_select_users" class="control-label">{{_ 'distribute_edit_flow_select_users'}}</label>
 						{{>afSelectUser user_context}}
 					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<label><input type="checkbox" id="distribute_to_self" checked="{{#if to_self}}checked{{/if}}">&nbsp;{{_ 'distribute_to_self'}}</label>
+						</div>
+					</div>
 					{{#each allow_distribute_steps}}
 						<div class="form-group">
 							<label class="control-label">{{name}}</label>
