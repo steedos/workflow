@@ -20,7 +20,7 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('session');
 	api.use('accounts-base');
-	api.use('useraccounts:bootstrap');
+	api.use('steedos:useraccounts-bootstrap@1.14.2');
 
 	api.use('dburles:collection-helpers');
 	api.use('flemay:less-autoprefixer@1.2.0');
