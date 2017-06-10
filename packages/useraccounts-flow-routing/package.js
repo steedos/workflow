@@ -18,10 +18,10 @@ Package.onUse(function(api) {
 
   api.use([
     'check',
-    'kadira:flow-router',
+    'kadira:flow-router@2.10.1',
     'underscore',
     'steedos:useraccounts-core@1.14.2',
-    'modules'
+    'modules@0.7.9'
   ], ['client', 'server']);
 
   api.imply([
