@@ -17,7 +17,7 @@ Package.onUse(function(api) {
 	api.use('check');
 	api.use('tracker');
 	api.use('session');
-	api.use('useraccounts:bootstrap');
+	api.use('steedos:useraccounts-bootstrap@1.14.2');
 	api.use('underscore');
 	api.use('blaze');
 	api.use('templating');
@@ -29,10 +29,10 @@ Package.onUse(function(api) {
 
 	api.use('tap:i18n@1.7.0');
 	
-	api.use('useraccounts:core');
+	api.use('steedos:useraccounts-core@1.14.2');
 
 	api.use('steedos:accounts-phone');
-	api.use('steedos:base');
+	api.use('steedos:base@0.0.14');
 
 
 
