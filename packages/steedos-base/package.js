@@ -17,9 +17,9 @@ Package.onUse(function(api) {
   api.use('tracker');
 
   api.use('accounts-base');
-  api.use('useraccounts:bootstrap@1.14.2');
-  api.use('useraccounts:core@1.14.2');
-  api.use('useraccounts:flow-routing@1.14.2');
+  api.use('steedos:useraccounts-bootstrap@1.14.2');
+  api.use('steedos:useraccounts-core@1.14.2');
+  // api.use('useraccounts:flow-routing@1.14.2');
   api.use('softwarerero:accounts-t9n@1.3.3');
 
   api.use('matb33:collection-hooks@0.8.4');
