@@ -55,9 +55,9 @@ momentjs:moment
 fortawesome:fontawesome
 
 joshowens:timezone-picker
-useraccounts:core
-useraccounts:bootstrap
-useraccounts:flow-routing
+steedos:useraccounts-core
+steedos:useraccounts-bootstrap
+steedos:useraccounts-flow-routing
 softwarerero:accounts-t9n
 
 
