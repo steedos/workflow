@@ -49,7 +49,7 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   var spaceUsers;
   var data = JSON.stringify(data);
   $.ajax({
-    url: Steedos.absoluteUrl('api/workflow/getFormulaUserObjects') + '?' + $.param(q),
+    url: Steedos.absoluteUrl('api/formula/space_users') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,

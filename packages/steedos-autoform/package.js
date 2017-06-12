@@ -41,6 +41,7 @@ Package.onUse(function(api) {
 	api.use('steedos:i18n@0.0.2');
 	api.use('steedos:jstree')
 	api.use('steedos:base');
+	api.use('rubaxa:sortable');
 
 	api.addFiles('client/core.coffee');
 
@@ -87,6 +88,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.less', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
+
+	api.addFiles('routes/formula_space_users.coffee', 'server');
+
+	api.export('CFDataManager');
 });
 
 Package.onTest(function(api) {

@@ -64,7 +64,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/settings.coffee', ['client', 'server']);
 	api.addFiles('lib/tapi18n.coffee');
-	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 
 	api.addFiles('lib/cfs/core.coffee');

@@ -415,7 +415,7 @@ CFDataManager.getFormulaSpaceUsers = function (userIds) {
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
 CFDataManager.getFormulaSpaceUser = function (userId) {
-	if (Session.get('spaceId') && userId) {
+	if (userId) {
 		if (userId instanceof Array) {
 			return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), userId);
 		} else {
@@ -424,8 +424,9 @@ CFDataManager.getFormulaSpaceUser = function (userId) {
 	}
 };
 
-CFDataManager.getOrgAndChild = function (orgId) {
+CFDataManager.getOrgAndChild = function (node, orgId) {
 	var childrens = SteedosDataManager.organizationRemote.find({
+		space: node.data.spaceId,
 		parents: orgId
 	}, {
 		fields: {

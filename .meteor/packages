@@ -164,3 +164,6 @@ steedos:dashboard
 # steedos:distribute-qhd
 
 steedos:tableau
+
+rubaxa:sortable
+steedos:autoform
