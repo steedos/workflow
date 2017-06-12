@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.2_1',
+	version: '0.0.3',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -18,7 +18,6 @@ Package.onUse(function(api) {
 	api.use('check');
 	api.use('tracker');
 	api.use('session');
-	api.use('steedos:useraccounts-bootstrap@1.14.2');
 	api.use('underscore');
 	api.use('blaze');
 	api.use('templating');
@@ -29,11 +28,13 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 
 	api.use('tap:i18n@1.7.0');
-	
-	api.use('steedos:useraccounts-core@1.14.2');
 
+	api.use('steedos:useraccounts-bootstrap@1.14.2_1');
+	api.use('steedos:useraccounts-core@1.14.2_1');
+	api.use('steedos:useraccounts-flow-routing@1.14.2');
 	api.use('steedos:accounts-phone@0.0.1');
-	api.use('steedos:base@0.0.15');
+	
+	api.use('steedos:base@0.0.17');
 
 
 
@@ -42,6 +43,7 @@ Package.onUse(function(api) {
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	api.addFiles('lib/core.coffee');
+	api.addFiles('lib/accounts.coffee');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
 	api.addFiles('server/methods/disable_phone.coffee', 'server');
