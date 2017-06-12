@@ -48,6 +48,8 @@ Package.onUse(function(api) {
     'client/layout/main.coffee',
     'client/layout/layout.html',
     'client/layout/layout.less',
+    'client/layout/header_logo.html',
+    'client/layout/header_logo.coffee',
     'client/layout/header.html',
     'client/layout/header.less',
     'client/layout/sidebar.html'
