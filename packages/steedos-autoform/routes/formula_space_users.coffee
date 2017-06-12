@@ -48,13 +48,15 @@ Meteor.startup ->
 
 					fu.hr = u.hr || {}
 
-					user_flow_positions = db.flow_positions.find({space: u.space, users: u.user}, {fields: {role: 1}}).fetch();
+					if db.flow_positions && db.flow_roles
 
-					user_role_ids = user_flow_positions.getProperty("role");
+						user_flow_positions = db.flow_positions.find({space: u.space, users: u.user}, {fields: {role: 1}}).fetch();
 
-					user_roles = db.flow_roles.find({_id: {$in: user_role_ids}}, {fields: {name: 1}}).fetch();
+						user_role_ids = user_flow_positions.getProperty("role");
 
-					fu.roles = user_roles.getProperty("name")
+						user_roles = db.flow_roles.find({_id: {$in: user_role_ids}}, {fields: {name: 1}}).fetch();
+
+						fu.roles = user_roles.getProperty("name")
 
 					data.push fu
 
