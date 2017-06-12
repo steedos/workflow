@@ -30,7 +30,6 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 		}
 	}
 	else{
-		console.log("node", node)
 		orgs = CFDataManager.getChild(spaceId || node.data.spaceId, node.id);
 	}
 	return handerOrg(orgs, node.id);
@@ -82,7 +81,6 @@ function handerOrg(orgs, parentId) {
 
 		nodes.push(node);
 	});
-	console.log(nodes)
 	return nodes;
 }
 
