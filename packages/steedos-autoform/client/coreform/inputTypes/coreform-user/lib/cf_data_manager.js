@@ -29,8 +29,10 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 			orgs = CFDataManager.getRoot(spaceId);
 		}
 	}
-	else
-		orgs = CFDataManager.getChild(spaceId, node.id);
+	else{
+		console.log("node", node)
+		orgs = CFDataManager.getChild(spaceId || node.data.spaceId, node.id);
+	}
 	return handerOrg(orgs, node.id);
 }
 
@@ -48,6 +50,8 @@ function handerOrg(orgs, parentId) {
 		node.data = {};
 
 		node.data.fullname = org.fullname;
+
+		node.data.spaceId = org.space
 
 		node.id = org._id;
 
@@ -78,7 +82,7 @@ function handerOrg(orgs, parentId) {
 
 		nodes.push(node);
 	});
-
+	console.log(nodes)
 	return nodes;
 }
 
@@ -298,13 +302,22 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 
 
 CFDataManager.getRoot = function (spaceId) {
-	return SteedosDataManager.organizationRemote.find({
-		is_company: true,
-		space: spaceId
-	}, {
+
+	var query = {is_company: true}
+
+	if(spaceId){
+		query.space = spaceId
+	}else{
+		user_spaces = db.spaces.find().fetch().getProperty("_id")
+
+		query.space = {$in: user_spaces}
+	}
+
+	return SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1,
 			name: 1,
+			space: 1,
 			fullname: 1,
 			parent: 1,
 			children: 1,
@@ -323,6 +336,7 @@ CFDataManager.getChild = function (spaceId, parentId) {
 	}, {
 		fields: {
 			_id: 1,
+			space: 1,
 			name: 1,
 			fullname: 1,
 			parent: 1,

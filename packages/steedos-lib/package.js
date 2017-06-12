@@ -44,6 +44,7 @@ Package.onUse(function(api) {
 
 	api.use('steedos:base@0.0.15');
 	api.use('steedos:version');
+	api.use('steedos:autoform@0.0.1');
 
 	api.use(['webapp'], 'server');
 
@@ -66,19 +67,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 
-	api.addFiles('lib/models/users.coffee');
-	api.addFiles('lib/models/spaces.coffee');
-	api.addFiles('lib/models/space_users.coffee');
-	api.addFiles('lib/models/organizations.coffee');
-	api.addFiles('lib/models/users_changelogs.coffee');
-	api.addFiles('lib/models/steedos_keyvalue.coffee');
-	api.addFiles('lib/models/steedos_statistics.coffee');
-	api.addFiles('lib/models/space_user_signs.coffee');
-	api.addFiles('lib/models/audit_logs.coffee');
-	api.addFiles('lib/models/billings.coffee');
-	api.addFiles('lib/models/modules.coffee');
-	api.addFiles('lib/models/modules_changelogs.coffee');
-
 	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/avatars.coffee');
 
@@ -97,59 +85,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/core.coffee', 'client');
 	api.addFiles('client/momentjs/zh-cn.js', 'client');
-	api.addFiles('client/helpers.coffee', 'client');
 	api.addFiles('client/language.coffee', 'client');
-
-
-
-	api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization.coffee', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.coffee', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org/lib/cf_organization_modal.less', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-org/select-orgs.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-user-localdata/select-users.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user-localdata/select-users.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_data_manager.js', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_tabular_space_user.coffee');
-
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_contact_modal.less', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_contact_modal.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_contact_modal.coffee', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_list.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_list.coffee', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_space_user_list.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_space_user_list.coffee', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_modal.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/lib/cf_organization_modal.coffee', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-user/select-users.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-user/select-users.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-email/email.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-email/email.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-url/url.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-url/url.js', 'client');
-
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/bloodhound.js', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.bundle.js', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/typeahead.js/typeahead.jquery.js', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.less', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.html', 'client');
-	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
-
-	api.addFiles('client/lib/ajax_collection.coffee', 'client');
-
-	api.addFiles('client/lib/steedos_data_manager.js', 'client');
-
 
 	api.addFiles('client/steedos/router.coffee', 'client');
 	api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
@@ -254,8 +190,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/billing_settleup.coffee', 'server');
 	api.addFiles('server/methods/setUsername.coffee', 'server');
 
-	api.addFiles('server/publications/apps.coffee', 'server');
-	api.addFiles('server/publications/my_spaces.coffee', 'server');
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 
@@ -281,10 +215,7 @@ Package.onUse(function(api) {
 	api.export('Steedos');
 	api.export('db');
 	api.export('SteedosOffice');
-	api.export("CFDataManager");
 
-	api.export('AjaxCollection');
-	api.export("SteedosDataManager");
 	api.export(['billingManager'], ['server']);
 });
 
