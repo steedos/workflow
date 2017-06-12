@@ -37,6 +37,7 @@ Package.onUse(function(api) {
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('momentjs:moment');
+	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:i18n@0.0.2');
 	api.use('steedos:jstree')
