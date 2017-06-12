@@ -56,6 +56,7 @@ Package.onUse(function(api) {
 	api.use('steedos:autoform-modals');
 	api.use('steedos:universe-autoform-select');
 
+	api.use('steedos:autoform')
 	api.use('steedos:base');
 	api.use('steedos:lib');
 	api.use('steedos:admin');
