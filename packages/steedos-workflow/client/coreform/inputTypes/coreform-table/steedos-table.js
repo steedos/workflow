@@ -326,7 +326,11 @@ SteedosTable.getTr = function(keys, item_value, index, field, editable) {
     if (editable) {
         tr = tr + "' class='item edit'"
     } else {
-        tr = tr + " class='item'"
+        if(Steedos.isMobile()){
+			tr = tr + " class='item item-readonly'"
+        }else{
+			tr = tr + " class='item '"
+        }
     }
 
     if (item_value.removed) {
@@ -564,7 +568,15 @@ if(Meteor.isClient){
             var item_index = event.currentTarget.dataset.index;
             Session.set("instance_change", true);
             SteedosTable.removeItem(field, item_index);
-        }
+        },
+
+        'click .steedos-table .item-readonly': function (event, template) {
+			if (!template.data.atts.editable) {
+				var field = template.data.name;
+				var index = event.currentTarget.dataset.index;
+				SteedosTable.showModal(field, index, "read");
+			}
+		}
     });
 
 
