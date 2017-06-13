@@ -49,7 +49,7 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   var spaceUsers;
   var data = JSON.stringify(data);
   $.ajax({
-    url: Steedos.absoluteUrl('api/workflow/getFormulaUserObjects') + '?' + $.param(q),
+    url: Steedos.absoluteUrl('api/formula/space_users') + '?' + $.param(q),
     type: 'POST',
     async: false,
     data: data,
@@ -70,6 +70,43 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   });
 
   return spaceUsers;
+}
+
+
+// 获取space_users
+SteedosDataManager.getFormulaOrganizations = function (orgIds) {
+	var q = {};
+	if(Session.get("spaceId")){
+		q.spaceId = Session.get("spaceId");
+    }
+	var data =
+		{
+			'orgIds' : orgIds
+		}
+	var orgs;
+	var data = JSON.stringify(data);
+	$.ajax({
+		url: Steedos.absoluteUrl('api/formula/organizations') + '?' + $.param(q),
+		type: 'POST',
+		async: false,
+		data: data,
+		dataType: 'json',
+		processData: false,
+		contentType: "application/json",
+		success: function(responseText, status) {
+			if (responseText.errors) {
+				toastr.error(responseText.errors);
+				return;
+			}
+
+			orgs = responseText.orgs;
+		},
+		error: function(xhr, msg, ex) {
+			toastr.error(msg);
+		}
+	});
+
+	return orgs;
 }
 
 // Array.prototype.filterProperty = function(h, l){

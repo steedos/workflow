@@ -6,7 +6,7 @@ Template.cf_space_user_list.onDestroyed ->
 
 Template.cf_space_user_list.helpers
 	selector: (userOptions)->
-		spaceId = Template.instance().data.spaceId
+		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
 		is_within_user_organizations = Template.instance().data.is_within_user_organizations
 		query = {space: spaceId, user_accepted: true};
 		if userOptions != undefined && userOptions != null

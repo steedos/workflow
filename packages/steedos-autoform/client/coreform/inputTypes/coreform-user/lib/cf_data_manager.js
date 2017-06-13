@@ -29,8 +29,9 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 			orgs = CFDataManager.getRoot(spaceId);
 		}
 	}
-	else
-		orgs = CFDataManager.getChild(spaceId, node.id);
+	else{
+		orgs = CFDataManager.getChild(spaceId || node.data.spaceId, node.id);
+	}
 	return handerOrg(orgs, node.id);
 }
 
@@ -48,6 +49,8 @@ function handerOrg(orgs, parentId) {
 		node.data = {};
 
 		node.data.fullname = org.fullname;
+
+		node.data.spaceId = org.space
 
 		node.id = org._id;
 
@@ -78,7 +81,6 @@ function handerOrg(orgs, parentId) {
 
 		nodes.push(node);
 	});
-
 	return nodes;
 }
 
@@ -155,9 +157,8 @@ CFDataManager.handerContactModalValueLabel = function () {
 	if (values.length > 0) {
 
 		values.forEach(function (v) {
-			return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
+			return html = html + '\u000d\n<li data-value="' + v.id + '" data-name="' + v.name + '"><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
 		});
-
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
 		valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
@@ -233,7 +234,7 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 
 	if (values.length > 0) {
 		values.forEach(function (v) {
-			return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + ' data-fullname= ' + v.fullname + '><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
+			return html = html + '\u000d\n<li data-value="' + v.id + '" data-name="' + v.name + '" data-fullname="' + v.fullname + '"><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
 		});
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
@@ -298,13 +299,22 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 
 
 CFDataManager.getRoot = function (spaceId) {
-	return SteedosDataManager.organizationRemote.find({
-		is_company: true,
-		space: spaceId
-	}, {
+
+	var query = {is_company: true}
+
+	if(spaceId){
+		query.space = spaceId
+	}else{
+		user_spaces = db.spaces.find().fetch().getProperty("_id")
+
+		query.space = {$in: user_spaces}
+	}
+
+	return SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1,
 			name: 1,
+			space: 1,
 			fullname: 1,
 			parent: 1,
 			children: 1,
@@ -323,6 +333,7 @@ CFDataManager.getChild = function (spaceId, parentId) {
 	}, {
 		fields: {
 			_id: 1,
+			space: 1,
 			name: 1,
 			fullname: 1,
 			parent: 1,
@@ -401,7 +412,7 @@ CFDataManager.getFormulaSpaceUsers = function (userIds) {
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
 CFDataManager.getFormulaSpaceUser = function (userId) {
-	if (Session.get('spaceId') && userId) {
+	if (userId) {
 		if (userId instanceof Array) {
 			return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), userId);
 		} else {
@@ -410,8 +421,9 @@ CFDataManager.getFormulaSpaceUser = function (userId) {
 	}
 };
 
-CFDataManager.getOrgAndChild = function (orgId) {
+CFDataManager.getOrgAndChild = function (node, orgId) {
 	var childrens = SteedosDataManager.organizationRemote.find({
+		space: node.data.spaceId,
 		parents: orgId
 	}, {
 		fields: {
@@ -429,10 +441,7 @@ CFDataManager.getFormulaOrganizations = function (orgIds) {
 		return;
 	var orgs = new Array();
 	if (orgIds instanceof Array) {
-		orgIds.forEach(function (orgId) {
-			orgs.push(CFDataManager.getFormulaOrganization(orgId));
-		});
-
+		return SteedosDataManager.getFormulaOrganizations(orgIds)
 	} else {
 		orgs = CFDataManager.getFormulaOrganization(orgIds);
 	}
@@ -441,16 +450,5 @@ CFDataManager.getFormulaOrganizations = function (orgIds) {
 }
 
 CFDataManager.getFormulaOrganization = function (orgId) {
-	var org = SteedosDataManager.organizationRemote.findOne({
-		_id: orgId
-	}, {
-		fields: {
-			_id: 1,
-			name: 1,
-			fullname: 1
-		}
-	});
-	org.id = org._id;
-	delete org._id;
-	return org;
+	return _.first(SteedosDataManager.getFormulaOrganizations([orgId]))
 }
