@@ -60,6 +60,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/forgot_password_token.html', 'client');
 	api.addFiles('client/views/forgot_password_token.coffee', 'client');
 
+	api.addFiles('client/views/at_form.coffee', "client");
+	api.addFiles('client/views/at_form.less', "client");
+
 	api.addFiles('client/views/accounts.less', 'client');
 
 	api.addFiles('client/router.coffee','client');

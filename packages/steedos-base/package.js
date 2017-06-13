@@ -63,14 +63,18 @@ Package.onUse(function (api) {
 		'client/layout/sidebar.html',
 		'client/layout/steedosheader-account.html',
 		'client/layout/steedosheader-account.coffee',
-		'client/layout/steedosheader-account.less'
+		'client/layout/steedosheader-account.less',
+		'client/views/app_list_box_modal.html',
+		'client/views/app_list_box_modal.coffee',
+		'client/views/app_list_box_modal.less',
+		'client/views/space_switcher.html',
+		'client/views/space_switcher.coffee',
+		'client/views/space_switcher.less'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");
 	api.addFiles('client/layout/login_layout.coffee', "client");
 	api.addFiles('client/layout/login_layout.less', "client");
-	api.addFiles('client/layout/at_form.coffee', "client");
-	api.addFiles('client/layout/at_form.less', "client");
 	api.addFiles('client/layout/tabbar.html', "client");
 	api.addFiles('client/layout/tabbar.coffee', "client");
 	api.addFiles('client/layout/tabbar.less', "client");

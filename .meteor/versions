@@ -87,6 +87,7 @@ jquery@1.11.9
 kadira:blaze-layout@2.3.0
 kadira:flow-router@2.12.1
 lai:collection-extensions@0.1.4
+keepnox:perfect-scrollbar@0.6.8
 launch-screen@1.0.12
 less@2.7.5
 livedata@1.0.18
