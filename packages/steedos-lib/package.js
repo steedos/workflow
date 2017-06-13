@@ -54,10 +54,6 @@ Package.onUse(function(api) {
 	api.use('templating@1.2.15', 'client');
 
 	api.use('tap:i18n@1.8.2', ['client', 'server']);
-	//api.add_files("package-tap.i18n", ["client", "server"]);
-	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
-	api.addFiles(tapi18nFiles, ['client', 'server']);
-
 
 	// COMMON
 	api.addFiles('lib/array_includes.js');

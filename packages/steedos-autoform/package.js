@@ -13,11 +13,9 @@ Package.onUse(function(api) {
 
 	api.use('session');
 	api.use('coffeescript');
-	api.use('blaze');
-	api.use('templating');
+	api.use('blaze-html-templates');
 	api.use('underscore');
 	api.use('reactive-var');
-	api.use('reactive-dict');
 	api.use('tracker');
 
 	api.use('random');
