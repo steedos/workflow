@@ -67,8 +67,6 @@ Package.onUse(function(api) {
   api.addFiles('client/layout/login_layout.html', "client");
   api.addFiles('client/layout/login_layout.coffee', "client");
   api.addFiles('client/layout/login_layout.less', "client");
-  api.addFiles('client/layout/at_form.coffee', "client");
-  api.addFiles('client/layout/at_form.less', "client");
   api.addFiles('client/layout/tabbar.html', "client");
   api.addFiles('client/layout/tabbar.coffee', "client");
   api.addFiles('client/layout/tabbar.less', "client");
