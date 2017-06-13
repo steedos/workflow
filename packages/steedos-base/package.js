@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.17',
+	version: '0.0.18',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/platform/packages/steedos-theme'
 });
@@ -35,7 +35,7 @@ Package.onUse(function (api) {
 	api.use('momentjs:moment');
 	api.use('simple:json-routes@2.1.0');
 
-	api.use('steedos:i18n@0.0.2');
+	api.use('steedos:i18n@0.0.3');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 

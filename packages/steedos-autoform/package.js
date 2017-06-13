@@ -5,7 +5,8 @@ Package.describe({
 	name: 'steedos:autoform',
 	version: '0.0.1',
 	summary: 'Steedos libraries',
-	git: 'https://github.com/steedos/platform/packages/steedos-theme'
+	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-autoform',
+	documentation: null
 });
 
 Package.onUse(function(api) {
@@ -34,12 +35,12 @@ Package.onUse(function(api) {
 	api.use('aldeed:simple-schema@1.5.3');
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
-	api.use('momentjs:moment');
+	api.use('momentjs:moment@2.14.1');
 	api.use('simple:json-routes@2.1.0');
 
-	api.use('steedos:jstree')
-	api.use('steedos:base');
-	api.use('rubaxa:sortable');
+	api.use('steedos:jstree@3.3.2')
+	api.use('steedos:base@0.0.18');
+	api.use('rubaxa:sortable@1.3.0');
 	api.use('tap:i18n', ['client', 'server']);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
