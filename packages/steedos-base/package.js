@@ -52,7 +52,10 @@ Package.onUse(function(api) {
     'client/layout/header_logo.coffee',
     'client/layout/header.html',
     'client/layout/header.less',
-    'client/layout/sidebar.html'
+    'client/layout/sidebar.html',
+    'client/layout/steedosheader-account.html',
+    'client/layout/steedosheader-account.coffee',
+    'client/layout/steedosheader-account.less'
   ], "client");
 
   api.addFiles('client/layout/login_layout.html', "client");
