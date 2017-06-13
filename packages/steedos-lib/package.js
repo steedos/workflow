@@ -213,10 +213,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/space/space_select.html', 'client');
 	api.addFiles('client/steedos/views/space/space_select.coffee', 'client');
 
-	api.addFiles('client/steedos/views/space/space_switcher.less', 'client');
-	api.addFiles('client/steedos/views/space/space_switcher.html', 'client');
-	api.addFiles('client/steedos/views/space/space_switcher.coffee', 'client');
-
 	api.addFiles('client/steedos/views/springboard/springboard.less', 'client');
 	api.addFiles('client/steedos/views/springboard/springboard.html', 'client');
 	api.addFiles('client/steedos/views/springboard/springboard.coffee', 'client');
@@ -228,11 +224,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/sidebar/top_sidebar.html', 'client');
 	api.addFiles('client/steedos/views/sidebar/top_sidebar.coffee', 'client');
 	api.addFiles('client/steedos/views/sidebar/top_sidebar.less', 'client');
-
-	api.addFiles('client/steedos/views/sidebar/app_list_box_modal.html', 'client');
-	api.addFiles('client/steedos/views/sidebar/app_list_box_modal.coffee', 'client');
-	api.addFiles('client/steedos/views/sidebar/app_list_box_modal.less', 'client');
-
 
 	api.addFiles('client/steedos/views/about/steedos_about.html', 'client');
 	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
