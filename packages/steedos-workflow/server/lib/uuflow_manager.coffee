@@ -1974,18 +1974,23 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 
 	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 
-	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1}}).forEach (user)->
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1, locale: 1}}).forEach (user)->
 		utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
-		paramString = JSON.stringify({
+		params = {
 			instance_name: name,
 			deadline: moment(deadline).utcOffset(utcOffset).format('MM-DD HH:mm')
-		})
+		}
+		#设置当前语言环境
+		lang = 'en'
+		if user.locale is 'zh-cn'
+			lang = 'zh-CN'
 		# 发送手机短信
 		SMSQueue.send({
 			Format: 'JSON',
 			Action: 'SingleSendSms',
-			ParamString: paramString,
+			ParamString: JSON.stringify(params),
 			RecNum: user.mobile,
 			SignName: 'OA系统',
-			TemplateCode: 'SMS_67200967'
+			TemplateCode: 'SMS_67200967',
+			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline}, lang)
 		})
