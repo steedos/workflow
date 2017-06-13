@@ -13,17 +13,17 @@ Package.onUse(function(api) {
 
 	api.use('session');
 	api.use('coffeescript');
-	api.use('ecmascript');
-	api.use('blaze-html-templates');
+	api.use('blaze');
+	api.use('templating');
 	api.use('underscore');
 	api.use('reactive-var');
+	api.use('reactive-dict');
 	api.use('tracker');
 
-	api.use('accounts-base');
-	api.use('steedos:useraccounts-bootstrap@1.14.2');
-	api.use('steedos:useraccounts-core@1.14.2');
-	// api.use('useraccounts:flow-routing@1.14.2');
-	api.use('softwarerero:accounts-t9n@1.3.3');
+	api.use('random');
+	api.use('ddp');
+	api.use('check');
+	api.use('ddp-rate-limiter');
 
 	api.use('matb33:collection-hooks@0.8.4');
 	api.use('flemay:less-autoprefixer@1.2.0');
@@ -32,18 +32,17 @@ Package.onUse(function(api) {
 
 	api.use('momentjs:moment@2.14.1');
 
-	api.use('tap:i18n@1.8.2');
+	api.use('tap:i18n@1.7.0');
 	api.use('aldeed:simple-schema@1.5.3');
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('momentjs:moment');
 	api.use('simple:json-routes@2.1.0');
 
-	api.use('steedos:i18n@0.0.2');
 	api.use('steedos:jstree')
 	api.use('steedos:base');
 	api.use('rubaxa:sortable');
-
+	api.use('tap:i18n', ['client', 'server']);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
