@@ -157,9 +157,8 @@ CFDataManager.handerContactModalValueLabel = function () {
 	if (values.length > 0) {
 
 		values.forEach(function (v) {
-			return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + '><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
+			return html = html + '\u000d\n<li data-value="' + v.id + '" data-name="' + v.name + '"><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
 		});
-
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
 		valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
@@ -235,7 +234,7 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 
 	if (values.length > 0) {
 		values.forEach(function (v) {
-			return html = html + '\u000d\n<li data-value=' + v.id + ' data-name=' + v.name + ' data-fullname= ' + v.fullname + '><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
+			return html = html + '\u000d\n<li data-value="' + v.id + '" data-name="' + v.name + '" data-fullname="' + v.fullname + '"><span>' + v.name + '</span><a href="#" class="js-remove value-label-remove" tabindex="-1" data-value="' + v.id + '">×</a></li>';
 		});
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
