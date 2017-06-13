@@ -1,7 +1,5 @@
 .steedos {
-
     .main-sidebar {
-
         .space-switcher {
             cursor: pointer;
             &.only-one-space{
@@ -54,8 +52,11 @@
                 color: #333;
             }
 
-            .switchSpace{
-                border-bottom: 1px solid rgba(0, 0, 0, .15);
+            .space-item-link{
+                .space-item-title{
+                    width: 82%;
+                    margin-left: 12px;
+                }
             }
         }
     }
@@ -80,6 +81,39 @@
                     line-height: 36px;
                     overflow: hidden;
                 }
+            }
+        }
+    }
+    #app_list_box{
+        .space-switcher {
+            margin-right: 30px;
+            .dropdown-menu.dropdown-space{
+                .space-item-link{
+                    .space-item-title{
+                        width: 88%;
+                        margin-left: 12px;
+                    }
+                }
+            }
+        }
+    }
+    .space-switcher {
+        .dropdown-toggle {
+            .pull-right-container{
+                .ion{
+                    font-size: 60%;
+                }
+                .caret{
+                }
+            }
+        }
+        .dropdown-menu.dropdown-space{
+            width: 100%;
+            .space-item-link{
+                height: 40px;
+            }
+            .switchSpace{
+                border-bottom: 1px solid rgba(0, 0, 0, .15);
             }
         }
     }

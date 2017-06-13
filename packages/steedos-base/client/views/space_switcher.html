@@ -9,9 +9,9 @@
       <ul class="nav dropdown-menu dropdown-space">
         {{#each spaces}}
           <li class="switchSpace">
-            <a>
-              <i class="fa fa-globe"></i>
-              <span data-original-title="{{name}}" data-toggle="tooltip" data-placement="bottom">{{name}}</span>
+            <a class="space-item-link">
+              <span class="pull-left"><i class="fa fa-globe"></i></span>
+              <span data-original-title="{{name}}" data-toggle="tooltip" data-placement="bottom" class="pull-left space-item-title text-overflow">{{name}}</span>
               <span class="pull-right-container"><span class="pull-right label bg-red">{{getBadge null _id}}</span></span>
             </a>
           </li>
