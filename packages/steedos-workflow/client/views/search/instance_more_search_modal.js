@@ -29,11 +29,37 @@ Template.instance_more_search_modal.helpers({
 		return "";
 	},
 
+	selected_search_state: function(state){
+		selectedState = Session.get("instance-search-state");
+		if (state == selectedState){
+			return "checked";
+		}else{
+			return "";
+		}
+	},
+
+	selected_search_name: function(){
+		return Session.get("instance-search-name");
+	},
+
+	selected_search_appliacnt_name: function(){
+		return Session.get("instance-search-appplicant-name");
+	},
+
+	selected_search_applicant_organization_name: function(){
+		return Session.get("instance-search-applicant-organization-name");
+	},
+
+	selected_submit_start_date:function(){
+		return Session.get("submit-date-start");
+	},
+
+	selected_submit_end_date:function(){
+		return Session.get("submit-date-end");
+	},
+
 	state_options: function() {
 		return [{
-			value: "",
-			name: ""
-		}, {
 			value: "pending",
 			name: TAPi18n.__("instance_search_state_options.pending")
 		}, {
@@ -72,8 +98,9 @@ Template.instance_more_search_modal.events({
 		// }
 
 		var and = [];
-		if ($('#instance_more_search_state').val()) {
-			selector.state = $('#instance_more_search_state').val();
+		if ($("input[name='instance_more_search_state']:checked").val()) {
+			selector.state = $("input[name='instance_more_search_state']:checked").val();
+			Session.set("instance-search-state",selector.state)
 		}
 
 		if ($('#instance_more_search_name').val()) {
@@ -85,6 +112,7 @@ Template.instance_more_search_modal.events({
 					}
 				});
 			})
+			Session.set("instance-search-name",$('#instance_more_search_name').val())
 		}
 
 		if (and.length > 0) {
@@ -95,16 +123,20 @@ Template.instance_more_search_modal.events({
 			selector.applicant_name = {
 				$regex: $('#instance_more_search_applicant_name').val()
 			};
+			Session.set("instance-search-appplicant-name",$('#instance_more_search_applicant_name').val())
 		}
 
 		if ($('#instance_more_search_applicant_organization_name').val()) {
 			selector.applicant_organization_name = {
 				$regex: $('#instance_more_search_applicant_organization_name').val()
 			};
+			Session.set("instance-search-applicant-organization-name",$('#instance_more_search_applicant_organization_name').val())
 		}
 
 		var submit_date_start = $('#instance_more_search_submit_date_start').val();
+		Session.set("submit-date-start",submit_date_start);
 		var submit_date_end = $('#instance_more_search_submit_date_end').val();
+		Session.set("submit-date-end",submit_date_end);
 		if (submit_date_start && submit_date_end) {
 			selector.submit_date = {
 				$gte: new Date(submit_date_start),

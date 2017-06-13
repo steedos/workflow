@@ -1,0 +1,19 @@
+<template name="steedosHeaderAccount">
+	<li class="dropdown user user-menu steedos-base">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			<!-- <img src="{{avatarURL avatar 29 25 14}}" class="user-image" alt="User Image"> -->
+			{{#if avatar}}
+				<img src="{{avatarURL avatar 29 25 14}}" class="user-image" alt="User Image">
+			{{else}}
+				<i class="ion ion-android-person account-default-avatar" aria-hidden="true"></i>
+			{{/if}}
+			<span class="hidden-xs">{{displayName}}</span>
+			<i class="fa fa-angle-down"></i>
+		</a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="/steedos/sign-out">{{_ "Sign out"}}</a>
+			</li>
+		</ul>
+	</li>
+</template>

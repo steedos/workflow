@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.16',
+	version: '0.0.17',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/platform/packages/steedos-theme'
 });
@@ -21,10 +21,6 @@ Package.onUse(function (api) {
 	api.use('tracker');
 
 	api.use('accounts-base');
-	api.use('steedos:useraccounts-bootstrap@1.14.2');
-	api.use('steedos:useraccounts-core@1.14.2');
-	api.use('steedos:useraccounts-flow-routing@1.14.2');
-	api.use('softwarerero:accounts-t9n@1.3.3');
 
 	api.use('matb33:collection-hooks@0.8.4');
 	api.use('flemay:less-autoprefixer@1.2.0');
@@ -45,7 +41,6 @@ Package.onUse(function (api) {
 
 	api.addFiles([
 		'lib/core.coffee',
-		'lib/accounts.coffee',
 		'lib/tap-i18n.coffee']);
 
 	api.addFiles('lib/models/apps.coffee');
@@ -61,9 +56,14 @@ Package.onUse(function (api) {
 		'client/layout/main.coffee',
 		'client/layout/layout.html',
 		'client/layout/layout.less',
+		'client/layout/header_logo.html',
+		'client/layout/header_logo.coffee',
 		'client/layout/header.html',
 		'client/layout/header.less',
-		'client/layout/sidebar.html'
+		'client/layout/sidebar.html',
+		'client/layout/steedosheader-account.html',
+		'client/layout/steedosheader-account.coffee',
+		'client/layout/steedosheader-account.less'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");

@@ -44,6 +44,10 @@ Package.onUse(function(api) {
 	api.use('steedos:base');
 	api.use('rubaxa:sortable');
 
+	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
+	api.addFiles(tapi18nFiles, ['client', 'server']);
+
+
 	api.addFiles('client/core.coffee');
 
 	api.addFiles('client/coreform/inputTypes/coreform-org-localdata/select-orgs.html', 'client');
