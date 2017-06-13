@@ -44,7 +44,8 @@ Meteor.methods
 							# （4）“特急”：在发送的同时，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如半日内仍未处理，系统每半个工作日提醒四次：办结时限不变；超过办结时限后仍然按照每半日四次提醒。
 							else if priority is "特急"
-								return
+								if Steedos.caculatePlusHalfWorkingDay(now) > remind_deadline # 超过了办结时限或者距离办结时限半日内
+									ap.remind_date = Steedos.caculatePlusHalfWorkingDay(now, true)
 
 				if not _.isEmpty(last_remind_users)
 					db.instances.update({_id: instance_id}, {$set: {'traces': ins.traces}})

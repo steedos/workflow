@@ -1944,9 +1944,15 @@ uuflowManager.setRemindInfo = (values, approve)->
 		if priority is "普通"
 			remind_date = Steedos.caculateWorkingTime(start_date, 3)
 		else if priority is "办文"
-			remind_date = Steedos.caculateWorkingTime(start_date, 1)
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else
+				remind_date = Steedos.caculateWorkingTime(start_date, 1)
 		else if priority is "紧急" or priority is "特急"
-			remind_date = Steedos.caculatePlusHalfWorkingDay start_date
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else 
+				remind_date = Steedos.caculatePlusHalfWorkingDay start_date
 			ins = db.instances.findOne(approve.instance)
 			if ins.state is 'draft'
 				flow = db.flows.findOne({_id: ins.flow}, {fields: {current_no: 1}})

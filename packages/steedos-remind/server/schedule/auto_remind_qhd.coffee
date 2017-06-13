@@ -36,7 +36,8 @@ Meteor.startup ->
 								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
-								name = if ins.name.length > 15 then ins.name.substr(0,12) + '...' else ins.name
+								ins_name = ins.name
+								name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 								params = {
 									instance_name: name
 								}
@@ -99,7 +100,7 @@ Meteor.startup ->
 										RecNum: user.mobile,
 										SignName: 'OA系统',
 										TemplateCode: 'SMS_67200967',
-										msg: TAPi18n.__('sms.remind.template', params, lang)
+										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline}, lang)
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
