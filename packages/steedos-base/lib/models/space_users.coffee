@@ -249,19 +249,31 @@ if (Meteor.isServer)
 				if repeatNumberUser
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 				else if Steedos.isPhoneEnabled()
-					paramString = JSON.stringify({
+					modifier_mobile_user = db.users.findOne({mobile: modifier.$set.mobile},{fields: {locale: 1}})
+					lang_modifier = 'en'
+					if modifier_mobile_user?.locale is 'zh-cn'
+						lang_modifier = 'zh-CN'
+					params = {
 						name: euser.name,
 						number: modifier.$set.mobile
-					})
-					# 发送手机短信
-					SMSQueue.send({
-						Format: 'JSON',
-						Action: 'SingleSendSms',
-						ParamString: paramString,
-						RecNum: doc.mobile,
-						SignName: 'OA系统',
-						TemplateCode: 'SMS_67660108'
-					})
+					}
+					paramString = JSON.stringify(params)
+
+					if doc.mobile
+						doc_user = db.users.findOne({_id: doc.user},{fields: {locale: 1}})
+						lang = 'en'
+						if doc_user?.locale is 'zh-cn'
+							lang = 'zh-CN'
+						# 发送手机短信
+						SMSQueue.send({
+							Format: 'JSON',
+							Action: 'SingleSendSms',
+							ParamString: paramString,
+							RecNum: doc.mobile,
+							SignName: 'OA系统',
+							TemplateCode: 'SMS_67660108',
+							msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
+						})
 
 					# 发送手机短信
 					SMSQueue.send({
@@ -270,7 +282,8 @@ if (Meteor.isServer)
 						ParamString: paramString,
 						RecNum: modifier.$set.mobile,
 						SignName: 'OA系统',
-						TemplateCode: 'SMS_67660108'
+						TemplateCode: 'SMS_67660108',
+						msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
 					})
 
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->

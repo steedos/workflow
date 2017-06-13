@@ -1,4 +1,4 @@
-SMSQueue.collection = new Mongo.Collection('_sms_queue');
+QcloudSMSQueue.collection = SMSQueue.collection;
 
 var _validateDocument = function(sms) {
 
@@ -12,7 +12,7 @@ var _validateDocument = function(sms) {
 
 };
 
-SMSQueue.send = function(options) {
+QcloudSMSQueue.send = function(options) {
 	var currentUser = Meteor.isClient && Meteor.userId && Meteor.userId() || Meteor.isServer && (options.createdBy || '<SERVER>') || null
 	var sms = _.extend({
 		createdAt: new Date(),
@@ -28,5 +28,5 @@ SMSQueue.send = function(options) {
 
 	_validateDocument(sms);
 
-	return SMSQueue.collection.insert(sms);
+	return QcloudSMSQueue.collection.insert(sms);
 };

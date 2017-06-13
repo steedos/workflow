@@ -140,6 +140,7 @@ tomwasd:history-polyfill
 steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
+steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize

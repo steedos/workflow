@@ -1,10 +1,14 @@
 Package.describe({
-	name: 'steedos:webhookqueue',
+	name: 'steedos:qcloud-smsqueue',
 	version: '0.0.1',
 	summary: '',
 	git: ''
 });
 
+Npm.depends({
+	"superagent": "3.5.2",
+	"sha256": "0.2.0"
+});
 
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
@@ -21,8 +25,6 @@ Package.onUse(function(api) {
 
 	api.use('mongo', 'server');
 
-
-	api.use('steedos:lib');
 	api.use('steedos:smsqueue');
 
 	// Common api
@@ -32,7 +34,7 @@ Package.onUse(function(api) {
 
 	// Common api
 	api.addFiles([
-		'lib/common/webhooks.js'
+		'lib/common/sms.js'
 	], ['server']);
 
 	// API's
@@ -41,7 +43,7 @@ Package.onUse(function(api) {
 	// STARTUP
 	api.addFiles('server/startup.coffee', 'server');
 
-	api.export('WebhookQueue', ['server']);
+	// api.export('QcloudSMSQueue', ['server']);
 
 });
 
