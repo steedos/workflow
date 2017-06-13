@@ -91,6 +91,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-typeahead/af-typeahead.coffee', 'client');
 
 	api.addFiles('routes/formula_space_users.coffee', 'server');
+	api.addFiles('routes/formula_organizations.coffee', 'server');
 
 	api.export('CFDataManager');
 });

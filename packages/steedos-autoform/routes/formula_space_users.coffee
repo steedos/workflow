@@ -3,14 +3,7 @@ Meteor.startup ->
 		userIds = req.body.userIds
 		spaceId = req.query.spaceId
 
-		query = {
-			user: {
-				$in: userIds
-			}
-		}
-
-		if spaceId
-			query.space = spaceId
+		spaceUsers = []
 
 		data = []
 
@@ -18,6 +11,15 @@ Meteor.startup ->
 
 			if not userIds instanceof Array
 				userIds = [userIds]
+
+			query = {
+				user: {
+					$in: userIds
+				}
+			}
+
+			if spaceId
+				query.space = spaceId
 
 			space_users = db.space_users.find(query).fetch();
 
@@ -62,11 +64,14 @@ Meteor.startup ->
 
 					selected.push u.user
 
+			userIds.forEach (uId)->
+				spaceUsers.push _.find(data, (su)-> return su.id == uId)
+
 
 		JsonRoutes.sendResult(res, {
 			code: 200,
 			data: {
-				'spaceUsers': data
+				'spaceUsers': spaceUsers
 			}
 		});
 

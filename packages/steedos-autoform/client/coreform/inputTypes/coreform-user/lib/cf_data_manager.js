@@ -442,10 +442,7 @@ CFDataManager.getFormulaOrganizations = function (orgIds) {
 		return;
 	var orgs = new Array();
 	if (orgIds instanceof Array) {
-		orgIds.forEach(function (orgId) {
-			orgs.push(CFDataManager.getFormulaOrganization(orgId));
-		});
-
+		return SteedosDataManager.getFormulaOrganizations(orgIds)
 	} else {
 		orgs = CFDataManager.getFormulaOrganization(orgIds);
 	}
@@ -454,16 +451,5 @@ CFDataManager.getFormulaOrganizations = function (orgIds) {
 }
 
 CFDataManager.getFormulaOrganization = function (orgId) {
-	var org = SteedosDataManager.organizationRemote.findOne({
-		_id: orgId
-	}, {
-		fields: {
-			_id: 1,
-			name: 1,
-			fullname: 1
-		}
-	});
-	org.id = org._id;
-	delete org._id;
-	return org;
+	return _.first(SteedosDataManager.getFormulaOrganizations([orgId]))
 }
