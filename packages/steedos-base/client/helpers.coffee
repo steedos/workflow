@@ -506,9 +506,6 @@ TemplateHelpers =
 			return true
 		return name == "normal"
 
-	getAppTitle: ->
-		return Session.get("document_title");
-
 _.extend Steedos, TemplateHelpers
 
 Template.registerHelpers TemplateHelpers
