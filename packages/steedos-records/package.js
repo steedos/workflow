@@ -55,7 +55,7 @@ Package.onUse(function(api) {
 
 	api.use('steedos:adminlte');
     api.use('steedos:base');
-    api.use('steedos:theme@0.0.11');
+    api.use('steedos:theme@0.0.13');
     api.use('steedos:workflow');
     api.use('simple:json-routes@2.1.0');
     api.use('steedos:records-i18n');
