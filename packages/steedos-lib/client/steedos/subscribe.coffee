@@ -68,7 +68,4 @@ Tracker.autorun (c)->
 	if distribute_optional_flows
 		Steedos.subsForwardRelated.subscribe("distribute_optional_flows", distribute_optional_flows);
 
-Tracker.autorun (c)->
-	if Session.get("document_title")
-		$(document).attr("title", Session.get("document_title"));
 
