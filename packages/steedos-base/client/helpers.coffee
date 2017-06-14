@@ -293,15 +293,17 @@ TemplateHelpers =
 			return;
 		badge = 0
 		if appId == "chat"
-			subscriptions = db.rocketchat_subscription.find().fetch()
-			_.each subscriptions, (s)->
-				badge = badge + s.unread
+			if db.rocketchat_subscription
+				subscriptions = db.rocketchat_subscription.find().fetch()
+				_.each subscriptions, (s)->
+					badge = badge + s.unread
 		else if appId == "cms"
 			# spaceId为空时统计所有space计数值，返回不计数
 			if spaceId
 				badge = 0
 			else
-				badge = db.cms_unreads.find({user: Meteor.userId()}).count()
+				if db.cms_unreads
+					badge = db.cms_unreads.find({user: Meteor.userId()}).count()
 		else
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
