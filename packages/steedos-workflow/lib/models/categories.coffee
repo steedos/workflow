@@ -16,6 +16,30 @@ db.categories._simpleSchema = new SimpleSchema
 			defaultValue: ->
 				return Session.get("spaceId");
 
+	created:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	created_by:
+		type: String
+		optional: true
+		autoform:
+			omit: true
+
+	modified:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	modified_by:
+		type: String
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.categories._simpleSchema.i18n("categories")
 
