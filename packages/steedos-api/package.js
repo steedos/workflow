@@ -50,7 +50,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/restivus/iron-router-error-to-response.js', 'server');
 	api.addFiles('lib/restivus/route.coffee', 'server');
 	api.addFiles('lib/restivus/restivus.coffee', 'server');
-	api.addFiles('routes/collection.coffee', 'server');
 
 	api.addFiles('lib/URI.js');
 
@@ -62,7 +61,6 @@ Package.onUse(function(api) {
 	api.addFiles('routes/setup.coffee', 'server');
 	api.addFiles('routes/s3.coffee', 'server');
 	api.addFiles('routes/push.coffee', 'server');
-	api.addFiles('routes/avatar.coffee', 'server');
 	api.addFiles('routes/sso.coffee', 'server');
 	api.addFiles('routes/aliyun_push.coffee', 'server');
 	api.addFiles('routes/import.coffee', 'server');

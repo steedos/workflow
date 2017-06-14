@@ -1,0 +1,120 @@
+.steedos {
+    .main-sidebar {
+        .space-switcher {
+            cursor: pointer;
+            &.only-one-space{
+                cursor: default;
+            }
+            
+            .space-name {
+                overflow: hidden;
+                display: block;
+                background: transparent;
+                font-size: 16px;
+                font-weight: bold;
+                color: #efefef;
+                width: 180px;
+                text-overflow: ellipsis;
+            }
+
+            .dropdown-toggle {
+                .pull-right-container{
+                    font-size: 18px;
+                    height: 15px;
+                    line-height: 15px;
+                    .ion{
+                        font-size: 60%;
+                    }
+                    .caret{
+                    }
+                }
+            }
+
+        }
+        .dropdown-toggle, .dropdown-toggle:focus {
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .dropdown-menu.dropdown-space {
+            overflow-y:scroll;
+            overflow-x:hidden;
+            margin-top: 5px;
+            width:200px;
+            max-height: 300px;
+            #switchSpace{
+                cursor: pointer;
+                color: black;
+            }
+
+            a{
+                cursor:pointer;
+                color: #333;
+            }
+
+            .space-item-link{
+                .space-item-title{
+                    width: 82%;
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+    .sidebar-menu > li .label, .sidebar-menu > li .badge {
+        margin-top: -2px;
+    }
+    .springboard-wrapper{
+        .space-switcher{
+            .dropdown-toggle{
+                .space-name{
+                    display: inline-block;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    max-width: 90%;
+                    height: 36px;
+                    line-height: 36px;
+                }
+                .pull-right-container{
+                    display: inline-block;
+                    height: 36px;
+                    line-height: 36px;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+    #app_list_box{
+        .space-switcher {
+            margin-right: 30px;
+            .dropdown-menu.dropdown-space{
+                .space-item-link{
+                    .space-item-title{
+                        width: 88%;
+                        margin-left: 12px;
+                    }
+                }
+            }
+        }
+    }
+    .space-switcher {
+        .dropdown-toggle {
+            .pull-right-container{
+                .ion{
+                    font-size: 60%;
+                }
+                .caret{
+                }
+            }
+        }
+        .dropdown-menu.dropdown-space{
+            width: 100%;
+            .space-item-link{
+                height: 40px;
+            }
+            .switchSpace{
+                border-bottom: 1px solid rgba(0, 0, 0, .15);
+            }
+        }
+    }
+}

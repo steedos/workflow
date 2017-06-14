@@ -141,6 +141,7 @@ tomwasd:history-polyfill
 steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
+steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
@@ -166,3 +167,7 @@ steedos:dashboard
 steedos:distribute-qhd
 
 steedos:tableau
+
+rubaxa:sortable
+steedos:autoform
+keepnox:perfect-scrollbar

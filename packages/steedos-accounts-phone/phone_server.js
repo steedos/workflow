@@ -347,7 +347,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = t("accounts_phone_too_often_retries",waitTimeInSec);
+            errMsg = t("accounts_phone_too_often_retries", waitTimeInSec);
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
@@ -357,7 +357,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
         nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
         if (nextRetryDate > curTime) {
             var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
-                errMsg = t("accounts_phone_too_many_retries",waitTimeInMin);
+                errMsg = t("accounts_phone_too_many_retries", waitTimeInMin);
             throw new Meteor.Error(403, errMsg);
         }
     }
@@ -387,7 +387,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     try {
         if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio) {
             SMS.send(options);
-        } else if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.aliyun) {
+        } else if (Meteor.settings && Meteor.settings.sms && (Meteor.settings.sms.aliyun || Meteor.settings.sms.qcloud)) {
+            var lang = "zh-CN";
             var params = {
                 code: verifyObject.code
             };
@@ -398,7 +399,8 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
                 ParamString: JSON.stringify(params),
                 RecNum: phone.substring(3),
                 SignName: 'OA系统',
-                TemplateCode: 'SMS_63370455'
+                TemplateCode: 'SMS_63370455',
+                msg: TAPi18n.__('sms.mobile_verification_code.template', params, lang)
             });
         }
 
@@ -543,7 +545,7 @@ Meteor.methods({
 
                 // Replace all valid login tokens with new ones (changing
                 // password should invalidate existing sessions).
-                if(newPassword){
+                if (newPassword) {
                     // 下面这句会造成注销登录状态，只在修改密码时调用即可
                     Accounts._clearAllLoginTokens(user._id);
                 }

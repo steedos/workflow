@@ -1,9 +1,3 @@
-Steedos.subsBootstrap = new SubsManager();
-Steedos.subsBootstrap.subscribe('userData')
-Steedos.subsBootstrap.subscribe('apps')
-Steedos.subsBootstrap.subscribe('my_spaces')
-Steedos.subsBootstrap.subscribe("steedos_keyvalues")
-
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
 		spaceId = Steedos.getSpaceId()

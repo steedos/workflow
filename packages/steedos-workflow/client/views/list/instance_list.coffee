@@ -225,6 +225,12 @@ Template.instance_list.events
 	'click #instance_search_tip_close_btn': (event, template) ->
 		Session.set("instance_more_search_selector", undefined)
 		Session.set("flowId", undefined)
+		Session.set("instance-search-state",undefined)
+		Session.set("instance-search-name",undefined)
+		Session.set("instance-search-appplicant-name",undefined)
+		Session.set("instance-search-applicant-organization-name",undefined)
+		Session.set("submit-date-start",undefined);
+		Session.set("submit-date-end",undefined);
 		#清空搜索框
 		$('#instance_search').val("").trigger('keyup')
 

@@ -33,10 +33,11 @@ Meteor.startup ->
 					_.each t.approves, (ap)->
 						if ap.is_finished isnt true and ap.deadline and ap.remind_date
 							if ap.remind_date < now
-								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1}})
+								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
-								name = if ins.name.length > 15 then ins.name.substr(0,12) + '...' else ins.name
+								ins_name = ins.name
+								name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 								params = {
 									instance_name: name
 								}
@@ -87,6 +88,10 @@ Meteor.startup ->
 
 								if user and user.mobile and (not remind_users.includes(user._id)) and (not skip_users.includes(user._id)) # 防止重复发送
 									remind_users.push(user._id)
+									#设置当前语言环境
+									lang = 'en'
+									if user.locale is 'zh-cn'
+										lang = 'zh-CN'
 									# 发送手机短信
 									SMSQueue.send({
 										Format: 'JSON',
@@ -94,7 +99,8 @@ Meteor.startup ->
 										ParamString: JSON.stringify(params),
 										RecNum: user.mobile,
 										SignName: 'OA系统',
-										TemplateCode: 'SMS_67200967'
+										TemplateCode: 'SMS_67200967',
+										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline}, lang)
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
