@@ -1,8 +1,8 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.20',
+	version: '0.0.21',
 	summary: 'Steedos libraries',
-	git: 'https://github.com/steedos/platform/packages/steedos-theme'
+	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
 
 Npm.depends({
@@ -58,6 +58,9 @@ Package.onUse(function (api) {
 		'client/layout/layout.less',
 		'client/layout/header_logo.html',
 		'client/layout/header_logo.coffee',
+		'client/layout/header_refresh.html',
+		'client/layout/header_refresh.coffee',
+		'client/layout/header_loading.html',
 		'client/layout/header.html',
 		'client/layout/header.less',
 		'client/layout/sidebar.html',
