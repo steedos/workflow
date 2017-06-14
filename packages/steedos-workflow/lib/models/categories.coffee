@@ -7,7 +7,14 @@ db.categories._simpleSchema = new SimpleSchema
 
 	sort_no:
 		type: Number,
-		optional: true
+		optional: true,
+
+	space:
+		type: String,
+		autoform:
+			type: "hidden",
+			defaultValue: ->
+				return Session.get("spaceId");
 
 if Meteor.isClient
 	db.categories._simpleSchema.i18n("categories")
