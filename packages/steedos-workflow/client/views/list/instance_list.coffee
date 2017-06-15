@@ -62,7 +62,7 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
-		_tableColumns()
+		Template.instance_list._tableColumns()
 
 		return query
 
@@ -111,12 +111,25 @@ Template.instance_list.helpers
 	filterFlowName: ->
 		return db.flows.findOne(Session.get("flowId"))?.name
 
-_tableColumns = ()->
+	getInstanceListTabular: ->
+		if Session.get("flowId")
+			return TabularTables.flowInstances.get() || TabularTables.instances
+		else
+			return TabularTables.instances
+
+Template.instance_list._tableColumns = ()->
 	show = false
 
 	winWidth = $(window).width()
 	if (winWidth > 766) and (winWidth < 1441 or !$("body").hasClass("three-columns"))
 		show = true
+
+	if show
+		$(".custom-column").hide();
+		$(".field-value").hide();
+	else
+		$(".custom-column").show();
+		$(".field-value").show();
 
 	table = $(".datatable-instances").DataTable();
 	thead = $("thead",$(".datatable-instances"))
@@ -124,6 +137,11 @@ _tableColumns = ()->
 	table.column(0).visible(!show)
 
 	table.column(2).visible(show)
+
+	columnCount = table.columns()[0]?.length || 0
+
+	console.log columnCount
+
 	if Session.get("flowId")
 		table.column(5).visible(false)
 	else
@@ -133,11 +151,19 @@ _tableColumns = ()->
 		table.column(4).visible(false)
 		table.column(6).visible(false)
 		table.column(7).visible(false)
+		if columnCount > 9
+			_.range(10, columnCount + 1).forEach (index)->
+				console.log "visible false #{index - 1}"
+				table.column(index - 1)?.visible(false)
 	else
 		table.column(3).visible(show)
 		table.column(4).visible(show)
 		table.column(6).visible(show)
 		table.column(7).visible(show)
+		if columnCount > 9
+			_.range(10, columnCount + 1).forEach (index)->
+				console.log "visible [#{show}] #{index - 1}"
+				table.column(index - 1)?.visible(show)
 
 
 	if show
@@ -153,7 +179,7 @@ Template.instance_list.onCreated ->
 		$(window).height());
 
 	$(window).resize ->
-		_tableColumns();
+		Template.instance_list._tableColumns();
 #		Session.set("tableColumns", tableColumns)
 
 		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
@@ -166,7 +192,7 @@ Template.instance_list.onRendered ->
 
 	self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
-	_tableColumns();
+	Template.instance_list._tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
