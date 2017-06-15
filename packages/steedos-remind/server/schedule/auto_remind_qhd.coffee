@@ -100,7 +100,7 @@ Meteor.startup ->
 										RecNum: user.mobile,
 										SignName: 'OA系统',
 										TemplateCode: 'SMS_67200967',
-										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, , open_app_url: Meteor.absoluteUrl()+'workflow.html'}, lang)
+										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+'workflow.html'}, lang)
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
