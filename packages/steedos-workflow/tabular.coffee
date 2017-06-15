@@ -15,6 +15,7 @@ instancesListTableTabular = (flowId)->
 
 		drawCallback: (settings)->
 			if !Steedos.isMobile() && !Steedos.isPad()
+				Meteor.setTimeout(Template.instance_list._tableColumns, 100)
 				$(".instance-list").scrollTop(0).ready ->
 					$(".instance-list").perfectScrollbar("update")
 		createdRow: (row, data, dataIndex) ->
