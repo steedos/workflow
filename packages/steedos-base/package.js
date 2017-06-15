@@ -72,7 +72,9 @@ Package.onUse(function (api) {
 		'client/views/app_list_box_modal.less',
 		'client/views/space_switcher.html',
 		'client/views/space_switcher.coffee',
-		'client/views/space_switcher.less'
+		'client/views/space_switcher.less',
+		'client/views/loading.html',
+		'client/views/loading.less'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");
