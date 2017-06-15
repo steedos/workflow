@@ -23,7 +23,7 @@ if Meteor.isClient
 
 	Steedos.applyAccountBgBodyValue = (accountBgBodyValue,isNeedToLocal)->
 		if Meteor.loggingIn() or !Steedos.userId()
-# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
+			# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
 			accountBgBodyValue = {}
 			accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
 			accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
@@ -44,7 +44,7 @@ if Meteor.isClient
 
 		if isNeedToLocal
 			if Meteor.loggingIn()
-# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
 				return
 			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
 			# 登录界面不设置localStorage，因为登录界面accountBgBodyValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
@@ -72,7 +72,7 @@ if Meteor.isClient
 
 	Steedos.applyAccountZoomValue = (accountZoomValue,isNeedToLocal)->
 		if Meteor.loggingIn() or !Steedos.userId()
-# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
+			# 如果是正在登录中或在登录界面，则取localStorage中设置，而不是直接应用空设置
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
@@ -82,7 +82,7 @@ if Meteor.isClient
 			$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
-# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
+				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
 				return
 			# 这里特意不在localStorage中存储Steedos.userId()，因为需要保证登录界面也应用localStorage中的设置
 			# 登录界面不设置localStorage，因为登录界面accountZoomValue肯定为空，设置的话，会造成无法保持登录界面也应用localStorage中的设置
@@ -132,18 +132,17 @@ if Meteor.isClient
 			Steedos.openWindow(Meteor.absoluteUrl("admin/open/by/iframe/" + app._id))
 
 		else if on_click
-# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
+			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
 			evalFunString = "(function(){#{on_click}})()"
 			try
 				eval(evalFunString)
 			catch e
-# just console the error when catch error
+				# just console the error when catch error
 				console.error "catch some error when eval the on_click script for app link:"
 				console.error "#{e.message}\r\n#{e.stack}"
 		else
 			authToken = {};
 			authToken["spaceId"] = Steedos.getSpaceId()
-			#			if Steedos.isMobile()
 			authToken["X-User-Id"] = Meteor.userId();
 			authToken["X-Auth-Token"] = Accounts._storedLoginToken();
 
@@ -159,17 +158,17 @@ if Meteor.isClient
 		space = db.spaces.findOne(spaceId)
 		remaining_months = space?.billing?.remaining_months
 		if space?.is_paid and remaining_months != undefined and remaining_months <= min_months
-# 提示用户余额不足
+			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
 
 	Steedos.getModalMaxHeight = (offset)->
 		reValue = $(window).height() - 180 - 25
 		unless Steedos.isiOS() or Steedos.isMobile()
-# ios及手机上不需要为zoom放大功能额外计算
+			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()
 			switch accountZoomValue.name
 				when 'large'
-# 测下来这里不需要额外减数
+					# 测下来这里不需要额外减数
 					reValue -= 0
 				when 'extra-large'
 					reValue -= 25
@@ -450,7 +449,7 @@ if Meteor.isServer
 			if next
 				j = 0
 			else
-# 加半个time_points
+				# 加半个time_points
 				j = len/2
 		else if date >= start_date and date < end_date
 			i = 0
@@ -479,7 +478,7 @@ if Meteor.isServer
 				j = max_index + len/2
 
 		if j > max_index
-# 隔天需判断节假日
+			# 隔天需判断节假日
 			caculated_date = Steedos.caculateWorkingTime date, 1
 			caculated_date.setHours time_points[j - max_index - 1].hour
 			caculated_date.setMinutes time_points[j - max_index - 1].minute
