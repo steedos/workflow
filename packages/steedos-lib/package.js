@@ -88,7 +88,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/steedos/css/adminlte.less', 'client');
 	api.addFiles('client/steedos/css/style.less', 'client');
-	api.addFiles('client/steedos/css/weui.css', 'client');
 
 	api.addFiles('client/steedos/views/animated.less', 'client');
 	api.addFiles('client/steedos/views/404.less', 'client');
@@ -106,9 +105,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
 
-	api.addFiles('client/steedos/views/layouts/header_refresh.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header_refresh.coffee', 'client');
-
 	api.addFiles('client/steedos/views/layouts/header_workflow_badge.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_workflow_badge.coffee', 'client');
 
@@ -117,8 +113,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/steedos/views/layouts/header_account.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_account.coffee', 'client');
-
-	api.addFiles('client/steedos/views/layouts/header_loading.html', 'client');
 
 	api.addFiles('client/steedos/views/layouts/header.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header.coffee', 'client');

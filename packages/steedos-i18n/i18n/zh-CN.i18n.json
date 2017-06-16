@@ -40,6 +40,7 @@
 	"password_invalid": "密码必须包含字母和数字，且不能少于8位",
 
 	"Steedos": "Steedos",
+	"Steedos Workflow": "审批王",
 	"Steedos Chat": "享聊",
 	"Steedos Drive": "云盘",
 	"Steedos Mail": "邮件",
@@ -47,6 +48,7 @@
 	"Steedos Contacts": "通讯录",
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
+	"Steedos CMS": "知识库",
 
 	"Apps": "应用",
 

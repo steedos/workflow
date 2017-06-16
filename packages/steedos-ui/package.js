@@ -32,8 +32,6 @@ Package.onUse(function(api) {
 
         api.addFiles('utils/_lesshat.import.less', 'client');
         api.addFiles('utils/_keyframes.import.less', 'client');
-        api.addFiles('views/loading.html', 'client');
-        api.addFiles('views/loading.less', 'client');
 });
 
 Package.onTest(function(api) {

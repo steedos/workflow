@@ -1,8 +1,9 @@
 Package.describe({
-    name: 'loaders-css',
+    name: 'steedos:loaders-css',
     version: '0.1.2',
     summary: 'loaders style',
-    git: ''
+	git: 'https://github.com/steedos/apps/tree/master/packages/loaders-css',
+	documentation: null
 });
 
 Npm.depends({

@@ -2,7 +2,7 @@
 	"sms": {
 		"remind": {
 			"code": "SMS_67200967",
-			"template": "催办通知：__instance_name__，办结时限：__deadline__。"
+			"template": "催办通知：__instance_name__，办结时限：__deadline__。申请单：__open_app_url__"
 		},
 		"notify_wenshu": {
 			"code": "SMS_61725087",
