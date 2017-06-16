@@ -123,6 +123,12 @@
       "smsqueue_interval": 1000,
       "accessKeyId": "xxx",
       "accessKeySecret": "xxx"
+    },
+    // 腾讯云短信服务
+    "qcloud": {
+      "smsqueue_interval": 1000,
+      "sdkappid": "xxx",
+      "appkey": "xxx"
     }
   },
   //日志相关

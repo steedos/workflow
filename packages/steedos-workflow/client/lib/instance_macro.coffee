@@ -20,8 +20,15 @@ InstanceMacro.run = (macro) ->
 
 	_context.now = new Date()
 
-	if InstanceMacro.check(macro)
+	try
 
-		macro = Form_formula.prependPrefixForFormula("_context", macro)
+		if InstanceMacro.check(macro)
 
-		return eval(macro)
+			macro = Form_formula.prependPrefixForFormula("_context", macro)
+
+			return eval(macro)
+	catch  e
+
+		console.log "InstanceMacro.run error." , e
+
+		return ;
