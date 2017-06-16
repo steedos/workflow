@@ -113,7 +113,11 @@ Template.instance_list.helpers
 
 	getInstanceListTabular: ->
 		if Session.get("flowId")
-			return TabularTables.flowInstances.get() || TabularTables.instances
+			key = "instanceFlow" + Session.get("flowId")
+			if TabularTables.flowInstances.get()?.name == key
+				return TabularTables.flowInstances.get()
+			else
+				TabularTables.instances
 		else
 			return TabularTables.instances
 

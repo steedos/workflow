@@ -53,8 +53,6 @@ instancesListTableTabular = (flowId)->
 #							value = ''
 #						valueTds = valueTds + "<td class='field-#{f.type} field-value'>#{value}</td>"
 #					row.innerHTML = row.innerHTML + valueTds
-
-				debugger;
 				if data._id == FlowRouter.current().params.instanceId
 					row.setAttribute("class", "selected")
 		columns: [
@@ -287,13 +285,16 @@ Tracker.autorun (c) ->
 #				titleTr.append("<th class='field-#{f.type} custom-column' aria-label='#{f.code}'>#{f.name || f.code}</th>")
 
 newInstancesListTabular = (flowId)->
-	key = "instanceFlow" + flowId
-	if Meteor.isClient
-		TabularTables.flowInstances.set(new Tabular.Table instancesListTableTabular(flowId))
-	else
-		new Tabular.Table instancesListTableTabular(flowId)
+	flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
+	fields = db.forms.findOne({_id: flow?.form})?.current?.fields
 
-	console.log "new TabularTables ", key
+	if fields?.filterProperty("is_list_display", true)?.length > 0
+		key = "instanceFlow" + flowId
+		if Meteor.isClient
+			TabularTables.flowInstances.set(new Tabular.Table instancesListTableTabular(flowId))
+		else
+			new Tabular.Table instancesListTableTabular(flowId)
+		console.log "new TabularTables ", key
 
 if Meteor.isServer
 	Meteor.methods
