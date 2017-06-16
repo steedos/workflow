@@ -157,7 +157,6 @@ Template.instance_list._tableColumns = ()->
 		table.column(7).visible(false)
 		if columnCount > 9
 			_.range(10, columnCount + 1).forEach (index)->
-				console.log "visible false #{index - 1}"
 				table.column(index - 1)?.visible(false)
 	else
 		table.column(3).visible(show)
@@ -166,7 +165,6 @@ Template.instance_list._tableColumns = ()->
 		table.column(7).visible(show)
 		if columnCount > 9
 			_.range(10, columnCount + 1).forEach (index)->
-				console.log "visible [#{show}] #{index - 1}"
 				table.column(index - 1)?.visible(show)
 
 
