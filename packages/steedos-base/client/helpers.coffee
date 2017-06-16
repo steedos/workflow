@@ -444,6 +444,30 @@ TemplateHelpers =
 		
 		false
 	
+	isExcelFile: (filename) ->
+		# 无文件类型时
+		if filename.split('.').length < 2
+			return false
+		# 获取文件类型
+		type = filename.split('.').pop().toLowerCase()
+		
+		if type == ('xlsx' || 'xls')
+			return true
+		
+		false
+
+	isTiffFile: (filename) ->
+		# 无文件类型时
+		if filename.split('.').length < 2
+			return false
+		# 获取文件类型
+		type = filename.split('.').pop().toLowerCase()
+		
+		if type == "tif"
+			return true
+		
+		false
+
 	isMac: ()->
 		os = navigator.platform
 		macs = ['Mac68K', 'MacPPC', 'Macintosh', 'MacIntel']
