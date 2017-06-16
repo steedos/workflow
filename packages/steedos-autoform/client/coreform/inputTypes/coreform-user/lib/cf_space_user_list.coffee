@@ -19,6 +19,12 @@ Template.cf_space_user_list.helpers
 				if is_within_user_organizations
 					orgs = db.organizations.find().fetch().getProperty("_id")
 					query.organizations = {$in: orgs};
+				else
+					if Session.get("spaceId")
+						spaceIds = [Session.get("spaceId")]
+					else
+						spaceIds = db.spaces.find().fetch().getProperty("_id")
+					query.space = {$in: spaceIds}
 		return query;
 
 
