@@ -13,7 +13,7 @@ Meteor.startup ->
 					return '<button type="button" class="btn btn-xs btn-default" id="distribute_edit_flow"><i class="fa fa-pencil"></i></button>'
 			}
 		]
-		extraFields: ["current", "distribute_optional_users"]
+		extraFields: ["current", "distribute_optional_users", "distribute_to_self"]
 		lengthChange: false
 		pageLength: 10
 		info: false

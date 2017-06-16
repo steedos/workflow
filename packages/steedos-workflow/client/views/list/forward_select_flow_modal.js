@@ -66,8 +66,12 @@ Template.forward_select_flow_modal.helpers({
 		return users_title;
 	},
 
-	is_distribute: function () {
+	is_distribute: function() {
 		return this.action_type == "distribute"
+	},
+
+	can_to_self: function() {
+		return Session.get('distribute_to_self');
 	}
 
 })
@@ -100,6 +104,10 @@ Template.forward_select_flow_modal.events({
 		} else if (action_type == 'distribute') {
 			var values = $("#forward_select_user")[0].dataset.values;
 			selectedUsers = values ? values.split(",") : [];
+			if ($("#instance_distribute_to_self")[0] && $("#instance_distribute_to_self")[0].checked) {
+				selectedUsers.push(Meteor.userId());
+				selectedUsers = _.uniq(selectedUsers);
+			}
 			related = $("#instance_related").prop("checked")
 		}
 
@@ -133,14 +141,6 @@ Template.forward_select_flow_modal.events({
 						forward_select_user.value = '';
 						forward_select_user.dataset.values = '';
 
-						var flow = db.flows.findOne({
-							_id: flow._id
-						}, {
-							fields: {
-								distribute_optional_users: 1
-							}
-						});
-
 						var users = flow.distribute_optional_users || [];
 						if (!_.isEmpty(users)) {
 							forward_select_user.dataset.userOptions = _.pluck(users, "id");
@@ -152,6 +152,13 @@ Template.forward_select_flow_modal.events({
 					}
 				}
 
+				// 是否可分发给自己
+				if (flow.distribute_to_self) {
+					Session.set('distribute_to_self', true);
+				} else {
+					Session.set('distribute_to_self', false);
+				}
+
 			},
 			action_type: template.data.action_type
 		});
@@ -160,7 +167,7 @@ Template.forward_select_flow_modal.events({
 })
 
 
-Template.forward_select_flow_modal.onRendered(function () {
+Template.forward_select_flow_modal.onRendered(function() {
 
 	instance = WorkflowManager.getInstance();
 

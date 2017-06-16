@@ -19,7 +19,8 @@ Meteor.publish 'flows', (spaceId)->
 			instance_template: 1,
 			events: 1,
 			space: 1,
-			distribute_optional_users: 1
+			distribute_optional_users: 1,
+			distribute_to_self: 1
 		}
 	})
 

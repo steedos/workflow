@@ -533,6 +533,6 @@
 	"flows_btn_export_title": "Export",
 	"flows_btn_copylink_title": "Copy Link",
 	"instance_distribute_related_instances_title": "Automatically create associated files",
-	"instance_next_step_users_placeholder": "Please select the approver"
-
+	"instance_next_step_users_placeholder": "Please select the approver",
+	"instance_distribute_to_self": "Also distributed to yourself"
 }
