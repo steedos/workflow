@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:theme',
-  version: '0.0.14',
+  version: '0.0.15',
   summary: 'Steedos Theme',
   git: 'https://github.com/steedos/apps/packages/steedos-theme'
 });
@@ -28,7 +28,8 @@ Package.onUse(function(api) {
     'client/sidebar.less',
     'client/sidebar-light.less',
     'client/zoom.less',
-    'client/sweetalert.less' 
+    'client/sweetalert.less',
+    'client/status.less'
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");
