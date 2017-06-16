@@ -548,5 +548,6 @@
 	"flows_btn_export_title": "导出",
 	"flows_btn_copylink_title": "复制链接",
 	"instance_distribute_related_instances_title": "自动创建关联文件",
-	"instance_next_step_users_placeholder": "请选择下一步处理人"
+	"instance_next_step_users_placeholder": "请选择下一步处理人",
+	"instance_distribute_to_self": "同时分发给自己"
 }

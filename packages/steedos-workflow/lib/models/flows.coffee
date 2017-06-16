@@ -167,6 +167,11 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	distribute_to_self:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
 
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
