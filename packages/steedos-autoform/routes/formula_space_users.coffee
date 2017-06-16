@@ -33,6 +33,14 @@ Meteor.startup ->
 
 					fu.name = u.name
 
+					fu.sort_no = u.sort_no
+
+					fu.mobile = u.mobile
+
+					fu.work_phone = u.work_phone
+
+					fu.position = u.position
+
 					u_org = db.organizations.findOne({_id: u.organization}, {fields: {name: 1, fullname: 1}})
 
 					u_orgs = db.organizations.find({_id: {$in: u.organizations}}, {fields: {name: 1, fullname: 1}}).fetch()
