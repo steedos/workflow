@@ -144,8 +144,6 @@ Template.instance_list._tableColumns = ()->
 
 	columnCount = table.columns()[0]?.length || 0
 
-	console.log columnCount
-
 	if Session.get("flowId")
 		table.column(5).visible(false)
 	else
