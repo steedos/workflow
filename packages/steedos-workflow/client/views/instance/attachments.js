@@ -19,7 +19,17 @@ Template.instance_attachments.onRendered(function() {
 		'metadata.main': true
 	}).count();
 
-	if (current_step.can_edit_main_attach == true || main_attach_count > 0) {
+	var distribute_main_attach_count = 0;
+
+	if (ins.distribute_from_instance) {
+		var distribute_main_attach_count = cfs.instances.find({
+			'metadata.instance': ins.distribute_from_instance,
+			'metadata.current': true,
+			'metadata.main': true
+		}).count();
+	}
+
+	if (current_step.can_edit_main_attach == true || main_attach_count > 0 || distribute_main_attach_count > 0) {
 		self.workflowMainAttachTitle.set(true);
 	} else {
 		self.workflowMainAttachTitle.set(false);
@@ -518,7 +528,7 @@ Template.ins_attach_version_modal.helpers({
 		if (!attachment)
 			return;
 		var type = attachment.original.type;
-		
+
 		if (type == "image/tiff")
 			return;
 		else
