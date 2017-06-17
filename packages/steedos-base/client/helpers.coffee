@@ -451,7 +451,7 @@ TemplateHelpers =
 		# 获取文件类型
 		type = filename.split('.').pop().toLowerCase()
 		
-		if type == ('xlsx' || 'xls')
+		if (type == 'xlsx') || (type == 'xls')
 			return true
 		
 		false
@@ -468,6 +468,30 @@ TemplateHelpers =
 		
 		false
 
+	isTextFile: (filename) ->
+		# 无文件类型时
+		if filename.split('.').length < 2
+			return false
+		# 获取文件类型
+		type = filename.split('.').pop().toLowerCase()
+		
+		if type == "txt"
+			return true
+		
+		false
+
+	isPPTFile: (filename) ->
+		# 无文件类型时
+		if filename.split('.').length < 2
+			return false
+		# 获取文件类型
+		type = filename.split('.').pop().toLowerCase()
+		
+		if (type == "ppt") || (type == "pptx")
+			return true
+		
+		false
+	
 	isMac: ()->
 		os = navigator.platform
 		macs = ['Mac68K', 'MacPPC', 'Macintosh', 'MacIntel']

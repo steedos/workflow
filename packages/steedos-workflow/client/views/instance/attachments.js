@@ -119,7 +119,7 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename)))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && NodeManager.isViewType(filename))
 			return true;
 	},
 
@@ -441,7 +441,7 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
-		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename)))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && NodeManager.isViewType(filename))
 			return true;
 	},
 
