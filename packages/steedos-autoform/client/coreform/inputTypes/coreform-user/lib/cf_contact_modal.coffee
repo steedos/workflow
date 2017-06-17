@@ -14,10 +14,13 @@ Template.cf_contact_modal.helpers
 
 	orgName: ()->
 		orgId = Session.get("cf_selectOrgId");
+
+		spaceId = Session.get("cf_space")
+
 		if orgId == '#'
-			org = SteedosDataManager.organizationRemote.findOne({is_company: true}, {fields: {name: 1}});
+			org = SteedosDataManager.organizationRemote.findOne({space: spaceId, is_company: true}, {fields: {name: 1}});
 		else
-			org = SteedosDataManager.organizationRemote.findOne({_id: orgId}, {fields: {name: 1}});
+			org = SteedosDataManager.organizationRemote.findOne({_id: orgId, space: spaceId}, {fields: {name: 1}});
 
 		return org?.name;
 

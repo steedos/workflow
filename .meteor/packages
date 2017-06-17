@@ -85,11 +85,12 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
+steedos:sso
 steedos:adminlte
 steedos:base
 steedos:slipjs
 steedos:jstree
-steedos:meteor-cookie-login
+# steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
 steedos:ui
@@ -173,3 +174,4 @@ steedos:autoform
 keepnox:perfect-scrollbar
 
 steedos:datatables-extensions
+chuangbo:cookie
