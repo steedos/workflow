@@ -15,6 +15,10 @@
 		"mobile_verification_code": {
 			"code": "SMS_63370455",
 			"template": "验证码：__code__"
+		},
+		"meeting_cc": {
+			"code": "SMS_71335682",
+			"template": "会议通知：__instance_name__，申请单：__open_app_url__"
 		}
 	}
 }

@@ -99,7 +99,11 @@ Meteor.methods({
             pushManager.send_message_to_specifyUser("current_user", userId);
         });
 
-
+        instance = db.instances.findOne(ins_id);
+        flow_id = instance.flow;
+        approve.cc_user_ids = cc_user_ids; // 记录下本次传阅的人员ID作为hook接口中的参数
+        // 如果已经配置webhook并已激活则触发
+        pushManager.triggerWebhook(flow_id, instance, approve)
         return true;
     },
 
