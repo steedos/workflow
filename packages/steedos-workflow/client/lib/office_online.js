@@ -52,7 +52,7 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 				// 获取华炎云安装路径
 				var homePath = process.cwd();
 				var cmd = "";
-				if (path.extname(filename) == '.pdf')
+				if (Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename))
 					cmd = 'start "" ' + '\"' + filePath + '\"';
 				else 
 					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
@@ -158,7 +158,7 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 				// 获取华炎云安装路径
 				var homePath = process.cwd();
 				var cmd = "";
-				if (path.extname(filename) == '.pdf')
+				if (Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename))
 					cmd = 'start "" ' + '\"' + filePath + '\"';
 				else 
 					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;

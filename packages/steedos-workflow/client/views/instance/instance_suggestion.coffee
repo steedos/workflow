@@ -77,7 +77,7 @@ Template.instance_suggestion.helpers
 		form_values = instance_form_values.values
 		users = InstanceManager.getNextUserOptions();
 		data = {
-			dataset: {},
+			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
 			name: 'nextStepUsers',
 			atts: {
 				name: 'nextStepUsers',

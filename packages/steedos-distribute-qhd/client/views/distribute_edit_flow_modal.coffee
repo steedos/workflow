@@ -46,6 +46,9 @@ Template.distribute_edit_flow_modal.helpers
 		})
 		return s
 
+	to_self: ->
+		return this.flow?.distribute_to_self
+
 Template.distribute_edit_flow_modal.events
 	'click #distribute_edit_flow_modal_ok': (event, template)->
 		selected_values = $("#distribute_edit_flow_select_users")[0].dataset.values
@@ -62,7 +65,7 @@ Template.distribute_edit_flow_modal.events
 			return
 
 		$("body").addClass("loading")
-		Meteor.call 'update_distribute_settings', flow_id, selected_users_id, step_flows, (err, result)->
+		Meteor.call 'update_distribute_settings', flow_id, selected_users_id, step_flows, $('#distribute_to_self')[0].checked, (err, result)->
 			$("body").removeClass("loading")
 			if err
 				toastr.error TAPi18n.__(err.reason)

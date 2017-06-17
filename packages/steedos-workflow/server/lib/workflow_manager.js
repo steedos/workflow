@@ -314,6 +314,14 @@ WorkflowManager.getFormulaUsers = function(spaceId, userIds) {
             userObject.hr = user.hr;
         }
 
+		userObject.sort_no = user.sort_no
+
+        userObject.mobile = user.mobile
+
+        userObject.work_phone = user.work_phone
+
+        userObject.position = user.position
+
         userObject["roles"] = user.roles ? user.roles.getProperty('name') : [];
         spaceUsers.push(userObject);
     })

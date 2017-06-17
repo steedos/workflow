@@ -28,6 +28,13 @@
                             <label for="forward_select_user" class="control-label">{{ selectuser_title ../action_type}}</label>
                             {{>afSelectUser user_context}}
                         </div>
+                        {{#if can_to_self}}
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="instance_distribute_to_self" >&nbsp;{{_ 'instance_distribute_to_self'}}</label>
+                                </div>
+                            </div>
+                        {{/if}}
                     {{/if}}
 
                     <div class="form-group">
