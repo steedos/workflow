@@ -1,9 +1,9 @@
 _eval = Npm.require('eval')
 
 Meteor.methods
-	instanceNumberBuilder: (name)->
+	instanceNumberBuilder: (spaceId, name)->
 
-		numberRules = db.instance_number_rules.findOne({name: name})
+		numberRules = db.instance_number_rules.findOne({space: spaceId, name: name})
 
 		if !numberRules
 			throw new  Meteor.Error('error!', "#{name}")

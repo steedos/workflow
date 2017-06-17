@@ -71,7 +71,7 @@ if Meteor.isServer
 		doc.created_by = userId;
 		doc.created = new Date();
 
-		rules = db.instance_number_rules.findOne({"name": doc.name})
+		rules = db.instance_number_rules.findOne({space: doc.space, "name": doc.name})
 
 		if rules
 			throw new Meteor.Error(400, "instance_number_rules_name_only");
