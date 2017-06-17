@@ -20,39 +20,6 @@ instancesListTableTabular = (flowId)->
 					$(".instance-list").perfectScrollbar("update")
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
-#				if Session.get("flowId")
-#					console.log "data", data
-#
-#					valueTds = "";
-#
-#					values = data.values || {}
-#
-#					TabularTables.instances.fields?.forEach (f)->
-#						value = values[f.code]
-#
-#						switch f.type
-#							when 'user'
-#								value = value?.name
-#							when 'group'
-#								value = value?.fullname
-#							when 'date'
-#								if value
-#									value = moment(value).format('YYYY-MM-DD')
-#							when 'dateTime'
-#								if value
-#									value = moment(value).format('YYYY-MM-DD HH:mm')
-#							when 'table'
-#								value = ''
-#							when 'checkbox'
-#								if value == true || value == 'true'
-#									value = TAPi18n.__("form_field_checkbox_yes");
-#								else
-#									value = TAPi18n.__("form_field_checkbox_no");
-#
-#						if !value
-#							value = ''
-#						valueTds = valueTds + "<td class='field-#{f.type} field-value'>#{value}</td>"
-#					row.innerHTML = row.innerHTML + valueTds
 				if data._id == FlowRouter.current().params.instanceId
 					row.setAttribute("class", "selected")
 		columns: [
@@ -186,12 +153,7 @@ instancesListTableTabular = (flowId)->
 			{
 				data: "modified",
 				visible: false
-			},
-#			{
-#				data: "modified",
-#				visible: true,
-#				tmpl: Meteor.isClient && Template.instance_values
-#			}
+			}
 		],
 		dom: "tp",
 		order: [[8, "desc"]],
@@ -276,13 +238,6 @@ Tracker.autorun (c) ->
 			Meteor.call "newInstancesListTabular", Session.get("flowId"), (error, result) ->
 				newInstancesListTabular Session.get("flowId")
 
-
-#			flow = db.flows.findOne({_id: Session.get("flowId")}, {fields: {form: 1}})
-#			TabularTables.instances.fields = db.forms.findOne({_id: flow?.form})?.current?.fields
-#			titleTr = $(".datatable-instances thead tr")
-#			$(".datatable-instances thead tr .custom-column").remove()
-#			TabularTables.instances.fields?.forEach (f)->
-#				titleTr.append("<th class='field-#{f.type} custom-column' aria-label='#{f.code}'>#{f.name || f.code}</th>")
 
 newInstancesListTabular = (flowId)->
 	flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
