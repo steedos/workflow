@@ -129,7 +129,7 @@ Meteor.methods({
 		var form = db.forms.findOne(form_id);
 		var name_forumla = form.current.name_forumla;
 		if (name_forumla) {
-			var iscript = name_forumla.replace("{", "values['").replace("}", "']");
+			var iscript = name_forumla.replace(/\{/g, "values['").replace(/\}/g, "']");
 			var rev = eval(iscript);
 			setObj.name = rev || flow.name;
 		}
