@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:sso',
-	version: '0.0.2',
+	version: '0.0.3',
 	summary: 'Login to meteor apps with parameter or cookies',
 	git: '',
 	documentation: null

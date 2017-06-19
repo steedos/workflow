@@ -2,59 +2,47 @@
 	<div class="instance-sign">
 		<div class="instance-sign-content">
 			{{#each (steps field_formula step only_cc_opinion image_sign)}}
-				{{#if show stepName}}
-					{{#each trace stepName only_cc_opinion image_sign}}
-						{{#if isOpinionOfField this}}
-							{{#if is_finished}}
-								{{#if (include judge "approved,rejected,submitted,readed") }}
-									<div class="instance-sign-item">
-									{{#if (unempty description)}}{{{markDownToHtml
-											description}}}{{else}}{{{markDownToHtml defaultDescription}}}{{/if}}
-									{{#if (showSignImage handler ../image_sign)}}
-										&emsp;&emsp;{{> imageSign (imageSignData handler)}}
-									{{else}}
-										&emsp;&emsp;{{handler_name}}
-									{{/if}}
-									{{formatDate finish_date format}}</div>
-								{{/if}}
-							{{else}}
-								{{#if isMyApprove}}
-									{{#if (unempty (myApproveDescription _id))}}
-										<div class="instance-sign-item">
-										{{{markDownToHtml (myApproveDescription _id)}}}
-										{{#if (showSignImage handler ../image_sign)}}
-											&emsp;&emsp;{{> imageSign (imageSignData handler)}}
-										{{else}}
-											&emsp;&emsp;{{handler_name}}
-										{{/if}}
-										{{formatDate now format}}</div>
-									{{/if}}
-								{{/if}}
-							{{/if}}
-						{{/if}}
-					{{/each}}
-				{{else}}
-					{{#each (trace stepName only_cc_opinion image_sign)}}
-						{{#if isOpinionOfField this}}
-							{{#if is_finished}}
-								{{#if (include judge "approved,rejected,submitted,readed") }}
-									<div class="instance-sign-item">
+				{{#each trace stepName only_cc_opinion image_sign}}
+					{{#if isOpinionOfField this}}
+						{{#if is_finished}}
+							{{#if (include judge "approved,rejected,submitted,readed") }}
+
+								{{#if (showSignImage handler ../image_sign)}}
 									{{#if (unempty description)}}
-										{{{markDownToHtml description}}}
-									{{else}}
-										{{{markDownToHtml defaultDescription}}}
+										<div class="instance-sign-item">
+											{{{markDownToHtml description}}}
+											&emsp;&emsp;{{> imageSign (imageSignData handler)}}
+											{{formatDate finish_date format}}
+										</div>
 									{{/if}}
+								{{else}}
+									<div class="instance-sign-item">
+										{{#if (unempty description)}}
+											{{{markDownToHtml description}}}
+										{{else}}
+											{{{markDownToHtml defaultDescription}}}
+										{{/if}}
+										&emsp;&emsp;{{handler_name}}
+										{{formatDate finish_date format}}
+									</div>
+								{{/if}}
+							{{/if}}
+						{{else}}
+							{{#if isMyApprove}}
+								{{#if (unempty (myApproveDescription _id))}}
+									<div class="instance-sign-item">
+									{{{markDownToHtml (myApproveDescription _id)}}}
 									{{#if (showSignImage handler ../image_sign)}}
 										&emsp;&emsp;{{> imageSign (imageSignData handler)}}
 									{{else}}
 										&emsp;&emsp;{{handler_name}}
 									{{/if}}
-									{{formatDate finish_date format}}</div>
+									{{formatDate now format}}</div>
 								{{/if}}
 							{{/if}}
 						{{/if}}
-					{{/each}}
-				{{/if}}
+					{{/if}}
+				{{/each}}
 			{{/each}}
 		</div>
 		{{#each (steps field_formula step only_cc_opinion image_sign)}}

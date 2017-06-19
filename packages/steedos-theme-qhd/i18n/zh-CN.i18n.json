@@ -17,5 +17,8 @@
 	"tabbar_cms": "集团信息",
 	"Steedos CMS": "集团信息",
 
-	"instances_submit_date": "拟稿时间"
+	"instances_submit_date": "拟稿时间",
+	"instances_applicant_name": "拟稿人",
+	"instance_search_applicant_name": "拟稿人姓名",
+	"instance_search_applicant_organization_name": "拟稿人所属部门名称"
 }

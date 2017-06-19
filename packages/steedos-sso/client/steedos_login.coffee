@@ -39,16 +39,17 @@ _params_login = (userId, authToken, onSuccess)->
 
 
 SteedosSSO.login = (context)->
+
 	onSuccess = ()->
 		console.log "login success. user is", Meteor.user()
-		console.log context
 		FlowRouter.go context.path
 
 	userId = context.queryParams?["X-User-Id"]
 
 	authToken = context.queryParams?["X-Auth-Token"]
 
-	if userId && authToken
-		_params_login userId, authToken, onSuccess
-	else
-		_cookies_login onSuccess
+	if context.path !='/steedos/sign-in'
+		if userId && authToken
+			_params_login userId, authToken, onSuccess
+		else
+			_cookies_login onSuccess
