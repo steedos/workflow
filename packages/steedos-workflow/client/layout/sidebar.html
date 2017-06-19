@@ -50,8 +50,16 @@
 				<li class="outbox {{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i
 						class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
 
-				<!-- <li class="header">{{_ "My Applications"}}</li> -->
+				{{#if isShowMonitorBox}}
+				<li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i
+						class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
+				{{/if}}
 
+				<li class="header header-my-instances">
+					{{_ "my_instances"}}
+				</li>
+
+				<!-- <li class="header">{{_ "My Applications"}}</li> -->
 				<li class="draft {{boxActive 'draft'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">		<i class="ion ion-compose"></i><span>{{_ "draft"}}</span>
 						<span class="pull-right-container">
@@ -66,10 +74,6 @@
 				<li class="completed {{boxActive 'completed'}}"><a
 						href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i
 						class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
-				{{#if isShowMonitorBox}}
-				<li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i
-						class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
-				{{/if}}
 			</ul>
 		</div>
 	</aside>
