@@ -80,6 +80,7 @@ Template.instancePrint.events
 			$(".instance_attachments").hide()
 
 	"click #instance_to_print": (event, template) ->
+		$(".toast").hide()
 		if $(".box-body", $(".instance-traces")).is(":hidden")
 			$(".instance-traces").addClass("no-print")
 		else
@@ -103,6 +104,5 @@ Template.instancePrint.onRendered ->
 	$("#tracesCollapse")?.click()
 
 	Form_formula.runFormScripts("instanceform", "onload");
-
 	# if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 	# 	toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
