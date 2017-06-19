@@ -160,14 +160,15 @@ if (Meteor.isServer) {
 	};
 
 	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
-		var instance = Template.instance().view.template.steedosData.instance;
+		var steedosData = Template.instance().view.template.steedosData
+		var instance = steedosData.instance;
 		var attachments = cfs.instances.find({
 			'metadata.instance': instance._id,
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
 			}
-		}).fetch();
+			, $or: [{'metadata.private': {$ne: true}},{'metadata.private': true, "metadata.owner": steedosData.sessionUserId}]}).fetch();
 
 		return attachments;
 	};
