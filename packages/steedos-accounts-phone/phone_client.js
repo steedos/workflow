@@ -136,7 +136,8 @@ Accounts.createUserWithPhone = function (options, callback) {
 Accounts.requestPhoneVerification = function (phone, callback) {
     if (!phone)
         throw new Error("Must pass phone");
-    Accounts.connection.call("requestPhoneVerification", phone, callback);
+    locale = Steedos.locale();
+    Accounts.connection.call("requestPhoneVerification", phone, locale, callback);
 };
 
 // Verify phone number -

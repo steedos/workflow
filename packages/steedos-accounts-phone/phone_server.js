@@ -414,8 +414,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
 // Send SMS with code to user.
 Meteor.methods({
-    requestPhoneVerification: function(phone) {
-        var locale = Steedos.locale(userId, true);
+    requestPhoneVerification: function(phone, locale) {
         if (phone) {
             check(phone, String);
             // Change phone format to international SMS format
