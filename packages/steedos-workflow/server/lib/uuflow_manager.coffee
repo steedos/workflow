@@ -1958,7 +1958,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 				flow = db.flows.findOne({_id: ins.flow}, {fields: {current_no: 1}})
 				ins.code = flow.current_no + 1 + ''
 			ins.values = values
-			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user]
+			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
@@ -1967,10 +1967,12 @@ uuflowManager.setRemindInfo = (values, approve)->
 	return
 
 # 发送催办短信
-uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
+uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 	check ins_name, String
 	check deadline, Date
 	check users_id, Array
+	check space_id, String
+	check ins_id, String
 
 	skip_users = Meteor.settings.remind?.skip_users || []
 	send_users = []
@@ -1998,5 +2000,5 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 			RecNum: user.mobile,
 			SignName: 'OA系统',
 			TemplateCode: 'SMS_67200967',
-			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+'workflow.html'}, lang)
+			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})

@@ -9,7 +9,7 @@ Meteor.methods
 
 		current_user_id = this.userId
 		last_remind_users = new Array
-		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1, traces: 1, values: 1}})
+		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1, traces: 1, values: 1, space: 1}})
 		if action_types.includes('admin')
 			if remind_count is 'single'
 				_.each ins.traces, (t)->
@@ -63,6 +63,6 @@ Meteor.methods
 					if remind_users.includes(ap.user) and ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is current_user_id
 						last_remind_users.push ap.user
 
-		uuflowManager.sendRemindSMS ins.name, remind_deadline, last_remind_users
+		uuflowManager.sendRemindSMS ins.name, remind_deadline, last_remind_users, ins.space, ins._id
 
 		return true

@@ -18,6 +18,8 @@ JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 		name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 
 		current_trace = _.last(instance.traces)
+		ins_id = instance._id
+		space_id = instance.space
 
 		trace_name = current_trace.name
 
@@ -45,7 +47,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 								RecNum: user.mobile,
 								SignName: 'OA系统',
 								TemplateCode: 'SMS_67200967',
-								msg: TAPi18n.__('sms.meeting_cc.template', {instance_name: ins_name, open_app_url: Meteor.absoluteUrl()+'workflow.html'}, lang)
+								msg: TAPi18n.__('sms.meeting_cc.template', {instance_name: ins_name, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 							})
 
 		JsonRoutes.sendResult res,
