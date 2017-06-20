@@ -66,6 +66,9 @@ getFileHistoryName = (fileName, historyName, stuff) ->
 
 	return fName
 
+_minxiAttachmentInfo = (formData, instance, attach) ->
+	user = db.users.findOne({_id: attach.metadata.owner})
+	formData.attachInfo.push {instance: instance._id, attach_name: encodeURI(attach.name()), owner: attach.metadata.owner, owner_username: encodeURI(user.username || user.steedos_id), is_private: attach.metadata.is_private || false}
 
 _minxiInstanceData = (formData, instance) ->
 	if !formData || !instance
@@ -103,6 +106,8 @@ _minxiInstanceData = (formData, instance) ->
 
 	formData.attach = new Array()
 
+	formData.attachInfo = new Array();
+
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
@@ -116,6 +121,8 @@ _minxiInstanceData = (formData, instance) ->
 	mainFile.forEach (f) ->
 		try
 			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+
+			_minxiAttachmentInfo formData, instance, f
 		catch e
 			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
@@ -132,6 +139,7 @@ _minxiInstanceData = (formData, instance) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
 			try
 				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+				_minxiAttachmentInfo formData, instance, f
 			catch e
 				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
@@ -145,6 +153,7 @@ _minxiInstanceData = (formData, instance) ->
 	nonMainFile.forEach (f)->
 		try
 			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+			_minxiAttachmentInfo formData, instance, f
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
@@ -161,6 +170,7 @@ _minxiInstanceData = (formData, instance) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
 			try
 				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+				_minxiAttachmentInfo formData, instance, f
 			catch e
 				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
@@ -174,6 +184,8 @@ _minxiInstanceData = (formData, instance) ->
 		formData.attach.push request(attachInfoUrl)
 	catch e
 		logger.error "原文下载失败：#{f._id},#{f.name()}. error: " + e
+
+	formData.attachInfo = JSON.stringify(formData.attachInfo)
 
 	return formData;
 
