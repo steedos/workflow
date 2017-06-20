@@ -168,7 +168,7 @@ if (Meteor.isServer) {
 			'metadata.main': {
 				$ne: true
 			}
-			, $or: [{'metadata.private': {$ne: true}},{'metadata.private': true, "metadata.owner": steedosData.sessionUserId}]}).fetch();
+			, $or: [{'metadata.is_private': {$ne: true}},{'metadata.is_private': true, "metadata.owner": steedosData.userId}]}).fetch();
 
 		return attachments;
 	};
