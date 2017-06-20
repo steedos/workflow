@@ -26,7 +26,7 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1}}).forEach (ins)->
+			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
@@ -100,7 +100,7 @@ Meteor.startup ->
 										RecNum: user.mobile,
 										SignName: 'OA系统',
 										TemplateCode: 'SMS_67200967',
-										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+'workflow.html'}, lang)
+										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})

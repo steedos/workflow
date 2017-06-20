@@ -2,7 +2,7 @@
 
 var AccountGlobalConfigs = {
     verificationRetriesWaitTime: 10 * 60 * 1000,
-    verificationWaitTime: 20 * 1000,
+    verificationWaitTime: 30 * 1000,
     verificationCodeLength: 4,
     verificationMaxRetries: 2,
     forbidClientAccountCreation: false,
@@ -331,6 +331,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     if (!phone)
         throw new Meteor.Error(403, "No such phone for user.");
 
+    var locale = Steedos.locale(userId, true);
     // If sent more than max retry wait
     var waitTimeBetweenRetries = Accounts._options.verificationWaitTime;
     var maxRetryCounts = Accounts._options.verificationMaxRetries;
@@ -347,20 +348,20 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = t("accounts_phone_too_often_retries", waitTimeInSec);
+            errMsg = TAPi18n.__('accounts_phone_too_often_retries',{s:waitTimeInSec}, locale);
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
-    if (verifyObject.numOfRetries > maxRetryCounts) {
-        // Check if passed enough time since last retry
-        var waitTimeBetweenMaxRetries = Accounts._options.verificationRetriesWaitTime;
-        nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
-        if (nextRetryDate > curTime) {
-            var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
-                errMsg = t("accounts_phone_too_many_retries", waitTimeInMin);
-            throw new Meteor.Error(403, errMsg);
-        }
-    }
+    // if (verifyObject.numOfRetries > maxRetryCounts) {
+    //     // Check if passed enough time since last retry
+    //     var waitTimeBetweenMaxRetries = Accounts._options.verificationRetriesWaitTime;
+    //     nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
+    //     if (nextRetryDate > curTime) {
+    //         var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
+    //             errMsg = TAPi18n.__('accounts_phone_too_many_retries',{m:waitTimeInMin},locale);
+    //         throw new Meteor.Error(403, errMsg);
+    //     }
+    // }
     verifyObject.code = getRandomCode(Accounts._options.verificationCodeLength);
     verifyObject.phone = phone;
     verifyObject.lastRetry = curTime;
@@ -388,7 +389,6 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
         if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio) {
             SMS.send(options);
         } else if (Meteor.settings && Meteor.settings.sms && (Meteor.settings.sms.aliyun || Meteor.settings.sms.qcloud)) {
-            var lang = "zh-CN";
             var params = {
                 code: verifyObject.code
             };
@@ -400,20 +400,22 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
                 RecNum: phone.substring(3),
                 SignName: 'OA系统',
                 TemplateCode: 'SMS_63370455',
-                msg: TAPi18n.__('sms.mobile_verification_code.template', params, lang)
+                msg: TAPi18n.__('sms.mobile_verification_code.template', params, locale)
             });
         }
 
 
     } catch (e) {
         console.error('SMS Failed, Something bad happened!', e);
-        throw new Meteor.Error(403, t("accounts_phone_sms_failed"));
+        var errMsg = TAPi18n.__('accounts_phone_sms_failed',{}, locale);
+        throw new Meteor.Error(403, errMsg);
     }
 };
 
 // Send SMS with code to user.
 Meteor.methods({
     requestPhoneVerification: function(phone) {
+        var locale = Steedos.locale(userId, true);
         if (phone) {
             check(phone, String);
             // Change phone format to international SMS format
@@ -440,7 +442,8 @@ Meteor.methods({
                 // Create new user with phone number
                 // userId = createUser({phone:phone});
                 // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-                throw new Meteor.Error(403, t("accounts_phone_user_not_found"));
+                var errMsg = TAPi18n.__('accounts_phone_user_not_found',{}, locale);
+                throw new Meteor.Error(403, errMsg);
             }
         }
         Accounts.sendPhoneVerificationCode(userId, phone);

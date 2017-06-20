@@ -24,4 +24,3 @@ _.extend Steedos,
 			unless $(".sidebar").hasClass("ps-container")
 				$(".sidebar").perfectScrollbar()
 				$(".sidebar-menu").css("width", "100%");
-

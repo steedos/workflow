@@ -250,6 +250,7 @@ _getTemplateData = (user, space, instance)->
 	steedosData.locale = locale
 	steedosData.utcOffset = user.utcOffset
 	steedosData.space = instance.space
+	steedosData.sessionUserId = user._id
 
 	return steedosData;
 
