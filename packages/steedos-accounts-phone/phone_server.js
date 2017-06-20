@@ -2,7 +2,7 @@
 
 var AccountGlobalConfigs = {
     verificationRetriesWaitTime: 10 * 60 * 1000,
-    verificationWaitTime: 20 * 1000,
+    verificationWaitTime: 30 * 1000,
     verificationCodeLength: 4,
     verificationMaxRetries: 2,
     forbidClientAccountCreation: false,
@@ -351,16 +351,16 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
-    if (verifyObject.numOfRetries > maxRetryCounts) {
-        // Check if passed enough time since last retry
-        var waitTimeBetweenMaxRetries = Accounts._options.verificationRetriesWaitTime;
-        nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
-        if (nextRetryDate > curTime) {
-            var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
-                errMsg = t("accounts_phone_too_many_retries", waitTimeInMin);
-            throw new Meteor.Error(403, errMsg);
-        }
-    }
+    // if (verifyObject.numOfRetries > maxRetryCounts) {
+    //     // Check if passed enough time since last retry
+    //     var waitTimeBetweenMaxRetries = Accounts._options.verificationRetriesWaitTime;
+    //     nextRetryDate = new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenMaxRetries);
+    //     if (nextRetryDate > curTime) {
+    //         var waitTimeInMin = Math.ceil(Math.abs((nextRetryDate - curTime) / 60000)),
+    //             errMsg = t("accounts_phone_too_many_retries", waitTimeInMin);
+    //         throw new Meteor.Error(403, errMsg);
+    //     }
+    // }
     verifyObject.code = getRandomCode(Accounts._options.verificationCodeLength);
     verifyObject.phone = phone;
     verifyObject.lastRetry = curTime;
