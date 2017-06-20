@@ -24,16 +24,3 @@ _.extend Steedos,
 			unless $(".sidebar").hasClass("ps-container")
 				$(".sidebar").perfectScrollbar()
 				$(".sidebar-menu").css("width", "100%");
-
-
-if Meteor.isServer
-	_.extend Steedos,
-		locale: (userId, isI18n)->
-			locale = db.users.findOne({_id:userId}).locale
-			if isI18n
-				if locale == "en-us"
-					locale = "en"
-				if locale == "zh-cn"
-					locale = "zh-CN"
-			return locale
-

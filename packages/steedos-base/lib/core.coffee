@@ -528,3 +528,12 @@ if Meteor.isServer
 					steedos_token = cipheredMsg.toString('base64')
 				
 			return steedos_token
+
+		locale: (userId, isI18n)->
+			locale = db.users.findOne({_id:userId}).locale
+			if isI18n
+				if locale == "en-us"
+					locale = "en"
+				if locale == "zh-cn"
+					locale = "zh-CN"
+			return locale
