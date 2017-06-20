@@ -547,10 +547,7 @@ Meteor.methods({
 
                 // Replace all valid login tokens with new ones (changing
                 // password should invalidate existing sessions).
-                if (newPassword) {
-                    // 下面这句会造成注销登录状态，只在修改密码时调用即可
-                    Accounts._clearAllLoginTokens(user._id);
-                }
+                // Accounts._clearAllLoginTokens(user._id);
 
                 return {
                     userId: user._id
