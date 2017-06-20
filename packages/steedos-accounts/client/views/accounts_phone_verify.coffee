@@ -37,7 +37,7 @@ Template.accounts_phone_verify.events
 						,5000
 					else
 						toastr.success t "accounts_phone_verify_suc"
-						FlowRouter.go "/admin"
+						FlowRouter.go "/"
 			else
 				$(document.body).removeClass('loading')
 				toastr.error t error.reason
