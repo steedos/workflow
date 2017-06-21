@@ -4,43 +4,41 @@
 			{{#each (steps field_formula step only_cc_opinion image_sign)}}
 				{{#each trace stepName only_cc_opinion image_sign}}
 					{{#if isOpinionOfField this}}
-						{{#if is_finished}}
-							{{#if (include judge "approved,rejected,submitted,readed") }}
 
+						{{#if isMyApprove}}
+							{{#if (unempty (myApproveDescription _id))}}
+								<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+								{{{markDownToHtml (myApproveDescription _id)}}}
 								{{#if (showSignImage handler ../image_sign)}}
-									{{#if (unempty description)}}
-										<div class="instance-sign-item">
-											{{{markDownToHtml description}}}
-											&emsp;&emsp;{{> imageSign (imageSignData handler)}}
-											{{formatDate finish_date format}}
-										</div>
-									{{/if}}
+									&emsp;&emsp;{{> imageSign (imageSignData handler)}}
 								{{else}}
-									<div class="instance-sign-item">
-										{{#if (unempty description)}}
-											{{{markDownToHtml description}}}
-										{{else}}
-											{{{markDownToHtml defaultDescription}}}
-										{{/if}}
-										&emsp;&emsp;{{handler_name}}
+									&emsp;&emsp;{{handler_name}}
+								{{/if}}
+								<!--{{formatDate now format}}-->
+								</div>
+							{{/if}}
+						{{else}}
+							{{#if (showSignImage handler ../image_sign)}}
+								{{#if (unempty description)}}
+									<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+										{{{markDownToHtml description}}}
+										&emsp;&emsp;{{> imageSign (imageSignData handler)}}
 										{{formatDate finish_date format}}
 									</div>
 								{{/if}}
-							{{/if}}
-						{{else}}
-							{{#if isMyApprove}}
-								{{#if (unempty (myApproveDescription _id))}}
-									<div class="instance-sign-item">
-									{{{markDownToHtml (myApproveDescription _id)}}}
-									{{#if (showSignImage handler ../image_sign)}}
-										&emsp;&emsp;{{> imageSign (imageSignData handler)}}
+							{{else}}
+								<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+									{{#if (unempty description)}}
+										{{{markDownToHtml description}}}
 									{{else}}
-										&emsp;&emsp;{{handler_name}}
+										{{{markDownToHtml defaultDescription}}}
 									{{/if}}
-									{{formatDate now format}}</div>
-								{{/if}}
+									&emsp;&emsp;{{handler_name}}
+									{{formatDate finish_date format}}
+								</div>
 							{{/if}}
 						{{/if}}
+
 					{{/if}}
 				{{/each}}
 			{{/each}}
