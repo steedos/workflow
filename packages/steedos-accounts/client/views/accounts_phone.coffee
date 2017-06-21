@@ -61,7 +61,11 @@ Template.accounts_phone.events
 			sweetAlert.close();
 
 	'click .btn-back': (event,template) ->
-		FlowRouter.go "/steedos/sign-in"
+		oldPath = FlowRouter.current().oldRoute?.path
+		if oldPath
+			FlowRouter.go oldPath
+		else
+			FlowRouter.go "/steedos/admin"
 
 
 
