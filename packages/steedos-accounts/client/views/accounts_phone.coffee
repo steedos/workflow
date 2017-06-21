@@ -12,7 +12,7 @@ Template.accounts_phone.helpers
 		else
 			return t "steedos_phone_title"
 	isBackButtonNeeded: ->
-		return !Meteor.userId()
+		return Steedos.isAndroidOrIOS() || !Meteor.userId()
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
 		
