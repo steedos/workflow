@@ -102,6 +102,22 @@ Steedos.Helpers =
 			return error:
 				reason: reason
 
+	handleOpenURL: (url)->
+		console.log("steedos received url: " + url)
+		search = url.split('?')[1]
+		if search
+			urlQuery = (name)->
+				reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
+				r = search.match(reg)
+				if r isnt null
+					return unescape(r[2])
+				return null
+			space_id = urlQuery('space_id')
+			ins_id = urlQuery('ins_id')
+			if space_id and ins_id
+				FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
+
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->
