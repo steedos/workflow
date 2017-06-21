@@ -79,7 +79,13 @@ if Meteor.isClient
 
 		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
 		if accountZoomValue.name && !Session.get("instancePrint")
-			$("body").addClass("zoom-#{accountZoomValue.name}")
+			if Steedos.isNode()
+				if accountZoomValue.size == "1"
+					# node-webkit中size为0才表示100%
+					accountZoomValue.size = 0
+				nw.Window.get().zoomLevel = Number.parseFloat(accountZoomValue.size)
+			else
+				$("body").addClass("zoom-#{accountZoomValue.name}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
 				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
