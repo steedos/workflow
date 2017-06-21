@@ -1946,6 +1946,15 @@ uuflowManager.setRemindInfo = (values, approve)->
 		else if priority is "办文"
 			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
 				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else if Steedos.caculateWorkingTime(start_date, 1) > deadline
+				caculate_date = (base_date)->
+					plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+					if plus_halfday_date > deadline
+						remind_date = base_date
+					else
+						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+					return
+				caculate_date(start_date)
 			else
 				remind_date = Steedos.caculateWorkingTime(start_date, 1)
 		else if priority is "紧急" or priority is "特急"
