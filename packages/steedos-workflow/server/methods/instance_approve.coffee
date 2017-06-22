@@ -45,7 +45,6 @@ Meteor.methods
 			return true
 
 	update_approve_sign_field_code: (instanceId, traceId, approveId, sign_field_code, description)->
-		console.log "description", description
 		check(instanceId, String)
 		check(traceId, String)
 		check(approveId, String)

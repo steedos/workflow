@@ -54,15 +54,15 @@ Template.instance_cc_modal.events
 		Steedos.openWindow t('cc_help')
 		return
 	'click #cc_modal_ok': (event, template) ->
-		val = AutoForm.getFieldValue('cc_users', 'instanceCCForm') || []
-#		if !val or val.length < 1
-#			toastr.error TAPi18n.__('instance_cc_error_users_required')
-#			return
-		opinion_fields_code = AutoForm.getFieldValue('opinion_fields', 'instanceCCForm')
-		if AutoForm.getFormSchema('instanceCCForm').schema('opinion_fields')
-			if !opinion_fields_code or opinion_fields_code.length < 1
-				toastr.error TAPi18n.__('instance_cc_error_opinion_field_required')
-				return
+		val = AutoForm.getFieldValue('cc_users', 'instanceCCForm')
+		if !val or val.length < 1
+			toastr.error TAPi18n.__('instance_cc_error_users_required')
+			return
+		opinion_fields_code = AutoForm.getFieldValue('opinion_fields', 'instanceCCForm')  || []
+#		if AutoForm.getFormSchema('instanceCCForm').schema('opinion_fields')
+#			if !opinion_fields_code or opinion_fields_code.length < 1
+#				toastr.error TAPi18n.__('instance_cc_error_opinion_field_required')
+#				return
 		$('#cc_modal_ok').attr 'disabled', true
 		$('#cc_modal_ok').html '<i class=\'ion ion-load-c fa-spin\'></i>'
 		#调用cc 接口。
