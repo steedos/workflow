@@ -43,3 +43,29 @@ Meteor.methods
 				$set: {"traces.$.approves": trace.approves}
 			})
 			return true
+
+	update_approve_sign_field_code: (instanceId, traceId, approveId, sign_field_code, description)->
+		console.log "description", description
+		check(instanceId, String)
+		check(traceId, String)
+		check(approveId, String)
+		check(sign_field_code, String)
+		check(description, String)
+
+		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
+
+		if instance?.traces?.length > 0
+			trace = instance.traces[0]
+
+			trace.approves.forEach (approve)->
+				if approve._id == approveId
+					approve.sign_field_code = sign_field_code
+					approve.description = description
+
+			db.instances.update({
+				_id: instanceId,
+				"traces._id": traceId
+			}, {
+				$set: {"traces.$.approves": trace.approves}
+			})
+			return true
