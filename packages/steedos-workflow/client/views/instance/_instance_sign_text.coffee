@@ -90,7 +90,7 @@ InstanceSignText.helpers =
 			if !approve?._id
 				approve = currentApprove
 
-			if approve._id == currentApprove._id && currentApprove?.type == 'cc' && Template.instance().data.name
+			if approve._id == currentApprove?._id && currentApprove?.type == 'cc' && Template.instance().data.name
 				if _.indexOf(currentApprove?.opinion_fields_code, Template.instance().data.name) > -1
 					return true
 				else

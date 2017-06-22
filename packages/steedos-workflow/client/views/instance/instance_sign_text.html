@@ -17,24 +17,30 @@
 								</div>
 							{{/if}}
 						{{else}}
-							{{#if (showSignImage handler ../image_sign)}}
-								{{#if (unempty description)}}
+							{{#if is_read}}
+								{{#if (showSignImage handler ../image_sign)}}
+									{{#if (unempty description)}}
+										<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+											{{{markDownToHtml description}}}
+											&emsp;&emsp;{{> imageSign (imageSignData handler)}}
+											{{formatDate finish_date format}}
+										</div>
+									{{/if}}
+								{{else}}
 									<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
-										{{{markDownToHtml description}}}
-										&emsp;&emsp;{{> imageSign (imageSignData handler)}}
-										{{formatDate finish_date format}}
+										{{#if (unempty description)}}
+											{{{markDownToHtml description}}}
+											&emsp;&emsp;{{handler_name}}
+											{{formatDate finish_date format}}
+										{{else}}
+											{{#if is_finished}}
+												{{{markDownToHtml defaultDescription}}}
+												&emsp;&emsp;{{handler_name}}
+												{{formatDate finish_date format}}
+											{{/if}}
+										{{/if}}
 									</div>
 								{{/if}}
-							{{else}}
-								<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
-									{{#if (unempty description)}}
-										{{{markDownToHtml description}}}
-									{{else}}
-										{{{markDownToHtml defaultDescription}}}
-									{{/if}}
-									&emsp;&emsp;{{handler_name}}
-									{{formatDate finish_date format}}
-								</div>
 							{{/if}}
 						{{/if}}
 
