@@ -117,6 +117,15 @@ Steedos.Helpers =
 			if space_id and ins_id
 				FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
+	notificationOpened: (extras)->
+		extra_obj = {}
+		extras.forEach (e)->
+			extra_obj[Object.keys(e)[0]] = Object.values(e)[0]
+		space_id = extra_obj.space
+		ins_id = extra_obj.instance
+		if space_id and ins_id
+			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
+
 
 _.extend Steedos, Steedos.Helpers
 

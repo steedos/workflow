@@ -64,6 +64,7 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 				console.log "huaweiTokens: #{huaweiTokens}"
 			msg = new HwPush.Message
 			msg.title(notification.title).content(notification.text)
+			msg.extras(notification.payload)
 			notification = new HwPush.Notification(
 				appId: Meteor.settings.push.huawei.appId
 				appSecret: Meteor.settings.push.huawei.appSecret
