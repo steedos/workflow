@@ -116,19 +116,13 @@ InstanceSignText.helpers =
 		return false
 
 	isOpinionOfField: (approve)->
-
-		if Template.instance().data.name == approve.sign_field_code
-			return true
+		if approve.type == "cc" && Template.instance().data.name
+			if Template.instance().data.name == approve.sign_field_code
+				return true
+			else
+				return false
 		else
-			return false
-
-#		if approve.type == "cc" && Template.instance().data.name
-#			if Template.instance().data.name == approve.sign_field_code
-#				return true
-#			else
-#				return false
-#		else
-#			return true;
+			return true;
 
 	markDownToHtml: (markDownString)->
 		if markDownString
