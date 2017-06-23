@@ -1,8 +1,19 @@
 Steedos.subsBootstrap = new SubsManager();
 Steedos.subsBootstrap.subscribe('userData')
-Steedos.subsBootstrap.subscribe('apps')
 Steedos.subsBootstrap.subscribe('my_spaces')
 Steedos.subsBootstrap.subscribe("steedos_keyvalues")
+
+Steedos.subsSpaceBase = new SubsManager();
+
+Tracker.autorun (c)->
+	spaceId = Session.get("spaceId")
+	
+	Steedos.subsSpaceBase.clear();
+	if spaceId
+		Steedos.subsSpaceBase.subscribe("apps", spaceId)
+		Steedos.subsSpaceBase.subscribe("my_space_user", spaceId)
+		Steedos.subsSpaceBase.subscribe("my_organizations", spaceId)
+
 
 # Meteor.startup之前就从localStorage读取并设置字体大小及背景图
 accountZoomValue = {}

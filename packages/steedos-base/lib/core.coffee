@@ -131,7 +131,7 @@ if Meteor.isClient
 						toastr.error error
 					return
 
-		else if app.internal
+		else if db.apps.isInternalApp(app.url)
 			FlowRouter.go(app.url)
 
 		else if app.is_use_iframe
