@@ -442,6 +442,7 @@ pushManager.send_message_by_raix_push = (data)->
 			payload = new Object
 			payload["space"] = data["data"]["space_id"]
 			payload["instance"] = data["data"]["instance_id"]
+			payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
 
 			notification["payload"] = payload
 
