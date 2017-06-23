@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.26',
+	version: '0.0.27',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -26,7 +26,7 @@ Package.onUse(function (api) {
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager@1.6.4');
-	api.use('dburles:collection-helpers');
+	api.use('dburles:collection-helpers@1.0.4');
 	api.use('peppelg:bootstrap-3-modal@1.0.4');
 
 	api.use('momentjs:moment@2.14.1');
@@ -38,7 +38,7 @@ Package.onUse(function (api) {
 	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:ionicons@0.1.7');
-	api.use('steedos:i18n@0.0.4');
+	api.use('steedos:i18n@0.0.5');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
