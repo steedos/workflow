@@ -79,7 +79,7 @@ Meteor.startup ->
             console.log("add addListener")
 
         Push.onNotification = (data) ->
-            if data.foreground is true
+            if data.additionalData.foreground is true
                 return
             box = 'inbox'# inbox、outbox、draft、pending、completed
             if data && data.payload
