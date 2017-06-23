@@ -35,6 +35,8 @@ Steedos.Helpers =
 			return "springboard"
 		else if /^\/?dashboard\b/.test(path)
 			return "dashboard"
+		else if /^\/?calendar\b/.test(path)
+			return "calendar"
 		else
 			return ""
 
