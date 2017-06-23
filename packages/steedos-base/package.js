@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.27',
+	version: '0.0.28',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -101,6 +101,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/models/modules_changelogs.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
+	api.addFiles('routes/sso.coffee', 'server');
 
 	api.addFiles('lib/ajax_collection.coffee', 'client');
 
