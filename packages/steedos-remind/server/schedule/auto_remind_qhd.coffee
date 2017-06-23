@@ -65,6 +65,15 @@ Meteor.startup ->
 									ap.reminded_count += 1
 									if Steedos.caculatePlusHalfWorkingDay(now) > deadline # 超过了办结时限或者距离办结时限半日内
 										ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
+									else if Steedos.caculateWorkingTime(now, 1) > deadline
+										caculate_date = (base_date)->
+											plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+											if plus_halfday_date > deadline
+												ap.remind_date = base_date
+											else
+												caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+											return
+										caculate_date(now)
 									else
 										ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
 									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)

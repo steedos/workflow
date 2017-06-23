@@ -5,7 +5,7 @@ Template.instance_cc_modal.helpers
 		currentApprove = InstanceManager.getCurrentApprove()
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
-				return InstanceformTemplate.helpers.isOpinionField(field) and field.code == currentApprove.opinion_field_code
+				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
 			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0
 		)
 		modalFields = cc_users:
@@ -17,10 +17,11 @@ Template.instance_cc_modal.helpers
 			type: [ String ]
 			label: TAPi18n.__('instance_cc_user')
 		if opinionFields.length > 0
-			modalFields.opinion_field =
-				autoform: type: 'select'
-				type: String
+			modalFields.opinion_fields =
+				autoform: type: 'coreform-multiSelect'
+				type: [String]
 				label: TAPi18n.__('instance_opinion_field')
+				optional: true
 			options = new Array
 			opinionFields.forEach (field) ->
 				label = field.name || field.code
@@ -28,14 +29,17 @@ Template.instance_cc_modal.helpers
 					label: label
 					value: field.code
 				return
-			modalFields.opinion_field.autoform.options = options
+
+			modalFields.opinion_fields.autoform.defaultValue = options.getProperty("value") || []
+
+			modalFields.opinion_fields.autoform.options = options
 			if options.length == 1
-				modalFields.opinion_field.autoform.defaultValue = options[0].value
+				modalFields.opinion_fields.autoform.defaultValue = options[0].value
 		new SimpleSchema(modalFields)
 	values: ->
 		{}
 	showOpinionFields: (fields) ->
-		if fields.schema('opinion_field')
+		if fields.schema('opinion_fields')
 			return true
 		false
 Template.instance_cc_modal.events
@@ -54,11 +58,11 @@ Template.instance_cc_modal.events
 		if !val or val.length < 1
 			toastr.error TAPi18n.__('instance_cc_error_users_required')
 			return
-		opinion_field_code = AutoForm.getFieldValue('opinion_field', 'instanceCCForm')
-		if AutoForm.getFormSchema('instanceCCForm').schema('opinion_field')
-			if !opinion_field_code or opinion_field_code.length < 1
-				toastr.error TAPi18n.__('instance_cc_error_opinion_field_required')
-				return
+		opinion_fields_code = AutoForm.getFieldValue('opinion_fields', 'instanceCCForm')  || []
+#		if AutoForm.getFormSchema('instanceCCForm').schema('opinion_fields')
+#			if !opinion_fields_code or opinion_fields_code.length < 1
+#				toastr.error TAPi18n.__('instance_cc_error_opinion_field_required')
+#				return
 		$('#cc_modal_ok').attr 'disabled', true
 		$('#cc_modal_ok').html '<i class=\'ion ion-load-c fa-spin\'></i>'
 		#调用cc 接口。
@@ -71,7 +75,7 @@ Template.instance_cc_modal.events
 			myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
 			if instance.attachments and myApprove
 				myApprove.attachments = instance.attachments
-		myApprove.opinion_field_code = opinion_field_code
+		myApprove.opinion_fields_code = opinion_fields_code
 		Meteor.call 'cc_do', myApprove, val, (error, result) ->
 			WorkflowManager.instanceModified.set false
 			if error

@@ -1044,7 +1044,7 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 		fd.append("owner", Meteor.userId());
 		fd.append("owner_name", Meteor.user().name);
 
-		fd.append("private", file.private || false)
+		fd.append("is_private", file.is_private || false)
 
 		if (isAddVersion) {
 			fd.append("isAddVersion", isAddVersion);

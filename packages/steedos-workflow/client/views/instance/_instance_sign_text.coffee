@@ -81,19 +81,25 @@ InstanceSignText.helpers =
 
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
-	isMyApprove: (only_cc_opinion) ->
+	isMyApprove: (approve, only_cc_opinion) ->
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
-			if InstanceManager.isCC(ins) && Template.instance().data.name
-				if Template.instance().data.name == InstanceManager.getCurrentApprove()?.opinion_field_code
+
+			currentApprove = InstanceManager.getCurrentApprove()
+
+			if !approve?._id
+				approve = currentApprove
+
+			if approve._id == currentApprove?._id && currentApprove?.type == 'cc' && Template.instance().data.name
+				if _.indexOf(currentApprove?.opinion_fields_code, Template.instance().data.name) > -1
 					return true
 				else
 					return false
 
-			if !InstanceManager.isCC(ins) && only_cc_opinion
+			if !(currentApprove?.type == 'cc') && only_cc_opinion
 				return false
 
-			if InstanceManager.getCurrentApprove()
+			if currentApprove && approve._id == currentApprove._id
 				return true
 		return false
 
@@ -111,7 +117,7 @@ InstanceSignText.helpers =
 
 	isOpinionOfField: (approve)->
 		if approve.type == "cc" && Template.instance().data.name
-			if Template.instance().data.name == approve.opinion_field_code
+			if Template.instance().data.name == approve.sign_field_code
 				return true
 			else
 				return false

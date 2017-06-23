@@ -12,7 +12,7 @@ Template.accounts_phone.helpers
 		else
 			return t "steedos_phone_title"
 	isBackButtonNeeded: ->
-		return !Meteor.userId()
+		return Steedos.isAndroidOrIOS() || !Meteor.userId()
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
 		
@@ -61,7 +61,11 @@ Template.accounts_phone.events
 			sweetAlert.close();
 
 	'click .btn-back': (event,template) ->
-		FlowRouter.go "/steedos/sign-in"
+		oldPath = FlowRouter.current().oldRoute?.path
+		if oldPath
+			FlowRouter.go oldPath
+		else
+			FlowRouter.go "/steedos/admin"
 
 
 

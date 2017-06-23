@@ -73,7 +73,8 @@ Meteor.methods({
                         // 'values' :  ???
                         'from_user': current_user_id,
                         'from_user_name': from_user_name,
-                        'opinion_field_code': approve.opinion_field_code,
+                        'opinion_fields_code': approve.opinion_fields_code,
+						'sign_field_code': (approve.opinion_fields_code && approve.opinion_fields_code.length == 1) ? approve.opinion_fields_code[0] : "",
                         'from_approve_id': approve_id
                     };
                     uuflowManager.setRemindInfo(instance.values, appr)

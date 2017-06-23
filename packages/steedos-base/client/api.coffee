@@ -5,6 +5,18 @@ _.extend Steedos,
 			target = "_blank"
 		unless options
 			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
+
+		if Steedos.isAndroidOrIOS()
+			if url.indexOf('X-User-Id') < 0 || url.indexOf('X-Auth-Token') < 0
+				authToken = {};
+				authToken["X-User-Id"] = Meteor.userId();
+				authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+				if url.indexOf("?") < 0
+					url = url + "?" + $.param(authToken)
+				else
+					url = url + "&" + $.param(authToken)
+
+
 		window.open(url, target, options);
 
 	# 左侧sidebar滚动条自适应

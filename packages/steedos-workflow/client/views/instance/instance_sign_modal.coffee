@@ -9,8 +9,15 @@ Template.instanceSignModal.events
 		Modal.show 'opinion_modal',{parentNode: $("#modal_suggestion")}
 
 	'click #instance_sign_modal_ok': (event, template)->
+
+		myApprove = InstanceManager.getCurrentApprove()
+
+		Meteor.call 'update_approve_sign_field_code', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val()
+
 		$("#suggestion").val($("#modal_suggestion").val()).trigger("input").focus();
+
 		Modal.allowMultiple = false
+
 		Modal.hide(template)
 
 	'click .instance-sign-opinion-btn': (event, template)->
