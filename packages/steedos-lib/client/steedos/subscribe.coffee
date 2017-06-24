@@ -1,10 +1,3 @@
-Tracker.autorun (c)->
-	if Steedos.subsBootstrap.ready("my_spaces")
-		spaceId = Steedos.getSpaceId()
-		Steedos.setSpaceId(spaceId)
-
-
-
 Steedos.subsSpace = new SubsManager();
 
 Tracker.autorun (c)->
@@ -12,18 +5,10 @@ Tracker.autorun (c)->
 	
 	Steedos.subsSpace.clear();
 	if spaceId
-		Steedos.subsSpace.subscribe("apps", spaceId)
-		# Steedos.subsSpace.subscribe("space_users", spaceId)
-		# Steedos.subsSpace.subscribe("organizations", spaceId)
-		# Steedos.subsSpace.subscribe("flow_roles", spaceId)
-		# Steedos.subsSpace.subscribe("flow_positions", spaceId)
-					
 		Steedos.subsSpace.subscribe("categories", spaceId)
 		Steedos.subsSpace.subscribe("forms", spaceId)
 		Steedos.subsSpace.subscribe("flows", spaceId)
 
-		Steedos.subsSpace.subscribe("my_space_user", spaceId)
-		Steedos.subsSpace.subscribe("my_organizations", spaceId)
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
 Meteor.startup ->
