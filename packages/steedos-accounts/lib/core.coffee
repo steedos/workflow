@@ -1,3 +1,5 @@
+@Setup = {}
+
 _.extend Accounts,
 	updatePhone: (number,callback)->
 		if Meteor.isServer
