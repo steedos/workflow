@@ -473,6 +473,16 @@ InstanceManager.getCurrentStep = function() {
 	return WorkflowManager.getInstanceStep(currentStepId);
 }
 
+InstanceManager.getStartStep = function() {
+
+	var instance = WorkflowManager.getInstance();
+
+	if (!instance || !instance.traces)
+		return;
+
+	return WorkflowManager.getInstanceStep(instance.traces[0].step);
+}
+
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
 		instanceValue;
