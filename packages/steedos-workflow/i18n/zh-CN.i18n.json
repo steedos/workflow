@@ -200,6 +200,8 @@
 	"workflow_attach_cancel": "取消",
 	"workflow_attach_to_pdf": "转为pdf",
 	"workflow_attach_to_pdf_message": "是否将'%s'转为pdf格式文件？",
+	"workflow_attach_upload": "上传",
+	"workflow_attach_new": "新建",
 
 	"workflow_select_an_app": "应用",
 	"workflow_suggestion_placeholder": "请填写意见，点击右侧按钮选择常用意见。",

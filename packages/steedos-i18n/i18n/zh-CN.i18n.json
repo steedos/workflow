@@ -430,5 +430,7 @@
 	"set_password_by_phone": "重置密码",
 	"account_phone_invalid": "请先绑定手机号",
 
-	"back_admin_home": "返回"
+	"back_admin_home": "返回",
+
+	"none_space_selected_title": "请选择工作区"
 }

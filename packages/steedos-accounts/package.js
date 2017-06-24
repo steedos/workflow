@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.5',
+	version: '0.0.7',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -21,6 +21,7 @@ Package.onUse(function(api) {
 	api.use('underscore');
 	api.use('blaze');
 	api.use('templating');
+	api.use('npm-bcrypt');
 
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
@@ -28,6 +29,8 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 
 	api.use('tap:i18n@1.7.0');
+
+	api.use('accounts-password@1.3.0');
 
 	api.use('steedos:useraccounts-bootstrap@1.14.2_1');
 	api.use('steedos:useraccounts-core@1.14.2_1');
@@ -44,6 +47,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/accounts.coffee');
+	
+	api.addFiles('routes/setup.coffee', 'server');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
 	api.addFiles('server/methods/disable_phone.coffee', 'server');
@@ -70,6 +75,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/admin_menu.coffee','client');
 
 	api.addFiles('client/subscribe.coffee', 'client');
+
+	api.addFiles('client/accounts_client.coffee', 'client');
 
 	// EXPORT
 	// api.export('FSSH');

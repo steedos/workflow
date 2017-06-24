@@ -11,7 +11,7 @@ Template.space_switcher.helpers
 			space = db.spaces.findOne(Session.get("spaceId"))
 			if space
 				return space.name
-		return t("Steedos")
+		return t("none_space_selected_title")
 
 	isNeedToShowRedDot: ()->
 		currentSpaceBadge = Steedos.getBadge null,Steedos.spaceId()

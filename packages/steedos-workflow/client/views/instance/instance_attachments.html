@@ -6,8 +6,10 @@
 					<span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "instance_main_attachment"}}</span>
 				{{/if}}
 
-				<div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}' style="{{#if enabled_add_main_attachment}}{{else}}display: none{{/if}}"><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_main_attach"></div>
-
+				<div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}' style="{{#if enabled_add_main_attachment}}{{else}}display: none{{/if}}"><i class="fa fa-paperclip">{{_ "workflow_attach_upload"}}</i><input type="file" name="file" class="ins-file-input" id="ins_upload_main_attach"></div>
+                {{#if isNode}}
+                    <div class="btn btn-default ins-upload" title='{{_ "instance_main_attachment"}}' style="{{#if enabled_add_main_attachment}}{{else}}display: none{{/if}}"><i class="fa">{{_ "workflow_attach_new"}}</i><input type="button" class="ins-file-input" id="ins_new_main_file"></div>
+                {{/if}}
             </div>
             <div class="attachments-list">
                 <table class='table table-condensed attachments' style="margin-bottom: 0px;">
@@ -22,7 +24,7 @@
             <div>
                 {{#if enabled_edit_normal_attachment}}
                 <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
-                <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}'><i class="fa fa-paperclip"></i><input type="file" name="file" class="ins-file-input" id="ins_upload_normal_attach"></div>
+                <div class="btn btn-default ins-upload" title='{{_ "Attachments"}}'><i class="fa fa-paperclip">{{_ "workflow_attach_upload"}}</i><input type="file" name="file" class="ins-file-input" id="ins_upload_normal_attach"></div>
                 {{else}}
                     {{#with normal_attachments}}
                         <span class="box-title" style="display: inline-block;font-weight: bold;">{{_t "Attachments"}}</span>
