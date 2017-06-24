@@ -73,6 +73,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/subscribe.coffee', 'client');
 
+	api.addFiles('client/accounts_client.coffee', 'client');
+
 	// EXPORT
 	// api.export('FSSH');
 

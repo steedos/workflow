@@ -65,8 +65,6 @@ Package.onUse(function(api) {
 	api.addFiles('routes/import.coffee', 'server');
 	api.addFiles('routes/proxy.coffee', 'server');
 
-	api.addFiles('accounts_client.coffee', 'client');
-
 });
 
 Package.onTest(function(api) {
