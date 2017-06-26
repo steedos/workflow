@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.7',
+	version: '0.0.8',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -21,7 +21,7 @@ Package.onUse(function(api) {
 	api.use('underscore');
 	api.use('blaze');
 	api.use('templating');
-	api.use('npm-bcrypt');
+	api.use('npm-bcrypt@0.9.1');
 
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
@@ -47,7 +47,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/accounts.coffee');
-	
+
 	api.addFiles('routes/setup.coffee', 'server');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
