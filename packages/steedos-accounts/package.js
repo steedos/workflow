@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.8',
+	version: '0.0.10',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -8,6 +8,7 @@ Package.describe({
 
 Npm.depends({
 	cookies: "0.6.1",
+	url: '0.11.0',
 	phone: "1.0.3"
 });
 
