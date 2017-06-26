@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.8',
+	version: '0.0.11',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -45,6 +45,7 @@ Package.onUse(function(api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('lib/URI.js');
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/accounts.coffee');
 

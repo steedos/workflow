@@ -175,8 +175,9 @@ Template.instance_view.events
 		if main_attach_count >= 1
 			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
 			return
-
+		
+		# 默认文件名为文件标题
 		filename = WorkflowManager.getInstance().name + '.doc';
-
+		
 		newFile = new File([""], filename)
 		InstanceManager.uploadAttach([newFile], false, true)

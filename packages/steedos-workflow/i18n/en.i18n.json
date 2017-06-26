@@ -270,7 +270,8 @@
 				"approved_completed_approve": "__from_username__",
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
-				"reassign_new_inbox_users": "__from_username__"
+				"reassign_new_inbox_users": "__from_username__",
+				"trace_approve_cc": "__from_username__"
 			},
 			"body": {
 				"input": "input",
@@ -291,7 +292,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "I have rejected your request for __instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__"
+				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
+				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__"
 			}
 		},
 		"email": {
@@ -319,7 +321,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "I have rejected your request for __instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__"
+				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
+				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__"
 			},
 			"body": {
 				"url_input": "input",
@@ -352,7 +355,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "Hi __to_username__,<br/><br/>Your request for __instance_name__ has been final rejected by __lastApprove_usersname__. He / She has attached the following comments with the request.<br/>__description__<br/><a href = __href__>Please click here to view this request.</a>",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "Hi __to_username__,<br/><br/>__current_user_name__ has transferred __applicant_name__'s __instance_name__ to you with the following comments. <br/>Comments : __description__<br/><a href = __href__>Please click here to view this request.</a>。"
+				"reassign_new_inbox_users": "Hi __to_username__,<br/><br/>__current_user_name__ has transferred __applicant_name__'s __instance_name__ to you with the following comments. <br/>Comments : __description__<br/><a href = __href__>Please click here to view this request.</a>。",
+				"trace_approve_cc": "Hi __to_username__,<br/><br/>__applicant_name__ has cc a __instance_name__ request, which needs your __approve_type__.<br/><a href = __href__>Please click here to view this request.</a>"
 			}
 		},
 		"remindMessage": {

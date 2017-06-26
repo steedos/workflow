@@ -6,7 +6,7 @@ pushManager = {
 	imo_push_app_key: Meteor.settings.imo?.push_app_key
 }
 
-pushManager.get_to_users = (send_from, instance)->
+pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 	to_users = new Array
 	if ['first_submit_applicant'].includes(send_from)
 		# 申请人
@@ -29,7 +29,8 @@ pushManager.get_to_users = (send_from, instance)->
 	else if ['submit_completed_applicant', 'approved_completed_applicant', 'rejected_completed_applicant', 'monitor_delete_applicant', 'submit_terminate_applicant', 'submit_pending_rejected_applicant', 'submit_pending_rejected_applicant_inbox'].includes(send_from)
 		applicant = db.users.findOne(instance.applicant)
 		to_users.push(applicant)
-
+	else if ['trace_approve_cc'].includes(send_from) && cc_user_ids
+		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
 	return to_users
 
 pushManager.get_body = (parameters, lang="zh-CN")->
@@ -171,6 +172,9 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 	else if "reassign_new_inbox_users" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.reassign_new_inbox_users', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,description: description,current_user_name: current_user_name,url_approve_type: url_approve_type,approve_type: push_approve_type}, lang
 		body["email"] = TAPi18n.__ 'instance.email.body.reassign_new_inbox_users', {instance_name: instance_name,to_username: to_username, current_username: current_user_name, href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: description,current_user_name: current_user_name,url_approve_type: url_approve_type,approve_type: email_approve_type}, lang
+	else if "trace_approve_cc" is send_from
+		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type}, lang
+		body["email"] = TAPi18n.__ 'instance.email.body.trace_approve_cc', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type}, lang
 
 	return body
 
@@ -242,11 +246,14 @@ pushManager.get_title = (parameters, lang="zh-CN")->
 	else if "reassign_new_inbox_users" is send_from
 		title["push"] = TAPi18n.__ 'instance.push.title.reassign_new_inbox_users', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
 		title["email"] = TAPi18n.__ 'instance.email.title.reassign_new_inbox_users', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
+	else if "trace_approve_cc" is send_from
+		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
+		title["email"] = TAPi18n.__ 'instance.email.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
 
 	return title
 
 pushManager.get_badge = (send_from, user_id)->
-	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users'].includes(send_from)
+	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
 		return null
 
 	badge = 0
@@ -471,13 +478,13 @@ pushManager.send_message = (steedos_ids, body, current_user_info)->
 	pushManager.send_to_imo(steedos_ids, body, current_user_info) if body
 
 #通知服务
-pushManager.send_instance_notification = (send_from, instance, description, current_user_info)->
+pushManager.send_instance_notification = (send_from, instance, description, current_user_info, cc_user_ids)->
 	try
 		space_id = instance.space
 		instance_id = instance._id
 		flow_version = instance.flow_version
 		flow = uuflowManager.getFlow(instance.flow)
-		to_users = pushManager.get_to_users(send_from, instance)
+		to_users = pushManager.get_to_users(send_from, instance, cc_user_ids)
 
 		href = Meteor.absoluteUrl() + "workflow/space/#{space_id}/inbox/#{instance_id}"
 		body_style_start = "<div style='border:1px solid #bbb;padding:10px;'>"
@@ -590,7 +597,7 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 
 			ins_html = ''
 
-			if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users'].includes(send_from)
+			if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
 				try
 					ins_html = uuflowManager.ins_html(current_user_info, instance)
 				catch e
