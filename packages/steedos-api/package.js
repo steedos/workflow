@@ -51,8 +51,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/restivus/route.coffee', 'server');
 	api.addFiles('lib/restivus/restivus.coffee', 'server');
 
-	api.addFiles('lib/URI.js');
-
 	api.addFiles('core.coffee');
 
 	api.addFiles('steedos/space_users.coffee', 'server');
