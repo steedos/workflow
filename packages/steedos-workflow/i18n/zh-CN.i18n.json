@@ -272,7 +272,8 @@
 				"approved_completed_approve": "__from_username__",
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
-				"reassign_new_inbox_users": "__from_username__"
+				"reassign_new_inbox_users": "__from_username__",
+				"trace_approve_cc": "__from_username__"
 			},
 			"body": {
 				"input": "确认",
@@ -293,7 +294,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "驳回了您的__instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__"
+				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
+				"trace_approve_cc": "您有新的待办文件:__instance_name__"
 			}
 		},
 		"email": {
@@ -321,7 +323,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "驳回了您的__instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "请__approve_type__:__instance_name__"
+				"reassign_new_inbox_users": "请__approve_type__:__instance_name__",
+				"trace_approve_cc": "请__approve_type__:__instance_name__"
 			},
 			"body": {
 				"url_input": "查看并确认",
@@ -354,7 +357,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "__to_username__:<br/><br/>您好！<br/><br/>您的__instance_name__已被__lastApprove_usersname__驳回。<br/>__description__<br/><a href = __href__>请点击查看</a>。",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
+				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。",
+				"trace_approve_cc": "__to_username__:<br/><br/>您好！<br/><br/>__applicant_name__传阅了__instance_name__。<br/><a href = __href__>请点击__url_approve_type__</a>。"
 			}
 		},
 		"remindMessage": {

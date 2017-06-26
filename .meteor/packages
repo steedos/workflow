@@ -85,7 +85,7 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
-#steedos:sso
+steedos:sso
 steedos:adminlte
 steedos:base
 steedos:slipjs
