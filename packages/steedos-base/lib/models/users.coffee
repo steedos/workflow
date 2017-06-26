@@ -256,3 +256,21 @@ if Meteor.isServer
 				email_notification: 1,
 				avatar: 1
 
+if Meteor.isServer
+	db.users._ensureIndex({
+		"is_deleted": 1
+	},{background: true})
+
+	db.users._ensureIndex({
+		"is_paid": 1
+	},{background: true})
+
+	db.users._ensureIndex({
+		"name": 1
+		"is_paid": 1
+	},{background: true})
+
+	db.users._ensureIndex({
+		"name": 1
+		"is_paid": 1
+	},{background: true})
