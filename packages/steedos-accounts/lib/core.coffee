@@ -1,4 +1,5 @@
 @Setup = {}
+Steedos.uri = new URI(Meteor.absoluteUrl());
 
 _.extend Accounts,
 	updatePhone: (number,callback)->
