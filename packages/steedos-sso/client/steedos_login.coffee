@@ -48,7 +48,7 @@ SteedosSSO.login = (context)->
 
 	authToken = context.queryParams?["X-Auth-Token"]
 
-	if context.path !='/steedos/sign-in'
+	if context.path.indexOf('/steedos/sign-in') < 0
 		if userId && authToken
 			_params_login userId, authToken, onSuccess
 		else
