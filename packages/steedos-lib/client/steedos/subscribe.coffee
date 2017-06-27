@@ -11,13 +11,6 @@ Tracker.autorun (c)->
 
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
-Meteor.startup ->
-	Tracker.autorun (c)->
-		currentPath = FlowRouter.current().path
-		if !Meteor.userId() and !/^\/steedos\b/.test(currentPath)
-			# 没有登录且路由不以/steedos开头则跳转到登录界面
-			FlowRouter.go "/steedos/sign-in";
-
 Steedos.subsForwardRelated = new SubsManager()
 
 Tracker.autorun (c)->

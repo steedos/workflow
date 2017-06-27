@@ -2,11 +2,11 @@
 	<div class="instance-sign">
 		<div class="instance-sign-content">
 			{{#each (steps field_formula step only_cc_opinion image_sign)}}
-				{{#each trace stepName only_cc_opinion image_sign}}
+				{{#each trace stepName only_cc_opinion image_sign ../top_keywords}}
 					{{#if isOpinionOfField this}}
 						{{#if isMyApprove this false}}
 							{{#if (unempty (myApproveDescription _id))}}
-								<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+								<div class="instance-sign-item my-approve{{#unless is_finished}} not-finished{{/unless}}">
 								{{{markDownToHtml (myApproveDescription _id)}}}
 								{{#if (showSignImage handler ../image_sign)}}
 									&emsp;&emsp;{{> imageSign (imageSignData handler)}}

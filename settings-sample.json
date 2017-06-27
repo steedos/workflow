@@ -43,6 +43,10 @@
     //通讯录相关
     "contacts": {
       "hidden_users": [] //不显示人员的用户ID集合
+    },
+    //知识库相关
+    "cms":{
+      "is_needto_limit_unit": true //限制用户发布文章的范围，只能在自己部门及其下级部门
     }
   },
   "push": {
