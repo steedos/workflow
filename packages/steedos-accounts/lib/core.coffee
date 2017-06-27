@@ -20,6 +20,15 @@ _.extend Accounts,
 			number?.replace(/^\+86/,"")
 
 if Meteor.isClient
+	Meteor.startup ->
+		Tracker.autorun (c)->
+			if !Meteor.userId() and !Meteor.loggingIn()
+				currentPath = FlowRouter.current().path
+				if currentPath != undefined and !/^\/steedos\b/.test(currentPath)
+					# 没有登录且路由不以/steedos开头则跳转到登录界面
+					FlowRouter.go "/steedos/sign-in"
+
+if Meteor.isClient
 	if Meteor.settings?.public?.phone?.forceAccountBindPhone
 		Meteor.autorun (c)->
 			# 没有验证手机时，强行跳转到手机验证路由
@@ -78,8 +87,8 @@ if Meteor.isClient
 							closeOnConfirm: false
 						}, (reason) ->
 							# 用户选择取消
-							if (reason == false)
-								return false;
+							if reason == false
+								return false
 
 							Steedos.openWindow(setupUrl,'setup_phone')
-							sweetAlert.close();
+							sweetAlert.close()
