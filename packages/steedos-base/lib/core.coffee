@@ -277,12 +277,16 @@ if Meteor.isServer
 		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
 		else
-			if url?.startsWith("/")
-				return url
-			else if url
-				return "/" + url;
+			if Meteor.isClient
+				root_url = new URL(Meteor.absoluteUrl())
+				if url?.startsWith("/")
+					return root_url.pathname + url.replace("/","")
+				else if url
+					return root_url.pathname + url
+				else
+					return root_url.pathname
 			else
-				return "/"
+				Meteor.absoluteUrl(url);
 
 	#	通过request.headers、cookie 获得有效用户
 	Steedos.getAPILoginUser	= (req, res) ->

@@ -6,7 +6,7 @@
 					{{#if isOpinionOfField this}}
 						{{#if isMyApprove this false}}
 							{{#if (unempty (myApproveDescription _id))}}
-								<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+								<div class="instance-sign-item my-approve{{#unless is_finished}} not-finished{{/unless}}">
 								{{{markDownToHtml (myApproveDescription _id)}}}
 								{{#if (showSignImage handler ../image_sign)}}
 									&emsp;&emsp;{{> imageSign (imageSignData handler)}}
