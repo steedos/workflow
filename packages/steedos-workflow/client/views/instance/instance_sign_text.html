@@ -2,7 +2,7 @@
 	<div class="instance-sign">
 		<div class="instance-sign-content">
 			{{#each (steps field_formula step only_cc_opinion image_sign)}}
-				{{#each trace stepName only_cc_opinion image_sign}}
+				{{#each trace stepName only_cc_opinion image_sign ../top_keywords}}
 					{{#if isOpinionOfField this}}
 						{{#if isMyApprove this false}}
 							{{#if (unempty (myApproveDescription _id))}}
