@@ -43,6 +43,9 @@ InstanceSignText.helpers =
 					top_approves = _.union top_approves, _.filter(approves_sorted, (approve)->
 						return approve?.handler_name?.indexOf(key) > -1
 					)
+				# 对置顶意见按照处理事件排倒序
+				top_approves = _.sortBy top_approves, (top_approve)->
+					return -(top_approve.finish_date || new Date()).getTime()
 
 				approves_sorted = _.union top_approves, approves_sorted
 			return approves_sorted || []
