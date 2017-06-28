@@ -4,6 +4,17 @@
     line-height: 32px!important;
 }
 
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+span,a{
+    &.text-overflow{
+        display:inline-block;
+    }
+}
+
 .safari{
     select{
         appearance:none;
