@@ -31,7 +31,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 								<span class="description">{{{description}}}</span>
 							</div>
 							<div style="padding:0px;overflow-x:auto;">
-									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" data-schema-key="{{this.name}}">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
 										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
 											{{{getTableThead this}}}
 										</thead>
@@ -250,6 +250,7 @@ _getTemplateData = (user, space, instance)->
 	steedosData.locale = locale
 	steedosData.utcOffset = user.utcOffset
 	steedosData.space = instance.space
+	steedosData.sessionUserId = user._id
 
 	return steedosData;
 

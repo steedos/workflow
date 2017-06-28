@@ -31,6 +31,7 @@ Package.onUse(function(api) {
     api.addAssets("client/images/logo.jpg", "client");
 
     api.addFiles("server/routes/notify_wenshu.coffee", "server");
+    api.addFiles("server/routes/notify_cc_steps.coffee", "server");
 
 
     // EXPORT

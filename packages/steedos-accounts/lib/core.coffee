@@ -1,3 +1,6 @@
+@Setup = {}
+Steedos.uri = new URI(Meteor.absoluteUrl());
+
 _.extend Accounts,
 	updatePhone: (number,callback)->
 		if Meteor.isServer
@@ -15,6 +18,15 @@ _.extend Accounts,
 			return number
 		else
 			number?.replace(/^\+86/,"")
+
+if Meteor.isClient
+	Meteor.startup ->
+		Tracker.autorun (c)->
+			if !Meteor.userId() and !Meteor.loggingIn()
+				currentPath = FlowRouter.current().path
+				if currentPath != undefined and !/^\/steedos\b/.test(currentPath)
+					# 没有登录且路由不以/steedos开头则跳转到登录界面
+					FlowRouter.go "/steedos/sign-in"
 
 if Meteor.isClient
 	if Meteor.settings?.public?.phone?.forceAccountBindPhone
@@ -75,8 +87,8 @@ if Meteor.isClient
 							closeOnConfirm: false
 						}, (reason) ->
 							# 用户选择取消
-							if (reason == false)
-								return false;
+							if reason == false
+								return false
 
 							Steedos.openWindow(setupUrl,'setup_phone')
-							sweetAlert.close();
+							sweetAlert.close()

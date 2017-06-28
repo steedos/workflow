@@ -17,7 +17,8 @@ InstanceSignText.helpers =
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
-	trace: (stepName, only_cc_opinion, image_sign)->
+	trace: (stepName, only_cc_opinion, image_sign, top_keywords)->
+
 		instance = InstanceformTemplate.helpers.instance()
 
 		is_completed = instance?.state == "completed"
@@ -28,11 +29,34 @@ InstanceSignText.helpers =
 
 		approves = _.clone(traces[stepName])
 
+		approve_sort = (approves, top_keywords)->
+
+			#对Approves排序， 按照提交时间排倒序，如果没有提交则显示在最上边
+			approves_sorted = _.sortBy approves, (approve)->
+				return -(approve.finish_date || new Date()).getTime()
+
+			#通过关键字排序
+			if top_keywords
+				top_approves = new Array()
+
+				top_keywords.split(",").forEach (key) ->
+					top_approves = _.union top_approves, _.filter(approves_sorted, (approve)->
+						return approve?.handler_name?.indexOf(key) > -1
+					)
+				# 对置顶意见按照处理事件排倒序
+				top_approves = _.sortBy top_approves, (top_approve)->
+					return -(top_approve.finish_date || new Date()).getTime()
+
+				approves_sorted = _.union top_approves, approves_sorted
+			return approves_sorted || []
+
 		approves = _.filter approves, (a)->
 			return a.type isnt "forward" and a.type isnt "distribute"
 
 		if only_cc_opinion
 			approves = approves?.filterProperty("type", "cc")
+
+		approves_sorted = approve_sort(approves, top_keywords)
 
 		approvesGroup = _.groupBy(approves, "handler");
 
@@ -54,20 +78,20 @@ InstanceSignText.helpers =
 			return true
 
 
-		approves.forEach (approve) ->
+		approves_sorted.forEach (approve) ->
 #			有输入意见 或 最新一条并且用户没有输入过意见
 #			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 			if !hasNext(approve, approvesGroup)
 				approve._display = true
 
 
-		approves = _.filter approves, (a) ->
+		approves_sorted = _.filter approves_sorted, (a) ->
 			if is_completed
 				return a._display == true && a.is_finished && a.finish_date?.getTime() <= completed_date
 			else
 				return a._display == true
 
-		return approves
+		return approves_sorted
 
 	include: (a, b) ->
 		return InstanceformTemplate.helpers.include(a, b)
@@ -81,19 +105,25 @@ InstanceSignText.helpers =
 
 		return InstanceformTemplate.helpers.formatDate(date, options)
 
-	isMyApprove: (only_cc_opinion) ->
+	isMyApprove: (approve, only_cc_opinion) ->
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
-			if InstanceManager.isCC(ins) && Template.instance().data.name
-				if Template.instance().data.name == InstanceManager.getCurrentApprove()?.opinion_field_code
+
+			currentApprove = InstanceManager.getCurrentApprove()
+
+			if !approve?._id
+				approve = currentApprove
+
+			if approve._id == currentApprove?._id && currentApprove?.type == 'cc' && Template.instance().data.name
+				if _.indexOf(currentApprove?.opinion_fields_code, Template.instance().data.name) > -1
 					return true
 				else
 					return false
 
-			if !InstanceManager.isCC(ins) && only_cc_opinion
+			if !(currentApprove?.type == 'cc') && only_cc_opinion
 				return false
 
-			if InstanceManager.getCurrentApprove()
+			if currentApprove && approve._id == currentApprove._id
 				return true
 		return false
 
@@ -111,7 +141,7 @@ InstanceSignText.helpers =
 
 	isOpinionOfField: (approve)->
 		if approve.type == "cc" && Template.instance().data.name
-			if Template.instance().data.name == approve.opinion_field_code
+			if Template.instance().data.name == approve.sign_field_code
 				return true
 			else
 				return false
@@ -159,6 +189,14 @@ InstanceSignText.helpers =
 			return approves[approves.length - 2]?.description
 
 		return "";
+
+	showApprove: (approve)->
+		if approve?.is_read
+			if approve.is_finished
+				return ["approved", "rejected", "submitted", "readed"].includes(approve.judge)
+			else
+				return true;
+		return false;
 
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->

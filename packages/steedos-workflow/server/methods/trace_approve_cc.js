@@ -73,7 +73,8 @@ Meteor.methods({
                         // 'values' :  ???
                         'from_user': current_user_id,
                         'from_user_name': from_user_name,
-                        'opinion_field_code': approve.opinion_field_code,
+                        'opinion_fields_code': approve.opinion_fields_code,
+                        'sign_field_code': (approve.opinion_fields_code && approve.opinion_fields_code.length == 1) ? approve.opinion_fields_code[0] : "",
                         'from_approve_id': approve_id
                     };
                     uuflowManager.setRemindInfo(instance.values, appr)
@@ -95,11 +96,16 @@ Meteor.methods({
             $set: setObj
         });
 
+        instance = db.instances.findOne(ins_id);
+        current_user_info = db.users.findOne(current_user_id);
         cc_user_ids.forEach(function(userId) {
-            pushManager.send_message_to_specifyUser("current_user", userId);
+            pushManager.send_instance_notification("trace_approve_cc", instance, "", current_user_info, cc_user_ids);
         });
 
-
+        flow_id = instance.flow;
+        approve.cc_user_ids = cc_user_ids; // 记录下本次传阅的人员ID作为hook接口中的参数
+        // 如果已经配置webhook并已激活则触发
+        pushManager.triggerWebhook(flow_id, instance, approve)
         return true;
     },
 

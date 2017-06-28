@@ -82,6 +82,7 @@
 	"workflow_attachment_versions": "历史版本",
 	"workflow_attachment_uploading": "正在上传 ",
 	"workflow_attachment_downloading": "正在下载 %s...",
+	"workflow_attachment_creating": "正在新建word文档 %s...",
 	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",
@@ -200,6 +201,8 @@
 	"workflow_attach_cancel": "取消",
 	"workflow_attach_to_pdf": "转为pdf",
 	"workflow_attach_to_pdf_message": "是否将'%s'转为pdf格式文件？",
+	"workflow_attach_upload": "上传",
+	"workflow_attach_new": "新建",
 
 	"workflow_select_an_app": "应用",
 	"workflow_suggestion_placeholder": "请填写意见，点击右侧按钮选择常用意见。",
@@ -270,7 +273,8 @@
 				"approved_completed_approve": "__from_username__",
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
-				"reassign_new_inbox_users": "__from_username__"
+				"reassign_new_inbox_users": "__from_username__",
+				"trace_approve_cc": "__from_username__"
 			},
 			"body": {
 				"input": "确认",
@@ -291,7 +295,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "驳回了您的__instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__"
+				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
+				"trace_approve_cc": "您有新的待办文件:__instance_name__"
 			}
 		},
 		"email": {
@@ -319,7 +324,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "驳回了您的__instance_name__",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "请__approve_type__:__instance_name__"
+				"reassign_new_inbox_users": "请__approve_type__:__instance_name__",
+				"trace_approve_cc": "请__approve_type__:__instance_name__"
 			},
 			"body": {
 				"url_input": "查看并确认",
@@ -352,7 +358,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "__to_username__:<br/><br/>您好！<br/><br/>您的__instance_name__已被__lastApprove_usersname__驳回。<br/>__description__<br/><a href = __href__>请点击查看</a>。",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。"
+				"reassign_new_inbox_users": "__to_username__:<br/><br/>您好！<br/><br/>__current_user_name__将__applicant_name__的__instance_name__转发给您__approve_type__。<br/>转发的理由是：__description__<br/><a href = __href__>请点击__url_approve_type__</a>。",
+				"trace_approve_cc": "__to_username__:<br/><br/>您好！<br/><br/>__applicant_name__传阅了__instance_name__。<br/><a href = __href__>请点击__url_approve_type__</a>。"
 			}
 		},
 		"remindMessage": {
@@ -548,5 +555,8 @@
 	"flows_btn_export_title": "导出",
 	"flows_btn_copylink_title": "复制链接",
 	"instance_distribute_related_instances_title": "自动创建关联文件",
-	"instance_next_step_users_placeholder": "请选择下一步处理人"
+	"instance_next_step_users_placeholder": "请选择下一步处理人",
+	"instance_distribute_to_self": "同时分发给自己",
+
+	"my_instances": "我的文件"
 }

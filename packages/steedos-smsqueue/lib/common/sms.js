@@ -20,7 +20,7 @@ SMSQueue.send = function(options) {
 	});
 
 	if (Match.test(options, Object)) {
-		sms.sms = _.pick(options, 'Format', 'Action', 'ParamString', 'RecNum', 'SignName', 'TemplateCode');
+		sms.sms = _.pick(options, 'Format', 'Action', 'ParamString', 'RecNum', 'SignName', 'TemplateCode', 'msg');
 	}
 
 	sms.sent = false;

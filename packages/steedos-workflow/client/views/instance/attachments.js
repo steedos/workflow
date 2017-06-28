@@ -19,7 +19,20 @@ Template.instance_attachments.onRendered(function() {
 		'metadata.main': true
 	}).count();
 
-	if (current_step.can_edit_main_attach == true || main_attach_count > 0) {
+	var distribute_main_attach_count = 0;
+
+	if (ins.distribute_from_instance) {
+		var start_step = InstanceManager.getStartStep();
+		if (start_step.can_edit_main_attach) {
+			var distribute_main_attach_count = cfs.instances.find({
+				'metadata.instance': ins.distribute_from_instance,
+				'metadata.current': true,
+				'metadata.main': true
+			}).count();
+		}
+	}
+
+	if (current_step.can_edit_main_attach == true || main_attach_count > 0 || distribute_main_attach_count > 0) {
 		self.workflowMainAttachTitle.set(true);
 	} else {
 		self.workflowMainAttachTitle.set(false);
@@ -35,9 +48,10 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
+		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
+		if (ins.distribute_from_instance == this.metadata.instance) {
 			return false
+		}
 
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
@@ -119,7 +133,7 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename)))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && NodeManager.isViewType(filename))
 			return true;
 	},
 
@@ -128,9 +142,10 @@ Template.instance_attachment.helpers({
 		if (!ins)
 			return false;
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
+		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
+		if (ins.distribute_from_instance == this.metadata.instance) {
 			return false
+		}
 
 		var locked = false;
 		if (locked_by) locked = true;
@@ -156,7 +171,10 @@ Template.instance_attachment.helpers({
 		if (!attachment)
 			return;
 		var type = attachment.original.type;
-		return type.startsWith("image/");
+		if (type == "image/tiff")
+			return;
+		else
+			return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {
@@ -297,9 +315,15 @@ Template.ins_attach_version_modal.helpers({
 		var selector = {
 			'metadata.parent': parent
 		};
-		// 如果是被分发的申请单，则不显示文件的历史版本
-		if (ins.distribute_from_instance)
-			selector['metadata.current'] = true;
+		// 如果是被分发的文件，则不显示文件的历史版本
+		if (ins.distribute_from_instance) {
+			var current = cfs.instances.findOne({
+				'metadata.parent': parent,
+				'metadata.current': true
+			})
+			if (ins.distribute_from_instance == current.metadata.instance)
+				selector['metadata.current'] = true;
+		}
 
 		return cfs.instances.find(selector, {
 			sort: {
@@ -328,10 +352,6 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
-			return false
-
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return false
 
@@ -341,6 +361,10 @@ Template.ins_attach_version_modal.helpers({
 		});
 
 		if (!current)
+			return false
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
+		if (ins.distribute_from_instance == current.metadata.instance)
 			return false
 
 		if (current && current.metadata && current.metadata.locked_by)
@@ -368,7 +392,7 @@ Template.ins_attach_version_modal.helpers({
 			return false;
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
+		if (ins.distribute_from_instance == this.metadata.instance)
 			return false
 
 		var isDraftOrInbox = false;
@@ -438,7 +462,7 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
-		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename)))
+		if (Steedos.isNode() && !Steedos.isMobile() && !Steedos.isMac() && NodeManager.isViewType(filename))
 			return true;
 	},
 
@@ -447,8 +471,8 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
+		if (ins.distribute_from_instance == this.metadata.instance)
 			return false
 
 		var locked = false;
@@ -473,6 +497,11 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
+		if (ins.distribute_from_instance == this.metadata.instance)
+			return false
+
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
@@ -515,7 +544,11 @@ Template.ins_attach_version_modal.helpers({
 		if (!attachment)
 			return;
 		var type = attachment.original.type;
-		return type.startsWith("image/");
+
+		if (type == "image/tiff")
+			return;
+		else
+			return type.startsWith("image/");
 	},
 
 	IsHtmlAttachment: function(attachment) {

@@ -77,7 +77,7 @@ Template.instance_suggestion.helpers
 		form_values = instance_form_values.values
 		users = InstanceManager.getNextUserOptions();
 		data = {
-			dataset: {},
+			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
 			name: 'nextStepUsers',
 			atts: {
 				name: 'nextStepUsers',
@@ -220,11 +220,11 @@ Template.instance_suggestion.helpers
 	cc_opinion_field_code: ->
 		cc_approve = InstanceManager.getCurrentApprove();
 
-		if cc_approve.opinion_field_code
+		if cc_approve?.sign_field_code
 			form_version = WorkflowManager.getInstanceFormVersion();
 			fields = form_version?.fields
 
-			return fields?.findPropertyByPK("code", cc_approve.opinion_field_code)?.name || cc_approve.opinion_field_code
+			return fields?.findPropertyByPK("code", cc_approve.sign_field_code)?.name || cc_approve.sign_field_code
 
 		return t("instance_cc_title")
 

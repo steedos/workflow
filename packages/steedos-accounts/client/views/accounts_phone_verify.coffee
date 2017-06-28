@@ -30,17 +30,14 @@ Template.accounts_phone_verify.events
 						toastr.error t error.reason
 						console.error error
 						return
-					if window.name == "setup_phone" or Steedos.isAndroidOrIOS()
-						if Steedos.isAndroidOrIOS()
-							toastr.success t "accounts_phone_verify_suc_wait_mobile"
-						else
-							toastr.success t "accounts_phone_verify_suc_wait"
+					if window.name == "setup_phone"
+						toastr.success t "accounts_phone_verify_suc_wait"
 						setTimeout ->
 							window.close()
 						,5000
 					else
 						toastr.success t "accounts_phone_verify_suc"
-						FlowRouter.go "/admin"
+						FlowRouter.go "/"
 			else
 				$(document.body).removeClass('loading')
 				toastr.error t error.reason

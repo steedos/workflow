@@ -359,16 +359,25 @@ Template.profile.events
 					toastr.error(TAPi18n.__(error.error))
 
 	'click .btn-change-phone': (event, template) ->
-		Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+		if Steedos.isAndroidOrIOS()
+			FlowRouter.go("/accounts/setup/phone")
+		else
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
 		if Steedos.isPhoneEnabled()
-			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+			if Steedos.isAndroidOrIOS()
+				FlowRouter.go("/accounts/setup/phone")
+			else
+				Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 		return
 
 	'click .btn-set-password-by-phone': (event, template) ->
 		if Accounts.isPhoneVerified()
-			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
+			if Steedos.isAndroidOrIOS()
+				FlowRouter.go("/accounts/setup/password")
+			else
+				Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/password"),'setup_phone')
 		else
 			toastr.error t("account_phone_invalid")
 

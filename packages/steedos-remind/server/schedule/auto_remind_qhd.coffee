@@ -26,17 +26,18 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1}}).forEach (ins)->
+			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
 					_.each t.approves, (ap)->
 						if ap.is_finished isnt true and ap.deadline and ap.remind_date
 							if ap.remind_date < now
-								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1}})
+								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
-								name = if ins.name.length > 15 then ins.name.substr(0,12) + '...' else ins.name
+								ins_name = ins.name
+								name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 								params = {
 									instance_name: name
 								}
@@ -64,6 +65,15 @@ Meteor.startup ->
 									ap.reminded_count += 1
 									if Steedos.caculatePlusHalfWorkingDay(now) > deadline # 超过了办结时限或者距离办结时限半日内
 										ap.remind_date = Steedos.caculatePlusHalfWorkingDay(remind_date, true)
+									else if Steedos.caculateWorkingTime(now, 1) > deadline
+										caculate_date = (base_date)->
+											plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+											if plus_halfday_date > deadline
+												ap.remind_date = base_date
+											else
+												caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+											return
+										caculate_date(now)
 									else
 										ap.remind_date = Steedos.caculateWorkingTime(remind_date, 1)
 									params.deadline = moment(deadline).utcOffset(utcOffset).format(moment_format)
@@ -87,6 +97,10 @@ Meteor.startup ->
 
 								if user and user.mobile and (not remind_users.includes(user._id)) and (not skip_users.includes(user._id)) # 防止重复发送
 									remind_users.push(user._id)
+									#设置当前语言环境
+									lang = 'en'
+									if user.locale is 'zh-cn'
+										lang = 'zh-CN'
 									# 发送手机短信
 									SMSQueue.send({
 										Format: 'JSON',
@@ -94,7 +108,8 @@ Meteor.startup ->
 										ParamString: JSON.stringify(params),
 										RecNum: user.mobile,
 										SignName: 'OA系统',
-										TemplateCode: 'SMS_67200967'
+										TemplateCode: 'SMS_67200967',
+										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})

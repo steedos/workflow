@@ -1,4 +1,6 @@
 Template.loginLayout.helpers
+        isSteedosForCNUS: ->
+                return /^(cn|us)\.steedos.com/.test(location.host)
                 
 
 Template.loginLayout.onCreated ->

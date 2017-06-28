@@ -274,3 +274,11 @@ NodeManager.downloadFile = function(file_url, filename, arg) {
 		}
 	})
 }
+
+// 可查看的文件
+NodeManager.isViewType = function(filename){
+	if (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename) || Steedos.isPPTFile(filename) || Steedos.isTextFile(filename))
+		return true;
+	else
+		return false;
+}

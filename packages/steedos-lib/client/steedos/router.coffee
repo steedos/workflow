@@ -35,7 +35,7 @@ FlowRouter.triggers.enter [
 					else
 						title = "Steedos"
 				if title
-					Session.set "document_title", t(title)
+					Steedos.setAppTitle t(title)
 	()-> 
 		# 变更路由时记录url作为下次登录的url
 		if Meteor.userId()

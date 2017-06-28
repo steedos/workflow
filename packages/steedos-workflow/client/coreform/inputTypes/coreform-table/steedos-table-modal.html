@@ -21,7 +21,11 @@
                             <button type="button" class="btn btn-default remove-steedos-table-item">删除</button>
                         </div>
                     {{/if}} -->
-                    <button type="button" class="btn btn-primary steedos-table-ok-button">{{_ "workflow_table_confirm"}}</button>
+					{{#if equals this.method 'read'}}
+						<button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{_ "close"}}</button>
+					{{else}}
+						<button type="button" class="btn btn-primary steedos-table-ok-button">{{_ "workflow_table_confirm"}}</button>
+					{{/if}}
                 </div>
 
             </div>

@@ -162,3 +162,23 @@ Template.instance_view.events
 	'click .btn-instance-back': (event)->
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
 		FlowRouter.go(backURL)
+
+
+	'click #ins_new_main_file': (event, template)->
+		# 正文最多只有一个
+		main_attach_count = cfs.instances.find({
+			'metadata.instance': Session.get("instanceId"),
+			'metadata.current': true,
+			'metadata.main': true
+		}).count()
+
+		if main_attach_count >= 1
+			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
+			return
+		
+		arg = "Steedos.User.isNewFile"
+		
+		downloadUrl = window.location.origin + "/word/demo.doc"
+
+		NodeManager.downloadFile(downloadUrl, "demo.doc", arg)
+		

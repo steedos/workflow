@@ -18,8 +18,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 					_id: category_id,
 					name: form.category_name,
 					space: spaceId,
-					create: new Date,
-					create_by: uid,
+					created: new Date,
+					created_by: uid,
 					modified: new Date,
 					modified_by: uid
 				});
@@ -147,7 +147,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 							approve_roles.push(role_id)
 						else
-							approve_roles.push(role_id)
+							approve_roles.push(role._id)
 
 					step.approver_roles = approve_roles
 

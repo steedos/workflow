@@ -11,28 +11,37 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance)
-			return false
-
 		var current_step = InstanceManager.getCurrentStep();
-
+		// 分发的正文或者附件不显示转为pdf按钮
+		// 如果有正文权限则为正文，否则分发为附件
+		// 分发的附件不允许修改 删除 新增版本
 		var main_attach_count = cfs.instances.find({
 			'metadata.instance': ins._id,
 			'metadata.current': true,
 			'metadata.main': true
 		}).count();
 
-		if (current_step.can_edit_main_attach == true && main_attach_count < 1) {
+		var distribute_main_attach_count = 0;
+
+		if (ins.distribute_from_instance) {
+			var start_step = InstanceManager.getStartStep();
+			if (start_step.can_edit_main_attach) {
+				var distribute_main_attach_count = cfs.instances.find({
+					'metadata.instance': ins.distribute_from_instance,
+					'metadata.current': true,
+					'metadata.main': true
+				}).count();
+			}
+		}
+
+		if (current_step.can_edit_main_attach == true && main_attach_count < 1 && distribute_main_attach_count < 1) {
 			return true
 		}
 
 		// 正文最多只能有一个
-
-		if (main_attach_count >= 1) {
+		if (main_attach_count >= 1 || distribute_main_attach_count >= 1) {
 			return false;
 		}
-
 
 		// 开始节点并且设置了可以上传正文才显示上传正文的按钮
 		var current_step = InstanceManager.getCurrentStep();
@@ -50,7 +59,7 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
-		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
+		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
 		if (ins.distribute_from_instance)
 			return false
 
@@ -70,8 +79,10 @@ InstanceAttachmentTemplate.helpers = {
 		if (!ins)
 			return false
 
-		// 如果是被分发的申请单，则显示原申请单文件
-		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
+		var start_step = InstanceManager.getStartStep();
+
+		// 如果是被分发的申请单并且有修改正文的权限，则显示原申请单文件
+		var instanceId = (ins.distribute_from_instance && start_step.can_edit_main_attach == true) ? ins.distribute_from_instance : ins._id;
 
 		return cfs.instances.findOne({
 			'metadata.instance': instanceId,
@@ -92,20 +103,39 @@ InstanceAttachmentTemplate.helpers = {
 			},
 		};
 
+		var atts = new Array();
+
 		if (ins.distribute_from_instance) {
-			// 如果是被分发的申请单，则显示原申请单文件, 如果选择了将原表单存储为附件也要显示
+			// 如果是被分发的申请单，则显示原申请单文件, 如果选择了将原表单存储为附件也要显示, 同时也要显示新上传的附件
 			selector['metadata.instance'] = {
 				$in: [ins.distribute_from_instance, ins._id]
 			};
+
+
+			selector["$or"] = [{"metadata.instance" : ins._id}, {"metadata.instance" : ins.distribute_from_instance, "metadata.is_private": {$ne: true}}]
+
+			// 如果原申请单有正文但是分发后没有正文权限，则原申请单正文显示在附件栏
+			var start_step = InstanceManager.getStartStep();
+			if (start_step && start_step.can_edit_main_attach != true) {
+				var distribute_main = cfs.instances.findOne({
+					'metadata.instance': ins.distribute_from_instance,
+					'metadata.current': true,
+					'metadata.main': true,
+				});
+				if (distribute_main) {
+					atts.push(distribute_main);
+				}
+			}
 		} else {
 			selector['metadata.instance'] = ins._id;
 		}
 
-		return cfs.instances.find(selector, {
+		atts = atts.concat(cfs.instances.find(selector, {
 			sort: {
 				'uploadedAt': 1
 			}
-		}).fetch();
+		}).fetch())
+		return atts;
 	},
 
 	showAttachments: function() {
@@ -113,11 +143,13 @@ InstanceAttachmentTemplate.helpers = {
 		if (!ins)
 			return false;
 
-		// 如果是被分发的申请单，则显示原申请单文件
-		var instanceId = ins.distribute_from_instance ? ins.distribute_from_instance : ins._id;
+		// 如果是被分发的申请单，则显示原申请单文件 和分发后申请单文件
+		var instanceIds = _.compact([ins.distribute_from_instance, ins._id]);
 
 		var attachments_count = cfs.instances.find({
-			'metadata.instance': instanceId,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true
 		}).count();
 
@@ -160,13 +192,22 @@ if (Meteor.isServer) {
 	};
 
 	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
-		var instance = Template.instance().view.template.steedosData.instance;
+		var steedosData = Template.instance().view.template.steedosData
+		var instance = steedosData.instance;
 		var attachments = cfs.instances.find({
 			'metadata.instance': instance._id,
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
-			}
+			},
+			$or: [{
+				'metadata.is_private': {
+					$ne: true
+				}
+			}, {
+				'metadata.is_private': true,
+				"metadata.owner": steedosData.userId
+			}]
 		}).fetch();
 
 		return attachments;

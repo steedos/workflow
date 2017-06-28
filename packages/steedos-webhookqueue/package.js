@@ -15,7 +15,8 @@ Package.onUse(function(api) {
 		'mongo',
 		'underscore',
 		'ejson',
-		'random'
+		'random',
+		'coffeescript'
 	]);
 
 	api.use('mongo', 'server');
@@ -37,6 +38,8 @@ Package.onUse(function(api) {
 	// API's
 	api.addFiles('lib/server/api.js', 'server');
 
+	// STARTUP
+	api.addFiles('server/startup.coffee', 'server');
 
 	api.export('WebhookQueue', ['server']);
 

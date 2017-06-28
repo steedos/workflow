@@ -67,6 +67,10 @@ Meteor.startup ->
             msg = new Audio("/sound/notification.mp3")
             msg.play();
 
+            # 任务栏高亮显示
+            if Steedos.isNode()
+                nw.Window.get().requestAttention(3);
+
             return;
         )
     else

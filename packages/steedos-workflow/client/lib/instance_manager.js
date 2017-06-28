@@ -473,6 +473,16 @@ InstanceManager.getCurrentStep = function() {
 	return WorkflowManager.getInstanceStep(currentStepId);
 }
 
+InstanceManager.getStartStep = function() {
+
+	var instance = WorkflowManager.getInstance();
+
+	if (!instance || !instance.traces)
+		return;
+
+	return WorkflowManager.getInstanceStep(instance.traces[0].step);
+}
+
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
 		instanceValue;
@@ -1043,6 +1053,9 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 		fd.append("approve", InstanceManager.getMyApprove().id);
 		fd.append("owner", Meteor.userId());
 		fd.append("owner_name", Meteor.user().name);
+
+		fd.append("is_private", file.is_private || false)
+
 		if (isAddVersion) {
 			fd.append("isAddVersion", isAddVersion);
 			fd.append("parent", Session.get('attach_parent_id'));

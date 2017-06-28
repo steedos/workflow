@@ -1,7 +1,3 @@
-Steedos.uri = new URI(Meteor.absoluteUrl());
-
-@Setup = {}
-
 if Meteor.isServer
     @API = new Restivus
         apiPath: 'steedos/api/',

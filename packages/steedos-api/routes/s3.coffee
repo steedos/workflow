@@ -73,6 +73,12 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         if body && body['owner'] && body['owner_name'] && body['space'] && body['instance']  && body['approve']
           parent = ''
           metadata = {owner:body['owner'], owner_name:body['owner_name'], space:body['space'], instance:body['instance'], approve: body['approve'], current: true}
+
+          if body["is_private"] && body["is_private"].toLocaleLowerCase() == "true"
+            metadata.is_private = true
+          else
+            metadata.is_private = false
+
           if body['main'] == "true"
             metadata.main = true
 

@@ -1944,15 +1944,39 @@ uuflowManager.setRemindInfo = (values, approve)->
 		if priority is "普通"
 			remind_date = Steedos.caculateWorkingTime(start_date, 3)
 		else if priority is "办文"
-			remind_date = Steedos.caculateWorkingTime(start_date, 1)
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else if Steedos.caculateWorkingTime(start_date, 1) > deadline
+				caculate_date = (base_date)->
+					plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+					if plus_halfday_date > deadline
+						remind_date = base_date
+					else
+						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+					return
+				caculate_date(start_date)
+			else
+				remind_date = Steedos.caculateWorkingTime(start_date, 1)
 		else if priority is "紧急" or priority is "特急"
-			remind_date = Steedos.caculatePlusHalfWorkingDay start_date
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else if Steedos.caculateWorkingTime(start_date, 1) > deadline
+				caculate_date = (base_date)->
+					plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+					if plus_halfday_date > deadline
+						remind_date = base_date
+					else
+						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+					return
+				caculate_date(start_date)
+			else 
+				remind_date = Steedos.caculatePlusHalfWorkingDay start_date
 			ins = db.instances.findOne(approve.instance)
 			if ins.state is 'draft'
 				flow = db.flows.findOne({_id: ins.flow}, {fields: {current_no: 1}})
 				ins.code = flow.current_no + 1 + ''
 			ins.values = values
-			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user]
+			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
 
 		approve.deadline = deadline
 		approve.remind_date = remind_date
@@ -1961,10 +1985,12 @@ uuflowManager.setRemindInfo = (values, approve)->
 	return
 
 # 发送催办短信
-uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
+uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 	check ins_name, String
 	check deadline, Date
 	check users_id, Array
+	check space_id, String
+	check ins_id, String
 
 	skip_users = Meteor.settings.remind?.skip_users || []
 	send_users = []
@@ -1974,18 +2000,23 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id)->
 
 	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 
-	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1}}).forEach (user)->
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1, locale: 1}}).forEach (user)->
 		utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
-		paramString = JSON.stringify({
+		params = {
 			instance_name: name,
 			deadline: moment(deadline).utcOffset(utcOffset).format('MM-DD HH:mm')
-		})
+		}
+		#设置当前语言环境
+		lang = 'en'
+		if user.locale is 'zh-cn'
+			lang = 'zh-CN'
 		# 发送手机短信
 		SMSQueue.send({
 			Format: 'JSON',
 			Action: 'SingleSendSms',
-			ParamString: paramString,
+			ParamString: JSON.stringify(params),
 			RecNum: user.mobile,
 			SignName: 'OA系统',
-			TemplateCode: 'SMS_67200967'
+			TemplateCode: 'SMS_67200967',
+			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})

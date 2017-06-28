@@ -43,7 +43,7 @@ dburles:collection-helpers
 aldeed:collection2
 
 
-loaders-css
+steedos:loaders-css
 
 steedos:logger
 
@@ -55,10 +55,9 @@ momentjs:moment
 fortawesome:fontawesome
 
 joshowens:timezone-picker
-useraccounts:core
-useraccounts:bootstrap
-useraccounts:flow-routing
-softwarerero:accounts-t9n
+steedos:useraccounts-core
+steedos:useraccounts-bootstrap
+steedos:useraccounts-flow-routing
 
 
 tap:i18n
@@ -86,11 +85,12 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
+steedos:sso
 steedos:adminlte
 steedos:base
 steedos:slipjs
 steedos:jstree
-steedos:meteor-cookie-login
+# steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
 steedos:ui
@@ -141,6 +141,7 @@ tomwasd:history-polyfill
 steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
+steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
@@ -164,3 +165,11 @@ steedos:dashboard
 # steedos:distribute-qhd
 
 steedos:tableau
+
+rubaxa:sortable
+steedos:autoform
+keepnox:perfect-scrollbar
+
+steedos:datatables-extensions
+chuangbo:cookie
+# steedos:express-status-monitor

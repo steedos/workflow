@@ -7,7 +7,7 @@ Template.instanceSignText.events
 
 		modal_title = fields?.findPropertyByPK("code", template.data.name)?.name || template.data.name
 
-		Modal.show("instanceSignModal", {modal_title: modal_title})
+		Modal.show("instanceSignModal", {modal_title: modal_title, sign_field_code: template.data.name})
 		
 Template.instanceSignText.onDestroyed ->
 	Session.set("instance_my_approve_description", null)
