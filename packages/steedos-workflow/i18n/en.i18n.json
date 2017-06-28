@@ -81,6 +81,7 @@
 	"workflow_attachment_versions": "Versions",
 	"workflow_attachment_uploading": "Uploading ",
 	"workflow_attachment_downloading": "Downloading %s...",
+	"workflow_attachment_creating": "Creating a new file: %s...",
 	"workflow_attachment_officeOnline": "Edit",
 	"workflow_attachment_save": "Save",
 	"workflow_attachment_close": "Close",
