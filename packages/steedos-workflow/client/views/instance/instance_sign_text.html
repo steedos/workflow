@@ -17,7 +17,7 @@
 								</div>
 							{{/if}}
 						{{else}}
-							{{#if is_read}}
+							{{#if showApprove this}}
 								{{#if (showSignImage handler ../image_sign)}}
 									{{#if (unempty description)}}
 										<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
