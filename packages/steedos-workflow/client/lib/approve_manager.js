@@ -76,6 +76,13 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
                     }
                 });
 
+
+                //驳回时支持结束步骤
+                var flow_steps = WorkflowManager.getInstanceSteps();
+				var end_step = flow_steps.findPropertyByPK("step_type", "end");
+
+				nextSteps.push(end_step);
+
             }
             break;
         default: //start：开始、submit：填写、counterSign：会签
