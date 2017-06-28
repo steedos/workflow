@@ -83,7 +83,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/flow_positions.coffee');
 	api.addFiles('lib/models/instances.coffee');
 	api.addFiles('lib/models/categories.coffee');
-	api.addFiles('lib/models/box_counts.coffee');
 	api.addFiles('lib/models/spaces.coffee');
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
