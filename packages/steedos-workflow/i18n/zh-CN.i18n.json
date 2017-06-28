@@ -82,6 +82,7 @@
 	"workflow_attachment_versions": "历史版本",
 	"workflow_attachment_uploading": "正在上传 ",
 	"workflow_attachment_downloading": "正在下载 %s...",
+	"workflow_attachment_creating": "正在新建word文档 %s...",
 	"workflow_attachment_officeOnline": "编辑",
 	"workflow_attachment_save": "保存",
 	"workflow_attachment_close": "关闭",

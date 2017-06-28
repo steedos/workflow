@@ -133,3 +133,9 @@ new Tabular.Table
 	info: false
 	searching: true
 	autoWidth: false
+
+if Meteor.isServer
+	db.instance_number_rules._ensureIndex({
+		"space": 1,
+		"name": 1
+	},{background: true})

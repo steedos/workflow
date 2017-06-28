@@ -70,3 +70,23 @@ if Meteor.isServer
 
 
 db.address_books.attachSchema(db.address_books._simpleSchema)
+
+if Meteor.isServer
+	db.address_books._ensureIndex({
+		"owner": 1
+	},{background: true})
+
+	db.address_books._ensureIndex({
+		"group": 1
+	},{background: true})
+
+	db.address_books._ensureIndex({
+		"group": 1,
+		"email": 1
+	},{background: true})
+
+	db.address_books._ensureIndex({
+		"owner": 1,
+		"group": 1,
+		"email": 1
+	},{background: true})

@@ -5,8 +5,10 @@ if (Steedos.isNode()){
 
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
-		tray.remove();
-		tray = null;
+		if (tray){
+			tray.remove();
+			tray = null;
+		}
 	});
 
 	// 去除客户端右击事件

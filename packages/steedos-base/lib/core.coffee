@@ -275,8 +275,9 @@ if Meteor.isServer
 		return isOrgAdmin
 
 	Steedos.absoluteUrl = (url)->
-		# 去掉前缀第一个"/"
-		url = url.replace(/^\//,"")
+		if url
+			# url以"/"开头的话，去掉开头的"/"
+			url = url.replace(/^\//,"")
 		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
 		else

@@ -190,6 +190,14 @@ InstanceSignText.helpers =
 
 		return "";
 
+	showApprove: (approve)->
+		if approve?.is_read
+			if approve.is_finished
+				return ["approved", "rejected", "submitted", "readed"].includes(approve.judge)
+			else
+				return true;
+		return false;
+
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
 		locale = Template.instance().view.template.steedosData.locale

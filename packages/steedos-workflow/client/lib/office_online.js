@@ -31,6 +31,8 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 	var loadingText = "";
 	if (arg == "Steedos.User.isDocToPdf")
 		loadingText = t("workflow_attachment_convert_to_pdf", filename);
+	else if (arg == "Steedos.User.isNewFile")
+		loadingText = t("workflow_attachment_creating", filename);
 	else
 		loadingText = t("workflow_attachment_downloading", filename);
 	
@@ -45,30 +47,43 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 			file.end();
 			
 			if (arg){
-				if (arg == "Steedos.User.isView"){
+				if (arg == "Steedos.User.isNewFile"){
 					$(document.body).removeClass('loading');
 					$('.loading-text').text("");
-				}
-				// 获取华炎云安装路径
-				var homePath = process.cwd();
-				var cmd = "";
-				if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
-					cmd = 'start "" ' + '\"' + filePath + '\"';
-				else 
-					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
-				
-				var child = exec(cmd);
-				child.on('close',function(){
-					// 转换为pdf后需上传
-					if (arg == "Steedos.User.isDocToPdf"){
-						var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
-						var pdfPath = path.join(download_dir, pdfName);
-						NodeManager.setUploadRequests(pdfPath, pdfName);
+					// 默认文件名为文件标题
+					var newFileName = WorkflowManager.getInstance().name + '.doc';
+
+					// 新建文件对象
+					var newFile = new File(filePath,newFileName);
+		
+					InstanceManager.uploadAttach([newFile], false, true);
+				}else{
+					if (arg == "Steedos.User.isView"){
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
 					}
-				});
-				child.on('error', function(error) {
-					toastr.error(error);
-				});
+					// 获取华炎云安装路径
+					var homePath = process.cwd();
+					var cmd = "";
+					if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
+						cmd = 'start "" ' + '\"' + filePath + '\"';
+					else 
+						cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+					
+					var child = exec(cmd);
+					child.on('close',function(){
+						// 转换为pdf后需上传
+						if (arg == "Steedos.User.isDocToPdf"){
+							var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
+							var pdfPath = path.join(download_dir, pdfName);
+							NodeManager.setUploadRequests(pdfPath, pdfName);
+						}
+					});
+					child.on('error', function(error) {
+						toastr.error(error);
+					});
+				}
+				
 			}else{
 				$(document.body).removeClass('loading');
 				$('.loading-text').text("");
@@ -137,6 +152,8 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 	var loadingText = "";
 	if (arg == "Steedos.User.isDocToPdf")
 		loadingText = t("workflow_attachment_convert_to_pdf", filename);
+	else if (arg == "Steedos.User.isNewFile")
+		loadingText = t("workflow_attachment_creating", filename);
 	else
 		loadingText = t("workflow_attachment_downloading", filename);
 	
@@ -151,30 +168,42 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 			file.end();
 			
 			if (arg){
-				if (arg == "Steedos.User.isView"){
+				if (arg == "Steedos.User.isNewFile"){
 					$(document.body).removeClass('loading');
 					$('.loading-text').text("");
-				}
-				// 获取华炎云安装路径
-				var homePath = process.cwd();
-				var cmd = "";
-				if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
-					cmd = 'start "" ' + '\"' + filePath + '\"';
-				else 
-					cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+					// 默认文件名为文件标题
+					var newFileName = WorkflowManager.getInstance().name + '.doc';
 
-				var child = exec(cmd);
-				child.on('close',function(){
-					// 转换为pdf后需上传
-					if (arg == "Steedos.User.isDocToPdf"){
-						var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
-						var pdfPath = path.join(download_dir, pdfName);
-						NodeManager.setUploadRequests(pdfPath, pdfName);
+					// 新建文件对象
+					var newFile = new File(filePath,newFileName);
+		
+					InstanceManager.uploadAttach([newFile], false, true);
+				}else{
+					if (arg == "Steedos.User.isView"){
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
 					}
-				});
-				child.on('error', function(error) {
-					toastr.error(error);
-				});
+					// 获取华炎云安装路径
+					var homePath = process.cwd();
+					var cmd = "";
+					if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
+						cmd = 'start "" ' + '\"' + filePath + '\"';
+					else 
+						cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+					
+					var child = exec(cmd);
+					child.on('close',function(){
+						// 转换为pdf后需上传
+						if (arg == "Steedos.User.isDocToPdf"){
+							var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
+							var pdfPath = path.join(download_dir, pdfName);
+							NodeManager.setUploadRequests(pdfPath, pdfName);
+						}
+					});
+					child.on('error', function(error) {
+						toastr.error(error);
+					});
+				}
 			}else{
 				$(document.body).removeClass('loading');
 				$('.loading-text').text("");
