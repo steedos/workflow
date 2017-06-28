@@ -21,3 +21,8 @@ db.billings.helpers
 			d = t
 
 		return d
+
+if Meteor.isServer
+	db.billings._ensureIndex({
+		"space": 1
+	},{background: true})
