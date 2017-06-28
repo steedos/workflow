@@ -1548,6 +1548,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	trace_obj.approves = [appr_obj]
 	ins_obj.traces = [trace_obj]
 
+	ins_obj.inbox_users = instance_from_client.inbox_users || []
+
 	new_ins_id = db.instances.insert(ins_obj)
 
 	return new_ins_id
