@@ -34,13 +34,14 @@ if Meteor.isClient
 			if url == avatar
 				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl('api/files/avatars/' + avatar)})"
 			else
-				$("body").css "backgroundImage","url(#{url})"
+				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(url)})"
 		else
 			background = Meteor.settings?.public?.admin?.background
 			if background
-				$("body").css "backgroundImage","url(#{background})"
+				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
 			else
-				$("body").css "backgroundImage","url('/packages/steedos_theme/client/background/flower.jpg')"
+				background = "/packages/steedos_theme/client/background/flower.jpg"
+				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
 
 		if isNeedToLocal
 			if Meteor.loggingIn()
@@ -274,15 +275,19 @@ if Meteor.isServer
 		return isOrgAdmin
 
 	Steedos.absoluteUrl = (url)->
+		# 去掉前缀第一个"/"
+		url = url.replace(/^\//,"")
 		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
 		else
-			if url?.startsWith("/")
-				return url
-			else if url
-				return "/" + url;
+			if Meteor.isClient
+				root_url = new URL(Meteor.absoluteUrl())
+				if url
+					return root_url.pathname + url
+				else
+					return root_url.pathname
 			else
-				return "/"
+				Meteor.absoluteUrl(url);
 
 	#	通过request.headers、cookie 获得有效用户
 	Steedos.getAPILoginUser	= (req, res) ->

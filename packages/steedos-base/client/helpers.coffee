@@ -137,7 +137,6 @@ Template.registerHelpers = (dict) ->
 
 Template.registerHelpers Steedos.Helpers
 
-
 TemplateHelpers =
 
 	equals: (a, b)->
@@ -147,15 +146,19 @@ TemplateHelpers =
 		return Session.get(v)
 
 	absoluteUrl: (url)->
+		# 去掉前缀第一个"/"
+		url = url.replace(/^\//,"")
 		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
 		else
-			if url?.startsWith("/")
-				return url
-			else if url
-				return "/" + url;
+			if Meteor.isClient
+				root_url = new URL(Meteor.absoluteUrl())
+				if url
+					return root_url.pathname + url
+				else
+					return root_url.pathname
 			else
-				return "/"
+				Meteor.absoluteUrl(url);
 
 	urlPrefix: ->
 		return __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
