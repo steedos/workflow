@@ -146,14 +146,14 @@ TemplateHelpers =
 		return Session.get(v)
 
 	absoluteUrl: (url)->
+		# 去掉前缀第一个"/"
+		url = url.replace(/^\//,"")
 		if (Meteor.isCordova)
 			return Meteor.absoluteUrl(url);
 		else
 			if Meteor.isClient
 				root_url = new URL(Meteor.absoluteUrl())
-				if url?.startsWith("/")
-					return root_url.pathname + url.replace("/","")
-				else if url
+				if url
 					return root_url.pathname + url
 				else
 					return root_url.pathname

@@ -110,6 +110,10 @@ InstanceAttachmentTemplate.helpers = {
 			selector['metadata.instance'] = {
 				$in: [ins.distribute_from_instance, ins._id]
 			};
+
+
+			selector["$or"] = [{"metadata.instance" : ins._id}, {"metadata.instance" : ins.distribute_from_instance, "metadata.is_private": {$ne: true}}]
+
 			// 如果原申请单有正文但是分发后没有正文权限，则原申请单正文显示在附件栏
 			var start_step = InstanceManager.getStartStep();
 			if (start_step && start_step.can_edit_main_attach != true) {
