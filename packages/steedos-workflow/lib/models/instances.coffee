@@ -85,3 +85,177 @@ if Meteor.isServer
 				options.push({label: "[" + flow?.name + "]" + instance.name + ", "+ instance.applicant_name, value: instance._id});
 
 			return options;
+
+if Meteor.isServer
+	db.instances._ensureIndex({
+		"space": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"submitter": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"applicant": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"outbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"inbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"space": 1,
+		"is_deleted": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"state": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_archived": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"created": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"_id": 1,
+		"submit_date": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"space": 1,
+		"flow": 1,
+		"state": 1,
+		"submit_date": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"created": 1,
+		"modified": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"final_decision": 1,
+		"submitter": 1,
+		"applicant": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"space": 1,
+		"modified": 1,
+		"outbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"modified": 1,
+		"final_decision": 1,
+		"submitter": 1,
+		"applicant": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"space": 1,
+		"outbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"space": 1,
+		"modified": 1,
+		"submit_date": 1,
+		"outbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"space": 1,
+		"submit_date": 1,
+		"outbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"flow": 1,
+		"modified": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"flow": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"flow": 1,
+		"submit_date": 1,
+		"modified": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"flow": 1,
+		"submit_date": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"submitter": 1,
+		"applicant": 1,
+		"inbox_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"is_deleted": 1,
+		"state": 1,
+		"space": 1,
+		"is_archive": 1,
+		"submitter": 1,
+		"applicant": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"modified": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"modified": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"cc_users": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"space": 1,
+		"state": 1,
+		"is_deleted": 1
+	},{background: true})

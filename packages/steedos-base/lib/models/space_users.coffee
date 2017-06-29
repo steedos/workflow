@@ -408,3 +408,65 @@ if (Meteor.isServer)
 
 
 		return db.space_users.find({space: spaceId, user: this.userId})
+
+if Meteor.isServer
+	db.space_users._ensureIndex({
+		"user": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"user_accepted": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"is_deleted": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"user": 1,
+		"user_accepted": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"user": 1,
+		"space": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1,
+		"user_accepted": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1,
+		"user": 1,
+		"user_accepted": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1,
+		"manager": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"manager": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1,
+		"created": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"space": 1,
+		"created": 1,
+		"modified": 1
+	},{background: true})
+
+	db.space_users._ensureIndex({
+		"organizations": 1
+	},{background: true})
