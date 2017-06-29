@@ -179,12 +179,18 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		query.state = "completed"
 
 #	最多返回500条数据
-	instances = db.instances.find query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0}, skip: 0, limit: 500}
+	instances = db.instances.find(query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}, skip: 0, limit: 500}).fetch()
+	instances.forEach (instance)->
+
+		attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+
+		instance.attachments = attachments
+
 
 	JsonRoutes.sendResult res,
 			code: 200,
 			data:
 				"status": "success",
 				"sync_token": ret_sync_token
-				"data": instances.fetch()
+				"data": instances
 	return;
