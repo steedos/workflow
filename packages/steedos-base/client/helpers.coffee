@@ -153,13 +153,16 @@ TemplateHelpers =
 			return Meteor.absoluteUrl(url);
 		else
 			if Meteor.isClient
-				root_url = new URL(Meteor.absoluteUrl())
-				if url
-					return root_url.pathname + url
-				else
-					return root_url.pathname
+				try
+					root_url = new URL(Meteor.absoluteUrl())
+					if url
+						return root_url.pathname + url
+					else
+						return root_url.pathname
+				catch e
+					return Meteor.absoluteUrl(url)
 			else
-				Meteor.absoluteUrl(url);
+				Meteor.absoluteUrl(url)
 
 	urlPrefix: ->
 		return __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
@@ -183,7 +186,6 @@ TemplateHelpers =
 			Steedos.checkSpaceBalance spaceId
 
 	getSpaceId: ()->
-
 		# find space from session and local storage
 		spaceId = Session.get("spaceId")
 		if !spaceId
