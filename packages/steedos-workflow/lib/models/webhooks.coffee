@@ -60,3 +60,8 @@ db.webhooks.helpers
 	flow_name: ()->
 		f = db.flows.findOne({_id: this.flow}, {fields: {name: 1}})
 		return f && f.name
+
+if Meteor.isServer
+	db.webhooks._ensureIndex({
+		"flow": 1
+	},{background: true})
