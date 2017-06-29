@@ -1,17 +1,4 @@
 Template.app_list_box_modal.helpers
-
-	getSpaceId: ()->
-
-		spaceId = Session.get("spaceId")
-		if spaceId
-			return spaceId
-
-		spaceId = localStorage.getItem("spaceId:" + Meteor.userId())
-		if spaceId
-			return spaceId
-		else
-			return undefined;
-
 	apps: ()->
 		return Steedos.getSpaceApps()
 
