@@ -50,13 +50,8 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 				if (arg == "Steedos.User.isNewFile"){
 					$(document.body).removeClass('loading');
 					$('.loading-text').text("");
-					// 默认文件名为文件标题
-					var newFileName = WorkflowManager.getInstance().name + '.doc';
-
-					// 新建文件对象
-					var newFile = new File(filePath,newFileName);
-		
-					InstanceManager.uploadAttach([newFile], false, true);
+					// 正文上传
+					NodeManager.setUploadRequests(filePath, filename, true);
 				}else{
 					if (arg == "Steedos.User.isView"){
 						$(document.body).removeClass('loading');
@@ -171,13 +166,8 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 				if (arg == "Steedos.User.isNewFile"){
 					$(document.body).removeClass('loading');
 					$('.loading-text').text("");
-					// 默认文件名为文件标题
-					var newFileName = WorkflowManager.getInstance().name + '.doc';
-
-					// 新建文件对象
-					var newFile = new File(filePath,newFileName);
-		
-					InstanceManager.uploadAttach([newFile], false, true);
+					// 正文上传
+					NodeManager.setUploadRequests(filePath, filename, true);
 				}else{
 					if (arg == "Steedos.User.isView"){
 						$(document.body).removeClass('loading');

@@ -101,7 +101,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 	}
 }
 
-NodeManager.setUploadRequests = function(filePath, filename) {
+NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
 
 	$(document.body).addClass("loading");
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
@@ -136,7 +136,7 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 		'metadata.current': true,
 		'metadata.main': true
 	}).count();
-	if (main_count > 0) {
+	if (main_count > 0 || isMainAttach == true) {
 		fileDataInfo.push({
 			urlKey: "main",
 			urlValue: true
