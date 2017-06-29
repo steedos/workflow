@@ -168,12 +168,23 @@ InstanceManager.getNextUserOptions = function() {
 					id: user.id,
 					name: user.name
 				}
+				// 有暂存的步骤
 				if (current_next_steps && current_next_steps.length > 0) {
 					if (current_next_steps[0].step == next_step_id && _.contains(current_next_steps[0].users, user.id)) {
 						option.selected = true
 						next_user_ids.push(user.id)
 					}
+				}else{
+					if(nextStepUsers.length > 1){
+						// 设置下一步处理人默认值为最近一次处理人
+						var lastStepHandlers = TracesManager.getStepLastHandlers(next_step_id, instance)
+
+						if(lastStepHandlers.includes(user.id)){
+							option.selected = true;
+						}
+					}
 				}
+
 				next_user_options.push(option)
 			});
 

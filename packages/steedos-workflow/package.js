@@ -94,6 +94,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/api.js', 'client');
 
+	api.addFiles('client/lib/traces_manager.coffee', 'client');
+
 	api.addFiles('client/lib/instance_event.js', 'client');
 	api.addFiles('client/lib/1_form_formula.js', 'client');
 	api.addFiles('client/lib/2_steedos_data_format.js', 'client');
