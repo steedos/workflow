@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.36',
+	version: '0.0.37',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -45,7 +45,7 @@ Package.onUse(function (api) {
 	api.addFiles([
 		'lib/core.coffee',
 		'lib/tap-i18n.coffee']);
-	
+
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/users.coffee');
 	api.addFiles('lib/models/spaces.coffee');
