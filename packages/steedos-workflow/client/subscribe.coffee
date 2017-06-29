@@ -28,7 +28,7 @@ Steedos.subscribeInstance = (instance)->
 		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instance)
 
 Tracker.autorun (c) ->
-	if Meteor.userId and Steedos.spaceId()
+	if Meteor.userId() and Steedos.spaceId()
 		Steedos.subs["instances_draft"].clear()
 		Steedos.subs["instances_draft"].subscribe "instances_draft", Steedos.spaceId()
 
