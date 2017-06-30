@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.36',
+	version: '0.0.37',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -47,6 +47,30 @@ Package.onUse(function (api) {
 		'lib/tap-i18n.coffee']);
 
 	api.addFiles('lib/models/apps.coffee');
+	api.addFiles('lib/models/users.coffee');
+	api.addFiles('lib/models/spaces.coffee');
+	api.addFiles('lib/models/space_users.coffee');
+	api.addFiles('lib/models/organizations.coffee');
+	api.addFiles('lib/models/users_changelogs.coffee');
+	api.addFiles('lib/models/steedos_keyvalue.coffee');
+	api.addFiles('lib/models/steedos_statistics.coffee');
+	api.addFiles('lib/models/space_user_signs.coffee');
+	api.addFiles('lib/models/audit_logs.coffee');
+	api.addFiles('lib/models/billings.coffee');
+	api.addFiles('lib/models/modules.coffee');
+	api.addFiles('lib/models/modules_changelogs.coffee');
+
+	api.addFiles('routes/collection.coffee', 'server');
+	api.addFiles('routes/sso.coffee', 'server');
+
+	api.addFiles('lib/ajax_collection.coffee', 'client');
+
+	api.addFiles('lib/steedos_data_manager.js', 'client');
+
+	api.addFiles('routes/avatar.coffee', 'server');
+
+	api.addFiles('server/publications/apps.coffee', 'server');
+	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 	api.addFiles([
 		'client/core.coffee',
@@ -86,31 +110,6 @@ Package.onUse(function (api) {
 	api.addFiles('client/layout/tabbar.html', "client");
 	api.addFiles('client/layout/tabbar.coffee', "client");
 	api.addFiles('client/layout/tabbar.less', "client");
-
-	api.addFiles('lib/models/users.coffee');
-	api.addFiles('lib/models/spaces.coffee');
-	api.addFiles('lib/models/space_users.coffee');
-	api.addFiles('lib/models/organizations.coffee');
-	api.addFiles('lib/models/users_changelogs.coffee');
-	api.addFiles('lib/models/steedos_keyvalue.coffee');
-	api.addFiles('lib/models/steedos_statistics.coffee');
-	api.addFiles('lib/models/space_user_signs.coffee');
-	api.addFiles('lib/models/audit_logs.coffee');
-	api.addFiles('lib/models/billings.coffee');
-	api.addFiles('lib/models/modules.coffee');
-	api.addFiles('lib/models/modules_changelogs.coffee');
-
-	api.addFiles('routes/collection.coffee', 'server');
-	api.addFiles('routes/sso.coffee', 'server');
-
-	api.addFiles('lib/ajax_collection.coffee', 'client');
-
-	api.addFiles('lib/steedos_data_manager.js', 'client');
-
-	api.addFiles('routes/avatar.coffee', 'server');
-
-	api.addFiles('server/publications/apps.coffee', 'server');
-	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 	api.export('Steedos');
 	api.export('db');
