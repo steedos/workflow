@@ -74,9 +74,10 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
 
 
 // 获取space_users
-SteedosDataManager.getFormulaOrganizations = function (orgIds) {
+SteedosDataManager.getFormulaOrganizations = function (orgIds, space) {
 	var q = {};
-	if(Session.get("spaceId")){
+
+	if(space !== false  && Session.get("spaceId")){
 		q.spaceId = Session.get("spaceId");
     }
 	var data =
