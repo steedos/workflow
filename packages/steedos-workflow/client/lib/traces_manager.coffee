@@ -19,7 +19,6 @@ TracesManager.getStepLastHandlers = (stepId, instance) ->
 			approves.reverse()
 
 			approves.forEach (approve)->
-				console.log approve
 				if approve?.is_finished && approve?.type != 'cc'
 					if ["approved", "rejected", "submitted", "readed"].includes(approve.judge)
 						handlers.push approve.handler
