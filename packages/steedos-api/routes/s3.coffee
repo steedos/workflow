@@ -61,7 +61,7 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
 
         body = req.body
         try
-          if body && (body['upload_from'] is "IE")
+          if body && (body['upload_from'] is "IE" or body['upload_from'] is "node")
             filename = decodeURIComponent(filename)
         catch e
           console.error(filename)

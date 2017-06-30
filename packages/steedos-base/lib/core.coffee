@@ -282,13 +282,16 @@ if Meteor.isServer
 			return Meteor.absoluteUrl(url);
 		else
 			if Meteor.isClient
-				root_url = new URL(Meteor.absoluteUrl())
-				if url
-					return root_url.pathname + url
-				else
-					return root_url.pathname
+				try
+					root_url = new URL(Meteor.absoluteUrl())
+					if url
+						return root_url.pathname + url
+					else
+						return root_url.pathname
+				catch e
+					return Meteor.absoluteUrl(url)
 			else
-				Meteor.absoluteUrl(url);
+				Meteor.absoluteUrl(url)
 
 	#	通过request.headers、cookie 获得有效用户
 	Steedos.getAPILoginUser	= (req, res) ->

@@ -28,6 +28,9 @@ Meteor.startup ->
 
                 options.payload = notification.payload
 
+                if options.payload.requireInteraction
+                    options.requireInteraction = options.payload.requireInteraction
+
                 options.onclick = (event) ->
 
                     box = "inbox" # inbox、outbox、draft、pending、completed

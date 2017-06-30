@@ -37,7 +37,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 
 	var files = new Array();
 	for (var i = 0; i < fileKeyValue.length; i++) {
-		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + path.basename(fileKeyValue[i].urlValue) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
+		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + encodeURIComponent(path.basename(fileKeyValue[i].urlValue)) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
 		var contentBinary = new Buffer(content, 'utf-8'); //当编码为ascii时，中文会乱码。
 		files.push({
 			contentBinary: contentBinary,
@@ -101,7 +101,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 	}
 }
 
-NodeManager.setUploadRequests = function(filePath, filename) {
+NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
 
 	$(document.body).addClass("loading");
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
@@ -129,6 +129,9 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 	}, {
 		urlKey: "parent",
 		urlValue: Session.get('attach_parent_id')
+	}, {
+		urlKey: "upload_from",
+		urlValue: "node"
 	}]
 
 	var main_count = cfs.instances.find({
@@ -136,13 +139,12 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 		'metadata.current': true,
 		'metadata.main': true
 	}).count();
-	if (main_count > 0) {
+	if (main_count > 0 || isMainAttach == true) {
 		fileDataInfo.push({
 			urlKey: "main",
 			urlValue: true
 		});
 	}
-
 	var files = [{
 			urlKey: "file",
 			urlValue: filePath

@@ -32,6 +32,7 @@ Package.onUse(function(api) {
 
     api.addFiles("server/routes/notify_wenshu.coffee", "server");
     api.addFiles("server/routes/notify_cc_steps.coffee", "server");
+    api.addFiles("server/routes/notification_wenshu.coffee", "server");
 
 
     // EXPORT
