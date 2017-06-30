@@ -48,10 +48,12 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 			
 			if (arg){
 				if (arg == "Steedos.User.isNewFile"){
-					$(document.body).removeClass('loading');
-					$('.loading-text').text("");
 					// 正文上传
-					NodeManager.setUploadRequests(filePath, filename, true);
+					setTimeout(function() {
+						NodeManager.setUploadRequests(filePath, filename, true);
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
 						$(document.body).removeClass('loading');
