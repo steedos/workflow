@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.37',
+	version: '0.0.38',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -25,6 +25,7 @@ Package.onUse(function (api) {
 	api.use('matb33:collection-hooks@0.8.4');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router@2.10.1');
+	api.use('kadira:blaze-layout@2.3.0');
 	api.use('meteorhacks:subs-manager@1.6.4');
 	api.use('dburles:collection-helpers@1.0.4');
 	api.use('peppelg:bootstrap-3-modal@1.0.4');
