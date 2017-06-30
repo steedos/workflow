@@ -13,5 +13,3 @@ Workflow = {}
 @RelatedInstances = {}
 
 @InstanceMacro = {context: {}}
-
-@TracesManager = {};

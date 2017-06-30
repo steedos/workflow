@@ -528,22 +528,18 @@ ApproveManager.getNextStepUsersSelectValue = function() {
 //     ApproveManager.setNextStepUsersSelectValue(lastSelected);
 
 // }
-
+// 
 ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
     var nextStepUsers = new Array();
     var currentStep = InstanceManager.getCurrentStep();
     if (currentStep && currentStep.step_type == "counterSign") {
         var ins = WorkflowManager.getInstance();
-        // var his_trace = _.find(ins.traces, function(t) {
-        //     return t.is_finished == true && t.step == nextStepId;
-        // });
-        // if (his_trace) {
-        //     nextStepUsers = WorkflowManager.getUsers([his_trace.approves[0].user]);
-        // }
-
-		var lastStepHandlers = TracesManager.getStepLastHandlers(nextStepId, ins)
-
-		nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
+        var his_trace = _.find(ins.traces, function(t) {
+            return t.is_finished == true && t.step == nextStepId;
+        });
+        if (his_trace) {
+            nextStepUsers = WorkflowManager.getUsers([his_trace.approves[0].user]);
+        }
     }
 
     return nextStepUsers;

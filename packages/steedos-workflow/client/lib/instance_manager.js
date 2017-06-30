@@ -162,47 +162,21 @@ InstanceManager.getNextUserOptions = function() {
 
 		var next_user_ids = [];
 		var nextStepUsers = ApproveManager.getNextStepUsers(instance, next_step_id);
-
-		var lastStepHandlers = TracesManager.getStepLastHandlers(next_step_id, instance)
-
 		if (nextStepUsers) {
-
-			if(nextStepUsers.length == 0){ //为指定处理人并且没有暂存处理人时
-				var nextStep = WorkflowManager.getInstanceStep(next_step_id);
-
-				if(nextStep.deal_type == "pickupAtRuntime"){
-
-					nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
-				}
-
-			}
-
 			nextStepUsers.forEach(function(user) {
 				var option = {
 					id: user.id,
 					name: user.name
 				}
-				// 有暂存的步骤
 				if (current_next_steps && current_next_steps.length > 0) {
 					if (current_next_steps[0].step == next_step_id && _.contains(current_next_steps[0].users, user.id)) {
 						option.selected = true
 						next_user_ids.push(user.id)
 					}
-				}else{
-
-
-					// 如果有处理人
-					if(nextStepUsers.length > 1){
-						// 设置下一步处理人默认值为最近一次处理人
-
-						if(lastStepHandlers.includes(user.id)){
-							option.selected = true;
-						}
-					}
 				}
-
 				next_user_options.push(option)
 			});
+
 		}
 		//if ( next_user_options.length > 0){ //==1
 		//    next_user_options[0].selected = true
