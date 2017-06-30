@@ -37,7 +37,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 
 	var files = new Array();
 	for (var i = 0; i < fileKeyValue.length; i++) {
-		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + path.basename(fileKeyValue[i].urlValue) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
+		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + encodeURIComponent(path.basename(fileKeyValue[i].urlValue)) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
 		var contentBinary = new Buffer(content, 'utf-8'); //当编码为ascii时，中文会乱码。
 		files.push({
 			contentBinary: contentBinary,
@@ -129,6 +129,9 @@ NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
 	}, {
 		urlKey: "parent",
 		urlValue: Session.get('attach_parent_id')
+	}, {
+		urlKey: "upload_from",
+		urlValue: "node"
 	}]
 
 	var main_count = cfs.instances.find({
@@ -142,7 +145,6 @@ NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
 			urlValue: true
 		});
 	}
-
 	var files = [{
 			urlKey: "file",
 			urlValue: filePath
