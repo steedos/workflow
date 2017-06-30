@@ -90,7 +90,11 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instan
 	options = {absolute: true}
 
 	return getInstanceReadOnly(req, res, next, options)
-
+###
+	获取申请单列表：
+    final_decision：审批结果
+    state: 申请单状态
+###
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
 	user = Steedos.getAPILoginUser(req, res)
@@ -171,7 +175,10 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		sync_token = new Date(Number(req.query.sync_token))
 		query.modified = {$gt: sync_token}
 
-	query.final_decision = {$ne: "terminated"}
+	if req.query?.final_decision
+		query.final_decision = {$in : req.query.final_decision.split(",")}
+	else
+		query.final_decision = {$nin: ["terminated", "rejected"]}
 
 	if req.query?.state
 		query.state = {$in: req.query.state.split(",")}
