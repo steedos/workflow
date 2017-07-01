@@ -80,6 +80,8 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 				fileindex++;
 				if (fileindex == files.length) {
 					req.end(enddata);
+					// 解锁 
+					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 				} else {
 					doOneFile();
 				}
