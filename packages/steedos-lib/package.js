@@ -154,6 +154,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
 	api.addFiles('client/steedos/views/about/steedos_about.css', 'client');
 
+	api.addFiles('client/steedos/views/billing/steedos_billing.html', 'client');
+	api.addFiles('client/steedos/views/billing/steedos_billing.coffee', 'client');
+	api.addFiles('client/steedos/views/billing/steedos_billing.less', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_modal.html', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_modal.coffee', 'client');
+
 	api.addFiles('client/loading.coffee', 'client');
 
 	api.addFiles('client/tooltip.coffee', 'client');
@@ -172,6 +178,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
+	api.addFiles('server/publications/modules.coffee', 'server');
 
 	// managers
 	api.addFiles('server/lib/billing_manager.coffee', 'server');

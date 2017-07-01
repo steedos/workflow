@@ -64,6 +64,10 @@ Template.space_info.events
     'click .btn-exit-space': (event)->
 
 
+    'click #space_recharge': (event, template)->
+        Modal.show('space_recharge_modal')
+
+
 
 Meteor.startup ->
 

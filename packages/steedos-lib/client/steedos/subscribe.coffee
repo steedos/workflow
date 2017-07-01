@@ -27,3 +27,10 @@ Tracker.autorun (c)->
 		Steedos.subsForwardRelated.subscribe("distribute_optional_flows", distribute_optional_flows);
 
 
+Steedos.subsModules = new SubsManager();
+
+Tracker.autorun (c)->
+	
+	Steedos.subsModules.clear();
+
+	Steedos.subsSpace.subscribe("modules");
