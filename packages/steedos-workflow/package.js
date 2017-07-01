@@ -310,6 +310,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
 
+	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
+
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_instances.coffee', 'server');
