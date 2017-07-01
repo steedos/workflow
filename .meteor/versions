@@ -187,7 +187,6 @@ steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:qcloud-smsqueue@0.0.1
-steedos:records-qhd@0.0.10
 steedos:remind@0.0.1
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
