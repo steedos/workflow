@@ -1,11 +1,18 @@
 AutoForm.addInputType("selectorg", {
 	template: "afSelectOrg",
 	valueIn: function (val, atts) {
+
+		var space = atts.spaceId || true;
+
+		if(atts.spaceId === false){
+			space = false;
+		}
+
 		if ("string" == typeof(val))
-			val = CFDataManager.getFormulaOrganizations(val);
+			val = CFDataManager.getFormulaOrganizations(val, space);
 
 		if (val instanceof Array && val.length > 0 && "string" == typeof(val[0])) {
-			val = CFDataManager.getFormulaOrganizations(val);
+			val = CFDataManager.getFormulaOrganizations(val, space);
 		}
 
 		return val;
@@ -59,7 +66,11 @@ Template.afSelectOrg.events({
 
 		options.targetId = template.data.atts.id;
 
-		options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+		if(template.data.atts.spaceId === false){
+			options.spaceId = false
+		}else{
+			options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+		}
 
 		options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
 

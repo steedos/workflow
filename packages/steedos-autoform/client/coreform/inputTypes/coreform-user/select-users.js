@@ -1,11 +1,17 @@
 AutoForm.addInputType("selectuser", {
     template: "afSelectUser",
     valueIn: function (val, atts) {
+        var space = atts.spaceId || true;
+
+        if(atts.spaceId === false){
+            space = false;
+        }
+
         if ("string" == typeof(val))
-            val = CFDataManager.getFormulaSpaceUsers(val);
+            val = CFDataManager.getFormulaSpaceUsers(val, space);
 
         if (val instanceof Array && val.length > 0 && "string" == typeof(val[0])) {
-            val = CFDataManager.getFormulaSpaceUsers(val);
+            val = CFDataManager.getFormulaSpaceUsers(val, space);
         }
 
         return val;
@@ -117,7 +123,13 @@ Template.afSelectUser.events({
         options.multiple = multiple;
         options.showOrg = showOrg;
 
-		options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+
+        if(template.data.atts.spaceId === false){
+			options.spaceId = false
+        }else{
+			options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+        }
+
 
         if (values && values.length > 0) {
             options.defaultValues = values.split(",");
@@ -136,8 +148,6 @@ Template.afSelectUser.events({
 Template.afSelectUser.rendered = function () {
     var name = this.data.name;
     var dataset = this.data.dataset;
-
-
     if (dataset) {
         for (var dk in dataset) {
             $("input[name='" + name + "']")[0].dataset[dk] = dataset[dk]

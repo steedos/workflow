@@ -63,7 +63,7 @@ Template.cf_contact_modal.events
 #		debugger;
 
 Template.cf_contact_modal.onRendered ->
-	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues));
+	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues, @data.spaceId));
 	CFDataManager.handerContactModalValueLabel();
 	cssHeightKey = "max-height"
 	if Steedos.isMobile()
