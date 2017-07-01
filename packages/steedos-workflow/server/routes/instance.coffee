@@ -90,7 +90,11 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instan
 	options = {absolute: true}
 
 	return getInstanceReadOnly(req, res, next, options)
-
+###
+	获取申请单列表：
+    final_decision：审批结果
+    state: 申请单状态
+###
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
 	user = Steedos.getAPILoginUser(req, res)
@@ -171,7 +175,10 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		sync_token = new Date(Number(req.query.sync_token))
 		query.modified = {$gt: sync_token}
 
-	query.final_decision = {$ne: "terminated"}
+	if req.query?.final_decision
+		query.final_decision = {$in : req.query.final_decision.split(",")}
+	else
+		query.final_decision = {$nin: ["terminated", "rejected"]}
 
 	if req.query?.state
 		query.state = {$in: req.query.state.split(",")}
@@ -179,12 +186,18 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		query.state = "completed"
 
 #	最多返回500条数据
-	instances = db.instances.find query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0}, skip: 0, limit: 500}
+	instances = db.instances.find(query, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}, skip: 0, limit: 500}).fetch()
+	instances.forEach (instance)->
+
+		attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+
+		instance.attachments = attachments
+
 
 	JsonRoutes.sendResult res,
 			code: 200,
 			data:
 				"status": "success",
 				"sync_token": ret_sync_token
-				"data": instances.fetch()
+				"data": instances
 	return;
