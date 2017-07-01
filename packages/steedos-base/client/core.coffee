@@ -7,4 +7,4 @@ Steedos.deps = {
 Meteor.startup ->
 	Meteor.setInterval ->
 		Steedos.deps.miniute.changed();
-	, 60 * 1000
+	, 600 * 1000
