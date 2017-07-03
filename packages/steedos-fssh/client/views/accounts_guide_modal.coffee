@@ -112,7 +112,8 @@ Template.accounts_guide_modal.events
 		currentUserId = Meteor.userId()
 		mail_account = db.mail_accounts.findOne({owner:currentUserId})
 		unless mail_account
-			toastr.error("您的账户没有通过验证！")
+			FlowRouter.go("/steedos/logout")
+			toastr.error("您的账户没有通过验证，请重新登录！")
 			return
 		Modal.hide "accounts_guide_modal"
 
