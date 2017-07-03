@@ -23,7 +23,7 @@ Template.cf_organization.conditionalselect = (node)->
 Template.cf_organization.onRendered ->
   spaceId = Template.instance().data.spaceId
   is_within_user_organizations = Template.instance().data.is_within_user_organizations
-  CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(@data.defaultValues));
+  CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(@data.defaultValues, spaceId));
 
   $.jstree.defaults.checkbox.three_state = false;
 

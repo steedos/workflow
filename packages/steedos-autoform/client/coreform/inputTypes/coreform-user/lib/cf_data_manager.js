@@ -404,19 +404,26 @@ CFDataManager.getSpaceUsers = function (userIds) {
 	return users;
 };
 
-CFDataManager.getFormulaSpaceUsers = function (userIds) {
+CFDataManager.getFormulaSpaceUsers = function (userIds, space) {
 	if (!userIds)
 		return;
-	return CFDataManager.getFormulaSpaceUser(userIds);
+	return CFDataManager.getFormulaSpaceUser(userIds, space);
 }
 
 //return {name:'',organization:{fullname:'',name:''},roles:[]}
-CFDataManager.getFormulaSpaceUser = function (userId) {
+CFDataManager.getFormulaSpaceUser = function (userId, space) {
 	if (userId) {
+
+		var spaceId = Session.get('spaceId');
+
+		if(space === false){
+			spaceId = null;
+		}
+
 		if (userId instanceof Array) {
-			return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), userId);
+			return SteedosDataManager.getFormulaUserObjects(spaceId, userId);
 		} else {
-			return SteedosDataManager.getFormulaUserObjects(Session.get('spaceId'), [userId])[0];
+			return SteedosDataManager.getFormulaUserObjects(spaceId, [userId])[0];
 		}
 	}
 };
@@ -436,19 +443,19 @@ CFDataManager.getOrgAndChild = function (node, orgId) {
 }
 
 
-CFDataManager.getFormulaOrganizations = function (orgIds) {
+CFDataManager.getFormulaOrganizations = function (orgIds, space) {
 	if (!orgIds)
 		return;
 	var orgs = new Array();
 	if (orgIds instanceof Array) {
-		return SteedosDataManager.getFormulaOrganizations(orgIds)
+		return SteedosDataManager.getFormulaOrganizations(orgIds, space)
 	} else {
-		orgs = CFDataManager.getFormulaOrganization(orgIds);
+		orgs = CFDataManager.getFormulaOrganization(orgIds, space);
 	}
 
 	return orgs;
 }
 
-CFDataManager.getFormulaOrganization = function (orgId) {
-	return _.first(SteedosDataManager.getFormulaOrganizations([orgId]))
+CFDataManager.getFormulaOrganization = function (orgId, space) {
+	return _.first(SteedosDataManager.getFormulaOrganizations([orgId]), space)
 }

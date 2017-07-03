@@ -1,31 +1,28 @@
 JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 	try
-		current_user = req.headers['X-User-Id']
+		current_user_info = Steedos.getAPILoginUser(req, res)
 
-		auth_token = req.headers['X-Auth-Token']
+		if !current_user_info
+			JsonRoutes.sendResult res,
+				code: 401,
+				data:
+					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+					"success": false
+			return;
 
-		space_id = req.headers['X_Space_Id']
-
-		if not current_user
-			throw new Meteor.Error('error', 'need header X-User-Id')
-
-		if not auth_token
-			throw new Meteor.Error('error', 'need header X-Auth-Token')
+		space_id = req.headers['x-space-id']
 
 		if not space_id
-			throw new Meteor.Error('error', 'need header X_Space_Id')
-
-		current_user_info = db.users.findOne(current_user)
-
-		if not current_user_info
-			throw new Meteor.Error('error', 'can not find user')
+			throw new Meteor.Error('error', 'need header x_space_id')
 
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(current_user, space_id)
+		uuflowManager.isSpaceAdmin(space_id, current_user_info._id)
 
 		hashData = req.body
+
+		console.log "req", req
 
 		if not hashData["flow"]
 			throw new Meteor.Error('error', 'flow is null')
@@ -42,7 +39,7 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		if space_id isnt flow.space
 			throw new Meteor.Error('error', 'flow is not belong to this space')
 
-		if db.space_users.find({space: space_id, user: current_user}).count() is 0
+		if db.space_users.find({space: space_id, user: current_user_info._id}).count() is 0
 			throw new Meteor.Error('error', 'auth_token is not a member of this space')
 
 		instance_from_client["space"] = space_id
@@ -77,6 +74,8 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		trace["approves"] = approves
 		traces.push(trace)
 		instance_from_client["traces"] = traces
+
+		instance_from_client["inbox_users"] = [current_user_info._id]
 
 		new_ins_id = uuflowManager.create_instance(instance_from_client, current_user_info)
 

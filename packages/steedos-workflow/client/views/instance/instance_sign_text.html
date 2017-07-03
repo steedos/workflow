@@ -34,9 +34,11 @@
 											{{formatDate finish_date format}}
 										{{else}}
 											{{#if is_finished}}
-												{{{markDownToHtml defaultDescription}}}
-												&emsp;&emsp;{{handler_name}}
-												{{formatDate finish_date format}}
+												{{#if defaultDescription}}
+													{{{markDownToHtml defaultDescription}}}
+													&emsp;&emsp;{{handler_name}}
+													{{formatDate finish_date format}}
+												{{/if}}
 											{{/if}}
 										{{/if}}
 									</div>

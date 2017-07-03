@@ -165,6 +165,7 @@ Template.instance_view.events
 
 
 	'click #ins_new_main_file': (event, template)->
+		Session.set('attach_parent_id', "")
 		# 正文最多只有一个
 		main_attach_count = cfs.instances.find({
 			'metadata.instance': Session.get("instanceId"),
@@ -178,7 +179,10 @@ Template.instance_view.events
 		
 		arg = "Steedos.User.isNewFile"
 		
+		# 默认文件名为文件标题
+		newFileName = WorkflowManager.getInstance().name + '.doc'
+		
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
-		NodeManager.downloadFile(downloadUrl, "demo.doc", arg)
+		NodeManager.downloadFile(downloadUrl, newFileName, arg)
 		

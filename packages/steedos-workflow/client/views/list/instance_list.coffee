@@ -45,12 +45,17 @@ Template.instance_list.helpers
 
 			if !space.admins.contains(uid)
 				flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()
+				# if query.flow
+				# 	if !flow_ids.includes(query.flow)
+				# 		query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}]
+				# else
+				# 	query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid},
+				# 		{flow: {$in: flow_ids}}]
 				if query.flow
 					if !flow_ids.includes(query.flow)
-						query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}]
+						query.flow = ""
 				else
-					query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid},
-						{flow: {$in: flow_ids}}]
+					query.flow = {$in: flow_ids}
 
 		else
 			query.state = "none"

@@ -48,15 +48,12 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 			
 			if (arg){
 				if (arg == "Steedos.User.isNewFile"){
-					$(document.body).removeClass('loading');
-					$('.loading-text').text("");
-					// 默认文件名为文件标题
-					var newFileName = WorkflowManager.getInstance().name + '.doc';
-
-					// 新建文件对象
-					var newFile = new File(filePath,newFileName);
-		
-					InstanceManager.uploadAttach([newFile], false, true);
+					// 正文上传
+					setTimeout(function() {
+						NodeManager.setUploadRequests(filePath, filename, true);
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
 						$(document.body).removeClass('loading');
@@ -122,15 +119,12 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
 
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
+			
 			// 成功上传后删除本地文件
 			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
@@ -169,15 +163,12 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 			
 			if (arg){
 				if (arg == "Steedos.User.isNewFile"){
-					$(document.body).removeClass('loading');
-					$('.loading-text').text("");
-					// 默认文件名为文件标题
-					var newFileName = WorkflowManager.getInstance().name + '.doc';
-
-					// 新建文件对象
-					var newFile = new File(filePath,newFileName);
-		
-					InstanceManager.uploadAttach([newFile], false, true);
+					// 正文上传
+					setTimeout(function() {
+						NodeManager.setUploadRequests(filePath, filename, true);
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
 						$(document.body).removeClass('loading');
@@ -243,14 +234,11 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
+
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
 
 			// 成功上传后删除本地文件
 			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后

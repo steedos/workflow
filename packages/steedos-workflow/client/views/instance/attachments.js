@@ -254,6 +254,10 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		
+		// 转换时锁定
+		InstanceManager.lockAttach(event.target.id);
+
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
 		var arg = "Steedos.User.isDocToPdf";
@@ -631,6 +635,10 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		
+		// 转换时锁定
+		InstanceManager.lockAttach(event.target.id);
+
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
 		var arg = "Steedos.User.isDocToPdf";

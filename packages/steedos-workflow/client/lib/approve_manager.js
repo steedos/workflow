@@ -76,6 +76,13 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
                     }
                 });
 
+
+                //驳回时支持结束步骤
+                var flow_steps = WorkflowManager.getInstanceSteps();
+				var end_step = flow_steps.findPropertyByPK("step_type", "end");
+
+				nextSteps.push(end_step);
+
             }
             break;
         default: //start：开始、submit：填写、counterSign：会签
@@ -528,18 +535,22 @@ ApproveManager.getNextStepUsersSelectValue = function() {
 //     ApproveManager.setNextStepUsersSelectValue(lastSelected);
 
 // }
-// 
+
 ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
     var nextStepUsers = new Array();
     var currentStep = InstanceManager.getCurrentStep();
     if (currentStep && currentStep.step_type == "counterSign") {
         var ins = WorkflowManager.getInstance();
-        var his_trace = _.find(ins.traces, function(t) {
-            return t.is_finished == true && t.step == nextStepId;
-        });
-        if (his_trace) {
-            nextStepUsers = WorkflowManager.getUsers([his_trace.approves[0].user]);
-        }
+        // var his_trace = _.find(ins.traces, function(t) {
+        //     return t.is_finished == true && t.step == nextStepId;
+        // });
+        // if (his_trace) {
+        //     nextStepUsers = WorkflowManager.getUsers([his_trace.approves[0].user]);
+        // }
+
+		var lastStepHandlers = TracesManager.getStepLastHandlers(nextStepId, ins)
+
+		nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
     }
 
     return nextStepUsers;
