@@ -8,6 +8,7 @@ Package.describe({
 Npm.depends({
 	"node-schedule": "1.1.1",
 	cookies: "0.6.1",
+	"weixin-pay": "1.1.7"
 });
 
 Package.onUse(function(api) {
@@ -159,6 +160,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/billing/steedos_billing.less', 'client');
 	api.addFiles('client/steedos/views/billing/space_recharge_modal.html', 'client');
 	api.addFiles('client/steedos/views/billing/space_recharge_modal.coffee', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.html', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.coffee', 'client');
 
 	api.addFiles('client/loading.coffee', 'client');
 

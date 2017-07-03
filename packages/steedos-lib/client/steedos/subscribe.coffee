@@ -30,7 +30,7 @@ Tracker.autorun (c)->
 Steedos.subsModules = new SubsManager();
 
 Tracker.autorun (c)->
-	
-	Steedos.subsModules.clear();
-
-	Steedos.subsSpace.subscribe("modules");
+	user_id = Meteor.userId()
+	Steedos.subsModules.reset();
+	if user_id
+		Steedos.subsModules.subscribe("modules");
