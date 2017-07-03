@@ -82,6 +82,18 @@ Template.accounts_guide_modal.events
 			login_password = $("#accounts-guide-cnpc-password").val()
 			if login_name and login_password
 				auth_users.push { spaceId, auth_name, login_name, login_password }
+
+			auth_name = "cms_ptr"
+			login_name = $("#accounts-guide-cms-ptr-name").val()
+			login_password = $("#accounts-guide-cms-ptr-password").val()
+			if login_name and login_password
+				auth_users.push { spaceId, auth_name, login_name, login_password }
+			auth_name = "cms_cnpc"
+			login_name = $("#accounts-guide-cms-cnpc-name").val()
+			login_password = $("#accounts-guide-cms-cnpc-password").val()
+			if login_name and login_password
+				auth_users.push { spaceId, auth_name, login_name, login_password }
+
 			if auth_users.length
 				Meteor.call 'saveAuthUsers', auth_users, (error, is_suc) ->
 					$(document.body).removeClass('loading')
