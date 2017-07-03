@@ -119,15 +119,12 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
 
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
+			
 			// 成功上传后删除本地文件
 			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
@@ -237,14 +234,11 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
 			// 表单添加附件
 			InstanceManager.addAttach(fileObj, false);
+
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
 
 			// 成功上传后删除本地文件
 			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
