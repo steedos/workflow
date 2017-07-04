@@ -80,5 +80,6 @@
 	"emailjs_mail_refresh":"Mail Server Interrupted, Please Refresh!",
 	"mail_server_interrupte":"Mail Server Interrupted",
 	"emailjs_mail_cancel": "Cancel",
-	"invite_users_help": "https://www.steedos.com/us/help/workflow/admin_space_users.html"
+	"invite_users_help": "https://www.steedos.com/us/help/workflow/admin_space_users.html",
+	"steedos_contacts_import_users": "导入用户"
 }

@@ -55,6 +55,8 @@ Package.onUse(function(api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	//api.addFiles('client/libs/xlsx.full.min.js', ['client']);
+
 	api.addFiles('lib/core.coffee', ['client', 'server']);
 	api.addFiles('lib/models/contact_cards.coffee', ['client', 'server']);
 	api.addFiles('lib/models/address_groups.coffee', ['client', 'server']);
@@ -69,6 +71,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
 	api.addFiles('server/methods/import_contacts_from_space_users.js', 'server');
 	api.addFiles('server/methods/check_org_admin.coffee', 'server');
+	api.addFiles('server/methods/import_users.coffee', 'server');
 
     api.addFiles('server/routes/contacts.coffee', 'server');
 
@@ -115,6 +118,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_space_user_info_modal.html', 'client');
 	api.addFiles('client/views/steedos_contacts_space_user_info_modal.coffee', 'client');
 
+	api.addFiles('client/views/import_users_modal.less', 'client');
+	api.addFiles('client/views/import_users_modal.html', 'client');
+	api.addFiles('client/views/import_users_modal.coffee', 'client');
+
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
 
@@ -122,6 +129,9 @@ Package.onUse(function(api) {
 	api.addFiles('tabular_books.coffee');
 
 	api.export('ContactsManager');
+
+
+	//api.export('XLSX', 'client')
 });
 
 Package.onTest(function(api) {

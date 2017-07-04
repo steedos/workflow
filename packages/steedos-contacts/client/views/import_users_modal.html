@@ -1,0 +1,66 @@
+<template name="import_users_modal">
+	<div class="steedos modal fade import-users-modal" id="import_users_modal" tabindex="-1" role="dialog" aria-labelledby="import-users-modal" style='position: fixed;' data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="import-users-title">导入用户</h4>
+
+				</div>
+				<div class="modal-body import-users-modal-body">
+
+					<input type="file" id="import-file" />
+
+					<label><input type="radio" value="username" name="user_pk" id="user_pk"/>根据用户名匹配用户</label>
+
+					<label><input type="radio" value="email" name="user_pk" id="user_pk" checked/>根据邮箱匹配用户</label>
+
+
+					<div class="data-items">
+						<table class="table">
+							<thead>
+							<tr>
+								<th>#</th>
+								<th>部门<label style="color: red;">*</label></th>
+								<th>用户名</th>
+								<th>邮箱<label style="color: red;">*</label></th>
+								<th>姓名</th>
+								<th>职务</th>
+								<th>工作电话</th>
+								<th>手机</th>
+								<th>状态</th>
+								<th>排序号</th>
+								<th>密码</th>
+							</tr>
+							</thead>
+							<tbody>
+							{{#each items}}
+								<tr>
+									<td>{{row_number @index}}</td>
+									<td>{{organization}}</td>
+									<td>{{username}}</td>
+									<td>{{email}}</td>
+									<td>{{name}}</td>
+									<td>{{position}}</td>
+									<td>{{work_phone}}</td>
+									<td>{{phone}}</td>
+									<td>{{user_accepted}}</td>
+									<td>{{sort_no}}</td>
+									<td>{{password}}</td>
+								</tr>
+							{{/each}}
+							</tbody>
+
+						</table>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<div class="pull-right">
+						<button type="button" class="btn btn-primary" id='import-user-modal-confirm' title='导入' style="width:100%">导入</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

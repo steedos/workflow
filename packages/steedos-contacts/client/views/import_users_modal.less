@@ -1,0 +1,19 @@
+.import-users-modal{
+	.modal-dialog{
+		height: calc(~"100% - 60px");
+		.modal-content{
+			height: 100%;
+			.modal-body{
+				overflow-y: hidden;
+				height: calc(~"100% - 120px");
+				.data-items{
+					overflow: auto;
+					max-height: calc(~"100% - 10px");
+					td,th{
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+	}
+}

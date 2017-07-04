@@ -103,6 +103,10 @@ Template.steedos_contacts_org_user_list.events
 		$(event.currentTarget).removeClass("drag-source-moving")
 		return false
 
+
+	'click #steedos_contacts_import_users_btn': (event, template)->
+		Modal.show("import_users_modal");
+
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	
