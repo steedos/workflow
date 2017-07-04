@@ -45,6 +45,7 @@ JsonRoutes.add 'post', '/api/webhook/notification/wenshu', (req, res, next) ->
 				payload["instance"] = ins_id
 				payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
 				payload["requireInteraction"] = true
+				payload["box"] = "monitor"
 				notification["payload"] = payload
 				notification['query'] = {userId: user._id, appName: 'workflow'}
 
