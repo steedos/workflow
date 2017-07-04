@@ -1,9 +1,7 @@
 Meteor.methods
-	import_users: (space_id, user_pk, data)->
+	import_users: (space_id, user_pk, data, onlyCheck)->
 		console.log "import_users..."
-		console.log "space_id", space_id
-		console.log "user_pk", user_pk
-		console.log "data", data
+		console.log "onlyCheck", onlyCheck
 		###
     		1、校验用户是否存在
     		2、校验工作区用户是否存在
@@ -24,8 +22,6 @@ Meteor.methods
 		data.forEach (item, i)->
 			now = new Date()
 
-			console.log "item", item
-
 			organization = item.organization
 
 			if !organization
@@ -38,6 +34,42 @@ Meteor.methods
 
 			if !item.email
 				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
+			# 获取用户
+			user = db.users.findOne({"emails.address": item.email})
+
+			if user_pk == 'username'
+				if !item.username
+					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
+				user = db.users.findOne({username: item.username})
+
+			# 校验手机号是否被占用
+			if item.phone
+				user_by_phone = db.users.find({"phone.number": item.phone})
+
+				if user_by_phone.count() > 1
+					throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+
+				if user_by_phone.count() == 1
+					if user_pk == 'username'
+						if user_by_phone.fetch()[0]["username"] != item.username
+							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+					if user_pk == 'email'
+						if user_by_phone.fetch()[0]?.emails?[0].address != item.email
+							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+
+			# 如果用户存在但是不属于本次导入的工作区，则不导入
+			if user
+				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
+
+				if !ck_space_user
+					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
+
+			organization_depts.forEach (dept_name, j) ->
+				if !dept_name
+					throw new Meteor.Error(500, "第#{i + 1}行：无效的部门");
+
+			if onlyCheck
+				return ;
 
 			fullname = root_org.name
 
@@ -50,7 +82,7 @@ Meteor.methods
 					org = db.organizations.findOne({space: space_id, fullname: fullname})
 
 					if org
-						parent_org_id = root_org._id
+						parent_org_id = org._id
 					else
 						org_doc = {}
 						org_doc._id = db.organizations._makeNewID()
@@ -77,37 +109,6 @@ Meteor.methods
 								db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
 
 							parent_org_id = org_id
-
-
-			# 获取用户
-			user = db.users.findOne({"emails.address": item.email})
-
-			if user_pk == 'username'
-				if !item.username
-					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
-				user = db.users.findOne({username: item.username})
-
-			# 校验手机号是否被占用
-			if item.phone
-				user_by_phone = db.users.find({"phone.number": item.phone})
-
-				if user_by_phone.count() > 1
-					throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
-
-				if user_by_phone.count() == 1
-					if user_pk == 'username'
-						if user_by_phone.fetch()[0]["username"] != item.username
-							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
-					if user_pk == 'email'
-						if user_by_phone.fetch()[0]?.emails?[0].address != item.username
-							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
-
-			# 如果用户存在但是不属于本次导入的工作区，则不导入
-			if user
-				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
-
-				if !ck_space_user
-					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
 
 			user_id = null
 			if user

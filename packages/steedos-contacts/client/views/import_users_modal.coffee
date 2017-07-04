@@ -1,4 +1,6 @@
 Template.import_users_modal.helpers
+	import_simple_url: ()->
+		return Steedos.absoluteUrl("excel/steedos_import_users_simple.xls")
 	row_number: (i)->
 		return i + 1;
 	items: ()->
@@ -17,6 +19,7 @@ Template.import_users_modal.events
 			# 存储获取到的数据
 			catch e
 				console.log '文件类型不正确'
+				toastr.error("文件类型不正确")
 			# 表格的表格范围，可用于判断表头是否数量是否正确
 			fromTo = ''
 			# 遍历每张表读取
@@ -65,9 +68,21 @@ Template.import_users_modal.events
 
 	'click #import-user-modal-confirm': (event, template) ->
 		$("body").addClass("loading")
-		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get() , (error, result)->
+		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), false, (error, result)->
 			if error
 				toastr.error(error.reason);
+			else
+				toastr.success("导入已完成")
+			$("body").removeClass("loading")
+		);
+
+	'click #import-user-modal-check': (event, template) ->
+		$("body").addClass("loading")
+		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
+			if error
+				toastr.error(error.reason);
+			else
+				toastr.success("校验通过")
 			$("body").removeClass("loading")
 		);
 
