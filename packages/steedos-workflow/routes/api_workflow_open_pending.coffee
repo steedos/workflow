@@ -33,7 +33,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				find_instances = db.instances.find({
 					space: space_id,
 					state: "pending",
-					inbox_users: user_id
+					$or:[{inbox_users: user_id}, {cc_users: user_id}]
 				},{sort:{modified:-1}}).fetch()
 			else
 				# 校验当前登录用户是否是space的管理员
