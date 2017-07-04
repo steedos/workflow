@@ -33,7 +33,7 @@ Meteor.startup ->
 
                 options.onclick = (event) ->
 
-                    box = "inbox" # inbox、outbox、draft、pending、completed
+                    box = event.target.payload.box || "inbox" # inbox、outbox、draft、pending、completed、monitor
 
                     instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
                     
