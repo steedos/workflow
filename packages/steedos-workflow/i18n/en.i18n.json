@@ -543,5 +543,6 @@
 	"instance_next_step_users_placeholder": "Please select the approver",
 	"instance_distribute_to_self": "Also distributed to yourself",
 
-	"my_instances": "My Files"
+	"my_instances": "My Files",
+	"workflow_import_export_flows": "Flows import or export"
 }
