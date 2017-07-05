@@ -1,0 +1,92 @@
+<template name="import_users_modal">
+	<div class="steedos modal fade import-users-modal" id="import_users_modal" tabindex="-1" role="dialog" aria-labelledby="import-users-modal" style='position: fixed;' data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="import-users-title">导入用户</h4>
+
+				</div>
+				<div class="modal-body import-users-modal-body">
+					<div class="alert alert-default alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+						<h4><i class="icon fa fa-info"></i> 导入说明</h4>
+						<p>数据文件必须为Excel</p>
+						<p>1、部门必须为全路径。如果部门不存在，则自动创建</p>
+						<p>2、导入用户如果不存在，则自动创建; 只有新建的用户支持设置密码</p>
+						<p>3、导入用户如果存在，并且已加入当前工作区，则修改用户信息。如果导入的属性为空，则不修改此属性值</p>
+						<p>4、导入用户如果存在，并且已加入当前工作区，则校验不通过</p>
+					</div>
+
+					<div class="form-group">
+						<label>数据文件(Excel)  <a href="{{import_simple_url}}" target="_blank">下载导入模板</a></label>
+						<input type="file" id="import-file" />
+					</div>
+
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<input type="radio" value="username" name="user_pk" id="user_pk"/>
+								根据用户名匹配用户
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" value="email" name="user_pk" id="user_pk" checked/>
+								根据邮箱匹配用户
+							</label>
+						</div>
+					</div>
+
+					<div class="data-perview">
+						<h3 class="box-title">数据预览</h3>
+
+						<div class="data-items">
+							<table class="table table-bordered">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>部门</th>
+									<th>用户名</th>
+									<th>邮箱</th>
+									<th>姓名</th>
+									<th>职务</th>
+									<th>工作电话</th>
+									<th>手机</th>
+									<th>状态</th>
+									<th>排序号</th>
+									<th>密码</th>
+								</tr>
+								</thead>
+								<tbody>
+								{{#each items}}
+									<tr>
+										<td>{{row_number @index}}</td>
+										<td>{{organization}}</td>
+										<td>{{username}}</td>
+										<td>{{email}}</td>
+										<td>{{name}}</td>
+										<td>{{position}}</td>
+										<td>{{work_phone}}</td>
+										<td>{{phone}}</td>
+										<td>{{user_accepted}}</td>
+										<td>{{sort_no}}</td>
+										<td>{{password}}</td>
+									</tr>
+								{{/each}}
+								</tbody>
+
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="pull-right">
+						<button type="button" class="btn btn-info" id='import-user-modal-check' title='数据校验' >数据校验</button>
+						<button type="button" class="btn btn-primary" id='import-user-modal-confirm' title='导入' >导入</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
