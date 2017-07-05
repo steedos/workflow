@@ -4,6 +4,7 @@ Meteor.methods
 		2、校验工作区用户是否存在
 		3、校验部门是否存在
 		4、校验部门用户是否存在
+    	TODO: 国际化
 	###
 	import_users: (space_id, user_pk, data, onlyCheck)->
 
@@ -12,7 +13,6 @@ Meteor.methods
 
 		root_org = db.organizations.findOne({space: space_id, is_company: true})
 
-		# TODO 安全校验
 		space = db.spaces.findOne(space_id)
 		if !space || !space?.admins.includes(this.userId)
 			throw new Meteor.Error(401, "只有工作区管理员可以导入用户");
