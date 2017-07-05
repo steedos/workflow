@@ -1,21 +1,24 @@
 Meteor.methods
+	###
+		1、校验用户是否存在
+		2、校验工作区用户是否存在
+		3、校验部门是否存在
+		4、校验部门用户是否存在
+	###
 	import_users: (space_id, user_pk, data, onlyCheck)->
-		console.log "import_users..."
-		console.log "onlyCheck", onlyCheck
-		###
-    		1、校验用户是否存在
-    		2、校验工作区用户是否存在
-    		3、校验部门是否存在
-    		4、校验部门用户是否存在
-		###
+
+		if !this.userId
+			throw new Meteor.Error(401, "请先登录")
+
 		root_org = db.organizations.findOne({space: space_id, is_company: true})
 
 		# TODO 安全校验
 		space = db.spaces.findOne(space_id)
 		if !space || !space?.admins.includes(this.userId)
-			JsonRoutes.sendResult res, data:
-				msg: '参数space_id非法'
-			return;
+			throw new Meteor.Error(401, "只有工作区管理员可以导入用户");
+
+		if !space.is_paid
+			throw new Meteor.Error(401, "标准版不支持此功能");
 
 		owner_id = space.owner
 
@@ -58,7 +61,16 @@ Meteor.methods
 							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
 
 			# 如果用户存在但是不属于本次导入的工作区，则不导入
+
+			user_by_email = db.users.findOne({"emails.address": item.email})
+
 			if user
+
+				if user_pk == 'username'
+					if item.email != user.steedos_id
+						if user_by_email
+							throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
+
 				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
 
 				if !ck_space_user
@@ -126,6 +138,13 @@ Meteor.methods
 
 				if item.username
 					su_update_doc.username = item.username
+
+				if user_pk == 'username'
+					if item.email != user.steedos_id
+						su_update_doc.steedos_id = item.email
+						su_update_doc.emails = [{address: item.email, verified: true}]
+
+						db.space_users.direct.update({user: user_id},{$set:{email: item.email}})
 
 				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 

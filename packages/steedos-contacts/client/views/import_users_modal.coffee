@@ -8,7 +8,6 @@ Template.import_users_modal.helpers
 
 Template.import_users_modal.events
 	'change #import-file': (event, template) ->
-		debugger;
 		items = new Array();
 		files = event.currentTarget.files;
 		reader = new FileReader();
@@ -67,16 +66,26 @@ Template.import_users_modal.events
 		reader.readAsBinaryString(files[0]);
 
 	'click #import-user-modal-confirm': (event, template) ->
+		if template.items.get().length < 1
+			toastr.error("请选择需要导入的数据");
+			return
+
 		$("body").addClass("loading")
 		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), false, (error, result)->
 			if error
 				toastr.error(error.reason);
 			else
 				toastr.success("导入已完成")
+			Modal.hide(template)
+			$.jstree.reference('#steedos_contacts_org_tree').refresh()
 			$("body").removeClass("loading")
 		);
 
 	'click #import-user-modal-check': (event, template) ->
+		if template.items.get().length < 1
+			toastr.error("请选择需要导入的数据");
+			return
+
 		$("body").addClass("loading")
 		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
 			if error
