@@ -140,7 +140,7 @@ Meteor.methods
 					su_update_doc.username = item.username
 
 				if user_pk == 'username'
-					if item.email != user.steedos_id
+					if Meteor.settings?.import_user?.update_email && item.email != user.steedos_id
 						su_update_doc.steedos_id = item.email
 						su_update_doc.emails = [{address: item.email, verified: true}]
 
