@@ -50,6 +50,17 @@ if Meteor.isClient
 		sort: 50
 		parent: "workflow"
 
+	# 流程导入导出
+	Admin.addMenu
+		_id: "workflow_import_export_flows"
+		title: "workflow_import_export_flows"
+		app: "workflow"
+		icon: "ion ion-ios-paper"
+		url: "/admin/importorexport/flows"
+		paid: "true"
+		sort: 50
+		parent: "workflow"
+
 	# 图片签名
 	Admin.addMenu
 		_id: "space_user_signs"

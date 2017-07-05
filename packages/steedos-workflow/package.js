@@ -256,6 +256,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
 	api.addFiles('client/views/list/admin_flows.html', 'client');
 	api.addFiles('client/views/list/admin_flows.coffee', 'client');
+	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
+	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
 
 	api.addFiles('client/views/list/admin_categories.html', 'client');
 	api.addFiles('client/views/list/admin_categories.coffee', 'client');
