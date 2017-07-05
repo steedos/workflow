@@ -105,6 +105,13 @@ Template.steedos_contacts_org_user_list.events
 
 
 	'click #steedos_contacts_import_users_btn': (event, template)->
+
+		space = db.spaces.findOne({_id: Session.get("spaceId")})
+
+		if !space.is_paid
+			swal({title:"标准版不支持此功能", text:"您可以升级到专业版后使用此功能", type:"error", confirmButtonText: "确认"});
+			return;
+
 		Modal.show("import_users_modal");
 
 Template.steedos_contacts_org_user_list.onRendered ->
