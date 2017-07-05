@@ -109,7 +109,7 @@ Template.steedos_contacts_org_user_list.events
 		space = db.spaces.findOne({_id: Session.get("spaceId")})
 
 		if !space.is_paid
-			swal({title:"标准版不支持此功能", text:"您可以升级到专业版后使用此功能", type:"error", confirmButtonText: "确认"});
+			swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"error", confirmButtonText: TAPi18n.__("OK")});  # TODO 提供统一提醒函数
 			return;
 
 		Modal.show("import_users_modal");

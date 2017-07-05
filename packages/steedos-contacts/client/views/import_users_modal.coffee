@@ -17,8 +17,7 @@ Template.import_users_modal.events
 				workbook = XLSX.read(data, type: 'binary')
 			# 存储获取到的数据
 			catch e
-				console.log '文件类型不正确'
-				toastr.error("文件类型不正确")
+				toastr.error(TAPi18n.__("steedos_contacts_import_users_file_error"))
 			# 表格的表格范围，可用于判断表头是否数量是否正确
 			fromTo = ''
 			# 遍历每张表读取
@@ -67,7 +66,7 @@ Template.import_users_modal.events
 
 	'click #import-user-modal-confirm': (event, template) ->
 		if template.items.get().length < 1
-			toastr.error("请选择需要导入的数据");
+			toastr.error(TAPi18n.__("steedos_contacts_import_users_select_file"));
 			return
 
 		$("body").addClass("loading")
@@ -75,7 +74,7 @@ Template.import_users_modal.events
 			if error
 				toastr.error(error.reason);
 			else
-				toastr.success("导入已完成")
+				toastr.success(TAPi18n.__("steedos_contacts_import_users_import_success"))
 			Modal.hide(template)
 			$.jstree.reference('#steedos_contacts_org_tree').refresh()
 			$("body").removeClass("loading")
@@ -83,7 +82,7 @@ Template.import_users_modal.events
 
 	'click #import-user-modal-check': (event, template) ->
 		if template.items.get().length < 1
-			toastr.error("请选择需要导入的数据");
+			toastr.error(TAPi18n.__("steedos_contacts_import_users_select_file"));
 			return
 
 		$("body").addClass("loading")
@@ -91,7 +90,7 @@ Template.import_users_modal.events
 			if error
 				toastr.error(error.reason);
 			else
-				toastr.success("校验通过")
+				toastr.success(TAPi18n.__("steedos_contacts_import_users_check_success"))
 			$("body").removeClass("loading")
 		);
 

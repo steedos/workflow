@@ -4,22 +4,18 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="import-users-title">导入用户</h4>
+					<h4 class="modal-title" id="import-users-title">{{_ 'steedos_contacts_import_users'}}</h4>
 
 				</div>
 				<div class="modal-body import-users-modal-body">
 					<div class="alert alert-default alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						<h4><i class="icon fa fa-info"></i> 导入说明</h4>
-						<p>数据文件必须为Excel</p>
-						<p>1、部门必须为全路径。如果部门不存在，则自动创建</p>
-						<p>2、导入用户如果不存在，则自动创建; 只有新建的用户支持设置密码</p>
-						<p>3、导入用户如果存在，并且已加入当前工作区，则修改用户信息。如果导入的属性为空，则不修改此属性值</p>
-						<p>4、导入用户如果存在，并且已加入当前工作区，则校验不通过</p>
+						<h4><i class="icon fa fa-info"></i> {{_ "steedos_contacts_import_users_note"}}</h4>
+						{{{_ 'steedos_contacts_import_users_note_detail'}}}
 					</div>
 
 					<div class="form-group">
-						<label>数据文件(Excel)  <a href="{{import_simple_url}}" target="_blank">下载导入模板</a></label>
+						<label>{{_ 'steedos_contacts_import_users_data_file_title'}}  <a href="{{import_simple_url}}" target="_blank">{{_ 'steedos_contacts_import_users_download_simple_data_file'}}</a></label>
 						<input type="file" id="import-file" />
 					</div>
 
@@ -27,35 +23,35 @@
 						<div class="radio">
 							<label>
 								<input type="radio" value="username" name="user_pk" id="user_pk"/>
-								根据用户名匹配用户
+								{{_ 'steedos_contacts_import_users_match_user_base_username'}}
 							</label>
 						</div>
 						<div class="radio">
 							<label>
 								<input type="radio" value="email" name="user_pk" id="user_pk" checked/>
-								根据邮箱匹配用户
+								{{_ 'steedos_contacts_import_users_match_user_base_email'}}
 							</label>
 						</div>
 					</div>
 
 					<div class="data-perview">
-						<h3 class="box-title">数据预览</h3>
+						<h3 class="box-title">{{_ 'steedos_contacts_import_users_preview'}}</h3>
 
 						<div class="data-items">
 							<table class="table table-bordered">
 								<thead>
 								<tr>
 									<th>#</th>
-									<th>部门</th>
-									<th>用户名</th>
-									<th>邮箱</th>
-									<th>姓名</th>
-									<th>职务</th>
-									<th>工作电话</th>
-									<th>手机</th>
-									<th>状态</th>
-									<th>排序号</th>
-									<th>密码</th>
+									<th>{{_ "steedos_contacts_import_users_organization"}}</th>
+									<th>{{_ "steedos_contacts_import_users_username"}}</th>
+									<th>{{_ "steedos_contacts_import_users_email"}}</th>
+									<th>{{_ "steedos_contacts_import_users_name"}}</th>
+									<th>{{_ "steedos_contacts_import_users_position"}}</th>
+									<th>{{_ "steedos_contacts_import_users_work_phone"}}</th>
+									<th>{{_ "steedos_contacts_import_users_phone"}}</th>
+									<th>{{_ "steedos_contacts_import_users_user_accepted"}}</th>
+									<th>{{_ "steedos_contacts_import_users_sort_no"}}</th>
+									<th>{{_ "steedos_contacts_import_users_password"}}</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -82,8 +78,8 @@
 				</div>
 				<div class="modal-footer">
 					<div class="pull-right">
-						<button type="button" class="btn btn-info" id='import-user-modal-check' title='数据校验' >数据校验</button>
-						<button type="button" class="btn btn-primary" id='import-user-modal-confirm' title='导入' >导入</button>
+						<button type="button" class="btn btn-info" id='import-user-modal-check' title='{{_ "steedos_contacts_import_users_check"}}' >{{_ "steedos_contacts_import_users_check"}}</button>
+						<button type="button" class="btn btn-primary" id='import-user-modal-confirm' title='{{_ "steedos_contacts_import_users_title"}}' >{{_ "steedos_contacts_import_users_title"}}</button>
 					</div>
 				</div>
 			</div>
