@@ -3,4 +3,4 @@ Meteor.publish 'instances_draft', (spaceId)->
 		return this.ready()
 
 	userId = this.userId
-	return db.instances.find({state:"draft",space:spaceId,submitter:userId,inbox_users:{$exists:false}})
+	return db.instances.find({state:"draft",space:spaceId,submitter:userId,$or:[{inbox_users: {$exists:false}}, {inbox_users: []}]})
