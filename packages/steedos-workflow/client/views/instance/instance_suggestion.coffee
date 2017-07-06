@@ -54,8 +54,8 @@ Template.instance_suggestion.helpers
 		if instance_form_values?.instanceId == Session.get("instanceId")
 			return InstanceManager.getNextStepOptions();
 
-#next_user_options: ->
-#    return InstanceManager.getNextUserOptions();
+	#next_user_options: ->
+	#    return InstanceManager.getNextUserOptions();
 
 	next_user_context: ->
 		instance_form_values = Session.get("instance_form_values")
@@ -107,7 +107,7 @@ Template.instance_suggestion.helpers
 
 		if next_user && next_user.length > 0
 
-#先清空下一步处理人
+			#先清空下一步处理人
 			next_user[0].value = ''
 			next_user[0].dataset.values = ''
 
@@ -259,8 +259,6 @@ Template.instance_suggestion.events
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
-#		if ApproveManager.isReadOnly()
-#			return;
 		InstanceManager.checkSuggestion();
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 
