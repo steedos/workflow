@@ -8,7 +8,8 @@ Package.describe({
 Npm.depends({
 	"node-schedule": "1.1.1",
 	cookies: "0.6.1",
-	"weixin-pay": "1.1.7"
+	"weixin-pay": "1.1.7",
+	"xml2js": "0.4.17"
 });
 
 Package.onUse(function(api) {
@@ -183,6 +184,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 	api.addFiles('server/publications/modules.coffee', 'server');
+	api.addFiles('server/publications/weixin_pay_code_url.coffee', 'server');
 
 	// managers
 	api.addFiles('server/lib/billing_manager.coffee', 'server');
@@ -201,6 +203,9 @@ Package.onUse(function(api) {
 
 	// functions
 	api.addFiles('server/functions/checkUsernameAvailability.coffee', 'server');
+
+	// routes
+	api.addFiles('server/routes/api_billing_recharge_notify.coffee', 'server');
 
 	// EXPORT
 	api.export('Steedos');

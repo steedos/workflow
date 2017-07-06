@@ -5,14 +5,15 @@ Template.space_recharge_modal.helpers
 
 Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
-		
+		new_id = db.weixin_pay_code_urls._makeNewID()
 		total_fee = 1 
-		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), $('#space_recharge_modules').val(), (err, result)->
+		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), $('#space_recharge_modules').val(), new_id, (err, result)->
 			if err
 				console.log err
 			if result
 				console.log result
 				data = new Object
 				data.app = 'workflow.prefessional'
+				data._id = new_id
 				Modal.allowMultiple = true
-				# Modal.show('space_recharge_qrcode_modal', data)
+				Modal.show('space_recharge_qrcode_modal', data)

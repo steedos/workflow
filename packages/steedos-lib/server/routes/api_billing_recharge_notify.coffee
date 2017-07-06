@@ -1,15 +1,24 @@
-JsonRoutes.add 'get', '/api/billing/recharge/notify', (req, res, next) ->
+JsonRoutes.add 'post', '/api/billing/recharge/notify', (req, res, next) ->
 	try
 		console.log "===========/api/billing/recharge/notify=============="
-		console.log req.body
-
-		JsonRoutes.sendResult res,
-			code: 200
-			data: { status: "success", data: apps}
+		body = ""
+		req.on('data', (chunk)->
+			body += chunk
+		)
+		req.on('end', ()->
+			console.log body
+			xml2js = Npm.require('xml2js')
+			parser = new xml2js.Parser({ trim:true, explicitArray:false, explicitRoot:false })
+			parser.parseString(body, (err, result)->
+				console.log JSON.stringify(result)
+			)
+			
+		)
+		
 	catch e
 		console.error e.stack
-		JsonRoutes.sendResult res,
-			code: 200
-			data: { errors: [{errorMessage: e.message}]}
-	
+
+	res.writeHead(200, {'Content-Type': 'application/xml'})
+	res.end('<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>')
+
 		

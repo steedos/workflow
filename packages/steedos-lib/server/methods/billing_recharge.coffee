@@ -1,5 +1,5 @@
 Meteor.methods
-	billing_recharge: (total_fee, space_id, module_id)->
+	billing_recharge: (total_fee, space_id, module_id, new_id)->
 
 		result_obj = {}
 
@@ -10,7 +10,9 @@ Meteor.methods
 		WXPay = Npm.require('weixin-pay')
 
 		wxpay = WXPay({
-
+			appid: 'wxe130bd795323d524',
+			mch_id: '1484705002'
+			partner_key: '5194c66ef4a563537a0000035194c66e' #微信商户平台API密钥
 			# pfx: fs.readFileSync('./wxpay_cert.p12') #微信商户平台证书
 		})
 
@@ -23,10 +25,18 @@ Meteor.methods
 			trade_type: 'NATIVE',
 			product_id: '1234567890',
 			attach: JSON.stringify(attach)
-		}, (err, result) -> 
-			console.log "-----createUnifiedOrder----"
-			console.log(result)
-			result_obj = result
+		}, Meteor.bindEnvironment(((err, result) -> 
+				console.log "-----createUnifiedOrder----"
+				console.log(result)
+				obj = {}
+				obj._id = new_id
+				obj.created = new Date
+				obj.info = result
+				db.weixin_pay_code_urls.insert(obj)
+			), ()->
+				console.log 'Failed to bind environment'
+			)
 		)
 
-		return result_obj
+		
+		return "success"

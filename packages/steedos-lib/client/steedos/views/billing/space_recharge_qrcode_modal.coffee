@@ -4,9 +4,15 @@ Template.space_recharge_qrcode_modal.helpers
 Template.space_recharge_qrcode_modal.onRendered ()->
 	console.log this
 	that = this
-	qrnode = new AraleQRCode({
-		text: that.code_url
+	code_url_id = that.data._id
+	db.weixin_pay_code_urls.find({_id: code_url_id}).observe({
+		added:(doc)->
+			qrnode = new AraleQRCode({
+				text: doc.info.code_url
+			})
+			document.getElementById('qrcodeDefault').appendChild(qrnode)
 	})
-	document.getElementById('qrcodeDefault').appendChild(qrnode)
+	Meteor.subscribe 'weixin_pay_code_url', code_url_id
+
 
 Template.space_recharge_qrcode_modal.events
