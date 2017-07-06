@@ -50,9 +50,15 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 				if (arg == "Steedos.User.isNewFile"){
 					// 正文上传
 					setTimeout(function() {
-						NodeManager.setUploadRequests(filePath, filename, true);
+						// NodeManager.setUploadRequests(filePath, filename, true);
 						$(document.body).removeClass('loading');
 						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
 					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
@@ -165,9 +171,15 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 				if (arg == "Steedos.User.isNewFile"){
 					// 正文上传
 					setTimeout(function() {
-						NodeManager.setUploadRequests(filePath, filename, true);
+						// NodeManager.setUploadRequests(filePath, filename, true);
 						$(document.body).removeClass('loading');
 						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
 					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){

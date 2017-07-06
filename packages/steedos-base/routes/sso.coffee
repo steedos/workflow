@@ -19,14 +19,14 @@ JsonRoutes.add "get", "/api/setup/sso/:app_id", (req, res, next) ->
 	cookies = new Cookies( req, res );
 
 	# first check request body
-	if req.body
-		userId = req.body["X-User-Id"]
-		authToken = req.body["X-Auth-Token"]
+	# if req.body
+	# 	userId = req.body["X-User-Id"]
+	# 	authToken = req.body["X-Auth-Token"]
 
-	# then check cookie
-	if !userId or !authToken
-		userId = cookies.get("X-User-Id")
-		authToken = cookies.get("X-Auth-Token")
+	# # then check cookie
+	# if !userId or !authToken
+	# 	userId = cookies.get("X-User-Id")
+	# 	authToken = cookies.get("X-Auth-Token")
 
 	if !userId and !authToken
 		userId = req.query["X-User-Id"]

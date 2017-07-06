@@ -171,7 +171,7 @@ NodeManager.getFileSHA1 = function(filePath, filename, callback) {
 }
 
 // 使用edit.vbs打开本地office
-NodeManager.vbsEditFile = function(download_dir, filename) {
+NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 	var filePath = download_dir + filename;
 	// 获取华炎云安装路径
 	var homePath = process.cwd();
@@ -243,7 +243,12 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 								NodeManager.vbsEditFile(download_dir, filename);
 							});
 						} else {
-							NodeManager.setUploadRequests(filePath, filename);
+							if (arg == "Steedos.User.isNewFile"){
+								// 正文上传
+								NodeManager.setUploadRequests(filePath, filename, true);
+							}else{
+								NodeManager.setUploadRequests(filePath, filename);
+							}
 						}
 					} else {
 						// 解锁 

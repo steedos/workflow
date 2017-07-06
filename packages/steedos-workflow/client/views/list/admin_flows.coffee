@@ -12,9 +12,6 @@ Template.admin_flows.events
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-edit').click();
 
-	'click #importFlow': (event)->
-		Modal.show("admin_import_flow_modal");
-
 Template.admin_flows.onRendered ->
 	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
 	this.copyTableauUrlClipboard.on 'success', (e) ->

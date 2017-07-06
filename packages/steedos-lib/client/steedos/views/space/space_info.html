@@ -26,9 +26,11 @@
                       </div>
                     </a>
                   </li>
+                  {{#unless isDisableAddSpace}}
+                    <li role="separator" class="divider"></li>
+                  {{/unless}}
                 {{/if}}
                 {{#unless isDisableAddSpace}}
-                  <li role="separator" class="divider"></li>
                   <li>
                     <a class="btn-new-space">
                       <b>{{_ "spaces_new"}}</b>

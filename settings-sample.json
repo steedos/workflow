@@ -175,5 +175,9 @@
       "minute": 30
     }], // 提醒时间的时间点集合
     "skip_users": [] // 不发送通知的用户ID集合
+  },
+
+  "import_user":{
+    "update_email": true  //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
   }
 }

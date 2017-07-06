@@ -558,5 +558,6 @@
 	"instance_next_step_users_placeholder": "请选择下一步处理人",
 	"instance_distribute_to_self": "同时分发给自己",
 
-	"my_instances": "我的文件"
+	"my_instances": "我的文件",
+	"workflow_import_export_flows": "流程导入导出"
 }
