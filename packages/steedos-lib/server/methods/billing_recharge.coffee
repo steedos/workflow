@@ -7,12 +7,10 @@ Meteor.methods
 		attach.space = space_id
 		attach.module = module_id
 
-		WXPay = require('weixin-pay')
+		WXPay = Npm.require('weixin-pay')
 
 		wxpay = WXPay({
-			appid: 'xxxxxxxx',
-			mch_id: '1234567890',
-			# partner_key: 'xxxxxxxxxxxxxxxxx', #微信商户平台API密钥
+
 			# pfx: fs.readFileSync('./wxpay_cert.p12') #微信商户平台证书
 		})
 
@@ -21,11 +19,12 @@ Meteor.methods
 			out_trade_no: moment().format('YYYYMMDDHHmmssSSS'),
 			total_fee: total_fee,
 			spbill_create_ip: '114.95.242.231',
-			notify_url: Meteor.absolutUrl() + 'api/billing/recharge/notify',
+			notify_url: Meteor.absoluteUrl() + 'api/billing/recharge/notify',
 			trade_type: 'NATIVE',
 			product_id: '1234567890',
 			attach: JSON.stringify(attach)
 		}, (err, result) -> 
+			console.log "-----createUnifiedOrder----"
 			console.log(result)
 			result_obj = result
 		)

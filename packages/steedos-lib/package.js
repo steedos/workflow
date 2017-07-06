@@ -178,6 +178,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/setKeyValue.js', 'server');
 	api.addFiles('server/methods/billing_settleup.coffee', 'server');
 	api.addFiles('server/methods/setUsername.coffee', 'server');
+	api.addFiles('server/methods/billing_recharge.coffee', 'server');
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
