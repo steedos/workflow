@@ -28,7 +28,7 @@ Template.instance_list.helpers
 		else if box == "draft"
 			query.submitter = Meteor.userId()
 			query.state = "draft"
-			query.inbox_users = {$exists:false}
+			query.$or = [{inbox_users: {$exists:false}}, {inbox_users: []}]
 		else if box == "pending"
 			uid = Meteor.userId()
 			query.$or = [{submitter: uid}, {applicant: uid}]
