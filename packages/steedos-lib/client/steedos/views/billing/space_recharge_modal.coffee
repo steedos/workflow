@@ -5,9 +5,11 @@ Template.space_recharge_modal.helpers
 
 Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
+		select = document.getElementById('space_recharge_modules')
+		module_name = select.options[select.selectedIndex].text
 		new_id = db.weixin_pay_code_urls._makeNewID()
 		total_fee = 1 
-		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), $('#space_recharge_modules').val(), new_id, (err, result)->
+		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), $('#space_recharge_modules').val(), new_id, module_name, (err, result)->
 			if err
 				console.log err
 			if result
