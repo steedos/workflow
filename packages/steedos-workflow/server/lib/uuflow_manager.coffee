@@ -2022,3 +2022,14 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 			TemplateCode: 'SMS_67200967',
 			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})
+
+# 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
+uuflowManager.checkMainAttach = (instance_id)->
+	main = cfs.instances.findOne({'metadata.instance': instance_id, 'metadata.main': true, 'metadata.current': true})
+	if main
+		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1}})
+		main_name_split = main.name().split('.')
+		main_name_split.pop()
+		if ins.name isnt main_name_split.join("")
+			new_name = ins.name + "." + main.extension()
+			main.update({$set: {'original.name': new_name, 'copies.instances.name': new_name}})
