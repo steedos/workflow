@@ -89,6 +89,7 @@
 	"workflow_attachment_delete": "删除",
 	"workflow_attachment_convert_to_pdf": "正在将 '%s' 转换为pdf格式文件...",
 	"workflow_attachment_wordToPdf": "转为pdf",
+	"workflow_attachment_wordToPdf_failed": "未转换成功，请重新尝试！",
 
 	"Instance State approved": "已核准",
 	"Instance State rejected": "已驳回",
