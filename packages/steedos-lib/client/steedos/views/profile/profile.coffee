@@ -111,6 +111,12 @@ Template.profile.helpers
 	btn_save_i18n: () ->
 		return TAPi18n.__ 'Submit'
 
+	isShowProfileInfo: () ->
+		console.log Meteor.settings.public.admin.disableProfileInfo
+		if Meteor.settings.public.admin.disableProfileInfo == true
+			return false
+		else
+			return true
 
 Template.profile.onRendered ->
 	profileName = FlowRouter.current()?.params?.profileName
