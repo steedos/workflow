@@ -45,6 +45,7 @@
               <li class=""><a href="#personalization" data-toggle="tab" aria-expanded="false">{{_ "personalization"}}</a></li>
             </ul>
             <div class="tab-content">
+            {{#if isShowProfileInfo}}
               <div class="tab-pane active" id="profile">
 
                 <div class="box box-solid">
@@ -54,7 +55,8 @@
                 </div>
 
               </div>
-              <div class="tab-pane" id="avatar">
+            {{/if}}
+              <div class="tab-pane {{#unless isShowProfileInfo}}active{{/unless}}" id="avatar">
 
                 <div class="box box-solid">
                   <div class="box-body">
