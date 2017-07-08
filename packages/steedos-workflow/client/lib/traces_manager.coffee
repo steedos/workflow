@@ -28,3 +28,36 @@ TracesManager.getStepLastHandlers = (stepId, instance) ->
 
 
 	return handlers;
+
+
+TracesManager.getHandlerSignShowApproves = (ins, handler)->
+
+	currentApprove = InstanceManager.getCurrentApprove();
+
+	traces = _.clone(ins.traces)
+
+	currentTrace = _.find traces, (t)->
+		return t._id == currentApprove.trace
+
+
+	stepApproves = []
+
+	if currentTrace
+
+		tracesByStep = _.groupBy traces, 'step'
+
+		stepTraces = tracesByStep[currentTrace.step]
+
+		stepTraces?.forEach (t)->
+			stepApproves = stepApproves.concat(t.approves)
+
+
+	userApproves = _.groupBy stepApproves, "handler"
+
+	currentUserApproves = userApproves[handler]
+
+	signShowApproves = _.filter currentUserApproves, (a)->
+		return a.is_finished && a.sign_show != false && a.description
+
+
+	return signShowApproves

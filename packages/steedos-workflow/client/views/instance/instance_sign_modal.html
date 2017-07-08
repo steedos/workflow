@@ -12,6 +12,19 @@
 
 				<div class="modal-body modal-zoom">
 					<div class="instance-suggestion">
+
+						<div class="form-group">
+
+							<label class="radio-inline">
+								<input type="radio" name="sign_type" id="sign_type" value="add" class="suggestion">新增
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="sign_type" id="sign_type" value="update" class="suggestion" checked>修改
+							</label>
+
+							<a class="instance-sign-opinion-btn">{{_ "历史意见"}}</a>
+						</div>
+
 						<textarea name="modal_suggestion" class="suggestion-control" id="modal_suggestion">{{modal_suggestion}}</textarea>
 						<span class="help-block"></span>
 						<a class="instance-sign-opinion-btn">{{_ "instance_sign_read"}}</a>
