@@ -204,6 +204,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/instance_sign_modal.less', 'client');
 	api.addFiles('client/views/instance/instance_sign_modal.coffee', 'client');
 
+	api.addFiles('client/views/instance/history_sign_approve.html', 'client');
+	api.addFiles('client/views/instance/history_sign_approve.coffee', 'client');
+
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_box.less', 'client');

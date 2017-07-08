@@ -26,6 +26,10 @@ Template.instanceSignModal.events
 
 		$("#modal_suggestion").val(val)
 
+	'click .instance-sign-history': (event, template)->
+		Modal.allowMultiple = true
+		Modal.show 'history_sign_approve'
+
 #	'shown.bs.modal .instance-sign-modal': ()->
 #
 #		if !Steedos.isMobile()
