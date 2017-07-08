@@ -234,18 +234,33 @@ new Tabular.Table
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '">' + t("flows_btn_export_title") + '</a>'
-		},{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
 
 				tableauUrl = Meteor.absoluteUrl("api/workflow/tableau/space/#{doc.space}/flow/#{doc._id}")
 
 				return '<button type="button" class="btn btn-xs btn-default" id="copyTableauUrl" data-clipboard-text="'+ tableauUrl + '">'+ t("flows_btn_copylink_title") + '</button>'
 		},
+	]
+	extraFields: ["form","print_template","instance_template","events","field_map","space"]
+	lengthChange: false
+	pageLength: 10
+	info: false
+	searching: true
+	autoWidth: false
+
+new Tabular.Table
+	name: "ImportOrExportFlows",
+	collection: db.flows,
+	columns: [
+		{data: "name", title: "name"},
+#		{data: "state", title: "state"},
+		{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '">' + t("flows_btn_export_title") + '</a>'
+		}
 	]
 	extraFields: ["form","print_template","instance_template","events","field_map","space"]
 	lengthChange: false

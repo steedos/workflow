@@ -50,9 +50,15 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 				if (arg == "Steedos.User.isNewFile"){
 					// 正文上传
 					setTimeout(function() {
-						NodeManager.setUploadRequests(filePath, filename, true);
+						// NodeManager.setUploadRequests(filePath, filename, true);
 						$(document.body).removeClass('loading');
 						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
 					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
@@ -73,7 +79,19 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 						if (arg == "Steedos.User.isDocToPdf"){
 							var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
 							var pdfPath = path.join(download_dir, pdfName);
-							NodeManager.setUploadRequests(pdfPath, pdfName);
+							fs.exists(pdfPath, function(exists) {
+								if (exists == true) {
+									NodeManager.setUploadRequests(pdfPath, pdfName);
+								}else {
+									$(document.body).removeClass('loading');
+									$('.loading-text').text("");
+									
+									toastr.error(TAPi18n.__('workflow_attachment_wordToPdf_failed'));
+									
+									// 解锁 
+									InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+								}
+							})
 						}
 					});
 					child.on('error', function(error) {
@@ -126,7 +144,7 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 			$('.loading-text').text("");
 			
 			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
+			fs.unlinkSync(files[0].urlValue); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 
@@ -165,9 +183,14 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 				if (arg == "Steedos.User.isNewFile"){
 					// 正文上传
 					setTimeout(function() {
-						NodeManager.setUploadRequests(filePath, filename, true);
 						$(document.body).removeClass('loading');
 						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
 					}, 1000);
 				}else{
 					if (arg == "Steedos.User.isView"){
@@ -188,7 +211,19 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 						if (arg == "Steedos.User.isDocToPdf"){
 							var pdfName = path.basename(filename,path.extname(filename)) + ".pdf";
 							var pdfPath = path.join(download_dir, pdfName);
-							NodeManager.setUploadRequests(pdfPath, pdfName);
+							fs.exists(pdfPath, function(exists) {
+								if (exists == true) {
+									NodeManager.setUploadRequests(pdfPath, pdfName);
+								}else {
+									$(document.body).removeClass('loading');
+									$('.loading-text').text("");
+									
+									toastr.error(TAPi18n.__('workflow_attachment_wordToPdf_failed'));
+									
+									// 解锁 
+									InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+								}
+							})
 						}
 					});
 					child.on('error', function(error) {
@@ -241,7 +276,7 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 			$('.loading-text').text("");
 
 			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
+			fs.unlinkSync(files[0].urlValue); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 

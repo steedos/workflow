@@ -71,7 +71,7 @@ Template.workflowSidebar.helpers
 	draftCount: ()->
 		spaceId = Steedos.spaceId()
 		userId = Meteor.userId()
-		return db.instances.find({state:"draft",space:spaceId,submitter:userId,inbox_users:{$exists:false}}).count()
+		return db.instances.find({state:"draft",space:spaceId,submitter:userId,$or:[{inbox_users: {$exists:false}}, {inbox_users: []}]}).count()
 
 Template.workflowSidebar.events
 

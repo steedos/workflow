@@ -88,6 +88,7 @@
 	"workflow_attachment_delete": "Delete",
 	"workflow_attachment_convert_to_pdf": "Converting '%s' to pdf format...",
 	"workflow_attachment_wordToPdf": "Convert To Pdf",
+	"workflow_attachment_wordToPdf_failed": "Convert to PDF failed!",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
@@ -543,5 +544,6 @@
 	"instance_next_step_users_placeholder": "Please select the approver",
 	"instance_distribute_to_self": "Also distributed to yourself",
 
-	"my_instances": "My Files"
+	"my_instances": "My Files",
+	"workflow_import_export_flows": "Flows import or export"
 }

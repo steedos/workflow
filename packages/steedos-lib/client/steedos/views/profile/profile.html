@@ -36,13 +36,16 @@
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
+            {{#if isShowProfileInfo}}
               <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">{{_ "Profile"}}</a></li>
-              <li class=""><a href="#avatar" data-toggle="tab" aria-expanded="false">{{_ "Avatar"}}</a></li>
+            {{/if}}
+              <li class="{{#unless isShowProfileInfo}}active{{/unless}}"><a href="#avatar" data-toggle="tab" aria-expanded="false">{{_ "Avatar"}}</a></li>
               <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">{{_ "Account"}}</a></li>
               <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
               <li class=""><a href="#personalization" data-toggle="tab" aria-expanded="false">{{_ "personalization"}}</a></li>
             </ul>
             <div class="tab-content">
+            {{#if isShowProfileInfo}}
               <div class="tab-pane active" id="profile">
 
                 <div class="box box-solid">
@@ -52,7 +55,8 @@
                 </div>
 
               </div>
-              <div class="tab-pane" id="avatar">
+            {{/if}}
+              <div class="tab-pane {{#unless isShowProfileInfo}}active{{/unless}}" id="avatar">
 
                 <div class="box box-solid">
                   <div class="box-body">
