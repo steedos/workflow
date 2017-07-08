@@ -144,6 +144,15 @@ Meteor.methods
 					u_update_doc.username = item.username
 					su_update_doc.username = item.username
 
+				if item.phone
+					u_update_doc.phone = {
+						number: item.phone
+						verified: true
+						modified: now
+					}
+
+					su_update_doc.mobile = item.phone
+
 				if user_pk == 'username'
 					if Meteor.settings?.import_user?.update_email && item.email != user.steedos_id
 
@@ -152,7 +161,7 @@ Meteor.methods
 						u_update_doc.steedos_id = item.email
 						u_update_doc.emails = [{address: item.email, verified: true}]
 
-						db.users.direct.update({_id: user_id},{$set:u_update_doc})
+				db.users.direct.update({_id: user_id},{$set:u_update_doc})
 
 				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 
