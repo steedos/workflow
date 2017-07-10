@@ -139,6 +139,7 @@ InstanceformTemplate.helpers =
 					opinion_fields_code: approve.opinion_fields_code
 					sign_field_code: approve.sign_field_code
 					is_read: approve.is_read
+					sign_show: approve.sign_show
 
 
 			if step
