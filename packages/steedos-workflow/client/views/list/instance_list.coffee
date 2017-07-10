@@ -15,7 +15,7 @@ Template.instance_list.helpers
 
 	selector: ->
 		unless Meteor.user()
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		query = {space: Session.get("spaceId"), flow: Session.get("flowId")}
 		box = Session.get("box")
 		if box == "inbox"

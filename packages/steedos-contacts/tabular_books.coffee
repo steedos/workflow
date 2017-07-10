@@ -42,15 +42,15 @@
       autoWidth: false,
       changeSelector: (selector, userId) ->
         unless userId
-          return {make_a_bad_selector: 1}
+          return {_id: -1}
         owner = selector.owner
         unless owner
           if selector?.$and?.length > 0
             owner = selector.$and.getProperty('owner')[0]
         unless owner
-          return {make_a_bad_selector: 1}
+          return {_id: -1}
         unless owner.toString() == userId.toString()
-          return {make_a_bad_selector: 1}
+          return {_id: -1}
         return selector
 
       #scrollY:        '400px',
