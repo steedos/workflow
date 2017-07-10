@@ -128,23 +128,40 @@ Meteor.methods
 
 				#修改space_user 中的position\work_phone\username
 
+				u_update_doc = {}
+
 				su_update_doc = {}
 
 				if item.position
+					u_update_doc.position = item.position
 					su_update_doc.position = item.position
 
 				if item.work_phone
+					u_update_doc.work_phone = item.work_phone
 					su_update_doc.work_phone = item.work_phone
 
 				if item.username
+					u_update_doc.username = item.username
 					su_update_doc.username = item.username
+
+				if item.phone
+					u_update_doc.phone = {
+						number: item.phone
+						verified: true
+						modified: now
+					}
+
+					su_update_doc.mobile = item.phone
 
 				if user_pk == 'username'
 					if Meteor.settings?.import_user?.update_email && item.email != user.steedos_id
-						su_update_doc.steedos_id = item.email
-						su_update_doc.emails = [{address: item.email, verified: true}]
 
-						db.space_users.direct.update({user: user_id},{$set:{email: item.email}})
+						su_update_doc.email = item.email
+
+						u_update_doc.steedos_id = item.email
+						u_update_doc.emails = [{address: item.email, verified: true}]
+
+				db.users.direct.update({_id: user_id},{$set:u_update_doc})
 
 				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 

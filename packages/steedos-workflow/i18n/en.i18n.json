@@ -88,6 +88,7 @@
 	"workflow_attachment_delete": "Delete",
 	"workflow_attachment_convert_to_pdf": "Converting '%s' to pdf format...",
 	"workflow_attachment_wordToPdf": "Convert To Pdf",
+	"workflow_attachment_wordToPdf_failed": "Convert to PDF failed!",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
