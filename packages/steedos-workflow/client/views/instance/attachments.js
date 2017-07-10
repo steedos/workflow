@@ -254,7 +254,7 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
-		
+
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -635,7 +635,7 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
-		
+
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -785,6 +785,7 @@ Template.ins_attach_edit_modal.events({
 		params.locked_by = Meteor.userId();
 		params.locked_by_name = Meteor.user().name;
 		params.upload_from = "IE";
+		params.overwrite = true;
 
 		var main_count = cfs.instances.find({
 			'metadata.parent': Session.get('attach_parent_id'),
