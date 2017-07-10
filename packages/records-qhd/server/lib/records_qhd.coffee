@@ -69,6 +69,11 @@ RecordsQHD.instanceToContracts = (submit_date_start, submit_date_end, spaces)->
 
 	console.time "RecordsQHD.instanceToContracts"
 
+	if !RecordsQHD.settings_records_qhd
+		console.log "无效的setting配置"
+		throw new Meteor.Error(500, "无效的setting配置");
+
+
 	if !spaces
 		spaces = RecordsQHD.settings_records_qhd.spaces
 
