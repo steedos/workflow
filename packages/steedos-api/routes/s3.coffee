@@ -101,7 +101,7 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
               fileObj = collection.insert newFile
 
               # 删除同一个申请单同一个步骤同一个人上传的重复的文件
-              if fileObj
+              if body["overwrite"] && body["overwrite"].toLocaleLowerCase() == "true"
                 collection.remove({'metadata.instance': body['instance'], 'metadata.parent': parent, 'metadata.owner': body['owner'], 'metadata.approve': body['approve'], 'metadata.current': {$ne: true}})
           else
             newFile.metadata = metadata
