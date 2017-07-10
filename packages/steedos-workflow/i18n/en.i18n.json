@@ -545,5 +545,6 @@
 	"instance_distribute_to_self": "Also distributed to yourself",
 
 	"my_instances": "My Files",
-	"workflow_import_export_flows": "Flows import or export"
+	"workflow_import_export_flows": "Flows import or export",
+	"workflow_history_approve_description": "History description"
 }

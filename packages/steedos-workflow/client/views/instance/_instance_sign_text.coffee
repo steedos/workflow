@@ -13,14 +13,12 @@ InstanceSignText.helpers =
 
 	defaultDescription: ()->
 #		return Template.instance().data.default_description || TAPi18n.__("instance_default_opinion")
-
 		return Template.instance().data.default_description
 
 	traces: ()->
 		InstanceformTemplate.helpers.traces()
 
 	trace: (stepName, only_cc_opinion, image_sign, top_keywords)->
-
 		instance = InstanceformTemplate.helpers.instance()
 
 		is_completed = instance?.state == "completed"
@@ -33,7 +31,7 @@ InstanceSignText.helpers =
 
 		approve_sort = (approves, top_keywords)->
 
-			#对Approves排序， 按照提交时间排倒序，如果没有提交则显示在最上边
+#对Approves排序， 按照提交时间排倒序，如果没有提交则显示在最上边
 			approves_sorted = _.sortBy approves, (approve)->
 				return -(approve.finish_date || new Date()).getTime()
 
@@ -83,9 +81,9 @@ InstanceSignText.helpers =
 		approves_sorted.forEach (approve) ->
 #			有输入意见 或 最新一条并且用户没有输入过意见
 #			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
-			if !hasNext(approve, approvesGroup)
+#			if !hasNext(approve, approvesGroup)
+			if approve.sign_show != false
 				approve._display = true
-
 
 		approves_sorted = _.filter approves_sorted, (a) ->
 			if is_completed
@@ -179,6 +177,12 @@ InstanceSignText.helpers =
 			return true
 		else
 			return false
+
+	getLastSignApprove: ()->
+		ins = WorkflowManager.getInstance();
+
+		return _.last(TracesManager.getHandlerSignShowApproves ins, Meteor.userId())
+
 
 	lastMyApproveDescription: ()->
 		traces = InstanceformTemplate.helpers.traces()

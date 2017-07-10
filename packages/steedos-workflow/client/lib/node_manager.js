@@ -103,7 +103,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 	}
 }
 
-NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
+NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWrite) {
 
 	$(document.body).addClass("loading");
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
@@ -135,13 +135,19 @@ NodeManager.setUploadRequests = function(filePath, filename, isMainAttach) {
 		urlKey: "upload_from",
 		urlValue: "node"
 	}]
+	if (isOverWrite == true) {
+		fileDataInfo.push({
+			urlKey: "overwrite",
+			urlValue: true
+		});
+	}
 
 	var main_count = cfs.instances.find({
 		'metadata.parent': Session.get('attach_parent_id'),
 		'metadata.current': true,
 		'metadata.main': true
 	}).count();
-	if (main_count > 0 || isMainAttach == true) {
+	if (main_count > 0 || isNewFile == true) {
 		fileDataInfo.push({
 			urlKey: "main",
 			urlValue: true
@@ -245,9 +251,9 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 						} else {
 							if (arg == "Steedos.User.isNewFile"){
 								// 正文上传
-								NodeManager.setUploadRequests(filePath, filename, true);
+								NodeManager.setUploadRequests(filePath, filename, true, true);
 							}else{
-								NodeManager.setUploadRequests(filePath, filename);
+								NodeManager.setUploadRequests(filePath, filename, false, true);
 							}
 						}
 					} else {

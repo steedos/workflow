@@ -112,8 +112,7 @@ Template.profile.helpers
 		return TAPi18n.__ 'Submit'
 
 	isShowProfileInfo: () ->
-		console.log Meteor.settings.public.admin.disableProfileInfo
-		if Meteor.settings.public.admin.disableProfileInfo == true
+		if Meteor?.settings?.public?.admin?.disableProfileInfo == true
 			return false
 		else
 			return true

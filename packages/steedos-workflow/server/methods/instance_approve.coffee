@@ -44,22 +44,57 @@ Meteor.methods
 			})
 			return true
 
-	update_approve_sign_field_code: (instanceId, traceId, approveId, sign_field_code, description)->
+	update_approve_sign: (instanceId, traceId, approveId, sign_field_code, description, sign_type, lastSignApprove)->
 		check(instanceId, String)
 		check(traceId, String)
 		check(approveId, String)
 		check(sign_field_code, String)
 		check(description, String)
 
+		if !this.userId
+			return
+
+		session_userId = this.userId
+
+
+		if lastSignApprove
+
+			instance = db.instances.findOne({_id: instanceId, "traces._id": lastSignApprove.trace}, {fields: {"traces.$": 1}})
+
+			lastTrace = _.find instance?.traces, (t)->
+				return t._id = lastSignApprove.trace
+
+			if lastTrace
+				lastTrace?.approves.forEach (a)->
+					if a._id == lastSignApprove._id
+						if sign_type == "update"
+							a.sign_show = false
+							a.modified = new Date();
+							a.modified_by = session_userId
+#							else
+#								a.sign_show = true
+
+				db.instances.update({
+					_id: instanceId,
+					"traces._id": lastTrace._id
+				}, {
+					$set: {"traces.$.approves": lastTrace.approves}
+				})
+
 		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
 
+
 		if instance?.traces?.length > 0
+
 			trace = instance.traces[0]
 
 			trace.approves.forEach (approve)->
 				if approve._id == approveId
 					approve.sign_field_code = sign_field_code
 					approve.description = description
+					approve.sign_show = true
+					approve.modified = new Date();
+					approve.modified_by = session_userId
 
 			db.instances.update({
 				_id: instanceId,
