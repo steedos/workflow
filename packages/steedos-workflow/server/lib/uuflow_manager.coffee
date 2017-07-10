@@ -2024,12 +2024,13 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 		})
 
 # 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
-uuflowManager.checkMainAttach = (instance_id)->
+uuflowManager.checkMainAttach = (instance_id, name)->
 	main = cfs.instances.findOne({'metadata.instance': instance_id, 'metadata.main': true, 'metadata.current': true})
 	if main
 		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1}})
+		new_ins_name = name || ins.name
 		main_name_split = main.name().split('.')
 		main_name_split.pop()
-		if ins.name isnt main_name_split.join("")
-			new_name = ins.name + "." + main.extension()
-			main.update({$set: {'original.name': new_name, 'copies.instances.name': new_name}})
+		if new_ins_name isnt main_name_split.join("")
+			file_name = new_ins_name + "." + main.extension()
+			main.update({$set: {'original.name': file_name, 'copies.instances.name': file_name}})
