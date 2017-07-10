@@ -39,9 +39,6 @@ if Meteor.isServer
 		remove: (userId, event) ->
 			return false
 
-	db.instances.after.update (userId, doc, fieldNames, modifier, options) ->
-		uuflowManager.checkMainAttach(doc._id)
-
 	Meteor.methods
 		getRelatedInstancesOptions: (options)->
 			uid = this.userId;
