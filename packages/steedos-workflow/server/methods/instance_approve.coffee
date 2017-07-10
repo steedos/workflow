@@ -51,6 +51,12 @@ Meteor.methods
 		check(sign_field_code, String)
 		check(description, String)
 
+		if !this.userId
+			return
+
+		session_userId = this.userId
+
+
 		if lastSignApprove
 
 			instance = db.instances.findOne({_id: instanceId, "traces._id": lastSignApprove.trace}, {fields: {"traces.$": 1}})
@@ -63,6 +69,8 @@ Meteor.methods
 					if a._id == lastSignApprove._id
 						if sign_type == "update"
 							a.sign_show = false
+							a.modified = new Date();
+							a.modified_by = session_userId
 #							else
 #								a.sign_show = true
 
@@ -85,6 +93,8 @@ Meteor.methods
 					approve.sign_field_code = sign_field_code
 					approve.description = description
 					approve.sign_show = true
+					approve.modified = new Date();
+					approve.modified_by = session_userId
 
 			db.instances.update({
 				_id: instanceId,
