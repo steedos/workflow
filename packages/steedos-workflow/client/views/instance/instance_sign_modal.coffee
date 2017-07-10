@@ -1,6 +1,12 @@
 Template.instanceSignModal.helpers
 	modal_suggestion: ()->
-		return Session.get("instance_my_approve_description");
+
+		history_approve = Template.instance()?.history_approve.get()
+
+		if history_approve && history_approve?.description
+			return history_approve.description
+		else
+			return Session.get("instance_my_approve_description");
 
 Template.instanceSignModal.events
 	'click #instance_flow_opinions': (event, template)->
@@ -12,7 +18,7 @@ Template.instanceSignModal.events
 
 		myApprove = InstanceManager.getCurrentApprove()
 
-		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "add", InstanceSignText.helpers.getLastSignApprove()
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "add", Template.instance()?.history_approve.get()
 
 		$("#suggestion").val($("#modal_suggestion").val()).trigger("input").focus();
 
@@ -28,7 +34,7 @@ Template.instanceSignModal.events
 
 	'click .instance-sign-history': (event, template)->
 		Modal.allowMultiple = true
-		Modal.show 'history_sign_approve'
+		Modal.show 'history_sign_approve', {parent: template}
 
 #	'shown.bs.modal .instance-sign-modal': ()->
 #
@@ -38,3 +44,6 @@ Template.instanceSignModal.events
 #			m_top = ( $(window).height() - $modal_dialog.height() )/2;
 #
 #			$modal_dialog.css({'margin': m_top + 'px auto'})
+
+Template.instanceSignModal.onCreated ->
+	this.history_approve = new ReactiveVar(InstanceSignText.helpers.getLastSignApprove())
