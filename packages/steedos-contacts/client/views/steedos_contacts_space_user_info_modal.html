@@ -29,7 +29,12 @@
 								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_mobile"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
-								<span class="weui-input">{{spaceUserMobile}}</span>
+								{{#if isAndroidOrIOS}}
+									<a href="tel:{{spaceUserMobile}}" class="weui-input" style="color: #3c8dbc">{{spaceUserMobile}}</a>
+								{{else}}
+									<span class="weui-input">{{spaceUserMobile}}</span>
+								{{/if}}
+
 							</div>
 						</div>
 						<div class="weui-cell">
@@ -37,7 +42,11 @@
 								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_workPhone"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
-								<span class="weui-input">{{spaceUserWorkPhone}}</span>
+								{{#if isAndroidOrIOS}}
+									<a href="tel:{{spaceUserWorkPhone}}" class="weui-input" style="color: #3c8dbc">{{spaceUserWorkPhone}}</a>
+								{{else}}
+									<span class="weui-input">{{spaceUserWorkPhone}}</span>
+								{{/if}}
 							</div>
 						</div>
 						<div class="weui-cell">

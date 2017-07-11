@@ -59,7 +59,7 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-	order: [[1, "desc"]]
+	order: [],
 	extraFields: ["_id", "name", "email"],
 	lengthChange: false,
 	pageLength: 15,
