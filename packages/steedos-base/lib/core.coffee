@@ -112,9 +112,8 @@ if Meteor.isClient
 		authToken["spaceId"] = Steedos.getSpaceId()
 		authToken["X-User-Id"] = Meteor.userId();
 		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
-
-		url = Steedos.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
-		Steedos.openWindow(url);
+		
+		Steedos.openWindow(window.location.origin + "/api/setup/sso/" + app_id + "?" + $.param(authToken));
 	
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
