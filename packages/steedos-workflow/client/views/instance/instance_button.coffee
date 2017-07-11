@@ -337,6 +337,12 @@ Template.instance_button.events
 				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
 
 	'click .btn-instance-update': (event)->
+
+		element = $(".btn-instance-update")
+
+		if !InstanceEvent.run(element, "instance-before-save")
+			return ;
+
 		InstanceManager.saveIns();
 		Session.set("instance_change", false);
 

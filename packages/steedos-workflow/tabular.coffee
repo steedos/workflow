@@ -58,7 +58,7 @@ instancesListTableTabular = (flowId)->
 						when "办文"
 							priorityIconClass = "muted"
 					if priorityIconClass
-						priorityIcon = "<i class='ion ion-flag icon-priority icon-priority-#{priorityIconClass}'></i>"
+						priorityIcon = "<i class='ion ion-flag color-priority color-priority-#{priorityIconClass}'></i>"
 
 					return """
 								<div class='instance-read-bar'>#{unread}</div>
@@ -91,7 +91,6 @@ instancesListTableTabular = (flowId)->
 					if Session.get("box") == 'inbox' && doc.is_read == false
 						unread = '<i class="ion ion-record unread"></i>'
 
-					priorityIcon = ""
 					priorityIconClass = ""
 					priorityValue = doc.values?.priority
 					switch priorityValue
@@ -102,11 +101,10 @@ instancesListTableTabular = (flowId)->
 						when "办文"
 							priorityIconClass = "muted"
 					if priorityIconClass
-						priorityIcon = "<i class='ion ion-flag icon-priority icon-priority-#{priorityIconClass}'></i>"
-
+						instanceNamePriorityClass = "color-priority color-priority-#{priorityIconClass}"
 					return """
 							<div class='instance-read-bar'>#{unread}</div>
-							<div class='instance-name'>#{doc.name}#{cc_view}#{priorityIcon}</div>
+							<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}</div>
 						"""
 				visible: false,
 				orderable: false
@@ -168,16 +166,16 @@ instancesListTableTabular = (flowId)->
 		autoWidth: false,
 		changeSelector: (selector, userId) ->
 			unless userId
-				return {make_a_bad_selector: 1}
+				return {_id: -1}
 			space = selector.space
 			unless space
 				if selector?.$and?.length > 0
 					space = selector.$and.getProperty('space')[0]
 			unless space
-				return {make_a_bad_selector: 1}
+				return {_id: -1}
 			space_user = db.space_users.findOne({user: userId, space: space}, {fields: {_id: 1}})
 			unless space_user
-				return {make_a_bad_selector: 1}
+				return {_id: -1}
 			return selector
 		pagingType: "numbers"
 

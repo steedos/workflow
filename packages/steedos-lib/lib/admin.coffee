@@ -7,7 +7,7 @@ Selector.selectorCheckSpaceAdmin = (userId) ->
 		if Steedos.isSpaceAdmin()
 			return {space: Session.get("spaceId")}
 		else
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 
 	if Meteor.isServer
 		return {}

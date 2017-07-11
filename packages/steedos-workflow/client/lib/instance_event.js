@@ -12,6 +12,17 @@ function getFlowEvent(flowId) {
 
 InstanceEvent.initEvents = function(flowId) {
 
+	//解除绑定
+	$(".instance-form").unbind('instance-before-submit')
+	$(".instance-form").unbind('instance-before-save')
+	$("#ins_upload_main_attach").unbind('instance-before-upload')
+	$("#ins_attach_version").unbind('instance-before-upload')
+	$("#ins_upload_normal_attach").unbind('instance-before-upload')
+	$("#ins_attach_version").unbind('instance-before-upload')
+	$(".instance-forward-modal").unbind('onload')
+	$(".instance-distribute-modal").unbind('onload')
+
+
 	var eventStr = getFlowEvent(flowId);
 	if(eventStr){
 		try {

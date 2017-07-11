@@ -17,7 +17,8 @@
     //系统设置相关
     "admin": {
       "disableAddSpace": false, //是否禁止创建新工作区,
-      "background": "/packages/steedos_theme-qhd/client/background/qhd.jpg" //增加默认背景图
+      "background": "/packages/steedos_theme-qhd/client/background/qhd.jpg", //增加默认背景图
+      "disableProfileInfo": true //禁用个人信息界面
     },
     //账户相关
     "accounts": {

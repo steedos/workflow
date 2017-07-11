@@ -35,7 +35,7 @@ Meteor.methods
 			if organization_depts.length < 1 || organization_depts[0] != root_org.name
 				throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
-			if !item.email
+			if !item.email && user_pk != 'username'
 				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
 			# 获取用户
 			user = db.users.findOne({"emails.address": item.email})
@@ -61,20 +61,20 @@ Meteor.methods
 							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
 
 			# 如果用户存在但是不属于本次导入的工作区，则不导入
+			if item.email
+				user_by_email = db.users.findOne({"emails.address": item.email})
 
-			user_by_email = db.users.findOne({"emails.address": item.email})
+				if user
 
-			if user
+					if user_pk == 'username'
+						if item.email != user.steedos_id
+							if user_by_email
+								throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
 
-				if user_pk == 'username'
-					if item.email != user.steedos_id
-						if user_by_email
-							throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
-
-				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
-
-				if !ck_space_user
-					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
+#				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
+#
+#				if !ck_space_user
+#					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
 
 			organization_depts.forEach (dept_name, j) ->
 				if !dept_name
@@ -128,23 +128,42 @@ Meteor.methods
 
 				#修改space_user 中的position\work_phone\username
 
+				u_update_doc = {}
+
 				su_update_doc = {}
 
 				if item.position
+					u_update_doc.position = item.position
 					su_update_doc.position = item.position
 
 				if item.work_phone
+					u_update_doc.work_phone = item.work_phone
 					su_update_doc.work_phone = item.work_phone
 
 				if item.username
+					u_update_doc.username = item.username
 					su_update_doc.username = item.username
 
-				if user_pk == 'username'
-					if Meteor.settings?.import_user?.update_email && item.email != user.steedos_id
-						su_update_doc.steedos_id = item.email
-						su_update_doc.emails = [{address: item.email, verified: true}]
+				if item.phone
+					u_update_doc.phone = {
+						number: item.phone
+						verified: true
+						modified: now
+					}
 
-						db.space_users.direct.update({user: user_id},{$set:{email: item.email}})
+					su_update_doc.mobile = item.phone
+
+				if user_pk == 'username'
+					if item.email
+						su_update_doc.email = item.email
+						u_update_doc.steedos_id = item.email
+						u_update_doc.emails = [{address: item.email, verified: true}]
+					else
+						su_update_doc.email = null
+						u_update_doc.steedos_id = item.username
+						u_update_doc.emails = null
+
+				db.users.direct.update({_id: user_id},{$set:u_update_doc})
 
 				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 

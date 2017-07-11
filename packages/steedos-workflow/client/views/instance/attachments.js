@@ -251,28 +251,6 @@ Template.instance_attachment.events({
 			Steedos.openWindow(url);
 		}
 	},
-	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
-		Session.set('cfs_file_id', event.target.id);
-		Session.set('attach_parent_id', event.target.dataset.parent);
-		
-		// 转换时锁定
-		InstanceManager.lockAttach(event.target.id);
-
-		var url = event.target.dataset.downloadurl;
-		var filename = event.target.dataset.name;
-		var arg = "Steedos.User.isDocToPdf";
-		swal({
-			title: t("workflow_attach_to_pdf"),
-			text: t("workflow_attach_to_pdf_message", filename),
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonText: t("node_office_confirm"),
-			cancelButtonText: t("node_office_cancel"),
-			closeOnConfirm: true
-		}, function() {
-			NodeManager.downloadFile(url, filename, arg);
-		})
-	},
 	"click .ins-attach-delete": function(event, template) {
 		var file_id = event.target.id;
 		var file_name = event.target.dataset.name;
@@ -511,14 +489,10 @@ Template.ins_attach_version_modal.helpers({
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			var current_step = InstanceManager.getCurrentStep();
 			if (current_step) {
-				if (mainFile) {
+				if (mainFile)
 					return current_step.can_edit_main_attach
-				} else {
-					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
-						return true
-					}
-
-				}
+				else
+					return false;
 			}
 		}
 	},
@@ -651,8 +625,13 @@ Template.ins_attach_version_modal.events({
 			confirmButtonText: t("node_office_confirm"),
 			cancelButtonText: t("node_office_cancel"),
 			closeOnConfirm: true
-		}, function() {
-			NodeManager.downloadFile(url, filename, arg);
+		}, function(confirm) {
+			if(confirm){
+				NodeManager.downloadFile(url, filename, arg);
+			}else{
+				// 解锁 
+				InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+			}
 		})
 	},
 	"click .ins-attach-version-delete": function(event, template) {
@@ -664,6 +643,7 @@ Template.ins_attach_version_modal.events({
 
 		Session.set("file_id", file_id);
 
+		Modal.hide('ins_attach_version_modal');
 		swal({
 			title: t("workflow_attach_confirm_delete"),
 			text: t("workflow_attach_confirm_delete_messages", file_name),
@@ -785,6 +765,7 @@ Template.ins_attach_edit_modal.events({
 		params.locked_by = Meteor.userId();
 		params.locked_by_name = Meteor.user().name;
 		params.upload_from = "IE";
+		params.overwrite = true;
 
 		var main_count = cfs.instances.find({
 			'metadata.parent': Session.get('attach_parent_id'),

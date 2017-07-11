@@ -40,7 +40,7 @@ getInstanceReadOnly = (req, res, next, options) ->
 				JsonRoutes.sendResult res,
 					code: 401,
 					data:
-						"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+						"error": "Validate Request[clientIp: #{clientIp}] -- Missing X-Auth-Token,X-User-Id",
 						"success": false
 				return;
 
