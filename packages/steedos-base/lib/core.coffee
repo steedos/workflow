@@ -107,6 +107,15 @@ if Meteor.isClient
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
 
+	Steedos.openAppWithToken = (app_id)->
+		authToken = {};
+		authToken["spaceId"] = Steedos.getSpaceId()
+		authToken["X-User-Id"] = Meteor.userId();
+		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+
+		url = Meteor.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
+		Steedos.openWindow(url);
+	
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
@@ -118,7 +127,7 @@ if Meteor.isClient
 			return
 
 		on_click = app.on_click
-		if app.is_use_ie
+		if app.is_use_ie 
 			if Steedos.isNode()
 				exec = nw.require('child_process').exec
 				if on_click
@@ -131,7 +140,9 @@ if Meteor.isClient
 					if error
 						toastr.error error
 					return
-
+			else
+				Steedos.openAppWithToken(app_id)
+		
 		else if db.apps.isInternalApp(app.url)
 			FlowRouter.go(app.url)
 
@@ -148,13 +159,7 @@ if Meteor.isClient
 				console.error "catch some error when eval the on_click script for app link:"
 				console.error "#{e.message}\r\n#{e.stack}"
 		else
-			authToken = {};
-			authToken["spaceId"] = Steedos.getSpaceId()
-			authToken["X-User-Id"] = Meteor.userId();
-			authToken["X-Auth-Token"] = Accounts._storedLoginToken();
-
-			url = Meteor.absoluteUrl("api/setup/sso/" + app._id + "?" + $.param(authToken));
-			Steedos.openWindow(url);
+			Steedos.openAppWithToken(app_id)
 
 	Steedos.checkSpaceBalance = (spaceId)->
 		unless spaceId
