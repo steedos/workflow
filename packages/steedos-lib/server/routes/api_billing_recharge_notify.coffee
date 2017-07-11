@@ -12,9 +12,12 @@ JsonRoutes.add 'post', '/api/billing/recharge/notify', (req, res, next) ->
 			parser.parseString(body, (err, result)->
 				console.log JSON.stringify(result)
 				# 特别提醒：商户系统对于支付结果通知的内容一定要做签名验证,并校验返回的订单金额是否与商户侧的订单金额一致，防止数据泄漏导致出现“假通知”，造成资金损失
-				weixin_pay_code_url = db.weixin_pay_code_urls.findOne({'info.sing': result.sign})
+				weixin_pay_code_url = db.weixin_pay_code_urls.findOne({'info.sign': result.sign})
 				if weixin_pay_code_url && weixin_pay_code_url.total_fee is result.total_fee
 					console.log "=="
+					attach = JSON.parse(result.attach)
+					if attach.space && attach.module && result.total_fee && attach.operator_id 
+						billingManager.special_pay(attach.space, attach.module, result.total_fee, attach.operator_id)
 
 
 

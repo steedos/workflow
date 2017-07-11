@@ -9,8 +9,9 @@ Meteor.methods
 		result_obj = {}
 
 		attach = {}
-		attach.space = space_id
-		attach.module = module_id
+		attach.space_id = space_id
+		attach.module_id = module_id
+		attach.operator_id = this.userId
 
 		WXPay = Npm.require('weixin-pay')
 

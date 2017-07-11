@@ -252,3 +252,54 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 
 		a_m = moment(new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 1).getTime()).format("YYYYMM")
 		billingManager.caculate_by_accounting_month(a_m, space_id)
+
+billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
+	amount = (total_fee/100) * (3/20) 
+	space = db.spaces.findOne(space_id)
+	
+	module = db.modules.findOne(module_id)
+
+	module_name = module.name
+
+	old_modules = space.modules || new Array
+
+	transaction = "Payment"
+
+	m = moment()
+	now = m._d
+
+	# 检查此工作区是否已经生成了Billing
+	pay_count = db.billings.find({space: space_id}).count()
+	# 若记录数≠0，说明该工作区不是第一次付费，跳过这个步骤
+	# 若记录数=0，说明该工作区第一次付费，因此执行以下操作
+	if pay_count is 0
+		# 先执行初始化账户的操作
+		bill = new Object
+		bill.billing_month = m.format("YYYYMM")
+		bill.billing_date = m.format("YYYYMMDD")
+		bill.operator = operator_id
+		bill.space = space_id
+		bill.transaction = "Starting balance"
+		bill.created = now
+		bill.created_by = operator_id
+		bill.modified = now
+
+		bill_id = db.billings.insert(bill)
+		if bill_id
+			space_update_obj = new Object
+			# 更新space是否专业版的标记
+			if space.is_paid isnt true
+				space_update_obj.is_paid = true
+			old_modules.push(module_name)
+			space_update_obj.modules = _.uniq(old_modules)
+			space_update_obj.modified = now
+			space_update_obj.modified_by = operator_id
+
+			db.spaces.update({_id: space_id}, {$set: space_update_obj})
+
+	# 在billings中插入付费信息
+	last_bill = db.billings.findOne({space: space_id},{sort:{modified: -1}, limit: 1})
+	last_balance = if last_bill.balance then last_bill.balance else 0.0
+
+	new_bill = new Object
+	
