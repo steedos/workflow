@@ -260,16 +260,17 @@ Template.instance_button.helpers
 		if ins.state != "pending"
 			return false
 
-		values = ins.values
-		if not values
+		if !Steedos.isPaidSpace()
 			return false
-		if not values.priority or not values.deadline
-			return false
+
+		values = ins.values || new Object
+
 		try
-			check values.priority, Match.OneOf('普通', '办文', '紧急', '特急')
-			# 由于values中的date字段的值为String，故作如下校验
-			if new Date(values.deadline).toString() is "Invalid Date"
-				return false
+			if values.priority and values.deadline
+				check values.priority, Match.OneOf('普通', '办文', '紧急', '特急')
+				# 由于values中的date字段的值为String，故作如下校验
+				if new Date(values.deadline).toString() is "Invalid Date"
+					return false
 		catch e
 			return false
 
@@ -291,7 +292,7 @@ Template.instance_button.helpers
 		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
 			this.remind_action_types.push 'admin'
 
-		if Session.get("box") == "monitor" && ins.state == "pending" && ins.applicant is Meteor.userId()
+		if Session.get("box") == "pending" && ins.state == "pending" && ins.applicant is Meteor.userId()
 			this.remind_action_types.push 'applicant'
 
 
@@ -302,7 +303,7 @@ Template.instance_button.helpers
 				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
 					cc_approves_not_finished.push(ap._id)
 
-		if (Session.get("box") == "monitor" or Session.get("box") == "inbox") and not _.isEmpty(cc_approves_not_finished)
+		if (Session.get("box") == "inbox" or Session.get("box") == "inbox") and not _.isEmpty(cc_approves_not_finished)
 			this.remind_action_types.push 'cc'
 
 		if this.remind_action_types.includes('admin') || this.remind_action_types.includes('applicant') || this.remind_action_types.includes('cc')
