@@ -1933,6 +1933,11 @@ uuflowManager.setRemindInfo = (values, approve)->
 	check values, Object 
 	check approve, Object 
 	check approve.start_date, Date
+
+	remind_date = null
+	deadline = null
+	start_date = approve.start_date
+	
 	if values.priority and values.deadline
 		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
 		# 由于values中的date字段的值为String，故作如下校验
@@ -1941,8 +1946,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 			return
 
 		priority = values.priority
-		remind_date = null
-		start_date = approve.start_date
+
 		if priority is "普通"
 			remind_date = Steedos.caculateWorkingTime(start_date, 3)
 		else if priority is "办文"
@@ -1979,10 +1983,13 @@ uuflowManager.setRemindInfo = (values, approve)->
 				ins.code = flow.current_no + 1 + ''
 			ins.values = values
 			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
+	else
+		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办 
+		remind_date = Steedos.caculateWorkingTime(start_date, 3)
 
-		approve.deadline = deadline
-		approve.remind_date = remind_date
-		approve.reminded_count = 0
+	approve.deadline = deadline
+	approve.remind_date = remind_date
+	approve.reminded_count = 0
 
 	return
 
