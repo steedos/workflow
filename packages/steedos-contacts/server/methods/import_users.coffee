@@ -23,6 +23,7 @@ Meteor.methods
 		owner_id = space.owner
 
 		data.forEach (item, i)->
+
 			now = new Date()
 
 			organization = item.organization
@@ -37,16 +38,20 @@ Meteor.methods
 
 			if !item.email && user_pk != 'username'
 				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
+
+
 			# 获取用户
-			user = db.users.findOne({"emails.address": item.email})
 
 			if user_pk == 'username'
 				if !item.username
 					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
 				user = db.users.findOne({username: item.username})
+			else
+				user = db.users.findOne({"emails.address": item.email})
 
 			# 校验手机号是否被占用
 			if item.phone
+
 				user_by_phone = db.users.find({"phone.number": item.phone})
 
 				if user_by_phone.count() > 1
@@ -62,6 +67,7 @@ Meteor.methods
 
 			# 如果用户存在但是不属于本次导入的工作区，则不导入
 			if item.email
+
 				user_by_email = db.users.findOne({"emails.address": item.email})
 
 				if user
