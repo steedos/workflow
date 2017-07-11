@@ -14,22 +14,26 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 		},
 		{
 			data: "name",
+			orderable: false,
 			render: (val, type, doc) ->
 				return "<div class='contacts-name'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
+			orderable: false,
 			render: (val, type, doc) ->
 				return "<div class='contacts-email'>" + doc.email + "</div>"
 		},
 		{
 			data: "mobile",
+			orderable: false,
 			render: (val, type, doc) ->
 				if doc.mobile
 					return "<div class='contacts-mobile'>" + doc.mobile + "</div>"
 		},
 		{
 			data: "company",
+			orderable: false,
 			render: (val, type, doc) ->
 				if doc.company
 					return "<div class='contacts-company'>" + doc.company + "</div>"
@@ -66,15 +70,15 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 	autoWidth: false,
 	changeSelector: (selector, userId) ->
 		unless userId
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		owner = selector.owner
 		unless owner
 			if selector?.$and?.length > 0
 				owner = selector.$and.getProperty('owner')[0]
 		unless owner
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		unless owner.toString() == userId.toString()
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		return selector
 
 #scrollY:        '400px',

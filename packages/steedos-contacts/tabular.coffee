@@ -57,16 +57,16 @@ TabularTables.contacts = new Tabular.Table({
 	autoWidth: false,
 	changeSelector: (selector, userId) ->
 		unless userId
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		space = selector.space
 		unless space
 			if selector?.$and?.length > 0
 				space = selector.$and.getProperty('space')[0]
 		unless space
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		space_user = db.space_users.findOne({user: userId,space:space}, {fields: {_id: 1}})
 		unless space_user
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		return selector
 
 #scrollY:        '400px',

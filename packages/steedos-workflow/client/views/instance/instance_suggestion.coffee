@@ -34,14 +34,14 @@ Template.instance_suggestion.helpers
 
 		instance = WorkflowManager.getInstance();
 
-		if InstanceManager.isCC(instance)
-			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
+#		if InstanceManager.isCC(instance)
+#			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
 		approve = InstanceManager.getCurrentApprove();
 
-		if approve
-			approve.description = approve.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
-			Session.set("instance_my_approve_description", approve.description)
-			return approve
+#		if approve
+#			description = approve.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+#			Session.set("instance_my_approve_description", description)
+		return approve
 	next_step_multiple: ->
 		Session.get("next_step_multiple")
 

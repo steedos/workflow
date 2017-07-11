@@ -2,7 +2,7 @@ Template.history_sign_approve.helpers
 	sign_approves: ()->
 		ins = WorkflowManager.getInstance()
 
-		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId()) || []
+		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId(), true) || []
 
 		return sign_approves.reverse()
 
