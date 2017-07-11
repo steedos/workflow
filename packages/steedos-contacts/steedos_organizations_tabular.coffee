@@ -14,18 +14,32 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				return "<div class='contacts-name #{colorClass} nowrap'>" + doc.name + "</div>"
 		},
 		{
-			data: "email",
-			orderable: false,
-			render: (val, type, doc) ->
-				colorClass = if !doc.user_accepted then 'text-muted' else ''
-				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
-		},
-		{
 			data: "mobile",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-mobile #{colorClass} nowrap'>" + (doc.mobile || "") + "</div>"
+		},
+		{
+			data: "work_phone",
+			orderable: false,
+			render: (val, type, doc) ->
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-work_phone #{colorClass} nowrap'>" + (doc.work_phone || "") + "</div>"
+		},
+		{
+			data: "position",
+			orderable: false,
+			render: (val, type, doc) ->
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.position || "") + "</div>"
+		},
+		{
+			data: "email",
+			orderable: false,
+			render: (val, type, doc) ->
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "",
@@ -48,13 +62,13 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 		{
 			data: "sort_no",
 			title: "",
-			orderable: true,
+			orderable: false,
 			visible: false
 		},
 		{
 			data: "name",
 			title: "",
-			orderable: true,
+			orderable: false,
 			visible: false
 		}
 

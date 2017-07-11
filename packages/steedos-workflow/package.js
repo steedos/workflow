@@ -294,6 +294,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/next_step_users_not_found.coffee', 'server');
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
+	api.addFiles('server/methods/related_instances.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 

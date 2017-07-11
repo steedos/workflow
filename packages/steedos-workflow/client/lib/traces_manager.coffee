@@ -30,7 +30,7 @@ TracesManager.getStepLastHandlers = (stepId, instance) ->
 	return handlers;
 
 
-TracesManager.getHandlerSignShowApproves = (ins, handler)->
+TracesManager.getHandlerSignShowApproves = (ins, handler, check_sign_show)->
 
 	currentApprove = InstanceManager.getCurrentApprove();
 
@@ -57,7 +57,11 @@ TracesManager.getHandlerSignShowApproves = (ins, handler)->
 	currentUserApproves = userApproves[handler]
 
 	signShowApproves = _.filter currentUserApproves, (a)->
-		return a.is_finished && a.sign_show != false && a.description
+		if check_sign_show
+			return a.is_finished && a.sign_show != false && a.description
+		else
+			return a.is_finished && a.description
+
 
 
 	return signShowApproves
