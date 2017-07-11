@@ -30,6 +30,11 @@ Template.steedos_contacts_org_user_list.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
+	canImportUsers: ()->
+		if Steedos.isMobile()
+			return false
+		return true
+
 	getOrgName: ()->
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
