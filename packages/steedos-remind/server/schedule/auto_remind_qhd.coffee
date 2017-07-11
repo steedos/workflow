@@ -26,12 +26,12 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
+			db.instances.find({state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
 					_.each t.approves, (ap)->
-						if ap.is_finished isnt true and ap.deadline and ap.remind_date
+						if ap.is_finished isnt true and ap.remind_date
 							if ap.remind_date < now
 								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
@@ -48,7 +48,7 @@ Meteor.startup ->
 									deadline = ap.manual_deadline
 								# （1）“普通”：如三个工作日内未处理，系统自动发短信提醒：办结时限为二日内；
 								#  如二日后仍未处理，系统每天自动发短信提醒，办结时限为一日内。
-								if priority is "普通"
+								if priority is "普通" or not priority
 									if reminded_count is 0
 										ap.reminded_count = 1
 										ap.remind_date = Steedos.caculateWorkingTime(remind_date, 2)
