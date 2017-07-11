@@ -8,6 +8,9 @@
                     <tr>
                         <td class="related-instances-item">
                             <a href="{{related_instace_url this}}" target="_blank">{{this.name}}</a>
+							{{#if show_delete}}
+								<a class="ins-related-delete">{{_t "Delete"}}</a>
+							{{/if}}
                         </td>
                     </tr>
                 {{/each}}

@@ -34,3 +34,10 @@ RelatedInstances.helpers =
 		else
 			locale = Template.instance().view.template.steedosData.locale
 			return TAPi18n.__(key, {}, locale)
+
+	show_delete: ()->
+		if !Meteor.isClient
+			return false
+		else
+			ins = WorkflowManager.getInstance();
+			return ins.state == 'draft'
