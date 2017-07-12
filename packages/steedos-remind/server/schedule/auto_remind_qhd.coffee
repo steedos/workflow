@@ -26,7 +26,9 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
+			# 专业版工作区开放自动催办
+			paid_space_ids = _.pluck(db.spaces.find({is_paid: true, balance: {$gt: 0}}, {fields: {_id: 1}}).fetch(), "_id")
+			db.instances.find({space: {$in: paid_space_ids}, state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
@@ -111,6 +113,7 @@ Meteor.startup ->
 										TemplateCode: 'SMS_67200967',
 										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
+
 									# 发推送消息
 									notification = new Object
 									notification["createdAt"] = new Date
@@ -128,6 +131,7 @@ Meteor.startup ->
 									notification['query'] = {userId: user._id, appName: 'workflow'}
 
 									Push.send(notification)
+
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
 
