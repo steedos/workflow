@@ -111,6 +111,7 @@ Meteor.startup ->
 										TemplateCode: 'SMS_67200967',
 										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
+
 									# 发推送消息
 									notification = new Object
 									notification["createdAt"] = new Date
@@ -128,6 +129,7 @@ Meteor.startup ->
 									notification['query'] = {userId: user._id, appName: 'workflow'}
 
 									Push.send(notification)
+
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
 
