@@ -87,7 +87,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/subscribe.coffee', 'client');
 
 	api.addFiles('client/steedos/css/adminlte.less', 'client');
-	api.addFiles('client/steedos/css/style.less', 'client');
 
 	api.addFiles('client/steedos/views/animated.less', 'client');
 	api.addFiles('client/steedos/views/404.less', 'client');

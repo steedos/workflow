@@ -27,6 +27,7 @@ Package.onUse(function(api) {
     'client/admin-lte.less',   
     'client/sidebar.less',
     'client/sidebar-light.less',
+    'client/style.less',
     'client/zoom.less',
     'client/sweetalert.less',
     'client/status.less'
