@@ -33,7 +33,7 @@ Meteor.startup ->
 					_.each t.approves, (ap)->
 						if ap.is_finished isnt true and ap.remind_date
 							if ap.remind_date < now
-								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
+								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1, name: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
 								ins_name = ins.name
@@ -111,6 +111,23 @@ Meteor.startup ->
 										TemplateCode: 'SMS_67200967',
 										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
+									# 发推送消息
+									notification = new Object
+									notification["createdAt"] = new Date
+									notification["createdBy"] = '<SERVER>'
+									notification["from"] = 'workflow'
+									notification['title'] = user.name
+									notification['text'] = TAPi18n.__('instance.push.body.remind', {instance_name: ins_name, deadline: params.deadline}, lang)
+
+									payload = new Object
+									payload["space"] = ins.space
+									payload["instance"] = ins._id
+									payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
+									payload["requireInteraction"] = true
+									notification["payload"] = payload
+									notification['query'] = {userId: user._id, appName: 'workflow'}
+
+									Push.send(notification)
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
 

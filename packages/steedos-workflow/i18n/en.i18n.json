@@ -295,7 +295,8 @@
 				"rejected_completed_applicant": "I have rejected your request for __instance_name__",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
-				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__"
+				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
+				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
 			}
 		},
 		"email": {
