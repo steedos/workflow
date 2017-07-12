@@ -26,7 +26,9 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
+			# 专业版工作区开放自动催办
+			paid_space_ids = _.pluck(db.spaces.find({is_paid: true, balance: {$gt: 0}}, {fields: {_id: 1}}).fetch(), "_id")
+			db.instances.find({space: {$in: paid_space_ids}, state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
