@@ -89,17 +89,6 @@ FlowRouter.route '/',
 #           FlowRouter.go "/steedos/springboard";
 
 
-FlowRouter.route '/steedos/logout', 
-	action: (params, queryParams)->
-		#AccountsTemplates.logout();
-		$("body").addClass('loading')
-		Meteor.logout ()->
-			Setup.logout();
-			Session.set("spaceId", null);
-			$("body").removeClass('loading')
-			FlowRouter.go("/");
-
-
 FlowRouter.route '/admin/profile', 
 	action: (params, queryParams)->
 		FlowRouter.go "/admin/profile/profile"

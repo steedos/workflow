@@ -126,22 +126,25 @@ NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWr
 		urlKey: "owner_name",
 		urlValue: Meteor.user().name
 	}, {
-		urlKey: "isAddVersion",
-		urlValue: true
-	}, {
-		urlKey: "parent",
-		urlValue: Session.get('attach_parent_id')
-	}, {
 		urlKey: "upload_from",
 		urlValue: "node"
 	}]
+	if (!isNewFile){
+		fileDataInfo.push({
+			urlKey: "isAddVersion",
+			urlValue: true
+		});
+		fileDataInfo.push({
+			urlKey: "parent",
+			urlValue: Session.get('attach_parent_id')
+		});
+	}
 	if (isOverWrite == true) {
 		fileDataInfo.push({
 			urlKey: "overwrite",
 			urlValue: true
 		});
 	}
-
 	var main_count = cfs.instances.find({
 		'metadata.parent': Session.get('attach_parent_id'),
 		'metadata.current': true,

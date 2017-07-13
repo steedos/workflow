@@ -1933,6 +1933,11 @@ uuflowManager.setRemindInfo = (values, approve)->
 	check values, Object 
 	check approve, Object 
 	check approve.start_date, Date
+
+	remind_date = null
+	deadline = null
+	start_date = approve.start_date
+	
 	if values.priority and values.deadline
 		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
 		# 由于values中的date字段的值为String，故作如下校验
@@ -1941,8 +1946,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 			return
 
 		priority = values.priority
-		remind_date = null
-		start_date = approve.start_date
+
 		if priority is "普通"
 			remind_date = Steedos.caculateWorkingTime(start_date, 3)
 		else if priority is "办文"
@@ -1979,10 +1983,13 @@ uuflowManager.setRemindInfo = (values, approve)->
 				ins.code = flow.current_no + 1 + ''
 			ins.values = values
 			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
+	else
+		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办 
+		remind_date = Steedos.caculateWorkingTime(start_date, 3)
 
-		approve.deadline = deadline
-		approve.remind_date = remind_date
-		approve.reminded_count = 0
+	approve.deadline = deadline
+	approve.remind_date = remind_date
+	approve.reminded_count = 0
 
 	return
 
@@ -2002,7 +2009,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 
 	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
 
-	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1, locale: 1}}).forEach (user)->
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1, locale: 1, name: 1}}).forEach (user)->
 		utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 		params = {
 			instance_name: name,
@@ -2022,6 +2029,25 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 			TemplateCode: 'SMS_67200967',
 			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})
+		
+		# 发推送消息
+		notification = new Object
+		notification["createdAt"] = new Date
+		notification["createdBy"] = '<SERVER>'
+		notification["from"] = 'workflow'
+		notification['title'] = user.name
+		notification['text'] = TAPi18n.__('instance.push.body.remind', {instance_name: ins_name, deadline: params.deadline}, lang)
+
+		payload = new Object
+		payload["space"] = space_id
+		payload["instance"] = ins_id
+		payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
+		payload["requireInteraction"] = true
+		notification["payload"] = payload
+		notification['query'] = {userId: user._id, appName: 'workflow'}
+
+		Push.send(notification)
+		
 
 # 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
 uuflowManager.checkMainAttach = (instance_id, name)->

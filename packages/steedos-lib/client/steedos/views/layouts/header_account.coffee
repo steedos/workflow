@@ -12,7 +12,7 @@ Template.headerAccount.helpers
 		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?w=#{w}&h=#{h}&fs=#{fs}&avatar=#{avatar}");
 
 	signOutUrl: ()->
-		return Steedos.absoluteUrl("steedos/sign-out")
+		return Steedos.absoluteUrl("steedos/logout")
 
 Template.headerAccount.events
 	'click .btn-logout': (event,template) ->

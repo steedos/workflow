@@ -297,7 +297,8 @@
 				"rejected_completed_applicant": "驳回了您的__instance_name__",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
-				"trace_approve_cc": "您有新的待办文件:__instance_name__"
+				"trace_approve_cc": "您有新的待办文件:__instance_name__",
+				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
 			}
 		},
 		"email": {

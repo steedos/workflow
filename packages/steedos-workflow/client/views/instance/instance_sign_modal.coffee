@@ -6,7 +6,8 @@ Template.instanceSignModal.helpers
 		if history_approve && history_approve?.description
 			return history_approve.description
 		else
-			return Session.get("instance_my_approve_description");
+			description = Session.get("instance_my_approve_description") || approve?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+			return description;
 
 Template.instanceSignModal.events
 	'click #instance_flow_opinions': (event, template)->

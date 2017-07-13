@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:theme',
-  version: '0.0.17',
+  version: '0.0.18',
   summary: 'Steedos Theme',
   git: 'https://github.com/steedos/apps/packages/steedos-theme'
 });
@@ -27,6 +27,7 @@ Package.onUse(function(api) {
     'client/admin-lte.less',   
     'client/sidebar.less',
     'client/sidebar-light.less',
+    'client/style.less',
     'client/zoom.less',
     'client/sweetalert.less',
     'client/status.less'

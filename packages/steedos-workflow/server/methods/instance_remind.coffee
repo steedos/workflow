@@ -26,7 +26,7 @@ Meteor.methods
 							ap.manual_deadline = remind_deadline
 							# （1）“普通”：如三个工作日内未处理，系统自动发短信提醒：办结时限为二日内；
 							#  如二日后仍未处理，系统每天自动发短信提醒，办结时限为一日内。
-							if priority is "普通"
+							if priority is "普通" or not priority
 								return
 							# （2）“办文”：如一个工作日内未处理，系统自动发短信提醒：办结时限为表单上的“办结时限”（文书录入的时间）；
 							#  如一日后仍未处理，系统每天自动发短信提醒：办结时限不变；

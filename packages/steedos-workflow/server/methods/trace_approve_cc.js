@@ -98,9 +98,7 @@ Meteor.methods({
 
         instance = db.instances.findOne(ins_id);
         current_user_info = db.users.findOne(current_user_id);
-        cc_user_ids.forEach(function(userId) {
-            pushManager.send_instance_notification("trace_approve_cc", instance, "", current_user_info, cc_user_ids);
-        });
+        pushManager.send_instance_notification("trace_approve_cc", instance, "", current_user_info, cc_user_ids);
 
         flow_id = instance.flow;
         approve.cc_user_ids = cc_user_ids; // 记录下本次传阅的人员ID作为hook接口中的参数

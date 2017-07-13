@@ -26,14 +26,16 @@ Meteor.startup ->
 			console.time 'remind'
 			now = new Date
 			skip_users = Meteor.settings.remind?.skip_users || []
-			db.instances.find({state: 'pending', 'values.priority': {$exists: true}, 'values.deadline': {$exists: true}}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
+			# 专业版工作区开放自动催办
+			paid_space_ids = _.pluck(db.spaces.find({is_paid: true, balance: {$gt: 0}}, {fields: {_id: 1}}).fetch(), "_id")
+			db.instances.find({space: {$in: paid_space_ids}, state: 'pending'}, {fields: {name: 1, values:1, traces: 1, space: 1}}).forEach (ins)->
 				priority = ins.values.priority
 				remind_users = new Array
 				_.each ins.traces, (t)->
 					_.each t.approves, (ap)->
-						if ap.is_finished isnt true and ap.deadline and ap.remind_date
+						if ap.is_finished isnt true and ap.remind_date
 							if ap.remind_date < now
-								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1}})
+								user = db.users.findOne({_id: ap.user}, {fields: {mobile: 1, utcOffset: 1, locale: 1, name: 1}})
 								utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
 								moment_format = 'MM-DD HH:mm'
 								ins_name = ins.name
@@ -48,7 +50,7 @@ Meteor.startup ->
 									deadline = ap.manual_deadline
 								# （1）“普通”：如三个工作日内未处理，系统自动发短信提醒：办结时限为二日内；
 								#  如二日后仍未处理，系统每天自动发短信提醒，办结时限为一日内。
-								if priority is "普通"
+								if priority is "普通" or not priority
 									if reminded_count is 0
 										ap.reminded_count = 1
 										ap.remind_date = Steedos.caculateWorkingTime(remind_date, 2)
@@ -111,6 +113,25 @@ Meteor.startup ->
 										TemplateCode: 'SMS_67200967',
 										msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{ins.space}&ins_id=#{ins._id}"}, lang)
 									})
+
+									# 发推送消息
+									notification = new Object
+									notification["createdAt"] = new Date
+									notification["createdBy"] = '<SERVER>'
+									notification["from"] = 'workflow'
+									notification['title'] = user.name
+									notification['text'] = TAPi18n.__('instance.push.body.remind', {instance_name: ins_name, deadline: params.deadline}, lang)
+
+									payload = new Object
+									payload["space"] = ins.space
+									payload["instance"] = ins._id
+									payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
+									payload["requireInteraction"] = true
+									notification["payload"] = payload
+									notification['query'] = {userId: user._id, appName: 'workflow'}
+
+									Push.send(notification)
+
 				if not _.isEmpty(remind_users)
 					db.instances.update({_id: ins._id}, {$set: {'traces': ins.traces}})
 
