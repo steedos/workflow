@@ -4,6 +4,9 @@ Template.steedos_contacts_org_user_list.helpers
 			return true
 		return false;
 	selector: ->
+
+		is_within_user_organizations = ContactsManager.is_within_user_organizations();
+
 		if Meteor.settings.public?.contacts?.hidden_users
 			if Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId())
 				query = {space: Session.get("spaceId")}
@@ -14,6 +17,11 @@ Template.steedos_contacts_org_user_list.helpers
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
+		else
+			if is_within_user_organizations
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				query.organizations = {$in: orgs};
+
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
 		return query;
@@ -37,6 +45,9 @@ Template.steedos_contacts_org_user_list.helpers
 
 	getOrgName: ()->
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
+
+	isSpaceAdmin: ()->
+		return Steedos.isSpaceAdmin(Session.get("spaceId"));
 
 Template.steedos_contacts_org_user_list.events
 	'click #reverse': (event, template) ->
