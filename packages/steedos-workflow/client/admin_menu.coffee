@@ -25,7 +25,7 @@ if Meteor.isClient
 		title: "flow_positions"
 		app: "workflow"
 		icon: "ion ion-android-happy"
-		url: "/admin/view/flow_positions"
+		url: "/workflow/admin/flow_positions"
 		sort: 30
 		parent: "workflow"
 

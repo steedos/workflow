@@ -4,7 +4,7 @@ InstanceReadOnlyTemplate = {};
 InstanceReadOnlyTemplate.instance_attachment = """
 	<tr>
 		<td class="ins-attach-view">
-			<a href="{{ins_attach_download_url _id absolute}}" class="ins_attach_href" target="_parent">{{this.name}}</a>
+			<a href="{{ins_attach_download_url _id absolute}}" class="ins_attach_href" target="_parent" data-name="{{this.name}}" data-type="{{this.original.type}}" data-id="{{_id}}">{{this.name}}</a>
 		</td>
 	</tr>
 """
@@ -385,7 +385,27 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance, options);
 
-	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance)
+	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance);
+
+	openFileScript = """
+			if(isNode()){
+				attachs = document.getElementsByClassName("ins_attach_href");
+				for(var i = 0; i < attachs.length; i++){
+					attach = attachs[i];
+					attach.addEventListener("click", function(e){
+						if(isImage(this.dataset.type) || isHtml(this.dataset.type)){
+							e.preventDefault();
+							openWindow("/api/files/instances/" + this.dataset.id);
+						}else if(nw_core.canOpenFile(this.dataset.name)){
+							e.preventDefault();
+							nw_core.openFile(this.href, this.dataset.name)
+						}
+					});
+				}
+			}
+
+	""";
+
 
 	if !Steedos.isMobile()
 		form = db.forms.findOne(instance.form);
@@ -453,6 +473,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				#{allCssLink}
 				<script src="https://www.steedos.com/website/libs/jquery.min.js" type="text/javascript"></script>
+				<script src="/js/nw_core.js" type="text/javascript"></script>
 				<style>
 					.steedos{
 						width: #{width};
@@ -501,7 +522,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					</div>
 				</div>
 			</body>
-			<script>#{onLoadScript}</script>
+			<script>#{openFileScript};#{onLoadScript}</script>
 		</html>
 	"""
 

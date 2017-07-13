@@ -453,7 +453,7 @@ if Meteor.isServer
 		if absolute
 			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
 		else
-			return Steedos.absoluteUrl("/api/files/instances/#{_id}?download=true");
+			return "/api/files/instances/#{_id}?download=true";
 
 
 
