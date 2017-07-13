@@ -137,7 +137,7 @@ FlowRouter.route '/admin/instance_number_rules',
 		BlazeLayout.render 'adminLayout',
 			main: "admin_instance_number_rules"
 
-FlowRouter.route '/admin/flow_positions',
+FlowRouter.route '/workflow/admin/flow_positions',
 	triggersEnter: [checkUserSigned],
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
