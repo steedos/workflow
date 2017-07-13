@@ -205,6 +205,9 @@ Template.instance_list.onRendered ->
 		$(".instance-list").perfectScrollbar({suppressScrollX: true});
 		$(".instance-list .dataTables_container").perfectScrollbar();
 
+	unless $("body").hasClass("three-columns")
+		$(".btn-toogle-columns").find("i").toggleClass("fa-expand").toggleClass("fa-compress")
+
 Template.instance_list.events
 
 	'click tbody > tr': (event) ->
@@ -281,3 +284,7 @@ Template.instance_list.events
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")
 		$("body").toggleClass("three-columns")
 		$(window).trigger("resize")
+		if $("body").hasClass("three-columns")
+			localStorage.setItem("workflow_three_columns","on")
+		else
+			localStorage.removeItem("workflow_three_columns")
