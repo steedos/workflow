@@ -254,6 +254,7 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 		billingManager.caculate_by_accounting_month(a_m, space_id)
 
 billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
+	console.log "============billingManager.special_pay"
 	amount = (total_fee/100) * (3/20) 
 	space = db.spaces.findOne(space_id)
 	
@@ -323,8 +324,9 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 		space_update_obj.modified = now
 		space_update_obj.modified_by = operator_id
 
-		r = db.spaces.update({_id: space_id}, {$set: space_update_obj})
+		r = db.spaces.direct.update({_id: space_id}, {$set: space_update_obj})
 		if r
+			console.log r
 			_.each new_modules, (m)->
 				mcl = new Object
 				mcl._id = db.modules_changelogs._makeNewID()
@@ -335,3 +337,5 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 				mcl.module = m
 				mcl.created = now
 				db.modules_changelogs.insert(mcl)
+
+	return
