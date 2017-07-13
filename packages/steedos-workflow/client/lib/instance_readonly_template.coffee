@@ -375,7 +375,7 @@ InstanceReadOnlyTemplate.getOnLoadScript = (instance)->
 
 	if form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0
 		form_script = "CoreForm = {};CoreForm.instanceform = {};" + form_script
-		form_script += ";window.onload = CoreForm.form_OnLoad();"
+		form_script += ";if(CoreForm.form_OnLoad){window.onload = CoreForm.form_OnLoad();}"
 	else
 		form_script = ""
 
