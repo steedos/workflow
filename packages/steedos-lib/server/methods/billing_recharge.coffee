@@ -6,13 +6,16 @@ Meteor.methods
 		check new_id, String 
 		check module_name, String 
 
+		user_id = this.userId
+
 		result_obj = {}
 
 		attach = {}
-		attach.space_id = space_id
-		attach.module_id = module_id
-		attach.operator_id = this.userId
-
+		attach.space = space_id
+		attach.module = module_id
+		attach.code_url_id = new_id
+		console.log "lllllllll"
+		console.log JSON.stringify(attach).length
 		WXPay = Npm.require('weixin-pay')
 
 		wxpay = WXPay({
@@ -38,6 +41,7 @@ Meteor.methods
 				obj.created = new Date
 				obj.info = result
 				obj.total_fee = total_fee
+				obj.created_by = user_id
 				db.weixin_pay_code_urls.insert(obj)
 			), ()->
 				console.log 'Failed to bind environment'

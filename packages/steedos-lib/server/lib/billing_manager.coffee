@@ -261,12 +261,18 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 
 	module_name = module.name
 
-	old_modules = space.modules || new Array
+	modules = space.modules || new Array
+	
+	new_modules = new Array
+	if !modules.includes(module_name)
+		new_modules.push(module_name)
 
 	transaction = "Payment"
 
 	m = moment()
 	now = m._d
+
+	space_update_obj = new Object
 
 	# 检查此工作区是否已经生成了Billing
 	pay_count = db.billings.find({space: space_id}).count()
@@ -275,6 +281,7 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 	if pay_count is 0
 		# 先执行初始化账户的操作
 		bill = new Object
+		bill._id = db.billings._makeNewID()
 		bill.billing_month = m.format("YYYYMM")
 		bill.billing_date = m.format("YYYYMMDD")
 		bill.operator = operator_id
@@ -286,20 +293,45 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 
 		bill_id = db.billings.insert(bill)
 		if bill_id
-			space_update_obj = new Object
 			# 更新space是否专业版的标记
 			if space.is_paid isnt true
 				space_update_obj.is_paid = true
-			old_modules.push(module_name)
-			space_update_obj.modules = _.uniq(old_modules)
-			space_update_obj.modified = now
-			space_update_obj.modified_by = operator_id
-
-			db.spaces.update({_id: space_id}, {$set: space_update_obj})
 
 	# 在billings中插入付费信息
 	last_bill = db.billings.findOne({space: space_id},{sort:{modified: -1}, limit: 1})
 	last_balance = if last_bill.balance then last_bill.balance else 0.0
 
 	new_bill = new Object
+	new_bill._id = db.billings._makeNewID()
+	new_bill.billing_month = m.format("YYYYMM")
+	new_bill.billing_date = m.format("YYYYMMDD")
+	new_bill.operator = operator_id
+	new_bill.space = space_id
+	new_bill.transaction = transaction
+	new_bill.credits = Number(amount.toFixed(2))
+	new_bill.balance = Number((last_balance + amount).toFixed(2))
+	new_bill.created = now
+	new_bill.created_by = operator_id
+	new_bill.modified = now
 	
+	new_bill_id = db.billings.insert(new_bill)
+	if new_bill_id
+		# 更新modules
+		modules.push(module_name)
+		space_update_obj.modules = _.uniq(modules)
+		space_update_obj.balance = new_bill.balance
+		space_update_obj.modified = now
+		space_update_obj.modified_by = operator_id
+
+		r = db.spaces.update({_id: space_id}, {$set: space_update_obj})
+		if r
+			_.each new_modules, (m)->
+				mcl = new Object
+				mcl._id = db.modules_changelogs._makeNewID()
+				mcl.change_date = m.format("YYYYMMDD")
+				mcl.operator = operator_id
+				mcl.space = space_id
+				mcl.operation = "install"
+				mcl.module = m
+				mcl.created = now
+				db.modules_changelogs.insert(mcl)

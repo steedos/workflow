@@ -7,7 +7,7 @@
     },
     "ajv": {
       "version": "4.11.8",
-      "resolved": "https://registry.npmjs.org/ajv/-/ajv-4.11.8.tgz",
+      "resolved": "https://registry.npm.taobao.org/ajv/download/ajv-4.11.8.tgz",
       "from": "ajv@>=4.9.1 <5.0.0"
     },
     "asn1": {
@@ -114,7 +114,7 @@
     },
     "extend": {
       "version": "3.0.1",
-      "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.1.tgz",
+      "resolved": "https://registry.npm.taobao.org/extend/download/extend-3.0.1.tgz",
       "from": "extend@>=3.0.0 <3.1.0"
     },
     "extsprintf": {
