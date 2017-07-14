@@ -337,5 +337,7 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 				mcl.module = m
 				mcl.created = now
 				db.modules_changelogs.insert(mcl)
+			# 重新结算以更新remaining_months
+			Meteor.call('billing_settleup', m.format("YYYYMM"), space_id)
 
 	return
