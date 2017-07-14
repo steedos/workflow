@@ -1,5 +1,5 @@
 if Meteor.isClient
-
+	localStorage.setItem("workflow_three_columns","off")
 	Template.atTitle.onRendered ->
 		this.autorun ->
 			path = Session.get("router-path")
