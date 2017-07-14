@@ -18,7 +18,8 @@ Workflow = {}
 
 if Meteor.isClient
 	Meteor.startup ->
-		if localStorage.getItem("workflow_three_columns")
-			$("body").addClass("three-columns")
-		else
+		workflow_three_columns = localStorage.getItem("workflow_three_columns")
+		if workflow_three_columns and workflow_three_columns == "off"
 			$("body").removeClass("three-columns")
+		else
+			$("body").addClass("three-columns")
