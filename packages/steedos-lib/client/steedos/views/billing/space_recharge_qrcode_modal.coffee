@@ -11,6 +11,7 @@ Template.space_recharge_qrcode_modal.onRendered ()->
 				text: doc.info.code_url
 			})
 			document.getElementById('qrcodeDefault').appendChild(qrnode)
+			$("body").removeClass("loading")
 	})
 	Meteor.subscribe 'weixin_pay_code_url', code_url_id
 
