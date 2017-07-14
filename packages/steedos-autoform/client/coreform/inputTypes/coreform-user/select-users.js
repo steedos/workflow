@@ -87,11 +87,11 @@ Template.afSelectUser.events({
 			showOrg = template.data.atts.showOrg
         }
 
-        options.userOptions = dataset.userOptions || template.data.atts.userOptions || null
+        // options.userOptions = dataset.userOptions || template.data.atts.userOptions || null
 
-        // if (dataset.userOptions != undefined && dataset.userOptions != null) {
-        //     options.userOptions = dataset.userOptions;
-        // }
+        if (dataset.userOptions != undefined && dataset.userOptions != null) {
+            options.userOptions = dataset.userOptions;
+        }
 
         if (dataset.multiple) {
             multiple = dataset.multiple == 'true' ? true : false
