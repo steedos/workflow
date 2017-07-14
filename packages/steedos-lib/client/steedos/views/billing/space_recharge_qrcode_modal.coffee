@@ -2,7 +2,6 @@ Template.space_recharge_qrcode_modal.helpers
 
 
 Template.space_recharge_qrcode_modal.onRendered ()->
-	console.log this
 	that = this
 	code_url_id = that.data._id
 	db.weixin_pay_code_urls.find({_id: code_url_id}).observe({

@@ -46,7 +46,7 @@
       "hidden_users": [] //不显示人员的用户ID集合
     },
     //知识库相关
-    "cms":{
+    "cms": {
       "is_needto_limit_unit": true //限制用户发布文章的范围，只能在自己部门及其下级部门
     }
   },
@@ -178,7 +178,13 @@
     "skip_users": [] // 不发送通知的用户ID集合
   },
 
-  "import_user":{
-    "update_email": true  //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
+  "import_user": {
+    "update_email": true //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
+  },
+
+  "billing": {
+    "appid": "xxx",
+    "mch_id": "xxx",
+    "partner_key": "xxx"
   }
 }

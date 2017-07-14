@@ -254,7 +254,6 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 		billingManager.caculate_by_accounting_month(a_m, space_id)
 
 billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
-	console.log "============billingManager.special_pay"
 	amount = (total_fee/100) * (3/20) 
 	space = db.spaces.findOne(space_id)
 	

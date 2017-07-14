@@ -20,7 +20,6 @@ Template.space_recharge_modal.events
 			if err
 				console.log err
 			if result
-				console.log result
 				data = new Object
 				data.app = 'workflow.prefessional'
 				data._id = new_id

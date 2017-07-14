@@ -14,14 +14,12 @@ Meteor.methods
 		attach.space = space_id
 		attach.module = module_id
 		attach.code_url_id = new_id
-		console.log "lllllllll"
-		console.log JSON.stringify(attach).length
 		WXPay = Npm.require('weixin-pay')
 
 		wxpay = WXPay({
-			appid: 'wxe130bd795323d524',
-			mch_id: '1484705002'
-			partner_key: '5194c66ef4a563537a0000035194c66e' #微信商户平台API密钥
+			appid: Meteor.settings.billing.appid,
+			mch_id: Meteor.settings.billing.mch_id,
+			partner_key: Meteor.settings.billing.partner_key #微信商户平台API密钥
 		})
 
 		wxpay.createUnifiedOrder({
@@ -34,8 +32,6 @@ Meteor.methods
 			product_id: module_id,
 			attach: JSON.stringify(attach)
 		}, Meteor.bindEnvironment(((err, result) -> 
-				console.log "-----createUnifiedOrder----"
-				console.log(result)
 				obj = {}
 				obj._id = new_id
 				obj.created = new Date
