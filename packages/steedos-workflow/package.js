@@ -281,6 +281,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_instance_number_rules.html', 'client');
 	api.addFiles('client/views/list/admin_instance_number_rules.coffee', 'client');
 
+	api.addFiles('client/views/list/admin_flow_positions.html', 'client');
+	api.addFiles('client/views/list/admin_flow_positions.coffee', 'client');
+
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -333,6 +336,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
 	api.addFiles('server/publications/flow_positions.coffee', 'server');
+	api.addFiles('server/publications/flow_positions_tabular.coffee', 'server');
 	api.addFiles('server/publications/flow_roles.coffee', 'server');
 	api.addFiles('server/publications/flows.coffee', 'server');
 	api.addFiles('server/publications/forms.coffee', 'server');

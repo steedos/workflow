@@ -1,14 +1,49 @@
 ContactsManager = {};
 
+
+ContactsManager.is_within_user_organizations = function () {
+
+	if(Steedos.isSpaceAdmin(Session.get("spaceId"))){
+		return false
+	}
+
+	var is_within_user_organizations, ref, ref1;
+
+	is_within_user_organizations = ((ref = Meteor.settings["public"]) != null ? (ref1 = ref.workflow) != null ? ref1.user_selection_within_user_organizations : void 0 : void 0) || false;
+
+    return is_within_user_organizations
+}
+
 ContactsManager.getOrgNode = function(node, showHiddenOrg) {
     var orgs;
 
+	var is_within_user_organizations = ContactsManager.is_within_user_organizations();
+
     if (node.id == '#')
-        orgs = ContactsManager.getRoot();
+        if(is_within_user_organizations){
+			uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
+
+			_ids = uOrgs.getProperty("_id")
+
+			orgs = _.filter(uOrgs, function (org) {
+				// var children = org.children || []
+
+				var parents = org.parents || []
+
+				return _.intersection(parents, _ids).length < 1
+			})
+
+			if (orgs.length > 0) {
+				orgs[0].open = true
+			}
+
+        }else{
+			orgs = ContactsManager.getRoot();
+        }
     else
         orgs = ContactsManager.getChild(node.id, showHiddenOrg);
 
-    return handerOrg(orgs);
+    return handerOrg(orgs, node.id);
 }
 
 ContactsManager.getBookNode = function(node) {
@@ -37,7 +72,7 @@ ContactsManager.getBookNode = function(node) {
     return nodes;
 }
 
-function handerOrg(orgs) {
+function handerOrg(orgs, parentId) {
 
     var nodes = new Array();
 
@@ -67,6 +102,8 @@ function handerOrg(orgs) {
                 class:"text-muted"
             };
         }
+
+		node.parent = parentId;
 
         nodes.push(node);
     });

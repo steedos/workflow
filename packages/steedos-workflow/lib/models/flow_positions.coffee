@@ -63,6 +63,27 @@ db.flow_positions.helpers
 		
 if Meteor.isServer
 
+	db.flow_positions.allow
+		insert: (userId, event) ->
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
+
+		update: (userId, event) ->
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, event) ->
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
+
+if Meteor.isServer
+
 	db.flow_positions.before.insert (userId, doc) ->
 
 		doc.created_by = userId;
@@ -117,3 +138,50 @@ if Meteor.isServer
 		"space": 1,
 		"role": 1
 	},{background: true})
+
+new Tabular.Table
+	name: "flow_positions",
+	collection: db.flow_positions,
+	pub: "flow_positions_tabular",
+	columns: [
+		{data: "role_name()"},
+		{data: "org_name()"},
+		{data: "users_name()"},
+		{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
+		},
+		{
+			data: "",
+			title: "",
+			orderable: false,
+			width: '1px',
+			render: (val, type, doc) ->
+				return '<button type="button" class="btn btn-xs btn-default" id="remove"><i class="fa fa-times"></i></button>'
+		}
+	]
+	extraFields: ["space", "role", "org", "users"]
+	lengthChange: false
+	ordering: false
+	# 临时把pageLength改为1000【去掉翻页】，解决搜索不能正常工作时，QHD现场同事不方便查找数据的问题
+	pageLength: 1000
+	info: false
+	searching: true
+	autoWidth: false
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {_id: -1}
+		space = selector.space
+		unless space
+			if selector?.$and?.length > 0
+				space = selector.$and.getProperty('space')[0]
+		unless space
+			return {_id: -1}
+		space_user = db.space_users.findOne({user: userId, space: space}, {fields: {_id: 1}})
+		unless space_user
+			return {_id: -1}
+		return selector
