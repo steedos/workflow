@@ -68,7 +68,7 @@ if Meteor.isClient
 
 db.apps.attachSchema db.apps._simpleSchema;
 
-db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/emailjs", "/admin", "/portal", "/contacts"]
+db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/emailjs", "/admin", "/portal", "/contacts", "/dashboard"]
 
 db.apps.isInternalApp = (url) ->
 	if url
