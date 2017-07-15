@@ -11,3 +11,8 @@ Template.baseTabbar.helpers
 
 		if reg and reg.test(Session.get("router-path"))
 			return "weui-bar__item_on"
+
+
+Template.baseTabbar.events
+	'click .top-apps-item': (event,template) ->
+		Steedos.openApp this._id
