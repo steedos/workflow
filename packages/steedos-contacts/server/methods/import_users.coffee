@@ -23,6 +23,28 @@ Meteor.methods
 		owner_id = space.owner
 
 		data.forEach (item, i)->
+			if Meteor.settings.import_user?.update_password && (_.keys(item).join(",") == 'username,password' || _.keys(item).join(",") == 'password,username')
+				if !item.username
+					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
+				if !item.password
+					throw new Meteor.Error(500, "第#{i + 1}行：密码不能为空");
+
+				user1 = db.users.findOne({username: item.username})
+
+				if !user1
+					throw new Meteor.Error(500, "第#{i + 1}行：无效的用户名");
+
+				space_user1 = db.space_users.findOne({user: user1._id, space: space._id})
+
+				if !space_user1
+					throw new Meteor.Error(500, "第#{i + 1}行：无效的用户名");
+
+				if onlyCheck
+					return
+
+				Accounts.setPassword(user1._id, item.password, {logout: false})
+
+				return;
 
 			now = new Date()
 
@@ -173,6 +195,9 @@ Meteor.methods
 
 				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 
+				if Meteor.settings.import_user?.update_password && item.password
+					Accounts.setPassword(user_id, item.password, {logout: false})
+
 			else
 				udoc = {}
 				udoc._id = db.users._makeNewID()
@@ -231,6 +256,9 @@ Meteor.methods
 
 					if item.phone
 						space_user_update_doc.mobile = item.phone
+
+					if item.sort_no
+						space_user_update_doc.sort_no = item.sort_no
 
 					db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
 					space_user_org.updateUsers()
