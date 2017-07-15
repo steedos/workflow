@@ -1,15 +1,11 @@
 <template name="baseTabbar">
 	<div class="weui-tabbar">
-		<a href="/workflow" class="weui-tabbar__item {{appActive 'workflow'}}">
-			<span style="display: inline-block;position: relative;">
-				<i class="weui-tabbar__icon ion ion-ios-list-outline"></i>
-			</span>
-			<p class="weui-tabbar__label">{{_ "tabbar_workflow"}}</p>
-		</a>
-		<a href="/cms" class="weui-tabbar__item {{appActive 'cms'}}">
+		{{#each getSpaceTopApps 2}}
+			<a href="{{url}}" class="weui-tabbar__item {{appActive _id}}">
 				<i class="weui-tabbar__icon ion ion-ios-book-outline"></i>
-			<p class="weui-tabbar__label">{{_ "tabbar_cms"}}</p>
-		</a>
+				<p class="weui-tabbar__label">{{_ name}}</p>
+			</a>
+		{{/each}}
 		<a href="/springboard" class="weui-tabbar__item {{appActive 'springboard'}}">
 			<span style="display: inline-block;position: relative;">
 				<i class="weui-tabbar__icon ion ion-ios-keypad-outline"></i>

@@ -1,7 +1,7 @@
 Template.springboard.helpers
 
 	apps: ()->
-        return Steedos.getSpaceApps()
+		return Steedos.getSpaceApps()
 
 
 Template.springboard.events
