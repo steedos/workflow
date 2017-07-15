@@ -9,5 +9,5 @@ Template.baseTabbar.helpers
 		else if app == "admin"
 			reg = /^\/?admin\b/
 
-		if reg.test(Session.get("router-path"))
+		if reg and reg.test(Session.get("router-path"))
 			return "weui-bar__item_on"
