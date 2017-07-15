@@ -1,4 +1,4 @@
-.springboard{
+.steedos .springboard{
 	background-color: #ecf0f5;
 	position: absolute;
 	top: 51px;
@@ -33,18 +33,23 @@
 		cursor: pointer;
 	}
 }
-.springboard-wrapper{
+.steedos .springboard-wrapper{
 	.navigation-bar{
 		.navigation-title{
-			overflow: visible;
+			left: 4px;
+			right: 4px;
+			overflow: visible!important;
 			.dropdown-menu.dropdown-space{
 				overflow-y: scroll;
 				overflow-x: hidden;
-				margin-top: 10px;
-				width: 250px;
+				margin-top: 0px;
+				width: 92%;
 				max-height: 300px;
 				left: 50%;
-				margin-left: -125px;
+				margin-left: -46%;
+				.safari & {
+					margin-top: 10px;
+				}
 			}
 		}
 	}
