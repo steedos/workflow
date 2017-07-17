@@ -31,34 +31,34 @@ Template.import_users_modal.events
 
 			items.forEach (item)->
 				if _.has(item, "部门")
-					item.organization = item["部门"]
+					item.organization = item["部门"]?.trim()
 					delete item["部门"]
 				if _.has(item, "用户名")
-					item.username = item["用户名"]
+					item.username = item["用户名"]?.trim()
 					delete item["用户名"]
 				if _.has(item, "邮箱")
-					item.email = item["邮箱"]
+					item.email = item["邮箱"]?.trim()
 					delete item["邮箱"]
 				if _.has(item, "姓名")
-					item.name = item["姓名"]
+					item.name = item["姓名"]?.trim()
 					delete item["姓名"]
 				if _.has(item, "职务")
-					item.position = item["职务"]
+					item.position = item["职务"]?.trim()
 					delete item["职务"]
 				if _.has(item, "工作电话")
-					item.work_phone = item["工作电话"]
+					item.work_phone = item["工作电话"]?.trim()
 					delete item["工作电话"]
 				if _.has(item, "手机")
-					item.phone = item["手机"]
+					item.phone = item["手机"]?.trim()
 					delete item["手机"]
 				if _.has(item, "状态")
-					item.user_accepted = item["状态"]
+					item.user_accepted = item["状态"]?.trim()
 					delete item["状态"]
 				if _.has(item, "排序号")
-					item.sort_no = item["排序号"]
+					item.sort_no = item["排序号"]?.trim()
 					delete item["排序号"]
 				if _.has(item, "密码")
-					item.password = item["密码"]
+					item.password = item["密码"]?.trim()
 					delete item["密码"]
 
 			template.items.set(items)
@@ -86,6 +86,7 @@ Template.import_users_modal.events
 			return
 
 		$("body").addClass("loading")
+#		console.log "template.items.get()", template.items.get()
 		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
 			if error
 				toastr.error(error.reason);

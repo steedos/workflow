@@ -99,12 +99,12 @@ Template.instance_list.helpers
 		return Template.instance()?.maxHeight.get() + 'px'
 
 	isShowMenu: ->
-#		if Session.get("box") == 'inbox'
-#			inboxInstances = InstanceManager.getUserInboxInstances();
-#			if inboxInstances.length > 0
-#				return true
-#
-#		return false;
+		# if Session.get("box") == 'inbox'
+		# 	inboxInstances = InstanceManager.getUserInboxInstances();
+		# 	if inboxInstances.length > 0
+		# 		return true
+
+		# return false;
 
 		return true;
 
@@ -185,13 +185,10 @@ Template.instance_list.onCreated ->
 
 	$(window).resize ->
 		Template.instance_list._tableColumns();
-#		Session.set("tableColumns", tableColumns)
 
 		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
 
 Template.instance_list.onRendered ->
-	#dataTable = $(".datatable-instances").DataTable();
-	#dataTable.select();
 
 	self = this;
 
@@ -285,6 +282,9 @@ Template.instance_list.events
 		$("body").toggleClass("three-columns")
 		$(window).trigger("resize")
 		if $("body").hasClass("three-columns")
-			localStorage.setItem("workflow_three_columns","on")
-		else
 			localStorage.removeItem("workflow_three_columns")
+		else
+			localStorage.setItem("workflow_three_columns","off")
+
+Template.instance_list.onDestroyed ()->
+	Session.set "inbox_flow_id", undefined

@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.40',
+	version: '0.0.41',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -73,6 +73,7 @@ Package.onUse(function (api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
+
 	api.addFiles([
 		'client/core.coffee',
 		'client/api.coffee',
@@ -111,6 +112,9 @@ Package.onUse(function (api) {
 	api.addFiles('client/layout/tabbar.html', "client");
 	api.addFiles('client/layout/tabbar.coffee', "client");
 	api.addFiles('client/layout/tabbar.less', "client");
+	api.addFiles('client/views/springboard.less', 'client');
+	api.addFiles('client/views/springboard.html', 'client');
+	api.addFiles('client/views/springboard.coffee', 'client');
 
 	api.export('Steedos');
 	api.export('db');

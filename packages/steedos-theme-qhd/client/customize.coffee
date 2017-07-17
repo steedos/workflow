@@ -1,5 +1,4 @@
 if Meteor.isClient
-
 	Template.atTitle.onRendered ->
 		this.autorun ->
 			path = Session.get("router-path")
