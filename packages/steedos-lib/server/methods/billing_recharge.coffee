@@ -8,6 +8,12 @@ Meteor.methods
 
 		user_id = this.userId
 
+		module = db.modules.findOne(module_id)
+		space_user_count = db.space_users.find({space:space_id}).count()
+		one_month_yuan = space_user_count * (module.listprice*20/3)
+		if total_fee < one_month_yuan*100
+			throw new Meteor.Error 'error!', "充值金额应不少于一个月所需费用：￥#{one_month_yuan}"
+
 		result_obj = {}
 
 		attach = {}
