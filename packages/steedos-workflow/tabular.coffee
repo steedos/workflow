@@ -25,15 +25,11 @@ instancesListTableTabular = (flowId)->
 					$unwind: "$_approve"
 				},
 				{
-					$match: {
-						'_approve.is_finished': false
-					}
-				},
-				{
 					$unwind: "$_approve"
 				},
 				{
 					$match: {
+						'_approve.is_finished': false
 						'_approve.handler': userId,
 					}
 				}
@@ -42,8 +38,6 @@ instancesListTableTabular = (flowId)->
 				s1 = sort[0]
 				s1_0 = s1[0]
 				s1_1 = s1[1]
-				console.log("s1_0", s1_0)
-				console.log("s1_1", s1_1)
 				if s1_0 == 'start_date'
 					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
 					aggregate_operation.push $sort: ag_sort
@@ -66,7 +60,7 @@ instancesListTableTabular = (flowId)->
 					async_aggregate = Meteor.wrapAsync(aggregate)
 					async_aggregate table, aggregate_operation, filteredRecordIds
 
-					return filteredRecordIds
+					return filteredRecordIds.uniq()
 				else
 					return old_filteredRecordIds
 		onUnload: ()->
