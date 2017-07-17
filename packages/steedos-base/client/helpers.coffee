@@ -288,6 +288,18 @@ TemplateHelpers =
 			selector.mobile = true
 		return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
 
+	getSpaceTopApps: (count)->
+		unless count
+			count = 1
+		selector = {}
+		if Steedos.getSpaceId()
+			space = db.spaces.findOne(Steedos.getSpaceId())
+			# if space?.apps_enabled?.length>0
+			# 	selector._id = {$in: space.apps_enabled}
+		if Steedos.isMobile()
+			selector.mobile = true
+		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}, limit: count})
+
 	getSpaceAppById: (app_id)->
 		selector = {}
 		if Steedos.getSpaceId()

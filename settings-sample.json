@@ -179,7 +179,8 @@
   },
 
   "import_user": {
-    "update_email": true //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
+    "update_email": true, //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
+    "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
   },
 
   "billing": {

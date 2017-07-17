@@ -285,3 +285,6 @@ Template.instance_list.events
 			localStorage.removeItem("workflow_three_columns")
 		else
 			localStorage.setItem("workflow_three_columns","off")
+
+Template.instance_list.onDestroyed ()->
+	Session.set "inbox_flow_id", undefined

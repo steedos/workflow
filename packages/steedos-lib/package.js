@@ -139,10 +139,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/space/space_select.html', 'client');
 	api.addFiles('client/steedos/views/space/space_select.coffee', 'client');
 
-	api.addFiles('client/steedos/views/springboard/springboard.less', 'client');
-	api.addFiles('client/steedos/views/springboard/springboard.html', 'client');
-	api.addFiles('client/steedos/views/springboard/springboard.coffee', 'client');
-
 	api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.html', 'client');
 	api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.coffee', 'client');
 	api.addFiles('client/steedos/views/sidebar/sidebar_user_panel.less', 'client');
