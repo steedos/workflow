@@ -108,8 +108,19 @@ Meteor.publish("tabular_getInfo", function(tableName, selector, sort, skip, limi
   var filteredCursor = table.collection.find(selector, findOptions);
 
   var filteredRecordIds = filteredCursor.map(function (doc) {
-    return doc._id;
+	  return doc._id;
   });
+
+  console.log("filteredRecordIds1", filteredRecordIds)
+
+  if(table.filteredRecordIds){
+      console.log("filteredRecordIds run ...")
+	  console.time("filteredRecordIds")
+	  filteredRecordIds = table.filteredRecordIds(table, selector, sort, skip, limit, filteredRecordIds, self.userId);
+	  console.timeEnd("filteredRecordIds")
+
+	  console.log("filteredRecordIds2", filteredRecordIds)
+  }
 
   var countCursor = table.collection.find(selector, {fields: {_id: 1}});
 

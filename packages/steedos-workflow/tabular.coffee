@@ -9,8 +9,67 @@ instancesListTableTabular = (flowId)->
 		collection: db.instances,
 		pub: "instance_tabular",
 		sub: Steedos.subs["InstanceTabular"],
+		filteredRecordIds: (table, selector, sort, skip, limit, old_filteredRecordIds, userId)->
+			console.log("old_filteredRecordIds", old_filteredRecordIds)
+			aggregate_operation = [
+				{
+					$match: selector
+				},
+				{
+					$project: {
+						name: 1,
+						"_approve": '$traces.approves'
+					}
+				},
+				{
+					$unwind: "$_approve"
+				},
+				{
+					$match: {
+						'_approve.is_finished': false
+					}
+				},
+				{
+					$unwind: "$_approve"
+				},
+				{
+					$match: {
+						'_approve.handler': userId,
+					}
+				}
+			]
+			if sort and sort.length > 0
+				s1 = sort[0]
+				s1_0 = s1[0]
+				s1_1 = s1[1]
+				console.log("s1_0", s1_0)
+				console.log("s1_1", s1_1)
+				if s1_0 == 'start_date'
+					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
+					aggregate_operation.push $sort: ag_sort
+					aggregate_operation.push $skip: skip
+					aggregate_operation.push $limit: limit
+					filteredRecordIds = new Array()
+
+					aggregate = (table, aggregate_operation, filteredRecordIds, cb) ->
+						table.collection.rawCollection().aggregate aggregate_operation, (err, data) ->
+							if err
+								throw new Error(err)
+							data.forEach (doc) ->
+								filteredRecordIds.push doc._id
+								return
+							if cb
+								cb()
+							return
+						return
+
+					async_aggregate = Meteor.wrapAsync(aggregate)
+					async_aggregate table, aggregate_operation, filteredRecordIds
+
+					return filteredRecordIds
+				else
+					return old_filteredRecordIds
 		onUnload: ()->
-			console.log "_tableColumns..."
 			Meteor.setTimeout(Template.instance_list._tableColumns, 100)
 
 		drawCallback: (settings)->
@@ -149,12 +208,22 @@ instancesListTableTabular = (flowId)->
 				orderable: true
 			},
 			{
+				data: "start_date",
+				title: t("instances_start_date"),
+				render: (val, type, doc) ->
+					if doc.start_date
+						return moment(doc.start_date).format('YYYY-MM-DD HH:mm');
+				,
+				visible: false,
+				orderable: true
+			},
+			{
 				data: "modified",
 				visible: false
 			}
 		],
 		dom: "tp",
-		order: [[8, "desc"]],
+		order: [[9, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values"],
 		lengthChange: false,
