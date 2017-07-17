@@ -62,13 +62,13 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 		{
 			data: "sort_no",
 			title: "",
-			orderable: false,
+			orderable: true,
 			visible: false
 		},
 		{
 			data: "name",
 			title: "",
-			orderable: false,
+			orderable: true,
 			visible: false
 		}
 
