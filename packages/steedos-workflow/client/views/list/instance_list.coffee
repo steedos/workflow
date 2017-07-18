@@ -70,7 +70,6 @@ Template.instance_list.helpers
 		Template.instance_list._tableColumns()
 
 		return query
-
 	enabled_export: ->
 		spaceId = Session.get("spaceId");
 		if !spaceId
@@ -105,7 +104,6 @@ Template.instance_list.helpers
 		# 		return true
 
 		# return false;
-
 		return true;
 
 	hasApproves: ->
@@ -141,7 +139,7 @@ Template.instance_list._tableColumns = ()->
 		$(".field-value").show();
 
 	table = $(".datatable-instances").DataTable();
-	thead = $("thead",$(".datatable-instances"))
+	thead = $("thead", $(".datatable-instances"))
 
 	table.column(0).visible(!show)
 
@@ -158,16 +156,23 @@ Template.instance_list._tableColumns = ()->
 		table.column(4).visible(false)
 		table.column(6).visible(false)
 		table.column(7).visible(false)
-		if columnCount > 9
-			_.range(10, columnCount + 1).forEach (index)->
+		if columnCount > 10
+			_.range(11, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(false)
 	else
 		table.column(3).visible(show)
 		table.column(4).visible(show)
 		table.column(6).visible(show)
-		table.column(7).visible(show)
-		if columnCount > 9
-			_.range(10, columnCount + 1).forEach (index)->
+
+		if Session.get("box") == "inbox"
+			table.column(8).visible(show)
+			table.column(7).visible(false)
+		else
+			table.column(8).visible(false)
+			table.column(7).visible(show)
+
+		if columnCount > 10
+			_.range(11, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(show)
 
 
@@ -186,13 +191,12 @@ Template.instance_list.onCreated ->
 	$(window).resize ->
 		Template.instance_list._tableColumns();
 
-		self.maxHeight?.set($(".instance-list",$(".steedos")).height());
+		self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
 Template.instance_list.onRendered ->
-
 	self = this;
 
-	self.maxHeight?.set($(".instance-list",$(".steedos")).height());
+	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
 	Template.instance_list._tableColumns();
 
@@ -240,7 +244,7 @@ Template.instance_list.events
 		Session.set("flowId", undefined);
 
 	'click [name="create_ins_btn"]': (event) ->
-		#判断是否为欠费工作区
+#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
@@ -256,12 +260,12 @@ Template.instance_list.events
 	'click #instance_search_tip_close_btn': (event, template) ->
 		Session.set("instance_more_search_selector", undefined)
 		Session.set("flowId", undefined)
-		Session.set("instance-search-state",undefined)
-		Session.set("instance-search-name",undefined)
-		Session.set("instance-search-appplicant-name",undefined)
-		Session.set("instance-search-applicant-organization-name",undefined)
-		Session.set("submit-date-start",undefined);
-		Session.set("submit-date-end",undefined);
+		Session.set("instance-search-state", undefined)
+		Session.set("instance-search-name", undefined)
+		Session.set("instance-search-appplicant-name", undefined)
+		Session.set("instance-search-applicant-organization-name", undefined)
+		Session.set("submit-date-start", undefined);
+		Session.set("submit-date-end", undefined);
 		#清空搜索框
 		$('#instance_search').val("").trigger('keyup')
 
@@ -284,7 +288,7 @@ Template.instance_list.events
 		if $("body").hasClass("three-columns")
 			localStorage.removeItem("workflow_three_columns")
 		else
-			localStorage.setItem("workflow_three_columns","off")
+			localStorage.setItem("workflow_three_columns", "off")
 
 Template.instance_list.onDestroyed ()->
 	Session.set "inbox_flow_id", undefined
