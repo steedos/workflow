@@ -4,7 +4,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">{{spaceUserName}}</h4>
+					<h4 class="modal-title">{{spaceUser.name}}</h4>
 				</div>
 				<div class="modal-zoom weui-modal-content">
 					<div class="weui-cells weui-cells_form">
@@ -13,7 +13,7 @@
 								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_email"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
-								<span class="weui-input">{{spaceUserEmail}}</span>
+								<span class="weui-input">{{spaceUser.email}}</span>
 							</div>
 						</div>
 						<div class="weui-cell">
@@ -21,7 +21,7 @@
 								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_position"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
-								<span class="weui-input">{{spaceUserPosition}}</span>
+								<span class="weui-input">{{spaceUser.position}}</span>
 							</div>
 						</div>
 						<div class="weui-cell">
@@ -30,9 +30,9 @@
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								{{#if isAndroidOrIOS}}
-									<a href="tel:{{spaceUserMobile}}" class="weui-input" style="color: #3c8dbc">{{spaceUserMobile}}</a>
+									<a href="tel:{{spaceUser.mobile}}" class="weui-input" style="color: #3c8dbc">{{spaceUser.mobile}}</a>
 								{{else}}
-									<span class="weui-input">{{spaceUserMobile}}</span>
+									<span class="weui-input">{{spaceUser.mobile}}</span>
 								{{/if}}
 
 							</div>
@@ -43,9 +43,9 @@
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								{{#if isAndroidOrIOS}}
-									<a href="tel:{{spaceUserWorkPhone}}" class="weui-input" style="color: #3c8dbc">{{spaceUserWorkPhone}}</a>
+									<a href="tel:{{spaceUser.work_phone}}" class="weui-input" style="color: #3c8dbc">{{spaceUser.work_phone}}</a>
 								{{else}}
-									<span class="weui-input">{{spaceUserWorkPhone}}</span>
+									<span class="weui-input">{{spaceUser.work_phone}}</span>
 								{{/if}}
 							</div>
 						</div>
@@ -63,8 +63,11 @@
 						</div>
 					</div>
 					<div class="weui-btn-area text-right">
-						<button class="btn btn-primary steedos-info-copy" style="margin-right: 5px" data-info="{{spaceUserInfo}}">{{_ "steedos_contacts_copy"}}</button>
-						<button class="btn btn-default steedos-info-close" style="margin-right: 5px">{{_ "steedos_contacts_close"}}</button>
+						<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}" title={{_ "Edit"}}><i class="fa fa-pencil"></i></button>
+						<button class="btn btn-default steedos-info-delete pull-left" data-id="{{targetId}}"  title={{_ "Delete"}}><i class="fa fa-times"></i></button>
+
+						<button class="btn btn-primary steedos-info-copy" data-info="{{spaceUserInfo}}">{{_ "steedos_contacts_copy"}}</button>
+						<button class="btn btn-default steedos-info-close">{{_ "steedos_contacts_close"}}</button>
 					</div>
 				</div>
 			</div>
