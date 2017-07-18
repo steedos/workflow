@@ -10,7 +10,6 @@ instancesListTableTabular = (flowId)->
 		pub: "instance_tabular",
 		sub: Steedos.subs["InstanceTabular"],
 		filteredRecordIds: (table, selector, sort, skip, limit, old_filteredRecordIds, userId)->
-			console.log("old_filteredRecordIds", old_filteredRecordIds)
 			aggregate_operation = [
 				{
 					$match: selector
