@@ -120,9 +120,15 @@ Template.instance_list.helpers
 			if TabularTables.flowInstances.get()?.name == key
 				return TabularTables.flowInstances.get()
 			else
-				TabularTables.instances
+				if Session.get("box") == "inbox"
+					return TabularTables.inbox_instances
+				else
+					return TabularTables.instances
 		else
-			return TabularTables.instances
+			if Session.get("box") == "inbox"
+				return TabularTables.inbox_instances
+			else
+				return TabularTables.instances
 
 Template.instance_list._tableColumns = ()->
 	show = false
@@ -156,6 +162,7 @@ Template.instance_list._tableColumns = ()->
 		table.column(4).visible(false)
 		table.column(6).visible(false)
 		table.column(7).visible(false)
+		table.column(8).visible(false)
 		if columnCount > 10
 			_.range(11, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(false)
