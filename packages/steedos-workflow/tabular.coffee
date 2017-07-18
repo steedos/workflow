@@ -271,7 +271,7 @@ _get_inbox_instances_tabular_options = (box, flowId)->
 				s1 = sort[0]
 				s1_0 = s1[0]
 				s1_1 = s1[1]
-				if s1_0 == 'modified' && selector?.$or?.length > 1 && selector.$or[1]["cc_users"]
+				if s1_0 == 'start_date'
 					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
 					aggregate_operation.push $sort: ag_sort
 					aggregate_operation.push $skip: skip
