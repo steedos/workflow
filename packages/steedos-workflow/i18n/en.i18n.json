@@ -547,5 +547,6 @@
 
 	"my_instances": "My Files",
 	"workflow_import_export_flows": "Flows import or export",
-	"workflow_history_approve_description": "History description"
+	"workflow_history_approve_description": "History description",
+	"instances_start_date": "Receiving time"
 }
