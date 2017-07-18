@@ -181,6 +181,7 @@ Meteor.methods
 
 					su_update_doc.mobile = item.phone
 
+#				更新用户Email字段
 				if user_pk == 'username'
 					if item.email
 						su_update_doc.email = item.email
