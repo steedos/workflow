@@ -41,34 +41,34 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
 		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-					return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-					return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
-		},
+		# {
+		# 	data: "",
+		# 	title: "",
+		# 	orderable: false,
+		# 	width: '1px',
+		# 	render: (val, type, doc) ->
+		# 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+		# 			return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
+		# },
+		# {
+		# 	data: "",
+		# 	title: "",
+		# 	orderable: false,
+		# 	width: '1px',
+		# 	render: (val, type, doc) ->
+		# 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+		# 			return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
+		# },
 		{
 			data: "sort_no",
 			title: "",
-			orderable: false,
+			orderable: true,
 			visible: false
 		},
 		{
 			data: "name",
 			title: "",
-			orderable: false,
+			orderable: true,
 			visible: false
 		}
 
@@ -77,7 +77,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-	order:[[7,"desc"],[8,"asc"]],
+	order:[[5,"desc"],[6,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
 	lengthChange: false,
 	pageLength: 15,

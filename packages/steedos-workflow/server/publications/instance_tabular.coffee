@@ -29,7 +29,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 			if approves.length > 0
 				approve = approves[0]
-				myApprove = {id: approve._id, instance: approve.instance, trace: approve.trace, is_read: approve.is_read}
+				myApprove = {id: approve._id, instance: approve.instance, trace: approve.trace, is_read: approve.is_read, start_date: approve.start_date}
 
 		if !myApprove
 			is_read = false
@@ -38,7 +38,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 					if approve.type == 'cc' and approve.user == userId and approve.is_finished == false
 						if approve.is_read
 							is_read = true
-						myApprove = {id: approve._id , is_read: is_read}
+						myApprove = {id: approve._id , is_read: is_read, start_date: approve.start_date}
 
 		return myApprove
 
@@ -56,6 +56,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			myApprove = getMyApprove(self.userId, id)
 			if myApprove
 				instance.is_read = myApprove.is_read
+				instance.start_date = myApprove.start_date
 			else
 				instance.is_read = true
 			instance.step_current_name = getStepCurrentName(id);
@@ -70,6 +71,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		myApprove = getMyApprove(self.userId, id)
 		if myApprove
 			instance.is_read = myApprove.is_read
+			instance.start_date = myApprove.start_date
 		else
 			instance.is_read = true
 		instance.step_current_name = getStepCurrentName(id);

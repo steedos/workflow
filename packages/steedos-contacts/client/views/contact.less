@@ -127,6 +127,11 @@
 			left: 0px;
 			padding: 0px;
 			background-color: white;
+			@media (max-width: 420px){
+				/*手机上竖着看不显示水平滚动条*/
+				overflow-x: hidden;
+			}
+
 			.row {
 				margin-right: 0px;
 				margin-left: 0px;
@@ -232,6 +237,7 @@
 				width: 100%;
 				z-index: 1010;
 				top: 102px;
+				bottom: 50px;
 
 				.contacts_back{
 					display: inline-block;
@@ -255,6 +261,7 @@
 				transition: 0.3s ease-in-out;
 				.contacts{
 					top: 102px;
+					bottom: 50px;
 				}
 				.offcanvas{
 					display: inline-block;
@@ -362,7 +369,21 @@
 		.datatable-steedos-contacts{
 			tr{
 				th{
-					min-width: 60px;
+					min-width: 80px;
+					&:nth-last-child(1),&:nth-last-child(2){
+						min-width: auto;
+					}
+					@media (max-width: 420px){
+						display: none;
+					}
+				}
+				td{
+					@media (max-width: 420px){
+						display: none;
+						&:nth-child(1){
+							display: block;
+						}
+					}
 				}
 			}
 		}
@@ -376,6 +397,22 @@
 			&.steedos-info-copy{
 				margin-right: 14px;
 			}
+		}
+		.btn{
+			margin-right:5px;
+			&:last-child{
+				margin-right:0px;
+			}
+		}
+	}
+	.weui-modal-content{
+		position: relative; 
+		background-color: #FFFFFF; 
+		padding-top: 1px; 
+		padding-bottom: 15px;
+		overflow-y: auto;
+		.weui-cells{
+			margin-top: -3px;
 		}
 	}
 }
