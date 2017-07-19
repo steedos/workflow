@@ -18,7 +18,9 @@ Template.space_recharge_modal.events
 		$("body").addClass("loading")
 		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), $('#space_recharge_modules').val(), new_id, module_name, (err, result)->
 			if err
+				$("body").removeClass("loading")
 				console.log err
+				toastr.error(err.reason)
 			if result
 				data = new Object
 				data.app = 'workflow.prefessional'
