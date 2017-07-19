@@ -1,0 +1,1 @@
+db.billing_weixin_pay_code_urls = new Meteor.Collection('billing_weixin_pay_code_urls')

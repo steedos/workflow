@@ -7,11 +7,12 @@ Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
 		select = document.getElementById('space_recharge_modules')
 		module_name = select.options[select.selectedIndex].text
-		new_id = db.weixin_pay_code_urls._makeNewID()
-		fee_value = $('#space_recharge_fee')[0].value.to_integer()
-		if fee_value <= 0
-			$('#space_recharge_fee')[0].value = ""
-			return
+		new_id = db.billing_weixin_pay_code_urls._makeNewID()
+		# fee_value = $('#space_recharge_fee')[0].value.to_integer()
+		# if fee_value <= 0
+			# $('#space_recharge_fee')[0].value = ""
+			# return
+		fee_value = Number($('#space_recharge_fee')[0].value)
 		total_fee = 100 * fee_value
 
 

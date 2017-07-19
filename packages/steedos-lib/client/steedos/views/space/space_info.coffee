@@ -29,6 +29,9 @@ Template.space_info.helpers
             return true
         return !disableAddSpace
 
+    user_count: ->
+        return Session.get('space_user_count')
+
 Template.space_info.events
 
     'click .btn-new-space': (event)->
@@ -83,3 +86,12 @@ Meteor.startup ->
                     toastr.error error.reason
                 else 
                     toastr.error error
+
+
+Template.space_info.onRendered ()->
+    that = this
+    Meteor.call 'get_space_user_count', Session.get('spaceId'), (err, result)->
+        if err
+            console.log err.reason
+        if result
+            Session.set('space_user_count',result)

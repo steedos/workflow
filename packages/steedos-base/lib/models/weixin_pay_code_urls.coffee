@@ -1,1 +1,0 @@
-db.weixin_pay_code_urls = new Meteor.Collection('weixin_pay_code_urls')
