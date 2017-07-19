@@ -5,8 +5,10 @@ Steedos.subsBootstrap.subscribe("steedos_keyvalues")
 
 Tracker.autorun (c)->
 	if Steedos.subsBootstrap.ready("my_spaces")
-		spaceId = Steedos.getSpaceId()
-		Steedos.setSpaceId(spaceId)
+		if Meteor.userId() and not Meteor.loggingIn()
+			# 只在已登录的情况下设置工作区ID
+			spaceId = Steedos.getSpaceId()
+			Steedos.setSpaceId(spaceId)
 
 Steedos.subsSpaceBase = new SubsManager();
 
