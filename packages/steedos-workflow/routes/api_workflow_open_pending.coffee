@@ -69,6 +69,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["space_id"] = space_id
 				h["modified"] = moment(i["modified"]).format('YYYY-MM-DD HH:mm')
 				h["is_read"] = is_read
+				h["values"] = i["values"]
 				result_instances.push(h)
 
 		JsonRoutes.sendResult res,
