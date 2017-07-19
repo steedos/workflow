@@ -9,59 +9,6 @@ instancesListTableTabular = (flowId)->
 		collection: db.instances,
 		pub: "instance_tabular",
 		sub: Steedos.subs["InstanceTabular"],
-		filteredRecordIds: (table, selector, sort, skip, limit, old_filteredRecordIds, userId)->
-			aggregate_operation = [
-				{
-					$match: selector
-				},
-				{
-					$project: {
-						name: 1,
-						"_approve": '$traces.approves'
-					}
-				},
-				{
-					$unwind: "$_approve"
-				},
-				{
-					$unwind: "$_approve"
-				},
-				{
-					$match: {
-						'_approve.is_finished': false
-						'_approve.handler': userId,
-					}
-				}
-			]
-			if sort and sort.length > 0
-				s1 = sort[0]
-				s1_0 = s1[0]
-				s1_1 = s1[1]
-				if s1_0 == 'start_date'
-					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
-					aggregate_operation.push $sort: ag_sort
-					aggregate_operation.push $skip: skip
-					aggregate_operation.push $limit: limit
-					filteredRecordIds = new Array()
-
-					aggregate = (table, aggregate_operation, filteredRecordIds, cb) ->
-						table.collection.rawCollection().aggregate aggregate_operation, (err, data) ->
-							if err
-								throw new Error(err)
-							data.forEach (doc) ->
-								filteredRecordIds.push doc._id
-								return
-							if cb
-								cb()
-							return
-						return
-
-					async_aggregate = Meteor.wrapAsync(aggregate)
-					async_aggregate table, aggregate_operation, filteredRecordIds
-
-					return filteredRecordIds.uniq()
-				else
-					return old_filteredRecordIds
 		onUnload: ()->
 			Meteor.setTimeout(Template.instance_list._tableColumns, 100)
 
@@ -216,7 +163,7 @@ instancesListTableTabular = (flowId)->
 			}
 		],
 		dom: "tp",
-		order: [[9, "desc"]],
+		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values"],
 		lengthChange: false,
@@ -287,6 +234,73 @@ instancesListTableTabular = (flowId)->
 
 TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
+
+_get_inbox_instances_tabular_options = (box, flowId)->
+	options = instancesListTableTabular(flowId)
+
+	if !flowId
+		options.name = "inbox_instances"
+
+	if box == "inbox"
+		options.order = [[8, "desc"]]
+		options.filteredRecordIds = (table, selector, sort, skip, limit, old_filteredRecordIds, userId)->
+			aggregate_operation = [
+				{
+					$match: selector
+				},
+				{
+					$project: {
+						name: 1,
+						"_approve": '$traces.approves'
+					}
+				},
+				{
+					$unwind: "$_approve"
+				},
+				{
+					$unwind: "$_approve"
+				},
+				{
+					$match: {
+						'_approve.is_finished': false
+						'_approve.handler': userId,
+					}
+				}
+			]
+			if sort and sort.length > 0
+				s1 = sort[0]
+				s1_0 = s1[0]
+				s1_1 = s1[1]
+				if s1_0 == 'start_date'
+					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
+					aggregate_operation.push $sort: ag_sort
+					aggregate_operation.push $skip: skip
+					aggregate_operation.push $limit: limit
+					filteredRecordIds = new Array()
+
+					aggregate = (table, aggregate_operation, filteredRecordIds, cb) ->
+						table.collection.rawCollection().aggregate aggregate_operation, (err, data) ->
+							if err
+								throw new Error(err)
+							data.forEach (doc) ->
+								filteredRecordIds.push doc._id
+								return
+							if cb
+								cb()
+							return
+						return
+
+					async_aggregate = Meteor.wrapAsync(aggregate)
+					async_aggregate table, aggregate_operation, filteredRecordIds
+
+					return filteredRecordIds.uniq()
+				else
+					return old_filteredRecordIds
+
+	return options
+
+TabularTables.inbox_instances = new Tabular.Table _get_inbox_instances_tabular_options("inbox")
+
 if Meteor.isClient
 	TabularTables.flowInstances = new ReactiveVar()
 
@@ -295,24 +309,24 @@ Tracker.autorun (c) ->
 
 	if Meteor.isClient && !Steedos.isMobile()
 		if Session.get("flowId")
-			Meteor.call "newInstancesListTabular", Session.get("flowId"), (error, result) ->
-				newInstancesListTabular Session.get("flowId")
+			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
+				newInstancesListTabular Session.get("box"), Session.get("flowId")
 
 
-newInstancesListTabular = (flowId)->
+newInstancesListTabular = (box, flowId)->
 	flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
 	fields = db.forms.findOne({_id: flow?.form})?.current?.fields
 
 	if fields?.filterProperty("is_list_display", true)?.length > 0
 		key = "instanceFlow" + flowId
 		if Meteor.isClient
-			TabularTables.flowInstances.set(new Tabular.Table instancesListTableTabular(flowId))
+			TabularTables.flowInstances.set(new Tabular.Table _get_inbox_instances_tabular_options(box, flowId))
 		else
-			new Tabular.Table instancesListTableTabular(flowId)
+			new Tabular.Table _get_inbox_instances_tabular_options(box, flowId)
 		console.log "new TabularTables ", key
 
 if Meteor.isServer
 	Meteor.methods
-		newInstancesListTabular: (flowId)->
-			newInstancesListTabular(flowId)
+		newInstancesListTabular: (box, flowId)->
+			newInstancesListTabular(box, flowId)
 

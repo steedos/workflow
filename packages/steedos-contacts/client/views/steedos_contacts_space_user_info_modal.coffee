@@ -1,32 +1,6 @@
 Template.steedos_contacts_space_user_info_modal.helpers
-	spaceUserName: ->
-		spaceUser = db.space_users.findOne this.targetId;
-		return spaceUser.name;
-
-	spaceUserEmail: ->
-		spaceUser = db.space_users.findOne this.targetId;
-		return spaceUser.email;
-
-	spaceUserMobile: ->
-		mobile = "";
-		spaceUser = db.space_users.findOne this.targetId;
-		if spaceUser.mobile
-			mobile = spaceUser.mobile
-		return mobile;
-	
-	spaceUserWorkPhone: ->
-		workPhone = "";
-		spaceUser = db.space_users.findOne this.targetId;
-		if spaceUser.work_phone
-			workPhone = spaceUser.work_phone
-		return workPhone;
-	
-	spaceUserPosition: ->
-		Position = "";
-		spaceUser = db.space_users.findOne this.targetId;
-		if spaceUser.position
-			Position = spaceUser.position
-		return Position;
+	spaceUser: ->
+		return db.space_users.findOne this.targetId;
 	
 	spaceUserOrganizations: ->
 		spaceUser = db.space_users.findOne this.targetId;
@@ -58,7 +32,15 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-close': (event,template) ->
-		Modal.hide('steedos_contacts_space_user_info_modal')
+		$("#steedos_contacts_import_modal .close").trigger("click")
+
+	'click .steedos-info-edit': (event, template) ->
+		Modal.allowMultiple = true
+		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+
+	'click .steedos-info-delete': (event, template) ->
+		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
+			$("#steedos_contacts_import_modal .close").trigger("click")
 
 
 Template.steedos_contacts_space_user_info_modal.onRendered ()->
@@ -75,6 +57,8 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
+	$("#steedos_contacts_import_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
+	Modal.allowMultiple = false
 	Template.steedos_contacts_space_user_info_modal.copyInfoClipboard.destroy()
