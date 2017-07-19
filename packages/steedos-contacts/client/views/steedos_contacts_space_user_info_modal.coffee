@@ -35,7 +35,6 @@ Template.steedos_contacts_space_user_info_modal.events
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
-		Modal.allowMultiple = true
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
 	'click .steedos-info-delete': (event, template) ->
