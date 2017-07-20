@@ -105,8 +105,8 @@ Template.steedos_contacts_org_user_list.events
 		return false
 
 	'dragstart #contacts_list .drag-source': (event, template)->
-		event.originalEvent.dataTransfer.setData("Text","");
-		draggingId = $(event.currentTarget).find("#steedos_contacts_org_user_list_edit_btn").data("id")
+		event.originalEvent.dataTransfer.setData("Text","")
+		draggingId = $(event.currentTarget).data("id")
 		Session.set("dragging_contacts_org_user_id",draggingId)
 		$(event.currentTarget).addClass("drag-source-moving")
 		orgTree = $("#steedos_contacts_org_tree")

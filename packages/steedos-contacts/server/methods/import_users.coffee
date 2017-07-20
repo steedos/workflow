@@ -174,11 +174,11 @@ Meteor.methods
 
 				if item.phone
 					u_update_doc.phone = {
-						number: item.phone
+						number: "+86" + item.phone
 						verified: true
 						modified: now
 					}
-
+					u_update_doc.mobile = item.phone
 					su_update_doc.mobile = item.phone
 
 #				更新用户Email字段
@@ -223,10 +223,12 @@ Meteor.methods
 
 				if item.phone
 					udoc.phone = {
-						number: item.phone
+						number: "+86" + item.phone
 						verified: true
 						modified: now
 					}
+
+					udoc.mobile = item.phone
 
 				user_id = db.users.direct.insert(udoc)
 

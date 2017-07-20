@@ -73,8 +73,9 @@ if Meteor.isClient
 		Session.set('admin_collection_name', collectionName);
 		Session.set('admin_id', id);
 		Meteor.subscribe 'adminCollectionDoc', collectionName, id, ()->
+			Modal.allowMultiple = true
 			Modal.show("AdminDashboardEditModal")
-
+			Modal.allowMultiple = false
 			$(".admin-dashboard-body").css("max-height", Steedos.getModalMaxHeight());
 
 			$('#admin_edit').on('hidden.bs.modal', (e) ->

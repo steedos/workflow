@@ -32,15 +32,14 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-close': (event,template) ->
-		$("#steedos_contacts_import_modal .close").trigger("click")
+		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
-		Modal.allowMultiple = true
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
-			$("#steedos_contacts_import_modal .close").trigger("click")
+			$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 
 Template.steedos_contacts_space_user_info_modal.onRendered ()->
@@ -57,7 +56,7 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
-	$("#steedos_contacts_import_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
+	$("#steedos_contacts_space_user_info_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

@@ -348,7 +348,9 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = TAPi18n.__('accounts_phone_too_often_retries',{s:waitTimeInSec}, locale);
+            errMsg = TAPi18n.__('accounts_phone_too_often_retries', {
+                s: waitTimeInSec
+            }, locale);
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
@@ -388,7 +390,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     try {
         if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio) {
             SMS.send(options);
-        } else if (Meteor.settings && Meteor.settings.sms && (Meteor.settings.sms.aliyun || Meteor.settings.sms.qcloud)) {
+        } else {
             var params = {
                 code: verifyObject.code
             };
@@ -407,7 +409,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
     } catch (e) {
         console.error('SMS Failed, Something bad happened!', e);
-        var errMsg = TAPi18n.__('accounts_phone_sms_failed',{}, locale);
+        var errMsg = TAPi18n.__('accounts_phone_sms_failed', {}, locale);
         throw new Meteor.Error(403, errMsg);
     }
 };
@@ -441,7 +443,7 @@ Meteor.methods({
                 // Create new user with phone number
                 // userId = createUser({phone:phone});
                 // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-                var errMsg = TAPi18n.__('accounts_phone_user_not_found',{}, locale);
+                var errMsg = TAPi18n.__('accounts_phone_user_not_found', {}, locale);
                 throw new Meteor.Error(403, errMsg);
             }
         }

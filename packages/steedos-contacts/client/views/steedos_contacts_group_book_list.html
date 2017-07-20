@@ -5,20 +5,14 @@
 		</button>
 		<div class="btn-group" >
 			<button type="button" data-toggle="tooltip" data-placement="bottom" title="{{_ 'contacts_add'}}" class="btn btn-default btn-flat" id="steedos_contacts_group_book_list_add_btn"><i class="ion ion-plus-round"></i></button>
-			<button type="button" class="btn btn-default btn-flat" disabled="{{#if is_disabled}}disabled{{/if}}" id="steedos_contacts_group_book_list_import_btn">
-				{{#if isMobile}}
-					<i class="ion ion-android-upload"></i>
-				{{else}}
+			{{#unless isMobile}}
+				<button type="button" class="btn btn-default btn-flat" disabled="{{#if is_disabled}}disabled{{/if}}" id="steedos_contacts_group_book_list_import_btn">
 					{{_ 'steedos_contacts_import'}}
-				{{/if}}
-			</button>
-			<a target="_parent" class="btn btn-default btn-flat" id="steedos_contacts_group_book_list_export_btn" data-toggle="tooltip" data-placement="right" title="{{_ 'steedos_contact_books_exprot_vcf_title'}}">
-				{{#if isMobile}}
-					<i class="ion ion-android-download"></i>
-				{{else}}
-					{{_ 'steedos_contacts_export'}}
-				{{/if}}
-			</a>
+				</button>
+				<a target="_parent" class="btn btn-default btn-flat" id="steedos_contacts_group_book_list_export_btn" data-toggle="tooltip" data-placement="right" title="{{_ 'steedos_contact_books_exprot_vcf_title'}}">
+						{{_ 'steedos_contacts_export'}}
+				</a>
+			{{/unless}}
 
 		</div>
 
