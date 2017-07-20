@@ -88,7 +88,7 @@ if Meteor.isClient
 			if Steedos.isNode()
 				if accountZoomValue.size == "1"
 					# node-webkit中size为0才表示100%
-					accountZoomValue.size = 0
+					zoomSize = 0
 				nw.Window.get().zoomLevel = Number.parseFloat(zoomSize)
 			else
 				$("body").addClass("zoom-#{zoomName}")
