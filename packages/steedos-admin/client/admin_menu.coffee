@@ -27,16 +27,16 @@ if Meteor.isClient
 
 	# 账户设置
 	Admin.addMenu
-		_id: "account"
+		_id: "account"	
 		title: "Account Settings"
-		icon: "ion ion-android-person"
+		icon: "ion ion-ios-person-outline"
 		sort: 10
 
 	# 个人信息
 	Admin.addMenu
 		_id: "profile"
 		title: "Profile"
-		icon:"ion ion-android-person"
+		icon:"ion ion-ios-person-outline"
 		url: "/admin/profile/profile"
 		sort: 10
 		parent: "account"
@@ -45,7 +45,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "avatar"
 		title: "Avatar"
-		icon:"ion ion-image"
+		icon:"ion ion-ios-camera-outline"
 		url: "/admin/profile/avatar"
 		sort: 20
 		parent: "account"
@@ -101,7 +101,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "contacts_organizations"
 		title: "contacts_organizations"
-		icon: "fa fa-sitemap"
+		icon: "ion ion-ios-people-outline"
 		url: "/admin/organizations"
 		roles:["space_admin"]
 		sort: 30
