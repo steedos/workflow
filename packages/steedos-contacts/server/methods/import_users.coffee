@@ -174,7 +174,7 @@ Meteor.methods
 
 				if item.phone
 					u_update_doc.phone = {
-						number: item.phone
+						number: "+86" + item.phone
 						verified: true
 						modified: now
 					}
@@ -223,7 +223,7 @@ Meteor.methods
 
 				if item.phone
 					udoc.phone = {
-						number: item.phone
+						number: "+86" + item.phone
 						verified: true
 						modified: now
 					}
