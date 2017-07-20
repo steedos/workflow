@@ -178,7 +178,7 @@ Meteor.methods
 						verified: true
 						modified: now
 					}
-
+					u_update_doc.mobile = item.phone
 					su_update_doc.mobile = item.phone
 
 #				更新用户Email字段
@@ -227,6 +227,8 @@ Meteor.methods
 						verified: true
 						modified: now
 					}
+
+					udoc.mobile = item.phone
 
 				user_id = db.users.direct.insert(udoc)
 
