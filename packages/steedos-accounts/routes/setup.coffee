@@ -16,12 +16,12 @@ Setup.setAuthCookies = (req, res, userId, authToken) ->
 		uri = new URI(req.headers.origin);
 
 		cookies.set "X-User-Id", userId, 
-			domain: uri.hostname(),
+			# domain: uri.hostname(),
 			maxAge: 90*60*60*24*1000,
 			httpOnly: false
 			overwrite: true
 		cookies.set "X-Auth-Token", authToken, 
-			domain: uri.hostname(),
+			# domain: uri.hostname(),
 			maxAge: 90*60*60*24*1000,
 			httpOnly: false
 			overwrite: true

@@ -4,7 +4,7 @@ if Meteor.isClient
 		_id: "distribute_manager"
 		title: "distribute_manager"
 		app: "workflow"
-		icon: "ion ion-ios-browsers"
+		icon: "ion ion-ios-browsers-outline"
 		url: "/admin/distribute/flows"
 		paid: "true"
 		sort: 80
