@@ -22,7 +22,8 @@ Meteor.methods
 		check arguments, [Match.Any]
 		if true #Roles.userIsInRole this.userId, ['admin']
 			if collection == 'Users'
-				Meteor.users.remove {_id:_id}
+				console.error("remove users by _id", _id)
+#				Meteor.users.remove {_id:_id}
 			else
 				# global[collection].remove {_id:_id}
 				adminCollectionObject(collection).remove {_id: _id}
