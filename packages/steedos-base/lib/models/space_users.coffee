@@ -309,8 +309,8 @@ if (Meteor.isServer)
 			db.users.update {_id: doc.user},
 				$set:
 					work_phone: doc.work_phone
-		
-		if modifier.$set.mobile
+
+		if doc.mobile
 			user_set = {}
 			user_set.phone = {}
 			user_set.mobile = doc.mobile
@@ -319,10 +319,15 @@ if (Meteor.isServer)
 			user_set.phone.verified = true
 			user_set.phone.modified = new Date()
 			if not _.isEmpty(user_set)
-				# 修改人
-				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
 				# 更新users表中的相关字段
 				db.users.update({_id: doc.user}, {$set: user_set})
+		else
+			user_unset = {}
+			user_unset.phone = ""
+			user_unset.mobile = ""
+			# 更新users表中的相关字段
+			db.users.update({_id: doc.user}, {$unset: user_unset})
+
 
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
