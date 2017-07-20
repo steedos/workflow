@@ -1,8 +1,8 @@
 _.extend Steedos,
-	
+
 	openWindow: (url, target, options)->
 		unless target
-			target = "_blank"
+			target = "new_blank"
 		unless options
 			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
 
