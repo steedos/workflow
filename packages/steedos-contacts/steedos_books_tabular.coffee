@@ -1,6 +1,8 @@
 TabularTables.steedosContactsBooks = new Tabular.Table({
 	name: "steedosContactsBooks",
 	collection: db.address_books,
+	createdRow:(row,data,index)->
+		row.dataset.id = data._id
 	columns: [
 		{
 			data: "_id",
@@ -37,27 +39,9 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 			render: (val, type, doc) ->
 				if doc.company
 					return "<div class='contacts-company'>" + doc.company + "</div>"
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_group_book_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_group_book_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
 		}
 	],
 
-#select:
-#  style: 'single'
 	dom: "tp",
 	order: [],
 	extraFields: ["_id", "name", "email"],
@@ -81,8 +65,6 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 			return {_id: -1}
 		return selector
 
-#scrollY:        '400px',
-#scrollCollapse: true,
 	pagingType: "numbers"
 
 });

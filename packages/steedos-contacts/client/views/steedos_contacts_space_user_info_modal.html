@@ -1,5 +1,5 @@
 <template name="steedos_contacts_space_user_info_modal">
-	<div class="modal fade" id="steedos_contacts_import_modal" role="dialog" aria-labelledby="modalLabel2">
+	<div class="modal fade contacts-detail-info-modal" id="steedos_contacts_space_user_info_modal" role="dialog" aria-labelledby="modalLabel2">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -10,7 +10,7 @@
 					<div class="weui-cells weui-cells_form">
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_email"}}</span>
+								<span class="weui-label">{{_ "steedos_contacts_space_users_email"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								<span class="weui-input">{{spaceUser.email}}</span>
@@ -18,7 +18,7 @@
 						</div>
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_position"}}</span>
+								<span class="weui-label">{{_ "steedos_contacts_space_users_position"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								<span class="weui-input">{{spaceUser.position}}</span>
@@ -26,7 +26,7 @@
 						</div>
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_mobile"}}</span>
+								<span class="weui-label">{{_ "steedos_contacts_space_users_mobile"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								{{#if isAndroidOrIOS}}
@@ -39,7 +39,7 @@
 						</div>
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_workPhone"}}</span>
+								<span class="weui-label">{{_ "steedos_contacts_space_users_workPhone"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								{{#if isAndroidOrIOS}}
@@ -51,7 +51,7 @@
 						</div>
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label" style="cursor: default;">{{_ "steedos_contacts_space_users_organizations"}}</span>
+								<span class="weui-label">{{_ "steedos_contacts_space_users_organizations"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								<span class="weui-input">
