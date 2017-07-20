@@ -24,7 +24,7 @@ if Meteor.isClient
 		_id: "flow_positions"
 		title: "flow_positions"
 		app: "workflow"
-		icon: "ion ion-android-happy"
+		icon: "ion ion-ios-people-outline"
 		url: "/workflow/admin/flow_positions"
 		sort: 30
 		parent: "workflow"
@@ -34,7 +34,7 @@ if Meteor.isClient
 		_id: "workflow_designer"
 		title: "Workflow Designer"
 		app: "workflow"
-		icon: "ion ion-shuffle"
+		icon: "ion ion-ios-shuffle"
 		url: "/workflow/designer"
 		sort: 40
 		parent: "workflow"
@@ -44,7 +44,7 @@ if Meteor.isClient
 		_id: "workflow_form_edit"
 		title: "workflow_form_edit"
 		app: "workflow"
-		icon: "ion ion-ios-paper"
+		icon: "ion ion-ios-paper-outline"
 		url: "/admin/flows"
 		paid: "true"
 		sort: 50
@@ -55,7 +55,7 @@ if Meteor.isClient
 		_id: "workflow_import_export_flows"
 		title: "workflow_import_export_flows"
 		app: "workflow"
-		icon: "ion ion-ios-paper"
+		icon: "ion ion-ios-paper-outline"
 		url: "/admin/importorexport/flows"
 		paid: "true"
 		sort: 50
@@ -83,14 +83,13 @@ if Meteor.isClient
 		sort: 70
 		parent: "workflow"
 
-	# categories
+	# 流程分类
 	Admin.addMenu
 		_id: "categories"
 		title: "categories"
 		app: "workflow"
-		icon: "ion ion-android-folder-open"
+		icon: "ion ion-ios-folder-outline"
 		url: "/admin/categories"
-#		paid: "true"
 		sort: 45
 		parent: "workflow"
 

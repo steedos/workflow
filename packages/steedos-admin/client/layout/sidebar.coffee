@@ -112,7 +112,7 @@ Admin.menuTemplate =
 					if menu.target
 						targetStr = "target=#{menu.target}"
 					return """
-						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
 							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{menu.icon}"></i>
@@ -133,7 +133,7 @@ Admin.menuTemplate =
 					targetStr = "target=#{rootMenu.target}"
 				return """
 					<div class="row admin-grids">
-						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
 							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-menu-#{rootMenu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{rootMenu.icon}"></i>
@@ -148,7 +148,7 @@ Admin.menuTemplate =
 		if Steedos.isMobile()
 			reTemplates.push """
 				<div class="row admin-grids">
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2">
 						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
 							<div class="admin-grid-icon">
 								<i class="ion ion-power"></i>
