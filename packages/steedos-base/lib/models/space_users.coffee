@@ -74,7 +74,18 @@ db.space_users._simpleSchema = new SimpleSchema
 			omit: true
 	mobile: 
 		type: String,
-		optional: true
+		optional: true,
+		autoform:
+			type: ->
+				if Steedos.isPhoneEnabled()
+					return "text"
+				else
+					return "hidden"
+			readonly: ->
+				if Steedos.isPaidSpace()
+					return false
+				else
+					return true
 	work_phone:
 		type: String,
 		optional: true
