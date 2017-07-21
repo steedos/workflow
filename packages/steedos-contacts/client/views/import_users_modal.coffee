@@ -99,5 +99,9 @@ Template.import_users_modal.onCreated ()->
 	self = this;
 	self.items = new ReactiveVar([]);
 
+Template.import_users_modal.onRendered ()->
 	if !window.XLSX
-		$.getScript("/js/xlsx.full.min.js")
+		$("body").addClass("loading")
+#		TODO  此加载函数是禁止浏览器缓存的， 需要调整为按照审批王的发布版本来加载js文件 eg: xxx.js?_v = steedos.viewsion
+		$.getScript "/js/xlsx.full.min.js", ()->
+			$("body").removeClass("loading")
