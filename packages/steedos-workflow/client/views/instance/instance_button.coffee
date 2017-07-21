@@ -108,10 +108,13 @@ Template.instance_button.helpers
 			return false
 		# 文件结束后，不可以再传阅，也不用再催办。
 		if InstanceManager.isInbox() && ins.state is "pending" 
-			cs = InstanceManager.getCurrentStep()
-			if cs && (cs.disableCC is true)
-				return false
-			return true
+			if InstanceManager.isCC(ins)
+				return true
+			else
+				cs = InstanceManager.getCurrentStep()
+				if cs && (cs.disableCC is true)
+					return false
+				return true
 		else
 			return false
 
