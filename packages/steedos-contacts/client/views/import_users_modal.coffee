@@ -98,3 +98,6 @@ Template.import_users_modal.events
 Template.import_users_modal.onCreated ()->
 	self = this;
 	self.items = new ReactiveVar([]);
+
+	if !window.XLSX
+		$.getScript("/js/xlsx.full.min.js")
