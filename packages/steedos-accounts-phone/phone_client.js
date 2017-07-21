@@ -140,7 +140,7 @@ Accounts.requestPhoneVerification = function (phone, checkVerified, callback) {
         callback = checkVerified;
         checkVerified = false;
     }
-    locale = Steedos.locale();
+    locale = Steedos.locale(true);
     Accounts.connection.call("requestPhoneVerification", phone, locale, checkVerified, callback);
 };
 
