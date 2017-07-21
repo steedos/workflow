@@ -45,7 +45,9 @@ Template.accounts_phone.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			Accounts.requestPhoneVerification number, (error)->
+			unless Meteor.userId()
+				checkVerified = true
+			Accounts.requestPhoneVerification number, checkVerified, (error)->
 				$(document.body).removeClass('loading')
 				if error
 					toastr.error t(error.reason)

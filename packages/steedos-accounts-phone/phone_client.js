@@ -133,11 +133,15 @@ Accounts.createUserWithPhone = function (options, callback) {
  * @param {String} phone -  The phone we send the verification code to.
  * @param {Function} [callback] Optional callback. Called with no arguments on success, or with a single `Error` argument on failure.
  */
-Accounts.requestPhoneVerification = function (phone, callback) {
+Accounts.requestPhoneVerification = function (phone, checkVerified, callback) {
     if (!phone)
         throw new Error("Must pass phone");
+    if(callback === undefined){
+        callback = checkVerified;
+        checkVerified = false;
+    }
     locale = Steedos.locale();
-    Accounts.connection.call("requestPhoneVerification", phone, locale, callback);
+    Accounts.connection.call("requestPhoneVerification", phone, locale, checkVerified, callback);
 };
 
 // Verify phone number -
