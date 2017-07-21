@@ -175,10 +175,10 @@ Meteor.methods
 				if item.phone
 					u_update_doc.phone = {
 						number: "+86" + item.phone
-						verified: true
+						verified: false
 						modified: now
 					}
-					u_update_doc.mobile = item.phone
+#					u_update_doc.mobile = item.phone 未通过验证,不设置mobile
 					su_update_doc.mobile = item.phone
 
 #				更新用户Email字段
@@ -206,7 +206,7 @@ Meteor.methods
 				udoc.name = item.name
 				udoc.locale = "zh-cn"
 				udoc.is_deleted = false
-				udoc.emails = [{address: item.email, verified: true}]
+				udoc.emails = [{address: item.email, verified: false}]
 				udoc.services = {password: {bcrypt: "$2a$10$o2qrOKUtfICH/c3ATkxrwu11h5u5I.Mc4ANU6pMbBjUaNs6C3f2sG"}}
 				udoc.created = now
 				udoc.modified = now
@@ -224,11 +224,11 @@ Meteor.methods
 				if item.phone
 					udoc.phone = {
 						number: "+86" + item.phone
-						verified: true
+						verified: false
 						modified: now
 					}
 
-					udoc.mobile = item.phone
+#					udoc.mobile = item.phone 未通过验证,不设置mobile
 
 				user_id = db.users.direct.insert(udoc)
 
