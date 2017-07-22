@@ -25,6 +25,7 @@ Meteor.methods
 		testData = []
 
 		data.forEach (item, i)->
+			console.log("item", item)
 			testObj = {}
 			if item.username
 				testObj.username = item.username
@@ -38,6 +39,10 @@ Meteor.methods
 
 
 			if item.email
+
+				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(item.email)
+					throw new Meteor.Error(500, "第#{i + 1}行：邮件格式错误#{item.email}");
+
 				testObj.email = item.email
 				if testData.filterProperty("email", item.email).length > 0
 					throw new Meteor.Error(500, "第#{i + 1}行：邮件重复");
