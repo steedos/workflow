@@ -264,7 +264,8 @@ if (Meteor.isServer)
 
 					user_set = {}
 					user_set.phone = {}
-					user_set.mobile = newMobile
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
+					# user_set.mobile = newMobile
 					# 目前只考虑国内手机
 					user_set.phone.number = number
 					# 变更手机号设置verified为false，以让用户重新验证手机号
@@ -273,6 +274,12 @@ if (Meteor.isServer)
 					if not _.isEmpty(user_set)
 						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
 						db.users.update({_id: doc.user}, {$set: user_set})
+
+					console.log "aaaaaa==============,newMobile:#{newMobile}"
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
+					# 只能通过额外单独更新所有工作区的mobile字段
+					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
+
 				else
 					# 不支持手机号短信相关功能时，需要更新所有工作区的相关mobile数据
 					user_set = {}
@@ -325,21 +332,38 @@ if (Meteor.isServer)
 		self = this
 		modifier.$set = modifier.$set || {};
 
+		# user_set = {}
+		# user_unset = {}
+		# if doc.name
+		# 	user_set.name = doc.name
+		# else
+		# 	user_unset.name = ""
+
+		# if doc.position
+		# 	user_set.position = doc.position
+		# else
+		# 	user_unset.position = ""
+
+		# if doc.work_phone
+		# 	user_set.work_phone = doc.work_phone
+		# else
+		# 	user_unset.work_phone = ""
+
 		user_set = {}
 		user_unset = {}
-		if doc.name
-			user_set.name = doc.name
-		else
+		if modifier.$set.name
+			user_set.name = modifier.$set.name
+		else if modifier.$unset and modifier.$unset.name is not undefined
 			user_unset.name = ""
 
-		if doc.position
-			user_set.position = doc.position
-		else
+		if modifier.$set.position
+			user_set.position = modifier.$set.position
+		else if modifier.$unset and modifier.$unset.position is not undefined
 			user_unset.position = ""
 
-		if doc.work_phone
-			user_set.work_phone = doc.work_phone
-		else
+		if modifier.$set.work_phone
+			user_set.work_phone = modifier.$set.work_phone
+		else if modifier.$unset and modifier.$unset.work_phone is not undefined
 			user_unset.work_phone = ""
 
 		# 更新users表中的相关字段

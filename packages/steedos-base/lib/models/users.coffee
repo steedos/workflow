@@ -217,17 +217,45 @@ if Meteor.isServer
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
-		su_set = {}
+
+		console.log "db.users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
+		console.log "db.users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}"
+
+		user_set = {}
+		user_unset = {}
 		if modifier.$set.name
-			su_set.name = doc.name
-		if modifier.$set.mobile or modifier.$set['phone.verified'] is true
-			su_set.mobile = doc.mobile
+			user_set.name = modifier.$set.name
+		else if modifier.$unset and modifier.$unset.name is not undefined
+			user_unset.name = ""
+
 		if modifier.$set.position
-			su_set.position = doc.position
+			user_set.position = modifier.$set.position
+		else if modifier.$unset and modifier.$unset.position is not undefined
+			user_unset.position = ""
+
 		if modifier.$set.work_phone
-			su_set.work_phone = doc.work_phone
-		if not _.isEmpty(su_set)
-			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
+			user_set.work_phone = modifier.$set.work_phone
+		else if modifier.$unset and modifier.$unset.work_phone is not undefined
+			user_unset.work_phone = ""
+
+		if modifier.$set.mobile
+			user_set.mobile = modifier.$set.mobile
+		else if modifier.$unset and modifier.$unset.mobile is not undefined
+			user_unset.mobile = ""
+
+		console.log "db.users.after.update,doc.mobile：#{doc.mobile}"
+		console.log "db.users.after.update,modifier.$set.mobile：#{modifier.$set.mobile}"
+		# console.log "db.users.after.update,modifier.$unset.mobile：#{modifier.$unset.mobile}"
+		# if doc.mobile
+		# 	user_set.mobile = doc.mobile
+		# else
+		# 	user_unset.mobile = ""
+
+		# 更新users表中的相关字段，所有工作区信息同步
+		if not _.isEmpty(user_set)
+			db.space_users.direct.update({user: doc._id}, {$set: user_set}, {multi: true})
+		if not _.isEmpty(user_unset)
+			db.space_users.direct.update({user: doc._id}, {$unset: user_unset}, {multi: true})
 
 
 	db.users.before.remove (userId, doc) ->
