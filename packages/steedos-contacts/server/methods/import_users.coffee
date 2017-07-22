@@ -22,7 +22,29 @@ Meteor.methods
 
 		owner_id = space.owner
 
+		testData = []
+
 		data.forEach (item, i)->
+			testObj = {}
+			if item.username
+				testObj.username = item.username
+				if testData.filterProperty("username", item.username).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：用户名重复");
+
+			if item.phone
+				testObj.phone = item.phone
+				if testData.filterProperty("phone", item.phone).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：手机号重复");
+
+
+			if item.email
+				testObj.email = item.email
+				if testData.filterProperty("email", item.email).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：邮件重复");
+
+			testData.push(testObj)
+
+
 			if (_.keys(item).join(",") == 'username,password' || _.keys(item).join(",") == 'password,username')
 				if !item.username
 					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
