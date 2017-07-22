@@ -359,8 +359,14 @@ TemplateHelpers =
 			return badge
 
 
-	locale: ->
-		return Steedos.getLocale()
+	locale: (isI18n)->
+		locale = Steedos.getLocale()
+		if isI18n
+			if locale == "en-us"
+				locale = "en"
+			if locale == "zh-cn"
+				locale = "zh-CN"
+		return locale
 
 	country: ->
 		locale = Steedos.getLocale()

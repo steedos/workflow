@@ -121,11 +121,8 @@ Template.steedos_contacts_org_user_list.events
 
 
 	'click #steedos_contacts_import_users_btn': (event, template)->
-
-		space = db.spaces.findOne({_id: Session.get("spaceId")})
-
-		if !space.is_paid
-			swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"error", confirmButtonText: TAPi18n.__("OK")});  # TODO 提供统一提醒函数
+		if !Steedos.isPaidSpace()
+			swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"warning", confirmButtonText: TAPi18n.__("OK")});  # TODO 提供统一提醒函数
 			return;
 
 		Modal.show("import_users_modal");

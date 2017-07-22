@@ -416,7 +416,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
 // Send SMS with code to user.
 Meteor.methods({
-    requestPhoneVerification: function(phone, locale) {
+    requestPhoneVerification: function(phone, locale, checkVerified) {
         if (phone) {
             check(phone, String);
             // Change phone format to international SMS format
@@ -430,9 +430,15 @@ Meteor.methods({
         var userId = this.userId;
         if (!userId) {
             // Get user by phone number
-            var existingUser = Meteor.users.findOne({
-                'phone.number': phone
-            }, {
+            var userOptions = {
+                'phone.number': phone,
+            };
+
+            if(checkVerified){
+                userOptions['phone.verified'] = true;
+            }
+
+            var existingUser = Meteor.users.findOne(userOptions, {
                 fields: {
                     '_id': 1
                 }

@@ -22,7 +22,7 @@ Meteor.startup ->
                 iconUrl: ''
                 title: notification.title
                 body: notification.text
-                timeout: 6 * 1000
+                timeout: 15 * 1000
 
             if notification.payload
 
