@@ -250,95 +250,104 @@ if (Meteor.isServer)
 		if modifier.$set.organizations && modifier.$set.organizations.length > 0
 			modifier.$set.organization = modifier.$set.organizations[0]
 
-		if modifier.$set.mobile
-			if  modifier.$set.mobile != doc.mobile
-				number = "+86" + modifier.$set.mobile
+		newMobile = modifier.$set.mobile
+		if  newMobile != doc.mobile
+			if newMobile
+				if Steedos.isPhoneEnabled()
+					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
+					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
+					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
+					number = "+86" + newMobile
+					repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
+					if repeatNumberUser
+						throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+
+					user_set = {}
+					user_set.phone = {}
+					user_set.mobile = newMobile
+					# 目前只考虑国内手机
+					user_set.phone.number = number
+					# 变更手机号设置verified为false，以让用户重新验证手机号
+					user_set.phone.verified = false
+					user_set.phone.modified = new Date()
+					if not _.isEmpty(user_set)
+						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
+						db.users.update({_id: doc.user}, {$set: user_set})
+				else
+					# 不支持手机号短信相关功能时，需要更新所有工作区的相关mobile数据
+					user_set = {}
+					user_set.mobile = newMobile
+					if not _.isEmpty(user_set)
+						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
+						db.users.update({_id: doc.user}, {$set: user_set})
+			else
+				user_unset = {}
+				user_unset.phone = ""
+				user_unset.mobile = ""
+				# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
+				db.users.update({_id: doc.user}, {$unset: user_unset})
+
+
+			if Steedos.isPhoneEnabled()
 				# 修改人
-				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
-				
-				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
-				if repeatNumberUser
-					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
-				else if Steedos.isPhoneEnabled()
-					modifier_mobile_user = db.users.findOne({mobile: modifier.$set.mobile},{fields: {locale: 1}})
-					lang_modifier = 'en'
-					if modifier_mobile_user?.locale is 'zh-cn'
-						lang_modifier = 'zh-CN'
-					params = {
-						name: euser.name,
-						number: modifier.$set.mobile
-					}
-					paramString = JSON.stringify(params)
-
-					if doc.mobile
-						doc_user = db.users.findOne({_id: doc.user},{fields: {locale: 1}})
-						lang = 'en'
-						if doc_user?.locale is 'zh-cn'
-							lang = 'zh-CN'
-						# 发送手机短信
-						SMSQueue.send({
-							Format: 'JSON',
-							Action: 'SingleSendSms',
-							ParamString: paramString,
-							RecNum: doc.mobile,
-							SignName: 'OA系统',
-							TemplateCode: 'SMS_67660108',
-							msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
-						})
-
-					# 发送手机短信
+				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
+				params = {
+					name: euser.name,
+					number: if newMobile then newMobile else ""
+				}
+				paramString = JSON.stringify(params)
+				lang = Steedos.locale doc.user,true
+				if doc.mobile
+					# 发送手机短信给修改前的手机号
 					SMSQueue.send({
 						Format: 'JSON',
 						Action: 'SingleSendSms',
 						ParamString: paramString,
-						RecNum: modifier.$set.mobile,
+						RecNum: doc.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108',
+						msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
+					})
+				if newMobile
+					# 发送手机短信给修改后的手机号
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: newMobile,
 						SignName: 'OA系统',
 						TemplateCode: 'SMS_67660108',
 						msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
 					})
 
+
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 		self = this
 		modifier.$set = modifier.$set || {};
 
-		if modifier.$set.name
-			db.users.direct.update {_id: doc.user},
-				$set:
-					name: doc.name
-
-			db.space_users.direct.update {
-				user: doc.user
-				space: $ne: doc.space
-			}, { $set: name: doc.name }, multi: true
-
-		if modifier.$set.position
-			db.users.direct.update {_id: doc.user},
-				$set:
-					position: doc.position
-		
-		if modifier.$set.work_phone
-			db.users.update {_id: doc.user},
-				$set:
-					work_phone: doc.work_phone
-
-		if doc.mobile
-			user_set = {}
-			user_set.phone = {}
-			user_set.mobile = doc.mobile
-			# 目前只考虑国内手机
-			user_set.phone.number = "+86" + doc.mobile
-			user_set.phone.verified = true
-			user_set.phone.modified = new Date()
-			if not _.isEmpty(user_set)
-				# 更新users表中的相关字段
-				db.users.update({_id: doc.user}, {$set: user_set})
+		user_set = {}
+		user_unset = {}
+		if doc.name
+			user_set.name = doc.name
 		else
-			user_unset = {}
-			user_unset.phone = ""
-			user_unset.mobile = ""
-			# 更新users表中的相关字段
-			db.users.update({_id: doc.user}, {$unset: user_unset})
+			user_unset.name = ""
 
+		if doc.position
+			user_set.position = doc.position
+		else
+			user_unset.position = ""
+
+		if doc.work_phone
+			user_set.work_phone = doc.work_phone
+		else
+			user_unset.work_phone = ""
+
+		# 更新users表中的相关字段
+		if not _.isEmpty(user_set)
+			db.users.update({_id: doc.user}, {$set: user_set})
+		if not _.isEmpty(user_unset)
+			db.users.update({_id: doc.user}, {$unset: user_unset})
+			
 
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->

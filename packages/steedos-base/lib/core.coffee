@@ -555,7 +555,8 @@ if Meteor.isServer
 			return steedos_token
 
 		locale: (userId, isI18n)->
-			locale = db.users.findOne({_id:userId}).locale
+			user = db.users.findOne({_id:userId},{fields: {locale: 1}})
+			locale = user?.locale
 			if isI18n
 				if locale == "en-us"
 					locale = "en"
