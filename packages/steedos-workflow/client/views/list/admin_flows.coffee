@@ -11,12 +11,3 @@ Template.admin_flows.events
 		if (rowData)
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-edit').click();
-
-Template.admin_flows.onRendered ->
-	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
-	this.copyTableauUrlClipboard.on 'success', (e) ->
-		toastr.success(t("instance_readonly_view_url_copy_success"))
-		e.clearSelection()
-
-Template.admin_flows.onDestroyed ->
-	this.copyTableauUrlClipboard.destroy();
