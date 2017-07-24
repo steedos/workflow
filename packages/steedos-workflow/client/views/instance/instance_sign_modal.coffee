@@ -9,6 +9,14 @@ Template.instanceSignModal.helpers
 			description = Session.get("instance_my_approve_description") || approve?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
 			return description;
 
+	show_sign_type: ()->
+		ins = WorkflowManager.getInstance()
+
+		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId(), true) || []
+
+		if sign_approves.length == 0
+			return "display:none"
+
 Template.instanceSignModal.events
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#modal_suggestion").val())
