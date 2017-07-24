@@ -32,7 +32,6 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 			if user_id
 				find_instances = db.instances.find({
 					space: space_id,
-					state: "pending",
 					$or:[{inbox_users: user_id}, {cc_users: user_id}]
 				},{sort:{modified:-1}}).fetch()
 			else
