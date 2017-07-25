@@ -297,6 +297,7 @@ if (Meteor.isServer)
 
 			if Steedos.isPhoneEnabled()
 				# 修改人
+				console.log "db.space_users.before.update=======,userId:#{userId}"
 				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
 				params = {
 					name: euser.name,
