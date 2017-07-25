@@ -332,6 +332,9 @@ if (Meteor.isServer)
 		self = this
 		modifier.$set = modifier.$set || {};
 
+		console.log "db.space_users.after.update==============0"
+		console.log "db.space_users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
+		console.log "db.space_users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}"
 		# user_set = {}
 		# user_unset = {}
 		# if doc.name
@@ -353,20 +356,21 @@ if (Meteor.isServer)
 		user_unset = {}
 		if modifier.$set.name
 			user_set.name = modifier.$set.name
-		else if modifier.$unset and modifier.$unset.name is not undefined
-			user_unset.name = ""
-
 		if modifier.$set.position
 			user_set.position = modifier.$set.position
-		else if modifier.$unset and modifier.$unset.position is not undefined
-			user_unset.position = ""
-
 		if modifier.$set.work_phone
 			user_set.work_phone = modifier.$set.work_phone
-		else if modifier.$unset and modifier.$unset.work_phone is not undefined
-			user_unset.work_phone = ""
 
+		if modifier.$unset
+			user_unset.name = modifier.$unset.name
+			user_unset.position = modifier.$unset.position
+			user_unset.work_phone = modifier.$unset.work_phone
+
+		console.log "db.space_users.after.update==============1"
+		console.log "user_set:#{JSON.stringify user_set}"
+		console.log "user_unset:#{JSON.stringify user_unset}"
 		# 更新users表中的相关字段
+		# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步
 		if not _.isEmpty(user_set)
 			db.users.update({_id: doc.user}, {$set: user_set})
 		if not _.isEmpty(user_unset)

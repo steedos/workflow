@@ -218,6 +218,7 @@ if Meteor.isServer
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
 
+		console.log "db.users.after.update==============2"
 		console.log "db.users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
 		console.log "db.users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}"
 
@@ -225,26 +226,24 @@ if Meteor.isServer
 		user_unset = {}
 		if modifier.$set.name
 			user_set.name = modifier.$set.name
-		else if modifier.$unset and modifier.$unset.name is not undefined
-			user_unset.name = ""
-
 		if modifier.$set.position
 			user_set.position = modifier.$set.position
-		else if modifier.$unset and modifier.$unset.position is not undefined
-			user_unset.position = ""
-
 		if modifier.$set.work_phone
 			user_set.work_phone = modifier.$set.work_phone
-		else if modifier.$unset and modifier.$unset.work_phone is not undefined
-			user_unset.work_phone = ""
-
 		if modifier.$set.mobile
 			user_set.mobile = modifier.$set.mobile
-		else if modifier.$unset and modifier.$unset.mobile is not undefined
-			user_unset.mobile = ""
 
-		console.log "db.users.after.update,doc.mobile：#{doc.mobile}"
-		console.log "db.users.after.update,modifier.$set.mobile：#{modifier.$set.mobile}"
+		if modifier.$unset
+			user_unset.name = modifier.$unset.name
+			user_unset.position = modifier.$unset.position
+			user_unset.work_phone = modifier.$unset.work_phone
+			user_unset.mobile = modifier.$unset.mobile
+
+		console.log "db.users.after.update==============3"
+		console.log "user_set:#{JSON.stringify user_set}"
+		console.log "user_unset:#{JSON.stringify user_unset}"
+		# console.log "db.users.after.update,doc.mobile：#{doc.mobile}"
+		# console.log "db.users.after.update,modifier.$set.mobile：#{modifier.$set.mobile}"
 		# console.log "db.users.after.update,modifier.$unset.mobile：#{modifier.$unset.mobile}"
 		# if doc.mobile
 		# 	user_set.mobile = doc.mobile
