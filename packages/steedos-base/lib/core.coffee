@@ -112,13 +112,15 @@ if Meteor.isClient
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
 
-	Steedos.openAppWithToken = (app_id)->
+	Steedos.getAppUrlWithToken = (app_id)->
 		authToken = {};
 		authToken["spaceId"] = Steedos.getSpaceId()
 		authToken["X-User-Id"] = Meteor.userId();
 		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+		return Steedos.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
 
-		url = Steedos.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
+	Steedos.openAppWithToken = (app_id)->
+		url = Steedos.getAppUrlWithToken app_id
 		Steedos.openWindow(url);
 	
 	Steedos.openApp = (app_id)->
@@ -139,7 +141,7 @@ if Meteor.isClient
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
 					open_url = Meteor.absoluteUrl(path)
 				else
-					open_url = app.url
+					open_url = Steedos.getAppUrlWithToken app_id
 				cmd = "start iexplore.exe \"#{open_url}\""
 				exec cmd, (error, stdout, stderr) ->
 					if error
