@@ -236,11 +236,17 @@ Meteor.methods
 			else
 				udoc = {}
 				udoc._id = db.users._makeNewID()
-				udoc.steedos_id = item.email
+
+				if item.email
+					udoc.steedos_id = item.email
+				else
+					udoc.steedos_id = item.username
+
 				udoc.name = item.name
 				udoc.locale = "zh-cn"
 				udoc.is_deleted = false
-				udoc.emails = [{address: item.email, verified: false}]
+				if item.email
+					udoc.emails = [{address: item.email, verified: false}]
 				udoc.services = {password: {bcrypt: "$2a$10$o2qrOKUtfICH/c3ATkxrwu11h5u5I.Mc4ANU6pMbBjUaNs6C3f2sG"}}
 				udoc.created = now
 				udoc.modified = now
@@ -313,7 +319,8 @@ Meteor.methods
 						su_doc.user_accepted = false
 
 					su_doc.name = item.name
-					su_doc.email = item.email
+					if item.email
+						su_doc.email = item.email
 					su_doc.created = now
 					su_doc.created_by = owner_id
 					su_doc.organization = space_user_org_id
