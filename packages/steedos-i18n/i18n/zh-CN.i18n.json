@@ -426,11 +426,14 @@
 	"afModal_remove_suc": "删除成功",
 	"afModal_cancel": "取消",
 
-	"change_phone": "更改手机号",
+	"change_phone": "绑定手机号",
 	"set_password_by_phone": "重置密码",
 	"account_phone_invalid": "请先绑定手机号",
 
 	"back_admin_home": "返回",
 
-	"none_space_selected_title": "请选择工作区"
+	"none_space_selected_title": "请选择工作区",
+
+	"account_phone_verified_text": "已验证",
+	"account_phone_unverified_text": "未验证"
 }

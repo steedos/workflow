@@ -117,6 +117,11 @@ Template.profile.helpers
 		else
 			return true
 
+	accountPhoneNumber: ()->
+		user = Meteor.user()
+		if user.phone
+			return user.phone.number.replace(/^\+86/,"")
+
 Template.profile.onRendered ->
 	profileName = FlowRouter.current()?.params?.profileName
 	if profileName

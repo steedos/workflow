@@ -407,11 +407,14 @@
 	"afModal_remove_suc": "Successfully deleted",
 	"afModal_cancel": "Cancel",
 
-	"change_phone": "Change Phone Number",
+	"change_phone": "Bind Phone Number",
 	"set_password_by_phone": "Reset password",
 	"account_phone_invalid": "Your phone is not valid",
 
 	"back_admin_home": "Back",
 
-	"none_space_selected_title": "Please select a space"
+	"none_space_selected_title": "Please select a space",
+
+	"account_phone_verified_text": "Verified",
+	"account_phone_unverified_text": "Unverified"
 }
