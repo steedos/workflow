@@ -98,6 +98,9 @@ db.space_users._simpleSchema = new SimpleSchema
 		blackbox: true
 		autoform:
 			omit: true
+	company:
+		type: String,
+		optional: true
 
 
 if Meteor.isClient
