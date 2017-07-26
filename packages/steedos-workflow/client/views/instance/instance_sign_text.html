@@ -27,21 +27,25 @@
 										</div>
 									{{/if}}
 								{{else}}
-									<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
-										{{#if (unempty description)}}
+									
+									{{#if (unempty description)}}
+										<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
 											{{{markDownToHtml description}}}
 											&emsp;&emsp;{{handler_name}}
 											{{formatDate finish_date format}}
-										{{else}}
-											{{#if is_finished}}
-												{{#if defaultDescription}}
+										</div>
+									{{else}}
+										{{#if is_finished}}
+											{{#if defaultDescription}}
+												<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
 													{{{markDownToHtml defaultDescription}}}
 													&emsp;&emsp;{{handler_name}}
 													{{formatDate finish_date format}}
-												{{/if}}
+												</div>
 											{{/if}}
 										{{/if}}
-									</div>
+									{{/if}}
+									
 								{{/if}}
 							{{/if}}
 						{{/if}}

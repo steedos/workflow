@@ -79,7 +79,32 @@
 
                 <div class="box box-solid">
                   <div class="box-body">
-                    <h2 style="margin-top: 0px;">{{_ 'Change Password'}}</h2>
+                    {{#if isPhoneEnabled}}
+                      <h2 style="margin-top: 0px;">{{_ 'change_phone'}}</h2>
+                      <hr style="margin-top: 0px;"/>
+                      {{#if user.phone}}
+                        <div class="phone-box">
+                          <span class="phone-number">{{accountPhoneNumber}}</span>
+                          {{#if user.phone.verified}}
+                            <span class="phone-status text-success">
+                              <i class="ion ion-checkmark-circled"></i>
+                              <span class="phone-status-text">{{_ 'account_phone_verified_text'}}</span>
+                            </span>
+                          {{else}}
+                            <span class="phone-status text-danger">
+                              <i class="ion ion-alert-circled"></i>
+                              <span class="phone-status-text">{{_ 'account_phone_unverified_text'}}</span>
+                            </span>
+                          {{/if}}
+                        </div>
+                      {{else}}
+                        <div class="phone-box">
+                          <span class="phone-status-text">{{_ 'account_phone_unbind_text'}}</span>
+                        </div>
+                      {{/if}}
+                      <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
+                    {{/if}}
+                    <h2 style="margin-top: 40px;">{{_ 'Change Password'}}</h2>
                     <hr style="margin-top: 0px;"/>
                     <div class="form-group">
                       <label class="control-label">{{_ 'Old Password'}}</label>
@@ -102,11 +127,6 @@
                       <hr style="margin-top: 0px;"/>
                       <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
                     </div>
-                    {{#if isPhoneEnabled}}
-                      <h2 style="margin-top: 40px;">{{_ 'change_phone'}}</h2>
-                      <hr style="margin-top: 0px;"/>
-                      <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
-                    {{/if}}
                   </div>
                 </div>
 

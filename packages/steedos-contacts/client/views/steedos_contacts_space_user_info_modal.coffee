@@ -30,6 +30,12 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		
 		return info
 
+	isEditable: ->
+		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+			return true
+		else
+			return false
+
 Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-close': (event,template) ->
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
