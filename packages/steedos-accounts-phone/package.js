@@ -1,6 +1,6 @@
 Package.describe({
     name         : 'steedos:accounts-phone',
-    version      : '0.0.1',
+    version      : '0.0.2',
     summary      : 'A login service based on mobile phone number, For Meteor.',
     git          : 'https://github.com/okland/accounts-phone'
 });
