@@ -435,5 +435,6 @@
 	"none_space_selected_title": "请选择工作区",
 
 	"account_phone_verified_text": "已验证",
-	"account_phone_unverified_text": "未验证"
+	"account_phone_unverified_text": "未验证",
+	"account_phone_unbind_text": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等。"
 }
