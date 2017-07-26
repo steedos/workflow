@@ -416,5 +416,6 @@
 	"none_space_selected_title": "Please select a space",
 
 	"account_phone_verified_text": "Verified",
-	"account_phone_unverified_text": "Unverified"
+	"account_phone_unverified_text": "Unverified",
+	"account_phone_unbind_text": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification."
 }

@@ -97,6 +97,10 @@
                             </span>
                           {{/if}}
                         </div>
+                      {{else}}
+                        <div class="phone-box">
+                          <span class="phone-status-text">{{_ 'account_phone_unbind_text'}}</span>
+                        </div>
                       {{/if}}
                       <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
                     {{/if}}
