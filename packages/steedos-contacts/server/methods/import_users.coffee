@@ -4,7 +4,7 @@ Meteor.methods
 		2、校验工作区用户是否存在
 		3、校验部门是否存在
 		4、校验部门用户是否存在
-    	TODO: 国际化
+		TODO: 国际化
 	###
 	import_users: (space_id, user_pk, data, onlyCheck)->
 
@@ -128,10 +128,10 @@ Meteor.methods
 							if user_by_email
 								throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
 
-#				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
-#
-#				if !ck_space_user
-#					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
+				# ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
+
+				# if !ck_space_user
+				# 	throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
 
 			if item.password && user?.services?.password?.bcrypt
 				throw new Meteor.Error(500, "第#{i + 1}行：用户已设置密码，不允许修改");
@@ -210,10 +210,10 @@ Meteor.methods
 						verified: false
 						modified: now
 					}
-#					u_update_doc.mobile = item.phone 未通过验证,不设置mobile
+					# u_update_doc.mobile = item.phone 未通过验证,不设置mobile
 					su_update_doc.mobile = item.phone
 
-#				更新用户Email字段
+				# 更新用户Email字段
 				if user_pk == 'username'
 					if item.email
 						su_update_doc.email = item.email
@@ -268,7 +268,7 @@ Meteor.methods
 						modified: now
 					}
 
-#					udoc.mobile = item.phone 未通过验证,不设置mobile
+					# udoc.mobile = item.phone 未通过验证,不设置mobile
 
 				user_id = db.users.direct.insert(udoc)
 
