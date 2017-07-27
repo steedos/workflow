@@ -74,70 +74,87 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 
 	ins_approves = new Array()
 
-	aggregate = (aggregate_operation, ins_approves, cb) ->
-		db.instances.rawCollection().aggregate aggregate_operation, (err, data) ->
+	flow = db.flows.find({},{fields: {name: 1}}).fetch()
 
-			if err
-				throw new Error(err)
+	aggregate = (pipeline, ins_approves, cb) ->
+		cursor = db.instances.rawCollection().aggregate pipeline, {cursor: {}}
 
-			console.log("data.length", data.length)
+		i  = 0;
+		cursor.on 'data', (doc) ->
+			console.log i
 
-			data.forEach (doc)->
-				ins_approves.push(doc)
+			doc.flow = flow.findPropertyByPK("_id", doc.flow).name
 
-			if cb
-				cb()
-		return
+			ins_approves.push(doc)
+			i++;
+
+		cursor.once('end', () ->
+			cb();
+		)
 
 	async_aggregate = Meteor.wrapAsync(aggregate)
 
-	aggregate_operation = [
+	pipeline = [
 							{
 								$match: query
 							},
 							{
-								$project: {
-									flow: 1,
-									"_approve": '$traces.approves'
+								$limit: parseInt(req.query?.limit || 4000)
+							},
+							{
+								$project:{
+									"flow": 1,
+									"ins_state": "$state",
+									"ins_state": "$_id",
+									"space": "$space",
+									"_traces": '$traces'
+								}
+							},
+							{
+								$unwind: "$_traces"
+							},
+							{
+								$project:{
+									"flow": 1,
+									"ins_state": "$state",
+									"ins_id": "$_id",
+									"space": "$space",
+									"step_name": "$_traces.name",
+									"_approve": '$_traces.approves'
 								}
 							},
 							{
 								$unwind: "$_approve"
-							}
+							},
 							{
-								$unwind: "$_approve"
+								$match: {
+									"_approve.type" : {$nin: ["draft", "distribute", "forward"]}
+								}
 							},
 							{
 								$project: {
-									"handler_name": '$_approve.handler_name',
-									"handler": '$_approve.handler',
-									"cost_time": '$_approve.cost_time',
-									"is_finished": '$_approve.is_finished',
-									"type": '$_approve.type'
-								}
-							},{
-								$match:{
-									"is_finished": true,
-									"type": {$ne: "draft"}
-								}
-							},
-							{
-								$group : {
-									_id : { handler_name: "$handler_name", handler: "$handler"},
-									avg_cost_time: { $avg: "$cost_time" },
-#									max_cost_time: { $max: "$cost_time" },
-#									min_cost_time: { $min: "$cost_time" },
-#									sum_cost_time: { $sum: "$cost_time" },
-									count: { $sum: 1 }
+									"_id": "$_approve._id",
+									"flow": 1,
+									"ins_id": 1,
+#									"ins_state": 1,
+#									"space": 1,
+									"step_name": 1,
+#									"approve_id": "$_approve._id",
+									"handler_name": "$_approve.handler_name",
+									"handler": "$_approve.handler",
+									"start_date": "$_approve.start_date",
+									"cost_time": "$_approve.cost_time",
+									"is_finished": "$_approve.is_finished",
+									"type": "$_approve.type"
 								}
 							}
 						]
 
-	console.log aggregate_operation
+	console.log pipeline
 
 	console.time("async_aggregate_cost_time")
 
-	async_aggregate(aggregate_operation, ins_approves)
+	cursor = async_aggregate(pipeline, ins_approves)
 
 	console.timeEnd("async_aggregate_cost_time")
 
@@ -145,7 +162,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 		code: 200,
 		data:
 			"status": "success",
-			"sync_token": ret_sync_token
+			"sync_token": ret_sync_token,
 			"data": ins_approves
 
 	return;

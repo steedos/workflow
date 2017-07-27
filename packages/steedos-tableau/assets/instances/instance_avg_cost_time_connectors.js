@@ -13,6 +13,22 @@
 // Define the schema
 	instancesConnector.getSchema = function (schemaCallback) {
 		var insCols = [{
+			id: "_id",
+			alias: "approve Id",
+			dataType: tableau.dataTypeEnum.string
+		},{
+			id: "ins_id",
+			alias: "instance Id",
+			dataType: tableau.dataTypeEnum.string
+		},{
+			id: "flow",
+			alias: "流程名称",
+			dataType: tableau.dataTypeEnum.string
+		},{
+			id: "step_name",
+			alias: "步骤名称",
+			dataType: tableau.dataTypeEnum.string
+		}, {
 			id: "handler_name",
 			alias: "处理人姓名",
 			dataType: tableau.dataTypeEnum.string
@@ -21,13 +37,21 @@
 			alias: "处理人",
 			dataType: tableau.dataTypeEnum.string
 		}, {
-			id: "avg_cost_time",
-			alias: "平均耗时/毫秒",
-			dataType: tableau.dataTypeEnum.int
+			id: "start_date",
+			alias: "接收时间",
+			dataType: tableau.dataTypeEnum.datetime
 		}, {
-			id: "count",
-			alias: "审批次数",
+			id: "cost_time",
+			alias: "审批耗时/毫秒",
 			dataType: tableau.dataTypeEnum.int
+		},{
+			id: "is_finished",
+			alias: "是否已审批",
+			dataType: tableau.dataTypeEnum.bool
+		},{
+			id: "type",
+			alias: "approve 类型",
+			dataType: tableau.dataTypeEnum.string
 		}, {
 			id: "sync_token",
 			alias: "同步时间",
@@ -86,19 +110,22 @@
 				var sync_token = resp.sync_token
 
 				if (table.tableInfo.id == "spaceInstances_cost_time") {
-					instances.forEach(function (ins) {
+					instances.forEach(function (approve) {
 
 						var ins_item = {};
 
 						ins_item.sync_token = sync_token
 
-						ins_item.handler_name = ins._id.handler_name
-
-						ins_item.handler = ins._id.handler
-
-						ins_item.avg_cost_time = ins.avg_cost_time
-
-						ins_item.count = ins.count
+						ins_item._id = approve._id
+						ins_item.ins_id = approve.ins_id
+						ins_item.flow = approve.flow
+						ins_item.step_name = approve.step_name
+						ins_item.handler_name = approve.handler_name
+						ins_item.handler = approve.handler
+						ins_item.start_date = new Date(approve.start_date)
+						ins_item.cost_time = approve.cost_time
+						ins_item.is_finished = approve.is_finished
+						ins_item.type = approve.type
 
 						tableData.push(ins_item)
 					})
