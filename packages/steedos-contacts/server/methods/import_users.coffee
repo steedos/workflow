@@ -202,7 +202,6 @@ Meteor.methods
 
 				if item.username
 					u_update_doc.username = item.username
-					su_update_doc.username = item.username
 
 				if item.phone
 					u_update_doc.phone = {
@@ -226,9 +225,12 @@ Meteor.methods
 						else
 							u_update_doc.emails = [{address: item.email, verified: false}]
 
-				db.users.direct.update({_id: user_id},{$set:u_update_doc})
+				if _.keys(u_update_doc).length > 0
+					db.users.direct.update({_id: user_id},{$set:u_update_doc})
 
-				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
+#				console.log su_update_doc
+				if _.keys(su_update_doc).length > 0
+					db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
 
 				if item.password
 					Accounts.setPassword(user_id, item.password, {logout: false})
@@ -303,7 +305,9 @@ Meteor.methods
 					if item.sort_no
 						space_user_update_doc.sort_no = item.sort_no
 
-					db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+					if _.keys(space_user_update_doc).length > 0
+						db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+
 					space_user_org.updateUsers()
 			else
 				if space_user_org
