@@ -259,7 +259,7 @@ if (Meteor.isServer)
 				# 修改人
 				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
 				
-				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
+				repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
 				if repeatNumberUser
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 				else if Steedos.isPhoneEnabled()
