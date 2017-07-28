@@ -34,7 +34,7 @@ Meteor.startup ->
 			if current_user_info.locale is 'zh-cn'
 				lang = 'zh-CN'
 
-			orgName = if org then org.fullname?.replace(/\//g,"-") else org_id #不支持"/"符号
+			orgName = if org then org.fullname else org_id
 			fields = [{
 					type: 'String',
 					name:'name',
@@ -67,7 +67,7 @@ Meteor.startup ->
 					title: TAPi18n.__('space_users_organizations',{},lang),
 					transform: (value)->
 						orgNames = db.organizations.find({_id: {$in: value}},{fields: {fullname: 1}}).map((item,index)->
-							return item.fullname?.replace(/\//g,"-") #不支持"/"符号
+							return item.fullname
 						)
 						return orgNames.join(",")
 				},{
@@ -92,9 +92,10 @@ Meteor.startup ->
 						return if value then "YES" else "NO"
 				}]
 			
+			sheet_name = orgName?.replace(/\//g,"-") #不支持"/"符号
 			ret = template({
 				lang: lang,
-				sheet_name: orgName,
+				sheet_name: sheet_name,
 				fields: fields,
 				users_to_xls: users_to_xls
 			})
