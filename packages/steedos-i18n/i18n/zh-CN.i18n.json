@@ -280,6 +280,7 @@
 	"space_users_modified_by": "修改者",
 	"space_users_mobile": "手机",
 	"space_users_work_phone": "固定电话",
+	"space_users_company": "单位",
 	"space_users_position": "职务",
 	"space_users_managers": "所有上级主管",
 	"space_users_apps": "Apps",
@@ -436,5 +437,7 @@
 
 	"account_phone_verified_text": "已验证",
 	"account_phone_unverified_text": "未验证",
-	"account_phone_unbind_text": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等。"
+	"account_phone_unbind_text": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等。",
+	"space_users_user_accepted_yes": "是",
+	"space_users_user_accepted_no": "否"
 }

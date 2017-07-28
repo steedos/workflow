@@ -265,6 +265,7 @@
 	"space_users_modified_by": "Modified By",
 	"space_users_mobile": "Moblie",
 	"space_users_work_phone": "Work Phone",
+	"space_users_company": "Company",
 	"space_users_position": "Position",
 	"space_users_managers": "All Managers",
 	"space_users_apps": "Apps",
@@ -417,5 +418,7 @@
 
 	"account_phone_verified_text": "Verified",
 	"account_phone_unverified_text": "Unverified",
-	"account_phone_unbind_text": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification."
+	"account_phone_unbind_text": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification.",
+	"space_users_user_accepted_yes": "YES",
+	"space_users_user_accepted_no": "NO"
 }

@@ -98,6 +98,9 @@ db.space_users._simpleSchema = new SimpleSchema
 		blackbox: true
 		autoform:
 			omit: true
+	company:
+		type: String,
+		optional: true
 
 
 if Meteor.isClient
@@ -258,7 +261,7 @@ if (Meteor.isServer)
 					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
 					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
 					number = "+86" + newMobile
-					repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
+					repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
 					if repeatNumberUser
 						throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 
