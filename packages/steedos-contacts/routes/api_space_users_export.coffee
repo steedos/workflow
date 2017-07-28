@@ -89,7 +89,7 @@ Meteor.startup ->
 					width: 35,
 					title: TAPi18n.__('space_users_user_accepted',{},lang)
 					transform: (value)->
-						return if value then "YES" else "NO"
+						return if value then TAPi18n.__('space_users_user_accepted_yes',{},lang) else TAPi18n.__('space_users_user_accepted_no',{},lang)
 				}]
 			
 			sheet_name = orgName?.replace(/\//g,"-") #不支持"/"符号
