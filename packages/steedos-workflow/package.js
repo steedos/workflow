@@ -300,6 +300,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/related_instances.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
+	api.addFiles('server/routes/steedos_css.coffee', 'server');
 
 	// routes
 	api.addFiles('routes/nextStepUsers.js', 'server');
