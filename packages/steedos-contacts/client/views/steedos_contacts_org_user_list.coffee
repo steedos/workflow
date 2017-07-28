@@ -127,6 +127,22 @@ Template.steedos_contacts_org_user_list.events
 
 		Modal.show("import_users_modal");
 
+	'click #steedos_contacts_export_users_btn': (event, template)->
+		if !Steedos.isPaidSpace()
+			swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"warning", confirmButtonText: TAPi18n.__("OK")});  # TODO 提供统一提醒函数
+			return
+
+		spaceId = Session.get("spaceId")
+		orgId = Session.get("contacts_orgId")
+		if spaceId and orgId
+			uobj = {}
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			uobj.space_id = spaceId
+			uobj.org_id = orgId
+			url = Steedos.absoluteUrl() + "api/contacts/export/space_users?" + $.param(uobj)
+			window.open(url, '_parent', 'EnableViewPortScale=yes')
+
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	
