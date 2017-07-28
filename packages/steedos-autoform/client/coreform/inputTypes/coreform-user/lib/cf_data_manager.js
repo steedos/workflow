@@ -326,11 +326,17 @@ CFDataManager.getRoot = function (spaceId) {
 
 
 CFDataManager.getChild = function (spaceId, parentId) {
-	var childs = SteedosDataManager.organizationRemote.find({
+
+	var query ={
 		parent: parentId,
-		space: spaceId,
-		hidden: {$ne: true}
-	}, {
+		space: spaceId
+	}
+
+	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+		query.hidden = {$ne: true}
+	}
+
+	var childs = SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1,
 			space: 1,
@@ -429,10 +435,17 @@ CFDataManager.getFormulaSpaceUser = function (userId, space) {
 };
 
 CFDataManager.getOrgAndChild = function (node, orgId) {
-	var childrens = SteedosDataManager.organizationRemote.find({
+
+	var query ={
 		space: node.data.spaceId,
-		parents: orgId
-	}, {
+		parent: orgId
+	}
+
+	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+		query.hidden = {$ne: true}
+	}
+
+	var childrens = SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1
 		}
