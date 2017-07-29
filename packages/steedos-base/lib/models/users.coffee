@@ -209,15 +209,27 @@ if Meteor.isServer
 		if userId
 			modifier.$set.modified_by = userId;
 
+		console.log "db.users.before.update==============2--1"
+		console.log modifier.$set
+		console.log modifier.$set['phone.verified']
+
 		if modifier.$set['phone.verified'] is true
 			# substring(3) 是为了去掉 "+86"
 			modifier.$set.mobile = doc.phone.number.substring(3)
 		modifier.$set.modified = new Date();
 
+		console.log "db.users.before.update==============2--2"
+		console.log "doc.phone.number：#{doc.phone.number}"
+		console.log "modifier.$set.mobile：#{modifier.$set.mobile}"
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
 		modifier.$unset = modifier.$unset || {};
+
+		if modifier.$set['phone.verified'] is true
+			# db.users.before.update中对modifier.$set.mobile的修改这里识别不到，所以只能重新设置其值
+			# substring(3) 是为了去掉 "+86"
+			modifier.$set.mobile = doc.phone.number.substring(3)
 
 		console.log "db.users.after.update==============2"
 		console.log "db.users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
