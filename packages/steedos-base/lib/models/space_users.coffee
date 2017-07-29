@@ -277,7 +277,6 @@ if (Meteor.isServer)
 					if not _.isEmpty(user_set)
 						db.users.direct.update({_id: doc.user}, {$set: user_set})
 
-					console.log "aaaaaa==============,newMobile:#{newMobile}"
 					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
 					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
 					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
@@ -299,7 +298,6 @@ if (Meteor.isServer)
 
 			if Steedos.isPhoneEnabled()
 				# 修改人
-				console.log "db.space_users.before.update=======,userId:#{userId}"
 				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
 				params = {
 					name: euser.name,
@@ -335,26 +333,6 @@ if (Meteor.isServer)
 		modifier.$set = modifier.$set || {};
 		modifier.$unset = modifier.$unset || {};
 
-		console.log "db.space_users.after.update==============0"
-		console.log "db.space_users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
-		console.log "db.space_users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}"
-		# user_set = {}
-		# user_unset = {}
-		# if doc.name
-		# 	user_set.name = doc.name
-		# else
-		# 	user_unset.name = ""
-
-		# if doc.position
-		# 	user_set.position = doc.position
-		# else
-		# 	user_unset.position = ""
-
-		# if doc.work_phone
-		# 	user_set.work_phone = doc.work_phone
-		# else
-		# 	user_unset.work_phone = ""
-
 		user_set = {}
 		user_unset = {}
 		if modifier.$set.name != undefined
@@ -371,9 +349,6 @@ if (Meteor.isServer)
 		if modifier.$unset.work_phone != undefined
 			user_unset.work_phone = modifier.$unset.work_phone
 
-		console.log "db.space_users.after.update==============1"
-		console.log "user_set:#{JSON.stringify user_set}"
-		console.log "user_unset:#{JSON.stringify user_unset}"
 		# 更新users表中的相关字段
 		if not _.isEmpty(user_set)
 			# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步

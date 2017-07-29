@@ -209,18 +209,10 @@ if Meteor.isServer
 		if userId
 			modifier.$set.modified_by = userId;
 
-		console.log "db.users.before.update==============2--1"
-		console.log modifier.$set
-		console.log modifier.$set['phone.verified']
-
 		if modifier.$set['phone.verified'] is true
 			# substring(3) 是为了去掉 "+86"
 			modifier.$set.mobile = doc.phone.number.substring(3)
 		modifier.$set.modified = new Date();
-
-		console.log "db.users.before.update==============2--2"
-		console.log "doc.phone.number：#{doc.phone.number}"
-		console.log "modifier.$set.mobile：#{modifier.$set.mobile}"
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
@@ -230,10 +222,6 @@ if Meteor.isServer
 			# db.users.before.update中对modifier.$set.mobile的修改这里识别不到，所以只能重新设置其值
 			# substring(3) 是为了去掉 "+86"
 			modifier.$set.mobile = doc.phone.number.substring(3)
-
-		console.log "db.users.after.update==============2"
-		console.log "db.users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
-		console.log "db.users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}", modifier.$unset
 
 		user_set = {}
 		user_unset = {}
@@ -255,23 +243,10 @@ if Meteor.isServer
 		if modifier.$unset.mobile != undefined
 			user_unset.mobile = modifier.$unset.mobile
 
-		console.log "db.users.after.update==============3"
-		console.log "user_set:#{JSON.stringify user_set}"
-		console.log "user_unset:#{JSON.stringify user_unset}"
-		# console.log "db.users.after.update,doc.mobile：#{doc.mobile}"
-		# console.log "db.users.after.update,modifier.$set.mobile：#{modifier.$set.mobile}"
-		# console.log "db.users.after.update,modifier.$unset.mobile：#{modifier.$unset.mobile}"
-		# if doc.mobile
-		# 	user_set.mobile = doc.mobile
-		# else
-		# 	user_unset.mobile = ""
-
 		# 更新users表中的相关字段，所有工作区信息同步
 		if not _.isEmpty(user_set)
 			db.space_users.direct.update({user: doc._id}, {$set: user_set}, {multi: true})
 		if not _.isEmpty(user_unset)
-			console.log "db.users.after.update==============4"
-			console.log "user_unset", user_unset
 			db.space_users.direct.update({user: doc._id}, {$unset: user_unset}, {multi: true})
 
 
