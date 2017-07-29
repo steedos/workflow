@@ -275,12 +275,11 @@ if (Meteor.isServer)
 					user_set.phone.verified = false
 					user_set.phone.modified = new Date()
 					if not _.isEmpty(user_set)
-						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
-						db.users.update({_id: doc.user}, {$set: user_set})
+						db.users.direct.update({_id: doc.user}, {$set: user_set})
 
 					console.log "aaaaaa==============,newMobile:#{newMobile}"
 					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
-					# 只能通过额外单独更新所有工作区的mobile字段
+					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
 					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
 
 				else
@@ -333,8 +332,8 @@ if (Meteor.isServer)
 
 
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
-		self = this
 		modifier.$set = modifier.$set || {};
+		modifier.$unset = modifier.$unset || {};
 
 		console.log "db.space_users.after.update==============0"
 		console.log "db.space_users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
@@ -365,19 +364,22 @@ if (Meteor.isServer)
 		if modifier.$set.work_phone
 			user_set.work_phone = modifier.$set.work_phone
 
-		if modifier.$unset
+		if modifier.$unset.name
 			user_unset.name = modifier.$unset.name
+		if modifier.$unset.position
 			user_unset.position = modifier.$unset.position
+		if modifier.$unset.work_phone
 			user_unset.work_phone = modifier.$unset.work_phone
 
 		console.log "db.space_users.after.update==============1"
 		console.log "user_set:#{JSON.stringify user_set}"
 		console.log "user_unset:#{JSON.stringify user_unset}"
 		# 更新users表中的相关字段
-		# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步
 		if not _.isEmpty(user_set)
+			# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步
 			db.users.update({_id: doc.user}, {$set: user_set})
 		if not _.isEmpty(user_unset)
+			# 这里需要更新mobile字段，删除mobile字段的相关逻辑在[db.space_users.before.update]中已经有了
 			db.users.update({_id: doc.user}, {$unset: user_unset})
 			
 
