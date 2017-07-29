@@ -161,12 +161,16 @@ instancesListTableTabular = (flowId)->
 			{
 				data: "modified",
 				visible: false
+			},
+			{
+				data: "keywords",
+				visible: false
 			}
 		],
 		dom: "tp",
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "cc_users", "is_read", "step_current_name", "values"],
+			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
 		lengthChange: false,
 		pageLength: 10,
 		info: false,
