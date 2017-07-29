@@ -113,6 +113,8 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 				else if step_type is "end"
 					throw new Meteor.Error('error!', 'end结点出现approve，服务器错误')
 
+				form = db.forms.findOne(instance.form)
+				updateObj.keywords = uuflowManager.caculateKeywords(updateObj.values, form, instance.form_version)
 				db.instances.update({_id: instance_id}, {$set: updateObj})
 
 			instance = uuflowManager.getInstance(instance_id)

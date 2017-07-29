@@ -259,3 +259,7 @@ if Meteor.isServer
 		"state": 1,
 		"is_deleted": 1
 	},{background: true})
+
+	db.instances._ensureIndex({
+		"keywords": 1
+	},{background: true})
