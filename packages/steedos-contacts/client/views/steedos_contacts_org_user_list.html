@@ -4,14 +4,15 @@
 			<i class="fa fa-bars"></i>
 		</button>
 		{{#if is_admin}}
-			<button type="button" data-toggle="tooltip" data-placement="right" title="{{_ 'steedos_contacts_invite_users'}}" class="btn btn-primary btn-flat" id="steedos_contacts_invite_users_btn">
+			<button type="button" data-toggle="tooltip" data-placement="right" title="{{_ 'steedos_contacts_invite_users'}}" class="btn btn-default btn-flat" id="steedos_contacts_invite_users_btn">
 				<i class="ion ion-plus-round"></i>
 			</button>
 		{{/if}}
 
 		{{#if isSpaceAdmin}}
 			{{#if canImportUsers}}
-				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-primary btn-flat" id="steedos_contacts_import_users_btn">{{_ 'steedos_contacts_import_users'}}</button>
+				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default btn-flat" id="steedos_contacts_import_users_btn">{{_ 'steedos_contacts_import'}}</button>
+				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default btn-flat" id="steedos_contacts_export_users_btn">{{_ 'steedos_contacts_export'}}</button>
 			{{/if}}
 		{{/if}}
 		

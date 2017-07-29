@@ -51,6 +51,9 @@ Template.import_users_modal.events
 				if _.has(item, "手机")
 					item.phone = item["手机"]?.trim()
 					delete item["手机"]
+				if _.has(item, "单位")
+					item.company = item["单位"]?.trim()
+					delete item["单位"]
 				if _.has(item, "状态")
 					item.user_accepted = item["状态"]?.trim()
 					delete item["状态"]

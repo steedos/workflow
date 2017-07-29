@@ -305,6 +305,9 @@ Meteor.methods
 					if item.sort_no
 						space_user_update_doc.sort_no = item.sort_no
 
+					if item.company
+						space_user_update_doc.company = item.company
+
 					if _.keys(space_user_update_doc).length > 0
 						db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
 
@@ -341,6 +344,9 @@ Meteor.methods
 
 					if item.sort_no
 						su_doc.sort_no = item.sort_no
+
+					if item.company
+						su_doc.company = item.company
 
 					space_user_id = db.space_users.direct.insert(su_doc)
 					if space_user_id
