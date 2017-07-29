@@ -221,26 +221,26 @@ if Meteor.isServer
 
 		console.log "db.users.after.update==============2"
 		console.log "db.users.after.update,modifier.$set#{JSON.stringify(modifier.$set)}"
-		console.log "db.users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}"
+		console.log "db.users.after.update,modifier.$unset：#{JSON.stringify(modifier.$unset)}", modifier.$unset
 
 		user_set = {}
 		user_unset = {}
-		if modifier.$set.name
+		if modifier.$set.name != undefined
 			user_set.name = modifier.$set.name
-		if modifier.$set.position
+		if modifier.$set.position != undefined
 			user_set.position = modifier.$set.position
-		if modifier.$set.work_phone
+		if modifier.$set.work_phone != undefined
 			user_set.work_phone = modifier.$set.work_phone
-		if modifier.$set.mobile
+		if modifier.$set.mobile != undefined
 			user_set.mobile = modifier.$set.mobile
 
-		if modifier.$unset.name
+		if modifier.$unset.name != undefined
 			user_unset.name = modifier.$unset.name
-		if modifier.$unset.position
+		if modifier.$unset.position != undefined
 			user_unset.position = modifier.$unset.position
-		if modifier.$unset.work_phone
+		if modifier.$unset.work_phone != undefined
 			user_unset.work_phone = modifier.$unset.work_phone
-		if modifier.$unset.mobile
+		if modifier.$unset.mobile != undefined
 			user_unset.mobile = modifier.$unset.mobile
 
 		console.log "db.users.after.update==============3"

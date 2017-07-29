@@ -357,18 +357,18 @@ if (Meteor.isServer)
 
 		user_set = {}
 		user_unset = {}
-		if modifier.$set.name
+		if modifier.$set.name != undefined
 			user_set.name = modifier.$set.name
-		if modifier.$set.position
+		if modifier.$set.position != undefined
 			user_set.position = modifier.$set.position
-		if modifier.$set.work_phone
+		if modifier.$set.work_phone != undefined
 			user_set.work_phone = modifier.$set.work_phone
 
-		if modifier.$unset.name
+		if modifier.$unset.name != undefined
 			user_unset.name = modifier.$unset.name
-		if modifier.$unset.position
+		if modifier.$unset.position != undefined
 			user_unset.position = modifier.$unset.position
-		if modifier.$unset.work_phone
+		if modifier.$unset.work_phone != undefined
 			user_unset.work_phone = modifier.$unset.work_phone
 
 		console.log "db.space_users.after.update==============1"
