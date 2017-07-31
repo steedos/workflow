@@ -77,10 +77,7 @@ db.space_users._simpleSchema = new SimpleSchema
 		optional: true,
 		autoform:
 			type: ->
-				if Steedos.isPhoneEnabled()
-					return "text"
-				else
-					return "hidden"
+				return "text"
 			readonly: ->
 				if Steedos.isPaidSpace()
 					return false
