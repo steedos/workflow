@@ -182,6 +182,10 @@ Template.instance_list._tableColumns = ()->
 			_.range(12, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(show)
 
+	if Session.get("box") == "monitor" && show
+		table.column(11).visible(true)
+	else
+		table.column(11).visible(false)
 
 	if show
 		thead.show()
