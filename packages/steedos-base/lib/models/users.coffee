@@ -214,20 +214,40 @@ if Meteor.isServer
 			modifier.$set.mobile = doc.phone.number.substring(3)
 		modifier.$set.modified = new Date();
 
-
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
-		su_set = {}
-		if modifier.$set.name
-			su_set.name = doc.name
-		if modifier.$set.mobile or modifier.$set['phone.verified'] is true
-			su_set.mobile = doc.mobile
-		if modifier.$set.position
-			su_set.position = doc.position
-		if modifier.$set.work_phone
-			su_set.work_phone = doc.work_phone
-		if not _.isEmpty(su_set)
-			db.space_users.direct.update({user: doc._id}, {$set: su_set}, {multi: true})
+		modifier.$unset = modifier.$unset || {};
+
+		if modifier.$set['phone.verified'] is true
+			# db.users.before.update中对modifier.$set.mobile的修改这里识别不到，所以只能重新设置其值
+			# substring(3) 是为了去掉 "+86"
+			modifier.$set.mobile = doc.phone.number.substring(3)
+
+		user_set = {}
+		user_unset = {}
+		if modifier.$set.name != undefined
+			user_set.name = modifier.$set.name
+		if modifier.$set.position != undefined
+			user_set.position = modifier.$set.position
+		if modifier.$set.work_phone != undefined
+			user_set.work_phone = modifier.$set.work_phone
+		if modifier.$set.mobile != undefined
+			user_set.mobile = modifier.$set.mobile
+
+		if modifier.$unset.name != undefined
+			user_unset.name = modifier.$unset.name
+		if modifier.$unset.position != undefined
+			user_unset.position = modifier.$unset.position
+		if modifier.$unset.work_phone != undefined
+			user_unset.work_phone = modifier.$unset.work_phone
+		if modifier.$unset.mobile != undefined
+			user_unset.mobile = modifier.$unset.mobile
+
+		# 更新users表中的相关字段，所有工作区信息同步
+		if not _.isEmpty(user_set)
+			db.space_users.direct.update({user: doc._id}, {$set: user_set}, {multi: true})
+		if not _.isEmpty(user_unset)
+			db.space_users.direct.update({user: doc._id}, {$unset: user_unset}, {multi: true})
 
 
 	db.users.before.remove (userId, doc) ->

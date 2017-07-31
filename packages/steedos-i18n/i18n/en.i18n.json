@@ -420,5 +420,6 @@
 	"account_phone_unverified_text": "Unverified",
 	"account_phone_unbind_text": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification.",
 	"space_users_user_accepted_yes": "YES",
-	"space_users_user_accepted_no": "NO"
+	"space_users_user_accepted_no": "NO",
+	"space_users_empty_phone": "Empty"
 }
