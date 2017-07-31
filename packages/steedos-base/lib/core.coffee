@@ -460,7 +460,8 @@ if Meteor.isServer
 		check date, Date
 		time_points = Meteor.settings.remind?.time_points
 		if not time_points or _.isEmpty(time_points)
-			throw new Meteor.Error 'error!', "time_points is null"
+			console.error "time_points is null"
+			time_points = [{"hour": 8, "minute": 30 }, {"hour": 14, "minute": 30 }]
 
 		len = time_points.length
 		start_date = new Date date
