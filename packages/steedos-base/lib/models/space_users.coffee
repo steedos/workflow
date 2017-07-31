@@ -295,13 +295,13 @@ if (Meteor.isServer)
 
 			if Steedos.isPhoneEnabled()
 				# 修改人
+				lang = Steedos.locale doc.user,true
 				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
 				params = {
 					name: euser.name,
 					number: if newMobile then newMobile else TAPi18n.__('space_users_empty_phone', {}, lang)
 				}
 				paramString = JSON.stringify(params)
-				lang = Steedos.locale doc.user,true
 				if doc.mobile
 					# 发送手机短信给修改前的手机号
 					SMSQueue.send({
