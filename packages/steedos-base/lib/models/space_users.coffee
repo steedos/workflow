@@ -298,7 +298,7 @@ if (Meteor.isServer)
 				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
 				params = {
 					name: euser.name,
-					number: if newMobile then newMobile else ""
+					number: if newMobile then newMobile else TAPi18n.__('space_users_empty_phone', {}, lang)
 				}
 				paramString = JSON.stringify(params)
 				lang = Steedos.locale doc.user,true
