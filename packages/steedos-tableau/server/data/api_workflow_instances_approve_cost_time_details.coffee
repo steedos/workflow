@@ -4,7 +4,7 @@
     password: (工作区管理员)登录密码
     sync_token: 时间戳。如果传入，则返回此时间段之后的申请单
 ###
-JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
+JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time/details', (req, res, next) ->
 	console.log "/api/workflow/.../cost_time"
 	try
 		user = Steedos.getAPILoginUser(req, res)
@@ -90,8 +90,14 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 	aggregate = (pipeline, ins_approves, cb) ->
 		cursor = db.instances.rawCollection().aggregate pipeline, {cursor: {}}
 
+		i  = 0;
 		cursor.on 'data', (doc) ->
+			console.log i
+
+			doc.flow = flow.findPropertyByPK("_id", doc.flow).name
+
 			ins_approves.push(doc)
+			i++;
 
 		cursor.once('end', () ->
 			cb();
@@ -104,12 +110,29 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 					$match: query
 				},
 				{
+					$limit: parseInt(req.query?.limit || 4000)
+				},
+				{
 					$project:{
-						"_approve": '$traces.approves'
+						"flow": 1,
+						"ins_state": "$state",
+						"ins_state": "$_id",
+						"space": "$space",
+						"_traces": '$traces'
 					}
 				},
 				{
-					$unwind: "$_approve"
+					$unwind: "$_traces"
+				},
+				{
+					$project:{
+						"flow": 1,
+						"ins_state": "$state",
+						"ins_id": "$_id",
+						"space": "$space",
+						"step_name": "$_traces.name",
+						"_approve": '$_traces.approves'
+					}
 				},
 				{
 					$unwind: "$_approve"
@@ -119,11 +142,22 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 						"_approve.type" : {$nin: ["draft", "distribute", "forward"]},
 						"_approve.handler" : {$in: orgs_users_ids}
 					}
-				},{
-					$group : {
-						_id : {"handler_organization_fullname": "$_approve.handler_organization_fullname","handler_name": "$_approve.handler_name"},
-						avg_cost_time: { $avg: "$_approve.cost_time" },
-						approve_count: { $sum: 1 }
+				},
+				{
+					$project: {
+						"_id": "$_approve._id",
+						"flow": 1,
+						"ins_id": 1,
+#									"ins_state": 1,
+#									"space": 1,
+						"step_name": 1,
+#									"approve_id": "$_approve._id",
+						"handler_name": "$_approve.handler_name",
+						"handler": "$_approve.handler",
+						"start_date": "$_approve.start_date",
+						"cost_time": "$_approve.cost_time",
+						"is_finished": "$_approve.is_finished",
+						"type": "$_approve.type"
 					}
 				}
 			]

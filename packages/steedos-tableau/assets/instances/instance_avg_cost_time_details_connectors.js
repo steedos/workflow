@@ -13,26 +13,54 @@
 // Define the schema
 	instancesConnector.getSchema = function (schemaCallback) {
 		var insCols = [{
-			id: "handler_organization_fullname",
-			alias: "处理人部门",
+			id: "_id",
+			alias: "审批Id",
 			dataType: tableau.dataTypeEnum.string
 		},{
+			id: "ins_id",
+			alias: "申请单Id",
+			dataType: tableau.dataTypeEnum.string
+		},{
+			id: "flow",
+			alias: "流程名称",
+			dataType: tableau.dataTypeEnum.string
+		},{
+			id: "step_name",
+			alias: "步骤名称",
+			dataType: tableau.dataTypeEnum.string
+		}, {
 			id: "handler_name",
 			alias: "处理人姓名",
 			dataType: tableau.dataTypeEnum.string
-		},{
-			id: "avg_cost_time",
-			alias: "平均审批耗时/小时",
+		}, {
+			id: "handler",
+			alias: "处理人",
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: "start_date",
+			alias: "接收时间",
+			dataType: tableau.dataTypeEnum.datetime
+		}, {
+			id: "cost_time",
+			alias: "审批耗时/毫秒",
 			dataType: tableau.dataTypeEnum.int
 		},{
-			id: "approve_count",
-			alias: "审批次数",
+			id: "is_finished",
+			alias: "是否已审批",
+			dataType: tableau.dataTypeEnum.bool
+		},{
+			id: "type",
+			alias: "审批类型",
+			dataType: tableau.dataTypeEnum.string
+		}, {
+			id: "sync_token",
+			alias: "同步时间",
 			dataType: tableau.dataTypeEnum.int
 		}];
 
 		var instancesTableSchema = {
 			id: "spaceInstances_cost_time",
-			alias: "审批效率统计",
+			alias: "审批耗时明细",
 			columns: insCols,
 			incrementColumnId: "sync_token"
 		};
@@ -64,7 +92,7 @@
 
 		console.log("instancesConnector.getData...")
 
-		url = window.location.origin + "/api/workflow/instances/space/" + spaceId + "/approves/cost_time" + url_params
+		url = window.location.origin + "/api/workflow/instances/space/" + spaceId + "/approves/cost_time/details" + url_params
 
 		settings = {
 			url: url,
@@ -88,13 +116,24 @@
 
 						var ins_item = {};
 
-						ins_item.handler_organization_fullname = approve._id.handler_organization_fullname
+						ins_item.sync_token = sync_token
 
-						ins_item.handler_name = approve._id.handler_name
+						ins_item._id = approve._id
+						ins_item.ins_id = approve.ins_id
+						ins_item.flow = approve.flow
+						ins_item.step_name = approve.step_name
+						ins_item.handler_name = approve.handler_name
+						ins_item.handler = approve.handler
+						ins_item.start_date = new Date(approve.start_date)
 
-						ins_item.avg_cost_time = approve.avg_cost_time / 1000 / 60 / 60
+						ins_item.cost_time = approve.cost_time
 
-						ins_item.approve_count = approve.approve_count
+						ins_item.is_finished = approve.is_finished
+
+						if(!ins_item.is_finished)
+							ins_item.cost_time = ins_item.sync_token - ins_item.start_date.getTime()
+
+						ins_item.type = approve.type
 
 						tableData.push(ins_item)
 					})
@@ -112,11 +151,19 @@
 
 		var connectionData = {};
 
+		// var states = []
+		//
+		// $("[name='state']:checked").each(function(){states.push($(this).val())})
+		//
+		// connectionData.state = states.join(",")
+
 		var spaceId = $("#spaceId").val();
 
 		if(spaceId){
 			connectionData.spaceId = spaceId;
 		}
+
+		alert("111" + $("#instance_approves_hanlder_orgs").val());
 
 		connectionData.instance_approves_hanlder_orgs = $("#instance_approves_hanlder_orgs").val();
 
@@ -129,6 +176,7 @@
 // Create event listeners for when the user submits the form
 	$(document).ready(function () {
 		$("#submitButton").click(function () {
+			alert("222" + $("#instance_approves_hanlder_orgs").val());
 			var username = $("#username").val();
 			if (!username) {
 				alert("请填写username")
