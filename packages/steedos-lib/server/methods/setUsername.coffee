@@ -1,9 +1,14 @@
 Meteor.methods
-	setUsername: (username) ->
+	setUsername: (username, user_id) ->
+		check(username, String);
+
 		if not Meteor.userId()
 			throw new Meteor.Error('error-invalid-user', "Invalid user", { method: 'setUsername' })
 
-		user = Meteor.user()
+		if user_id
+			user = db.users.findOne({_id: user_id},{fields:{username:1}})
+		else
+			user = Meteor.user()
 
 		if user.username is username
 			return username

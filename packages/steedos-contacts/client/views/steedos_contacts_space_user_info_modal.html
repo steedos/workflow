@@ -14,6 +14,11 @@
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								<span class="weui-input">{{username}}</span>
+								{{#if isSpaceAdmin}}
+									<button class="btn btn-transparent btn-edit-username" data-id="{{spaceUser.user}}" title="{{_ 'Edit'}}">
+										<i class="ion ion-ios-compose-outline"></i>
+									</button>
+								{{/if}}
 							</div>
 						</div>
 						<div class="weui-cell">
@@ -80,11 +85,11 @@
 					</div>
 					<div class="weui-btn-area text-right">
 						{{#if isEditable}}
-							<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}" title={{_ "Edit"}}><i class="fa fa-pencil"></i></button>
-							<button class="btn btn-default steedos-info-delete pull-left" data-id="{{targetId}}"  title={{_ "Delete"}}><i class="fa fa-times"></i></button>
+							<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}">{{_ "Edit"}}</button>
+							<button class="btn btn-default steedos-info-delete pull-left" data-id="{{targetId}}">{{_ "Delete"}}</button>
 						{{/if}}
 
-						<button class="btn btn-primary steedos-info-copy" data-info="{{spaceUserInfo}}">{{_ "steedos_contacts_copy"}}</button>
+						<button class="btn btn-default steedos-info-copy pull-left" data-info="{{spaceUserInfo}}">{{_ "steedos_contacts_copy"}}</button>
 						<button class="btn btn-default steedos-info-close">{{_ "steedos_contacts_close"}}</button>
 					</div>
 				</div>

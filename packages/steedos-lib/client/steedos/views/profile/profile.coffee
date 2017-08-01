@@ -360,12 +360,10 @@ Template.profile.events
 				return false
 			Meteor.call "setUsername", inputValue.trim(), (error, results)->
 				if results
-					toastr.remove()
 					toastr.success t('Change username successfully')
 					swal.close()
 
 				if error
-					toastr.remove()
 					toastr.error(TAPi18n.__(error.error))
 
 	'click .btn-change-phone': (event, template) ->
