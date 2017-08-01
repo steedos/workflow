@@ -14,11 +14,11 @@
 	instancesConnector.getSchema = function (schemaCallback) {
 		var insCols = [{
 			id: "_id",
-			alias: "approve Id",
+			alias: "审批Id",
 			dataType: tableau.dataTypeEnum.string
 		},{
 			id: "ins_id",
-			alias: "instance Id",
+			alias: "申请单Id",
 			dataType: tableau.dataTypeEnum.string
 		},{
 			id: "flow",
@@ -50,7 +50,7 @@
 			dataType: tableau.dataTypeEnum.bool
 		},{
 			id: "type",
-			alias: "approve 类型",
+			alias: "审批类型",
 			dataType: tableau.dataTypeEnum.string
 		}, {
 			id: "sync_token",
@@ -60,7 +60,7 @@
 
 		var instancesTableSchema = {
 			id: "spaceInstances_cost_time",
-			alias: "space instances users cost time",
+			alias: "审批耗时明细",
 			columns: insCols,
 			incrementColumnId: "sync_token"
 		};
@@ -84,6 +84,8 @@
 		var password = tableau.password
 
 		var url_params = "?username=" + username + "&password=" + password + "&period=" + period;
+
+		url_params = url_params + "&orgs=" + connectionData.instance_approves_hanlder_orgs
 
 		// if (last_sync_token > 0)
 		// 	url_params =  url_params + "&sync_token=" + last_sync_token;
@@ -123,8 +125,14 @@
 						ins_item.handler_name = approve.handler_name
 						ins_item.handler = approve.handler
 						ins_item.start_date = new Date(approve.start_date)
+
 						ins_item.cost_time = approve.cost_time
+
 						ins_item.is_finished = approve.is_finished
+
+						if(!ins_item.is_finished)
+							ins_item.cost_time = ins_item.sync_token - ins_item.start_date.getTime()
+
 						ins_item.type = approve.type
 
 						tableData.push(ins_item)
@@ -155,6 +163,10 @@
 			connectionData.spaceId = spaceId;
 		}
 
+		alert("111" + $("#instance_approves_hanlder_orgs").val());
+
+		connectionData.instance_approves_hanlder_orgs = $("#instance_approves_hanlder_orgs").val();
+
 		tableau.connectionData = JSON.stringify(connectionData);
 		tableau.submit();
 	};
@@ -164,7 +176,7 @@
 // Create event listeners for when the user submits the form
 	$(document).ready(function () {
 		$("#submitButton").click(function () {
-
+			alert("222" + $("#instance_approves_hanlder_orgs").val());
 			var username = $("#username").val();
 			if (!username) {
 				alert("请填写username")
@@ -184,8 +196,10 @@
 				alert("请填写链接名称")
 				return;
 			}
+
 			tableau.username = username;
 			tableau.password = password;
+
 			setupConnector();
 			tableau.connectionName = connName; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
