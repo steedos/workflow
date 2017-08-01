@@ -111,6 +111,11 @@
                         <h2 style="margin-top: 0px;">{{_ 'Change username'}}</h2>
                       {{/if}}
                       <hr style="margin-top: 0px;"/>
+                      {{#if user.username}}
+                          <div class="username-text">{{user.username}}</div>
+                      {{else}}
+                        <div class="username-text">{{_ 'username_unset_text'}}</div>
+                      {{/if}}
                       <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
                     </div>
                     <h2 style="margin-top: 40px;">{{_ 'Change Password'}}</h2>
