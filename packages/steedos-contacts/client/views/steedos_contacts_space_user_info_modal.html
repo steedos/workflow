@@ -10,19 +10,6 @@
 					<div class="weui-cells weui-cells_form">
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label">{{_ "users_username"}}</span>
-							</div>
-							<div class="weui-cell_bd weui-cell_primary text-muted">
-								<span class="weui-input">{{username}}</span>
-								{{#if isSpaceAdmin}}
-									<button class="btn btn-transparent btn-edit-username" data-id="{{spaceUser.user}}" title="{{_ 'Edit'}}">
-										<i class="ion ion-ios-compose-outline"></i>
-									</button>
-								{{/if}}
-							</div>
-						</div>
-						<div class="weui-cell">
-							<div class="weui-cell_hd">
 								<span class="weui-label">{{_ "space_users_email"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
@@ -82,6 +69,19 @@
 								</span>
 							</div>
 						</div>
+						{{#if isSpaceAdmin}}
+							<div class="weui-cell">
+								<div class="weui-cell_hd">
+									<span class="weui-label">{{_ "users_username"}}</span>
+								</div>
+								<div class="weui-cell_bd weui-cell_primary text-muted">
+									<span class="weui-input">{{username}}</span>
+									<button class="btn btn-transparent btn-edit-username" data-id="{{spaceUser.user}}" title="{{_ 'Edit'}}">
+										<i class="ion ion-ios-compose-outline"></i>
+									</button>
+								</div>
+							</div>
+						{{/if}}
 					</div>
 					<div class="weui-btn-area text-right">
 						{{#if isEditable}}
