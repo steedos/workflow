@@ -79,9 +79,9 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 
                 //驳回时支持结束步骤
                 var flow_steps = WorkflowManager.getInstanceSteps();
-				var end_step = flow_steps.findPropertyByPK("step_type", "end");
+                var end_step = flow_steps.findPropertyByPK("step_type", "end");
 
-				nextSteps.push(end_step);
+                nextSteps.push(end_step);
 
             }
             break;
@@ -99,10 +99,10 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     //去除重复
     nextSteps = nextSteps.uniqById();
 
-    //按照步骤名称排序(升序)
-    nextSteps.sort(function(p1, p2) {
-        return p1.name.localeCompare(p2.name);
-    });
+    // 按照步骤名称排序(升序)
+    // nextSteps.sort(function(p1, p2) {
+    //     return p1.name.localeCompare(p2.name);
+    // });
 
     var condition_next_steps = new Array();
     nextSteps.forEach(function(nextStep) {
@@ -548,9 +548,9 @@ ApproveManager.checkAndSetCounterSignNextStepUsers = function(nextStepId) {
         //     nextStepUsers = WorkflowManager.getUsers([his_trace.approves[0].user]);
         // }
 
-		var lastStepHandlers = TracesManager.getStepLastHandlers(nextStepId, ins)
+        var lastStepHandlers = TracesManager.getStepLastHandlers(nextStepId, ins)
 
-		nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
+        nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
     }
 
     return nextStepUsers;

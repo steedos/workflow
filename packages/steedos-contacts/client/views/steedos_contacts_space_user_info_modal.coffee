@@ -36,6 +36,10 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		else
 			return false
 
+	username: () ->
+		 return Template.instance().username?.get()
+
+
 Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-close': (event,template) ->
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
@@ -67,3 +71,16 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false
 	Template.steedos_contacts_space_user_info_modal.copyInfoClipboard.destroy()
+
+
+Template.steedos_contacts_space_user_info_modal.onCreated ->
+	self = this
+	self.username = new ReactiveVar("")
+	space_user = db.space_users.findOne Template.instance().data.targetId
+	$("body").addClass("loading")
+	Meteor.call 'fetchUsername', space_user.user, (error, result) ->
+		$("body").removeClass("loading")
+		if error
+			toastr.error TAPi18n.__(error.reason)
+		else
+			self.username.set(result)

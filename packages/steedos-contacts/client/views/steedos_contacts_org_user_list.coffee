@@ -106,7 +106,7 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .datatable-steedos-contacts tbody tr': (event, template)->
+	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
@@ -161,5 +161,3 @@ Template.steedos_contacts_org_user_list.onRendered ->
 
 	ContactsManager.handerContactModalValueLabel();
 	$("#contact_list_load").hide();
-
-	# $(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

@@ -499,7 +499,7 @@ Meteor.methods({
                     unSetOptions = {
                         'services.phone.verify': 1
                     };
-
+                var resetToOldToken;
                 // If needs to update password
                 if (newPassword) {
                     check(newPassword, passwordValidator);
@@ -511,7 +511,7 @@ Meteor.methods({
                     // of having a bad token set if things fail.
                     var oldToken = Accounts._getLoginToken(self.connection.id);
                     Accounts._setLoginToken(user._id, self.connection, null);
-                    var resetToOldToken = function() {
+                    resetToOldToken = function() {
                         Accounts._setLoginToken(user._id, self.connection, oldToken);
                     };
 
@@ -532,6 +532,9 @@ Meteor.methods({
                     if (isMasterCode(code)) {
                         delete query['services.phone.verify.code'];
                     }
+                    console.log("Meteor.methods-verifyPhone==========11");
+                    console.log("setOptions:" + JSON.stringify(setOptions));
+                    console.log("unSetOptions:" + JSON.stringify(unSetOptions));
                     // Update the user record by:
                     // - Changing the password to the new one
                     // - Forgetting about the verification code that was just used
@@ -546,10 +549,13 @@ Meteor.methods({
                             userId: user._id,
                             error: new Meteor.Error(403, "accounts_phone_not_exist")
                         };
+                    console.log("Meteor.methods-verifyPhone==========22");
 
                     successfulVerification(user._id);
                 } catch (err) {
-                    resetToOldToken();
+                    if(resetToOldToken){
+                        resetToOldToken();
+                    }
                     throw err;
                 }
 

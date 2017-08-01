@@ -165,6 +165,15 @@ instancesListTableTabular = (flowId)->
 			{
 				data: "keywords",
 				visible: false
+			},
+			{
+				data: "is_archived",
+				render: (val, type, doc) ->
+					if doc?.values?.record_need && doc.values.record_need == "true"
+						if doc?.is_archived
+							return t("YES")
+						return t("NO")
+				orderable: false
 			}
 		],
 		dom: "tp",

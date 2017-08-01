@@ -104,6 +104,15 @@
                       {{/if}}
                       <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
                     {{/if}}
+                    <div class="change-username-box">
+                      {{#if isPhoneEnabled}}
+                        <h2 style="margin-top: 40px;">{{_ 'Change username'}}</h2>
+                      {{else}}
+                        <h2 style="margin-top: 0px;">{{_ 'Change username'}}</h2>
+                      {{/if}}
+                      <hr style="margin-top: 0px;"/>
+                      <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
+                    </div>
                     <h2 style="margin-top: 40px;">{{_ 'Change Password'}}</h2>
                     <hr style="margin-top: 0px;"/>
                     <div class="form-group">
@@ -122,11 +131,6 @@
                     {{#if isPhoneEnabled}}
                       <a class="btn btn-link btn-sm btn-set-password-by-phone">{{_ 'set_password_by_phone'}}</a>
                     {{/if}}
-                    <div class="change-username-box">
-                      <h2 style="margin-top: 40px;">{{_ 'Change username'}}</h2>
-                      <hr style="margin-top: 0px;"/>
-                      <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
-                    </div>
                   </div>
                 </div>
 
