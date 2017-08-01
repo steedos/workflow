@@ -231,9 +231,17 @@ TracesTemplate.events =
 		return
 
 	'click .approve-item': (event, template) ->
+		unless Steedos.isMobile()
+			Modal.show "instance_trace_detail_modal", this
+
+	'taphold .approve-item': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this
 
 	'click .approve-description': (event, template) ->
+		unless Steedos.isMobile()
+			Modal.show "instance_trace_detail_modal", this
+
+	'taphold .approve-description': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
