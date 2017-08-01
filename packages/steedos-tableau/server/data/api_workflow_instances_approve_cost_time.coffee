@@ -112,61 +112,61 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 	async_aggregate = Meteor.wrapAsync(aggregate)
 
 	pipeline = [
-							{
-								$match: query
-							},
-							{
-								$limit: parseInt(req.query?.limit || 4000)
-							},
-							{
-								$project:{
-									"flow": 1,
-									"ins_state": "$state",
-									"ins_state": "$_id",
-									"space": "$space",
-									"_traces": '$traces'
-								}
-							},
-							{
-								$unwind: "$_traces"
-							},
-							{
-								$project:{
-									"flow": 1,
-									"ins_state": "$state",
-									"ins_id": "$_id",
-									"space": "$space",
-									"step_name": "$_traces.name",
-									"_approve": '$_traces.approves'
-								}
-							},
-							{
-								$unwind: "$_approve"
-							},
-							{
-								$match: {
-									"_approve.type" : {$nin: ["draft", "distribute", "forward"]},
-									"_approve.handler" : {$in: orgs_users_ids}
-								}
-							},
-							{
-								$project: {
-									"_id": "$_approve._id",
-									"flow": 1,
-									"ins_id": 1,
+				{
+					$match: query
+				},
+				{
+					$limit: parseInt(req.query?.limit || 4000)
+				},
+				{
+					$project:{
+						"flow": 1,
+						"ins_state": "$state",
+						"ins_state": "$_id",
+						"space": "$space",
+						"_traces": '$traces'
+					}
+				},
+				{
+					$unwind: "$_traces"
+				},
+				{
+					$project:{
+						"flow": 1,
+						"ins_state": "$state",
+						"ins_id": "$_id",
+						"space": "$space",
+						"step_name": "$_traces.name",
+						"_approve": '$_traces.approves'
+					}
+				},
+				{
+					$unwind: "$_approve"
+				},
+				{
+					$match: {
+						"_approve.type" : {$nin: ["draft", "distribute", "forward"]},
+						"_approve.handler" : {$in: orgs_users_ids}
+					}
+				},
+				{
+					$project: {
+						"_id": "$_approve._id",
+						"flow": 1,
+						"ins_id": 1,
 #									"ins_state": 1,
 #									"space": 1,
-									"step_name": 1,
+						"step_name": 1,
 #									"approve_id": "$_approve._id",
-									"handler_name": "$_approve.handler_name",
-									"handler": "$_approve.handler",
-									"start_date": "$_approve.start_date",
-									"cost_time": "$_approve.cost_time",
-									"is_finished": "$_approve.is_finished",
-									"type": "$_approve.type"
-								}
-							}
-						]
+						"handler_name": "$_approve.handler_name",
+						"handler": "$_approve.handler",
+						"start_date": "$_approve.start_date",
+						"cost_time": "$_approve.cost_time",
+						"is_finished": "$_approve.is_finished",
+						"type": "$_approve.type"
+					}
+				}
+			]
 
 	console.log "pipeline", JSON.stringify(pipeline)
 
