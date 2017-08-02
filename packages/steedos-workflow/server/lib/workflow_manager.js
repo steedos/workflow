@@ -528,8 +528,8 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 WorkflowManager.hasInstancePermissions = function(user, instance) {
 
     if(user && instance){
-        var space = db.spaces.findOne({space: instance.space});
-        if(space.admins.includes(user._id)){
+        var space = db.spaces.findOne({_id: instance.space});
+        if(space && space.admins && space.admins.includes(user._id)){
             return true;
         }
     }
