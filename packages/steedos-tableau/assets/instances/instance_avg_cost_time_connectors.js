@@ -51,11 +51,11 @@
 
 		var period = connectionData.period;
 
-		var username = tableau.username
+		var xUserId = connectionData.userId
 
-		var password = tableau.password
+		var xuserToken = connectionData.authToken
 
-		var url_params = "?username=" + username + "&password=" + password + "&period=" + period;
+		var url_params = "?period=" + period;
 
 		url_params = url_params + "&orgs=" + connectionData.instance_approves_hanlder_orgs
 
@@ -64,6 +64,10 @@
 		settings = {
 			url: url,
 			type: 'GET',
+			headers: {
+				"x-user-id": xUserId,
+				"x-auth-token": xuserToken
+			},
 			crossDomain: true,
 			async: false,
 			dataType: 'json',
@@ -103,7 +107,7 @@
 
 	setupConnector = function () {
 
-		var connectionData = {};
+		var connectionData = JSON.parse(tableau.connectionData) || {};
 
 		var spaceId = $("#spaceId").val();
 
@@ -116,36 +120,74 @@
 		connectionData.period = $("#period").val();
 
 		tableau.connectionData = JSON.stringify(connectionData);
-		tableau.submit();
 	};
 
 	tableau.registerConnector(instancesConnector);
 
+	loginWithPassword = function (username, password) {
+
+		data = {email: username, password: password}
+
+		if(username.indexOf('@') == -1){
+			data = {user: username, password: password}
+		}
+
+		login = $.ajax({
+			url: '/steedos/api/login',
+			type: 'POST',
+			async: false,
+			data: data
+		});
+
+		if(login.status != 200){
+			return false
+		}else{
+			return login.responseJSON.data
+		}
+	}
+
 // Create event listeners for when the user submits the form
 	$(document).ready(function () {
 		$("#submitButton").click(function () {
+
+			$(".help-block").html("")
+
 			var username = $("#username").val();
 			if (!username) {
-				alert("请填写username")
+				$(".help-block").html("请填写账户")
 				return;
 			}
 
 			var password = $("#password").val();
 
 			if (!password) {
-				alert("请填写password")
+				$(".help-block").html("请填写密码")
 				return;
 			}
 
 			var connName = $("#connName").val();
 
 			if (!connName) {
-				alert("请填写链接名称")
+				$(".help-block").html("请填写链接名称")
 				return;
 			}
 
-			tableau.username = username;
-			tableau.password = password;
+			if (!$("#instance_approves_hanlder_orgs").val()) {
+				$(".help-block").html("请选择部门")
+				return;
+			}
+
+			var authData = loginWithPassword(username, password);
+
+			if(!authData){
+				$(".help-block").html("用户名或密码错误")
+				return;
+			}
+
+			tableau.connectionData = JSON.stringify(authData)
+
+			tableau.username = 'test';
+			tableau.password = 'test';
 
 			setupConnector();
 			tableau.connectionName = connName; // This will be the data source name in Tableau

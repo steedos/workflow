@@ -19,11 +19,12 @@
 <div class="container container-table">
 	<div class="row vertical-center-row">
 		<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+			<span class="help-block" style="color: red"></span>
 			<div class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label"> Username </label>
+					<label class="control-label"> 账户 </label>
 					<input type="text" id="username" class="form-control">
-					<label class="control-label"> Password </label>
+					<label class="control-label"> 密码 </label>
 					<input type="password" id="password" class="form-control">
 				</div>
 			</div>
@@ -92,7 +93,7 @@
 
 
 			$.ajax({
-				url: 'http://192.168.0.134:3004/api/collection/find',
+				url: '/api/collection/find',
 				type: 'POST',
 				async: false,
 				data: JSON.stringify(config),
