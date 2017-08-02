@@ -16,6 +16,13 @@ getInstanceReadOnly = (req, res, next, options) ->
 
 	space = db.spaces.findOne({_id: spaceId});
 
+	hide_traces = req.query?.hide_traces
+	if hide_traces is "1"
+		if options
+			options.showTrace = false
+		else
+			options = {showTrace: false}
+
 	if !space
 		JsonRoutes.sendResult res,
 			code: 401,
