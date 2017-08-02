@@ -231,16 +231,15 @@ TracesTemplate.events =
 		return
 
 	'click .approve-item,.approve-description': (event, template) ->
-		unless Steedos.isMobile()
+		unless Steedos.isAndroidApp() and Steedos.isiOS()
 			Modal.show "instance_trace_detail_modal", this
 
 	'taphold .approve-item,.approve-description': (event, template) ->
-		event.stopPropagation()
-		event.preventDefault()
 		Modal.show "instance_trace_detail_modal", this
 
-	'touchend .approve-item,.approve-description': (event, template) ->
+	'tapend .approve-item,.approve-description': (event, template) ->
 		# 上述长按打开approve详细窗口的事件taphold会触发打开窗口后的touchend事件，造成长按打开窗口后一放手窗口就又关掉了
+		# 这里只能通过阻止tapend事件(不可以用touchend事件，因为会影响taphold功能，造成没有长按效果时也会触发taphold事件)冒泡来避免问题。
 		event.stopPropagation()
 		event.preventDefault()
 		return false
