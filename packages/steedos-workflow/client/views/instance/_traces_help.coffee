@@ -230,19 +230,20 @@ TracesTemplate.events =
 			return
 		return
 
-	'click .approve-item': (event, template) ->
+	'click .approve-item,.approve-description': (event, template) ->
 		unless Steedos.isMobile()
 			Modal.show "instance_trace_detail_modal", this
 
-	'taphold .approve-item': (event, template) ->
+	'taphold .approve-item,.approve-description': (event, template) ->
+		event.stopPropagation()
+		event.preventDefault()
 		Modal.show "instance_trace_detail_modal", this
 
-	'click .approve-description': (event, template) ->
-		unless Steedos.isMobile()
-			Modal.show "instance_trace_detail_modal", this
-
-	'taphold .approve-description': (event, template) ->
-		Modal.show "instance_trace_detail_modal", this
+	'touchend .approve-item,.approve-description': (event, template) ->
+		# 上述长按打开approve详细窗口的事件taphold会触发打开窗口后的touchend事件，造成长按打开窗口后一放手窗口就又关掉了
+		event.stopPropagation()
+		event.preventDefault()
+		return false
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
 		Modal.hide "instance_trace_detail_modal"
