@@ -58,12 +58,17 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 
 	query.space = spaceId
 
+	period = parseInt(req.query.period) || 0
+
+	start_date = new Date();
+
+	start_date.setMonth(start_date.getMonth() - period)
+
+	query.submit_date = {$gt: start_date}
+
+	query.is_deleted = false
+
 	query.final_decision = {$ne: "terminated"}
-
-#	limit = 50000
-
-	if req.query?.limit
-		limit = parseInt(req.query.limit)
 
 	if req.query?.sync_token
 		sync_token = new Date(Number(req.query.sync_token))

@@ -20,7 +20,7 @@ JsonRoutes.add 'get', '/tableau/workflow/space/:space/cost_time', (req, res, nex
 	html = ""
 
 	if space
-		connName = space.name + ":"
+		connName = "审批效率统计:" + space.name
 
 		html = Assets.getText("assets/instances/instance_avg_cost_time_connectors.html")
 

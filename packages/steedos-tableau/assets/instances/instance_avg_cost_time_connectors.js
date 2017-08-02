@@ -23,7 +23,7 @@
 		},{
 			id: "avg_cost_time",
 			alias: "平均审批耗时/小时",
-			dataType: tableau.dataTypeEnum.int
+			dataType: tableau.dataTypeEnum.float
 		},{
 			id: "approve_count",
 			alias: "审批次数",
@@ -59,11 +59,6 @@
 
 		url_params = url_params + "&orgs=" + connectionData.instance_approves_hanlder_orgs
 
-		// if (last_sync_token > 0)
-		// 	url_params =  url_params + "&sync_token=" + last_sync_token;
-
-		console.log("instancesConnector.getData...")
-
 		url = window.location.origin + "/api/workflow/instances/space/" + spaceId + "/approves/cost_time" + url_params
 
 		settings = {
@@ -75,8 +70,6 @@
 			processData: false,
 			contentType: "application/json",
 			success: function (resp, textStatus) {
-
-				console.log("resp.data:", resp.data.length)
 
 				var instances = resp.data
 				var tableData = [];
@@ -119,6 +112,8 @@
 		}
 
 		connectionData.instance_approves_hanlder_orgs = $("#instance_approves_hanlder_orgs").val();
+
+		connectionData.period = $("#period").val();
 
 		tableau.connectionData = JSON.stringify(connectionData);
 		tableau.submit();

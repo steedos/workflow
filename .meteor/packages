@@ -23,7 +23,7 @@ less@2.7.5
 logging@1.1.15
 meteor-base@1.0.4
 mobile-experience@1.0.4
-mongo@1.1.22
+mongo@1.1.12
 random@1.0.10
 rate-limit@1.0.5
 reactive-dict@1.1.8
