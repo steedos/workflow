@@ -529,7 +529,7 @@ WorkflowManager.hasInstancePermissions = function(user, instance) {
 
     if(user && instance){
         var space = db.spaces.findOne({space: instance.space});
-        if(admins.includes(user._id)){
+        if(space.admins.includes(user._id)){
             return true;
         }
     }
