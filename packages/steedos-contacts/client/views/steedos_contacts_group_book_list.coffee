@@ -97,7 +97,7 @@ Template.steedos_contacts_group_book_list.events
 
 		$("#steedos_contacts_group_book_list_export_btn").prop("href", Meteor.absoluteUrl() + "/contacts/books/export/cvf?ids=" + ids.toString())
 
-	'click .datatable-steedos-contacts tbody tr': (event, template)->
+	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
 		Modal.show('steedos_contacts_address_book_info_modal', {targetId: event.currentTarget.dataset.id})
 
 Template.steedos_contacts_group_book_list.onRendered ->

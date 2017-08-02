@@ -112,13 +112,16 @@ if Meteor.isClient
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
 
-	Steedos.openAppWithToken = (app_id)->
+	Steedos.getAppUrlWithToken = (app_id)->
 		authToken = {};
 		authToken["spaceId"] = Steedos.getSpaceId()
 		authToken["X-User-Id"] = Meteor.userId();
 		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+		return "api/setup/sso/" + app_id + "?" + $.param(authToken)
 
-		url = Steedos.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
+	Steedos.openAppWithToken = (app_id)->
+		url = Steedos.getAppUrlWithToken app_id
+		url = Steedos.absoluteUrl url
 		Steedos.openWindow(url);
 	
 	Steedos.openApp = (app_id)->
@@ -139,7 +142,8 @@ if Meteor.isClient
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
 					open_url = Meteor.absoluteUrl(path)
 				else
-					open_url = app.url
+					open_url = Steedos.getAppUrlWithToken app_id
+					open_url = Meteor.absoluteUrl open_url
 				cmd = "start iexplore.exe \"#{open_url}\""
 				exec cmd, (error, stdout, stderr) ->
 					if error
@@ -456,7 +460,8 @@ if Meteor.isServer
 		check date, Date
 		time_points = Meteor.settings.remind?.time_points
 		if not time_points or _.isEmpty(time_points)
-			throw new Meteor.Error 'error!', "time_points is null"
+			console.error "time_points is null"
+			time_points = [{"hour": 8, "minute": 30 }, {"hour": 14, "minute": 30 }]
 
 		len = time_points.length
 		start_date = new Date date
@@ -555,7 +560,8 @@ if Meteor.isServer
 			return steedos_token
 
 		locale: (userId, isI18n)->
-			locale = db.users.findOne({_id:userId}).locale
+			user = db.users.findOne({_id:userId},{fields: {locale: 1}})
+			locale = user?.locale
 			if isI18n
 				if locale == "en-us"
 					locale = "en"

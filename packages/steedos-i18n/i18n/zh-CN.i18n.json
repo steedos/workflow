@@ -280,6 +280,7 @@
 	"space_users_modified_by": "修改者",
 	"space_users_mobile": "手机",
 	"space_users_work_phone": "固定电话",
+	"space_users_company": "单位",
 	"space_users_position": "职务",
 	"space_users_managers": "所有上级主管",
 	"space_users_apps": "Apps",
@@ -426,11 +427,21 @@
 	"afModal_remove_suc": "删除成功",
 	"afModal_cancel": "取消",
 
-	"change_phone": "更改手机号",
+	"change_phone": "绑定手机号",
 	"set_password_by_phone": "重置密码",
 	"account_phone_invalid": "请先绑定手机号",
 
 	"back_admin_home": "返回",
 
-	"none_space_selected_title": "请选择工作区"
+	"none_space_selected_title": "请选择工作区",
+
+	"account_phone_verified_text": "已验证",
+	"account_phone_unverified_text": "未验证",
+	"account_phone_unbind_text": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等。",
+	"space_users_user_accepted_yes": "是",
+	"space_users_user_accepted_no": "否",
+	"space_users_empty_phone": "空",
+	"YES": "是",
+	"NO": "否",
+	"username_unset_text": "您的账户尚未设置用户名，设置用户名后，可以使用用户名登录系统。"
 }

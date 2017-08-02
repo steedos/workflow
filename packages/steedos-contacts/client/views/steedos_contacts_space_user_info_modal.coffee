@@ -30,12 +30,50 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		
 		return info
 
+	isEditable: ->
+		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+			return true
+		else
+			return false
+
+	username: () ->
+		 return Template.instance().username?.get()
+
+
 Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-close': (event,template) ->
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+
+	'click .btn-edit-username': (event, template) ->
+		username = template.username?.get()
+		user_id = event.currentTarget.dataset.id
+		unless user_id
+			return;
+		swal {
+			title: t('Change username')
+			type: "input"
+			inputValue: username || ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			if inputValue?.trim() == username?.trim()
+				swal.close()
+				return false;
+			Meteor.call "setUsername", inputValue?.trim(), user_id, (error, results)->
+				if results
+					template.username.set(results);
+					toastr.success t('Change username successfully')
+					swal.close()
+				if error
+					toastr.error(TAPi18n.__(error.error))
 
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
@@ -61,3 +99,16 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false
 	Template.steedos_contacts_space_user_info_modal.copyInfoClipboard.destroy()
+
+
+Template.steedos_contacts_space_user_info_modal.onCreated ->
+	self = this
+	self.username = new ReactiveVar("")
+	space_user = db.space_users.findOne Template.instance().data.targetId
+	$("body").addClass("loading")
+	Meteor.call 'fetchUsername', space_user.user, (error, result) ->
+		$("body").removeClass("loading")
+		if error
+			toastr.error TAPi18n.__(error.reason)
+		else
+			self.username.set(result)

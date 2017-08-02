@@ -1,4 +1,23 @@
 Template.cf_space_user_list.onCreated ->
+	self = this;
+
+	orgs = []
+
+	if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+
+		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
+
+		childrens = SteedosDataManager.organizationRemote.find({space: spaceId, hidden: {$ne: true}}, {
+			fields: {
+				_id: 1
+			}
+		})
+
+		orgs = childrens.getProperty("_id")
+
+
+	self.unhidden_orgs = new ReactiveVar(orgs);
+
 	Session.set("cf_contact_list_search", false)
 
 Template.cf_space_user_list.onDestroyed ->
@@ -18,12 +37,24 @@ Template.cf_space_user_list.helpers
 			else
 				if is_within_user_organizations
 					orgs = db.organizations.find().fetch().getProperty("_id")
+					orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
+						fields: {
+							_id: 1
+						}
+					});
+
+					orgs = orgs.concat(orgs_childs.getProperty("_id"))
+
 					query.organizations = {$in: orgs};
 				else
 					if Template.instance().data.spaceId != false && Session.get("spaceId")
 						spaceIds = [Session.get("spaceId")]
 					else
 						spaceIds = db.spaces.find().fetch().getProperty("_id")
+
+					if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+						query.organizations = {$in: Template.instance().unhidden_orgs.get()}
+
 					query.space = {$in: spaceIds}
 		return query;
 

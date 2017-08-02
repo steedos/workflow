@@ -261,6 +261,10 @@ if Meteor.isServer
 	},{background: true})
 
 	db.instances._ensureIndex({
+		"keywords": 1,
+	},{background: true})
+
+	db.instances._ensureIndex({
 		"space": 1,
 		"submit_date": 1,
 		"is_deleted": 1,
