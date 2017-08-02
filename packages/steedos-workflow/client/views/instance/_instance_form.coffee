@@ -369,29 +369,65 @@ InstanceformTemplate.helpers =
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
 	isOpinionField: (field)->
-		return (field.formula?.indexOf("{traces.") > -1 || field.formula?.indexOf("{signature.traces.") > -1)
+		return InstanceformTemplate.helpers.isOpinionField_from_string(field.formula)
 
-	getOpinionFieldStepsName: (field_formula)->
+	isOpinionField_from_string: (field_formula)->
+		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
+
+	getOpinionFieldStepsName: (field_formula, top_keywords)->
+
 		opinionFields = new Array();
-		if field_formula && (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1)
-			foo1 = field_formula.split(",")
-			foo1.forEach (foo)->
-				sf = {only_cc_opinion: false, image_sign: false}
 
-				if foo.indexOf("{signature.") > -1
-					sf.image_sign = true
-					foo = foo.replace("{signature.","");
+		if InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
+			if field_formula
 
-				s1 = foo.replace("{","").replace("}","")
-				if s1.split(".").length > 1
-					sf.stepName = s1.split(".")[1]
-					if opinionFields.filterProperty("stepName",sf.stepName).length > 0
-						opinionFields.findPropertyByPK("stepName", sf.stepName)?.only_cc_opinion = true
-					else
-						if s1.split(".").length > 2
-							if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
-								sf.only_cc_opinion = true
-				opinionFields.push(sf);
+				foo1 = field_formula.split(";")
+
+				if top_keywords
+					foo1 = field_formula.split(",")
+
+				foo1.forEach (foo)->
+					json_formula = false
+
+					try
+						json_formula = eval("(" + foo + ")")
+					catch
+						json_formula = false
+
+					if json_formula?.yijianlan
+						sf = {}
+
+						sf.stepName = json_formula.yijianlan.step
+
+						sf.image_sign = json_formula.yijianlan.image_sign || false
+
+						sf.only_cc_opinion = json_formula.yijianlan.only_cc || false
+
+						sf.default_description = json_formula.yijianlan.default
+
+						sf.top_keywords = json_formula.yijianlan.top_keywords || top_keywords
+
+						opinionFields.push(sf);
+
+					else if(field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1)
+
+						sf = {only_cc_opinion: false, image_sign: false, top_keywords: top_keywords}
+
+						if foo.indexOf("{signature.") > -1
+							sf.image_sign = true
+							foo = foo.replace("{signature.","");
+
+						s1 = foo.replace("{","").replace("}","")
+						if s1.split(".").length > 1
+							sf.stepName = s1.split(".")[1]
+							if opinionFields.filterProperty("stepName",sf.stepName).length > 0
+								opinionFields.findPropertyByPK("stepName", sf.stepName)?.only_cc_opinion = true
+							else
+								if s1.split(".").length > 2
+									if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
+										sf.only_cc_opinion = true
+						opinionFields.push(sf);
+
 		return opinionFields
 
 	showCCOpinion: (field)->
