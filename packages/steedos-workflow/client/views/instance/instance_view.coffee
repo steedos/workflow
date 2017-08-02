@@ -74,6 +74,24 @@ Template.instance_view.helpers
 		if ins
 			return WorkflowManager.getForm(ins.form)?.description?.replace(/\n/g,"<br/>")
 
+	get_priority_class: ()->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return ""
+
+		priorityClass = ""
+		priorityValue = ins.values?.priority
+		switch priorityValue
+			when "特急"
+				priorityClass = "instance-priority-danger"
+			when "紧急"
+				priorityClass = "instance-priority-warning"
+			when "办文"
+				priorityClass = "instance-priority-muted"
+
+		return priorityClass
+
+
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
 
