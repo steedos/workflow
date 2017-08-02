@@ -54,7 +54,7 @@ JsonRoutes.add 'get', '/api/workflow/tableau/space/:space/flow/:flow', (req, res
 					dataType: dataType
 				}
 
-		html = Assets.getText("assets/instances/instance_tableau_connectors.html")
+		html = Assets.getText("assets/instances/instance_by_flow_tableau_connectors.html")
 
 		html = html.replace('#{spaceId}', spaceId).replace('#{spaceName}', space.name).replace('#{dataServerOrigin}', Meteor.absoluteUrl()).replace('#{connName}', connName).replace('#{flowId}', flowId).replace('#{valueFields}', JSON.stringify(valueFields))
 

@@ -1,10 +1,4 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es5",
-		"sourceMap": true
-	},
-	"exclude": [
-		"node_modules"
-	]
+	"steedos_tableau": "Tableau",
+	"steedos_tableau_workflow": "By Flow"
 }
