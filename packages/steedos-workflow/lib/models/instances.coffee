@@ -261,5 +261,18 @@ if Meteor.isServer
 	},{background: true})
 
 	db.instances._ensureIndex({
-		"keywords": 1
+		"keywords": 1,
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"space": 1,
+		"submit_date": 1,
+		"is_deleted": 1,
+		"final_decision": 1,
+		"state": 1
+	},{background: true})
+
+	db.instances._ensureIndex({
+		"traces.approves.type": 1,
+		"traces.approves.handler": 1
 	},{background: true})

@@ -1,4 +1,3 @@
-
 ###
    参数：
     username: (工作区管理员)登录名
@@ -7,7 +6,7 @@
     state: 申请单状态。值范围为：draft:草稿，pending：进行中，completed: 已完成。默认为completed
     approve: 是否返回审批信息true/false。默认为false
 ###
-JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
+JsonRoutes.add 'get', '/api/space/:space/organizations', (req, res, next) ->
 
 	try
 		user = Steedos.getAPILoginUser(req, res)
@@ -40,18 +39,6 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 				"success": false
 		return;
 
-	flowId = req.params.flow
-
-	flow = db.flows.findOne({_id: flow})
-
-	if !flow
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Invalid Flow",
-				"success": false
-		return;
-
 	if !Steedos.isSpaceAdmin(spaceId, user._id)
 		JsonRoutes.sendResult res,
 			code: 401,
@@ -60,48 +47,23 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 				"success": false
 		return;
 
-
-	#URL参数
-	states = req.query?.state?.split(",") || ["completed"]
-
-	returnApprove = false
-
-	if req.query?.approve
-		query_approve = req.query.approve.toLocaleLowerCase()
-
-		if query_approve == '1' || query_approve == 'true' || query_approve == 't'
-			returnApprove = true
-
 	query = {}
 
 	ret_sync_token = new Date().getTime()
 
-	query.flow = flowId
-
 	query.space = spaceId
 
-	query.final_decision = {$ne: "terminated"}
+	console.time("api_space_organizations")
 
-	if req.query?.sync_token
-		sync_token = new Date(Number(req.query.sync_token))
-		query.modified = {$gt: sync_token}
+	organizations = db.organizations.find({query}, {fields: {name:1, fullname: 1, is_company: 1, parents: 1, chidren: 1, users: 1, sort_no: 1}})
 
-	query.state = {$in: states}
-
-	fields = {inbox_uers: 0, cc_users: 0, outbox_users: 0}
-
-	if returnApprove
-		fields["traces.approves.values"] = 0
-	else
-		fields.traces = 0
-
-	instances = db.instances.find query, {fields: fields}
+	console.timeEnd("api_space_organizations")
 
 	JsonRoutes.sendResult res,
 		code: 200,
 		data:
 			"status": "success",
 			"sync_token": ret_sync_token
-			"data": instances.fetch()
+			"data": organizations.fetch()
 
 	return;
