@@ -3,6 +3,9 @@ Template.instance_list.helpers
 	instances: ->
 		return db.instances.find({}, {sort: {modified: -1}});
 
+	is_inbox: ->
+		return Session.get("box") == "inbox"
+
 	boxName: ->
 		if Session.get("box")
 			return t(Session.get("box"))
