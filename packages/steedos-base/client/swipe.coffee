@@ -70,7 +70,7 @@ Meteor.startup ->
 		)
 		$(selector).on("swipe", (event, options)->
 			event.stopPropagation()
-			if options.startEvnt.position.x < 20
+			if options.startEvnt.position.x < 40
 				isSwipeBacking = true
 		)
 		$(selector).on("swipeend", (event, options)->
