@@ -138,10 +138,10 @@ Template.instance_view.onRendered ->
 					preScrollTop = scrollTop
 			,100
 
-	if Steedos.isMobile()
-		Steedos.bindSwipeBackEvent(".instance-wrapper", (event,options)->
-			$(".btn-instance-back").trigger("click")
-		)
+	# if Steedos.isMobile()
+	# 	Steedos.bindSwipeBackEvent(".instance-wrapper", (event,options)->
+	# 		$(".btn-instance-back").trigger("click")
+	# 	)
 
 
 Template.instance_view.events

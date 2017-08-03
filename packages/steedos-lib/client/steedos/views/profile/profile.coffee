@@ -127,6 +127,10 @@ Template.profile.onRendered ->
 	if profileName
 		$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
+	# if Steedos.isMobile()
+	# 	Steedos.bindSwipeBackEvent(".admin-content", (event,options)->
+	# 		FlowRouter.go '/admin'
+	# 	)
 
 Template.profile.onCreated ->
 	@clearForm = ->
