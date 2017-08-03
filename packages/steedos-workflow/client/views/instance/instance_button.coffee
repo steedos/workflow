@@ -316,6 +316,18 @@ Template.instance_button.helpers
 
 		return false
 
+	enabled_submit: ()->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+
+		if InstanceManager.isInbox()
+			return true
+
+		return false
+
+	isMobile: ()->
+		return Steedos.isMobile()
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -480,3 +492,16 @@ Template.instance_button.events
 
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
+
+	'click .btn-instance-submit': (event, template) ->
+		nextStepOptions = InstanceManager.getNextStepOptions()
+		if nextStepOptions.length > 1
+			$(".instance-wrapper .instance-view").addClass("suggestion-active")
+			toastr.error TAPi18n.__("instance_select_next_step")
+			return
+		if ApproveManager.getNextStepUsersSelectValue().length == 0
+			$(".instance-wrapper .instance-view").addClass("suggestion-active")
+			toastr.error TAPi18n.__("instance_next_step_user")
+			return
+
+		$('#instance_submit').trigger('click')
