@@ -138,6 +138,12 @@ Template.instance_view.onRendered ->
 					preScrollTop = scrollTop
 			,100
 
+	if Steedos.isMobile()
+		Steedos.bindSwipeBackEvent(".instance-wrapper", (event,options)->
+			$(".btn-instance-back").trigger("click")
+		)
+
+
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);
