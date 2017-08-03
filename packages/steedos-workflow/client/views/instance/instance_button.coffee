@@ -494,14 +494,19 @@ Template.instance_button.events
 		Modal.show 'remind_modal', param
 
 	'click .btn-instance-submit': (event, template) ->
-		nextStepOptions = InstanceManager.getNextStepOptions()
-		if nextStepOptions.length > 1
-			$(".instance-wrapper .instance-view").addClass("suggestion-active")
-			toastr.error TAPi18n.__("instance_select_next_step")
-			return
-		if ApproveManager.getNextStepUsersSelectValue().length == 0
-			$(".instance-wrapper .instance-view").addClass("suggestion-active")
-			toastr.error TAPi18n.__("instance_next_step_user")
-			return
+		instance = WorkflowManager.getInstance()
+		if not InstanceManager.isCC(instance)
+			nextStepOptions = InstanceManager.getNextStepOptions()
+			if nextStepOptions.length > 1
+				$(".instance-wrapper .instance-view").addClass("suggestion-active")
+				toastr.error TAPi18n.__("instance_select_next_step")
+				return
+
+			nextStep = nextStepOptions[0]
+			if nextStep.type isnt 'end'
+				if ApproveManager.getNextStepUsersSelectValue().length == 0
+					$(".instance-wrapper .instance-view").addClass("suggestion-active")
+					toastr.error TAPi18n.__("instance_next_step_user")
+					return
 
 		$('#instance_submit').trigger('click')
