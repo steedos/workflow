@@ -86,13 +86,8 @@ var tabularOnRendered = function () {
       // Matters on the first run only.
       template.tabular.ready.set(true);
 
-      console.log('ajax');
-      console.log('template.tabular.recordsTotal', template.tabular.recordsTotal)
-      console.log('template.tabular.recordsFiltered', template.tabular.recordsFiltered)
-      if(template.tabular.recordsTotal === 0){
-        debugger;
-      }
-
+      // console.log('ajax');
+      
       callback({
         draw: data.draw,
         recordsTotal: template.tabular.recordsTotal,
