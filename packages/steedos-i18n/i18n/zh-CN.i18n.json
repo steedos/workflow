@@ -442,5 +442,6 @@
 	"space_users_user_accepted_no": "否",
 	"space_users_empty_phone": "空",
 	"YES": "是",
-	"NO": "否"
+	"NO": "否",
+	"username_unset_text": "您的账户尚未设置用户名，设置用户名后，可以使用用户名登录系统。"
 }

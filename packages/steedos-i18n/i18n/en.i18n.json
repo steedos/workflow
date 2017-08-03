@@ -423,5 +423,6 @@
 	"space_users_user_accepted_no": "NO",
 	"space_users_empty_phone": "Empty",
 	"YES": "YES",
-	"NO": "NO"
+	"NO": "NO",
+	"username_unset_text": "Your account has not yet set a user name, set the user name, you can use the user name to log on to the system."
 }

@@ -158,11 +158,9 @@ InstanceSignText.helpers =
 	steps: (field_formula, step, only_cc_opinion, image_sign)->
 		steps = []
 		if !step
-
 			if !field_formula
 				field_formula = WorkflowManager.getInstanceFormVersion()?.fields?.findPropertyByPK("code", this.name).formula
-
-			steps = InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula)
+			steps = InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula, Template.instance().data.top_keywords)
 		else
 			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
 		return steps
@@ -207,4 +205,4 @@ InstanceSignText.helpers =
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
 		locale = Template.instance().view.template.steedosData.locale
-		return Template.instance().data.default || TAPi18n.__("instance_default_opinion", {}, locale)
+		return Template.instance().data.default_description || TAPi18n.__("instance_default_opinion", {}, locale)

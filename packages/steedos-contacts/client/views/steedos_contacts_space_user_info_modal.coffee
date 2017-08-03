@@ -47,6 +47,34 @@ Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-edit': (event, template) ->
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
 
+	'click .btn-edit-username': (event, template) ->
+		username = template.username?.get()
+		user_id = event.currentTarget.dataset.id
+		unless user_id
+			return;
+		swal {
+			title: t('Change username')
+			type: "input"
+			inputValue: username || ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			if inputValue?.trim() == username?.trim()
+				swal.close()
+				return false;
+			Meteor.call "setUsername", inputValue?.trim(), user_id, (error, results)->
+				if results
+					template.username.set(results);
+					toastr.success t('Change username successfully')
+					swal.close()
+				if error
+					toastr.error(TAPi18n.__(error.error))
+
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
 			$("#steedos_contacts_space_user_info_modal .close").trigger("click")

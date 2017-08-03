@@ -3,7 +3,7 @@
         <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
         {{> instance_button}}
     </div>
-    <div class="instance-view">
+    <div class="instance-view {{get_priority_class}}">
         {{#if unequals 'draft' instance.state}}
             {{> instance_suggestion}}
         {{/if}}

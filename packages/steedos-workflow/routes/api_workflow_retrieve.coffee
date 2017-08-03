@@ -25,8 +25,10 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			)
 			previous_trace_step_id = previous_trace.step
 			previous_trace_name = previous_trace.name
-			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
-			previous_trace_approves = previous_trace.approves
+			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			previous_trace_approves = _.filter previous_trace.approves, (a)->
+				return a.type isnt 'cc' and a.type isnt 'distribute'
+
 			if previous_trace_approves.length isnt 1
 				throw new Meteor.Error('error', '当前用户不符合取回条件')
 			if previous_trace_approves[0].user isnt current_user

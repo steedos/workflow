@@ -521,10 +521,18 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 };
 
 //校验user是否对instance有查看权限：
-// 1 用户在submitter、applicant、outbox_users、inbox_users、cc_users、created_by、modified_by 中：return true;
-// 2 用户是流程管理员，监控员：return true;
-// 3 否则：return false;
+// 1 工作区管理员则返回true
+// 2 用户在submitter、applicant、outbox_users、inbox_users、cc_users、created_by、modified_by 中：return true;
+// 3 用户是流程管理员，监控员：return true;
+// 4 否则：return false;
 WorkflowManager.hasInstancePermissions = function(user, instance) {
+
+    if(user && instance){
+        var space = db.spaces.findOne({_id: instance.space});
+        if(space && space.admins && space.admins.includes(user._id)){
+            return true;
+        }
+    }
 
     var approvedUsers = _.union(instance.outbox_users, instance.inbox_users, instance.cc_users, [instance.submitter], [instance.applicant], [instance.created_by], [instance.modified_by]);
 

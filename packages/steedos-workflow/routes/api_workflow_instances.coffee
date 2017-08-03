@@ -44,7 +44,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 
 	flow = db.flows.findOne({_id: flow})
 
-	if !space
+	if !flow
 		JsonRoutes.sendResult res,
 			code: 401,
 			data:
