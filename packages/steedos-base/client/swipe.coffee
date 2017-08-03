@@ -9,6 +9,12 @@ Meteor.startup ->
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	$("body").on("swipe", (event,options)->
+		if options.direction != "left" and options.direction != "right"
+			return
+		else if options.direction == "right" and $("body").hasClass('sidebar-open')
+			return
+		else if options.direction == "left" and !$("body").hasClass('sidebar-open')
+			return
 		isSwiping = true
 		swipeStartTime = options.startEvnt.time
 	);
@@ -56,14 +62,19 @@ Meteor.startup ->
 	# 某些界面不需要左右滑动切换左侧sidebar功能，而需要向右滑动来触发返回上一界面功能
 	Steedos.bindSwipeBackEvent = (selector,fun)->
 		# 为阻止向右滑动打开左侧sidebar功能，需要同时阻止touchmove、swipe、swiperight事件冒泡
-		$(selector).on("touchmove", (event,options)->
+		$(selector).on("tapmove", (event,options)->
 			# swipe事件的event.stopPropagation功能，需要额外阻止touchmove事件冒泡来达到
 			event.stopPropagation()
 		)
 		$(selector).on("swipe", (event,options)->
 			event.stopPropagation()
 		)
-		$(selector).on("swiperight", (event,options)->
+		$(selector).on("swipeend", (event,options)->
 			event.stopPropagation()
-			fun(event,options)
+			if options.direction == "right"
+				fun(event,options)
 		)
+		# $(selector).on("swiperight", (event,options)->
+		# 	event.stopPropagation()
+			# fun(event,options)
+		# )
