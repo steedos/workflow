@@ -9,15 +9,11 @@ Meteor.startup ->
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	$("body").on("swipe", (event,options)->
-		unless $(options.startEvnt.target).closest(contentWrapperSelector).length
-			return
 		isSwiping = true
 		swipeStartTime = options.startEvnt.time
 	);
 	$("body").on("swipeend", (event,options)->
 		isSwiping = false
-		unless $(options.startEvnt.target).closest(contentWrapperSelector).length
-			return
 		$(sidebarSelector).css("transform","")
 		$(contentWrapperSelector).css("transform","")
 		action = ""
