@@ -212,8 +212,10 @@ Template.instance_button.helpers
 			_.each last_trace.approves, (ap)->
 				if ap.is_read is true
 					is_read = true
-			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
-			previous_trace_approves = previous_trace.approves
+			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			previous_trace_approves = _.filter previous_trace.approves, (a)->
+				return a.type isnt 'cc' and a.type isnt 'distribute'
+
 			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
 				return true
 		return false
