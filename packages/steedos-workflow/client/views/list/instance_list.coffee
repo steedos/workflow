@@ -16,7 +16,10 @@ Template.instance_list.helpers
 	selector: ->
 		unless Meteor.user()
 			return {_id: -1}
-		query = {space: Session.get("spaceId"), flow: Session.get("flowId")}
+		query = {space: Session.get("spaceId")}
+
+		if Session.get("flowId")
+			query.flow = Session.get("flowId")
 		box = Session.get("box")
 		if box == "inbox"
 			query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
