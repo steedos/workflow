@@ -17,7 +17,15 @@ recordsQHDRoutes = FlowRouter.group
 # 		this.register 'categories', Meteor.subscribe("categories", params.spaceId)
 # 		this.register 'forms', Meteor.subscribe("forms", params.spaceId)
 # 		this.register 'flows', Meteor.subscribe("flows", params.spaceId)
+recordsQHDRoutes.route '/',
+	action: (params, queryParams)->
+		FlowRouter.go '/tableau/info'
 
+recordsQHDRoutes.route '/info',
+	action: (params, queryParams)->
+#		Steedos.setSpaceId(params.spaceId)
+		BlazeLayout.render 'adminLayout',
+			main: "tableau_info"
 
 recordsQHDRoutes.route '/workflow',
 	action: (params, queryParams)->

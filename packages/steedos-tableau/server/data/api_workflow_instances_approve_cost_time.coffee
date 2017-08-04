@@ -40,13 +40,13 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 				"success": false
 		return;
 
-	if !Steedos.isSpaceAdmin(spaceId, user._id)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- No permission",
-				"success": false
-		return;
+#	if !Steedos.isSpaceAdmin(spaceId, user._id)
+#		JsonRoutes.sendResult res,
+#			code: 401,
+#			data:
+#				"error": "Validate Request -- No permission",
+#				"success": false
+#		return;
 
 
 	#URL参数
