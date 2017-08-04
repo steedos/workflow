@@ -552,7 +552,7 @@ TemplateHelpers =
 
 	cordovaDownload: (url, filename, rev, length) ->
 		$(document.body).addClass 'loading'
-		fileName = rev + '-' + filename
+		# fileName = rev + '-' + filename
 		size = length
 		if typeof length == 'string'
 			size = length.to_float()
