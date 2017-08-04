@@ -68,7 +68,9 @@
 											{{#if isPrimaryOrg _id}}
 												<span class="badge">主部门</span>
 											{{else}}
-												<button class="btn btn-default btn-xs btn-set-primary hide" data-id="{{_id}}">{{_ "btn_set_primary_title"}}</button>
+												{{#if isEditable}}
+													<button class="btn btn-default btn-xs btn-set-primary hide" data-id="{{_id}}">{{_ "btn_set_primary_title"}}</button>
+												{{/if}}
 											{{/if}}
 										</div>
 									{{/each}}
