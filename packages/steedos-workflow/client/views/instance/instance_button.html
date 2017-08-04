@@ -3,15 +3,15 @@
 		<button type="button" class="btn btn-default btn-instance-back hidden"><i class="ion ion-chevron-left"></i>
 			<span>{{_ 'back'}}</span>
 		</button>
-		&nbsp;&nbsp;&nbsp;&nbsp;
 		{{#if enabled_submit}}
+			&nbsp;&nbsp;&nbsp;&nbsp;
 			<button type="button" class="btn btn-primary btn-instance-submit" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="fa fa-paper-plane"></i>
 				<span>{{_ 'Send'}}</span>
 			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
 		{{/if}}
-		&nbsp;&nbsp;&nbsp;&nbsp;
 		{{#if enabled_cc}}
 			<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom">
 				<i class=" fa fa-user-plus" aria-hidden="true"></i>
