@@ -87,7 +87,7 @@ var tabularOnRendered = function () {
       template.tabular.ready.set(true);
 
       // console.log('ajax');
-
+      
       callback({
         draw: data.draw,
         recordsTotal: template.tabular.recordsTotal,
@@ -117,7 +117,6 @@ var tabularOnRendered = function () {
   // Reactively determine table columns, fields, and searchFields.
   // This will rerun whenever the current template data changes.
   var lastTableName;
-  var lastTablePub;
   template.autorun(function () {
     var data = Template.currentData();
 
@@ -140,7 +139,7 @@ var tabularOnRendered = function () {
     // attribute. If we didn't change it, we can stop here,
     // but we need to reload the table if this is not the first
     // run
-    if (tabularTable.name === lastTableName  || tabularTable.pub === lastTablePub) {
+    if (tabularTable.name === lastTableName) {
       if (table) {
         // passing `false` as the second arg tells it to
         // reset the paging
@@ -160,7 +159,6 @@ var tabularOnRendered = function () {
 
     // Cache this table name as the last table name for next run
     lastTableName = tabularTable.name;
-    lastTablePub = tabularTable.pub;
 
     // Figure out and update the columns, fields, and searchFields
     tableInit(tabularTable, template);
@@ -186,6 +184,7 @@ var tabularOnRendered = function () {
     if (table) {
       // passing `true` as the second arg tells it to
       // reset the paging
+      console.log("ajax.reload...")
       table.ajax.reload(null, true);
     }
   });
