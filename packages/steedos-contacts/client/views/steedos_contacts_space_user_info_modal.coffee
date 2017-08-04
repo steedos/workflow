@@ -10,18 +10,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	isPrimaryOrg: (id)->
 		spaceUser = db.space_users.findOne Template.instance().data.targetId;
-		debugger
 		return spaceUser?.organization == id
-
-	# orgList: ->
-	# 	spaceUser = db.space_users.findOne this.targetId;
-	# 	orgs = []
-	# 	if spaceUser
-	# 		orgs = SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
-	# 	debugger
-	# 	orgList = orgs.map (org, index) ->
-	# 		return "<div class='user-org' data-id='#{org._id}'>#{org.fullname}<span class='badge'>主部门</span></div>"
-	# 	return orgList.join("")
 
 	spaceUserInfo: ->
 		info = ""
