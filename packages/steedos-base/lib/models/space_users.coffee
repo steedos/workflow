@@ -157,8 +157,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can insert space_users
 		if space.admins.indexOf(userId) < 0
-			# 要添加用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
+			# 要添加用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -219,13 +219,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can update space_users
 		if space.admins.indexOf(userId) < 0
-			# 要修改用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
-			unless isOrgAdmin
-				throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
-			# 变更组织时，需要变更后所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds modifier.$set.organizations,userId
+			# 要修改用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -382,8 +377,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can remove space_users
 		if space.admins.indexOf(userId) < 0
-			# 要删除用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
+			# 要删除用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
