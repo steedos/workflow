@@ -550,13 +550,20 @@ TemplateHelpers =
 			return true
 		false
 
-	androidDownload: (url, filename, rev, length) ->
+	cordovaDownload: (url, filename, rev, length) ->
 		$(document.body).addClass 'loading'
 		fileName = rev + '-' + filename
 		size = length
 		if typeof length == 'string'
 			size = length.to_float()
-		window.resolveLocalFileSystemURL cordova.file.externalCacheDirectory, ((directoryEntry) ->
+
+		directory = ""
+		if Steedos.isAndroidApp()
+			directory = cordova.file.externalCacheDirectory
+		else
+			directory = cordova.file.cacheDirectory
+
+		window.resolveLocalFileSystemURL directory, ((directoryEntry) ->
 			directoryEntry.getFile fileName, {
 				create: true
 				exclusive: false
@@ -604,6 +611,9 @@ TemplateHelpers =
 		unless name
 			return true
 		return name == "normal"
+
+	isCordova: ()->
+		return Meteor.isCordova
 
 _.extend Steedos, TemplateHelpers
 
