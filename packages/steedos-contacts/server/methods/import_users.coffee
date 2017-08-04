@@ -216,7 +216,7 @@ Meteor.methods
 				if user_pk == 'username'
 					if item.email
 						su_update_doc.email = item.email
-						u_update_doc.steedos_id = item.email
+#						u_update_doc.steedos_id = item.email
 
 						if user.emails
 							_address = user.emails.filterProperty("address", item.email)
