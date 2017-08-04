@@ -271,7 +271,7 @@ if Meteor.isServer
 		else
 			parents = _.flatten parents
 			parents = _.uniq parents
-			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:userId})
 				isOrgAdmin = true
 		return isOrgAdmin
 
