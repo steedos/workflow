@@ -3,16 +3,21 @@
 		<button type="button" class="btn btn-default btn-instance-back hidden"><i class="ion ion-chevron-left"></i>
 			<span>{{_ 'back'}}</span>
 		</button>
-		{{#if isMobile}}
-			{{#if enabled_submit}}
-				<button type="button" class="btn btn-primary btn-instance-submit" data-toggle="tooltip"
-						data-placement="bottom">
-					<i class="fa fa-paper-plane"></i>
-					<span>{{_ 'Send'}}</span>
-				</button>
-			{{/if}}
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		{{#if enabled_submit}}
+			<button type="button" class="btn btn-primary btn-instance-submit" data-toggle="tooltip"
+					data-placement="bottom">
+				<i class="fa fa-paper-plane"></i>
+				<span>{{_ 'Send'}}</span>
+			</button>
 		{{/if}}
-		
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		{{#if enabled_cc}}
+			<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom">
+				<i class=" fa fa-user-plus" aria-hidden="true"></i>
+				<span>{{_ 'instance_cc_title'}}</span>
+			</button>
+		{{/if}}
 		{{#if enabled_suggest}}
 			<button type="button" class="btn btn-default btn-suggestion-toggle" data-toggle="tooltip"
 					data-placement="bottom">
@@ -68,7 +73,6 @@
 				<span>{{_ 'instance_approval_history'}}</span>
 			</button>
 		{{/if}}
-		
 		{{#if enabled_return}}
 			<button type="button" class="btn btn-default btn-instance-return" data-toggle="tooltip" data-placement="bottom" >
 				<i class="ion ion-reply"></i>
@@ -120,23 +124,6 @@
 			<i class="ion ion-network"></i>
 			<span>{{_ 'workflow_chart'}}</span>
 		</button>
-		{{#unless isMobile}}
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			{{#if enabled_cc}}
-				<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom">
-					<i class=" fa fa-user-plus" aria-hidden="true"></i>
-					<span>{{_ 'instance_cc_title'}}</span>
-				</button>
-			{{/if}}
-			&nbsp;
-			{{#if enabled_submit}}
-				<button type="button" class="btn btn-primary btn-instance-submit" data-toggle="tooltip"
-						data-placement="bottom">
-					<i class="fa fa-paper-plane"></i>
-					<span>{{_ 'Send'}}</span>
-				</button>
-			{{/if}}
-		{{/unless}}
 	</div>
 	<div class="pull-right">
 		<div class="btn-group">
@@ -145,6 +132,10 @@
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
+				{{#if enabled_cc}}
+					<li><a class="btn-instance-cc"><i class="fa fa-user-plus" aria-hidden="true"></i>{{_
+							'instance_cc_title'}}</a></li>
+				{{/if}}
 				{{#if enabled_save}}
 					<li><a class="btn-instance-update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
 				{{/if}}
@@ -169,10 +160,6 @@
 				{{#if enabled_traces}}
 					<li><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_
 							'instance_approval_history'}}</a></li>
-				{{/if}}
-				{{#if enabled_cc}}
-					<li><a class="btn-instance-cc"><i class="fa fa-user-plus" aria-hidden="true"></i>{{_
-							'instance_cc_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_return}}
 					<li><a class="btn-instance-return"><i class="ion ion-reply" aria-hidden="true"></i>{{_
