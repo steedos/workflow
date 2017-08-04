@@ -194,7 +194,9 @@ if (Meteor.isServer)
 			throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
 		if doc.organizations && doc.organizations.length > 0
-			doc.organization = doc.organizations[0]
+			# 如果主组织未设置或设置的值不在doc.organizations内，则自动设置为第一个组织
+			unless doc.organizations.includes doc.organization
+				doc.organization = doc.organizations[0]
 
 	db.space_users.after.insert (userId, doc) ->
 		if doc.organizations
@@ -243,7 +245,9 @@ if (Meteor.isServer)
 				throw new Meteor.Error(400, "space_users_error_user_readonly");
 
 		if modifier.$set.organizations && modifier.$set.organizations.length > 0
-			modifier.$set.organization = modifier.$set.organizations[0]
+			# 修改所有组织且修改后的组织不包含原主组织，则把主组织自动设置为第一个组织
+			unless modifier.$set.organizations.includes doc.organization
+				modifier.$set.organization = modifier.$set.organizations[0]
 
 		newMobile = modifier.$set.mobile
 		if  newMobile != doc.mobile
