@@ -1,4 +1,6 @@
 {
 	"steedos_tableau": "Tableau",
-	"steedos_tableau_workflow": "By Flow"
+	"steedos_tableau_workflow": "Flow List",
+	"steedos_tableau_info": "Steedos Tableau",
+	"steedos_tableau_url_copy_success": "Tableau Web Data Connector has been copied."
 }

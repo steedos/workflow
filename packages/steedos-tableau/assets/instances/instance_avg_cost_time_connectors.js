@@ -6,7 +6,7 @@
 	var instancesConnector = tableau.makeConnector();
 
 	instancesConnector.init = function (initCallback) {
-		tableau.authType = tableau.authTypeEnum.basic;
+		// tableau.authType = tableau.authTypeEnum.basic;
 		initCallback();
 	}
 
@@ -124,46 +124,9 @@
 
 	tableau.registerConnector(instancesConnector);
 
-	loginWithPassword = function (username, password) {
-
-		data = {email: username, password: password}
-
-		if(username.indexOf('@') == -1){
-			data = {user: username, password: password}
-		}
-
-		login = $.ajax({
-			url: '/steedos/api/login',
-			type: 'POST',
-			async: false,
-			data: data
-		});
-
-		if(login.status != 200){
-			return false
-		}else{
-			return login.responseJSON.data
-		}
-	}
-
 // Create event listeners for when the user submits the form
 	$(document).ready(function () {
 		$("#submitButton").click(function () {
-
-			$(".help-block").html("")
-
-			var username = $("#username").val();
-			if (!username) {
-				$(".help-block").html("请填写账户")
-				return;
-			}
-
-			var password = $("#password").val();
-
-			if (!password) {
-				$(".help-block").html("请填写密码")
-				return;
-			}
 
 			var connName = $("#connName").val();
 
@@ -176,18 +139,6 @@
 				$(".help-block").html("请选择部门")
 				return;
 			}
-
-			var authData = loginWithPassword(username, password);
-
-			if(!authData){
-				$(".help-block").html("用户名或密码错误")
-				return;
-			}
-
-			tableau.connectionData = JSON.stringify(authData)
-
-			tableau.username = 'test';
-			tableau.password = 'test';
 
 			setupConnector();
 			tableau.connectionName = connName; // This will be the data source name in Tableau
