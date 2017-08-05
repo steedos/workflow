@@ -22,10 +22,10 @@
 
 				<li class="inbox {{boxActive 'inbox'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
-						<i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
+						<i class="ion ion-archive"></i>
+						<span>{{_ "inbox"}}</span>
 						<span class="pull-right-container">
 							<span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
-							<!--<i class="fa fa-angle-left pull-right"></i>-->
 						</span>
 					</a>
 					{{#if hasInbox}}
@@ -62,7 +62,8 @@
 
 				<li class="mybox">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">
-						<i class="ion ion-ios-folder-outline"></i><span>{{_ "my_instances"}}</span>
+						<i class="ion ion-ios-folder-outline"></i>
+						<span>{{_ "my_instances"}}</span>
 					</a>
 					<ul class="treeview-menu menu-open" style="display: block;">
 						<li class="instance_new">
