@@ -7,6 +7,8 @@ Template.instance_attachments.onCreated(function() {
 
 Template.instance_attachments.onRendered(function() {
 
+	self = this;
+
 	var ins = WorkflowManager.getInstance();
 	if (!ins)
 		self.workflowMainAttachTitle.set(true);
