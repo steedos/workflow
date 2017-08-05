@@ -9,6 +9,8 @@ Meteor.startup ->
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	$("body").on("swipe", (event, options)->
+		unless $(".main-sidebar").length
+			return
 		if options.direction != "left" and options.direction != "right"
 			return
 		else if options.direction == "right" and $("body").hasClass('sidebar-open')
