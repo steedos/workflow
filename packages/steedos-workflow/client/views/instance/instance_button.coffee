@@ -466,7 +466,12 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-trace-list': (event, template) ->
-		$(".instance").scrollTop($(".instance .instance-form").height())
+		ins = WorkflowManager.getInstance();
+		if InstanceManager.isTableStyle(ins.form)
+			$("body").addClass("loading")
+			Modal.show("traces_table_modal")
+		else
+			$(".instance").scrollTop($(".instance .instance-form").height())
 
 	'click .li-instance-readonly-view-url-copy': (event, template)->
 		$(".btn-instance-readonly-view-url-copy").click();
