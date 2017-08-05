@@ -63,9 +63,17 @@
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted">
 								<span class="weui-input">
-								{{#each spaceUserOrganizations}}
-									<div class="user-org">{{fullname}}</div>
-								{{/each}}
+									{{#each spaceUserOrganizations}}
+										<div class="user-org-item">{{fullname}} 
+											{{#if isPrimaryOrg _id}}
+												<span class="badge">主部门</span>
+											{{else}}
+												{{#if isEditable}}
+													<button class="btn btn-default btn-xs btn-set-primary hide" data-id="{{_id}}">{{_ "btn_set_primary_title"}}</button>
+												{{/if}}
+											{{/if}}
+										</div>
+									{{/each}}
 								</span>
 							</div>
 						</div>
