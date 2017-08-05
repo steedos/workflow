@@ -147,6 +147,17 @@
 		bottom: 0px;
 		left: 0px;
 		right: 0px;
+
+		.instance-suggestion-close{
+			position: absolute;
+			right: 5px;
+			z-index: 666;
+			.btn{
+				color: #999;
+				font-size: 21px;
+			}
+		}
+
 		.btn-suggestion-toggle{
 			z-index: 999;
 			position: absolute;
@@ -176,6 +187,14 @@
 			-moz-animation: bs linear 2s 1.5s infinite;
 			animation: bs linear 3s 1.5s infinite;*/
 		}
+
+		.txt-suggestion-toggle{
+			width: 57px;
+			height: 57px;
+			border-radius: 57px;
+			font-size: 16px;
+		}
+
 		.instance-suggestion {
 			position:absolute;
 			right:0;
@@ -188,7 +207,8 @@
 			padding: 0 4px;
 			margin-bottom:0px;
 			/*box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.5);*/
-			box-shadow: 0 4px 4px -4px black inset;
+			/*box-shadow: 0 4px 4px -4px black inset;*/
+			box-shadow: 0 -5px 30px -12px rgba(0, 0, 0, 0.42), 0 -2px 25px 0px rgba(0, 0, 0, 0.12), 0 -4px 10px -5px rgba(0, 0, 0, 0.2);
 			overflow-y: auto;
 			overflow-x: hidden;
 			max-height: 100%;
@@ -208,12 +228,12 @@
 				padding: 4px 8px;
 				margin: -40px 4px;
 			}
-			.btn-remove {
-				color: #999;
-			}
-			.btn-remove:hover {
-				color: #666;
-			}
+			//.btn-remove {
+			//	color: #999;
+			//}
+			//.btn-remove:hover {
+			//	color: #666;
+			//}
 			.instance-suggestion-next-steps{
 				border: solid 1px #ccc;
 				background: #fff;

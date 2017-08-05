@@ -188,6 +188,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/traces.js', 'client');
 	api.addFiles('client/views/instance/traces_table.html', 'client');
 	api.addFiles('client/views/instance/traces_table.js', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.less', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.html', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.coffee', 'client');
 
 	api.addAssets('client/views/instance/traces.html', 'server');
 	api.addAssets('client/views/instance/traces_table.html', 'server');

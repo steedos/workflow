@@ -98,7 +98,7 @@ Template.instance_attachment.helpers({
 					var step = WorkflowManager.getInstanceStep(t.step);
 					if (current.metadata.main == true) {
 						if (step && step.can_edit_main_attach == true) {
-							if (current.metadata.owner == Meteor.userId() && ins.state == "draft")
+							if (current.metadata.owner == Meteor.userId())
 								can_remove_attach = true;
 						}
 					} else {

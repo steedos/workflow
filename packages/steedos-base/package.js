@@ -89,6 +89,8 @@ Package.onUse(function (api) {
 		'client/layout/layout.less',
 		'client/layout/header_logo.html',
 		'client/layout/header_logo.coffee',
+		'client/layout/header_space.html',
+		'client/layout/header_space.coffee',
 		'client/layout/header_refresh.html',
 		'client/layout/header_refresh.coffee',
 		'client/layout/header_loading.html',
