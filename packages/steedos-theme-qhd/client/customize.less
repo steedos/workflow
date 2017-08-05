@@ -1,12 +1,21 @@
-
-@media (max-width: 767px) {
-    .instance-list-wrapper{
-        .navigation-bar{
-            .instance_new{
-                display: none !important;
+.instance-list-wrapper{
+    .navigation-bar{
+        button[data-toggle=offcanvas]{
+            display: none !important;
+        }
+        .instance_new{
+            display: none !important;
+        }
+        .navigation-title{
+            .dropdown-toggle{
+                i{
+                    display: none !important;
+                }
             }
         }
     }
+}
+@media (max-width: 767px) {
     .main-sidebar{
         .sidebar-menu{
             .instance_new, .header-my-instances, .draft, .pending, .completed{
