@@ -8,6 +8,10 @@ Template.steedos_contacts_space_user_info_modal.helpers
 			return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 		return []
 
+	isPrimaryOrg: (id)->
+		spaceUser = db.space_users.findOne Template.instance().data.targetId;
+		return spaceUser?.organization == id
+
 	spaceUserInfo: ->
 		info = ""
 		spaceUser = db.space_users.findOne this.targetId, {fields: {name: 1, email: 1, position: 1, mobile: 1, work_phone: 1, organizations: 1}};
@@ -78,6 +82,16 @@ Template.steedos_contacts_space_user_info_modal.events
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
 			$("#steedos_contacts_space_user_info_modal .close").trigger("click")
+
+	'click .btn-set-primary': (event, template) ->
+		$("body").addClass("loading")
+		spaceUserId = template.data.targetId
+		orgId = event.currentTarget.dataset.id
+		Meteor.call "set_primary_org", orgId, spaceUserId, (error, results)->
+			$("body").removeClass("loading")
+			if error
+				toastr.error(TAPi18n.__(error.reason))
+
 
 
 Template.steedos_contacts_space_user_info_modal.onRendered ()->

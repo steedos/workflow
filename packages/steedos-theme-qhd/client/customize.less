@@ -63,19 +63,34 @@
 	.login .main-header{
 		display:none;
 	}
-	.steedos.login .at-form .at-title h3{
-		font-size: 25px!important;
-		color: #fff;
-		text-shadow: 1px 1px 1px #333;
-	}
-	.steedos.login .at-form img.logo{
-		height: 80px;
-		margin-bottom: 12px;
-		box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.35);
-	}
-	.steedos.login .at-form .at-pwd-form .btn-primary{
-		background-color: #0090ff;
-		border-color: #367fa9;
+	.steedos.login{
+		.at-form{
+			.at-title h3{
+				font-size: 23px!important;
+				color: #fff;
+				text-shadow: 1px 1px 1px #333;
+				margin-bottom: 55px;
+				@media (max-width: 767px) {
+					margin-bottom: 0px;
+				}
+			}
+			img.logo{
+				height: 80px;
+				@media (max-width: 767px) {
+					height: 74px;
+				}
+				margin-bottom: 12px;
+				box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.35);
+			}
+			.at-pwd-form{
+				.btn-primary{
+					padding: 8px!important;
+				}
+				.form-group input{
+					height: 42px;
+				}
+			}
+		}
 	}
 	.change-username-box{
 		display: none;

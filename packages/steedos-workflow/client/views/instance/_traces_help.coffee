@@ -117,8 +117,8 @@ TracesTemplate.helpers =
 
 	myApproveDescription: (approveId)->
 		if Meteor.isClient
-			if InstanceManager.isInbox()
-				myApprove = InstanceManager.getCurrentApprove()
+			if Session.get("box") == 'inbox'
+				myApprove = Template.instance()?.myApprove?.get()
 				if myApprove && myApprove.id == approveId
 					return Session.get("instance_my_approve_description") || myApprove?.description || ""
 	isForward: (approved) ->

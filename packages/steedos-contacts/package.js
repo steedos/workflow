@@ -75,6 +75,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/check_org_admin.coffee', 'server');
 	api.addFiles('server/methods/import_users.coffee', 'server');
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
+	api.addFiles('server/methods/set_primary_org.coffee', 'server');
 
 	api.addFiles('server/routes/contacts.coffee', 'server');
 
