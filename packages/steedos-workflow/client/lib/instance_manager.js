@@ -14,6 +14,17 @@ InstanceManager.runFormula = function(fieldCode) {
 	});
 }
 
+InstanceManager.isTableStyle = function (formId) {
+
+	if(Steedos.isMobile()){
+		return false;
+	}
+
+	form = WorkflowManager.getForm(formId);
+	if(form && form.instance_style == 'table')
+		return true
+	return false;
+}
 
 InstanceManager.getFormField = function(fieldId) {
 	var instanceFields = WorkflowManager.getInstanceFields();
