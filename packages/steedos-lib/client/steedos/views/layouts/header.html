@@ -15,14 +15,19 @@
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
+					<li class="notifications-menu">
+						<a href="/" data-toggle="tooltip" data-placement="bottom" title="{{_ "steedos_home"}}">
+							<i class="ion ion-ios-home-outline"></i>
+						</a>
+					</li>
 					{{> headerLoading}}
 					{{> headerRefresh}}
 					{{> headerWorkflowBadge}}
 					{{> headerCmsBadge}}
 					{{> headerAccount}}
-					<li>
+					<!-- <li>
 						<a href="/admin">{{_ "Steedos Admin"}}</a>
-					</li>
+					</li> -->
 					<li class="li-help">
 						<a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
 					</li>
