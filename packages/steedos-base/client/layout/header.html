@@ -1,25 +1,26 @@
 <template name="steedosHeader">
-  <header class="main-header">
-    {{> steedosHeaderLogo}}
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Navbar Left Menu -->
-      <ul class="nav navbar-nav">
-        <li class="appName">
-          <a href="/{{getAppName}}">
-            {{getAppTitle}}
-          </a>
-        </li>
-      </ul>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          {{> headerLoading}}
-          {{> headerRefresh}}
-          {{> steedosHeaderAccount}}
-        </ul>
-      </div>
-    </nav>
-  </header>
+	<header class="main-header">
+		{{> steedosHeaderLogo}}
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top">
+			<!-- Navbar Left Menu -->
+			<ul class="nav navbar-nav">
+				{{> steedosHeaderSpace}}
+				<li class="appName">
+					<a href="/{{getAppName}}">
+						{{getAppTitle}}
+					</a>
+				</li>
+			</ul>
+			<!-- Navbar Right Menu -->
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					{{> headerLoading}}
+					{{> headerRefresh}}
+					{{> steedosHeaderAccount}}
+				</ul>
+			</div>
+		</nav>
+	</header>
 
 </template>
