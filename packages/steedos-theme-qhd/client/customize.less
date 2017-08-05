@@ -16,10 +16,19 @@
     }
 }
 @media (max-width: 767px) {
-    .main-sidebar{
-        .sidebar-menu{
-            .instance_new, .header-my-instances, .draft, .pending, .completed{
-                display: none !important;
+    .workflow{
+        .instance-list-wrapper{
+            .navigation-bar{
+                button[data-toggle=offcanvas]{
+                    display: inline !important;
+                }
+            }
+        }
+        .main-sidebar{
+            .sidebar-menu{
+                .mybox{
+                    display: none !important;
+                }
             }
         }
     }
