@@ -34,14 +34,16 @@ if Meteor.isClient
 			if url == avatar
 				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl('api/files/avatars/' + avatar)})"
 			else
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(url)})"
+				# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
+				$("body").css "backgroundImage","url(#{url})"
 		else
+			# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
 			background = Meteor.settings?.public?.admin?.background
 			if background
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
+				$("body").css "backgroundImage","url(#{background})"
 			else
 				background = "/packages/steedos_theme/client/background/flower.jpg"
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
+				$("body").css "backgroundImage","url(#{background})"
 
 		if isNeedToLocal
 			if Meteor.loggingIn()

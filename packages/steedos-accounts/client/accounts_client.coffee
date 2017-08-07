@@ -1,10 +1,18 @@
 Setup.validate = (cb)->
+	userId = Accounts._storedUserId()
+	loginToken = Accounts._storedLoginToken()
+	requestData = {}
+	if userId and loginToken
+		requestData = 
+			"X-User-Id": userId
+			"X-Auth-Token": loginToken
 
 	$.ajax
 		type: "POST",
 		url: Steedos.absoluteUrl("api/setup/validate"),
 		contentType: "application/json",
 		dataType: 'json',
+		data: JSON.stringify(requestData),
 		xhrFields: 
 			withCredentials: true
 		crossDomain: true
