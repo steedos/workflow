@@ -477,13 +477,8 @@ pushManager.send_message = (steedos_ids, body, current_user_info)->
 
 	pushManager.send_to_imo(steedos_ids, body, current_user_info) if body
 
+#通知服务
 pushManager.send_instance_notification = (send_from, instance, description, current_user_info, cc_user_ids)->
-	Meteor.call "_send_instance_notification", send_from, instance, description, current_user_info, cc_user_ids
-	return ;
-
-Meteor.methods
-	#通知服务
-	_send_instance_notification: (send_from, instance, description, current_user_info, cc_user_ids)->
 		Meteor.defer ()->
 			try
 				space_id = instance.space
