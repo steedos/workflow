@@ -381,10 +381,11 @@ InstanceformTemplate.helpers =
 		if InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
 			if field_formula
 
-				foo1 = field_formula.split(",")
+#				foo1 = field_formula.split(",")
+				foo1 = field_formula.split(";")
 
-				if top_keywords
-					foo1 = field_formula.split(";")
+#				if top_keywords
+#					foo1 = field_formula.split(";")
 
 				foo1.forEach (foo)->
 					json_formula = false
