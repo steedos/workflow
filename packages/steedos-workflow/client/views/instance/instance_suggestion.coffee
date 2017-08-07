@@ -228,6 +228,24 @@ Template.instance_suggestion.helpers
 
 		return t("instance_cc_title")
 
+	gt: (a, b)->
+		return a > b;
+
+	opinionFields: ->
+		currentApprove = InstanceManager.getCurrentApprove()
+		opinionFields = _.filter(form_version.fields, (field) ->
+			if currentApprove.type == 'cc'
+				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
+			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0
+		)
+
+		opinionFields.forEach (field) ->
+			field.name = field.name || field.code
+
+			field._checked = currentApprove?.sign_field_code == field.code
+
+		return opinionFields
+
 
 Template.instance_suggestion.events
 
@@ -299,6 +317,12 @@ Template.instance_suggestion.events
 		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
 
+	'change #opinion_fields_code': (event, template)->
+		console.log("change opinion_fields_code")
+
+		myApprove = InstanceManager.getCurrentApprove()
+
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, event.target.value, $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove()
 
 
 Template.instance_suggestion.onCreated ->

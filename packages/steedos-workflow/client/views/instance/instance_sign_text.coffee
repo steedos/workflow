@@ -11,3 +11,8 @@ Template.instanceSignText.events
 		
 Template.instanceSignText.onDestroyed ->
 	Session.set("instance_my_approve_description", null)
+
+Template.instanceSignText.onCreated ()->
+	self = this
+	myApprove = InstanceManager.getCurrentApprove()
+	self.myApprove = new ReactiveVar(myApprove)

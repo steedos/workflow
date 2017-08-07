@@ -17,9 +17,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                             {{#if isCC}}
-                                {{#unless isMobile}}
-                                    <label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
-                                {{/unless}}
+								{{#if (gt opinionFields.length 1)}}
+									<label>{{_ "instance_cc_title"}}&nbsp;:&nbsp;&nbsp;</label>
+									{{#each opinionFields}}
+										<label class="radio-inline">
+											<input type='radio' name='opinion_fields_code' value="{{code}}" id="opinion_fields_code" checked="{{#if _checked}}checked{{/if}}"/>{{name}}
+										</label>
+									{{/each}}
+								{{else}}
+									<label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
+								{{/if}}
                             {{else}}
                                 <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
                                 {{#if includes currentStep.step_type 'sign,counterSign'}}
@@ -58,7 +65,7 @@
 							{{#if isMobile}}
 								<button type="button" class="btn btn-default btn-transparent pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-ios-list-outline"></i></button>
 							{{else}}
-								<button type="button" class="btn btn-default btn-transparent pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}">{{_ 'instance_opinion_title'}}</button>
+								<button type="button" class="btn btn-default btn-transparent pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}">{{{_ 'instance_opinion_btn'}}}</button>
 							{{/if}}
 
                             <span class="help-block"></span>
