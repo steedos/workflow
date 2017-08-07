@@ -73,6 +73,9 @@ Template.workflowSidebar.helpers
 		userId = Meteor.userId()
 		return db.instances.find({state:"draft",space:spaceId,submitter:userId,$or:[{inbox_users: {$exists:false}}, {inbox_users: []}]}).count()
 
+	selected_flow: ()->
+		return Session.get("flowId")
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
