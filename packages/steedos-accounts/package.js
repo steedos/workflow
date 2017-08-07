@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.14',
+	version: '0.0.15',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
