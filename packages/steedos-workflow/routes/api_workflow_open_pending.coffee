@@ -46,14 +46,11 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 					space: space_id,
 					state: "pending"
 				}, {limit: limit}).fetch()
-
 			_.each find_instances, (i)->
-				flow = db.flows.findOne(i["flow"])
-				space = db.spaces.findOne(i["space"])
+				flow = db.flows.findOne(i["flow"], {fields: {name: 1}})
+				space = db.spaces.findOne(i["space"], {fields: {name: 1}})
 				return if not flow
-
 				current_trace;
-
 				if i.inbox_users?.includes(user_id)
 					current_trace = _.find i["traces"], (t)->
 						return t["is_finished"] is false
@@ -62,11 +59,8 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 						t?.approves?.forEach (approve)->
 							if approve.user == user_id && approve.type == 'cc' && !approve.is_finished
 								current_trace = t
-
-
-				step = uuflowManager.getStep(i, flow, current_trace?.step)
-
 				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
+
 				if approves?.length > 0
 					approve = approves[0]
 					is_read = approve.is_read
@@ -79,9 +73,9 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["applicant_name"] = i["applicant_name"]
 				h["applicant_organization_name"] = i["applicant_organization_name"]
 				h["submit_date"] = i["submit_date"]
-				h["step_name"] = step?.name
+				h["step_name"] = current_trace?.name
 				h["space_id"] = space_id
-				h["modified"] = moment(i["modified"]).format('YYYY-MM-DD HH:mm')
+				h["modified"] = i["modified"]
 				h["is_read"] = is_read
 				h["values"] = i["values"]
 				result_instances.push(h)
