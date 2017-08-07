@@ -76,6 +76,8 @@ Template.workflowSidebar.helpers
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
+		event.stopPropagation()
+		event.preventDefault()
 		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"))
