@@ -202,6 +202,7 @@ Template.profile.events
 			else
 				$(document.body).removeClass('loading')
 				swal t("primary_email_updated"), "", "success"
+				$('#newEmail').val("")
 
 	'click .fa-trash-o': (event, template)->
 		email = event.target.dataset.email
@@ -243,6 +244,24 @@ Template.profile.events
 			else
 				$(document.body).removeClass('loading')
 				swal t("email_set_primary_success"), "", "success"
+
+	'click .remove-email': (event, template)->
+		email = this.address
+		swal {
+			title: t("Are you sure?"),
+			text: email,
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: t('Cancel'),
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t('OK'),
+			closeOnConfirm: false
+		}, () ->
+			Meteor.call "users_remove_email", email, (error, result)->
+				if result?.error
+					toastr.error t(result.message)
+				else
+					swal t("email_remove_success"), email, "success"
 
 	'click #personalization .bg-body-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset

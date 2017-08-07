@@ -18,7 +18,7 @@ Steedos.Helpers =
 	# 根据当前路由路径前缀，得到当前所属app名字
 	getAppName: (path)->
 		unless path
-			path = location.pathname
+			path = Session.get "router-path"
 		if /^\/?workflow\b/.test(path)
 			return "workflow"
 		else if /^\/?cms\b/.test(path)
