@@ -27,7 +27,8 @@ dashboardRoutes.route '/space/:spaceId/:dashboardId',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
 		Session.set("dashboardId", params.dashboardId)
-
+		url = Steedos.absoluteUrl("/api/dashboard/#{params.dashboardId}")
+		localStorage.setItem("Meteor.dashboard",url)
 		BlazeLayout.render 'dashboardLayout',
 			main: "dashboardView"
 
