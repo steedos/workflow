@@ -366,6 +366,13 @@ textarea {
       &>.col-md-12{
         padding-right: 0px;
       }
+      form{
+        &>.col-md-6{
+          &:nth-child(2n){
+            clear: both;
+          }
+        }
+      }
       .form-group{
         @media (max-width: 768px){
           &.opinion-field{
