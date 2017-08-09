@@ -181,6 +181,7 @@ TemplateHelpers =
 			Session.set("spaceId", null)
 			localStorage.removeItem("spaceId:" + Meteor.userId())
 		else if spaceId != Session.get("spaceId")
+			Session.set("flowId", undefined);
 			Session.set("spaceId", spaceId)
 			localStorage.setItem("spaceId:" + Meteor.userId(), spaceId)
 			Steedos.checkSpaceBalance spaceId

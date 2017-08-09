@@ -61,6 +61,6 @@ Tracker.autorun (c) ->
 							Steedos.subs["related_instances"].subscribe("instance_data", ins_id)
 
 #	切换工作区时，清空按流程过滤
-Tracker.autorun (c)->
-	spaceId = Session.get("spaceId")
-	Session.set("flowId", undefined);
+#Tracker.autorun (c)->
+#	spaceId = Session.get("spaceId")
+#	Session.set("flowId", undefined);
