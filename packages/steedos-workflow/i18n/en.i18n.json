@@ -420,6 +420,8 @@
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
+	"instance_retrieve_rules_title": "取回失败",
+	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
