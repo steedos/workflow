@@ -24,8 +24,6 @@ Setup.validate = (cb)->
 			
 
 Setup.logout = () ->
-	Accounts.makeClientLoggedOut()
-
 	$.ajax
 		type: "POST",
 		url: Steedos.absoluteUrl("api/setup/logout"),
