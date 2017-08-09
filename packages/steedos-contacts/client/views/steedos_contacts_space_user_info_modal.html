@@ -66,7 +66,7 @@
 									{{#each spaceUserOrganizations}}
 										<div class="user-org-item">{{fullname}} 
 											{{#if isPrimaryOrg _id}}
-												<span class="badge">主部门</span>
+												<span class="badge">{{_ "space_users_organization"}}</span>
 											{{else}}
 												{{#if isEditable}}
 													<button class="btn btn-default btn-xs btn-set-primary hide" data-id="{{_id}}">{{_ "btn_set_primary_title"}}</button>

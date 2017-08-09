@@ -36,7 +36,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			i = 0
 			while i < last_trace.approves.length
 				if not_in_inbox_users.includes(last_trace.approves[i].user)
-					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc"
+					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc" and last_trace.approves[i].type isnt "distribute"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
 						last_trace.approves[i].judge = ""

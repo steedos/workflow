@@ -80,6 +80,14 @@ Meteor.startup ->
 						return user?.name
 				},{
 					type: 'String',
+					name:'user',
+					width: 60,
+					title: TAPi18n.__('users_username',{},lang)
+					transform: (value)->
+						user = db.users.findOne({_id: value},{fields: {username: 1}})
+						return user?.username
+				},{
+					type: 'String',
 					name:'sort_no',
 					width: 35,
 					title: TAPi18n.__('space_users_sort_no',{},lang)

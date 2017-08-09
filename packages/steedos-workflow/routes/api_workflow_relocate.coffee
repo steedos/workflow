@@ -43,7 +43,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					# 更新当前trace.approve记录
 					h = 0
 					while h < traces[i].approves.length
-						if traces[i].approves[h].is_finished is false and traces[i].approves[h].type isnt "cc"
+						if traces[i].approves[h].is_finished is false and traces[i].approves[h].type isnt "cc" and traces[i].approves[h].type isnt "distribute"
 							traces[i].approves[h].start_date = now
 							traces[i].approves[h].finish_date = now
 							traces[i].approves[h].read_date = now
