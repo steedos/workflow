@@ -44,7 +44,9 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				uuflowManager.isSpaceAdmin(space_id,user_id)
 				find_instances = db.instances.find({
 					space: space_id,
-					state: "pending"
+					$or:[
+						{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}
+					]
 				}, {limit: limit}).fetch()
 			_.each find_instances, (i)->
 				flow = db.flows.findOne(i["flow"], {fields: {name: 1}})
