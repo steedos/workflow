@@ -1,7 +1,3 @@
-FlowRouter.triggers.enter [
-	()-> Session.set("router-path", FlowRouter.current().path)
-]
-
 FlowRouter.route '/steedos/logout', 
 	action: (params, queryParams)->
 		#AccountsTemplates.logout();

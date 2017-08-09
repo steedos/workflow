@@ -12,6 +12,7 @@ FlowRouter.notFound =
 				main: "not-found"
 
 FlowRouter.triggers.enter [
+	()-> Session.set("router-path", FlowRouter.current().path)
 	()-> 
 		Tracker.autorun ->
 			if Session.get "is_tap_loaded"
