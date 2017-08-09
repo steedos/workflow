@@ -202,22 +202,23 @@ Template.instance_button.helpers
 			return false
 
 		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
-			last_trace = _.last(ins.traces)
-			previous_trace_id = last_trace.previous_trace_ids[0]
-			previous_trace = _.find(ins.traces, (t)->
-				return t._id is previous_trace_id
-			)
-			# 校验当前步骤是否已读
-			is_read = false
-			_.each last_trace.approves, (ap)->
-				if ap.is_read is true
-					is_read = true
-			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
-			previous_trace_approves = _.filter previous_trace.approves, (a)->
-				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
+			return true
+			# last_trace = _.last(ins.traces)
+			# previous_trace_id = last_trace.previous_trace_ids[0]
+			# previous_trace = _.find(ins.traces, (t)->
+			# 	return t._id is previous_trace_id
+			# )
+			# # 校验当前步骤是否已读
+			# is_read = false
+			# _.each last_trace.approves, (ap)->
+			# 	if ap.is_read is true
+			# 		is_read = true
+			# # 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			# previous_trace_approves = _.filter previous_trace.approves, (a)->
+			# 	return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
-				return true
+			# if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
+			# 	return true
 		return false
 
 	enabled_traces: ->
@@ -445,25 +446,64 @@ Template.instance_button.events
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
-		swal {
-			title: t("instance_retrieve"),
-			inputPlaceholder: t("instance_retrieve_reason"),
-			type: "input",
-			confirmButtonText: t('OK'),
-			cancelButtonText: t('Cancel'),
-			showCancelButton: true,
-			closeOnConfirm: false
-		}, (reason) ->
-			# 用户选择取消
-			if (reason == false)
-				return false;
+		ins = WorkflowManager.getInstance()
+		traces = ins.traces
+		can_retrieve = false
+		current_user = Meteor.userId()
 
-#			if (reason == "")
-#				swal.showInputError(t("instance_retrieve_reason"));
-#				return false;
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+			last_trace = _.last(traces)
+			previous_trace_id = last_trace.previous_trace_ids[0]
+			previous_trace = _.find(traces, (t)->
+				return t._id is previous_trace_id
+			)
+			# 校验当前步骤是否已读
+			is_read = false
+			_.each last_trace.approves, (ap)->
+				if ap.is_read is true
+					is_read = true
+			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			previous_trace_approves = _.filter previous_trace.approves, (a)->
+				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			InstanceManager.retrieveIns(reason);
-			sweetAlert.close();
+			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is current_user and not is_read
+				can_retrieve = true
+
+		i = traces.length
+		while i > 0
+			_.each traces[i-1].approves, (a)->
+				if a.type is 'cc' and a.is_finished is true and a.user is current_user
+					can_retrieve = true
+			if can_retrieve is true
+				break
+			i--
+
+		if can_retrieve
+			swal {
+				title: t("instance_retrieve"),
+				inputPlaceholder: t("instance_retrieve_reason"),
+				type: "input",
+				confirmButtonText: t('OK'),
+				cancelButtonText: t('Cancel'),
+				showCancelButton: true,
+				closeOnConfirm: false
+			}, (reason) ->
+				# 用户选择取消
+				if (reason == false)
+					return false;
+
+	#			if (reason == "")
+	#				swal.showInputError(t("instance_retrieve_reason"));
+	#				return false;
+
+				InstanceManager.retrieveIns(reason);
+				sweetAlert.close();
+		else
+			swal({
+				title: t("instance_retrieve_rules_title"),
+				text: "<div style='overflow-x:auto;'>#{t('instance_retrieve_rules_content')}<div>",
+				html: true
+			})
 
 	'click .btn-trace-list': (event, template) ->
 		ins = WorkflowManager.getInstance();

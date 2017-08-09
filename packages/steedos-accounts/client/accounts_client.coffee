@@ -24,16 +24,15 @@ Setup.validate = (cb)->
 			
 
 Setup.logout = () ->
-
-		$.ajax
-			type: "POST",
-			url: Steedos.absoluteUrl("api/setup/logout"),
-			dataType: 'json',
-			xhrFields: 
-			   withCredentials: true
-			crossDomain: true,
-		.done ( data ) ->
-			console.log(data)
+	$.ajax
+		type: "POST",
+		url: Steedos.absoluteUrl("api/setup/logout"),
+		dataType: 'json',
+		xhrFields: 
+		   withCredentials: true
+		crossDomain: true,
+	.done ( data ) ->
+		console.log(data)
 
 Meteor.startup ->
 	Setup.validate ()->
