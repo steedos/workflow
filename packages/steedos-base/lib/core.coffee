@@ -15,7 +15,7 @@ Steedos =
 if Meteor.isClient
 
 	Steedos.spaceUpgradedModal = ()->
-		swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"warning", confirmButtonText: TAPi18n.__("OK")});
+		swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), html: true, type:"warning", confirmButtonText: TAPi18n.__("OK")});
 
 	Steedos.getAccountBgBodyValue = ()->
 		accountBgBody = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"bg_body"})
