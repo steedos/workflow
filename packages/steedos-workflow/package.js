@@ -9,7 +9,8 @@ Npm.depends({
 	cookies: "0.6.1",
 	ejs: "2.5.5",
 	"ejs-lint": "0.2.0",
-	"eval": "0.1.2"
+	"eval": "0.1.2",
+	mkdirp: "0.3.5"
 });
 
 Package.onUse(function(api) {
