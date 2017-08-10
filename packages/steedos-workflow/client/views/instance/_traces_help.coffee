@@ -179,6 +179,15 @@ TracesTemplate.helpers =
 			finish_date:this.finish_date
 		};
 
+	###
+    	此函数用于控制是否显示traces view
+    	true: 显示traces view,签核历程按钮点击后是直接定位到traces view
+    	false: 不显示traces view，签核历程按钮点击后,以Modal 方式显示traces view
+	###
+	showTracesView: (form, form_version)->
+		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
+
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
