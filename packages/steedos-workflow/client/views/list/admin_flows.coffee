@@ -1,3 +1,8 @@
+Template.admin_flows.onRendered ()->
+	if !Steedos.isPaidSpace()
+		Steedos.spaceUpgradedModal()
+		FlowRouter.go("/admin/home")
+
 Template.admin_flows.helpers
 	selector: ->
 		return {space: Session.get("spaceId"), is_deleted: false};

@@ -31,3 +31,8 @@ Template.admin_instance_number_rules.events
 		if (rowData)
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-remove').click();
+
+Template.admin_instance_number_rules.onRendered ()->
+	if !Steedos.isPaidSpace()
+		Steedos.spaceUpgradedModal()
+		FlowRouter.go("/admin/home")

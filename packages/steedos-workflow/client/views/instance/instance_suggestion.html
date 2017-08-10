@@ -8,8 +8,10 @@
     {{/if}}
     {{#if show_suggestion}}
         <div class="instance-suggestion well animated fadeInUp">
-			<div class="instance-suggestion-close"><button type="button" class="btn btn-transparent btn-remove"><span aria-hidden="true">×</span></button></div>
-            <div class="box-body">
+			{{#if includes currentStep.step_type 'sign,counterSign,submit'}}
+				<div class="instance-suggestion-close"><button type="button" class="btn btn-transparent btn-remove"><span aria-hidden="true">×</span></button></div>
+			{{/if}}
+			<div class="box-body">
 
                 {{#if includes currentStep.step_type 'sign,counterSign,submit'}}
 

@@ -63,8 +63,16 @@ Admin.menuTemplate =
 					unless Admin.menuTemplate.checkRoles(menu)
 						return ""
 					# 二级菜单才有url及onclick函数
-					if typeof menu.onclick == "function"
-						$("body").on "click", ".admin-menu-#{menu._id}", ->
+
+					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
+
+						if menu.paid && !Steedos.isPaidSpace()
+							e.preventDefault()
+							Steedos.spaceUpgradedModal()
+							return;
+
+
+						if typeof menu.onclick == "function"
 							menu.onclick()
 
 					if menu.target
@@ -169,10 +177,10 @@ Admin.menuTemplate =
 		if menu.app
 			isChecked = !!Steedos.getSpaceAppById(menu.app)
 
-		if menu.app and menu.paid
-			# 未来是按APP收费，所以判断是否付费要求带上app属性
-			unless Steedos.isPaidSpace()
-				isChecked = false
+#		if menu.app and menu.paid
+#			# 未来是按APP收费，所以判断是否付费要求带上app属性
+#			unless Steedos.isPaidSpace()
+#				isChecked = false
 
 		if isChecked and menu.roles?.length
 			roles = menu.roles

@@ -99,7 +99,5 @@
 	"steedos_contacts_import_users_select_file": "Please select the data you want to import",
 	"steedos_contacts_import_users_import_success": "Import success",
 	"steedos_contacts_import_users_check_success": "Check success",
-	"space_paid_info_title": "Standard Edition does not support",
-	"space_paid_info_text": "You can upgrade to the professional version",
 	"btn_set_primary_title": "Set as the primary organization"
 }
