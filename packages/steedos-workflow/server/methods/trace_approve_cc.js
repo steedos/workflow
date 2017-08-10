@@ -121,7 +121,7 @@ Meteor.methods({
         traces.forEach(function(t) {
             if (t.approves) {
                 t.approves.forEach(function(a) {
-                    if (a.type == 'cc' && a.user == current_user_id) {
+                    if (a.type == 'cc' && a.user == current_user_id && !a.is_read) {
                         a.is_read = true;
                         a.read_date = new Date();
                     }
@@ -163,6 +163,7 @@ Meteor.methods({
                 t.approves.forEach(function(a) {
                     if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
                         a.is_finished = true;
+						a.is_read = true;
                         a.finish_date = new Date();
                         a.description = description;
                         a.judge = "submitted";
