@@ -5,32 +5,59 @@
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
-				{{> steedosHeaderSpace}}
-				<li class="appName">
+				
+				<!-- <li class="appName">
 					<a href="/{{getAppName}}">
 						{{getAppTitle}}
 					</a>
+				</li> -->
+				<li class="notifications-menu">
+						<a href="/" data-toggle="tooltip" data-placement="bottom">
+							{{_ "steedos_home"}}
+						</a>
 				</li>
+				<li class="notifications-menu">
+						<a href="/workflow" data-toggle="tooltip" data-placement="bottom">
+							{{_ "Steedos Workflow"}}
+						</a>
+				</li>
+				<li class="notifications-menu">
+						<a href="/cms" data-toggle="tooltip" data-placement="bottom">
+							{{_ "Steedos CMS"}}
+						</a>
+				</li>
+				<li class="notifications-menu">
+						<a href="/calendar" data-toggle="tooltip" data-placement="bottom">
+							{{_ "Steedos Calendar"}}
+						</a>
+				</li>
+				<li class="notifications-menu">
+						<a href="#" data-toggle="tooltip" data-placement="bottom">
+							<i class="ion ion-grid"></i>
+						</a>
+				</li>
+
+
 			</ul>
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<li class="notifications-menu">
+					<!-- <li class="notifications-menu">
 						<a href="/" data-toggle="tooltip" data-placement="bottom">
 							{{_ "steedos_home"}}
 						</a>
-					</li>
+					</li> -->
 					{{> headerLoading}}
 					{{> headerRefresh}}
-					{{> headerWorkflowBadge}}
-					{{> headerCmsBadge}}
+					<!-- {{> headerWorkflowBadge}}
+					{{> headerCmsBadge}} -->
 					{{> headerAccount}}
 					<!-- <li>
 						<a href="/admin">{{_ "Steedos Admin"}}</a>
 					</li> -->
-					<li class="li-help">
+					<!-- <li class="li-help">
 						<a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</nav>
