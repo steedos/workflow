@@ -34,9 +34,9 @@
                 </div>
             </div>
             {{#if unequals 'draft' instance.state}}
-				{{#unless is_table_style instance.form}}
+				{{#if (showTracesView instance.form instance.form_version)}}
                 	{{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
-				{{/unless}}
+				{{/if}}
             {{else}}
                 {{> instance_suggestion}}
             {{/if}}

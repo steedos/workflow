@@ -42,8 +42,8 @@ Template.instance_view.helpers
 			return "instance-table"
 		return "";
 
-	is_table_style: (formId)->
-		return InstanceManager.isTableStyle(formId)
+	showTracesView: (form, form_version)->
+		return TracesTemplate.helpers.showTracesView(form, form_version)
 
 	tracesTemplateName: (formId)->
 		form = WorkflowManager.getForm(formId);

@@ -47,7 +47,7 @@ Template.opinion_modal.events({
                 Modal.show('opinion_modal', template.data);
                 return false;
             }
-            if (inputValue === "") {
+            if (inputValue.trim() === "") {
                 toastr.error(t('instance_opinion_input'));
                 return false
             }
@@ -124,7 +124,7 @@ Template.opinion_modal.events({
                         Modal.show('opinion_modal', template.data);
                         return false;
                     }
-                    if (inputValue === "") {
+                    if (inputValue.trim() === "") {
                         toastr.error(t('instance_opinion_input'));
                         return false
                     }
@@ -175,7 +175,7 @@ Template.opinion_modal.events({
     },
 
     'click .btn-remove-opinion': function(event, template) {
-        var opinions = [];
+        var opinions = [],targetOpinion;
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
             key: 'flow_opinions',
@@ -185,7 +185,12 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(event.currentTarget.dataset.opinion);
+            targetOpinion = event.currentTarget.dataset.opinion;
+            if(targetOpinion == undefined){
+                // 某些异常操作下会出现undefined的情况，这时其值为null
+                targetOpinion = null;
+            }
+            var index = opinions.indexOf(targetOpinion);
             if (index > -1) {
                 opinions.splice(index, 1);
 
