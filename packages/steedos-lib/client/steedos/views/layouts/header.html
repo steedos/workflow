@@ -5,59 +5,31 @@
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
-				
-				<!-- <li class="appName">
-					<a href="/{{getAppName}}">
-						{{getAppTitle}}
+				<li class="notifications-menu">
+					<a href="/">
+						{{_ "steedos_home"}}
 					</a>
-				</li> -->
-				<li class="notifications-menu">
-						<a href="/" data-toggle="tooltip" data-placement="bottom">
-							{{_ "steedos_home"}}
-						</a>
 				</li>
-				<li class="notifications-menu">
-						<a href="/workflow" data-toggle="tooltip" data-placement="bottom">
-							{{_ "Steedos Workflow"}}
+				{{#each getSpaceTopApps 3}}
+					<li class="notifications-menu">
+						<a href class="menu-app-link" data-appid="{{_id}}">
+							{{_ name}}
+							<span class="label label-danger">{{appBadge _id}}</span>
 						</a>
-				</li>
+					</li>
+				{{/each}}
 				<li class="notifications-menu">
-						<a href="/cms" data-toggle="tooltip" data-placement="bottom">
-							{{_ "Steedos CMS"}}
-						</a>
+					<a href class="menu-apps-link">
+						<i class="ion ion-grid"></i>
+					</a>
 				</li>
-				<li class="notifications-menu">
-						<a href="/calendar" data-toggle="tooltip" data-placement="bottom">
-							{{_ "Steedos Calendar"}}
-						</a>
-				</li>
-				<li class="notifications-menu">
-						<a href="#" data-toggle="tooltip" data-placement="bottom">
-							<i class="ion ion-grid"></i>
-						</a>
-				</li>
-
-
 			</ul>
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<!-- <li class="notifications-menu">
-						<a href="/" data-toggle="tooltip" data-placement="bottom">
-							{{_ "steedos_home"}}
-						</a>
-					</li> -->
 					{{> headerLoading}}
 					{{> headerRefresh}}
-					<!-- {{> headerWorkflowBadge}}
-					{{> headerCmsBadge}} -->
 					{{> headerAccount}}
-					<!-- <li>
-						<a href="/admin">{{_ "Steedos Admin"}}</a>
-					</li> -->
-					<!-- <li class="li-help">
-						<a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
-					</li> -->
 				</ul>
 			</div>
 		</nav>

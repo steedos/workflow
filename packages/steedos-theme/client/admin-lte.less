@@ -1,5 +1,12 @@
 .steedos.fixed {
-	.main-header,  .main-sidebar,  .left-side {
+	&.sidebar-collapse{
+		.main-header{
+			.navbar{
+				margin-left: 50px;
+			}
+		}
+	}
+	.main-header, .main-sidebar, .left-side {
 		position: absolute;
 	}
 	.main-header {
@@ -11,7 +18,7 @@
 
 		.logo {
 			background: transparent;
-			cursor:pointer;			
+			cursor:pointer;
 			box-shadow: rgba(0, 0, 0, 0.3) 0 1px 9px;
 		}
 
@@ -31,9 +38,8 @@
 			}
 		}
 		.navbar {
-			/*float: left;*/
 			margin: 0;
-			/*margin-left: 50px;*/
+			margin-left: 230px;
 			background-color: transparent;
 			.navbar-title {
 				
