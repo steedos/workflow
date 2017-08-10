@@ -1,5 +1,12 @@
 .steedos.fixed {
-	.main-header,  .main-sidebar,  .left-side {
+	&.sidebar-collapse{
+		.main-header{
+			.navbar{
+				margin-left: 50px;
+			}
+		}
+	}
+	.main-header, .main-sidebar, .left-side {
 		position: absolute;
 	}
 	.main-header {
@@ -7,12 +14,11 @@
 		transition: all 1s ease-in-out 0.5s;
 		border-bottom: 1px solid #000;
 		border-bottom: 1px solid rgba(0,0,0,0.2);
-		background: #000;
-		background: rgba(0, 0, 0, 0.8);
+		background: rgba(22, 84, 150, 0.84);
 
 		.logo {
 			background: transparent;
-			cursor:pointer;			
+			cursor:pointer;
 			box-shadow: rgba(0, 0, 0, 0.3) 0 1px 9px;
 		}
 
@@ -32,9 +38,8 @@
 			}
 		}
 		.navbar {
-			/*float: left;*/
 			margin: 0;
-			/*margin-left: 50px;*/
+			margin-left: 230px;
 			background-color: transparent;
 			.navbar-title {
 				

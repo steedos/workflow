@@ -149,11 +149,7 @@ FlowRouter.route '/admin/customize_apps',
 	action: (params, queryParams)->
 		spaceId = Steedos.getSpaceId()
 		if spaceId
-			space = db.spaces.findOne(spaceId)
-			if !space?.is_paid
-				swal(t("steedos_customize_apps"), t("steedos_only_paid"), "error")
-			else
-				FlowRouter.go("/admin/view/apps")
+			FlowRouter.go("/admin/view/apps")
 
 FlowRouter.route '/designer', 
 	triggersEnter: [ checkUserSigned ],

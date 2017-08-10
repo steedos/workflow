@@ -42,14 +42,15 @@ Setup.setAuthCookies = (req, res, userId, authToken) ->
 JsonRoutes.add "post", "/api/setup/validate", (req, res, next) ->
 	cookies = new Cookies( req, res );
 
-	# first check cookie
-	userId = cookies.get("X-User-Id")
-	authToken = cookies.get("X-Auth-Token")
-
-	# then check request body
-	if (!userId or !authToken) and req.body
+	# first check request body
+	if req.body
 		userId = req.body["X-User-Id"]
 		authToken = req.body["X-Auth-Token"]
+
+	# then check cookie
+	if !userId or !authToken
+		userId = cookies.get("X-User-Id")
+		authToken = cookies.get("X-Auth-Token")
 
 	if userId and authToken
 		hashedToken = Accounts._hashLoginToken(authToken)

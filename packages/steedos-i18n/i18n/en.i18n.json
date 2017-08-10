@@ -226,6 +226,7 @@
 	"spaces_modified_by": "Modified By",
 	"spaces_modules": "Modules",
 	"spaces_prefs": "Preference",
+	"spaces_avatar": "Logo(260*50px)",
 
 	"organizations": "Organizations",
 	"organizations_id": "ID",
@@ -425,5 +426,7 @@
 	"space_users_empty_phone": "Empty",
 	"YES": "YES",
 	"NO": "NO",
-	"username_unset_text": "Your account has not yet set a user name, set the user name, you can use the user name to log on to the system."
+	"username_unset_text": "Your account has not yet set a user name, set the user name, you can use the user name to log on to the system.",
+	"space_paid_info_title": "Standard Edition does not support",
+	"space_paid_info_text": "You can upgrade to the professional version"
 }

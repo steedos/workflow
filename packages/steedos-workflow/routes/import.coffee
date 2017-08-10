@@ -24,6 +24,16 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 
 	spaceId = req.query?.space;
 
+	space = db.spaces.findOne({_id: spaceId})
+
+	if !space?.is_paid
+		JsonRoutes.sendResult res,
+			code: 404,
+			data:
+				"error": "Validate Request -- Non-paid space.",
+				"success": false
+		return;
+
 #	是否工作区管理员
 	if !Steedos.isSpaceAdmin(spaceId, uid)
 		res.writeHead(401);
@@ -31,6 +41,10 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 			"error": "Validate Request -- No permission",
 			"success": false
 		})
+
+		return
+
+
 
 
 	JsonRoutes.parseFiles req, res, ()->
