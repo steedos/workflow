@@ -430,17 +430,15 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"));
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
 			return;
 
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"));
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
 			return;
 
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
@@ -521,6 +519,9 @@ Template.instance_button.events
 		$(".btn-instance-readonly-view-url-copy").click();
 
 	'click .btn-instance-related-instances': (event, template)->
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
+			return;
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
