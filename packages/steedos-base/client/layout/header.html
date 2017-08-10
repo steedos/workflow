@@ -5,21 +5,23 @@
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
-				{{> steedosHeaderSpace}}
-				<!-- <li class="appName">
-					<a href="/{{getAppName}}">
-						{{getAppTitle}}
+				{{#each getSpaceTopApps 3}}
+					<li class="notifications-menu">
+						<a href class="menu-app-link" data-appid="{{_id}}">
+							{{_ name}}
+							<span class="label label-danger">{{appBadge _id}}</span>
+						</a>
+					</li>
+				{{/each}}
+				<li class="notifications-menu">
+					<a href class="menu-apps-link">
+						<i class="ion ion-grid"></i>
 					</a>
-				</li> -->
+				</li>
 			</ul>
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<li class="notifications-menu">
-						<a href="/" data-toggle="tooltip" data-placement="bottom">
-							{{_ "steedos_home"}}
-						</a>
-					</li>
 					{{> headerLoading}}
 					{{> headerRefresh}}
 					{{> steedosHeaderAccount}}
