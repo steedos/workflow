@@ -214,7 +214,7 @@
 	"instance_opinion_remove_success": "Remove successfully!",
 	"instance_opinion_error": "Error",
 	"instance_opinion_exists": "Opinion exists",
-	"instance_opinion_add_tip": "Press '+' to add opinion",
+	"instance_opinion_add_tip": "You have not set up common comments yet.",
 
 	"instance_forward_title": "Instance Forward",
 
