@@ -1,6 +1,6 @@
 <template name="workflowSidebar">
 	<aside class="main-sidebar">
-		<header class="main-header">
+		<!-- <header class="main-header">
 			<div class="logo" style="overflow: visible">
 			<span class="logo-lg text-overflow">
 			  <B>{{_ "Steedos Workflow"}}</B>
@@ -12,7 +12,7 @@
 			  <i class="ion ion-grid"></i>
 			</span>
 			</div>
-		</header>
+		</header> -->
 		<div class="sidebar" id="scrollspy">
 			{{> sidebarUserPanel}}
 			<ul class="nav sidebar-menu">
@@ -20,6 +20,9 @@
 					{{> space_switcher}}
 				</li> -->
 
+				<li class="header">
+					{{_ "Steedos Workflow"}}
+				</li>
 				<li class="inbox {{boxActive 'inbox'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
 						<i class="ion ion-archive"></i>
