@@ -1262,6 +1262,7 @@ _:-ms-fullscreen,
     }
   }
   .list-group{
+    margin-bottom: 15px;
     .list-group-item{
       user-select: none;
       -moz-user-select: none;
@@ -1271,6 +1272,16 @@ _:-ms-fullscreen,
       }
       .pull-right{
         margin-right: -8px;
+      }
+    }
+    &:last-child{
+      .list-group-item{
+        &:last-child{
+          border-bottom: 1px solid #ddd;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
+
       }
     }
   }

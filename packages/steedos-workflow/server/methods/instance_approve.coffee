@@ -6,7 +6,7 @@ Meteor.methods
 			trace = instance.traces[0]
 
 			trace.approves.forEach (approve)->
-				if approve._id == approveId
+				if approve._id == approveId && !approve.is_read
 					approve.is_read = true;
 					approve.read_date = new Date();
 

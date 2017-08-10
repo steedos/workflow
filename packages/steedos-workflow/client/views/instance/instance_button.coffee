@@ -507,7 +507,7 @@ Template.instance_button.events
 
 	'click .btn-trace-list': (event, template) ->
 		ins = WorkflowManager.getInstance();
-		if InstanceManager.isTableStyle(ins.form)
+		if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
 			$("body").addClass("loading")
 #			延迟一毫秒弹出Modal，否则导致loading显示不出来
 			Meteor.setTimeout ()->

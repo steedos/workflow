@@ -374,6 +374,13 @@ InstanceformTemplate.helpers =
 	isOpinionField_from_string: (field_formula)->
 		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
 
+	includesOpinionField: (form, form_version)->
+		fields = db.form_versions.findOne({_id: form_version, form: form})?.fields || []
+		field_formulas = fields.getProperty("formula")
+
+		_.some field_formulas, (field_formula)->
+			return InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
+
 	getOpinionFieldStepsName: (field_formula, top_keywords)->
 
 		opinionFields = new Array();
