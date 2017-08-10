@@ -95,6 +95,7 @@ Package.onUse(function (api) {
 		'client/layout/header_refresh.coffee',
 		'client/layout/header_loading.html',
 		'client/layout/header.html',
+		'client/layout/header.coffee',
 		'client/layout/header.less',
 		'client/layout/sidebar.html',
 		'client/layout/steedosheader-account.html',
