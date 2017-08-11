@@ -8,6 +8,7 @@ Package.describe({
 Npm.depends({
 	"node-schedule": "1.1.1",
 	cookies: "0.6.1",
+	mkdirp: "0.3.5"
 });
 
 Package.onUse(function(api) {
