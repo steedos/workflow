@@ -130,7 +130,7 @@ if Meteor.isClient
 
 		app = db.apps.findOne(app_id)
 
-		if app?.url?.startsWith("/") && !Steedos.isMobile() && !Steedos.isCordova()
+		if !app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
 			window.location = url
 		else
 			Steedos.openWindow(url);
@@ -180,7 +180,10 @@ if Meteor.isClient
 			FlowRouter.go(app.url)
 
 		else if app.is_use_iframe
-			Steedos.openWindow(Meteor.absoluteUrl("admin/open/by/iframe/" + app._id))
+			if app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
+				Steedos.openWindow(Steedos.absoluteUrl("admin/open/by/iframe/" + app._id))
+			else
+				window.location = Steedos.absoluteUrl("admin/open/by/iframe/" + app._id)
 
 		else if on_click
 			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
