@@ -187,7 +187,6 @@ Template.instance_view.events
 		$("#ins_upload_normal_attach").val('')
 
 	'click .btn-instance-back': (event)->
-		Session.set('do_not_clear_search_conditions', true) # 为了不清除搜索条件
 		backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
 		FlowRouter.go(backURL)
 

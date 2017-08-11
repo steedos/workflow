@@ -93,4 +93,8 @@ Template.workflowSidebar.events
 
 	'click .inbxo-flow': (event, template)->
 		Session.set("flowId", this?._id);
-		Session.set("inbox_flow_id", this?._id) # 为了解决切换箱子清空搜索条件时点击待审核流程过滤无效问题
+
+	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->
+		console.log "1"
+		# 切换箱子的时候清空搜索条件
+		$("#instance_search_tip_close_btn").click()
