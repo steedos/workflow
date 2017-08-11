@@ -127,7 +127,13 @@ if Meteor.isClient
 	Steedos.openAppWithToken = (app_id)->
 		url = Steedos.getAppUrlWithToken app_id
 		url = Steedos.absoluteUrl url
-		Steedos.openWindow(url);
+
+		app = db.apps.findOne(app_id)
+
+		if app?.url?.startsWith("/") && !Steedos.isMobile() && !Steedos.isCordova()
+			window.location = url
+		else
+			Steedos.openWindow(url);
 	
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
