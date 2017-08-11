@@ -23,15 +23,15 @@ db.apps._simpleSchema = new SimpleSchema
 		type: String
 		optional: true
 		max: 200
-	on_click: 
-		type: String
-		optional: true
-		autoform: 
-			rows: 10
-		optional: true
-	space_sort:
+	sort:
 		type: Number
 		optional: true
+		defaultValue: 9000
+#		autoform:
+#			omit: true
+#	space_sort:
+#		type: Number
+#		optional: true
 	secret:
 		type: String
 		max: 16
@@ -50,18 +50,26 @@ db.apps._simpleSchema = new SimpleSchema
 		optional: true
 		autoform: 
 			defaultValue: false
-	sort:
-		type: Number
-		optional: true
-		defaultValue: 9000
-		autoform: 
-			omit: true
+
 
 	is_use_iframe: 
 		type: Boolean
 		optional: true
 		autoform: 
 			defaultValue: false
+
+	is_new_window:
+		type: Boolean
+		optional: true
+		autoform:
+			defaultValue: false
+
+	on_click:
+		type: String
+		optional: true
+		autoform:
+			rows: 10
+		optional: true
 
 if Meteor.isClient
 	db.apps._simpleSchema.i18n("apps")

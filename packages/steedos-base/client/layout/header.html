@@ -6,7 +6,7 @@
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
 				{{#each getSpaceTopApps 3}}
-					<li class="{{#if isAppActive _id}} active {{/if}}">
+					<li class="{{#if isAppActive url}} active {{/if}}">
 						<a href class="menu-app-link" data-appid="{{_id}}">
 							{{_ name}}
 							<span class="label label-danger">{{appBadge _id}}</span>

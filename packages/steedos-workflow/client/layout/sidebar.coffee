@@ -95,6 +95,5 @@ Template.workflowSidebar.events
 		Session.set("flowId", this?._id);
 
 	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->
-		console.log "1"
 		# 切换箱子的时候清空搜索条件
 		$("#instance_search_tip_close_btn").click()

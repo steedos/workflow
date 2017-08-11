@@ -128,17 +128,9 @@ Steedos.Helpers =
 		if space_id and ins_id
 			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
-	isAppActive: (appId)->
-		if appId == "workflow"
-			reg = /^\/?workflow\b/
-		else if appId == "cms"
-			reg = /^\/?cms\b/
-		else if appId == "springboard"
-			reg = /^\/?springboard\b/
-		else if appId == "admin"
-			reg = /^\/?admin\b/
-
-		if reg and reg.test(Session.get("router-path"))
+	isAppActive: (url)->
+		matchs = Session.get("router-path").match(url)
+		if matchs and matchs.index == 0
 			return true
 
 
@@ -290,7 +282,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}});
+		return db.apps.find(selector, {sort: {sort: 1}});
 
 	getSpaceFirstApp: ()->
 		selector = {}
@@ -300,7 +292,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
+		return db.apps.findOne(selector, {sort: {sort: 1}})
 
 	getSpaceTopApps: (count)->
 		unless count
@@ -312,7 +304,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}, limit: count})
+		return db.apps.find(selector, {sort: {sort: 1}, limit: count})
 
 	getSpaceAppById: (app_id)->
 		selector = {}

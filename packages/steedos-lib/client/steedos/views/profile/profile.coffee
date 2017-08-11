@@ -272,6 +272,7 @@ Template.profile.events
 		btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 		Steedos.applyAccountBgBodyValue(btn_save.dataset)
 		Session.set("waiting_save_profile_bg", url)
+		$("#personalization button.btn-save-bg").trigger("click")
 
 	'click #personalization button.btn-save-bg': (event)->
 		dataset = event.currentTarget.dataset
@@ -322,6 +323,7 @@ Template.profile.events
 		btn_save.dataset.skin_tag = skin_tag
 		$(".skin-admin-lte").removeClass().addClass("skin-admin-lte").addClass("skin-#{skin_name}")
 		Session.set("waiting_save_profile_skin_name", skin_name)
+		$("#personalization button.btn-save-skin").trigger("click")
 
 	'click #personalization button.btn-save-skin': (event)->
 		dataset = event.currentTarget.dataset
@@ -349,6 +351,7 @@ Template.profile.events
 		btn_save.dataset.size = size
 		Steedos.applyAccountZoomValue btn_save.dataset
 		Session.set("waiting_save_profile_zoom_name", name)
+		$("#personalization button.btn-save-zoom").trigger("click")
 
 	'click #personalization button.btn-save-zoom': (event)->
 		dataset = event.currentTarget.dataset
