@@ -59,6 +59,15 @@
 				font-size: 16px;
 				padding-left: 10px;
 				>li {
+					&.active{
+						a{
+							background: rgba(0, 0, 0, 0.2);
+							&:hover{
+								background: rgba(0, 0, 0, 0.3);
+							}
+						}
+					}
+					max-height: 50px;
 					>a {
 						padding-left: 10px;
 						padding-right: 10px;
@@ -69,7 +78,7 @@
 						}
 						&.menu-apps-link{
 							.ion{
-								position: absolute;/*解决因把.ion放到到120%造成header栏高度变高问题*/
+								font-size: 20px;
 							}
 						}
 					}

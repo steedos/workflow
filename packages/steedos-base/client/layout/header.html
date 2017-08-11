@@ -6,14 +6,14 @@
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
 				{{#each getSpaceTopApps 3}}
-					<li class="notifications-menu {{#if isAppActive _id}} active {{/if}}">
+					<li class="{{#if isAppActive _id}} active {{/if}}">
 						<a href class="menu-app-link" data-appid="{{_id}}">
 							{{_ name}}
 							<span class="label label-danger">{{appBadge _id}}</span>
 						</a>
 					</li>
 				{{/each}}
-				<li class="notifications-menu">
+				<li>
 					<a href class="menu-apps-link">
 						<i class="ion ion-grid"></i>
 					</a>
