@@ -1,18 +1,18 @@
 <template name="baseTabbar">
 	<div class="weui-tabbar">
 		{{#each getSpaceTopApps 2}}
-			<a class="weui-tabbar__item {{appActive _id}} top-apps-item">
+			<a class="weui-tabbar__item {{#if isAppActive _id}} weui-bar__item_on {{/if}} top-apps-item">
 				<i class="weui-tabbar__icon ion ion-ios-book-outline"></i>
 				<p class="weui-tabbar__label">{{_ name}}</p>
 			</a>
 		{{/each}}
-		<a href="/springboard" class="weui-tabbar__item {{appActive 'springboard'}}">
+		<a href="/springboard" class="weui-tabbar__item {{#if isAppActive 'springboard'}} weui-bar__item_on {{/if}}">
 			<span style="display: inline-block;position: relative;">
 				<i class="weui-tabbar__icon ion ion-ios-keypad-outline"></i>
 			</span>
 			<p class="weui-tabbar__label">{{_ "tabbar_apps"}}</p>
 		</a>
-		<a href="/admin" class="weui-tabbar__item {{appActive 'admin'}}">
+		<a href="/admin" class="weui-tabbar__item {{#if isAppActive 'admin'}} weui-bar__item_on {{/if}}">
 			<i class="weui-tabbar__icon ion ion-ios-gear-outline"></i>
 			<p class="weui-tabbar__label">{{_ "tabbar_admin"}}</p>
 		</a>

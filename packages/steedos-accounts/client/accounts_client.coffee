@@ -21,7 +21,15 @@ Setup.validate = (cb)->
 			Steedos.settings.webservices = data.webservices
 		if cb
 			cb();
-			
+
+Setup.clearAuthLocalStorage = ()->
+	localStorage = window.localStorage;
+	i = 0
+	while i < localStorage.length
+		key = localStorage.key(i)
+		if key?.startsWith("Meteor.loginToken") || key?.startsWith("Meteor.userId")  || key?.startsWith("Meteor.loginTokenExpires")
+			localStorage.removeItem(key)
+		i++
 
 Setup.logout = () ->
 	$.ajax
@@ -31,8 +39,8 @@ Setup.logout = () ->
 		xhrFields: 
 		   withCredentials: true
 		crossDomain: true,
-	.done ( data ) ->
-		console.log(data)
+	.always ( data ) ->
+		Setup.clearAuthLocalStorage()
 
 Meteor.startup ->
 	Setup.validate ()->

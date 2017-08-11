@@ -128,6 +128,19 @@ Steedos.Helpers =
 		if space_id and ins_id
 			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
+	isAppActive: (appId)->
+		if appId == "workflow"
+			reg = /^\/?workflow\b/
+		else if appId == "cms"
+			reg = /^\/?cms\b/
+		else if appId == "springboard"
+			reg = /^\/?springboard\b/
+		else if appId == "admin"
+			reg = /^\/?admin\b/
+
+		if reg and reg.test(Session.get("router-path"))
+			return true
+
 
 _.extend Steedos, Steedos.Helpers
 
