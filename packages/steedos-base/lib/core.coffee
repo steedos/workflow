@@ -135,6 +135,19 @@ if Meteor.isClient
 		else
 			Steedos.openWindow(url);
 	
+	Steedos.openUrlWithIE = (url)->
+		if url
+			if Steedos.isNode()
+				exec = nw.require('child_process').exec
+				open_url = url
+				cmd = "start iexplore.exe \"#{open_url}\""
+				exec cmd, (error, stdout, stderr) ->
+					if error
+						toastr.error error
+					return
+			else
+				Steedos.openWindow(url)
+
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";

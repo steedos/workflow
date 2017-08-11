@@ -59,15 +59,6 @@ workflowSpaceRoutes.route '/print/:instanceId',
 workflowSpaceRoutes.route '/:box/',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
-		if Session.get('do_not_clear_search_conditions') is true
-			Session.set 'do_not_clear_search_conditions', undefined
-		else
-			# 切换箱子的时候清空搜索条件
-			$("#instance_search_tip_close_btn").click()
-			if params.box is "inbox" and Session.get("inbox_flow_id")
-				Session.set "flowId", Session.get("inbox_flow_id")
-			else
-				Session.set "inbox_flow_id", undefined
 
 		Session.set("box", params.box);
 #		Session.set("flowId", undefined);
