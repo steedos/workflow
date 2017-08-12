@@ -548,7 +548,7 @@ Template.instance_button.events
 			nextStepOptions = InstanceManager.getNextStepOptions()
 			if nextStepOptions.length > 1
 				$(".instance-wrapper .instance-view").addClass("suggestion-active")
-				toastr.error TAPi18n.__("instance_select_next_step")
+				toastr.error TAPi18n.__("instance_multi_next_step_tips")
 				return
 
 			nextStep = nextStepOptions[0]
