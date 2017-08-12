@@ -302,7 +302,7 @@ TemplateHelpers =
 			space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isCordova() || Steedos.isPad()
 			selector.mobile = true
 		return db.apps.find(selector, {sort: {sort: 1}, limit: count})
 
