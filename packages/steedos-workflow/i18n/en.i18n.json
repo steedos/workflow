@@ -120,6 +120,7 @@
 	"instance_cancel_error_reason_required": "Comments are required.",
 
 	"instance_select_next_step": "Please select next step",
+	"instance_multi_next_step_tips": "Multi next steps，please select next step，and send the request by click the bottom Send button",
 	"instance_next_step_user": "Please select next step user(s)",
 	"instance_reasons_reject": "Reasons necessary when reject the application",
 	"instance_field": "The field",

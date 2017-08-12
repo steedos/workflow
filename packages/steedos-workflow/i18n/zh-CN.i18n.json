@@ -121,6 +121,7 @@
 	"instance_cancel_error_reason_required": "请填写取消申请的理由。",
 
 	"instance_select_next_step": "请选择下一步步骤",
+	"instance_multi_next_step_tips": "步骤选项有多个，请选择下一步步骤，并使用底部发送按钮提交文件",
 	"instance_next_step_user": "请选择下一步处理人",
 	"instance_reasons_reject": "驳回时必须填写意见",
 	"instance_field": "字段",
