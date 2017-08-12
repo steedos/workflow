@@ -266,8 +266,8 @@ Template.instance_button.helpers
 		if ins.state != "pending"
 			return false
 
-		if !Steedos.isPaidSpace()
-			return false
+#		if !Steedos.isPaidSpace()
+#			return false
 
 		values = ins.values || new Object
 
@@ -535,10 +535,9 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"))
-			return
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
+			return;
 
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
