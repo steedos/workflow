@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.46',
+	version: '0.0.47',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -40,6 +40,8 @@ Package.onUse(function (api) {
 
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.5');
+
+	api.use('steedos:theme@0.0.21');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 

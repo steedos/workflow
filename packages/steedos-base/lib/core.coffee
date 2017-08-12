@@ -356,6 +356,11 @@ if Meteor.isServer
 			else
 				return user
 
+		userId = req.query?.userId
+		authToken = req.query?.authToken
+		if Steedos.checkAuthToken(userId,authToken)
+			return db.users.findOne({_id: userId})
+
 
 		cookies = new Cookies(req, res);
 
