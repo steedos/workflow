@@ -1,17 +1,19 @@
 <template name="steedosHeader">
+	{{#if subsReady}}
 	<header class="main-header">
 		{{> steedosHeaderLogo}}
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
-			<ul class="nav navbar-nav">
-				{{#each getSpaceTopApps 3}}
+			<ul class="nav navbar-nav navbar-nav-apps">
+				{{#each getSpaceApps}}
 					<li class="{{#if isAppActive url}} active {{/if}}">
 						<a href class="menu-app-link" data-appid="{{_id}}">
 							{{_ name}}
 							<span class="label label-danger">{{appBadge _id}}</span>
 						</a>
 					</li>
+					{{eachEnd @index}}
 				{{/each}}
 				<li>
 					<a href class="menu-apps-link">
@@ -29,5 +31,5 @@
 			</div>
 		</nav>
 	</header>
-
+	{{/if}}
 </template>
