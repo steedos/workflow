@@ -197,7 +197,8 @@ InstanceformTemplate.helpers =
 			fields = _.clone(form_version.fields);
 
 			fields.forEach (field, index) ->
-
+				field.tr_start = "";
+				field.tr_end = "";
 				td_colspan = 1;
 #				强制设置标头字段为宽字段
 				if CoreForm?.pageTitleFieldName == field.code
