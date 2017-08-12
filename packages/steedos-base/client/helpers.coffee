@@ -280,7 +280,7 @@ TemplateHelpers =
 			space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isCordova() || Steedos.isPad()
 			selector.mobile = true
 		return db.apps.find(selector, {sort: {sort: 1}});
 
@@ -290,7 +290,7 @@ TemplateHelpers =
 			space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isCordova() || Steedos.isPad()
 			selector.mobile = true
 		return db.apps.findOne(selector, {sort: {sort: 1}})
 
@@ -312,7 +312,7 @@ TemplateHelpers =
 			space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isCordova() || Steedos.isPad()
 			selector.mobile = true
 		selector._id = "#{app_id}"
 		return db.apps.findOne(selector)
@@ -323,7 +323,7 @@ TemplateHelpers =
 			space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
-		if Steedos.isMobile()
+		if Steedos.isMobile() || Steedos.isCordova() || Steedos.isPad()
 			selector.mobile = true
 		selector.url = "#{app_url}"
 		return db.apps.findOne(selector)
