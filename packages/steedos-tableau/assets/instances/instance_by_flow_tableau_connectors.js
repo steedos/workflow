@@ -213,11 +213,6 @@
 			dataType: 'json',
 			processData: false,
 			contentType: "application/json",
-			headers: {
-				"X-User-Id": "5194c66ef4a563537a000003",
-				"X-Auth-Token": "lKpQHQuTWLvKsympqTtpiL0gD-QSnpnaa87W03guxQP",
-				"X-Space-Id": "51ae9b1a8e296a29c9000001"
-			},
 			success: function (resp, textStatus) {
 
 				console.log("resp.data:", resp.data.length)
@@ -342,6 +337,8 @@
 			if (valueFields) {
 				connectionData.valueFields = JSON.parse(valueFields);
 			}
+
+			connectionData.period = $("#period").val();
 
 			var approve = $("#approve").is(':checked');
 

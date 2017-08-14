@@ -31,6 +31,14 @@
 						<option value="#{spaceId}">#{spaceName}</option>
 					</select>
 
+					<label class="control-label" for="submit_date">时间段:</label>
+					<select class="form-control" id="period" #{readonly}>
+						<option value="1" checked>一个月</option>
+						<option value="3">三个月</option>
+						<option value="6">六个月</option>
+						<option value="12">十二个月</option>
+					</select>
+
 					<label class="control-label" for="state">申请单状态:</label>
 					<div>
 						<label class="checkbox-inline">
