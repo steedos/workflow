@@ -18,7 +18,7 @@ Steedos.Helpers =
 	# 根据当前路由路径前缀，得到当前所属app名字
 	getAppName: (path)->
 		unless path
-			path = location.pathname
+			path = Session.get "router-path"
 		if /^\/?workflow\b/.test(path)
 			return "workflow"
 		else if /^\/?cms\b/.test(path)
@@ -128,6 +128,11 @@ Steedos.Helpers =
 		if space_id and ins_id
 			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
+	isAppActive: (url)->
+		matchs = Session.get("router-path").match(url)
+		if matchs and matchs.index == 0
+			return true
+
 
 _.extend Steedos, Steedos.Helpers
 
@@ -181,6 +186,7 @@ TemplateHelpers =
 			Session.set("spaceId", null)
 			localStorage.removeItem("spaceId:" + Meteor.userId())
 		else if spaceId != Session.get("spaceId")
+			Session.set("flowId", undefined);
 			Session.set("spaceId", spaceId)
 			localStorage.setItem("spaceId:" + Meteor.userId(), spaceId)
 			Steedos.checkSpaceBalance spaceId
@@ -276,7 +282,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}});
+		return db.apps.find(selector, {sort: {sort: 1}});
 
 	getSpaceFirstApp: ()->
 		selector = {}
@@ -286,7 +292,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.findOne(selector, {sort: {sort: 1, space_sort: 1}})
+		return db.apps.findOne(selector, {sort: {sort: 1}})
 
 	getSpaceTopApps: (count)->
 		unless count
@@ -298,7 +304,7 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
-		return db.apps.find(selector, {sort: {sort: 1, space_sort: 1}, limit: count})
+		return db.apps.find(selector, {sort: {sort: 1}, limit: count})
 
 	getSpaceAppById: (app_id)->
 		selector = {}
@@ -359,8 +365,14 @@ TemplateHelpers =
 			return badge
 
 
-	locale: ->
-		return Steedos.getLocale()
+	locale: (isI18n)->
+		locale = Steedos.getLocale()
+		if isI18n
+			if locale == "en-us"
+				locale = "en"
+			if locale == "zh-cn"
+				locale = "zh-CN"
+		return locale
 
 	country: ->
 		locale = Steedos.getLocale()
@@ -544,13 +556,21 @@ TemplateHelpers =
 			return true
 		false
 
-	androidDownload: (url, filename, rev, length) ->
+	cordovaDownload: (url, filename, rev, length) ->
 		$(document.body).addClass 'loading'
-		fileName = rev + '-' + filename
+		# fileName = rev + '-' + filename
+		fileName = filename
 		size = length
 		if typeof length == 'string'
 			size = length.to_float()
-		window.resolveLocalFileSystemURL cordova.file.externalCacheDirectory, ((directoryEntry) ->
+
+		directory = ""
+		if Steedos.isAndroidApp()
+			directory = cordova.file.externalCacheDirectory
+		else
+			directory = cordova.file.cacheDirectory
+
+		window.resolveLocalFileSystemURL directory, ((directoryEntry) ->
 			directoryEntry.getFile fileName, {
 				create: true
 				exclusive: false
@@ -598,6 +618,9 @@ TemplateHelpers =
 		unless name
 			return true
 		return name == "normal"
+
+	isCordova: ()->
+		return Meteor.isCordova
 
 _.extend Steedos, TemplateHelpers
 

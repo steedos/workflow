@@ -16,9 +16,13 @@
         <div class="sidebar" id="scrollspy">
           {{> sidebarUserPanel}}
           <ul class="nav sidebar-menu">
-            <li class="header header-contacts header-space-switcher">
-              {{> space_switcher}}
-            </li>
+			  <li class="header">
+				  {{_ "Steedos Contacts"}}
+			  </li>
+
+            <!--<li class="header header-contacts header-space-switcher">-->
+              <!--{{> space_switcher}}-->
+            <!--</li>-->
 
             <li class="{{liActive 'orgs'}}"><a href="/contacts/orgs" ><i class="fa fa-sitemap"></i><span>{{_ 'contacts_organizations'}}</span></a></li>
 

@@ -14,7 +14,7 @@ if Meteor.isClient
 		_id: "flow_roles"
 		title: "flow_roles"
 		app: "workflow"
-		icon: "ion ion-university"
+		icon: "ion ion-ios-grid-view-outline"
 		url: "/admin/view/flow_roles"
 		sort: 20
 		parent: "workflow"
@@ -24,7 +24,7 @@ if Meteor.isClient
 		_id: "flow_positions"
 		title: "flow_positions"
 		app: "workflow"
-		icon: "ion ion-android-happy"
+		icon: "ion ion-ios-at-outline"
 		url: "/workflow/admin/flow_positions"
 		sort: 30
 		parent: "workflow"
@@ -34,7 +34,7 @@ if Meteor.isClient
 		_id: "workflow_designer"
 		title: "Workflow Designer"
 		app: "workflow"
-		icon: "ion ion-shuffle"
+		icon: "ion ion-ios-shuffle"
 		url: "/workflow/designer"
 		sort: 40
 		parent: "workflow"
@@ -44,7 +44,7 @@ if Meteor.isClient
 		_id: "workflow_form_edit"
 		title: "workflow_form_edit"
 		app: "workflow"
-		icon: "ion ion-ios-paper"
+		icon: "ion ion-ios-paper-outline"
 		url: "/admin/flows"
 		paid: "true"
 		sort: 50
@@ -55,7 +55,7 @@ if Meteor.isClient
 		_id: "workflow_import_export_flows"
 		title: "workflow_import_export_flows"
 		app: "workflow"
-		icon: "ion ion-ios-paper"
+		icon: "ion ion-ios-cloud-download-outline"
 		url: "/admin/importorexport/flows"
 		paid: "true"
 		sort: 50
@@ -66,7 +66,7 @@ if Meteor.isClient
 		_id: "space_user_signs"
 		title: "space_user_signs"
 		app: "workflow"
-		icon: "ion ion-images"
+		icon: "ion ion-ios-pulse"
 		url: "/admin/view/space_user_signs"
 		paid: "true"
 		sort: 60
@@ -77,20 +77,19 @@ if Meteor.isClient
 		_id: "webhooks"
 		title: "webhooks"
 		app: "workflow"
-		icon: "ion ion-link"
+		icon: "ion ion-ios-paperplane-outline"
 		url: "/admin/view/webhooks"
 		paid: "true"
 		sort: 70
 		parent: "workflow"
 
-	# categories
+	# 流程分类
 	Admin.addMenu
 		_id: "categories"
 		title: "categories"
 		app: "workflow"
-		icon: "ion ion-android-folder-open"
+		icon: "ion ion-ios-folder-outline"
 		url: "/admin/categories"
-#		paid: "true"
 		sort: 45
 		parent: "workflow"
 

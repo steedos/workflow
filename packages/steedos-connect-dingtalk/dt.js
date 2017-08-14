@@ -1,5 +1,4 @@
-Accounts.oauth.registerService('dingtalk');
+// Accounts.oauth.registerService('dingtalk');
 
 if (!Dingtalk)
-        Dingtalk = {}
-
+	Dingtalk = {}

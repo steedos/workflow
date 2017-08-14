@@ -25,8 +25,8 @@ db.spaces.adminConfig =
 		{name: "is_paid"},
 	]
 	extraFields: ["name","owner","admins"]
-	newFormFields: "name,owner,admins"
-	editFormFields: "name,owner,admins"
+	newFormFields: "name,owner,admins,avatar"
+	editFormFields: "name,owner,admins,avatar"
 	selector: {_id: -1}
 
 db.organizations.adminConfig =
@@ -55,9 +55,9 @@ db.space_users.adminConfig =
 		{name: "organization_name()"},
 		{name: "user_accepted"}
 	]
-	extraFields: ["space", "user", "organizations", "manager"]
-	newFormFields: "space,name,email,mobile,work_phone,position,organizations,manager,sort_no,user_accepted"
-	editFormFields: "space,name,mobile,work_phone,position,organizations,manager,sort_no,user_accepted"
+	extraFields: ["space", "user", "organizations", "organization", "manager"]
+	newFormFields: "space,name,email,company,position,mobile,work_phone,organizations,manager,sort_no,user_accepted"
+	editFormFields: "space,name,company,position,mobile,work_phone,organizations,manager,sort_no,user_accepted"
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 

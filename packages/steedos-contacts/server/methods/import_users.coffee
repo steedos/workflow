@@ -4,7 +4,7 @@ Meteor.methods
 		2、校验工作区用户是否存在
 		3、校验部门是否存在
 		4、校验部门用户是否存在
-    	TODO: 国际化
+		TODO: 国际化
 	###
 	import_users: (space_id, user_pk, data, onlyCheck)->
 
@@ -22,8 +22,35 @@ Meteor.methods
 
 		owner_id = space.owner
 
+		testData = []
+
 		data.forEach (item, i)->
-			if Meteor.settings.import_user?.update_password && (_.keys(item).join(",") == 'username,password' || _.keys(item).join(",") == 'password,username')
+			console.log("item", item)
+			testObj = {}
+			if item.username
+				testObj.username = item.username
+				if testData.filterProperty("username", item.username).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：用户名重复");
+
+			if item.phone
+				testObj.phone = item.phone
+				if testData.filterProperty("phone", item.phone).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：手机号重复");
+
+
+			if item.email
+
+				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(item.email)
+					throw new Meteor.Error(500, "第#{i + 1}行：邮件格式错误#{item.email}");
+
+				testObj.email = item.email
+				if testData.filterProperty("email", item.email).length > 0
+					throw new Meteor.Error(500, "第#{i + 1}行：邮件重复");
+
+			testData.push(testObj)
+
+
+			if (_.keys(item).join(",") == 'username,password' || _.keys(item).join(",") == 'password,username')
 				if !item.username
 					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
 				if !item.password
@@ -33,6 +60,9 @@ Meteor.methods
 
 				if !user1
 					throw new Meteor.Error(500, "第#{i + 1}行：无效的用户名");
+
+				if user1.services?.password?.bcrypt
+					throw new Meteor.Error(500, "第#{i + 1}行：用户已设置密码，不允许修改");
 
 				space_user1 = db.space_users.findOne({user: user1._id, space: space._id})
 
@@ -87,7 +117,6 @@ Meteor.methods
 						if user_by_phone.fetch()[0]?.emails?[0].address != item.email
 							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
 
-			# 如果用户存在但是不属于本次导入的工作区，则不导入
 			if item.email
 
 				user_by_email = db.users.findOne({"emails.address": item.email})
@@ -99,10 +128,13 @@ Meteor.methods
 							if user_by_email
 								throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
 
-#				ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
-#
-#				if !ck_space_user
-#					throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
+				# ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
+
+				# if !ck_space_user
+				# 	throw new Meteor.Error(500, "第#{i + 1}行：用户已属于其他工作区，不能通过导入功能添加此用户；您可以通过邮箱邀请此用户");
+
+			if item.password && user?.services?.password?.bcrypt
+				throw new Meteor.Error(500, "第#{i + 1}行：用户已设置密码，不允许修改");
 
 			organization_depts.forEach (dept_name, j) ->
 				if !dept_name
@@ -170,43 +202,53 @@ Meteor.methods
 
 				if item.username
 					u_update_doc.username = item.username
-					su_update_doc.username = item.username
 
 				if item.phone
 					u_update_doc.phone = {
-						number: item.phone
-						verified: true
+						number: "+86" + item.phone
+						verified: false
 						modified: now
 					}
-
+					# u_update_doc.mobile = item.phone 未通过验证,不设置mobile
 					su_update_doc.mobile = item.phone
 
-#				更新用户Email字段
+				# 更新用户Email字段
 				if user_pk == 'username'
 					if item.email
 						su_update_doc.email = item.email
-						u_update_doc.steedos_id = item.email
-						u_update_doc.emails = [{address: item.email, verified: true}]
-					else
-						su_update_doc.email = null
-						u_update_doc.steedos_id = item.username
-						u_update_doc.emails = null
+#						u_update_doc.steedos_id = item.email
 
-				db.users.direct.update({_id: user_id},{$set:u_update_doc})
+						if user.emails
+							_address = user.emails.filterProperty("address", item.email)
+							if _address.length < 1
+								u_update_doc.emails = user.emails.concat([{address: item.email, verified: false}])
+						else
+							u_update_doc.emails = [{address: item.email, verified: false}]
 
-				db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
+				if _.keys(u_update_doc).length > 0
+					db.users.direct.update({_id: user_id},{$set:u_update_doc})
 
-				if Meteor.settings.import_user?.update_password && item.password
+#				console.log su_update_doc
+				if _.keys(su_update_doc).length > 0
+					db.space_users.direct.update({user: user_id}, {$set: su_update_doc})
+
+				if item.password
 					Accounts.setPassword(user_id, item.password, {logout: false})
 
 			else
 				udoc = {}
 				udoc._id = db.users._makeNewID()
-				udoc.steedos_id = item.email
+
+				if item.email
+					udoc.steedos_id = item.email
+				else
+					udoc.steedos_id = item.username
+
 				udoc.name = item.name
 				udoc.locale = "zh-cn"
 				udoc.is_deleted = false
-				udoc.emails = [{address: item.email, verified: true}]
+				if item.email
+					udoc.emails = [{address: item.email, verified: false}]
 				udoc.services = {password: {bcrypt: "$2a$10$o2qrOKUtfICH/c3ATkxrwu11h5u5I.Mc4ANU6pMbBjUaNs6C3f2sG"}}
 				udoc.created = now
 				udoc.modified = now
@@ -223,10 +265,12 @@ Meteor.methods
 
 				if item.phone
 					udoc.phone = {
-						number: item.phone
-						verified: true
+						number: "+86" + item.phone
+						verified: false
 						modified: now
 					}
+
+					# udoc.mobile = item.phone 未通过验证,不设置mobile
 
 				user_id = db.users.direct.insert(udoc)
 
@@ -261,7 +305,12 @@ Meteor.methods
 					if item.sort_no
 						space_user_update_doc.sort_no = item.sort_no
 
-					db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+					if item.company
+						space_user_update_doc.company = item.company
+
+					if _.keys(space_user_update_doc).length > 0
+						db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+
 					space_user_org.updateUsers()
 			else
 				if space_user_org
@@ -277,7 +326,8 @@ Meteor.methods
 						su_doc.user_accepted = false
 
 					su_doc.name = item.name
-					su_doc.email = item.email
+					if item.email
+						su_doc.email = item.email
 					su_doc.created = now
 					su_doc.created_by = owner_id
 					su_doc.organization = space_user_org_id
@@ -294,6 +344,9 @@ Meteor.methods
 
 					if item.sort_no
 						su_doc.sort_no = item.sort_no
+
+					if item.company
+						su_doc.company = item.company
 
 					space_user_id = db.space_users.direct.insert(su_doc)
 					if space_user_id

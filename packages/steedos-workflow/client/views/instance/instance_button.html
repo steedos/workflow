@@ -3,36 +3,51 @@
 		<button type="button" class="btn btn-default btn-instance-back hidden"><i class="ion ion-chevron-left"></i>
 			<span>{{_ 'back'}}</span>
 		</button>
+		{{#if enabled_submit}}
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-primary btn-instance-submit" data-toggle="tooltip"
+					data-placement="bottom">
+				<i class="fa fa-paper-plane"></i>
+				<span>{{_ 'Send'}}</span>
+			</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		{{/if}}
+		{{#if enabled_cc}}
+			<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom">
+				<i class=" fa fa-user-plus" aria-hidden="true"></i>
+				<span>{{_ 'instance_cc_title'}}</span>
+			</button>
+		{{/if}}
 		{{#if enabled_suggest}}
-			<button tyep="button" class="btn btn-default btn-suggestion-toggle" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-suggestion-toggle" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="ion ion-ios-compose-outline"></i>
 				<span>{{_ 'instance_suggestion_toggle'}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_save}}
-			<button tyep="button" class="btn btn-default btn-instance-update" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-update" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="fa fa-save"></i>
 				<span>{{_ 'instance_save'}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_relocate}}
-			<button tyep="button" class="btn btn-default btn-instance-relocate" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-relocate" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="ion ion-arrow-shrink"></i>
 				<span>{{_ 'instance_relocate'}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_reassign}}
-			<button tyep="button" class="btn btn-default btn-instance-reassign" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-reassign" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="ion ion-android-contact"></i>
 				<span>{{_ 'instance_reassign'}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_delete}}
-			<button tyep="button" class="btn btn-default btn-instance-remove" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-remove" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="ion ion-close-circled"></i>
 				<span>{{_ 'instance_delete'}}</span>
@@ -58,12 +73,6 @@
 				<span>{{_ 'instance_approval_history'}}</span>
 			</button>
 		{{/if}}
-		{{#if enabled_cc}}
-			<button type="button" class="btn btn-default btn-instance-cc" data-toggle="tooltip" data-placement="bottom">
-				<i class=" fa fa-user-plus" aria-hidden="true"></i>
-				<span>{{_ 'instance_cc_title'}}</span>
-			</button>
-		{{/if}}
 		{{#if enabled_return}}
 			<button type="button" class="btn btn-default btn-instance-return" data-toggle="tooltip" data-placement="bottom" >
 				<i class="ion ion-reply"></i>
@@ -85,33 +94,33 @@
 			</button>
 		{{/if}}
 		{{#if enabled_terminate}}
-			<button tyep="button" class="btn btn-default btn-instance-force-end" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-force-end" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="fa fa-ban"></i>
 				<span>{{_ 'instance_cancel'}}</span>
 			</button>
 		{{/if}}
 			<!--{{#if enabled_copy}}-->
-		<!--<button tyep="button" class="btn btn-default btn-instance-readonly-view-url-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{instance_readonly_view_url}}">-->
+		<!--<button type="button" class="btn btn-default btn-instance-readonly-view-url-copy" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{instance_readonly_view_url}}">-->
 		<!--<i class="ion ion-ios-copy"></i>-->
 		<!--<span>{{_ 'instance_readonly_view_url_copy'}}</span>-->
 		<!--</button>-->
 			<!--{{/if}}-->
 		{{#if enabled_related}}
-			<button tyep="button" class="btn btn-default btn-instance-related-instances" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-related-instances" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="fa fa-link"></i>
 				<span>{{_ 'instance_related_instances_title'}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_remind}}
-			<button tyep="button" class="btn btn-default btn-instance-remind" data-toggle="tooltip"
+			<button type="button" class="btn btn-default btn-instance-remind" data-toggle="tooltip"
 					data-placement="bottom">
 				<i class="ion ion-ios-bell"></i>
 				<span>{{_ 'instance_remind_title'}}</span>
 			</button>
 		{{/if}}
-		<button tyep="button" class="btn btn-default btn-workflow-chart" data-toggle="tooltip" data-placement="bottom">
+		<button type="button" class="btn btn-default btn-workflow-chart" data-toggle="tooltip" data-placement="bottom">
 			<i class="ion ion-network"></i>
 			<span>{{_ 'workflow_chart'}}</span>
 		</button>
@@ -123,6 +132,10 @@
 				<span class="sr-only">Toggle Dropdown</span>
 			</button>
 			<ul class="dropdown-menu" role="menu">
+				{{#if enabled_cc}}
+					<li><a class="btn-instance-cc"><i class="fa fa-user-plus" aria-hidden="true"></i>{{_
+							'instance_cc_title'}}</a></li>
+				{{/if}}
 				{{#if enabled_save}}
 					<li><a class="btn-instance-update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
 				{{/if}}
@@ -147,10 +160,6 @@
 				{{#if enabled_traces}}
 					<li><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_
 							'instance_approval_history'}}</a></li>
-				{{/if}}
-				{{#if enabled_cc}}
-					<li><a class="btn-instance-cc"><i class="fa fa-user-plus" aria-hidden="true"></i>{{_
-							'instance_cc_title'}}</a></li>
 				{{/if}}
 				{{#if enabled_return}}
 					<li><a class="btn-instance-return"><i class="ion ion-reply" aria-hidden="true"></i>{{_

@@ -12,7 +12,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 
 		current_approve = hashData.current_approve
 		if current_approve.handler_name is "曹子玉"
-			if current_approve.description and current_approve.description isnt "已阅"
+			if current_approve.description and current_approve.description isnt "已阅" and current_approve.description isnt "已阅。"
 				user = db.users.findOne({"emails.address": "wanghuaning@portqhd.com"}, {fields: {mobile: 1, locale: 1}})
 				if user and user.mobile
 					#设置当前语言环境

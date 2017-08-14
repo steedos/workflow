@@ -42,6 +42,9 @@ Template.instance_view.helpers
 			return "instance-table"
 		return "";
 
+	showTracesView: (form, form_version)->
+		return TracesTemplate.helpers.showTracesView(form, form_version)
+
 	tracesTemplateName: (formId)->
 		form = WorkflowManager.getForm(formId);
 
@@ -73,6 +76,24 @@ Template.instance_view.helpers
 		ins = WorkflowManager.getInstance();
 		if ins
 			return WorkflowManager.getForm(ins.form)?.description?.replace(/\n/g,"<br/>")
+
+	get_priority_class: ()->
+		ins = WorkflowManager.getInstance()
+		if !ins
+			return ""
+
+		priorityClass = ""
+		priorityValue = ins.values?.priority
+		switch priorityValue
+			when "特急"
+				priorityClass = "instance-priority-danger"
+			when "紧急"
+				priorityClass = "instance-priority-warning"
+			when "办文"
+				priorityClass = "instance-priority-muted"
+
+		return priorityClass
+
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
@@ -119,6 +140,12 @@ Template.instance_view.onRendered ->
 							,100
 					preScrollTop = scrollTop
 			,100
+
+	if Steedos.isMobile()
+		Steedos.bindSwipeBackEvent(".instance-wrapper", (event,options)->
+			$(".btn-instance-back").trigger("click")
+		)
+
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->

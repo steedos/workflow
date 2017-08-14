@@ -9,7 +9,8 @@ Npm.depends({
 	cookies: "0.6.1",
 	ejs: "2.5.5",
 	"ejs-lint": "0.2.0",
-	"eval": "0.1.2"
+	"eval": "0.1.2",
+	mkdirp: "0.3.5"
 });
 
 Package.onUse(function(api) {
@@ -188,6 +189,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/traces.js', 'client');
 	api.addFiles('client/views/instance/traces_table.html', 'client');
 	api.addFiles('client/views/instance/traces_table.js', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.less', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.html', 'client');
+	api.addFiles('client/views/instance/traces_table_modal.coffee', 'client');
 
 	api.addAssets('client/views/instance/traces.html', 'server');
 	api.addAssets('client/views/instance/traces_table.html', 'server');
@@ -300,6 +304,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/related_instances.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
+	api.addFiles('server/routes/steedos_css.coffee', 'server');
 
 	// routes
 	api.addFiles('routes/nextStepUsers.js', 'server');

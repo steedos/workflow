@@ -554,24 +554,24 @@ uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_ver
 				return form_version is form_h._id
 			)
 
-			_.each(form_v.fields, (field)->
-				if field.type is "table"
-					_.each(field.fields, (tableField)->
-						if approve_values[field.code] isnt null
-							_.each(approve_values[field.code], (tableValue)->
-								if permissions[tableField.code] is null or permissions[tableField.code] isnt "editable"
-									delete tableValue[tableField.code]
-							)
-					)
-				else if field.type is "section"
-					_.each(field.fields, (sectionField)->
-						if permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable"
-							delete approve_values[sectionField.code]
-					)
-				else
-					if permissions[field.code] is null or permissions[field.code] isnt "editable"
-						delete approve_values[field.code]
-			)
+		_.each(form_v.fields, (field)->
+			if field.type is "table"
+				_.each(field.fields, (tableField)->
+					if approve_values[field.code] isnt null
+						_.each(approve_values[field.code], (tableValue)->
+							if permissions[tableField.code] is null or permissions[tableField.code] isnt "editable"
+								delete tableValue[tableField.code]
+						)
+				)
+			else if field.type is "section"
+				_.each(field.fields, (sectionField)->
+					if permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable"
+						delete approve_values[sectionField.code]
+				)
+			else
+				if permissions[field.code] is null or permissions[field.code] isnt "editable"
+					delete approve_values[field.code]
+		)
 	return approve_values
 
 uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info) ->
@@ -1157,7 +1157,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 
-					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc'
+					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
 						isAllApproveFinished = false
 
 					h++
@@ -1831,6 +1831,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					upObj.traces = traces
 					upObj.outbox_users = []
 
+	upObj.keywords = uuflowManager.caculateKeywords(upObj.values, form, instance.form_version)
 	db.instances.update({_id: instance_id}, {$set: upObj})
 	db.flows.direct.update({_id: flow._id}, {$set: {current_no: flow.current_no + 1}})
 	if next_step.step_type isnt "end"
@@ -2060,3 +2061,91 @@ uuflowManager.checkMainAttach = (instance_id, name)->
 		if new_ins_name isnt main_name_split.join("")
 			file_name = new_ins_name + "." + main.extension()
 			main.update({$set: {'original.name': file_name, 'copies.instances.name': file_name}})
+
+uuflowManager.caculateKeywords = (values, form, form_version)->
+	if _.isEmpty(values)
+		return ""
+
+	keywords = []
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h)->
+			return form_version is form_h._id
+		)
+
+	_.each form_v.fields, (field)->
+		if field.is_searchable
+			if field.type=='input' or field.type=='email' or field.type=='url' or field.type=='number' or field.type=='select' or field.type=='radio'
+				if values[field.code]
+					keywords.push values[field.code]
+			# multiSelect
+			else if field.type=='multiSelect'
+				if values[field.code]
+					keywords.push values[field.code]
+			# 选人选组控件 取name
+			else if field.type=='user' or field.type=='group'
+				# 多选
+				if field.is_multiselect == true
+					multiValue = values[field.code]
+					if _.isArray(multiValue)
+						_.each multiValue, (singleV)->
+							if singleV and singleV['name']
+								keywords.push singleV['name']
+				# 单选
+				else
+					if values[field.code] and values[field.code]['name']
+						keywords.push values[field.code]['name']
+		# 子表
+		else if field.type == 'table'
+			if values[field.code]
+				_.each values[field.code], (s_value)->
+					_.each field.fields, (s_field)->
+						if s_field.is_searchable
+							if s_field.type=='input' or s_field.type=='email' or s_field.type=='url' or s_field.type=='number' or s_field.type=='select' or s_field.type=='radio'
+								if s_value[s_field.code]
+									keywords.push s_value[s_field.code]
+							# multiSelect
+							else if s_field.type=='multiSelect'
+								if s_value[s_field.code]
+									keywords.push s_value[s_field.code]
+							# 选人选组控件 取name
+							else if s_field.type is 'user' or s_field.type is 'group'
+								# 多选
+								if s_field.is_multiselect == true
+									multiValue = s_value[s_field.code]
+									if _.isArray(multiValue)
+										_.each multiValue, (singleV)->
+											if singleV and singleV['name']
+												keywords.push singleV['name']
+								# 单选
+								else
+									if s_value[s_field.code] and s_value[s_field.code]['name']
+										keywords.push s_value[s_field.code]['name']
+		# 分组
+		else if field.type == 'section'
+			_.each field.fields, (s_field)->
+				if s_field.is_searchable
+					if s_field.type=='input' or s_field.type=='email' or s_field.type=='url' or s_field.type=='number' or s_field.type=='select' or s_field.type=='radio'
+						if values[s_field.code]
+							keywords.push values[s_field.code]
+					# multiSelect
+					else if s_field.type=='multiSelect'
+						if values[s_field.code]
+							keywords.push values[s_field.code]
+					# 选人选组控件 取name
+					else if s_field.type is 'user' or s_field.type is 'group'
+						# 多选
+						if s_field.is_multiselect == true
+							multiValue = values[s_field.code]
+							if _.isArray(multiValue)
+								_.each multiValue, (singleV)->
+									if singleV and singleV['name']
+										keywords.push singleV['name']
+						# 单选
+						else
+							if values[s_field.code] and values[s_field.code]['name']
+								keywords.push values[s_field.code]['name']
+
+	return keywords.join(" ")

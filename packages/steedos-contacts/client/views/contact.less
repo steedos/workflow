@@ -345,6 +345,9 @@
 		text-align: left;
 	}
 	.datatable-steedos-contacts{
+		tr[data-id]{
+			cursor: pointer;
+		}
 		.drag-source{
 			cursor: pointer;
 			&.drag-source-moving{
@@ -403,6 +406,11 @@
 			&:last-child{
 				margin-right:0px;
 			}
+			&.steedos-info-edit,&.steedos-info-delete{
+				@media (max-width: 420px){
+					display: none;
+				}
+			}
 		}
 	}
 	.weui-modal-content{
@@ -413,6 +421,24 @@
 		overflow-y: auto;
 		.weui-cells{
 			margin-top: -3px;
+			.btn-edit-username{
+				padding: 0 12px;
+				font-size: 100%;
+			}
+			.user-org-list{
+				width: 100%;
+			}
+			.user-org-item{
+				.badge{
+					margin-top: -2px;
+					margin-left: 6px;
+				}
+				&:hover .btn-set-primary{
+					display: inline!important;
+					margin-top: -2px;
+					margin-left: 6px;
+				}
+			}
 		}
 	}
 }

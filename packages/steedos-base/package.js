@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.41',
+	version: '0.0.47',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -41,6 +41,8 @@ Package.onUse(function(api) {
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.5');
 
+	api.use('steedos:theme@0.0.21');
+
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
 	api.addFiles([
@@ -75,9 +77,11 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
+	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
 	api.addFiles([
 		'client/core.coffee',
+		'client/swipe.coffee',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',
@@ -89,10 +93,13 @@ Package.onUse(function(api) {
 		'client/layout/layout.less',
 		'client/layout/header_logo.html',
 		'client/layout/header_logo.coffee',
+		'client/layout/header_space.html',
+		'client/layout/header_space.coffee',
 		'client/layout/header_refresh.html',
 		'client/layout/header_refresh.coffee',
 		'client/layout/header_loading.html',
 		'client/layout/header.html',
+		'client/layout/header.coffee',
 		'client/layout/header.less',
 		'client/layout/sidebar.html',
 		'client/layout/steedosheader-account.html',

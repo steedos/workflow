@@ -45,7 +45,9 @@ Template.accounts_phone.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			Accounts.requestPhoneVerification number, (error)->
+			unless Meteor.userId()
+				checkVerified = true
+			Accounts.requestPhoneVerification number, checkVerified, (error)->
 				$(document.body).removeClass('loading')
 				if error
 					toastr.error t(error.reason)
@@ -61,6 +63,11 @@ Template.accounts_phone.events
 			sweetAlert.close();
 
 	'click .btn-back': (event,template) ->
+		if /steedos\/setup\/phone/.test(FlowRouter.current().path)
+			# 手机号登录界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
+			# 所以这里不可以直接FlowRouter.go oldPath
+			FlowRouter.go "steedos/sign-in"
+
 		oldPath = FlowRouter.current().oldRoute?.path
 		if oldPath
 			FlowRouter.go oldPath

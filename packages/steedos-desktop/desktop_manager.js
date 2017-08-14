@@ -20,7 +20,12 @@ if (Steedos.isNode()){
 	// 关闭时判断
 	globalWin.on("close",function(){
 		if(globalWin.disableClose == false){
-			globalWin.hide();
+			if(globalWin.window && globalWin.window.name){
+				globalWin.close(true);
+			}
+			else{
+				globalWin.hide();
+			}
 		}
 	});
 

@@ -79,7 +79,46 @@
 
                 <div class="box box-solid">
                   <div class="box-body">
-                    <h2 style="margin-top: 0px;">{{_ 'Change Password'}}</h2>
+                    {{#if isPhoneEnabled}}
+                      <h2 style="margin-top: 0px;">{{_ 'change_phone'}}</h2>
+                      <hr style="margin-top: 0px;"/>
+                      {{#if user.phone}}
+                        <div class="phone-box">
+                          <span class="phone-number">{{accountPhoneNumber}}</span>
+                          {{#if user.phone.verified}}
+                            <span class="phone-status text-success">
+                              <i class="ion ion-checkmark-circled"></i>
+                              <span class="phone-status-text">{{_ 'account_phone_verified_text'}}</span>
+                            </span>
+                          {{else}}
+                            <span class="phone-status text-danger">
+                              <i class="ion ion-alert-circled"></i>
+                              <span class="phone-status-text">{{_ 'account_phone_unverified_text'}}</span>
+                            </span>
+                          {{/if}}
+                        </div>
+                      {{else}}
+                        <div class="phone-box">
+                          <span class="phone-status-text">{{_ 'account_phone_unbind_text'}}</span>
+                        </div>
+                      {{/if}}
+                      <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
+                    {{/if}}
+                    <div class="change-username-box">
+                      {{#if isPhoneEnabled}}
+                        <h2 style="margin-top: 40px;">{{_ 'Change username'}}</h2>
+                      {{else}}
+                        <h2 style="margin-top: 0px;">{{_ 'Change username'}}</h2>
+                      {{/if}}
+                      <hr style="margin-top: 0px;"/>
+                      {{#if user.username}}
+                          <div class="username-text">{{user.username}}</div>
+                      {{else}}
+                        <div class="username-text">{{_ 'username_unset_text'}}</div>
+                      {{/if}}
+                      <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
+                    </div>
+                    <h2 style="margin-top: 40px;">{{_ 'Change Password'}}</h2>
                     <hr style="margin-top: 0px;"/>
                     <div class="form-group">
                       <label class="control-label">{{_ 'Old Password'}}</label>
@@ -96,16 +135,6 @@
                     <button type="submit" class="btn btn-primary btn-sm change-password">{{_ 'Change Password'}}</button>
                     {{#if isPhoneEnabled}}
                       <a class="btn btn-link btn-sm btn-set-password-by-phone">{{_ 'set_password_by_phone'}}</a>
-                    {{/if}}
-                    <div class="change-username-box">
-                      <h2 style="margin-top: 40px;">{{_ 'Change username'}}</h2>
-                      <hr style="margin-top: 0px;"/>
-                      <button type="submit" class="btn btn-primary btn-sm change-username">{{_ 'Change username'}}</button>
-                    </div>
-                    {{#if isPhoneEnabled}}
-                      <h2 style="margin-top: 40px;">{{_ 'change_phone'}}</h2>
-                      <hr style="margin-top: 0px;"/>
-                      <button type="submit" class="btn btn-primary btn-sm btn-change-phone">{{_ 'change_phone'}}</button>
                     {{/if}}
                   </div>
                 </div>
@@ -127,18 +156,21 @@
                           {{else}}
                             <span class="text-muted">{{_ 'email_unvrified'}}</span>
                           {{/if}}
-                          
-                            <span class="pull-right">
-                              {{#if this.verified}}
-                                {{#unless isPrimary this.address}}
-                                  <span><button class="set-primary-email btn-link" data-email="{{address}}">{{_ 'email_set_primary'}}</button></span>
-                                {{/unless}}
-                              {{else}}
-                                <span>{{_ 'email_verify_sent'}}<button class="send-verify-email btn-link" data-email="{{address}}">{{_ 'email_send_verify'}}</button></span>
-                              {{/if}}
-
-                              
-                            </span>
+                          <span class="pull-right">
+                            {{#if this.verified}}
+                              {{#unless isPrimary this.address}}
+                                <span><button class="set-primary-email btn-link" data-email="{{address}}">{{_ 'email_set_primary'}}</button></span>
+                              {{/unless}}
+                            {{else}}
+                              <span>{{_ 'email_verify_sent'}}<button class="send-verify-email btn-link" data-email="{{address}}">{{_ 'email_send_verify'}}</button></span>
+                            {{/if}}
+                            {{#if more_than_one_address}}
+                              {{#unless isPrimary this.address}}
+                                <span><button class="remove-email btn-link">{{_ 'Delete'}}</button></span>
+                              {{/unless}}
+                            {{/if}}
+                            
+                          </span>
                           
                         </div>
                       {{/each}}
@@ -204,7 +236,7 @@
                         </div>
                       {{/each}}
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm btn-save-zoom">{{_ 'profile_save_zoom_setting'}}</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-save-zoom hide">{{_ 'profile_save_zoom_setting'}}</button>
                   </div>
                 </div>
 
@@ -238,7 +270,7 @@
                         </div>
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm btn-save-bg">{{_ 'profile_save_bg_setting'}}</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-save-bg hide">{{_ 'profile_save_bg_setting'}}</button>
                   </div>
                 </div>
               </div>

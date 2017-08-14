@@ -8,7 +8,7 @@ if Meteor.isClient
 						$(".at-form .at-title h3").html("河港办公系统")
 					else
 						$(".at-form .at-title h3").html("河北港口集团协同办公系统")
-						unless $(".at-form .at-title h3").next(".log-tip")?.length
-							$(".at-form .at-title h3").after('<span class="log-tip" style="font-weight: bolder;font-size: 18px;font-family: 华文仿宋,仿宋,cursive;color: #fff;">涉密信息不上网　上网信息不涉密</span>')
+						unless $(".content-wrapper .container").next(".log-tip")?.length
+							$(".content-wrapper .container").after('<span class="log-tip" style="color: rgba(255, 255, 255, 0.5);position: absolute;left: 0px;bottom: 8px;width: 100%;text-align: center;font-weight: bolder;font-size: 18px;font-family: 华文仿宋,仿宋,cursive;">涉密信息不上网　上网信息不涉密</span>')
 					unless $(".at-form .at-title").prev("img")?.length
 						$(".at-form .at-title").before('<img src="/packages/steedos_theme-qhd/client/images/logo.jpg" class="img-circle logo" alt="logo" />')

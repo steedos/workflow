@@ -16,19 +16,14 @@
 				<div class="sidebar" id="scrollspy">
 					{{> sidebarUserPanel}}
 					<ul class="nav sidebar-menu">
-
-						<li class="header header-admin header-space-switcher">
-							{{> space_switcher}}
-						</li>
-						
-						<li class="{{menuClass 'admin/home/'}}"><a href="/admin/home/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "steedos_admin_home"}}</span></a></li>
+						<li class="{{menuClass 'admin/home/'}}"><a href="/admin/home/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Steedos Admin"}}</span></a></li>
 						{{{sidebarMenu}}}
 
 						<li>
 							<a class="steedos-help" href="#"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
 						</li>
 						<li><a href="/admin/about"><i class="ion ion-information-circled"></i><span>{{_ "steedos_about"}}</span></a></li>
-						<li><a href="/steedos/logout"><i class="ion ion-power"></i><span>{{_ "Sign out"}}</span></a></li>
+						<li><a href="/steedos/logout"><i class="ion ion-ios-paw-outline"></i><span>{{_ "Sign out"}}</span></a></li>
 					</ul>
 				</div>
 		</aside>

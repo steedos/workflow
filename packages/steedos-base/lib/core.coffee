@@ -14,6 +14,9 @@ Steedos =
 
 if Meteor.isClient
 
+	Steedos.spaceUpgradedModal = ()->
+		swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), html: true, type:"warning", confirmButtonText: TAPi18n.__("OK")});
+
 	Steedos.getAccountBgBodyValue = ()->
 		accountBgBody = db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"bg_body"})
 		if accountBgBody
@@ -34,14 +37,16 @@ if Meteor.isClient
 			if url == avatar
 				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl('api/files/avatars/' + avatar)})"
 			else
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(url)})"
+				# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
+				$("body").css "backgroundImage","url(#{url})"
 		else
+			# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
 			background = Meteor.settings?.public?.admin?.background
 			if background
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
+				$("body").css "backgroundImage","url(#{background})"
 			else
 				background = "/packages/steedos_theme/client/background/flower.jpg"
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl(background)})"
+				$("body").css "backgroundImage","url(#{background})"
 
 		if isNeedToLocal
 			if Meteor.loggingIn()
@@ -79,14 +84,19 @@ if Meteor.isClient
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
 
 		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
-		if accountZoomValue.name && !Session.get("instancePrint")
+		zoomName = accountZoomValue.name
+		zoomSize = accountZoomValue.size
+		if zoomName == null
+			zoomName = "large"
+			zoomSize = 1.2
+		if zoomName && !Session.get("instancePrint")
 			if Steedos.isNode()
 				if accountZoomValue.size == "1"
 					# node-webkit中size为0才表示100%
-					accountZoomValue.size = 0
-				nw.Window.get().zoomLevel = Number.parseFloat(accountZoomValue.size)
+					zoomSize = 0
+				nw.Window.get().zoomLevel = Number.parseFloat(zoomSize)
 			else
-				$("body").addClass("zoom-#{accountZoomValue.name}")
+				$("body").addClass("zoom-#{zoomName}")
 		if isNeedToLocal
 			if Meteor.loggingIn()
 				# 正在登录中，则不做处理，因为此时Steedos.userId()不足于证明已登录状态
@@ -107,15 +117,37 @@ if Meteor.isClient
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
 
-	Steedos.openAppWithToken = (app_id)->
+	Steedos.getAppUrlWithToken = (app_id)->
 		authToken = {};
 		authToken["spaceId"] = Steedos.getSpaceId()
 		authToken["X-User-Id"] = Meteor.userId();
 		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+		return "api/setup/sso/" + app_id + "?" + $.param(authToken)
 
-		url = Steedos.absoluteUrl("api/setup/sso/" + app_id + "?" + $.param(authToken));
-		Steedos.openWindow(url);
+	Steedos.openAppWithToken = (app_id)->
+		url = Steedos.getAppUrlWithToken app_id
+		url = Steedos.absoluteUrl url
+
+		app = db.apps.findOne(app_id)
+
+		if !app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
+			window.location = url
+		else
+			Steedos.openWindow(url);
 	
+	Steedos.openUrlWithIE = (url)->
+		if url
+			if Steedos.isNode()
+				exec = nw.require('child_process').exec
+				open_url = url
+				cmd = "start iexplore.exe \"#{open_url}\""
+				exec cmd, (error, stdout, stderr) ->
+					if error
+						toastr.error error
+					return
+			else
+				Steedos.openWindow(url)
+
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
@@ -134,7 +166,8 @@ if Meteor.isClient
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
 					open_url = Meteor.absoluteUrl(path)
 				else
-					open_url = app.url
+					open_url = Steedos.getAppUrlWithToken app_id
+					open_url = Meteor.absoluteUrl open_url
 				cmd = "start iexplore.exe \"#{open_url}\""
 				exec cmd, (error, stdout, stderr) ->
 					if error
@@ -147,7 +180,10 @@ if Meteor.isClient
 			FlowRouter.go(app.url)
 
 		else if app.is_use_iframe
-			Steedos.openWindow(Meteor.absoluteUrl("admin/open/by/iframe/" + app._id))
+			if app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
+				Steedos.openWindow(Steedos.absoluteUrl("admin/open/by/iframe/" + app._id))
+			else
+				window.location = Steedos.absoluteUrl("admin/open/by/iframe/" + app._id)
 
 		else if on_click
 			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
@@ -234,6 +270,8 @@ if Meteor.isServer
 		else
 			return organizations
 
+#	Steedos.chargeAPIcheck = (spaceId)->
+
 if Meteor.isServer
 	Cookies = Npm.require("cookies")
 	#TODO 添加服务端是否手机的判断(依据request)
@@ -262,7 +300,7 @@ if Meteor.isServer
 		else
 			parents = _.flatten parents
 			parents = _.uniq parents
-			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+			if parents.length and db.organizations.findOne({_id:{$in:parents}, admins:userId})
 				isOrgAdmin = true
 		return isOrgAdmin
 
@@ -317,6 +355,11 @@ if Meteor.isServer
 				throw new Error(result.error)
 			else
 				return user
+
+		userId = req.query?.userId
+		authToken = req.query?.authToken
+		if Steedos.checkAuthToken(userId,authToken)
+			return db.users.findOne({_id: userId})
 
 
 		cookies = new Cookies(req, res);
@@ -451,7 +494,8 @@ if Meteor.isServer
 		check date, Date
 		time_points = Meteor.settings.remind?.time_points
 		if not time_points or _.isEmpty(time_points)
-			throw new Meteor.Error 'error!', "time_points is null"
+			console.error "time_points is null"
+			time_points = [{"hour": 8, "minute": 30 }, {"hour": 14, "minute": 30 }]
 
 		len = time_points.length
 		start_date = new Date date
@@ -550,7 +594,8 @@ if Meteor.isServer
 			return steedos_token
 
 		locale: (userId, isI18n)->
-			locale = db.users.findOne({_id:userId}).locale
+			user = db.users.findOne({_id:userId},{fields: {locale: 1}})
+			locale = user?.locale
 			if isI18n
 				if locale == "en-us"
 					locale = "en"

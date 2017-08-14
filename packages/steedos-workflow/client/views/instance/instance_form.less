@@ -129,7 +129,7 @@
 
 textarea.suggestion-control{
     height: auto;
-    padding-right: 24px;
+    padding-right: 30px;
 }
 
 .button-group{
@@ -366,9 +366,15 @@ textarea {
       &>.col-md-12{
         padding-right: 0px;
       }
-      @media (max-width: 768px){
-        .form-group{
-          margin-bottom:0px;
+      form{
+        &>.col-md-6{
+          &:nth-child(2n){
+            clear: both;
+          }
+        }
+      }
+      .form-group{
+        @media (max-width: 768px){
           &.opinion-field{
             margin-bottom:10px;
           }
@@ -455,7 +461,7 @@ textarea {
   }
 }
 
-.instance-table{
+.instance-table, .traces_table_modal{
 
   .instance-template{
     max-width: 700px;
@@ -545,6 +551,17 @@ textarea {
 
     tbody, tr{
       border-color: inherit;
+    }
+
+    tr{
+      & > td{
+        position: relative;
+        .instance-sign-text{
+          position: absolute;
+          right: 5px;
+          bottom: 5px;
+        }
+      }
     }
 
     .td-title{
@@ -824,6 +841,14 @@ textarea {
     }
   }
   table.traces{
+    .touch &{
+      -webkit-touch-callout:none;
+      -webkit-user-select:none;
+      -khtml-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none;
+    }
     .approve-item{
       td{
       }
@@ -1237,6 +1262,7 @@ _:-ms-fullscreen,
     }
   }
   .list-group{
+    margin-bottom: 15px;
     .list-group-item{
       user-select: none;
       -moz-user-select: none;
@@ -1246,6 +1272,16 @@ _:-ms-fullscreen,
       }
       .pull-right{
         margin-right: -8px;
+      }
+    }
+    &:last-child{
+      .list-group-item{
+        &:last-child{
+          border-bottom: 1px solid #ddd;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
+
       }
     }
   }

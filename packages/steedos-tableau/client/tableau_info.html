@@ -1,0 +1,95 @@
+<template name="tableau_info">
+	<div class="steedos-tableau-info">
+		<div class="navigation-bar">
+			<button type="button" class="btn btn-default" data-toggle="offcanvas">
+				<i class="fa fa-bars"></i>
+			</button>
+
+			<span class="navigation-title">
+				{{_ "steedos_tableau_info"}}
+			</span>
+		</div>
+		<div class="admin-content">
+			<div class="box-body" style="display: block;">
+
+				<section class="steedos-tableau-info">
+					<h2 class="page-header">Steedos Tableau 介绍</h2>
+					<ul>
+						<li>此功能基于<a href="https://www.tableau.com/zh-cn" target="_blank">Tableau</a> Web 数据连接器。</li>
+						<li>通过使用Tableau 客户端的Web 数据连接器，连接审批王数据接口，对审批数据进行统计分析；</li>
+					</ul>
+				</section>
+
+				<section class="steedos-tableau-start">
+					<h2 class="page-header">Steedos Tableau 使用</h2>
+					<ul>
+						<li><a href="https://public.tableau.com/zh-cn/s/download" target="_blank">下载Tableau public 客户端(免费)</a></li>
+						<li>点击下方Steedos Tableau Web 数据连接器的<b>复制链接</b>按钮获取连接</li>
+						<li>打开Tableau客户端，点击新建 -> 连接到数据 -> Web 数据连接器，在打开的创建将复制的连接粘贴到地址栏</li>
+					</ul>
+				</section>
+
+				<section class="steedos-tableau-connectors">
+					<h2 class="page-header">Steedos Tableau Web 数据连接器</h2>
+					<div class="row data-connectors">
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-aqua">
+								<div class="inner">
+									<h3>审批效率统计</h3>
+									<p>按用户所属部门进行统计</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="#" class="small-box-footer steedos-tableau-approve-cost-time" data-clipboard-text="{{cost_time_connector}}">复制链接</a>
+							</div>
+						</div>
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-green">
+								<div class="inner">
+									<h3>申请单内容统计</h3>
+									<p>按流程统计申请单内容</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-pie-graph"></i>
+								</div>
+								<a href="#" class="small-box-footer steedos-tableau-workflow">选择流程 <i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-red">
+								<div class="inner">
+									<h3>敬请期待</h3>
+									<p>...</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-xs-6">
+							<!-- small box -->
+							<div class="small-box bg-yellow">
+								<div class="inner">
+									<h3>敬请期待</h3>
+									<p>...</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-person-add"></i>
+								</div>
+								<a href="#" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</template>

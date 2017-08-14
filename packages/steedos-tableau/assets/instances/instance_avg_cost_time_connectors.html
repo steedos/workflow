@@ -1,0 +1,130 @@
+<html>
+<head>
+	<title>Space Instances</title>
+	<meta http-equiv="Cache-Control" content="no-store" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/js/selectize/selectize.css">
+	<link rel="stylesheet" type="text/css" href="/js/selectize/selectize.bootstrap3.css">
+	<link rel="stylesheet" type="text/css" href="/packages/steedos_tableau/assets/steedos_tableau.css">
+	<script type="text/javascript" src="/lib/jquery/jquery-1.11.2.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://connectors.tableau.com/libs/tableauwdc-2.2.latest.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/packages/steedos_tableau/assets/instances/instance_avg_cost_time_connectors.js"></script>
+	<script type="text/javascript" src="/js/selectize/selectize.js"></script>
+	<script type="text/javascript" src="/packages/steedos_tableau/assets/steedos_tableau.js"></script>
+</head>
+
+<body>
+<div class="container container-table">
+	<div class="row vertical-center-row">
+		<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+			<span class="help-block" style="color: red"></span>
+
+			<div class="box box-success steedos-tableau-auth">
+				<div class="box-header with-border">
+					<h3 class="box-title">请登录</h3>
+				</div>
+				<div class="form-horizontal">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-label">账户</label>
+
+							<div class="col-sm-10">
+								<input type="text" id="username" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+
+							<div class="col-sm-10">
+								<input type="password" id="password" class="form-control">
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<button type="button" class="btn btn-info pull-right" id="login">登录</button>
+					</div>
+				</div>
+			</div>
+			<div class="box box-info steedos-tableau-data">
+				<div class="box-body">
+
+					<div class="form-group">
+						<label class="control-label" for="spaceId">工作区:</label>
+						<select class="form-control" id="spaceId" readonly>
+							<option value="#{spaceId}">#{spaceName}</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="submit_date">时间段:</label>
+						<select class="form-control" id="period">
+							<option value="1">一个月</option>
+							<option value="3" checked>三个月</option>
+							<option value="6">六个月</option>
+							<option value="12">十二个月</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="submit_date">部门:</label>
+						<select id="instance_approves_hanlder_orgs">
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="connName">连接名称:</label>
+						<input class="form-control" id="connName" value="#{connName}">
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" id="submitButton" class="btn btn-info pull-right">获取数据</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+
+	var length = 50;
+
+	$('#instance_approves_hanlder_orgs').selectize({
+		valueField: '_id',
+		labelField: 'fullname',
+		searchField: 'fullname',
+		create: false,
+		load: function(query, callback) {
+			if (!query.length) return callback();
+
+			config = {
+				key: query.trim(),
+				length: length
+			}
+
+
+			$.ajax({
+				url: '/tableau/search/space/' + $("#spaceId").val() + '/organizations',
+				type: 'POST',
+				headers: {
+					"x-user-id": SteedosTableau.auth.userId,
+					"x-auth-token": SteedosTableau.auth.authToken
+				},
+				async: false,
+				data: JSON.stringify(config),
+				contentType: "application/json",
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res);
+				}
+			});
+		}
+	});
+</script>
+
+</body>
+
+</html>

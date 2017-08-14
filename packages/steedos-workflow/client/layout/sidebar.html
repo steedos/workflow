@@ -1,40 +1,40 @@
 <template name="workflowSidebar">
 	<aside class="main-sidebar">
-		<header class="main-header">
+		<!-- <header class="main-header">
 			<div class="logo" style="overflow: visible">
-            <span class="logo-lg text-overflow">
-              <B>{{_ "Steedos Workflow"}}</B>
-            </span>
+			<span class="logo-lg text-overflow">
+			  <B>{{_ "Steedos Workflow"}}</B>
+			</span>
 				<span class="logo-arrow">
-              <i class="ion-ios-arrow-down ion"></i>
-            </span>
+			  <i class="ion-ios-arrow-down ion"></i>
+			</span>
 				<span class="logo-mini">
-              <i class="ion ion-grid"></i>
-            </span>
+			  <i class="ion ion-grid"></i>
+			</span>
 			</div>
-		</header>
+		</header> -->
 		<div class="sidebar" id="scrollspy">
 			{{> sidebarUserPanel}}
 			<ul class="nav sidebar-menu">
-				<li class="header header-workflow header-space-switcher">
+				<!-- <li class="header header-workflow header-space-switcher">
 					{{> space_switcher}}
+				</li> -->
+
+				<li class="header">
+					{{_ "Steedos Workflow"}}
 				</li>
-
-				<li class="instance_new"><a class="instance_new"><i class="ion ion-plus-round"></i><span>{{_
-						"Fill in form"}}</span></a></li>
-
 				<li class="inbox {{boxActive 'inbox'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
-						<i class="ion ion-archive"></i><span>{{_ "inbox"}}</span>
+						<i class="ion ion-archive"></i>
+						<span>{{_ "inbox"}}</span>
 						<span class="pull-right-container">
-						  	<span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
-							<!--<i class="fa fa-angle-left pull-right"></i>-->
+							<span class="label pull-right bg-red">{{getBadge "workflow" getSpaceId}}</span>
 						</span>
 					</a>
 					{{#if hasInbox}}
 						<ul class="treeview-menu menu-open" style="display: block;">
 							{{#each inboxInstancesFlow}}
-								<li>
+								<li class="{{#if (equals selected_flow _id)}}active{{/if}}">
 									<a class="inbxo-flow text-overflow" href="{{urlPrefix}}/workflow/space/{{space}}/inbox" undefined="">
 										<!--<i class="ion ion-clipboard"></i>-->
 										<span class="flow-name text-overflow">{{name}}</span>
@@ -47,33 +47,60 @@
 						</ul>
 					{{/if}}
 				</li>
-				<li class="outbox {{boxActive 'outbox'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/"><i
-						class="ion ion-android-done-all"></i><span>{{_ "outbox"}}</span></a></li>
-
-				{{#if isShowMonitorBox}}
-				<li class="monitor {{boxActive 'monitor'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/"><i
-						class="ion ion-eye"></i><span>{{_ "monitor"}}</span></a></li>
-				{{/if}}
-
-				<li class="header header-my-instances">
-					{{_ "my_instances"}}
-				</li>
-
-				<!-- <li class="header">{{_ "My Applications"}}</li> -->
-				<li class="draft {{boxActive 'draft'}}">
-					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">		<i class="ion ion-compose"></i><span>{{_ "draft"}}</span>
-						<span class="pull-right-container">
-						{{#if draftCount}}
-						  	<span class="label pull-right bg-special">{{draftCount}}</span>
-						{{/if}}
-						</span>
+				<li class="outbox {{boxActive 'outbox'}}">
+					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
+						<i class="ion ion-android-done-all"></i>
+						<span>{{_ "outbox"}}</span>
 					</a>
 				</li>
-				<li class="pending {{boxActive 'pending'}}"><a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/"><i
-						class="ion ion-ios-loop"></i><span>{{_ "pending"}}</span></a></li>
-				<li class="completed {{boxActive 'completed'}}"><a
-						href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/"><i
-						class="ion ion-android-checkbox-outline"></i><span>{{_ "completed"}}</span></a></li>
+
+				{{#if isShowMonitorBox}}
+				<li class="monitor {{boxActive 'monitor'}}">
+					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/">
+						<i class="ion ion-eye"></i>
+						<span>{{_ "monitor"}}</span>
+					</a>
+				</li>
+				{{/if}}
+
+				<li class="mybox">
+					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">
+						<i class="ion ion-android-person"></i>
+						<span>{{_ "my_instances"}}</span>
+						<span class="pull-right-container">
+							<span class="instance_new label pull-right bg-special"><i class="ion ion-plus-round"></i></span>
+						</span>
+					</a>
+					<ul class="treeview-menu menu-open">
+						<li class="instance_new">
+							<a class="instance_new">
+								<i class="ion ion-plus-round"></i>
+								<span>{{_"Fill in form"}}</span>
+							</a>
+						</li>
+						<li class="draft {{boxActive 'draft'}}">
+							<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/draft/">		<i class="ion ion-compose"></i><span>{{_ "draft"}}</span>
+								<span class="pull-right-container">
+								{{#if draftCount}}
+									<span class="label pull-right bg-special">{{draftCount}}</span>
+								{{/if}}
+								</span>
+							</a>
+						</li>
+						<li class="pending {{boxActive 'pending'}}">
+							<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/pending/">
+								<i class="ion ion-ios-loop"></i>
+								<span>{{_ "pending"}}</span>
+							</a>
+						</li>
+						<li class="completed {{boxActive 'completed'}}">
+							<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/completed/">
+								<i class="ion ion-android-checkbox-outline"></i>
+								<span>{{_ "completed"}}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</aside>

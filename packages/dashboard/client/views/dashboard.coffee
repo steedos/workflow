@@ -1,7 +1,7 @@
 Template.dashboardView.helpers Dashboard.helpers
 
-Template.dashboardView.onRendered ->
-	$("body").addClass("sidebar-collapse")
+# Template.dashboardView.onRendered ->
+# 	$("body").addClass("sidebar-collapse")
 
 Template.dashboardView.events
 	"click .btn-edit-dashboard":(event,template)->

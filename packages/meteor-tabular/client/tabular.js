@@ -86,8 +86,8 @@ var tabularOnRendered = function () {
       // Matters on the first run only.
       template.tabular.ready.set(true);
 
-      //console.log('ajax');
-
+      // console.log('ajax');
+      
       callback({
         draw: data.draw,
         recordsTotal: template.tabular.recordsTotal,
@@ -184,6 +184,7 @@ var tabularOnRendered = function () {
     if (table) {
       // passing `true` as the second arg tells it to
       // reset the paging
+      console.log("ajax.reload...")
       table.ajax.reload(null, true);
     }
   });
@@ -240,7 +241,7 @@ var tabularOnRendered = function () {
     var tableName = template.tabular.tableName.get();
     var tableInfo = Tabular.getRecord(tableName) || {};
 
-    //console.log('tableName and tableInfo autorun', tableName, tableInfo);
+    // console.log('tableName and tableInfo autorun', tableName, tableInfo);
 
     template.tabular.recordsTotal = tableInfo.recordsTotal || 0;
     template.tabular.recordsFiltered = tableInfo.recordsFiltered || 0;

@@ -143,8 +143,14 @@ Template.forward_select_flow_modal.events({
 
 						var users = flow.distribute_optional_users || [];
 						if (!_.isEmpty(users)) {
-							forward_select_user.dataset.userOptions = _.pluck(users, "id");
+							user_options = _.pluck(users, "id");
+							forward_select_user.dataset.userOptions = user_options;
 							forward_select_user.dataset.showOrg = false;
+							if (user_options.length == 1) {
+								var u = WorkflowManager.getUser(user_options[0]);
+								forward_select_user.value = u.name;
+								forward_select_user.dataset.values = user_options[0];
+							}
 						} else {
 							delete forward_select_user.dataset.userOptions;
 							delete forward_select_user.dataset.showOrg;

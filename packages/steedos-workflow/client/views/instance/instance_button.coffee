@@ -108,10 +108,13 @@ Template.instance_button.helpers
 			return false
 		# 文件结束后，不可以再传阅，也不用再催办。
 		if InstanceManager.isInbox() && ins.state is "pending" 
-			cs = InstanceManager.getCurrentStep()
-			if cs && (cs.disableCC is true)
-				return false
-			return true
+			if InstanceManager.isCC(ins)
+				return true
+			else
+				cs = InstanceManager.getCurrentStep()
+				if cs && (cs.disableCC is true)
+					return false
+				return true
 		else
 			return false
 
@@ -199,20 +202,23 @@ Template.instance_button.helpers
 			return false
 
 		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
-			last_trace = _.last(ins.traces)
-			previous_trace_id = last_trace.previous_trace_ids[0]
-			previous_trace = _.find(ins.traces, (t)->
-				return t._id is previous_trace_id
-			)
-			# 校验当前步骤是否已读
-			is_read = false
-			_.each last_trace.approves, (ap)->
-				if ap.is_read is true
-					is_read = true
-			# 校验取回步骤的前一个步骤approve唯一并且处理人是当前用户
-			previous_trace_approves = previous_trace.approves
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
-				return true
+			return true
+			# last_trace = _.last(ins.traces)
+			# previous_trace_id = last_trace.previous_trace_ids[0]
+			# previous_trace = _.find(ins.traces, (t)->
+			# 	return t._id is previous_trace_id
+			# )
+			# # 校验当前步骤是否已读
+			# is_read = false
+			# _.each last_trace.approves, (ap)->
+			# 	if ap.is_read is true
+			# 		is_read = true
+			# # 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			# previous_trace_approves = _.filter previous_trace.approves, (a)->
+			# 	return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
+
+			# if previous_trace_approves.length is 1 and previous_trace_approves[0].user is Meteor.userId() and not is_read
+			# 	return true
 		return false
 
 	enabled_traces: ->
@@ -260,8 +266,8 @@ Template.instance_button.helpers
 		if ins.state != "pending"
 			return false
 
-		if !Steedos.isPaidSpace()
-			return false
+#		if !Steedos.isPaidSpace()
+#			return false
 
 		values = ins.values || new Object
 
@@ -311,6 +317,18 @@ Template.instance_button.helpers
 
 		return false
 
+	enabled_submit: ()->
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+
+		if InstanceManager.isInbox()
+			return true
+
+		return false
+
+	isMobile: ()->
+		return Steedos.isMobile()
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -412,49 +430,98 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"));
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
 			return;
 
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"));
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
 			return;
 
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
-		swal {
-			title: t("instance_retrieve"),
-			inputPlaceholder: t("instance_retrieve_reason"),
-			type: "input",
-			confirmButtonText: t('OK'),
-			cancelButtonText: t('Cancel'),
-			showCancelButton: true,
-			closeOnConfirm: false
-		}, (reason) ->
-			# 用户选择取消
-			if (reason == false)
-				return false;
+		ins = WorkflowManager.getInstance()
+		traces = ins.traces
+		can_retrieve = false
+		current_user = Meteor.userId()
 
-#			if (reason == "")
-#				swal.showInputError(t("instance_retrieve_reason"));
-#				return false;
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+			last_trace = _.last(traces)
+			previous_trace_id = last_trace.previous_trace_ids[0]
+			previous_trace = _.find(traces, (t)->
+				return t._id is previous_trace_id
+			)
+			# 校验当前步骤是否已读
+			is_read = false
+			_.each last_trace.approves, (ap)->
+				if ap.is_read is true
+					is_read = true
+			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+			previous_trace_approves = _.filter previous_trace.approves, (a)->
+				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			InstanceManager.retrieveIns(reason);
-			sweetAlert.close();
+			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is current_user and not is_read
+				can_retrieve = true
+
+		i = traces.length
+		while i > 0
+			_.each traces[i-1].approves, (a)->
+				if a.type is 'cc' and a.is_finished is true and a.user is current_user
+					can_retrieve = true
+			if can_retrieve is true
+				break
+			i--
+
+		if can_retrieve
+			swal {
+				title: t("instance_retrieve"),
+				inputPlaceholder: t("instance_retrieve_reason"),
+				type: "input",
+				confirmButtonText: t('OK'),
+				cancelButtonText: t('Cancel'),
+				showCancelButton: true,
+				closeOnConfirm: false
+			}, (reason) ->
+				# 用户选择取消
+				if (reason == false)
+					return false;
+
+	#			if (reason == "")
+	#				swal.showInputError(t("instance_retrieve_reason"));
+	#				return false;
+
+				InstanceManager.retrieveIns(reason);
+				sweetAlert.close();
+		else
+			swal({
+				title: t("instance_retrieve_rules_title"),
+				text: "<div style='overflow-x:auto;'>#{t('instance_retrieve_rules_content')}<div>",
+				html: true
+			})
 
 	'click .btn-trace-list': (event, template) ->
-		$(".instance").scrollTop($(".instance .instance-form").height())
+		ins = WorkflowManager.getInstance();
+		if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
+			$("body").addClass("loading")
+#			延迟一毫秒弹出Modal，否则导致loading显示不出来
+			Meteor.setTimeout ()->
+				Modal.show("traces_table_modal")
+			, 1
+
+		else
+			$(".instance").scrollTop($(".instance .instance-form").height())
 
 	'click .li-instance-readonly-view-url-copy': (event, template)->
 		$(".btn-instance-readonly-view-url-copy").click();
 
 	'click .btn-instance-related-instances': (event, template)->
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
+			return;
 		Modal.show("related_instances_modal")
 
 	'click .btn-workflow-chart': (event, template)->
@@ -468,10 +535,27 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		#判断是否为欠费工作区
-		if WorkflowManager.isArrearageSpace()
-			toastr.error(t("spaces_isarrearageSpace"))
-			return
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
+			return;
 
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
+
+	'click .btn-instance-submit': (event, template) ->
+		instance = WorkflowManager.getInstance()
+		if not InstanceManager.isCC(instance)
+			nextStepOptions = InstanceManager.getNextStepOptions()
+			if nextStepOptions.length > 1
+				$(".instance-wrapper .instance-view").addClass("suggestion-active")
+				toastr.error TAPi18n.__("instance_multi_next_step_tips")
+				return
+
+			nextStep = nextStepOptions[0]
+			if nextStep.type isnt 'end'
+				if ApproveManager.getNextStepUsersSelectValue().length == 0
+					$(".instance-wrapper .instance-view").addClass("suggestion-active")
+					toastr.error TAPi18n.__("instance_next_step_user")
+					return
+
+		$('#instance_submit').trigger('click')

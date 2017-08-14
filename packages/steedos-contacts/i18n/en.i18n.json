@@ -21,12 +21,6 @@
 	"steedos_emailjs_add_to_contacts": "Add to contacts",
 	"steedos_emailjs_compose": "Compose email",
 
-	"steedos_contacts_space_users_name":"Name",
-	"steedos_contacts_space_users_email":"Email",
-	"steedos_contacts_space_users_mobile":"Mobile",
-	"steedos_contacts_space_users_workPhone": "Work Phone",
-	"steedos_contacts_space_users_position": "Position",
-	"steedos_contacts_space_users_organizations":"Organizations",
 	"steedos_contacts_copy": "Copy",
 	"steedos_contacts_close": "Close",
 	"steedos_contacts_name": "Name",
@@ -105,6 +99,5 @@
 	"steedos_contacts_import_users_select_file": "Please select the data you want to import",
 	"steedos_contacts_import_users_import_success": "Import success",
 	"steedos_contacts_import_users_check_success": "Check success",
-	"space_paid_info_title": "Standard Edition does not support",
-	"space_paid_info_text": "You can upgrade to the professional version"
+	"btn_set_primary_title": "Set as the primary organization"
 }

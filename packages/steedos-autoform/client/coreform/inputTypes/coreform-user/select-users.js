@@ -1,9 +1,9 @@
 AutoForm.addInputType("selectuser", {
     template: "afSelectUser",
-    valueIn: function (val, atts) {
+    valueIn: function(val, atts) {
         var space = atts.spaceId || true;
 
-        if(atts.spaceId === false){
+        if (atts.spaceId === false) {
             space = false;
         }
 
@@ -16,7 +16,7 @@ AutoForm.addInputType("selectuser", {
 
         return val;
     },
-    valueOut: function () {
+    valueOut: function() {
         return this[0].dataset.values;
     },
     valueConverters: {
@@ -28,7 +28,7 @@ AutoForm.addInputType("selectuser", {
         "date": AutoForm.valueConverters.stringToDate,
         "dateArray": AutoForm.valueConverters.stringToDateArray
     },
-    contextAdjust: function (context) {
+    contextAdjust: function(context) {
         if (typeof context.atts.maxlength === 'undefined' && typeof context.max === 'number') {
             context.atts.maxlength = context.max;
         }
@@ -40,7 +40,7 @@ AutoForm.addInputType("selectuser", {
 });
 
 Template.afSelectUser.helpers({
-    val: function (value) {
+    val: function(value) {
         if (value) {
             var val = '';
             if (value instanceof Array) { //this.data.atts.multiple && (value instanceof Array)
@@ -70,9 +70,9 @@ Template.afSelectUser.helpers({
 
 
 Template.afSelectUser.events({
-    'click .selectUser': function (event, template) {
-        if(Modal.allowMultiple){
-            return ;
+    'click .selectUser': function(event, template) {
+        if (Modal.allowMultiple) {
+            return;
         }
         if ("disabled" in template.data.atts)
             return;
@@ -83,9 +83,11 @@ Template.afSelectUser.events({
 
         var data, multiple, showOrg = true;
 
-        if(_.isBoolean(template.data.atts.showOrg)){
-			showOrg = template.data.atts.showOrg
+        if (_.isBoolean(template.data.atts.showOrg)) {
+            showOrg = template.data.atts.showOrg
         }
+
+        options.userOptions = template.data.atts.userOptions || null
 
         // options.userOptions = dataset.userOptions || template.data.atts.userOptions || null
 
@@ -109,13 +111,13 @@ Template.afSelectUser.events({
 
         var values = $("input[name='" + template.data.name + "']")[0].dataset.values;
 
-		options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
+        options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
 
-        if(!_.isBoolean(options.is_within_user_organizations)){
-            if(options.is_within_user_organizations.toLocaleUpperCase() == "TRUE"){
-				options.is_within_user_organizations = true
-            }else{
-				options.is_within_user_organizations = false
+        if (!_.isBoolean(options.is_within_user_organizations)) {
+            if (options.is_within_user_organizations.toLocaleUpperCase() == "TRUE") {
+                options.is_within_user_organizations = true
+            } else {
+                options.is_within_user_organizations = false
             }
         }
 
@@ -124,10 +126,10 @@ Template.afSelectUser.events({
         options.showOrg = showOrg;
 
 
-        if(template.data.atts.spaceId === false){
-			options.spaceId = false
-        }else{
-			options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
+        if (template.data.atts.spaceId === false) {
+            options.spaceId = false
+        } else {
+            options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
         }
 
 
@@ -145,7 +147,7 @@ Template.afSelectUser.events({
     }
 });
 
-Template.afSelectUser.rendered = function () {
+Template.afSelectUser.rendered = function() {
     var name = this.data.name;
     var dataset = this.data.dataset;
     if (dataset) {
@@ -155,4 +157,3 @@ Template.afSelectUser.rendered = function () {
     }
 
 }
-

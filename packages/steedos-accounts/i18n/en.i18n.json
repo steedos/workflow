@@ -43,7 +43,7 @@
 	"accounts_phone_too_many_retries": "Too many retries, try again in __m__ minutes!",
 	"accounts_phone_user_not_found": "The phone number is not bound to any account!",
 	"accounts_phone_sms_failed": "SMS Failed, Something bad happened!",
-	"accounts_phone_toastr_alert": "You do not bind the phone number, click to start binding!",
+	"accounts_phone_toastr_alert": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification, click to start binding!",
 	"accounts_phone_swal_alert": "You do not have a phone number!",
 	"accounts_phone_swal_alert_ok": "Start binding"
 }

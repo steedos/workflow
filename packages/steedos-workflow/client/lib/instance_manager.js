@@ -14,6 +14,17 @@ InstanceManager.runFormula = function(fieldCode) {
 	});
 }
 
+InstanceManager.isTableStyle = function (formId) {
+
+	if(Steedos.isMobile()){
+		return false;
+	}
+
+	form = WorkflowManager.getForm(formId);
+	if(form && form.instance_style == 'table')
+		return true
+	return false;
+}
 
 InstanceManager.getFormField = function(fieldId) {
 	var instanceFields = WorkflowManager.getInstanceFields();
@@ -1265,7 +1276,7 @@ InstanceManager.fixInstancePosition = function(isNeedToScrollTop) {
 
 InstanceManager.setApproveHaveRead = function(instanceId) {
 	var ins = WorkflowManager.getInstance()
-	if (ins.is_read == false) {
+	if (!ins.is_read) {
 		var myApprove = InstanceManager.getCurrentApprove()
 		if (myApprove) {
 			Meteor.call("set_approve_have_read", ins._id, myApprove.trace, myApprove.id, function(error, result) {});

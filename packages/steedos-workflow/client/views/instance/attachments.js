@@ -7,6 +7,8 @@ Template.instance_attachments.onCreated(function() {
 
 Template.instance_attachments.onRendered(function() {
 
+	self = this;
+
 	var ins = WorkflowManager.getInstance();
 	if (!ins)
 		self.workflowMainAttachTitle.set(true);
@@ -98,7 +100,7 @@ Template.instance_attachment.helpers({
 					var step = WorkflowManager.getInstanceStep(t.step);
 					if (current.metadata.main == true) {
 						if (step && step.can_edit_main_attach == true) {
-							if (current.metadata.owner == Meteor.userId() && ins.state == "draft")
+							if (current.metadata.owner == Meteor.userId())
 								can_remove_attach = true;
 						}
 					} else {
@@ -214,7 +216,7 @@ Template.instance_attachment.events({
 		var filename = template.data.name();
 		var rev = template.data._id;
 		var length = template.data.size();
-		Steedos.androidDownload(url, filename, rev, length);
+		Steedos.cordovaDownload(url, filename, rev, length);
 	},
 	"click [name='ins_attach_isNode']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
@@ -609,7 +611,7 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
-		
+
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -626,9 +628,9 @@ Template.ins_attach_version_modal.events({
 			cancelButtonText: t("node_office_cancel"),
 			closeOnConfirm: true
 		}, function(confirm) {
-			if(confirm){
+			if (confirm) {
 				NodeManager.downloadFile(url, filename, arg);
-			}else{
+			} else {
 				// 解锁 
 				InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 			}

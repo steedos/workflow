@@ -1,10 +1,17 @@
 <template name="instance_suggestion">
     {{#if show_toggle_button}}
-        <button type="button" class="btn btn-primary btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
+		{{#if isMobile}}
+			<button type="utton" class="btn btn-primary btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
+		{{else}}
+			<button type="utton" class="btn btn-primary btn-suggestion-toggle txt-suggestion-toggle animated bounceInUp">{{_ 'instance_sign'}}</button>
+		{{/if}}
     {{/if}}
     {{#if show_suggestion}}
         <div class="instance-suggestion well animated fadeInUp">
-            <div class="box-body">
+			{{#if includes currentStep.step_type 'sign,counterSign,submit'}}
+				<div class="instance-suggestion-close"><button type="button" class="btn btn-transparent btn-remove"><span aria-hidden="true">×</span></button></div>
+			{{/if}}
+			<div class="box-body">
 
                 {{#if includes currentStep.step_type 'sign,counterSign,submit'}}
 
@@ -12,9 +19,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                             {{#if isCC}}
-                                {{#unless isMobile}}
-                                    <label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
-                                {{/unless}}
+								{{#if (gt opinionFields.length 1)}}
+									<label>{{_ "instance_cc_title"}}&nbsp;:&nbsp;&nbsp;</label>
+									{{#each opinionFields}}
+										<label class="radio-inline">
+											<input type='radio' name='opinion_fields_code' value="{{code}}" id="opinion_fields_code" checked="{{#if _checked}}checked{{/if}}"/>{{name}}
+										</label>
+									{{/each}}
+								{{else}}
+									<label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
+								{{/if}}
                             {{else}}
                                 <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
                                 {{#if includes currentStep.step_type 'sign,counterSign'}}
@@ -50,7 +64,12 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <textarea name="suggestion" class="suggestion-control" id="suggestion" placeholder='{{_ "workflow_suggestion_placeholder"}}'>{{currentApprove.description}}</textarea>
-                            <button type="button" class="btn btn-default btn-transparent pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-ios-list-outline"></i></button>
+							{{#if isMobile}}
+								<button type="button" class="btn btn-default btn-transparent pull-right btn-mobile" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-ios-list-outline"></i></button>
+							{{else}}
+								<button type="button" class="btn btn-default btn-transparent pull-right" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}">{{{_ 'instance_opinion_btn'}}}</button>
+							{{/if}}
+
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -90,7 +109,7 @@
                             {{#if enabled_submit}}
                                 <button type="button" class="btn btn-primary" id="instance_submit" title="{{_ 'instance_submit'}}" >{{_ "instance_submit"}}</button>
                             {{/if}}
-                            <button type="button" class="btn btn-transparent btn-remove"><i class="ion ion-close-round"></i></button>
+                            <button type="button" class="btn btn-default btn-remove">{{_ "cancel"}}</button>
                         </div>
                     </div>
                 </div>

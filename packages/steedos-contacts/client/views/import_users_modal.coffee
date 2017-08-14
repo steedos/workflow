@@ -51,6 +51,9 @@ Template.import_users_modal.events
 				if _.has(item, "手机")
 					item.phone = item["手机"]?.trim()
 					delete item["手机"]
+				if _.has(item, "单位")
+					item.company = item["单位"]?.trim()
+					delete item["单位"]
 				if _.has(item, "状态")
 					item.user_accepted = item["状态"]?.trim()
 					delete item["状态"]
@@ -98,3 +101,10 @@ Template.import_users_modal.events
 Template.import_users_modal.onCreated ()->
 	self = this;
 	self.items = new ReactiveVar([]);
+
+Template.import_users_modal.onRendered ()->
+	if !window.XLSX
+		$("body").addClass("loading")
+#		TODO  此加载函数是禁止浏览器缓存的， 需要调整为按照审批王的发布版本来加载js文件 eg: xxx.js?_v = steedos.viewsion
+		$.getScript "/js/xlsx.full.min.js", ()->
+			$("body").removeClass("loading")

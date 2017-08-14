@@ -46,6 +46,7 @@ Package.onUse(function (api) {
 
 	api.use('momentjs:moment', 'client');
 	api.use('mrt:moment-timezone', 'client');
+	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
 
@@ -53,10 +54,34 @@ Package.onUse(function (api) {
 
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
-	api.addAssets("assets/instances/instance_tableau_connectors.html", "server");
-	api.addAssets("assets/instances/instance_tableau_connectors.js", "client");
-	api.addFiles('server/routes/instance_tableau_api.coffee', 'server');
 
+	api.addFiles('server/routes/search_organizations.coffee', 'server');
+
+	api.addAssets("assets/steedos_tableau.js", "client");
+	api.addAssets("assets/steedos_tableau.css", "client");
+
+	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.html", "server");
+	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.js", "client");
+	api.addFiles('server/routes/instance_by_flow_tableau_api.coffee', 'server');
+
+	api.addAssets("assets/instances/instance_avg_cost_time_connectors.html", "server");
+	api.addAssets("assets/instances/instance_avg_cost_time_connectors.js", "client");
+	api.addFiles('server/routes/instance_avg_cost_time_connectors_api.coffee', 'server');
+
+	api.addFiles('server/data/api_workflow_instances_approve_cost_time.coffee', 'server');
+	api.addFiles('server/data/api_space_organizations.coffee', 'server');
+
+	api.addFiles('client/steedos_tableau.less', 'client');
+	api.addFiles('client/tableau_info.html', 'client');
+	api.addFiles('client/tableau_info.coffee', 'client');
+	api.addFiles('client/workflow/tableau_flow_list.html', 'client');
+	api.addFiles('client/workflow/tableau_flow_list.coffee', 'client');
+
+	api.addFiles('tabulars/flows.coffee');
+
+	api.addFiles('client/admin-menu.coffee', 'client');
+
+	api.addFiles('client/router.coffee', 'client');
 });
 
 Package.onTest(function (api) {

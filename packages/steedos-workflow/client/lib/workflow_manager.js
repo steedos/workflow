@@ -719,6 +719,8 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 							f.flows.push(fl);
 						} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
 							f.flows.push(fl);
+						} else if (WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+							f.flows.push(fl);
 						}
 					}
 				});
@@ -743,16 +745,18 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 						f.flows.push(fl);
 					} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
+					} else if (WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+						f.flows.push(fl);
 					}
 				}
 			});
 		});
 
-		categories = _.filter(categories, function (categorie) {
+		categories = _.filter(categories, function(categorie) {
 
-			var  flows = 0;
+			var flows = 0;
 
-			categorie.forms.forEach(function (form) {
+			categorie.forms.forEach(function(form) {
 				flows += form.flows.length
 			})
 
@@ -763,7 +767,7 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 
 		var unCategorieFlows = 0
 
-		unCategorieForms.forEach(function (form) {
+		unCategorieForms.forEach(function(form) {
 			unCategorieFlows += form.flows.length
 		})
 

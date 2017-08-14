@@ -12,6 +12,8 @@ Template.instance_more_search_modal.onRendered(function() {
 		});
 	}
 
+	$("[name='instance_is_archived']").val(Session.get("instance-earch-is-archived"));
+
 	$("#instance_more_search_modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
 
 })
@@ -152,6 +154,20 @@ Template.instance_more_search_modal.events({
 				$gte: new Date(null),
 				$lte: new Date(submit_date_end)
 			};
+		}
+
+		var ins_is_archived = $("[name='instance_is_archived']").val();
+
+		Session.set("instance-earch-is-archived", ins_is_archived);
+
+		if(ins_is_archived){
+			if(ins_is_archived === "0"){
+				selector["values.record_need"] = "true";
+				selector.is_archived = {$ne: true};
+			}else if(ins_is_archived === "1"){
+				selector["values.record_need"] = "true";
+				selector.is_archived = true;
+			}
 		}
 
 		Session.set('instance_more_search_selector', selector);

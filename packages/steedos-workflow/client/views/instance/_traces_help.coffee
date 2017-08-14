@@ -117,10 +117,10 @@ TracesTemplate.helpers =
 
 	myApproveDescription: (approveId)->
 		if Meteor.isClient
-			if InstanceManager.isInbox()
-				myApprove = InstanceManager.getCurrentApprove()
+			if Session.get("box") == 'inbox'
+				myApprove = Template.instance()?.myApprove?.get()
 				if myApprove && myApprove.id == approveId
-					return Session.get("instance_my_approve_description")
+					return Session.get("instance_my_approve_description") || myApprove?.description || ""
 	isForward: (approved) ->
 		if approved and approved.type == 'forward'
 			return true
@@ -179,6 +179,15 @@ TracesTemplate.helpers =
 			finish_date:this.finish_date
 		};
 
+	###
+    	此函数用于控制是否显示traces view
+    	true: 显示traces view,签核历程按钮点击后是直接定位到traces view
+    	false: 不显示traces view，签核历程按钮点击后,以Modal 方式显示traces view
+	###
+	showTracesView: (form, form_version)->
+		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
+
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date
@@ -230,11 +239,19 @@ TracesTemplate.events =
 			return
 		return
 
-	'click .approve-item': (event, template) ->
+	'click .approve-item,.approve-description': (event, template) ->
+		unless Steedos.isAndroidApp() and Steedos.isiOS()
+			Modal.show "instance_trace_detail_modal", this
+
+	'taphold .approve-item,.approve-description': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this
 
-	'click .approve-description': (event, template) ->
-		Modal.show "instance_trace_detail_modal", this
+	'tapend .approve-item,.approve-description': (event, template) ->
+		# 上述长按打开approve详细窗口的事件taphold会触发打开窗口后的touchend事件，造成长按打开窗口后一放手窗口就又关掉了
+		# 这里只能通过阻止tapend事件(不可以用touchend事件，因为会影响taphold功能，造成没有长按效果时也会触发taphold事件)冒泡来避免问题。
+		event.stopPropagation()
+		event.preventDefault()
+		return false
 
 	'click .instance-trace-detail-modal .btn-close': (event, template) ->
 		Modal.hide "instance_trace_detail_modal"

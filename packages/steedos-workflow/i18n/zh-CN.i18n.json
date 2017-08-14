@@ -31,8 +31,8 @@
 	"instance_approve": "核准",
 	"instance_reject": "驳回",
 	"instance_readed": "已阅",
-	"instance_next_step": "下一步骤",
-	"instance_next_step_users": "下一步处理人",
+	"instance_next_step": "下一步",
+	"instance_next_step_users": "处理人",
 	"instance_initiator": "提交人",
 	"instance_approval_history": "签核历程",
 	"instance_in_progress": "处理中",
@@ -121,6 +121,7 @@
 	"instance_cancel_error_reason_required": "请填写取消申请的理由。",
 
 	"instance_select_next_step": "请选择下一步步骤",
+	"instance_multi_next_step_tips": "步骤选项有多个，请选择下一步步骤，并使用底部发送按钮提交文件",
 	"instance_next_step_user": "请选择下一步处理人",
 	"instance_reasons_reject": "驳回时必须填写意见",
 	"instance_field": "字段",
@@ -206,16 +207,17 @@
 	"workflow_attach_new": "新建",
 
 	"workflow_select_an_app": "应用",
-	"workflow_suggestion_placeholder": "请填写意见，点击右侧按钮选择常用意见。",
+	"workflow_suggestion_placeholder": "请填写意见。",
 
 	"instance_opinion_title": "常用意见",
+	"instance_opinion_btn": "常用</br>意见",
 	"instance_opinion_input": "请输入常用意见",
 	"instance_opinion_add_success": "添加成功!",
 	"instance_opinion_remove_success": "移除成功!",
 	"instance_opinion_error": "出错了",
 
 	"instance_opinion_exists": "常用意见已存在",
-	"instance_opinion_add_tip": "点击‘+’按钮添加常用意见",
+	"instance_opinion_add_tip": "您还没有设置常用意见。",
 
 	"instance_forward_title": "转发",
 
@@ -289,12 +291,12 @@
 				"submit_pending_inbox": "您有新的待办文件:__instance_name__",
 				"submit_terminate_applicant": "__instance_name__被我取消申请了",
 				"submit_terminate_approve": "",
-				"monitor_delete_applicant": "删除了您的__instance_name__",
-				"submit_completed_applicant": "确认了您的__instance_name__",
+				"monitor_delete_applicant": "您的__instance_name__已被删除",
+				"submit_completed_applicant": "您的__instance_name__已被确认",
 				"submit_completed_approve": "",
-				"approved_completed_applicant": "核准了您的__instance_name__",
+				"approved_completed_applicant": "您的__instance_name__已被核准",
 				"approved_completed_approve": "",
-				"rejected_completed_applicant": "驳回了您的__instance_name__",
+				"rejected_completed_applicant": "您的__instance_name__已被驳回",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
 				"trace_approve_cc": "您有新的待办文件:__instance_name__",
@@ -422,6 +424,8 @@
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "备注",
+	"instance_retrieve_rules_title": "取回失败",
+	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
 	"instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
@@ -563,5 +567,9 @@
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
 	"workflow_history_approve_description": "历史意见",
-	"instances_start_date": "接收时间"
+	"instances_start_date": "接收时间",
+	"instances_is_archived": "已归档",
+	"instances_archive": "归档",
+	"instances_archived": "已归档",
+	"instances_not_archived": "未归档"
 }

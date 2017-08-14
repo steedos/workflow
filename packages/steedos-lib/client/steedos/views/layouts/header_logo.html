@@ -1,10 +1,10 @@
 <template name="headerLogo">
-	<div class="logo">
+	<div class="logo {{#if spaceAvatar}} logo-avatar {{/if}}" style="{{#if spaceAvatar}} background: transparent url({{spaceAvatar}}) no-repeat center;{{/if}}">
 		<span class="logo-mini">
 			<i class="ion ion-grid"></i>
 		</span>
 		<span class="logo-lg text-overflow">
-			<B>{{_ "Steedos"}}</B>
+			{{spaceName}}
 		</span>
 	</div>
 </template>

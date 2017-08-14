@@ -15,18 +15,6 @@ Meteor.methods
 
 			org_ids = space_user.organizations
 
-			unless space.admins.includes(userId)
-				# only space admin or org admin can edit space_users
-				isOrgAdmin = Steedos.isOrgAdminByAllOrgIds org_ids,userId
-				unless isOrgAdmin
-					throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
-				# only space admin or org admin can edit to_org_id's org
-				isOrgAdmin = false
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds [to_org_id],userId
-				unless isOrgAdmin
-					throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
 			if org_ids && org_ids instanceof Array
 				org_ids.remove(org_ids.indexOf(from_org_id))
 				org_ids.push(to_org_id)

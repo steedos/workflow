@@ -186,7 +186,7 @@ if (Meteor.isServer)
 					parents.push(doc.parent)
 				else
 					parents = [doc.parent]
-				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+				if db.organizations.findOne({_id:{$in:parents}, admins:userId})
 					isOrgAdmin = true
 			else if doc.is_company == true
 				# 注册用户的时候会触发"before.insert"，且其userId为underfined，所以这里需要通过is_company来判断是否是新注册用户时进该函数。
@@ -270,7 +270,7 @@ if (Meteor.isServer)
 				isOrgAdmin = true
 			else if doc.parent
 				parents = doc.parents
-				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+				if db.organizations.findOne({_id:{$in:parents}, admins:userId})
 					isOrgAdmin = true
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
@@ -402,7 +402,7 @@ if (Meteor.isServer)
 				isOrgAdmin = true
 			else if doc.parent
 				parents = doc.parents
-				if db.organizations.findOne({_id:{$in:parents}, admins:{$in:[userId]}})
+				if db.organizations.findOne({_id:{$in:parents}, admins:userId})
 					isOrgAdmin = true
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")

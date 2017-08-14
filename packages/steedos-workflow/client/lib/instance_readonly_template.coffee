@@ -441,13 +441,10 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	if options?.width
 		width = ""
 
-	allCss = WebAppInternals.refreshableAssets.allCss
+	cssHref = Meteor.absoluteUrl("steedos-css")
 
-	allCssLink = ""
+	allCssLink = """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
 
-	allCss.forEach (css) ->
-		cssHref = absoluteUrl + css.url
-		allCssLink += """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
 
 	if options?.styles
 		allCssLink = ""

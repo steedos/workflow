@@ -23,7 +23,34 @@ else if Meteor.settings.public.cfs?.store == "S3"
             accessKeyId: Meteor.settings.cfs.aws.accessKeyId
             secretAccessKey: Meteor.settings.cfs.aws.secretAccessKey
 else
-    fs_store = new FS.Store.FileSystem("instances")
+    fs_store = new FS.Store.FileSystem("instances", {
+            fileKeyMaker: (fileObj)->
+                # Lookup the copy
+                store = fileObj and fileObj._getInfo("instances")
+                # If the store and key is found return the key
+                if store and store.key 
+                    return store.key
+
+                # TO CUSTOMIZE, REPLACE CODE AFTER THIS POINT
+
+                filename = fileObj.name();
+                filenameInStore = fileObj.name({store: "instances"})
+
+                now = new Date
+                year = now.getFullYear()
+                month = now.getMonth() + 1
+                path = Npm.require('path')
+                mkdirp = Npm.require('mkdirp')
+                pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances/' + year + '/' + month)
+                # Set absolute path
+                absolutePath = path.resolve(pathname)
+                # Ensure the path exists
+                mkdirp.sync(absolutePath)
+                
+                # If no store key found we resolve / generate a key
+                return year + '/' + month + '/' + fileObj.collectionName + '-' + fileObj._id + '-' + (filenameInStore || filename)
+
+        })
 
 cfs.instances = new FS.Collection "instances",
     stores: [fs_store]

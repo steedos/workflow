@@ -8,20 +8,31 @@ Setup.clearAuthCookies = (req, res) ->
 		cookies.set("X-User-Id")
 		cookies.set("X-Auth-Token")
 
+		# 额外清除老的domain下的cookie
+		if req.headers.origin
+			uri = new URI(req.headers.origin)
+		else if req.headers.referer
+			uri = new URI(req.headers.referer)
+
+		cookies.set "X-User-Id", "", 
+			domain: uri?.domain(),
+			overwrite: true
+		cookies.set "X-Auth-Token", "", 
+			domain: uri?.domain(),
+			overwrite: true
+
 Setup.setAuthCookies = (req, res, userId, authToken) ->
 		cookies = new Cookies( req, res );
 		# set cookie to response
 		# maxAge 3 month
-
-		uri = new URI(req.headers.origin);
-
+		# uri = new URI(req.headers.origin);
 		cookies.set "X-User-Id", userId, 
-			domain: uri.hostname(),
+			# domain: uri.domain(),
 			maxAge: 90*60*60*24*1000,
 			httpOnly: false
 			overwrite: true
 		cookies.set "X-Auth-Token", authToken, 
-			domain: uri.hostname(),
+			# domain: uri.domain(),
 			maxAge: 90*60*60*24*1000,
 			httpOnly: false
 			overwrite: true

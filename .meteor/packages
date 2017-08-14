@@ -35,7 +35,7 @@ shell-server
 spacebars@1.0.12
 spacebars-compiler
 standard-minifier-css@1.2.0
-standard-minifier-js@1.2.0
+standard-minifier-js@1.2.3
 tracker@1.1.0
 
 # must place at first
@@ -120,6 +120,7 @@ cfs:s3
 jeremy:selectize
 comerc:autoform-selectize
 
+# steedos:qhd
 # steedos:theme-qhd
 steedos:theme
 # steedos:emailjs

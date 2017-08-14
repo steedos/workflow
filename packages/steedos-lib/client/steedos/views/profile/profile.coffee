@@ -117,11 +117,20 @@ Template.profile.helpers
 		else
 			return true
 
+	accountPhoneNumber: ()->
+		user = Meteor.user()
+		if user.phone
+			return user.phone.number.replace(/^\+86/,"")
+
 Template.profile.onRendered ->
 	profileName = FlowRouter.current()?.params?.profileName
 	if profileName
 		$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
+	if Steedos.isMobile()
+		Steedos.bindSwipeBackEvent(".admin-content", (event,options)->
+			FlowRouter.go '/admin'
+		)
 
 Template.profile.onCreated ->
 	@clearForm = ->
@@ -193,6 +202,7 @@ Template.profile.events
 			else
 				$(document.body).removeClass('loading')
 				swal t("primary_email_updated"), "", "success"
+				$('#newEmail').val("")
 
 	'click .fa-trash-o': (event, template)->
 		email = event.target.dataset.email
@@ -235,6 +245,24 @@ Template.profile.events
 				$(document.body).removeClass('loading')
 				swal t("email_set_primary_success"), "", "success"
 
+	'click .remove-email': (event, template)->
+		email = this.address
+		swal {
+			title: t("Are you sure?"),
+			text: email,
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: t('Cancel'),
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t('OK'),
+			closeOnConfirm: false
+		}, () ->
+			Meteor.call "users_remove_email", email, (error, result)->
+				if result?.error
+					toastr.error t(result.message)
+				else
+					swal t("email_remove_success"), email, "success"
+
 	'click #personalization .bg-body-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset
 		url = dataset.url
@@ -244,6 +272,7 @@ Template.profile.events
 		btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 		Steedos.applyAccountBgBodyValue(btn_save.dataset)
 		Session.set("waiting_save_profile_bg", url)
+		$("#personalization button.btn-save-bg").trigger("click")
 
 	'click #personalization button.btn-save-bg': (event)->
 		dataset = event.currentTarget.dataset
@@ -294,6 +323,7 @@ Template.profile.events
 		btn_save.dataset.skin_tag = skin_tag
 		$(".skin-admin-lte").removeClass().addClass("skin-admin-lte").addClass("skin-#{skin_name}")
 		Session.set("waiting_save_profile_skin_name", skin_name)
+		$("#personalization button.btn-save-skin").trigger("click")
 
 	'click #personalization button.btn-save-skin': (event)->
 		dataset = event.currentTarget.dataset
@@ -321,6 +351,7 @@ Template.profile.events
 		btn_save.dataset.size = size
 		Steedos.applyAccountZoomValue btn_save.dataset
 		Session.set("waiting_save_profile_zoom_name", name)
+		$("#personalization button.btn-save-zoom").trigger("click")
 
 	'click #personalization button.btn-save-zoom': (event)->
 		dataset = event.currentTarget.dataset
@@ -355,12 +386,10 @@ Template.profile.events
 				return false
 			Meteor.call "setUsername", inputValue.trim(), (error, results)->
 				if results
-					toastr.remove()
 					toastr.success t('Change username successfully')
 					swal.close()
 
 				if error
-					toastr.remove()
 					toastr.error(TAPi18n.__(error.error))
 
 	'click .btn-change-phone': (event, template) ->

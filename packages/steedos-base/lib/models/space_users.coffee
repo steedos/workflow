@@ -74,7 +74,15 @@ db.space_users._simpleSchema = new SimpleSchema
 			omit: true
 	mobile: 
 		type: String,
-		optional: true
+		optional: true,
+		autoform:
+			type: ->
+				return "text"
+			readonly: ->
+				if Steedos.isPaidSpace()
+					return false
+				else
+					return true
 	work_phone:
 		type: String,
 		optional: true
@@ -87,6 +95,9 @@ db.space_users._simpleSchema = new SimpleSchema
 		blackbox: true
 		autoform:
 			omit: true
+	company:
+		type: String,
+		optional: true
 
 
 if Meteor.isClient
@@ -146,8 +157,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can insert space_users
 		if space.admins.indexOf(userId) < 0
-			# 要添加用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
+			# 要添加用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -183,7 +194,9 @@ if (Meteor.isServer)
 			throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
 		if doc.organizations && doc.organizations.length > 0
-			doc.organization = doc.organizations[0]
+			# 如果主组织未设置或设置的值不在doc.organizations内，则自动设置为第一个组织
+			unless doc.organizations.includes doc.organization
+				doc.organization = doc.organizations[0]
 
 	db.space_users.after.insert (userId, doc) ->
 		if doc.organizations
@@ -208,13 +221,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can update space_users
 		if space.admins.indexOf(userId) < 0
-			# 要修改用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
-			unless isOrgAdmin
-				throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
-			# 变更组织时，需要变更后所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds modifier.$set.organizations,userId
+			# 要修改用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -237,97 +245,114 @@ if (Meteor.isServer)
 				throw new Meteor.Error(400, "space_users_error_user_readonly");
 
 		if modifier.$set.organizations && modifier.$set.organizations.length > 0
-			modifier.$set.organization = modifier.$set.organizations[0]
+			# 修改所有组织且修改后的组织不包含原主组织，则把主组织自动设置为第一个组织
+			unless modifier.$set.organizations.includes doc.organization
+				modifier.$set.organization = modifier.$set.organizations[0]
 
-		if modifier.$set.mobile
-			if  modifier.$set.mobile != doc.mobile
-				number = "+86" + modifier.$set.mobile
+		newMobile = modifier.$set.mobile
+		if  newMobile != doc.mobile
+			if newMobile
+				if Steedos.isPhoneEnabled()
+					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
+					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
+					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
+					number = "+86" + newMobile
+					repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
+					if repeatNumberUser
+						throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+
+					user_set = {}
+					user_set.phone = {}
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
+					# user_set.mobile = newMobile
+					# 目前只考虑国内手机
+					user_set.phone.number = number
+					# 变更手机号设置verified为false，以让用户重新验证手机号
+					user_set.phone.verified = false
+					user_set.phone.modified = new Date()
+					if not _.isEmpty(user_set)
+						db.users.direct.update({_id: doc.user}, {$set: user_set})
+
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
+					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
+					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
+
+				else
+					# 不支持手机号短信相关功能时，需要更新所有工作区的相关mobile数据
+					user_set = {}
+					user_set.mobile = newMobile
+					if not _.isEmpty(user_set)
+						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
+						db.users.update({_id: doc.user}, {$set: user_set})
+			else
+				user_unset = {}
+				user_unset.phone = ""
+				user_unset.mobile = ""
+				# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
+				db.users.update({_id: doc.user}, {$unset: user_unset})
+
+
+			if Steedos.isPhoneEnabled()
 				# 修改人
-				euser = db.users.findOne({_id: Meteor.userId()},{fields: {name: 1}})
-				
-				repeatNumberUser = db.users.findOne({'phone.number':number, 'phone.verified':true},{fields:{_id:1,phone:1}})
-				if repeatNumberUser
-					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
-				else if Steedos.isPhoneEnabled()
-					modifier_mobile_user = db.users.findOne({mobile: modifier.$set.mobile},{fields: {locale: 1}})
-					lang_modifier = 'en'
-					if modifier_mobile_user?.locale is 'zh-cn'
-						lang_modifier = 'zh-CN'
-					params = {
-						name: euser.name,
-						number: modifier.$set.mobile
-					}
-					paramString = JSON.stringify(params)
-
-					if doc.mobile
-						doc_user = db.users.findOne({_id: doc.user},{fields: {locale: 1}})
-						lang = 'en'
-						if doc_user?.locale is 'zh-cn'
-							lang = 'zh-CN'
-						# 发送手机短信
-						SMSQueue.send({
-							Format: 'JSON',
-							Action: 'SingleSendSms',
-							ParamString: paramString,
-							RecNum: doc.mobile,
-							SignName: 'OA系统',
-							TemplateCode: 'SMS_67660108',
-							msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
-						})
-
-					# 发送手机短信
+				lang = Steedos.locale doc.user,true
+				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
+				params = {
+					name: euser.name,
+					number: if newMobile then newMobile else TAPi18n.__('space_users_empty_phone', {}, lang)
+				}
+				paramString = JSON.stringify(params)
+				if doc.mobile
+					# 发送手机短信给修改前的手机号
 					SMSQueue.send({
 						Format: 'JSON',
 						Action: 'SingleSendSms',
 						ParamString: paramString,
-						RecNum: modifier.$set.mobile,
+						RecNum: doc.mobile,
+						SignName: 'OA系统',
+						TemplateCode: 'SMS_67660108',
+						msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
+					})
+				if newMobile
+					# 发送手机短信给修改后的手机号
+					SMSQueue.send({
+						Format: 'JSON',
+						Action: 'SingleSendSms',
+						ParamString: paramString,
+						RecNum: newMobile,
 						SignName: 'OA系统',
 						TemplateCode: 'SMS_67660108',
 						msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
 					})
 
+
 	db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
-		self = this
 		modifier.$set = modifier.$set || {};
+		modifier.$unset = modifier.$unset || {};
 
-		if modifier.$set.name
-			db.users.direct.update {_id: doc.user},
-				$set:
-					name: doc.name
+		user_set = {}
+		user_unset = {}
+		if modifier.$set.name != undefined
+			user_set.name = modifier.$set.name
+		if modifier.$set.position != undefined
+			user_set.position = modifier.$set.position
+		if modifier.$set.work_phone != undefined
+			user_set.work_phone = modifier.$set.work_phone
 
-			db.space_users.direct.update {
-				user: doc.user
-				space: $ne: doc.space
-			}, { $set: name: doc.name }, multi: true
+		if modifier.$unset.name != undefined
+			user_unset.name = modifier.$unset.name
+		if modifier.$unset.position != undefined
+			user_unset.position = modifier.$unset.position
+		if modifier.$unset.work_phone != undefined
+			user_unset.work_phone = modifier.$unset.work_phone
 
-		if modifier.$set.position
-			db.users.direct.update {_id: doc.user},
-				$set:
-					position: doc.position
-		
-		if modifier.$set.work_phone
-			db.users.update {_id: doc.user},
-				$set:
-					work_phone: doc.work_phone
-
-		if doc.mobile
-			user_set = {}
-			user_set.phone = {}
-			user_set.mobile = doc.mobile
-			# 目前只考虑国内手机
-			user_set.phone.number = "+86" + doc.mobile
-			user_set.phone.verified = true
-			user_set.phone.modified = new Date()
-			if not _.isEmpty(user_set)
-				# 更新users表中的相关字段
-				db.users.update({_id: doc.user}, {$set: user_set})
-		else
-			user_unset = {}
-			user_unset.phone = ""
-			user_unset.mobile = ""
-			# 更新users表中的相关字段
+		# 更新users表中的相关字段
+		if not _.isEmpty(user_set)
+			# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步
+			db.users.update({_id: doc.user}, {$set: user_set})
+		if not _.isEmpty(user_unset)
+			# 这里需要更新mobile字段，删除mobile字段的相关逻辑在[db.space_users.before.update]中已经有了
 			db.users.update({_id: doc.user}, {$unset: user_unset})
-
+			
 
 		if modifier.$set.organizations
 			modifier.$set.organizations.forEach (org)->
@@ -356,8 +381,8 @@ if (Meteor.isServer)
 
 		# only space admin or org admin can remove space_users
 		if space.admins.indexOf(userId) < 0
-			# 要删除用户，需要所有组织都有权限，所以这里必须是判断所有组织都有权限而不是只要一个组织有权限
-			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations,userId
+			# 要删除用户，需要至少有一个组织权限
+			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 

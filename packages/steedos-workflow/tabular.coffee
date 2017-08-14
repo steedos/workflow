@@ -17,6 +17,7 @@ instancesListTableTabular = (flowId)->
 				Meteor.setTimeout(Template.instance_list._tableColumns, 100)
 				$(".instance-list").scrollTop(0).ready ->
 					$(".instance-list").perfectScrollbar("update")
+					$(".instance-list .dataTables_container").perfectScrollbar("update")
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
 				if data._id == FlowRouter.current().params.instanceId
@@ -160,12 +161,25 @@ instancesListTableTabular = (flowId)->
 			{
 				data: "modified",
 				visible: false
+			},
+			{
+				data: "keywords",
+				visible: false
+			},
+			{
+				data: "is_archived",
+				render: (val, type, doc) ->
+					if doc?.values?.record_need && doc.values.record_need == "true"
+						if doc?.is_archived
+							return t("YES")
+						return t("NO")
+				orderable: false
 			}
 		],
 		dom: "tp",
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "cc_users", "is_read", "step_current_name", "values"],
+			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
 		lengthChange: false,
 		pageLength: 10,
 		info: false,

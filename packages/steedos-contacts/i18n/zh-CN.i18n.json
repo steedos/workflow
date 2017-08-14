@@ -21,12 +21,6 @@
 	"steedos_emailjs_add_to_contacts": "添加至联系人",
 	"steedos_emailjs_compose": "写邮件",
 
-	"steedos_contacts_space_users_name":"姓名",
-	"steedos_contacts_space_users_email":"邮箱",
-	"steedos_contacts_space_users_mobile":"手机",
-	"steedos_contacts_space_users_workPhone": "固定电话",
-	"steedos_contacts_space_users_position": "职务",
-	"steedos_contacts_space_users_organizations":"所属部门",
 	"steedos_contacts_copy": "复制",
 	"steedos_contacts_close": "关闭",
 	"steedos_contacts_name": "姓名",
@@ -81,7 +75,7 @@
 	"invite_users_help": "https://www.steedos.com/cn/help/workflow/admin_space_users.html",
 	"steedos_contacts_import_users": "导入用户",
 	"steedos_contacts_import_users_note": "导入规则",
-	"steedos_contacts_import_users_note_detail": "<p>数据文件必须为Excel</p><p>1、部门必须为全路径。如果部门不存在，则自动创建</p><p>2、导入用户如果不存在，则自动创建; 只有新建的用户支持设置密码</p><p>3、导入用户如果存在，并且已加入当前工作区，则修改用户信息。如果导入的属性为空，则不修改此属性值</p>",
+	"steedos_contacts_import_users_note_detail": "<p>数据文件必须为Excel</p><p>1、部门必须为全路径（例如：上海华炎软件/研发部）。如果部门不存在，则自动创建</p><p>2、导入用户如果不存在，则自动创建; 只有新建的用户支持设置密码</p><p>3、导入用户如果存在，并且已加入当前工作区，则修改用户信息。如果导入的属性为空，则不修改此属性值</p>",
 	"steedos_contacts_import_users_data_file_title": "数据文件(Excel)",
 	"steedos_contacts_import_users_download_simple_data_file": "下载导入模板",
 	"steedos_contacts_import_users_match_user_base_username": "根据用户名匹配用户",
@@ -103,6 +97,5 @@
 	"steedos_contacts_import_users_select_file": "请选择需要导入的数据",
 	"steedos_contacts_import_users_import_success": "导入已完成",
 	"steedos_contacts_import_users_check_success": "校验通过",
-	"space_paid_info_title": "标准版不支持此功能",
-	"space_paid_info_text": "您可以升级到专业版后使用此功能"
+	"btn_set_primary_title": "设为主部门"
 }

@@ -31,7 +31,7 @@
 			"rows": "选中%d行"
 		}
 	},
-	
+
 	"tabbar_workflow": "审批",
 	"tabbar_cms": "信息",
 	"tabbar_apps": "工作台",
@@ -44,7 +44,7 @@
 	"Steedos Chat": "享聊",
 	"Steedos Drive": "云盘",
 	"Steedos Mail": "邮件",
-	"Steedos Calendar": "日历",
+	"Steedos Calendar": "工作安排",
 	"Steedos Contacts": "通讯录",
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
@@ -174,6 +174,7 @@
 	"email_set_primary": "设置为主要邮件",
 	"email_is_primary": "主要邮件",
 	"email_set_primary_success": "已设置为主要邮件",
+	"email_remove_success": "邮件已删除",
 
 
 
@@ -206,8 +207,9 @@
 	"apps_url": "链接",
 	"apps_auth_name": "验证域名",
 	"apps_on_click": "链接脚本",
-	"apps_is_use_ie": "使用IE打开",
+	"apps_is_use_ie": "使用IE打开(需使用Steedos桌面客户端)",
 	"apps_is_use_iframe": "使用iframe打开",
+	"apps_is_new_window": "新窗口打开",
 	"apps_iconURL": "图标链接",
 	"apps_icon": "图标",
 	"apps_space_sort": "排序号",
@@ -240,6 +242,7 @@
 	"spaces_modified_by": "修改者",
 	"spaces_modules": "模块",
 	"spaces_prefs": "首选项",
+	"spaces_avatar": "Logo(长宽要求为260*50像素)",
 
 
 	"organizations": "部门",
@@ -268,7 +271,7 @@
 	"space_users_space_name()": "工作区",
 	"space_users_name": "姓名",
 	"space_users_email": "邮件",
-	"space_users_organization": "所属部门",
+	"space_users_organization": "主部门",
 	"space_users_organizations": "所属部门",
 	"space_users_user_accepted": "有效",
 	"space_users_manager": "上级主管",
@@ -280,6 +283,7 @@
 	"space_users_modified_by": "修改者",
 	"space_users_mobile": "手机",
 	"space_users_work_phone": "固定电话",
+	"space_users_company": "单位",
 	"space_users_position": "职务",
 	"space_users_managers": "所有上级主管",
 	"space_users_apps": "Apps",
@@ -426,11 +430,23 @@
 	"afModal_remove_suc": "删除成功",
 	"afModal_cancel": "取消",
 
-	"change_phone": "更改手机号",
+	"change_phone": "绑定手机号",
 	"set_password_by_phone": "重置密码",
 	"account_phone_invalid": "请先绑定手机号",
 
 	"back_admin_home": "返回",
 
-	"none_space_selected_title": "请选择工作区"
+	"none_space_selected_title": "请选择工作区",
+
+	"account_phone_verified_text": "已验证",
+	"account_phone_unverified_text": "未验证",
+	"account_phone_unbind_text": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等。",
+	"space_users_user_accepted_yes": "是",
+	"space_users_user_accepted_no": "否",
+	"space_users_empty_phone": "空",
+	"YES": "是",
+	"NO": "否",
+	"username_unset_text": "您的账户尚未设置用户名，设置用户名后，可以使用用户名登录系统。",
+	"space_paid_info_title": "专业版用户才能使用此功能",
+	"space_paid_info_text": "请联络系统管理员<a href='https://www.steedos.com/cn/workflow/pricing/' target='_blank'>升级到专业版</a>"
 }

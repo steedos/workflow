@@ -1,10 +1,6 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es5",
-		"sourceMap": true
-	},
-	"exclude": [
-		"node_modules"
-	]
+	"steedos_tableau": "Tableau",
+	"steedos_tableau_workflow": "流程列表",
+	"steedos_tableau_info": "Steedos Tableau",
+	"steedos_tableau_url_copy_success": "Tableau Web 数据连接器已复制"
 }

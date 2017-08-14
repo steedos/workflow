@@ -2,7 +2,7 @@
 	<div class="instance-sign">
 		<div class="instance-sign-content">
 			{{#each (steps field_formula step only_cc_opinion image_sign)}}
-				{{#each trace stepName only_cc_opinion image_sign ../top_keywords}}
+				{{#each trace stepName only_cc_opinion image_sign top_keywords}}
 					{{#if isOpinionOfField this}}
 						{{#if isMyApprove this false}}
 							{{#if (unempty (myApproveDescription _id))}}
@@ -27,21 +27,25 @@
 										</div>
 									{{/if}}
 								{{else}}
-									<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
-										{{#if (unempty description)}}
+									
+									{{#if (unempty description)}}
+										<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
 											{{{markDownToHtml description}}}
 											&emsp;&emsp;{{handler_name}}
 											{{formatDate finish_date format}}
-										{{else}}
-											{{#if is_finished}}
-												{{#if defaultDescription}}
-													{{{markDownToHtml defaultDescription}}}
+										</div>
+									{{else}}
+										{{#if is_finished}}
+											{{#if ../default_description}}
+												<div class="instance-sign-item{{#unless is_finished}} not-finished{{/unless}}">
+													{{{markDownToHtml ../default_description}}}
 													&emsp;&emsp;{{handler_name}}
 													{{formatDate finish_date format}}
-												{{/if}}
+												</div>
 											{{/if}}
 										{{/if}}
-									</div>
+									{{/if}}
+									
 								{{/if}}
 							{{/if}}
 						{{/if}}

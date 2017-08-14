@@ -228,16 +228,6 @@ new Tabular.Table
 			width: '1px',
 			render: (val, type, doc) ->
 				return '<button type="button" class="btn btn-xs btn-default" id="editFlow"><i class="fa fa-pencil"></i></button>'
-		},{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-
-				tableauUrl = Meteor.absoluteUrl("api/workflow/tableau/space/#{doc.space}/flow/#{doc._id}")
-
-				return '<button type="button" class="btn btn-xs btn-default" id="copyTableauUrl" data-clipboard-text="'+ tableauUrl + '">'+ t("flows_btn_copylink_title") + '</button>'
 		},
 	]
 	extraFields: ["form","print_template","instance_template","events","field_map","space"]

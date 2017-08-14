@@ -3,6 +3,9 @@ Template.instance_list.helpers
 	instances: ->
 		return db.instances.find({}, {sort: {modified: -1}});
 
+	is_inbox: ->
+		return Session.get("box") == "inbox"
+
 	boxName: ->
 		if Session.get("box")
 			return t(Session.get("box"))
@@ -16,7 +19,10 @@ Template.instance_list.helpers
 	selector: ->
 		unless Meteor.user()
 			return {_id: -1}
-		query = {space: Session.get("spaceId"), flow: Session.get("flowId")}
+		query = {space: Session.get("spaceId")}
+
+		if Session.get("flowId")
+			query.flow = Session.get("flowId")
 		box = Session.get("box")
 		if box == "inbox"
 			query.$or = [{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}]
@@ -163,8 +169,8 @@ Template.instance_list._tableColumns = ()->
 		table.column(6).visible(false)
 		table.column(7).visible(false)
 		table.column(8).visible(false)
-		if columnCount > 10
-			_.range(11, columnCount + 1).forEach (index)->
+		if columnCount > 11
+			_.range(12, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(false)
 	else
 		table.column(3).visible(show)
@@ -178,10 +184,14 @@ Template.instance_list._tableColumns = ()->
 			table.column(8).visible(false)
 			table.column(7).visible(show)
 
-		if columnCount > 10
-			_.range(11, columnCount + 1).forEach (index)->
+		if columnCount > 11
+			_.range(12, columnCount + 1).forEach (index)->
 				table.column(index - 1)?.visible(show)
 
+	if Session.get("box") == "monitor" && show
+		table.column(11).visible(true)
+	else
+		table.column(11).visible(false)
 
 	if show
 		thead.show()

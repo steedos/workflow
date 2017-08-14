@@ -63,19 +63,28 @@ Admin.menuTemplate =
 					unless Admin.menuTemplate.checkRoles(menu)
 						return ""
 					# 二级菜单才有url及onclick函数
-					if typeof menu.onclick == "function"
-						$("body").on "click", ".admin-menu-#{menu._id}", ->
+
+					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
+
+						if menu.paid && !Steedos.isPaidSpace()
+							e.preventDefault()
+							Steedos.spaceUpgradedModal()
+							return;
+
+
+						if typeof menu.onclick == "function"
 							menu.onclick()
 
 					if menu.target
 						targetStr = "target=#{menu.target}"
-
+					else
+						targetStr = ""
 					return """
-						<li><a class ="admin-menu-#{menu._id}" href="#{menu.url}" #{targetStr}><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
+						<li class="admin-menu-li-#{menu._id}"><a class="admin-menu-#{menu._id}" href="#{menu.url}" #{targetStr}><i class="#{menu.icon}"></i><span>#{t(menu.title)}</span></a></li>
 					"""
 				return """
-					<li class="treeview">
-						<a href="javascript:void(0)">
+					<li class="treeview admin-menu-li-#{rootMenu._id}">
+						<a href="javascript:void(0)" class="admin-menu-#{rootMenu._id}">
 							<i class="#{rootMenu.icon}"></i>
 							<span>#{t(rootMenu.title)}</span>
 							<span class="pull-right-container">
@@ -94,9 +103,10 @@ Admin.menuTemplate =
 
 				if rootMenu.target
 					targetStr = "target=#{rootMenu.target}"
-
+				else
+					targetStr = ""
 				return """
-					<li><a class="admin-menu-#{rootMenu._id}" href="#{rootMenu.url}" #{targetStr}><i class="#{rootMenu.icon}"></i><span>#{t(rootMenu.title)}</span></a></li>
+					<li class="admin-menu-li-#{rootMenu._id}"><a class="admin-menu-#{rootMenu._id}" href="#{rootMenu.url}" #{targetStr}><i class="#{rootMenu.icon}"></i><span>#{t(rootMenu.title)}</span></a></li>
 				"""
 		return reTemplates.join("")
 
@@ -111,8 +121,10 @@ Admin.menuTemplate =
 						return ""
 					if menu.target
 						targetStr = "target=#{menu.target}"
+					else
+						targetStr = ""
 					return """
-						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{menu._id}">
 							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{menu.icon}"></i>
@@ -131,9 +143,11 @@ Admin.menuTemplate =
 			else
 				if rootMenu.target
 					targetStr = "target=#{rootMenu.target}"
+				else
+					targetStr = ""
 				return """
 					<div class="row admin-grids">
-						<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{rootMenu._id}">
 							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-menu-#{rootMenu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
 									<i class="#{rootMenu.icon}"></i>
@@ -148,10 +162,10 @@ Admin.menuTemplate =
 		if Steedos.isMobile()
 			reTemplates.push """
 				<div class="row admin-grids">
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-logout">
 						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
 							<div class="admin-grid-icon">
-								<i class="ion ion-power"></i>
+								<i class="ion ion-ios-paw-outline"></i>
 							</div>
 							<div class="admin-grid-label">
 								#{t("Logout")}
@@ -169,10 +183,10 @@ Admin.menuTemplate =
 		if menu.app
 			isChecked = !!Steedos.getSpaceAppById(menu.app)
 
-		if menu.app and menu.paid
-			# 未来是按APP收费，所以判断是否付费要求带上app属性
-			unless Steedos.isPaidSpace()
-				isChecked = false
+#		if menu.app and menu.paid
+#			# 未来是按APP收费，所以判断是否付费要求带上app属性
+#			unless Steedos.isPaidSpace()
+#				isChecked = false
 
 		if isChecked and menu.roles?.length
 			roles = menu.roles

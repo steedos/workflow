@@ -1,57 +1,98 @@
+.steedos.fixed{
+	.main-header{
+		background: rgba(22, 84, 150, 0.84)!important;
+	}
+	.instance-list-wrapper{
+		.navigation-bar{
+			.instance_new{
+				display: none !important;
+			}
+			.navigation-title{
+				.dropdown-toggle{
+					i{
+						display: none !important;
+					}
+				}
+			}
+		}
+	}
+	@media (max-width: 767px) {
+		.workflow{
+			.main-sidebar{
+				.sidebar-menu{
+					.mybox{
+						display: none !important;
+					}
+				}
+			}
+		}
 
-@media (max-width: 767px) {
-    .instance-list-wrapper{
-        .navigation-bar{
-            .instance_new{
-                display: none !important;
-            }
-        }
-    }
-    .main-sidebar{
-        .sidebar-menu{
-            .instance_new, .header-my-instances, .draft, .pending, .completed{
-                display: none !important;
-            }
-        }
-    }
+		.steedos-help{
+			display: none !important;
+		}
 
-    .steedos-help{
-        display: none !important;
-    }
+		.steedos-logout{
+			display: block !important;
+		}
 
-    .steedos-logout{
-        display: block !important;
-    }
-
-    .steedos{
-        &.login{
-            .main-header {
-                display: none!important;
-            }
-        }
-    }
-}
+		.steedos{
+			&.login{
+				.main-header {
+					display: none!important;
+				}
+			}
+		}
+	}
 
 
-.cf_space_user_list_table{
-  .selectTag-profile{
-    display: none !important;
-  }
-}
-.login .main-header{
-    display:none;
-}
-.steedos.login .at-form .at-title h3{
-    font-size: 25px!important;
-    color: #0090ff;
-    text-shadow: 1px 1px 1px #eee;
-}
-.steedos.login .at-form img.logo{
-    height: 80px;
-    margin-bottom: 12px;
-    box-shadow: 0px 0px 10px #eee;
-}
-
-.change-username-box{
-    display: none;
+	.cf_space_user_list_table{
+		.selectTag-profile{
+			display: none !important;
+		}
+	}
+	.login .main-header{
+		display:none;
+	}
+	.steedos.login{
+		.at-form{
+			.at-title h3{
+				font-size: 23px!important;
+				color: #fff;
+				text-shadow: 1px 1px 1px #333;
+				margin-bottom: 55px;
+				@media (max-width: 767px) {
+					margin-bottom: 0px;
+				}
+			}
+			img.logo{
+				height: 80px;
+				@media (max-width: 767px) {
+					height: 74px;
+				}
+				margin-bottom: 12px;
+				box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.35);
+			}
+			.at-pwd-form{
+				.btn-primary{
+					padding: 8px!important;
+				}
+				.form-group input{
+					height: 42px;
+				}
+			}
+		}
+	}
+	.change-username-box{
+		display: none;
+	}
+	.admin-content{
+		.admin-menu-col-profile{
+			display: none;
+		}
+	}
+	.sidebar{
+		.admin-menu-li-profile{
+			display: none;
+		}
+	}
 }

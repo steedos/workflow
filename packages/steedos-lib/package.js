@@ -10,6 +10,7 @@ Npm.depends({
 	cookies: "0.6.1",
 	"weixin-pay": "1.1.7",
 	"xml2js": "0.4.17"
+	mkdirp: "0.3.5"
 });
 
 Package.onUse(function(api) {

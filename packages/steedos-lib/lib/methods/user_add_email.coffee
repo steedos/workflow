@@ -85,7 +85,7 @@ if Meteor.isServer
           emails: emails
           email: email
 
-
+      db.space_users.direct.update({user: this.userId},{$set: {email: email}}, {multi: true})
       return {}
 
 

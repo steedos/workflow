@@ -1,3 +1,7 @@
+@instance-priority-color-danger : red;
+@instance-priority-color-warning : purple;
+@instance-priority-color-muted : blue;
+
 .instance-list{
   & > div:nth-child(3){
     overflow-x: auto;
@@ -50,15 +54,15 @@
       display: inline;
     }
     &.color-priority-danger{
-      color: red;
+      color: @instance-priority-color-danger;
       display: inline;
     }
     &.color-priority-warning{
-      color: purple;
+      color: @instance-priority-color-warning;
       display: inline;
     }
     &.color-priority-muted{
-      color: blue;
+      color: @instance-priority-color-muted;
       display: inline;
     }
   }
@@ -155,5 +159,29 @@
   }
   .submit_date_end{
     padding-top: 5px;
+  }
+}
+
+.instance-priority-danger{
+  .td-field-文件标题{
+    .form-group{
+      color: @instance-priority-color-danger !important;
+    }
+  }
+}
+
+.instance-priority-warning{
+  .td-field-文件标题{
+    .form-group{
+      color: @instance-priority-color-warning !important;
+    }
+  }
+}
+
+.instance-priority-muted{
+  .td-field-文件标题{
+    .form-group{
+      color: @instance-priority-color-muted !important;
+    }
   }
 }

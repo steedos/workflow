@@ -43,7 +43,7 @@
 	"accounts_phone_too_many_retries": "您操作次数过多，请在__m__分钟后再发送！",
 	"accounts_phone_user_not_found": "该手机号未绑定到任何账户！",
 	"accounts_phone_sms_failed": "短信发送失败！",
-	"accounts_phone_toastr_alert": "您未绑定手机号，点击开始绑定！",
+	"accounts_phone_toastr_alert": "您的账户尚未绑定手机号，绑定手机号后，可以用手机短信登录、取回密码以及接收短信通知等，点击开始绑定！",
 	"accounts_phone_swal_alert": "您未绑定手机号！",
 	"accounts_phone_swal_alert_ok": "开始绑定"
 }

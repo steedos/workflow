@@ -28,6 +28,13 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				return "<div class='contacts-work_phone #{colorClass} nowrap'>" + (doc.work_phone || "") + "</div>"
 		},
 		{
+			data: "company",
+			orderable: false,
+			render: (val, type, doc) ->
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.company || "") + "</div>"
+		},
+		{
 			data: "position",
 			orderable: false,
 			render: (val, type, doc) ->
@@ -41,24 +48,6 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
 				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
 		},
-		# {
-		# 	data: "",
-		# 	title: "",
-		# 	orderable: false,
-		# 	width: '1px',
-		# 	render: (val, type, doc) ->
-		# 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-		# 			return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
-		# },
-		# {
-		# 	data: "",
-		# 	title: "",
-		# 	orderable: false,
-		# 	width: '1px',
-		# 	render: (val, type, doc) ->
-		# 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-		# 			return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_org_user_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
-		# },
 		{
 			data: "sort_no",
 			title: "",
@@ -77,8 +66,8 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-	order:[[5,"desc"],[6,"asc"]],
-	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted"],
+	order:[[6,"desc"],[7,"asc"]],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,

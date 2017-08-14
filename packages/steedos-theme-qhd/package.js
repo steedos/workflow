@@ -1,6 +1,6 @@
 Package.describe({
     name: 'steedos:theme-qhd',
-    version: '0.0.1',
+    version: '0.0.4',
     summary: 'Steedos theme for qhd',
     git: ''
 });
@@ -19,8 +19,6 @@ Package.onUse(function(api) {
     api.use('tap:i18n@1.7.0');
     api.use('tap:i18n', ['client', 'server']);
 
-    api.use('steedos:workflow');
-
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);
 
@@ -29,11 +27,6 @@ Package.onUse(function(api) {
 
     api.addAssets("client/background/qhd.jpg", "client");
     api.addAssets("client/images/logo.jpg", "client");
-
-    api.addFiles("server/routes/notify_wenshu.coffee", "server");
-    api.addFiles("server/routes/notify_cc_steps.coffee", "server");
-    api.addFiles("server/routes/notification_wenshu.coffee", "server");
-
 
     // EXPORT
 

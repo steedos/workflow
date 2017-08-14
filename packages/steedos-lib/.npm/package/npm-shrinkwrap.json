@@ -103,8 +103,8 @@
       "from": "delayed-stream@>=1.0.0 <1.1.0"
     },
     "depd": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/depd/-/depd-1.1.0.tgz",
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/depd/-/depd-1.1.1.tgz",
       "from": "depd@>=1.1.0 <1.2.0"
     },
     "ecc-jsbn": {
@@ -240,6 +240,11 @@
       "version": "2.1.15",
       "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.15.tgz",
       "from": "mime-types@>=2.1.7 <2.2.0"
+    },
+    "mkdirp": {
+      "version": "0.3.5",
+      "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz",
+      "from": "mkdirp@0.3.5"
     },
     "node-schedule": {
       "version": "1.1.1",

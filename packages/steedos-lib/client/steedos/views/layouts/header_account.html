@@ -1,29 +1,21 @@
 <template name="headerAccount">
-	<li class="dropdown user user-menu">
+	<li class="dropdown user user-menu steedos-base">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			<!-- <img src="{{avatarURL avatar 29 25 14}}" class="user-image" alt="User Image"> -->
+			<!-- <img src="{{avatarURL avatar 29 25 14}}" class="user-image"> -->
+			{{#if avatar}}
+				<img src="{{avatarURL avatar 29 25 14}}" class="user-image">
+			{{else}}
+				<i class="ion ion-android-person account-default-avatar" aria-hidden="true"></i>
+			{{/if}}
 			<span class="hidden-xs">{{displayName}}</span>
 			<i class="fa fa-angle-down"></i>
 		</a>
 		<ul class="dropdown-menu">
-			<li class="user-header">
-				{{#if avatar}}
-					<img src="{{avatarURL avatar 98 90 45}}" class="img-circle" alt="User Image">
-				{{else}}
-					<i class="ion ion-android-person account-default-avatar" aria-hidden="true"></i>
-				{{/if}}
-				<p>
-					{{displayName}}
-					<small>&nbsp;</small>
-				</p>
+			<li>
+				<a href="/admin/profile">{{_ "Account Settings"}}</a>
 			</li>
-			<li class="user-footer">
-				<div class="pull-left">
-					<a href="/admin/profile" class="btn btn-default btn-flat">{{_ "Account Settings"}}</a>
-				</div>
-				<div class="pull-right">
-					<a href="{{signOutUrl}}" class="btn btn-default btn-flat btn-logout">{{_ "Sign out"}}</a>
-				</div>
+			<li>
+				<a href="{{signOutUrl}}">{{_ "Sign out"}}</a>
 			</li>
 		</ul>
 	</li>

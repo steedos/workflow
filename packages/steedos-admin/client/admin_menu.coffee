@@ -27,16 +27,16 @@ if Meteor.isClient
 
 	# 账户设置
 	Admin.addMenu
-		_id: "account"
+		_id: "account"	
 		title: "Account Settings"
-		icon: "ion ion-android-person"
+		icon: "ion ion-ios-person-outline"
 		sort: 10
 
 	# 个人信息
 	Admin.addMenu
 		_id: "profile"
 		title: "Profile"
-		icon:"ion ion-android-person"
+		icon:"ion ion-ios-person-outline"
 		url: "/admin/profile/profile"
 		sort: 10
 		parent: "account"
@@ -45,7 +45,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "avatar"
 		title: "Avatar"
-		icon:"ion ion-image"
+		icon:"ion ion-ios-camera-outline"
 		url: "/admin/profile/avatar"
 		sort: 20
 		parent: "account"
@@ -54,7 +54,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "account_info"
 		title: "Account"
-		icon:"ion ion-locked"
+		icon:"ion ion-ios-locked-outline"
 		url: "/admin/profile/account"
 		sort: 30
 		parent: "account"
@@ -63,7 +63,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "email"
 		title: "email"
-		icon:"ion ion-at"
+		icon:"ion ion-ios-email-outline"
 		url: "/admin/profile/emails"
 		sort: 40
 		parent: "account"
@@ -72,7 +72,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "personalization"
 		title: "personalization"
-		icon:"ion ion-wand"
+		icon:"ion ion-ios-color-wand-outline"
 		url: "/admin/profile/personalization"
 		sort: 50
 		parent: "account"
@@ -91,7 +91,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "space_info"
 		title: "space_info"
-		icon: "ion ion-android-globe"
+		icon: "ion ion-ios-world-outline"
 		url: "/admin/space/info"
 		roles:["space_admin"]
 		sort: 20
@@ -101,7 +101,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "contacts_organizations"
 		title: "contacts_organizations"
-		icon: "fa fa-sitemap"
+		icon: "ion ion-ios-people-outline"
 		url: "/admin/organizations"
 		roles:["space_admin"]
 		sort: 30
@@ -111,7 +111,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "steedos_customize_apps"
 		title: "steedos_customize_apps"
-		icon: "ion ion-ios-keypad"
+		icon: "ion ion-ios-keypad-outline"
 		url: "/admin/customize_apps"
 		roles:["space_admin"]
 		sort: 40

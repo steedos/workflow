@@ -159,6 +159,7 @@
 	"email_set_primary": "set primary email",
 	"email_is_primary": "Primary",
 	"email_set_primary_success": "set primary email success",
+	"email_remove_success": "Deleted",
 
 
 
@@ -191,8 +192,9 @@
 	"apps_auth_name": "Auth Name",
 	"apps_url": "URL",
 	"apps_on_click": "URL Script",
-	"apps_is_use_ie": "Use IE",
+	"apps_is_use_ie": "Use IE(Use the Steedos desktop client)",
 	"apps_is_use_iframe": "Use iframe",
+	"apps_is_new_window": "New window opens",
 	"apps_iconURL": "IconURL",
 	"apps_icon": "Icon",
 	"apps_space_sort": "Sort Index",
@@ -225,6 +227,7 @@
 	"spaces_modified_by": "Modified By",
 	"spaces_modules": "Modules",
 	"spaces_prefs": "Preference",
+	"spaces_avatar": "Logo(260*50px)",
 
 	"organizations": "Organizations",
 	"organizations_id": "ID",
@@ -253,7 +256,7 @@
 	"space_users_space_name()": "Space Name",
 	"space_users_name": "Name",
 	"space_users_email": "Email",
-	"space_users_organization": "Organization",
+	"space_users_organization": "Primary Organization",
 	"space_users_organizations": "Organizations",
 	"space_users_user_accepted": "Is Valid",
 	"space_users_manager": "Manager",
@@ -265,6 +268,7 @@
 	"space_users_modified_by": "Modified By",
 	"space_users_mobile": "Moblie",
 	"space_users_work_phone": "Work Phone",
+	"space_users_company": "Company",
 	"space_users_position": "Position",
 	"space_users_managers": "All Managers",
 	"space_users_apps": "Apps",
@@ -407,11 +411,23 @@
 	"afModal_remove_suc": "Successfully deleted",
 	"afModal_cancel": "Cancel",
 
-	"change_phone": "Change Phone Number",
+	"change_phone": "Bind Phone Number",
 	"set_password_by_phone": "Reset password",
 	"account_phone_invalid": "Your phone is not valid",
 
 	"back_admin_home": "Back",
 
-	"none_space_selected_title": "Please select a space"
+	"none_space_selected_title": "Please select a space",
+
+	"account_phone_verified_text": "Verified",
+	"account_phone_unverified_text": "Unverified",
+	"account_phone_unbind_text": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification.",
+	"space_users_user_accepted_yes": "YES",
+	"space_users_user_accepted_no": "NO",
+	"space_users_empty_phone": "Empty",
+	"YES": "YES",
+	"NO": "NO",
+	"username_unset_text": "Your account has not yet set a user name, set the user name, you can use the user name to log on to the system.",
+	"space_paid_info_title": "Standard Edition does not support",
+	"space_paid_info_text": "You can upgrade to the professional version"
 }

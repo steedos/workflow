@@ -6,8 +6,10 @@ Package.describe({
 });
 
 Npm.depends({
-    cookies: "0.6.1",
-    'vcf':'1.1.2'
+	cookies: "0.6.1",
+	'vcf':'1.1.2',
+	ejs: "2.5.5",
+	"ejs-lint": "0.2.0"
 });
 
 Package.onUse(function(api) {
@@ -34,14 +36,14 @@ Package.onUse(function(api) {
 	api.use('nimble:restivus@0.8.7');
 	api.use('aldeed:simple-schema@1.3.3');
 	api.use('aldeed:collection2@2.5.0');
-    api.use('aldeed:tabular@1.6.1');
+	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.1');
 	api.use('cfs:standard-packages@0.5.9');
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
 	api.use('iyyang:cfs-aliyun');
-    api.use('cfs:s3');
+	api.use('cfs:s3');
 
 
 	api.use('meteorhacks:ssr@2.2.0');
@@ -72,8 +74,13 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/import_contacts_from_space_users.js', 'server');
 	api.addFiles('server/methods/check_org_admin.coffee', 'server');
 	api.addFiles('server/methods/import_users.coffee', 'server');
+	api.addFiles('server/methods/fetch_username.coffee', 'server');
+	api.addFiles('server/methods/set_primary_org.coffee', 'server');
 
-    api.addFiles('server/routes/contacts.coffee', 'server');
+	api.addFiles('server/routes/contacts.coffee', 'server');
+
+	api.addAssets('server/ejs/export_space_users.ejs', 'server');
+	api.addFiles('routes/api_space_users_export.coffee', 'server');
 
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');

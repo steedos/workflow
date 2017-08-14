@@ -51,22 +51,25 @@ FlowRouter.route '/',
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
 		else
-			# 登录最近关闭的URL
-			lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
-			# 这时不能用lastUrl.startsWith，因为那样无法判断后面是否加了其他字符
-			if (!Steedos.isMobile() && lastUrl)
-				if /^\/?workflow\b/.test(lastUrl)
-					FlowRouter.go "/workflow"
-				else if /^\/?cms\b/.test(lastUrl)
-					FlowRouter.go "/cms"
-				else if /^\/?emailjs\b/.test(lastUrl)
-					FlowRouter.go "/emailjs"
-				else if /^\/?contacts\b/.test(lastUrl)
-					FlowRouter.go "/contacts"
-				else if /^\/?portal\b/.test(lastUrl)
-					FlowRouter.go "/portal"
-				else 
-					FlowRouter.go "/admin"
+			# # 登录最近关闭的URL
+			# lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
+			# # 这时不能用lastUrl.startsWith，因为那样无法判断后面是否加了其他字符
+			# if (!Steedos.isMobile() && lastUrl)
+			# 	if /^\/?workflow\b/.test(lastUrl)
+			# 		FlowRouter.go "/workflow"
+			# 	else if /^\/?cms\b/.test(lastUrl)
+			# 		FlowRouter.go "/cms"
+			# 	else if /^\/?emailjs\b/.test(lastUrl)
+			# 		FlowRouter.go "/emailjs"
+			# 	else if /^\/?contacts\b/.test(lastUrl)
+			# 		FlowRouter.go "/contacts"
+			# 	else if /^\/?portal\b/.test(lastUrl)
+			# 		FlowRouter.go "/portal"
+			# 	else 
+			# 		FlowRouter.go "/admin"
+			# else
+			if (Steedos.isMobile())
+				FlowRouter.go "/workflow"
 			else
 				Tracker.autorun (c)->
 					firstApp = Steedos.getSpaceFirstApp()
@@ -146,11 +149,7 @@ FlowRouter.route '/admin/customize_apps',
 	action: (params, queryParams)->
 		spaceId = Steedos.getSpaceId()
 		if spaceId
-			space = db.spaces.findOne(spaceId)
-			if !space?.is_paid
-				swal(t("steedos_customize_apps"), t("steedos_only_paid"), "error")
-			else
-				FlowRouter.go("/admin/view/apps")
+			FlowRouter.go("/admin/view/apps")
 
 FlowRouter.route '/designer', 
 	triggersEnter: [ checkUserSigned ],

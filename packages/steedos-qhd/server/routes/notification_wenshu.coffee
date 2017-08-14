@@ -26,7 +26,7 @@ JsonRoutes.add 'post', '/api/webhook/notification/wenshu', (req, res, next) ->
 		steps_name = ['领导批示', '集团领导批示', '股份领导批示']
 
 		if steps_name.includes(trace_name)
-			if current_approve.description and current_approve.description isnt "已阅" and current_approve.description isnt "同意"
+			if current_approve.description and current_approve.description isnt "已阅" and current_approve.description isnt "已阅。" and current_approve.description isnt "同意" and current_approve.description isnt "同意。"
 				flow = db.flows.findOne({_id:instance.flow},{fields: {name: 1}})
 				if flow.name.indexOf('集团') > -1
 					user = db.users.findOne({"username": "jbws"}, {fields: {name: 1}})

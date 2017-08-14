@@ -17,6 +17,11 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 			return;
 
 		state = req.query.state
+
+		limit = req.query?.limit || 500
+
+		limit = parseInt(limit)
+
 		#user_id = req.query.userid
 
 		if not state
@@ -32,28 +37,33 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 			if user_id
 				find_instances = db.instances.find({
 					space: space_id,
-					state: "pending",
 					$or:[{inbox_users: user_id}, {cc_users: user_id}]
-				},{sort:{modified:-1}}).fetch()
+				},{sort:{modified:-1}, limit: limit}).fetch()
 			else
 				# 校验当前登录用户是否是space的管理员
 				uuflowManager.isSpaceAdmin(space_id,user_id)
 				find_instances = db.instances.find({
 					space: space_id,
-					state: "pending"
-				}).fetch()
-
+					$or:[
+						{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}
+					]
+				}, {limit: limit}).fetch()
 			_.each find_instances, (i)->
-				flow = db.flows.findOne(i["flow"])
-				space = db.spaces.findOne(i["space"])
+				flow = db.flows.findOne(i["flow"], {fields: {name: 1}})
+				space = db.spaces.findOne(i["space"], {fields: {name: 1}})
 				return if not flow
-				current_trace = _.find i["traces"], (t)->
-					return t["is_finished"] is false
-				current_step_id = current_trace["step"]
-				step = uuflowManager.getStep(i, flow, current_step_id)
+				current_trace;
+				if i.inbox_users?.includes(user_id)
+					current_trace = _.find i["traces"], (t)->
+						return t["is_finished"] is false
+				else
+					i.traces.forEach (t)->
+						t?.approves?.forEach (approve)->
+							if approve.user == user_id && approve.type == 'cc' && !approve.is_finished
+								current_trace = t
+				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
 
-				approves = current_trace.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
-				if approves.length > 0
+				if approves?.length > 0
 					approve = approves[0]
 					is_read = approve.is_read
 
@@ -65,9 +75,9 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				h["applicant_name"] = i["applicant_name"]
 				h["applicant_organization_name"] = i["applicant_organization_name"]
 				h["submit_date"] = i["submit_date"]
-				h["step_name"] = step.name
+				h["step_name"] = current_trace?.name
 				h["space_id"] = space_id
-				h["modified"] = moment(i["modified"]).format('YYYY-MM-DD HH:mm')
+				h["modified"] = i["modified"]
 				h["is_read"] = is_read
 				h["values"] = i["values"]
 				result_instances.push(h)

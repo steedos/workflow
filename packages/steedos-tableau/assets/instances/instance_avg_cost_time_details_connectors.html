@@ -1,0 +1,113 @@
+<html>
+<head>
+	<title>Space Instances</title>
+	<meta http-equiv="Cache-Control" content="no-store" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/js/selectize/selectize.css">
+	<link rel="stylesheet" type="text/css" href="/js/selectize/selectize.bootstrap3.css">
+	<script type="text/javascript" src="/lib/jquery/jquery-1.11.2.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://connectors.tableau.com/libs/tableauwdc-2.2.latest.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/packages/steedos_tableau/assets/instances/instance_avg_cost_time_details_connectors.js"></script>
+	<script type="text/javascript" src="/js/selectize/selectize.js"></script>
+
+</head>
+
+<body>
+<div class="container container-table">
+	<div class="row vertical-center-row">
+		<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label"> Username </label>
+					<input type="text" id="username" class="form-control">
+					<label class="control-label"> Password </label>
+					<input type="password" id="password" class="form-control">
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+
+					<label class="control-label" for="spaceId">工作区:</label>
+					<select class="form-control" id="spaceId" readonly>
+						<option value="#{spaceId}">#{spaceName}</option>
+					</select>
+
+					<!--<label class="control-label" for="state">申请单状态:</label>-->
+					<!--<div>-->
+						<!--<label class="checkbox-inline">-->
+							<!--<input type="checkbox" name="state" value="draft"> 草稿-->
+						<!--</label>-->
+						<!--<label class="checkbox-inline">-->
+							<!--<input type="checkbox" name="state" value="pending"> 进行中-->
+						<!--</label>-->
+						<!--<label class="checkbox-inline">-->
+							<!--<input type="checkbox" name="state" value="completed" checked> 已完成-->
+						<!--</label>-->
+					<!--</div>-->
+
+					<label class="control-label" for="submit_date">时间段:</label>
+					<select class="form-control" id="period">
+						<option value="1">一个月</option>
+						<option value="3" checked>三个月</option>
+						<option value="6">六个月</option>
+						<option value="12">十二个月</option>
+					</select>
+
+					<label class="control-label" for="submit_date">部门:</label>
+					<select id="instance_approves_hanlder_orgs">
+					</select>
+
+					<label class="control-label" for="connName">连接名称:</label>
+					<input class="form-control" id="connName" value="#{connName}">
+				</div>
+			</div>
+			<button type="button" id="submitButton" class="btn btn-success" style="margin: 10px;">获取数据</button>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	var length = 10;
+
+	$('#instance_approves_hanlder_orgs').selectize({
+		valueField: '_id',
+		labelField: 'fullname',
+		searchField: 'fullname',
+		create: false,
+		load: function(query, callback) {
+			if (!query.length) return callback();
+
+			config = {
+				model: "organizations",
+				selector: {fullname : {$regex: query}},
+				options: {fields: {_id: 1 , fullname: 1}, limit: length},
+				space: "Af8eM6mAHo7wMDqD3",
+				"X-User-Id": "rmMhM4MMM8FHKSSqH",
+				"X-Auth-Token": "0nnc9eho-PT_RQ2k5orQU10Y57kZT4L7DkO95lRT_PO"
+			}
+
+
+			$.ajax({
+				url: 'http://192.168.0.134:3004/api/collection/find',
+				type: 'POST',
+				async: false,
+				data: JSON.stringify(config),
+				contentType: "application/json",
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res);
+				}
+			});
+		}
+	});
+</script>
+
+</body>
+
+</html>

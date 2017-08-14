@@ -20,6 +20,14 @@ Template.steedos_contacts_org_user_list.helpers
 		else
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")
+				orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
+					fields: {
+						_id: 1
+					}
+				});
+
+				orgs = orgs.concat(orgs_childs.getProperty("_id"))
+
 				query.organizations = {$in: orgs};
 
 		if !Session.get('contacts_is_org_admin')
@@ -98,7 +106,7 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .datatable-steedos-contacts tbody tr': (event, template)->
+	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
@@ -121,14 +129,24 @@ Template.steedos_contacts_org_user_list.events
 
 
 	'click #steedos_contacts_import_users_btn': (event, template)->
-
-		space = db.spaces.findOne({_id: Session.get("spaceId")})
-
-		if !space.is_paid
-			swal({title: TAPi18n.__("space_paid_info_title"), text: TAPi18n.__("space_paid_info_text"), type:"error", confirmButtonText: TAPi18n.__("OK")});  # TODO 提供统一提醒函数
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
 			return;
 
 		Modal.show("import_users_modal");
+
+	'click #steedos_contacts_export_users_btn': (event, template)->
+
+		spaceId = Session.get("spaceId")
+		orgId = Session.get("contacts_orgId")
+		if spaceId and orgId
+			uobj = {}
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			uobj.space_id = spaceId
+			uobj.org_id = orgId
+			url = Steedos.absoluteUrl() + "api/contacts/export/space_users?" + $.param(uobj)
+			window.open(url, '_parent', 'EnableViewPortScale=yes')
 
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
@@ -140,5 +158,3 @@ Template.steedos_contacts_org_user_list.onRendered ->
 
 	ContactsManager.handerContactModalValueLabel();
 	$("#contact_list_load").hide();
-
-	# $(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

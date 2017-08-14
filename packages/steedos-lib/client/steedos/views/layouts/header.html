@@ -5,9 +5,17 @@
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav">
-				<li class="appName">
-					<a href="/{{getAppName}}">
-						{{getAppTitle}}
+				{{#each getSpaceTopApps 3}}
+					<li class="notifications-menu">
+						<a href class="menu-app-link" data-appid="{{_id}}">
+							{{_ name}}
+							<span class="label label-danger">{{appBadge _id}}</span>
+						</a>
+					</li>
+				{{/each}}
+				<li class="notifications-menu">
+					<a href class="menu-apps-link">
+						<i class="ion ion-grid"></i>
 					</a>
 				</li>
 			</ul>
@@ -16,15 +24,7 @@
 				<ul class="nav navbar-nav">
 					{{> headerLoading}}
 					{{> headerRefresh}}
-					{{> headerWorkflowBadge}}
-					{{> headerCmsBadge}}
 					{{> headerAccount}}
-					<li>
-						<a href="/admin">{{_ "Steedos Admin"}}</a>
-					</li>
-					<li class="li-help">
-						<a href="#" class="steedos-help"><i class="ion ion-ios-help-outline"></i></a>
-					</li>
 				</ul>
 			</div>
 		</nav>

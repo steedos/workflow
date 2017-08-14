@@ -348,7 +348,9 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     var nextRetryDate = verifyObject && verifyObject.lastRetry && new Date(verifyObject.lastRetry.getTime() + waitTimeBetweenRetries);
     if (nextRetryDate && nextRetryDate > curTime) {
         var waitTimeInSec = Math.ceil(Math.abs((nextRetryDate - curTime) / 1000)),
-            errMsg = TAPi18n.__('accounts_phone_too_often_retries',{s:waitTimeInSec}, locale);
+            errMsg = TAPi18n.__('accounts_phone_too_often_retries', {
+                s: waitTimeInSec
+            }, locale);
         throw new Meteor.Error(403, errMsg);
     }
     // Check if there where too many retries
@@ -388,7 +390,7 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
     try {
         if (Meteor.settings && Meteor.settings.sms && Meteor.settings.sms.twilio) {
             SMS.send(options);
-        } else if (Meteor.settings && Meteor.settings.sms && (Meteor.settings.sms.aliyun || Meteor.settings.sms.qcloud)) {
+        } else {
             var params = {
                 code: verifyObject.code
             };
@@ -407,14 +409,14 @@ Accounts.sendPhoneVerificationCode = function(userId, phone) {
 
     } catch (e) {
         console.error('SMS Failed, Something bad happened!', e);
-        var errMsg = TAPi18n.__('accounts_phone_sms_failed',{}, locale);
+        var errMsg = TAPi18n.__('accounts_phone_sms_failed', {}, locale);
         throw new Meteor.Error(403, errMsg);
     }
 };
 
 // Send SMS with code to user.
 Meteor.methods({
-    requestPhoneVerification: function(phone, locale) {
+    requestPhoneVerification: function(phone, locale, checkVerified) {
         if (phone) {
             check(phone, String);
             // Change phone format to international SMS format
@@ -428,9 +430,15 @@ Meteor.methods({
         var userId = this.userId;
         if (!userId) {
             // Get user by phone number
-            var existingUser = Meteor.users.findOne({
-                'phone.number': phone
-            }, {
+            var userOptions = {
+                'phone.number': phone,
+            };
+
+            if(checkVerified){
+                userOptions['phone.verified'] = true;
+            }
+
+            var existingUser = Meteor.users.findOne(userOptions, {
                 fields: {
                     '_id': 1
                 }
@@ -441,7 +449,7 @@ Meteor.methods({
                 // Create new user with phone number
                 // userId = createUser({phone:phone});
                 // 暂时不允许通过手机创建新账户，因为可能会跟没有配置手机号的老账户冲突
-                var errMsg = TAPi18n.__('accounts_phone_user_not_found',{}, locale);
+                var errMsg = TAPi18n.__('accounts_phone_user_not_found', {}, locale);
                 throw new Meteor.Error(403, errMsg);
             }
         }
@@ -491,7 +499,7 @@ Meteor.methods({
                     unSetOptions = {
                         'services.phone.verify': 1
                     };
-
+                var resetToOldToken;
                 // If needs to update password
                 if (newPassword) {
                     check(newPassword, passwordValidator);
@@ -503,7 +511,7 @@ Meteor.methods({
                     // of having a bad token set if things fail.
                     var oldToken = Accounts._getLoginToken(self.connection.id);
                     Accounts._setLoginToken(user._id, self.connection, null);
-                    var resetToOldToken = function() {
+                    resetToOldToken = function() {
                         Accounts._setLoginToken(user._id, self.connection, oldToken);
                     };
 
@@ -524,6 +532,9 @@ Meteor.methods({
                     if (isMasterCode(code)) {
                         delete query['services.phone.verify.code'];
                     }
+                    console.log("Meteor.methods-verifyPhone==========11");
+                    console.log("setOptions:" + JSON.stringify(setOptions));
+                    console.log("unSetOptions:" + JSON.stringify(unSetOptions));
                     // Update the user record by:
                     // - Changing the password to the new one
                     // - Forgetting about the verification code that was just used
@@ -538,10 +549,13 @@ Meteor.methods({
                             userId: user._id,
                             error: new Meteor.Error(403, "accounts_phone_not_exist")
                         };
+                    console.log("Meteor.methods-verifyPhone==========22");
 
                     successfulVerification(user._id);
                 } catch (err) {
-                    resetToOldToken();
+                    if(resetToOldToken){
+                        resetToOldToken();
+                    }
                     throw err;
                 }
 

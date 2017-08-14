@@ -120,6 +120,7 @@
 	"instance_cancel_error_reason_required": "Comments are required.",
 
 	"instance_select_next_step": "Please select next step",
+	"instance_multi_next_step_tips": "Multi next steps，please select next step，and send the request by click the bottom Send button",
 	"instance_next_step_user": "Please select next step user(s)",
 	"instance_reasons_reject": "Reasons necessary when reject the application",
 	"instance_field": "The field",
@@ -205,15 +206,16 @@
 	"workflow_attach_new": "New",
 
 	"workflow_select_an_app": "Steedos Apps",
-	"workflow_suggestion_placeholder": "Leave a comment,Click on the right button to select the common opinion.",
+	"workflow_suggestion_placeholder": "Please fill in comments.",
 
 	"instance_opinion_title": "Opinions",
+	"instance_opinion_btn": "Opinions",
 	"instance_opinion_input": "Add a opinion",
 	"instance_opinion_add_success": "Add successfully!",
 	"instance_opinion_remove_success": "Remove successfully!",
 	"instance_opinion_error": "Error",
 	"instance_opinion_exists": "Opinion exists",
-	"instance_opinion_add_tip": "Press '+' to add opinion",
+	"instance_opinion_add_tip": "You have not set up common comments yet.",
 
 	"instance_forward_title": "Instance Forward",
 
@@ -287,16 +289,16 @@
 				"submit_pending_inbox": "My __instance_name__ request needs your __approve_type__",
 				"submit_terminate_applicant": "Request for __instance_name__ has been cancelled",
 				"submit_terminate_approve": "",
-				"monitor_delete_applicant": "I have deleted your request for __instance_name__",
-				"submit_completed_applicant": "I have approved your request for __instance_name__",
+				"monitor_delete_applicant": "Request for __instance_name__ has been deleted",
+				"submit_completed_applicant": "Request for __instance_name__ has been approved",
 				"submit_completed_approve": "",
-				"approved_completed_applicant": "I have approved your request for __instance_name__",
+				"approved_completed_applicant": "Request for __instance_name__ has been approved",
 				"approved_completed_approve": "",
-				"rejected_completed_applicant": "I have rejected your request for __instance_name__",
+				"rejected_completed_applicant": "Request for __instance_name__ has been rejected",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
-				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
+				"remind": "Remind：__instance_name__, Deadline：__deadline__"
 			}
 		},
 		"email": {
@@ -419,6 +421,8 @@
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
+	"instance_retrieve_rules_title": "取回失败",
+	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -548,5 +552,9 @@
 	"my_instances": "My Files",
 	"workflow_import_export_flows": "Flows import or export",
 	"workflow_history_approve_description": "History description",
-	"instances_start_date": "Receiving time"
+	"instances_start_date": "Receiving time",
+	"instances_is_archived": "Archived",
+	"instances_archive": "Archive",
+	"instances_archived": "Archived",
+	"instances_not_archived": "Not archived"
 }

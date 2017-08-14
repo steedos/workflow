@@ -479,159 +479,158 @@ pushManager.send_message = (steedos_ids, body, current_user_info)->
 
 #通知服务
 pushManager.send_instance_notification = (send_from, instance, description, current_user_info, cc_user_ids)->
-	try
-		space_id = instance.space
-		instance_id = instance._id
-		flow_version = instance.flow_version
-		flow = uuflowManager.getFlow(instance.flow)
-		to_users = pushManager.get_to_users(send_from, instance, cc_user_ids)
+		Meteor.defer ()->
+			try
+				space_id = instance.space
+				instance_id = instance._id
+				flow_version = instance.flow_version
+				flow = uuflowManager.getFlow(instance.flow)
+				to_users = pushManager.get_to_users(send_from, instance, cc_user_ids)
 
-		href = Meteor.absoluteUrl() + "workflow/space/#{space_id}/inbox/#{instance_id}"
-		body_style_start = "<div style='border:1px solid #bbb;padding:10px;'>"
-		body_style_end = "</div>"
+				href = Meteor.absoluteUrl() + "workflow/space/#{space_id}/inbox/#{instance_id}"
+				body_style_start = "<div style='border:1px solid #bbb;padding:10px;'>"
+				body_style_end = "</div>"
 
-		current_step_name = null
-		nextApprove_usersname = null
+				current_step_name = null
+				nextApprove_usersname = null
 
-		if ['submit_pending_rejected_approve', 'submit_pending_rejected_applicant'].includes(send_from)
-			trace = _.find(instance.traces, (t)->
-				return t.is_finished is false
-			)
-			approve = _.find(trace.approves, (a)->
-				return a.is_finished is false
-			)
-			current_step_name = null
-			nextApprove_usersname = approve.user_name
-			if flow.current._id is flow_version
-				current_step = _.find(flow.current.steps, (s)->
-					return s._id is trace.step
-				)
-				current_step_name = current_step.name
-			else
-				flow_history_version = _.find(flow.historys, (h)->
-					return h._id is flow_version
-				)
-				current_step = _.find(flow_history_version.steps, (s)->
-					return s._id is trace.step
-				)
-				current_step_name = current_step.name
+				if ['submit_pending_rejected_approve', 'submit_pending_rejected_applicant'].includes(send_from)
+					trace = _.find(instance.traces, (t)->
+						return t.is_finished is false
+					)
+					approve = _.find(trace.approves, (a)->
+						return a.is_finished is false
+					)
+					current_step_name = null
+					nextApprove_usersname = approve.user_name
+					if flow.current._id is flow_version
+						current_step = _.find(flow.current.steps, (s)->
+							return s._id is trace.step
+						)
+						current_step_name = current_step.name
+					else
+						flow_history_version = _.find(flow.historys, (h)->
+							return h._id is flow_version
+						)
+						current_step = _.find(flow_history_version.steps, (s)->
+							return s._id is trace.step
+						)
+						current_step_name = current_step.name
 
-		#得到下一步步骤类型
-		nextStep_type = uuflowManager.getStep(instance, flow, instance.traces[instance.traces.length-1].step).step_type
-		#得到上一步处理结果
-		lastApprove_judge = instance.traces[instance.traces.length-2].approves[0].judge
-		_approves_username = new Array
-		_.each(instance.traces[instance.traces.length-2].approves, (appr)->
-			_approves_username.push(appr.handler_name)
-		)
-		lastApprove_usersname = _approves_username.join(",")
-		# 得到当前步骤
-		current_step = uuflowManager.getStep(instance, flow, instance.traces[instance.traces.length-2].step)
-
-		#代申请时，发送给申请人的邮件中，需要添加开始步骤的description
-		approves_description = null
-		_approves_des = null
-		if ['reassign_new_inbox_users', 'submit_completed_applicant', 'approved_completed_applicant', 'first_submit_applicant', 'first_submit_inbox', 'submit_pending_inbox'].includes(send_from)
-			approves_description = instance.traces[instance.traces.length-2].approves[0].description
-			if current_step.step_type is "counterSign" and ("submit_completed_applicant" is send_from or "submit_pending_inbox" is send_from)
-				to_user_change = 'en'
-				if to_users[0].locale is 'zh-cn'
-					to_user_change = 'zh-CN'
-
+				#得到下一步步骤类型
+				nextStep_type = uuflowManager.getStep(instance, flow, instance.traces[instance.traces.length-1].step).step_type
+				#得到上一步处理结果
+				lastApprove_judge = instance.traces[instance.traces.length-2].approves[0].judge
+				_approves_username = new Array
 				_.each(instance.traces[instance.traces.length-2].approves, (appr)->
-					_appr_description = appr.description
-					_appr_userName = appr.user_name
-					br = '<br/>'
-					if appr.judge is "approved"
-						_approves_des = _appr_userName + " : " + TAPi18n.__('instance.judge.approved', {}, to_user_change) + "," + _appr_description + br
-					else if appr.judge is "rejected"
-						_approves_des = _appr_userName + " : " + TAPi18n.__('instance.judge.rejected', {}, to_user_change) + "," + _appr_description + br
-
-
+					_approves_username.push(appr.handler_name)
 				)
-				approves_description = _approves_des
+				lastApprove_usersname = _approves_username.join(",")
+				# 得到当前步骤
+				current_step = uuflowManager.getStep(instance, flow, instance.traces[instance.traces.length-2].step)
 
-		# from_user 默认为当前登录用户
-		from_user = current_user_info
+				#代申请时，发送给申请人的邮件中，需要添加开始步骤的description
+				approves_description = null
+				_approves_des = null
+				if ['reassign_new_inbox_users', 'submit_completed_applicant', 'approved_completed_applicant', 'first_submit_applicant', 'first_submit_inbox', 'submit_pending_inbox'].includes(send_from)
+					approves_description = instance.traces[instance.traces.length-2].approves[0].description
+					if current_step.step_type is "counterSign" and ("submit_completed_applicant" is send_from or "submit_pending_inbox" is send_from)
+						to_user_change = 'en'
+						if to_users[0].locale is 'zh-cn'
+							to_user_change = 'zh-CN'
 
-		# 发给下一步处理人或发送已处理过的人时，设置from_user对象为申请人
-		if ['reassign_new_inbox_users', 'first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'submit_completed_approve', 'submit_pending_rejected_approve', 'submit_terminate_approve', 'approved_completed_approve', 'rejected_completed_approve'].includes(send_from)
-			from_user = db.users.findOne(instance.applicant)
+						_.each(instance.traces[instance.traces.length-2].approves, (appr)->
+							_appr_description = appr.description
+							_appr_userName = appr.user_name
+							br = '<br/>'
+							if appr.judge is "approved"
+								_approves_des = _appr_userName + " : " + TAPi18n.__('instance.judge.approved', {}, to_user_change) + "," + _appr_description + br
+							else if appr.judge is "rejected"
+								_approves_des = _appr_userName + " : " + TAPi18n.__('instance.judge.rejected', {}, to_user_change) + "," + _appr_description + br
 
-		#创建调用get_body、get_title函数时， 需要的参数
-		parameters = new Object
-		parameters["send_from"] = send_from
-		parameters["applicant_name"] = instance.applicant_name
-		parameters["instance_name"] = instance.name
-		parameters["href"] = href
-		parameters["final_decision"] = instance.final_decision
-		parameters["description"] = description
-		parameters["state"] = instance.state
-		parameters["from_username"] = from_user.name
-		parameters["current_step_name"] = current_step_name
-		parameters["nextApprove_usersname"] = nextApprove_usersname
-		parameters["nextStep_type"] = nextStep_type
-		parameters["approves_description"] = approves_description
-		parameters["lastApprove_judge"] = lastApprove_judge
-		parameters["lastApprove_usersname"] = lastApprove_usersname
-		parameters["current_user_name"] = current_user_info.name
-		parameters["currentStep_type"] = current_step.step_type
 
-		_.each to_users, (to_user)->
-			#设置当前语言环境
-			lang = 'en'
-			if to_user.locale is 'zh-cn'
-				lang = 'zh-CN'
+						)
+						approves_description = _approves_des
 
-			inscribed = TAPi18n.__('instance.email.inscribed', {}, lang)
-			footnote = "<p style='text-align:left;color:#bbb;'>" + TAPi18n.__('instance.email.footnote', {}, lang) + "</p>"
+				# from_user 默认为当前登录用户
+				from_user = current_user_info
 
-			space_user = db.space_users.findOne({space: space_id, user: to_user._id})
-			user = db.users.findOne(to_user._id)
-			if not space_user
-				return
-			if not user
-				return
+				# 发给下一步处理人或发送已处理过的人时，设置from_user对象为申请人
+				if ['reassign_new_inbox_users', 'first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'submit_completed_approve', 'submit_pending_rejected_approve', 'submit_terminate_approve', 'approved_completed_approve', 'rejected_completed_approve'].includes(send_from)
+					from_user = db.users.findOne(instance.applicant)
 
-			parameters["to_username"] = to_user.name
+				#创建调用get_body、get_title函数时， 需要的参数
+				parameters = new Object
+				parameters["send_from"] = send_from
+				parameters["applicant_name"] = instance.applicant_name
+				parameters["instance_name"] = instance.name
+				parameters["href"] = href
+				parameters["final_decision"] = instance.final_decision
+				parameters["description"] = description
+				parameters["state"] = instance.state
+				parameters["from_username"] = from_user.name
+				parameters["current_step_name"] = current_step_name
+				parameters["nextApprove_usersname"] = nextApprove_usersname
+				parameters["nextStep_type"] = nextStep_type
+				parameters["approves_description"] = approves_description
+				parameters["lastApprove_judge"] = lastApprove_judge
+				parameters["lastApprove_usersname"] = lastApprove_usersname
+				parameters["current_user_name"] = current_user_info.name
+				parameters["currentStep_type"] = current_step.step_type
+				_.each to_users, (to_user)->
+					#设置当前语言环境
+					lang = 'en'
+					if to_user.locale is 'zh-cn'
+						lang = 'zh-CN'
 
-			ins_html = ''
+					inscribed = TAPi18n.__('instance.email.inscribed', {}, lang)
+					footnote = "<p style='text-align:left;color:#bbb;'>" + TAPi18n.__('instance.email.footnote', {}, lang) + "</p>"
 
-			if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
-				try
-					ins_html = uuflowManager.ins_html(current_user_info, instance)
-				catch e
-					console.error e
+					space_user = db.space_users.findOne({space: space_id, user: to_user._id})
+					user = db.users.findOne(to_user._id)
+					if not space_user
+						return
+					if not user
+						return
 
-			body = pushManager.get_body(parameters, lang)
-			title = pushManager.get_title(parameters, lang)
-			badge = pushManager.get_badge(send_from, to_user._id)
+					parameters["to_username"] = to_user.name
 
-			# push
-			push_body = new Object
+					ins_html = ''
 
-			push_body["alertTitle"] = title["push"]
-			push_body["alert"] = body["push"]
-			#push_body["href"] = href
-			push_body["space_id"] = space_id
-			push_body["instance_id"] = instance_id
-			push_body["badge"] = badge if badge
-			push_body["sound"] = "default"
+					if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
+						if current_user_info.email && current_user_info.email_notification
+							try
+								console.time("push-2-1-ins_html")
+								ins_html = uuflowManager.ins_html(current_user_info, instance)
+								console.timeEnd("push-2-1-ins_html")
+							catch e
+								console.error e
 
-			content = body_style_start + body["email"] +  inscribed + ins_html + body_style_end + footnote
+					body = pushManager.get_body(parameters, lang)
+					title = pushManager.get_title(parameters, lang)
+					badge = pushManager.get_badge(send_from, to_user._id)
 
-			# Email
-			# 发送消息到 SMTP 服务
-			pushManager.send_email_to_SMTP(title["email"], content, to_user, from_user)
+					# push
+					push_body = new Object
 
-			# 发送消息到push service 服务
-			pushManager.send_message([to_user.steedos_id], push_body, current_user_info)
+					push_body["alertTitle"] = title["push"]
+					push_body["alert"] = body["push"]
+					#push_body["href"] = href
+					push_body["space_id"] = space_id
+					push_body["instance_id"] = instance_id
+					push_body["badge"] = badge if badge
+					push_body["sound"] = "default"
 
-			# qq企业用户则发送客户端tips
-			pushManager.send_to_qq(to_user, from_user, space_id, instance_id, instance.state, push_body, lang)
-
-	catch e
-		console.error e.stack
+					content = body_style_start + body["email"] +  inscribed + ins_html + body_style_end + footnote
+					# Email
+					# 发送消息到 SMTP 服务
+					pushManager.send_email_to_SMTP(title["email"], content, to_user, from_user)
+					# 发送消息到push service 服务
+					pushManager.send_message([to_user.steedos_id], push_body, current_user_info)
+					# qq企业用户则发送客户端tips
+					pushManager.send_to_qq(to_user, from_user, space_id, instance_id, instance.state, push_body, lang)
+			catch e
+				console.error e.stack
 
 # 发送给当前用户
 pushManager.send_message_current_user = (user_info)->
