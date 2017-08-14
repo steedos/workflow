@@ -7,7 +7,7 @@
     },
     "ajv": {
       "version": "4.11.8",
-      "resolved": "https://registry.npm.taobao.org/ajv/download/ajv-4.11.8.tgz",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-4.11.8.tgz",
       "from": "ajv@>=4.9.1 <5.0.0"
     },
     "asn1": {
@@ -70,6 +70,11 @@
       "resolved": "https://registry.npmjs.org/cookies/-/cookies-0.6.1.tgz",
       "from": "cookies@0.6.1"
     },
+    "core-util-is": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz",
+      "from": "core-util-is@1.0.2"
+    },
     "cron-parser": {
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/cron-parser/-/cron-parser-1.1.0.tgz",
@@ -114,13 +119,13 @@
     },
     "extend": {
       "version": "3.0.1",
-      "resolved": "https://registry.npm.taobao.org/extend/download/extend-3.0.1.tgz",
+      "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.1.tgz",
       "from": "extend@>=3.0.0 <3.1.0"
     },
     "extsprintf": {
-      "version": "1.0.2",
-      "resolved": "https://registry.npmjs.org/extsprintf/-/extsprintf-1.0.2.tgz",
-      "from": "extsprintf@1.0.2"
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/extsprintf/-/extsprintf-1.3.0.tgz",
+      "from": "extsprintf@1.3.0"
     },
     "forever-agent": {
       "version": "0.6.1",
@@ -205,8 +210,8 @@
       "from": "jsonify@>=0.0.0 <0.1.0"
     },
     "jsprim": {
-      "version": "1.4.0",
-      "resolved": "https://registry.npmjs.org/jsprim/-/jsprim-1.4.0.tgz",
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/jsprim/-/jsprim-1.4.1.tgz",
       "from": "jsprim@>=1.2.2 <2.0.0",
       "dependencies": {
         "assert-plus": {
@@ -232,13 +237,13 @@
       "from": "long-timeout@0.0.2"
     },
     "mime-db": {
-      "version": "1.27.0",
-      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.27.0.tgz",
-      "from": "mime-db@>=1.27.0 <1.28.0"
+      "version": "1.29.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.29.0.tgz",
+      "from": "mime-db@>=1.29.0 <1.30.0"
     },
     "mime-types": {
-      "version": "2.1.15",
-      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.15.tgz",
+      "version": "2.1.16",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.16.tgz",
       "from": "mime-types@>=2.1.7 <2.2.0"
     },
     "mkdirp": {
@@ -329,9 +334,16 @@
       "from": "uuid@>=3.0.0 <4.0.0"
     },
     "verror": {
-      "version": "1.3.6",
-      "resolved": "https://registry.npmjs.org/verror/-/verror-1.3.6.tgz",
-      "from": "verror@1.3.6"
+      "version": "1.10.0",
+      "resolved": "https://registry.npmjs.org/verror/-/verror-1.10.0.tgz",
+      "from": "verror@1.10.0",
+      "dependencies": {
+        "assert-plus": {
+          "version": "1.0.0",
+          "resolved": "https://registry.npmjs.org/assert-plus/-/assert-plus-1.0.0.tgz",
+          "from": "assert-plus@>=1.0.0 <2.0.0"
+        }
+      }
     },
     "weixin-pay": {
       "version": "1.1.7",

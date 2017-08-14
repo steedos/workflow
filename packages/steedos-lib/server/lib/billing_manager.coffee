@@ -326,14 +326,14 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 		r = db.spaces.direct.update({_id: space_id}, {$set: space_update_obj})
 		if r
 			console.log r
-			_.each new_modules, (m)->
+			_.each new_modules, (module)->
 				mcl = new Object
 				mcl._id = db.modules_changelogs._makeNewID()
 				mcl.change_date = m.format("YYYYMMDD")
 				mcl.operator = operator_id
 				mcl.space = space_id
 				mcl.operation = "install"
-				mcl.module = m
+				mcl.module = module
 				mcl.created = now
 				db.modules_changelogs.insert(mcl)
 			# 重新结算以更新remaining_months

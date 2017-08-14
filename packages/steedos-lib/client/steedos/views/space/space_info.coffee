@@ -90,8 +90,9 @@ Meteor.startup ->
 
 Template.space_info.onRendered ()->
     that = this
-    Meteor.call 'get_space_user_count', Session.get('spaceId'), (err, result)->
-        if err
-            console.log err.reason
-        if result
-            Session.set('space_user_count',result)
+    if Session.get('spaceId')
+        Meteor.call 'get_space_user_count', Session.get('spaceId'), (err, result)->
+            if err
+                console.log err.reason
+            if result
+                Session.set('space_user_count',result)

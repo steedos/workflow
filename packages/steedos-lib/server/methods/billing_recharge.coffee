@@ -11,8 +11,8 @@ Meteor.methods
 		module = db.modules.findOne(module_id)
 		space_user_count = db.space_users.find({space:space_id}).count()
 		one_month_yuan = space_user_count * (module.listprice*20/3)
-		# if total_fee < one_month_yuan*100
-			# throw new Meteor.Error 'error!', "充值金额应不少于一个月所需费用：￥#{one_month_yuan}"
+		if total_fee < one_month_yuan*100
+			throw new Meteor.Error 'error!', "充值金额应不少于一个月所需费用：￥#{one_month_yuan}"
 
 		result_obj = {}
 
@@ -32,7 +32,7 @@ Meteor.methods
 			body: module_name,
 			out_trade_no: moment().format('YYYYMMDDHHmmssSSS'),
 			total_fee: total_fee,
-			spbill_create_ip: '114.95.242.231',
+			spbill_create_ip: '123.56.251.18',
 			notify_url: Meteor.absoluteUrl() + 'api/billing/recharge/notify',
 			trade_type: 'NATIVE',
 			product_id: module_id,
@@ -44,7 +44,9 @@ Meteor.methods
 				obj.info = result
 				obj.total_fee = total_fee
 				obj.created_by = user_id
-				db.billing_weixin_pay_code_urls.insert(obj)
+				obj.space = space_id
+				obj.paid = false
+				db.billing_pay_records.insert(obj)
 			), ()->
 				console.log 'Failed to bind environment'
 			)

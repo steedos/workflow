@@ -7,7 +7,7 @@ Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
 		select = document.getElementById('space_recharge_modules')
 		module_name = select.options[select.selectedIndex].text
-		new_id = db.billing_weixin_pay_code_urls._makeNewID()
+		new_id = db.billing_pay_records._makeNewID()
 
 		fee_value = 0
 		module_id = $('#space_recharge_modules')[0].value
