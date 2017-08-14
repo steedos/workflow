@@ -183,7 +183,7 @@ if Meteor.isClient
 			if app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
 				Steedos.openWindow(Steedos.absoluteUrl("admin/open/by/iframe/" + app._id))
 			else
-				window.location = Steedos.absoluteUrl("admin/open/by/iframe/" + app._id)
+				FlowRouter.go("/admin/open/by/iframe/#{app._id}")
 
 		else if on_click
 			# 这里执行的是一个不带参数的闭包函数，用来避免变量污染
