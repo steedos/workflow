@@ -21,7 +21,7 @@ Theme =
 		name: "fish",
 		url: "/packages/steedos_theme/client/background/fish.jpg"
 	}],
-	logo: "/packages/steedos_theme/client/images/logo.jpg"
+	logo: "/packages/steedos_theme/client/images/icon.png"
 
 if Meteor.isClient
 	Meteor.startup ->
