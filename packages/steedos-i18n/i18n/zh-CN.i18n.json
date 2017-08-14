@@ -448,5 +448,6 @@
 	"NO": "否",
 	"username_unset_text": "您的账户尚未设置用户名，设置用户名后，可以使用用户名登录系统。",
 	"space_paid_info_title": "专业版用户才能使用此功能",
-	"space_paid_info_text": "请联络系统管理员<a href='https://www.steedos.com/cn/workflow/pricing/' target='_blank'>升级到专业版</a>"
+	"space_paid_info_text": "请联络系统管理员<a href='https://www.steedos.com/cn/workflow/pricing/' target='_blank'>升级到专业版</a>",
+	"login_title": "华炎"
 }
