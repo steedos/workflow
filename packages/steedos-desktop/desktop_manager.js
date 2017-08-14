@@ -18,7 +18,12 @@ if (Steedos.isNode()){
 	// 关闭时判断
 	globalWin.on("close",function(){
 		if(globalWin.disableClose == false){
-			globalWin.hide();
+			if(globalWin.window && globalWin.window.name){
+				globalWin.close(true);
+			}
+			else{
+				globalWin.hide();
+			}
 		}
 	});
 
@@ -56,7 +61,7 @@ if (Steedos.isNode()){
 					var lastUrl = FlowRouter.current().path;
 					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
 				}
-				globalWin.close(true);
+				nw.App.quit();
 			}else{
 				globalWin.show();
 				globalWin.focus();
