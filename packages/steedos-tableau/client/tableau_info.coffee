@@ -23,13 +23,12 @@ Template.tableau_info.onDestroyed ->
 Template.tableau_info.events
 	'click .steedos-tableau-workflow': ()->
 
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
 		space = db.spaces.findOne({_id: Session.get("spaceId")})
 
 		if space?.admins.includes(Meteor.userId())
+			if !Steedos.isPaidSpace()
+				toastr.info("标准版只能统计一个月内的数据")
+
 			Modal.show('tableau_flow_list')
 		else
 			toastr.warning("此功能需要工作区管理员权限")
