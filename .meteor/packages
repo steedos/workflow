@@ -163,8 +163,8 @@ steedos:calendar-i18n
 
 # steedos:records
 
-steedos:freeboard
-steedos:dashboard
+#steedos:freeboard
+#steedos:dashboard
 
 
 steedos:distribute-qhd
