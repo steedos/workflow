@@ -58,12 +58,11 @@ instancesListTableTabular = (flowId)->
 						when "办文"
 							priorityIconClass = "muted"
 					if priorityIconClass
-						priorityIcon = "<i class='ion ion-flag color-priority color-priority-#{priorityIconClass}'></i>"
+						instanceNamePriorityClass = "color-priority color-priority-#{priorityIconClass}"
 
 					return """
 								<div class='instance-read-bar'>#{unread}</div>
-								<div class='instance-priority-bar'>#{priorityIcon}</div>
-								<div class='instance-name'>#{doc.name}#{cc_view}
+								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}
 									<span>#{doc.applicant_name}</span>
 								</div>
 								<div class='instance-detail'>#{step_current_name_view}
