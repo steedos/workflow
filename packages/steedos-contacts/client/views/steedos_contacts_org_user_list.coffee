@@ -20,6 +20,10 @@ Template.steedos_contacts_org_user_list.helpers
 		else
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")
+
+				if Session.get("contacts_orgId")
+					orgs = [Session.get("contacts_orgId")]
+
 				orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 					fields: {
 						_id: 1

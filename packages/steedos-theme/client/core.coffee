@@ -20,4 +20,11 @@ Theme =
 	}, {
 		name: "fish",
 		url: "/packages/steedos_theme/client/background/fish.jpg"
-	}]
+	}],
+	logo: "/packages/steedos_theme/client/images/icon.png"
+
+if Meteor.isClient
+	Meteor.startup ->
+		# 登录窗口标题
+		if AccountsTemplates.texts?.title?.signIn
+			AccountsTemplates.texts.title.signIn = "login_title"

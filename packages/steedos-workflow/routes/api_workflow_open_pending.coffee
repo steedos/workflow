@@ -1,10 +1,10 @@
 JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 	try
-		user_id = req.headers['x-user-id']
+		user_id = req.headers['x-user-id'] || req.query?.userId
 
-		auth_token = req.headers['x-auth-token']
+		auth_token = req.headers['x-auth-token'] || req.query?.authToken
 
-		space_id = req.headers['x-space-id']
+		space_id = req.headers['x-space-id'] || req.query?.spaceId
 
 		user = Steedos.getAPILoginUser(req, res)
 		
@@ -16,7 +16,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 					"success": false
 			return;
 
-		state = req.query.state
+		state = req.query?.state
 
 		limit = req.query?.limit || 500
 

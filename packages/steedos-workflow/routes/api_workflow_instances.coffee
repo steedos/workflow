@@ -42,7 +42,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 
 	flowId = req.params.flow
 
-	flow = db.flows.findOne({_id: flow})
+	flow = db.flows.findOne({_id: flowId})
 
 	if !flow
 		JsonRoutes.sendResult res,
@@ -75,6 +75,19 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 	query = {}
 
 	ret_sync_token = new Date().getTime()
+
+	period = parseInt(req.query.period) || 0
+
+	if !space.is_paid
+		period = 1
+
+	if period !=0
+
+		start_date = new Date();
+
+		start_date.setMonth(start_date.getMonth() - period)
+
+		query.submit_date = {$gt: start_date}
 
 	query.flow = flowId
 

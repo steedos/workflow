@@ -13,11 +13,11 @@ JsonRoutes.add 'get', '/api/workflow/tableau/space/:space/flow/:flow', (req, res
 
 	space = db.spaces.findOne({_id: spaceId})
 
-	if !space?.is_paid
+	if !space
 		JsonRoutes.sendResult res,
 			code: 404,
 			data:
-				"error": "Validate Request -- Non-paid space.",
+				"error": "Validate Request -- Miss space.",
 				"success": false
 		return;
 
@@ -57,6 +57,9 @@ JsonRoutes.add 'get', '/api/workflow/tableau/space/:space/flow/:flow', (req, res
 		html = Assets.getText("assets/instances/instance_by_flow_tableau_connectors.html")
 
 		html = html.replace('#{spaceId}', spaceId).replace('#{spaceName}', space.name).replace('#{dataServerOrigin}', Meteor.absoluteUrl()).replace('#{connName}', connName).replace('#{flowId}', flowId).replace('#{valueFields}', JSON.stringify(valueFields))
+
+		if !space.is_paid
+			html = html.replace('#{readonly}', 'readonly')
 
 	res.statusCode = 200
 	res.end(html)

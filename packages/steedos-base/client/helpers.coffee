@@ -129,7 +129,10 @@ Steedos.Helpers =
 			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
 	isAppActive: (url)->
-		matchs = Session.get("router-path").match(url)
+		path = Session.get("router-path")
+		unless path
+			return false
+		matchs = path.match(url)
 		if matchs and matchs.index == 0
 			return true
 
