@@ -14,7 +14,7 @@ Template.workflow_main.helpers
 			Session.set("instance_loading", false);
 			instance = WorkflowManager.getInstance()
 
-			if !instance
+			if !instance || !instance.traces
 				return false;
 
 			if instance.flow_version && instance.form_version
