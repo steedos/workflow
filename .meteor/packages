@@ -119,7 +119,7 @@ cfs:s3
 
 jeremy:selectize
 comerc:autoform-selectize
-hausor:autoform-bs-minicolors
+# hausor:autoform-bs-minicolors
 
 steedos:qhd
 steedos:theme-qhd
