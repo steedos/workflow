@@ -40,15 +40,15 @@
 	"password_invalid": "密码必须包含字母和数字，且不能少于8位",
 
 	"Steedos": "Steedos",
-	"Steedos Workflow": "审批王",
-	"Steedos Chat": "享聊",
+	"Steedos Workflow": "审批中心",
+	"Steedos Chat": "即时通讯",
 	"Steedos Drive": "云盘",
 	"Steedos Mail": "邮件",
-	"Steedos Calendar": "工作安排",
+	"Steedos Calendar": "日程安排",
 	"Steedos Contacts": "通讯录",
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
-	"Steedos CMS": "知识库",
+	"Steedos CMS": "信息发布",
 
 	"Apps": "应用",
 
@@ -119,7 +119,7 @@
 	"Select Space": "选择工作区",
 	"Add space": "新增工作区",
 
-	"Workflow": "审批王",
+	"Workflow": "审批",
 
 	"bqq": "企业QQ",
 	"dingtalk": "钉钉",

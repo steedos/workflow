@@ -1,5 +1,6 @@
 {
 	"Steedos Workflow": "公文处理",
+	"Steedos Calendar": "本周安排",
 	"inbox": "待办文件",
 	"outbox": "已办文件",
 	"draft": "待发文件",
@@ -14,8 +15,8 @@
 		"approves": "历史步骤"
 	},
 
-	"tabbar_cms": "集团信息",
-	"Steedos CMS": "集团信息",
+	"tabbar_cms": "信息发布",
+	"Steedos CMS": "信息发布",
 
 	"instances_submit_date": "拟稿时间",
 	"instances_applicant_name": "拟稿人",
