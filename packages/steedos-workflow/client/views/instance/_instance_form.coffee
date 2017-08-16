@@ -456,18 +456,18 @@ InstanceformTemplate.helpers =
 
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
-		return Template.instance().view.template.steedosData.form_version
+		return this.form_version
 
 	InstanceformTemplate.helpers.isSection = (code)->
-		form_version = Template.instance().view.template.steedosData.form_version
+		form_version = this.form_version
 		return form_version.fields.findPropertyByPK("code", code).type == 'section'
 
 	InstanceformTemplate.helpers.doc_values = ->
-		instance = Template.instance().view.template.steedosData.instance;
+		instance = this.instance;
 		return instance.values;
 
 	InstanceformTemplate.helpers.applicantContext = ->
-		instance = Template.instance().view.template.steedosData.instance;
+		instance = this.instance;
 		data = {
 			name: 'ins_applicant',
 			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'},
@@ -475,10 +475,10 @@ if Meteor.isServer
 		}
 
 	InstanceformTemplate.helpers.instance = ->
-		return Template.instance().view.template.steedosData.instance
+		return this.instance
 
 	InstanceformTemplate.helpers.fields = ->
-		form_version = Template.instance().view.template.steedosData.form_version
+		form_version = this.form_version
 		if form_version
 			return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
 
@@ -490,7 +490,7 @@ if Meteor.isServer
 		InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
 	InstanceformTemplate.helpers._t = (key)->
-		locale = Template.instance().view.template.steedosData.locale
+		locale = this.locale
 
 		return TAPi18n.__(key, {}, locale)
 
