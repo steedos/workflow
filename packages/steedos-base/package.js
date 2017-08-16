@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.48',
+	version: '0.0.50',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -122,6 +122,7 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.less', 'client');
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
+	api.addAssets('client/images/default-avatar.png','client');
 
 	api.export('Steedos');
 	api.export('db');

@@ -25,7 +25,7 @@ FlowRouter.route '/admin/organizations',
 		BlazeLayout.render 'adminLayout',
 			main: "org_main"
 
-FlowRouter.route '/admin/open/by/iframe/:app_id',
+FlowRouter.route '/apps/iframe/:app_id',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		authToken = {};
