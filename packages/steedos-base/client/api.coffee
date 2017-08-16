@@ -4,7 +4,7 @@ _.extend Steedos,
 		unless target
 			target = "new_blank"
 		unless options
-			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,closebuttoncaption=  x  '
+			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  '
 
 		if Steedos.isAndroidOrIOS()
 			if url.indexOf('X-User-Id') < 0 || url.indexOf('X-Auth-Token') < 0
