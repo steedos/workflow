@@ -129,15 +129,15 @@
 	"OK": "确认",
 	"Cancel": "取消",
 
-	"About": "关于 Steedos",
+	"About": "关于",
 
-	"steedos_apps": "Steedos Apps",
+	"steedos_apps": "华炎办公平台",
 	"steedos_about": "关于",
-	"steedos_info": "Steedos Apps 是深受公司员工喜爱的云端的企业管理软件，帮助您的团队随时随地的沟通与协作。",
+	"steedos_info": "华炎办公平台是华炎公司提供的一组协同办公套件，包含流程审批、信息发布、工作安排、通讯录等企业管理必备的协同应用。借助华炎办公平台的智能手机应用，您即使出门在外，一切也能尽在掌握。",
 	"steedos_version": "版本号",
 	"steedos_commit_date": "修订日期",
 	"steedos_build_date": "发布日期",
-	"steedos_copyright": "© 华炎软件. 保留所有权利.",
+	"steedos_copyright": "©华炎软件. 保留所有权利.",
 
 	"primary_email_needed": "绑定邮件地址",
 	"primary_email_needed_description": "请输入您的工作邮件地址，此邮件地址可以用来登录华炎云，也可以用来重置密码。",

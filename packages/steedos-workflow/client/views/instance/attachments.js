@@ -152,18 +152,23 @@ Template.instance_attachment.helpers({
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
-			var current_step = InstanceManager.getCurrentStep();
+			if (InstanceManager.isCC(ins)) {
+				return true
+			} else {
+				var current_step = InstanceManager.getCurrentStep();
 
-			if (current_step) {
-				if (mainFile) {
-					return current_step.can_edit_main_attach
-				} else {
-					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
-						return true
+				if (current_step) {
+					if (mainFile) {
+						return current_step.can_edit_main_attach
+					} else {
+						if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
+							return true
+						}
+
 					}
-
 				}
 			}
+
 		}
 
 		return false;
@@ -355,16 +360,21 @@ Template.ins_attach_version_modal.helpers({
 			return false
 
 		if (Session.get("box") == "draft" || Session.get("box") == "inbox") {
-			var current_step = InstanceManager.getCurrentStep();
-			// 如果是正文 则判断是否有编辑权限
-			if (current.metadata.main == true) {
-				if (current_step && current_step.can_edit_main_attach == true)
-					return true
+			if (InstanceManager.isCC(ins)) {
+				return true
 			} else {
-				// 如果是附件 则判断是否有编辑权限
-				if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
-					return true
+				var current_step = InstanceManager.getCurrentStep();
+				// 如果是正文 则判断是否有编辑权限
+				if (current.metadata.main == true) {
+					if (current_step && current_step.can_edit_main_attach == true)
+						return true
+				} else {
+					// 如果是附件 则判断是否有编辑权限
+					if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+						return true
+				}
 			}
+
 		}
 
 		return false
@@ -462,17 +472,22 @@ Template.ins_attach_version_modal.helpers({
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
-			var current_step = InstanceManager.getCurrentStep();
-			if (current_step) {
-				if (mainFile) {
-					return current_step.can_edit_main_attach
-				} else {
-					if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
-						return true
-					}
+			if (InstanceManager.isCC(ins)) {
+				return true
+			} else {
+				var current_step = InstanceManager.getCurrentStep();
+				if (current_step) {
+					if (mainFile) {
+						return current_step.can_edit_main_attach
+					} else {
+						if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
+							return true
+						}
 
+					}
 				}
 			}
+
 		}
 		return false;
 	},
@@ -489,13 +504,18 @@ Template.ins_attach_version_modal.helpers({
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
-			var current_step = InstanceManager.getCurrentStep();
-			if (current_step) {
-				if (mainFile)
-					return current_step.can_edit_main_attach
-				else
-					return false;
+			if (InstanceManager.isCC(ins)) {
+				return true
+			} else {
+				var current_step = InstanceManager.getCurrentStep();
+				if (current_step) {
+					if (mainFile)
+						return current_step.can_edit_main_attach
+					else
+						return false;
+				}
 			}
+
 		}
 	},
 
