@@ -31,6 +31,12 @@ Meteor.startup ->
 			res.end()
 			return
 
+		if not file?
+			res.setHeader "Location", Steedos.absoluteUrl("/packages/steedos_base/client/images/default-avatar.png")
+			res.writeHead 302
+			res.end()
+			return
+
 		username = user.name;
 		if !username
 			username = ""
