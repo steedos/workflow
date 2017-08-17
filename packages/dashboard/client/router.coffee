@@ -10,7 +10,6 @@ dashboardRoutes = FlowRouter.group
 dashboardRoutes.route '/',
 	action: (params, queryParams)->
 		Tracker.autorun (c)->
-			Session.set("dashboardId", null)
 			if Steedos.subsBootstrap.ready("my_spaces") and Steedos.subsBootstrap.ready("portal_dashboards")
 				spaceId = Steedos.spaceId()
 				if spaceId
