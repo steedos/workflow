@@ -76,6 +76,15 @@ Template.workflowSidebar.helpers
 	selected_flow: ()->
 		return Session.get("flowId")
 
+	inboxSpaces: ()->
+		return db.steedos_keyvalues.find({key: "badge"}).fetch().filter (_item)->
+			if _item?.value["workflow"] > 0 && _item.space && _item.space != Session.get("spaceId")
+				return _item
+
+	spaceName: (_id)->
+		return db.spaces.findOne({_id: _id})?.name
+
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
