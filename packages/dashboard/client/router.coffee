@@ -10,6 +10,7 @@ dashboardRoutes = FlowRouter.group
 dashboardRoutes.route '/',
 	action: (params, queryParams)->
 		Tracker.autorun (c)->
+			Session.set("dashboardId", null)
 			if Steedos.subsBootstrap.ready("my_spaces") and Steedos.subsBootstrap.ready("portal_dashboards")
 				spaceId = Steedos.spaceId()
 				if spaceId
@@ -17,7 +18,6 @@ dashboardRoutes.route '/',
 					defaultId = Meteor.settings?.public?.dashboard?.default
 					dashboardId = if dashboard then dashboard._id else defaultId
 					if dashboardId
-						c.stop()
 						FlowRouter.go "/dashboard/space/#{spaceId}/#{dashboardId}"
 					else
 						FlowRouter.go "/dashboard/space/#{spaceId}"
