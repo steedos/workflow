@@ -55,6 +55,10 @@
     // 日历相关
     "calendar": {
       "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
+    },
+    // 门户
+    "dashboard":{
+      "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
     }
   },
   "push": {
