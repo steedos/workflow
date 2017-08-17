@@ -5,7 +5,9 @@ RelatedInstances.helpers =
 		else
 			ins = this.instance
 		if ins?.related_instances && _.isArray(ins?.related_instances)
-			return true
+			if db.instances.find({_id: {$in: ins.related_instances}}, {fields: {space: 1, name: 1}}).count() > 0
+				return true
+			return false
 		else
 			return false
 
