@@ -46,11 +46,15 @@
       "hidden_users": [] //不显示人员的用户ID集合
     },
     //知识库相关
-    "cms":{
+    "cms": {
       "is_needto_limit_unit": true //限制用户发布文章的范围，只能在自己部门及其下级部门
     },
     "coreform": {
-      "show_hidden_organizations": true   // 选人、选组控件是否显示已隐藏的部门
+      "show_hidden_organizations": true // 选人、选组控件是否显示已隐藏的部门
+    },
+    // 日历相关
+    "calendar": {
+      "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
     }
   },
   "push": {
@@ -181,7 +185,7 @@
     "skip_users": [] // 不发送通知的用户ID集合
   },
 
-  "import_user":{
-    "update_password": true  //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
+  "import_user": {
+    "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
   }
 }
