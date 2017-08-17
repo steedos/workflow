@@ -27,4 +27,7 @@ if Meteor.isClient
 	Meteor.startup ->
 		# 登录窗口标题
 		if AccountsTemplates.texts?.title?.signIn
-			AccountsTemplates.texts.title.signIn = "login_title"
+			if Steedos.isMobile()
+				AccountsTemplates.texts.title.signIn = "login_title_mobile"
+			else
+				AccountsTemplates.texts.title.signIn = "login_title"
