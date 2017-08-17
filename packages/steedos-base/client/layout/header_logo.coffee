@@ -4,7 +4,7 @@ Template.steedosHeaderLogo.helpers
 		if avatar
 			return Steedos.absoluteUrl("/api/files/avatars/#{avatar}")
 		else
-			return ""
+			return Steedos.absoluteUrl("/packages/steedos_base/client/images/huayan.png")
 
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->

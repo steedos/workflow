@@ -39,16 +39,18 @@ else
                 now = new Date
                 year = now.getFullYear()
                 month = now.getMonth() + 1
+                ins_id = fileObj.metadata.instance
+
                 path = Npm.require('path')
                 mkdirp = Npm.require('mkdirp')
-                pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances/' + year + '/' + month)
+                pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances/' + year + '/' + month + '/' + ins_id)
                 # Set absolute path
                 absolutePath = path.resolve(pathname)
                 # Ensure the path exists
                 mkdirp.sync(absolutePath)
                 
                 # If no store key found we resolve / generate a key
-                return year + '/' + month + '/' + fileObj.collectionName + '-' + fileObj._id + '-' + (filenameInStore || filename)
+                return year + '/' + month + '/' + ins_id + '/' + fileObj.collectionName + '-' + fileObj._id + '-' + (filenameInStore || filename)
 
         })
 

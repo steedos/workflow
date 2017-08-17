@@ -128,11 +128,22 @@ Steedos.Helpers =
 		if space_id and ins_id
 			FlowRouter.go("/workflow/space/#{space_id}/inbox/#{ins_id}")
 
-	isAppActive: (url)->
+	isAppActive: (app)->
 		path = Session.get("router-path")
 		unless path
 			return false
-		matchs = path.match(url)
+		isUrl = if typeof app is "string" then true else false
+		if !isUrl and /^\/apps\/iframe\/.+/.test path
+			# 以/apps/iframe/开头的url，则检查后面的id是否正好为app._id
+			matchs = path.match("/apps/iframe/#{app._id}")
+			if matchs and matchs.index == 0
+				return true
+			else
+				return false
+
+		url = if isUrl then app else app.url
+		#要加"/"检测是因为url可能以"/"结尾，而path不是以"/"结尾
+		matchs = (path + "/").match(url)
 		if matchs and matchs.index == 0
 			return true
 
