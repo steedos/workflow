@@ -3,9 +3,11 @@ RelatedInstances.helpers =
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
 		else
-			ins = Template.instance().view.template.steedosData.instance
+			ins = this.instance
 		if ins?.related_instances && _.isArray(ins?.related_instances)
-			return true
+			if db.instances.find({_id: {$in: ins.related_instances}}, {fields: {space: 1, name: 1}}).count() > 0
+				return true
+			return false
 		else
 			return false
 
@@ -13,7 +15,7 @@ RelatedInstances.helpers =
 		if Meteor.isClient
 			ins = WorkflowManager.getInstance();
 		else
-			ins = Template.instance().view.template.steedosData.instance
+			ins = this.instance
 		if ins?.related_instances && _.isArray(ins?.related_instances)
 			return db.instances.find({_id: {$in: ins.related_instances}}, {fields: {space: 1, name: 1}}).fetch()
 
@@ -22,7 +24,7 @@ RelatedInstances.helpers =
 		absolute = false
 
 		if Meteor.isServer
-			absolute = Template.instance().view.template.steedosData.absolute
+			absolute = this.absolute
 		if absolute
 			return Meteor.absoluteUrl("workflow/space/"+ins.space+"/view/readonly/" + ins._id + '?hide_traces=1')
 		else

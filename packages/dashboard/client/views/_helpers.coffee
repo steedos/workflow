@@ -9,16 +9,7 @@ Dashboard.helpers =
 		dashboardId = Session.get("dashboardId")
 		return db.portal_dashboards.findOne({_id:dashboardId})?.name
 	isSidebarNeedShow: ->
-		userId = Meteor.userId()
-		spaceId = Steedos.spaceId()
-		isSpaceAdmin = Steedos.isSpaceAdmin(spaceId,userId)
-		if isSpaceAdmin
-			return true
-		else
-			return false
+		return Steedos.isCloudAdmin()
 	addNosidebarClass: ->
-		userId = Meteor.userId()
-		spaceId = Steedos.spaceId()
-		isSpaceAdmin = Steedos.isSpaceAdmin(spaceId,userId)
-		unless isSpaceAdmin
+		unless Steedos.isCloudAdmin()
 			return "no-sidebar"

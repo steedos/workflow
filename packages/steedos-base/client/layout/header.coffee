@@ -44,4 +44,8 @@ Template.steedosHeader.onRendered ()->
 		db.steedos_keyvalues.findOne({user:Steedos.userId(),key:"zoom"})
 		Session.get("base_each_apps_end")
 		Template.steedosHeader.displayControl()
-
+	$('[data-toggle="offcanvas"]').on "click", ()->
+		#绑定offcanvas click事件，由于offcanvas过程有300毫秒的动作，此处延时调用header displayControl函数
+		setTimeout ()->
+			Template.steedosHeader.displayControl()
+		, 301
