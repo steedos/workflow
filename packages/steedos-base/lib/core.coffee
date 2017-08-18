@@ -117,6 +117,18 @@ if Meteor.isClient
 		country = locale.substring(3)
 		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
 
+	Steedos.getUrlWithToken = (url)->
+		authToken = {};
+		authToken["spaceId"] = Steedos.getSpaceId()
+		authToken["X-User-Id"] = Meteor.userId();
+		authToken["X-Auth-Token"] = Accounts._storedLoginToken();
+
+		linker = "?"
+
+		if url.indexOf("?") > -1
+			linker = "&"
+
+		return url + linker + $.param(authToken)
 
 	Steedos.getAppUrlWithToken = (app_id)->
 		authToken = {};
