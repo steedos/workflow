@@ -79,10 +79,6 @@ Package.onUse(function(api) {
     api.addAssets("assets/designer/index.js", "client");
     api.addAssets("assets/designer/index.css", "client");
 
-    api.addFiles('client/iframe/master.html', 'client');
-    api.addFiles('client/iframe/master.coffee', 'client');
-    api.addFiles('client/iframe/master.less', 'client');
-
 
     // EXPORT
     api.export('AdminMenus');
