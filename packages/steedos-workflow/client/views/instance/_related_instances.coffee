@@ -21,6 +21,9 @@ RelatedInstances.helpers =
 
 	related_instace_url: (ins) ->
 
+		if Steedos.isMobile() || Steedos.isCordova()
+			return ''
+
 		absolute = false
 
 		if Meteor.isServer
