@@ -528,7 +528,9 @@ Template.instance_button.events
 		if Steedos.isIE()
 			toastr.warning t("instance_workflow_chart_ie_warning")
 			return
-		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{WorkflowManager.getInstance()?._id}"),'workflow_chart')
+		ins = WorkflowManager.getInstance()
+		flow = db.flows.findOne(ins.flow)
+		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&flow_name=#{encodeURIComponent(encodeURIComponent(flow.name))}"),'workflow_chart')
 
 	'click .btn-suggestion-toggle': (event, template)->
 		$(".instance-wrapper .instance-view").addClass("suggestion-active")
