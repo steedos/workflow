@@ -165,7 +165,7 @@ Admin.menuTemplate =
 					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-logout">
 						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
 							<div class="admin-grid-icon">
-								<i class="ion ion-ios-paw-outline"></i>
+								<i class="ion ion-log-out"></i>
 							</div>
 							<div class="admin-grid-label">
 								#{t("Logout")}
