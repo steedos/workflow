@@ -371,8 +371,9 @@ if Meteor.isServer
 			else
 				return user
 
-		userId = req.query?.userId
-		authToken = req.query?.authToken
+		userId = req.query?["X-User-Id"]
+		authToken = req.query?["X-Auth-Token"]
+
 		if Steedos.checkAuthToken(userId,authToken)
 			return db.users.findOne({_id: userId})
 
