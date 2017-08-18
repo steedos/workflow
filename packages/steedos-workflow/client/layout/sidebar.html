@@ -48,17 +48,6 @@
 					{{/if}}
 				</li>
 
-				{{#each inboxSpaces}}
-					<li class="other-inbox">
-						<a href="{{urlPrefix}}/workflow/space/{{this.space}}/inbox/">
-							<i class="ion ion-archive"></i>
-							<span>{{spaceName this.space}}</span>
-							<span class="pull-right-container">
-									<span class="label pull-right bg-red">{{getBadge "workflow" this.space}}</span>
-								</span>
-						</a>
-					</li>
-				{{/each}}
 
 				<li class="outbox {{boxActive 'outbox'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
@@ -114,6 +103,22 @@
 						</li>
 					</ul>
 				</li>
+				{{#if showOthenInbox inboxSpaces}}
+					<li class="header">
+						{{_ "inbox"}}
+					</li>
+					{{#each inboxSpaces}}
+						<li class="other-inbox">
+							<a href="{{urlPrefix}}/workflow/space/{{this.space}}/inbox/">
+								<i class="ion ion-archive"></i>
+								<span>{{spaceName this.space}}</span>
+								<span class="pull-right-container">
+										<span class="label pull-right bg-red">{{getBadge "workflow" this.space}}</span>
+									</span>
+							</a>
+						</li>
+					{{/each}}
+				{{/if}}
 			</ul>
 		</div>
 	</aside>
