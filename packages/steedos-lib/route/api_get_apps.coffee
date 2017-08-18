@@ -2,8 +2,6 @@ JsonRoutes.add 'get', '/api/get/apps', (req, res, next) ->
 	try
 		user_id = req.headers['x-user-id'] || req.query?.userId
 
-		auth_token = req.headers['x-auth-token'] || req.query?.authToken
-
 		space_id = req.headers['x-space-id'] || req.query?.spaceId
 
 		user = Steedos.getAPILoginUser(req, res)
@@ -16,6 +14,8 @@ JsonRoutes.add 'get', '/api/get/apps', (req, res, next) ->
 					"success": false
 			return;
 
+		user_id = user._id
+
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 
@@ -26,7 +26,7 @@ JsonRoutes.add 'get', '/api/get/apps', (req, res, next) ->
 			locale = "zh-CN"
 
 		spaces = db.space_users.find({user: user_id}).fetch().getProperty("space")
-		apps = db.apps.find({$or: [{space: {$exists: false}}, {space: {$in:spaces}}]},{sort:{sort:1}}).fetch()
+		apps = db.apps.find({$or: [{space: {$exists: false}}, {space: {$in:spaces}}]},{$sort:{sort:1}}).fetch()
 
 		apps.forEach (app) ->
 			app.name = TAPi18n.__(app.name,{},locale)

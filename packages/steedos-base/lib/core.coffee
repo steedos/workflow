@@ -198,6 +198,7 @@ if Meteor.isClient
 			else if Steedos.isMobile() || Steedos.isCordova()
 				Steedos.openAppWithToken(app_id)
 			else
+				$("body").addClass("loading")
 				FlowRouter.go("/apps/iframe/#{app._id}")
 
 		else if on_click

@@ -201,7 +201,11 @@ Template.profile.events
 				toastr.error t(result.message)
 			else
 				$(document.body).removeClass('loading')
-				swal t("primary_email_updated"), "", "success"
+				swal {
+					title:t("primary_email_updated"), 
+					type: "success",
+					confirmButtonText:t('OK')
+				}
 				$('#newEmail').val("")
 
 	'click .fa-trash-o': (event, template)->
@@ -232,7 +236,11 @@ Template.profile.events
 				toastr.error t(result.message)
 			else
 				$(document.body).removeClass('loading')
-				swal t("email_verify_sent"), "", "success"
+				swal {
+					title:t("email_verify_sent"),
+					type: "success",
+					confirmButtonText:t('OK')
+				}
 
 	'click .set-primary-email': (event, template)->
 		$(document.body).addClass("loading")
@@ -243,7 +251,11 @@ Template.profile.events
 				toastr.error t(result.message)
 			else
 				$(document.body).removeClass('loading')
-				swal t("email_set_primary_success"), "", "success"
+				swal {
+					title:t("email_set_primary_success"),
+					type:"success",
+					confirmButtonText:t('OK')
+				}
 
 	'click .remove-email': (event, template)->
 		email = this.address
@@ -261,7 +273,12 @@ Template.profile.events
 				if result?.error
 					toastr.error t(result.message)
 				else
-					swal t("email_remove_success"), email, "success"
+					swal {
+						title: t('email_remove_success'),
+						text:email,
+						type:"success",
+						confirmButtonText:t('OK')
+					}
 
 	'click #personalization .bg-body-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset

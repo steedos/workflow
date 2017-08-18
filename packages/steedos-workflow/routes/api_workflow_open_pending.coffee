@@ -1,9 +1,5 @@
 JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 	try
-		user_id = req.headers['x-user-id'] || req.query?.userId
-
-		auth_token = req.headers['x-auth-token'] || req.query?.authToken
-
 		space_id = req.headers['x-space-id'] || req.query?.spaceId
 
 		user = Steedos.getAPILoginUser(req, res)
@@ -16,13 +12,13 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 					"success": false
 			return;
 
+		user_id = user._id
+
 		state = req.query?.state
 
 		limit = req.query?.limit || 500
 
 		limit = parseInt(limit)
-
-		#user_id = req.query.userid
 
 		if not state
 			throw new Meteor.Error('error', 'state is null')

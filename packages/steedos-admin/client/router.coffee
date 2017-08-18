@@ -24,15 +24,3 @@ FlowRouter.route '/admin/organizations',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "org_main"
-
-FlowRouter.route '/apps/iframe/:app_id',
-	triggersEnter: [ checkUserSigned ],
-	action: (params, queryParams)->
-		authToken = {};
-		authToken["spaceId"] = Steedos.getSpaceId()
-		authToken["X-User-Id"] = Meteor.userId()
-		authToken["X-Auth-Token"] = Accounts._storedLoginToken()
-		url = Meteor.absoluteUrl("api/setup/sso/" + params.app_id + "?" + $.param(authToken))
-
-		BlazeLayout.render 'iframeLayout',
-			url: url

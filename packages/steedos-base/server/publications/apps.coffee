@@ -8,4 +8,4 @@ if Meteor.isServer
         if spaceId
             selector = {$or: [{space: {$exists: false}}, {space: spaceId}]}
         
-        return db.apps.find(selector, {sort: {sort: 1}});
+        return db.apps.find(selector, {$sort: {sort: 1}});
