@@ -63,12 +63,16 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 								current_trace = t
 				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
 
+				start_date = ''
+
 				if approves?.length > 0
 					approve = approves[0]
 					is_read = approve.is_read
+					start_date = approve.start_date
 
 				h = new Object
 				h["id"] = i["_id"]
+				h["start_date"] = start_date
 				h["flow_name"] = flow.name
 				h["space_name"] = space.name
 				h["name"] = i["name"]
