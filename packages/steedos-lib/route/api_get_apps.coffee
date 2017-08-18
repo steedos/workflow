@@ -26,7 +26,7 @@ JsonRoutes.add 'get', '/api/get/apps', (req, res, next) ->
 			locale = "zh-CN"
 
 		spaces = db.space_users.find({user: user_id}).fetch().getProperty("space")
-		apps = db.apps.find({$or: [{space: {$exists: false}}, {space: {$in:spaces}}]},{$sort:{sort:1}}).fetch()
+		apps = db.apps.find({$or: [{space: {$exists: false}}, {space: {$in:spaces}}]},{sort:{sort:1}}).fetch()
 
 		apps.forEach (app) ->
 			app.name = TAPi18n.__(app.name,{},locale)
