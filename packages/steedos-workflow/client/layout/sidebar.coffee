@@ -84,6 +84,9 @@ Template.workflowSidebar.helpers
 	spaceName: (_id)->
 		return db.spaces.findOne({_id: _id})?.name
 
+	showOthenInbox: (inboxSpaces)->
+		return inboxSpaces.length > 0
+
 
 Template.workflowSidebar.events
 
