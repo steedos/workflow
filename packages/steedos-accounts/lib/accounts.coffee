@@ -74,6 +74,9 @@ AccountsTemplates.addFields([
     displayName: "email",
     re: /.+@(.+){2,}\.(.+){2,}/,
     errStr: 'Invalid email',
+    placeholder: {
+      forgotPwd:"email_input_placeholder"
+    }
   },
   {
     _id: 'username_and_email',
