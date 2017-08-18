@@ -69,7 +69,8 @@ Template.remind_modal.helpers
 					autoform: {
 						type: "bootstrap-datetimepicker"
 						dateTimePickerOptions:{
-							format: "YYYY-MM-DD HH:mm"
+							format: "YYYY-MM-DD HH:mm",
+							locale:Session.get("TAPi18n::loaded_lang"),
 						}
 					},
 					optional: true,
