@@ -123,7 +123,6 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png','client');
-	api.addAssets('client/images/huayan.png','client');
 
 	api.export('Steedos');
 	api.export('db');
