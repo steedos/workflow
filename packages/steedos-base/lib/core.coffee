@@ -183,6 +183,8 @@ if Meteor.isClient
 		else if app.is_use_iframe
 			if app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
 				Steedos.openWindow(Steedos.absoluteUrl("apps/iframe/" + app._id))
+			else if Steedos.isMobile() || Steedos.isCordova()
+				Steedos.openAppWithToken(app_id)
 			else
 				FlowRouter.go("/apps/iframe/#{app._id}")
 

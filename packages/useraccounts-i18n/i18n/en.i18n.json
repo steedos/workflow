@@ -14,7 +14,7 @@
   "dontHaveAnAccount": "Don't have an account?",
   "email": "Email",
   "emailAddress": "Email Address",
-  "emailResetLink": "Email Reset Link",
+  "emailResetLink": "Reset Password",
   "pwdResetLink": "Reset Password",
   "forgotPwdToken": "Forgot Password Token",
   "forgotPassword": "Forgot your password?",
@@ -199,5 +199,6 @@
   "Username_and_email": "Username or email",
   "Username": "Username",
 
-  "loginWithPhone": "Login with phone"
+  "loginWithPhone": "Login with phone",
+  "email_input_placeholder": "Please enter the email address"
 }

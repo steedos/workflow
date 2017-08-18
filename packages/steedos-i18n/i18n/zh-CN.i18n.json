@@ -1,6 +1,6 @@
 {
 	"accounts-sign-in": "登录",
-	"accounts-sign-out": "注销",
+	"accounts-sign-out": "退出",
 	"accounts-sign-up": "注册",
 
 	"dataTables": {
@@ -63,7 +63,7 @@
 	"Forgot your password?": "忘记密码?",
 	"Confirm Password": "确认密码",
 	"Sign up": "注册",
-	"Sign out": "注销",
+	"Sign out": "退出",
 	"Profile Information": "账户信息",
 	"Language": "语言",
 	"Timezone": "时区",
@@ -99,7 +99,7 @@
 	"Support Request": "提交服务单",
 	"Online Help": "帮助文档",
 	"My Account": "我的账户",
-	"Logout": "注销",
+	"Logout": "退出",
 	"Terms": "使用条款",
 	"Privacy": "隐私保护",
 	"Avatar": "头像",
