@@ -19,7 +19,7 @@ TracesManager.getStepLastHandlers = (stepId, instance) ->
 			approves.reverse()
 
 			approves.forEach (approve)->
-				if approve?.is_finished && approve?.type != 'cc'
+				if approve?.is_finished && approve?.type != 'cc' && approve?.type != 'distribute'
 					if ["approved", "rejected", "submitted", "readed"].includes(approve.judge)
 						handlers.push approve.handler
 
