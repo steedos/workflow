@@ -16,6 +16,7 @@ dashboardRoutes.route '/',
 					dashboard = db.portal_dashboards.findOne({space:spaceId},{sort:{created:1}})
 					defaultId = Meteor.settings?.public?.dashboard?.default
 					dashboardId = if dashboard then dashboard._id else defaultId
+					c.stop()
 					if dashboardId
 						FlowRouter.go "/dashboard/space/#{spaceId}/#{dashboardId}"
 					else
