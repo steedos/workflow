@@ -2,7 +2,7 @@
 
 Package.describe({
   summary: 'Meteor sign up and sign in templates core package.',
-  version: '1.14.2_1',
+  version: '1.14.2_3',
   name: 'steedos:useraccounts-core',
   git: 'https://github.com/meteor-useraccounts/core.git',
 });
