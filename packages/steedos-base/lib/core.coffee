@@ -45,7 +45,7 @@ if Meteor.isClient
 			if background
 				$("body").css "backgroundImage","url(#{background})"
 			else
-				background = "/packages/steedos_theme/client/background/flower.jpg"
+				background = "/packages/steedos_theme/client/background/sea.jpg"
 				$("body").css "backgroundImage","url(#{background})"
 
 		if isNeedToLocal
@@ -82,11 +82,10 @@ if Meteor.isClient
 			accountZoomValue = {}
 			accountZoomValue.name = localStorage.getItem("accountZoomValue.name")
 			accountZoomValue.size = localStorage.getItem("accountZoomValue.size")
-
 		$("body").removeClass("zoom-normal").removeClass("zoom-large").removeClass("zoom-extra-large");
 		zoomName = accountZoomValue.name
 		zoomSize = accountZoomValue.size
-		if zoomName == null
+		unless zoomName
 			zoomName = "large"
 			zoomSize = 1.2
 		if zoomName && !Session.get("instancePrint")

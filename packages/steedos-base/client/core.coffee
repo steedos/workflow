@@ -8,3 +8,7 @@ Meteor.startup ->
 	Meteor.setInterval ->
 		Steedos.deps.miniute.changed();
 	, 600 * 1000
+
+	Tracker.autorun ->
+		unless Meteor.userId()
+			toastr.clear()
