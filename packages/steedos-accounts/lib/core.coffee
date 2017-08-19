@@ -44,6 +44,7 @@ if Meteor.isClient
 				# 登录相关路由不需要提醒手机号未绑定
 				if /^\/steedos\//.test routerPath
 					return
+				if Accounts.isPhoneVerified()
 					expiredDays = Meteor.settings?.public?.phone?.expiredDays
 					if expiredDays
 						Accounts.disablePhoneWithoutExpiredDays(expiredDays)

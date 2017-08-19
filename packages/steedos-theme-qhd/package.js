@@ -1,6 +1,6 @@
 Package.describe({
     name: 'steedos:theme-qhd',
-    version: '0.0.5',
+    version: '0.0.6',
     summary: 'Steedos theme for qhd',
     git: ''
 });
