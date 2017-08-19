@@ -146,6 +146,7 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	$("body").removeClass("loading")
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
