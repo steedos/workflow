@@ -229,7 +229,13 @@ Template.instance_list.onRendered ->
 Template.instance_list.events
 
 	'click tbody > tr': (event) ->
-		$("body").addClass("loading")
+		dataTable = $(event.target).closest('table').DataTable();
+		rowData = dataTable.row(event.currentTarget).data();
+		if (!rowData)
+			return;
+		if Session.get("instanceId") != rowData._id
+			$("body").addClass("loading")
+
 		setTimeout ()->
 			dataTable = $(event.target).closest('table').DataTable();
 			row = $(event.target).closest('tr');
