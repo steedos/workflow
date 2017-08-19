@@ -73,6 +73,13 @@
           </div>
         </div>
       </div>
+	{{#if isSpaceOwner}}
+		<div class="form-group" style="padding-left: 15px;padding-top: 10px;">
+			<button type="submit" class="btn btn-primary btn-edit-space">
+				{{_ "Edit"}}
+			</button>
+		</div>
+	{{/if}}
     </section>
 
 </template>

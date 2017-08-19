@@ -6,5 +6,8 @@
 		<span class="logo-lg text-overflow">
 			{{spaceName}}
 		</span>
+		{{#if isSpaceOwner}}
+		<a href="#" class="edit-space btn-primary"><i class="ion ion-gear-b"></i></a>
+		{{/if}}
 	</div>
 </template>
