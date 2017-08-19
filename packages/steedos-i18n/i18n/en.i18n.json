@@ -48,6 +48,9 @@
 	"Steedos Admin": "Admin",
 	"Flow Designer": "Flow Designer",
 	"Steedos CMS": "CMS",
+	"Steedos Boards":"Boards",
+	"Steedos OldCalendar":"Calendar(Old)",
+
 
 	"Forgot Password": "Forgot Password",
 	"Forgot Password Description": "Enter your email address below and we will send you password reset instructions.",
