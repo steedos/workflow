@@ -6,6 +6,16 @@ Template.steedosHeaderLogo.helpers
 		else
 			return Steedos.absoluteUrl(Theme.space_logo)
 
+	isSpaceOwner: (event)->
+		return Steedos.isSpaceOwner(Steedos.spaceId())
+
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .edit-space': (event)->
+		if Steedos.isSpaceOwner(Steedos.spaceId())
+			AdminDashboard.modalEdit('spaces', Steedos.spaceId())
+
+		event.stopPropagation()
+#		event.preventDefault()
