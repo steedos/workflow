@@ -83,7 +83,6 @@ Package.onUse(function (api) {
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',
-		'client/subscribe.coffee',
 		'client/layout/main.html',
 		'client/layout/main.less',
 		'client/layout/main.coffee',
@@ -109,6 +108,7 @@ Package.onUse(function (api) {
 		'client/views/space_switcher.html',
 		'client/views/space_switcher.coffee',
 		'client/views/space_switcher.less',
+		'client/subscribe.coffee',
 		'client/views/loading.html',
 		'client/views/loading.less'
 	], "client");
