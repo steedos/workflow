@@ -2,6 +2,8 @@ Cookies = Npm.require("cookies")
 bcrypt = NpmModuleBcrypt;
 bcryptHash = Meteor.wrapAsync(bcrypt.hash);
 bcryptCompare = Meteor.wrapAsync(bcrypt.compare);
+SHA256 = Npm.require("sha256")
+
 
 Setup.clearAuthCookies = (req, res) ->
 		cookies = new Cookies( req, res );
