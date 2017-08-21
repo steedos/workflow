@@ -11,6 +11,11 @@ db.flow_positions._simpleSchema = new SimpleSchema
 	role: 
 		type: String,
 		autoform:
+			foreign_key: true,
+			references: {
+				collection: 'flow_roles',
+				key: '_id'
+			}
 			type: "select",
 			options: ->
 				options = []
@@ -147,6 +152,14 @@ new Tabular.Table
 		{data: "role_name()"},
 		{data: "org_name()"},
 		{data: "users_name()"},
+		{
+			data: "role",
+			title: "",
+			orderable: false,
+			render: (val, type, doc) ->
+				role = db.flow_roles.findOne({_id: doc.role}, {fields: {name: 1}});
+				return role && role.name;
+		},
 		{
 			data: "",
 			title: "",
