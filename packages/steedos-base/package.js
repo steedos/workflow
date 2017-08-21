@@ -128,6 +128,8 @@ Package.onUse(function (api) {
 	api.addFiles('client/iframe/master.coffee', 'client');
 	api.addFiles('client/iframe/master.less', 'client');
 
+	api.addFiles('client/loading.coffee', 'client');
+
 	api.export('Steedos');
 	api.export('db');
 
