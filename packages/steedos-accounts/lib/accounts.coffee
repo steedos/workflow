@@ -79,7 +79,14 @@ AccountsTemplates.addFields([
     _id: 'username_and_email',
     type: 'text',
     required: true,
-    displayName: "Login",
+    displayName: "Login"
+  },
+  {
+    _id: "username",
+    type: "text",
+    displayName: "username",
+    required: true,
+    minLength: 5
   },
   pwdField
 ]);
