@@ -109,3 +109,6 @@ Template.workflowSidebar.events
 	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->
 		# 切换箱子的时候清空搜索条件
 		$("#instance_search_tip_close_btn").click()
+
+	'click .header-app': (event) ->
+		FlowRouter.go "/workflow/"
