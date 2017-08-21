@@ -7,9 +7,9 @@ Template.iframeLayout.helpers
 Template.iframeLayout.events
 
 Template.iframeLayout.onCreated ()->
-	$("body").addClass("loading")
+	$("body").addClass("loading").addClass("iframe-loading")
 
 Template.iframeLayout.onRendered ()->
 	$("#main_iframe").load ()->
-		$("body").removeClass("loading")
+		$("body").removeClass("loading").removeClass("iframe-loading")
 
