@@ -556,5 +556,6 @@
 	"instances_is_archived": "Archived",
 	"instances_archive": "Archive",
 	"instances_archived": "Archived",
-	"instances_not_archived": "Not archived"
+	"instances_not_archived": "Not archived",
+	"workflow_more_inbox": "More Inbox"
 }
