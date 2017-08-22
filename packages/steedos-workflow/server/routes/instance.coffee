@@ -23,6 +23,9 @@ getInstanceReadOnly = (req, res, next, options) ->
 		else
 			options = {showTrace: false}
 
+	if !options.showAttachments
+		options.showAttachments = true
+
 	if !space
 		JsonRoutes.sendResult res,
 			code: 401,
