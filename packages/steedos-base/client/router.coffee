@@ -23,3 +23,9 @@ FlowRouter.route '/apps/iframe/:app_id',
 
 		BlazeLayout.render 'iframeLayout',
 			url: url
+
+
+FlowRouter.route '/steedos/springboard',
+	triggersEnter: [ ->
+		FlowRouter.go "/"
+	]
