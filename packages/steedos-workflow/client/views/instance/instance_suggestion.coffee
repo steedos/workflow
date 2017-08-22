@@ -347,3 +347,4 @@ Template.instance_suggestion.onRendered ->
 
 Template.instance_suggestion.onDestroyed ->
 	Session.set("instance_suggestion_ready", false)
+	Session.set("instance_my_approve_description", null)
