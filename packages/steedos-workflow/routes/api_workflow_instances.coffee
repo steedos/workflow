@@ -52,14 +52,20 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 				"success": false
 		return;
 
-	if !Steedos.isSpaceAdmin(spaceId, user._id)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- No permission",
-				"success": false
-		return;
+	query = {}
 
+	if !Steedos.isSpaceAdmin(spaceId, user._id)
+
+		spaceUser = db.space_users.findOne({space: space._id, user: user._id})
+
+		organizations = db.organizations.find({
+			_id: {
+				$in: spaceUser.organizations
+			}
+		}).fetch();
+
+		if !WorkflowManager.canMonitor(flow, spaceUser, organizations) && !WorkflowManager.canAdmin(flow, spaceUser, organizations)
+			query.applicant = user._id
 
 	#URL参数
 	states = req.query?.state?.split(",") || ["completed"]
@@ -71,8 +77,6 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 
 		if query_approve == '1' || query_approve == 'true' || query_approve == 't'
 			returnApprove = true
-
-	query = {}
 
 	ret_sync_token = new Date().getTime()
 
@@ -107,6 +111,8 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 		fields["traces.approves.values"] = 0
 	else
 		fields.traces = 0
+
+	console.log(JSON.stringify(query))
 
 	instances = db.instances.find query, {fields: fields}
 

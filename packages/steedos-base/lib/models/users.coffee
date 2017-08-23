@@ -274,7 +274,9 @@ if Meteor.isServer
 				settings: 1
 				is_cloudadmin: 1
 				email_notification: 1,
-				avatar: 1
+				avatar: 1,
+				"secrets.name": 1,
+				"secrets.token": 1
 
 if Meteor.isServer
 	db.users._ensureIndex({

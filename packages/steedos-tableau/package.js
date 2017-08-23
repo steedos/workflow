@@ -77,11 +77,15 @@ Package.onUse(function (api) {
 	api.addFiles('client/workflow/tableau_flow_list.html', 'client');
 	api.addFiles('client/workflow/tableau_flow_list.coffee', 'client');
 
+	api.addFiles('client/lib/steedos_tableau.coffee', 'client');
+
 	api.addFiles('tabulars/flows.coffee');
 
 	api.addFiles('client/admin-menu.coffee', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
+
+	api.export("SteedosTableau", 'client');
 });
 
 Package.onTest(function (api) {

@@ -1,13 +1,6 @@
 Template.tableau_info.helpers
 	cost_time_connector: ()->
-		url = "tableau/workflow/space/#{Session.get("spaceId")}/cost_time"
-
-		if Meteor.isCordova
-
-			return Meteor.absoluteUrl(url);
-
-		else
-			return window.location.origin + "/" + url
+		return SteedosTableau.get_workflow_cost_time_connector Session.get("spaceId")
 
 Template.tableau_info.onRendered ->
 	if Steedos.isPaidSpace()

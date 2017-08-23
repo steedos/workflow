@@ -181,6 +181,8 @@
 
 		var state = connectionData.state
 
+		var period = connectionData.period;
+
 		var url_params = "?username=" + username + "&password=" + password;
 
 		if(approve){
@@ -189,6 +191,10 @@
 
 		if(state){
 			url_params = url_params + "&state=" + state
+		}
+
+		if(period){
+			url_params = url_params + "&period=" + period
 		}
 
 
