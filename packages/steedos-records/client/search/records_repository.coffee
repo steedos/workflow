@@ -1,8 +1,11 @@
-userId = Meteor.userId()
-
-records_search_api = Meteor.absoluteUrl("records/search?userId=#{userId}")
+records_search_api = Steedos.absoluteUrl("records/search?")
 
 Template.search_records_repository.events
+	'keyup [name=input_search]':(event)->
+		if event.which==13
+			$('.btn.btn-search').click()
+		return
+
 	'click .btn.btn-search':(event)->
 		seatch_txt=$('.txt-search.form-control').val()
 
@@ -11,7 +14,7 @@ Template.search_records_repository.events
 
 		$('.table-responsive').css 'display', 'initial'
 
-		ajaxUrl = records_search_api+'&q='+seatch_txt
+		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + '&q=' + seatch_txt
 
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
@@ -24,7 +27,17 @@ Template.search_records_repository.onRendered ->
 		'info': true,  #页脚信息
 		'processing': true,
 		'language': {
-			'thousands': ','    #千级别的数据显示格式
+			'thousands': ',', #千级别的数据显示格式
+			"info":"显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+			"infoEmpty":"显示第 0 至 0 项记录，共 0 项",
+			"search":"",
+			"zeroRecords":"对不起，查询不到相关数据！",
+			"paginate": {
+				"first":"首页",
+				"last":"末页",
+				"next":"下一页",
+				"previous":"上一页"
+			}
 		},
 		'pageLength':10,
 		'autoWidth': false,#不自动计算列宽度
@@ -33,10 +46,9 @@ Template.search_records_repository.onRendered ->
 			{ 
 				'data': '_source.name',
 				render: (val, type, doc) ->
-					url = Meteor.absoluteUrl("workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}")
-
-					# url = "http://192.168.0.21/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
-
+					# fileserver = Meteor.settings.records.cfs_file_server
+					url = "/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
+					
 					title = doc.highlight?.name?.join("...") || doc?._source?.name
 
 					highlight = doc.highlight?.values?.join("...") || doc.highlight?.attachments?.join("...")
@@ -48,9 +60,11 @@ Template.search_records_repository.onRendered ->
 
 					date = ''
 
-					if doc?._source?.modified
-						modified = new Date(doc._source.modified)
-						date = modified.getFullYear() + "-" + (modified.getMonth() + 1) + "-" + modified.getDay()
+					if doc?._source?.created
+
+						created = new Date(doc._source.created)
+
+						date = created.getFullYear() + "-" + (created.getMonth() + 1) + "-" + created.getDate()
 
 					return """
 						<li class="b_algo" data-bm="6">
@@ -80,7 +94,7 @@ Template.search_records_repository.onRendered ->
 		# 高版本datatables插件的服务器端分页方法
 		'ajax': {
 			type: 'get',
-			url: records_search_api,
+			url: records_search_api + "userId=" + Meteor.userId(),
 			dataType: 'json'
 		},
 		# 创建行时候改变行的样式，调样式在这里写

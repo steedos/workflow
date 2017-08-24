@@ -9,6 +9,7 @@ accounts-twitter@1.1.11
 ajduke:bootstrap-tagsinput@0.7.1
 alanning:roles@1.2.15
 aldeed:autoform@5.8.0
+aldeed:autoform-bs-datetimepicker@1.0.7
 aldeed:collection2@2.10.0
 aldeed:collection2-core@1.2.0
 aldeed:schema-deny@1.1.0
@@ -192,6 +193,8 @@ steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:qcloud-smsqueue@0.0.1
+steedos:records@0.0.1
+steedos:records-i18n@0.0.1
 steedos:remind@0.0.1
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
