@@ -150,8 +150,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
 	api.addFiles('client/steedos/views/about/steedos_about.css', 'client');
 
-	api.addFiles('client/loading.coffee', 'client');
-
 	api.addFiles('client/tooltip.coffee', 'client');
 
 	api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');

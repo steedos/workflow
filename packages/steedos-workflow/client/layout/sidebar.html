@@ -1,26 +1,9 @@
 <template name="workflowSidebar">
 	<aside class="main-sidebar">
-		<!-- <header class="main-header">
-			<div class="logo" style="overflow: visible">
-			<span class="logo-lg text-overflow">
-			  <B>{{_ "Steedos Workflow"}}</B>
-			</span>
-				<span class="logo-arrow">
-			  <i class="ion-ios-arrow-down ion"></i>
-			</span>
-				<span class="logo-mini">
-			  <i class="ion ion-grid"></i>
-			</span>
-			</div>
-		</header> -->
 		<div class="sidebar" id="scrollspy">
 			{{> sidebarUserPanel}}
 			<ul class="nav sidebar-menu">
-				<!-- <li class="header header-workflow header-space-switcher">
-					{{> space_switcher}}
-				</li> -->
-
-				<li class="header">
+				<li class="header header-app">
 					{{_ "Steedos Workflow"}}
 				</li>
 				<li class="inbox {{boxActive 'inbox'}}">
@@ -105,7 +88,7 @@
 				</li>
 				{{#if showOthenInbox inboxSpaces}}
 					<li class="header">
-						{{_ "inbox"}}
+						{{_ "workflow_more_inbox"}}
 					</li>
 					{{#each inboxSpaces}}
 						<li class="other-inbox">

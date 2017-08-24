@@ -57,20 +57,17 @@ pwdField = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 AccountsTemplates.addFields([
   {
+    _id: 'company',
+    type: 'text'
+  },
+  {
     _id: 'name',
     type: 'text'
   },
   {
-    _id: "username",
-    type: "text",
-    displayName: "username",
-    required: true,
-    minLength: 5,
-  },
-  {
     _id: 'email',
     type: 'email',
-    required: false
+    required: true
     displayName: "email",
     re: /.+@(.+){2,}\.(.+){2,}/,
     errStr: 'Invalid email',
@@ -82,17 +79,16 @@ AccountsTemplates.addFields([
     _id: 'username_and_email',
     type: 'text',
     required: true,
-    displayName: "Login",
-  },
-  pwdField,
-  {
-    _id: 'company',
-    type: 'text'
+    displayName: "Login"
   },
   {
-    _id: 'mobile',
-    type: 'text'
-  }
+    _id: "username",
+    type: "text",
+    displayName: "username",
+    required: true,
+    minLength: 5
+  },
+  pwdField
 ]);
 
 

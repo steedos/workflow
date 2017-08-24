@@ -1,4 +1,3 @@
-
 if (Steedos.isNode()){
 
 	var globalWin = nw.Window.get();
@@ -35,47 +34,49 @@ if (Steedos.isNode()){
 		globalWin.focus();
 	}); 
 
-	// 客户端最小化后任务栏有图标
-	var desktopTitle = process.cwd().split("\\")[2];
+	if(process.platform == 'win32'){
+		// 客户端最小化后任务栏有图标
+		var desktopTitle = process.cwd().split("\\")[2];
 
-	var tray = new nw.Tray({
-		title: desktopTitle,
-		icon: 'images/icon.png'
-	});
+		var tray = new nw.Tray({
+			title: desktopTitle,
+			icon: 'images/icon.png'
+		});
 
-	tray.tooltip = desktopTitle;
+		tray.tooltip = desktopTitle;
 
-	//添加菜单
-	var menu = new nw.Menu();
-	menu.append(new nw.MenuItem({
-		label: '打开',
-		click: function(){
-			globalWin.show();
-			globalWin.focus();
-		}
-	}));
-	menu.append(new nw.MenuItem({
-		label: '退出',
-		click: function(){
-			// 退出客户端前记录当前url
-			if (globalWin.disableClose == false){
-				if (Meteor.userId()){
-					var lastUrl = FlowRouter.current().path;
-					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
-				}
-				nw.App.quit();
-			}else{
+		//添加菜单
+		var menu = new nw.Menu();
+		menu.append(new nw.MenuItem({
+			label: '打开',
+			click: function(){
 				globalWin.show();
 				globalWin.focus();
 			}
-		}
-	}));
+		}));
+		menu.append(new nw.MenuItem({
+			label: '退出',
+			click: function(){
+				// 退出客户端前记录当前url
+				if (globalWin.disableClose == false){
+					if (Meteor.userId()){
+						var lastUrl = FlowRouter.current().path;
+						localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl);
+					}
+					nw.App.quit();
+				}else{
+					globalWin.show();
+					globalWin.focus();
+				}
+			}
+		}));
 
-	tray.menu = menu;
+		tray.menu = menu;
 
-	//click事件
-	tray.on('click',function(){
-		globalWin.show();
-		globalWin.focus();
-	});
+		//click事件
+		tray.on('click',function(){
+			globalWin.show();
+			globalWin.focus();
+		});
+	}
 }

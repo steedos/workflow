@@ -571,5 +571,6 @@
 	"instances_is_archived": "已归档",
 	"instances_archive": "归档",
 	"instances_archived": "已归档",
-	"instances_not_archived": "未归档"
+	"instances_not_archived": "未归档",
+	"workflow_more_inbox": "更多待审核"
 }
