@@ -43,71 +43,37 @@
 // Download the data
 	instancesConnector.getData = function (table, doneCallback) {
 
-		// var last_sync_token = parseInt(table.incrementValue || 0);
+		SteedosTableau.getWorkflowCostTimeData(tableau.connectionData, function(resp, textStatus){
+			var instances = resp.data
+			var tableData = [];
 
-		var connectionData = JSON.parse(tableau.connectionData);
+			var sync_token = resp.sync_token
 
-		var spaceId = connectionData.spaceId;
+			if (table.tableInfo.id === "spaceInstances_cost_time") {
+				instances.forEach(function (approve) {
 
-		var period = connectionData.period;
+					var ins_item = {};
 
-		var xUserId = connectionData.userId
+					ins_item.handler_organization_fullname = approve._id.handler_organization_fullname;
 
-		var xuserToken = connectionData.authToken
+					ins_item.handler_name = approve._id.handler_name;
 
-		var url_params = "?period=" + period;
+					ins_item.avg_cost_time = approve.avg_cost_time / 1000 / 60 / 60;
 
-		url_params = url_params + "&orgs=" + connectionData.instance_approves_hanlder_orgs
+					ins_item.approve_count = approve.approve_count;
 
-		url = window.location.origin + "/api/workflow/instances/space/" + spaceId + "/approves/cost_time" + url_params
-
-		settings = {
-			url: url,
-			type: 'GET',
-			headers: {
-				"x-user-id": xUserId,
-				"x-auth-token": xuserToken
-			},
-			crossDomain: true,
-			async: false,
-			dataType: 'json',
-			processData: false,
-			contentType: "application/json",
-			success: function (resp, textStatus) {
-
-				var instances = resp.data
-				var tableData = [];
-
-				var sync_token = resp.sync_token
-
-				if (table.tableInfo.id == "spaceInstances_cost_time") {
-					instances.forEach(function (approve) {
-
-						var ins_item = {};
-
-						ins_item.handler_organization_fullname = approve._id.handler_organization_fullname
-
-						ins_item.handler_name = approve._id.handler_name
-
-						ins_item.avg_cost_time = approve.avg_cost_time / 1000 / 60 / 60
-
-						ins_item.approve_count = approve.approve_count
-
-						tableData.push(ins_item)
-					})
-				}
-
-				table.appendRows(tableData);
-				doneCallback();
+					tableData.push(ins_item);
+				});
 			}
-		}
 
-		$.ajax(settings)
+			table.appendRows(tableData);
+			doneCallback();
+		});
 	};
 
 	setupConnector = function () {
 
-		var connectionData = JSON.parse(tableau.connectionData) || {};
+		var connectionData = JSON.parse(tableau.connectionData || "{}");
 
 		var spaceId = $("#spaceId").val();
 
@@ -118,6 +84,8 @@
 		connectionData.instance_approves_hanlder_orgs = $("#instance_approves_hanlder_orgs").val();
 
 		connectionData.period = $("#period").val();
+
+		connectionData.access_token = SteedosTableau.access_token;
 
 		tableau.connectionData = JSON.stringify(connectionData);
 	};
@@ -141,6 +109,7 @@
 			}
 
 			setupConnector();
+
 			tableau.connectionName = connName; // This will be the data source name in Tableau
 			tableau.submit(); // This sends the connector object to Tableau
 		});

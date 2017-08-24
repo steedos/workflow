@@ -1,17 +1,18 @@
 
+JsonRoutes.Middleware.use('/tableau/search', JsonRoutes.Middleware.authenticateMeteorUserByAccessToken);
+
 JsonRoutes.add 'post', '/tableau/search/space/:space/organizations', (req, res, next) ->
 	try
-		user = Steedos.getAPILoginUser(req, res)
+		userId = req.userId
 
-		if !user
+		user = db.users.findOne({_id: userId})
+
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
 			return;
 	catch e
-		if !user
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
 				data:

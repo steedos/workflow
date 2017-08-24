@@ -103,24 +103,7 @@
 				length: length
 			}
 
-
-			$.ajax({
-				url: '/tableau/search/space/' + $("#spaceId").val() + '/organizations',
-				type: 'POST',
-				headers: {
-					"x-user-id": SteedosTableau.auth.userId,
-					"x-auth-token": SteedosTableau.auth.authToken
-				},
-				async: false,
-				data: JSON.stringify(config),
-				contentType: "application/json",
-				error: function() {
-					callback();
-				},
-				success: function(res) {
-					callback(res);
-				}
-			});
+			SteedosTableau.searchOrganizations($("#spaceId").val(), config, callback);
 		}
 	});
 </script>

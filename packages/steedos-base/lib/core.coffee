@@ -373,11 +373,11 @@ if Meteor.isServer
 				return user
 
 		userId = req.query?["X-User-Id"]
+
 		authToken = req.query?["X-Auth-Token"]
 
 		if Steedos.checkAuthToken(userId,authToken)
 			return db.users.findOne({_id: userId})
-
 
 		cookies = new Cookies(req, res);
 
@@ -459,6 +459,21 @@ if Meteor.isServer
 		password = cipheredMsg.toString('base64')
 
 		return password;
+
+	Steedos.getUserIdFromAuthToken = (access_token)->
+
+		if !access_token
+			return null;
+
+		userId = access_token.split("-")[0]
+
+		hashedToken = Accounts._hashLoginToken(access_token)
+
+		user = db.users.findOne({_id: userId, "secrets.hashedToken": hashedToken})
+
+		if user
+			return userId
+		return null;
 
 
 

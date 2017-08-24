@@ -49,6 +49,7 @@ Package.onUse(function (api) {
 	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
+	api.use('steedos:authenticate-user-by-access-token');
 
 	api.use('tap:i18n', ['client', 'server']);
 
@@ -59,6 +60,8 @@ Package.onUse(function (api) {
 
 	api.addAssets("assets/steedos_tableau.js", "client");
 	api.addAssets("assets/steedos_tableau.css", "client");
+
+	api.addFiles('server/routes/access_token.coffee', 'server');
 
 	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.html", "server");
 	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.js", "client");
@@ -77,7 +80,7 @@ Package.onUse(function (api) {
 	api.addFiles('client/workflow/tableau_flow_list.html', 'client');
 	api.addFiles('client/workflow/tableau_flow_list.coffee', 'client');
 
-	api.addFiles('client/lib/steedos_tableau.coffee', 'client');
+	api.addFiles('lib/steedos_tableau.coffee');
 
 	api.addFiles('tabulars/flows.coffee');
 
@@ -85,7 +88,7 @@ Package.onUse(function (api) {
 
 	api.addFiles('client/router.coffee', 'client');
 
-	api.export("SteedosTableau", 'client');
+	api.export("SteedosTableau");
 });
 
 Package.onTest(function (api) {

@@ -4,20 +4,21 @@
     password: (工作区管理员)登录密码
     sync_token: 时间戳。如果传入，则返回此时间段之后的申请单
 ###
-JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
-	console.log "/api/workflow/.../cost_time"
-	try
-		user = Steedos.getAPILoginUser(req, res)
 
-		if !user
+JsonRoutes.Middleware.use('/tableau/api', JsonRoutes.Middleware.authenticateMeteorUserByAccessToken);
+
+JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
+	try
+		userId = req.userId
+
+		user = db.users.findOne({_id: userId})
+
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
 			return;
 	catch e
-		if !user
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
 				data:
@@ -25,10 +26,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 					"success": false
 			return;
 
-	console.log "req.params", req.params
-	console.log "req.query", req.query
-
-	spaceId = req.params.space || req.headers["x-space-id"]
+	spaceId = req.params.space
 
 	space = db.spaces.findOne({_id: spaceId})
 
@@ -39,18 +37,6 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/approves/cost_time',
 				"error": "Validate Request -- Invalid Space",
 				"success": false
 		return;
-
-#	if !Steedos.isSpaceAdmin(spaceId, user._id)
-#		JsonRoutes.sendResult res,
-#			code: 401,
-#			data:
-#				"error": "Validate Request -- No permission",
-#				"success": false
-#		return;
-
-
-	#URL参数
-#	states = req.query?.state?.split(",") || ["completed"]
 
 	query = {}
 
