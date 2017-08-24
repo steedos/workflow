@@ -27,6 +27,7 @@ Package.onUse(function(api) {
 
     api.addAssets("client/background/qhd.jpg", "client");
     api.addAssets("client/images/logo.jpg", "client");
+    api.addAssets("client/images/icon.png", "client");
 
     // EXPORT
 
