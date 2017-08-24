@@ -3,17 +3,7 @@ Meteor.methods
 		if !this.userId
 			return false;
 
-		secretToken =  Accounts._generateStampedLoginToken()
-
-		secretToken.token = this.userId + "-" + secretToken.token
-
-		hashedToken = Accounts._hashLoginToken(secretToken.token)
-
-		secretToken.hashedToken = hashedToken
-
-		secretToken.name = name
-
-		db.users.update({_id: this.userId}, {$push: {secrets: secretToken}})
+		db.users.create_secret this.userId, name
 
 	remove_secret: (token)->
 		if !this.userId || !token

@@ -56,7 +56,10 @@ Package.onUse(function (api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('server/routes_middleware_config.coffee', 'server');
+
 	api.addFiles('server/routes/search_organizations.coffee', 'server');
+	api.addFiles('server/data/api_workflow_instances.coffee', 'server');
 
 	api.addAssets("assets/steedos_tableau.js", "client");
 	api.addAssets("assets/steedos_tableau.css", "client");

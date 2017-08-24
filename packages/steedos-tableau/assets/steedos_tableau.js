@@ -25,6 +25,7 @@ SteedosTableau.checkAccountsToken = function (access_token) {
 	if(checked.status === 200){
 		return true;
 	}else{
+		$(".help-block").html("access_token已过期，请输入密码或重新复制链接");
 		return false;
 	}
 };
@@ -73,12 +74,9 @@ SteedosTableau.getTokenWithPassword = function (username, password) {
 		return false;
 	} else {
 
-		SteedosTableau.access_token = getToken.responseJSON.data.access_token;
-
 		return getToken.responseJSON.data.access_token;
 	}
 };
-
 
 SteedosTableau.searchOrganizations = function (spaceId, data, callback) {
 	$.ajax({
@@ -88,7 +86,7 @@ SteedosTableau.searchOrganizations = function (spaceId, data, callback) {
 		data: JSON.stringify(data),
 		contentType: "application/json",
 		error: function() {
-			$(".help-block").html("access_token已过期");
+			$(".help-block").html("access_token已过期，请输入密码或重新复制链接");
 			$(".steedos-tableau-data").hide();
 			$(".steedos-tableau-auth").show();
 			callback();
@@ -130,6 +128,64 @@ SteedosTableau.getWorkflowCostTimeData = function (data, callback) {
 	$.ajax(settings);
 };
 
+SteedosTableau.getWorkflowInstanceData = function (last_sync_token, data, callback) {
+
+	var connectionData = JSON.parse(data);
+
+	var flowId = connectionData.flowId;
+
+	var access_token = connectionData.access_token;
+
+	var spaceId = connectionData.spaceId;
+
+	var approve = connectionData.approve;
+
+	var state = connectionData.state;
+
+	var period = connectionData.period;
+
+	var url_params = "?access_token=" + access_token;
+
+	if(approve){
+		url_params = url_params + "&approve=true";
+	}
+
+	if(state){
+		url_params = url_params + "&state=" + state;
+	}
+
+	if(period){
+		url_params = url_params + "&period=" + period;
+	}
+
+	var valueFields = connectionData.valueFields;
+
+	if (!valueFields) {
+		valueFields = [];
+	}
+
+	if (last_sync_token > 0){
+		url_params =  url_params + "&sync_token=" + last_sync_token;
+	}
+
+	var url = window.location.origin + "/tableau/api/workflow/instances/space/"+spaceId+"/flow/" + flowId + url_params;
+
+	var settings = {
+		url: url,
+		type: 'GET',
+		crossDomain: true,
+		async: false,
+		dataType: 'json',
+		processData: false,
+		contentType: "application/json",
+		success: function (resp, textStatus) {
+			callback(resp, textStatus);
+		}
+	};
+
+	$.ajax(settings);
+};
+
 $(document).ready(function () {
 
 	var access_token = getUrlParameter("access_token");
@@ -145,8 +201,6 @@ $(document).ready(function () {
 			$(".steedos-tableau-data").show();
 		}
 	}
-
-
 
 	$("#login").click(function () {
 		$(".help-block").html("");
@@ -164,9 +218,11 @@ $(document).ready(function () {
 			return;
 		}
 
-		var authData = SteedosTableau.getTokenWithPassword(username, password);
+		var access_token = SteedosTableau.getTokenWithPassword(username, password);
 
-		if (!authData) {
+		SteedosTableau.access_token = access_token;
+
+		if (!access_token) {
 			$(".help-block").html("用户名或密码错误");
 			return;
 		}

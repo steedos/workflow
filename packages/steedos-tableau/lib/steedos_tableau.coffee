@@ -29,7 +29,7 @@ if Meteor.isClient
 		if access_token
 			p = "?access_token=" + access_token
 
-		url = "api/workflow/tableau/space/#{spaceId}/flow/#{flowId}" + p
+		url = "tableau/workflow/space/#{spaceId}/flow/#{flowId}" + p
 
 		if Meteor.isCordova
 			return Meteor.absoluteUrl(url);

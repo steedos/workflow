@@ -1,6 +1,4 @@
 
-JsonRoutes.Middleware.use('/tableau/search', JsonRoutes.Middleware.authenticateMeteorUserByAccessToken);
-
 JsonRoutes.add 'post', '/tableau/search/space/:space/organizations', (req, res, next) ->
 	try
 		userId = req.userId

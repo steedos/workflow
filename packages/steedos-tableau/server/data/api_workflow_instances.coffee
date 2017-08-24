@@ -7,20 +7,19 @@
     state: 申请单状态。值范围为：draft:草稿，pending：进行中，completed: 已完成。默认为completed
     approve: 是否返回审批信息true/false。默认为false
 ###
-JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
+JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
 
 	try
-		user = Steedos.getAPILoginUser(req, res)
+		userId = req.userId
 
-		if !user
+		user = db.users.findOne({_id: userId})
+
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
 			return;
 	catch e
-		if !user
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
 				data:
@@ -28,7 +27,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 					"success": false
 			return;
 
-	spaceId = req.params.space || req.headers["x-space-id"]
+	spaceId = req.params.space
 
 	space = db.spaces.findOne({_id: spaceId})
 
@@ -112,9 +111,11 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 	else
 		fields.traces = 0
 
-	console.log(JSON.stringify(query))
+	console.time("tableau_instances")
 
 	instances = db.instances.find query, {fields: fields}
+
+	console.timeEnd("tableau_instances")
 
 	JsonRoutes.sendResult res,
 		code: 200,

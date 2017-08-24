@@ -5,8 +5,6 @@
     sync_token: 时间戳。如果传入，则返回此时间段之后的申请单
 ###
 
-JsonRoutes.Middleware.use('/tableau/api', JsonRoutes.Middleware.authenticateMeteorUserByAccessToken);
-
 JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
 	try
 		userId = req.userId

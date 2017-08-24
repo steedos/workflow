@@ -8,8 +8,6 @@ JsonRoutes.add 'POST', '/tableau/access_token', (req, res, next) ->
 
 	password = data?.password
 
-	console.log "data", data
-
 	if username
 		user = db.users.findOne({username: username})
 	else if email
@@ -22,12 +20,16 @@ JsonRoutes.add 'POST', '/tableau/access_token', (req, res, next) ->
 			JsonRoutes.sendResult res,
 				code: 401,
 				data:
-					"error": e.message,
+					"error": result.error,
 					"success": false
 			return;
 		else
-			console.log "user", user
 			access_token = SteedosTableau._get_tableau_access_token(user._id)
+
+			if !access_token
+				db.users.create_secret user._id, "tableau"
+
+				access_token = SteedosTableau._get_tableau_access_token(user._id)
 
 			JsonRoutes.sendResult res,
 				code: 200,

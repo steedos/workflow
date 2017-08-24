@@ -6,7 +6,7 @@
 	var instancesConnector = tableau.makeConnector();
 
 	instancesConnector.init = function (initCallback) {
-		tableau.authType = tableau.authTypeEnum.basic;
+		// tableau.authType = tableau.authTypeEnum.basic;
 		initCallback();
 	}
 
@@ -170,164 +170,115 @@
 		var last_sync_token = parseInt(table.incrementValue || 0);
 
 		var connectionData = JSON.parse(tableau.connectionData);
-		var flowId = connectionData.flowId;
-		var spaceId = connectionData.spaceId;
-
-		var approve = connectionData.approve;
-
-		var username = tableau.username
-
-		var password = tableau.password
-
-		var state = connectionData.state
-
-		var period = connectionData.period;
-
-		var url_params = "?username=" + username + "&password=" + password;
-
-		if(approve){
-			url_params = url_params + "&approve=true"
-		}
-
-		if(state){
-			url_params = url_params + "&state=" + state
-		}
-
-		if(period){
-			url_params = url_params + "&period=" + period
-		}
-
 
 		var valueFields = connectionData.valueFields;
+
 		if (!valueFields) {
-			valueFields = []
+			valueFields = [];
 		}
 
-		if (last_sync_token > 0)
-			url_params =  url_params + "&sync_token=" + last_sync_token;
+		SteedosTableau.getWorkflowInstanceData(last_sync_token, tableau.connectionData, function (resp, textStatus) {
+			var instances = resp.data
+			var tableData = [];
 
+			var sync_token = resp.sync_token
 
-		console.log("instancesConnector.getData...")
+			if (table.tableInfo.id === "spaceInstances") {
+				instances.forEach(function (ins) {
 
-		url = window.location.origin + "/api/workflow/instances/space/"+spaceId+"/flow/" + flowId + url_params
+					insVal = ins.values;
 
-		settings = {
-			url: url,
-			type: 'GET',
-			crossDomain: true,
-			async: false,
-			dataType: 'json',
-			processData: false,
-			contentType: "application/json",
-			success: function (resp, textStatus) {
+					ins.submit_date = new Date(ins.submit_date)
 
-				console.log("resp.data:", resp.data.length)
+					ins.created = new Date(ins.created)
 
-				var instances = resp.data
-				var tableData = [];
+					ins.modified = new Date(ins.modified)
 
-				var sync_token = resp.sync_token
+					ins.sync_token = sync_token
 
-				if (table.tableInfo.id == "spaceInstances") {
-					instances.forEach(function (ins) {
+					valueFields.forEach(function (field) {
+						fieldVal = insVal[field.code]
+						if (!fieldVal) {
+							fieldVal = "";
+						}
+						// switch(field.type){
+						// 	case 'bool':
+						//
+						// }
 
-						insVal = ins.values;
-
-						ins.submit_date = new Date(ins.submit_date)
-
-						ins.created = new Date(ins.created)
-
-						ins.modified = new Date(ins.modified)
-
-						ins.sync_token = sync_token
-
-						valueFields.forEach(function (field) {
-							fieldVal = insVal[field.code]
-							if (!fieldVal) {
-								fieldVal = "";
-							}
-							// switch(field.type){
-							// 	case 'bool':
-							//
-							// }
-
-							ins[field.id] = fieldVal
-						})
-
-						tableData.push(ins)
+						ins[field.id] = fieldVal
 					})
-				}
 
-				if (table.tableInfo.id == "spaceInstanceApproves") {
-					instances.forEach(function (ins) {
-						if (!ins.traces)
-							return;
-
-						ins.traces.forEach(function (trace) {
-							var stepId = trace.step;
-							var stepName = trace.name
-
-							if (trace.approves) {
-								trace.approves.forEach(function (approve) {
-
-									var item = {}
-
-									item._id = approve._id
-
-									item.instance = approve.instance
-
-									item.trace = approve.trace
-
-									item.step = stepId
-
-									item.stepName = stepName
-
-									item.is_finished = approve.is_finished
-
-									item.user = approve.user
-
-									item.user_name = approve.user_name
-
-									item.handler = approve.handler
-
-									item.handler_name = approve.handler_name
-
-									item.handler_organization = approve.handler_organization
-
-									item.handler_organization_fullname = approve.handler_organization_fullname
-
-									item.type = approve.type
-
-									item.start_date = new Date(approve.start_date)
-
-									if (approve.read_date) {
-										item.read_date = new Date(approve.read_date)
-									}
-
-									if (approve.finish_date) {
-										item.finish_date = new Date(approve.finish_date)
-									}
-
-									item.judge = approve.judge
-
-									item.cost_time = approve.cost_time
-
-									item.sync_token = sync_token
-
-									tableData.push(item)
-								})
-							}
-						})
-
-					})
-				}
-
-				table.appendRows(tableData);
-				doneCallback();
+					tableData.push(ins);
+				});
 			}
-		}
 
-		$.ajax(settings)
+			if (table.tableInfo.id === "spaceInstanceApproves") {
+				instances.forEach(function (ins) {
+					if (!ins.traces)
+						return;
+
+					ins.traces.forEach(function (trace) {
+						var stepId = trace.step;
+						var stepName = trace.name
+
+						if (trace.approves) {
+							trace.approves.forEach(function (approve) {
+
+								var item = {}
+
+								item._id = approve._id
+
+								item.instance = approve.instance
+
+								item.trace = approve.trace
+
+								item.step = stepId
+
+								item.stepName = stepName
+
+								item.is_finished = approve.is_finished
+
+								item.user = approve.user
+
+								item.user_name = approve.user_name
+
+								item.handler = approve.handler
+
+								item.handler_name = approve.handler_name
+
+								item.handler_organization = approve.handler_organization
+
+								item.handler_organization_fullname = approve.handler_organization_fullname
+
+								item.type = approve.type
+
+								item.start_date = new Date(approve.start_date)
+
+								if (approve.read_date) {
+									item.read_date = new Date(approve.read_date)
+								}
+
+								if (approve.finish_date) {
+									item.finish_date = new Date(approve.finish_date)
+								}
+
+								item.judge = approve.judge
+
+								item.cost_time = approve.cost_time
+
+								item.sync_token = sync_token
+
+								tableData.push(item);
+							});
+						}
+					});
+				});
+			}
+
+			table.appendRows(tableData);
+			doneCallback();
+		});
 	};
 
 	setupConnector = function () {
@@ -356,6 +307,8 @@
 
 			connectionData.state = states.join(",")
 
+			connectionData.access_token = SteedosTableau.access_token;
+
 			var spaceId = $("#spaceId").val();
 
 			if(spaceId){
@@ -363,7 +316,6 @@
 			}
 
 			tableau.connectionData = JSON.stringify(connectionData);
-			tableau.submit();
 		}
 	};
 
@@ -374,19 +326,6 @@
 		$("#submitButton").click(function () {
 			var flowId = $("#flowId").val();
 
-			var username = $("#username").val();
-			if (!username) {
-				alert("请填写username")
-				return;
-			}
-
-			var password = $("#password").val();
-
-			if (!password) {
-				alert("请填写password")
-				return;
-			}
-
 			if (!flowId) {
 				alert("请填写流程Id")
 				return;
@@ -395,12 +334,13 @@
 			var connName = $("#connName").val();
 
 			if (!connName) {
-				connName = flowId
+				connName = flowId;
 			}
-			tableau.username = username;
-			tableau.password = password;
+
 			setupConnector();
+
 			tableau.connectionName = connName; // This will be the data source name in Tableau
+
 			tableau.submit(); // This sends the connector object to Tableau
 		});
 	});
