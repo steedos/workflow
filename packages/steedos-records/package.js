@@ -41,8 +41,6 @@ Package.onUse(function(api) {
     api.use('kadira:flow-router@2.10.1');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
-    
-    api.use('aldeed:autoform-bs-datetimepicker');
 
     api.use('meteorhacks:ssr@2.2.0');
     api.use('tap:i18n@1.7.0');
