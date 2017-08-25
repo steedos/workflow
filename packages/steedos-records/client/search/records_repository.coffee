@@ -47,7 +47,7 @@ Template.search_records_repository.onRendered ->
 				'data': '_source.name',
 				render: (val, type, doc) ->
 					# fileserver = Meteor.settings.records.cfs_file_server
-					url = "/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
+					url = "/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}?hide_traces=1"
 					
 					title = doc.highlight?.name?.join("...") || doc?._source?.name
 
