@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.55',
+	version: '0.0.56',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -76,6 +76,8 @@ Package.onUse(function (api) {
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
+
+	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
 	api.addFiles([
 		'client/core.coffee',

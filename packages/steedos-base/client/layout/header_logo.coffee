@@ -9,6 +9,9 @@ Template.steedosHeaderLogo.helpers
 	isSpaceOwner: (event)->
 		return Steedos.isSpaceOwner(Steedos.spaceId())
 
+	logoMiniUrl: ()->
+		return Theme.icon
+
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
 		Modal.show "app_list_box_modal"
