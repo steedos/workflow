@@ -104,7 +104,7 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/flow/:flow',
 
 	query.state = {$in: states}
 
-	fields = {inbox_uers: 0, cc_users: 0, outbox_users: 0}
+	fields = {space: 0, inbox_uers: 0, cc_users: 0, outbox_users: 0, flow: 0, flow_version: 0, form: 0, form_version: 0, attachments: 0}
 
 	if returnApprove
 		fields["traces.approves.values"] = 0

@@ -20,18 +20,6 @@
 			alias: "申请单名称",
 			dataType: tableau.dataTypeEnum.string
 		}, {
-			id: "space",
-			alias: "工作区",
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: "flow",
-			alias: "流程",
-			dataType: tableau.dataTypeEnum.string
-		}, {
-			id: "form",
-			alias: "表单",
-			dataType: tableau.dataTypeEnum.string
-		}, {
 			id: "applicant_name",
 			alias: "申请人姓名",
 			dataType: tableau.dataTypeEnum.string
