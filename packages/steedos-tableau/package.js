@@ -58,6 +58,7 @@ Package.onUse(function (api) {
 
 	api.addFiles('server/routes_middleware_config.coffee', 'server');
 
+	api.addFiles('server/routes/search_flows.coffee', 'server');
 	api.addFiles('server/routes/search_organizations.coffee', 'server');
 	api.addFiles('server/data/api_workflow_instances.coffee', 'server');
 

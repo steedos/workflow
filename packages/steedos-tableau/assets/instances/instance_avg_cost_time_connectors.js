@@ -91,6 +91,8 @@
 
 		connectionData.period = $("#period").val();
 
+		connectionData.flows = $("#instance_flows").val();
+
 		connectionData.access_token = SteedosTableau.access_token;
 
 		tableau.connectionData = JSON.stringify(connectionData);

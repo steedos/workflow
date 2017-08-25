@@ -96,6 +96,24 @@ SteedosTableau.searchOrganizations = function (spaceId, data, callback) {
 		}
 	});
 };
+SteedosTableau.searchFlows = function (spaceId, data, callback) {
+	$.ajax({
+		url: '/tableau/search/space/' + spaceId + '/flows?access_token=' + SteedosTableau.access_token,
+		type: 'POST',
+		async: false,
+		data: JSON.stringify(data),
+		contentType: "application/json",
+		error: function() {
+			$(".help-block").html("access_token已过期，请输入密码或重新复制链接");
+			$(".steedos-tableau-data").hide();
+			$(".steedos-tableau-auth").show();
+			callback();
+		},
+		success: function(res) {
+			callback(res);
+		}
+	});
+};
 
 SteedosTableau.getWorkflowCostTimeData = function (data, callback) {
 	var connectionData = JSON.parse(data);
@@ -106,19 +124,24 @@ SteedosTableau.getWorkflowCostTimeData = function (data, callback) {
 
 	var access_token = connectionData.access_token;
 
-	var url_params = "?period=" + period + "&access_token=" + access_token;
+	var url_params = "?access_token=" + access_token;
 
-	url_params = url_params + "&orgs=" + connectionData.instance_approves_hanlder_orgs;
+	var json_data = {
+		period: period,
+		orgs: connectionData.instance_approves_hanlder_orgs,
+		flows: connectionData.flows
+	};
 
 	var url = window.location.origin + "/tableau/api/workflow/instances/space/" + spaceId + "/approves/cost_time" + url_params;
 
 	var settings = {
 		url: url,
-		type: 'GET',
+		type: 'POST',
 		crossDomain: true,
 		async: false,
 		dataType: 'json',
 		processData: false,
+		data: JSON.stringify(json_data),
 		contentType: "application/json",
 		success: function (resp, textStatus) {
 			callback(resp, textStatus);

@@ -5,7 +5,7 @@
     sync_token: 时间戳。如果传入，则返回此时间段之后的申请单
 ###
 
-JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
+JsonRoutes.add 'post', '/tableau/api/workflow/instances/space/:space/approves/cost_time', (req, res, next) ->
 	try
 		userId = req.userId
 
@@ -42,7 +42,7 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 
 	query.space = spaceId
 
-	period = parseInt(req.query.period) || 0
+	period = parseInt(req.body.period) || 0
 
 	start_date = new Date();
 
@@ -64,9 +64,12 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 
 	ins_approves = new Array()
 
-	flow = db.flows.find({},{fields: {name: 1}}).fetch()
+	flows = req.body?.flows?.split(",") || []
 
-	orgs = req.query?.orgs?.split(",") || []
+	if flows.length > 0
+		query.flow = {$in: flows}
+
+	orgs = req.body?.orgs?.split(",") || []
 
 	orgs_childs = db.organizations.find({parents: {$in: orgs}}, {fields: {_id: 1}}).fetch()
 
@@ -127,21 +130,33 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 
 	cursor = async_aggregate(pipeline, ins_approves)
 
-	ins_approves_group = _.groupBy ins_approves, "is_finished"
+	if ins_approves.length > 0
 
-	finished_approves = ins_approves_group[true]
+		ins_approves_group = _.groupBy ins_approves, "is_finished"
 
-	inbox_approves = ins_approves_group[false]
+		finished_approves = ins_approves_group[true]
 
-	finished_approves.forEach (approve)->
+		inbox_approves = ins_approves_group[false]
 
-		inbox_approve = _.find(inbox_approves, (item)->
-			return item._id.handler_organization_fullname == approve._id.handler_organization_fullname && item._id.handler_name == approve._id.handler_name
-		)
+		finished_approves.forEach (approve)->
 
-		approve.inbox_approve_count = inbox_approve?.approve_count
+			inbox_approve = _.find(inbox_approves, (item,index)->
+				if item._id.handler_organization_fullname == approve._id.handler_organization_fullname && item._id.handler_name == approve._id.handler_name
+					inbox_approves.remove(index)
+					return true
+			)
 
-		delete approve.is_finished
+			approve.inbox_approve_count = inbox_approve?.approve_count
+
+			delete approve.is_finished
+
+			delete approve.itemsSold
+
+		inbox_approves?.forEach (approve)->
+			finished_approves.push {_id: approve._id, avg_cost_time: 0, approve_count: 0, inbox_approve_count: approve.approve_count}
+	else
+
+		finished_approves = []
 
 	console.timeEnd("async_aggregate_cost_time")
 
