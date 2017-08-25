@@ -146,7 +146,7 @@ JsonRoutes.add 'post', '/tableau/api/workflow/instances/space/:space/approves/co
 					return true
 			)
 
-			approve.inbox_approve_count = inbox_approve?.approve_count
+			approve.inbox_approve_count = inbox_approve?.approve_count || 0
 
 			delete approve.is_finished
 
