@@ -18,13 +18,10 @@ Template.tableau_info.events
 
 		space = db.spaces.findOne({_id: Session.get("spaceId")})
 
-		if space?.admins.includes(Meteor.userId())
-			if !Steedos.isPaidSpace()
-				toastr.info("标准版只能统计一个月内的数据")
+		if !Steedos.isPaidSpace()
+			toastr.info("标准版只能统计一个月内的数据")
 
-			Modal.show('tableau_flow_list')
-		else
-			toastr.warning("此功能需要工作区管理员权限")
+		Modal.show('tableau_flow_list')
 
 	'click .steedos-tableau-approve-cost-time': ()->
 		if !Steedos.isPaidSpace()

@@ -443,7 +443,7 @@ Template.profile.events
 
 	'click .btn-get-secrets': ()->
 		swal {
-			title: t('Secret 描述')
+			title: t('description')
 			type: "input"
 			inputValue: ""
 			showCancelButton: true
@@ -457,11 +457,11 @@ Template.profile.events
 				return false
 
 			if !inputValue?.trim()
-				toastr.warning t('请输入描述')
+				toastr.warning t('warning_description')
 				return false
 			Meteor.call "create_secret", inputValue.trim(), (error, results)->
 				if results
-					toastr.success t('Get secret successfully')
+					toastr.success t('get_secret_successfully')
 					swal.close()
 
 				if error
@@ -472,18 +472,18 @@ Template.profile.events
 		token = this.token
 
 		swal({
-				title: "确定删除吗?",
+				title: t('delete_confirm'),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "删除",
-				cancelButtonText: "取消",
+				confirmButtonText: t('OK'),
+				cancelButtonText: t('Cancel'),
 				closeOnConfirm: false
 			},
 			()->
 				Meteor.call "remove_secret", token, (error, results)->
 					if results
-						toastr.success t('Remove secret successfully')
+						toastr.success t('afModal_remove_suc')
 						swal.close()
 
 					if error
