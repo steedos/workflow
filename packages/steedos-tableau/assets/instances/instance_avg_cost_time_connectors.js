@@ -26,7 +26,11 @@
 			dataType: tableau.dataTypeEnum.float
 		},{
 			id: "approve_count",
-			alias: "审批次数",
+			alias: "已审批数量",
+			dataType: tableau.dataTypeEnum.int
+		},{
+			id: "inbox_approve_count",
+			alias: "待审批数量",
 			dataType: tableau.dataTypeEnum.int
 		}];
 
@@ -61,6 +65,8 @@
 					ins_item.avg_cost_time = approve.avg_cost_time / 1000 / 60 / 60;
 
 					ins_item.approve_count = approve.approve_count;
+
+					ins_item.inbox_approve_count = approve.inbox_approve_count;
 
 					tableData.push(ins_item);
 				});

@@ -80,7 +80,10 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 		cursor = db.instances.rawCollection().aggregate pipeline, {cursor: {}}
 
 		cursor.on 'data', (doc) ->
-			ins_approves.push(doc)
+
+			doc.is_finished = doc._id.is_finished || false
+
+			ins_approves.push(doc);
 
 		cursor.once('end', () ->
 			cb();
@@ -110,9 +113,10 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 					}
 				},{
 					$group : {
-						_id : {"handler_organization_fullname": "$_approve.handler_organization_fullname","handler_name": "$_approve.handler_name"},
+						_id : {"handler_organization_fullname": "$_approve.handler_organization_fullname","handler_name": "$_approve.handler_name", "is_finished": "$_approve.is_finished"}
 						avg_cost_time: { $avg: "$_approve.cost_time" },
-						approve_count: { $sum: 1 }
+						approve_count: { $sum: 1 },
+						itemsSold: { $push:  { start_date: "$_approve.start_date"} }
 					}
 				}
 			]
@@ -123,6 +127,22 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 
 	cursor = async_aggregate(pipeline, ins_approves)
 
+	ins_approves_group = _.groupBy ins_approves, "is_finished"
+
+	finished_approves = ins_approves_group[true]
+
+	inbox_approves = ins_approves_group[false]
+
+	finished_approves.forEach (approve)->
+
+		inbox_approve = _.find(inbox_approves, (item)->
+			return item._id.handler_organization_fullname == approve._id.handler_organization_fullname && item._id.handler_name == approve._id.handler_name
+		)
+
+		approve.inbox_approve_count = inbox_approve?.approve_count
+
+		delete approve.is_finished
+
 	console.timeEnd("async_aggregate_cost_time")
 
 	JsonRoutes.sendResult res,
@@ -130,6 +150,6 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/approves/cos
 		data:
 			"status": "success",
 			"sync_token": ret_sync_token,
-			"data": ins_approves
+			"data": finished_approves
 
 	return;
