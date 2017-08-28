@@ -63,11 +63,11 @@ JsonRoutes.add 'post', '/tableau/api/workflow/instances/space/:space/approves/co
 	fields = {inbox_uers: 0, cc_users: 0, outbox_users: 0}
 
 	ins_approves = new Array()
+	if req.body?.flows
+		flows = req.body.flows.split(",")
 
-	flows = req.body?.flows?.split(",") || []
-
-	if flows.length > 0
-		query.flow = {$in: flows}
+		if flows.length > 0
+			query.flow = {$in: flows}
 
 	orgs = req.body?.orgs?.split(",") || []
 
