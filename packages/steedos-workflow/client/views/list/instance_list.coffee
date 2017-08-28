@@ -73,7 +73,7 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
-		Template.instance_list._tableColumns()
+#		Template.instance_list._tableColumns()
 
 		return query
 	enabled_export: ->
@@ -223,7 +223,7 @@ Template.instance_list.onRendered ->
 
 	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
-	Template.instance_list._tableColumns();
+#	Template.instance_list._tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
