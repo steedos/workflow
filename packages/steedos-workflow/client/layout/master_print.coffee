@@ -1,6 +1,8 @@
 Template.printLayout.onCreated ->
 
-	calendarsSub.clear()
+	calendarsSub = Steedos.subs["Calendars"]
+	if calendarsSub
+		calendarsSub.clear()
 
 	self = this;
 
