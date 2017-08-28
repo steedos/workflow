@@ -4,7 +4,7 @@ Meteor.startup ()->
 		title: t("steedos_tableau")
 		icon: "ion ion-ios-pie-outline"
 		sort: 2500
-		roles: ["space_admin"]
+		roles: []
 		url: "/tableau/info"
 #		parent: "tableau"
 

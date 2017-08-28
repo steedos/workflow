@@ -12,7 +12,7 @@ Meteor.startup ()->
 				width: '1px',
 				render: (val, type, doc) ->
 
-					tableauUrl = Meteor.absoluteUrl("api/workflow/tableau/space/#{doc.space}/flow/#{doc._id}")
+					tableauUrl = SteedosTableau.get_workflow_instance_by_flow_connector doc.space,doc._id
 
 					return '<button type="button" class="btn btn-xs btn-default" id="copyTableauUrl" data-clipboard-text="'+ tableauUrl + '">'+ t("flows_btn_copylink_title") + '</button>'
 			}

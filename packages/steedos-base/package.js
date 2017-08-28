@@ -71,6 +71,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/steedos_data_manager.js', 'client');
 
 	api.addFiles('routes/avatar.coffee', 'server');
+	api.addFiles('routes/access_token.coffee', 'server');
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');

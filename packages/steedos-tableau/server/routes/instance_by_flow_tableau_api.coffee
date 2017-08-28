@@ -3,8 +3,7 @@
 ###
 
 
-JsonRoutes.add 'get', '/api/workflow/tableau/space/:space/flow/:flow', (req, res, next) ->
-	console.log "/api/workflow/tableau/..."
+JsonRoutes.add 'get', '/tableau/workflow/space/:space/flow/:flow', (req, res, next) ->
 	flowId = req.params.flow
 
 	flow = db.flows.findOne({_id: flowId});

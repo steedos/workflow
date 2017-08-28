@@ -7,20 +7,19 @@
     state: 申请单状态。值范围为：draft:草稿，pending：进行中，completed: 已完成。默认为completed
     approve: 是否返回审批信息true/false。默认为false
 ###
-JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
+JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/flow/:flow', (req, res, next) ->
 
 	try
-		user = Steedos.getAPILoginUser(req, res)
+		userId = req.userId
 
-		if !user
+		user = db.users.findOne({_id: userId})
+
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
 			return;
 	catch e
-		if !user
+		if !userId || !user
 			JsonRoutes.sendResult res,
 				code: 401,
 				data:
@@ -28,7 +27,7 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 					"success": false
 			return;
 
-	spaceId = req.params.space || req.headers["x-space-id"]
+	spaceId = req.params.space
 
 	space = db.spaces.findOne({_id: spaceId})
 
@@ -52,14 +51,20 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 				"success": false
 		return;
 
-	if !Steedos.isSpaceAdmin(spaceId, user._id)
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- No permission",
-				"success": false
-		return;
+	query = {}
 
+	if !Steedos.isSpaceAdmin(spaceId, user._id)
+
+		spaceUser = db.space_users.findOne({space: space._id, user: user._id})
+
+		organizations = db.organizations.find({
+			_id: {
+				$in: spaceUser.organizations
+			}
+		}).fetch();
+
+		if !WorkflowManager.canMonitor(flow, spaceUser, organizations) && !WorkflowManager.canAdmin(flow, spaceUser, organizations)
+			query.applicant = user._id
 
 	#URL参数
 	states = req.query?.state?.split(",") || ["completed"]
@@ -71,8 +76,6 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 
 		if query_approve == '1' || query_approve == 'true' || query_approve == 't'
 			returnApprove = true
-
-	query = {}
 
 	ret_sync_token = new Date().getTime()
 
@@ -101,14 +104,18 @@ JsonRoutes.add 'get', '/api/workflow/instances/space/:space/flow/:flow', (req, r
 
 	query.state = {$in: states}
 
-	fields = {inbox_uers: 0, cc_users: 0, outbox_users: 0}
+	fields = {space: 0, inbox_uers: 0, cc_users: 0, outbox_users: 0, flow: 0, flow_version: 0, form: 0, form_version: 0, attachments: 0}
 
 	if returnApprove
 		fields["traces.approves.values"] = 0
 	else
 		fields.traces = 0
 
+	console.time("tableau_instances")
+
 	instances = db.instances.find query, {fields: fields}
+
+	console.timeEnd("tableau_instances")
 
 	JsonRoutes.sendResult res,
 		code: 200,

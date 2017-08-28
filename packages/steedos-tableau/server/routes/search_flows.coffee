@@ -1,5 +1,5 @@
 
-JsonRoutes.add 'post', '/tableau/search/space/:space/organizations', (req, res, next) ->
+JsonRoutes.add 'post', '/tableau/search/space/:space/flows', (req, res, next) ->
 	try
 		userId = req.userId
 
@@ -30,21 +30,9 @@ JsonRoutes.add 'post', '/tableau/search/space/:space/organizations', (req, res, 
 
 	if space && space_user
 
-		query = {space: spaceId, fullname : {$regex: key}}
+		query = {space: spaceId, name : {$regex: key}}
 
-		if !space.admins?.includes(user._id)
-			orgs = space_user.organizations || []
-			orgs_childs = db.organizations.find({parents: {$in: orgs}}, {
-				fields: {
-					_id: 1
-				}
-			}).fetch();
-
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
-			query._id = {$in: orgs}
-
-		data = db.organizations.find(query, {fields: {_id: 1 , fullname: 1}, limit: length}).fetch()
+		data = db.flows.find(query, {fields: {_id: 1 , name: 1}, limit: length}).fetch()
 
 		JsonRoutes.sendResult res,
 			code: 200,
