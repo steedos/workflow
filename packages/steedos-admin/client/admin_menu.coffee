@@ -80,7 +80,7 @@ if Meteor.isClient
 	# 个性化
 	Admin.addMenu
 		_id: "secrets"
-		title: "secrets"
+		title: "Secret"
 		icon:"ion ion-key"
 		url: "/admin/profile/secrets"
 		sort: 50
