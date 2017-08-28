@@ -136,6 +136,9 @@ Template.instance_list.helpers
 			else
 				return TabularTables.instances
 
+	tableauUrl: ()->
+		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
+
 Template.instance_list._tableColumns = ()->
 	show = false
 
@@ -209,6 +212,11 @@ Template.instance_list.onCreated ->
 		Template.instance_list._tableColumns();
 
 		self.maxHeight?.set($(".instance-list", $(".steedos")).height());
+
+	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
+	this.copyTableauUrlClipboard.on 'success', (e) ->
+		toastr.success(t("instance_readonly_view_url_copy_success"))
+		e.clearSelection()
 
 Template.instance_list.onRendered ->
 	self = this;
@@ -316,5 +324,10 @@ Template.instance_list.events
 		else
 			localStorage.setItem("workflow_three_columns", "off")
 
+	'click #copyTableauUrl': ()->
+		if !Steedos.isPaidSpace()
+			toastr.info("标准版只能统计一个月内的数据")
+
 Template.instance_list.onDestroyed ()->
 	Session.set "inbox_flow_id", undefined
+	this.copyTableauUrlClipboard.destroy();

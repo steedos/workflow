@@ -166,6 +166,7 @@ steedos:accounts-t9n@1.14.2_3
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
+steedos:authenticate-user-by-access-token@1.0.0
 steedos:autoform@0.0.6
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0

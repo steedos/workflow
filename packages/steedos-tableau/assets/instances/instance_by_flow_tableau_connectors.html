@@ -3,77 +3,109 @@
 	<title>Space Instances</title>
 	<meta http-equiv="Cache-Control" content="no-store" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/packages/steedos_tableau/assets/steedos_tableau.css">
 	<script type="text/javascript" src="/lib/jquery/jquery-1.11.2.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<script src="https://connectors.tableau.com/libs/tableauwdc-2.2.latest.js" type="text/javascript"></script>
 	<script type="text/javascript" src="/packages/steedos_tableau/assets/instances/instance_by_flow_tableau_connectors.js"></script>
+	<script type="text/javascript" src="/packages/steedos_tableau/assets/steedos_tableau.js"></script>
 </head>
 
 <body>
 <div class="container container-table">
 	<div class="row vertical-center-row">
 		<div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2">
-			<div class="form-horizontal">
-				<div class="form-group">
-					<label class="control-label"> Username </label>
-					<input type="text" id="username" class="form-control">
-					<label class="control-label"> Password </label>
-					<input type="password" id="password" class="form-control">
+			<span class="help-block" style="color: red"></span>
+
+			<div class="box box-success steedos-tableau-auth">
+				<div class="box-header with-border">
+					<h3 class="box-title">请登录</h3>
+				</div>
+				<div class="form-horizontal">
+					<div class="box-body">
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-label">账户</label>
+
+							<div class="col-sm-10">
+								<input type="text" id="username" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+
+							<div class="col-sm-10">
+								<input type="password" id="password" class="form-control">
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<button type="button" class="btn btn-info pull-right" id="login">登录</button>
+					</div>
 				</div>
 			</div>
-			<div class="form-horizontal">
-				<div class="form-group">
+			<div class="box box-info steedos-tableau-data">
+				<div class="box-body">
+					<div class="form-group">
 
-					<label class="control-label" for="spaceId">工作区:</label>
-					<select class="form-control" id="spaceId" readonly>
-						<option value="#{spaceId}">#{spaceName}</option>
-					</select>
-
-					<label class="control-label" for="submit_date">时间段:</label>
-					<select class="form-control" id="period" #{readonly}>
-						<option value="1" checked>一个月</option>
-						<option value="3">三个月</option>
-						<option value="6">六个月</option>
-						<option value="12">十二个月</option>
-					</select>
-
-					<label class="control-label" for="state">申请单状态:</label>
-					<div>
-						<label class="checkbox-inline">
-							<input type="checkbox" name="state" value="draft"> 草稿
-						</label>
-						<label class="checkbox-inline">
-							<input type="checkbox" name="state" value="pending"> 进行中
-						</label>
-						<label class="checkbox-inline">
-							<input type="checkbox" name="state" value="completed" checked> 已完成
-						</label>
+						<label class="control-label" for="spaceId">工作区:</label>
+						<select class="form-control" id="spaceId" readonly>
+							<option value="#{spaceId}">#{spaceName}</option>
+						</select>
 					</div>
-
-					<div class="checkbox">
-						<label class="control-label">
-							<input type="checkbox" id="approve" checked> 是否获取审批记录
-						</label>
+					<div class="form-group">
+						<label class="control-label" for="submit_date">时间段:</label>
+						<select class="form-control" id="period" #{readonly}>
+							<option value="1" checked>一个月</option>
+							<option value="3">三个月</option>
+							<option value="6">六个月</option>
+							<option value="12">十二个月</option>
+						</select>
 					</div>
-
-					<label class="control-label" for="connName">连接名称:</label>
-					<input class="form-control" id="connName" value="#{connName}">
-
-					<label class="control-label" for="flowId">流程Id:</label>
-					<input class="form-control" id="flowId" readonly value="#{flowId}">
-
-					<label class="control-label" for="valueFields">表单字段:</label>
-					<textarea class="form-control"  rows="10" id="valueFields">#{valueFields}</textarea>
-					<span id="helpBlock" class="help-block">
-						<p>id: ID 只能包含字母、数字或下划线</p>
-						<p>code: 对应表单字段code, 不支持子表字段</p>
-						<p>dateType: bool、date、datetime、float、int、string</p>
-					</span>
+					<div class="form-group">
+						<label class="control-label" for="state">申请单状态:</label>
+						<div>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="state" value="draft"> 草稿
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="state" value="pending"> 进行中
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" name="state" value="completed" checked> 已完成
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<label class="control-label">
+								<input type="checkbox" id="approve" checked> 是否获取审批记录
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="connName">连接名称:</label>
+						<input class="form-control" id="connName" value="#{connName}">
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="flowId">流程Id:</label>
+						<input class="form-control" id="flowId" readonly value="#{flowId}">
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="valueFields">表单字段:</label>
+						<textarea class="form-control"  rows="10" id="valueFields">#{valueFields}</textarea>
+						<span id="helpBlock" class="help-block">
+							<p>id: ID 只能包含字母、数字或下划线</p>
+							<p>code: 对应表单字段code, 不支持子表字段</p>
+							<p>dateType: bool、date、datetime、float、int、string</p>
+						</span>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="button" id="submitButton" class="btn btn-success" style="margin: 10px;">获取数据</button>
 				</div>
 			</div>
-			<button type="button" id="submitButton" class="btn btn-success" style="margin: 10px;">获取数据</button>
 		</div>
 	</div>
 </div>
