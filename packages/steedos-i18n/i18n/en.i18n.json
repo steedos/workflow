@@ -438,5 +438,6 @@
 	"description": "Description",
 	"warning_description": "Please enter a description",
 	"delete_confirm": "Are you sure?",
-	"get_secret_successfully": "New success"
+	"get_secret_successfully": "New success",
+	"Secret": "Secret"
 }

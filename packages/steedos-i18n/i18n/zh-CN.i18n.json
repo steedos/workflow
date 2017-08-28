@@ -456,5 +456,6 @@
 	"description": "描述",
 	"warning_description": "请输入描述",
 	"delete_confirm": "确定删除吗?",
-	"get_secret_successfully": "新建成功"
+	"get_secret_successfully": "新建成功",
+	"Secret": "Secret"
 }
