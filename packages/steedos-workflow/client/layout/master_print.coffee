@@ -1,4 +1,7 @@
 Template.printLayout.onCreated ->
+
+	calendarsSub.clear()
+
 	self = this;
 
 	self.minHeight = new ReactiveVar(
