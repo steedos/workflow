@@ -140,6 +140,10 @@ Template.instance_list.helpers
 		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
 
 Template.instance_list._tableColumns = ()->
+
+	if !$(".datatable-instances") || $(".datatable-instances").length < 1
+		return;
+
 	show = false
 
 	winWidth = $(window).width()
@@ -211,10 +215,11 @@ Template.instance_list.onCreated ->
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
 
-	$(window).resize ->
-		Template.instance_list._tableColumns();
+	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
-		self.maxHeight?.set($(".instance-list", $(".steedos")).height());
+	self.autorun ()->
+		$(window).resize ->
+			Template.instance_list._tableColumns();
 
 	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
 	this.copyTableauUrlClipboard.on 'success', (e) ->
