@@ -364,7 +364,7 @@ InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance, optio
 
 	Template.related_instances_view.helpers RelatedInstances.helpers
 
-	body = Blaze.toHTMLWithData(Template.related_instances_view, {})
+	body = Blaze.toHTMLWithData(Template.related_instances_view, steedosData)
 
 	return body;
 

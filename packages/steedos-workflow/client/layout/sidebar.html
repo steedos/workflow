@@ -1,26 +1,9 @@
 <template name="workflowSidebar">
 	<aside class="main-sidebar">
-		<!-- <header class="main-header">
-			<div class="logo" style="overflow: visible">
-			<span class="logo-lg text-overflow">
-			  <B>{{_ "Steedos Workflow"}}</B>
-			</span>
-				<span class="logo-arrow">
-			  <i class="ion-ios-arrow-down ion"></i>
-			</span>
-				<span class="logo-mini">
-			  <i class="ion ion-grid"></i>
-			</span>
-			</div>
-		</header> -->
 		<div class="sidebar" id="scrollspy">
 			{{> sidebarUserPanel}}
 			<ul class="nav sidebar-menu">
-				<!-- <li class="header header-workflow header-space-switcher">
-					{{> space_switcher}}
-				</li> -->
-
-				<li class="header">
+				<li class="header header-app">
 					{{_ "Steedos Workflow"}}
 				</li>
 				<li class="inbox {{boxActive 'inbox'}}">
@@ -47,6 +30,8 @@
 						</ul>
 					{{/if}}
 				</li>
+
+
 				<li class="outbox {{boxActive 'outbox'}}">
 					<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
 						<i class="ion ion-android-done-all"></i>
@@ -101,6 +86,22 @@
 						</li>
 					</ul>
 				</li>
+				{{#if showOthenInbox inboxSpaces}}
+					<li class="header">
+						{{_ "workflow_more_inbox"}}
+					</li>
+					{{#each inboxSpaces}}
+						<li class="other-inbox">
+							<a href="{{urlPrefix}}/workflow/space/{{this.space}}/inbox/">
+								<i class="ion ion-archive"></i>
+								<span class="text-overflow box-space-name">{{spaceName this.space}}</span>
+								<span class="pull-right-container">
+										<span class="label pull-right bg-red">{{getBadge "workflow" this.space}}</span>
+									</span>
+							</a>
+						</li>
+					{{/each}}
+				{{/if}}
 			</ul>
 		</div>
 	</aside>

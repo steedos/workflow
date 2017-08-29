@@ -1,6 +1,7 @@
 if Meteor.isClient
 	Meteor.startup ->
 		Theme.logo = "/packages/steedos_theme-qhd/client/images/logo.jpg"
+		Theme.icon = "/packages/steedos_theme-qhd/client/images/icon.png"
 
 	Template.atTitle.onRendered ->
 		this.autorun ->

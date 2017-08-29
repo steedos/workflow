@@ -1,5 +1,5 @@
 {
-	"Steedos Workflow": "审批王",
+	"Steedos Workflow": "审批中心",
 	"inbox": "待审核",
 	"outbox": "已审核",
 	"draft": "草稿",
@@ -15,7 +15,7 @@
 
 	"menu_navigation": "导航",
 
-	"Workflow": "审批王",
+	"Workflow": "审批",
 
 	"form_new": "新建表单",
 
@@ -571,5 +571,6 @@
 	"instances_is_archived": "已归档",
 	"instances_archive": "归档",
 	"instances_archived": "已归档",
-	"instances_not_archived": "未归档"
+	"instances_not_archived": "未归档",
+	"workflow_more_inbox": "更多待审核"
 }

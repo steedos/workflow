@@ -1,6 +1,6 @@
 {
 	"accounts-sign-in": "登录",
-	"accounts-sign-out": "注销",
+	"accounts-sign-out": "退出",
 	"accounts-sign-up": "注册",
 
 	"dataTables": {
@@ -40,15 +40,17 @@
 	"password_invalid": "密码必须包含字母和数字，且不能少于8位",
 
 	"Steedos": "Steedos",
-	"Steedos Workflow": "审批王",
-	"Steedos Chat": "享聊",
+	"Steedos Workflow": "审批中心",
+	"Steedos Chat": "即时通讯",
 	"Steedos Drive": "云盘",
 	"Steedos Mail": "邮件",
-	"Steedos Calendar": "工作安排",
+	"Steedos Calendar": "日程安排",
 	"Steedos Contacts": "通讯录",
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
-	"Steedos CMS": "知识库",
+	"Steedos CMS": "信息发布",
+	"Steedos Boards":"看板",
+	"Steedos OldCalendar":"日历(旧版)",
 
 	"Apps": "应用",
 
@@ -63,7 +65,7 @@
 	"Forgot your password?": "忘记密码?",
 	"Confirm Password": "确认密码",
 	"Sign up": "注册",
-	"Sign out": "注销",
+	"Sign out": "退出",
 	"Profile Information": "账户信息",
 	"Language": "语言",
 	"Timezone": "时区",
@@ -99,7 +101,7 @@
 	"Support Request": "提交服务单",
 	"Online Help": "帮助文档",
 	"My Account": "我的账户",
-	"Logout": "注销",
+	"Logout": "退出",
 	"Terms": "使用条款",
 	"Privacy": "隐私保护",
 	"Avatar": "头像",
@@ -119,7 +121,7 @@
 	"Select Space": "选择工作区",
 	"Add space": "新增工作区",
 
-	"Workflow": "审批王",
+	"Workflow": "审批",
 
 	"bqq": "企业QQ",
 	"dingtalk": "钉钉",
@@ -129,15 +131,15 @@
 	"OK": "确认",
 	"Cancel": "取消",
 
-	"About": "关于 Steedos",
+	"About": "关于",
 
-	"steedos_apps": "Steedos Apps",
+	"steedos_apps": "华炎办公平台",
 	"steedos_about": "关于",
-	"steedos_info": "Steedos Apps 是深受公司员工喜爱的云端的企业管理软件，帮助您的团队随时随地的沟通与协作。",
+	"steedos_info": "华炎办公平台是华炎公司提供的一组协同办公套件，包含流程审批、信息发布、工作安排、通讯录等企业管理必备的协同应用。借助华炎办公平台的智能手机应用，您即使出门在外，一切也能尽在掌握。",
 	"steedos_version": "版本号",
 	"steedos_commit_date": "修订日期",
 	"steedos_build_date": "发布日期",
-	"steedos_copyright": "© 华炎软件. 保留所有权利.",
+	"steedos_copyright": "©华炎软件. 保留所有权利.",
 
 	"primary_email_needed": "绑定邮件地址",
 	"primary_email_needed_description": "请输入您的工作邮件地址，此邮件地址可以用来登录华炎云，也可以用来重置密码。",
@@ -174,7 +176,7 @@
 	"email_set_primary": "设置为主要邮件",
 	"email_is_primary": "主要邮件",
 	"email_set_primary_success": "已设置为主要邮件",
-	"email_remove_success": "邮件已删除",
+	"email_remove_success": "邮件删除成功",
 
 
 
@@ -242,7 +244,7 @@
 	"spaces_modified_by": "修改者",
 	"spaces_modules": "模块",
 	"spaces_prefs": "首选项",
-	"spaces_avatar": "Logo(长宽要求为260*50像素)",
+	"spaces_avatar": "Logo(长宽要求为230*50像素)",
 
 
 	"organizations": "部门",
@@ -449,5 +451,11 @@
 	"username_unset_text": "您的账户尚未设置用户名，设置用户名后，可以使用用户名登录系统。",
 	"space_paid_info_title": "专业版用户才能使用此功能",
 	"space_paid_info_text": "请联络系统管理员<a href='https://www.steedos.com/cn/workflow/pricing/' target='_blank'>升级到专业版</a>",
-	"login_title": "华炎"
+	"login_title": "华炎办公平台",
+	"Steedos Home": "首页",
+	"description": "描述",
+	"warning_description": "请输入描述",
+	"delete_confirm": "确定删除吗?",
+	"get_secret_successfully": "新建成功",
+	"Secret": "Secret"
 }

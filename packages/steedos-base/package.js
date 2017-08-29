@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.47',
+	version: '0.0.56',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -39,9 +39,9 @@ Package.onUse(function(api) {
 	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:ionicons@0.1.7');
-	api.use('steedos:i18n@0.0.5');
+	api.use('steedos:i18n@0.0.7');
 
-	api.use('steedos:theme@0.0.21');
+	api.use('steedos:theme@0.0.23');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
@@ -73,11 +73,14 @@ Package.onUse(function(api) {
 	api.addFiles('lib/steedos_data_manager.js', 'client');
 
 	api.addFiles('routes/avatar.coffee', 'server');
+	api.addFiles('routes/access_token.coffee', 'server');
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
+
+	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
 	api.addFiles([
 		'client/core.coffee',
@@ -85,7 +88,6 @@ Package.onUse(function(api) {
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',
-		'client/subscribe.coffee',
 		'client/layout/main.html',
 		'client/layout/main.less',
 		'client/layout/main.coffee',
@@ -111,6 +113,7 @@ Package.onUse(function(api) {
 		'client/views/space_switcher.html',
 		'client/views/space_switcher.coffee',
 		'client/views/space_switcher.less',
+		'client/subscribe.coffee',
 		'client/views/loading.html',
 		'client/views/loading.less'
 	], "client");
@@ -124,6 +127,13 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/springboard.less', 'client');
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
+	api.addAssets('client/images/default-avatar.png','client');
+
+	api.addFiles('client/iframe/master.html', 'client');
+	api.addFiles('client/iframe/master.coffee', 'client');
+	api.addFiles('client/iframe/master.less', 'client');
+
+	api.addFiles('client/loading.coffee', 'client');
 
 	api.export('Steedos');
 	api.export('db');

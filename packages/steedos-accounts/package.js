@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.18',
+	version: '0.0.21',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -8,7 +8,8 @@ Package.describe({
 
 Npm.depends({
 	cookies: "0.6.1",
-	phone: "1.0.3"
+	phone: "1.0.3",
+	sha256: "0.2.0"
 });
 
 Package.onUse(function(api) {
@@ -32,12 +33,13 @@ Package.onUse(function(api) {
 
 	api.use('accounts-password@1.3.0');
 
-	api.use('steedos:useraccounts-bootstrap@1.14.2_1');
-	api.use('steedos:useraccounts-core@1.14.2_1');
+	api.use('steedos:accounts-t9n@1.14.2_3');
+	api.use('steedos:useraccounts-bootstrap@1.14.2_3');
+	api.use('steedos:useraccounts-core@1.14.2_3');
 	api.use('steedos:useraccounts-flow-routing@1.14.2');
 	api.use('steedos:accounts-phone@0.0.2');
-	
-	api.use('steedos:base@0.0.45');
+
+	api.use('steedos:base@0.0.51');
 
 
 
@@ -56,13 +58,13 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
-	
+
 	api.addFiles('client/views/accounts_phone_verify.html', 'client');
 	api.addFiles('client/views/accounts_phone_verify.coffee', 'client');
-	
+
 	api.addFiles('client/views/accounts_phone_password_code.html', 'client');
 	api.addFiles('client/views/accounts_phone_password_code.coffee', 'client');
-	
+
 	api.addFiles('client/views/forgot_password_token.html', 'client');
 	api.addFiles('client/views/forgot_password_token.coffee', 'client');
 
@@ -71,9 +73,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/accounts.less', 'client');
 
-	api.addFiles('client/router.coffee','client');
-	
-	api.addFiles('client/admin_menu.coffee','client');
+	api.addFiles('client/router.coffee', 'client');
+
+	api.addFiles('client/admin_menu.coffee', 'client');
 
 	api.addFiles('client/subscribe.coffee', 'client');
 

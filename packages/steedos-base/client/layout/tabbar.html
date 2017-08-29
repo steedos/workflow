@@ -1,7 +1,7 @@
 <template name="baseTabbar">
 	<div class="weui-tabbar">
 		{{#each getSpaceTopApps 2}}
-			<a class="weui-tabbar__item {{#if isAppActive url}} weui-bar__item_on {{/if}} top-apps-item">
+			<a class="weui-tabbar__item {{#if isAppActive this}} weui-bar__item_on {{/if}} top-apps-item">
 				<i class="weui-tabbar__icon ion ion-ios-book-outline"></i>
 				<p class="weui-tabbar__label">{{_ name}}</p>
 			</a>

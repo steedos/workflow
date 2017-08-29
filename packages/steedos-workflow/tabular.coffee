@@ -58,12 +58,11 @@ instancesListTableTabular = (flowId)->
 						when "办文"
 							priorityIconClass = "muted"
 					if priorityIconClass
-						priorityIcon = "<i class='ion ion-flag color-priority color-priority-#{priorityIconClass}'></i>"
+						instanceNamePriorityClass = "color-priority color-priority-#{priorityIconClass}"
 
 					return """
 								<div class='instance-read-bar'>#{unread}</div>
-								<div class='instance-priority-bar'>#{priorityIcon}</div>
-								<div class='instance-name'>#{doc.name}#{cc_view}
+								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}
 									<span>#{doc.applicant_name}</span>
 								</div>
 								<div class='instance-detail'>#{step_current_name_view}
@@ -257,7 +256,7 @@ _get_inbox_instances_tabular_options = (box, flowId)->
 
 	if box == "inbox"
 		options.order = [[8, "desc"]]
-		options.filteredRecordIds = (table, selector, sort, skip, limit, old_filteredRecordIds, userId)->
+		options.filteredRecordIds = (table, selector, sort, skip, limit, old_filteredRecordIds, userId, findOptions)->
 			aggregate_operation = [
 				{
 					$match: selector
@@ -286,6 +285,9 @@ _get_inbox_instances_tabular_options = (box, flowId)->
 				s1_0 = s1[0]
 				s1_1 = s1[1]
 				if s1_0 == 'start_date'
+
+					findOptions.sort = [['modified', s1_1]]
+
 					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
 					aggregate_operation.push $sort: ag_sort
 					aggregate_operation.push $skip: skip

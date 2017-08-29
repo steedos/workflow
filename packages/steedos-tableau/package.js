@@ -49,16 +49,23 @@ Package.onUse(function (api) {
 	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
+	api.use('steedos:authenticate-user-by-access-token');
 
 	api.use('tap:i18n', ['client', 'server']);
 
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('server/routes_middleware_config.coffee', 'server');
+
+	api.addFiles('server/routes/search_flows.coffee', 'server');
 	api.addFiles('server/routes/search_organizations.coffee', 'server');
+	api.addFiles('server/data/api_workflow_instances.coffee', 'server');
 
 	api.addAssets("assets/steedos_tableau.js", "client");
 	api.addAssets("assets/steedos_tableau.css", "client");
+
+	api.addFiles('server/routes/access_token.coffee', 'server');
 
 	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.html", "server");
 	api.addAssets("assets/instances/instance_by_flow_tableau_connectors.js", "client");
@@ -77,11 +84,15 @@ Package.onUse(function (api) {
 	api.addFiles('client/workflow/tableau_flow_list.html', 'client');
 	api.addFiles('client/workflow/tableau_flow_list.coffee', 'client');
 
+	api.addFiles('lib/steedos_tableau.coffee');
+
 	api.addFiles('tabulars/flows.coffee');
 
 	api.addFiles('client/admin-menu.coffee', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
+
+	api.export("SteedosTableau");
 });
 
 Package.onTest(function (api) {

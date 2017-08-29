@@ -22,3 +22,6 @@ Template.contactsSidebar.events
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .header-app': (event) ->
+		FlowRouter.go "/contacts/"

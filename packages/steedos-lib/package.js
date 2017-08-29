@@ -160,8 +160,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.html', 'client');
 	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.coffee', 'client');
 
-	api.addFiles('client/loading.coffee', 'client');
-
 	api.addFiles('client/tooltip.coffee', 'client');
 
 	api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
@@ -177,6 +175,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/setUsername.coffee', 'server');
 	api.addFiles('server/methods/billing_recharge.coffee', 'server');
 	api.addFiles('server/methods/get_space_user_count.coffee', 'server');
+	api.addFiles('server/methods/user_secret.coffee', 'server');
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');

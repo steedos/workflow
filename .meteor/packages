@@ -72,7 +72,7 @@ steedos:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform
-aldeed:autoform-bs-datetimepicker 
+steedos:autoform-bs-datetimepicker 
 
 gwendall:simple-schema-i18n
 
@@ -156,7 +156,8 @@ steedos:accounts
 
 steedos:remind
 
-# steedos:calendar
+steedos:calendar
+steedos:calendar-i18n
 
 # steedos:records
 
@@ -174,3 +175,5 @@ keepnox:perfect-scrollbar
 steedos:datatables-extensions
 chuangbo:cookie
 # steedos:express-status-monitor
+
+steedos:authenticate-user-by-access-token

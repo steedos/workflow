@@ -329,8 +329,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
 
-	api.addFiles('routes/api_workflow_instances.coffee', 'server');
-
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
 	api.addFiles('server/lib/get_handlers_manager.coffee', 'server');

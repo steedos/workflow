@@ -48,6 +48,9 @@
 	"Steedos Admin": "Admin",
 	"Flow Designer": "Flow Designer",
 	"Steedos CMS": "CMS",
+	"Steedos Boards":"Boards",
+	"Steedos OldCalendar":"Calendar(Old)",
+
 
 	"Forgot Password": "Forgot Password",
 	"Forgot Password Description": "Enter your email address below and we will send you password reset instructions.",
@@ -430,5 +433,11 @@
 	"username_unset_text": "Your account has not yet set a user name, set the user name, you can use the user name to log on to the system.",
 	"space_paid_info_title": "Standard Edition does not support",
 	"space_paid_info_text": "You can upgrade to the professional version",
-	"login_title": "Hot OA"
+	"login_title": "Steedos Apps",
+	"Steedos Home": "Home",
+	"description": "Description",
+	"warning_description": "Please enter a description",
+	"delete_confirm": "Are you sure?",
+	"get_secret_successfully": "New success",
+	"Secret": "Secret"
 }

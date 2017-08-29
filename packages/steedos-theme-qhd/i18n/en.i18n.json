@@ -1,3 +1,28 @@
 {
+	"Steedos Workflow": "Documents",
+	"Steedos Calendar": "Calendar",
+	"inbox": "Inbox",
+	"outbox": "Outbox",
+	"draft": "Draft",
+	"pending": "In progress",
+	"completed": "Finished",
+	"monitor": "Monitor",
+	"instance_new": "New Request",
+	"Fill in form": "New Request",
+	"instance_submit": "Submit",
+	"instance_approval_history": "Approval History",
+	"help": {
+		"approves": "Approval History"
+	},
 
+	"tabbar_cms": "Information Release",
+	"Steedos CMS": "Information Release",
+
+	"instances_submit_date": "Submit Date",
+	"instances_applicant_name": "Applicant",
+	"instance_search_applicant_name": "Applicant Name",
+	"instance_search_applicant_organization_name": "Applicant Organization Name",
+	"login_title": "Hebei Port Office",
+	"login_title_mobile": "Hebei Port Office",
+	"Username_and_email": "Username"
 }

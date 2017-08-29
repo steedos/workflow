@@ -7,7 +7,6 @@ dashboardRoutes = FlowRouter.group
 	prefix: '/dashboard',
 	name: 'dashboardRoutes'
 
-
 dashboardRoutes.route '/',
 	action: (params, queryParams)->
 		Tracker.autorun (c)->
@@ -15,13 +14,15 @@ dashboardRoutes.route '/',
 				spaceId = Steedos.spaceId()
 				if spaceId
 					dashboard = db.portal_dashboards.findOne({space:spaceId},{sort:{created:1}})
-					if dashboard
+					defaultId = Meteor.settings?.public?.dashboard?.default
+					dashboardId = if dashboard then dashboard._id else defaultId
+					unless /^\/dashboard/.test(FlowRouter.current().path)
 						c.stop()
-						dashboardId = dashboard._id
+						return
+					if dashboardId
 						FlowRouter.go "/dashboard/space/#{spaceId}/#{dashboardId}"
 					else
 						FlowRouter.go "/dashboard/space/#{spaceId}"
-
 
 dashboardRoutes.route '/space/:spaceId/:dashboardId', 
 	action: (params, queryParams)->
@@ -32,6 +33,6 @@ dashboardRoutes.route '/space/:spaceId/:dashboardId',
 
 dashboardRoutes.route '/space/:spaceId',
 	action: (params, queryParams)->
-
+		Session.set("dashboardId", null)
 		BlazeLayout.render 'dashboardLayout',
 			main: "dashboardView"

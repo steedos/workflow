@@ -31,7 +31,7 @@
         <li class="active">{{_ "Account"}}</li>
       </ol>
     </section>  -->
-    <section class="content admin-content">
+    <section class="content admin-content admin-profile-content">
 
 
         <div class="nav-tabs-custom">
@@ -43,6 +43,8 @@
               <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">{{_ "Account"}}</a></li>
               <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
               <li class=""><a href="#personalization" data-toggle="tab" aria-expanded="false">{{_ "personalization"}}</a></li>
+			  <li class=""><a href="#secrets" data-toggle="tab" aria-expanded="false">{{_ "Secret"}}</a></li>
+
             </ul>
             <div class="tab-content">
             {{#if isShowProfileInfo}}
@@ -274,7 +276,24 @@
                   </div>
                 </div>
               </div>
-            </div>
+				<div class="tab-pane" id="secrets">
+					{{#each user.secrets}}
+						<div class="weui-cells__title name text-overflow">{{this.name}}</div>
+						<div class="weui-cells">
+							<div  class="weui-cell">
+								<div class="weui-cell__hd copy-secret" data-clipboard-text="{{this.token}}"><i class="ion ion-ios-copy-outline" style="width:20px;margin-right:5px;display:block"></i></div>
+								<div class="weui-cell__bd token">
+									<p style="margin: 0px;" class="text-overflow">{{this.token}}</p>
+								</div>
+								<div class="weui-cell__ft remove-secret">
+									<a class="weui-swiped-btn weui-swiped-btn_warn" href="javascript:"><i class="ion ion-ios-close-empty"></i></a>
+								</div>
+							</div>
+						</div>
+					{{/each}}
+					<button type="submit" class="btn btn-primary btn-sm btn-get-secrets" style="margin-top: 10px;">{{_ 'New'}}</button>
+				</div>
+			</div>
           </div>
 
 

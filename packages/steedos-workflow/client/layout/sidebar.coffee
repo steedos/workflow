@@ -76,6 +76,18 @@ Template.workflowSidebar.helpers
 	selected_flow: ()->
 		return Session.get("flowId")
 
+	inboxSpaces: ()->
+		return db.steedos_keyvalues.find({key: "badge"}).fetch().filter (_item)->
+			if _item?.value["workflow"] > 0 && _item.space && _item.space != Session.get("spaceId")
+				return _item
+
+	spaceName: (_id)->
+		return db.spaces.findOne({_id: _id})?.name
+
+	showOthenInbox: (inboxSpaces)->
+		return inboxSpaces.length > 0
+
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
@@ -97,3 +109,6 @@ Template.workflowSidebar.events
 	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->
 		# 切换箱子的时候清空搜索条件
 		$("#instance_search_tip_close_btn").click()
+
+	'click .header-app': (event) ->
+		FlowRouter.go "/workflow/"

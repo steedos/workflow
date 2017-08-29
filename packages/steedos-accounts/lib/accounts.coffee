@@ -57,39 +57,38 @@ pwdField = AccountsTemplates.removeField('password');
 AccountsTemplates.removeField('email');
 AccountsTemplates.addFields([
   {
+    _id: 'company',
+    type: 'text'
+  },
+  {
     _id: 'name',
     type: 'text'
+  },
+  {
+    _id: 'email',
+    type: 'email',
+    required: true
+    displayName: "email",
+    re: /.+@(.+){2,}\.(.+){2,}/,
+    errStr: 'Invalid email',
+    placeholder: {
+      forgotPwd:"email_input_placeholder"
+    }
+  },
+  {
+    _id: 'username_and_email',
+    type: 'text',
+    required: true,
+    displayName: "Login"
   },
   {
     _id: "username",
     type: "text",
     displayName: "username",
     required: true,
-    minLength: 5,
+    minLength: 5
   },
-  {
-    _id: 'email',
-    type: 'email',
-    required: false
-    displayName: "email",
-    re: /.+@(.+){2,}\.(.+){2,}/,
-    errStr: 'Invalid email',
-  },
-  {
-    _id: 'username_and_email',
-    type: 'text',
-    required: true,
-    displayName: "Login",
-  },
-  pwdField,
-  {
-    _id: 'company',
-    type: 'text'
-  },
-  {
-    _id: 'mobile',
-    type: 'text'
-  }
+  pwdField
 ]);
 
 

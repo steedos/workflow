@@ -1,4 +1,9 @@
 Template.printLayout.onCreated ->
+
+	calendarsSub = Steedos.subs["Calendars"]
+	if calendarsSub
+		calendarsSub.clear()
+
 	self = this;
 
 	self.minHeight = new ReactiveVar(

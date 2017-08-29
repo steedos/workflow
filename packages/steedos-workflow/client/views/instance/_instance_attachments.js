@@ -67,9 +67,13 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 		}
 
-		var current_step = InstanceManager.getCurrentStep();
-		if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+		if (InstanceManager.isCC(ins)) {
 			return true
+		} else {
+			var current_step = InstanceManager.getCurrentStep();
+			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
+				return true
+		}
 
 		return false
 	},
@@ -81,14 +85,25 @@ InstanceAttachmentTemplate.helpers = {
 
 		var start_step = InstanceManager.getStartStep();
 
-		// 如果是被分发的申请单并且有修改正文的权限，则显示原申请单文件
-		var instanceId = (ins.distribute_from_instance && start_step.can_edit_main_attach == true) ? ins.distribute_from_instance : ins._id;
+		// 如果是被分发的申请单并且有修改正文的权限，则优先显示原申请单文件
+		var main_attach = null;
+		if (ins.distribute_from_instance && start_step.can_edit_main_attach == true) {
+			main_attach = cfs.instances.findOne({
+				'metadata.instance': ins.distribute_from_instance,
+				'metadata.current': true,
+				'metadata.main': true
+			});
+		}
 
-		return cfs.instances.findOne({
-			'metadata.instance': instanceId,
-			'metadata.current': true,
-			'metadata.main': true
-		});
+		if (!main_attach) {
+			main_attach = cfs.instances.findOne({
+				'metadata.instance': ins._id,
+				'metadata.current': true,
+				'metadata.main': true
+			});
+		}
+
+		return main_attach;
 	},
 
 	normal_attachments: function() {
@@ -112,7 +127,14 @@ InstanceAttachmentTemplate.helpers = {
 			};
 
 
-			selector["$or"] = [{"metadata.instance" : ins._id}, {"metadata.instance" : ins.distribute_from_instance, "metadata.is_private": {$ne: true}}]
+			selector["$or"] = [{
+				"metadata.instance": ins._id
+			}, {
+				"metadata.instance": ins.distribute_from_instance,
+				"metadata.is_private": {
+					$ne: true
+				}
+			}]
 
 			// 如果原申请单有正文但是分发后没有正文权限，则原申请单正文显示在附件栏
 			var start_step = InstanceManager.getStartStep();

@@ -33,6 +33,8 @@ FlowRouter.triggers.enter [
 						title = "Steedos Admin"
 					when 'dashboard'
 						title = "Steedos Dashboard"
+					when 'calendar'
+						title = "Steedos Calendar"
 					else
 						title = "Steedos"
 				if title

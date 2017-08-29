@@ -1,6 +1,6 @@
 Package.describe({
     name: 'steedos:theme-qhd',
-    version: '0.0.4',
+    version: '0.0.7',
     summary: 'Steedos theme for qhd',
     git: ''
 });
@@ -27,6 +27,7 @@ Package.onUse(function(api) {
 
     api.addAssets("client/background/qhd.jpg", "client");
     api.addAssets("client/images/logo.jpg", "client");
+    api.addAssets("client/images/icon.png", "client");
 
     // EXPORT
 

@@ -14,7 +14,7 @@
   "dontHaveAnAccount": "没有账户？",
   "email": "电子邮箱",
   "emailAddress": "电邮地址",
-  "emailResetLink": "邮件重置链接",
+  "emailResetLink": "重置密码",
   "pwdResetLink": "重置密码",
   "forgotPwdToken": "验证码",
   "forgotPassword": "忘记密码？",
@@ -33,7 +33,7 @@
   "sign": "登",
   "signIn": "登录",
   "signin": "登录",
-  "signOut": "注销",
+  "signOut": "退出",
   "signUp": "注册",
   "signupCode": "注册码",
   "signUpWithYourEmailAddress": "用您的电子邮件地址注册",
@@ -181,5 +181,6 @@
   "Username_and_email": "用户名或邮件",
   "Username": "用户名",
 
-  "loginWithPhone": "手机号登录"
+  "loginWithPhone": "手机验证码登录",
+  "email_input_placeholder": "请输入邮件地址"
 }

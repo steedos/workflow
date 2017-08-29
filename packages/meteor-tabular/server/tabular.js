@@ -105,14 +105,18 @@ Meteor.publish("tabular_getInfo", function(tableName, selector, sort, skip, limi
     findOptions.sort = sort;
   }
 
-  var filteredCursor = table.collection.find(selector, findOptions);
-
-  var filteredRecordIds = filteredCursor.map(function (doc) {
-	  return doc._id;
-  });
+  var filteredRecordIds;
 
   if(table.filteredRecordIds){
-	  filteredRecordIds = table.filteredRecordIds(table, selector, sort, skip, limit, filteredRecordIds, self.userId);
+	  filteredRecordIds = table.filteredRecordIds(table, selector, sort, skip, limit, filteredRecordIds, self.userId, findOptions);
+  }
+
+  var filteredCursor = table.collection.find(selector, findOptions);
+
+  if(!filteredRecordIds){
+    filteredRecordIds = filteredCursor.map(function (doc) {
+        return doc._id;
+    });
   }
 
   var countCursor = table.collection.find(selector, {fields: {_id: 1}});

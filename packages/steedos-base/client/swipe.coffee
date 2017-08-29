@@ -9,13 +9,16 @@ Meteor.startup ->
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	$("body").on("swipe", (event, options)->
+		isSidebarOpen = $("body").hasClass('sidebar-open')
+		if !isSidebarOpen and options.startEvnt.position.x > 40
+			return
 		unless $(".main-sidebar").length
 			return
 		if options.direction != "left" and options.direction != "right"
 			return
-		else if options.direction == "right" and $("body").hasClass('sidebar-open')
+		else if options.direction == "right" and isSidebarOpen
 			return
-		else if options.direction == "left" and !$("body").hasClass('sidebar-open')
+		else if options.direction == "left" and !isSidebarOpen
 			return
 		isSwiping = true
 		swipeStartTime = options.startEvnt.time
@@ -38,11 +41,12 @@ Meteor.startup ->
 		else
 			action = "close"
 
+		isSidebarOpen = $("body").hasClass('sidebar-open')
 		if action == "open"
-			unless $("body").hasClass('sidebar-open')
+			unless isSidebarOpen
 				$("body").addClass('sidebar-open')
 		else if action == "close"
-			if $("body").hasClass('sidebar-open')
+			if isSidebarOpen
 				$("body").removeClass('sidebar-open');
 				$("body").removeClass('sidebar-collapse')
 	);

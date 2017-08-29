@@ -73,7 +73,7 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
-		Template.instance_list._tableColumns()
+#		Template.instance_list._tableColumns()
 
 		return query
 	enabled_export: ->
@@ -136,6 +136,9 @@ Template.instance_list.helpers
 			else
 				return TabularTables.instances
 
+	tableauUrl: ()->
+		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
+
 Template.instance_list._tableColumns = ()->
 	show = false
 
@@ -150,53 +153,56 @@ Template.instance_list._tableColumns = ()->
 		$(".custom-column").show();
 		$(".field-value").show();
 
-	table = $(".datatable-instances").DataTable();
-	thead = $("thead", $(".datatable-instances"))
+	try
+		table = $(".datatable-instances").DataTable();
+		thead = $("thead", $(".datatable-instances"))
 
-	table.column(0).visible(!show)
+		table.column(0).visible(!show)
 
-	table.column(2).visible(show)
+		table.column(2).visible(show)
 
-	columnCount = table.columns()[0]?.length || 0
+		columnCount = table.columns()[0]?.length || 0
 
-	if Session.get("flowId")
-		table.column(5).visible(false)
-	else
-		table.column(5).visible(show)
-	if Session.get("box") == "draft"
-		table.column(3).visible(false)
-		table.column(4).visible(false)
-		table.column(6).visible(false)
-		table.column(7).visible(false)
-		table.column(8).visible(false)
-		if columnCount > 11
-			_.range(12, columnCount + 1).forEach (index)->
-				table.column(index - 1)?.visible(false)
-	else
-		table.column(3).visible(show)
-		table.column(4).visible(show)
-		table.column(6).visible(show)
-
-		if Session.get("box") == "inbox"
-			table.column(8).visible(show)
-			table.column(7).visible(false)
+		if Session.get("flowId")
+			table.column(5).visible(false)
 		else
+			table.column(5).visible(show)
+		if Session.get("box") == "draft"
+			table.column(3).visible(false)
+			table.column(4).visible(false)
+			table.column(6).visible(false)
+			table.column(7).visible(false)
 			table.column(8).visible(false)
-			table.column(7).visible(show)
+			if columnCount > 11
+				_.range(12, columnCount + 1).forEach (index)->
+					table.column(index - 1)?.visible(false)
+		else
+			table.column(3).visible(show)
+			table.column(4).visible(show)
+			table.column(6).visible(show)
 
-		if columnCount > 11
-			_.range(12, columnCount + 1).forEach (index)->
-				table.column(index - 1)?.visible(show)
+			if Session.get("box") == "inbox"
+				table.column(8).visible(show)
+				table.column(7).visible(false)
+			else
+				table.column(8).visible(false)
+				table.column(7).visible(show)
 
-	if Session.get("box") == "monitor" && show
-		table.column(11).visible(true)
-	else
-		table.column(11).visible(false)
+			if columnCount > 11
+				_.range(12, columnCount + 1).forEach (index)->
+					table.column(index - 1)?.visible(show)
 
-	if show
-		thead.show()
-	else
-		thead.hide()
+		if Session.get("box") == "monitor" && show
+			table.column(11).visible(true)
+		else
+			table.column(11).visible(false)
+
+		if show
+			thead.show()
+		else
+			thead.hide()
+	catch e
+		console.error e
 
 
 Template.instance_list.onCreated ->
@@ -210,12 +216,17 @@ Template.instance_list.onCreated ->
 
 		self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
+	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
+	this.copyTableauUrlClipboard.on 'success', (e) ->
+		toastr.success(t("instance_readonly_view_url_copy_success"))
+		e.clearSelection()
+
 Template.instance_list.onRendered ->
 	self = this;
 
 	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
-	Template.instance_list._tableColumns();
+#	Template.instance_list._tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
@@ -230,21 +241,30 @@ Template.instance_list.events
 
 	'click tbody > tr': (event) ->
 		dataTable = $(event.target).closest('table').DataTable();
-		row = $(event.target).closest('tr');
 		rowData = dataTable.row(event.currentTarget).data();
 		if (!rowData)
 			return;
-		box = Session.get("box");
-		spaceId = Session.get("spaceId");
+		if Session.get("instanceId") != rowData._id
+			$("body").addClass("loading")
 
-		# if row.hasClass('selected')
-		# 	row.removeClass('selected');
-		# 	FlowRouter.go("/workflow/space/" + spaceId + "/" + box);
+		setTimeout ()->
+			dataTable = $(event.target).closest('table').DataTable();
+			row = $(event.target).closest('tr');
+			rowData = dataTable.row(event.currentTarget).data();
+			if (!rowData)
+				return;
+			box = Session.get("box");
+			spaceId = Session.get("spaceId");
 
-		# else
-		dataTable.$('tr.selected').removeClass('selected');
-		row.addClass('selected');
-		FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
+			# if row.hasClass('selected')
+			# 	row.removeClass('selected');
+			# 	FlowRouter.go("/workflow/space/" + spaceId + "/" + box);
+
+			# else
+			dataTable.$('tr.selected').removeClass('selected');
+			row.addClass('selected');
+			FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
+		, 1
 
 
 	'click .dropdown-menu li a': (event) ->
@@ -307,5 +327,10 @@ Template.instance_list.events
 		else
 			localStorage.setItem("workflow_three_columns", "off")
 
+	'click #copyTableauUrl': ()->
+		if !Steedos.isPaidSpace()
+			toastr.info("标准版只能统计一个月内的数据")
+
 Template.instance_list.onDestroyed ()->
 	Session.set "inbox_flow_id", undefined
+	this.copyTableauUrlClipboard.destroy();

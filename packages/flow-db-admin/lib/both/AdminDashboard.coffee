@@ -102,9 +102,11 @@ if Meteor.isClient
 					else
 						toastr.error error
 				else
-					swal(TAPi18n.__("Delete"),
-						TAPi18n.__("flow_db_admin_successfully_deleted"),
-						"success");
+					swal 
+						title: TAPi18n.__("Delete"),
+						text: TAPi18n.__("flow_db_admin_successfully_deleted"),
+						type: "success",
+						confirmButtonText: TAPi18n.__("OK")
 					if callback
 						callback()
 

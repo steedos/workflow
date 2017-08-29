@@ -1,30 +1,18 @@
 <template name="adminSidebar">
-		<aside class="main-sidebar">
-				<header class="main-header">
-					<div class="logo" style="overflow: visible">
-						<span class="logo-lg text-overflow">
-							<B>{{_ "Steedos Admin"}}</B>
-						</span>
-						<span class="logo-arrow">
-							<i class="ion-ios-arrow-down ion"></i>
-						</span>
-						<span class="logo-mini">
-							<i class="ion ion-grid"></i>
-						</span> 
-					</div>
-				</header>
-				<div class="sidebar" id="scrollspy">
-					{{> sidebarUserPanel}}
-					<ul class="nav sidebar-menu">
-						<li class="{{menuClass 'admin/home/'}}"><a href="/admin/home/"><i class="ion ion-ios-gear-outline"></i><span>{{_ "Steedos Admin"}}</span></a></li>
-						{{{sidebarMenu}}}
-
-						<li>
-							<a class="steedos-help" href="#"><i class="ion ion-help-circled"></i><span>{{_ "Help"}}</span></a>
-						</li>
-						<li><a href="/admin/about"><i class="ion ion-information-circled"></i><span>{{_ "steedos_about"}}</span></a></li>
-						<li><a href="/steedos/logout"><i class="ion ion-ios-paw-outline"></i><span>{{_ "Sign out"}}</span></a></li>
-					</ul>
-				</div>
-		</aside>
+	<aside class="main-sidebar">
+		<div class="sidebar" id="scrollspy">
+			{{> sidebarUserPanel}}
+			<ul class="nav sidebar-menu">
+				<li class="header header-app">
+					{{_ "Steedos Admin"}}
+				</li>
+				{{{sidebarMenu}}}
+				<li>
+					<a class="steedos-help" href="#"><i class="ion ion-ios-help-outline"></i><span>{{_ "Help"}}</span></a>
+				</li>
+				<li><a href="/admin/about"><i class="ion ion-ios-information-outline"></i><span>{{_ "steedos_about"}}</span></a></li>
+				<li><a href="/steedos/logout"><i class="ion ion-log-out"></i><span>{{_ "Sign out"}}</span></a></li>
+			</ul>
+		</div>
+	</aside>
 </template>

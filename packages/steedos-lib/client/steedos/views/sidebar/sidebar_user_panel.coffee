@@ -18,4 +18,15 @@ Template.sidebarUserPanel.helpers
 			return ""
 		return if user.avatar then "" else "none-uploaded-picture"
 
+	spaceAvatar: ->
+		avatar = db.spaces.findOne(Steedos.spaceId())?.avatar
+		if avatar
+			return Steedos.absoluteUrl("/api/files/avatars/#{avatar}")
+		else
+			return Steedos.absoluteUrl(Theme.space_logo)
+
 Template.sidebarUserPanel.events
+
+	'click .top-sidebar': ()->
+		$("#sidebarOffcanvas").click();
+		FlowRouter.go("/springboard");

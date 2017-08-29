@@ -31,24 +31,20 @@ if Meteor.isClient
 if Meteor.isClient
 	if Meteor.settings?.public?.phone?.forceAccountBindPhone
 		Meteor.autorun (c)->
-			# 没有验证手机时，强行跳转到手机验证路由
+			# 没有验证手机时，提醒手机号未绑定
 			if Meteor.userId() and !Meteor.loggingIn()
+				c.stop()
 				ignoredUsers = Meteor.settings?.public?.phone?.ignoredUsers
 				if ignoredUsers and ignoredUsers.contains Meteor.userId()
 					return
 				routerPath = FlowRouter.current()?.path
-				# 当前路由本身就在手机验证路由中则不需要跳转
+				# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
 				if /^\/accounts\/setup\/phone\b/.test routerPath
 					return
-				# 登录相关路由不需要跳转
+				# 登录相关路由不需要提醒手机号未绑定
 				if /^\/steedos\//.test routerPath
 					return
 				if Accounts.isPhoneVerified()
-					# 关闭toastr弹出框
-					if Accounts.phoneToastrs?.length
-						Accounts.phoneToastrs.forEach (n,i)->
-							toastr.clear n
-
 					expiredDays = Meteor.settings?.public?.phone?.expiredDays
 					if expiredDays
 						Accounts.disablePhoneWithoutExpiredDays(expiredDays)
@@ -59,14 +55,7 @@ if Meteor.isClient
 						console.log 'will come soon for setup_phone'
 						# Steedos.openWindow(setupUrl,'setup_phone')
 					else
-						unless Accounts.phoneToastrs
-							Accounts.phoneToastrs = []
-						if Accounts.phoneToastrs.length
-							Accounts.phoneToastrs.forEach (n,i)->
-								toastr.clear n
-							Accounts.phoneToastrs = []
-
-						Accounts.phoneToastrs.push toastr.error(null,t("accounts_phone_toastr_alert"),{
+						toastr.error(null,t("accounts_phone_toastr_alert"),{
 							closeButton: true,
 							timeOut: 0,
 							extendedTimeOut: 0,

@@ -110,7 +110,7 @@ Template.instance_view.onRendered ->
 	isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
-		$('.instance').perfectScrollbar({suppressScrollX: true}).css("right","-1px")
+		$('.instance').perfectScrollbar().css("right","-1px")
 		if isNeedActiveSuggestion
 			$('.instance').on 'ps-y-reach-end', ->
 				# if this.scrollTop == 0
@@ -146,6 +146,7 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	$("body").removeClass("loading")
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
