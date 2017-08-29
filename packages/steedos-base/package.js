@@ -115,7 +115,10 @@ Package.onUse(function (api) {
 		'client/views/loading.html',
 		'client/views/loading.less',
 		'client/views/space_switcher_modal.html',
-		'client/views/space_switcher_modal.coffee'
+		'client/views/space_switcher_modal.coffee',
+		'client/views/sidebar_user_panel.html',
+		'client/views/sidebar_user_panel.coffee',
+		'client/views/sidebar_user_panel.less'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");
