@@ -28,5 +28,4 @@ Template.sidebarUserPanel.helpers
 Template.sidebarUserPanel.events
 
 	'click .top-sidebar': ()->
-		$("#sidebarOffcanvas").click();
 		FlowRouter.go("/springboard");

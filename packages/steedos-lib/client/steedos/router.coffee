@@ -124,6 +124,9 @@ FlowRouter.route '/springboard',
 		BlazeLayout.render 'masterLayout',
 			main: "springboard"
 
+		if Steedos.isMobile()
+			$("body").removeClass("sidebar-open")
+
 
 FlowRouter.route '/admin/spaces', 
 	triggersEnter: [ checkUserSigned ],
