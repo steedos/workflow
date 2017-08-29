@@ -55,6 +55,9 @@ Template.steedos_contacts_org_user_list.helpers
 			return false
 		return true
 
+	is_nwjs: ()->
+		return Steedos.isNode();
+
 	getOrgName: ()->
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
