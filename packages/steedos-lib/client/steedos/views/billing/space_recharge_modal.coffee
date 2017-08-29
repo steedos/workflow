@@ -15,6 +15,16 @@ Template.space_recharge_modal.helpers
 			return true
 		return false
 
+	end_date: ()->
+		m = moment()
+		m.year(m.year()+1)
+		e = m.format('YYYY-MM-DD')
+		s = db.spaces.findOne(Session.get('spaceId'))
+		if s.end_date
+			e = moment(s.end_date).format('YYYY-MM-DD')
+
+		return e
+
 
 Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
@@ -52,8 +62,10 @@ Template.space_recharge_modal.events
 				Modal.show('space_recharge_qrcode_modal', data)
 
 	'change #space_recharge_modules': (event, template)->
-		module_id = $('#space_recharge_modules')[0].value
-		months = $('#space_recharge_months')[0].value.to_integer()
+		now = moment.now()
+		end_date = $('#space_recharge_end_date').val()
+		modules = $('#space_recharge_modules input')
+		
 		user_count = $('#space_recharge_user_count')[0].value.to_integer()
 		if module_id and months > 0 and user_count > 0
 			module = db.modules.findOne(module_id)
@@ -63,9 +75,9 @@ Template.space_recharge_modal.events
 		else
 			$('#space_recharge_fee')[0].value = ""
 
-	'input #space_recharge_months,#space_recharge_user_count': (event, template)->
-		module_id = $('#space_recharge_modules')[0].value
-		months = $('#space_recharge_months')[0].value.to_integer()
+	'input #space_recharge_end_date,#space_recharge_user_count': (event, template)->
+		modules = $('#space_recharge_modules input')
+		end_date = $('#space_recharge_end_date').val()
 		user_count = $('#space_recharge_user_count')[0].value.to_integer()
 		if module_id and months > 0 and user_count > 0
 			module = db.modules.findOne(module_id)
