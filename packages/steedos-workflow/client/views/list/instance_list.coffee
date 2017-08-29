@@ -140,6 +140,10 @@ Template.instance_list.helpers
 		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
 
 Template.instance_list._tableColumns = ()->
+
+	if !$(".datatable-instances") || $(".datatable-instances").length < 1
+		return;
+
 	show = false
 
 	winWidth = $(window).width()
