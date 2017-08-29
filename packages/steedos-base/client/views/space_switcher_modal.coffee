@@ -20,6 +20,9 @@ Template.space_switcher_modal.helpers
 	maxHeight: ->
 		return Template.instance()?.maxHeight.get() - 165 + 'px'
 
+	isSeleted: (_id)->
+		return _id == Session.get("spaceId")
+
 Template.space_switcher_modal.onCreated ->
 	self = this;
 

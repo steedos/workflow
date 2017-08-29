@@ -11,7 +11,7 @@
 				<div class="modal-body" style='overflow-y:auto;padding: 0px;max-height: {{maxHeight}}'>
 					<div class="weui-cells modal-zoom" style="margin-top: 0px;">
 						{{#each spaces}}
-							<div class="weui-cell switchSpace">
+							<div class="weui-cell switchSpace {{#if (isSeleted this._id)}}active{{/if}}">
 								<div class="weui-cell__hd">
 									<i class="fa fa-globe"></i>
 								</div>
