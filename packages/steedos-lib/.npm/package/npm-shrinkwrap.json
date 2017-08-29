@@ -222,8 +222,8 @@
       }
     },
     "keygrip": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.1.tgz",
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.2.tgz",
       "from": "keygrip@>=1.0.0 <1.1.0"
     },
     "lodash": {
