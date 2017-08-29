@@ -43,6 +43,13 @@
 					<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
 				</ul>
 			</div>
+
+			<div class="btn-group hidden-xs" role="group" style="{{enabled_export}}">
+				<button type="button" class="btn btn-default " id="copyTableauUrl" data-clipboard-text="{{tableauUrl}}">
+					<i class="ion ion-ios-pie-outline" aria-hidden="true"></i>&nbsp;{{_ "steedos_tableau_request_statistics"}}
+				</button>
+			</div>
+
 		{{/if}}
 		<div class="pull-right toogle-columns-box">
 			<a class="btn btn-transparent btn-toogle-columns"><i class="fa fa-expand"></i></a>

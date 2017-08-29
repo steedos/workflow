@@ -71,6 +71,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/steedos_data_manager.js', 'client');
 
 	api.addFiles('routes/avatar.coffee', 'server');
+	api.addFiles('routes/access_token.coffee', 'server');
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
@@ -112,7 +113,9 @@ Package.onUse(function (api) {
 		'client/views/space_switcher.less',
 		'client/subscribe.coffee',
 		'client/views/loading.html',
-		'client/views/loading.less'
+		'client/views/loading.less',
+		'client/views/space_switcher_modal.html',
+		'client/views/space_switcher_modal.coffee'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");

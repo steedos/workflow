@@ -10,14 +10,14 @@ Meteor.methods({
 			if(sUser){
 				var bUser = db.address_books.find({group: groupId, email: sUser.email})
 				// 不重复添加已存在的联系人
-				if (bUser.count() == 0){
-					db.address_books.insert({
-						owner: Meteor.userId(),
-						group: groupId,
-						name: sUser.name,
-						email: sUser.email
-					})
-				}
+				// if (bUser.count() == 0){
+				db.address_books.insert({
+					owner: Meteor.userId(),
+					group: groupId,
+					name: sUser.name,
+					email: sUser.email
+				})
+				// }
 			}
 		})
 		return true;

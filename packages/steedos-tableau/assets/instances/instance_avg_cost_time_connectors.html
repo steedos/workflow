@@ -68,10 +68,15 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label class="control-label" for="submit_date">部门:</label>
-						<select id="instance_approves_hanlder_orgs">
-						</select>
+						<label class="control-label" for="instance_approves_hanlder_orgs">部门:</label>
+						<input id="instance_approves_hanlder_orgs" />
 					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="instance_flows">流程:</label>
+						<input id="instance_flows" />
+					</div>
+
 					<div class="form-group">
 						<label class="control-label" for="connName">连接名称:</label>
 						<input class="form-control" id="connName" value="#{connName}">
@@ -88,7 +93,7 @@
 
 <script>
 
-	var length = 50;
+	var length = 100;
 
 	$('#instance_approves_hanlder_orgs').selectize({
 		valueField: '_id',
@@ -103,24 +108,25 @@
 				length: length
 			}
 
+			SteedosTableau.searchOrganizations($("#spaceId").val(), config, callback);
+		}
+	});
 
-			$.ajax({
-				url: '/tableau/search/space/' + $("#spaceId").val() + '/organizations',
-				type: 'POST',
-				headers: {
-					"x-user-id": SteedosTableau.auth.userId,
-					"x-auth-token": SteedosTableau.auth.authToken
-				},
-				async: false,
-				data: JSON.stringify(config),
-				contentType: "application/json",
-				error: function() {
-					callback();
-				},
-				success: function(res) {
-					callback(res);
-				}
-			});
+	$('#instance_flows').selectize({
+		plugins: ['remove_button'],
+		valueField: '_id',
+		labelField: 'name',
+		searchField: 'name',
+		create: false,
+		load: function(query, callback) {
+			if (!query.length) return callback();
+
+			config = {
+				key: query.trim(),
+				length: length
+			}
+
+			SteedosTableau.searchFlows($("#spaceId").val(), config, callback);
 		}
 	});
 </script>

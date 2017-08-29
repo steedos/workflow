@@ -24,7 +24,7 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 			data: "email",
 			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-email'>" + doc.email + "</div>"
+				return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "mobile",
