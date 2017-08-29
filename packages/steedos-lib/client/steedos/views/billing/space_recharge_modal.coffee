@@ -1,6 +1,19 @@
+Template.space_recharge_modal.onRendered ()->
+	$("#space_recharge_end_date").datetimepicker({
+		format: "YYYY-MM-DD",
+		locale: Session.get("TAPi18n::loaded_lang")
+	})
+
+
 Template.space_recharge_modal.helpers
 	modules: ()->
 		return db.modules.find()
+
+	is_paid_module: (name)->
+		s = db.spaces.findOne(Session.get('spaceId'))
+		if s.modules and s.modules.includes(name)
+			return true
+		return false
 
 
 Template.space_recharge_modal.events

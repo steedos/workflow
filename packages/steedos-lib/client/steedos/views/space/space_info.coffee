@@ -32,6 +32,15 @@ Template.space_info.helpers
     user_count: ->
         return Session.get('space_user_count')
 
+    paid_modules: ->
+        pm = ""
+        s = db.spaces.findOne(Session.get('spaceId'))
+        if s.modules
+            ms = db.modules.find({name: {$in: s.modules}}).fetch()
+            pm = _.pluck(ms, 'name_zh').join(',')
+        return pm
+
+
 Template.space_info.events
 
     'click .btn-new-space': (event)->
