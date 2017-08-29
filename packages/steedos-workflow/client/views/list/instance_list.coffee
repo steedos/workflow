@@ -211,10 +211,11 @@ Template.instance_list.onCreated ->
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
 
-	$(window).resize ->
-		Template.instance_list._tableColumns();
+	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
-		self.maxHeight?.set($(".instance-list", $(".steedos")).height());
+	self.autorun ()->
+		$(window).resize ->
+			Template.instance_list._tableColumns();
 
 	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
 	this.copyTableauUrlClipboard.on 'success', (e) ->

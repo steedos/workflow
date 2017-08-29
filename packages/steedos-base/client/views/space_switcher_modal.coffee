@@ -20,6 +20,9 @@ Template.space_switcher_modal.helpers
 	maxHeight: ->
 		return Template.instance()?.maxHeight.get() - 165 + 'px'
 
+	isSeleted: (_id)->
+		return _id == Session.get("spaceId")
+
 Template.space_switcher_modal.onCreated ->
 	self = this;
 
@@ -30,9 +33,11 @@ Template.space_switcher_modal.onCreated ->
 		self.maxHeight?.set($(window).height());
 
 Template.space_switcher_modal.events
-	"click .switchSpace": ->
+	"click .switchSpace": (event, template)->
 		Steedos.setSpaceId(this._id)
 		# 获取路由路径中第一个单词，即根目录
 		rootName = FlowRouter.current().path.split("/")[1]
 		FlowRouter.go("/#{rootName}")
+
+		Modal.hide(template)
 
