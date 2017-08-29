@@ -457,5 +457,10 @@
 	"warning_description": "请输入描述",
 	"delete_confirm": "确定删除吗?",
 	"get_secret_successfully": "新建成功",
-	"Secret": "Secret"
+	"Secret": "Secret",
+	"meteor_status_waiting": "网络故障,",
+	"meteor_status_reconnect_in": "一分钟后重连...",
+	"meteor_status_reconnect_in_plural": "__count__秒后重连...",
+	"meteor_status_connecting": "连接中...",
+	"meteor_status_try_now_waiting": "重试"
 }
