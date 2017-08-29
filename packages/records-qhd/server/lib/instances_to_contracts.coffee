@@ -45,6 +45,7 @@ InstancesToContracts::getContractInstances = ()->
 		flow: {$in: @contract_flows},
 		is_deleted: false,
 		state: "completed",
+		"values.币种": "人民币",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	}
 
