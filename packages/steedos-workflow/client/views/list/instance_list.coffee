@@ -73,7 +73,7 @@ Template.instance_list.helpers
 			_.keys(instance_more_search_selector).forEach (k)->
 				query[k] = instance_more_search_selector[k]
 
-		Template.instance_list._tableColumns()
+#		Template.instance_list._tableColumns()
 
 		return query
 	enabled_export: ->
@@ -153,53 +153,56 @@ Template.instance_list._tableColumns = ()->
 		$(".custom-column").show();
 		$(".field-value").show();
 
-	table = $(".datatable-instances").DataTable();
-	thead = $("thead", $(".datatable-instances"))
+	try
+		table = $(".datatable-instances").DataTable();
+		thead = $("thead", $(".datatable-instances"))
 
-	table.column(0).visible(!show)
+		table.column(0).visible(!show)
 
-	table.column(2).visible(show)
+		table.column(2).visible(show)
 
-	columnCount = table.columns()[0]?.length || 0
+		columnCount = table.columns()[0]?.length || 0
 
-	if Session.get("flowId")
-		table.column(5).visible(false)
-	else
-		table.column(5).visible(show)
-	if Session.get("box") == "draft"
-		table.column(3).visible(false)
-		table.column(4).visible(false)
-		table.column(6).visible(false)
-		table.column(7).visible(false)
-		table.column(8).visible(false)
-		if columnCount > 11
-			_.range(12, columnCount + 1).forEach (index)->
-				table.column(index - 1)?.visible(false)
-	else
-		table.column(3).visible(show)
-		table.column(4).visible(show)
-		table.column(6).visible(show)
-
-		if Session.get("box") == "inbox"
-			table.column(8).visible(show)
-			table.column(7).visible(false)
+		if Session.get("flowId")
+			table.column(5).visible(false)
 		else
+			table.column(5).visible(show)
+		if Session.get("box") == "draft"
+			table.column(3).visible(false)
+			table.column(4).visible(false)
+			table.column(6).visible(false)
+			table.column(7).visible(false)
 			table.column(8).visible(false)
-			table.column(7).visible(show)
+			if columnCount > 11
+				_.range(12, columnCount + 1).forEach (index)->
+					table.column(index - 1)?.visible(false)
+		else
+			table.column(3).visible(show)
+			table.column(4).visible(show)
+			table.column(6).visible(show)
 
-		if columnCount > 11
-			_.range(12, columnCount + 1).forEach (index)->
-				table.column(index - 1)?.visible(show)
+			if Session.get("box") == "inbox"
+				table.column(8).visible(show)
+				table.column(7).visible(false)
+			else
+				table.column(8).visible(false)
+				table.column(7).visible(show)
 
-	if Session.get("box") == "monitor" && show
-		table.column(11).visible(true)
-	else
-		table.column(11).visible(false)
+			if columnCount > 11
+				_.range(12, columnCount + 1).forEach (index)->
+					table.column(index - 1)?.visible(show)
 
-	if show
-		thead.show()
-	else
-		thead.hide()
+		if Session.get("box") == "monitor" && show
+			table.column(11).visible(true)
+		else
+			table.column(11).visible(false)
+
+		if show
+			thead.show()
+		else
+			thead.hide()
+	catch e
+		console.error e
 
 
 Template.instance_list.onCreated ->
@@ -223,7 +226,7 @@ Template.instance_list.onRendered ->
 
 	self.maxHeight?.set($(".instance-list", $(".steedos")).height());
 
-	Template.instance_list._tableColumns();
+#	Template.instance_list._tableColumns();
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
