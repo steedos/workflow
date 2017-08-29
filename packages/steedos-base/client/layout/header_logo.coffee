@@ -14,7 +14,11 @@ Template.steedosHeaderLogo.helpers
 
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
-		Modal.show "app_list_box_modal"
+
+		if db.spaces.find().count() > 1
+			Modal.show "space_switcher_modal"
+		else
+			Modal.show "app_list_box_modal"
 
 	'click .edit-space': (event)->
 		if Steedos.isSpaceOwner(Steedos.spaceId())
