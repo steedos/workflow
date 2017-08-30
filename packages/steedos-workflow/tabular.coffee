@@ -2,7 +2,7 @@ Steedos.subs["InstanceTabular"] = new SubsManager()
 
 updateTabularTitle = ()->
 
-
+# 如果columns有加减，请修改Template.instance_list._tableColumns 函数
 instancesListTableTabular = (flowId)->
 	options = {
 		name: "instances",
@@ -172,6 +172,7 @@ instancesListTableTabular = (flowId)->
 						if doc?.is_archived
 							return t("YES")
 						return t("NO")
+				visible: false
 				orderable: false
 			}
 		],
