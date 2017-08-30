@@ -98,10 +98,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/steedos/views/layouts/main.html', 'client');
 
-	api.addFiles('client/steedos/views/layouts/master.less', 'client');
-	api.addFiles('client/steedos/views/layouts/master.html', 'client');
-	api.addFiles('client/steedos/views/layouts/master.coffee', 'client');
-
 	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
 

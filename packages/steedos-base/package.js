@@ -138,6 +138,10 @@ Package.onUse(function (api) {
 
 	api.addFiles('client/loading.coffee', 'client');
 
+	api.addFiles('client/layout/master.less', 'client');
+	api.addFiles('client/layout/master.html', 'client');
+	api.addFiles('client/layout/master.coffee', 'client');
+
 	api.export('Steedos');
 	api.export('db');
 
