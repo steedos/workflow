@@ -62,6 +62,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
 	api.addFiles('lib/models/modules_changelogs.coffee');
+	api.addFiles('lib/models/space_settings.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
 	api.addFiles('routes/sso.coffee', 'server');

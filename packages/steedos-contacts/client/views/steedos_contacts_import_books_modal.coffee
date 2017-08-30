@@ -1,5 +1,14 @@
 Template.steedos_contacts_import_modal.helpers
 	contactsFields: ->
+
+		hidden_users = Meteor.settings.public?.contacts?.hidden_users || []
+
+		setting = db.space_settings.findOne({space: Session.get("spaceId"), key: "contacts_hidden_users"})
+
+		setting_hidden_users = setting?.values || []
+
+		hidden_users = hidden_users.concat(setting_hidden_users)
+
 		data = {
 			name: 'books_contacts',
 			atts: {
@@ -9,6 +18,7 @@ Template.steedos_contacts_import_modal.helpers
 				# style: 'padding:6px 12px;width:140px;display:inline',
 				is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
 				multiple: true
+				unselectable_users: hidden_users
 			}
 		}
 		return data;

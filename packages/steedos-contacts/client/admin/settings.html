@@ -1,0 +1,38 @@
+<template name="contacts_settings">
+	<div class="contacts-settings">
+		<div class="navigation-bar">
+			<button type="button" class="btn btn-default" data-toggle="offcanvas">
+				<i class="fa fa-bars"></i>
+			</button>
+
+			<span class="navigation-title">
+				{{_ "steedos_contacts_settings"}}
+			</span>
+
+
+		</div>
+		<div class="admin-content">
+
+			<div class="box box-success settings-hidden">
+				<div class="box-header">
+					<h3 class="box-title">{{_ "steedos_contacts_settings_hidden_users"}}</h3><span class="profile_item_right_btnTips">{{_ "steedos_contacts_settings_hidden_users_tips"}}</span>
+					<div class="pull-right box-tools">
+						<a href="javascript:void(0)" class="btn btn-sm btn-primary btn-flat pull-left set_settings">{{_ "Edit"}}</a>
+					</div>
+				</div>
+
+				<div class="box-body">
+					<ul class="users-list clearfix">
+						{{#each hidden_users}}
+						<li>
+							<img src="/avatar/{{this.user}}">
+							<a class="users-list-name" href="#">{{this.name}}</a>
+							<span class="users-list-date">{{this.email}}</span>
+						</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
