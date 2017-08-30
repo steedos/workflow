@@ -132,6 +132,10 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png','client');
 
+	api.addFiles('client/layout/top_sidebar.html', 'client');
+	api.addFiles('client/layout/top_sidebar.coffee', 'client');
+	api.addFiles('client/layout/top_sidebar.less', 'client');
+
 	api.addFiles('client/iframe/master.html', 'client');
 	api.addFiles('client/iframe/master.coffee', 'client');
 	api.addFiles('client/iframe/master.less', 'client');
