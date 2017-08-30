@@ -42,8 +42,10 @@ Package.onUse(function(api) {
   api.addAssets("client/background/fish.jpg", "client");
 
   api.addAssets("client/images/icon.png", "client");
+  api.addAssets("client/images/icon_en.png", "client");
   api.addAssets("client/images/icon_blue.png", "client");
   api.addAssets("client/images/logo.png", "client");
+  api.addAssets("client/images/logo_en.png", "client");
 
   api.export('Theme');
 
