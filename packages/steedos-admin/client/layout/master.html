@@ -6,15 +6,12 @@
 				{{> steedosHeader}}
 				{{> adminSidebar}}
 				<div class="content-wrapper">
-					<div class="connection-status">
-						{{> status}}
-					</div>
 					{{#if isAdminRoute}}
 						<div class="navigation-bar">
 							{{#if isAdminDetailRoute}}
-					            <button id="admin-back" class="btn btn-default">
-					              <i class="ion ion-chevron-left"></i><span></span>
-					            </button>
+								<button id="admin-back" class="btn btn-default">
+								  <i class="ion ion-chevron-left"></i><span></span>
+								</button>
 							{{else}}
 								<button type="button" class="btn btn-default" data-toggle="offcanvas">
 									<i class="fa fa-bars"></i>
@@ -36,15 +33,17 @@
 						<div class="admin-content">
 							{{> Template.dynamic template=main}}
 						</div>
-						
 					{{else}}
 						{{> Template.dynamic template=main}}
 					{{/if}}
 				</div>
 			{{/ AdminLTE}}
 		</div>
+		<div class="connection-status">
+			{{> status}}
+		</div>
 	{{/if}}
 
-    {{> autoformModals}}
+	{{> autoformModals}}
 </template>
 
