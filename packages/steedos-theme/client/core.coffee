@@ -23,7 +23,10 @@ Theme =
 	}],
 	logo: "/packages/steedos_theme/client/images/logo.png",
 	space_logo: "/packages/steedos_theme/client/images/logo.png",
-	icon: "/packages/steedos_theme/client/images/icon.png"
+	icon: "/packages/steedos_theme/client/images/icon.png",
+	logo_en: "/packages/steedos_theme/client/images/logo_en.png",
+	space_logo_en: "/packages/steedos_theme/client/images/logo_en.png",
+	icon_en: "/packages/steedos_theme/client/images/icon_en.png"
 
 if Meteor.isClient
 	Meteor.startup ->
