@@ -35,7 +35,7 @@ Template.space_info.helpers
     paid_modules: ->
         pm = ""
         s = db.spaces.findOne(Session.get('spaceId'))
-        if s.modules
+        if s and s.modules
             ms = db.modules.find({name: {$in: s.modules}}).fetch()
             pm = _.pluck(ms, 'name_zh').join(',')
         return pm

@@ -17,11 +17,11 @@ JsonRoutes.add 'post', '/api/billing/recharge/notify', (req, res, next) ->
 						})
 						sign = wxpay.sign(_.clone(result))
 						attach = JSON.parse(result.attach)
-						weixin_pay_code_url = db.billing_pay_records.findOne(attach.code_url_id)
-						if weixin_pay_code_url and weixin_pay_code_url.total_fee is Number(result.total_fee) and sign is result.sign
-							if attach.space and attach.module and result.total_fee
-								db.billing_pay_records.update({_id: attach.code_url_id}, {$set: {paid: true}})
-								billingManager.special_pay(attach.space, attach.module, Number(result.total_fee), weixin_pay_code_url.created_by)
+						code_url_id = attach.code_url_id
+						bpr = db.billing_pay_records.findOne(code_url_id)
+						if bpr and bpr.total_fee is Number(result.total_fee) and sign is result.sign
+							db.billing_pay_records.update({_id: code_url_id}, {$set: {paid: true}})
+							billingManager.special_pay(bpr.space, bpr.modules, Number(result.total_fee), bpr.created_by, bpr.end_date, bpr.user_count)
 					
 				)
 			), (err)->

@@ -253,19 +253,18 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 		a_m = moment(new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 1).getTime()).format("YYYYMM")
 		billingManager.caculate_by_accounting_month(a_m, space_id)
 
-billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
+billingManager.special_pay = (space_id, module_names, total_fee, operator_id, end_date, user_count)->
 	amount = (total_fee/100) * (3/20) 
 	space = db.spaces.findOne(space_id)
-	
-	module = db.modules.findOne(module_id)
-
-	module_name = module.name
+	user_limit = 0
+	if space.is_paid
+		user_limit = space.user_limit + user_count
+	else
+		user_limit = user_count
 
 	modules = space.modules || new Array
 	
-	new_modules = new Array
-	if !modules.includes(module_name)
-		new_modules.push(module_name)
+	new_modules = _.difference(module_names, modules)
 
 	transaction = "Payment"
 
@@ -296,6 +295,7 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 			# 更新space是否专业版的标记
 			if space.is_paid isnt true
 				space_update_obj.is_paid = true
+				space_update_obj.start_date = new Date
 
 	# 在billings中插入付费信息
 	last_bill = db.billings.findOne({space: space_id},{sort:{modified: -1}, limit: 1})
@@ -322,6 +322,8 @@ billingManager.special_pay = (space_id, module_id, total_fee, operator_id)->
 		space_update_obj.balance = new_bill.balance
 		space_update_obj.modified = now
 		space_update_obj.modified_by = operator_id
+		space_update_obj.end_date = new Date(end_date)
+		space_update_obj.user_limit = user_limit
 
 		r = db.spaces.direct.update({_id: space_id}, {$set: space_update_obj})
 		if r
