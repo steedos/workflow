@@ -40,7 +40,7 @@ Package.onUse(function (api) {
 
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.7');
-
+	api.use('steedos:ui@0.0.1');
 	api.use('steedos:theme@0.0.23');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
