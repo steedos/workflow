@@ -112,22 +112,6 @@ FlowRouter.route '/admin/profile/:profileName',
 				$(".admin-content a[href=\"##{profileName}\"]").tab('show')
 
 
-FlowRouter.route '/springboard', 
-	triggersEnter: [ checkUserSigned ],
-	action: (params, queryParams)->
-		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
-			return true
-
-		NavigationController.reset();
-		
-		BlazeLayout.render 'masterLayout',
-			main: "springboard"
-
-		if Steedos.isMobile()
-			$("body").removeClass("sidebar-open")
-
-
 FlowRouter.route '/admin/spaces', 
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
