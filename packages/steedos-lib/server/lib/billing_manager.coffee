@@ -317,8 +317,7 @@ billingManager.special_pay = (space_id, module_names, total_fee, operator_id, en
 	new_bill_id = db.billings.insert(new_bill)
 	if new_bill_id
 		# 更新modules
-		modules.push(module_name)
-		space_update_obj.modules = _.uniq(modules)
+		space_update_obj.modules = module_names
 		space_update_obj.balance = new_bill.balance
 		space_update_obj.modified = now
 		space_update_obj.modified_by = operator_id
