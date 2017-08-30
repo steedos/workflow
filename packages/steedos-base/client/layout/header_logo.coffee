@@ -14,7 +14,11 @@ Template.steedosHeaderLogo.helpers
 		return Steedos.isSpaceOwner(Steedos.spaceId())
 
 	logoMiniUrl: ()->
-		return Theme.icon
+		locale = Steedos.locale()
+		if locale == "zh-cn"
+			return Theme.icon
+		else
+			return Theme.icon_en
 
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
