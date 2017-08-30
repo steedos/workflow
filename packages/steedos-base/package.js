@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.56',
+	version: '0.0.57',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -40,8 +40,8 @@ Package.onUse(function (api) {
 
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.7');
-
-	api.use('steedos:theme@0.0.23');
+	api.use('steedos:ui@0.0.1');
+	api.use('steedos:theme@0.0.25');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
@@ -132,11 +132,19 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png','client');
 
+	api.addFiles('client/layout/top_sidebar.html', 'client');
+	api.addFiles('client/layout/top_sidebar.coffee', 'client');
+	api.addFiles('client/layout/top_sidebar.less', 'client');
+
 	api.addFiles('client/iframe/master.html', 'client');
 	api.addFiles('client/iframe/master.coffee', 'client');
 	api.addFiles('client/iframe/master.less', 'client');
 
 	api.addFiles('client/loading.coffee', 'client');
+
+	api.addFiles('client/layout/master.less', 'client');
+	api.addFiles('client/layout/master.html', 'client');
+	api.addFiles('client/layout/master.coffee', 'client');
 
 	api.export('Steedos');
 	api.export('db');

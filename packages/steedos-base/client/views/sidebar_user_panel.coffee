@@ -5,7 +5,11 @@ Template.sidebarUserPanel.helpers
 		if avatar
 			return Steedos.absoluteUrl("/api/files/avatars/#{avatar}")
 		else
-			return Steedos.absoluteUrl(Theme.space_logo)
+			locale = Steedos.locale()
+			if locale == "zh-cn"
+				return Steedos.absoluteUrl(Theme.space_logo)
+			else
+				return Steedos.absoluteUrl(Theme.space_logo_en)
 
 Template.sidebarUserPanel.events
 
