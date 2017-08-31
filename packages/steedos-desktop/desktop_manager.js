@@ -5,6 +5,8 @@ if (Steedos.isNode()){
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
 		if(window.name){
+			// 在新打开的窗口中执行window.close会造成右下角托盘消失问题。
+			// 所有Steedos.openWindow打开的窗口一定会带name属性
 			return;
 		}
 		if (tray){
