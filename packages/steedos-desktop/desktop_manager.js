@@ -4,6 +4,9 @@ if (Steedos.isNode()){
 
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
+		if(window.name){
+			return;
+		}
 		if (tray){
 			tray.remove();
 			tray = null;
