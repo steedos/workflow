@@ -13,6 +13,9 @@ instancesListTableTabular = (flowId)->
 			Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 
 		drawCallback: (settings)->
+			emptyTd = $(".dataTables_empty")
+			if emptyTd.length
+				emptyTd[0].colSpan = "6"
 			if !Steedos.isMobile() && !Steedos.isPad()
 				Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 				$(".instance-list").scrollTop(0).ready ->
