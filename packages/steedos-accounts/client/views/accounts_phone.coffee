@@ -67,12 +67,15 @@ Template.accounts_phone.events
 			# 手机号登录界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
 			# 所以这里不可以直接FlowRouter.go oldPath
 			FlowRouter.go "steedos/sign-in"
+		history.back()
 
-		oldPath = FlowRouter.current().oldRoute?.path
-		if oldPath
-			FlowRouter.go oldPath
-		else
-			FlowRouter.go "/steedos/admin"
+		# oldPath = FlowRouter.current().oldRoute?.path
+		# if oldPath
+		# 	FlowRouter.go oldPath
+		# else
+		# 	FlowRouter.go "/steedos/admin"
 
+	'click .btn-close': (event,template) ->
+		window.close()
 
 

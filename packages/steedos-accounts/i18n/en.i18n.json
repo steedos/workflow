@@ -45,5 +45,6 @@
 	"accounts_phone_sms_failed": "SMS Failed, Something bad happened!",
 	"accounts_phone_toastr_alert": "Your account has not yet bound phone number, binding phone number, you can use SMS to log in, retrieve the password and receive SMS notification, click to start binding!",
 	"accounts_phone_swal_alert": "You do not have a phone number!",
-	"accounts_phone_swal_alert_ok": "Start binding"
+	"accounts_phone_swal_alert_ok": "Start binding",
+	"accounts_phone_close": "Close"
 }
