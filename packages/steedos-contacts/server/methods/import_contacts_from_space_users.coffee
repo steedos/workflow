@@ -4,15 +4,7 @@ Meteor.methods
 		check(groupId, String);
 		check(spaceId, String);
 
-
-		hidden_users = Meteor.settings.public?.contacts?.hidden_users || []
-
-		setting = db.space_settings.findOne({space: spaceId, key: "contacts_hidden_users"})
-
-		setting_hidden_users = setting?.values || []
-
-		hidden_users = hidden_users.concat(setting_hidden_users)
-
+		hidden_users = SteedosContacts.getHiddenUsers(spaceId)
 		
 		# 将每个人员导入到选中的分组中
 		users.forEach (user) ->
