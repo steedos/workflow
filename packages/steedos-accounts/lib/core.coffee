@@ -32,7 +32,8 @@ if Meteor.isClient
 	if Meteor.settings?.public?.phone?.forceAccountBindPhone
 		Meteor.autorun (c)->
 			# 没有验证手机时，提醒手机号未绑定
-			if Meteor.userId() and !Meteor.loggingIn()
+			if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
+				console.log db.users.findOne().locale
 				c.stop()
 				ignoredUsers = Meteor.settings?.public?.phone?.ignoredUsers
 				if ignoredUsers and ignoredUsers.contains Meteor.userId()
