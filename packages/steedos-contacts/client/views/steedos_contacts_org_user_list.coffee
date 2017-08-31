@@ -36,6 +36,7 @@ Template.steedos_contacts_org_user_list.helpers
 
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
+		console.log "query:#{JSON.stringify query}",query
 		return query;
 
 	books_selector: ->

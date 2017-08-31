@@ -103,6 +103,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/org_main.coffee', 'client');
 	api.addFiles('client/views/book_main.html', 'client');
 	api.addFiles('client/views/book_main.coffee', 'client');
+	api.addFiles('client/views/org_main_mobile.html', 'client');
+	api.addFiles('client/views/org_main_mobile.coffee', 'client');
 
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
@@ -114,6 +116,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/steedos_contacts_org_tree.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_tree.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_org_list.html', 'client');
+	api.addFiles('client/views/steedos_contacts_org_list.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.coffee', 'client');
 

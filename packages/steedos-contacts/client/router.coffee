@@ -15,8 +15,12 @@ contactsRoutes.route '/',
 contactsRoutes.route '/orgs', 
 	action: (params, queryParams)->
 		Session.set('contact_showBooks', false)
-		BlazeLayout.render 'contactsLayout',
-			main: "org_main"
+		if Steedos.isMobile()
+			BlazeLayout.render 'contactsLayout',
+				main: "org_main_mobile"
+		else
+			BlazeLayout.render 'contactsLayout',
+				main: "org_main"
 
 contactsRoutes.route '/books', 
 	action: (params, queryParams)->
