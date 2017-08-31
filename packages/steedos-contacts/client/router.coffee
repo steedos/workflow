@@ -23,3 +23,8 @@ contactsRoutes.route '/books',
 		Session.set('contact_showBooks', true)
 		BlazeLayout.render 'contactsLayout',
 			main: "book_main"
+
+FlowRouter.route '/admin/contacts/settings',
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "contacts_settings"

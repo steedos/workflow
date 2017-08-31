@@ -20,6 +20,7 @@ Tracker.autorun (c)->
 	if spaceId
 		Steedos.subsSpaceBase.subscribe("my_space_user", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_organizations", spaceId)
+		Steedos.subsSpaceBase.subscribe("space_settings", spaceId)
 
 
 # Meteor.startup之前就从localStorage读取并设置字体大小及背景图

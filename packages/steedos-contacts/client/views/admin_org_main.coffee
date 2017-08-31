@@ -1,4 +1,4 @@
-Template.org_main.helpers
+Template.admin_org_main.helpers
 	subsReady: ->
 		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready();
 
@@ -11,10 +11,7 @@ Template.org_main.helpers
 		else if Steedos.isSpaceAdmin()
 			return  true
 
-	data: ->
-		return {isDisabled: true}
-
-Template.org_main.onRendered ->
+Template.admin_org_main.onRendered ->
 		unless Steedos.isNotSync()
 			paths = FlowRouter.current().path.match(/\/[^\/]+/)
 			if paths?.length

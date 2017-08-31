@@ -64,6 +64,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/modules.coffee');
 	api.addFiles('lib/models/modules_changelogs.coffee');
 	api.addFiles('lib/models/billing_pay_records.coffee');
+	api.addFiles('lib/models/space_settings.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
 	api.addFiles('routes/sso.coffee', 'server');
@@ -132,7 +133,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/springboard.less', 'client');
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
-	api.addAssets('client/images/default-avatar.png','client');
+	api.addAssets('client/images/default-avatar.png', 'client');
 
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');

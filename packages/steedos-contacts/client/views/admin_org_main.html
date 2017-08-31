@@ -1,13 +1,13 @@
-<template name="org_main">
+<template name="admin_org_main">
   <div class="contacts-main contacts-show">
     {{#if subsReady}}
       {{#if isShowOrg}}
         <div class="contacts-list-wrapper">
-		  {{> Template.dynamic template="steedos_contacts_org_tree" data=data}}
+          {{> steedos_contacts_org_tree}}
         </div>
         <div class="contacts-wrapper">
 
-          {{> steedos_contacts_user_list}}
+          {{> steedos_contacts_org_user_list}}
 
         </div>
         <div class="row" style="display:none">

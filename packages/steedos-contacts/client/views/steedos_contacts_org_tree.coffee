@@ -1,4 +1,7 @@
 Template.steedos_contacts_org_tree.helpers
+	isEditable: ()->
+		return Session.get('contacts_is_org_admin') && !this.isDisabled
+
 	is_admin: ()->
 		return Session.get('contacts_is_org_admin')
 
