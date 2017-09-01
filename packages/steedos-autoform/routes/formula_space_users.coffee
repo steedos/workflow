@@ -47,13 +47,13 @@ Meteor.startup ->
 
 
 					fu.organization = {
-						name: u_org.name,
-						fullname: u_org.fullname
+						name: u_org?.name,
+						fullname: u_org?.fullname
 					}
 
 					fu.organizations = {
-						name: u_orgs.getProperty("name"),
-						fullname: u_orgs.getProperty("fullname"),
+						name: u_orgs?.getProperty("name"),
+						fullname: u_orgs?.getProperty("fullname"),
 					}
 
 					fu.hr = u.hr || {}
