@@ -44,7 +44,7 @@ Template.space_recharge_modal.events
 		user_count = $('#space_recharge_user_count')[0].value.to_integer() || 0
 
 		space = db.spaces.findOne(Session.get('spaceId'))
-		space_modules = space.modules || []
+		space_modules = _.clone(space.modules) || []
 
 		listprices = 0
 		_.each $('#space_recharge_modules input'), (m)->
@@ -58,9 +58,27 @@ Template.space_recharge_modal.events
 
 		if space.is_paid
 
+			balance = 0 
+			old_listprices = 0
+			remain_months = 0
+			old_end_date = space.end_date
+			old_user_limit = space.user_limit
+			old_paid_modules = space.modules
+			console.log "old_paid_modules: #{old_paid_modules}"
+			_.each old_paid_modules, (pm)->
+				module = db.modules.findOne({name: pm})
+				if module and module.listprice
+					old_listprices += module.listprice
 
-			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
-				fee_value = listprices * (20/3) * user_count * months
+			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
+
+			balance = old_listprices * (20/3) * old_user_limit * remain_months
+
+			new_user_limit = user_count + old_user_limit
+
+			if space_modules.length > 0 and listprices > 0 and months > 0
+				total_fee = listprices * (20/3) * new_user_limit * months
+				fee_value = total_fee - balance
 			else
 				return
 		else
@@ -77,7 +95,9 @@ Template.space_recharge_modal.events
 		if fee_value <= 0
 			$('#space_recharge_fee')[0].value = ""
 			return
+
 		total_fee = 100 * fee_value.toFixed().to_integer()
+
 		new_id = db.billing_pay_records._makeNewID() 
 
 		$("body").addClass("loading")
@@ -112,24 +132,43 @@ Template.space_recharge_modal.events
 		user_count = $('#space_recharge_user_count')[0].value.to_integer() || 0
 
 		space = db.spaces.findOne(Session.get('spaceId'))
-		space_modules = space.modules || []
+		space_modules = _.clone(space.modules) || []
 
 		listprices = 0
 		_.each $('#space_recharge_modules input'), (m)->
 			if m.checked and not space_modules.includes(m.value)
 				space_modules.push m.value
 
+		console.log "space_modules: #{space_modules}"
 		_.each space_modules, (sm)->
 			module = db.modules.findOne({name: sm})
 			if module and module.listprice
 				listprices += module.listprice
 
 		if space.is_paid
+			console.log "is_paid"
+			balance = 0 
+			old_listprices = 0
+			remain_months = 0
+			old_end_date = space.end_date
+			old_user_limit = space.user_limit
+			old_paid_modules = space.modules
+			console.log "old_paid_modules: #{old_paid_modules}"
+			_.each old_paid_modules, (pm)->
+				module = db.modules.findOne({name: pm})
+				if module and module.listprice
+					old_listprices += module.listprice
 
+			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
 
-			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
-				space_recharge_fee = listprices * (20/3) * user_count * months
-				$('#space_recharge_fee')[0].value = space_recharge_fee.toFixed()
+			balance = old_listprices * (20/3) * old_user_limit * remain_months
+
+			new_user_limit = user_count + old_user_limit
+
+			if space_modules.length > 0 and listprices > 0 and months > 0
+				total_fee = listprices * (20/3) * new_user_limit * months
+				paid_fee = total_fee - balance
+				$('#space_recharge_fee')[0].value = paid_fee.toFixed()
 			else
 				$('#space_recharge_fee')[0].value = ""
 		else
