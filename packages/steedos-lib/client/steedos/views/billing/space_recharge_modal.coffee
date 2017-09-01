@@ -66,7 +66,7 @@ Template.space_recharge_modal.events
 			old_paid_modules = space.modules
 			console.log "old_paid_modules: #{old_paid_modules}"
 
-			if end_date <= old_end_date
+			if end_date < old_end_date
 				toastr.error "购买日期不能小于已购买日期"
 				$('#space_recharge_fee')[0].value = ""
 				return
@@ -161,11 +161,11 @@ Template.space_recharge_modal.events
 			old_paid_modules = space.modules
 			console.log "old_paid_modules: #{old_paid_modules}"
 
-			if end_date <= old_end_date
+			if end_date < old_end_date
 				toastr.error "购买日期不能小于已购买日期"
 				$('#space_recharge_fee')[0].value = ""
 				return
-			
+
 			_.each old_paid_modules, (pm)->
 				module = db.modules.findOne({name: pm})
 				if module and module.listprice
