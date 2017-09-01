@@ -1,13 +1,7 @@
 Template.steedos_contacts_import_modal.helpers
 	contactsFields: ->
 
-		hidden_users = Meteor.settings.public?.contacts?.hidden_users || []
-
-		setting = db.space_settings.findOne({space: Session.get("spaceId"), key: "contacts_hidden_users"})
-
-		setting_hidden_users = setting?.values || []
-
-		hidden_users = hidden_users.concat(setting_hidden_users)
+		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 
 		data = {
 			name: 'books_contacts',

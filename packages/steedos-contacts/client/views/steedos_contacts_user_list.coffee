@@ -7,13 +7,7 @@ Template.steedos_contacts_user_list.helpers
 
 		is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-		hidden_users = Meteor.settings.public?.contacts?.hidden_users || []
-
-		setting = db.space_settings.findOne({space: Session.get("spaceId"), key: "contacts_hidden_users"})
-
-		setting_hidden_users = setting?.values || []
-
-		hidden_users = hidden_users.concat(setting_hidden_users)
+		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 
 		query = {space: Session.get("spaceId"), user: {$nin: hidden_users}}
 
