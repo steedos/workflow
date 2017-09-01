@@ -9,8 +9,7 @@ contactsRoutes = FlowRouter.group
 
 contactsRoutes.route '/', 
 	action: (params, queryParams)->
-		BlazeLayout.render 'contactsLayout',
-			main: "org_main"
+		FlowRouter.go '/contacts/orgs'
 
 contactsRoutes.route '/orgs', 
 	action: (params, queryParams)->

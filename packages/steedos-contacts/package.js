@@ -151,6 +151,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
+	api.addFiles('steedos_organizations_mobile_tabular.coffee');
 
 	api.addFiles('tabular.coffee');
 	api.addFiles('tabular_books.coffee');

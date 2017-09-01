@@ -1,17 +1,33 @@
 Template.steedos_contacts_org_list.helpers
 	orgs: ->
-		currentOrgId = Session.get('contacts_orgId')
+		currentOrgId = Session.get('contacts_org_mobile')
+		spaceId = Steedos.spaceId()
 		if currentOrgId
-			return ContactsManager.getOrgNode({id:currentOrgId})
+			selector =
+				space: spaceId,
+				parent: currentOrgId,
+				hidden: { $ne: true }
 		else
-			return []
+			isWithinUserOrganizations = ContactsManager.is_within_user_organizations();
+			if isWithinUserOrganizations
+				userId = Meteor.userId()
+				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
+				_ids = uOrgs.getProperty('_id')
+				return _.filter uOrgs, (org) ->
+					parents = org.parents or []
+					return _.intersection(parents, _ids).length < 1
+			else
+				selector = { space: spaceId, is_company: true }
+
+		return db.organizations.find selector
 
 
 Template.steedos_contacts_org_list.onRendered ->
 	$(document.body).addClass('loading')
-	rootOrg = ContactsManager.getOrgNode({id:"#"})[0]
-	if rootOrg
-		Session.set("contacts_orgId", rootOrg.id)
+	Session.set('contacts_org_mobile',null)
+	# rootOrg = ContactsManager.getOrgNode({id:"#"})[0]
+	# if rootOrg
+	# 	Session.set("contacts_orgId", rootOrg.id)
 
 
 	# $("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->

@@ -33,7 +33,7 @@ Template.org_main_mobile.helpers
 
 		if !Session.get("contact_list_search")
 			console.log "contact_list_search----------yes"
-			orgId = Session.get("contacts_orgId");
+			orgId = Session.get("contacts_org_mobile");
 			console.log "orgId:#{orgId}"
 			query.organizations = {$in: [orgId]};
 		else
@@ -44,9 +44,9 @@ Template.org_main_mobile.helpers
 			
 			console.log "orgs#{orgs}"
 
-			console.log "Session.get(--)#{Session.get('contacts_orgId')}"
-			if Session.get("contacts_orgId")
-				orgs = [Session.get("contacts_orgId")]
+			console.log "Session.get(--)#{Session.get('contacts_org_mobile')}"
+			if Session.get("contacts_org_mobile")
+				orgs = [Session.get("contacts_org_mobile")]
 
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
@@ -62,6 +62,36 @@ Template.org_main_mobile.helpers
 			query.user_accepted = true
 		console.log "query:#{JSON.stringify query}",query
 		return query;
+
+	selectorForOrgs: ->
+		currentOrgId = Session.get('contacts_org_mobile')
+		spaceId = Steedos.spaceId()
+		if currentOrgId
+			selector =
+				space: spaceId,
+				parent: currentOrgId,
+				hidden: { $ne: true }
+		else
+			isWithinUserOrganizations = ContactsManager.is_within_user_organizations();
+			if isWithinUserOrganizations
+				userId = Meteor.userId()
+				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
+				_ids = uOrgs.getProperty('_id')
+				orgs = _.filter uOrgs, (org) ->
+					parents = org.parents or []
+					return _.intersection(parents, _ids).length < 1
+				selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
+			else
+				selector = { space: spaceId, is_company: true }
+		return selector
+
+Template.org_main_mobile.onCreated ->
+	spaceId = Steedos.spaceId()
+	isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
+	unless isWithinUserOrganizations
+		rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+		if rootOrg
+			Session.set('contacts_org_mobile', rootOrg._id)
 
 Template.org_main_mobile.onRendered ->
 		if Steedos.isNotSync()
@@ -82,3 +112,8 @@ Template.org_main_mobile.onRendered ->
 				rootPath = "/contacts/books"
 			FlowRouter.go rootPath
 			toastr.error(t("contacts_organization_permission_alert"));
+
+Template.org_main_mobile.events
+	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
+		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
+		# Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})

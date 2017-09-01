@@ -22,9 +22,9 @@
 						<i class="fa fa-sitemap" style="padding-right: 4px;"></i>{{getOrgName}}<i class="caret"></i>
 					</div> -->
 					<div id="contacts_list" class="contacts">
-						<div class="contacts_orgs_list_table">
-							{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-steedos-contacts"}}
-							{{> steedos_contacts_org_list}}
+						<div class="contacts-mobile">
+							{{> tabular table=TabularTables.steedosContactsOrganizations selector=selector class="table table-striped datatable-mobile-users"}}
+							{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
 						</div>
 					</div>
 				</div>
