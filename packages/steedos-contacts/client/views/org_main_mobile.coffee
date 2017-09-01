@@ -17,6 +17,17 @@ Template.org_main_mobile.helpers
 	getOrgName: ()->
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
 
+	title: ()->
+		currentOrgId = Session.get('contacts_org_mobile')
+		currentOrg = db.organizations.findOne({ _id: currentOrgId })
+		if currentOrg
+			return currentOrg.name
+		else
+			return Steedos.spaceName()
+
+	preOrgId: ()->
+		return Session.get('contacts_pre_org_mobile')
+
 	selector: ->
 
 		is_within_user_organizations = ContactsManager.is_within_user_organizations();
@@ -32,19 +43,12 @@ Template.org_main_mobile.helpers
 		query = {space: Session.get("spaceId"), user: {$nin: hidden_users}}
 
 		if !Session.get("contact_list_search")
-			console.log "contact_list_search----------yes"
 			orgId = Session.get("contacts_org_mobile");
-			console.log "orgId:#{orgId}"
 			query.organizations = {$in: [orgId]};
 		else
-			console.log "contact_list_search----------no"
-			console.log "is_within_user_organizations#{is_within_user_organizations}"
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")
-			
-			console.log "orgs#{orgs}"
 
-			console.log "Session.get(--)#{Session.get('contacts_org_mobile')}"
 			if Session.get("contacts_org_mobile")
 				orgs = [Session.get("contacts_org_mobile")]
 
@@ -60,17 +64,24 @@ Template.org_main_mobile.helpers
 
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
-		console.log "query:#{JSON.stringify query}",query
 		return query;
 
 	selectorForOrgs: ->
 		currentOrgId = Session.get('contacts_org_mobile')
 		spaceId = Steedos.spaceId()
 		if currentOrgId
+			# Tabular自带的订阅因为没用SubsManager的subscribe而用的是Meteor.subscribe，造成订阅的缓存机制没有效果。
+			# 所以这里先写成订阅自己及子组织，以后Tabular自带的订阅的缓存BUG解决后再去掉订阅自己，只订阅子组织就行
 			selector =
-				space: spaceId,
-				parent: currentOrgId,
-				hidden: { $ne: true }
+				$or:[
+					$and:[{
+						space: spaceId
+						parent: currentOrgId
+						hidden: { $ne: true }
+					}],
+					{ _id: currentOrgId }
+				]
+			console.log "selector:#{JSON.stringify selector}",selector
 		else
 			isWithinUserOrganizations = ContactsManager.is_within_user_organizations();
 			if isWithinUserOrganizations
@@ -83,6 +94,7 @@ Template.org_main_mobile.helpers
 				selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
 			else
 				selector = { space: spaceId, is_company: true }
+		console.log "selector2:#{JSON.stringify selector}",selector
 		return selector
 
 Template.org_main_mobile.onCreated ->
@@ -115,5 +127,12 @@ Template.org_main_mobile.onRendered ->
 
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
+		currentOrgId = Session.get('contacts_org_mobile')
+		Session.set('contacts_pre_org_mobile', currentOrgId)
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 		# Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
+
+	'click .btn-back': (event, template)->
+		preOrgId = Session.get('contacts_pre_org_mobile')
+		Session.set('contacts_org_mobile', preOrgId)
+		Session.set('contacts_pre_org_mobile', null)
