@@ -22,15 +22,17 @@ Template.org_main_mobile.helpers
 	preOrgId: ()->
 		currentOrgId = Session.get('contacts_org_mobile')
 		currentOrg = db.organizations.findOne(currentOrgId)
-		return currentOrg.parent
+		return currentOrg?.parent
 
 	selector: ->
 
+		spaceId = Steedos.spaceId()
+
 		is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		hidden_users = SteedosContacts.getHiddenUsers(spaceId)
 
-		query = {space: Session.get("spaceId"), user: {$nin: hidden_users}}
+		query = {space: spaceId, user: {$nin: hidden_users}}
 
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_org_mobile");
@@ -39,21 +41,21 @@ Template.org_main_mobile.helpers
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")
 
-			if Session.get("contacts_org_mobile")
-				orgs = [Session.get("contacts_org_mobile")]
+				orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
+					fields: {
+						_id: 1
+					}
+				});
 
-			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
-				fields: {
-					_id: 1
-				}
-			});
+				orgs = orgs.concat(orgs_childs.getProperty("_id"))
 
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
+				query.organizations = {$in: orgs}
+			else
+				rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+				if rootOrg
+					query.organizations = {$in: [rootOrg._id]}
 
-			query.organizations = {$in: orgs};
-
-		if !Session.get('contacts_is_org_admin')
-			query.user_accepted = true
+		query.user_accepted = true
 		return query;
 
 	selectorForOrgs: ->
@@ -79,20 +81,25 @@ Template.org_main_mobile.helpers
 				rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 				selector = {
 					space: spaceId
-					parent: rootOrg._id
+					parent: rootOrg?._id
 					hidden: { $ne: true }
 				}
 		return selector
 
 Template.org_main_mobile.onCreated ->
+	spaceId = Steedos.spaceId()
+	Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 	if Session.get('contacts_org_mobile')
 		return
-	spaceId = Steedos.spaceId()
-	isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-	unless isWithinUserOrganizations
-		rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
-		if rootOrg
-			Session.set('contacts_org_mobile', rootOrg._id)
+	this.autorun ->
+		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
+		unless isWithinUserOrganizations
+			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+			if rootOrg
+				Session.set('contacts_org_mobile', rootOrg._id)
+
+Template.org_main_mobile.onDestroyed ->
+	Steedos.subs["Organization"].clear()
 
 Template.org_main_mobile.onRendered ->
 	unless Steedos.isNotSync()
@@ -117,3 +124,13 @@ Template.org_main_mobile.events
 		currentOrgId = Session.get('contacts_org_mobile')
 		currentOrg = db.organizations.findOne(currentOrgId)
 		Session.set('contacts_org_mobile', currentOrg?.parent)
+
+	'click #contact-list-search-btn': (event, template) ->
+		if $("#contact-list-search-key").val()
+			Session.set("contact_list_search", true)
+		else
+			Session.set("contact_list_search", false)
+		dataTable = $(".datatable-mobile-users").DataTable();
+		dataTable.search(
+			$("#contact-list-search-key").val(),
+		).draw();
