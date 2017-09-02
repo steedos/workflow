@@ -18,8 +18,17 @@
 					</div>
 					<div class="contacts">
 						<div class="contacts-mobile">
+							<div class="input-group">
+								<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
+								<span class="input-group-btn">
+									<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-default"><i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
 							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
-							{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
+							{{#unless isSearching}}
+								{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
+							{{/unless}}
 						</div>
 					</div>
 				</div>

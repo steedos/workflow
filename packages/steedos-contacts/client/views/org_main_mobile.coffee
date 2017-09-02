@@ -24,6 +24,9 @@ Template.org_main_mobile.helpers
 		currentOrg = db.organizations.findOne(currentOrgId)
 		return currentOrg?.parent
 
+	isSearching: ()->
+		return Session.get("contact_list_search")
+
 	selector: ->
 
 		spaceId = Steedos.spaceId()
@@ -50,10 +53,6 @@ Template.org_main_mobile.helpers
 				orgs = orgs.concat(orgs_childs.getProperty("_id"))
 
 				query.organizations = {$in: orgs}
-			else
-				rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
-				if rootOrg
-					query.organizations = {$in: [rootOrg._id]}
 
 		query.user_accepted = true
 		return query;
@@ -124,6 +123,8 @@ Template.org_main_mobile.events
 		currentOrgId = Session.get('contacts_org_mobile')
 		currentOrg = db.organizations.findOne(currentOrgId)
 		Session.set('contacts_org_mobile', currentOrg?.parent)
+		$("#contact-list-search-key").val("")
+		$("#contact-list-search-btn").trigger("click")
 
 	'click #contact-list-search-btn': (event, template) ->
 		if $("#contact-list-search-key").val()
