@@ -78,7 +78,7 @@ Template.org_main_mobile.helpers
 				parent: currentOrgId
 				hidden: { $ne: true }
 		else
-			isWithinUserOrganizations = ContactsManager.is_within_user_organizations();
+			isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 			if isWithinUserOrganizations
 				userId = Meteor.userId()
 				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()

@@ -161,6 +161,43 @@
 				thead{
 					display: none;
 				}
+				tbody{
+					tr{
+						&:nth-of-type(odd){
+							background: none;
+						}
+						td{
+							height: 28px;
+							.contacts-users-mobile-avatar, .contacts-organizations-mobile-avatar{
+								position: absolute;
+								height: 28px;
+								line-height: 28px;
+								img{
+									width: 25px;
+									height: 25px;
+									border-radius: 4px;
+									margin-top: -4px;
+								}
+							}
+							.contacts-users-mobile-name, .contacts-organizations-mobile-name{
+								position: absolute;
+								left: 42px;
+								right: 10px;
+								height: 28px;
+								line-height: 28px;
+							}
+							.contacts-organizations-mobile-avatar{
+								background: #e4e5e6;
+								padding: 4px;
+								border-radius: 4px;
+								.ion{
+									font-size: 22px;
+									color: rgba(63, 135, 217, 0.55);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -267,12 +304,18 @@
 				left: 0;
 				width: 100%;
 				transition: 0.3s ease-in-out;
+				background: #fff;
 				.contacts{
 					top: 102px;
 					bottom: 50px;
 				}
 				.offcanvas{
 					display: inline-block;
+				}
+				&.contacts-wrapper-mobile{
+					.contacts{
+						top: 52px;
+					}
 				}
 			}
 		}

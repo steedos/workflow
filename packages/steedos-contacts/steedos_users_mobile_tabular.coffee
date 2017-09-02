@@ -1,6 +1,6 @@
-TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
-	name: "steedosContactsMobileOrganizations",
-	collection: db.organizations,
+TabularTables.steedosContactsMobileUsers = new Tabular.Table({
+	name: "steedosContactsMobileUsers",
+	collection: db.space_users,
 	createdRow:(row,data,index)->
 		row.dataset.id = data._id
 	columns: [
@@ -8,16 +8,12 @@ TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
+				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				avatarURL = Steedos.absoluteUrl("avatar/#{doc.user}");
 				return """
-					<div class='contacts-organizations-mobile-avatar'><i class="ion ion-android-folder"></i></div>
-					<div class='contacts-organizations-mobile-name text-overflow'>#{doc.name}</div>
+					<div class='contacts-users-mobile-avatar'><img src="#{avatarURL}" class="user-image" /></div>
+					<div class='contacts-users-mobile-name #{colorClass} text-overflow'>#{doc.name}</div>
 				"""
-		},
-		{
-			data: "parent",
-			title: "",
-			orderable: false,
-			visible: false
 		},
 		{
 			data: "sort_no",
@@ -35,11 +31,10 @@ TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
 	],
 
 	dom: "tp",
-	order:[[2,"desc"],[3,"asc"]],
-	extraFields: ["_id", "name", "parent", "sort_no" ],
+	order:[[1,"desc"],[2,"asc"]],
+	extraFields: ["_id", "name", "user", "user_accepted", "sort_no" ],
 	lengthChange: false,
-	pageLength: -1,
-	limit: 500
+	pageLength: 15,
 	info: false,
 	searching: true,
 	responsive:
