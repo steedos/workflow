@@ -116,8 +116,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/steedos_contacts_org_tree.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_tree.coffee', 'client');
-	api.addFiles('client/views/steedos_contacts_org_list.html', 'client');
-	api.addFiles('client/views/steedos_contacts_org_list.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.coffee', 'client');
 

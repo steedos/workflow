@@ -11,12 +11,6 @@ Template.org_main_mobile.helpers
 		else if Steedos.isSpaceAdmin()
 			return  true
 
-	data: ->
-		return {isDisabled: true}
-
-	getOrgName: ()->
-		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
-
 	title: ()->
 		currentOrgId = Session.get('contacts_org_mobile')
 		currentOrg = db.organizations.findOne({ _id: currentOrgId })
@@ -34,13 +28,7 @@ Template.org_main_mobile.helpers
 
 		is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-		hidden_users = Meteor.settings.public?.contacts?.hidden_users || []
-
-		setting = db.space_settings.findOne({space: Session.get("spaceId"), key: "contacts_hidden_users"})
-
-		setting_hidden_users = setting?.values || []
-
-		hidden_users = hidden_users.concat(setting_hidden_users)
+		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 
 		query = {space: Session.get("spaceId"), user: {$nin: hidden_users}}
 
@@ -105,24 +93,16 @@ Template.org_main_mobile.onCreated ->
 			Session.set('contacts_org_mobile', rootOrg._id)
 
 Template.org_main_mobile.onRendered ->
-		if Steedos.isNotSync()
-			TabularTables.steedosContactsOrganizations.customData = @data
-			TabularTables.steedosContactsBooks.customData = @data
-			
-			ContactsManager.setContactModalValue(@data.defaultValues);
-
-			ContactsManager.handerContactModalValueLabel();
-			$("#contact_list_load").hide();
+	unless Steedos.isNotSync()
+		paths = FlowRouter.current().path.match(/\/[^\/]+/)
+		if paths?.length
+			rootPath = paths[0]
 		else
-			paths = FlowRouter.current().path.match(/\/[^\/]+/)
-			if paths?.length
-				rootPath = paths[0]
-			else
-				rootPath = "/admin"
-			if rootPath == "/contacts"
-				rootPath = "/contacts/books"
-			FlowRouter.go rootPath
-			toastr.error(t("contacts_organization_permission_alert"));
+			rootPath = "/admin"
+		if rootPath == "/contacts"
+			rootPath = "/contacts/books"
+		FlowRouter.go rootPath
+		toastr.error(t("contacts_organization_permission_alert"));
 
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
