@@ -39,7 +39,7 @@ TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
 	extraFields: ["_id", "name", "parent", "sort_no" ],
 	lengthChange: false,
 	pageLength: -1,
-	limit: 500
+	limit: 500,
 	info: false,
 	searching: true,
 	responsive:
