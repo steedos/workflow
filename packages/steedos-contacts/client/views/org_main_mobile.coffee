@@ -26,7 +26,9 @@ Template.org_main_mobile.helpers
 			return Steedos.spaceName()
 
 	preOrgId: ()->
-		return Session.get('contacts_pre_org_mobile')
+		currentOrgId = Session.get('contacts_org_mobile')
+		currentOrg = db.organizations.findOne(currentOrgId)
+		return currentOrg.parent
 
 	selector: ->
 
@@ -69,19 +71,12 @@ Template.org_main_mobile.helpers
 	selectorForOrgs: ->
 		currentOrgId = Session.get('contacts_org_mobile')
 		spaceId = Steedos.spaceId()
+		selector = {_id: -1}
 		if currentOrgId
-			# Tabular自带的订阅因为没用SubsManager的subscribe而用的是Meteor.subscribe，造成订阅的缓存机制没有效果。
-			# 所以这里先写成订阅自己及子组织，以后Tabular自带的订阅的缓存BUG解决后再去掉订阅自己，只订阅子组织就行
 			selector =
-				$or:[
-					$and:[{
-						space: spaceId
-						parent: currentOrgId
-						hidden: { $ne: true }
-					}],
-					{ _id: currentOrgId }
-				]
-			console.log "selector:#{JSON.stringify selector}",selector
+				space: spaceId
+				parent: currentOrgId
+				hidden: { $ne: true }
 		else
 			isWithinUserOrganizations = ContactsManager.is_within_user_organizations();
 			if isWithinUserOrganizations
@@ -93,8 +88,12 @@ Template.org_main_mobile.helpers
 					return _.intersection(parents, _ids).length < 1
 				selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
 			else
-				selector = { space: spaceId, is_company: true }
-		console.log "selector2:#{JSON.stringify selector}",selector
+				rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+				selector = {
+					space: spaceId
+					parent: rootOrg._id
+					hidden: { $ne: true }
+				}
 		return selector
 
 Template.org_main_mobile.onCreated ->
@@ -128,11 +127,9 @@ Template.org_main_mobile.onRendered ->
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
 		currentOrgId = Session.get('contacts_org_mobile')
-		Session.set('contacts_pre_org_mobile', currentOrgId)
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
-		# Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
 
 	'click .btn-back': (event, template)->
-		preOrgId = Session.get('contacts_pre_org_mobile')
-		Session.set('contacts_org_mobile', preOrgId)
-		Session.set('contacts_pre_org_mobile', null)
+		currentOrgId = Session.get('contacts_org_mobile')
+		currentOrg = db.organizations.findOne(currentOrgId)
+		Session.set('contacts_org_mobile', currentOrg?.parent)

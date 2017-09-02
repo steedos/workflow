@@ -12,6 +12,12 @@ TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
 				return "<div class='contacts-name #{colorClass} nowrap'>" + doc.name + "</div>"
 		},
 		{
+			data: "parent",
+			title: "",
+			orderable: false,
+			visible: false
+		},
+		{
 			data: "sort_no",
 			title: "",
 			orderable: true,
@@ -27,7 +33,7 @@ TabularTables.steedosContactsMobileOrganizations = new Tabular.Table({
 	],
 
 	dom: "tp",
-	order:[[1,"desc"],[2,"asc"]],
+	order:[[2,"desc"],[3,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
 	lengthChange: false,
 	pageLength: -1,
