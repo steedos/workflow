@@ -85,6 +85,8 @@ Template.org_main_mobile.helpers
 		return selector
 
 Template.org_main_mobile.onCreated ->
+	if Session.get('contacts_org_mobile')
+		return
 	spaceId = Steedos.spaceId()
 	isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 	unless isWithinUserOrganizations
@@ -106,8 +108,10 @@ Template.org_main_mobile.onRendered ->
 
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
-		currentOrgId = Session.get('contacts_org_mobile')
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
+
+	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
+		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
 
 	'click .btn-back': (event, template)->
 		currentOrgId = Session.get('contacts_org_mobile')
