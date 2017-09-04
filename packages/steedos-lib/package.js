@@ -155,6 +155,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v4.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v5.coffee', 'server');
+	api.addFiles('server/steedos/startup/migrations/v6.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
 	// methods

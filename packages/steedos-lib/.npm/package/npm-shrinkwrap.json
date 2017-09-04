@@ -237,13 +237,13 @@
       "from": "long-timeout@0.0.2"
     },
     "mime-db": {
-      "version": "1.29.0",
-      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.29.0.tgz",
-      "from": "mime-db@>=1.29.0 <1.30.0"
+      "version": "1.30.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.30.0.tgz",
+      "from": "mime-db@>=1.30.0 <1.31.0"
     },
     "mime-types": {
-      "version": "2.1.16",
-      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.16.tgz",
+      "version": "2.1.17",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.17.tgz",
       "from": "mime-types@>=2.1.7 <2.2.0"
     },
     "mkdirp": {
