@@ -13,7 +13,7 @@ Meteor.startup ->
 				start_date.setMilliseconds(0)
 				db.spaces.find({is_paid: true, user_limit: {$exists: false}}).forEach (s)->
 					set_obj = {}
-					user_count = db.space_users.find({space: s._id}).count()
+					user_count = db.space_users.find({space: s._id, user_accepted: true}).count()
 					set_obj.user_limit = user_count
 					balance = s.balance
 					if balance > 0
