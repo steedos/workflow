@@ -1,6 +1,8 @@
 Meteor.startup ->
 	# 手机上左右滑动切换sidebar
 	unless Steedos.isMobile()
+		Steedos.bindSwipeBackEvent = (selector, fun)->
+			return
 		return
 	isSwiping = false
 	loapTime = 0
