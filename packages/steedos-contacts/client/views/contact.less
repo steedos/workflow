@@ -238,7 +238,7 @@
 				display: none;
 				width: 100%;
 				z-index: 1010;
-				top: 102px;
+				top: 85px;
 				bottom: 50px;
 
 				.contacts_back{
@@ -420,6 +420,12 @@
 		padding-top: 1px; 
 		padding-bottom: 15px;
 		overflow-y: auto;
+		.weui-cell_primary.text-muted {
+			width: calc(~"100% - 105px");
+			.weui-input {
+				word-wrap: break-word;
+			}
+		}
 		.weui-cells{
 			margin-top: -3px;
 			.btn-edit-username{
