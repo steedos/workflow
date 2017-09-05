@@ -55,6 +55,7 @@ Template.org_main_mobile.helpers
 				query.organizations = {$in: orgs}
 
 		query.user_accepted = true
+		console.log "query:#{query}",query
 		return query;
 
 	selectorForOrgs: ->
@@ -141,11 +142,18 @@ Template.org_main_mobile.events
 
 	'input #contact-list-search-key': (event, template)->
 		console.log "aaa:#{$(event.currentTarget).val()}"
-		searchKey = $(event.currentTarget).val()
+		searchKey = $(event.currentTarget).val().trim()
 		if searchKey
 			$(event.currentTarget).next(".weui-icon-clear").removeClass("empty")
 		else
 			$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
+
+		# 匹配双字节字符(包括汉字在内)
+		reg = /[^x00-xff]/
+		unless /[^x00-xff]/.test(searchKey)
+			if searchKey.length < 3
+				# 非汉字等双字节字符，长度小于3时不执行搜索
+				return
 
 		if searchKey
 			Session.set("contact_list_search", true)
