@@ -125,6 +125,7 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', currentOrg?.parent)
 
 	'click .weui-search-bar__label': (event, template)->
+		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").focus()
 
@@ -135,6 +136,7 @@ Template.org_main_mobile.events
 		$("#contact-list-search-key").focus()
 
 	'click .weui-search-bar__cancel-btn': (event, template)->
+		$(event.currentTarget).closest(".contacts").removeClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").removeClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").val("")
 		$("#contact-list-search-key").trigger("input")
@@ -158,3 +160,4 @@ Template.org_main_mobile.events
 
 	'focus #contact-list-search-key': (event, template)->
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
+
