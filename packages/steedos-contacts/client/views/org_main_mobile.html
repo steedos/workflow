@@ -21,7 +21,10 @@
 							<div class="input-group search-box">
 								<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
 								<span class="input-group-btn">
-									<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-default"><i class="fa fa-search"></i>
+									{{#if isSearching}}
+										<button class="btn btn-default btn-sm btn-clear"><i class="ion ion-android-close"></i></button>
+									{{/if}}
+									<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-default btn-sm"><i class="fa fa-search"></i>
 									</button>
 								</span>
 							</div>

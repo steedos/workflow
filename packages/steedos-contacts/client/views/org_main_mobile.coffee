@@ -135,3 +135,7 @@ Template.org_main_mobile.events
 		dataTable.search(
 			$("#contact-list-search-key").val(),
 		).draw();
+
+	'click .btn-clear': (event, template)->
+		$("#contact-list-search-key").val("")
+		$("#contact-list-search-btn").trigger("click")
