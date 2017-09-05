@@ -146,10 +146,21 @@ TemplateManager._template =
 				{{/if}}
 			{{/if}}
 		{{/each}}
-		<div class="col-md-12">
-			<div class="applicant-wrapper">
-				<label class="control-label">{{_t "instance_initiator"}}&nbsp;:</label>
+		<div class="col-md-6">
+			<div class="applicant-wrapper form-group form-horizontal">
+			<div class="input-group">
+				<div class="input-group-addon">
+				  {{_t "instance_initiator"}}&nbsp;:
+				</div>
 				{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+              </div>
+
+				<!--
+					<label class="control-label" style='padding-left: 0px;padding-right: 0px;text-align: left'>{{_t "instance_initiator"}}&nbsp;:</label>
+					<div style='padding-left: 0px;padding-right: 0px;'>
+						{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+					</div>
+				-->
 			</div>
 		</div>
 	'''

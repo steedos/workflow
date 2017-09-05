@@ -19,7 +19,7 @@
 
 		.contacts-tree{
 			background-color: #fff;
-			height: calc(~"100% - 51px");
+			height: calc(~"100% - 43px");
 			overflow-y: auto;
 			.box-solid{
 				margin-bottom: 0px;
@@ -91,6 +91,8 @@
 		-webkit-overflow-scrolling: touch;
 
 		.pull-right{
+			position: relative;
+			top: -1px;
 			width: 200px;
 		}
 
@@ -153,7 +155,7 @@
 		}
 
 		.navigation-bar{
-			height: 51px;
+			height: 43px;
 		}
 
 		.contacts-mobile{
@@ -289,7 +291,7 @@
 				display: none;
 				width: 100%;
 				z-index: 1010;
-				top: 102px;
+				top: 85px;
 				bottom: 50px;
 
 				.contacts_back{
@@ -314,7 +316,7 @@
 				transition: 0.3s ease-in-out;
 				background: #fff;
 				.contacts{
-					top: 102px;
+					top: 86px;
 					bottom: 50px;
 				}
 				.offcanvas{
@@ -477,6 +479,12 @@
 		padding-top: 1px; 
 		padding-bottom: 15px;
 		overflow-y: auto;
+		.weui-cell_primary.text-muted {
+			width: calc(~"100% - 105px");
+			.weui-input {
+				word-wrap: break-word;
+			}
+		}
 		.weui-cells{
 			margin-top: -3px;
 			font-size: 14px;
