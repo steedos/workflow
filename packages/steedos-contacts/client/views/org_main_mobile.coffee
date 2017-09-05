@@ -148,21 +148,26 @@ Template.org_main_mobile.events
 		else
 			$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
 
-		# 匹配双字节字符(包括汉字在内)
-		reg = /[^x00-xff]/
-		unless /[^x00-xff]/.test(searchKey)
-			if searchKey.length < 3
-				# 非汉字等双字节字符，长度小于3时不执行搜索
-				return
+		if arguments.callee.timer
+			clearTimeout arguments.callee.timer
 
-		if searchKey
-			Session.set("contact_list_search", true)
-		else
-			Session.set("contact_list_search", false)
-		dataTable = $(".datatable-mobile-users").DataTable();
-		dataTable.search(
-			$("#contact-list-search-key").val()
-		).draw()
+		arguments.callee.timer = setTimeout ()->
+			# 匹配双字节字符(包括汉字在内)
+			reg = /[^x00-xff]/
+			unless /[^x00-xff]/.test(searchKey)
+				if searchKey.length < 3
+					# 非汉字等双字节字符，长度小于3时不执行搜索
+					return
+
+			if searchKey
+				Session.set("contact_list_search", true)
+			else
+				Session.set("contact_list_search", false)
+			dataTable = $(".datatable-mobile-users").DataTable();
+			dataTable.search(
+				$("#contact-list-search-key").val()
+			).draw()
+		, 800
 
 	'focus #contact-list-search-key': (event, template)->
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
