@@ -16,6 +16,21 @@ TabularTables.steedosContactsMobileUsers = new Tabular.Table({
 				"""
 		},
 		{
+			data: "mobile",
+			orderable: false,
+			visible: false
+		},
+		{
+			data: "work_phone",
+			orderable: false,
+			visible: false
+		},
+		{
+			data: "email",
+			orderable: false,
+			visible: false
+		},
+		{
 			data: "sort_no",
 			title: "",
 			orderable: true,
@@ -31,8 +46,7 @@ TabularTables.steedosContactsMobileUsers = new Tabular.Table({
 	],
 
 	dom: "tp",
-	order:[[1,"desc"],[2,"asc"]],
-	# extraFields: ["_id", "name", "user", "user_accepted", "sort_no" ],
+	order:[[4,"desc"],[5,"asc"]],
 	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
 	lengthChange: false,
 	pageLength: -1,
