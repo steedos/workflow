@@ -125,8 +125,6 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', currentOrg?.parent)
 
 	'click .weui-search-bar__label': (event, template)->
-		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
-		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").focus()
 
 	'click .weui-icon-clear': (event, template)->
@@ -160,4 +158,6 @@ Template.org_main_mobile.events
 
 	'focus #contact-list-search-key': (event, template)->
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
+		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
+		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
 
