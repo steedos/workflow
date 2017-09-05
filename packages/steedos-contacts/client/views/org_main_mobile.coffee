@@ -123,19 +123,38 @@ Template.org_main_mobile.events
 		currentOrgId = Session.get('contacts_org_mobile')
 		currentOrg = db.organizations.findOne(currentOrgId)
 		Session.set('contacts_org_mobile', currentOrg?.parent)
-		$("#contact-list-search-key").val("")
-		$("#contact-list-search-btn").trigger("click")
 
-	'click #contact-list-search-btn': (event, template) ->
-		if $("#contact-list-search-key").val()
+	'click .weui-search-bar__label': (event, template)->
+		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
+		$("#contact-list-search-key").focus()
+
+	'click .weui-icon-clear': (event, template)->
+		$(event.currentTarget).addClass("empty")
+		$("#contact-list-search-key").val("")
+		$("#contact-list-search-key").trigger("input")
+		$("#contact-list-search-key").focus()
+
+	'click .weui-search-bar__cancel-btn': (event, template)->
+		$(event.currentTarget).closest(".weui-search-bar").removeClass("weui-search-bar_focusing")
+		$("#contact-list-search-key").val("")
+		$("#contact-list-search-key").trigger("input")
+
+	'input #contact-list-search-key': (event, template)->
+		console.log "aaa:#{$(event.currentTarget).val()}"
+		searchKey = $(event.currentTarget).val()
+		if searchKey
+			$(event.currentTarget).next(".weui-icon-clear").removeClass("empty")
+		else
+			$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
+
+		if searchKey
 			Session.set("contact_list_search", true)
 		else
 			Session.set("contact_list_search", false)
 		dataTable = $(".datatable-mobile-users").DataTable();
 		dataTable.search(
-			$("#contact-list-search-key").val(),
-		).draw();
+			$("#contact-list-search-key").val()
+		).draw()
 
-	'click .btn-clear': (event, template)->
-		$("#contact-list-search-key").val("")
-		$("#contact-list-search-btn").trigger("click")
+	'focus #contact-list-search-key': (event, template)->
+		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")

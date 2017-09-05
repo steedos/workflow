@@ -18,7 +18,7 @@
 					</div>
 					<div class="contacts">
 						<div class="contacts-mobile">
-							<div class="input-group search-box">
+<!-- 							<div class="input-group search-box">
 								<input type="text" name="contact-list-search-key" id="contact-list-search-key" class="form-control contact-list-search-key" placeholder='{{_ "Search"}}...'>
 								<span class="input-group-btn">
 									{{#if isSearching}}
@@ -27,6 +27,20 @@
 									<button type="submit" name="contact-list-search-btn" id="contact-list-search-btn" class="btn btn-default btn-sm"><i class="fa fa-search"></i>
 									</button>
 								</span>
+							</div> -->
+							<div class="weui-search-bar">
+								<div class="weui-search-bar__form">
+									<div class="weui-search-bar__box">
+										<i class="weui-icon-search"></i>
+										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder="搜索" />
+										<a href="javascript:" class="weui-icon-clear empty"></a>
+									</div>
+									<label class="weui-search-bar__label" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+										<i class="weui-icon-search"></i>
+										<span>搜索</span>
+									</label>
+								</div>
+								<a href="javascript:" class="weui-search-bar__cancel-btn">取消</a>
 							</div>
 							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
 							{{#unless isSearching}}
