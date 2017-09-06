@@ -218,7 +218,7 @@ InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 		if httpResponse.statusCode == 200
 			InstancesToArchive.success instance
 		else
-			InstancesToArchive.failed instance, httpResponse
+			InstancesToArchive.failed instance, httpResponse?.body
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
