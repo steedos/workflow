@@ -25,7 +25,7 @@ Template.org_main_mobile.helpers
 		return currentOrg?.parent
 
 	isSearching: ()->
-		return Session.get("contact_list_search")
+		return Template.instance().isSearching?.get()
 
 	selector: ->
 
@@ -37,10 +37,12 @@ Template.org_main_mobile.helpers
 
 		query = {space: spaceId, user: {$nin: hidden_users}}
 
-		if !Session.get("contact_list_search")
-			orgId = Session.get("contacts_org_mobile");
-			query.organizations = {$in: [orgId]};
-		else
+		isSearching = Template.instance().isSearching?.get()
+		searchingTag = Template.instance().searchingTag?.get()
+		if isSearching
+			searchKey = $("#contact-list-search-key").val().trim()
+			unless searchKey
+				return { _id: -1 }
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")
 
@@ -53,9 +55,11 @@ Template.org_main_mobile.helpers
 				orgs = orgs.concat(orgs_childs.getProperty("_id"))
 
 				query.organizations = {$in: orgs}
+		else
+			orgId = Session.get("contacts_org_mobile");
+			query.organizations = {$in: [orgId]};
 
 		query.user_accepted = true
-		console.log "query:#{query}",query
 		return query;
 
 	selectorForOrgs: ->
@@ -87,6 +91,8 @@ Template.org_main_mobile.helpers
 		return selector
 
 Template.org_main_mobile.onCreated ->
+	this.isSearching = new ReactiveVar(false)
+	this.searchingTag = new ReactiveVar(0) #在搜索条件变化时触发tabular的selector属性重新计算
 	spaceId = Steedos.spaceId()
 	Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 	if Session.get('contacts_org_mobile')
@@ -135,13 +141,13 @@ Template.org_main_mobile.events
 		$("#contact-list-search-key").focus()
 
 	'click .weui-search-bar__cancel-btn': (event, template)->
+		template.isSearching.set(false)
 		$(event.currentTarget).closest(".contacts").removeClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").removeClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").val("")
 		$("#contact-list-search-key").trigger("input")
 
 	'input #contact-list-search-key': (event, template)->
-		console.log "aaa:#{$(event.currentTarget).val()}"
 		searchKey = $(event.currentTarget).val().trim()
 		if searchKey
 			$(event.currentTarget).next(".weui-icon-clear").removeClass("empty")
@@ -151,31 +157,29 @@ Template.org_main_mobile.events
 		if arguments.callee.timer
 			clearTimeout arguments.callee.timer
 
-		doSearch = (key)->
-			if key
+		doSearch = (key, template)->
+			if template.isSearching.get()
 				# 匹配双字节字符(包括汉字在内)
 				reg = /[^x00-xff]/
 				unless /[^x00-xff]/.test(key)
 					if key.length < 3
 						# 非汉字等双字节字符，长度小于3时不执行搜索
 						return
-
-				Session.set("contact_list_search", true)
-			else
-				Session.set("contact_list_search", false)
+			template.searchingTag.set(template.searchingTag.get() + 1)
 			dataTable = $(".datatable-mobile-users").DataTable()
 			dataTable.search(
 				key
 			).draw()
 
-		if searchKey
+		if template.isSearching.get()
 			arguments.callee.timer = setTimeout ()->
-				doSearch searchKey
+				doSearch searchKey, template
 			, 800
 		else
-			doSearch searchKey
+			doSearch searchKey, template
 
 	'focus #contact-list-search-key': (event, template)->
+		template.isSearching.set(true)
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
 		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
