@@ -233,6 +233,12 @@ if (Meteor.isServer)
 			if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 				throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
 
+		if modifier.$set.user_accepted is true
+			if space.is_paid is true
+				accepted_user_count = db.space_users.find({space: space._id, user_accepted: true}).count()
+				if (accepted_user_count + 1) > space.user_limit 
+					throw new Meteor.Error(400, "需要额外购买" + 1 + "个用户名额")
+
 
 		if modifier.$set.email
 			if modifier.$set.email != doc.email

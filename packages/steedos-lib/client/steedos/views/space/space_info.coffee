@@ -29,8 +29,15 @@ Template.space_info.helpers
             return true
         return !disableAddSpace
 
-    user_count: ->
-        return Session.get('space_user_count')
+    total_user_count: ->
+        return this.user_count_info?.get().total_user_count
+
+    paid_user_count: ->
+        s = db.spaces.findOne({_id:Session.get('spaceId')}, {fields: {user_limit: 1}})
+        return s.user_limit
+
+    accepted_user_count: ->
+        return this.user_count_info?.get().accepted_user_count
 
     paid_modules: ->
         pm = ""
@@ -96,6 +103,8 @@ Meteor.startup ->
                 else 
                     toastr.error error
 
+Template.space_info.onCreated ()->
+    this.data.user_count_info = new ReactiveVar({})
 
 Template.space_info.onRendered ()->
     that = this
@@ -104,4 +113,4 @@ Template.space_info.onRendered ()->
             if err
                 console.log err.reason
             if result
-                Session.set('space_user_count',result)
+                that.data.user_count_info.set(result)
