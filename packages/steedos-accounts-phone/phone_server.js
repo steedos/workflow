@@ -706,8 +706,10 @@ Meteor.users._ensureIndex('phone.number', {
     unique: 1,
     sparse: 1
 });
+
+// cn平台发生过验证码重复的问题，所以去掉唯一性索引约束
 Meteor.users._ensureIndex('services.phone.verify.code', {
-    unique: 1,
+    // unique: 1,
     sparse: 1
 });
 
