@@ -22,15 +22,15 @@
 								<div class="weui-search-bar__form">
 									<div class="weui-search-bar__box">
 										<i class="weui-icon-search"></i>
-										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder="搜索" />
+										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder={{_ "Search"}} />
 										<a href="javascript:" class="weui-icon-clear empty"></a>
 									</div>
 									<label class="weui-search-bar__label" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
 										<i class="weui-icon-search"></i>
-										<span>搜索</span>
+										<span>{{_ "Search"}}</span>
 									</label>
 								</div>
-								<a href="javascript:" class="weui-search-bar__cancel-btn">取消</a>
+								<a href="javascript:" class="weui-search-bar__cancel-btn">{{_ "Cancel"}}</a>
 							</div>
 							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
 							{{#unless isSearching}}
