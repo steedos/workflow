@@ -9,15 +9,16 @@ logger = new Logger 'Records_QHD -> InstancesToArchive'
 # spaces: Array 工作区ID
 # archive_server: String 档案系统服务
 # contract_flows： Array 合同类流程
-InstancesToArchive = (spaces, archive_server, contract_flows) ->
+InstancesToArchive = (spaces, archive_server, contract_flows, ins_ids) ->
 	@spaces = spaces
 	@archive_server = archive_server
 	@contract_flows = contract_flows
+	@ins_ids = ins_ids
 	return
 
 #	获取合同类的申请单：正常结束的(不包括取消申请、被驳回的申请单)
 InstancesToArchive::getContractInstances = ()->
-	return db.instances.find({
+	query = {
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
 		is_archived: false,
@@ -25,10 +26,15 @@ InstancesToArchive::getContractInstances = ()->
 		state: "completed",
 		"values.record_need": "true",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
-	});
+	}
+
+	if @ins_ids
+		query._id = {$in : @ins_ids}
+
+	return db.instances.find(query);
 
 InstancesToArchive::getNonContractInstances = ()->
-	return db.instances.find({
+	query = {
 		space: {$in: @spaces},
 		flow: {$nin: @contract_flows},
 		is_archived: false,
@@ -36,7 +42,12 @@ InstancesToArchive::getNonContractInstances = ()->
 		state: "completed",
 		"values.record_need": "true",
 		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
-	});
+	}
+
+	if @ins_ids
+		query._id = {$in : @ins_ids}
+
+	return db.instances.find(query);
 
 InstancesToArchive.success = (instance)->
 	logger.info("success, name is #{instance.name}, id is #{instance._id}")
@@ -258,6 +269,8 @@ InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 	_minxiInstanceData(formData, instance)
 
 	if _checkParameter(formData)
+
+#		console.log "formData", formData
 
 		logger.debug("_sendContractInstance: #{instance._id}")
 
