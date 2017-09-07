@@ -19,10 +19,9 @@ Template.org_main_mobile.helpers
 		else
 			return Steedos.spaceName()
 
-	preOrgId: ()->
-		currentOrgId = Session.get('contacts_org_mobile')
-		currentOrg = db.organizations.findOne(currentOrgId)
-		return currentOrg?.parent
+	organizationsPathLength: ()->
+		debugger
+		return Template.instance().organizationsPath.get().length
 
 	isSearching: ()->
 		return Template.instance().isSearching?.get()
@@ -93,13 +92,13 @@ Template.org_main_mobile.helpers
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
 	this.searchingTag = new ReactiveVar(0) #在搜索条件变化时触发tabular的selector属性重新计算
-	spaceId = Steedos.spaceId()
-	Steedos.subs["Organization"].subscribe("root_organization", spaceId)
-	if Session.get('contacts_org_mobile')
-		return
+	this.organizationsPath = new ReactiveVar([])
+	Session.set('contacts_org_mobile',null)
 	this.autorun ->
+		spaceId = Steedos.spaceId()
 		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 		unless isWithinUserOrganizations
+			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			if rootOrg
 				Session.set('contacts_org_mobile', rootOrg._id)
@@ -121,15 +120,20 @@ Template.org_main_mobile.onRendered ->
 
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
+		organizationsPath = template.organizationsPath.get()
+		organizationsPath.push Session.get('contacts_org_mobile')
+		template.organizationsPath.set(organizationsPath)
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
 	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
 
 	'click .btn-back': (event, template)->
-		currentOrgId = Session.get('contacts_org_mobile')
-		currentOrg = db.organizations.findOne(currentOrgId)
-		Session.set('contacts_org_mobile', currentOrg?.parent)
+		organizationsPath = template.organizationsPath.get()
+		lastOrgId = organizationsPath[organizationsPath.length - 1]
+		Session.set('contacts_org_mobile', lastOrgId)
+		organizationsPath.pop()
+		template.organizationsPath.set(organizationsPath)
 
 	'click .weui-search-bar__label': (event, template)->
 		$("#contact-list-search-key").focus()
