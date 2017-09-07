@@ -179,11 +179,12 @@ instancesListTableTabular = (flowId)->
 				orderable: false
 			}
 		],
-		dom: "tp",
+		dom: "tpl",
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
-		lengthChange: false,
+		lengthChange: true,
+		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
 		info: false,
 		searching: true,
