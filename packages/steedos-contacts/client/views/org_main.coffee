@@ -12,7 +12,7 @@ Template.org_main.helpers
 			return  true
 
 	data: ->
-		return {isDisabled: true}
+		return {isDisabled: true, showHiddenOrg: false}
 
 Template.org_main.onRendered ->
 		unless Steedos.isNotSync()
