@@ -33,6 +33,7 @@ Template.steedos_contacts_org_tree.onRendered ->
 			multiple:false,
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
+				console.log "node:#{node}",node
 				# this.select_node(node)
 				cb(ContactsManager.getOrgNode(node, Session.get('contacts_is_org_admin'))) # 普通用户只显示非隐藏的组织
 

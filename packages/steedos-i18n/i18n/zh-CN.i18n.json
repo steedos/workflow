@@ -462,5 +462,6 @@
 	"meteor_status_reconnect_in": "一分钟后重连...",
 	"meteor_status_reconnect_in_plural": "__count__秒后重连...",
 	"meteor_status_connecting": "连接中...",
-	"meteor_status_try_now_waiting": "重试"
+	"meteor_status_try_now_waiting": "重试",
+	"btn_back_title": "返回"
 }
