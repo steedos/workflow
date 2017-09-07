@@ -16,7 +16,7 @@ Template.steedos_contacts_user_list.helpers
 			query.organizations = {$in: [orgId]};
 		else
 			if is_within_user_organizations
-				orgs = db.organizations.find({space: spaceId, users: this.userId}).fetch().getProperty("_id")
+				orgs = db.organizations.find().fetch().getProperty("_id")
 
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
@@ -31,7 +31,8 @@ Template.steedos_contacts_user_list.helpers
 
 			query.organizations = {$in: orgs};
 
-		query.user_accepted = true
+		if !Session.get('contacts_is_org_admin')
+			query.user_accepted = true
 		return query;
 
 	books_selector: ->
