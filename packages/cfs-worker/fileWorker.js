@@ -81,9 +81,15 @@ FS.FileWorker.observe = function(fsCollection) {
  *  }
  */
 function getReadyQuery(storeName) {
-  var selector = {uploadedAt: {$exists: true}};
+  var selector = {
+    uploadedAt: {
+      $exists: true
+    }
+  };
   selector['copies.' + storeName] = null;
-  selector['failures.copies.' + storeName + '.doneTrying'] = {$ne: true};
+  selector['failures.copies.' + storeName + '.doneTrying'] = {
+    $ne: true
+  };
   return selector;
 }
 
@@ -124,18 +130,30 @@ function getReadyQuery(storeName) {
  */
 function getDoneQuery(stores) {
   var selector = {
-    $and: [{chunks: {$exists: true}}]
+    $and: [{
+      chunks: {
+        $exists: true
+      }
+    }]
   };
 
   // Add conditions for all defined stores
   FS.Utility.each(stores, function(store) {
     var storeName = store.name;
-    var copyCond = {$or: [{$and: []}]};
+    var copyCond = {
+      $or: [{
+        $and: []
+      }]
+    };
     var tempCond = {};
-    tempCond["copies." + storeName] = {$ne: null};
+    tempCond["copies." + storeName] = {
+      $ne: null
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
-    tempCond["copies." + storeName] = {$ne: false};
+    tempCond["copies." + storeName] = {
+      $ne: false
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
     tempCond['failures.copies.' + storeName + '.doneTrying'] = true;
@@ -173,5 +191,10 @@ function saveCopy(fsFile, storeName, options) {
   var readStream = FS.TempStore.createReadStream(fsFile);
 
   // Pipe the temp data into the storage adapter
-  readStream.pipe(writeStream);
+  try {
+    readStream.pipe(writeStream);
+  } catch (e) {
+    return
+  }
+
 }
