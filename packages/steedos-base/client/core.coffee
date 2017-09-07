@@ -12,3 +12,9 @@ Meteor.startup ->
 	Tracker.autorun ->
 		unless Meteor.userId()
 			toastr.clear()
+
+	Tracker.autorun ->
+		if Meteor.status().status == 'connected'
+			$("body").removeClass("offline")
+		else
+			$("body").addClass("offline")

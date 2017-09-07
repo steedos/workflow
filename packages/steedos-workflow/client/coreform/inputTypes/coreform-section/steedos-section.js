@@ -24,3 +24,10 @@ AutoForm.addInputType("section",{
         return context;
     }
 });
+
+Template.afSection.helpers({
+	label: function () {
+		return this.atts.label || this.name;
+	}
+})
+
