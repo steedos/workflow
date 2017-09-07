@@ -19,7 +19,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 		{{#with getField this.name}}
 			{{#if equals type 'section'}}
 					<div class='section callout callout-default'>
-						<label class="control-label">{{code}}</label>
+						<label class="control-label">{{f_label this}}</label>
 						<p>{{{description}}}</p>
 					</div>
 			{{else}}
