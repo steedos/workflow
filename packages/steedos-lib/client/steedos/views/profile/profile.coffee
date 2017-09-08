@@ -183,6 +183,8 @@ Template.profile.events
 
 	'change .change-avatar .avatar-file': (event, template) ->
 		file = event.target.files[0];
+		unless file
+			return
 		$("body").addClass("loading");
 		db.avatars.insert file, (error, fileDoc)->
 			if error
