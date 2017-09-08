@@ -12,8 +12,9 @@ Meteor.startup ->
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	$("body").on("swipe", (event, options)->
 		isSidebarOpen = $("body").hasClass('sidebar-open')
-		if !isSidebarOpen and options.startEvnt.position.x > 40
-			return
+		# if !isSidebarOpen and options.startEvnt.position.x > 40
+		#   如果要把效果设置为:"只能从手机左侧边缘滑动才能触发切换sidebar的显示与隐藏"，就放开该判断语句
+		# 	return
 		unless $(".main-sidebar").length
 			return
 		if options.direction != "left" and options.direction != "right"
