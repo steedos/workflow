@@ -230,9 +230,9 @@
                     <div class="row zoom-setting">
                       {{#each zooms}}
                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                          <a data-name="{{name}}" data-size="{{size}}" class="thumbnail zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave name}} {{isCurrentZoomNameActive name}}">
-                            <div class="zoom-setting-item zoom-{{name}}">
-                              {{title}}
+                          <a data-name="{{this.name}}" data-size="{{this.size}}" class="thumbnail zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave this.name}} {{isCurrentZoomNameActive this.name}}">
+                            <div class="zoom-setting-item zoom-{{this.name}}">
+                              {{this.title}}
                             </div>
                           </a>
                         </div>
