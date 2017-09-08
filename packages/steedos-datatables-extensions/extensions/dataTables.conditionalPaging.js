@@ -39,7 +39,8 @@
                 api = new $.fn.dataTable.Api(dtSettings),
                 speed = 'slow',
                 conditionalPaging = function(e) {
-                    var $paging = $(api.table().container()).find('div.dataTables_paginate'),
+                    // 增加div.dataTables_length，让一页显示多少条记录选项框与翻页按钮一同显示或隐藏
+                    var $paging = $(api.table().container()).find('div.dataTables_paginate,div.dataTables_length'),
                         pages = api.page.info().pages;
 
                     if (e instanceof $.Event) {
