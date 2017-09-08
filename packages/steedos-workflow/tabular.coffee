@@ -179,7 +179,12 @@ instancesListTableTabular = (flowId)->
 				orderable: false
 			}
 		],
-		dom: "tpl",
+		dom: do ->
+			# 手机上不显示一页显示多少条记录选项
+			if Steedos.isMobile()
+				'tp'
+			else
+				'tpl'
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
