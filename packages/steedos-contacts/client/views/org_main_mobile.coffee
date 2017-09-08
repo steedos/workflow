@@ -20,7 +20,6 @@ Template.org_main_mobile.helpers
 			return Steedos.spaceName()
 
 	organizationsPathLength: ()->
-		debugger
 		return Template.instance().organizationsPath.get().length
 
 	isSearching: ()->
