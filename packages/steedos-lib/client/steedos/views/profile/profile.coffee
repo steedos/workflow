@@ -122,7 +122,7 @@ Template.profile.helpers
 		if user.phone
 			return user.phone.number.replace(/^\+86/,"")
 
-	title: ()->
+	navigationTitle: ()->
 		if Steedos.isMobile()
 			path = FlowRouter.current().path
 			tag = path.match(/admin\/profile\/(\w+)/)?[1]
