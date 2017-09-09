@@ -192,7 +192,9 @@ function saveCopy(fsFile, storeName, options) {
 
   // Pipe the temp data into the storage adapter
   try {
-    readStream.pipe(writeStream);
+    if (readStream._streams && readStream._streams.length > 0) {
+      readStream.pipe(writeStream);
+    }
   } catch (e) {
     return
   }
