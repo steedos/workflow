@@ -69,11 +69,11 @@ db.avatars.allow
 db.avatars.files.before.insert (userId, doc) ->
   doc.userId = userId;
 
-if Meteor.isServer
-    Meteor.startup ->
-        db.avatars.on 'stored', Meteor.bindEnvironment (fileObj, storeName)->
-            # 上传完成后清除_tempstore中的chunk
-            FS.TempStore.removeFile(fileObj)
-            return
-        , ()->
-            console.log 'Failed to bind environment'
+# if Meteor.isServer
+#     Meteor.startup ->
+#         db.avatars.on 'stored', Meteor.bindEnvironment (fileObj, storeName)->
+#             # 上传完成后清除_tempstore中的chunk
+#             FS.TempStore.removeFile(fileObj)
+#             return
+#         , ()->
+#             console.log 'Failed to bind environment'
