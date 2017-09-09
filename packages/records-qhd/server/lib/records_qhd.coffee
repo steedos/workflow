@@ -25,7 +25,7 @@ RecordsQHD.run = ()->
 	RecordsQHD.instanceToArchive();
 	RecordsQHD.instanceToContracts();
 
-RecordsQHD.instanceToArchive = ()->
+RecordsQHD.instanceToArchive = (ins_ids)->
 
 	spaces = RecordsQHD.settings_records_qhd.spaces
 
@@ -59,7 +59,7 @@ RecordsQHD.instanceToArchive = ()->
 		logger.error "缺少settings配置: records-qhd.to_archive_sett.non_contract_instances.to_archive_api"
 		return
 
-	instancesToArchive = new InstancesToArchive(spaces, archive_server, flows)
+	instancesToArchive = new InstancesToArchive(spaces, archive_server, flows, ins_ids)
 
 	instancesToArchive.sendContractInstances(contract_archive_api);
 

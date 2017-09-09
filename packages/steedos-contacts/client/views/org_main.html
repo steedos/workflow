@@ -3,11 +3,11 @@
     {{#if subsReady}}
       {{#if isShowOrg}}
         <div class="contacts-list-wrapper">
-          {{> steedos_contacts_org_tree}}
+		  {{> Template.dynamic template="steedos_contacts_org_tree" data=data}}
         </div>
         <div class="contacts-wrapper">
 
-          {{> steedos_contacts_org_user_list}}
+          {{> steedos_contacts_user_list}}
 
         </div>
         <div class="row" style="display:none">

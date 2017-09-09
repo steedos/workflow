@@ -11,6 +11,9 @@ Template.org_main.helpers
 		else if Steedos.isSpaceAdmin()
 			return  true
 
+	data: ->
+		return {isDisabled: true, showHiddenOrg: false}
+
 Template.org_main.onRendered ->
 		unless Steedos.isNotSync()
 			paths = FlowRouter.current().path.match(/\/[^\/]+/)

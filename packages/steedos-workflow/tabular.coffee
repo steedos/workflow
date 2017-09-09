@@ -13,6 +13,9 @@ instancesListTableTabular = (flowId)->
 			Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 
 		drawCallback: (settings)->
+			emptyTd = $(".dataTables_empty")
+			if emptyTd.length
+				emptyTd[0].colSpan = "6"
 			if !Steedos.isMobile() && !Steedos.isPad()
 				Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 				$(".instance-list").scrollTop(0).ready ->
@@ -176,11 +179,17 @@ instancesListTableTabular = (flowId)->
 				orderable: false
 			}
 		],
-		dom: "tp",
+		dom: do ->
+			# 手机上不显示一页显示多少条记录选项
+			if Steedos.isMobile()
+				'tp'
+			else
+				'tpl'
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
-		lengthChange: false,
+		lengthChange: true,
+		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
 		info: false,
 		searching: true,

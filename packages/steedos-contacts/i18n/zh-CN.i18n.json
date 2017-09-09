@@ -97,5 +97,10 @@
 	"steedos_contacts_import_users_select_file": "请选择需要导入的数据",
 	"steedos_contacts_import_users_import_success": "导入已完成",
 	"steedos_contacts_import_users_check_success": "校验通过",
-	"btn_set_primary_title": "设为主部门"
+	"btn_set_primary_title": "设为主部门",
+	"steedos_contacts_settings": "通讯录管理",
+	"steedos_contacts_settings_hidden_users": "隐藏的用户",
+	"steedos_contacts_settings_hidden_users_tips": "被隐藏的用户，不会显示在通讯录中",
+	"steedos_contacts_settings_hidden_users_edit": "编辑要隐藏的用户"
+
 }

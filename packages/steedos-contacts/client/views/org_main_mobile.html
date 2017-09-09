@@ -1,0 +1,50 @@
+<template name="org_main_mobile">
+	<div class="contacts-main contacts-show">
+		{{#if subsReady}}
+			{{#if isShowOrg}}
+				<div class="contacts-wrapper contacts-wrapper-mobile">
+					<div class="navigation-bar">
+						{{#if organizationsPathLength}}
+							<button type="button" class="btn btn-default btn-back">
+								<i class="ion ion-chevron-left"></i>
+								<span>{{_ "btn_back_title"}}</span>
+							</button>
+						{{else}}
+							<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
+								<i class="fa fa-bars"></i>
+							</button>
+						{{/if}}
+						<span class="navigation-title">{{title}}</span>
+					</div>
+					<div class="contacts">
+						<div class="contacts-mobile">
+							<div class="weui-search-bar">
+								<div class="weui-search-bar__form">
+									<div class="weui-search-bar__box">
+										<i class="weui-icon-search"></i>
+										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder={{_ "Search"}} />
+										<a href="javascript:" class="weui-icon-clear empty"></a>
+									</div>
+									<label class="weui-search-bar__label">
+										<i class="weui-icon-search"></i>
+										<span>{{_ "Search"}}</span>
+									</label>
+								</div>
+								<a href="javascript:" class="weui-search-bar__cancel-btn">{{_ "Cancel"}}</a>
+							</div>
+							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
+							{{#unless isSearching}}
+								{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
+							{{/unless}}
+						</div>
+					</div>
+				</div>
+				{{> baseTabbar}}
+			{{/if}}
+		{{else}}
+			<div class="loading">
+				{{> steedosLoading}}
+			</div>
+		{{/if}}
+	</div>
+</template>

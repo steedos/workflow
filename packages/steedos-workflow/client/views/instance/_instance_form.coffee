@@ -454,6 +454,9 @@ InstanceformTemplate.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
+	f_label: (that)->
+		return that.name || that.code
+
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
 		return this.form_version
@@ -499,8 +502,6 @@ if Meteor.isServer
 			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
 		else
 			return "/api/files/instances/#{_id}?download=true";
-
-
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->

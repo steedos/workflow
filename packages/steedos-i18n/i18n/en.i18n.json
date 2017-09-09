@@ -444,5 +444,6 @@
 	"meteor_status_reconnect_in": "",
 	"meteor_status_reconnect_in_plural": "",
 	"meteor_status_connecting": "Connecting...",
-	"meteor_status_try_now_waiting": "Retry"
+	"meteor_status_try_now_waiting": "Retry",
+	"btn_back_title": "Back"
 }

@@ -275,8 +275,9 @@ var s_schema = function (label, field) {
 
     }
 
-    if (fieldType == 'section') {
-        schema.autoform.description = field.description
+    if (fieldType === 'section') {
+        schema.autoform.description = field.description;
+		schema.autoform.label = field.name;
     }
 
     return schema;

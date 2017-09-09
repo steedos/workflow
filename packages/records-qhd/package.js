@@ -60,6 +60,10 @@ Package.onUse(function (api) {
 
 	api.addFiles('client/views/sync_contracts.coffee', 'client');
 
+	api.addFiles('client/views/sync_archive.html', 'client');
+
+	api.addFiles('client/views/sync_archive.coffee', 'client');
+
 	api.addFiles('client/views/sync_contracts.less', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
@@ -75,6 +79,7 @@ Package.onUse(function (api) {
 	api.addFiles('server/lib/records_qhd.coffee', 'server');
 
 	api.addFiles('server/methods/sync_contracts.coffee', 'server');
+	api.addFiles('server/methods/sync_archive.coffee', 'server');
 
 	api.addFiles('server/routes/sync_contracts.coffee', 'server');
 

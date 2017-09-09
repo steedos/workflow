@@ -8,6 +8,11 @@ db.address_books._simpleSchema = new SimpleSchema
 			type: "hidden",
 			defaultValue: ->
 				return Meteor.userId();
+	user:
+		type: String,
+		optional: true,
+		autoform:
+			type: "hidden",
 	name:
 		type: String,
 	email:
