@@ -191,12 +191,6 @@ function saveCopy(fsFile, storeName, options) {
   var readStream = FS.TempStore.createReadStream(fsFile);
 
   // Pipe the temp data into the storage adapter
-  try {
-    if (readStream._streams && readStream._streams.length > 0) {
-      readStream.pipe(writeStream);
-    }
-  } catch (e) {
-    return
-  }
+  readStream.pipe(writeStream);
 
 }
