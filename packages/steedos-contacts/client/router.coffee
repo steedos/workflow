@@ -19,7 +19,7 @@ contactsRoutes.route '/orgs',
 				main: "org_main_mobile"
 		else
 			BlazeLayout.render 'contactsLayout',
-				main: "org_main"
+				main: "admin_org_main"
 
 contactsRoutes.route '/books', 
 	action: (params, queryParams)->
