@@ -8,6 +8,7 @@
  */
 FS.FileWorker = {};
 var path = Npm.require('path');
+var fs = Npm.require('fs');
 
 /**
  * @method FS.FileWorker.observe
