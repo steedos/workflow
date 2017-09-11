@@ -84,6 +84,7 @@ Package.onUse(function (api) {
 	api.addFiles([
 		'client/core.coffee',
 		'client/swipe.coffee',
+		'client/swipe.less',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',

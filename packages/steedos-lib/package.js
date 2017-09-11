@@ -117,6 +117,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
 	api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
 
+	api.addFiles('client/steedos/views/api/api.html', 'client');
+	api.addFiles('client/steedos/views/api/api.less', 'client');
+	api.addFiles('client/steedos/views/api/api.coffee', 'client');
+
 	api.addFiles('client/steedos/views/login/login_layout.less', 'client');
 	api.addFiles('client/steedos/views/login/login_layout.html', 'client');
 	api.addFiles('client/steedos/views/login/login_layout.coffee', 'client');

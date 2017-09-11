@@ -7,6 +7,8 @@
  * @type Object
  */
 FS.FileWorker = {};
+var path = Npm.require('path');
+var fs = Npm.require('fs');
 
 /**
  * @method FS.FileWorker.observe
@@ -188,10 +190,32 @@ function saveCopy(fsFile, storeName, options) {
   FS.debug && console.log('saving to store ' + storeName);
 
   if (FS.TempStore.exists(fsFile)) {
-    var writeStream = storage.adapter.createWriteStream(fsFile);
-    var readStream = FS.TempStore.createReadStream(fsFile);
+    var temp_chunk = FS.TempStore.Tracker.findOne({
+      fileId: fsFile._id
+    });
+    if (temp_chunk.is_saveCopy) {
+      return;
+    }
+    var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
+    exists = fs.existsSync(filepath);
+    if (exists) {
+      var r = FS.TempStore.Tracker.update({
+        fileId: fsFile._id,
+        is_saveCopy: {
+          $exists: false
+        }
+      }, {
+        $set: {
+          is_saveCopy: true
+        }
+      });
+      if (r) {
+        var writeStream = storage.adapter.createWriteStream(fsFile);
+        var readStream = FS.TempStore.createReadStream(fsFile);
+        // Pipe the temp data into the storage adapter
+        readStream.pipe(writeStream);
+      }
+    }
 
-    // Pipe the temp data into the storage adapter
-    readStream.pipe(writeStream);
   }
 }
