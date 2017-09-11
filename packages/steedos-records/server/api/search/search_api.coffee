@@ -11,7 +11,7 @@ Meteor.startup ()->
 		if req.query.q==""||req.query.q==null
 			JsonRoutes.sendResult res,data:jsonData
 			return
-		address=es_server
+		address=Meteor.settings.public.webservices?.elasticsearch?.url
 		index=Meteor.settings.records.es_search_index
 		type="instances"
 		from=req.query.start+""
@@ -24,7 +24,7 @@ Meteor.startup ()->
 				"bool" : {
 					"must" : {
 						"multi_match": {
-							"query": "#{q}",
+							"query": q,
 							"type": "cross_fields",
 							"fields": [
 								"name",
@@ -37,14 +37,14 @@ Meteor.startup ()->
 					"filter" : {
 						"match": {
 							"users": {
-								"query": "#{userId}",
+								"query": userId,
 								"type": "phrase"
 							}
 						}
 					}
 				}
 			},
-			"sort": { "modified": { "order": "desc" }},
+#			"sort": { "modified": { "order": "desc" ,"unmapped_type" : "date"}},
 			"highlight": {
 				"pre_tags":["<strong>"],
 				"post_tags":["</strong>"]
@@ -54,9 +54,9 @@ Meteor.startup ()->
 					"attachments.*": {}
 				}
 			}
-		};
+		}
 		params = {size:size,from:from}
-		result=HTTP.call(
+		result = HTTP.call(
 			'POST',
 			query_url,
 			{
@@ -64,12 +64,12 @@ Meteor.startup ()->
 				data: data
 			}
 		)
-		if result.statusCode==200
-			srcData=result.data.hits
-			jsonData.recordsTotal=srcData.total
-			jsonData.recordsFiltered=srcData.total
-			jsonData.data=srcData.hits
+		if result.statusCode == 200
+			srcData = result.data.hits
+			jsonData.recordsTotal = srcData.total
+			jsonData.recordsFiltered = srcData.total
+			jsonData.data = srcData.hits
 		else
-			jsonData.error="Network is error,Please try again!"
+			jsonData.error = "网络异常！"
 		JsonRoutes.sendResult res,data:jsonData
 		return

@@ -159,7 +159,7 @@ steedos:remind
 steedos:calendar
 steedos:calendar-i18n
 
-# steedos:records
+steedos:records
 
 steedos:freeboard
 steedos:dashboard

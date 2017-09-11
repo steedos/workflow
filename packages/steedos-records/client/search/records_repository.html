@@ -1,21 +1,21 @@
 <template name="search_records_repository">
     <div class="steedos-records-search">
-		<section class="content searchUI records_repository">
-    		<div class="box box-widget">
+        <section class="content searchUI records_repository" style="padding-top:0px;">
+            <div class="box box-widget">
                 <div class="box-header with-border">
-                	<h3 class="box-title">{{_ "records_info_records"}}</h3>
+                    <h3 class="box-title">{{_ "records_info_records"}}</h3>
 
-                	<div class="box-tools pull-right">
-                    	<button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <!-- <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
                         <i class="fa fa-minus"></i>
-                    	</button>
-                  	</div>
+                        </button>
+                    </div> -->
                 </div>
                 <div class="box-body">
                     <div class="row box-header">
                         <div class="col-lg-8">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="txt-search form-control" placeholder='{{_ "records_info_search"}}' >
+                                <input type="text" class="txt-search form-control" placeholder='{{_ "records_info_search"}}' name="input_search">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-primary btn-flat btn-search">
                                     <i class="fa fa-search"></i>
@@ -42,6 +42,6 @@
                     </div>
                 </div>
             </div>
-	   </section>
+       </section>
     </div>
 </template>
