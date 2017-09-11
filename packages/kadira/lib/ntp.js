@@ -39,7 +39,6 @@ Ntp.prototype.syncTime = function(localTime) {
 };
 
 Ntp.prototype.sync = function() {
-	console.log("init sync...")
   logger('init sync');
   var self = this;
   var retryCount = 0;
@@ -119,13 +118,10 @@ Ntp.prototype.getServerTime = function(callback) {
       type: 'GET',
       url: self.endpoint,
       success: function(serverTime) {
-      	console.log("getServerTime", serverTime)
         callback(null, parseInt(serverTime));
       },
       error: function(err) {
-		  console.log("getServerTime err: ", err)
-        //callback(err);
-		  callback(null, (new Date()).getTime());
+        callback(err);
       }
     });
   }

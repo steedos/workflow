@@ -1,6 +1,4 @@
 Kadira.send = function (payload, path, callback) {
-	console.log("Kadira send....");
-
   if(!Kadira.connected)  {
     throw new Error("You need to connect with Kadira first, before sending messages!");
   }
@@ -45,7 +43,6 @@ Kadira._getSendFunction = function() {
 };
 
 Kadira._clientSend = function (endpoint, payload, callback) {
-  console.log("data", payload);
   $.ajax({
     type: 'POST',
     url: endpoint,
