@@ -89,7 +89,7 @@ FS.Store.S3 = function(name, options) {
   var defaultAcl = options.ACL || 'private';
 
   // Remove serviceParams from SA options
- // options = _.omit(options, validS3ServiceParamKeys);
+  // options = _.omit(options, validS3ServiceParamKeys);
 
   var serviceParams = FS.Utility.extend({
     Bucket: bucket,
@@ -116,7 +116,9 @@ FS.Store.S3 = function(name, options) {
       if (info && info.key) return info.key;
 
       var filename = fileObj.name();
-      var filenameInStore = fileObj.name({store: name});
+      var filenameInStore = fileObj.name({
+        store: name
+      });
 
       // If no store key found we resolve / generate a key
       return fileObj.collectionName + '/' + fileObj.collectionName + "-" + fileObj._id + '-' + (filenameInStore || filename);
@@ -159,13 +161,13 @@ FS.Store.S3 = function(name, options) {
     },
     remove: function(fileKey, callback) {
 
-      // S3.deleteObject({
-      //   Bucket: bucket,
-      //   Key: folder + fileKey
-      // }, function(error) {
-      //   callback(error, !error);
-      // });
-      callback(null, true);
+      S3.deleteObject({
+        Bucket: bucket,
+        Key: folder + fileKey
+      }, function(error) {
+        callback(error, !error);
+      });
+      // callback(null, true);
     },
     watch: function() {
       throw new Error("S3 storage adapter does not support the sync option");

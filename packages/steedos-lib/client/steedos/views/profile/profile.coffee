@@ -122,6 +122,29 @@ Template.profile.helpers
 		if user.phone
 			return user.phone.number.replace(/^\+86/,"")
 
+	navigationTitle: ()->
+		if Steedos.isMobile()
+			path = FlowRouter.current().path
+			tag = path.match(/admin\/profile\/(\w+)/)?[1]
+			switch tag
+				when "profile"
+					return t "Profile"
+				when "avatar"
+					return t "Avatar"
+				when "account"
+					return t "Account"
+				when "emails"
+					return t "email"
+				when "personalization"
+					return t "personalization"
+				when "secrets"
+					return t "Secret"
+				else
+					return t "Account"
+					break
+		else
+			return t "Account"
+
 Template.profile.onRendered ->
 	profileName = FlowRouter.current()?.params?.profileName
 	if profileName
@@ -183,6 +206,8 @@ Template.profile.events
 
 	'change .change-avatar .avatar-file': (event, template) ->
 		file = event.target.files[0];
+		unless file
+			return
 		$("body").addClass("loading");
 		db.avatars.insert file, (error, fileDoc)->
 			if error
