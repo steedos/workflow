@@ -3,11 +3,11 @@
 
 .workflow-main {
 	background: rgba(255, 255, 255, 0.6);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 .instance-list-wrapper {
@@ -21,20 +21,64 @@
 	top: 0px;
 	bottom: 0px;
 
+	.toolbar{
+		height: 51px;
+		background: #f3f3f3;
+		.instance-search-box{
+			margin-right:5px;
+			.input-group{
+				width:200px;
+				.form-control{
+					border-radius: 6px;
+				}
+				.btn{
+					margin-left: -34px;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 767px){
+		.toolbar{
+			.instance-search-box{
+				position: absolute;
+				left: 8px;
+				right: 8px;
+				margin-right: 0!important;
+				.input-group{
+					width:100%;
+				}
+			}
+		}
+	}
+
+	.search-tip-bar{
+	    background: #FFF;
+		border-bottom: 1px solid #eee;
+		padding: 10px 20px;
+		height: 40px;
+	}
+
 	.instance-list {
 		overflow-x: hidden;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
-		top: 51px;
 		bottom: 0px;
 		right: 0px;
 		left: 0px;
 		position: absolute;
 		background-color: white;
 
+		&.selectbar-is-show {
+			top: 142px;
+		}
+		&.selectbar-is-hide {
+			top: 102px;
+		}
+
 		//.dataTables_wrapper {
-		//	margin-right: -1px;
-		//	overflow-x: auto;
+		//  margin-right: -1px;
+		//  overflow-x: auto;
 		//}
 		.instance-name {
 				padding-left: 15px;
@@ -50,35 +94,6 @@
 		}
 		.instance-applicant {
 				padding-left: 15px;
-		}
-		.toolbar{
-			background: rgba(238, 238, 238, 0.72);
-			.instance-search-box{
-				margin-right:5px;
-				.input-group{
-					width:200px;
-					.form-control{
-						border-radius: 6px;
-					}
-					.btn{
-						margin-left: -34px;
-					}
-				}
-			}
-		}
-
-		@media screen and (max-width: 767px){
-			.toolbar{
-				.instance-search-box{
-					position: absolute;
-					left: 8px;
-					right: 8px;
-					margin-right: 0!important;
-					.input-group{
-						width:100%;
-					}
-				}
-			}
 		}
 	}
 
@@ -246,10 +261,10 @@
 				top: 15px !important;
 			}
 			//.btn-remove {
-			//	color: #999;
+			//  color: #999;
 			//}
 			//.btn-remove:hover {
-			//	color: #666;
+			//  color: #666;
 			//}
 			.instance-suggestion-next-steps{
 				border: solid 1px #ccc;

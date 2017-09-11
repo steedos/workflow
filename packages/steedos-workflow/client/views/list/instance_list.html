@@ -27,7 +27,6 @@
 			</button>
 		</div>
 	</div>
-<div class="instance-list">
 	<div class="toolbar">
 		{{#if hasFlowId}}
 			<div class="btn-group hidden-xs" role="group">
@@ -72,16 +71,17 @@
 		<span>{{_ "instance_search_result_tip"}}</span>: <label>{{filterFlowName}}</label>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
+	<div class="instance-list {{is_select_bar_show}}">
 
-	<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
-	{{#if is_inbox}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{else}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{/if}}
+		<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
+		{{#if is_inbox}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{else}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{/if}}
 
 
-</div>
+	</div>
 
 {{> baseTabbar}}
 </template>

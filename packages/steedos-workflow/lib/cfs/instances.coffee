@@ -68,9 +68,3 @@ if Meteor.isServer
                 cfs.instances.files._ensureIndex({"copies.instances": 1})
                 cfs.instances.files._ensureIndex({"uploadedAt": 1})   
 
-                # cfs.instances.on 'stored', Meteor.bindEnvironment (fileObj, storeName)->
-                #     # 上传完成后清除_tempstore中的chunk
-                #     FS.TempStore.removeFile(fileObj)
-                #     return
-                # , ()->
-                #     console.log 'Failed to bind environment'
