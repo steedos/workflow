@@ -5,11 +5,14 @@ Meteor.startup ->
 			return
 		return
 	isSwiping = false
+	startX = 0
 	loapTime = 0
-	loapX = 0
+	offsetX = 0
+	movingX = 0
 	swipeStartTime = 0
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
+	isSidebarOpen = false
 	$("body").on("swipe", (event, options)->
 		isSidebarOpen = $("body").hasClass('sidebar-open')
 		# if !isSidebarOpen and options.startEvnt.position.x > 40
@@ -25,26 +28,31 @@ Meteor.startup ->
 			return
 		isSwiping = true
 		swipeStartTime = options.startEvnt.time
+		startX = options.startEvnt.position.x
+		$("body").addClass "sidebar-swapping"
 	);
 	$("body").on("swipeend", (event, options)->
 		unless isSwiping
 			return
 		isSwiping = false
+		$("body").removeClass "sidebar-swapping"
 		$(sidebarSelector).css("transform","")
 		$(contentWrapperSelector).css("transform","")
 		action = ""
-		if loapTime - swipeStartTime > 1000
-			# 长按移动时间超过1s则以最后停留位置为准决定打开或关闭左侧菜单
-			if loapX > 100
-				action = "open"
-			else
+		if loapTime - swipeStartTime > 300
+			# 长按移动时间超过300ms则以最后停留位置为准决定打开或关闭左侧菜单
+			
+			translateX = $(sidebarSelector).css("transform").match(/\d+/g)[4]
+			translateX = parseInt translateX
+			if translateX > (230 - 100)
 				action = "close"
+			else
+				action = "open"
 		else if options.direction == "right"
 			action = "open"
 		else
 			action = "close"
 
-		isSidebarOpen = $("body").hasClass('sidebar-open')
 		if action == "open"
 			unless isSidebarOpen
 				$("body").addClass('sidebar-open')
@@ -56,16 +64,25 @@ Meteor.startup ->
 	$("body").on("tapmove", (event, options)->
 		unless isSwiping
 			return
-		offsetX = options.position.x - loapX
-		if options.time - loapTime > 100 and (offsetX > 10 || offsetX < -10)
-			loapTime = options.time
-			loapX = options.position.x
+		loapTime = options.time
+		movingX = options.position.x
+		offsetX = movingX - startX
 
-			if isSwiping
-				if loapX > 230 
-					loapX = 230
-				$(sidebarSelector).css("transform","translate(#{-(230-loapX)}px, 0)")
-				$(contentWrapperSelector).css("transform","translate(#{loapX}px, 0)")
+		if isSwiping
+			if isSidebarOpen
+				if offsetX > 0
+					offsetX = 0
+				else if offsetX < -230 
+					offsetX = -230
+				$(sidebarSelector).css("transform","translate(#{offsetX}px, 0)")
+				$(contentWrapperSelector).css("transform","translate(#{230+offsetX}px, 0)")
+			else
+				if offsetX < 0
+					offsetX = 0
+				else if offsetX > 230 
+					offsetX = 230
+				$(sidebarSelector).css("transform","translate(#{-(230-offsetX)}px, 0)")
+				$(contentWrapperSelector).css("transform","translate(#{offsetX}px, 0)")
 	);
 
 	# swipe相关事件不支持在Template.xxx.events中集成
