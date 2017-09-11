@@ -192,7 +192,7 @@ function saveCopy(fsFile, storeName, options) {
     var temp_chunk = FS.TempStore.Tracker.findOne({
       fileId: fsFile._id
     });
-    if (temp_chunk.is_piping) {
+    if (temp_chunk.is_saveCopy) {
       return;
     }
     var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
@@ -200,12 +200,12 @@ function saveCopy(fsFile, storeName, options) {
     if (exists) {
       var r = FS.TempStore.Tracker.update({
         fileId: fsFile._id,
-        is_piping: {
+        is_saveCopy: {
           $exists: false
         }
       }, {
         $set: {
-          is_piping: true
+          is_saveCopy: true
         }
       });
       if (r) {
