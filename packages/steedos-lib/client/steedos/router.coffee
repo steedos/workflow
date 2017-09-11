@@ -99,6 +99,16 @@ FlowRouter.route '/admin/profile',
 	action: (params, queryParams)->
 		FlowRouter.go "/admin/profile/profile"
 
+FlowRouter.route '/admin/api/:apiName', 
+	triggersEnter: [ checkUserSigned ],
+	action: (params, queryParams)->
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+
+		BlazeLayout.render 'adminLayout',
+			main: "admin_api"
+
 FlowRouter.route '/admin/profile/:profileName', 
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
