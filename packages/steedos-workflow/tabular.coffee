@@ -20,7 +20,6 @@ instancesListTableTabular = (flowId)->
 				Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 				$(".instance-list").scrollTop(0).ready ->
 					$(".instance-list").perfectScrollbar("update")
-					$(".instance-list .dataTables_container").perfectScrollbar("update")
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
 				if data._id == FlowRouter.current().params.instanceId
