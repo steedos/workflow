@@ -21,4 +21,9 @@ Template.accounts_space.events
 				toastr.success t("accounts_space_success")
 				FlowRouter.go("/")
 
+	'click .btn-cancel': (event,template) ->
+		if Steedos.spaceId()
+			FlowRouter.go("/admin/space/info")
+			event.preventDefault()
+			return false
 
