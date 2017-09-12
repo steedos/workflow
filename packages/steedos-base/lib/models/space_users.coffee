@@ -407,6 +407,25 @@ if (Meteor.isServer)
 			user: doc.user
 			user_count: db.space_users.find({space: doc.space, user_accepted: true}).count()
 
+		try
+			user = db.users.findOne(doc.user,{fields: {email: 1,name: 1,steedos_id:1}})
+			if user.email
+				locale = Steedos.locale(doc.user, true)
+				space = db.spaces.findOne(doc.space,{fields: {name: 1}})
+				subject = TAPi18n.__('space_users_remove_mail_subject', {}, locale)
+				content = TAPi18n.__('space_users_remove_mail_content', {
+					steedos_id: user.steedos_id
+					space_name: space?.name
+				}, locale)
+
+				MailQueue.send
+					to: user.email
+					from: user.name + ' on ' + Meteor.settings.email.from
+					subject: subject
+					html: content
+		catch e
+			console.error e.stack
+
 
 	Meteor.publish 'space_users', (spaceId)->
 		unless this.userId
