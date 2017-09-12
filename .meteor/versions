@@ -86,9 +86,7 @@ jeremy:selectize@0.12.3
 joshowens:timezone-picker@0.1.2
 jquery@1.11.9
 kadira:blaze-layout@2.3.0
-kadira:debug@3.2.2
 kadira:flow-router@2.12.1
-kadira:runtime-dev@0.0.1
 keepnox:perfect-scrollbar@0.6.8
 lai:collection-extensions@0.1.4
 launch-screen@1.0.12

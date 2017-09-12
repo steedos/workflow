@@ -52,8 +52,6 @@ Kadira.connect = function(appId, appSecret, options) {
     'KADIRA-APP-SECRET': Kadira.options.appSecret
   };
 
-  console.log("Kadira.options.authHeaders", Kadira.options.authHeaders)
-
   Kadira.syncedDate = new Ntp(options.endpoint);
   Kadira.syncedDate.sync();
   Kadira.models.error = new ErrorModel(appId);
@@ -86,13 +84,6 @@ Kadira.connect = function(appId, appSecret, options) {
       endpoint: options.endpoint,
       hostname: options.hostname
     });
-
-    console.log("corApi", {
-		appId: options.appId,
-		appSecret: options.appSecret,
-		endpoint: options.endpoint,
-		hostname: options.hostname
-	})
 
     Kadira.coreApi._checkAuth()
       .then(function() {
@@ -159,8 +150,6 @@ Kadira._sendAppStats = function () {
   _.each(Package, function (v, name) {
     appStats.packageVersions.push({name: name, version: null});
   });
-
-  console.log("appStats", appStats)
 
   Kadira.coreApi.sendData({
     startTime: new Date(),
