@@ -121,7 +121,7 @@ jeremy:selectize
 comerc:autoform-selectize
 
 # steedos:qhd
-steedos:theme-qhd
+# steedos:theme-qhd
 steedos:theme
 # steedos:emailjs
 steedos:contacts
@@ -181,4 +181,4 @@ meteorhacks:kadira-binary-deps
 meteorhacks:kadira
 meteorhacks:kadira-profiler
 meteorhacks:zones
-kadira:debug
+# kadira:debug
