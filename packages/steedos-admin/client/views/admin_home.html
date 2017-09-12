@@ -13,9 +13,18 @@
 		</div>
 	</div>
 	<div class="admin-content admin-home-content">
+		<div class="admin-account-panel">
+			<div class="admin-space-logo">
+				<span class="space-name text-overflow text-muted">{{spaceName}}</span>
+				<img src="{{userAvatarURL}}" class="user-image">
+			</div>
+			<div class="admin-user-name">
+				{{userName}}
+			</div>
+		</div>
 		{{{homeMenu}}}
 	</div>
-	
+
 	{{> baseTabbar}}
 
 </template>

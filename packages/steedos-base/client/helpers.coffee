@@ -195,6 +195,13 @@ TemplateHelpers =
 	userId: ->
 		return Meteor.userId()
 
+	userName: ->
+		return Meteor.user()?.name
+
+	userAvatarURL: () ->
+		avatar = Meteor.user()?.avatar
+		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?avatar=#{avatar}");
+
 	setSpaceId: (spaceId)->
 		if !spaceId
 			Session.set("spaceId", null)
