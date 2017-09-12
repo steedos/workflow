@@ -160,7 +160,7 @@ spacebars-compiler@1.0.13
 srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.3
-steedos:accounts@0.0.21
+steedos:accounts@0.0.22
 steedos:accounts-phone@0.0.2
 steedos:accounts-t9n@1.14.2_3
 steedos:admin@0.0.1
@@ -171,7 +171,7 @@ steedos:autoform@0.0.6
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-modals@0.3.9_6
-steedos:base@0.0.58
+steedos:base@0.0.59
 steedos:calendar@0.0.27
 steedos:calendar-i18n@0.0.10
 steedos:chat@0.0.1
@@ -185,7 +185,7 @@ steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
 steedos:freeboard@1.1.3_27
 steedos:fullcalendar@3.4.0_1
-steedos:i18n@0.0.9
+steedos:i18n@0.0.10
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lib@0.0.3
