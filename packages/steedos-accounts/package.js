@@ -59,6 +59,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
 
+	api.addFiles('client/views/accounts_space.html', 'client');
+	api.addFiles('client/views/accounts_space.coffee', 'client');
+
 	api.addFiles('client/views/accounts_phone_verify.html', 'client');
 	api.addFiles('client/views/accounts_phone_verify.coffee', 'client');
 
