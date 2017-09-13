@@ -204,6 +204,10 @@ if (Meteor.isServer)
 				organizationObj = db.organizations.findOne(org)
 				organizationObj.updateUsers();
 
+		user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
+		delete user._id
+		db.space_users.direct.update({_id: doc._id}, {$set: user})
+
 		db.users_changelogs.direct.insert
 			operator: userId
 			space: doc.space
