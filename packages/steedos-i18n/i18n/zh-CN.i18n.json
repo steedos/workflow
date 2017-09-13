@@ -49,8 +49,8 @@
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
 	"Steedos CMS": "信息发布",
-	"Steedos Boards":"看板",
-	"Steedos OldCalendar":"日历(旧版)",
+	"Steedos Boards": "看板",
+	"Steedos OldCalendar": "日历(旧版)",
 
 	"Apps": "应用",
 
@@ -424,6 +424,7 @@
 	"Change username successfully": "更改用户名成功",
 	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
 	"username-unavailable": "此用户名已经被使用，请填写其他用户名",
+	"username-minrequiredlength": "最小长度不能小于6位字符",
 	"refresh": "刷新",
 
 	"afModal_insert": "保存",
