@@ -204,6 +204,8 @@ if (Meteor.isServer)
 				organizationObj = db.organizations.findOne(org)
 				organizationObj.updateUsers();
 
+		# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
+		# 需要把users表中的信息同步到新的space_users表中。
 		user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
 		delete user._id
 		db.space_users.direct.update({_id: doc._id}, {$set: user})
