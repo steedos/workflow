@@ -105,8 +105,13 @@ if (Meteor.isClient) {
     if (this.type === "radio") {
       return templateInstance.$("[name=at-field-"+ this._id + "]:checked").val();
     }
-
-    return templateInstance.$("#at-field-" + this._id).val();
+    var val = templateInstance.$("#at-field-" + this._id).val();
+    if(val.trim){
+      return val.trim();
+    }
+    else{
+      return val;
+    }
   };
 }
 
