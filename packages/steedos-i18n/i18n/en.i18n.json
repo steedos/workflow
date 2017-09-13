@@ -445,5 +445,7 @@
 	"meteor_status_reconnect_in_plural": "",
 	"meteor_status_connecting": "Connecting...",
 	"meteor_status_try_now_waiting": "Retry",
-	"btn_back_title": "Back"
+	"btn_back_title": "Back",
+	"space_users_remove_mail_subject": "Your account has been deleted from the workspace by the administrator",
+	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"__steedos_id__\" has been removed from the workspace \"__space_name__\" by the administrator. <br/><br/>Thank you!"
 }

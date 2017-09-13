@@ -31,7 +31,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			previous_trace_approves = _.filter previous_trace.approves, (a)->
 				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is current_user
+			if previous_trace_approves.length is 1 and (previous_trace_approves[0].user is current_user or previous_trace_approves[0].handler is current_user)
 				retrieve_type = 'normal' # 申请单正常流转的取回，即非传阅取回
 
 			i = traces.length

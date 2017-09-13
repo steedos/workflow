@@ -196,8 +196,8 @@ Template.profile.onRendered ->
 # 			toastr.error t('Confirm_Password_Not_Match')
 
 
-Template.profile.onDestroyed ->
-	this.copyTableauUrlClipboard.destroy();
+# Template.profile.onDestroyed ->
+# 	this.copyTableauUrlClipboard.destroy();
 
 Template.profile.events
 

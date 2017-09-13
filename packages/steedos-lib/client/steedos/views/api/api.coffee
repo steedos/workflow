@@ -42,6 +42,9 @@ Template.admin_api.onCreated ->
 		else
 			toastr.error t('Confirm_Password_Not_Match')
 
+Template.admin_api.onDestroyed ->
+	this.copyTableauUrlClipboard.destroy();
+
 Template.admin_api.events
 	'click .btn-get-secrets': ()->
 		swal {

@@ -13,6 +13,7 @@ Meteor.startup ->
 	sidebarSelector = ".main-sidebar"
 	contentWrapperSelector = ".skin-admin-lte>.wrapper>.content-wrapper"
 	isSidebarOpen = false
+	contentWrapperShadow = null
 	$("body").on("swipe", (event, options)->
 		isSidebarOpen = $("body").hasClass('sidebar-open')
 		# if !isSidebarOpen and options.startEvnt.position.x > 40
@@ -30,6 +31,9 @@ Meteor.startup ->
 		swipeStartTime = options.startEvnt.time
 		startX = options.startEvnt.position.x
 		$("body").addClass "sidebar-swapping"
+		unless contentWrapperShadow
+			$(contentWrapperSelector).after('<div class = "content-wrapper content-wrapper-shadow"></div>')
+			contentWrapperShadow = $(contentWrapperSelector).next('.content-wrapper-shadow')
 	);
 	$("body").on("swipeend", (event, options)->
 		unless isSwiping
@@ -41,22 +45,24 @@ Meteor.startup ->
 		action = ""
 		if loapTime - swipeStartTime > 300
 			# 长按移动时间超过300ms则以最后停留位置为准决定打开或关闭左侧菜单
-			
-			translateX = $(sidebarSelector).css("transform").match(/\d+/g)[4]
-			translateX = parseInt translateX
-			if translateX > (230 - 100)
-				action = "close"
-			else
+			if movingX > -(230 - 115)
 				action = "open"
+			else
+				action = "close"
 		else if options.direction == "right"
 			action = "open"
 		else
 			action = "close"
 
 		if action == "open"
+			contentWrapperShadow.css("opacity",1)
 			unless isSidebarOpen
 				$("body").addClass('sidebar-open')
 		else if action == "close"
+			contentWrapperShadow.fadeOut(->
+				$(this).remove()
+			)
+			contentWrapperShadow = null
 			if isSidebarOpen
 				$("body").removeClass('sidebar-open');
 				$("body").removeClass('sidebar-collapse')
@@ -65,25 +71,38 @@ Meteor.startup ->
 		unless isSwiping
 			return
 		loapTime = options.time
-		movingX = options.position.x
-		offsetX = movingX - startX
-
+		offsetX = options.position.x - startX
 		if isSwiping
 			if isSidebarOpen
 				if offsetX > 0
 					offsetX = 0
 				else if offsetX < -230 
 					offsetX = -230
-				$(sidebarSelector).css("transform","translate(#{offsetX}px, 0)")
-				$(contentWrapperSelector).css("transform","translate(#{230+offsetX}px, 0)")
+				sidebarX = offsetX
+				wrapperX = 230+offsetX
 			else
 				if offsetX < 0
 					offsetX = 0
 				else if offsetX > 230 
 					offsetX = 230
-				$(sidebarSelector).css("transform","translate(#{-(230-offsetX)}px, 0)")
-				$(contentWrapperSelector).css("transform","translate(#{offsetX}px, 0)")
-	);
+				sidebarX = -(230-offsetX)
+				wrapperX = offsetX
+			$(sidebarSelector).css("transform","translate(#{sidebarX}px, 0)")
+			$(contentWrapperSelector).css("transform","translate(#{wrapperX}px, 0)")
+			movingX = sidebarX
+			contentWrapperShadow.css("opacity",(230+movingX)/230)
+	)
+
+	$("body").on("touchend",".content-wrapper-shadow", (event)->
+		isSidebarOpen = $("body").hasClass('sidebar-open')
+		unless isSidebarOpen
+			contentWrapperShadow = null
+			$(event.target).fadeOut(->
+				$(this).remove()
+			)
+	)
+
+
 
 	# swipe相关事件不支持在Template.xxx.events中集成
 	# 某些界面不需要左右滑动切换左侧sidebar功能，而需要向右滑动来触发返回上一界面功能
