@@ -5,8 +5,9 @@ Meteor.methods
 		if not Meteor.userId()
 			throw new Meteor.Error('error-invalid-user', "Invalid user", { method: 'setUsername' })
 
-		if username.length < 6
-			throw new Meteor.Error 'username-minrequiredlength', "The minimum length can not be less than 6 digits"
+		if !Meteor.settings.public?.accounts?.is_username_skip_minrequiredlength
+			if username.length < 6
+				throw new Meteor.Error 'username-minrequiredlength', "The minimum length can not be less than 6 digits"
 
 		if user_id
 			user = db.users.findOne({_id: user_id},{fields:{username:1}})
