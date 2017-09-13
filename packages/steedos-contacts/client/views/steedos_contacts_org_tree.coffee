@@ -34,7 +34,6 @@ Template.steedos_contacts_org_tree.onRendered ->
 			multiple:false,
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
-				console.log "node:#{node}",node
 				# this.select_node(node)
 				unless showHiddenOrg == false
 					showHiddenOrg = Session.get('contacts_is_org_admin')
