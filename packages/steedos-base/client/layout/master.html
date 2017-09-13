@@ -1,19 +1,19 @@
 <template name="masterLayout">
 
 	{{#if subsReady}}
-		<div class="steedos app-wrapper workflow">
+		<div class="steedos app-wrapper">
 			{{# AdminLTE skin=skinName sidebarMini="true" }}
 				{{> steedosHeader}}
-				{{> sidebar}}
+				{{> steedosSidebar}}
 
 
 				<div class="content-wrapper">
-					<div class="connection-status">
-						{{> status}}
-					</div>
 					{{> Template.dynamic template=main}}
-					</div>
+				</div>
 			{{/ AdminLTE}}
+		</div>
+		<div class="connection-status">
+			{{> status}}
 		</div>
 	{{/if}}
 </template>
