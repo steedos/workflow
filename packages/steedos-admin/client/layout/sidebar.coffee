@@ -35,10 +35,6 @@ Admin.adminSidebarHelpers =
 Template.adminSidebar.helpers Admin.adminSidebarHelpers
 
 Template.adminSidebar.events
-
-	'click .main-header .logo': (event) ->
-		Modal.show "app_list_box_modal"
-
 	'click .fix-collection-helper a': (event) ->
 		# 因部分admin列表界面在进入路由的时候会出现控制台报错：data[a[i]] is not a function
 		# 且只有从admin列表界面进入到admin列表界面时才可能会报上面的错误信息
@@ -48,8 +44,8 @@ Template.adminSidebar.events
 	'click .steedos-help': (event) ->
 		Steedos.showHelp();
 
-
-
+	'click .header-app': (event) ->
+		FlowRouter.go "/admin/home/"
 
 Admin.menuTemplate = 
 

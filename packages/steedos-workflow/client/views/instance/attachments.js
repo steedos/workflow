@@ -594,7 +594,7 @@ Template.ins_attach_version_modal.events({
 		var filename = this.name();
 		var rev = this._id;
 		var length = this.size();
-		Steedos.androidDownload(url, filename, rev, length);
+		Steedos.cordovaDownload(url, filename, rev, length);
 	},
 	"click .btn-primary": function(event, template) {
 		InstanceManager.unlockAttach(event.target.id);

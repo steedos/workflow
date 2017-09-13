@@ -68,3 +68,4 @@ db.avatars.allow
 
 db.avatars.files.before.insert (userId, doc) ->
   doc.userId = userId;
+

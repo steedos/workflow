@@ -71,7 +71,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
-	api.addFiles('server/methods/import_contacts_from_space_users.js', 'server');
+	api.addFiles('server/methods/import_contacts_from_space_users.coffee', 'server');
 	api.addFiles('server/methods/check_org_admin.coffee', 'server');
 	api.addFiles('server/methods/import_users.coffee', 'server');
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
@@ -96,10 +96,15 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/contact.less', 'client');
 
+	api.addFiles('client/views/admin_org_main.html', 'client');
+	api.addFiles('client/views/admin_org_main.coffee', 'client');
+
 	api.addFiles('client/views/org_main.html', 'client');
 	api.addFiles('client/views/org_main.coffee', 'client');
 	api.addFiles('client/views/book_main.html', 'client');
 	api.addFiles('client/views/book_main.coffee', 'client');
+	api.addFiles('client/views/org_main_mobile.html', 'client');
+	api.addFiles('client/views/org_main_mobile.coffee', 'client');
 
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
@@ -113,6 +118,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_org_tree.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.coffee', 'client');
+
+	api.addFiles('client/views/steedos_contacts_user_list.html', 'client');
+	api.addFiles('client/views/steedos_contacts_user_list.coffee', 'client');
 
 	api.addFiles('client/views/steedos_contacts_group_tree.html', 'client');
 	api.addFiles('client/views/steedos_contacts_group_tree.coffee', 'client');
@@ -131,8 +139,18 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/import_users_modal.html', 'client');
 	api.addFiles('client/views/import_users_modal.coffee', 'client');
 
+	api.addFiles('client/admin/settings.html', 'client');
+	api.addFiles('client/admin/settings.coffee', 'client');
+
+	api.addFiles('client/admin/settings_hidden_modal.html', 'client');
+	api.addFiles('client/admin/settings_hidden_modal.coffee', 'client');
+
+	api.addFiles('client/admin-menu.coffee', 'client');
+
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
+	api.addFiles('steedos_organizations_mobile_tabular.coffee');
+	api.addFiles('steedos_users_mobile_tabular.coffee');
 
 	api.addFiles('tabular.coffee');
 	api.addFiles('tabular_books.coffee');

@@ -77,6 +77,22 @@ if Meteor.isClient
 		sort: 50
 		parent: "account"
 
+	# 个性化
+	Admin.addMenu
+		_id: "api"
+		title: "API"
+		icon:"ion ion-ios-loop"
+		sort: 50
+
+	# 个性化
+	Admin.addMenu
+		_id: "secrets"
+		title: "Secret"
+		icon:"ion ion-key"
+		url: "/admin/api/secrets"
+		sort: 10
+		parent: "api"
+
 
 
 	# 工作区

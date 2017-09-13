@@ -4,14 +4,29 @@ Template.steedosHeaderLogo.helpers
 		if avatar
 			return Steedos.absoluteUrl("/api/files/avatars/#{avatar}")
 		else
-			return Steedos.absoluteUrl(Theme.space_logo)
+			locale = Steedos.locale()
+			if locale == "zh-cn"
+				return Steedos.absoluteUrl(Theme.space_logo)
+			else
+				return Steedos.absoluteUrl(Theme.space_logo_en)
 
 	isSpaceOwner: (event)->
 		return Steedos.isSpaceOwner(Steedos.spaceId())
 
+	logoMiniUrl: ()->
+		locale = Steedos.locale()
+		if locale == "zh-cn"
+			return Theme.icon
+		else
+			return Theme.icon_en
+
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
-		Modal.show "app_list_box_modal"
+
+		if db.spaces.find().count() > 1
+			Modal.show "space_switcher_modal"
+		else
+			Modal.show "app_list_box_modal"
 
 	'click .edit-space': (event)->
 		if Steedos.isSpaceOwner(Steedos.spaceId())

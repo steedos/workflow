@@ -351,8 +351,13 @@ InstanceformTemplate.helpers =
 		return SteedosTable.getThead(field, false)
 
 	getTableBody: (field)->
-		instance = Template.instance().view.template.steedosData.instance
-		values = instance.values
+
+		if Meteor.isServer
+			instance = Template.instance().view.template.steedosData.instance
+			values = instance.values
+		else
+			values = WorkflowManager_format.getAutoformSchemaValues()
+
 		tableValue = values[field.code];
 		return SteedosTable.getTbody(field.sfields.getProperty("code"), field, tableValue, false)
 
@@ -454,6 +459,9 @@ InstanceformTemplate.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
+	f_label: (that)->
+		return that.name || that.code
+
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
 		return this.form_version
@@ -499,8 +507,6 @@ if Meteor.isServer
 			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
 		else
 			return "/api/files/instances/#{_id}?download=true";
-
-
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->

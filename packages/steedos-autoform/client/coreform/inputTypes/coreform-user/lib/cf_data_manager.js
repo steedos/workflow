@@ -422,7 +422,7 @@ CFDataManager.getFormulaSpaceUser = function (userId, space) {
 
 		var spaceId = Session.get('spaceId');
 
-		if(space === false){
+		if(space === false || true){
 			spaceId = null;
 		}
 

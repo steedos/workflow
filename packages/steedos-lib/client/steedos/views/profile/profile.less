@@ -7,6 +7,7 @@
     opacity: 0;
     z-index: 10000;
     cursor: pointer;
+    width: 250px;
 }
 
 .change-avatar {
@@ -146,4 +147,42 @@
             margin-bottom: 12px;
         }
     }
+}
+.admin-profile-content{
+    .nav-tabs-custom{
+        @media (max-width: 768px){
+            .nav-tabs{
+                display: none;
+            }
+            .tab-content{
+                margin-top: -15px;
+            }
+        }
+    }
+}
+
+#secrets{
+	.copy-secret{
+		cursor: copy;
+	}
+
+	.token{
+		width: calc(~"100% - 25px");
+		p{
+			max-width:calc(~"100% - 15px");
+		}
+	}
+
+	.name{
+		width: 150px;
+	}
+
+	.remove-secret{
+		cursor: pointer;
+		position: relative;
+		top: 2px;
+		i{
+			width: 15px;
+		}
+	}
 }

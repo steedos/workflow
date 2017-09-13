@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.53',
+	version: '0.0.59',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -39,9 +39,9 @@ Package.onUse(function (api) {
 	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:ionicons@0.1.7');
-	api.use('steedos:i18n@0.0.7');
-
-	api.use('steedos:theme@0.0.23');
+	api.use('steedos:i18n@0.0.10');
+	api.use('steedos:ui@0.0.1');
+	api.use('steedos:theme@0.0.27');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
@@ -62,6 +62,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
 	api.addFiles('lib/models/modules_changelogs.coffee');
+	api.addFiles('lib/models/space_settings.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
 	api.addFiles('routes/sso.coffee', 'server');
@@ -71,15 +72,19 @@ Package.onUse(function (api) {
 	api.addFiles('lib/steedos_data_manager.js', 'client');
 
 	api.addFiles('routes/avatar.coffee', 'server');
+	api.addFiles('routes/access_token.coffee', 'server');
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
+	api.addFiles('client/lib/printThis/printThis.js', 'client');
+
 	api.addFiles([
 		'client/core.coffee',
 		'client/swipe.coffee',
+		'client/swipe.less',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',
@@ -110,7 +115,12 @@ Package.onUse(function (api) {
 		'client/views/space_switcher.less',
 		'client/subscribe.coffee',
 		'client/views/loading.html',
-		'client/views/loading.less'
+		'client/views/loading.less',
+		'client/views/space_switcher_modal.html',
+		'client/views/space_switcher_modal.coffee',
+		'client/views/sidebar_user_panel.html',
+		'client/views/sidebar_user_panel.coffee',
+		'client/views/sidebar_user_panel.less'
 	], "client");
 
 	api.addFiles('client/layout/login_layout.html', "client");
@@ -124,9 +134,19 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png','client');
 
+	api.addFiles('client/layout/top_sidebar.html', 'client');
+	api.addFiles('client/layout/top_sidebar.coffee', 'client');
+	api.addFiles('client/layout/top_sidebar.less', 'client');
+
 	api.addFiles('client/iframe/master.html', 'client');
 	api.addFiles('client/iframe/master.coffee', 'client');
 	api.addFiles('client/iframe/master.less', 'client');
+
+	api.addFiles('client/loading.coffee', 'client');
+
+	api.addFiles('client/layout/master.less', 'client');
+	api.addFiles('client/layout/master.html', 'client');
+	api.addFiles('client/layout/master.coffee', 'client');
 
 	api.export('Steedos');
 	api.export('db');

@@ -532,9 +532,6 @@ Meteor.methods({
                     if (isMasterCode(code)) {
                         delete query['services.phone.verify.code'];
                     }
-                    console.log("Meteor.methods-verifyPhone==========11");
-                    console.log("setOptions:" + JSON.stringify(setOptions));
-                    console.log("unSetOptions:" + JSON.stringify(unSetOptions));
                     // Update the user record by:
                     // - Changing the password to the new one
                     // - Forgetting about the verification code that was just used
@@ -549,7 +546,6 @@ Meteor.methods({
                             userId: user._id,
                             error: new Meteor.Error(403, "accounts_phone_not_exist")
                         };
-                    console.log("Meteor.methods-verifyPhone==========22");
 
                     successfulVerification(user._id);
                 } catch (err) {
@@ -706,8 +702,10 @@ Meteor.users._ensureIndex('phone.number', {
     unique: 1,
     sparse: 1
 });
+
+// cn平台发生过验证码重复的问题，所以去掉唯一性索引约束
 Meteor.users._ensureIndex('services.phone.verify.code', {
-    unique: 1,
+    // unique: 1,
     sparse: 1
 });
 

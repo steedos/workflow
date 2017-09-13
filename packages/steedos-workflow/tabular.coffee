@@ -2,7 +2,7 @@ Steedos.subs["InstanceTabular"] = new SubsManager()
 
 updateTabularTitle = ()->
 
-
+# 如果columns有加减，请修改Template.instance_list._tableColumns 函数
 instancesListTableTabular = (flowId)->
 	options = {
 		name: "instances",
@@ -10,14 +10,16 @@ instancesListTableTabular = (flowId)->
 		pub: "instance_tabular",
 		sub: Steedos.subs["InstanceTabular"],
 		onUnload: ()->
-			Meteor.setTimeout(Template.instance_list._tableColumns, 100)
+			Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 
 		drawCallback: (settings)->
+			emptyTd = $(".dataTables_empty")
+			if emptyTd.length
+				emptyTd[0].colSpan = "6"
 			if !Steedos.isMobile() && !Steedos.isPad()
-				Meteor.setTimeout(Template.instance_list._tableColumns, 100)
+				Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 				$(".instance-list").scrollTop(0).ready ->
 					$(".instance-list").perfectScrollbar("update")
-					$(".instance-list .dataTables_container").perfectScrollbar("update")
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
 				if data._id == FlowRouter.current().params.instanceId
@@ -135,6 +137,12 @@ instancesListTableTabular = (flowId)->
 			}, {
 				data: "step_current_name",
 				title: t("instances_step_current_name"),
+				render: (val, type, doc) ->
+					if doc.state == "completed"
+						judge = doc.final_decision
+					return """
+						<div class="step-current-state #{judge}">#{doc.step_current_name}</div>
+					"""
 				visible: false,
 				orderable: false
 			},
@@ -172,14 +180,21 @@ instancesListTableTabular = (flowId)->
 						if doc?.is_archived
 							return t("YES")
 						return t("NO")
+				visible: false
 				orderable: false
 			}
 		],
-		dom: "tp",
+		dom: do ->
+			# 手机上不显示一页显示多少条记录选项
+			if Steedos.isMobile()
+				'tp'
+			else
+				'tpl'
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
-		lengthChange: false,
+			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords", "final_decision"],
+		lengthChange: true,
+		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
 		info: false,
 		searching: true,

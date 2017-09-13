@@ -64,12 +64,15 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
+	api.use('steedos:authenticate-user-by-access-token');
+	api.use('steedos:authenticate-user-by-auth-token');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('server/routes_middleware_config.coffee', 'server');
 
 	// COMMON
 	api.addFiles('lib/collection_helpers.js');
@@ -328,8 +331,6 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
-
-	api.addFiles('routes/api_workflow_instances.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

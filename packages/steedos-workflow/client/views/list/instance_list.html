@@ -27,7 +27,6 @@
 			</button>
 		</div>
 	</div>
-<div class="instance-list">
 	<div class="toolbar">
 		{{#if hasFlowId}}
 			<div class="btn-group hidden-xs" role="group">
@@ -43,6 +42,13 @@
 					<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
 				</ul>
 			</div>
+
+			<div class="btn-group hidden-xs" role="group" style="{{enabled_export}}">
+				<button type="button" class="btn btn-default " id="copyTableauUrl" data-clipboard-text="{{tableauUrl}}">
+					<i class="ion ion-ios-pie-outline" aria-hidden="true"></i>&nbsp;{{_ "steedos_tableau_request_statistics"}}
+				</button>
+			</div>
+
 		{{/if}}
 		<div class="pull-right toogle-columns-box">
 			<a class="btn btn-transparent btn-toogle-columns"><i class="fa fa-expand"></i></a>
@@ -65,16 +71,17 @@
 		<span>{{_ "instance_search_result_tip"}}</span>: <label>{{filterFlowName}}</label>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
+	<div class="instance-list {{is_select_bar_show}}">
 
-	<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
-	{{#if is_inbox}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{else}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{/if}}
+		<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
+		{{#if is_inbox}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{else}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{/if}}
 
 
-</div>
+	</div>
 
 {{> baseTabbar}}
 </template>

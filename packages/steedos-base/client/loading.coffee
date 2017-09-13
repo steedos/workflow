@@ -11,7 +11,7 @@ SubsManager.prototype.isLoading = ()->
 Steedos.isLoading = ()->
 	if Session.get("TabularLoading")
 		return true
-	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpace.isLoading() 
+	if Steedos.subsBootstrap.isLoading() or Steedos.subsSpaceBase.isLoading() or Steedos.subsSpace?.isLoading() 
 		return true
 
 	for key of Steedos.subs

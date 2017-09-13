@@ -2,17 +2,12 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 	try
 		ins_id = req.params.ins_id
 
-		current_user = req.headers['x-user-id']
+		if !Steedos.APIAuthenticationCheck(req, res)
+			return ;
 
-		auth_token = req.headers['x-auth-token']
+		current_user = req.userId
 
 		space_id = req.headers['x-space-id']
-
-		if not current_user
-			throw new Meteor.Error('error', 'need header X-User-Id')
-
-		if not auth_token
-			throw new Meteor.Error('error', 'need header X-Auth-Token')
 
 		if not space_id
 			throw new Meteor.Error('error', 'need header X_Space_Id')

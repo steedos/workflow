@@ -19,7 +19,7 @@
 
 		.contacts-tree{
 			background-color: #fff;
-			height: calc(~"100% - 51px");
+			height: calc(~"100% - 43px");
 			overflow-y: auto;
 			.box-solid{
 				margin-bottom: 0px;
@@ -91,6 +91,8 @@
 		-webkit-overflow-scrolling: touch;
 
 		.pull-right{
+			position: relative;
+			top: -1px;
 			width: 200px;
 		}
 
@@ -154,6 +156,67 @@
 
 		.navigation-bar{
 			height: 51px;
+		}
+
+		.contacts-mobile{
+			.search-box{
+				border-bottom: solid 1px #eee;
+				.contact-list-search-key{
+					border: none;
+				}
+				.btn-clear{
+					padding: 4px 6px;
+					margin-top: 2px;
+				}
+			}
+			.dataTable{
+				thead{
+					display: none;
+				}
+				tbody{
+					tr{
+						&:nth-of-type(odd){
+							background: none;
+						}
+						td{
+							height: 28px;
+							line-height: 28px;
+							.contacts-users-mobile-avatar, .contacts-organizations-mobile-avatar{
+								position: absolute;
+								height: 28px;
+								line-height: 28px;
+								img{
+									width: 25px;
+									height: 25px;
+									border-radius: 4px;
+									margin-top: -4px;
+								}
+							}
+							.contacts-users-mobile-name, .contacts-organizations-mobile-name{
+								position: absolute;
+								left: 42px;
+								right: 10px;
+								height: 28px;
+								line-height: 28px;
+							}
+							.contacts-organizations-mobile-avatar{
+								background: rgba(228, 229, 230, 0.68);
+								padding: 4px;
+								border-radius: 4px;
+								.ion{
+									font-size: 22px;
+									color: rgba(63, 135, 217, 0.55);
+								}
+							}
+						}
+					}
+				}
+				&.datatable-mobile-organizations,&.datatable-mobile-users{
+					&+.dataTables_paginate{
+						display: none!important;
+					}
+				}
+			}
 		}
 
 	}
@@ -236,7 +299,7 @@
 				display: none;
 				width: 100%;
 				z-index: 1010;
-				top: 102px;
+				top: 85px;
 				bottom: 50px;
 
 				.contacts_back{
@@ -259,12 +322,25 @@
 				left: 0;
 				width: 100%;
 				transition: 0.3s ease-in-out;
+				background: #fff;
 				.contacts{
 					top: 102px;
 					bottom: 50px;
+					-webkit-transition: -webkit-transform 0.2s ease-in-out, top 0.2s ease-in-out;
+					-moz-transition: -moz-transform 0.2s ease-in-out, top 0.2s ease-in-out;
+					-o-transition: -o-transform 0.2s ease-in-out, top 0.2s ease-in-out;
+					transition: transform 0.2s ease-in-out, top 0.2s ease-in-out;
 				}
 				.offcanvas{
 					display: inline-block;
+				}
+				&.contacts-wrapper-mobile{
+					.contacts{
+						top: 51px;
+						&.mobile-searching{
+							top: 0px;
+						}
+					}
 				}
 			}
 		}
@@ -281,9 +357,7 @@
 
 	.box-header{
 		border-bottom: 1px solid #d2d6de;
-		height: 51px;
 	}
-
 
 	.valueLabel {
 		background-color: #fff;
@@ -419,8 +493,15 @@
 		padding-top: 1px; 
 		padding-bottom: 15px;
 		overflow-y: auto;
+		.weui-cell_primary.text-muted {
+			width: calc(~"100% - 105px");
+			.weui-input {
+				word-wrap: break-word;
+			}
+		}
 		.weui-cells{
 			margin-top: -3px;
+			font-size: 14px;
 			.btn-edit-username{
 				padding: 0 12px;
 				font-size: 100%;
@@ -442,3 +523,53 @@
 		}
 	}
 }
+
+.contacts-settings{
+	.hidden-users-list{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		li{
+			text-align: center;
+			float: left;
+			.users-list-name {
+				padding: 3px 0;
+			}
+			.users-list-date {
+				margin-bottom: 18px;
+			}
+		}
+		img{
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			margin-bottom: 5px;
+		}
+	}
+
+	.settings-hidden{
+		padding-left: 20px;
+		padding-right: 20px;
+		.box-body {
+			padding: 0;
+		}
+		.contacts-setting-title {
+			display: inline-block;
+		}
+		.set_settings {
+			position: relative;
+			top: 3px;
+		}
+	}
+
+	.profile_item_left_btnTips{
+		padding-bottom: 10px;
+		border-bottom: 1px solid #E5E5E5;
+		.ion{
+			position: relative;
+			top: 1px;
+		}
+	}
+}
+

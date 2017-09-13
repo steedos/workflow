@@ -8,10 +8,16 @@ db.address_books._simpleSchema = new SimpleSchema
 			type: "hidden",
 			defaultValue: ->
 				return Meteor.userId();
+	user:
+		type: String,
+		optional: true,
+		autoform:
+			type: "hidden",
 	name:
 		type: String,
 	email:
 		type: String,
+		optional: true
 	mobile:
 		type: String,
 		optional: true,
@@ -55,13 +61,14 @@ if Meteor.isClient
 
 if Meteor.isServer
 	db.address_books.before.insert (userId, doc) ->
-		if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
-			throw new Meteor.Error(400, "email_format_error");
+		if doc.email
+			if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
+				throw new Meteor.Error(400, "email_format_error");
 
-		# 不能重复添加相同的email
-		exists = db.address_books.find({owner: Meteor.userId(), group: doc.group, email: doc.email}).count()
-		if exists > 0
-			throw new Meteor.Error(400, "steedos_contacts_error_contact_exists")
+			# 不能重复添加相同的email
+			exists = db.address_books.find({owner: Meteor.userId(), group: doc.group, email: doc.email}).count()
+			if exists > 0
+				throw new Meteor.Error(400, "steedos_contacts_error_contact_exists")
 			
 	db.address_books.before.update (userId, doc, fieldNames, modifier, options) ->
 		if modifier.$set.email

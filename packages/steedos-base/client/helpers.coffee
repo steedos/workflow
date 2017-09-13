@@ -195,6 +195,13 @@ TemplateHelpers =
 	userId: ->
 		return Meteor.userId()
 
+	userName: ->
+		return Meteor.user()?.name
+
+	userAvatarURL: () ->
+		avatar = Meteor.user()?.avatar
+		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?avatar=#{avatar}");
+
 	setSpaceId: (spaceId)->
 		if !spaceId
 			Session.set("spaceId", null)
@@ -571,6 +578,10 @@ TemplateHelpers =
 		false
 
 	cordovaDownload: (url, filename, rev, length) ->
+		if not cordova?.plugins?.fileOpener2
+			window.open(url, '_blank', 'EnableViewPortScale=yes')
+			return
+
 		$(document.body).addClass 'loading'
 		# fileName = rev + '-' + filename
 		fileName = filename

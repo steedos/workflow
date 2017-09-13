@@ -35,6 +35,9 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 	isEditable: ->
+		if Template.instance().data.isEditable == false
+			return false;
+
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			return true
 		else
@@ -49,7 +52,12 @@ Template.steedos_contacts_space_user_info_modal.events
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
-		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+		unless Steedos.isPaidSpace()
+			$("body").on("click",".admin-dashboard-body input[name=mobile]",()->
+				swal({title: t("steedos_contacts_mobile_edit_power")})
+			)
+		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id, ->
+			$("body").off("click",".admin-dashboard-body input[name=mobile]")
 
 	'click .btn-edit-username': (event, template) ->
 		username = template.username?.get()
