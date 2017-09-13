@@ -103,5 +103,6 @@
 	"steedos_contacts_settings": "Contacts Management",
 	"steedos_contacts_settings_hidden_users": "Hidden users",
 	"steedos_contacts_settings_hidden_users_tips": "Hidden users will not be displayed in Contacts",
-	"steedos_contacts_settings_hidden_users_edit": "Edit the user to hide"
+	"steedos_contacts_settings_hidden_users_edit": "Edit the user to hide",
+	"steedos_contacts_mobile_edit_power": "Need to modify the phone number by the user self"
 }
