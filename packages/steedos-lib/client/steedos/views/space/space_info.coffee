@@ -32,30 +32,7 @@ Template.space_info.helpers
 Template.space_info.events
 
     'click .btn-new-space': (event)->
-        swal({
-            title: t("spaces_new_swal_title"), 
-            text: t("spaces_new_swal_help"), 
-            type: "input",
-            confirmButtonText: t('OK'),
-            cancelButtonText: t('Cancel'),
-            showCancelButton: true,
-            closeOnCancel: true,
-            closeOnConfirm: false
-        }, (name) ->
-            if !name
-                return false
-            $("body").addClass("loading")
-            Meteor.call 'adminInsertDoc', {name:name}, "spaces", (e,r)->
-                $("body").removeClass("loading")
-                if e
-                    toastr.error e.message
-                    return false
-
-                if r && r._id
-                    swal.close()
-                    Steedos.setSpaceId(r._id)
-                    toastr.success t("spaces_new_swal_success")
-        )
+        FlowRouter.go("/accounts/setup/space")
 
     'click .btn-edit-space': (event)->
         AdminDashboard.modalEdit 'spaces', Steedos.spaceId()

@@ -100,6 +100,12 @@ Template.instance_list.helpers
 			return ""
 		return "display: none;"
 
+	is_select_bar_show: ->
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
+			return "selectbar-is-show"
+		else
+			return "selectbar-is-hide"
+
 	maxHeight: ->
 		return Template.instance()?.maxHeight.get() + 'px'
 
@@ -235,9 +241,9 @@ Template.instance_list.onRendered ->
 
 	$('[data-toggle="tooltip"]').tooltip()
 	if !Steedos.isMobile() && !Steedos.isPad()
-		$(".instance-list > div:eq(2)").addClass("dataTables_container")
-		$(".instance-list").perfectScrollbar({suppressScrollX: true});
-		$(".instance-list .dataTables_container").perfectScrollbar();
+		# $(".instance-list > div:eq(2)").addClass("dataTables_container")
+		$(".instance-list").perfectScrollbar();
+		# $(".instance-list .dataTables_container").perfectScrollbar();
 
 	unless $("body").hasClass("three-columns")
 		$(".btn-toogle-columns").find("i").toggleClass("fa-expand").toggleClass("fa-compress")

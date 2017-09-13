@@ -105,6 +105,7 @@ db.users.helpers
 
 if Meteor.isServer
 	db.users.create_secret = (userId, name)->
+
 		secretToken =  Accounts._generateStampedLoginToken()
 
 		secretToken.token = userId + "-" + secretToken.token
@@ -115,7 +116,10 @@ if Meteor.isServer
 
 		secretToken.name = name
 
-		db.users.update({_id: userId}, {$push: {secrets: secretToken}})
+		u = db.users.findOne({_id: userId, "secrets.name": name})
+
+		if !u
+			db.users.update({_id: userId}, {$push: {secrets: secretToken}})
 		
 	db.users.checkEmailValid = (email) ->
 		existed = db.users.find 

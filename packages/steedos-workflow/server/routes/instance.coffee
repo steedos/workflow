@@ -17,6 +17,12 @@ getInstanceReadOnly = (req, res, next, options) ->
 	space = db.spaces.findOne({_id: spaceId});
 
 	hide_traces = req.query?.hide_traces
+
+	if !options
+		options = {showTrace: true}
+	else
+		options.showTrace = true
+
 	if hide_traces is "1"
 		if options
 			options.showTrace = false

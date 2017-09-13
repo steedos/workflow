@@ -113,6 +113,8 @@ Template.afSelectUser.events({
 
         options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
 
+		options.unselectable_users = template.data.atts.unselectable_users
+
         if (!_.isBoolean(options.is_within_user_organizations)) {
             if (options.is_within_user_organizations.toLocaleUpperCase() == "TRUE") {
                 options.is_within_user_organizations = true

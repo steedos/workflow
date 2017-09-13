@@ -424,7 +424,7 @@
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "备注",
-	"instance_retrieve_rules_title": "取回失败",
+	"instance_retrieve_rules_title": "无法取回",
 	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
@@ -572,5 +572,7 @@
 	"instances_archive": "归档",
 	"instances_archived": "已归档",
 	"instances_not_archived": "未归档",
-	"workflow_more_inbox": "更多待审核"
+	"workflow_more_inbox": "更多待审核",
+
+	"instance_back": "返回"
 }

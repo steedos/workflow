@@ -451,11 +451,35 @@ if (Meteor.isServer)
 		unless spaceId
 			return this.ready()
 
-		user = db.users.findOne(this.userId);
-
 		selector = 
 			space: spaceId
 
+		return db.organizations.find(selector)
+
+	Meteor.publish 'organization', (orgId)->
+		
+		unless this.userId
+			return this.ready()
+		
+		unless orgId
+			return this.ready()
+
+		selector = 
+			_id: orgId
+
+		return db.organizations.find(selector)
+
+	Meteor.publish 'root_organization', (spaceId)->
+		
+		unless this.userId
+			return this.ready()
+		
+		unless spaceId
+			return this.ready()
+
+		selector = 
+			space: spaceId
+			is_company: true
 
 		return db.organizations.find(selector)
 

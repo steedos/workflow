@@ -464,7 +464,7 @@ Template.instance_button.events
 			previous_trace_approves = _.filter previous_trace.approves, (a)->
 				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			if previous_trace_approves.length is 1 and previous_trace_approves[0].user is current_user and not is_read
+			if previous_trace_approves.length is 1 and (previous_trace_approves[0].user is current_user or previous_trace_approves[0].handler is current_user) and not is_read
 				can_retrieve = true
 
 		i = traces.length
@@ -500,7 +500,8 @@ Template.instance_button.events
 			swal({
 				title: t("instance_retrieve_rules_title"),
 				text: "<div style='overflow-x:auto;'>#{t('instance_retrieve_rules_content')}<div>",
-				html: true
+				html: true,
+				confirmButtonText: t('OK')
 			})
 
 	'click .btn-trace-list': (event, template) ->

@@ -29,3 +29,9 @@ recordsQHDRoutes.route '/sync_contracts',
 #		Steedos.setSpaceId(params.spaceId)
 		BlazeLayout.render 'adminLayout',
 			main: "recordsQHDSyncContracts"
+
+recordsQHDRoutes.route '/sync_archive',
+	action: (params, queryParams)->
+#		Steedos.setSpaceId(params.spaceId)
+		BlazeLayout.render 'adminLayout',
+			main: "recordsQHDSyncArchive"

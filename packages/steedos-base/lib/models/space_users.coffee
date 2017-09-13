@@ -204,6 +204,12 @@ if (Meteor.isServer)
 				organizationObj = db.organizations.findOne(org)
 				organizationObj.updateUsers();
 
+		# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
+		# 需要把users表中的信息同步到新的space_users表中。
+		user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
+		delete user._id
+		db.space_users.direct.update({_id: doc._id}, {$set: user})
+
 		db.users_changelogs.direct.insert
 			operator: userId
 			space: doc.space
@@ -406,6 +412,25 @@ if (Meteor.isServer)
 			operation: "delete"
 			user: doc.user
 			user_count: db.space_users.find({space: doc.space, user_accepted: true}).count()
+
+		try
+			user = db.users.findOne(doc.user,{fields: {email: 1,name: 1,steedos_id:1}})
+			if user.email
+				locale = Steedos.locale(doc.user, true)
+				space = db.spaces.findOne(doc.space,{fields: {name: 1}})
+				subject = TAPi18n.__('space_users_remove_mail_subject', {}, locale)
+				content = TAPi18n.__('space_users_remove_mail_content', {
+					steedos_id: user.steedos_id
+					space_name: space?.name
+				}, locale)
+
+				MailQueue.send
+					to: user.email
+					from: user.name + ' on ' + Meteor.settings.email.from
+					subject: subject
+					html: content
+		catch e
+			console.error e.stack
 
 
 	Meteor.publish 'space_users', (spaceId)->

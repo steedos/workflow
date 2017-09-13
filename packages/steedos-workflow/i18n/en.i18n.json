@@ -6,7 +6,7 @@
 	"pending": "In Progress",
 	"completed": "Finished",
 	"monitor": "Monitor",
-	"FlowName": "FlowName",
+	"FlowName": "Workflow Name",
 	"Search": "Search",
 	"My Approval": "My Approval",
 	"My Applications": "My Applications",
@@ -19,18 +19,18 @@
 
 	"form_new": "New",
 
-	"instances": "Instances",
+	"instances": "Request",
 	"instances_name": "Title",
 	"instances_applicant_name": "Applicant",
 	"instances_modified": "Modified",
 	"instances_applicant_organization_name": "Organization",
 	"instances_submit_date": "Submit Date",
-	"instances_flow": "Flow",
+	"instances_flow": "Workflow",
 	"instances_step_current_name": "Current step",
 
 	"instance_approve": "Approve",
 	"instance_reject": "Reject",
-	"instance_readed": "Readed",
+	"instance_readed": "Read",
 	"instance_next_step": "Next Step",
 	"instance_next_step_users": "Next Step User(s)",
 	"instance_initiator": "Initiator",
@@ -40,13 +40,13 @@
 	"instance_submit": "Submit",
 	"instance_save": "Save",
 	"instance_delete": "Delete",
-	"instance_attachment": "Attachment",
+	"instance_attachment": "Attachments",
 	"instance_cancel": "Cancel Request",
 	"instance_reassign": "Reassign",
 	"instance_relocate": "Relocate",
 	"instance_print": "Print",
 
-	"flow_roles": "Flow Positions",
+	"flow_roles": "Workflow Positions",
 	"flow_roles_name": "Position Name",
 
 	"flow_positions": "Positions Users",
@@ -138,14 +138,14 @@
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
 
-	"workflow_export_thismonth": "Export the current month's instances",
-	"workflow_export_lastmonth": "Export the last month's instances",
-	"workflow_export_thisyear": "Export the current year's instances",
-	"workflow_export_all": "Export all instances",
-	"workflow_export_filter": "Tilter according to process",
+	"workflow_export_thismonth": "Export requests this month",
+	"workflow_export_lastmonth": "Export requests last month",
+	"workflow_export_thisyear": "Export requests this year",
+	"workflow_export_all": "Export all requests",
+	"workflow_export_filter": "Filter by process",
 
-	"workflow_export_search": "Search for instances according to the flow",
-	"workflow_export_data": "Export Data",
+	"workflow_export_search": "Search for requests according to the workflow",
+	"workflow_export_data": "Export to Excel",
 
 	"spaces_isarrearageSpace": "your space is arrearage",
 
@@ -163,11 +163,11 @@
 	"Workflow Designer": "Workflow Designer",
 	"User Management": "User Management",
 
-	"All flows": "All flows",
-	"Select a flow": "Select a flow",
+	"All flows": "All workflows",
+	"Select a flow": "Select a workflow",
 	"Fill in form": "New Request",
 
-	"Flow upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
+	"Flow upgraded": "The workflow has been upgraded. Please make sure this request meet the requirements of the new version.",
 
 	"Are you sure?": "Are you sure?",
 
@@ -187,9 +187,9 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Flow Script",
-	"flows_template": "Instance Template",
-	"flows_name": "Flow Name",
+	"workflow_form_edit": "Workflow Script",
+	"flows_template": "Request Template",
+	"flows_name": "Workflow Name",
 	"flows_print_template": "Print Template",
 	"flows_instance_template": "Form Template",
 
@@ -217,23 +217,23 @@
 	"instance_opinion_exists": "Opinion exists",
 	"instance_opinion_add_tip": "You have not set up common comments yet.",
 
-	"instance_forward_title": "Instance Forward",
+	"instance_forward_title": "Request Forward",
 
 	"form_field_checkbox_yes": "YES",
 	"form_field_checkbox_no": "NO",
 	"flows_events": "Events",
-	"flows_events_error": "Flow Script Error: ",
+	"flows_events_error": "Workflow Script Error: ",
 
 	"instance_search_advanced_search": "Advanced search",
-	"instance_search_flow": "Flow",
-	"instance_search_name": "Instance Name",
+	"instance_search_flow": "Workflow",
+	"instance_search_name": "Request Title",
 	"instance_search_applicant_name": "Applicant Name",
-	"instance_search_applicant_organization_name": "Applicant Organization Name",
+	"instance_search_applicant_organization_name": "Applicant Organization",
 	"instance_search_submit_date": "Submit Date",
 	"instance_search_start": "Start",
 	"instance_search_end": "End",
 	"instance_search_result_tip": "Filtered Result",
-	"instance_search_state": "Instance State",
+	"instance_search_state": "Request State",
 	"instance_search_state_options": {
 		"pending": "Pending",
 		"completed": "Completed"
@@ -374,7 +374,7 @@
 		}
 	},
 	"flow": {
-		"point_upgraded": "The flow has been upgraded. Please make sure this request meet the requirements of the new version.",
+		"point_upgraded": "The workflow has been upgraded. Please make sure this request meet the requirements of the new version.",
 		"print_select_template_alert": "Please upgraded to Professional Version.",
 		"print_select_title": "Select Template",
 		"print_default_print_title": "Default",
@@ -410,9 +410,9 @@
 	},
 	"steedos": "Steedos",
 	"cc": "cc",
-	"saveInstanceToAttachment": "Save instance to attachment.",
+	"saveInstanceToAttachment": "Save request form as an attachment.",
 	"forwardFlowText": "Forward description",
-	"instanceForwardNote": "Forward the currently selected instance to a new workflow and proceed with the approval process.",
+	"instanceForwardNote": "Forward the currently selected request to a new workflow and proceed with the approval process.",
 
 	"button_preview": "Preview",
 	"remove_cc_approve": "Deleted success",
@@ -421,8 +421,9 @@
 
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
-	"instance_retrieve_rules_title": "取回失败",
-	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
+	"instance_retrieve_rules_title": "Retrieve failed",
+	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.
+",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -449,35 +450,35 @@
 	"instance_approve_close_modal": "close",
 	"instance_approve_title_label": "Handler:",
 
-	"instance_forward_users": "Forward users",
+	"instance_forward_users": "Forward To",
 	"instance_forward_error_users_required": "Users required!",
-	"instance_approve_from_user_name_label_forward": "forward from",
-	"instance_approve_forward_remove": "cancel forward",
-	"instance_approve_forward_remove_success": "cancel successfully!",
-	"instance_forward_instance_look": "Look the forwarded instance",
+	"instance_approve_from_user_name_label_forward": "Forward from",
+	"instance_approve_forward_remove": "Cancel forward",
+	"instance_approve_forward_remove_success": "Request cancelled successfully!",
+	"instance_forward_instance_look": "Look the forwarded request",
 	"instance_forward_cannot_cancel": "Can not cancel!",
-	"instance_forward_instance_state_changed": "instance state has hanged, can not cancel!",
+	"instance_forward_instance_state_changed": "Request state has hanged, can not cancel.",
 
 	"webhooks": "Webhooks",
-	"webhooks_flow": "Flow",
+	"webhooks_flow": "Workflow",
 	"webhooks_payload_url": "URL",
 	"webhooks_content_type": "Content type",
 	"webhooks_active": "Active",
-	"webhooks_flow_name()": "Flow",
+	"webhooks_flow_name()": "Workflow",
 	"webhooks_description": "Description",
 
-	"workflow_list": "Flow List",
-	"workflow_import_flow": "Import Flow",
+	"workflow_list": "Workflow List",
+	"workflow_import_flow": "Import Workflow",
 	"workflow_import_flow_success": "Import success",
 	"workflow_import_flow_error": "Import failed",
-	"workflow_import_flow_info": "Please select the flow you want to import",
-	"flows": "Flow",
+	"workflow_import_flow_info": "Please select the workflow you want to import",
+	"flows": "Workflow",
 
 	"instance_readonly_view_url_copy": "Copy Link",
 	"instance_readonly_view_url_copy_success": "Tableau Web Data Connector copy successful",
-	"instance_related_instances": "Related instances",
-	"instance_related_instances_title": "Linked instance",
-	"instance_related_instances_placeholder": "Please enter instance name",
+	"instance_related_instances": "Related requests",
+	"instance_related_instances_title": "Linked requests",
+	"instance_related_instances_placeholder": "Please enter request name",
 
 	"workflow_install_desktop": "Install Desktop",
 
@@ -485,21 +486,21 @@
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",
-	"instance_return_confirm": "Are you sure to return the instance to the previous step?",
+	"instance_return_confirm": "Are you sure to return the request to the previous step?",
 	"Instance State returned": "Returned",
 
 	"instance_main_attachment": "Main attach",
 
 	"flows_field_map": "Field Map",
 
-	"Instance State readed": "Readed",
+	"Instance State readed": "Read",
 	"instance_distribute_title": "Distribute",
 	"instance_distribute_users": "Users",
 	"instance_distribute_error_users_required": "Users required!",
-	"instance_distribute_approve_from_user_name_label": "distribute from",
-	"instance_distribute_approve_remove": "cancel distribute",
-	"instance_distribute_instance_look": "Look the distributed instance",
-	"instance_distribute_note": "Distribute the currently selected instance to a new workflow and proceed with the approval process.",
+	"instance_distribute_approve_from_user_name_label": "Distribute from",
+	"instance_distribute_approve_remove": "Cancel distribute",
+	"instance_distribute_instance_look": "Look the distributed request",
+	"instance_distribute_note": "Distribute the currently selected request to a new workflow and proceed with the approval process.",
 	"instance_distribute_attachments": "Is distribute attachments.",
 	"instance_distribute_success": "Distribute success",
 	"instance_no_add_permission": "__actiontype__ failed, users no create permission: __usernames__",
@@ -519,7 +520,7 @@
 		"multi": "multi"
 	},
 	"instance_opinion_title_select": "Select opinions",
-	"categories": "Flow categories",
+	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
 
@@ -532,8 +533,8 @@
 	"instance_sign_period": "。",
 
 	"instance_cc_alert": "Please confirm whether it need to circulate",
-	"instance_cc_must_finished": "The cc users：__not_finished_users_name__ had not deal with this instance, so you can not submitt this instance to next step",
-	"instance_number_rules": "Instance number rules",
+	"instance_cc_must_finished": "The cc users：__not_finished_users_name__ had not deal with this request, so you can not submitt this instance to next step",
+	"instance_number_rules": "Request number rules",
 	"instance_number_rules_name": "Name",
 	"instance_number_rules_year": "Year",
 	"instance_number_rules_first_number": "Start sequence",
@@ -545,17 +546,18 @@
 	"instance_number_rules_name_only": "The name can not be repeated",
 	"flows_btn_export_title": "Export",
 	"flows_btn_copylink_title": "Copy Link",
-	"instance_distribute_related_instances_title": "Automatically create associated files",
+	"instance_distribute_related_instances_title": "Automatically create associated requests",
 	"instance_next_step_users_placeholder": "Please select the approver",
 	"instance_distribute_to_self": "Also distributed to yourself",
 
-	"my_instances": "My Files",
-	"workflow_import_export_flows": "Flows import or export",
+	"my_instances": "My Requests",
+	"workflow_import_export_flows": "Workflow import or export",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",
 	"instances_archive": "Archive",
 	"instances_archived": "Archived",
 	"instances_not_archived": "Not archived",
-	"workflow_more_inbox": "More Inbox"
+	"workflow_more_inbox": "More Inbox",
+	"instance_back": "Back"
 }

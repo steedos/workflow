@@ -27,9 +27,19 @@ Template.cf_space_user_list.helpers
 	selector: (userOptions)->
 		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
 		is_within_user_organizations = Template.instance().data.is_within_user_organizations
+
 		query = {space: spaceId, user_accepted: true};
+
+		unselectable_users = Template.instance().data.unselectable_users
+
+		if _.isArray(unselectable_users)
+			query.user = {$nin: unselectable_users}
+
 		if userOptions != undefined && userOptions != null
-			query.user = {$in: userOptions.split(",")};
+			if !query.user
+				query.user = {$in: userOptions.split(",")};
+			else
+				query.user.$in = userOptions.split(",");
 		else
 			if !Session.get("cf_contact_list_search")
 				orgAndChild = Session.get("cf_orgAndChild");

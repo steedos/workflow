@@ -46,8 +46,9 @@ Template.afFileUpload.onCreated ->
 		file = self.data.atts.triggers?.onBeforeInsert?(file) or file
 		file = new (FS.File)(file)
 		file.uploadedFrom = Meteor.userId()
-		maxChunk = 2097152
-		FS.config.uploadChunkSize = if file.original.size < 10 * maxChunk then file.original.size / 10 else maxChunk
+		# maxChunk = 2097152
+		# FS.config.uploadChunkSize = if file.original.size < 10 * maxChunk then file.original.size / 10 else maxChunk
+		FS.config.uploadChunkSize = 1024 * 1024 * 1024
 		FS.debug and console.log(file)
 		collection.insert file, (err, fileObj) ->
 			FS.debug and console.log('@_insert callback')

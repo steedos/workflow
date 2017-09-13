@@ -90,6 +90,9 @@ a {
 .weui-icon-clear:before {
   content: "\EA0F";
 }
+.weui-icon-clear.empty:before {
+  content: none;
+}
 /* '' */
 .weui-icon-back:before {
   content: "\EA10";
@@ -2066,6 +2069,9 @@ a.weui-media-box:active {
   text-align: center;
   color: #9B9B9B;
   background: #FFFFFF;
+  margin-bottom: 0px;
+  line-height: 25px;
+  font-weight: normal;
 }
 .weui-search-bar__label span {
   display: inline-block;

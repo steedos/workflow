@@ -1,21 +1,21 @@
 <template name="steedosSidebar">
-
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <!-- <li class="header"></li> -->
-        <li>
-          <a href="/">
-            <i class="fa fa-dashboard"></i> <span>Home</span>
-            <span class="pull-right-container">
+    <aside class="main-sidebar">
+        <header class="main-header">
+          <div class="logo" style="overflow: visible">
+            <span class="logo-lg text-overflow">
+              <B>{{_ "Steedos"}}</B>
             </span>
-          </a>
-        </li>
-      </ul>
-    </section>
-  </aside>
-
+            <span class="logo-arrow">
+              <i class="ion-ios-arrow-down ion"></i>
+            </span>
+            <span class="logo-mini">
+              <i class="ion ion-grid"></i>
+            </span> 
+          </div>
+        </header>
+        <div class="sidebar" id="scrollspy">
+          {{> sidebarUserPanel}}
+          {{> topSidebar}}
+        </div>
+    </aside>
 </template>

@@ -35,6 +35,9 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 	isEditable: ->
+		if Template.instance().data.isEditable == false
+			return false;
+
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			return true
 		else
