@@ -137,6 +137,12 @@ instancesListTableTabular = (flowId)->
 			}, {
 				data: "step_current_name",
 				title: t("instances_step_current_name"),
+				render: (val, type, doc) ->
+					if doc.state == "completed"
+						judge = doc.final_decision
+					return """
+						<div class="step-current-state #{judge}">#{doc.step_current_name}</div>
+					"""
 				visible: false,
 				orderable: false
 			},
@@ -186,7 +192,7 @@ instancesListTableTabular = (flowId)->
 				'tpl'
 		order: [[7, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords"],
+			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords", "final_decision"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,

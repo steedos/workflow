@@ -86,6 +86,18 @@
 		}
 	}
 
+	.step-current-state {
+		&.terminated {
+			color: gray;
+		}
+		&.approved {
+			color: green;
+		}
+		&.rejected {
+			color: red;
+		}
+	}
+
 	.instance-priority-bar {
 		position: absolute;
 		width: 20px;
@@ -125,6 +137,9 @@
 	}
 	.instance-modified {
 		color: #777;
+	}
+	.selected .step-current-state {
+		color: #fff;
 	}
 
 	.instance-read-bar {
