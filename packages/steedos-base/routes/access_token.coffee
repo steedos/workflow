@@ -3,7 +3,7 @@ Meteor.startup ->
 
 		access_token = req.query?.access_token
 
-		if Steedos.getUserIdFromAuthToken(access_token)
+		if Steedos.getUserIdFromAccessToken(access_token)
 			res.writeHead 200
 			res.end()
 			return

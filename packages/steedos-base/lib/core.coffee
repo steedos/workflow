@@ -460,7 +460,7 @@ if Meteor.isServer
 
 		return password;
 
-	Steedos.getUserIdFromAuthToken = (access_token)->
+	Steedos.getUserIdFromAccessToken = (access_token)->
 
 		if !access_token
 			return null;
@@ -475,6 +475,54 @@ if Meteor.isServer
 			return userId
 		return null;
 
+	Steedos.getUserIdFromAuthToken = (req, res)->
+
+		userId = req.query?["X-User-Id"]
+
+		authToken = req.query?["X-Auth-Token"]
+
+		if Steedos.checkAuthToken(userId,authToken)
+			return db.users.findOne({_id: userId})
+
+		cookies = new Cookies(req, res);
+
+		if req.headers
+			userId = req.headers["x-user-id"]
+			authToken = req.headers["x-auth-token"]
+
+		# then check cookie
+		if !userId or !authToken
+			userId = cookies.get("X-User-Id")
+			authToken = cookies.get("X-Auth-Token")
+
+		if !userId or !authToken
+			return null
+
+		if Steedos.checkAuthToken(userId, authToken)
+			return db.users.findOne({_id: userId})?._id
+
+	Steedos.APIAuthenticationCheck = (req, res) ->
+		try
+			userId = req.userId
+
+			user = db.users.findOne({_id: userId})
+
+			if !userId || !user
+				JsonRoutes.sendResult res,
+					data:
+						"error": "Validate Request -- Missing X-Auth-Token,X-User-Id Or access_token",
+					code: 401,
+				return false;
+			else
+				return true;
+		catch e
+			if !userId || !user
+				JsonRoutes.sendResult res,
+					code: 401,
+					data:
+						"error": e.message,
+						"success": false
+				return false;
 
 
 # This will add underscore.string methods to Underscore.js
