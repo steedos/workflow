@@ -48,8 +48,8 @@
 	"Steedos Admin": "Admin",
 	"Flow Designer": "Flow Designer",
 	"Steedos CMS": "CMS",
-	"Steedos Boards":"Boards",
-	"Steedos OldCalendar":"Calendar(Old)",
+	"Steedos Boards": "Boards",
+	"Steedos OldCalendar": "Calendar(Old)",
 
 
 	"Forgot Password": "Forgot Password",
@@ -407,6 +407,7 @@
 	"Change username successfully": "Change username successfully",
 	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
 	"username-unavailable": "This username is already in use",
+	"username-minrequiredlength": "The minimum length can not be less than 6 digits",
 
 	"afModal_insert": "Save",
 	"afModal_update": "Save",
