@@ -64,12 +64,15 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
+	api.use('steedos:authenticate-user-by-access-token');
+	api.use('steedos:authenticate-user-by-auth-token');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('server/routes_middleware_config.coffee', 'server');
 
 	// COMMON
 	api.addFiles('lib/collection_helpers.js');
