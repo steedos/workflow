@@ -351,8 +351,13 @@ InstanceformTemplate.helpers =
 		return SteedosTable.getThead(field, false)
 
 	getTableBody: (field)->
-		instance = Template.instance().view.template.steedosData.instance
-		values = instance.values
+
+		if Meteor.isServer
+			instance = Template.instance().view.template.steedosData.instance
+			values = instance.values
+		else
+			values = WorkflowManager_format.getAutoformSchemaValues()
+
 		tableValue = values[field.code];
 		return SteedosTable.getTbody(field.sfields.getProperty("code"), field, tableValue, false)
 

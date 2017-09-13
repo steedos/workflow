@@ -24,7 +24,8 @@
     "accounts": {
       "disableAccountRegistration": false, //是否禁止注册新用户
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
-      "loginExpirationInDays": 90
+      "loginExpirationInDays": 90,
+      "is_username_skip_minrequiredlength": false // 个人设置中修改用户名时是否忽略用户名长度限制
     },
     //手机号及其验证相关，该属性不存在时不显示任务手机号相关界面及功能
     "phone": {
@@ -57,7 +58,7 @@
       "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
     },
     // 门户
-    "dashboard":{
+    "dashboard": {
       "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
     }
   },
