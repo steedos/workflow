@@ -17,6 +17,8 @@
  * reactivity on the client.
  */
 
+var clone = Npm.require('clone');
+
 Meteor.publish("tabular_genericPub", function (tableName, ids, fields) {
 	var self = this;
 
@@ -46,7 +48,7 @@ Meteor.publish("tabular_genericPub", function (tableName, ids, fields) {
 	return table.collection.find({_id: {$in: ids}}, {fields: fields});
 });
 
-Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, limit) {
+Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, limit, search_text) {
 	var self = this;
 
 	check(tableName, String);
@@ -107,21 +109,46 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 
 	var filteredRecordIds;
 
-	console.log("selector", JSON.stringify(selector));
-
 	var _schema = table.collection._simpleSchema._schema;
+
+	var old_selector = clone(selector)
+
 	_.keys(_schema).forEach(function (key) {
 		if (_schema[key].autoform && _schema[key].autoform.foreign_key) {
-			if(selector["$and"] && selector["$and"].length > 1){
+			if(old_selector["$and"] && old_selector["$and"].length > 1){
+
+				var subQuery =  clone(old_selector);
+
 				var references = _schema[key].autoform.references
 
 				var find_fields = {};
 
-				find_fields[references.key || "_id"] = 1
+				find_fields[references.key || "_id"] = 1;
 
-				selector["$and"][1]["$or"].push({name: {"$regex":"新","$options":"i"}})
+				var search_keys = references.search_keys || ["name"];
 
-				var _ids = db[references.collection].find(selector, find_fields).fetch().getProperty(references.key || "_id");
+				var or = [];
+
+				search_keys.forEach(function(search_key){
+					var fine_where = {};
+					var texts = search_text.split(" ")
+					texts.forEach(function (text) {
+						if(text && text.trim()){
+							fine_where[search_key] = {"$regex":text,"$options":"i"};
+						}
+					})
+					or.push(fine_where);
+				})
+
+				subQuery["$and"][1]["$or"] = or;
+
+				console.log("subQuery" + key, JSON.stringify(subQuery));
+
+				console.log("references.collection", references.collection);
+
+				console.log("find_fields", find_fields);
+
+				var _ids = db[references.collection].find(subQuery, find_fields).fetch().getProperty(references.key || "_id");
 
 				var c_selector = {}
 				c_selector[key] = {$in: _ids};
@@ -131,7 +158,7 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 		}
 	});
 
-	console.log("selector", selector);
+	console.log("selector2", JSON.stringify(selector));
 
 
 	if (table.filteredRecordIds) {

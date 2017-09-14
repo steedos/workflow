@@ -32,6 +32,7 @@ var tabularOnRendered = function () {
   template.tabular.recordsTotal = 0;
   template.tabular.recordsFiltered = 0;
   template.tabular.isLoading = new ReactiveVar(true);
+  template.tabular.search_value = new ReactiveVar(null);
 
   // These are some DataTables options that we need for everything to work.
   // We add them to the options specified by the user.
@@ -42,6 +43,7 @@ var tabularOnRendered = function () {
     // define the function that DataTables will call upon first load and whenever
     // we tell it to reload data, such as when paging, etc.
     ajax: function (data, callback/*, settings*/) {
+    	console.log("data", data)
       // When DataTables requests data, first we set
       // the new skip, limit, order, and pubSelector values
       // that DataTables has requested. These trigger
@@ -81,6 +83,8 @@ var tabularOnRendered = function () {
         data.columns || null
       );
       template.tabular.pubSelector.set(pubSelector);
+
+      template.tabular.search_value.set((data.search && data.search.value) || null);
 
       // We're ready to subscribe to the data.
       // Matters on the first run only.
@@ -217,7 +221,7 @@ var tabularOnRendered = function () {
     }
 
     //console.log('tabular_getInfo autorun');
-
+	console.log("tabular.search_value.get()", template.tabular.search_value.get());
     Meteor.subscribe(
       "tabular_getInfo",
       template.tabular.tableName.get(),
@@ -225,6 +229,7 @@ var tabularOnRendered = function () {
       template.tabular.sort.get(),
       template.tabular.skip.get(),
       template.tabular.limit.get(),
+      template.tabular.search_value.get(),
       onReady
     );
   });

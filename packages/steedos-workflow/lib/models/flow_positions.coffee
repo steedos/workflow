@@ -14,7 +14,8 @@ db.flow_positions._simpleSchema = new SimpleSchema
 			foreign_key: true,
 			references: {
 				collection: 'flow_roles',
-				key: '_id'
+				key: '_id',
+				search_keys: ['name']
 			}
 			type: "select",
 			options: ->
@@ -31,12 +32,21 @@ db.flow_positions._simpleSchema = new SimpleSchema
 		type: [String],
 		autoform:
 			type: "selectuser"
-			multiple: true
+			multiple: true,
+			foreign_key: true,
+			references: {
+				collection: 'space_users'
+				key: 'user',
+			}
 
 	org: 
 		type: String,
 		autoform: 
-			type: "selectorg"
+			type: "selectorg",
+			foreign_key: true,
+			references: {
+				collection: 'organizations'
+			}
 
 
 if Meteor.isClient
@@ -153,14 +163,6 @@ new Tabular.Table
 		{data: "org_name()"},
 		{data: "users_name()"},
 		{
-			data: "role",
-			title: "",
-			orderable: false,
-			render: (val, type, doc) ->
-				role = db.flow_roles.findOne({_id: doc.role}, {fields: {name: 1}});
-				return role && role.name;
-		},
-		{
 			data: "",
 			title: "",
 			orderable: false,
@@ -181,10 +183,10 @@ new Tabular.Table
 	lengthChange: false
 	ordering: false
 	# 临时把pageLength改为1000【去掉翻页】，解决搜索不能正常工作时，QHD现场同事不方便查找数据的问题
-	pageLength: 1000
+	pageLength: 10
 	info: false
 	searching: true
-	autoWidth: false
+	autoWidth: true
 	changeSelector: (selector, userId) ->
 		unless userId
 			return {_id: -1}
