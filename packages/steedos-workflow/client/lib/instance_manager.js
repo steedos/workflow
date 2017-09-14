@@ -14,14 +14,14 @@ InstanceManager.runFormula = function(fieldCode) {
 	});
 }
 
-InstanceManager.isTableStyle = function (formId) {
+InstanceManager.isTableStyle = function(formId) {
 
-	if(Steedos.isMobile()){
+	if (Steedos.isMobile()) {
 		return false;
 	}
 
 	form = WorkflowManager.getForm(formId);
-	if(form && form.instance_style == 'table')
+	if (form && form.instance_style == 'table')
 		return true
 	return false;
 }
@@ -178,10 +178,10 @@ InstanceManager.getNextUserOptions = function() {
 
 		if (nextStepUsers) {
 
-			if(nextStepUsers.length == 0){ //为指定处理人并且没有暂存处理人时
+			if (nextStepUsers.length == 0) { //为指定处理人并且没有暂存处理人时
 				var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 
-				if(nextStep.deal_type == "pickupAtRuntime"){
+				if (nextStep.deal_type == "pickupAtRuntime") {
 
 					nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
 				}
@@ -190,23 +190,23 @@ InstanceManager.getNextUserOptions = function() {
 
 			nextStepUsers.forEach(function(user) {
 				var option = {
-					id: user.id,
-					name: user.name
-				}
-				// 有暂存的步骤
+						id: user.id,
+						name: user.name
+					}
+					// 有暂存的步骤
 				if (current_next_steps && current_next_steps.length > 0) {
 					if (current_next_steps[0].step == next_step_id && _.contains(current_next_steps[0].users, user.id)) {
 						option.selected = true
 						next_user_ids.push(user.id)
 					}
-				}else{
+				} else {
 
 
 					// 如果有处理人
-					if(nextStepUsers.length > 1){
+					if (nextStepUsers.length > 1) {
 						// 设置下一步处理人默认值为最近一次处理人
 
-						if(lastStepHandlers.includes(user.id)){
+						if (lastStepHandlers.includes(user.id)) {
 							option.selected = true;
 						}
 					}
@@ -1360,4 +1360,61 @@ InstanceManager.isCCMustFinished = function() {
 	}
 
 	return true;
+}
+
+InstanceManager.getLastApprove = function(traces) {
+
+	var currentApprove, i, user_id;
+
+	user_id = Meteor.userId();
+
+	currentApprove = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!currentApprove) {
+			_.each(traces[i].approves, function(ap) {
+				if (!currentApprove) {
+					if (ap.is_finished && ap.user === user_id) {
+						currentApprove = ap;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return currentApprove || {};
+}
+
+InstanceManager.getLastTraceStepId = function(traces) {
+
+	var i, step_id, trace_id, user_id;
+
+	user_id = Meteor.userId();
+
+	trace_id = null;
+
+	step_id = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!trace_id) {
+			_.each(traces[i].approves, function(ap) {
+				if (!trace_id) {
+					if (ap.is_finished && ap.user === user_id) {
+						trace_id = ap.trace;
+					}
+					if (trace_id) {
+						return step_id = traces[i].step;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return step_id;
 }

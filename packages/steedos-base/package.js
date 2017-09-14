@@ -150,6 +150,10 @@ Package.onUse(function (api) {
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
 
+	api.addFiles('client/layout/notFound_layout.html','client');
+	api.addFiles('client/layout/notFound_layout.coffee','client');
+	api.addFiles('client/layout/notFound_layout.less','client');
+
 	api.export('Steedos');
 	api.export('db');
 
