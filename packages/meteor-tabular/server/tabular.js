@@ -109,57 +109,62 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 
 	var filteredRecordIds;
 
-	var _schema = table.collection._simpleSchema._schema;
+	if(table.collection && table.collection._simpleSchema && table.collection._simpleSchema._schema){
 
-	var old_selector = clone(selector)
+		// console.time("tabular_schema_search");
 
-	_.keys(_schema).forEach(function (key) {
-		if (_schema[key].autoform && _schema[key].autoform.foreign_key) {
-			if(old_selector["$and"] && old_selector["$and"].length > 1){
+		var _schema = table.collection._simpleSchema._schema;
 
-				var subQuery =  clone(old_selector);
+		var old_selector = clone(selector)
 
-				var references = _schema[key].autoform.references
+		_.keys(_schema).forEach(function (key) {
+			var _schema_child = _schema[key];
+			if (_schema_child.foreign_key) {
+				if(old_selector["$and"] && old_selector["$and"].length > 1){
 
-				var find_fields = {};
+					var subQuery =  clone(old_selector);
 
-				find_fields[references.key || "_id"] = 1;
+					var references = _schema_child.references
 
-				var search_keys = references.search_keys || ["name"];
+					var find_fields = {};
 
-				var or = [];
+					find_fields[references.key || "_id"] = 1;
 
-				search_keys.forEach(function(search_key){
-					var fine_where = {};
-					var texts = search_text.split(" ")
-					texts.forEach(function (text) {
-						if(text && text.trim()){
-							fine_where[search_key] = {"$regex":text,"$options":"i"};
-						}
+					var search_keys = references.search_keys || ["name"];
+
+					var or = [];
+
+					search_keys.forEach(function(search_key){
+						var fine_where = {};
+						var texts = search_text.split(" ")
+						texts.forEach(function (text) {
+							if(text && text.trim()){
+								fine_where[search_key] = {"$regex":text,"$options":"i"};
+							}
+						})
+						or.push(fine_where);
 					})
-					or.push(fine_where);
-				})
 
-				subQuery["$and"][1]["$or"] = or;
+					subQuery["$and"][1]["$or"] = or;
 
-				console.log("subQuery" + key, JSON.stringify(subQuery));
+					// console.log("subQuery" + key, JSON.stringify(subQuery));
+					//
+					// console.log("references.collection", references.collection);
+					//
+					// console.log("find_fields", find_fields);
 
-				console.log("references.collection", references.collection);
+					var _ids = db[references.collection].find(subQuery, find_fields).fetch().getProperty(references.key || "_id");
 
-				console.log("find_fields", find_fields);
+					var c_selector = {}
+					c_selector[key] = {$in: _ids};
+					selector["$and"][1]["$or"].push(c_selector);
+				}
 
-				var _ids = db[references.collection].find(subQuery, find_fields).fetch().getProperty(references.key || "_id");
-
-				var c_selector = {}
-				c_selector[key] = {$in: _ids};
-				selector["$and"][1]["$or"].push(c_selector)
 			}
+		});
 
-		}
-	});
-
-	console.log("selector2", JSON.stringify(selector));
-
+		// console.timeEnd("tabular_schema_search");
+	}
 
 	if (table.filteredRecordIds) {
 		filteredRecordIds = table.filteredRecordIds(table, selector, sort, skip, limit, filteredRecordIds, self.userId, findOptions);

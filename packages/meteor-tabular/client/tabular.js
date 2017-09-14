@@ -43,7 +43,7 @@ var tabularOnRendered = function () {
     // define the function that DataTables will call upon first load and whenever
     // we tell it to reload data, such as when paging, etc.
     ajax: function (data, callback/*, settings*/) {
-    	console.log("data", data)
+    	// console.log("data", data)
       // When DataTables requests data, first we set
       // the new skip, limit, order, and pubSelector values
       // that DataTables has requested. These trigger
@@ -188,7 +188,7 @@ var tabularOnRendered = function () {
     if (table) {
       // passing `true` as the second arg tells it to
       // reset the paging
-      console.log("ajax.reload...")
+      // console.log("ajax.reload...")
       table.ajax.reload(null, true);
     }
   });
@@ -221,7 +221,7 @@ var tabularOnRendered = function () {
     }
 
     //console.log('tabular_getInfo autorun');
-	console.log("tabular.search_value.get()", template.tabular.search_value.get());
+	// console.log("tabular.search_value.get()", template.tabular.search_value.get());
     Meteor.subscribe(
       "tabular_getInfo",
       template.tabular.tableName.get(),
