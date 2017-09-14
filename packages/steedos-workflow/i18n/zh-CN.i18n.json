@@ -574,5 +574,10 @@
 	"instances_not_archived": "未归档",
 	"workflow_more_inbox": "更多待审核",
 
-	"instance_back": "返回"
+	"instance_back": "返回",
+
+	"steedos_tableau_statistical_analysis": "统计分析",
+
+	"steedos_tableau_copy_link":"复制链接",
+	"tableau_introduction_modal_close":"关闭"
 }
