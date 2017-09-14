@@ -159,9 +159,17 @@ Meteor.startup ()->
 		collection: db.flow_positions,
 		pub: "flow_positions_tabular",
 		columns: [
-			{data: "role_name()"},
-			{data: "org_name()"},
-			{data: "users_name()"},
+			{
+				data: "role_name()",
+				width: "20%"
+			},
+			{
+				data: "org_name()",
+				width: "20%"
+			},
+			{
+				data: "users_name()"
+			},
 			{
 				data: "",
 				title: "",
