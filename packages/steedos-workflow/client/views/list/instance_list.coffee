@@ -117,6 +117,9 @@ Template.instance_list.helpers
 
 		# return false;
 		return false;
+
+	isShowRedIcon: ->
+		return Steedos.isMobile() or Steedos.isAndroidOrIOS()
 	
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0 && Session.get("box") == "inbox"

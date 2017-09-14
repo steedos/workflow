@@ -6,6 +6,12 @@
 		<button type="button" class="btn btn-default" data-toggle="offcanvas" id="sidebarOffcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
+
+		{{#if isShowRedIcon}}
+			{{#if hasApproves}}
+				<i class="ion ion-record text-red" style="font-size: 75%;position: relative;left: -20px;top: -6px;"></i>
+			{{/if}}
+		{{/if}}
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}
