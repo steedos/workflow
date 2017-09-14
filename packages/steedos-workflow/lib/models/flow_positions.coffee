@@ -186,7 +186,7 @@ Meteor.startup ()->
 		pageLength: 10
 		info: false
 		searching: true
-		autoWidth: true
+		autoWidth: false
 		changeSelector: (selector, userId) ->
 			unless userId
 				return {_id: -1}
