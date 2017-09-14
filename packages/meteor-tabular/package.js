@@ -8,7 +8,8 @@ Package.describe({
 });
 
 Npm.depends({
-  datatables: '1.10.9'
+  datatables: '1.10.9',
+  clone: '2.1.1'
 });
 
 Package.onUse(function(api) {

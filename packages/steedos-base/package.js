@@ -49,6 +49,8 @@ Package.onUse(function (api) {
 		'lib/core.coffee',
 		'lib/tap-i18n.coffee']);
 
+	api.addFiles('lib/simple_schema_extend.js');
+
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/users.coffee');
 	api.addFiles('lib/models/spaces.coffee');
