@@ -2,7 +2,12 @@ Template.instance_cc_modal.helpers
 	fields: ->
 		form_version = WorkflowManager.getInstanceFormVersion()
 		currentStep = InstanceManager.getCurrentStep()
-		currentApprove = InstanceManager.getCurrentApprove()
+		ins = WorkflowManager.getInstance()
+		if InstanceManager.isInbox() && ins.state is "pending" 
+			currentApprove = InstanceManager.getCurrentApprove()
+		else
+			currentApprove = InstanceManager.getLastApprove(ins.traces)
+
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
 				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
@@ -71,10 +76,15 @@ Template.instance_cc_modal.events
 		if InstanceManager.isCC(instance)
 			myApprove = InstanceManager.getCCApprove(Meteor.userId(), false)
 		else
-			myApprove = InstanceManager.getMyApprove()
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
-			if instance.attachments and myApprove
-				myApprove.attachments = instance.attachments
+			ins = WorkflowManager.getInstance()
+			if InstanceManager.isInbox() && ins.state is "pending" 
+				myApprove = InstanceManager.getMyApprove()
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
+				if instance.attachments and myApprove
+					myApprove.attachments = instance.attachments
+			else
+				myApprove = InstanceManager.getLastApprove(ins.traces)
+				
 		myApprove.opinion_fields_code = opinion_fields_code
 		Meteor.call 'cc_do', myApprove, val, (error, result) ->
 			WorkflowManager.instanceModified.set false

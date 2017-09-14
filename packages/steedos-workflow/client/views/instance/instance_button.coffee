@@ -115,6 +115,15 @@ Template.instance_button.helpers
 				if cs && (cs.disableCC is true)
 					return false
 				return true
+		else if Session.get("box") is 'outbox' and ins.state is "pending"
+			step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			if step_id
+				step = WorkflowManager.getInstanceStep(step_id)
+				if step and (step.disableCC is true)
+					return false
+				return true
+			else
+				return false
 		else
 			return false
 
