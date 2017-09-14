@@ -116,8 +116,8 @@ Template.instance_list.helpers
 		# 		return true
 
 		# return false;
-		return true;
-
+		return false;
+	
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0 && Session.get("box") == "inbox"
 			return true
@@ -227,11 +227,6 @@ Template.instance_list.onCreated ->
 		$(window).resize ->
 			Template.instance_list._tableColumns();
 
-	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
-	this.copyTableauUrlClipboard.on 'success', (e) ->
-		toastr.success(t("instance_readonly_view_url_copy_success"))
-		e.clearSelection()
-
 Template.instance_list.onRendered ->
 	self = this;
 
@@ -338,10 +333,5 @@ Template.instance_list.events
 		else
 			localStorage.setItem("workflow_three_columns", "off")
 
-	'click #copyTableauUrl': ()->
-		if !Steedos.isPaidSpace()
-			toastr.info("标准版只能统计一个月内的数据")
-
-Template.instance_list.onDestroyed ()->
-	Session.set "inbox_flow_id", undefined
-	this.copyTableauUrlClipboard.destroy();
+	'click .tabular-introduction': ()->
+		Modal.show("tableau_introduction_modal")

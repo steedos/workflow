@@ -291,6 +291,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flow_positions.html', 'client');
 	api.addFiles('client/views/list/admin_flow_positions.coffee', 'client');
 
+	api.addFiles('client/views/list/tableau_introduction_modal.html', 'client');
+	api.addFiles('client/views/list/tableau_introduction_modal.less', 'client');
+	api.addFiles('client/views/list/tableau_introduction_modal.coffee', 'client');
+
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
