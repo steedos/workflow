@@ -182,6 +182,9 @@
 	"workflow_left_parenthesis": "(",
 	"workflow_right_parenthesis": ")",
 
+	"instance_cc_description": "Carbon Description",
+	"instance_cc_from": "Carbon Form",
+
 	"instance_cc_title": "Carbon Copy",
 	"instance_cc_done": "Carbon copied!",
 	"instance_curstep": "Current Step: ",

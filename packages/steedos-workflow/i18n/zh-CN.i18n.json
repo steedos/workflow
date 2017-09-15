@@ -184,6 +184,9 @@
 	"workflow_left_parenthesis": "（",
 	"workflow_right_parenthesis": "）",
 
+	"instance_cc_description": "传阅说明",
+	"instance_cc_from": "传阅自",
+
 	"instance_cc_title": "传阅",
 	"instance_cc_done": "已传阅",
 	"instance_curstep": "当前步骤: ",

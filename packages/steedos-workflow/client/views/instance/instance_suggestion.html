@@ -26,8 +26,18 @@
 											<input type='radio' name='opinion_fields_code' value="{{code}}" id="opinion_fields_code" checked="{{#if _checked}}checked{{/if}}"/>{{name}}
 										</label>
 									{{/each}}
+                                    {{#if ccDescription.length}}
+                                        <div class="cc-description-box">
+                                            <label>{{_ "instance_cc_description"}}&nbsp;:&nbsp;</label>{{ccDescription}}&nbsp;&nbsp;
+                                        </div>
+                                    {{/if}}
 								{{else}}
 									<label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
+                                    {{#if ccDescription.length}}
+                                        <div class="cc-description-box">
+                                            <label>{{_ "instance_cc_description"}}&nbsp;:&nbsp;</label>{{ccDescription}}&nbsp;&nbsp;
+                                        </div>
+                                    {{/if}}
 								{{/if}}
                             {{else}}
                                 <label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
