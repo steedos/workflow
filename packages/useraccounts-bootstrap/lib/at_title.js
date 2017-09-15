@@ -3,10 +3,14 @@ Template.atTitle.helpers(AccountsTemplates.atTitleHelpers);
 
 Template.atTitle.helpers({
 	subsReady: function(){
-		return Steedos.subs["SpaceAvatar"].ready()
+		if(AccountsTemplates.getSpaceId()){
+			return Steedos.subs["SpaceAvatar"].ready();
+		}
+		else{
+			return true;
+		}
 	},
 	logo: function() {
-		debugger;
 		// LOGO文件地址在steedos-theme包中的core.coffee中定义
 		if(Steedos){
 			var spaceId = AccountsTemplates.getSpaceId();
