@@ -6,9 +6,10 @@
         "status": "active",
         "url": "https://www.steedos.com:443"
       },
+      //全文检索
       "elasticsearch": {
         "status": "active",
-        "url": "https://127.0.0.1:9200"
+        "url": "http://192.1.1.153:9200"
       }
     },
     "cfs": {
