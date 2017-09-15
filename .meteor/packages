@@ -121,8 +121,8 @@ jeremy:selectize
 comerc:autoform-selectize
 # hausor:autoform-bs-minicolors
 
-steedos:qhd
-steedos:theme-qhd
+# steedos:qhd
+# steedos:theme-qhd
 steedos:theme
 # steedos:emailjs
 steedos:contacts
