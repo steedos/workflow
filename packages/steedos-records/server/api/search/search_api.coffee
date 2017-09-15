@@ -12,6 +12,7 @@ Meteor.startup ()->
 			JsonRoutes.sendResult res,data:jsonData
 			return
 		address=Meteor.settings.public.webservices?.elasticsearch?.url
+		console.log address+""
 		index=Meteor.settings.records.es_search_index
 		type="instances"
 		from=req.query.start+""
