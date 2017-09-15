@@ -67,11 +67,7 @@ Template.accounts_phone.events
 		if /steedos\/setup\/phone/.test(currentPath) and !Meteor.userId()
 			# 手机号登录界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
 			# 所以这里不可以直接FlowRouter.go oldPath或history.back()
-			backUrl = "/steedos/sign-in"
-			signSpaceId = AccountsTemplates.getSpaceId()
-			if signSpaceId
-				backUrl += "?s=#{signSpaceId}"
-			FlowRouter.go backUrl
+			Steedos.redirectToSignIn()
 		else if /accounts\/setup\/phone/.test(currentPath) and Meteor.userId()
 			# 手机上绑定手机号界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
 			# 所以这里不可以直接FlowRouter.go oldPath或history.back()

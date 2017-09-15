@@ -26,7 +26,7 @@ if Meteor.isClient
 				currentPath = FlowRouter.current().path
 				if currentPath != undefined and !/^\/steedos\b/.test(currentPath)
 					# 没有登录且路由不以/steedos开头则跳转到登录界面
-					FlowRouter.go "/steedos/sign-in"
+					Steedos.redirectToSignIn()
 
 if Meteor.isClient
 	if Meteor.settings?.public?.phone?.forceAccountBindPhone

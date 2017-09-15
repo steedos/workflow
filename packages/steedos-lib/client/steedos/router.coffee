@@ -1,6 +1,6 @@
 checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
-		FlowRouter.go '/steedos/sign-in';
+		Steedos.redirectToSignIn()
 
 FlowRouter.notFound = 
 	action: ()->
@@ -51,7 +51,7 @@ FlowRouter.triggers.enter [
 FlowRouter.route '/', 
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 		else
 			# # 登录最近关闭的URL
 			# lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
@@ -89,7 +89,7 @@ FlowRouter.route '/',
 # FlowRouter.route '/steedos', 
 #   action: (params, queryParams)->
 #       if !Meteor.userId()
-#           FlowRouter.go "/steedos/sign-in";
+#           Steedos.redirectToSignIn()
 #           return true
 #       else
 #           FlowRouter.go "/steedos/springboard";
@@ -103,7 +103,7 @@ FlowRouter.route '/admin/api/:apiName',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 		BlazeLayout.render 'adminLayout',
@@ -126,7 +126,7 @@ FlowRouter.route '/admin/spaces',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 		BlazeLayout.render 'masterLayout',
@@ -137,7 +137,7 @@ FlowRouter.route '/admin/space/info',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 		BlazeLayout.render 'adminLayout',
@@ -154,7 +154,7 @@ FlowRouter.route '/designer',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 		
 		url = Steedos.absoluteUrl("applications/designer/current/" + Steedos.getLocale() + "/"+ "?spaceId=" + Steedos.getSpaceId());
@@ -167,7 +167,7 @@ FlowRouter.route '/designer/opened',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 FlowRouter.route '/steedos/sso', 
