@@ -27,7 +27,7 @@ Template.instance_cc_modal.helpers
 				type: String,
 				optional: true,
 				autoform:
-					type:'text'
+					type:'coreform-textarea'
 				label: TAPi18n.__('instance_cc_description')
 
 		if opinionFields.length > 0
