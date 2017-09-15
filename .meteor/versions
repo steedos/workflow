@@ -184,7 +184,6 @@ steedos:cors@0.0.1
 steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
-steedos:distribute-qhd@0.0.1
 steedos:freeboard@1.1.3_27
 steedos:fullcalendar@3.4.0_1
 steedos:i18n@0.0.10
@@ -196,19 +195,14 @@ steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:qcloud-smsqueue@0.0.1
-steedos:qhd@0.0.1
 steedos:records@0.0.1
 steedos:records-i18n@0.0.1
-steedos:records-qhd@0.0.10
 steedos:remind@0.0.1
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
 steedos:sso@0.0.4
 steedos:tableau@0.0.10
-
 steedos:theme@0.0.27
-steedos:theme-qhd@0.0.7
-
 steedos:toastr@2.1.3
 steedos:ui@0.0.1
 steedos:universe-autoform-select@0.3.10

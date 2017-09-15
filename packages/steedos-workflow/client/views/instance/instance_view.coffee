@@ -94,6 +94,9 @@ Template.instance_view.helpers
 
 		return priorityClass
 
+	box: ()->
+		return Session.get("box");
+
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()

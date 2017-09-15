@@ -6,11 +6,11 @@
 Tracker.autorun ()->
 	Steedos.Helpers.setAppTitle(t("records_app_title"));
 
-Meteor.startup ->
-	$("body").removeClass("skin-blue").addClass("skin-blue-light")
+# Meteor.startup ->
+# 	$("body").removeClass("skin-blue").addClass("skin-blue-light")
 
-Meteor.startup ->
-	$ ()->
-		$("body").removeClass("loading")
-	if Meteor.isClient
-		db.apps.INTERNAL_APPS = []
+# Meteor.startup ->
+# 	$ ()->
+# 		$("body").removeClass("loading")
+# 	if Meteor.isClient
+# 		db.apps.INTERNAL_APPS = []
