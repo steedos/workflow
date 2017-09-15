@@ -76,6 +76,7 @@ Package.onUse(function (api) {
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
+	api.addFiles('server/publications/space_avatar.coffee', 'server');
 
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 

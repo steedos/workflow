@@ -45,3 +45,7 @@ Meteor.startup ->
 
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
+
+# 工作区登录注册界面需要订阅指定工作区的LOGO图片
+Steedos.subs["SpaceAvatar"] = new SubsManager();
+
