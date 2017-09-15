@@ -530,6 +530,7 @@ InstanceformTemplate.onCreated = ()->
 	try
 		compiled = SpacebarsCompiler.compile(template, {isBody: true});
 	catch e
+		console.log "Instance Template Error", e
 		compiled = SpacebarsCompiler.compile("", {isBody: true});
 
 
