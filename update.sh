@@ -1,4 +1,4 @@
-git checkout master
+git checkout qhd
 git pull
 git submodule update --init --recursive
 

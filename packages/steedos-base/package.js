@@ -49,6 +49,8 @@ Package.onUse(function (api) {
 		'lib/core.coffee',
 		'lib/tap-i18n.coffee']);
 
+	api.addFiles('lib/simple_schema_extend.js');
+
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/users.coffee');
 	api.addFiles('lib/models/spaces.coffee');
@@ -148,6 +150,10 @@ Package.onUse(function (api) {
 	api.addFiles('client/layout/master.less', 'client');
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
+
+	api.addFiles('client/layout/notFound_layout.html','client');
+	api.addFiles('client/layout/notFound_layout.coffee','client');
+	api.addFiles('client/layout/notFound_layout.less','client');
 
 	api.export('Steedos');
 	api.export('db');

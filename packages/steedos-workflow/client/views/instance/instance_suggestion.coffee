@@ -246,6 +246,12 @@ Template.instance_suggestion.helpers
 
 		return opinionFields
 
+	ccDescription: ->
+		return InstanceManager.getCurrentApprove().cc_description
+
+	ccFromUserName: ->
+		return InstanceManager.getCurrentApprove().from_user_name
+
 
 Template.instance_suggestion.events
 
