@@ -166,6 +166,8 @@ TemplateManager._template =
 				</div>
 			</div>
 		"""
+		return template
+
 	table: (instance)->
 		return TemplateManager.handleTableTemplate(instance)
 #	table: '''
@@ -297,7 +299,7 @@ TemplateManager.getTemplate = (instance, templateName) ->
 	if templateName
 		if templateName == 'table'
 			return TemplateManager._template.table(instance)
-		return TemplateManager._template[templateName]
+		return TemplateManager._template.default(instance)
 
 	if Session?.get("instancePrint")
 		if flow?.print_template
@@ -317,7 +319,7 @@ TemplateManager.getTemplate = (instance, templateName) ->
 		if form?.instance_style
 			if form.instance_style == 'table'
 				return TemplateManager._template.table(instance)
-			return TemplateManager._template[form.instance_style]
+			return TemplateManager._template.default(instance)
 		else
 			return TemplateManager._template.default(instance)
 
