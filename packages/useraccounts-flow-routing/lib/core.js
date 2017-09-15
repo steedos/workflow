@@ -287,7 +287,12 @@ AccountsTemplates.getRouteName = function(route) {
 
 AccountsTemplates.getRoutePath = function(route) {
   if (route in this.routes) {
-    return this.routes[route].path;
+    var path = this.routes[route].path;
+    var spaceId = AccountsTemplates.getSpaceId ? AccountsTemplates.getSpaceId() : "";
+    if(spaceId){
+      path += "?s=@%".replace("@%",spaceId);
+    }
+    return path;
   }
   return "#";
 };

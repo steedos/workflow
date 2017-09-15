@@ -606,3 +606,16 @@ AT.prototype.removeField = function(fieldId) {
     throw new Error("A field called " + fieldId + " does not exist!");
   }
 };
+
+AT.prototype.getSpaceId = function(){
+  return localStorage.getItem("signSpaceId");
+}
+
+AT.prototype.setSpaceId = function(spaceId){
+  if(spaceId){
+    localStorage.setItem("signSpaceId", spaceId);
+  }
+  else{
+    localStorage.removeItem("signSpaceId");
+  }
+}
