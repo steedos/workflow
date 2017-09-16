@@ -307,12 +307,30 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
+var _setError_next_step_users = function (error) {
+	var next_user = $("input[name='nextStepUsers']");
+
+	if(next_user.length > 0){
+		next_user[0].dataset["error"] = error;
+	}
+}
+
 //下一步处理人校验
 InstanceManager.checkNextStepUser = function() {
+
+	if($("input[name='nextStepUsers']").length < 1){
+		return ;
+	}
+
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	_setError_next_step_users("")
 
 	if (ApproveManager.error.nextStepUsers != '') {
 		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+
+		_setError_next_step_users(ApproveManager.error.nextStepUsers)
+
 		ApproveManager.error.nextStepUsers = '';
 		return;
 	}

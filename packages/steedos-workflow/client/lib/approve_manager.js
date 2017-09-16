@@ -405,7 +405,9 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                 InstanceManager.checkNextStepUser();
             }
         })
-    }
+    }else{
+		InstanceManager.checkNextStepUser();
+	}
 
     return nextStepUsers;
 };
