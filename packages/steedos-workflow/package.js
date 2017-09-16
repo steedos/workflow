@@ -395,7 +395,11 @@ Package.onUse(function(api) {
 	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
-
+	api.addFiles('server/flow-template/zh-CN/purchase_contract.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/issued_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/metting_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/income_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/seal_request.coffee', 'server');
 	// workflow_template（en）
 	api.addFiles('server/flow-template/en/capex.coffee', 'server');
 	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');
