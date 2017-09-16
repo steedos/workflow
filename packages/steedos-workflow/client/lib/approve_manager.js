@@ -134,6 +134,7 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     ApproveManager.error.nextStepUsers = '';
 	ApproveManager.error.type = '';
+	InstanceManager._setError_next_step_users("")
     var nextStepUsers = new Array();
 
     var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -407,9 +408,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                 InstanceManager.checkNextStepUser();
             }
         })
-    }else{
-		InstanceManager.checkNextStepUser();
-	}
+    }
 
     return nextStepUsers;
 };

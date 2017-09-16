@@ -307,7 +307,7 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-var _setError_next_step_users = function (error, error_type) {
+InstanceManager._setError_next_step_users = function (error, error_type) {
 	var next_user = $("input[name='nextStepUsers']");
 
 	if(next_user.length > 0){
@@ -325,12 +325,12 @@ InstanceManager.checkNextStepUser = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	_setError_next_step_users("")
+	InstanceManager._setError_next_step_users("")
 
 	if (ApproveManager.error.nextStepUsers != '') {
 		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
 
-		_setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
+		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
 
 		ApproveManager.error.nextStepUsers = '';
 		return;
