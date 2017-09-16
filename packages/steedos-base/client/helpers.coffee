@@ -37,6 +37,8 @@ Steedos.Helpers =
 			return "dashboard"
 		else if /^\/?calendar\b/.test(path)
 			return "calendar"
+		else if /^\/?records_search\b/.test(path)
+			return "records_search"
 		else
 			return ""
 
