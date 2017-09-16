@@ -307,11 +307,12 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-var _setError_next_step_users = function (error) {
+var _setError_next_step_users = function (error, error_type) {
 	var next_user = $("input[name='nextStepUsers']");
 
 	if(next_user.length > 0){
 		next_user[0].dataset["error"] = error;
+		next_user[0].dataset["error_type"] = error_type;
 	}
 }
 
@@ -329,7 +330,7 @@ InstanceManager.checkNextStepUser = function() {
 	if (ApproveManager.error.nextStepUsers != '') {
 		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
 
-		_setError_next_step_users(ApproveManager.error.nextStepUsers)
+		_setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
 
 		ApproveManager.error.nextStepUsers = '';
 		return;

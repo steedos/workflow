@@ -82,7 +82,7 @@ Template.afSelectUser.events({
         var dataset = $("input[name='" + template.data.name + "']")[0].dataset;
 
         if(dataset.error){
-			swal({title:dataset.error,confirmButtonText: t("OK")})
+			swal({title: dataset.error,confirmButtonText: t("OK")})
         	return ;
 		}
 
