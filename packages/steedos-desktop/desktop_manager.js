@@ -2,6 +2,8 @@ if (Steedos.isNode()){
 
 	var globalWin = nw.Window.get();
 
+	globalWin.maximize();
+
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
 		if(window.name){
@@ -36,6 +38,7 @@ if (Steedos.isNode()){
 	// App 再次打开是显示GlobalWin
 	nw.App.on("open",function(args){
 		globalWin.show();
+		globalWin.maximize();
 		globalWin.focus();
 	}); 
 
@@ -56,6 +59,7 @@ if (Steedos.isNode()){
 			label: '打开',
 			click: function(){
 				globalWin.show();
+				globalWin.maximize();
 				globalWin.focus();
 			}
 		}));
@@ -71,6 +75,7 @@ if (Steedos.isNode()){
 					nw.App.quit();
 				}else{
 					globalWin.show();
+					globalWin.maximize();
 					globalWin.focus();
 				}
 			}
@@ -81,6 +86,7 @@ if (Steedos.isNode()){
 		//click事件
 		tray.on('click',function(){
 			globalWin.show();
+			globalWin.maximize();
 			globalWin.focus();
 		});
 	}
