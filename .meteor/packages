@@ -121,8 +121,8 @@ jeremy:selectize
 comerc:autoform-selectize
 # hausor:autoform-bs-minicolors
 
-# steedos:qhd
-# steedos:theme-qhd
+steedos:qhd
+steedos:theme-qhd
 steedos:theme
 # steedos:emailjs
 steedos:contacts
@@ -150,7 +150,7 @@ vazco:universe-selectize
 steedos:universe-autoform-select
 
 steedos:workflow-chart
-# steedos:records-qhd
+steedos:records-qhd
 
 steedos:accounts-phone
 steedos:accounts
@@ -161,13 +161,13 @@ steedos:remind
 steedos:calendar
 steedos:calendar-i18n
 
-# steedos:records
+steedos:records
 
 steedos:freeboard
 steedos:dashboard
 
 
-# steedos:distribute-qhd
+steedos:distribute-qhd
 
 steedos:tableau
 
