@@ -96,7 +96,6 @@ Template.instance_cc_modal.events
 				myApprove = InstanceManager.getLastApprove(ins.traces)
 				
 		myApprove.opinion_fields_code = opinion_fields_code
-		debugger
 		Meteor.call 'cc_do', myApprove, val, description, (error, result) ->
 			WorkflowManager.instanceModified.set false
 			if error

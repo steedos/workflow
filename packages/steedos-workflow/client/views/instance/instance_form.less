@@ -603,6 +603,9 @@ textarea {
       &.readonly{
         background:#FFFFFF;
       }
+		&.field-readonly{
+			background:#FFFFFF;
+		}
       .form-control{
         padding:0;
       }
@@ -840,8 +843,11 @@ textarea {
 					}
 				}
 
-				td{
-					[disabled]{
+				.td-field{
+					//&.readonly{
+					//	background-color: #F6F6F6 !important;
+					//}
+					&.field-readonly{
 						background-color: #F6F6F6 !important;
 					}
 				}

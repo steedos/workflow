@@ -84,7 +84,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 						<td class="td-title td-title-#{table_field.code} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
-						<td class="td-field td-field-#{table_field.code} #{table_field.permission}" colspan = "#{table_field.td_colspan}">
+						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">
 							{{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
