@@ -202,6 +202,16 @@ InstanceSignText.helpers =
 				return true;
 		return false;
 
+	addClass: ()->
+		name = Template.instance()?.data?.name
+		setTimeout () ->
+			try
+				$(".automatic.opinion-field-" + name).addClass('field-editable')
+			catch e
+				console.log e
+		, 1
+		return ''
+
 if Meteor.isServer
 	InstanceSignText.helpers.defaultDescription = ->
 		locale = Template.instance().view.template.steedosData.locale
