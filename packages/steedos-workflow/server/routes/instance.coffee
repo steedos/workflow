@@ -113,15 +113,12 @@ JsonRoutes.add "get", "/workflow/space/:space/view/readonly/:instance_id/:instan
 ###
 JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
-	user = Steedos.getAPILoginUser(req, res)
+	if !Steedos.APIAuthenticationCheck(req, res)
+		return ;
 
-	if !user
-		JsonRoutes.sendResult res,
-			code: 401,
-			data:
-				"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-				"success": false
-		return;
+	user_id = req.userId
+
+	user = db.users.findOne({_id: user_id})
 
 	spaceId = req.headers["x-space-id"]
 

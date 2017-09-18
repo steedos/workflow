@@ -184,6 +184,9 @@
 	"workflow_left_parenthesis": "（",
 	"workflow_right_parenthesis": "）",
 
+	"instance_cc_description": "传阅说明",
+	"instance_cc_from": "传阅自",
+
 	"instance_cc_title": "传阅",
 	"instance_cc_done": "已传阅",
 	"instance_curstep": "当前步骤: ",
@@ -539,7 +542,7 @@
 	"categories_sort_no": "排序号",
 
 	"next_step_users_not_found": {
-		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，请联络系统管理员"
+		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，需要系统管理员在岗位成员中进行配置。"
 	},
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
@@ -574,5 +577,11 @@
 	"instances_not_archived": "未归档",
 	"workflow_more_inbox": "更多待审核",
 
-	"instance_back": "返回"
+	"instance_back": "返回",
+
+	"steedos_tableau_statistical_analysis": "统计分析",
+
+	"steedos_tableau_copy_link":"复制链接",
+	"tableau_introduction_modal_close":"关闭",
+	"ERROR": "错误"
 }

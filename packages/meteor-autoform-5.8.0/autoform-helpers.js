@@ -107,6 +107,17 @@ Template.registerHelper('afFieldValueContains', function autoFormFieldValueConta
 Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(options) {
   if(!Template.instance().view.template.steedosData){
     options = parseOptions(options, 'afFieldLabelText');
+
+    var fieldSchema = AutoForm.getSchemaForField(options.name);
+
+    if(fieldSchema.autoform && fieldSchema.autoform.disabled === true){
+      try{
+        $(".td-title-" + options.name).removeClass("is-required");
+      }catch (e){
+        console.error(e);
+      }
+    }
+
     return AutoForm.getLabelForField(options.name);
   }else{
     form_version = Template.instance().view.template.steedosData.form_version

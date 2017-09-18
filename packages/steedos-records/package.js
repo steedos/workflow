@@ -41,8 +41,6 @@ Package.onUse(function(api) {
     api.use('kadira:flow-router@2.10.1');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
-    
-    api.use('aldeed:autoform-bs-datetimepicker');
 
     api.use('meteorhacks:ssr@2.2.0');
     api.use('tap:i18n@1.7.0');
@@ -55,22 +53,15 @@ Package.onUse(function(api) {
 
 	api.use('steedos:adminlte');
     api.use('steedos:base');
-    api.use('steedos:theme@0.0.13');
+    api.use('steedos:theme');
+    
     api.use('steedos:workflow');
     api.use('simple:json-routes@2.1.0');
     api.use('steedos:records-i18n');
     api.use('http');
 
-
-    api.addFiles('client/admin/record_types.html', 'client');
-    api.addFiles('client/admin/record_types.coffee', 'client');
-    api.addFiles('client/admin/record_types.less', 'client');
-
-    api.addFiles('client/home/home.html', 'client');
-
     api.addFiles('client/layout/layout.html', 'client');
     api.addFiles('client/layout/layout.less', 'client');
-    api.addFiles('client/layout/sidebar.html', 'client');
 
     api.addFiles('client/search/records_repository.html', 'client');
     api.addFiles('client/search/records_repository.coffee', 'client');
@@ -79,15 +70,7 @@ Package.onUse(function(api) {
     api.addFiles('client/core.coffee', 'client');
     api.addFiles('client/router.coffee', 'client');
 
-    api.addFiles('models/record_types.coffee');
-
-    api.addFiles('server/records-api-search/routes/records.coffee','server');
-
-    api.addFiles('server/sync/workflow_instance.coffee','server');
-    api.addFiles('server/sync/workflow_attachment.coffee','server');
-    
-    api.addFiles('server/main.coffee','server');
-
+    api.addFiles('server/api/search/search_api.coffee','server');
 
 });
 

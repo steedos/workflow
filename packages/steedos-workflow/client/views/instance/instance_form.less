@@ -583,12 +583,12 @@ textarea {
       border-color: inherit !important;
       padding:6px;
       vertical-align: middle;
-      &.is-required{
-        &:after{
-          content:"*";
-          color:red;
-        }
-      }
+      //&.is-required{
+      //  &:after{
+      //    content:"*";
+      //    color:red;
+      //  }
+      //}
     }
 
     .td-field{
@@ -826,6 +826,29 @@ textarea {
 //		text-align:left !important;
 //	}
 //}
+
+.instance-view{
+	.instance-table{
+		.inbox,.draft{
+			.form-table{
+				.td-title{
+					&.is-required{
+						&:after{
+							content:"*";
+							color:red;
+						}
+					}
+				}
+
+				td{
+					[disabled]{
+						background-color: #F6F6F6 !important;
+					}
+				}
+			}
+		}
+	}
+}
 
 .instance-print{
   .instance-table{

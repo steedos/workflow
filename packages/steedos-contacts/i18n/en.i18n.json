@@ -100,8 +100,9 @@
 	"steedos_contacts_import_users_import_success": "Import success",
 	"steedos_contacts_import_users_check_success": "Check success",
 	"btn_set_primary_title": "Set as the primary organization",
-	"steedos_contacts_settings": "Contacts Management",
+	"steedos_contacts_settings": "Contacts settings",
 	"steedos_contacts_settings_hidden_users": "Hidden users",
 	"steedos_contacts_settings_hidden_users_tips": "Hidden users will not be displayed in Contacts",
-	"steedos_contacts_settings_hidden_users_edit": "Edit the user to hide"
+	"steedos_contacts_settings_hidden_users_edit": "Edit the user to hide",
+	"steedos_contacts_mobile_edit_power": "Need to modify the phone number by the user self"
 }

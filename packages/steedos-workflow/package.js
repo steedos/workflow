@@ -64,12 +64,15 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
+	api.use('steedos:authenticate-user-by-access-token');
+	api.use('steedos:authenticate-user-by-auth-token');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
+	api.addFiles('server/routes_middleware_config.coffee', 'server');
 
 	// COMMON
 	api.addFiles('lib/collection_helpers.js');
@@ -288,6 +291,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flow_positions.html', 'client');
 	api.addFiles('client/views/list/admin_flow_positions.coffee', 'client');
 
+	api.addFiles('client/views/list/tableau_introduction_modal.html', 'client');
+	api.addFiles('client/views/list/tableau_introduction_modal.less', 'client');
+	api.addFiles('client/views/list/tableau_introduction_modal.coffee', 'client');
+
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -388,7 +395,11 @@ Package.onUse(function(api) {
 	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
-
+	api.addFiles('server/flow-template/zh-CN/purchase_contract.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/issued_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/metting_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/income_document.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/seal_request.coffee', 'server');
 	// workflow_template（en）
 	api.addFiles('server/flow-template/en/capex.coffee', 'server');
 	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');

@@ -6,10 +6,10 @@ FlowRouter.notFound =
 	action: ()->
 		if !Meteor.userId()
 			BlazeLayout.render 'loginLayout',
-				main: "not-found"
+				main: "not_found"
 		else
-			BlazeLayout.render 'masterLayout',
-				main: "not-found"
+			BlazeLayout.render 'notFoundLayout',
+				main: "not_found"
 
 FlowRouter.triggers.enter [
 	()-> Session.set("router-path", FlowRouter.current().path)
@@ -35,6 +35,8 @@ FlowRouter.triggers.enter [
 						title = "Steedos Dashboard"
 					when 'calendar'
 						title = "Steedos Calendar"
+					when 'records_search'
+						title = "Steedos Records"
 					else
 						title = "Steedos"
 				if title

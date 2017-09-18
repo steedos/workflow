@@ -1,13 +1,11 @@
 <template name="recordsLayout">
-{{# AdminLTE}}
-	{{> steedosHeader}}
-
-	<!-- {{> recordsSidebar}} -->
-
-	<!-- <div class="content-wrapper"> -->
-	<div class="content">
-		{{> Template.dynamic template=main}}
-	</div>
-	{{> autoformModals}}
-{{/AdminLTE}}
+<div class="steedos-records">
+	{{# AdminLTE}}
+		{{> steedosHeader}}
+		<div class="content" style="margin-top:0px;">
+			{{> Template.dynamic template=main}}
+		</div>
+		{{> autoformModals}}
+	{{/AdminLTE}}
+</div>
 </template>

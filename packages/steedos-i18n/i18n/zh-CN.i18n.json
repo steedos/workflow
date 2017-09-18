@@ -466,5 +466,8 @@
 	"meteor_status_try_now_waiting": "重试",
 	"btn_back_title": "返回",
 	"space_users_remove_mail_subject": "您的帐户已被管理员从工作区中删除",
-	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"__steedos_id__\"已被管理员从工作区\"__space_name__\"中删除。<br/><br/>谢谢！"
+	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"__steedos_id__\"已被管理员从工作区\"__space_name__\"中删除。<br/><br/>谢谢！",
+
+	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
+	"Steedos Records": "全文检索"
 }

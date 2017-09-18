@@ -2,20 +2,34 @@ Template.instance_cc_modal.helpers
 	fields: ->
 		form_version = WorkflowManager.getInstanceFormVersion()
 		currentStep = InstanceManager.getCurrentStep()
-		currentApprove = InstanceManager.getCurrentApprove()
+		ins = WorkflowManager.getInstance()
+		if InstanceManager.isInbox() && ins.state is "pending" 
+			currentApprove = InstanceManager.getCurrentApprove()
+		else
+			currentApprove = InstanceManager.getLastApprove(ins.traces)
+
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
 				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
 			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0
 		)
-		modalFields = cc_users:
-			autoform:
-				type: 'selectuser'
-				multiple: true,
-				is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
-			optional: false
-			type: [ String ]
-			label: TAPi18n.__('instance_cc_user')
+		modalFields = 
+			cc_users:
+				autoform:
+					type: 'selectuser'
+					multiple: true,
+					is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
+				optional: false
+				type: [ String ]
+				label: TAPi18n.__('instance_cc_user')
+			
+			cc_description:
+				type: String,
+				optional: true,
+				autoform:
+					type:'coreform-textarea'
+				label: TAPi18n.__('instance_cc_description')
+
 		if opinionFields.length > 0
 			modalFields.opinion_fields =
 				autoform: type: 'coreform-multiSelect'
@@ -55,6 +69,7 @@ Template.instance_cc_modal.events
 		return
 	'click #cc_modal_ok': (event, template) ->
 		val = AutoForm.getFieldValue('cc_users', 'instanceCCForm')
+		description = AutoForm.getFieldValue('cc_description', 'instanceCCForm') || ""
 		if !val or val.length < 1
 			toastr.error TAPi18n.__('instance_cc_error_users_required')
 			return
@@ -71,12 +86,18 @@ Template.instance_cc_modal.events
 		if InstanceManager.isCC(instance)
 			myApprove = InstanceManager.getCCApprove(Meteor.userId(), false)
 		else
-			myApprove = InstanceManager.getMyApprove()
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
-			if instance.attachments and myApprove
-				myApprove.attachments = instance.attachments
+			ins = WorkflowManager.getInstance()
+			if InstanceManager.isInbox() && ins.state is "pending" 
+				myApprove = InstanceManager.getMyApprove()
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
+				if instance.attachments and myApprove
+					myApprove.attachments = instance.attachments
+			else
+				myApprove = InstanceManager.getLastApprove(ins.traces)
+				
 		myApprove.opinion_fields_code = opinion_fields_code
-		Meteor.call 'cc_do', myApprove, val, (error, result) ->
+		debugger
+		Meteor.call 'cc_do', myApprove, val, description, (error, result) ->
 			WorkflowManager.instanceModified.set false
 			if error
 				Modal.hide template

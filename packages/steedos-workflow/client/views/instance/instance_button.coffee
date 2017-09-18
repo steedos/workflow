@@ -115,6 +115,15 @@ Template.instance_button.helpers
 				if cs && (cs.disableCC is true)
 					return false
 				return true
+		else if Session.get("box") is 'outbox' and ins.state is "pending"
+			step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			if step_id
+				step = WorkflowManager.getInstanceStep(step_id)
+				if step and (step.disableCC is true)
+					return false
+				return true
+			else
+				return false
 		else
 			return false
 
@@ -353,7 +362,7 @@ Template.instance_button.events
 				uobj["box"] = Session.get("box")
 				uobj["X-User-Id"] = Meteor.userId()
 				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)))
+				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
 
 	'click .btn-instance-update': (event)->
 
