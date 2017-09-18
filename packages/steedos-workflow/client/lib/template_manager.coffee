@@ -64,7 +64,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 					<td class="td-title #{required}">
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
-					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
+					<td class="td-field opinion-field opinion-field-#{table_field.code} automatic" colspan = "#{table_field.td_colspan}">
 						{{> instanceSignText name="#{table_field.code}"}}
 					</td>
 				"""
