@@ -17,24 +17,36 @@ Steedos.Helpers =
 
 	# 根据当前路由路径前缀，得到当前所属app名字
 	getAppName: (path)->
-		unless path
-			path = Session.get "router-path"
-		if /^\/?apps\/iframe\/.+/.test(path)
-			# 格式如："/apps/iframe/xxx..."这般，则取出/apps/iframe/xxx作为appName
-			appName = path.match(/^\/?apps\/iframe\/([^\/?]+)\b/)?[1]
-			if appName
-				return "/apps/iframe/#{appName}"
-			else
-				return ""
-		else if /^\/?[^\/?]+\b/.test(path)
-			# 格式如："/xxx..."这般，则取出xxx作为appName
-			appName = path.match(/^\/?([^\/?]+)\b/)?[1]
-			if appName
-				return appName
-			else
-				return ""
+		app = Steedos.getCurrentApp(path)
+		if app
+			return app.name
 		else
 			return ""
+
+	# 根据当前路由路径前缀，得到当前所属app
+	getCurrentApp: (path)->
+		unless path
+			path = Session.get "router-path"
+		unless path
+			return null
+		if /^\/?apps\/iframe\/.+/.test(path)
+			# 格式如："/apps/iframe/xxx..."这般，则取出xxx作为appId
+			appId = path.match(/^\/?apps\/iframe\/([^\/?]+)\b/)?[1]
+			if appId
+				return db.apps.findOne(appId)
+			else
+				return null
+		else if /^\/?[^\/?]+\b/.test(path)
+			# 格式如："/xxx..."这般，则取出xxx作为rootName
+			# 并以"/" + rootName作为app的url，来搜索app
+			rootName = path.match(/^\/?([^\/?]+)\b/)?[1]
+			if rootName
+				reg = new RegExp("^\/?#{rootName}\\b")
+				return db.apps.findOne({url: reg})
+			else
+				return null
+		else
+			return null
 
 	getUserId: ()->
 		return Meteor.userId()
