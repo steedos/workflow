@@ -127,7 +127,7 @@ TemplateManager._template =
 	default: (instance)->
 
 		template = """
-			<div class="with-border">
+			<div class="with-border col-md-12">
 				<div class="instance-name">
 					<h3 class="box-title">#{TemplateManager.instance_title().pageTitle}</h3>
 					<span class="help-block"></span>
