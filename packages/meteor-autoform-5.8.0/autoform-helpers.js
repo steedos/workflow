@@ -110,7 +110,7 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
 
     var fieldSchema = AutoForm.getSchemaForField(options.name);
 
-    if(fieldSchema.autoform && fieldSchema.autoform.disabled === true){
+    if(fieldSchema && fieldSchema.autoform && fieldSchema.autoform.disabled === true){
       try{
         setTimeout(function () {
           $(".td-title-" + options.name).removeClass("is-required");
