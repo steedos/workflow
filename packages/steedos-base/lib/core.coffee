@@ -489,7 +489,7 @@ if Meteor.isServer
 		authToken = req.query?["X-Auth-Token"]
 
 		if Steedos.checkAuthToken(userId,authToken)
-			return db.users.findOne({_id: userId})
+			return db.users.findOne({_id: userId})?._id
 
 		cookies = new Cookies(req, res);
 
