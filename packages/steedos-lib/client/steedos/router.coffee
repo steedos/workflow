@@ -16,37 +16,11 @@ FlowRouter.triggers.enter [
 	()-> 
 		Tracker.autorun ->
 			if Session.get "is_tap_loaded"
-				path = Session.get "router-path"
-				appName = Steedos.getAppName(path)
-				switch appName
-					when 'workflow'
-						title = "Steedos Workflow"
-					when 'cms'
-						title = "Steedos CMS"
-					when 'emailjs'
-						title = "Steedos Mail"
-					when 'contacts'
-						title = "Steedos Contacts"
-					when 'portal'
-						title = "Steedos Portal"
-					when 'admin'
-						title = "Steedos Admin"
-					when 'dashboard'
-						title = "Steedos Dashboard"
-					when 'calendar'
-						title = "Steedos Calendar"
-					when 'records_search'
-						title = "Steedos Records"
-					when "/apps/iframe/chat"
-						title = "Steedos Chat"
-					when "/apps/iframe/drive"
-						title = "Steedos Drive"
-					when "/apps/iframe/calendar"
-						title = "Steedos OldCalendar"
-					else
-						title = "Steedos"
-				if title
-					Steedos.setAppTitle t(title)
+				appName = Steedos.getAppName()
+				if appName
+					Steedos.setAppTitle t(appName)
+				else
+					Steedos.setAppTitle "Steedos"
 	()-> 
 		# 变更路由时记录url作为下次登录的url
 		if Meteor.userId()
