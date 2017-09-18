@@ -81,6 +81,11 @@ Template.afSelectUser.events({
 
         var dataset = $("input[name='" + template.data.name + "']")[0].dataset;
 
+        if(dataset.error){
+			swal({title: dataset.error,confirmButtonText: t("OK")})
+        	return ;
+		}
+
         var data, multiple, showOrg = true;
 
         if (_.isBoolean(template.data.atts.showOrg)) {

@@ -12,6 +12,10 @@ Steedos =
 # @namespace Steedos
 ###
 
+Steedos.getHelpUrl = (locale)->
+	country = locale.substring(3)
+	return "http://www.steedos.com/" + country + "/help/"
+
 if Meteor.isClient
 
 	Steedos.spaceUpgradedModal = ()->
@@ -111,10 +115,13 @@ if Meteor.isClient
 					localStorage.removeItem("accountZoomValue.name")
 					localStorage.removeItem("accountZoomValue.size")
 
-	Steedos.showHelp = ()->
+	Steedos.showHelp = (url)->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
-		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
+
+		url = url || "http://www.steedos.com/" + country + "/help/"
+
+		window.open(url, '_help', 'EnableViewPortScale=yes')
 
 	Steedos.getUrlWithToken = (url)->
 		authToken = {};

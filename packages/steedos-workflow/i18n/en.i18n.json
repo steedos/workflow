@@ -567,5 +567,6 @@
 	"steedos_tableau_statistical_analysis": "Statistical analysis",
 
 	"steedos_tableau_copy_link": "Copy link",
-	"tableau_introduction_modal_close": "Close"
+	"tableau_introduction_modal_close": "Close",
+	"ERROR": "Error"
 }
