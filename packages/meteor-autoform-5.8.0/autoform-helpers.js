@@ -112,7 +112,9 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
 
     if(fieldSchema.autoform && fieldSchema.autoform.disabled === true){
       try{
-        $(".td-title-" + options.name).removeClass("is-required");
+        setTimeout(function () {
+          $(".td-title-" + options.name).removeClass("is-required");
+        }, 1);
       }catch (e){
         console.error(e);
       }

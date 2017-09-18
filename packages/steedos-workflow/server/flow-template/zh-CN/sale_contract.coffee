@@ -1,4 +1,5 @@
 #销售合同
+
 workflowTemplate["zh-CN"].push {
   "_id": "df519b04c5debfce4f1c9d95",
   "name": "销售合同",
@@ -13,7 +14,7 @@ workflowTemplate["zh-CN"].push {
     "_rev": 4,
     "created": "2017-09-14T08:15:49.151Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:06:53.126Z",
+    "modified": "2017-09-18T01:41:46.452Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
     "start_date": "2017-09-14T08:15:49.151Z",
     "form": "df519b04c5debfce4f1c9d95",
@@ -88,10 +89,9 @@ workflowTemplate["zh-CN"].push {
             "code": "经办人员",
             "is_required": false,
             "is_wide": false,
-            "type": "input",
+            "type": "user",
             "rows": 4,
             "digits": 0,
-            "formula": "{applicant.name}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "经办人员"
@@ -101,10 +101,9 @@ workflowTemplate["zh-CN"].push {
             "code": "经办部门",
             "is_required": false,
             "is_wide": false,
-            "type": "input",
+            "type": "group",
             "rows": 4,
             "digits": 0,
-            "formula": "{applicant.organization.name}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "经办部门"
@@ -269,7 +268,7 @@ workflowTemplate["zh-CN"].push {
         "_rev": 4,
         "flow": "1fe415f79d99b0c775f821e1",
         "form_version": "20aaa01a-2356-4e3d-9e5f-f10f536f8be0",
-        "modified": "2017-09-15T06:06:53.232Z",
+        "modified": "2017-09-18T01:41:46.557Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
         "created": "2017-09-14T08:15:49.151Z",
         "created_by": "kFePuCYbpHCe7R6dT",
@@ -385,13 +384,6 @@ workflowTemplate["zh-CN"].push {
                 "name": "",
                 "state": "approved",
                 "to_step": "d99ad98d-3188-48c8-835b-1af689109de6",
-                "description": ""
-              },
-              {
-                "_id": "6400678b-c0f0-4617-a827-d2241b1ee8bf",
-                "name": "",
-                "state": "approved",
-                "to_step": "e4e4eaf7-95f5-47f4-827e-3b7d59159555",
                 "description": ""
               }
             ],
@@ -546,45 +538,6 @@ workflowTemplate["zh-CN"].push {
               }
             ],
             "approver_roles_name": []
-          },
-          {
-            "_id": "e4e4eaf7-95f5-47f4-827e-3b7d59159555",
-            "name": "相关领导会签",
-            "step_type": "counterSign",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 605,
-            "posy": 537,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "cwFcwh6wwEEEXxqid"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "7f0c15e2-582d-4acc-b1be-fa6cc27c2f3a",
-                "name": "",
-                "state": "submitted",
-                "to_step": "377d8917-0f22-4aa8-a99a-cc21490f106c",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "公司领导"
-            ]
           }
         ]
       },

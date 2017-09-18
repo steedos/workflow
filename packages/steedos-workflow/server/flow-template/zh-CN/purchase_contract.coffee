@@ -14,7 +14,7 @@ workflowTemplate["zh-CN"].push {
     "_rev": 5,
     "created": "2017-09-15T06:04:16.793Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:04:16.833Z",
+    "modified": "2017-09-18T02:30:58.169Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
     "start_date": "2017-09-15T06:04:16.793Z",
     "form": "310cbca588b9743f2e5a9f65",
@@ -61,29 +61,28 @@ workflowTemplate["zh-CN"].push {
             "oldCode": "合同编号"
           },
           {
-            "_id": "D49E1438-EB37-4C02-90F9-AC4F8024EA10",
+            "_id": "B239F9F9-F4E5-4C18-8B7B-B3000F589E2A",
+            "name": "经办人员",
             "code": "经办人员",
             "is_required": false,
             "is_wide": false,
-            "type": "input",
-            "rows": 4,
+            "type": "user",
+            "rows": 1,
             "digits": 0,
-            "formula": "{applicant.name}",
             "has_others": false,
-            "is_multiselect": false,
+            "is_multiselect": true,
             "oldCode": "经办人员"
           },
           {
-            "_id": "3117A57B-E556-40DB-8CCD-F64D1648D9BA",
+            "_id": "98E2FC6D-31FA-4288-B2DC-A909E785F720",
             "code": "经办部门",
             "is_required": false,
-            "is_wide": false,
-            "type": "input",
-            "rows": 4,
+            "is_wide": true,
+            "type": "group",
+            "rows": 1,
             "digits": 0,
-            "formula": "{applicant.organization.name}",
             "has_others": false,
-            "is_multiselect": false,
+            "is_multiselect": true,
             "oldCode": "经办部门"
           },
           {
@@ -279,15 +278,15 @@ workflowTemplate["zh-CN"].push {
       "created_by": "kFePuCYbpHCe7R6dT",
       "current_no": 3,
       "current": {
-        "_id": "ec0178e3-4194-4772-9362-5316763eb7b1",
-        "_rev": 3,
+        "_id": "799e70d3-9700-4fb5-b3e2-972492a68fec",
+        "_rev": 4,
         "flow": "4ceb60f112ffda7b3cab45ec",
         "form_version": "820a6ac7-48e6-4d06-bf35-558421c55a5d",
-        "modified": "2017-09-15T06:04:17.159Z",
+        "modified": "2017-09-18T02:30:58.273Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T06:04:16.793Z",
+        "created": "2017-09-18T02:30:58.273Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T06:04:16.793Z",
+        "start_date": "2017-09-18T02:30:58.273Z",
         "steps": [
           {
             "_id": "232350f9-94d4-4961-8cd2-0e034e2e2369",
@@ -319,7 +318,11 @@ workflowTemplate["zh-CN"].push {
               "备注": "editable",
               "审批意见": "editable",
               "币种": "editable",
-              "是否申请付款": "editable"
+              "是否申请付款": "editable",
+              "选择用户": "editable",
+              "选择部门": "editable",
+              "经办人员": "editable",
+              "经办部门": "editable"
             },
             "can_edit_main_attach": true,
             "can_edit_normal_attach": true,
@@ -467,13 +470,6 @@ workflowTemplate["zh-CN"].push {
                 "description": ""
               },
               {
-                "_id": "ff493cc7-0157-4f5a-8644-8c0035d64b24",
-                "name": "",
-                "state": "approved",
-                "to_step": "e4e4eaf7-95f5-47f4-827e-3b7d59159555",
-                "description": ""
-              },
-              {
                 "_id": "e73ceb76-0423-4d81-b139-169b14d44908",
                 "name": "",
                 "state": "approved",
@@ -600,45 +596,6 @@ workflowTemplate["zh-CN"].push {
               }
             ],
             "approver_roles_name": []
-          },
-          {
-            "_id": "e4e4eaf7-95f5-47f4-827e-3b7d59159555",
-            "name": "相关领导会签",
-            "step_type": "counterSign",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 605,
-            "posy": 537,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "cwFcwh6wwEEEXxqid"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "d33004a8-afb7-487d-9c1c-2009c47c0121",
-                "name": "",
-                "state": "submitted",
-                "to_step": "10a1a7f6-4ce8-4a0d-a6c7-8bbf31bdb116",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "公司领导"
-            ]
           }
         ]
       },
