@@ -299,11 +299,13 @@ WorkflowManager.getFormulaUsers = function(spaceId, userIds) {
         userObject['id'] = user.id;
         userObject['name'] = user.name;
         userObject['organization'] = {
+			'id': user.organization._id,
             'name': user.organization.name,
             'fullname': user.organization.fullname
         };
 
 		userObject["organizations"] = {
+			'id': user.organizations.getProperty("_id"),
 		    'name': user.organizations.getProperty("name"),
 			'fullname': user.organizations.getProperty("fullname")
         }
