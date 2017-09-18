@@ -202,5 +202,9 @@
 		"options": {
 			"endpoint": "http://192.168.0.134:88" //监控服务engine URL
 		}
-	}
+	},
+  //全文检索服务
+  "records":{
+    "es_search_index": "steedos"
+  }
 }
