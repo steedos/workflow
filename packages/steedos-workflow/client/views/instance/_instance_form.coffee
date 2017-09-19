@@ -381,8 +381,19 @@ InstanceformTemplate.helpers =
 		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
 
 	includesOpinionField: (form, form_version)->
+
+		field_formulas = new Array();
+
 		fields = db.form_versions.findOne({_id: form_version, form: form})?.fields || []
-		field_formulas = fields.getProperty("formula")
+
+		fields.forEach (f)->
+			if f.type == 'table'
+				console.log 'ignore opinion field in table'
+			else if f.type == 'section'
+				f?.fields?.forEach (f1)->
+					field_formulas.push f1.formula
+			else
+				field_formulas.push f.formula
 
 		_.some field_formulas, (field_formula)->
 			return InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
