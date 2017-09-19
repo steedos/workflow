@@ -401,12 +401,12 @@ InstanceformTemplate.helpers =
 #					foo1 = field_formula.split(";")
 
 				foo1.forEach (foo)->
-					json_formula = false
+					json_formula = {}
 
 					try
 						json_formula = eval("(" + foo + ")")
 					catch
-						json_formula = false
+						json_formula = {}
 
 					if json_formula?.yijianlan
 						sf = {}
@@ -418,6 +418,8 @@ InstanceformTemplate.helpers =
 						sf.only_cc_opinion = json_formula.yijianlan.only_cc || false
 
 						sf.default_description = json_formula.yijianlan.default
+
+						sf.only_handler = json_formula.yijianlan.only_handler
 
 						sf.top_keywords = json_formula.yijianlan.top_keywords || top_keywords
 

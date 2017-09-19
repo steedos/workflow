@@ -8,10 +8,24 @@ Template.instance_cc_modal.helpers
 		else
 			currentApprove = InstanceManager.getLastApprove(ins.traces)
 
+		if !currentApprove
+			return
+
+		canCC = (formula, currentStep)->
+			formulas = InstanceformTemplate.helpers.getOpinionFieldStepsName(formula)
+
+			rev = false;
+
+			formulas.forEach (f)->
+				if !f.only_handler && f.stepName == currentStep.name
+					rev = true
+			return rev;
+
+
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
-				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
-			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0
+				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1 and canCC(field.formula, currentStep)
+			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0 and canCC(field.formula, currentStep)
 		)
 		modalFields = 
 			cc_users:

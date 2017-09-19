@@ -233,6 +233,10 @@ Template.instance_suggestion.helpers
 
 	opinionFields: ->
 		currentApprove = InstanceManager.getCurrentApprove()
+
+		if(!currentApprove)
+			return ;
+
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
 				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
@@ -247,10 +251,10 @@ Template.instance_suggestion.helpers
 		return opinionFields
 
 	ccDescription: ->
-		return InstanceManager.getCurrentApprove().cc_description
+		return InstanceManager.getCurrentApprove()?.cc_description
 
 	ccFromUserName: ->
-		return InstanceManager.getCurrentApprove().from_user_name
+		return InstanceManager.getCurrentApprove()?.from_user_name
 
 
 Template.instance_suggestion.events
