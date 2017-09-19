@@ -15,8 +15,8 @@
         </header>
         <div class="sidebar" id="scrollspy">
           {{> sidebarUserPanel}}
-          {{> topSidebar}}
+          {{> contentWrapperShadow}}
         </div>
     </aside>
-    {{#if isMobile}}<div class="content-wrapper content-wrapper-shadow"></div>{{/if}}
+    {{> contentWrapperShadow}}
 </template>
