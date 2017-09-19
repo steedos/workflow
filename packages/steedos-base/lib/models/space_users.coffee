@@ -283,13 +283,6 @@ if (Meteor.isServer)
 					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
 					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
 
-				else
-					# 不支持手机号短信相关功能时，需要更新所有工作区的相关mobile数据
-					user_set = {}
-					user_set.mobile = newMobile
-					if not _.isEmpty(user_set)
-						# 更新users表中的相关字段，不可以用direct.update，因为需要更新所有工作区的相关数据
-						db.users.update({_id: doc.user}, {$set: user_set})
 			else
 				user_unset = {}
 				user_unset.phone = ""
