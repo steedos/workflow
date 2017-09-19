@@ -20,7 +20,7 @@ Template.contactsLayout.helpers
 		return Template.instance().minHeight.get() + 'px'
 	
 	subsReady: ->
-		return Steedos.subsBootstrap.ready()
+		return Steedos.subsBootstrap.ready() && Steedos.subsSpaceBase.ready()
 
 Template.contactsLayout.events
 	"click #navigation-back": (e, t) ->
