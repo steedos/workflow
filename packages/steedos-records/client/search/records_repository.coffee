@@ -19,6 +19,7 @@ Template.search_records_repository.events
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
 Template.search_records_repository.onRendered ->
+	$('.steedos-records-search-list').perfectScrollbar()
 	$('.table-records-result').dataTable({
 		'paginate': true, #翻页功能
 		'lengthChange': false, #改变每页显示数据数量
