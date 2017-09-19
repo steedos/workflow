@@ -1,5 +1,21 @@
 Steedos.subs["InstanceTabular"] = new SubsManager()
 
+
+_handleListFields = (fields) ->
+	ins_fields = new Array();
+
+	fields?.forEach (f)->
+		if f.type == 'table'
+			console.log 'ignore opinion field in table'
+		else if f.type == 'section'
+			f?.fields?.forEach (f1)->
+				ins_fields.push f1
+		else
+			ins_fields.push f
+
+	return ins_fields
+
+
 updateTabularTitle = ()->
 
 # 如果columns有加减，请修改Template.instance_list._tableColumns 函数
@@ -225,11 +241,13 @@ instancesListTableTabular = (flowId)->
 		flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
 		TabularTables.instances.fields = db.forms.findOne({_id: flow?.form})?.current?.fields
 
-		TabularTables.instances.fields?.forEach (f)->
+		ins_fields = _handleListFields TabularTables.instances.fields
+
+		ins_fields.forEach (f)->
 			if f.type != 'table' && f.is_list_display
 				options.columns.push
-					data: "modified",
-					title: f.name || f.code,
+					data: (f.name || f.code),
+					title: t(f.name || f.code),
 					visible: false,
 					orderable: false
 					render: (val, type, doc) ->
@@ -347,6 +365,8 @@ Tracker.autorun (c) ->
 newInstancesListTabular = (box, flowId)->
 	flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
 	fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+
+	fields = _handleListFields fields
 
 	if fields?.filterProperty("is_list_display", true)?.length > 0
 		key = "instanceFlow" + flowId
