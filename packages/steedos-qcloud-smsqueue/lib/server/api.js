@@ -105,6 +105,7 @@ QcloudSMSQueue.Configure = function(options) {
 
 	sdkappid = options.sdkappid;
 	appkey = options.appkey;
+	signname = options.signname || "";
 
 	self.sendSMS = function(sms) {
 		if (QcloudSMSQueue.debug) {
@@ -116,7 +117,7 @@ QcloudSMSQueue.Configure = function(options) {
 		// 	console.error(err)
 		// });
 
-		sendTextMsg(sdkappid, appkey, sms.sms.RecNum, sms.sms.msg);
+		sendTextMsg(sdkappid, appkey, sms.sms.RecNum, signname + sms.sms.msg);
 	}
 
 	// Universal send function

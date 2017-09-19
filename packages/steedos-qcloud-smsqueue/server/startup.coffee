@@ -6,3 +6,4 @@ Meteor.startup ->
 			keepSMS: true
 			sdkappid: Meteor.settings.sms.qcloud.sdkappid
 			appkey: Meteor.settings.sms.qcloud.appkey
+			signname: Meteor.settings.sms.qcloud.signname
