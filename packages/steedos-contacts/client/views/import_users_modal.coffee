@@ -8,8 +8,14 @@ Template.import_users_modal.helpers
 
 Template.import_users_modal.events
 	'change #import-file': (event, template) ->
+
 		items = new Array();
+
 		files = event.currentTarget.files;
+
+		if files.length < 1
+			return ;
+
 		reader = new FileReader();
 		reader.onload = (ev) ->
 			try
