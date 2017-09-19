@@ -30,6 +30,8 @@ Meteor.startup ->
 		sidebar = $(".main-sidebar")
 		contentWrapper = $(".skin-admin-lte>.wrapper>.content-wrapper")
 		contentWrapperShadow = $(".content-wrapper-shadow")
+		if contentWrapper.hasClass("no-sidebar")
+			return
 		isSwiping = true
 		swipeStartTime = options.startEvnt.time
 		startX = options.startEvnt.position.x
