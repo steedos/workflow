@@ -11,11 +11,9 @@ Template.springboard.events
 
 
 Template.springboard.onRendered ->
-	contentWrapper = $(".skin-admin-lte>.wrapper>.content-wrapper")
-	contentWrapper.addClass("no-sidebar")
+	$("body").addClass("no-sidebar")
 
 Template.springboard.onDestroyed ->
-	contentWrapper = $(".skin-admin-lte>.wrapper>.content-wrapper")
-	contentWrapper.removeClass("no-sidebar")
+	$("body").removeClass("no-sidebar")
 
 
