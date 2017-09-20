@@ -77,4 +77,10 @@ Meteor.startup(function() {
 
 var newVersionAvailable = function() {
   WebAppLocalServer.checkForUpdates();
-}
+};
+
+window.WebAppLocalServer = {};
+WebAppLocalServer.startupDidComplete = function() {};
+WebAppLocalServer.checkForUpdates = function() {};
+WebAppLocalServer.onNewVersionReady = function() {};
+WebAppLocalServer.onError = function() {};
