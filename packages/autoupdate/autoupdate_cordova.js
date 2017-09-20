@@ -6,9 +6,11 @@ ClientVersions = new Mongo.Collection("meteor_autoupdate_clientVersions");
 Autoupdate = {};
 
 Autoupdate.newClientAvailable = function() {
-  return !! ClientVersions.findOne({
+  return !!ClientVersions.findOne({
     _id: 'version-cordova',
-    version: {$ne: autoupdateVersionCordova}
+    version: {
+      $ne: autoupdateVersionCordova
+    }
   });
 };
 
@@ -22,7 +24,7 @@ var retry = new Retry({
   // server fixing code will result in a restart and reconnect, but
   // potentially the subscription could have a transient error.
   minCount: 0, // don't do any immediate retries
-  baseTimeout: 30*1000 // start with 30s
+  baseTimeout: 30 * 1000 // start with 30s
 });
 var failures = 0;
 
@@ -52,7 +54,9 @@ Autoupdate._retrySubscription = function() {
           }
         };
 
-        var handle = ClientVersions.find({_id: 'version-cordova'}).observe({
+        var handle = ClientVersions.find({
+          _id: 'version-cordova'
+        }).observe({
           added: checkNewVersionDocument,
           changed: checkNewVersionDocument
         });
@@ -73,4 +77,10 @@ Meteor.startup(function() {
 
 var newVersionAvailable = function() {
   WebAppLocalServer.checkForUpdates();
-}
+};
+
+window.WebAppLocalServer = {};
+WebAppLocalServer.startupDidComplete = function() {};
+WebAppLocalServer.checkForUpdates = function() {};
+WebAppLocalServer.onNewVersionReady = function() {};
+WebAppLocalServer.onError = function() {};
