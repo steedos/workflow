@@ -240,9 +240,9 @@ if Meteor.isClient
 			switch accountZoomValue.name
 				when 'large'
 					# 测下来这里不需要额外减数
-					reValue -= 30
+					reValue -= 50
 				when 'extra-large'
-					reValue -= 125
+					reValue -= 145
 		if offset
 			reValue -= offset
 		return reValue + "px";
