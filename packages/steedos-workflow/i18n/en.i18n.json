@@ -569,5 +569,7 @@
 
 	"steedos_tableau_copy_link": "Copy link",
 	"tableau_introduction_modal_close": "Close",
-	"ERROR": "Error"
+	"ERROR": "Error",
+
+	"steedos_table_add_item": "Add item"
 }

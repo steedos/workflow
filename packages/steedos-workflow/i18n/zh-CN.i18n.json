@@ -543,7 +543,7 @@
 	"categories_sort_no": "排序号",
 
 	"next_step_users_not_found": {
-		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，需要系统管理员在岗位成员中进行配置。"
+		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要系统管理员在岗位成员中进行配置。"
 	},
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
@@ -584,5 +584,7 @@
 
 	"steedos_tableau_copy_link":"复制链接",
 	"tableau_introduction_modal_close":"关闭",
-	"ERROR": "错误"
+	"ERROR": "错误",
+
+	"steedos_table_add_item": "新增一行"
 }

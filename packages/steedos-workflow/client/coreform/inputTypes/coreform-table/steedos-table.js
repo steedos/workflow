@@ -545,7 +545,7 @@ if(Meteor.isClient){
     });
 
     Template.afTable.events({
-        'click .steedos-table .steedosTable-item-add': function(event, template) {
+        'click .steedos-table .steedosTable-item-add,.add-item-tr': function(event, template) {
             var name = template.data.name;
 
             var tableValue = SteedosTable.getTableValue(name);
@@ -592,5 +592,12 @@ if(Meteor.isClient){
         $("thead[name='" + field + "Thead']").html(SteedosTable.getThead(field, this.data.atts.editable));
 
         $("tbody[name='" + field + "Tbody']").html(SteedosTable.getTbody(keys, field, SteedosTable.getTableValue(field), this.data.atts.editable));
+        
+        str = t("steedos_table_add_item");
+        addItemTr = "<tr class='add-item-tr'><td colspan='"+keys.length+"'><i class='ion ion-plus-round'></i>"+str+"</td></tr>";
+
+        if (this.data.atts.editable) {
+           $("tfoot[name='" + field + "Tfoot']").append(addItemTr);
+        }
     };
 }
