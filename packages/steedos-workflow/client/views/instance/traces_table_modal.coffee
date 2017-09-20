@@ -6,7 +6,7 @@ Template.traces_table_modal.helpers
 			return steedos_instance;
 
 	maxHeight: ->
-		return Template.instance()?.maxHeight.get() - 165 + 'px'
+		return Template.instance()?.maxHeight.get() - 200 + 'px'
 
 Template.traces_table_modal.onCreated ->
 	self = this;

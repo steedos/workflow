@@ -1,28 +1,27 @@
-#申请付款
-
-workflowTemplate["zh-CN"].push {
-  "_id": "23f73bf03e4cf8f04437c90f",
-  "name": "申请付款",
+{
+  "_id": "6cf576e09308ec1acac7d760",
+  "name": "请假申请",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
   "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:30:10.840Z",
+  "description": "",
+  "created": "2017-09-14T02:29:02.434Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "e24e89c5-2a41-4c52-b583-9de6de965e44",
+    "_id": "242e06e9-9c07-4ac9-81fc-ddd40bfc8ccb",
     "_rev": 3,
-    "created": "2017-09-14T08:48:17.395Z",
+    "created": "2017-09-15T05:58:20.831Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:59:13.327Z",
+    "modified": "2017-09-15T05:58:20.873Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-14T08:48:17.395Z",
-    "form": "23f73bf03e4cf8f04437c90f",
-    "form_script": "CoreForm.pageTitle= \"付款申请\";",
+    "start_date": "2017-09-15T05:58:20.831Z",
+    "form": "6cf576e09308ec1acac7d760",
+    "form_script": "CoreForm.pageTitle= \"请假申请\";",
     "fields": [
       {
-        "_id": "EBB2059C-1D90-45FD-A78B-58F27AFEA7D3",
-        "code": "付款信息",
+        "_id": "9DEF3353-60DC-471A-B714-077290D7B2E9",
+        "code": "申请人信息",
         "is_required": false,
         "is_wide": true,
         "type": "section",
@@ -32,150 +31,150 @@ workflowTemplate["zh-CN"].push {
         "is_multiselect": false,
         "is_list_display": false,
         "is_searchable": false,
-        "oldCode": "付款信息",
+        "oldCode": "申请人信息",
         "fields": [
           {
-            "_id": "E9CA4B0D-5235-47AA-A855-1C51078BE2D7",
-            "code": "收款单位",
-            "is_required": true,
-            "is_wide": true,
+            "_id": "9308A421-18B1-4D87-B248-133CE31AB6EF",
+            "code": "申请人",
+            "default_value": "",
+            "is_required": false,
+            "is_wide": false,
+            "type": "input",
+            "rows": 4,
+            "digits": 0,
+            "formula": "{applicant.name}",
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "申请人"
+          },
+          {
+            "_id": "9355BC45-8D6B-4750-A4F7-C2B86345430C",
+            "code": "职务",
+            "default_value": "{applicant.position}",
+            "is_required": false,
+            "is_wide": false,
             "type": "input",
             "rows": 4,
             "digits": 0,
             "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "收款单位"
+            "is_multiselect": false
           },
           {
-            "_id": "BB9C30F1-C059-44B7-A9AE-939D0024510E",
-            "code": "所属合同",
+            "_id": "D8C23ABD-5B8F-464C-88BA-6F0E8AA72B92",
+            "code": "部门",
+            "default_value": "",
             "is_required": false,
-            "is_wide": true,
+            "is_wide": false,
             "type": "input",
             "rows": 4,
             "digits": 0,
+            "formula": "{applicant.organization.name}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "所属合同"
+            "oldCode": "部门信息"
           },
           {
-            "_id": "986899CF-701B-4106-AAB5-4C58BAA7E924",
-            "code": "项目预算",
+            "_id": "E66F7465-A205-4C45-A7A9-027EC9C9134C",
+            "code": "联系电话",
+            "default_value": "{applicant.mobile}",
             "is_required": false,
             "is_wide": false,
-            "type": "number",
-            "rows": 4,
-            "digits": 2,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "项目预算"
-          },
-          {
-            "_id": "6B156AE5-FC2E-43DC-BF76-A366DCD70122",
-            "code": "本次付款金额",
-            "is_required": true,
-            "is_wide": false,
-            "type": "number",
-            "rows": 4,
-            "digits": 2,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "本次付款金额"
-          },
-          {
-            "_id": "385BF89B-FB2B-464F-94EE-AF94361D6664",
-            "code": "本次付款金额（大写）",
-            "is_required": false,
-            "is_wide": true,
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "CoreForm.custom_numToCny({本次付款金额})",
+            "formula": "",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "本次付款金额（大写）"
-          },
+            "oldCode": "联系电话"
+          }
+        ]
+      },
+      {
+        "_id": "4BDD090A-7254-4E05-9771-A3FB0F15B79C",
+        "code": "请假信息",
+        "description": "说明：请假天数非自动计算，请手工输入",
+        "is_required": false,
+        "is_wide": true,
+        "type": "section",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": false,
+        "oldCode": "请假信息",
+        "fields": [
           {
-            "_id": "9343186C-88D1-4A4A-A286-4BC7AD8CBF67",
-            "code": "已付金额",
-            "is_required": false,
-            "is_wide": false,
-            "type": "number",
-            "rows": 4,
-            "digits": 2,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "已付金额"
-          },
-          {
-            "_id": "E3CB3F9C-4626-4509-A79D-370A52603315",
-            "code": "付款方式",
-            "default_value": "银行汇款",
+            "_id": "684D420B-2DAB-4401-8714-27B5AC6E9DBB",
+            "code": "请假类别",
+            "default_value": "",
             "is_required": true,
             "is_wide": false,
             "type": "select",
             "rows": 4,
             "digits": 0,
-            "options": "银行汇款\n现金\n支票",
+            "options": "事假\n病假\n年假\n调休\n婚假\n产假\n产检假\n丧假",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "付款方式"
+            "oldCode": "请假类别"
           },
           {
-            "_id": "CB2155C1-C5B4-4017-AE80-219EC0A9163B",
-            "code": "收款方开户银行",
-            "is_required": false,
-            "is_wide": false,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "收款方开户银行"
-          },
-          {
-            "_id": "3329BC46-442B-4116-92FE-BE1F9047F740",
-            "code": "收款方银行账号",
-            "is_required": false,
-            "is_wide": false,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "收款方银行账号"
-          },
-          {
-            "_id": "53630054-C58A-4AFD-9B58-C63B5C0DCD68",
-            "code": "付款原因",
+            "_id": "051D86ED-2335-4B4D-82DD-79EB4F8369B5",
+            "name": "请假天数",
+            "code": "tianshu",
             "is_required": true,
-            "is_wide": true,
-            "type": "input",
+            "is_wide": false,
+            "type": "number",
             "rows": 4,
-            "digits": 0,
+            "digits": 1,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "付款原因",
-            "is_textarea": true
+            "oldCode": "tianshu"
           },
           {
-            "_id": "756566C5-87A3-48B3-825B-B071127B2AAB",
-            "code": "备注",
-            "is_required": false,
-            "is_wide": true,
+            "_id": "B039BCD4-E682-4FAD-917C-51B72E4B0829",
+            "name": "开始时间",
+            "code": "starttime",
+            "is_required": true,
+            "is_wide": false,
+            "type": "dateTime",
+            "rows": 4,
+            "digits": 0,
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "starttime"
+          },
+          {
+            "_id": "C7D39D1D-E484-47B8-BAE1-1794D1CB1FA4",
+            "name": "结束时间",
+            "code": "endtime",
+            "is_required": true,
+            "is_wide": false,
+            "type": "dateTime",
+            "rows": 4,
+            "digits": 0,
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "endtime"
+          },
+          {
+            "_id": "31AEBF53-3395-4312-BC7C-B4A44604E51B",
+            "name": "请假事由",
+            "code": "note",
+            "is_required": true,
+            "is_wide": false,
             "type": "input",
             "rows": 4,
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "备注",
+            "oldCode": "note",
             "is_textarea": true
           }
         ]
       },
       {
-        "_id": "CB6E7F0D-6B81-472C-A851-DCB88C75D0E0",
-        "name": "审批意见",
+        "_id": "B2C99CE3-827A-4BE3-B2FC-330A4EB5C2F4",
         "code": "审批意见",
         "is_required": false,
         "is_wide": true,
@@ -186,10 +185,9 @@ workflowTemplate["zh-CN"].push {
         "is_multiselect": false,
         "is_list_display": false,
         "is_searchable": false,
-        "oldCode": "审批意见",
         "fields": [
           {
-            "_id": "BFCB1D0C-A121-4B44-A10A-1925F0902CE2",
+            "_id": "40122076-CED7-4AC0-8A96-E64F419EE516",
             "code": "部门领导意见",
             "is_required": false,
             "is_wide": true,
@@ -203,37 +201,8 @@ workflowTemplate["zh-CN"].push {
             "is_textarea": true
           },
           {
-            "_id": "90ACD5AD-AA12-41F4-83C4-0235E8495D46",
-            "name": "办公室主任意见",
-            "code": "办公室主任意见",
-            "is_required": false,
-            "is_wide": true,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核'}}",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "办公室主任意见",
-            "is_textarea": true
-          },
-          {
-            "_id": "9873D41D-77EF-4A76-9D21-CD53A71217B3",
-            "code": "财务部经理意见",
-            "is_required": false,
-            "is_wide": true,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "formula": "{yijianlan:{step:'财务部审核'}}",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "财务部经理意见",
-            "is_textarea": true,
-            "is_list_display": false
-          },
-          {
-            "_id": "76B5E443-A5BC-489D-8F4C-735DF5808D16",
+            "_id": "9FB5F1B1-C0E6-4297-9A77-F86C549B360B",
+            "name": "总经理意见",
             "code": "总经理意见",
             "is_required": false,
             "is_wide": true,
@@ -245,69 +214,6 @@ workflowTemplate["zh-CN"].push {
             "is_multiselect": false,
             "oldCode": "总经理意见",
             "is_textarea": true
-          }
-        ]
-      },
-      {
-        "_id": "F90B0DA9-322D-48F5-8090-71B3B7C74D03",
-        "name": "",
-        "code": "财务填写",
-        "default_value": "",
-        "is_required": false,
-        "is_wide": true,
-        "type": "section",
-        "rows": 4,
-        "digits": 0,
-        "has_others": false,
-        "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
-        "oldCode": "财务填写",
-        "subform_fields": [],
-        "fields": [
-          {
-            "_id": "0EA6D78F-7A59-4AD5-8B44-9F656F918316",
-            "name": "",
-            "code": "实际付款日期",
-            "is_required": true,
-            "is_wide": false,
-            "type": "date",
-            "rows": 4,
-            "digits": 0,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "实际付款日期"
-          }
-        ]
-      },
-      {
-        "_id": "4B1FCC8F-326F-4C11-846D-29750E33223D",
-        "name": "",
-        "code": "提交人确认",
-        "default_value": "",
-        "is_required": false,
-        "is_wide": true,
-        "type": "section",
-        "rows": 4,
-        "digits": 0,
-        "has_others": false,
-        "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
-        "oldCode": "提交人确认",
-        "subform_fields": [],
-        "fields": [
-          {
-            "_id": "841D69FE-0A35-4E98-A312-7AAC56678095",
-            "code": "确认到款日",
-            "is_required": true,
-            "is_wide": false,
-            "type": "date",
-            "rows": 4,
-            "digits": 0,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "确认到款日"
           }
         ]
       }
@@ -327,38 +233,38 @@ workflowTemplate["zh-CN"].push {
   "category_name": "基本流程模板",
   "flows": [
     {
-      "_id": "397a7414666498c0316ca302",
-      "name": "申请付款",
+      "_id": "ca06b32f47002ce1c8b89795",
+      "name": "请假申请",
       "name_formula": "",
       "code_formula": "",
       "space": "51ae9b1a8e296a29c9000001",
       "is_valid": true,
-      "form": "23f73bf03e4cf8f04437c90f",
+      "form": "6cf576e09308ec1acac7d760",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:30:10.864Z",
+      "created": "2017-09-14T02:29:02.453Z",
       "created_by": "kFePuCYbpHCe7R6dT",
       "current_no": 2,
       "current": {
-        "_id": "88522262-83eb-4dca-bf3f-ab1527727a0e",
+        "_id": "911d0047-0008-45d6-980d-522c11a37a91",
         "_rev": 3,
-        "flow": "397a7414666498c0316ca302",
-        "form_version": "e24e89c5-2a41-4c52-b583-9de6de965e44",
-        "modified": "2017-09-15T06:59:13.483Z",
+        "flow": "ca06b32f47002ce1c8b89795",
+        "form_version": "242e06e9-9c07-4ac9-81fc-ddd40bfc8ccb",
+        "modified": "2017-09-15T05:58:21.086Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-14T08:46:59.113Z",
+        "created": "2017-09-15T05:58:20.831Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-14T08:46:59.113Z",
+        "start_date": "2017-09-15T05:58:20.831Z",
         "steps": [
           {
-            "_id": "430331D2-2CD3-4387-95A4-999CD9967302",
+            "_id": "6830383D-DB38-4352-A988-E29712A12C92",
             "name": "提交申请",
             "step_type": "start",
             "deal_type": "",
             "description": "",
-            "posx": 15,
-            "posy": 234,
+            "posx": 83,
+            "posy": 225,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -368,125 +274,47 @@ workflowTemplate["zh-CN"].push {
             "approver_step": "",
             "fields_modifiable": [],
             "permissions": {
-              "开户银行": "editable",
-              "日期": "editable",
-              "收款耽误": "editable",
+              "qingjialeixing": "editable",
+              "请假天数": "editable",
+              "开始时间（9:00、12:30）": "editable",
+              "结束时间（11:30、18:00）": "editable",
+              "请假理由": "editable",
               "__form": "editable",
-              "付款信息": "editable",
-              "收款单位": "editable",
-              "所属合同": "editable",
-              "本次付款金额": "editable",
-              "已付金额": "editable",
-              "项目预算": "editable",
-              "付款方式": "editable",
-              "收款方开户银行": "editable",
-              "收款方银行账号": "editable",
-              "付款原因": "editable",
-              "备注": "editable",
-              "审批意见": "editable"
+              "申请人信息": "editable",
+              "数值": "editable",
+              "请假类别": "editable",
+              "请假信息": "editable",
+              "tianshu": "editable",
+              "starttime": "editable",
+              "endtime": "editable",
+              "note": "editable",
+              "审批意见": "editable",
+              "文本1": "editable",
+              "联系电话": "editable",
+              "职务": "editable"
             },
             "can_edit_main_attach": false,
             "can_edit_normal_attach": true,
             "distribute_optional_flows": [],
             "lines": [
               {
-                "_id": "9153ae08-89d2-4a89-b9fa-b2e80132880e",
+                "_id": "c0c0b021-2e7f-49f6-a67b-8a1a4d8564a2",
                 "name": "",
                 "state": "submitted",
-                "to_step": "ec81a3f2-65e3-46c3-bb8d-f0a1efa4e6ea",
+                "to_step": "dca98bef-0702-4934-ab48-6a8f79f8843c",
                 "description": ""
               }
             ],
             "approver_roles_name": []
           },
           {
-            "_id": "4334bac0-2567-4b43-b057-497fdceb9b27",
-            "name": "财务执行付款",
-            "step_type": "submit",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 853,
-            "posy": 273,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "530ad822334904539e000ae9"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {
-              "财务填写": "editable",
-              "实际付款日期": "editable"
-            },
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "717c507c-7ed7-4d20-9423-883c4122b95d",
-                "name": "",
-                "state": "submitted",
-                "to_step": "6d6a8774-bc67-4f8f-9d22-172c1d25141e",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "出纳"
-            ]
-          },
-          {
-            "_id": "6d6a8774-bc67-4f8f-9d22-172c1d25141e",
-            "name": "申请人确认",
-            "step_type": "submit",
-            "deal_type": "applicant",
-            "description": "",
-            "posx": 1035,
-            "posy": 272,
-            "timeout_hours": 30,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {
-              "提交人确认": "editable",
-              "确认到款日": "editable"
-            },
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "060e716a-7ec2-4f13-bfcb-b466edf69009",
-                "name": "",
-                "state": "submitted",
-                "to_step": "B90F379F-55E9-4D9F-A036-D9DBD1A9EC55",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": []
-          },
-          {
-            "_id": "B90F379F-55E9-4D9F-A036-D9DBD1A9EC55",
+            "_id": "10A03FAF-687A-4C49-B66A-880418C6DAA0",
             "name": "结束",
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 1201,
-            "posy": 274,
+            "posx": 1166,
+            "posy": 241,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -499,13 +327,13 @@ workflowTemplate["zh-CN"].push {
             "approver_roles_name": []
           },
           {
-            "_id": "d7e333b4-2931-46e7-b297-78092a6a4920",
+            "_id": "83d3b9a3-d876-4983-9d4d-772aa61bcf42",
             "name": "总经理审批",
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 698.097229003906,
-            "posy": 107.097229003906,
+            "posx": 395.083343505859,
+            "posy": 446.069458007812,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -526,10 +354,10 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "6f78945f-3d60-451b-a9d1-0f1d36d6f705",
+                "_id": "8b6061ac-e492-4feb-b224-8021989cef54",
                 "name": "",
                 "state": "approved",
-                "to_step": "4334bac0-2567-4b43-b057-497fdceb9b27",
+                "to_step": "8f1100e3-2b99-4014-b00e-706a610de158",
                 "description": ""
               }
             ],
@@ -538,13 +366,125 @@ workflowTemplate["zh-CN"].push {
             ]
           },
           {
-            "_id": "ec81a3f2-65e3-46c3-bb8d-f0a1efa4e6ea",
+            "_id": "c65c9841-8801-4254-947e-8dff87c08ea0",
+            "name": "判断请假天数是否大于3天？",
+            "step_type": "condition",
+            "deal_type": "",
+            "description": "",
+            "posx": 610,
+            "posy": 164,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "distribute_optional_flows": [],
+            "lines": [
+              {
+                "_id": "967dd23d-795c-4590-90a9-0368b1a8631a",
+                "name": "",
+                "state": "submitted",
+                "condition": "{tianshu}>1",
+                "to_step": "83d3b9a3-d876-4983-9d4d-772aa61bcf42",
+                "description": ""
+              },
+              {
+                "_id": "82a931e7-aaad-414e-8dc7-ed2834e3a95b",
+                "name": "",
+                "state": "submitted",
+                "condition": "{tianshu}<=1",
+                "to_step": "8f1100e3-2b99-4014-b00e-706a610de158",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": []
+          },
+          {
+            "_id": "850fdaad-5c8f-487f-a2e4-4f8e9e59e793",
+            "name": "通知申请人",
+            "step_type": "submit",
+            "deal_type": "applicant",
+            "description": "",
+            "posx": 995,
+            "posy": 249,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "75a9030f-b5c4-4737-a200-b1054826162e",
+                "name": "",
+                "state": "submitted",
+                "to_step": "10A03FAF-687A-4C49-B66A-880418C6DAA0",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": []
+          },
+          {
+            "_id": "8f1100e3-2b99-4014-b00e-706a610de158",
+            "name": "人事部备案",
+            "step_type": "submit",
+            "deal_type": "applicantRole",
+            "description": "",
+            "posx": 809,
+            "posy": 247,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [
+              "aHSKdRYwTRheTP6Sr"
+            ],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "9b2852c3-faa9-44a6-a892-ca131f4b86f7",
+                "name": "",
+                "state": "submitted",
+                "to_step": "850fdaad-5c8f-487f-a2e4-4f8e9e59e793",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": [
+              "人事专员"
+            ]
+          },
+          {
+            "_id": "bf09e1b6-5ad9-4c3b-8df9-40471cbb6415",
             "name": "部门领导审核",
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 150,
-            "posy": 234,
+            "posx": 444,
+            "posy": 109,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -565,10 +505,10 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "e62ce26c-0657-4fad-bf5c-40d06cd2aeb2",
+                "_id": "886f3070-a986-423f-822b-48e172940d7a",
                 "name": "",
                 "state": "approved",
-                "to_step": "e2f8dd41-b425-4ba3-846b-b28020a18f09",
+                "to_step": "c65c9841-8801-4254-947e-8dff87c08ea0",
                 "description": ""
               }
             ],
@@ -577,91 +517,13 @@ workflowTemplate["zh-CN"].push {
             ]
           },
           {
-            "_id": "9063109d-6d4c-4099-88d8-ac8fd65173b0",
-            "name": "财务部审核",
-            "step_type": "sign",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 374,
-            "posy": 463,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "51af1dd18e296a29c900007f"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "d82150d4-ec00-4771-89d2-5607bbb5e23d",
-                "name": "",
-                "state": "approved",
-                "to_step": "1694fd48-939d-4b95-bba8-9bcf34b82849",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "财务部经理"
-            ]
-          },
-          {
-            "_id": "e2f8dd41-b425-4ba3-846b-b28020a18f09",
-            "name": "办公室主任审核",
-            "step_type": "sign",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 359,
-            "posy": 236,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "fM2c7opzHmqyWj4r3"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "bed4df9f-3d02-4b4a-bd57-4d93fe571897",
-                "name": "",
-                "state": "approved",
-                "to_step": "9063109d-6d4c-4099-88d8-ac8fd65173b0",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "办公室主任"
-            ]
-          },
-          {
-            "_id": "1694fd48-939d-4b95-bba8-9bcf34b82849",
-            "name": "金额是否大于3000？",
+            "_id": "dca98bef-0702-4934-ab48-6a8f79f8843c",
+            "name": "判断提交人是否为部门经理？",
             "step_type": "condition",
             "deal_type": "",
             "description": "",
-            "posx": 547,
-            "posy": 344,
+            "posx": 260,
+            "posy": 227,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -674,19 +536,19 @@ workflowTemplate["zh-CN"].push {
             "distribute_optional_flows": [],
             "lines": [
               {
-                "_id": "653f2c96-6e50-403d-8679-96f234a5163c",
+                "_id": "e5c7ea32-5613-48a2-9172-d1c741a9a346",
                 "name": "",
                 "state": "submitted",
-                "condition": "{本次付款金额}>3000",
-                "to_step": "d7e333b4-2931-46e7-b297-78092a6a4920",
+                "condition": "!({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
+                "to_step": "bf09e1b6-5ad9-4c3b-8df9-40471cbb6415",
                 "description": ""
               },
               {
-                "_id": "675c9645-ce30-4065-a0cc-340a55ec1b0a",
+                "_id": "c5f208cc-97d0-405c-a188-e9aa6ea2d4aa",
                 "name": "",
                 "state": "submitted",
-                "condition": "{本次付款金额}<=3000",
-                "to_step": "4334bac0-2567-4b43-b057-497fdceb9b27",
+                "condition": "({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
+                "to_step": "83d3b9a3-d876-4983-9d4d-772aa61bcf42",
                 "description": ""
               }
             ],
@@ -696,129 +558,7 @@ workflowTemplate["zh-CN"].push {
       },
       "app": "workflow",
       "distribute_optional_users": [],
-      "historys": []
-    },
-    {
-      "_id": "cbc19ed81cc899377ce104c6",
-      "app": "workflow",
-      "code_formula": "{YY}-{MM}-{NNNN}",
-      "created": "2017-09-14T02:30:10.915Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current": {
-        "_id": "0f86ea72d091e7307e191aa1",
-        "_rev": 1,
-        "flow": "cbc19ed81cc899377ce104c6",
-        "form_version": "96d76933f141a335dfcd3baa",
-        "modified": "2017-09-14T02:30:10.920Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-14T02:30:10.920Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2013-06-07T04:06:41.728Z",
-        "finish_date": "2013-06-07T04:14:49.513Z",
-        "steps": [
-          {
-            "_id": "06AA20E6-F9A7-4A6C-AD9B-069828E51E05",
-            "name": "开始",
-            "step_type": "start",
-            "deal_type": "",
-            "description": "",
-            "posx": 467.0000228881836,
-            "posy": 88.4814682006836,
-            "timeout_hours": 30,
-            "approver_roles": [],
-            "approver_orgs": [],
-            "approver_users": [],
-            "fields_modifiable": [
-              "SUPPLYER",
-              "PROJECT",
-              "SUM",
-              "EXPECTEDFAYINGDATE",
-              "BANKNAME",
-              "REASON",
-              "BANKACCOUNT",
-              "REMARKS"
-            ],
-            "permissions": {
-              "SUPPLYER": "editable",
-              "PROJECT": "editable",
-              "SUM": "editable",
-              "EXPECTEDFAYINGDATE": "editable",
-              "BANKNAME": "editable",
-              "REASON": "editable",
-              "BANKACCOUNT": "editable",
-              "REMARKS": "editable"
-            },
-            "lines": [
-              {
-                "_id": "BE58BA4A-77BB-4B04-BD79-6C4D8E8ABD84",
-                "name": "",
-                "state": "submitted",
-                "to_step": "ea92b6f1-d51d-4723-bccf-3fc0beb15c96",
-                "order": "1",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": []
-          },
-          {
-            "_id": "4802C9B4-21B7-4B61-88E9-BB7EC78829D2",
-            "name": "结束",
-            "step_type": "end",
-            "deal_type": "",
-            "description": "",
-            "posx": 496.0000228881836,
-            "posy": 267.4815139770508,
-            "timeout_hours": 30,
-            "approver_roles": [],
-            "approver_orgs": [],
-            "approver_users": [],
-            "fields_modifiable": [],
-            "lines": [],
-            "approver_roles_name": []
-          },
-          {
-            "_id": "ea92b6f1-d51d-4723-bccf-3fc0beb15c96",
-            "name": "单签",
-            "step_type": "sign",
-            "deal_type": "specifyUser",
-            "description": "",
-            "posx": 613.1296615600586,
-            "posy": 154.62963104248047,
-            "timeout_hours": 30,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "51af1b2f8e296a29c9000063"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "lines": [
-              {
-                "_id": "4c39ce17-c283-4249-a7bf-69b4fb2505f6",
-                "name": "",
-                "state": "approved",
-                "to_step": "4802C9B4-21B7-4B61-88E9-BB7EC78829D2",
-                "order": "1",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "总经理"
-            ]
-          }
-        ]
-      },
-      "current_no": 0,
-      "flowtype": "new",
-      "form": "23f73bf03e4cf8f04437c90f",
-      "is_deleted": true,
-      "is_valid": false,
-      "name": "新流程",
-      "name_formula": "新流程",
-      "space": "51ae9b1a8e296a29c9000001",
-      "state": "disabled",
+      "events": "//如果开始时间大于结束时间，弹出警告，并且不能提交\n$(\"[name='starttime']\").on(\"change\",function(e){\n  if(AutoForm.getFieldValue('endtime', 'instanceform')){\n    var endtime = new Date(AutoForm.getFieldValue('endtime', 'instanceform'));\n    var starttime = new Date($(this).val());\n    if (endtime-starttime<=0)\n        swal(\n\t    {\n\t    title:\"结束时间必须大于开始时间\",\n\t    type:\"warning\",\n\t    confirmButtonText:\"确定\"\n\t    });\n    }\n  }\n)\n$(\"[name='endtime']\").on(\"change\",function(e){\n  if(AutoForm.getFieldValue('starttime', 'instanceform')){\n    var starttime = new Date(AutoForm.getFieldValue('starttime', 'instanceform'));\n    var endtime = new Date($(this).val());\n    if (endtime-starttime<=0)\n        swal(\n\t    {\n\t    title:\"结束时间必须大于开始时间\",\n\t    type:\"warning\",\n\t    confirmButtonText:\"确定\"\n\t    });\n    }\n  }\n)\n\n$(\".instance-form\").on('instance-before-submit', function(e) {\n    if(AutoForm.getFieldValue('starttime', 'instanceform')>=AutoForm.getFieldValue('endtime', 'instanceform'))\n                {\n\t\t\tswal(\n\t\t\t\t    {\n\t\t\t\t    title:\"结束时间必须大于开始时间\",\n\t\t\t\t    type:\"warning\",\n\t\t\t\t    confirmButtonText:\"确定\"\n\t\t\t\t    });\n                        e.preventDefault();\n\t\t\t        }\n}\n )",
       "historys": []
     }
   ]

@@ -9,8 +9,7 @@ Template.steedosTableModal.helpers({
 
     equals: function (a,b) {
         return (a == b)
-    }
-
+    },
 })
 
 
@@ -71,6 +70,11 @@ Template.steedosTableModal.events({
         $(".close", $("#steedos-table-modal")).click(); // Modal.hide();
 
     },
+
+    'click .steedos-table-modal .steedos-table-delete-button': function(event,template) {
+        SteedosTable.removeItem(this.field.code, this.index);
+        $('[data-dismiss="modal"]').click();
+    }
 
     
 })

@@ -64,7 +64,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 					<td class="td-title #{required}">
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
-					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
+					<td class="td-field opinion-field opinion-field-#{table_field.code} automatic" colspan = "#{table_field.td_colspan}">
 						{{> instanceSignText name="#{table_field.code}"}}
 					</td>
 				"""
@@ -84,7 +84,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 						<td class="td-title td-title-#{table_field.code} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
-						<td class="td-field td-field-#{table_field.code} #{table_field.permission}" colspan = "#{table_field.td_colspan}">
+						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">
 							{{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
@@ -127,7 +127,7 @@ TemplateManager._template =
 	default: (instance)->
 
 		template = """
-			<div class="with-border">
+			<div class="with-border col-md-12">
 				<div class="instance-name">
 					<h3 class="box-title">#{TemplateManager.instance_title().pageTitle}</h3>
 					<span class="help-block"></span>

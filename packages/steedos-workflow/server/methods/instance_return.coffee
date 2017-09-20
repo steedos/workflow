@@ -37,7 +37,7 @@ Meteor.methods
 
 		new_inbox_users = new Array
 		_.each pre_trace.approves, (a)->
-			if a.type isnt "cc" and a.type isnt "forward"
+			if !a.type and !a.judge
 				new_inbox_users.push(a.user)
 
 		traces = ins.traces
@@ -48,7 +48,7 @@ Meteor.methods
 				if not t.approves
 					t.approves = new Array
 				_.each t.approves, (a)->
-					if a.type isnt "cc" and a.type isnt "forward"
+					if !a.type and !a.judge
 						a.start_date = now
 						a.finish_date = now
 						a.read_date = now

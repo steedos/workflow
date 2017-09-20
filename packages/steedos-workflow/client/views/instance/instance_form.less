@@ -603,6 +603,9 @@ textarea {
       &.readonly{
         background:#FFFFFF;
       }
+		&.field-readonly{
+			background:#FFFFFF;
+		}
       .form-control{
         padding:0;
       }
@@ -829,7 +832,7 @@ textarea {
 
 .instance-view{
 	.instance-table{
-		.inbox{
+		.inbox,.draft{
 			.form-table{
 				.td-title{
 					&.is-required{
@@ -840,9 +843,15 @@ textarea {
 					}
 				}
 
-				td{
-					[disabled]{
-						background-color: #F6F6F6 !important;
+				.td-field{
+					//&.readonly{
+					//	background-color: #F6F6F6 !important;
+					//}
+					//&.field-readonly{
+					//	background-color: #F6F6F6 !important;
+					//}
+					&.field-editable{
+						background-color: rgba(255, 255, 0, 0.03) !important;
 					}
 				}
 			}

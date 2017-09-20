@@ -12,6 +12,10 @@ Steedos =
 # @namespace Steedos
 ###
 
+Steedos.getHelpUrl = (locale)->
+	country = locale.substring(3)
+	return "http://www.steedos.com/" + country + "/help/"
+
 if Meteor.isClient
 
 	Steedos.spaceUpgradedModal = ()->
@@ -111,10 +115,13 @@ if Meteor.isClient
 					localStorage.removeItem("accountZoomValue.name")
 					localStorage.removeItem("accountZoomValue.size")
 
-	Steedos.showHelp = ()->
+	Steedos.showHelp = (url)->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
-		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
+
+		url = url || "http://www.steedos.com/" + country + "/help/"
+
+		window.open(url, '_help', 'EnableViewPortScale=yes')
 
 	Steedos.getUrlWithToken = (url)->
 		authToken = {};
@@ -242,9 +249,9 @@ if Meteor.isClient
 			switch accountZoomValue.name
 				when 'large'
 					# 测下来这里不需要额外减数
-					reValue -= 0
+					reValue -= 30
 				when 'extra-large'
-					reValue -= 25
+					reValue -= 125
 		if offset
 			reValue -= offset
 		return reValue + "px";
@@ -491,7 +498,7 @@ if Meteor.isServer
 		authToken = req.query?["X-Auth-Token"]
 
 		if Steedos.checkAuthToken(userId,authToken)
-			return db.users.findOne({_id: userId})
+			return db.users.findOne({_id: userId})?._id
 
 		cookies = new Cookies(req, res);
 

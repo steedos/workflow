@@ -171,7 +171,7 @@ SteedosTable.updateItem = function(field, index) {
 
     if (item && item.length > 0) {
         var keys = SteedosTable.getKeys(field);
-        var tds = SteedosTable.getRemoveTd(field, index);
+        // var tds = SteedosTable.getRemoveTd(field, index);
 
         var sfields = SteedosTable.getField(field).sfields;
 
@@ -266,7 +266,7 @@ SteedosTable.getThead = function(field, editable) {
         width = 100;
 
     if (editable) {
-        trs = "<th class='removed'></th>"
+        // trs = "<th class='removed'></th>"
     }
 
     var sfields = fieldObj.sfields;
@@ -283,7 +283,7 @@ SteedosTable.getThead = function(field, editable) {
 
         label = (sf.name != null && sf.name.length > 0) ? sf.name : sf.code;
 
-        trs = trs + "<th nowrap='nowrap' ";
+        trs = trs + "<td nowrap='nowrap' ";
 
         trs = trs + " class='title " + sf.type + "'";
 
@@ -295,7 +295,7 @@ SteedosTable.getThead = function(field, editable) {
             }
         }
 
-        trs = trs + ">" + label + "</th>"
+        trs = trs + ">" + label + "</td>"
     });
 
     thead = '<tr>' + trs + '</tr>';
@@ -341,9 +341,9 @@ SteedosTable.getTr = function(keys, item_value, index, field, editable) {
 
     var tds = "";
 
-    if (editable) {
-        tds = SteedosTable.getRemoveTd(fieldObj.code, index);
-    }
+    // if (editable) {
+    //     tds = SteedosTable.getRemoveTd(fieldObj.code, index);
+    // }
 
     var sfields = fieldObj.sfields;
 

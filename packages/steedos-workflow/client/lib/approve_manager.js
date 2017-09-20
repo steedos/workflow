@@ -133,6 +133,8 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 
 ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     ApproveManager.error.nextStepUsers = '';
+	ApproveManager.error.type = '';
+	InstanceManager._setError_next_step_users("")
     var nextStepUsers = new Array();
 
     var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -402,12 +404,11 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
         Meteor.call('next_step_users_not_found', error_obj.deal_type, error_obj.step_name, error_obj.params, function(error, result) {
             if (result) {
                 ApproveManager.error.nextStepUsers = result;
+				ApproveManager.error.type = error_obj.deal_type;
                 InstanceManager.checkNextStepUser();
             }
         })
-    }else{
-		InstanceManager.checkNextStepUser();
-	}
+    }
 
     return nextStepUsers;
 };

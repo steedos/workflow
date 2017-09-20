@@ -216,4 +216,31 @@ Template.instance_view.events
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
+
+	'click #nextStepUsers': (event, template)->
+
+		error = event.target.dataset.error
+		error_type = event.target.dataset.error_type
+
+		if error && error_type == 'applicantRole'
+			swal({
+				title: t('instance_next_step_users') + t('ERROR'),
+				text: error
+				showCancelButton: true,
+				closeOnConfirm: false,
+				confirmButtonText: t('Help'),
+				cancelButtonText: t('Cancel'),
+				showLoaderOnConfirm: false
+			}, (inputValue) ->
+				if inputValue == false
+					swal.close();
+				else
+
+					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
+
+					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
+
+					swal.close();
+			);
+			event.preventDefault()
 		

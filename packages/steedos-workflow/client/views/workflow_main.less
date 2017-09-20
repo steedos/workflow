@@ -20,6 +20,7 @@
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
+	background: #fff;
 
 	.toolbar{
 		height: 51px;
@@ -57,6 +58,9 @@
 		border-bottom: 1px solid #eee;
 		padding: 10px 20px;
 		height: 40px;
+		.result-container {
+			width: calc(~"100% - 22px");
+		}
 	}
 
 	.instance-list {
@@ -452,7 +456,7 @@ _:-ms-fullscreen,
 		.workflow-main {
 			.instance-list-wrapper {
 				display: block;
-				right: 60%;
+				right: 61%;
 
 				// margin: 10px 10px 10px 10px;
 				// border-radius: 5px;
@@ -462,7 +466,7 @@ _:-ms-fullscreen,
 			}
 			.instance-wrapper {
 				left: 100%;
-				width: 60%;
+				width: 61%;
 				transform: translate(0, 0);
 
 				margin: 0;
@@ -481,12 +485,12 @@ _:-ms-fullscreen,
 		.workflow-main.instance-show {
 			.instance-list-wrapper {
 				display: block;
-				right: 60%;
+				right: 61%;
 				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
 			}
 			.instance-wrapper {
-				width: 60%;
-				left: 40%;
+				width: 61%;
+				left: 39%;
 				background: white;
 				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
 			}

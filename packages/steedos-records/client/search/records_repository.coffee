@@ -1,6 +1,11 @@
 records_search_api = Steedos.absoluteUrl("records/search?")
 
 Template.search_records_repository.events
+	'click .records-searched-instace': (event,template)->
+		event.preventDefault()
+		instance_detail_url = $(event.target).attr("url-data")
+		Steedos.openWindow Steedos.absoluteUrl(instance_detail_url)
+
 	'keyup [name=input_search]':(event)->
 		if event.which==13
 			$('.btn.btn-search').click()
@@ -19,6 +24,7 @@ Template.search_records_repository.events
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
 Template.search_records_repository.onRendered ->
+	$('.steedos-records-search-list').perfectScrollbar()
 	$('.table-records-result').dataTable({
 		'paginate': true, #翻页功能
 		'lengthChange': false, #改变每页显示数据数量
@@ -69,7 +75,7 @@ Template.search_records_repository.onRendered ->
 					return """
 						<li class="b_algo" data-bm="6">
 							<h3>
-								<a target="_blank" href="#{url}">
+								<a target="_blank" url-data="#{url}" class="records-searched-instace">
 									#{title}
 								</a>
 							</h3>

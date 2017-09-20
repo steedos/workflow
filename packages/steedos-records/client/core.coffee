@@ -3,8 +3,8 @@
 # import 'datatables.net-bs/css/dataTables.bootstrap.css';
 # dataTablesBootstrap(window, $);
 
-Tracker.autorun ()->
-	Steedos.Helpers.setAppTitle(t("records_app_title"));
+# Tracker.autorun ()->
+# 	Steedos.Helpers.setAppTitle(t("records_app_title"));
 
 # Meteor.startup ->
 # 	$("body").removeClass("skin-blue").addClass("skin-blue-light")
