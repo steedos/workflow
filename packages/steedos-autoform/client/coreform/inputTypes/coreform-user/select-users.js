@@ -7,11 +7,26 @@ AutoForm.addInputType("selectuser", {
             space = false;
         }
 
-        if ("string" == typeof(val))
-            val = CFDataManager.getFormulaSpaceUsers(val, space);
+        if ("string" == typeof(val)){
+			val = val.split(",");
+
+			if(val.length > 0){
+
+				if(atts.multiple != true){
+					val = val[0];
+				}
+
+				val = CFDataManager.getFormulaSpaceUsers(val, space);
+			}
+		}
 
         if (val instanceof Array && val.length > 0 && "string" == typeof(val[0])) {
-            val = CFDataManager.getFormulaSpaceUsers(val, space);
+			if(atts.multiple != true){
+				val = val[0];
+				val = CFDataManager.getFormulaSpaceUsers(val, space);
+			}else{
+				val = CFDataManager.getFormulaSpaceUsers(val, space);
+			}
         }
 
         return val;

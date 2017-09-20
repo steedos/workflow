@@ -89,7 +89,7 @@ Form_formula.handerOrgObject = function(o){
 
     if(o instanceof Array){
         var org = {};
-
+		org.id = o.getProperty("_id");
         org.name = o.getProperty("name");
         org.fullname = o.getProperty("fullname");
 

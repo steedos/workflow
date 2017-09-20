@@ -147,7 +147,8 @@
     "qcloud": {
       "smsqueue_interval": 1000,
       "sdkappid": "xxx",
-      "appkey": "xxx"
+      "appkey": "xxx",
+      "signname": "xxx" // 短信签名
     }
   },
   //日志相关
@@ -195,16 +196,16 @@
   "import_user": {
     "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
   },
-//监控服务
-	"kadira": {
-		"appId": "tPsdNDPWWQZzFELco",  //应用Id
-		"appSecret": "fec76d09-363c-45f3-8ba6-3c821c870f40", //应用Token
-		"options": {
-			"endpoint": "http://192.168.0.134:88" //监控服务engine URL
-		}
-	},
+  //监控服务
+  "kadira": {
+    "appId": "tPsdNDPWWQZzFELco", //应用Id
+    "appSecret": "fec76d09-363c-45f3-8ba6-3c821c870f40", //应用Token
+    "options": {
+      "endpoint": "http://192.168.0.134:88" //监控服务engine URL
+    }
+  },
   //全文检索服务
-  "records":{
+  "records": {
     "es_search_index": "steedos"
   }
 }

@@ -12,7 +12,13 @@ AutoForm.addInputType("selectorg", {
 			val = CFDataManager.getFormulaOrganizations(val, space);
 
 		if (val instanceof Array && val.length > 0 && "string" == typeof(val[0])) {
-			val = CFDataManager.getFormulaOrganizations(val, space);
+
+			if(atts.multiple != true){
+				val = val[0];
+				val = CFDataManager.getFormulaOrganizations(val, space);
+			}else{
+				val = CFDataManager.getFormulaOrganizations(val, space);
+			}
 		}
 
 		return val;
