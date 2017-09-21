@@ -99,9 +99,15 @@
                                     <div class="input-group-addon">{{_ "instance_next_step"}}</div>
                                     <div class="instance-suggestion-next-steps">
                                         {{#each next_step_options }}
-                                            <label {{disabled}} class="radio">
-                                                <input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
-                                            </label>
+                                            {{#if gt next_step_options.length 1}}
+                                                <label {{disabled}} class="radio">
+                                                    <input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
+                                                </label>
+                                            {{else}}
+                                               <label class="only-one-next-step">
+                                                   {{text}}
+                                               </label> 
+                                            {{/if}}
                                         {{/each}}
                                     </div>
                                 </div>

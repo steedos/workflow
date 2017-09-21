@@ -803,12 +803,12 @@ textarea {
               &.name{
                 /*padding-left:48px;*/
                 width:40%;
-                color:#888;
+                color:#333;
               }
               &.finish-date{
                 width:35%;
                 min-width: 140px;
-                color:#888;
+                color:#333;
               }
               &.description{
                 padding-top: 6px;
@@ -863,9 +863,20 @@ textarea {
   .instance-table{
     .instance-traces{
       .box-header{
+        font-size: 15px;
         padding-left: 0;
+        border-bottom: 0;
         .box-tools{
           top: 10px;
+          .btn-box-tool{
+            padding: 2px 5px 1px 5px;
+          }
+        }
+      }
+      .box-body{
+        padding-top: 0;
+        table.traces{
+          margin-top: 5px;
         }
       }
     }
@@ -906,7 +917,7 @@ textarea {
   }
 
   .cc-label{
-    color: #999;
+    color: #333;
     font-weight: 400;
     display: initial;
     border-radius: 12px;

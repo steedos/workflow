@@ -358,11 +358,15 @@ Template.instance_button.events
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
 		else
-				uobj = {}
-				uobj["box"] = Session.get("box")
-				uobj["X-User-Id"] = Meteor.userId()
-				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
+			btn_instance_update = $('.btn-instance-update')[0]
+			if btn_instance_update
+				btn_instance_update.click()
+
+			uobj = {}
+			uobj["box"] = Session.get("box")
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
 
 	'click .btn-instance-update': (event)->
 
