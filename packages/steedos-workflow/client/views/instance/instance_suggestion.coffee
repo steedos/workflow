@@ -266,6 +266,8 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
+		InstanceManager.checkSuggestion();
+
 	# 'change .nextSteps': (event) ->
 	# 	if event.target.name == 'nextSteps'
 	# 		if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
