@@ -534,7 +534,7 @@ uuflowManager.getInstanceName = (instance) ->
 	rev = default_value
 
 	if name_forumla
-		iscript = name_forumla.replace(/\{/g, "values['").replace(/\}/g, "']")
+		iscript = name_forumla.replace(/\{/g, "(values['").replace(/\}/g, "'] || '')")
 		rev = eval(iscript) || default_value
 
 	return rev.trim()
