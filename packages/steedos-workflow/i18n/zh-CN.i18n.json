@@ -21,7 +21,7 @@
 
 	"instances": "申请单",
 	"instances_name": "标题",
-	"instances_applicant_name": "申请人",
+	"instances_applicant_name": "提交人",
 	"instances_modified": "处理时间",
 	"instances_applicant_organization_name": "部门",
 	"instances_submit_date": "提交时间",
@@ -51,10 +51,10 @@
 
 	"flow_positions": "岗位成员",
 	"flow_positions_role": "岗位",
-	"flow_positions_org": "管辖范围",
+	"flow_positions_org": "审批范围",
 	"flow_positions_users": "岗位成员",
 	"flow_positions_role_name()": "岗位",
-	"flow_positions_org_name()": "管辖范围",
+	"flow_positions_org_name()": "审批范围",
 	"flow_positions_users_name()": "岗位成员",
 
 	"workflow_table_confirm": "确认",
@@ -233,8 +233,8 @@
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
 	"instance_search_name": "申请单标题",
-	"instance_search_applicant_name": "申请人姓名",
-	"instance_search_applicant_organization_name": "申请人所属部门名称",
+	"instance_search_applicant_name": "提交人姓名",
+	"instance_search_applicant_organization_name": "提交人所属部门名称",
 	"instance_search_submit_date": "提交日期",
 	"instance_search_start": "起",
 	"instance_search_end": "至",

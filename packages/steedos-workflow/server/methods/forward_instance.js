@@ -52,7 +52,7 @@ Meteor.methods({
 			}).forEach(function(u) {
 				no_permission_users_name.push(u.name);
 			});
-			throw new Meteor.Error('no_permission', "该申请人没有提交此申请单的权限。", no_permission_users_name.join(','))
+			throw new Meteor.Error('no_permission', "该提交人没有提交此申请单的权限。", no_permission_users_name.join(','))
 		}
 
 		var new_ins_ids = new Array;
