@@ -99,7 +99,15 @@ db.space_users._simpleSchema = new SimpleSchema
 		type: String,
 		optional: true
 
+	# 从工作区特定的注册界面加入工作区的
 	is_registered_from_space: 
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
+	# 从工作区特定的登录界面加入工作区的
+	is_logined_from_space: 
 		type: Boolean
 		optional: true
 		autoform:
@@ -161,7 +169,7 @@ if (Meteor.isServer)
 		if !space
 			throw new Meteor.Error(400, "space_users_error_space_not_found");
 
-		if !doc.is_registered_from_space
+		if !doc.is_registered_from_space and !doc.is_logined_from_space
 			# only space admin or org admin can insert space_users
 			if space.admins.indexOf(userId) < 0
 				# 要添加用户，需要至少有一个组织权限

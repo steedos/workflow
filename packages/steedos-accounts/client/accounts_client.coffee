@@ -51,4 +51,12 @@ Meteor.startup ->
 				FlowRouter.go "/"
 
 	Accounts.onLogin ()->
-		Setup.validate();
+		space_logined = AccountsTemplates.getSpaceId()
+		if space_logined
+			console.log "Accounts.onLogin,space_logined:#{space_logined}"
+			$("body").addClass("loading")
+			Meteor.call "joinSpaceFromLogin", {space_logined}, ->
+				$("body").removeClass("loading")
+				Setup.validate()
+		else
+			Setup.validate()
