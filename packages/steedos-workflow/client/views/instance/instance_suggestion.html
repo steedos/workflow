@@ -105,7 +105,7 @@
                                                 </label>
                                             {{else}}
                                                <label class="only-one-next-step">
-                                                   {{text}}
+                                                   <input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
                                                </label> 
                                             {{/if}}
                                         {{/each}}
