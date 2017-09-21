@@ -215,7 +215,11 @@ AT.prototype.atPwdFormEvents = {
             if (preSignUpHook) {
               preSignUpHook(password, options);
             }
-
+            spaceId = AccountsTemplates.getSpaceId();
+            if(spaceId){
+                // 从工作区特定的注册界面注册时，把spaceId传入后台
+                options.profile.space_registered = spaceId;
+            }
             $("body").addClass("loading");
             return Meteor.call("ATCreateUserServer", options, function(error){
                 $("body").removeClass("loading");

@@ -99,6 +99,12 @@ db.space_users._simpleSchema = new SimpleSchema
 		type: String,
 		optional: true
 
+	is_registered_from_space: 
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
 
 if Meteor.isClient
 	db.space_users._simpleSchema.i18n("space_users")
@@ -155,43 +161,44 @@ if (Meteor.isServer)
 		if !space
 			throw new Meteor.Error(400, "space_users_error_space_not_found");
 
-		# only space admin or org admin can insert space_users
-		if space.admins.indexOf(userId) < 0
-			# 要添加用户，需要至少有一个组织权限
-			isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-			unless isOrgAdmin
-				throw new Meteor.Error(400, "organizations_error_org_admins_only")
+		if !doc.is_registered_from_space
+			# only space admin or org admin can insert space_users
+			if space.admins.indexOf(userId) < 0
+				# 要添加用户，需要至少有一个组织权限
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+				unless isOrgAdmin
+					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
-		creator = db.users.findOne(userId)
+			creator = db.users.findOne(userId)
 
-		if (!doc.user) && (doc.email)
-			userObj = db.users.findOne({"emails.address": doc.email});
-			if (userObj)
-				doc.user = userObj._id
-				doc.name = userObj.name
-			else
-				user = {}
-				if !doc.name
-					doc.name = doc.email.split('@')[0]
-				doc.user = db.users.insert
-					emails: [{address: doc.email, verified: false}]
-					name: doc.name
-					locale: creator.locale
-					spaces_invited: [space._id]
+			if (!doc.user) && (doc.email)
+				userObj = db.users.findOne({"emails.address": doc.email});
+				if (userObj)
+					doc.user = userObj._id
+					doc.name = userObj.name
+				else
+					user = {}
+					if !doc.name
+						doc.name = doc.email.split('@')[0]
+					doc.user = db.users.insert
+						emails: [{address: doc.email, verified: false}]
+						name: doc.name
+						locale: creator.locale
+						spaces_invited: [space._id]
 
-		if !doc.user
-			throw new Meteor.Error(400, "space_users_error_user_required");
+			if !doc.user
+				throw new Meteor.Error(400, "space_users_error_user_required");
 
-		if !doc.name
-			throw new Meteor.Error(400, "space_users_error_name_required");
+			if !doc.name
+				throw new Meteor.Error(400, "space_users_error_name_required");
 
-		# check space_users exists
-		oldUser=db.users.findOne
-			"emails.address":doc.email
-		existed=db.space_users.find
-			"user":oldUser._id,"space":doc.space
-		if existed.count()>0
-			throw new Meteor.Error(400, "space_users_error_space_users_exists");
+			# check space_users exists
+			oldUser=db.users.findOne
+				"emails.address":doc.email
+			existed=db.space_users.find
+				"user":oldUser._id,"space":doc.space
+			if existed.count()>0
+				throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
 		if doc.organizations && doc.organizations.length > 0
 			# 如果主组织未设置或设置的值不在doc.organizations内，则自动设置为第一个组织
@@ -204,11 +211,12 @@ if (Meteor.isServer)
 				organizationObj = db.organizations.findOne(org)
 				organizationObj.updateUsers();
 
-		# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
-		# 需要把users表中的信息同步到新的space_users表中。
-		user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
-		delete user._id
-		db.space_users.direct.update({_id: doc._id}, {$set: user})
+		if !doc.is_registered_from_space
+			# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
+			# 需要把users表中的信息同步到新的space_users表中。
+			user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
+			delete user._id
+			db.space_users.direct.update({_id: doc._id}, {$set: user})
 
 		db.users_changelogs.direct.insert
 			operator: userId
