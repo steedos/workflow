@@ -14,7 +14,10 @@
 							<tbody>
 								{{#each sign_approves}}
 									<tr data-id="{{_id}}">
-										<td><a class="instance-sign-opinion-btn">{{description}}</a></td>
+										<td>
+											<a class="instance-sign-opinion-btn">{{description}}</a>
+											<a class="instance-sign-opinion-btn finish-date">{{format finish_date}}</a>
+										</td>
 									</tr>
 								{{/each}}
 							</tbody>
