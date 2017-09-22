@@ -47,6 +47,14 @@ Meteor.startup ()->
 				search_keys: ['name', 'fullname']
 			autoform:
 				type: "selectorg"
+				defaultValue: ()->
+					return SteedosDataManager.organizationRemote.findOne({
+						is_company: true
+					}, {
+						fields: {
+							_id: 1,
+						}
+					})?._id;
 
 
 	if Meteor.isClient

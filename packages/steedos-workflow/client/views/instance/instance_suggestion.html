@@ -26,24 +26,24 @@
 							<div class="form-group suggestion-radio-box">
 							{{#if isCC}}
 								{{#if (gt opinionFields.length 1)}}
-									<label>{{_ "instance_cc_title"}}&nbsp;:&nbsp;&nbsp;</label>
+									<div class="cc-description-box">
+										<label>{{_ "instance_cc_title"}} (来自{{ccFromUserName}})</label>
+										{{#if ccDescription.length}}
+											: {{ccDescription}}
+										{{/if}}
+									</div>
 									{{#each opinionFields}}
 										<label class="radio-inline">
 											<input type='radio' name='opinion_fields_code' value="{{code}}" id="opinion_fields_code" checked="{{#if _checked}}checked{{/if}}"/>{{name}}
 										</label>
 									{{/each}}
-									{{#if ccDescription.length}}
-										<div class="cc-description-box">
-											<label>{{_ "instance_cc_description"}}&nbsp;:&nbsp;</label>{{ccDescription}}&nbsp;&nbsp;
-										</div>
-									{{/if}}
 								{{else}}
-									<label>{{cc_opinion_field_code}}&nbsp;:&nbsp;&nbsp;</label>
-									{{#if ccDescription.length}}
-										<div class="cc-description-box">
-											<label>{{_ "instance_cc_description"}}&nbsp;:&nbsp;</label>{{ccDescription}}&nbsp;&nbsp;
-										</div>
-									{{/if}}
+									<div class="cc-description-box">
+										<label>{{cc_opinion_field_code}} (来自{{ccFromUserName}})</label>
+										{{#if ccDescription.length}}
+											: {{ccDescription}}
+										{{/if}}
+									</div>
 								{{/if}}
 							{{else}}
 								<label>{{currentStep.name}}&nbsp;:&nbsp;&nbsp;</label>
