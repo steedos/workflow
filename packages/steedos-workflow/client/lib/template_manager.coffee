@@ -137,7 +137,7 @@ TemplateManager._template =
 			{{#each steedos_form.fields}}
 				{{#if isOpinionField this}}
 					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-						<div class="form-group opinion-field">
+						<div class="form-group automatic opinion-field-{{this.code}}">
 							<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
 							{{> instanceSignText name=this.code}}

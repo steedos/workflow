@@ -333,11 +333,11 @@ textarea {
 }
 
 .selectUser[readonly],.selectOrg[readonly]{
-  background-color: #FFFFFF !important;
+  background-color: rgba(255, 255, 0, 0.03) !important;
 }
 
 .selectUser[disabled],.selectOrg[disabled]{
-  background-color: #F9F9F9 !important;
+  background-color: #FFFFFF !important;
 }
 
 .cfTextarea[disabled],.cfTextarea[readonly]{
@@ -345,6 +345,18 @@ textarea {
   min-height:60px;
   word-wrap:break-word;
   word-break:keep-all;
+}
+
+.steedos-table-modal-body{
+	.form-control{
+		background-color: rgba(255, 255, 0, 0.03);
+	}
+
+	.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+		background-color: #FFFFFF;
+		opacity: 1;
+		color: black;
+	}
 }
 
 .instance{
@@ -361,7 +373,23 @@ textarea {
       font-weight: 400;
     }
   }
+
   .instance-form{
+
+	  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+		  background-color: #FFFFFF;
+		  opacity: 1;
+		  color: black;
+	  }
+
+	  .form-control{
+		  background-color: rgba(255, 255, 0, 0.03);
+	  }
+
+	  .field-editable{
+		  background-color: rgba(255, 255, 0, 0.03) !important;
+	  }
+
     .box-body{
       &>.col-md-12{
         padding-right: 0px;
@@ -404,7 +432,7 @@ textarea {
 		width: 100%;
       display:  inline-block;
       //border: none;
-      background-color: #fff!important;
+      //background-color: #fff!important;
       //@media (max-width: 768px){
       //  &{
       //    width: 200px;

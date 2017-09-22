@@ -206,7 +206,12 @@ InstanceSignText.helpers =
 		name = Template.instance()?.data?.name
 		setTimeout () ->
 			try
-				$(".automatic.opinion-field-" + name).addClass('field-editable')
+				element = $(".automatic.opinion-field-" + name)
+				if element.length > 0
+					if element?.is("td")
+						element.addClass('field-editable')
+					else
+						$(".instance-sign", element).addClass('field-editable')
 			catch e
 				console.log e
 		, 1
