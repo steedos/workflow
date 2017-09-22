@@ -426,8 +426,7 @@
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
 	"instance_retrieve_rules_title": "Retrieve failed",
-	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.
-",
+	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -490,7 +489,7 @@
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",
-	"instance_return_confirm": "Are you sure to return the request to the previous step?",
+	"instance_return_confirm": "Return the request to __step_name__(__handlers_name__)?",
 	"Instance State returned": "Returned",
 
 	"instance_main_attachment": "Main attach",

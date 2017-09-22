@@ -188,6 +188,12 @@
 			}
 		}
 
+		@media (max-width: 767px) {
+			.instance-suggestion-close {
+				display: none;
+			}
+		}
+
 		.instance-suggestion-next-steps{
 			.only-one-next-step{
 				padding: 3px 0 3px 12px;
@@ -203,6 +209,10 @@
 			label{
 				height: 22px;
 				line-height: 22px;
+				margin-right: 10px;
+			}
+			.radio-inline + .radio-inline {
+				margin-left: 0px;
 			}
 		}
 
@@ -264,7 +274,16 @@
 				margin-bottom:8px;
 				.cc-description-box{
 					word-wrap: break-word;
-					width: 92%;
+					width: calc(~"100% - 20px");
+					label {
+						margin-right: 3px;
+						margin-bottom: 0px;
+					}
+				}
+				@media (max-width: 767px) {
+					.cc-description-box {
+						width: 100%;
+					}
 				}
 			}
 			.input-group-addon{

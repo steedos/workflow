@@ -138,9 +138,7 @@ Template.instance_view.onRendered ->
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-							setTimeout ->
-								InstanceManager.fixInstancePosition(true)
-							,100
+							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
 

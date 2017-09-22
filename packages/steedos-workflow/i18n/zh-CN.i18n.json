@@ -504,7 +504,7 @@
 
 	"instance_return": "退回",
 	"instance_return_success": "退回成功",
-	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
+	"instance_return_confirm": "确认退回至__step_name__(__handlers_name__)?",
 	"Instance State returned": "已退回",
 
 	"instance_main_attachment": "正文",
@@ -582,8 +582,8 @@
 
 	"steedos_tableau_statistical_analysis": "统计分析",
 
-	"steedos_tableau_copy_link":"复制链接",
-	"tableau_introduction_modal_close":"关闭",
+	"steedos_tableau_copy_link": "复制链接",
+	"tableau_introduction_modal_close": "关闭",
 	"ERROR": "错误",
 
 	"steedos_table_add_item": "新增一行"
