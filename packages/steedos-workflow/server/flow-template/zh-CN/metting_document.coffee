@@ -1,5 +1,4 @@
 #会议纪要
-
 workflowTemplate["zh-CN"].push {
   "_id": "8ff51be1c59cac0cb92ad047",
   "name": "会议纪要",
@@ -10,15 +9,16 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:28:49.438Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "09cf0cbc-3120-45e9-8ba5-2ac65270065d",
-    "_rev": 6,
-    "created": "2017-09-15T03:44:18.958Z",
+    "_id": "6a292abc-e04e-4289-8546-52a50ba74a8f",
+    "_rev": 8,
+    "created": "2017-09-20T07:02:29.342Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:26:36.468Z",
+    "modified": "2017-09-22T05:44:19.643Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T03:44:18.958Z",
+    "start_date": "2017-09-20T07:02:29.342Z",
     "form": "8ff51be1c59cac0cb92ad047",
     "form_script": "CoreForm.pageTitle= \"会议纪要\";",
+    "name_forumla": "{会议标题}",
     "fields": [
       {
         "_id": "13DE5C2F-660D-4393-B530-10D6290E3B71",
@@ -44,7 +44,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "会议标题"
+            "oldCode": "会议标题",
+            "is_list_display": false,
+            "is_searchable": true
           },
           {
             "_id": "4523FF5F-FD5C-472B-B2D0-C947FD776F7E",
@@ -55,7 +57,10 @@ workflowTemplate["zh-CN"].push {
             "rows": 4,
             "digits": 0,
             "has_others": false,
-            "is_multiselect": false
+            "is_multiselect": false,
+            "oldCode": "会议时间",
+            "is_list_display": true,
+            "is_searchable": false
           },
           {
             "_id": "36733B84-E05D-4051-B8E6-6BA0FE581778",
@@ -67,18 +72,23 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "会议地点"
+            "oldCode": "会议地点",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "06AD7E00-77C1-473C-AA60-956671CB3415",
             "code": "项目名称",
-            "is_required": true,
+            "is_required": false,
             "is_wide": true,
             "type": "input",
             "rows": 4,
             "digits": 0,
             "has_others": false,
-            "is_multiselect": false
+            "is_multiselect": false,
+            "oldCode": "项目名称",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "E005212D-E368-41CA-BB14-B30EBEDF0214",
@@ -90,7 +100,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "参会人员"
+            "oldCode": "参会人员",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "C6D4160D-70B3-489C-8ECD-1257345C2D87",
@@ -103,7 +115,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "会议内容",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "D7E95C75-2826-404A-921C-3E958DB20AF3",
@@ -116,7 +129,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "is_textarea": true
+            "oldCode": "下一步工作安排",
+            "is_textarea": true,
+            "is_searchable": true
           }
         ]
       },
@@ -146,7 +161,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "D91CEE9A-8C23-4D8D-957E-C18DBD91D686",
@@ -159,8 +175,9 @@ workflowTemplate["zh-CN"].push {
             "formula": "{yijianlan:{step:'相关部门会签'}}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "会签意见",
-            "is_textarea": true
+            "oldCode": "相关部门会签意见",
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "DD8D5B4F-3E83-4C78-B322-65173861DF01",
@@ -173,8 +190,9 @@ workflowTemplate["zh-CN"].push {
             "formula": "{yijianlan:{step:'总经理审批'}}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "分管领导意见",
-            "is_textarea": true
+            "oldCode": "总经理意见",
+            "is_textarea": true,
+            "is_searchable": true
           }
         ]
       }
@@ -188,7 +206,7 @@ workflowTemplate["zh-CN"].push {
   "is_subform": false,
   "import": true,
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "行政",
   "flows": [
     {
       "_id": "a6eac9bff91d99ce9511e91a",
@@ -203,21 +221,21 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:28:49.465Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 1,
+      "current_no": 2,
       "current": {
-        "_id": "f63bbf3c-b327-496b-96ae-321cd59b2d1e",
-        "_rev": 6,
+        "_id": "9b72a22c-e037-4901-8fd1-fdd9a08fe3a7",
+        "_rev": 8,
         "flow": "a6eac9bff91d99ce9511e91a",
-        "form_version": "09cf0cbc-3120-45e9-8ba5-2ac65270065d",
-        "modified": "2017-09-15T06:26:36.589Z",
+        "form_version": "6a292abc-e04e-4289-8546-52a50ba74a8f",
+        "modified": "2017-09-22T05:44:19.745Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T03:44:18.958Z",
+        "created": "2017-09-20T07:02:29.342Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T03:44:18.958Z",
+        "start_date": "2017-09-20T07:02:29.342Z",
         "steps": [
           {
             "_id": "f96c3de0-4b13-4215-977d-bd507ccc1ba7",
-            "name": "上传会议纪要及相关材料",
+            "name": "开始(上传会议纪要及相关材料)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
@@ -266,8 +284,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 710.25,
-            "posy": 161.5,
+            "posx": 792.25,
+            "posy": 373.5,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -307,24 +325,24 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "ccba5a20-161f-4134-9657-49c8a189d489",
+                "_id": "28f64710-daa5-4e60-b4e2-df9c353ca0da",
+                "name": "",
+                "state": "approved",
+                "to_step": "e2c561da-b1c2-4c0c-82c5-9f3eea3f8eba",
+                "description": ""
+              },
+              {
+                "_id": "a9ca7453-49ba-4b14-940e-b0b314cfc066",
                 "name": "",
                 "state": "approved",
                 "to_step": "9fd6964a-3575-4682-bbce-645c65ad2f1b",
                 "description": ""
               },
               {
-                "_id": "968a2794-5e32-40a2-a3e6-a09654e1e5f7",
+                "_id": "445ed5bd-fb54-4f43-988a-6bf12483a880",
                 "name": "",
                 "state": "approved",
                 "to_step": "597e9ec9-0158-465d-a05c-7bb1382a2aca",
-                "description": ""
-              },
-              {
-                "_id": "61055e82-e1e8-4b63-8154-bae75704d611",
-                "name": "",
-                "state": "approved",
-                "to_step": "e2c561da-b1c2-4c0c-82c5-9f3eea3f8eba",
                 "description": ""
               }
             ],
@@ -373,8 +391,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 333,
-            "posy": 203,
+            "posx": 344,
+            "posy": 207,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -412,8 +430,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "counterSign",
             "deal_type": "pickupAtRuntime",
             "description": "",
-            "posx": 329,
-            "posy": 530,
+            "posx": 331,
+            "posy": 527,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",

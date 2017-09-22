@@ -401,6 +401,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/flow-template/zh-CN/income_document.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/seal_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/sale_contract.coffee', 'server');
+	api.addFiles('server/flow-template/zh-CN/workreport.coffee', 'server');
 	// workflow_template（en）
 	api.addFiles('server/flow-template/en/capex.coffee', 'server');
 	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');

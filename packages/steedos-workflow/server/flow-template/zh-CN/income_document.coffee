@@ -1,4 +1,4 @@
-#收文
+#收文单
 workflowTemplate["zh-CN"].push {
   "_id": "8b8f52b153213dbabdf8f0a3",
   "name": "收文单",
@@ -9,16 +9,16 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:30:22.032Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "1bbb7ce5-d303-46ed-9bcd-5aabbdaa3917",
-    "_rev": 3,
-    "created": "2017-09-15T05:53:08.220Z",
+    "_id": "aa525957-abda-4239-ab7b-d8e125060acc",
+    "_rev": 4,
+    "created": "2017-09-21T09:43:49.395Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:41:44.419Z",
+    "modified": "2017-09-22T05:44:57.835Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T05:53:08.220Z",
+    "start_date": "2017-09-21T09:43:49.395Z",
     "form": "8b8f52b153213dbabdf8f0a3",
     "form_script": "CoreForm.pageTitle= \"收文单\";",
-    "name_forumla": "",
+    "name_forumla": "{文件标题}",
     "fields": [
       {
         "_id": "0DF6EB50-F899-4D7B-BB8B-2A06F141D7EB",
@@ -33,7 +33,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "收文号",
         "is_textarea": false
       },
@@ -64,8 +64,8 @@ workflowTemplate["zh-CN"].push {
         "digits": 0,
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "来文单位"
       },
       {
@@ -81,8 +81,8 @@ workflowTemplate["zh-CN"].push {
         "options": "普通\n紧急\n特急\n办文",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "priority"
       },
       {
@@ -97,7 +97,7 @@ workflowTemplate["zh-CN"].push {
         "digits": 0,
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
+        "is_list_display": true,
         "is_searchable": false,
         "oldCode": "文件日期"
       },
@@ -114,7 +114,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "文件编号"
       },
       {
@@ -127,10 +127,11 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
+        "formula": "",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "文件标题",
         "is_textarea": false
       },
@@ -146,7 +147,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "办公室主任意见",
         "is_textarea": true
       },
@@ -163,7 +164,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "领导意见",
         "is_textarea": true
       },
@@ -179,7 +180,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "承办结果",
         "is_textarea": true
       }
@@ -193,7 +194,7 @@ workflowTemplate["zh-CN"].push {
   "is_subform": false,
   "import": true,
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "行政",
   "flows": [
     {
       "_id": "1785eff8614d107cb72dcab3",
@@ -208,21 +209,21 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:30:22.060Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 2,
+      "current_no": 3,
       "current": {
-        "_id": "86006131-8455-48f0-b9d8-d589aaea0880",
-        "_rev": 2,
+        "_id": "183a99cc-8d79-4729-9941-b59bc5beb1a0",
+        "_rev": 3,
         "flow": "1785eff8614d107cb72dcab3",
-        "form_version": "1bbb7ce5-d303-46ed-9bcd-5aabbdaa3917",
-        "modified": "2017-09-15T06:41:44.513Z",
+        "form_version": "aa525957-abda-4239-ab7b-d8e125060acc",
+        "modified": "2017-09-22T05:44:57.932Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T05:52:47.884Z",
+        "created": "2017-09-20T08:08:25.656Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T05:52:47.884Z",
+        "start_date": "2017-09-20T08:08:25.656Z",
         "steps": [
           {
             "_id": "a7b742ad-f1c9-423c-9bea-db426f76a2f0",
-            "name": "收文登记",
+            "name": "开始(收文登记)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
@@ -267,8 +268,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 545.25,
-            "posy": 541.458312988281,
+            "posx": 546.25,
+            "posy": 527.450012207031,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -312,20 +313,6 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": true,
             "lines": [
               {
-                "_id": "7ab9899d-1f14-4fcd-8c2b-cfe39e1c5723",
-                "name": "",
-                "state": "submitted",
-                "to_step": "4f705f0f-f200-4641-9ae8-884ffaeb4d75",
-                "description": ""
-              },
-              {
-                "_id": "1c3129b3-b8d3-4390-8415-1e03da88ff6f",
-                "name": "",
-                "state": "submitted",
-                "to_step": "a41a86d2-cd5a-4e6e-9217-a2828eca331a",
-                "description": ""
-              },
-              {
                 "_id": "233f4432-a7b3-45e7-ab9c-6baedff0917a",
                 "name": "",
                 "state": "submitted",
@@ -333,10 +320,24 @@ workflowTemplate["zh-CN"].push {
                 "description": ""
               },
               {
-                "_id": "c4488316-817b-499d-8e2b-d98e8b380564",
+                "_id": "c5eddbbc-6668-4782-95b6-87b61eaccbf7",
+                "name": "",
+                "state": "submitted",
+                "to_step": "a41a86d2-cd5a-4e6e-9217-a2828eca331a",
+                "description": ""
+              },
+              {
+                "_id": "8ff23da9-c85d-4ddb-9b34-e1515130afa7",
                 "name": "",
                 "state": "submitted",
                 "to_step": "dbcd13fb-8c1f-4d78-9451-532bcdc9c02d",
+                "description": ""
+              },
+              {
+                "_id": "ceecb335-51eb-49fb-916f-c1be67f71ec2",
+                "name": "",
+                "state": "submitted",
+                "to_step": "4f705f0f-f200-4641-9ae8-884ffaeb4d75",
                 "description": ""
               }
             ],
@@ -372,7 +373,7 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "327c691d-e972-4410-892e-aea62dbb9081",
+                "_id": "d446f759-789f-4709-9194-1d6dfd7394fe",
                 "name": "",
                 "state": "submitted",
                 "to_step": "2354ecab-c44a-4b2e-b890-dfc461390991",
@@ -389,8 +390,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "counterSign",
             "deal_type": "pickupAtRuntime",
             "description": "",
-            "posx": 533,
-            "posy": 193,
+            "posx": 529,
+            "posy": 195,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -460,156 +461,6 @@ workflowTemplate["zh-CN"].push {
         ]
       },
       "app": "workflow",
-      "distribute_optional_users": [
-        {
-          "id": "2iRmNeoYoJyCbqgMh",
-          "name": "后勤公司文书"
-        },
-        {
-          "id": "3oGZwSrZ9ivNBEfLn",
-          "name": "地产发展公司文书"
-        },
-        {
-          "id": "42QF4ohZdDJ9aavas",
-          "name": "监理公司文书"
-        },
-        {
-          "id": "6SrSzEWDrMbviAMDq",
-          "name": "港立电梯文书"
-        },
-        {
-          "id": "7fqq8r96vdZWhSyoX",
-          "name": "通信公司文书"
-        },
-        {
-          "id": "8Aty6nqgLwv5bFH9D",
-          "name": "东方石油公司文书"
-        },
-        {
-          "id": "BWsZFYAeWaqTjxDLG",
-          "name": "物流管理部（国际物流公司）文书"
-        },
-        {
-          "id": "BYnzWDYSTFWaDh88E",
-          "name": "检测公司文书"
-        },
-        {
-          "id": "CCcMXeWLpaGva73fr",
-          "name": "资本运营部（投资管理公司）文书"
-        },
-        {
-          "id": "G8hB7dqY3wy824aCK",
-          "name": "港口工程公司文书"
-        },
-        {
-          "id": "JWm5guRnzjjseYPjX",
-          "name": "蓝港国旅文书"
-        },
-        {
-          "id": "LhvHKSZqLqLZHK7WZ",
-          "name": "之海公司文书"
-        },
-        {
-          "id": "Qd3NBaKMNdwRCYspA",
-          "name": "邯郸陆港公司文书"
-        },
-        {
-          "id": "QrZJ6CzEf3A39iQTN",
-          "name": "睿港煤炭物流公司文书"
-        },
-        {
-          "id": "Rt3DpsHcQiuiDjd73",
-          "name": "方远公司文书"
-        },
-        {
-          "id": "TbqfayKwFLj82GbX2",
-          "name": "环渤海交易中心文书"
-        },
-        {
-          "id": "ThE6aW56Bm6sdesDA",
-          "name": "方宇公司文书"
-        },
-        {
-          "id": "TsLyja6KaL4rquwkM",
-          "name": "港口医院文书"
-        },
-        {
-          "id": "WwxqvzdCi6NskDLj2",
-          "name": "离退中心文书"
-        },
-        {
-          "id": "YHM6sP5QXzhSRZ2qA",
-          "name": "香港公司文书"
-        },
-        {
-          "id": "aCXZ8iiyeomgtdrYk",
-          "name": "餐饮公司文书"
-        },
-        {
-          "id": "bNNiW2Yye644dL6Rm",
-          "name": "物资中心文书"
-        },
-        {
-          "id": "fa7QTyk6jnoZwtsXp",
-          "name": "行政管理中心(房产管理中心)文书"
-        },
-        {
-          "id": "jZKdgzcp8wMdztrCY",
-          "name": "结算中心文书"
-        },
-        {
-          "id": "jxqzkNpNCgXW5SnFL",
-          "name": "港口机械公司文书"
-        },
-        {
-          "id": "kJdc5Hq9bNTNTiEvz",
-          "name": "水运卫校文书"
-        },
-        {
-          "id": "m6DZBg4xHHFJp96sg",
-          "name": "海景酒店文书"
-        },
-        {
-          "id": "nB6Q5J3MeL5sdZTNK",
-          "name": "新闻中心文书"
-        },
-        {
-          "id": "nnWoKvzrQs6oaRPa2",
-          "name": "财务公司文书"
-        },
-        {
-          "id": "rMyqYukCW7886e8YG",
-          "name": "公安局文书"
-        },
-        {
-          "id": "sW975DY7YAG8cbnQa",
-          "name": "教育中心文书"
-        },
-        {
-          "id": "sbe3cTmZFgjgXzort",
-          "name": "水暖公司文书"
-        },
-        {
-          "id": "sxH59mZk4RhiCqyqD",
-          "name": "资产公司文书"
-        },
-        {
-          "id": "wBtgWzfYMxjWGPh4q",
-          "name": "外代文书"
-        },
-        {
-          "id": "wg33BPWncpayFYjMM",
-          "name": "港口协会文书"
-        },
-        {
-          "id": "xwyGeRnRiyPcS5bdS",
-          "name": "秦仁海运文书"
-        },
-        {
-          "id": "yK8jyn3HqPqfgsczf",
-          "name": "港口宾馆文书"
-        }
-      ],
       "historys": []
     }
   ]

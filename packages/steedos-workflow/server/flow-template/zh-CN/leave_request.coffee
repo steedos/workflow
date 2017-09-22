@@ -1,5 +1,4 @@
 #请假申请
-
 workflowTemplate["zh-CN"].push {
   "_id": "6cf576e09308ec1acac7d760",
   "name": "请假申请",
@@ -11,19 +10,20 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:29:02.434Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "242e06e9-9c07-4ac9-81fc-ddd40bfc8ccb",
-    "_rev": 3,
-    "created": "2017-09-15T05:58:20.831Z",
+    "_id": "17e6447f-1dd5-440c-9b67-ed1a29db9bb0",
+    "_rev": 4,
+    "created": "2017-09-20T09:53:32.048Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T05:58:20.873Z",
+    "modified": "2017-09-22T05:45:40.626Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T05:58:20.831Z",
+    "start_date": "2017-09-20T09:53:32.048Z",
     "form": "6cf576e09308ec1acac7d760",
     "form_script": "CoreForm.pageTitle= \"请假申请\";",
+    "name_forumla": "{部门}+{提交人}+\"请\"+{请假类别}+{tianshu}+\"天\"",
     "fields": [
       {
         "_id": "9DEF3353-60DC-471A-B714-077290D7B2E9",
-        "code": "申请人信息",
+        "code": "提交人信息",
         "is_required": false,
         "is_wide": true,
         "type": "section",
@@ -33,11 +33,11 @@ workflowTemplate["zh-CN"].push {
         "is_multiselect": false,
         "is_list_display": false,
         "is_searchable": false,
-        "oldCode": "申请人信息",
+        "oldCode": "提交人信息",
         "fields": [
           {
             "_id": "9308A421-18B1-4D87-B248-133CE31AB6EF",
-            "code": "申请人",
+            "code": "提交人",
             "default_value": "",
             "is_required": false,
             "is_wide": false,
@@ -47,7 +47,8 @@ workflowTemplate["zh-CN"].push {
             "formula": "{applicant.name}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "申请人"
+            "oldCode": "提交人",
+            "is_searchable": true
           },
           {
             "_id": "9355BC45-8D6B-4750-A4F7-C2B86345430C",
@@ -59,7 +60,9 @@ workflowTemplate["zh-CN"].push {
             "rows": 4,
             "digits": 0,
             "has_others": false,
-            "is_multiselect": false
+            "is_multiselect": false,
+            "oldCode": "职务",
+            "is_searchable": true
           },
           {
             "_id": "D8C23ABD-5B8F-464C-88BA-6F0E8AA72B92",
@@ -73,7 +76,8 @@ workflowTemplate["zh-CN"].push {
             "formula": "{applicant.organization.name}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "部门信息"
+            "oldCode": "部门",
+            "is_searchable": true
           },
           {
             "_id": "E66F7465-A205-4C45-A7A9-027EC9C9134C",
@@ -87,7 +91,8 @@ workflowTemplate["zh-CN"].push {
             "formula": "",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "联系电话"
+            "oldCode": "联系电话",
+            "is_searchable": true
           }
         ]
       },
@@ -118,7 +123,9 @@ workflowTemplate["zh-CN"].push {
             "options": "事假\n病假\n年假\n调休\n婚假\n产假\n产检假\n丧假",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "请假类别"
+            "oldCode": "请假类别",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "051D86ED-2335-4B4D-82DD-79EB4F8369B5",
@@ -131,7 +138,8 @@ workflowTemplate["zh-CN"].push {
             "digits": 1,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "tianshu"
+            "oldCode": "tianshu",
+            "is_searchable": true
           },
           {
             "_id": "B039BCD4-E682-4FAD-917C-51B72E4B0829",
@@ -144,7 +152,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "starttime"
+            "oldCode": "starttime",
+            "is_list_display": true,
+            "is_searchable": false
           },
           {
             "_id": "C7D39D1D-E484-47B8-BAE1-1794D1CB1FA4",
@@ -157,7 +167,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "endtime"
+            "oldCode": "endtime",
+            "is_list_display": true,
+            "is_searchable": false
           },
           {
             "_id": "31AEBF53-3395-4312-BC7C-B4A44604E51B",
@@ -171,7 +183,9 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "note",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_list_display": true,
+            "is_searchable": true
           }
         ]
       },
@@ -200,7 +214,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "9FB5F1B1-C0E6-4297-9A77-F86C549B360B",
@@ -215,7 +230,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           }
         ]
       }
@@ -232,7 +248,7 @@ workflowTemplate["zh-CN"].push {
   "approve_on_delete": false,
   "import": true,
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "人事",
   "flows": [
     {
       "_id": "ca06b32f47002ce1c8b89795",
@@ -247,26 +263,26 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:29:02.453Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 2,
+      "current_no": 3,
       "current": {
-        "_id": "911d0047-0008-45d6-980d-522c11a37a91",
-        "_rev": 3,
+        "_id": "32f7ed7b-8774-4931-90f4-97e227ff80d8",
+        "_rev": 5,
         "flow": "ca06b32f47002ce1c8b89795",
-        "form_version": "242e06e9-9c07-4ac9-81fc-ddd40bfc8ccb",
-        "modified": "2017-09-15T05:58:21.086Z",
+        "form_version": "17e6447f-1dd5-440c-9b67-ed1a29db9bb0",
+        "modified": "2017-09-22T05:45:40.720Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T05:58:20.831Z",
+        "created": "2017-09-20T08:10:41.257Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T05:58:20.831Z",
+        "start_date": "2017-09-20T08:10:41.257Z",
         "steps": [
           {
             "_id": "6830383D-DB38-4352-A988-E29712A12C92",
-            "name": "提交申请",
+            "name": "开始(提交申请)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
-            "posx": 83,
-            "posy": 225,
+            "posx": 82,
+            "posy": 240,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -282,7 +298,6 @@ workflowTemplate["zh-CN"].push {
               "结束时间（11:30、18:00）": "editable",
               "请假理由": "editable",
               "__form": "editable",
-              "申请人信息": "editable",
               "数值": "editable",
               "请假类别": "editable",
               "请假信息": "editable",
@@ -293,7 +308,8 @@ workflowTemplate["zh-CN"].push {
               "审批意见": "editable",
               "文本1": "editable",
               "联系电话": "editable",
-              "职务": "editable"
+              "职务": "editable",
+              "提交人信息": "editable"
             },
             "can_edit_main_attach": false,
             "can_edit_normal_attach": true,
@@ -315,8 +331,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 1166,
-            "posy": 241,
+            "posx": 1174,
+            "posy": 258,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -334,8 +350,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 395.083343505859,
-            "posy": 446.069458007812,
+            "posx": 437.075012207031,
+            "posy": 434.0625,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -373,8 +389,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "condition",
             "deal_type": "",
             "description": "",
-            "posx": 610,
-            "posy": 164,
+            "posx": 616,
+            "posy": 98,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -407,12 +423,12 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "850fdaad-5c8f-487f-a2e4-4f8e9e59e793",
-            "name": "通知申请人",
+            "name": "通知提交人",
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
-            "posx": 995,
-            "posy": 249,
+            "posx": 1001,
+            "posy": 261,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -446,8 +462,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "submit",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 809,
-            "posy": 247,
+            "posx": 825,
+            "posy": 259,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -485,8 +501,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 444,
-            "posy": 109,
+            "posx": 447,
+            "posy": 111,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
