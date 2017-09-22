@@ -328,7 +328,8 @@ InstanceManager.checkNextStepUser = function() {
 	InstanceManager._setError_next_step_users("")
 
 	if (ApproveManager.error.nextStepUsers != '') {
-		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		nextStepUsers_parent_group.addClass("has-error");
 
 		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
 
