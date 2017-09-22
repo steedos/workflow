@@ -9,15 +9,16 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:30:38.847Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "585063c8-fe42-45c4-ae54-ab6ca9025c03",
-    "_rev": 3,
-    "created": "2017-09-15T05:55:02.910Z",
+    "_id": "9fff3d29-d582-4241-b072-7d9af3c12f04",
+    "_rev": 4,
+    "created": "2017-09-20T07:10:16.524Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T05:55:02.946Z",
+    "modified": "2017-09-22T05:45:20.047Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T05:55:02.910Z",
+    "start_date": "2017-09-20T07:10:16.524Z",
     "form": "2bb54be884a2421b03ea3545",
     "form_script": "CoreForm.pageTitle= \"用印申请\";",
+    "name_forumla": "{部门}+{提交人}+\"申请使用\"+{印章类型}",
     "fields": [
       {
         "_id": "A35832CA-927A-48C7-9FEA-901E86CC6C6A",
@@ -35,7 +36,7 @@ workflowTemplate["zh-CN"].push {
         "fields": [
           {
             "_id": "7BD10A48-B7B2-4D94-8253-DF4439F979F7",
-            "code": "申请人",
+            "code": "提交人",
             "is_required": true,
             "is_wide": false,
             "type": "input",
@@ -44,11 +45,12 @@ workflowTemplate["zh-CN"].push {
             "formula": "{applicant.name}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "申请人"
+            "oldCode": "提交人",
+            "is_searchable": true
           },
           {
             "_id": "39F53A3E-9F9B-43B5-B576-99223E764950",
-            "code": "申请部门",
+            "code": "部门",
             "is_required": true,
             "is_wide": false,
             "type": "input",
@@ -57,7 +59,8 @@ workflowTemplate["zh-CN"].push {
             "formula": "{applicant.organization.name}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "申请部门"
+            "oldCode": "部门",
+            "is_searchable": true
           },
           {
             "_id": "ECEEFAC7-85EB-49B5-9107-6371A6B0D625",
@@ -70,7 +73,8 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "申请时间"
+            "oldCode": "申请时间",
+            "is_searchable": false
           },
           {
             "_id": "584899E7-90AE-4DDA-8ADB-E2014F2B2F6C",
@@ -84,7 +88,8 @@ workflowTemplate["zh-CN"].push {
             "options": "法人用章\n公章\n财务专用章\n合同专用章\n其他",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "印章类型"
+            "oldCode": "印章类型",
+            "is_searchable": true
           },
           {
             "_id": "140C60F1-BEC6-473A-8FF4-0B781ADF9E87",
@@ -97,7 +102,9 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "事由",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "FD1E5D35-C0F8-4A56-BC07-9369A51666C4",
@@ -110,7 +117,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "文件名称及内容",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           }
         ]
       },
@@ -140,7 +148,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "62FEA1DD-00BE-458A-892E-258ED16DC6A6",
@@ -154,7 +163,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "相关部门会签意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "823708BD-BFDC-4D02-B973-9411915E8389",
@@ -168,7 +178,9 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_list_display": false,
+            "is_searchable": true
           }
         ]
       }
@@ -182,7 +194,7 @@ workflowTemplate["zh-CN"].push {
   "is_subform": false,
   "import": true,
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "行政",
   "flows": [
     {
       "_id": "94235abb12d14c17d7f20984",
@@ -197,21 +209,21 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:30:38.874Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 3,
+      "current_no": 4,
       "current": {
-        "_id": "720f5df1-533b-4167-b345-8b1f2ae000f5",
-        "_rev": 4,
+        "_id": "d32c9dc2-ef88-41f0-9bbe-f6164fcce2e5",
+        "_rev": 5,
         "flow": "94235abb12d14c17d7f20984",
-        "form_version": "585063c8-fe42-45c4-ae54-ab6ca9025c03",
-        "modified": "2017-09-15T05:55:03.121Z",
+        "form_version": "9fff3d29-d582-4241-b072-7d9af3c12f04",
+        "modified": "2017-09-22T05:45:20.139Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T05:55:02.910Z",
+        "created": "2017-09-20T07:10:16.524Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T05:55:02.910Z",
+        "start_date": "2017-09-20T07:10:16.524Z",
         "steps": [
           {
             "_id": "d9ad1b1a-68b4-47d6-b769-fe9b6b8283fb",
-            "name": "提交申请",
+            "name": "开始(提交申请)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
@@ -254,8 +266,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 980.5,
-            "posy": 357.5,
+            "posx": 984.5,
+            "posy": 366.5,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -295,14 +307,14 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "78d4065f-bac2-49c7-8ae4-9ca42b47fe6d",
+                "_id": "8f3ecaf5-efc0-4c82-9add-93828f2a3715",
                 "name": "",
                 "state": "approved",
                 "to_step": "1276fc19-4098-4434-a7b5-dfef9d6ea9f2",
                 "description": ""
               },
               {
-                "_id": "7fa575fc-e978-4773-9a06-f0636407c065",
+                "_id": "f51508cd-5b74-4ca0-b0c7-0bc2d047b15c",
                 "name": "",
                 "state": "approved",
                 "to_step": "2164a4c3-351b-4a83-b1ef-2d0caa9bc796",
@@ -358,8 +370,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "counterSign",
             "deal_type": "pickupAtRuntime",
             "description": "",
-            "posx": 353,
-            "posy": 164,
+            "posx": 356,
+            "posy": 209,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -389,12 +401,12 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "d33d1393-c98b-4f44-8d60-2dcc1581337a",
-            "name": "申请人用印",
+            "name": "提交人用印",
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
             "posx": 794,
-            "posy": 360,
+            "posy": 364,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",

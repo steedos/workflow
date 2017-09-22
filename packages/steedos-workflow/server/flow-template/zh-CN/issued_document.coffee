@@ -1,5 +1,4 @@
 #发文
-
 workflowTemplate["zh-CN"].push {
   "_id": "7edc5ac69f4bc8839d9e6ce0",
   "name": "发文稿纸",
@@ -11,16 +10,16 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:28:34.766Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "a9a7329a-0629-41ba-8aab-bbbf41be75d0",
-    "_rev": 3,
-    "created": "2017-09-15T05:51:06.610Z",
+    "_id": "35673150-bcda-4730-b6fb-860e69c056e0",
+    "_rev": 4,
+    "created": "2017-09-21T09:40:02.315Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T06:36:16.331Z",
+    "modified": "2017-09-21T10:13:48.192Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T05:51:06.610Z",
+    "start_date": "2017-09-21T09:40:02.315Z",
     "form": "7edc5ac69f4bc8839d9e6ce0",
     "form_script": "CoreForm.pageTitle= \"发文稿纸\";\nCoreForm.form_OnLoad = function() {\n    $(\"#instanceform\").find(\"table\").addClass(\"font-color-red border-color-red border-left-none border-right-none\")     \n}\n",
-    "name_forumla": "",
+    "name_forumla": "{文件标题}",
     "fields": [
       {
         "_id": "D91636D7-ACC8-42B4-9D3E-15DE4CADD26B",
@@ -34,7 +33,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "文件标题",
         "is_textarea": false
       },
@@ -52,8 +51,9 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
-        "oldCode": "拟稿人"
+        "is_searchable": true,
+        "oldCode": "拟稿人",
+        "is_textarea": false
       },
       {
         "_id": "7F217525-F562-4C96-99D8-513A2A2889CE",
@@ -68,8 +68,8 @@ workflowTemplate["zh-CN"].push {
         "formula": "{applicant.organization.name}",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "拟稿单位"
       },
       {
@@ -86,7 +86,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "部门领导意见",
         "is_textarea": true
       },
@@ -102,7 +102,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "办公室主任意见",
         "is_textarea": true
       },
@@ -119,7 +119,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "主管领导意见",
         "is_textarea": true
       },
@@ -136,7 +136,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "会签意见",
         "is_textarea": true
       },
@@ -152,8 +152,8 @@ workflowTemplate["zh-CN"].push {
         "options": "",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "主送"
       },
       {
@@ -167,7 +167,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "抄送",
         "is_textarea": false
       },
@@ -182,7 +182,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "抄报",
         "is_textarea": false
       },
@@ -214,7 +214,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "页数"
       },
       {
@@ -230,8 +230,8 @@ workflowTemplate["zh-CN"].push {
         "options": "普通\n紧急\n特急\n办文",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "priority"
       },
       {
@@ -246,8 +246,8 @@ workflowTemplate["zh-CN"].push {
         "options": "普通\n秘密\n机密\n绝密",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "密级"
       }
     ]
@@ -262,7 +262,15 @@ workflowTemplate["zh-CN"].push {
   "is_table_style": true,
   "instance_template": "<head>\n    <meta charset=\"utf-8\">\n    <title>秦皇岛岗集团发文</title>\n    <style media=\"screen\">\n      .qhd-jtfw{\n          width: 100%;\n          border-top: solid 2px red;\n          border-bottom: solid 2px red;\n          border-collapse: collapse;\n          background-color: #fff;\n          font-family:\"仿宋_GB2312\";\n          font-size: 18px;\n          table-layout:fixed;\n      }\n\n      .qhd-jtfw .form-group{\n        margin-bottom: 0px;\n      }\n\n      .qhd-jtfw .form-group{\n        width: 100%;\n        height: 100%;\n        background-color: #fff;\n        border: none;\n        padding: 0px;\n      }\n\n      .qhd-jtfw .form-group[disabled], .qhd-jtfw .form-control[disabled]{\n        width: 100%;\n        height: 100%;\n        background-color: #fff;\n        border: none;\n        padding: 0px;\n      }\n\n      .qhd-jtfw .form-control{\n        font-size: 18px;\n      }\n\n      .qhd-jtfw .fwq select{\n        color:red;\n      }\n\n      .qhd-jtfw td{\n        border-bottom: solid 1px red;\n        vertical-align: top;\n        padding: 5px 10px;\n      }\n\n      .qhd-jtfw tr td:first-child{\n        border-right: solid 1px red;\n      }\n\n      .qhd-jtfw td label {\n        color: red;\n        margin-bottom: 0px;\n      }\n\n      .qhd-jtfw td input{\n        border: none;\n      }\n\n      .border-right{\n        border-right: solid 1px red !important;\n      }\n\n      .border-right-none{\n        border-right: 0px !important;\n      }\n\n      .td-height-auto{\n        height: 100% !important;\n      }\n\n      .qhd-jtfw-border-none{\n        width: 100%;\n        border-collapse: collapse;\n        background-color: #fff;\n        font-family:\"仿宋_GB2312\";\n        font-size: 18px;\n        margin-top：12px;\n        table-layout:fixed;\n      }\n\n      .qhd-jtfw-border-none td{\n        vertical-align: middle;\n        padding: 10px;\n      }\n\n      .qhd-jtfw-border-none .form-group{\n        margin-bottom: 0px;\n      }\n\n      .qhd-jtfw-border-none td label {\n        color: red;\n      }\n\n      .qhd-jtfw-border-none .form-group{\n        width: 100%;\n        height: 100%;\n        background-color: #fff;\n        border: none;\n        padding: 0px;\n      }\n\n      .qhd-jtfw-border-none .form-group[disabled], .qhd-jtfw-border-none .form-control[disabled]{\n        width: 100%;\n        height: 100%;\n        background-color: #fff;\n        border: none;\n        padding: 0px;\n      }\n\n      .qhd-jtfw-border-none .form-control{\n        font-size: 18px;\n      }\n\n      .nowrap{\n        white-space: nowrap;\n      }\n\n      .td-center{\n        vertical-align: middle !important;\n        text-align: center;\n      }\n\n      .verticle-mode {\n          writing-mode: tb-lr;\n          -webkit-writing-mode: vertical-lr;\n          writing-mode: vertical-lr;\n          letter-spacing: 12px;\n          padding-top: 12px !important;\n      }\n\n      .verticle-mode label {\n          display: inline;\n          writing-mode: vertical-lr;\n          -webkit-writing-mode: vertical-lr;\n      }\n\n      .td-height{\n        min-height: 140px;\n      }\n\n      .qhd-jtfw .inline-left{\n        display: inline;\n        float: left;\n      }\n\n      .qhd-jtfw .inline-right{\n        display: inline;\n        float: right;\n      }\n    </style>\n  </head>\n\n  <table class=\"qhd-jtfw\">\n    <tr style=\"height:0px\">\n      <th style=\"width:100px\"></th>\n      <th></th>\n      <th style=\"width:25%\"></th>\n      <th style=\"width:25%\"></th>\n    </tr>\n    <tr>\n      <td colspan=\"4\" class=\"fwq border-right-none td-height-auto\">\n          {{> afFormGroup name='发文笺' label=false}}\n      </td>\n    </tr>\n    <tr>\n      <td colspan=\"2\">\n        <div class=\"\">\n          <label>主要领导批示：</label>\n        </div>\n        <div class=\"td-height\">\n          {{#each traces.主要领导批示}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n      <td colspan=\"2\">\n        <div class=\"\">\n          <label>核稿：</label>\n        </div>\n        <div class=\"td-height\">\n          {{#each traces.秘书核稿}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n    </tr>\n    <tr>\n      <td rowspan=\"2\" class=\"td-center td-height verticle-mode\">\n        <label>管导见<br>分领意</label>\n      </td>\n      <td rowspan=\"2\" class=\"border-right\">\n        <div class=\"\">\n          {{#each traces.分管领导意见}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n      <td colspan=\"2\" class=\"border-right-none td-height-auto\">\n        <div class=\"\">\n          <label>拟稿单位：</label>\n          {{> afFormGroup name='拟稿单位' label=false}}\n        </div>\n        <br/>\n        <div class=\"applicant-wrapper\">\n          <label>拟稿人：</label>\n          {{>Template.dynamic  template=\"afSelectUser\" data=applicantContext}}\n        </div>\n      </td>\n    </tr>\n    <tr>\n      <td colspan=\"2\" class=\"border-right-none td-height-auto\">\n        <div class=\"\">\n          <label>部门负责人意见：</label>\n        </div>\n        <div class=\"td-height\">\n          {{#each traces.部室领导批示}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n    </tr>\n    <tr>\n      <td class=\"td-center td-height verticle-mode\">\n        <div class=\"\"><label>分签意见</label></div>\n      </td>\n      <td class=\"border-right\">\n        <div class=\"\">\n          {{#each traces.主任分签}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n      <td colspan=\"2\" class=\"td-height\">\n        <div class=\"\">\n          <label>会签意见：</label>\n        </div>\n        <div class=\"\">\n          {{#each traces.部室会签}}\n            {{#if (include judge \"approved,rejected,submitted\") }}        {{judge_name}}&nbsp;{{description}}<br>\n              &emsp;&emsp;--{{handler_name}}&nbsp;\n              {{formatDate finish_date}}<br>\n            {{/if}}\n          {{/each}}\n        </div>\n      </td>\n    </tr>\n    <tr>\n      <td rowspan=\"2\" colspan=\"2\">\n        <div class=\"\">\n          <label>{{afFieldLabelText name='主送'}}：</label>\n        </div>\n        <div class=\"\">\n          {{> afFormGroup name='主送' label=false}}\n        </div>\n      </td>\n      <td colspan=\"2\">\n        <div class=\"\">\n          <label>{{afFieldLabelText name='抄送'}}：</label>\n        </div>\n        <div class=\"\">\n          {{> afFormGroup name='抄送' label=false}}\n        </div>\n      </td>\n    </tr>\n    <tr>\n      <td class=\"border-right-none td-height-auto\">\n        <div class=\"\">\n          <label>{{afFieldLabelText name='抄报'}}：</label>\n        </div>\n        <div class=\"\">\n          {{> afFormGroup name='抄报' label=false}}\n        </div>\n      </td>\n    </tr>\n\n    <tr>\n      <td class=\"td-height-auto border-right-none \">\n        <div class=\"inline-left\">\n          <label>{{afFieldLabelText name='发文号'}}：</label>\n        </div>\n      </td>\n      <td class=\"td-height-auto border-right td-center\">\n        <div class=\"\">\n          {{> afFormGroup name='发文号' label=false}}\n        </div>\n      </td>\n      <td colspan=\"2\" class=\"td-height-auto td-center\">\n        <div class=\"inline-left\">\n          <label>{{afFieldLabelText name='页数'}}：</label>\n        </div>\n        <div class=\"inline-left \">\n          {{> afFormGroup name='页数' label=false}}\n        </div>\n      </td>\n    </tr>\n\n    <tr>\n      <td class=\"td-center\">\n        <div class=\"\">\n          <label>*{{afFieldLabelText name='标题'}}：</label>\n        </div>\n      </td>\n      <td colspan=\"3\">\n        <div class=\"\">\n          {{> afFormGroup name='标题' label=false}}\n        </div>\n      </td>\n    </tr>\n    <tr hidden=\"true\">\n      <td class=\"td-height-auto nowrap td-center\">\n        <div class=\"\">\n          <label>*主题词：</label>\n        </div>\n      </td>\n      <td colspan=\"3\" class=\"td-height-auto\">\n        <div class=\"\">\n\n        </div>\n      </td>\n    </tr>\n  </table>\n  <table class=\"qhd-jtfw-border-none\">\n    <tr>\n      <td style=\"width:100px;\" class=\"nowrap\">\n        <div class=\"\">\n          <label>{{afFieldLabelText name='拟稿日期'}}：</label>\n        </div>\n      </td>\n      <td>\n        {{> afFormGroup name='拟稿日期' label=false}}\n      </td>\n      <td style=\"width:100px;\" class=\"nowrap\">\n        <div class=\"\">\n          <label>{{afFieldLabelText name='签发日期'}}：</label>\n        </div>\n      </td>\n      <td>\n        {{> afFormGroup name='签发日期' label=false}}\n      </td>\n    </tr>\n  </table>",
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "行政",
+  "instance_number_rules": [
+    {
+      "name": "发文",
+      "first_number": 1,
+      "year": 2017,
+      "number": 0
+    }
+  ],
   "flows": [
     {
       "_id": "9e1a3faa618a0a3578cbd26a",
@@ -277,26 +285,26 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:28:34.786Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 5,
+      "current_no": 6,
       "current": {
-        "_id": "74bb6d6d-2192-4d06-aa46-e19c6ef3c46e",
-        "_rev": 5,
+        "_id": "2448eec6-95e1-49c9-9f13-d7fc966d7051",
+        "_rev": 6,
         "flow": "9e1a3faa618a0a3578cbd26a",
-        "form_version": "a9a7329a-0629-41ba-8aab-bbbf41be75d0",
-        "modified": "2017-09-15T06:36:16.437Z",
+        "form_version": "35673150-bcda-4730-b6fb-860e69c056e0",
+        "modified": "2017-09-21T10:13:48.301Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T05:51:06.610Z",
+        "created": "2017-09-20T08:03:34.380Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T05:51:06.610Z",
+        "start_date": "2017-09-20T08:03:34.380Z",
         "steps": [
           {
             "_id": "7dafd98d-8dc1-4fa9-9be9-0d5f33de28fe",
-            "name": "拟稿人",
+            "name": "开始(拟稿)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
-            "posx": 186.972229003906,
-            "posy": 116.027786254883,
+            "posx": 232.962509155273,
+            "posy": 119.025009155273,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -338,8 +346,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 1064.13891601562,
-            "posy": 600.569458007812,
+            "posx": 976.137573242188,
+            "posy": 603.5625,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -357,7 +365,7 @@ workflowTemplate["zh-CN"].push {
             "step_type": "counterSign",
             "deal_type": "pickupAtRuntime",
             "description": "",
-            "posx": 746.375,
+            "posx": 646.375,
             "posy": 119,
             "timeout_hours": 168,
             "approver_user_field": "",
@@ -392,8 +400,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
-            "posx": 624.902770996094,
-            "posy": 602.763916015625,
+            "posx": 610.900024414062,
+            "posy": 602.762512207031,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -449,8 +457,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "submit",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 427.888885498047,
-            "posy": 603.555541992188,
+            "posx": 424.887512207031,
+            "posy": 601.549987792969,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -481,7 +489,7 @@ workflowTemplate["zh-CN"].push {
                 "description": ""
               },
               {
-                "_id": "89378896-70bd-4917-8d87-e5d2f2f1d86d",
+                "_id": "9790b8bf-14d7-4299-8043-f1b343b8035e",
                 "name": "",
                 "state": "submitted",
                 "to_step": "bb68eb0c-e6be-4156-a036-df21f307ca89",
@@ -520,14 +528,14 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "e5c2947b-debc-421b-ba3d-cafcf475b144",
+                "_id": "e0f38dc9-a5ef-48ee-ba6b-fbc9324e8d7d",
                 "name": "",
                 "state": "approved",
                 "to_step": "a5745096-7c68-4762-8321-097aeaa39a53",
                 "description": ""
               },
               {
-                "_id": "730eb0b5-054a-434c-b3ad-634eae77f0c0",
+                "_id": "f090fb02-3047-4baa-a549-e992ef5ff812",
                 "name": "",
                 "state": "approved",
                 "to_step": "5e2439ce-9ec4-417f-9ec3-6faf83e9b3d1",
@@ -624,8 +632,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "submit",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 876,
-            "posy": 599,
+            "posx": 789,
+            "posy": 604,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",

@@ -10,16 +10,75 @@ workflowTemplate["zh-CN"].push {
   "created": "2017-09-14T02:28:26.594Z",
   "created_by": "kFePuCYbpHCe7R6dT",
   "current": {
-    "_id": "29bac1db-db51-4aa1-820d-ee60d06c7ebd",
-    "_rev": 2,
-    "created": "2017-09-15T05:49:26.347Z",
+    "_id": "42936401-9ca7-4d40-bced-21b564aaccda",
+    "_rev": 6,
+    "created": "2017-09-20T07:08:42.544Z",
     "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-15T05:49:26.395Z",
+    "modified": "2017-09-22T05:44:33.404Z",
     "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-15T05:49:26.347Z",
+    "start_date": "2017-09-20T07:08:42.544Z",
     "form": "831a30ecde079b81ed60adc5",
     "form_script": "CoreForm.pageTitle= \"出差费用报销\";",
+    "name_forumla": "{部门}+{提交人}+{出差地点}+\"出差费用报销\"",
     "fields": [
+      {
+        "_id": "8F02714E-9CF6-4489-83AB-83552D92F38A",
+        "code": "提交人信息",
+        "is_required": false,
+        "is_wide": true,
+        "type": "section",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": false,
+        "oldCode": "提交人信息",
+        "fields": [
+          {
+            "_id": "90121F1B-60CD-4742-8533-C09A23B2BB21",
+            "code": "提交人",
+            "is_required": true,
+            "is_wide": false,
+            "type": "input",
+            "rows": 4,
+            "digits": 0,
+            "formula": "{applicant.name}",
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "提交人",
+            "is_searchable": true
+          },
+          {
+            "_id": "7582D99C-F112-4DB2-A75F-BBBAB54A4FCA",
+            "code": "职务",
+            "default_value": "{applicant.position}",
+            "is_required": true,
+            "is_wide": false,
+            "type": "input",
+            "rows": 4,
+            "digits": 0,
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "职务",
+            "is_searchable": true
+          },
+          {
+            "_id": "BA9D17B8-16AF-43D1-BB91-4E0CA4768F2B",
+            "code": "部门",
+            "is_required": true,
+            "is_wide": true,
+            "type": "input",
+            "rows": 4,
+            "digits": 0,
+            "formula": "{applicant.organization.name}",
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "部门",
+            "is_searchable": true
+          }
+        ]
+      },
       {
         "_id": "974FDBDA-356C-45AF-BE40-D88A469E1505",
         "code": "出差信息",
@@ -35,46 +94,6 @@ workflowTemplate["zh-CN"].push {
         "oldCode": "出差信息",
         "fields": [
           {
-            "_id": "6247FD0D-F913-4401-8214-17DD8FC54A19",
-            "code": "报销人",
-            "is_required": true,
-            "is_wide": false,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "formula": "{applicant.name}",
-            "options": "",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "报销人"
-          },
-          {
-            "_id": "FE47CEDB-49A5-4619-B328-0CFC0113FC0E",
-            "code": "职务",
-            "default_value": "{applicant.position}",
-            "is_required": true,
-            "is_wide": false,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "职务"
-          },
-          {
-            "_id": "D5D368C7-E150-4407-8D56-2E6D673C0F41",
-            "code": "所在部门",
-            "is_required": true,
-            "is_wide": true,
-            "type": "input",
-            "rows": 4,
-            "digits": 0,
-            "formula": "{applicant.organization.fullname}",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "所在部门"
-          },
-          {
             "_id": "C167CB35-1A4B-4225-B52F-57419FE98353",
             "code": "出差日期起",
             "is_required": true,
@@ -84,7 +103,8 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "日期"
+            "oldCode": "出差日期起",
+            "is_searchable": false
           },
           {
             "_id": "98703BE6-8692-431A-92AD-E3BA1B14211B",
@@ -96,7 +116,8 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "出差日期迄"
+            "oldCode": "出差日期迄",
+            "is_searchable": false
           },
           {
             "_id": "C7A200AA-8B51-48CD-9836-5C03011956E3",
@@ -109,7 +130,9 @@ workflowTemplate["zh-CN"].push {
             "formula": "CoreForm.Gettianshu()",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "出差天数"
+            "oldCode": "出差天数",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "694EC146-D7B7-4195-B57F-F524B66ECAFF",
@@ -121,11 +144,13 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "出差地点"
+            "oldCode": "出差地点",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "D0716881-AC70-460B-B577-8F00CB67AAFB",
-            "code": "所属项目",
+            "code": "项目名称",
             "is_required": false,
             "is_wide": true,
             "type": "input",
@@ -133,7 +158,9 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "文本"
+            "oldCode": "项目名称",
+            "is_list_display": true,
+            "is_searchable": true
           },
           {
             "_id": "21F7C78C-5953-44C3-BE11-DA9F4B116591",
@@ -146,7 +173,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "出差事由",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "4C689FBC-E46F-4542-92A4-6E609E006B0B",
@@ -158,7 +186,8 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "备注"
+            "oldCode": "备注",
+            "is_searchable": true
           },
           {
             "_id": "3F9157DE-DA8F-4549-97F2-7AC7A699DEC3",
@@ -170,12 +199,13 @@ workflowTemplate["zh-CN"].push {
             "digits": 0,
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "同行人员"
+            "oldCode": "同行人员",
+            "is_searchable": true
           },
           {
             "_id": "89C3C59F-D477-4D9A-89D4-A0A0652F5CCD",
             "code": "是否同住",
-            "default_value": "是",
+            "default_value": "",
             "is_required": false,
             "is_wide": false,
             "type": "radio",
@@ -184,7 +214,9 @@ workflowTemplate["zh-CN"].push {
             "options": "是\n否",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "是否同住"
+            "oldCode": "是否同住",
+            "is_list_display": false,
+            "is_searchable": true
           }
         ]
       },
@@ -231,7 +263,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "费用类别",
-            "subform_fields": []
+            "subform_fields": [],
+            "is_searchable": true
           },
           {
             "_id": "EF76F284-7FB2-4480-B317-C635EC3D5308",
@@ -245,7 +278,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "费用金额(RMB)",
-            "subform_fields": []
+            "subform_fields": [],
+            "is_searchable": true
           },
           {
             "_id": "6F36B7A8-AC3C-4D77-B62C-EBA801732BA3",
@@ -259,7 +293,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "费用说明",
-            "subform_fields": []
+            "subform_fields": [],
+            "is_searchable": true
           }
         ]
       },
@@ -275,8 +310,8 @@ workflowTemplate["zh-CN"].push {
         "formula": "sum({费用金额(RMB)})",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "报销费用合计",
         "subform_fields": [],
         "fields": []
@@ -295,7 +330,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "原借支金额",
         "subform_fields": [],
         "fields": []
@@ -312,8 +347,8 @@ workflowTemplate["zh-CN"].push {
         "formula": "{报销费用合计}-{原借支金额}",
         "has_others": false,
         "is_multiselect": false,
-        "is_list_display": false,
-        "is_searchable": false,
+        "is_list_display": true,
+        "is_searchable": true,
         "oldCode": "实际报销金额",
         "subform_fields": [],
         "fields": []
@@ -330,7 +365,7 @@ workflowTemplate["zh-CN"].push {
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
-        "is_searchable": false,
+        "is_searchable": true,
         "oldCode": "实际报销金额（大写）"
       },
       {
@@ -359,7 +394,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "1F7D0C08-1B31-4C0E-AFF8-9E7656AC05CA",
@@ -373,7 +409,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "EFF2E355-232D-4CD6-8CD0-9BD710763D96",
@@ -387,7 +424,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "财务部经理意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           },
           {
             "_id": "FF7CEE46-D1B4-4DC1-B88F-FEE78F4DBA3E",
@@ -401,7 +439,8 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
-            "is_textarea": true
+            "is_textarea": true,
+            "is_searchable": true
           }
         ]
       }
@@ -418,7 +457,7 @@ workflowTemplate["zh-CN"].push {
   "approve_on_delete": false,
   "import": true,
   "historys": [],
-  "category_name": "基本流程模板",
+  "category_name": "财务",
   "flows": [
     {
       "_id": "6315192196a5dc74c7c046fa",
@@ -433,26 +472,26 @@ workflowTemplate["zh-CN"].push {
       "is_deleted": false,
       "created": "2017-09-14T02:28:26.626Z",
       "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 2,
+      "current_no": 3,
       "current": {
-        "_id": "c9efb4e9-2ea6-47ec-ab0c-b6c13a28d4ef",
-        "_rev": 2,
+        "_id": "d4f8440f-f72e-4928-9a34-d33641d0782d",
+        "_rev": 9,
         "flow": "6315192196a5dc74c7c046fa",
-        "form_version": "29bac1db-db51-4aa1-820d-ee60d06c7ebd",
-        "modified": "2017-09-15T05:49:26.531Z",
+        "form_version": "42936401-9ca7-4d40-bced-21b564aaccda",
+        "modified": "2017-09-22T05:44:33.524Z",
         "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-15T05:49:26.347Z",
+        "created": "2017-09-20T07:08:20.567Z",
         "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-15T05:49:26.347Z",
+        "start_date": "2017-09-20T07:08:20.567Z",
         "steps": [
           {
             "_id": "0C8693C6-2538-4EFD-B85E-AB9016F0F369",
-            "name": "提交申请",
+            "name": "开始(提交申请)",
             "step_type": "start",
             "deal_type": "",
             "description": "",
-            "posx": 8,
-            "posy": 78,
+            "posx": 290.200000762939,
+            "posy": 77,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -480,7 +519,6 @@ workflowTemplate["zh-CN"].push {
               "出差日期起": "editable",
               "出差日期迄": "editable",
               "出差地点": "editable",
-              "所属项目": "editable",
               "出差事由": "editable",
               "备注": "editable",
               "同行人员": "editable",
@@ -490,7 +528,10 @@ workflowTemplate["zh-CN"].push {
               "费用金额(RMB)": "editable",
               "费用说明": "editable",
               "原借支金额": "editable",
-              "审批意见": "editable"
+              "审批意见": "editable",
+              "提交人信息": "editable",
+              "文本1": "editable",
+              "项目名称": "editable"
             },
             "can_edit_main_attach": false,
             "can_edit_normal_attach": true,
@@ -512,8 +553,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 934.5,
-            "posy": 684,
+            "posx": 1039.10000610352,
+            "posy": 692,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -531,8 +572,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 1141,
-            "posy": 194,
+            "posx": 1257.60003662109,
+            "posy": 74,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -566,12 +607,12 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "44934215-fd56-4cf8-b489-f8fb8f94b38a",
-            "name": "报销人提交纸质报销单至财务部",
+            "name": "提交人提交纸质报销单至财务部",
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
-            "posx": 896,
-            "posy": 244,
+            "posx": 1001.60003662109,
+            "posy": 268,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -601,12 +642,12 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "6e4d0efb-d8e7-470f-be05-35aafb63b6f3",
-            "name": "发放报销款",
+            "name": "财务发放报销款",
             "step_type": "submit",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 925,
-            "posy": 391,
+            "posx": 1020.60003662109,
+            "posy": 440,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -644,8 +685,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 599,
-            "posy": 76,
+            "posx": 835.200012207031,
+            "posy": 77,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -683,8 +724,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 217,
-            "posy": 75,
+            "posx": 457.199996948242,
+            "posy": 77,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -756,12 +797,12 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "fba3fdd1-2d42-49a8-8028-2127cc450e0a",
-            "name": "申请人确认",
+            "name": "提交人确认",
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
-            "posx": 926,
-            "posy": 534,
+            "posx": 1031.60003662109,
+            "posy": 559,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -795,8 +836,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 397,
-            "posy": 73,
+            "posx": 633.200012207031,
+            "posy": 76,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -834,8 +875,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "condition",
             "deal_type": "",
             "description": "",
-            "posx": 287,
-            "posy": 351,
+            "posx": 572.199996948242,
+            "posy": 285,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
