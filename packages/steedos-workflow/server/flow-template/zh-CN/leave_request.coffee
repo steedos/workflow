@@ -139,6 +139,7 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "tianshu",
+            "is_list_display": true,
             "is_searchable": true
           },
           {

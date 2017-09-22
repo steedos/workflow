@@ -195,6 +195,15 @@ workflowTemplate["zh-CN"].push {
   "import": true,
   "historys": [],
   "category_name": "行政",
+  "instance_number_rules": [
+    {
+      "name": "收文",
+      "first_number": 1,
+      "rules": "[{YYYY}]收文第{NUMBER}号",
+      "year": 2017,
+      "number": 0
+    }
+  ],
   "flows": [
     {
       "_id": "1785eff8614d107cb72dcab3",

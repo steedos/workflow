@@ -281,6 +281,15 @@ workflowTemplate["zh-CN"].push {
   "import": true,
   "historys": [],
   "category_name": "财务",
+  "instance_number_rules": [
+    {
+      "name": "采购合同",
+      "first_number": 1,
+      "rules": "[{YYYY}]SG第{NUMBER}号",
+      "year": 2017,
+      "number": 0
+    }
+  ],
   "flows": [
     {
       "_id": "4ceb60f112ffda7b3cab45ec",

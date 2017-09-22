@@ -18,7 +18,7 @@ workflowTemplate["zh-CN"].push {
     "modified_by": "kFePuCYbpHCe7R6dT",
     "start_date": "2017-09-21T10:10:12.091Z",
     "form": "493EA553-9A56-4AEC-ACC4-1F375FF90A3F",
-    "name_forumla": "{部门}+{提交人}一周工作报告",
+    "name_forumla": "{部门}+{提交人}+\"周工作报告\"",
     "fields": [
       {
         "_id": "28CB76CB-ECDF-4E6C-A55C-3F5B4AD4F2DE",
@@ -68,7 +68,7 @@ workflowTemplate["zh-CN"].push {
       {
         "_id": "439FB7C4-1E93-4193-AA88-B986CCDDDB7E",
         "code": "未完成工作说明",
-        "is_required": true,
+        "is_required": false,
         "is_wide": true,
         "type": "input",
         "rows": 4,
