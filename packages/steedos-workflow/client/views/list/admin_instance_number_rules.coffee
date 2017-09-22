@@ -18,6 +18,13 @@ Template.admin_instance_number_rules.events
 	'click #create': (event)->
 		$('.btn.record-types-create').click();
 
+	'click #copy': (event)->
+		dataTable = $(event.target).closest('table').DataTable();
+		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
+		if (rowData)
+			Session.set 'cmDoc', rowData
+			$('.btn.record-types-copy').click();
+
 	'click #edit': (event) ->
 		dataTable = $(event.target).closest('table').DataTable();
 		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
