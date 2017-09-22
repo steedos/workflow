@@ -49,7 +49,7 @@ AutoForm.addInputType("selectorg", {
 
 
 Template.afSelectOrg.events({
-	'tap .selectOrg': function (event, template) {
+	'click .selectOrg': function (event, template) {
 		if (Modal.allowMultiple) {
 			return;
 		}
