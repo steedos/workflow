@@ -216,7 +216,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
+            "formula": "{yijianlan:{step:'办公室主任审核'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",

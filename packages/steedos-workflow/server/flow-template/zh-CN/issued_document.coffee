@@ -82,7 +82,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
+        "formula": "{yijianlan:{step:'部门领导审核'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
