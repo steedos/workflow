@@ -561,7 +561,7 @@ workflowTemplate["zh-CN"].push {
                 "_id": "788b8878-5cff-48e2-8d81-3ac8231c3beb",
                 "name": "",
                 "state": "submitted",
-                "condition": "{金额}>1000",
+                "condition": "{报销金额合计}>3000",
                 "to_step": "d6a2d1a3-4a55-4d16-ae9a-c58007a2bcc2",
                 "description": ""
               },
@@ -569,7 +569,7 @@ workflowTemplate["zh-CN"].push {
                 "_id": "b9ab558f-983a-4113-b647-e54f91a15d99",
                 "name": "",
                 "state": "submitted",
-                "condition": "{金额}<=1000",
+                "condition": "{报销金额合计}<=3000",
                 "to_step": "fa2c3773-692f-49ac-954a-d120c1e612db",
                 "description": ""
               }
