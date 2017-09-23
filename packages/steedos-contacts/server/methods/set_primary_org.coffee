@@ -12,6 +12,6 @@ Meteor.methods
 				db.space_users.update({_id: space_user_id}, {$set: {organization: org_id}})
 			return true
 		else
-            throw new Meteor.Error(400, "steedos_contacts_error_space_user_not_found");
+			throw new Meteor.Error(400, "steedos_contacts_error_space_user_not_found");
 
 
