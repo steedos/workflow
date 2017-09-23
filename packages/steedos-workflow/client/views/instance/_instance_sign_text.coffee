@@ -202,6 +202,18 @@ InstanceSignText.helpers =
 				return true;
 		return false;
 
+	judge_description: (judge)->
+		return t(judge + "_description")
+
+	is_approved: (judge)->
+		return "approved" == judge
+
+	is_rejected: (judge)->
+		return "rejected" == judge
+
+	is_readed: (judge)->
+		return "submitted" == judge || "readed" == judge
+
 	addClass: ()->
 		name = Template.instance()?.data?.name
 		setTimeout () ->

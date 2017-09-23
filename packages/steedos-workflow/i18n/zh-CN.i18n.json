@@ -587,5 +587,7 @@
 	"ERROR": "错误",
 
 	"steedos_table_add_item": "新增一行",
-	"copy": "复制"
+	"copy": "复制",
+	"approved_description": "同意",
+	"rejected_description": "不同意"
 }
