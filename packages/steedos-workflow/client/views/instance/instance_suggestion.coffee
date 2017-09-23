@@ -284,7 +284,7 @@ Template.instance_suggestion.events
 			Session.set("next_user_multiple", false)
 		Session.set("next_step_id", checkedNextStepRadio.val())
 
-	'tap #instance_flow_opinions': (event, template)->
+	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
