@@ -257,7 +257,7 @@ if (Meteor.isServer)
 
 		newMobile = modifier.$set.mobile
 		# 当把手机号设置为空值时，newMobile为undefined，modifier.$unset.mobile为空字符串
-		isMobileCleared = modifier.$unset.mobile != undefined
+		isMobileCleared = modifier.$unset?.mobile != undefined
 		if  newMobile != doc.mobile
 			if newMobile
 				if Steedos.isPhoneEnabled()
