@@ -1,22 +1,22 @@
-#销售合同
+# 销售合同审批
 workflowTemplate["zh-CN"].push {
-  "_id": "df519b04c5debfce4f1c9d95",
-  "name": "销售合同",
+  "_id": "7d615e2d64a734016cc0209d",
+  "name": "销售合同审批",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:30:30.096Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:05.602Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "89f1bec9-9191-4cf1-a39f-c2c7d9308f2e",
-    "_rev": 5,
-    "created": "2017-09-21T09:57:39.384Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-21T10:16:47.170Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-21T09:57:39.384Z",
-    "form": "df519b04c5debfce4f1c9d95",
+    "_id": "5c845ece-5026-414c-a0f9-718adb51ad6b",
+    "_rev": 2,
+    "created": "2017-09-23T03:21:06.105Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:46:36.228Z",
+    "modified_by": "vmGnPPSnxepZeSLKh",
+    "start_date": "2017-09-23T03:21:06.105Z",
+    "form": "7d615e2d64a734016cc0209d",
     "form_script": "CoreForm.pageTitle= \"销售合同\";",
     "name_forumla": "{合同名称}",
     "fields": [
@@ -62,6 +62,22 @@ workflowTemplate["zh-CN"].push {
             "is_searchable": true
           },
           {
+            "_id": "017005FF-E903-4AA0-A3BA-279483E1B1F3",
+            "code": "是否需要发票",
+            "default_value": "",
+            "is_required": false,
+            "is_wide": false,
+            "type": "select",
+            "rows": 4,
+            "digits": 0,
+            "options": "是\n否",
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "是否需要发票",
+            "is_list_display": true,
+            "is_searchable": true
+          },
+          {
             "_id": "C63FD427-F276-4306-9654-EA822FED1496",
             "code": "合同金额",
             "is_required": false,
@@ -72,6 +88,21 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "合同金额",
+            "is_searchable": true
+          },
+          {
+            "_id": "91A1187D-3CCD-46D2-85E9-BEBCB520B7AD",
+            "code": "币种",
+            "default_value": "人民币",
+            "is_required": false,
+            "is_wide": false,
+            "type": "select",
+            "rows": 4,
+            "digits": 0,
+            "options": "人民币\n港币\n美元",
+            "has_others": false,
+            "is_multiselect": false,
+            "oldCode": "币种",
             "is_searchable": true
           },
           {
@@ -116,37 +147,6 @@ workflowTemplate["zh-CN"].push {
             "is_list_display": true
           },
           {
-            "_id": "91A1187D-3CCD-46D2-85E9-BEBCB520B7AD",
-            "code": "币种",
-            "default_value": "人民币",
-            "is_required": false,
-            "is_wide": false,
-            "type": "select",
-            "rows": 4,
-            "digits": 0,
-            "options": "人民币\n港币\n美元",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "币种",
-            "is_searchable": true
-          },
-          {
-            "_id": "017005FF-E903-4AA0-A3BA-279483E1B1F3",
-            "code": "是否需要发票",
-            "default_value": "",
-            "is_required": false,
-            "is_wide": false,
-            "type": "select",
-            "rows": 4,
-            "digits": 0,
-            "options": "是\n否",
-            "has_others": false,
-            "is_multiselect": false,
-            "oldCode": "是否需要发票",
-            "is_list_display": true,
-            "is_searchable": true
-          },
-          {
             "_id": "EA24A1F7-A9B1-4C65-8A66-14DA181B1752",
             "code": "备注",
             "is_required": false,
@@ -184,7 +184,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -199,7 +199,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核'}}",
+            "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",
@@ -214,7 +214,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'相关部门会签'}}",
+            "formula": "{yijianlan:{step:'相关部门会签',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "相关部门会签意见",
@@ -229,7 +229,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'法务审核'}}",
+            "formula": "{yijianlan:{step:'法务审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "法务意见",
@@ -244,7 +244,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -258,7 +258,7 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "bbca535f64529f7b95b89782",
   "instance_style": "table",
   "is_subform": false,
   "import": true,
@@ -268,36 +268,36 @@ workflowTemplate["zh-CN"].push {
     {
       "name": "销售合同",
       "first_number": 1,
-      "rules": "[{YYYY}]XS第{NUMBER}号",
+      "rules": "{YYYY}-XS-{NUMBER}",
       "year": 2017,
       "number": 0
     }
   ],
   "flows": [
     {
-      "_id": "1fe415f79d99b0c775f821e1",
-      "name": "销售合同",
+      "_id": "61c57fc05e25f4332cc7797f",
+      "name": "销售合同审批",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "df519b04c5debfce4f1c9d95",
+      "form": "7d615e2d64a734016cc0209d",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:30:30.328Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 3,
+      "created": "2017-09-22T07:09:05.628Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 4,
       "current": {
-        "_id": "eb428e42-2139-4a17-ab6c-3ccc719c26f8",
-        "_rev": 5,
-        "flow": "1fe415f79d99b0c775f821e1",
-        "form_version": "89f1bec9-9191-4cf1-a39f-c2c7d9308f2e",
-        "modified": "2017-09-21T10:16:47.273Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T08:13:07.884Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T08:13:07.884Z",
+        "_id": "2401fe2e-8474-4a96-92b8-d8e8389c3cad",
+        "_rev": 3,
+        "flow": "61c57fc05e25f4332cc7797f",
+        "form_version": "5c845ece-5026-414c-a0f9-718adb51ad6b",
+        "modified": "2017-09-23T03:46:36.305Z",
+        "modified_by": "vmGnPPSnxepZeSLKh",
+        "created": "2017-09-23T03:46:29.044Z",
+        "created_by": "vmGnPPSnxepZeSLKh",
+        "start_date": "2017-09-23T03:46:29.044Z",
         "steps": [
           {
             "_id": "232350f9-94d4-4961-8cd2-0e034e2e2369",
@@ -378,7 +378,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -431,7 +431,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "gSqDxmG9DRA7oW9vR"
+              "KKSvgMqkkG4XQc8HX"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -455,7 +455,7 @@ workflowTemplate["zh-CN"].push {
               }
             ],
             "approver_roles_name": [
-              "法务"
+              "法务干事"
             ]
           },
           {
@@ -505,7 +505,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -571,8 +571,6 @@ workflowTemplate["zh-CN"].push {
       },
       "app": "workflow",
       "distribute_optional_users": [],
-      "modified_by": "kFePuCYbpHCe7R6dT",
-      "modified": "2017-09-20T06:32:16.489Z",
       "events": "CoreForm.custom_numToCny = function (num) {\n\nif(isNaN(num))return \"无效数值！\";\n\nvar strPrefix=\"\";\n\nif(num<0)strPrefix =\"(负)\";\n\nnum=Math.abs(num);\n\nif(num>=1000000000000)return \"无效数值！\";\n\nvar strOutput = \"\";\n\nvar strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';\n\nvar strCapDgt='零壹贰叁肆伍陆柒捌玖';\n\nnum += \"00\";\n\nvar intPos = num.indexOf('.');\n\nif (intPos >= 0){\n\nnum = num.substring(0, intPos) + num.substr(intPos + 1, 2);\n\n}\n\nstrUnit = strUnit.substr(strUnit.length - num.length);\n\nfor (var i=0; i < num.length; i++){\n\nstrOutput += strCapDgt.substr(num.substr(i,1),1) + strUnit.substr(i,1);\n\n}\n\nreturn strPrefix+strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g,'$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, \"零元\");\n\n};",
       "historys": []
     }

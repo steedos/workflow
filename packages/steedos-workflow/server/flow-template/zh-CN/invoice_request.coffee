@@ -1,4 +1,3 @@
-
 # 开发票申请
 workflowTemplate["zh-CN"].push {
 	"_id": "B5FA4ED2-DF62-4FD5-914B-419AC16A74E6",

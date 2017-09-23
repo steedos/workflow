@@ -1,22 +1,22 @@
-#用印申请
+# 用印申请
 workflowTemplate["zh-CN"].push {
-  "_id": "2bb54be884a2421b03ea3545",
+  "_id": "f48db79bccb1328e0bd45fbe",
   "name": "用印申请",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:30:38.847Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:05.528Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "9fff3d29-d582-4241-b072-7d9af3c12f04",
-    "_rev": 4,
-    "created": "2017-09-20T07:10:16.524Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:45:20.047Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-20T07:10:16.524Z",
-    "form": "2bb54be884a2421b03ea3545",
+    "_id": "6fe46985-b0c4-4df5-aeba-8b7baa5a838d",
+    "_rev": 2,
+    "created": "2017-09-23T03:16:25.046Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:16:25.072Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T03:16:25.046Z",
+    "form": "f48db79bccb1328e0bd45fbe",
     "form_script": "CoreForm.pageTitle= \"用印申请\";",
     "name_forumla": "{部门}+{提交人}+\"申请使用\"+{印章类型}",
     "fields": [
@@ -144,7 +144,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -159,7 +159,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'相关部门会签'}}",
+            "formula": "{yijianlan:{step:'相关部门会签',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "相关部门会签意见",
@@ -174,7 +174,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -189,37 +189,38 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "de12374c584e54677ccf1e23",
   "instance_style": "table",
   "is_subform": false,
   "import": true,
   "historys": [],
   "category_name": "行政",
+  "instance_number_rules": [],
   "flows": [
     {
-      "_id": "94235abb12d14c17d7f20984",
+      "_id": "3f47340448ae45fa17e8b086",
       "name": "用印申请",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "2bb54be884a2421b03ea3545",
+      "form": "f48db79bccb1328e0bd45fbe",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:30:38.874Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 4,
+      "created": "2017-09-22T07:09:05.551Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 5,
       "current": {
-        "_id": "d32c9dc2-ef88-41f0-9bbe-f6164fcce2e5",
-        "_rev": 5,
-        "flow": "94235abb12d14c17d7f20984",
-        "form_version": "9fff3d29-d582-4241-b072-7d9af3c12f04",
-        "modified": "2017-09-22T05:45:20.139Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T07:10:16.524Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T07:10:16.524Z",
+        "_id": "01e4e0b4-a4ad-4de5-911c-f2a5a09c3672",
+        "_rev": 2,
+        "flow": "3f47340448ae45fa17e8b086",
+        "form_version": "6fe46985-b0c4-4df5-aeba-8b7baa5a838d",
+        "modified": "2017-09-23T03:16:25.179Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T02:27:08.413Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T02:27:08.413Z",
         "steps": [
           {
             "_id": "d9ad1b1a-68b4-47d6-b769-fe9b6b8283fb",
@@ -266,8 +267,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 984.5,
-            "posy": 366.5,
+            "posx": 1041.5,
+            "posy": 359.5,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -291,7 +292,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -307,17 +308,10 @@ workflowTemplate["zh-CN"].push {
             "cc_alert": false,
             "lines": [
               {
-                "_id": "8f3ecaf5-efc0-4c82-9add-93828f2a3715",
-                "name": "",
-                "state": "approved",
-                "to_step": "1276fc19-4098-4434-a7b5-dfef9d6ea9f2",
-                "description": ""
-              },
-              {
                 "_id": "f51508cd-5b74-4ca0-b0c7-0bc2d047b15c",
                 "name": "",
                 "state": "approved",
-                "to_step": "2164a4c3-351b-4a83-b1ef-2d0caa9bc796",
+                "to_step": "552a3445-007c-4928-9575-4a28362759c9",
                 "description": ""
               }
             ],
@@ -326,87 +320,13 @@ workflowTemplate["zh-CN"].push {
             ]
           },
           {
-            "_id": "2164a4c3-351b-4a83-b1ef-2d0caa9bc796",
-            "name": "总经理审批",
-            "step_type": "sign",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 600,
-            "posy": 363,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "51af1b2f8e296a29c9000063"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "3ef61f77-97e5-4387-a3fb-71e858a3dc3f",
-                "name": "",
-                "state": "approved",
-                "to_step": "d33d1393-c98b-4f44-8d60-2dcc1581337a",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "总经理"
-            ]
-          },
-          {
-            "_id": "1276fc19-4098-4434-a7b5-dfef9d6ea9f2",
-            "name": "相关部门会签",
-            "step_type": "counterSign",
-            "deal_type": "pickupAtRuntime",
-            "description": "",
-            "posx": 356,
-            "posy": 209,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "5eae8dd7-474e-40e3-b2c3-0b2b5f7fadec",
-                "name": "",
-                "state": "submitted",
-                "to_step": "6395051b-de1a-41fe-91ad-3fd31f01a5ff",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": []
-          },
-          {
             "_id": "d33d1393-c98b-4f44-8d60-2dcc1581337a",
             "name": "提交人用印",
             "step_type": "submit",
             "deal_type": "applicant",
             "description": "",
-            "posx": 794,
-            "posy": 364,
+            "posx": 736,
+            "posy": 359,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -433,6 +353,45 @@ workflowTemplate["zh-CN"].push {
               }
             ],
             "approver_roles_name": []
+          },
+          {
+            "_id": "552a3445-007c-4928-9575-4a28362759c9",
+            "name": "办公室主任审批",
+            "step_type": "sign",
+            "deal_type": "applicantRole",
+            "description": "",
+            "posx": 504,
+            "posy": 361,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [
+              "AqmH9zAvsmKqgASRj"
+            ],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "617c02bc-9495-4e01-be08-afa74a787ecb",
+                "name": "",
+                "state": "approved",
+                "to_step": "d33d1393-c98b-4f44-8d60-2dcc1581337a",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": [
+              "办公室主任"
+            ]
           }
         ]
       },

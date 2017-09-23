@@ -1,23 +1,22 @@
-#出差费用报销
-
+# 出差费用报销
 workflowTemplate["zh-CN"].push {
-  "_id": "831a30ecde079b81ed60adc5",
+  "_id": "0de40f3f57c46dac721bf846",
   "name": "出差费用报销",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:28:26.594Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:04.630Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "42936401-9ca7-4d40-bced-21b564aaccda",
-    "_rev": 6,
-    "created": "2017-09-20T07:08:42.544Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:44:33.404Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-20T07:08:42.544Z",
-    "form": "831a30ecde079b81ed60adc5",
+    "_id": "6495ea2c-94c2-43a1-a221-a09dca823c27",
+    "_rev": 3,
+    "created": "2017-09-23T05:18:10.841Z",
+    "created_by": "vmGnPPSnxepZeSLKh",
+    "modified": "2017-09-23T05:39:00.676Z",
+    "modified_by": "vmGnPPSnxepZeSLKh",
+    "start_date": "2017-09-23T05:18:10.841Z",
+    "form": "0de40f3f57c46dac721bf846",
     "form_script": "CoreForm.pageTitle= \"出差费用报销\";",
     "name_forumla": "{部门}+{提交人}+{出差地点}+\"出差费用报销\"",
     "fields": [
@@ -53,7 +52,7 @@ workflowTemplate["zh-CN"].push {
             "_id": "7582D99C-F112-4DB2-A75F-BBBAB54A4FCA",
             "code": "职务",
             "default_value": "{applicant.position}",
-            "is_required": true,
+            "is_required": false,
             "is_wide": false,
             "type": "input",
             "rows": 4,
@@ -390,7 +389,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -405,7 +404,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核'}}",
+            "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",
@@ -420,7 +419,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'财务部审核'}}",
+            "formula": "{yijianlan:{step:'财务部审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "财务部经理意见",
@@ -435,7 +434,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -449,40 +448,41 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "bbca535f64529f7b95b89782",
   "instance_style": "table",
   "is_subform": false,
+  "import": true,
   "approve_on_create": false,
   "approve_on_modify": false,
   "approve_on_delete": false,
-  "import": true,
   "historys": [],
   "category_name": "财务",
+  "instance_number_rules": [],
   "flows": [
     {
-      "_id": "6315192196a5dc74c7c046fa",
+      "_id": "a8dda1004a5d695005b7e852",
       "name": "出差费用报销",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "831a30ecde079b81ed60adc5",
+      "form": "0de40f3f57c46dac721bf846",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:28:26.626Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
+      "created": "2017-09-22T07:09:04.647Z",
+      "created_by": "5194c66ef4a563537a000003",
       "current_no": 3,
       "current": {
-        "_id": "d4f8440f-f72e-4928-9a34-d33641d0782d",
-        "_rev": 9,
-        "flow": "6315192196a5dc74c7c046fa",
-        "form_version": "42936401-9ca7-4d40-bced-21b564aaccda",
-        "modified": "2017-09-22T05:44:33.524Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T07:08:20.567Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T07:08:20.567Z",
+        "_id": "147f14df-d2d4-4ae6-bf71-7dcab3b457ec",
+        "_rev": 3,
+        "flow": "a8dda1004a5d695005b7e852",
+        "form_version": "6495ea2c-94c2-43a1-a221-a09dca823c27",
+        "modified": "2017-09-23T05:39:00.787Z",
+        "modified_by": "vmGnPPSnxepZeSLKh",
+        "created": "2017-09-23T05:18:10.841Z",
+        "created_by": "vmGnPPSnxepZeSLKh",
+        "start_date": "2017-09-23T05:18:10.841Z",
         "steps": [
           {
             "_id": "0C8693C6-2538-4EFD-B85E-AB9016F0F369",
@@ -578,7 +578,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -652,7 +652,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "530ad822334904539e000ae9"
+              "itzPjPiMpFa8jxtx6"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -691,7 +691,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1dd18e296a29c900007f"
+              "hSQsvQw7jcbK3DLKt"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -730,7 +730,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -842,7 +842,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "fM2c7opzHmqyWj4r3"
+              "AqmH9zAvsmKqgASRj"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -890,7 +890,7 @@ workflowTemplate["zh-CN"].push {
             "lines": [
               {
                 "_id": "65a36767-2472-455b-aa31-2e6aa42b8cf3",
-                "name": "",
+                "name": "部门经理",
                 "state": "submitted",
                 "condition": "{applicant.roles}.contains('部门经理') ||  {applicant.organization.name}='办公室'",
                 "to_step": "8ec3ed61-2c74-41be-ad10-d3f8c11c2375",
@@ -898,7 +898,7 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "b36cd31a-421d-419c-92cd-7f7d946c9028",
-                "name": "",
+                "name": "普通员工",
                 "state": "submitted",
                 "condition": "!({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
                 "to_step": "49539831-6b82-4f59-85b9-ea103e828fd0",
@@ -906,7 +906,7 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "20ae23d1-9d1d-4c35-b903-0a77d1a237eb",
-                "name": "",
+                "name": "办公室主任",
                 "state": "submitted",
                 "condition": "{applicant.roles}.contains('办公室主任')",
                 "to_step": "13925f58-f1eb-4635-adf2-910a6fa06c54",

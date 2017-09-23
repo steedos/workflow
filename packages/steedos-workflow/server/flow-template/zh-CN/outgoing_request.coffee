@@ -1,4 +1,3 @@
-
 # 外出申请、报告
 workflowTemplate["zh-CN"].push {
 	"_id": "CA2A76B2-105D-4F47-8174-C508AFB293AD",

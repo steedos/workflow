@@ -1,4 +1,3 @@
-
 # 采购申请
 workflowTemplate["zh-CN"].push {
 	"_id": "DA0B0046-D48D-4842-B548-8A46D5294529",

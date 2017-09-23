@@ -1,22 +1,22 @@
 #收文单
 workflowTemplate["zh-CN"].push {
-  "_id": "8b8f52b153213dbabdf8f0a3",
+  "_id": "3596cffb0503cf40b16a01b5",
   "name": "收文单",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:30:22.032Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:05.469Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "aa525957-abda-4239-ab7b-d8e125060acc",
-    "_rev": 4,
-    "created": "2017-09-21T09:43:49.395Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:44:57.835Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-21T09:43:49.395Z",
-    "form": "8b8f52b153213dbabdf8f0a3",
+    "_id": "68e7fa81-8cce-4928-aa1d-833afe5f7153",
+    "_rev": 2,
+    "created": "2017-09-23T03:15:50.262Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:22:58.162Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T03:15:50.262Z",
+    "form": "3596cffb0503cf40b16a01b5",
     "form_script": "CoreForm.pageTitle= \"收文单\";",
     "name_forumla": "{文件标题}",
     "fields": [
@@ -143,7 +143,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'办公室主任审核'}}",
+        "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -160,7 +160,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'领导阅签'}}",
+        "formula": "{yijianlan:{step:'领导阅签',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -176,7 +176,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'相关部门阅办'}}",
+        "formula": "{yijianlan:{step:'相关部门阅办',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -189,7 +189,7 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "de12374c584e54677ccf1e23",
   "instance_style": "table",
   "is_subform": false,
   "import": true,
@@ -199,36 +199,35 @@ workflowTemplate["zh-CN"].push {
     {
       "name": "收文",
       "first_number": 1,
-      "rules": "[{YYYY}]收文第{NUMBER}号",
-      "year": 2017,
+      "rules": "{YYYY}-SW-{NUMBER}",
       "number": 0
     }
   ],
   "flows": [
     {
-      "_id": "1785eff8614d107cb72dcab3",
+      "_id": "4f518afdbf0cfd38a9e0a458",
       "name": "收文",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
-      "is_valid": true,
-      "form": "8b8f52b153213dbabdf8f0a3",
+      "space": "p5f5hYMFZBMRhKmNj",
+      "is_valid": false,
+      "form": "3596cffb0503cf40b16a01b5",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:30:22.060Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 3,
+      "created": "2017-09-22T07:09:05.485Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 6,
       "current": {
-        "_id": "183a99cc-8d79-4729-9941-b59bc5beb1a0",
+        "_id": "16819d7b-67e0-4794-982f-4bbd5fc940a1",
         "_rev": 3,
-        "flow": "1785eff8614d107cb72dcab3",
-        "form_version": "aa525957-abda-4239-ab7b-d8e125060acc",
-        "modified": "2017-09-22T05:44:57.932Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T08:08:25.656Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T08:08:25.656Z",
+        "flow": "4f518afdbf0cfd38a9e0a458",
+        "form_version": "68e7fa81-8cce-4928-aa1d-833afe5f7153",
+        "modified": "2017-09-23T03:22:58.247Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T03:15:50.262Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T03:15:50.262Z",
         "steps": [
           {
             "_id": "a7b742ad-f1c9-423c-9bea-db426f76a2f0",
@@ -302,7 +301,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "A7C8iZDuwJCniMgo5"
+              "Bp9aSeYPFTZAZ8WzS"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -366,7 +365,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "cwFcwh6wwEEEXxqid"
+              "5MQMazZLnuGGgkvDH"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -440,7 +439,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "fM2c7opzHmqyWj4r3"
+              "AqmH9zAvsmKqgASRj"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -470,6 +469,7 @@ workflowTemplate["zh-CN"].push {
         ]
       },
       "app": "workflow",
+      "distribute_optional_users": [],
       "historys": []
     }
   ]
