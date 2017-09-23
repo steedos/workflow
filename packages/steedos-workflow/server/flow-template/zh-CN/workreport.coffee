@@ -1,24 +1,23 @@
-#一周工作报告
-
+# 本周工作小结
 workflowTemplate["zh-CN"].push {
-  "_id": "493EA553-9A56-4AEC-ACC4-1F375FF90A3F",
+  "_id": "9d488d78b73ac2607e50495d",
   "name": "本周工作小结",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-21T06:03:10.731Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:05.679Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "8122c28c-a04b-43ef-aef2-edbbea85ea48",
+    "_id": "44ee9cbd-926b-4f4f-9cb5-322ad2ac7b42",
     "_rev": 4,
-    "created": "2017-09-21T10:10:12.091Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-21T10:14:05.818Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-21T10:10:12.091Z",
-    "form": "493EA553-9A56-4AEC-ACC4-1F375FF90A3F",
-    "name_forumla": "{部门}+{提交人}+\"周工作报告\"",
+    "created": "2017-09-23T05:30:56.063Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T05:59:15.747Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T05:30:56.063Z",
+    "form": "9d488d78b73ac2607e50495d",
+    "name_forumla": "{部门}+{提交人}+\"周报\"",
     "fields": [
       {
         "_id": "28CB76CB-ECDF-4E6C-A55C-3F5B4AD4F2DE",
@@ -111,15 +110,16 @@ workflowTemplate["zh-CN"].push {
         "fields": [
           {
             "_id": "E955A6B4-ABE5-4446-8850-5B13BD0C868A",
-            "code": "部门经理审核",
+            "code": "部门领导审核",
             "is_required": false,
             "is_wide": true,
             "type": "input",
             "rows": 4,
             "digits": 0,
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "部门经理审核",
+            "oldCode": "部门领导审核",
             "is_textarea": true,
             "is_searchable": true
           },
@@ -131,6 +131,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理审批",
@@ -144,38 +145,38 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "647212454838d78cc6343db8",
   "instance_style": "table",
   "is_subform": false,
+  "import": true,
   "historys": [],
   "category_name": "人事",
+  "instance_number_rules": [],
   "flows": [
     {
-      "_id": "9884d234-ea18-4ed6-81f9-d2767c24609e",
-      "name": "周工作报告",
+      "_id": "dd3b3606733bcfcd8062a8fc",
+      "name": "工作周报",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
-      "description": "",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "493EA553-9A56-4AEC-ACC4-1F375FF90A3F",
+      "form": "9d488d78b73ac2607e50495d",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-21T06:03:10.731Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "help_text": "",
-      "current_no": 0,
+      "created": "2017-09-22T07:09:05.694Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 10,
       "current": {
-        "_id": "79ea1e36-28e5-432e-98c5-babbb942fca8",
-        "_rev": 2,
-        "flow": "9884d234-ea18-4ed6-81f9-d2767c24609e",
-        "form_version": "8122c28c-a04b-43ef-aef2-edbbea85ea48",
-        "modified": "2017-09-21T10:14:05.924Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-21T08:35:31.142Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-21T08:35:31.142Z",
+        "_id": "f161baa9-95f5-4755-bbcc-67ee4ea201aa",
+        "_rev": 7,
+        "flow": "dd3b3606733bcfcd8062a8fc",
+        "form_version": "44ee9cbd-926b-4f4f-9cb5-322ad2ac7b42",
+        "modified": "2017-09-23T05:59:15.870Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T05:59:15.870Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T05:59:15.870Z",
         "steps": [
           {
             "_id": "41e1a601-a06f-4039-a6c3-1d6b809b1e59",
@@ -183,8 +184,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "start",
             "deal_type": "",
             "description": "",
-            "posx": 115.75,
-            "posy": 257,
+            "posx": 120.75,
+            "posy": 264,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
@@ -223,8 +224,8 @@ workflowTemplate["zh-CN"].push {
             "step_type": "end",
             "deal_type": "",
             "description": "",
-            "posx": 901.25,
-            "posy": 261,
+            "posx": 714.25,
+            "posy": 260,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [],
@@ -257,7 +258,7 @@ workflowTemplate["zh-CN"].push {
             "lines": [
               {
                 "_id": "5e627079-5aae-4ba4-b13f-c923a7757f44",
-                "name": "",
+                "name": "是",
                 "state": "submitted",
                 "condition": "({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
                 "to_step": "3f8ead25-0e43-4726-ae98-fc94ab056745",
@@ -265,18 +266,10 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "283c59af-3e09-4827-9970-ddd2bc6d745a",
-                "name": "",
+                "name": "否",
                 "state": "submitted",
                 "condition": "!({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
                 "to_step": "9526d99c-4ef5-44c2-baba-0c6eb2c35661",
-                "description": ""
-              },
-              {
-                "_id": "1ee01d2b-715c-40b3-8dd5-3704054c3be6",
-                "name": "",
-                "state": "submitted",
-                "condition": "({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
-                "to_step": "3971485b-15c8-45a8-97b6-ad464fdf3d5d",
                 "description": ""
               }
             ],
@@ -288,13 +281,13 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 479,
-            "posy": 137,
+            "posx": 524,
+            "posy": 148,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -313,7 +306,7 @@ workflowTemplate["zh-CN"].push {
                 "_id": "ec4abaa2-ec22-429c-9d94-933119ac2809",
                 "name": "",
                 "state": "approved",
-                "to_step": "3971485b-15c8-45a8-97b6-ad464fdf3d5d",
+                "to_step": "6f4b138b-7923-4357-857a-4235883e206a",
                 "description": ""
               }
             ],
@@ -327,13 +320,13 @@ workflowTemplate["zh-CN"].push {
             "step_type": "sign",
             "deal_type": "applicantRole",
             "description": "",
-            "posx": 481,
-            "posy": 367,
+            "posx": 536,
+            "posy": 376,
             "timeout_hours": 168,
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -352,56 +345,16 @@ workflowTemplate["zh-CN"].push {
                 "_id": "05c5bfe3-2b12-4bb3-8523-a2a0ad5ed931",
                 "name": "",
                 "state": "approved",
-                "to_step": "3971485b-15c8-45a8-97b6-ad464fdf3d5d",
+                "to_step": "6f4b138b-7923-4357-857a-4235883e206a",
                 "description": ""
               }
             ],
             "approver_roles_name": [
               "总经理"
             ]
-          },
-          {
-            "_id": "3971485b-15c8-45a8-97b6-ad464fdf3d5d",
-            "name": "人事部备案",
-            "step_type": "submit",
-            "deal_type": "applicantRole",
-            "description": "",
-            "posx": 710,
-            "posy": 264,
-            "timeout_hours": 168,
-            "approver_user_field": "",
-            "approver_org_field": "",
-            "approver_roles": [
-              "aHSKdRYwTRheTP6Sr"
-            ],
-            "approver_orgs": [],
-            "approver_users": [],
-            "approver_step": "",
-            "fields_modifiable": [],
-            "permissions": {},
-            "disableCC": false,
-            "allowDistribute": false,
-            "can_edit_main_attach": false,
-            "can_edit_normal_attach": true,
-            "distribute_optional_flows": [],
-            "cc_must_finished": false,
-            "cc_alert": false,
-            "lines": [
-              {
-                "_id": "9ec87417-ba58-4e6e-afac-ecb151790a7c",
-                "name": "",
-                "state": "submitted",
-                "to_step": "6f4b138b-7923-4357-857a-4235883e206a",
-                "description": ""
-              }
-            ],
-            "approver_roles_name": [
-              "人事专员"
-            ]
           }
         ]
       },
-      "error_message": "",
       "app": "workflow",
       "distribute_optional_users": [],
       "historys": []

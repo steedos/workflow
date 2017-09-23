@@ -2,8 +2,8 @@
 	<div class="weui-tabbar">
 		{{#each getSpaceTopApps 2}}
 			<a class="weui-tabbar__item {{#if isAppActive this}} weui-bar__item_on {{/if}} top-apps-item">
-				<i class="weui-tabbar__icon ion ion-ios-book-outline"></i>
-				<p class="weui-tabbar__label">{{_ name}}</p>
+				<i class="weui-tabbar__icon ion {{this.icon}}"></i>
+				<p class="weui-tabbar__label">{{_ this.name}}</p>
 			</a>
 		{{/each}}
 		<a href="/springboard" class="weui-tabbar__item {{#if isAppActive '/springboard'}} weui-bar__item_on {{/if}}">

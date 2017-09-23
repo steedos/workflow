@@ -1,22 +1,22 @@
 #付款申请
 workflowTemplate["zh-CN"].push {
-  "_id": "23f73bf03e4cf8f04437c90f",
+  "_id": "bec1bb54dada073bbd0b93ba",
   "name": "付款申请",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
-  "created": "2017-09-14T02:30:10.840Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:04.472Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "9e18a5e0-7d3e-4d52-9d21-7b2d52b74136",
-    "_rev": 8,
-    "created": "2017-09-22T05:44:06.077Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:44:06.138Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-22T05:44:06.077Z",
-    "form": "23f73bf03e4cf8f04437c90f",
+    "_id": "610b9048-60a9-4923-8779-82c7d697b281",
+    "_rev": 2,
+    "created": "2017-09-23T03:17:27.671Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T05:37:08.689Z",
+    "modified_by": "vmGnPPSnxepZeSLKh",
+    "start_date": "2017-09-23T03:17:27.671Z",
+    "form": "bec1bb54dada073bbd0b93ba",
     "form_script": "CoreForm.pageTitle= \"付款申请\";",
     "name_forumla": "{部门}+{提交人}+\"申请付款\"",
     "fields": [
@@ -274,7 +274,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -290,7 +290,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核'}}",
+            "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",
@@ -305,7 +305,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'财务部审核'}}",
+            "formula": "{yijianlan:{step:'财务部审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "财务部经理意见",
@@ -321,7 +321,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -400,40 +400,41 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "bbca535f64529f7b95b89782",
   "instance_style": "table",
   "is_subform": false,
+  "import": true,
   "approve_on_create": false,
   "approve_on_modify": false,
   "approve_on_delete": false,
-  "import": true,
   "historys": [],
   "category_name": "财务",
+  "instance_number_rules": [],
   "flows": [
     {
-      "_id": "397a7414666498c0316ca302",
+      "_id": "7a5ba270331478d6c7ffbc7a",
       "name": "付款申请",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "23f73bf03e4cf8f04437c90f",
+      "form": "bec1bb54dada073bbd0b93ba",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:30:10.864Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 4,
+      "created": "2017-09-22T07:09:04.519Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 5,
       "current": {
-        "_id": "9e8c84e7-c8d8-4356-b575-4aac50c1690c",
-        "_rev": 8,
-        "flow": "397a7414666498c0316ca302",
-        "form_version": "9e18a5e0-7d3e-4d52-9d21-7b2d52b74136",
-        "modified": "2017-09-22T05:44:06.346Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-22T05:44:06.077Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-22T05:44:06.077Z",
+        "_id": "8ac40947-8622-4a50-a7a7-4080a5d4c364",
+        "_rev": 2,
+        "flow": "7a5ba270331478d6c7ffbc7a",
+        "form_version": "610b9048-60a9-4923-8779-82c7d697b281",
+        "modified": "2017-09-23T05:37:08.770Z",
+        "modified_by": "vmGnPPSnxepZeSLKh",
+        "created": "2017-09-23T03:17:27.671Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T03:17:27.671Z",
         "steps": [
           {
             "_id": "430331D2-2CD3-4387-95A4-999CD9967302",
@@ -497,7 +498,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "530ad822334904539e000ae9"
+              "itzPjPiMpFa8jxtx6"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -596,7 +597,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -635,7 +636,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -674,7 +675,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1dd18e296a29c900007f"
+              "hSQsvQw7jcbK3DLKt"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -713,7 +714,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "fM2c7opzHmqyWj4r3"
+              "AqmH9zAvsmKqgASRj"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -761,7 +762,7 @@ workflowTemplate["zh-CN"].push {
             "lines": [
               {
                 "_id": "653f2c96-6e50-403d-8679-96f234a5163c",
-                "name": "",
+                "name": "是",
                 "state": "submitted",
                 "condition": "{本次付款金额}>3000",
                 "to_step": "d7e333b4-2931-46e7-b297-78092a6a4920",
@@ -769,7 +770,7 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "675c9645-ce30-4065-a0cc-340a55ec1b0a",
-                "name": "",
+                "name": "否",
                 "state": "submitted",
                 "condition": "{本次付款金额}<=3000",
                 "to_step": "4334bac0-2567-4b43-b057-497fdceb9b27",
@@ -782,8 +783,6 @@ workflowTemplate["zh-CN"].push {
       },
       "app": "workflow",
       "distribute_optional_users": [],
-      "modified_by": "kFePuCYbpHCe7R6dT",
-      "modified": "2017-09-20T06:31:45.936Z",
       "events": "CoreForm.custom_numToCny = function (num) {\n\nif(isNaN(num))return \"无效数值！\";\n\nvar strPrefix=\"\";\n\nif(num<0)strPrefix =\"(负)\";\n\nnum=Math.abs(num);\n\nif(num>=1000000000000)return \"无效数值！\";\n\nvar strOutput = \"\";\n\nvar strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分';\n\nvar strCapDgt='零壹贰叁肆伍陆柒捌玖';\n\nnum += \"00\";\n\nvar intPos = num.indexOf('.');\n\nif (intPos >= 0){\n\nnum = num.substring(0, intPos) + num.substr(intPos + 1, 2);\n\n}\n\nstrUnit = strUnit.substr(strUnit.length - num.length);\n\nfor (var i=0; i < num.length; i++){\n\nstrOutput += strCapDgt.substr(num.substr(i,1),1) + strUnit.substr(i,1);\n\n}\n\nreturn strPrefix+strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g,'$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, \"零元\");\n\n};",
       "historys": []
     }

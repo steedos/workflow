@@ -1,23 +1,23 @@
 #发文
 workflowTemplate["zh-CN"].push {
-  "_id": "7edc5ac69f4bc8839d9e6ce0",
+  "_id": "808b650f9dcdebf5f6797cff",
   "name": "发文稿纸",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
+  "space": "p5f5hYMFZBMRhKmNj",
   "description": "",
-  "created": "2017-09-14T02:28:34.766Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "created": "2017-09-22T07:09:05.345Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "35673150-bcda-4730-b6fb-860e69c056e0",
-    "_rev": 4,
-    "created": "2017-09-21T09:40:02.315Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-21T10:13:48.192Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-21T09:40:02.315Z",
-    "form": "7edc5ac69f4bc8839d9e6ce0",
+    "_id": "c4b69b0f-27b8-424b-90d1-748e28225688",
+    "_rev": 2,
+    "created": "2017-09-23T03:22:14.486Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:22:18.442Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T03:22:14.486Z",
+    "form": "808b650f9dcdebf5f6797cff",
     "form_script": "CoreForm.pageTitle= \"发文稿纸\";\nCoreForm.form_OnLoad = function() {\n    $(\"#instanceform\").find(\"table\").addClass(\"font-color-red border-color-red border-left-none border-right-none\")     \n}\n",
     "name_forumla": "{文件标题}",
     "fields": [
@@ -82,7 +82,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'部门领导审核'}}",
+        "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -98,7 +98,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'办公室主任审核'}}",
+        "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -115,7 +115,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'主管领导签发'}}",
+        "formula": "{yijianlan:{step:'主管领导签发',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -132,7 +132,7 @@ workflowTemplate["zh-CN"].push {
         "type": "input",
         "rows": 4,
         "digits": 0,
-        "formula": "{yijianlan:{step:'相关部门会签'}}",
+        "formula": "{yijianlan:{step:'相关部门会签',default:'已阅'}}",
         "has_others": false,
         "is_multiselect": false,
         "is_list_display": false,
@@ -255,7 +255,7 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "de12374c584e54677ccf1e23",
   "instance_style": "table",
   "is_subform": false,
   "import": true,
@@ -267,35 +267,36 @@ workflowTemplate["zh-CN"].push {
     {
       "name": "发文",
       "first_number": 1,
+      "rules": "{YYYY}-FW-{NUMBER}",
       "year": 2017,
       "number": 0
     }
   ],
   "flows": [
     {
-      "_id": "9e1a3faa618a0a3578cbd26a",
+      "_id": "45f2a4f816e903bd305e970a",
       "name": "发文",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "7edc5ac69f4bc8839d9e6ce0",
+      "form": "808b650f9dcdebf5f6797cff",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:28:34.786Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 6,
+      "created": "2017-09-22T07:09:05.361Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 7,
       "current": {
-        "_id": "2448eec6-95e1-49c9-9f13-d7fc966d7051",
-        "_rev": 6,
-        "flow": "9e1a3faa618a0a3578cbd26a",
-        "form_version": "35673150-bcda-4730-b6fb-860e69c056e0",
-        "modified": "2017-09-21T10:13:48.301Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T08:03:34.380Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T08:03:34.380Z",
+        "_id": "4cf51914-8520-4a81-9705-117b8ba42e48",
+        "_rev": 2,
+        "flow": "45f2a4f816e903bd305e970a",
+        "form_version": "c4b69b0f-27b8-424b-90d1-748e28225688",
+        "modified": "2017-09-23T03:22:18.560Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T03:22:14.486Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T03:22:14.486Z",
         "steps": [
           {
             "_id": "7dafd98d-8dc1-4fa9-9be9-0d5f33de28fe",
@@ -463,7 +464,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "A7C8iZDuwJCniMgo5"
+              "Bp9aSeYPFTZAZ8WzS"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -512,7 +513,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -558,7 +559,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "cwFcwh6wwEEEXxqid"
+              "5MQMazZLnuGGgkvDH"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -599,7 +600,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "fM2c7opzHmqyWj4r3"
+              "AqmH9zAvsmKqgASRj"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -638,7 +639,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "A7C8iZDuwJCniMgo5"
+              "Bp9aSeYPFTZAZ8WzS"
             ],
             "approver_orgs": [],
             "approver_users": [],

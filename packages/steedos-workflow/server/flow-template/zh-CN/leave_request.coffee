@@ -1,23 +1,23 @@
 #请假申请
 workflowTemplate["zh-CN"].push {
-  "_id": "6cf576e09308ec1acac7d760",
+  "_id": "c2a64ac0934e389f99b550f1",
   "name": "请假申请",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
+  "space": "p5f5hYMFZBMRhKmNj",
   "description": "",
-  "created": "2017-09-14T02:29:02.434Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "created": "2017-09-22T07:09:05.037Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "17e6447f-1dd5-440c-9b67-ed1a29db9bb0",
-    "_rev": 4,
-    "created": "2017-09-20T09:53:32.048Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:45:40.626Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-20T09:53:32.048Z",
-    "form": "6cf576e09308ec1acac7d760",
+    "_id": "42367e88-3018-48c2-bedc-4e1a2207ffb2",
+    "_rev": 2,
+    "created": "2017-09-23T03:10:01.902Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T05:36:01.661Z",
+    "modified_by": "vmGnPPSnxepZeSLKh",
+    "start_date": "2017-09-23T03:10:01.902Z",
+    "form": "c2a64ac0934e389f99b550f1",
     "form_script": "CoreForm.pageTitle= \"请假申请\";",
     "name_forumla": "{部门}+{提交人}+\"请\"+{请假类别}+{tianshu}+\"天\"",
     "fields": [
@@ -139,7 +139,6 @@ workflowTemplate["zh-CN"].push {
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "tianshu",
-            "is_list_display": true,
             "is_searchable": true
           },
           {
@@ -202,6 +201,7 @@ workflowTemplate["zh-CN"].push {
         "is_multiselect": false,
         "is_list_display": false,
         "is_searchable": false,
+        "oldCode": "审批意见",
         "fields": [
           {
             "_id": "40122076-CED7-4AC0-8A96-E64F419EE516",
@@ -211,7 +211,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -227,7 +227,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -241,40 +241,41 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "647212454838d78cc6343db8",
   "instance_style": "table",
   "is_subform": false,
+  "import": true,
   "approve_on_create": false,
   "approve_on_modify": false,
   "approve_on_delete": false,
-  "import": true,
   "historys": [],
   "category_name": "人事",
+  "instance_number_rules": [],
   "flows": [
     {
-      "_id": "ca06b32f47002ce1c8b89795",
+      "_id": "59408d4a4f9105a9dc225220",
       "name": "请假申请",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
+      "space": "p5f5hYMFZBMRhKmNj",
       "is_valid": true,
-      "form": "6cf576e09308ec1acac7d760",
+      "form": "c2a64ac0934e389f99b550f1",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:29:02.453Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 3,
+      "created": "2017-09-22T07:09:05.050Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 6,
       "current": {
-        "_id": "32f7ed7b-8774-4931-90f4-97e227ff80d8",
-        "_rev": 5,
-        "flow": "ca06b32f47002ce1c8b89795",
-        "form_version": "17e6447f-1dd5-440c-9b67-ed1a29db9bb0",
-        "modified": "2017-09-22T05:45:40.720Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T08:10:41.257Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T08:10:41.257Z",
+        "_id": "7a8cc18f-0d83-42b5-bd12-5fa5f9782214",
+        "_rev": 3,
+        "flow": "59408d4a4f9105a9dc225220",
+        "form_version": "42367e88-3018-48c2-bedc-4e1a2207ffb2",
+        "modified": "2017-09-23T05:36:01.776Z",
+        "modified_by": "vmGnPPSnxepZeSLKh",
+        "created": "2017-09-23T05:35:45.022Z",
+        "created_by": "vmGnPPSnxepZeSLKh",
+        "start_date": "2017-09-23T05:35:45.022Z",
         "steps": [
           {
             "_id": "6830383D-DB38-4352-A988-E29712A12C92",
@@ -357,7 +358,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -405,7 +406,7 @@ workflowTemplate["zh-CN"].push {
             "lines": [
               {
                 "_id": "967dd23d-795c-4590-90a9-0368b1a8631a",
-                "name": "",
+                "name": "是",
                 "state": "submitted",
                 "condition": "{tianshu}>1",
                 "to_step": "83d3b9a3-d876-4983-9d4d-772aa61bcf42",
@@ -413,7 +414,7 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "82a931e7-aaad-414e-8dc7-ed2834e3a95b",
-                "name": "",
+                "name": "否",
                 "state": "submitted",
                 "condition": "{tianshu}<=1",
                 "to_step": "8f1100e3-2b99-4014-b00e-706a610de158",
@@ -469,7 +470,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "aHSKdRYwTRheTP6Sr"
+              "49c9nPdKtbhrHhHbm"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -508,7 +509,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -556,7 +557,7 @@ workflowTemplate["zh-CN"].push {
             "lines": [
               {
                 "_id": "e5c7ea32-5613-48a2-9172-d1c741a9a346",
-                "name": "",
+                "name": "否",
                 "state": "submitted",
                 "condition": "!({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
                 "to_step": "bf09e1b6-5ad9-4c3b-8df9-40471cbb6415",
@@ -564,7 +565,7 @@ workflowTemplate["zh-CN"].push {
               },
               {
                 "_id": "c5f208cc-97d0-405c-a188-e9aa6ea2d4aa",
-                "name": "",
+                "name": "是",
                 "state": "submitted",
                 "condition": "({applicant.roles}.contains('部门经理') || {applicant.roles}.contains('办公室主任'))",
                 "to_step": "83d3b9a3-d876-4983-9d4d-772aa61bcf42",

@@ -1,23 +1,23 @@
-#请示报告
+# 请示报告
 workflowTemplate["zh-CN"].push {
-  "_id": "b87f4e15ab3e143c25d77307",
+  "_id": "e2cdc13848b51d181618bc80",
   "name": "请示报告",
   "state": "enabled",
   "is_deleted": false,
   "is_valid": true,
-  "space": "51ae9b1a8e296a29c9000001",
+  "space": "p5f5hYMFZBMRhKmNj",
   "description": "",
-  "created": "2017-09-14T02:29:19.243Z",
-  "created_by": "kFePuCYbpHCe7R6dT",
+  "created": "2017-09-22T07:09:05.118Z",
+  "created_by": "5194c66ef4a563537a000003",
   "current": {
-    "_id": "6345acb0-5be3-40e1-8de0-d4634f5c9442",
+    "_id": "d7378075-937a-4c74-bd5c-961518d2a6ec",
     "_rev": 4,
-    "created": "2017-09-21T09:52:20.758Z",
-    "created_by": "kFePuCYbpHCe7R6dT",
-    "modified": "2017-09-22T05:45:48.678Z",
-    "modified_by": "kFePuCYbpHCe7R6dT",
-    "start_date": "2017-09-21T09:52:20.758Z",
-    "form": "b87f4e15ab3e143c25d77307",
+    "created": "2017-09-23T03:02:39.838Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:03:27.277Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T03:02:39.838Z",
+    "form": "e2cdc13848b51d181618bc80",
     "form_script": "CoreForm.pageTitle= \"请示报告\";",
     "name_forumla": "{文件标题}",
     "fields": [
@@ -122,7 +122,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'部门领导审核'}}",
+            "formula": "{yijianlan:{step:'部门领导审核',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "部门领导意见",
@@ -131,16 +131,16 @@ workflowTemplate["zh-CN"].push {
           },
           {
             "_id": "E15E0D02-5ED8-4F2F-B2F5-220911BCD0F0",
-            "code": "办公室主任意见",
+            "code": "部门会签意见",
             "is_required": false,
             "is_wide": true,
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核'}}",
+            "formula": "{yijianlan:{step:'相关部门会签',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
-            "oldCode": "办公室主任意见",
+            "oldCode": "部门会签意见",
             "is_textarea": true,
             "is_searchable": true
           },
@@ -152,7 +152,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'总经理审批'}}",
+            "formula": "{yijianlan:{step:'总经理审批',default:'已阅'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "总经理意见",
@@ -166,7 +166,7 @@ workflowTemplate["zh-CN"].push {
   "enable_workflow": false,
   "enable_view_others": false,
   "app": "workflow",
-  "category": "59b9f331527eca4fc200001e",
+  "category": "de12374c584e54677ccf1e23",
   "instance_style": "table",
   "is_subform": false,
   "import": true,
@@ -176,36 +176,36 @@ workflowTemplate["zh-CN"].push {
     {
       "name": "请示报告",
       "first_number": 1,
-      "rules": "[{YYYY}]请示报告第{NUMBER}号",
+      "rules": "{YYYY}-QSBG-{NUMBER}",
       "year": 2017,
       "number": 0
     }
   ],
   "flows": [
     {
-      "_id": "1ba35d93ccdeebf1c766b208",
+      "_id": "3a52f0b77d9ac76d7f35ed84",
       "name": "请示报告",
       "name_formula": "",
       "code_formula": "",
-      "space": "51ae9b1a8e296a29c9000001",
-      "is_valid": true,
-      "form": "b87f4e15ab3e143c25d77307",
+      "space": "p5f5hYMFZBMRhKmNj",
+      "is_valid": false,
+      "form": "e2cdc13848b51d181618bc80",
       "flowtype": "new",
       "state": "enabled",
       "is_deleted": false,
-      "created": "2017-09-14T02:29:19.270Z",
-      "created_by": "kFePuCYbpHCe7R6dT",
-      "current_no": 3,
+      "created": "2017-09-22T07:09:05.145Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 6,
       "current": {
-        "_id": "ccf3fa0f-b419-49ef-8ac7-8c59968b0554",
-        "_rev": 5,
-        "flow": "1ba35d93ccdeebf1c766b208",
-        "form_version": "6345acb0-5be3-40e1-8de0-d4634f5c9442",
-        "modified": "2017-09-22T05:45:48.773Z",
-        "modified_by": "kFePuCYbpHCe7R6dT",
-        "created": "2017-09-20T08:11:50.052Z",
-        "created_by": "kFePuCYbpHCe7R6dT",
-        "start_date": "2017-09-20T08:11:50.052Z",
+        "_id": "b50936d4-9fff-458c-a16e-2eebb77f5e9d",
+        "_rev": 2,
+        "flow": "3a52f0b77d9ac76d7f35ed84",
+        "form_version": "d7378075-937a-4c74-bd5c-961518d2a6ec",
+        "modified": "2017-09-23T03:03:27.375Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T02:56:43.329Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T02:56:43.329Z",
         "steps": [
           {
             "_id": "96c24165-7a31-424c-b2ba-51874f30cbbb",
@@ -278,7 +278,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "51af1b2f8e296a29c9000063"
+              "2EXJTFGNWKhvtreBv"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -317,7 +317,7 @@ workflowTemplate["zh-CN"].push {
             "approver_user_field": "",
             "approver_org_field": "",
             "approver_roles": [
-              "4GzKuzw4ke3BWscN8"
+              "h6krqeiiRBQurhnH4"
             ],
             "approver_orgs": [],
             "approver_users": [],
@@ -395,6 +395,7 @@ workflowTemplate["zh-CN"].push {
           }
         ]
       },
+      "distribute_optional_users": [],
       "historys": []
     }
   ]
