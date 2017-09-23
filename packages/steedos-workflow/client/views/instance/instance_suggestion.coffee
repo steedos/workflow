@@ -266,7 +266,7 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
-		InstanceManager.checkSuggestion();
+		InstanceManager.checkSuggestion(0);
 
 	# 'change .nextSteps': (event) ->
 	# 	if event.target.name == 'nextSteps'

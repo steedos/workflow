@@ -268,6 +268,11 @@ function showMessage(parent_group, message) {
 	}
 }
 
+function showMessageInblock(parent_group, message) {
+	parent_group.addClass("has-error");
+	$(".help-block", parent_group).html(message);
+}
+
 function removeMessage(parent_group) {
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
@@ -347,14 +352,18 @@ InstanceManager.checkNextStepUser = function() {
 }
 
 //如果是驳回必须填写意见
-InstanceManager.checkSuggestion = function() {
+InstanceManager.checkSuggestion = function(alter) {
 	var judge = $("[name='judge']").filter(':checked').val();
 	var suggestion_parent_group = $("#suggestion").parent();
 	if (judge && judge == 'rejected') {
 		if ($("#suggestion").val())
 			removeMessage(suggestion_parent_group);
 		else
-			showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			if(alter == 0)
+				showMessageInblock(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			else{
+				showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			}
 	} else {
 		removeMessage(suggestion_parent_group);
 	}
