@@ -388,13 +388,9 @@ Package.onUse(function(api) {
 	// workflow_template（zh-CN）
 	api.addFiles('server/flow-template/zh-CN/payment_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/travel_expenses.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/car_rental_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/outgoing_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/invoice_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/daily_expenses.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/purchase_contract.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/issued_document.coffee', 'server');
 	api.addFiles('server/flow-template/zh-CN/metting_document.coffee', 'server');
