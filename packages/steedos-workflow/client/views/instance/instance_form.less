@@ -359,6 +359,26 @@ textarea {
 	}
 }
 
+.instance-default{
+	.instance-form{
+		.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+			background-color: #FFFFFF;
+			opacity: 1;
+			color: black;
+		}
+		
+		.inbox,.draft{
+			.form-control{
+				background-color: rgba(255, 255, 0, 0.03);
+			}
+		}
+
+		.field-editable{
+			background-color: rgba(255, 255, 0, 0.03) !important;
+		}
+	}
+}
+
 .instance{
   p{
     margin: 0 0 0 0;
@@ -375,20 +395,6 @@ textarea {
   }
 
   .instance-form{
-
-	  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-		  background-color: #FFFFFF;
-		  opacity: 1;
-		  color: black;
-	  }
-
-	  .form-control{
-		  background-color: rgba(255, 255, 0, 0.03);
-	  }
-
-	  .field-editable{
-		  background-color: rgba(255, 255, 0, 0.03) !important;
-	  }
 
     .box-body{
       &>.col-md-12{

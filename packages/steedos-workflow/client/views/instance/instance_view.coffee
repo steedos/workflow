@@ -36,11 +36,11 @@ Template.instance_view.helpers
 		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
-			return ""
+			return "instance-default"
 
 		if form?.instance_style == 'table'
 			return "instance-table"
-		return "";
+		return "instance-default";
 
 	showTracesView: (form, form_version)->
 		return TracesTemplate.helpers.showTracesView(form, form_version)
