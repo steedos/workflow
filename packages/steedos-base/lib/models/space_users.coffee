@@ -256,6 +256,8 @@ if (Meteor.isServer)
 				modifier.$set.organization = modifier.$set.organizations[0]
 
 		newMobile = modifier.$set.mobile
+		# 当把手机号设置为空值时，newMobile为undefined，modifier.$unset.mobile为空字符串
+		isMobileCleared = modifier.$unset.mobile != undefined
 		if  newMobile != doc.mobile
 			if newMobile
 				if Steedos.isPhoneEnabled()
@@ -283,7 +285,7 @@ if (Meteor.isServer)
 					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
 					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
 
-			else
+			else if isMobileCleared
 				user_unset = {}
 				user_unset.phone = ""
 				user_unset.mobile = ""
@@ -291,7 +293,7 @@ if (Meteor.isServer)
 				db.users.update({_id: doc.user}, {$unset: user_unset})
 
 
-			if Steedos.isPhoneEnabled()
+			if (newMobile or isMobileCleared) and Steedos.isPhoneEnabled()
 				# 修改人
 				lang = Steedos.locale doc.user,true
 				euser = db.users.findOne({_id: userId},{fields: {name: 1}})
