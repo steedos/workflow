@@ -586,5 +586,6 @@
 	"tableau_introduction_modal_close": "关闭",
 	"ERROR": "错误",
 
-	"steedos_table_add_item": "新增一行"
+	"steedos_table_add_item": "新增一行",
+	"copy": "复制"
 }

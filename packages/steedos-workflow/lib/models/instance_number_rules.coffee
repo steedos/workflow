@@ -123,7 +123,8 @@ new Tabular.Table
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="copy"><i class="fa fa-files-o"></i></button>'
+				title = t('copy')
+				return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
 		},
 		{
 			data: "",

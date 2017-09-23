@@ -38,3 +38,6 @@ Template.admin_flow_positions.events
 		if (rowData)
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-remove').click();
+
+Template.admin_flow_positions.onRendered ->
+	$('[data-toggle="tooltip"]').tooltip()

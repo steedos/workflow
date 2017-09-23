@@ -570,5 +570,6 @@
 	"tableau_introduction_modal_close": "Close",
 	"ERROR": "Error",
 
-	"steedos_table_add_item": "Add item"
+	"steedos_table_add_item": "Add item",
+	"copy": "Copy"
 }

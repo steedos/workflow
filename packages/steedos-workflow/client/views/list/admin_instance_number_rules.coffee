@@ -40,6 +40,10 @@ Template.admin_instance_number_rules.events
 			$('.btn.record-types-remove').click();
 
 Template.admin_instance_number_rules.onRendered ()->
+
+	$('[data-toggle="tooltip"]').tooltip()
+
 	if !Steedos.isPaidSpace()
 		Steedos.spaceUpgradedModal()
 		FlowRouter.go("/admin/home")
+
