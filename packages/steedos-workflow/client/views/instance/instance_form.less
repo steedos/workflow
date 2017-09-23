@@ -333,9 +333,18 @@ textarea {
 }
 
 .selectUser[readonly],.selectOrg[readonly]{
-  background-color: rgba(255, 255, 0, 0.03) !important;
+	background-color: #FFFFFF !important;
 }
 
+.inbox,.draft{
+	.selectUser[readonly],.selectOrg[readonly]{
+	  background-color: rgba(255, 255, 0, 0.03) !important;
+	}
+
+	.selectUser[disabled],.selectOrg[disabled]{
+		background-color: #FFFFFF !important;
+	}
+}
 .selectUser[disabled],.selectOrg[disabled]{
   background-color: #FFFFFF !important;
 }
@@ -362,12 +371,12 @@ textarea {
 .instance-default{
 	.instance-form{
 		.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-			background-color: #FFFFFF;
+			background-color: #FFFFFF !important;
 			opacity: 1;
 			color: black;
 		}
 
-		.inbox,.draft{
+		&.inbox,&.draft{
 			.form-control{
 				background-color: rgba(255, 255, 0, 0.03);
 			}
