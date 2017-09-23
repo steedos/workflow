@@ -481,7 +481,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web Data Connector copy successful",
 	"instance_related_instances": "Related requests",
 	"instance_related_instances_title": "Linked requests",
-	"instance_related_instances_placeholder": "Please enter request name",
+	"instance_related_instances_placeholder": "Please enter the file name to search for the associated file",
 
 	"workflow_install_desktop": "Install Desktop",
 

@@ -496,7 +496,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web 数据连接器已复制",
 	"instance_related_instances": "相关文件",
 	"instance_related_instances_title": "关联文件",
-	"instance_related_instances_placeholder": "请输入文件名称",
+	"instance_related_instances_placeholder": "请输入文件名称搜索关联文件",
 
 	"workflow_install_desktop": "安装客户端",
 
