@@ -137,7 +137,7 @@ workflowTemplate["zh-CN"].push {
           {
             "_id": "C63FD427-F276-4306-9654-EA822FED1496",
             "code": "合同金额",
-            "is_required": false,
+            "is_required": true,
             "is_wide": false,
             "type": "number",
             "rows": 4,
