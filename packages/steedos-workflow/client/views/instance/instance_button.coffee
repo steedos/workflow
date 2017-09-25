@@ -350,7 +350,7 @@ Template.instance_button.onRendered ->
 		e.clearSelection()
 
 Template.instance_button.onDestroyed ->
-	Template.instance_button.copyUrlClipboard.destroy();
+	Template.instance_button.copyUrlClipboard?.destroy();
 
 Template.instance_button.events
 
