@@ -137,7 +137,7 @@ workflowTemplate["zh-CN"].push {
           {
             "_id": "C63FD427-F276-4306-9654-EA822FED1496",
             "code": "合同金额",
-            "is_required": false,
+            "is_required": true,
             "is_wide": false,
             "type": "number",
             "rows": 4,
@@ -216,7 +216,7 @@ workflowTemplate["zh-CN"].push {
             "type": "input",
             "rows": 4,
             "digits": 0,
-            "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
+            "formula": "{yijianlan:{step:'办公室主任审核'}}",
             "has_others": false,
             "is_multiselect": false,
             "oldCode": "办公室主任意见",
