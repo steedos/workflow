@@ -36,8 +36,15 @@
 	// purports support for touch events even if the underlying hardware
 	// does not!
 	var touchCapable = ('ontouchstart' in window);
-	
-		settings = {
+	if(Steedos){
+		if(Steedos.isAndroidApp() || Steedos.isMobile()){
+			touchCapable = true;
+		}
+		else{
+			touchCapable = false;
+		}
+	};
+	var settings = {
 			tap_pixel_range: 5,
 			swipe_h_threshold: 50,
 			swipe_v_threshold: 50,
