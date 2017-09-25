@@ -103,6 +103,15 @@ Template.instance_view.onCreated ->
 
 Template.instance_view.onRendered ->
 
+	ins = WorkflowManager.getInstance();
+
+	form_version = db.form_versions.findOne({_id: ins.form_version})
+
+	flow_version = db.flow_versions.findOne({_id: ins.flow_version})
+
+	if Session.get("box") == 'draft' && (form_version.latest != true || flow_version.latest != true)
+		InstanceManager.saveIns();
+
 	Form_formula.runFormScripts("instanceform", "onload");
 
 	if Session.get("box") == "inbox"

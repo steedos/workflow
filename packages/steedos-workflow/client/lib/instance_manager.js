@@ -728,7 +728,8 @@ InstanceManager.saveIns = function() {
 					toastr.success(TAPi18n.__('Saved successfully'));
 				} else if (result == "upgraded") {
 					toastr.info(TAPi18n.__('Flow upgraded'));
-					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/" + instance._id);
+					console.log("upgraded")
 				} else {
 					toastr.error(error.reason);
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
