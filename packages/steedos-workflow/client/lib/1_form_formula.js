@@ -235,7 +235,9 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     if(typeof(value) == 'number'){
                         value = value.toFixed(formula_field.digits);
                     }
-                    $("[name='" + field_prefix + formula_field.code + "']").val(value);
+                    var currentField = $("[name='" + field_prefix + formula_field.code + "']");
+                    currentField.val(value);
+                    currentField.prev(".coreform-read-only-number").val(Steedos.coreformNumberToString(value));
                 }else{
                     var afField = $("[name='" + field_prefix + formula_field.code + "']")
                     var afValue = Form_formula.field_values[formula_field.code];
