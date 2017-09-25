@@ -85,7 +85,7 @@ Template.afSelectUser.helpers({
 
 
 Template.afSelectUser.events({
-    'click .selectUser': function(event, template) {
+    'tap .selectUser': function(event, template) {
         if (Modal.allowMultiple) {
             return;
         }

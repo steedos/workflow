@@ -37,7 +37,7 @@
 	// does not!
 	var touchCapable = ('ontouchstart' in window);
 	if(Steedos){
-		if(Steedos.isAndroidApp() || Steedos.isMobile()){
+		if(Steedos.isAndroidOrIOS() || Steedos.isMobile()){
 			touchCapable = true;
 		}
 		else{
