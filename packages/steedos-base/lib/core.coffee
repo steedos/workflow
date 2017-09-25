@@ -308,7 +308,17 @@ if Meteor.isServer
 		if !space || !space.admins
 			return false;
 		return space.admins.indexOf(userId)>=0
-
+	Steedos.isLegalVersion=(spaceId,app_version)->
+		if !spaceId
+			return false;
+		check=false
+		currentSpaceAppsVersions=db.spaces.findOne(spaceId)?.paid_apps
+		needAppVersion=app_version.split('_')
+		currentSpaceAppsVersions?.forEach (appversion)->
+			if appversion.split('_')[0]==needAppVersion[0]
+				if appversion.split('_')[1]<needAppVersion[1] or appversion.split('_')[1]==needAppVersion[1]
+					check=true
+		return check
 	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
 		isOrgAdmin = false

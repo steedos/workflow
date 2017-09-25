@@ -89,6 +89,11 @@ Template.forward_select_flow_modal.events({
 	},
 
 	'click #forward_flow_ok': function(event, template) {
+		if (!Steedos.isLegalVersion("workflow_pro"))
+			{
+				Steedos.spaceUpgradedModal()
+				return;
+			}
 		var action_type = template.data.action_type;
 		var flow = $("#forward_flow")[0].dataset.flow;
 
