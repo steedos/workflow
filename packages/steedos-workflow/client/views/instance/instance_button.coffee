@@ -413,15 +413,9 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-instance-reassign': (event, template) ->
-		if !Steedos.isLegalVersion("workflow_pro")
-			Steedos.spaceUpgradedModal()
-			return;
 		Modal.show('reassign_modal')
 
 	'click .btn-instance-relocate': (event, template) ->
-		if !Steedos.isLegalVersion("workflow_pro")
-			Steedos.spaceUpgradedModal()
-			return;
 		Modal.show('relocate_modal')
 
 
@@ -461,9 +455,7 @@ Template.instance_button.events
 		if !Steedos.isPaidSpace()
 			Steedos.spaceUpgradedModal()
 			return;
-		if !Steedos.isLegalVersion("workflow_pro")
-			Steedos.spaceUpgradedModal()
-			return;
+
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
@@ -568,12 +560,10 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		if !Steedos.isPaidSpace() 
+		if !Steedos.isPaidSpace()
 			Steedos.spaceUpgradedModal()
 			return;
-		if !Steedos.isLegalVersion("workflow_pro")
-			Steedos.spaceUpgradedModal()
-			return;
+
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
 

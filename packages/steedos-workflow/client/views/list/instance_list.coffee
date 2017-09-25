@@ -274,9 +274,6 @@ Template.instance_list.events
 
 
 	'click .dropdown-menu li a': (event) ->
-		if !Steedos.isLegalVersion("workflow_pro")
-			Steedos.spaceUpgradedModal()
-			return;
 		InstanceManager.exportIns(event.target.type);
 
 	'keyup #instance_search': (event) ->

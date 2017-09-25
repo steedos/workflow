@@ -282,16 +282,6 @@ TemplateHelpers =
 			if space
 				return space.is_paid
 
-	isLegalVersion: (app_version)->
-		check=false
-		spaceId = Steedos.getSpaceId()
-		currentSpaceAppsVersions=db.spaces.findOne(spaceId)?.paid_apps
-		needAppVersion=app_version.split('_')
-		currentSpaceAppsVersions?.forEach (appversion)->
-			if appversion.split('_')[0]==needAppVersion[0]
-				if appversion.split('_')[1]<needAppVersion[1] or appversion.split('_')[1]==needAppVersion[1]
-					check=true
-		return check
 
 	isCloudAdmin: ->
 		return Meteor.user()?.is_cloudadmin
