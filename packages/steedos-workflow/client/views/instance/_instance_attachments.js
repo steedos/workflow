@@ -12,6 +12,10 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 
 		var current_step = InstanceManager.getCurrentStep();
+
+		if(!current_step)
+			return false;
+
 		// 分发的正文或者附件不显示转为pdf按钮
 		// 如果有正文权限则为正文，否则分发为附件
 		// 分发的附件不允许修改 删除 新增版本
