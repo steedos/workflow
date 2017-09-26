@@ -17,7 +17,7 @@ Template.history_sign_approve.events
 		Modal.allowMultiple = false;
 		return true;
 
-	'click .history-sign-approve tr': (event, template) ->
+	'click .history-sign-approve .use-suggestion': (event, template) ->
 		template.data.parent.history_approve.set(this)
 		Modal.hide(template)
 

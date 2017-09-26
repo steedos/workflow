@@ -14,14 +14,14 @@
 							<tbody>
 								{{#each sign_approves}}
 									<tr data-id="{{_id}}">
-										<td>
+										<td class="use-suggestion">
 											<a class="instance-sign-opinion-btn">{{description}}</a>
 											<a class="instance-sign-opinion-btn finish-date">{{format finish_date}}</a>
 										</td>
 										<td class="select-suggestion-td">
 											<div class="select-suggestion">
 												<label>
-													<input type="checkbox" value="{{_id}}" class="{{sign_show}}">
+													<input type="checkbox" checked="{{sign_show}}" value="{{_id}}" class="is-{{sign_show}}">
 												</label>
 											</div>
 										</td>
