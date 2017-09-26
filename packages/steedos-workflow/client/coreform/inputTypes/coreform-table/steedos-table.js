@@ -508,6 +508,7 @@ SteedosTable.getTDValue = function(field, value) {
                         value = parseFloat(value)
                     }
                     td_value = value.toFixed(field.digits);
+                    td_value = Steedos.numberToString(td_value);
                 }
                 break;
             default:
