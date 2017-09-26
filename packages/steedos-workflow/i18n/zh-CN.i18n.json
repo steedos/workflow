@@ -111,7 +111,7 @@
 	"instance_reassign_curstep": "当前步骤: ",
 	"instance_reassign_reason": "请填写转签核的理由。",
 	"instance_reassign_ok": "转签核提交成功。",
-	"instance_reassign_user": "处理人",
+	"instance_reassign_user": "变更处理人",
 
 	"instance_cancel_title": "取消申请",
 	"instance_cancel_reason": "请填写取消申请的理由",

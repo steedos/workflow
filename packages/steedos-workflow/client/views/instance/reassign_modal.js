@@ -84,11 +84,7 @@ Template.reassign_modal.events({
             return;
         }
 
-        var reason = $("#reassign_modal_text").val();
-        if (!reason) {
-            toastr.error(TAPi18n.__("instance_reassign_error_reason_required"));
-            return;
-        }
+        
 
         var user_ids = val.split(",");
 
