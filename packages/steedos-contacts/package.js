@@ -103,6 +103,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/org_main.coffee', 'client');
 	api.addFiles('client/views/book_main.html', 'client');
 	api.addFiles('client/views/book_main.coffee', 'client');
+	api.addFiles('client/views/org_main_mobile.html', 'client');
+	api.addFiles('client/views/org_main_mobile.coffee', 'client');
 
 	api.addFiles('client/views/tree.html', 'client');
 	api.addFiles('client/views/tree.coffee', 'client');
@@ -147,6 +149,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('steedos_books_tabular.coffee');
 	api.addFiles('steedos_organizations_tabular.coffee');
+	api.addFiles('steedos_organizations_mobile_tabular.coffee');
+	api.addFiles('steedos_users_mobile_tabular.coffee');
 
 	api.addFiles('tabular.coffee');
 	api.addFiles('tabular_books.coffee');

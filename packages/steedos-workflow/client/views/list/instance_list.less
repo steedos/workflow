@@ -1,187 +1,236 @@
-@instance-priority-color-danger : red;
-@instance-priority-color-warning : purple;
-@instance-priority-color-muted : blue;
+@instance-priority-color-danger: red;
+@instance-priority-color-warning: purple;
+@instance-priority-color-muted: blue;
 
-.instance-list{
-  & > div:nth-child(3){
-    overflow-x: auto;
-  }
+.instance-list {
+	.datatable-instances {
+		border-right: none;
+	}
 
+	.dataTables_paginate{
+		float: right;
+		width: 50%;
+		padding-top: 3px;
+	}
 
-  .dataTables_container{
-    position: relative;
-    .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail{
-      background: #fff;
-    }
-    .ps-container:hover > .ps-scrollbar-x-rail:hover{
-      background: #fff
-    }
-  }
+	.dataTables_length{
+		float: left;
+		width: 45%;
+		padding-left: 10px;
+		padding-top: 5px;
+	}
 
-  .dataTables_wrapper tbody tr td {
-    position: relative;
-  }
+	@media (max-width: 768px){
+		.dataTables_paginate{
+			width: 100%;
+		}
+	}
 
-  .flow-name{
-    padding-left: 15px;
-    width: 69%;
-    color: #777;
-  }
-  .dataTables_wrapper{
+	& > div:nth-child(3) {
+		overflow-x: auto;
+	}
 
-    thead {
-      th:first-child{
-        padding-left: 20px  !important;
-      }
+	.dataTables_container {
+		position: relative;
+		.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+			background: #fff;
+		}
+		.ps-container:hover > .ps-scrollbar-x-rail:hover {
+			background: #fff
+		}
+	}
 
-      th{
-        white-space: nowrap;
-        min-width: 115px;
-      }
+	.dataTables_wrapper tbody tr td {
+		position: relative;
+	}
 
-      th:nth-child(3){
-        min-width: 115px;
-      }
+	.flow-name {
+		padding-left: 15px;
+		width: 69%;
+		color: #777;
+	}
+	.dataTables_wrapper {
 
-    }
+		thead {
+			th:first-child {
+				padding-left: 20px !important;
+			}
 
-  }
+			th {
+				white-space: nowrap;
+				min-width: 115px;
+			}
 
-  .color-priority{
-    color: blue;
-    display: none;
-    &.instance-name{
-      display: inline;
-    }
-    &.color-priority-danger{
-      color: @instance-priority-color-danger;
-      display: inline;
-    }
-    &.color-priority-warning{
-      color: @instance-priority-color-warning;
-      display: inline;
-    }
-    &.color-priority-muted{
-      color: @instance-priority-color-muted;
-      display: inline;
-    }
-  }
+			th:nth-child(3) {
+				min-width: 115px;
+			}
 
-  .instance-priority-bar{
-    position: absolute;
-    width: 20px;
-    left: 1px;
-    top: 22px;
-    bottom: 0px;
-    line-height: 35px;
-    text-align: center;
-    .zoom-extra-large &{
-      top: 20px;
-    }
-    .zoom-large &{
-      top: 21px;
-    }
-  }
+		}
 
-  .instance-name{
-    span{
-      color: #333;
-      display: inline-block;
-      float: right;
-      font-weight: normal;
-      margin-right: 10px;
-    }
-    .color-priority{
-      margin-left: 8px;
-    }
-  }
-  .selected .instance-name span{
-    color: #fff;
-  }
-  .selected .instance-modified{
-    color: #fff;
-  }
-  .selected .flow-name{
-    color: #fff;
-  }
-  .instance-modified{
-    color: #777;
-  }
+	}
 
-  .instance-read-bar{
-    position: absolute;
-    width: 20px;
-    left: 1px;
-    top: 4px;
-    bottom: 0px;
-    line-height: 35px;
-    text-align: center;
-    .zoom-extra-large &{
-      top: 0px;
-    }
-    .zoom-large &{
-      top: 1px;
-    }
-  }
+	.color-priority {
+		color: blue;
+		display: none;
+		&.instance-name {
+			display: inline;
+		}
+		&.color-priority-danger {
+			color: @instance-priority-color-danger;
+			display: inline;
+		}
+		&.color-priority-warning {
+			color: @instance-priority-color-warning;
+			display: inline;
+		}
+		&.color-priority-muted {
+			color: @instance-priority-color-muted;
+			display: inline;
+		}
+	}
 
-  .unread{
-    color: #1f95ec;
-    position: absolute;
-    top: 9px;
-    left: 5px;
-    font-size: 90%;
-  }
+	.step-current-state {
+		&.terminated {
+			color: gray;
+		}
+		&.approved {
+			color: green;
+		}
+		&.rejected {
+			color: red;
+		}
+	}
 
-  .instance-step-current-name{
-    color: #999;
-    font-weight: 400;
-    padding-left: 5px;
-    display: initial;
-  }
+	.instance-priority-bar {
+		position: absolute;
+		width: 20px;
+		left: 1px;
+		top: 22px;
+		bottom: 0px;
+		line-height: 35px;
+		text-align: center;
+		.zoom-extra-large & {
+			top: 20px;
+		}
+		.zoom-large & {
+			top: 21px;
+		}
+	}
 
-  .selected .instance-step-current-name{
-    color: #fff;
-  }
+	.instance-name {
+		span {
+			color: #333;
+			display: inline-block;
+			float: right;
+			font-weight: normal;
+			margin-right: 10px;
+		}
+		.color-priority {
+			margin-left: 8px;
+		}
+	}
+	.selected .instance-name span {
+		color: #fff;
+	}
+	.selected .instance-modified {
+		color: #fff;
+	}
+	.selected .flow-name {
+		color: #fff;
+	}
+	.instance-modified {
+		color: #777;
+	}
+	.selected .step-current-state {
+		color: #fff;
+	}
 
-  .toolbar{
-    min-height:51px;
-  }
+	.instance-read-bar {
+		position: absolute;
+		width: 20px;
+		left: 1px;
+		top: 4px;
+		bottom: 0px;
+		line-height: 35px;
+		text-align: center;
+		.zoom-extra-large & {
+			top: 0px;
+		}
+		.zoom-large & {
+			top: 1px;
+		}
+	}
 
-  .search-tip-bar{
-    border-bottom: 1px solid #eee;
-    padding: 10px 20px;
-  }
+	.unread {
+		color: #1f95ec;
+		position: absolute;
+		top: 9px;
+		left: 5px;
+		font-size: 90%;
+	}
+
+	.instance-step-current-name {
+		color: #999;
+		font-weight: 400;
+		padding-left: 5px;
+		display: initial;
+	}
+
+	.selected .instance-step-current-name {
+		color: #fff;
+	}
+
+	.toolbar {
+		min-height: 51px;
+	}
+
+	.search-tip-bar {
+		border-bottom: 1px solid #eee;
+		padding: 10px 20px;
+	}
 }
 
-#instance_more_search_modal{
-  .submit-date-icon{
-    border-right: none;
-  }
-  .submit_date_end{
-    padding-top: 5px;
-  }
+#instance_more_search_modal {
+	.submit-date-icon {
+		border-right: none;
+	}
+	.submit_date_end {
+		padding-top: 5px;
+	}
 }
 
-.instance-priority-danger{
-  .td-field-文件标题{
-    .form-group{
-      color: @instance-priority-color-danger !important;
-    }
-  }
+.instance-priority-danger {
+	.td-field-文件标题 {
+		.form-group {
+			color: @instance-priority-color-danger !important;
+		}
+	}
+
+	input[name="文件标题"] {
+		color: @instance-priority-color-danger !important;
+	}
 }
 
-.instance-priority-warning{
-  .td-field-文件标题{
-    .form-group{
-      color: @instance-priority-color-warning !important;
-    }
-  }
+.instance-priority-warning {
+	.td-field-文件标题 {
+		.form-group {
+			color: @instance-priority-color-warning !important;
+		}
+	}
+
+	input[name="文件标题"] {
+		color: @instance-priority-color-warning !important;
+	}
 }
 
-.instance-priority-muted{
-  .td-field-文件标题{
-    .form-group{
-      color: @instance-priority-color-muted !important;
-    }
-  }
+.instance-priority-muted {
+	.td-field-文件标题 {
+		.form-group {
+			color: @instance-priority-color-muted !important;
+		}
+	}
+
+	input[name="文件标题"] {
+		color: @instance-priority-color-muted !important;
+	}
 }

@@ -6,9 +6,11 @@
         "status": "active",
         "url": "https://www.steedos.com:443"
       },
+      //全文检索
       "elasticsearch": {
         "status": "active",
-        "url": "https://127.0.0.1:9200"
+        //秦皇岛records项目的搜索引擎接口
+        "url": "http://192.1.1.153:9200"
       }
     },
     "cfs": {
@@ -24,7 +26,8 @@
     "accounts": {
       "disableAccountRegistration": false, //是否禁止注册新用户
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
-      "loginExpirationInDays": 90
+      "loginExpirationInDays": 90,
+      "is_username_skip_minrequiredlength": false // 个人设置中修改用户名时是否忽略用户名长度限制
     },
     //手机号及其验证相关，该属性不存在时不显示任务手机号相关界面及功能
     "phone": {
@@ -57,7 +60,7 @@
       "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
     },
     // 门户
-    "dashboard":{
+    "dashboard": {
       "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
     }
   },
@@ -144,7 +147,8 @@
     "qcloud": {
       "smsqueue_interval": 1000,
       "sdkappid": "xxx",
-      "appkey": "xxx"
+      "appkey": "xxx",
+      "signname": "xxx" // 短信签名
     }
   },
   //日志相关
@@ -191,5 +195,17 @@
 
   "import_user": {
     "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
+  },
+  //监控服务
+  "kadira": {
+    "appId": "tPsdNDPWWQZzFELco", //应用Id
+    "appSecret": "fec76d09-363c-45f3-8ba6-3c821c870f40", //应用Token
+    "options": {
+      "endpoint": "http://192.168.0.134:88" //监控服务engine URL
+    }
+  },
+  //全文检索服务
+  "records": {
+    "es_search_index": "steedos"
   }
 }

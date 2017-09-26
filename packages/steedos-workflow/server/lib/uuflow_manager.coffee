@@ -534,7 +534,7 @@ uuflowManager.getInstanceName = (instance) ->
 	rev = default_value
 
 	if name_forumla
-		iscript = name_forumla.replace(/\{/g, "values['").replace(/\}/g, "']")
+		iscript = name_forumla.replace(/\{/g, "(values['").replace(/\}/g, "'] || '')")
 		rev = eval(iscript) || default_value
 
 	return rev.trim()
@@ -1568,7 +1568,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		values = new Object
 	#　验证表单上的applicant已填写
 	if not instance_from_client["applicant"]
-		throw new Meteor.Error('error!', "请选择申请人")
+		throw new Meteor.Error('error!', "请选择提交人")
 
 	applicant_id = instance_from_client["applicant"]
 	submitter_id = instance_from_client["submitter"]
@@ -1600,7 +1600,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 验证该user_id或其所在的组有提交此申请单的权限
 	permissions = permissionManager.getFlowPermissions(flow_id, current_user)
 	if not permissions.includes("add")
-		throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
+		throw new Meteor.Error('error!', "该提交人没有提交此申请单的权限。")
 
 	trace = instance_from_client["traces"][0]
 	# 获取一个step

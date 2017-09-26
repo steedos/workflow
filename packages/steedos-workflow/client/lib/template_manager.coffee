@@ -3,8 +3,7 @@ TemplateManager = {};
 formId = 'instanceform';
 
 
-TemplateManager.handleTableTemplate = (instance) ->
-
+TemplateManager.instance_title = ()->
 	pageTitle = """
 		{{instance.name}}
 	"""
@@ -23,12 +22,20 @@ TemplateManager.handleTableTemplate = (instance) ->
 		"""
 		pageTitleTrClass = ""
 
+	val = 
+		pageTitle: pageTitle
+		pageTitleTrClass: pageTitleTrClass
+
+	return val
+
+TemplateManager.handleTableTemplate = (instance) ->
+
 	template = """
 	<div class='instance-template'>
 		<table class="table-page-title form-table no-border text-align-center" style="width: 100%;display: inline-table;">
-			<tr class="#{pageTitleTrClass}">
+			<tr class="#{this.instance_title().pageTitleTrClass}">
 				<td class="instance-table-name-td page-title">
-					#{pageTitle}
+					#{this.instance_title().pageTitle}
 				</td>
 			</tr>
 
@@ -57,8 +64,8 @@ TemplateManager.handleTableTemplate = (instance) ->
 					<td class="td-title #{required}">
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
-					<td class="td-field opinion-field opinion-field-#{table_field.code}" colspan = "#{table_field.td_colspan}">
-						{{> instanceSignText name="#{table_field.code}" field_formula="#{table_field.formula}"}}
+					<td class="td-field opinion-field opinion-field-#{table_field.code} automatic" colspan = "#{table_field.td_colspan}">
+						{{> instanceSignText name="#{table_field.code}"}}
 					</td>
 				"""
 				template += table_field.tr_end
@@ -77,7 +84,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 						<td class="td-title td-title-#{table_field.code} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
-						<td class="td-field td-field-#{table_field.code} #{table_field.permission}" colspan = "#{table_field.td_colspan}">
+						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">
 							{{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
@@ -117,46 +124,50 @@ TemplateManager.handleTableTemplate = (instance) ->
 #此处模板公用与：instance 编辑、查看、打印、转发时生成附件、发送邮件body部分(table 模板)
 #如果有修改，请测试确认其他功能是否正常。
 TemplateManager._template =
-	default: '''
-		<div class="with-border">
-			<div class="instance-name">
-				<h3 class="box-title">{{instance.name}}</h3>
+	default: (instance)->
+
+		template = """
+			<div class="with-border col-md-12">
+				<div class="instance-name">
+					<h3 class="box-title">#{TemplateManager.instance_title().pageTitle}</h3>
+					<span class="help-block"></span>
+				</div>
 				<span class="help-block"></span>
 			</div>
-			<span class="help-block"></span>
-		</div>
-		{{#each steedos_form.fields}}
-			{{#if isOpinionField this}}
-				<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-					<div class="form-group opinion-field">
-						<label class="control-label">{{afFieldLabelText name=this.code}}</label>
+			{{#each steedos_form.fields}}
+				{{#if isOpinionField this}}
+					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
+						<div class="form-group automatic opinion-field-{{this.code}}">
+							<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
-						{{> instanceSignText name=this.code field_formula=this.formula default=''}}
-					</div>
-				</div>
-			{{else}}
-				{{#if includes this.type 'section,table'}}
-					<div class="col-md-12">
-						{{> afFormGroup name=this.code label=false}}
+							{{> instanceSignText name=this.code}}
+						</div>
 					</div>
 				{{else}}
-					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-					{{> afFormGroup name=this.code}}
-					</div>
+					{{#if includes this.type 'section,table'}}
+						<div class="col-md-12">
+							{{> afFormGroup name=this.code label=false}}
+						</div>
+					{{else}}
+						<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
+						{{> afFormGroup name=this.code}}
+						</div>
+					{{/if}}
 				{{/if}}
-			{{/if}}
-		{{/each}}
-		<div class="col-md-12">
-			<div class="applicant-wrapper form-group form-horizontal">
-			<div class="input-group">
-				<div class="input-group-addon">
-				  {{_t "instance_initiator"}}&nbsp;:
+			{{/each}}
+			<div class="col-md-12">
+				<div class="applicant-wrapper form-group form-horizontal">
+				<div class="input-group">
+					<div class="input-group-addon">
+					  {{_t "instance_initiator"}}&nbsp;:
+					</div>
+					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
+	              </div>
 				</div>
-				{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-              </div>
 			</div>
-		</div>
-	'''
+		"""
+		return template
+
 	table: (instance)->
 		return TemplateManager.handleTableTemplate(instance)
 #	table: '''
@@ -288,7 +299,7 @@ TemplateManager.getTemplate = (instance, templateName) ->
 	if templateName
 		if templateName == 'table'
 			return TemplateManager._template.table(instance)
-		return TemplateManager._template[templateName]
+		return TemplateManager._template.default(instance)
 
 	if Session?.get("instancePrint")
 		if flow?.print_template
@@ -300,7 +311,7 @@ TemplateManager.getTemplate = (instance, templateName) ->
 				return TemplateManager._template.table(instance)
 	else
 		if Steedos.isMobile()
-			return TemplateManager._template.default
+			return TemplateManager._template.default(instance)
 
 		if flow?.instance_template
 			return "<div class='instance-template'>" + flow.instance_template + "</div>"
@@ -308,9 +319,9 @@ TemplateManager.getTemplate = (instance, templateName) ->
 		if form?.instance_style
 			if form.instance_style == 'table'
 				return TemplateManager._template.table(instance)
-			return TemplateManager._template[form.instance_style]
+			return TemplateManager._template.default(instance)
 		else
-			return TemplateManager._template.default
+			return TemplateManager._template.default(instance)
 
 #TemplateManager.exportTemplate = (flowId) ->
 #	template = TemplateManager.getTemplate(flowId);

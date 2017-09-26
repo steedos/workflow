@@ -1,14 +1,12 @@
 JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 	try
-		current_user_info = Steedos.getAPILoginUser(req, res)
 
-		if !current_user_info
-			JsonRoutes.sendResult res,
-				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
-			return;
+		if !Steedos.APIAuthenticationCheck(req, res)
+			return ;
+
+		user_id = req.userId
+
+		current_user_info = db.users.findOne({_id: user_id})
 
 		space_id = req.headers['x-space-id']
 
@@ -21,8 +19,6 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		uuflowManager.isSpaceAdmin(space_id, current_user_info._id)
 
 		hashData = req.body
-
-		console.log "req", req
 
 		if not hashData["flow"]
 			throw new Meteor.Error('error', 'flow is null')

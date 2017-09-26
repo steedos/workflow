@@ -22,7 +22,7 @@ FS.Store.OSS = function(name, options) {
   // Determine which folder (key prefix) in the bucket to use
   var folder = options.folder;
   folder = typeof folder === 'string' && folder.length ?
-           folder.replace(/^\//, '').replace(/\/?$/, '/') : '';
+    folder.replace(/^\//, '').replace(/\/?$/, '/') : '';
   folder = folder === '/' ? '' : folder;
 
   // Determine which bucket to use, reruired
@@ -64,7 +64,8 @@ FS.Store.OSS = function(name, options) {
    * @return {Object}      New object
    */
   function pick(obj, keys) {
-    var result = {}, iteratee = keys[0];
+    var result = {},
+      iteratee = keys[0];
     if (obj == null || arguments.length < 2) return result;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
@@ -84,11 +85,13 @@ FS.Store.OSS = function(name, options) {
       if (info && info.key) return info.key;
 
       var filename = fileObj.name();
-      var filenameInStore = fileObj.name({store: name});
+      var filenameInStore = fileObj.name({
+        store: name
+      });
 
       // If no store key found we resolve / generate a key
       return fileObj.collectionName + '/' + fileObj.collectionName + "-" +
-             fileObj._id + '-' + (filenameInStore || filename);
+        fileObj._id + '-' + (filenameInStore || filename);
     },
 
     createReadStream: function(fileKey, options) {
@@ -122,14 +125,14 @@ FS.Store.OSS = function(name, options) {
     },
     remove: function(fileKey, callback) {
 
-      // ossStore.deleteObject({
-      //   Bucket: bucket,
-      //   Key: fileKey
-      // }, function(error) {
-      //   console.log(error);
-      //   callback(error, !error);
-      // });
-      callback(null, true);
+      ossStore.deleteObject({
+        Bucket: bucket,
+        Key: fileKey
+      }, function(error) {
+        console.log(error);
+        callback(error, !error);
+      });
+      // callback(null, true);
     },
     watch: function() {
       throw new Error('OSS does not support watch.');

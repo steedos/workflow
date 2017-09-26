@@ -3,9 +3,15 @@
 		<!-- <a href="/workflow/space/{{spaceId}}" class="btn btn-default" title='{{_ "Workflow"}}'>
 			<i class="ion ion-chevron-left"></i><span></span>
 		</a> -->
-		<button type="button" class="btn btn-default" data-toggle="offcanvas" id="sidebarOffcanvas">
+		<button type="button" class="btn btn-default btn-offcanvas" data-toggle="offcanvas" id="sidebarOffcanvas">
 			<i class="fa fa-bars"></i>
+			{{#if isMobile}}
+				{{#if hasApproves}}
+					<i class="ion ion-record text-red inbox-pending-icon"></i>
+				{{/if}}
+			{{/if}}
 		</button>
+
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}
@@ -27,7 +33,6 @@
 			</button>
 		</div>
 	</div>
-<div class="instance-list">
 	<div class="toolbar">
 		{{#if hasFlowId}}
 			<div class="btn-group hidden-xs" role="group">
@@ -45,8 +50,9 @@
 			</div>
 
 			<div class="btn-group hidden-xs" role="group" style="{{enabled_export}}">
-				<button type="button" class="btn btn-default " id="copyTableauUrl" data-clipboard-text="{{tableauUrl}}">
-					<i class="ion ion-ios-pie-outline" aria-hidden="true"></i>&nbsp;{{_ "steedos_tableau_request_statistics"}}
+				<button type="button" class="btn btn-default tabular-introduction">
+					<i class="ion ion-ios-pie-outline" aria-hidden="true"></i>&nbsp;
+					{{_ "steedos_tableau_statistical_analysis"}}
 				</button>
 			</div>
 
@@ -69,19 +75,20 @@
 		</div>
 	</div>
 	<div class="search-tip-bar" style="{{is_display_search_tip}}">
-		<span>{{_ "instance_search_result_tip"}}</span>: <label>{{filterFlowName}}</label>
+		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}: <b>{{filterFlowName}}</b></span>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
+	<div class="instance-list {{is_select_bar_show}}">
 
-	<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
-	{{#if is_inbox}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{else}}
-		{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
-	{{/if}}
+		<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
+		{{#if is_inbox}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{else}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{/if}}
 
 
-</div>
+	</div>
 
 {{> baseTabbar}}
 </template>

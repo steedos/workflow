@@ -233,6 +233,10 @@ Template.instance_suggestion.helpers
 
 	opinionFields: ->
 		currentApprove = InstanceManager.getCurrentApprove()
+
+		if(!currentApprove)
+			return ;
+
 		opinionFields = _.filter(form_version.fields, (field) ->
 			if currentApprove.type == 'cc'
 				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
@@ -246,6 +250,12 @@ Template.instance_suggestion.helpers
 
 		return opinionFields
 
+	ccDescription: ->
+		return InstanceManager.getCurrentApprove()?.cc_description
+
+	ccFromUserName: ->
+		return InstanceManager.getCurrentApprove()?.from_user_name
+
 
 Template.instance_suggestion.events
 
@@ -255,6 +265,8 @@ Template.instance_suggestion.events
 		judge = $("[name='judge']").filter(':checked').val();
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
+
+		InstanceManager.checkSuggestion(0);
 
 	# 'change .nextSteps': (event) ->
 	# 	if event.target.name == 'nextSteps'
@@ -272,7 +284,7 @@ Template.instance_suggestion.events
 			Session.set("next_user_multiple", false)
 		Session.set("next_step_id", checkedNextStepRadio.val())
 
-	'click #instance_flow_opinions': (event, template)->
+	'tap #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 

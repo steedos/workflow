@@ -14,14 +14,14 @@ InstanceManager.runFormula = function(fieldCode) {
 	});
 }
 
-InstanceManager.isTableStyle = function (formId) {
+InstanceManager.isTableStyle = function(formId) {
 
-	if(Steedos.isMobile()){
+	if (Steedos.isMobile()) {
 		return false;
 	}
 
 	form = WorkflowManager.getForm(formId);
-	if(form && form.instance_style == 'table')
+	if (form && form.instance_style == 'table')
 		return true
 	return false;
 }
@@ -178,10 +178,10 @@ InstanceManager.getNextUserOptions = function() {
 
 		if (nextStepUsers) {
 
-			if(nextStepUsers.length == 0){ //为指定处理人并且没有暂存处理人时
+			if (nextStepUsers.length == 0) { //为指定处理人并且没有暂存处理人时
 				var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 
-				if(nextStep.deal_type == "pickupAtRuntime"){
+				if (nextStep.deal_type == "pickupAtRuntime") {
 
 					nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
 				}
@@ -190,23 +190,23 @@ InstanceManager.getNextUserOptions = function() {
 
 			nextStepUsers.forEach(function(user) {
 				var option = {
-					id: user.id,
-					name: user.name
-				}
-				// 有暂存的步骤
+						id: user.id,
+						name: user.name
+					}
+					// 有暂存的步骤
 				if (current_next_steps && current_next_steps.length > 0) {
 					if (current_next_steps[0].step == next_step_id && _.contains(current_next_steps[0].users, user.id)) {
 						option.selected = true
 						next_user_ids.push(user.id)
 					}
-				}else{
+				} else {
 
 
 					// 如果有处理人
-					if(nextStepUsers.length > 1){
+					if (nextStepUsers.length > 1) {
 						// 设置下一步处理人默认值为最近一次处理人
 
-						if(lastStepHandlers.includes(user.id)){
+						if (lastStepHandlers.includes(user.id)) {
 							option.selected = true;
 						}
 					}
@@ -268,6 +268,11 @@ function showMessage(parent_group, message) {
 	}
 }
 
+function showMessageInblock(parent_group, message) {
+	parent_group.addClass("has-error");
+	$(".help-block", parent_group).html(message);
+}
+
 function removeMessage(parent_group) {
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
@@ -307,12 +312,32 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
+InstanceManager._setError_next_step_users = function (error, error_type) {
+	var next_user = $("input[name='nextStepUsers']");
+
+	if(next_user.length > 0){
+		next_user[0].dataset["error"] = error;
+		next_user[0].dataset["error_type"] = error_type;
+	}
+}
+
 //下一步处理人校验
 InstanceManager.checkNextStepUser = function() {
+
+	if($("input[name='nextStepUsers']").length < 1){
+		return ;
+	}
+
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
+	InstanceManager._setError_next_step_users("")
+
 	if (ApproveManager.error.nextStepUsers != '') {
-		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		nextStepUsers_parent_group.addClass("has-error");
+
+		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
+
 		ApproveManager.error.nextStepUsers = '';
 		return;
 	}
@@ -327,14 +352,18 @@ InstanceManager.checkNextStepUser = function() {
 }
 
 //如果是驳回必须填写意见
-InstanceManager.checkSuggestion = function() {
+InstanceManager.checkSuggestion = function(alter) {
 	var judge = $("[name='judge']").filter(':checked').val();
 	var suggestion_parent_group = $("#suggestion").parent();
 	if (judge && judge == 'rejected') {
 		if ($("#suggestion").val())
 			removeMessage(suggestion_parent_group);
 		else
-			showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			if(alter == 0)
+				showMessageInblock(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			else{
+				showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+			}
 	} else {
 		removeMessage(suggestion_parent_group);
 	}
@@ -699,7 +728,8 @@ InstanceManager.saveIns = function() {
 					toastr.success(TAPi18n.__('Saved successfully'));
 				} else if (result == "upgraded") {
 					toastr.info(TAPi18n.__('Flow upgraded'));
-					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/" + instance._id);
+					console.log("upgraded")
 				} else {
 					toastr.error(error.reason);
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
@@ -1360,4 +1390,61 @@ InstanceManager.isCCMustFinished = function() {
 	}
 
 	return true;
+}
+
+InstanceManager.getLastApprove = function(traces) {
+
+	var currentApprove, i, user_id;
+
+	user_id = Meteor.userId();
+
+	currentApprove = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!currentApprove) {
+			_.each(traces[i].approves, function(ap) {
+				if (!currentApprove) {
+					if (ap.is_finished && ap.user === user_id) {
+						currentApprove = ap;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return currentApprove || {};
+}
+
+InstanceManager.getLastTraceStepId = function(traces) {
+
+	var i, step_id, trace_id, user_id;
+
+	user_id = Meteor.userId();
+
+	trace_id = null;
+
+	step_id = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!trace_id) {
+			_.each(traces[i].approves, function(ap) {
+				if (!trace_id) {
+					if (ap.is_finished && ap.user === user_id) {
+						trace_id = ap.trace;
+					}
+					if (trace_id) {
+						return step_id = traces[i].step;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return step_id;
 }

@@ -4,19 +4,9 @@
           <div class="panel-heading" >
             <label class='control-label'>{{afFieldLabelText name=this.atts.name}}</label>
             
-           {{#if atts.editable}}
-              <div class="pull-right">
-                  <span class="panel-controls">
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-default btn-flat steedosTable-item-add" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">
-                        <i class='ion ion-plus-round' aria-hidden='true'></i>
-                      </button>
-                  </span>
-              </div>
-            {{/if}}
             <span class="description">{{{this.atts.description}}}</span>
           </div>
-          
+
           <div style="padding:0px;overflow-x:auto;">
               <table type='table' class="table table-bordered table-condensed autoform-table" data-label="{{afFieldLabelText name=this.atts.name}}"  style='margin-bottom:0px;' {{this.atts}} id="{{this.name}}Table" data-schema-key="{{this.name}}">
                   <thead id="{{this.name}}Thead" name="{{this.name}}Thead">
@@ -25,6 +15,9 @@
                   <tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
                     
                   </tbody>
+                  <tfoot id="{{this.name}}Tfoot" name="{{this.name}}Tfoot">
+                    
+                  </tfoot>
               </table>
           </div>
         </div>

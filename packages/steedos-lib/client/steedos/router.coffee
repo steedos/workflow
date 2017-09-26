@@ -6,39 +6,21 @@ FlowRouter.notFound =
 	action: ()->
 		if !Meteor.userId()
 			BlazeLayout.render 'loginLayout',
-				main: "not-found"
+				main: "not_found"
 		else
-			BlazeLayout.render 'masterLayout',
-				main: "not-found"
+			BlazeLayout.render 'notFoundLayout',
+				main: "not_found"
 
 FlowRouter.triggers.enter [
 	()-> Session.set("router-path", FlowRouter.current().path)
 	()-> 
 		Tracker.autorun ->
 			if Session.get "is_tap_loaded"
-				path = Session.get "router-path"
-				appName = Steedos.getAppName(path)
-				switch appName
-					when 'workflow'
-						title = "Steedos Workflow"
-					when 'cms'
-						title = "Steedos CMS"
-					when 'emailjs'
-						title = "Steedos Mail"
-					when 'contacts'
-						title = "Steedos Contacts"
-					when 'portal'
-						title = "Steedos Portal"
-					when 'admin'
-						title = "Steedos Admin"
-					when 'dashboard'
-						title = "Steedos Dashboard"
-					when 'calendar'
-						title = "Steedos Calendar"
-					else
-						title = "Steedos"
-				if title
-					Steedos.setAppTitle t(title)
+				appName = Steedos.getAppName()
+				if appName
+					Steedos.setAppTitle t(appName)
+				else
+					Steedos.setAppTitle "Steedos"
 	()-> 
 		# 变更路由时记录url作为下次登录的url
 		if Meteor.userId()
@@ -98,6 +80,16 @@ FlowRouter.route '/',
 FlowRouter.route '/admin/profile', 
 	action: (params, queryParams)->
 		FlowRouter.go "/admin/profile/profile"
+
+FlowRouter.route '/admin/api/:apiName', 
+	triggersEnter: [ checkUserSigned ],
+	action: (params, queryParams)->
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+
+		BlazeLayout.render 'adminLayout',
+			main: "admin_api"
 
 FlowRouter.route '/admin/profile/:profileName', 
 	triggersEnter: [ checkUserSigned ],

@@ -38,14 +38,51 @@
     .description{
         display: inherit;
     }
+    .control-label{
+        font-weight: bold;
+        font-size: 15px;
+    }
+}
+
+.instance-table .form-table .form-group {
+    .steedos-table {
+        .autoform-table {
+            tr {
+                td {
+                    border-top: 1px solid #000 !important;
+                    border-bottom: 0px !important;
+                }
+            }
+            td:last-child {
+                border-right: 1px solid transparent !important;
+            }
+        }
+    }
+}
+
+.steedos-table{
+    .add-item-tr {
+        background: rgba(255, 255, 0, 0.03);
+        cursor: pointer;
+        .ion {
+            height: 20px;
+            line-height: 20px;
+            margin-right: 6px;
+        }
+    }
 }
 
 .steedos-table-modal .steedos-table-modal-body{
     overflow-y:auto;
 
     .panel{
-        min-height: 270px;
+        // min-height: 270px;
+        border: none;
+        box-shadow: none;
+        margin-bottom: 0;
         .panel-body{
+            padding: 5px 15px;
+            border: none;
             position:relative;
         }
 

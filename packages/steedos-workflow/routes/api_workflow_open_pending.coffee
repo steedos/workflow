@@ -1,20 +1,16 @@
-JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
+JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 	try
+
+		if !Steedos.APIAuthenticationCheck(req, res)
+			return ;
+
 		space_id = req.headers['x-space-id'] || req.query?.spaceId
 
-		user = Steedos.getAPILoginUser(req, res)
-		
-		if !user
-			JsonRoutes.sendResult res,
-				code: 401,
-				data:
-					"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
-					"success": false
-			return;
+		user_id = req.userId
 
-		user_id = user._id
+		user = db.users.findOne({_id: user_id})
 
-		state = req.query?.state
+		state = req.params.state
 
 		limit = req.query?.limit || 500
 

@@ -8,7 +8,10 @@ Tracker.autorun (c)->
 		if Meteor.userId() and not Meteor.loggingIn()
 			# 只在已登录的情况下设置工作区ID
 			spaceId = Steedos.getSpaceId()
-			Steedos.setSpaceId(spaceId)
+			if spaceId
+				Steedos.setSpaceId(spaceId)
+			else
+				FlowRouter.go("/accounts/setup/space")
 
 Steedos.subsSpaceBase = new SubsManager();
 

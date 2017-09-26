@@ -49,8 +49,8 @@
 	"Steedos Admin": "设置",
 	"Flow Designer": "流程设计器",
 	"Steedos CMS": "信息发布",
-	"Steedos Boards":"看板",
-	"Steedos OldCalendar":"日历(旧版)",
+	"Steedos Boards": "看板",
+	"Steedos OldCalendar": "日历(旧版)",
 
 	"Apps": "应用",
 
@@ -117,7 +117,7 @@
 	"New": "新建",
 
 	"Account": "账户",
-	"Account Settings": "账户设置",
+	"Settings": "设置",
 	"Select Space": "选择工作区",
 	"Add space": "新增工作区",
 
@@ -424,6 +424,7 @@
 	"Change username successfully": "更改用户名成功",
 	"username-invalid": "用户名非法，仅使用汉字，字母，数字，点，连字符和下划线",
 	"username-unavailable": "此用户名已经被使用，请填写其他用户名",
+	"username-minrequiredlength": "最小长度不能小于6位字符",
 	"refresh": "刷新",
 
 	"afModal_insert": "保存",
@@ -462,5 +463,13 @@
 	"meteor_status_reconnect_in": "一分钟后重连...",
 	"meteor_status_reconnect_in_plural": "__count__秒后重连...",
 	"meteor_status_connecting": "连接中...",
-	"meteor_status_try_now_waiting": "重试"
+	"meteor_status_try_now_waiting": "重试",
+	"btn_back_title": "返回",
+	"space_users_remove_mail_subject": "您的帐户已被管理员从工作区中删除",
+	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"__steedos_id__\"已被管理员从工作区\"__space_name__\"中删除。<br/><br/>谢谢！",
+
+	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
+	"Steedos Records": "全文检索",
+
+	"Client download": "下载客户端"
 }

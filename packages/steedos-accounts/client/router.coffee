@@ -55,3 +55,8 @@ FlowRouter.route '/steedos/forgot-password-token',
 		BlazeLayout.render 'loginLayout',
 			main: "forgot_password_token"
 
+# 新建工作区
+accountsRoutes.route '/setup/space',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_space"

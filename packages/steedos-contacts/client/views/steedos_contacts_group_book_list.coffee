@@ -60,7 +60,6 @@ Template.steedos_contacts_group_book_list.events
 		ContactsManager.handerContactModalValueLabel();
 
 	'click #contact-list-search-btn': (event, template) ->
-		console.log("contact-list-search-btn click");
 		dataTable = $(".datatable-steedos-contacts").DataTable();
 		dataTable.search(
 			$("#contact-list-search-key").val(),

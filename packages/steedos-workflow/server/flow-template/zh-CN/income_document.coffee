@@ -1,0 +1,476 @@
+#收文单
+workflowTemplate["zh-CN"].push {
+  "_id": "3596cffb0503cf40b16a01b5",
+  "name": "收文单",
+  "state": "enabled",
+  "is_deleted": false,
+  "is_valid": true,
+  "space": "p5f5hYMFZBMRhKmNj",
+  "created": "2017-09-22T07:09:05.469Z",
+  "created_by": "5194c66ef4a563537a000003",
+  "current": {
+    "_id": "68e7fa81-8cce-4928-aa1d-833afe5f7153",
+    "_rev": 2,
+    "created": "2017-09-23T03:15:50.262Z",
+    "created_by": "51edf12c49203b28da000012",
+    "modified": "2017-09-23T03:22:58.162Z",
+    "modified_by": "51edf12c49203b28da000012",
+    "start_date": "2017-09-23T03:15:50.262Z",
+    "form": "3596cffb0503cf40b16a01b5",
+    "form_script": "CoreForm.pageTitle= \"收文单\";",
+    "name_forumla": "{文件标题}",
+    "fields": [
+      {
+        "_id": "0DF6EB50-F899-4D7B-BB8B-2A06F141D7EB",
+        "name": "收文号",
+        "code": "收文号",
+        "default_value": "",
+        "is_required": false,
+        "is_wide": false,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "收文号",
+        "is_textarea": false
+      },
+      {
+        "_id": "7A6E55C9-D6F6-4FA4-890A-24D4CE69EBC5",
+        "code": "收文日期",
+        "default_value": "{now}",
+        "is_required": false,
+        "is_wide": false,
+        "type": "date",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": false,
+        "oldCode": "收文日期"
+      },
+      {
+        "_id": "B56042D8-B9B3-4402-8CEE-4EE82AC456BE",
+        "name": "来文单位",
+        "code": "来文单位",
+        "default_value": "",
+        "is_required": false,
+        "is_wide": false,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": true,
+        "is_searchable": true,
+        "oldCode": "来文单位"
+      },
+      {
+        "_id": "E643229F-0DA3-4C70-B60A-DB06F1AD6342",
+        "name": "缓急程度",
+        "code": "priority",
+        "default_value": "普通",
+        "is_required": false,
+        "is_wide": false,
+        "type": "select",
+        "rows": 4,
+        "digits": 0,
+        "options": "普通\n紧急\n特急\n办文",
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": true,
+        "is_searchable": true,
+        "oldCode": "priority"
+      },
+      {
+        "_id": "6B610DA9-1C71-4AB8-BB83-E1B7F898530A",
+        "name": "文件日期",
+        "code": "文件日期",
+        "default_value": "{now}",
+        "is_required": false,
+        "is_wide": false,
+        "type": "date",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": true,
+        "is_searchable": false,
+        "oldCode": "文件日期"
+      },
+      {
+        "_id": "221DDE91-57E8-4B1F-8324-96864174055E",
+        "name": "文件编号",
+        "code": "文件编号",
+        "default_value": "auto_number(收文)",
+        "is_required": false,
+        "is_wide": false,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "文件编号"
+      },
+      {
+        "_id": "C80B2B4C-82F2-41FA-9225-1D276EAC68F9",
+        "name": "",
+        "code": "文件标题",
+        "default_value": "",
+        "is_required": true,
+        "is_wide": true,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "formula": "",
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "文件标题",
+        "is_textarea": false
+      },
+      {
+        "_id": "9B167C53-4344-4134-8CD1-F86F198E0A58",
+        "code": "办公室主任意见",
+        "is_required": false,
+        "is_wide": true,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "formula": "{yijianlan:{step:'办公室主任审核',default:'已阅'}}",
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "办公室主任意见",
+        "is_textarea": true
+      },
+      {
+        "_id": "878FC9FC-446D-4EB2-B8E8-5241701AC9A0",
+        "name": "",
+        "code": "领导意见",
+        "is_required": false,
+        "is_wide": true,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "formula": "{yijianlan:{step:'领导阅签',default:'已阅'}}",
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "领导意见",
+        "is_textarea": true
+      },
+      {
+        "_id": "83AC0EB3-18AD-47F7-B155-B2FC29A80266",
+        "code": "承办结果",
+        "is_required": false,
+        "is_wide": true,
+        "type": "input",
+        "rows": 4,
+        "digits": 0,
+        "formula": "{yijianlan:{step:'相关部门阅办',default:'已阅'}}",
+        "has_others": false,
+        "is_multiselect": false,
+        "is_list_display": false,
+        "is_searchable": true,
+        "oldCode": "承办结果",
+        "is_textarea": true
+      }
+    ]
+  },
+  "enable_workflow": false,
+  "enable_view_others": false,
+  "app": "workflow",
+  "category": "de12374c584e54677ccf1e23",
+  "instance_style": "table",
+  "is_subform": false,
+  "import": true,
+  "historys": [],
+  "category_name": "行政",
+  "instance_number_rules": [
+    {
+      "name": "收文",
+      "first_number": 1,
+      "rules": "{YYYY}-SW-{NUMBER}",
+      "number": 0
+    }
+  ],
+  "flows": [
+    {
+      "_id": "4f518afdbf0cfd38a9e0a458",
+      "name": "收文",
+      "name_formula": "",
+      "code_formula": "",
+      "space": "p5f5hYMFZBMRhKmNj",
+      "is_valid": false,
+      "form": "3596cffb0503cf40b16a01b5",
+      "flowtype": "new",
+      "state": "enabled",
+      "is_deleted": false,
+      "created": "2017-09-22T07:09:05.485Z",
+      "created_by": "5194c66ef4a563537a000003",
+      "current_no": 6,
+      "current": {
+        "_id": "16819d7b-67e0-4794-982f-4bbd5fc940a1",
+        "_rev": 3,
+        "flow": "4f518afdbf0cfd38a9e0a458",
+        "form_version": "68e7fa81-8cce-4928-aa1d-833afe5f7153",
+        "modified": "2017-09-23T03:22:58.247Z",
+        "modified_by": "51edf12c49203b28da000012",
+        "created": "2017-09-23T03:15:50.262Z",
+        "created_by": "51edf12c49203b28da000012",
+        "start_date": "2017-09-23T03:15:50.262Z",
+        "steps": [
+          {
+            "_id": "a7b742ad-f1c9-423c-9bea-db426f76a2f0",
+            "name": "开始(收文登记)",
+            "step_type": "start",
+            "deal_type": "",
+            "description": "",
+            "posx": 115.75,
+            "posy": 369,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {
+              "__form": "editable",
+              "收文日期": "editable",
+              "文件标题": "editable",
+              "手写编号": "editable",
+              "来文编号": "editable",
+              "标头": "editable",
+              "priority": "editable",
+              "来文单位": "editable",
+              "收文号": "editable"
+            },
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "lines": [
+              {
+                "_id": "d33074cb-6af4-4acb-9132-954b0921ec2c",
+                "name": "",
+                "state": "submitted",
+                "to_step": "dbcd13fb-8c1f-4d78-9451-532bcdc9c02d",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": []
+          },
+          {
+            "_id": "67ed8dac-c3e3-4fd9-ba0e-0b769119d9c4",
+            "name": "结束",
+            "step_type": "end",
+            "deal_type": "",
+            "description": "",
+            "posx": 546.25,
+            "posy": 527.450012207031,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "distribute_optional_flows": [],
+            "approver_roles_name": []
+          },
+          {
+            "_id": "2354ecab-c44a-4b2e-b890-dfc461390991",
+            "name": "文书处理",
+            "step_type": "submit",
+            "deal_type": "applicantRole",
+            "description": "",
+            "posx": 543,
+            "posy": 369,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [
+              "Bp9aSeYPFTZAZ8WzS"
+            ],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {
+              "标头": "editable",
+              "文件日期": "editable",
+              "文件编号": "editable"
+            },
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": true,
+            "lines": [
+              {
+                "_id": "233f4432-a7b3-45e7-ab9c-6baedff0917a",
+                "name": "",
+                "state": "submitted",
+                "to_step": "67ed8dac-c3e3-4fd9-ba0e-0b769119d9c4",
+                "description": ""
+              },
+              {
+                "_id": "c5eddbbc-6668-4782-95b6-87b61eaccbf7",
+                "name": "",
+                "state": "submitted",
+                "to_step": "a41a86d2-cd5a-4e6e-9217-a2828eca331a",
+                "description": ""
+              },
+              {
+                "_id": "8ff23da9-c85d-4ddb-9b34-e1515130afa7",
+                "name": "",
+                "state": "submitted",
+                "to_step": "dbcd13fb-8c1f-4d78-9451-532bcdc9c02d",
+                "description": ""
+              },
+              {
+                "_id": "ceecb335-51eb-49fb-916f-c1be67f71ec2",
+                "name": "",
+                "state": "submitted",
+                "to_step": "4f705f0f-f200-4641-9ae8-884ffaeb4d75",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": [
+              "办公室文书"
+            ]
+          },
+          {
+            "_id": "4f705f0f-f200-4641-9ae8-884ffaeb4d75",
+            "name": "领导阅签",
+            "step_type": "counterSign",
+            "deal_type": "applicantRole",
+            "description": "",
+            "posx": 761.888916015625,
+            "posy": 366.888885498047,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [
+              "5MQMazZLnuGGgkvDH"
+            ],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "d446f759-789f-4709-9194-1d6dfd7394fe",
+                "name": "",
+                "state": "submitted",
+                "to_step": "2354ecab-c44a-4b2e-b890-dfc461390991",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": [
+              "公司领导"
+            ]
+          },
+          {
+            "_id": "a41a86d2-cd5a-4e6e-9217-a2828eca331a",
+            "name": "相关部门阅办",
+            "step_type": "counterSign",
+            "deal_type": "pickupAtRuntime",
+            "description": "",
+            "posx": 529,
+            "posy": 195,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "8a9b00e6-7619-4fe0-9bd3-b6c1abfdb9f8",
+                "name": "",
+                "state": "submitted",
+                "to_step": "2354ecab-c44a-4b2e-b890-dfc461390991",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": []
+          },
+          {
+            "_id": "dbcd13fb-8c1f-4d78-9451-532bcdc9c02d",
+            "name": "办公室主任审核",
+            "step_type": "sign",
+            "deal_type": "applicantRole",
+            "description": "",
+            "posx": 315,
+            "posy": 369,
+            "timeout_hours": 168,
+            "approver_user_field": "",
+            "approver_org_field": "",
+            "approver_roles": [
+              "AqmH9zAvsmKqgASRj"
+            ],
+            "approver_orgs": [],
+            "approver_users": [],
+            "approver_step": "",
+            "fields_modifiable": [],
+            "permissions": {},
+            "disableCC": false,
+            "allowDistribute": false,
+            "can_edit_main_attach": false,
+            "can_edit_normal_attach": true,
+            "distribute_optional_flows": [],
+            "cc_must_finished": false,
+            "cc_alert": false,
+            "lines": [
+              {
+                "_id": "13e4210e-e58e-46c0-a96e-9475d2f8deca",
+                "name": "",
+                "state": "approved",
+                "to_step": "2354ecab-c44a-4b2e-b890-dfc461390991",
+                "description": ""
+              }
+            ],
+            "approver_roles_name": [
+              "办公室主任"
+            ]
+          }
+        ]
+      },
+      "app": "workflow",
+      "distribute_optional_users": [],
+      "historys": []
+    }
+  ]
+}

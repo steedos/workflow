@@ -351,8 +351,13 @@ InstanceformTemplate.helpers =
 		return SteedosTable.getThead(field, false)
 
 	getTableBody: (field)->
-		instance = Template.instance().view.template.steedosData.instance
-		values = instance.values
+
+		if Meteor.isServer
+			instance = Template.instance().view.template.steedosData.instance
+			values = instance.values
+		else
+			values = WorkflowManager_format.getAutoformSchemaValues()
+
 		tableValue = values[field.code];
 		return SteedosTable.getTbody(field.sfields.getProperty("code"), field, tableValue, false)
 
@@ -376,8 +381,19 @@ InstanceformTemplate.helpers =
 		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
 
 	includesOpinionField: (form, form_version)->
+
+		field_formulas = new Array();
+
 		fields = db.form_versions.findOne({_id: form_version, form: form})?.fields || []
-		field_formulas = fields.getProperty("formula")
+
+		fields.forEach (f)->
+			if f.type == 'table'
+				console.log 'ignore opinion field in table'
+			else if f.type == 'section'
+				f?.fields?.forEach (f1)->
+					field_formulas.push f1.formula
+			else
+				field_formulas.push f.formula
 
 		_.some field_formulas, (field_formula)->
 			return InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
@@ -396,12 +412,12 @@ InstanceformTemplate.helpers =
 #					foo1 = field_formula.split(";")
 
 				foo1.forEach (foo)->
-					json_formula = false
+					json_formula = {}
 
 					try
 						json_formula = eval("(" + foo + ")")
 					catch
-						json_formula = false
+						json_formula = {}
 
 					if json_formula?.yijianlan
 						sf = {}
@@ -413,6 +429,8 @@ InstanceformTemplate.helpers =
 						sf.only_cc_opinion = json_formula.yijianlan.only_cc || false
 
 						sf.default_description = json_formula.yijianlan.default
+
+						sf.only_handler = json_formula.yijianlan.only_handler
 
 						sf.top_keywords = json_formula.yijianlan.top_keywords || top_keywords
 
@@ -525,6 +543,7 @@ InstanceformTemplate.onCreated = ()->
 	try
 		compiled = SpacebarsCompiler.compile(template, {isBody: true});
 	catch e
+		console.log "Instance Template Error", e
 		compiled = SpacebarsCompiler.compile("", {isBody: true});
 
 

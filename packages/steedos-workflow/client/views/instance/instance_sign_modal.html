@@ -12,9 +12,8 @@
 
 				<div class="modal-body modal-zoom">
 					<div class="instance-suggestion">
-
+						{{#unless sign_type_add}}
 						<div class="form-group">
-
 							<label class="radio-inline">
 								<input type="radio" name="sign_type" id="sign_type" value="add" class="suggestion" checked="{{#if sign_type_add}}true{{/if}}">新增
 							</label>
@@ -24,8 +23,8 @@
 							<label class="radio-inline" style="padding-left: 0px">
 								<a class="instance-sign-history">{{_ "workflow_history_approve_description"}}</a>
 							</label>
-
 						</div>
+						{{/unless}}
 
 						<textarea name="modal_suggestion" class="suggestion-control" id="modal_suggestion">{{modal_suggestion}}</textarea>
 						<span class="help-block"></span>

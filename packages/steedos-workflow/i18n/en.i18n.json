@@ -58,6 +58,7 @@
 	"flow_positions_users_name()": "Users",
 
 	"workflow_table_confirm": "OK",
+	"workflow_table_delete": "Delete",
 
 	"Attachment deleted successfully": "Attachment deleted successfully!",
 	"Attachment was added successfully": "Attachment was added successfully!",
@@ -181,6 +182,9 @@
 
 	"workflow_left_parenthesis": "(",
 	"workflow_right_parenthesis": ")",
+
+	"instance_cc_description": "Carbon Description",
+	"instance_cc_from": "Carbon Form",
 
 	"instance_cc_title": "Carbon Copy",
 	"instance_cc_done": "Carbon copied!",
@@ -422,8 +426,7 @@
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
 	"instance_retrieve_rules_title": "Retrieve failed",
-	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.
-",
+	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -478,7 +481,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web Data Connector copy successful",
 	"instance_related_instances": "Related requests",
 	"instance_related_instances_title": "Linked requests",
-	"instance_related_instances_placeholder": "Please enter request name",
+	"instance_related_instances_placeholder": "Please enter the file name to search for the associated file",
 
 	"workflow_install_desktop": "Install Desktop",
 
@@ -486,7 +489,7 @@
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",
-	"instance_return_confirm": "Are you sure to return the request to the previous step?",
+	"instance_return_confirm": "Return the request to __step_name__(__handlers_name__)?",
 	"Instance State returned": "Returned",
 
 	"instance_main_attachment": "Main attach",
@@ -559,5 +562,14 @@
 	"instances_archived": "Archived",
 	"instances_not_archived": "Not archived",
 	"workflow_more_inbox": "More Inbox",
-	"instance_back": "Back"
+	"instance_back": "Back",
+
+	"steedos_tableau_statistical_analysis": "Statistical analysis",
+
+	"steedos_tableau_copy_link": "Copy link",
+	"tableau_introduction_modal_close": "Close",
+	"ERROR": "Error",
+
+	"steedos_table_add_item": "Add item",
+	"copy": "Copy"
 }

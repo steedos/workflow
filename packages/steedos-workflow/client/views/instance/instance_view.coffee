@@ -36,11 +36,11 @@ Template.instance_view.helpers
 		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
-			return ""
+			return "instance-default"
 
 		if form?.instance_style == 'table'
 			return "instance-table"
-		return "";
+		return "instance-default";
 
 	showTracesView: (form, form_version)->
 		return TracesTemplate.helpers.showTracesView(form, form_version)
@@ -94,11 +94,23 @@ Template.instance_view.helpers
 
 		return priorityClass
 
+	box: ()->
+		return Session.get("box");
+
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
 
 Template.instance_view.onRendered ->
+
+	ins = WorkflowManager.getInstance();
+
+	form_version = db.form_versions.findOne({_id: ins.form_version})
+
+	flow_version = db.flow_versions.findOne({_id: ins.flow_version})
+
+	if Session.get("box") == 'draft' && (form_version.latest != true || flow_version.latest != true)
+		InstanceManager.saveIns();
 
 	Form_formula.runFormScripts("instanceform", "onload");
 
@@ -135,9 +147,7 @@ Template.instance_view.onRendered ->
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-							setTimeout ->
-								InstanceManager.fixInstancePosition(true)
-							,100
+							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
 
@@ -213,4 +223,31 @@ Template.instance_view.events
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
+
+	'click #nextStepUsers': (event, template)->
+
+		error = event.target.dataset.error
+		error_type = event.target.dataset.error_type
+
+		if error && error_type == 'applicantRole'
+			swal({
+				title: t('instance_next_step_users') + t('ERROR'),
+				text: error
+				showCancelButton: true,
+				closeOnConfirm: false,
+				confirmButtonText: t('Help'),
+				cancelButtonText: t('Cancel'),
+				showLoaderOnConfirm: false
+			}, (inputValue) ->
+				if inputValue == false
+					swal.close();
+				else
+
+					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
+
+					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
+
+					swal.close();
+			);
+			event.preventDefault()
 		
