@@ -77,12 +77,12 @@ if Meteor.isClient
 		sort: 50
 		parent: "account"
 
-	# 个性化
+	# API
 	Admin.addMenu
 		_id: "api"
 		title: "API"
 		icon:"ion ion-ios-loop"
-		sort: 50
+		sort: 60
 
 	# 个性化
 	Admin.addMenu

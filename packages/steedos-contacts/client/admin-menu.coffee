@@ -3,6 +3,6 @@ Meteor.startup ()->
 		_id: "steedos_contacts_settings"
 		title: t("steedos_contacts_settings")
 		icon: "ion ion-ios-people-outline"
-		sort: 2500
+		sort: 50
 		roles: ["space_admin"]
 		url: "/admin/contacts/settings"
