@@ -29,22 +29,28 @@ Meteor.startup ()->
 
 	#获取zh-cn文件夹下的所有文件
 	filesList_cn = []
-	path_cn = path.join(__meteor_bootstrap__.serverDir, '../../../../../../workflow-templates/zh-cn/default')
-	if fs.existsSync(path_cn)
-		readFileList(path_cn, filesList_cn)
-		filesList_cn.forEach (file)->
-			if mime.getType(file.name) is "application/json"
-				data = fs.readFileSync(file.path + "\\" + file.name, 'utf8')
-				workflowTemplate["zh-CN"].push(JSON.parse(data))
+	path_cn = Meteor.settings.workflowTemplates?.path_cn
+	if path_cn
+		absolute_path_cn = path.resolve(path_cn)
+		console.log "absolute_path_cn", absolute_path_cn
+		if fs.existsSync(absolute_path_cn)
+			readFileList(absolute_path_cn, filesList_cn)
+			filesList_cn.forEach (file)->
+				if mime.getType(file.name) is "application/json"
+					data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
+					workflowTemplate["zh-CN"].push(JSON.parse(data))
 
 	#获取en-us文件夹下的所有文件
 	filesList_us = []
-	path_us = path.join(__meteor_bootstrap__.serverDir, '../../../../../../workflow-templates/en-us/default')
-	if fs.existsSync(path_us)
-		readFileList(path_us, filesList_us)
-		filesList_us.forEach (file)->
-			if mime.getType(file.name) is "application/json"
-				data = fs.readFileSync(file.path + "\\" + file.name, 'utf8')
-				workflowTemplate["en"].push(JSON.parse(data))
+	path_us = Meteor.settings.workflowTemplates?.path_us
+	if path_us
+		absolute_path_us = path.resolve(path_us)
+		console.log "absolute_path_us", absolute_path_us
+		if fs.existsSync(absolute_path_us)
+			readFileList(absolute_path_us, filesList_us)
+			filesList_us.forEach (file)->
+				if mime.getType(file.name) is "application/json"
+					data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
+					workflowTemplate["en"].push(JSON.parse(data))
 
 
