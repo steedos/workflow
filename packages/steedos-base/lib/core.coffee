@@ -13,7 +13,7 @@ Steedos =
 			unless locale
 				locale = Steedos.locale()
 			if locale == "zh-cn" || locale == "zh-CN"
-				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ' ')
+				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
 			else
 				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		else
