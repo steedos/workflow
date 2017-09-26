@@ -17,10 +17,10 @@ Meteor.startup ()->
 	readFileList = (pathDir, filesList)->
 		files = fs.readdirSync(pathDir)
 		files.forEach (name, index)->
-			stat = fs.statSync(pathDir + "\\" + name)
+			stat = fs.statSync(path.join(pathDir, name))
 			if stat.isDirectory()
 				# 递归读取文件
-				readFileList(pathDir + "\\" + name, filesList)
+				readFileList(path.join(pathDir, name), filesList)
 			else
 				obj = {}
 				obj.path = pathDir
