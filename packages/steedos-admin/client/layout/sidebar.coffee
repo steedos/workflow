@@ -62,7 +62,6 @@ Admin.menuTemplate =
 
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
 
-						if menu.paid && !Steedos.isLegalVersion('',memu.appversion)
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;
