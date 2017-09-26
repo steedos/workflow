@@ -89,7 +89,7 @@ Template.forward_select_flow_modal.events({
 	},
 
 	'click #forward_flow_ok': function(event, template) {
-		if (!Steedos.isLegalVersion("workflow_pro"))
+		if (!Steedos.isLegalVersion('',"workflow_pro"))
 			{
 				Steedos.spaceUpgradedModal()
 				return;

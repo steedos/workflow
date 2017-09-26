@@ -207,7 +207,7 @@ if Meteor.isServer
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 		if (!Steedos.isLegalVersion(doc.space,"workflow_pro"))
-			throw new Meteor.Error(400, "eeee");
+			throw new Meteor.Error(400, "space_paid_info_title");
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
 

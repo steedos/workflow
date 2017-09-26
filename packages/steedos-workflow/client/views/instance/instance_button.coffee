@@ -200,7 +200,7 @@ Template.instance_button.helpers
 		# 设置了允许分发才显示分发按钮
 		if InstanceManager.isInbox()
 			cs = InstanceManager.getCurrentStep()
-			if cs && (cs.allowDistribute is true)
+			if cs && (cs.allowDistribute is true)&& Steedos.isLegalVersion('',"workflow_ent")
 				return true
 		
 		return false
@@ -413,6 +413,7 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-instance-reassign': (event, template) ->
+		
 		Modal.show('reassign_modal')
 
 	'click .btn-instance-relocate': (event, template) ->
@@ -452,17 +453,11 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
@@ -560,10 +555,6 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
 

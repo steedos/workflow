@@ -162,12 +162,11 @@ if Meteor.isServer
 			
 
 	db.spaces.before.update (userId, doc, fieldNames, modifier, options) ->
-		modifier.$set = modifier.$set || {};
-
-		# only space owner can modify space
+		modifier.$set = modifier.$set || {}; 
 		if doc.owner != userId
 			throw new Meteor.Error(400, "spaces_error_space_owner_only");
-
+		if (!Steedos.isLegalVersion(doc._id,"workflow_pro")) and modifier.$set.avatar
+			throw new Meteor.Error(400, "space_paid_info_title");	
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
