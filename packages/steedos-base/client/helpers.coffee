@@ -155,12 +155,8 @@ Steedos.Helpers =
 		if matchs and matchs.index == 0
 			return true
 
-	coreformNumberToString: (number, local)->
-		if number != "NaN"
-			return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-		else
-			return ""
-
+	coreformNumberToString: (number, locale)->
+		return Steedos.numberToString number, locale
 
 _.extend Steedos, Steedos.Helpers
 
