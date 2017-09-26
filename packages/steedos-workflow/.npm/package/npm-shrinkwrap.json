@@ -158,8 +158,8 @@
       "from": "is-utf8@>=0.2.0 <0.3.0"
     },
     "keygrip": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.1.tgz",
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.2.tgz",
       "from": "keygrip@>=1.0.0 <1.1.0"
     },
     "lcid": {
@@ -176,6 +176,11 @@
       "version": "4.2.0",
       "resolved": "https://registry.npmjs.org/lodash.assign/-/lodash.assign-4.2.0.tgz",
       "from": "lodash.assign@>=4.0.3 <5.0.0"
+    },
+    "mime": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/mime/-/mime-2.0.2.tgz",
+      "from": "mime@2.0.2"
     },
     "minimatch": {
       "version": "3.0.4",
