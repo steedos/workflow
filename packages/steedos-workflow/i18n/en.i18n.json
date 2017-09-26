@@ -571,5 +571,7 @@
 	"ERROR": "Error",
 
 	"steedos_table_add_item": "Add item",
-	"copy": "Copy"
+	"copy": "Copy",
+
+	"from": "From"
 }
