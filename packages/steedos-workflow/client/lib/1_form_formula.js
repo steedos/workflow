@@ -237,7 +237,8 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     }
                     var currentField = $("[name='" + field_prefix + formula_field.code + "']");
                     currentField.val(value);
-                    currentField.prev(".coreform-read-only-number").val(Steedos.coreformNumberToString(value));
+                    var readonlyNumber = Steedos.numberToString(value);
+                    currentField.prev(".coreform-read-only-number").val(readonlyNumber);
                 }else{
                     var afField = $("[name='" + field_prefix + formula_field.code + "']")
                     var afValue = Form_formula.field_values[formula_field.code];
