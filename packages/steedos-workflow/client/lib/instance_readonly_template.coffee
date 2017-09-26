@@ -154,6 +154,7 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 				if typeof value == 'string'
 					value = parseFloat(value)
 				value = value.toFixed(field.digits)
+				value = Steedos.numberToString value, locale
 
 	return value;
 

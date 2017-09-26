@@ -6,6 +6,18 @@ Steedos =
 	subs: {}
 	isPhoneEnabled: ->
 		return !!Meteor.settings?.public?.phone
+	numberToString: (number, locale)->
+		if typeof number == "number"
+			number = number.toString()
+		if number != "NaN"
+			unless locale
+				locale = Steedos.locale()
+			if locale == "zh-cn" || locale == "zh-CN"
+				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
+			else
+				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		else
+			return ""
 
 ###
 # Kick off the global namespace for Steedos.
