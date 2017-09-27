@@ -273,7 +273,6 @@ if Meteor.isServer
 			if sortNo
 				_org.sort_no=sortNo
 			db.organizations.insert(_org)
-
 		# 新建5个部门
 		if user.locale == "zh-cn"
 			_create_org("销售部")
