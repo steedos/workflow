@@ -263,13 +263,17 @@ if Meteor.isServer
 		# 初始化 space owner 的 orgnization
 		# db.space_users.direct.update({space: space_id, user: space.owner}, {$set: {organization: org_id}})
 
-		_create_org = (orgName)->
+		_create_org = (orgName, sort_no)->
 			_org = {}
 			_org.space = space_id
 			_org.name = orgName
 			_org.fullname = org.name + '/' + _org.name
 			_org.parents = [org_id]
 			_org.parent = org_id
+
+			if sort_no
+				_org.sort_no = sort_no
+
 			db.organizations.insert(_org)
 
 		# 新建5个部门
