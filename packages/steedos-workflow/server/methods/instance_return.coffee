@@ -25,10 +25,10 @@ Meteor.methods
 		if pre_step.step_type is "counterSign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
-		# - 当前步骤为填写
+		# - 当前步骤为填写或者审批
 		last_trace = _.last(ins.traces)
 		current_step = uuflowManager.getStep(ins, flow, last_trace.step)
-		if current_step.step_type isnt "submit"
+		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
 		# - 参数approve中trace与当前获取的trace是否匹配

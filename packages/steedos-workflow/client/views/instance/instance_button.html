@@ -32,6 +32,12 @@
 				<span>{{_ 'instance_save'}}</span>
 			</button>
 		{{/if}}
+		{{#if enabled_return}}
+			<button type="button" class="btn btn-default btn-instance-return" data-toggle="tooltip" data-placement="bottom" >
+				<i class="ion ion-reply"></i>
+				<span>{{_ "instance_return"}}</span>
+			</button>
+		{{/if}}
 		{{#if enabled_relocate}}
 			<button type="button" class="btn btn-default btn-instance-relocate" data-toggle="tooltip"
 					data-placement="bottom">
@@ -71,12 +77,6 @@
 			<button type="button" class="btn btn-default btn-trace-list" data-toggle="tooltip" data-placement="bottom">
 				<i class="ion ion-arrow-return-left"></i>
 				<span>{{_ 'instance_approval_history'}}</span>
-			</button>
-		{{/if}}
-		{{#if enabled_return}}
-			<button type="button" class="btn btn-default btn-instance-return" data-toggle="tooltip" data-placement="bottom" >
-				<i class="ion ion-reply"></i>
-				<span>{{_ "instance_return"}}</span>
 			</button>
 		{{/if}}
 		{{#if enabled_forward}}
@@ -139,6 +139,10 @@
 				{{#if enabled_save}}
 					<li><a class="btn-instance-update"><i class="fa fa-save"></i>{{_ 'instance_save'}}</a></li>
 				{{/if}}
+				{{#if enabled_return}}
+					<li><a class="btn-instance-return"><i class="ion ion-reply" aria-hidden="true"></i>{{_
+							'instance_return'}}</a></li>
+				{{/if}}
 				{{#if enabled_relocate}}
 					<li><a class="btn-instance-relocate"><i class="ion ion-arrow-shrink"></i>{{_ 'instance_relocate'}}</a></li>
 				{{/if}}
@@ -160,10 +164,6 @@
 				{{#if enabled_traces}}
 					<li><a class="btn-trace-list"><i class="ion ion-arrow-return-left"></i>{{_
 							'instance_approval_history'}}</a></li>
-				{{/if}}
-				{{#if enabled_return}}
-					<li><a class="btn-instance-return"><i class="ion ion-reply" aria-hidden="true"></i>{{_
-							'instance_return'}}</a></li>
 				{{/if}}
 				{{#if enabled_forward}}
 					<li><a class="btn-instance-forward"><i class="fa fa-clone" aria-hidden="true"></i>{{_
