@@ -4,8 +4,8 @@ Template.history_sign_approve.helpers
 
 		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId()) || []
 		# sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId(), true) || []
-		if InstanceManager.getCurrentApprove().description
-			sign_approves.push(InstanceManager.getCurrentApprove())
+		# if InstanceManager.getCurrentApprove().description
+		# 	sign_approves.push(InstanceManager.getCurrentApprove())
 		return sign_approves.reverse()
 
 	format: (time) ->
