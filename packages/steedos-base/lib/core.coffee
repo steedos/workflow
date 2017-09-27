@@ -245,7 +245,10 @@ if Meteor.isClient
 			toastr.error t("space_balance_insufficient")
 
 	Steedos.getModalMaxHeight = (offset)->
-		reValue = $(window).height() - 180 - 25
+		if Steedos.isMobile
+			reValue = window.screen.height - 126 - 180 - 25
+		else
+			reValue = $(window).height() - 180 - 25 
 		unless Steedos.isiOS() or Steedos.isMobile()
 			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()
