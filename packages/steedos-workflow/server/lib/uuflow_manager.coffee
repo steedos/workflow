@@ -527,7 +527,9 @@ uuflowManager.getForm = (form_id) ->
 uuflowManager.getInstanceName = (instance) ->
 	values = instance.values || {}
 
-	values["applicant"] = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant);
+	applicant = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant);
+
+	values["applicant"] = applicant;
 
 	values["applicant_name"] = instance.applicant_name
 	values["applicant_organization"] = instance.applicant_organization
@@ -544,8 +546,20 @@ uuflowManager.getInstanceName = (instance) ->
 	rev = default_value
 
 	if name_forumla
-		iscript = name_forumla.replace(/\{/g, "(values['").replace(/\}/g, "'] || '')")
-		rev = eval(iscript) || default_value
+
+		if name_forumla.indexOf("{applicant.") > -1
+			iscript = name_forumla.replace(/\{applicant./g, "(applicant.").replace(/\}/g, " || '')")
+
+		iscript = name_forumla.replace(/\{/g, "(values.").replace(/\}/g, " || '')")
+
+#		console.log(iscript)
+
+		try
+
+			rev = eval(iscript) || default_value
+
+		catch e
+			console.log e
 
 	return rev.trim()
 
