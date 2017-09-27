@@ -215,6 +215,8 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 
 	self.ready();
 
+	var error_ids = [];
+
 	// Handle docs being added or removed from the result set.
 	var initializing = true;
 	var handle = filteredCursor.observeChanges({
@@ -222,8 +224,28 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 			if (initializing) return;
 
 			//console.log("ADDED");
-			filteredRecordIds.push(id);
-			updateRecords();
+			if(!filteredRecordIds.indexOf(id)){
+				filteredRecordIds.push(id);
+				updateRecords();
+			}else{
+
+				if(table.filteredRecordIds){
+					error_ids.push(id);
+
+					selector._id = {$nin: error_ids}
+
+					console.log(selector)
+
+					filteredCursor = table.collection.find(selector, findOptions);
+
+					filteredRecordIds = filteredCursor.map(function (doc) {
+						return doc._id;
+					});
+
+					updateRecords();
+				}
+			}
+
 		},
 		removed: function (id) {
 			//console.log("REMOVED");
