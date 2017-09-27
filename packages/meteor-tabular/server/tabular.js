@@ -222,28 +222,34 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 	var handle = filteredCursor.observeChanges({
 		added: function (id) {
 			if (initializing) return;
-
 			//console.log("ADDED");
-			if(!filteredRecordIds.indexOf(id)){
+
+
+			if(table.filteredRecordIds){
+				if(!filteredRecordIds.indexOf(id)){
+					filteredRecordIds.push(id);
+					updateRecords();
+				}else{
+
+					if(table.filteredRecordIds){
+						error_ids.push(id);
+
+						selector._id = {$nin: error_ids}
+
+						console.log(selector)
+
+						filteredCursor = table.collection.find(selector, findOptions);
+
+						filteredRecordIds = filteredCursor.map(function (doc) {
+							return doc._id;
+						});
+
+						updateRecords();
+					}
+				}
+			}else{
 				filteredRecordIds.push(id);
 				updateRecords();
-			}else{
-
-				if(table.filteredRecordIds){
-					error_ids.push(id);
-
-					selector._id = {$nin: error_ids}
-
-					console.log(selector)
-
-					filteredCursor = table.collection.find(selector, findOptions);
-
-					filteredRecordIds = filteredCursor.map(function (doc) {
-						return doc._id;
-					});
-
-					updateRecords();
-				}
 			}
 
 		},
