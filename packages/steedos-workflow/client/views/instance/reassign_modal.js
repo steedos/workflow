@@ -84,6 +84,7 @@ Template.reassign_modal.events({
             return;
         }
 
+        var reason = $("#reassign_modal_text").val();
         
 
         var user_ids = val.split(",");
