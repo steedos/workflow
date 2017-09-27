@@ -40,7 +40,7 @@
                 speed = 'slow',
                 conditionalPaging = function(e) {
                     // 增加div.dataTables_length，让一页显示多少条记录选项框与翻页按钮一同显示或隐藏
-                    var $paging = $(api.table().container()).find('div.dataTables_paginate22222'),
+                    var $paging = $(api.table().container()).find('div.dataTables_paginate'),
                         $lengthing = $(api.table().container()).find('div.dataTables_length'),
                         pages = api.page.info().pages,
                         recordsTotal = api.page.info().recordsTotal;
