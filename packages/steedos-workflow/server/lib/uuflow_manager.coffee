@@ -526,6 +526,16 @@ uuflowManager.getForm = (form_id) ->
 
 uuflowManager.getInstanceName = (instance) ->
 	values = instance.values || {}
+
+	values["applicant"] = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant);
+
+	values["applicant_name"] = instance.applicant_name
+	values["applicant_organization"] = instance.applicant_organization
+	values["applicant_organization_fullname"] = instance.applicant_organization_fullname
+	values["applicant_organization_name"] = instance.applicant_organization_name
+
+	values["submit_date"] = moment(instance.submit_date).utcOffset(0, false).format("YYYY-MM-DD")
+
 	form_id = instance.form
 	flow = uuflowManager.getFlow(instance.flow)
 
