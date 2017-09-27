@@ -29,6 +29,9 @@ FlowversionAPI =
 			if lines?.length
 				lines.forEach (line)->
 					if step.name
+						# 标记条件节点
+						if step.step_type == "condition"
+							nodes.push "	class #{step._id} condition;"
 						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
 						stepName = "<div class='graph-node'><div class='step-name'>#{step.name}</div></div>"
 						stepName = FlowversionAPI.replaceErrorSymbol(stepName)
@@ -104,10 +107,16 @@ FlowversionAPI =
 							font-size: 20px;
 							color: #a94442;
 						}
+						.node rect{
+							fill: #ccccff;
+						}
 						.node.current-step-node rect{
 							fill: #cde498;
 							stroke: #13540c;
 							stroke-width: 2px;
+						}
+						.node.condition rect{
+							fill: #ececff;
 						}
 					</style>
 				</head>

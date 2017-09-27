@@ -81,7 +81,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 				else
 					template += table_field.tr_start
 					template += """
-						<td class="td-title td-title-#{table_field.code} #{required}">
+						<td class="td-title td-title-#{table_field.code} title-#{table_field.permission} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
 						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">

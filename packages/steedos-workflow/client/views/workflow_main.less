@@ -384,6 +384,15 @@
 				margin-left: 0px;
 			}
 
+			&.instance-default{
+				.form-group{
+					margin-bottom: 5px;
+					.control-label{
+						margin-bottom: 3px;
+					}
+				}
+			}
+
 			.box-body {
 				padding-left: 15px;
 				padding-right: 15px;
@@ -398,6 +407,8 @@
 				position: relative;
 				box-shadow: none;
 				z-index: auto;
+				/*草稿箱审批栏离底部不应该有20px的空隙*/
+				margin-bottom: -20px;
 				.btn-remove{
 					display:none;
 				}
@@ -462,6 +473,9 @@ _:-ms-fullscreen,
 		right: 0px;
 		border-right: 0px;
 		transition: 0.3s ease-in-out;
+		.instance-list {
+			overflow: auto;
+		}
 	}
 	.instance-wrapper {
 		display: none;

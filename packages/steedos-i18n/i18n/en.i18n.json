@@ -106,8 +106,9 @@
 	"Help": "Help",
 	"New": "New",
 
-	"Account": "Account",
 	"Account Settings": "Account Settings",
+	"Account": "Account",
+	"Settings": "Settings",
 	"Select Space": "Select Space",
 	"Add space": "Add space",
 
@@ -451,5 +452,7 @@
 	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"__steedos_id__\" has been removed from the workspace \"__space_name__\" by the administrator. <br/><br/>Thank you!",
 
 	"steedos_i18n_404_not_found": "The page you requested could not be found.",
-	"Steedos Records": "Full Text Search"
+	"Steedos Records": "Full Text Search",
+
+	"Client download": "Download client"
 }

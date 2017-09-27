@@ -62,11 +62,71 @@
 
 .steedos-table{
     .add-item-tr {
+        background: rgba(255, 255, 0, 0.03);
         cursor: pointer;
         .ion {
             height: 20px;
             line-height: 20px;
             margin-right: 6px;
+        }
+    }
+    .panel-body{
+        padding: 0px;
+        .panel-content{
+            padding: 0px;
+            overflow-x: auto;
+            .table{
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+
+.instance-default{
+    .steedos-table{
+        border-radius: 0px;
+        border: none;
+        .panel-body{
+            .panel-heading{
+                border: none;
+                padding: 2px 0;
+                margin-bottom: -5px;
+                margin-top: 5px;
+                background: none;
+                .control-label{
+                    width: 100%;
+                }
+                .description{
+                    margin-top: -10px;
+                    margin-bottom: 10px;
+                    color: #777;
+                    padding-top: 5px;
+                }
+            }
+            .panel-content{
+                border: solid 1px #d2d6de;
+                .table-bordered{
+                    border: none;
+                    thead{
+                        background: #f9f9f9;
+                        td:first-child{
+                            border-left: 0px;
+                        }
+                    }
+                    thead,tbody,tfoot{
+                        &>tr>td{
+                            border: 1px solid #eee;
+                            border-top: 0px;
+                            &:first-child{
+                                border-left: 0px;
+                            }
+                            &:last-child{
+                                border-right: 0px;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

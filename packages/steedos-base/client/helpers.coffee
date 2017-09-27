@@ -155,6 +155,8 @@ Steedos.Helpers =
 		if matchs and matchs.index == 0
 			return true
 
+	coreformNumberToString: (number, locale)->
+		return Steedos.numberToString number, locale
 
 _.extend Steedos, Steedos.Helpers
 

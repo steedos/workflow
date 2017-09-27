@@ -1,7 +1,7 @@
 Template.adminLayout.helpers 
 	
 	subsReady: ->
-		return Steedos.subsBootstrap.ready()
+		return Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready()
 		
 	admin_collection_title: ->
 		if Session.get('admin_collection_name')

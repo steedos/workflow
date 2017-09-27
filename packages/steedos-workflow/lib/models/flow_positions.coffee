@@ -186,15 +186,15 @@ Meteor.startup ()->
 				render: (val, type, doc) ->
 					return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
 			},
-			{
-				data: "",
-				title: "",
-				orderable: false,
-				width: '1px',
-				render: (val, type, doc) ->
-					title = t('copy')
-					return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
-			},
+#			{
+#				data: "",
+#				title: "",
+#				orderable: false,
+#				width: '1px',
+#				render: (val, type, doc) ->
+#					title = t('copy')
+#					return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
+#			},
 			{
 				data: "",
 				title: "",

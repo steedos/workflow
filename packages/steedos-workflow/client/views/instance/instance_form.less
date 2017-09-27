@@ -379,6 +379,14 @@ textarea {
 			color: black;
 		}
 
+		.selectUser[readonly],.selectOrg[readonly]{
+			background-color: rgba(255, 255, 0, 0.03) !important;
+		}
+
+		.selectUser[disabled],.selectOrg[disabled]{
+			background-color: #FFFFFF !important;
+		}
+
 		&.inbox,&.draft{
 			.form-control{
 				background-color: rgba(255, 255, 0, 0.03);
@@ -650,7 +658,7 @@ textarea {
         background:#FFFFFF;
       }
 		&.field-readonly{
-			background:#FFFFFF;
+			//background:#FFFFFF;
 		}
       .form-control{
         padding:0;
@@ -881,7 +889,7 @@ textarea {
 		.inbox,.draft{
 			.form-table{
 				.td-title{
-					&.is-required{
+					&.title-editable.is-required{
 						&:after{
 							content:"*";
 							color:red;
@@ -1118,10 +1126,16 @@ _:-ms-fullscreen,
   }
 }
 
-.instance-view .instance-name{
-  text-align: center;
-  .box-title{
-    font-size: 20px;
+.instance-view{
+  .instance-name{
+    text-align: center;
+    margin-bottom: 15px;
+    .box-title{
+      font-size: 20px;
+    }
+  }
+  .instance-table-name-td{
+    padding-bottom: 10px;
   }
 }
 
