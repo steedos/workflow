@@ -263,34 +263,29 @@ if Meteor.isServer
 		# 初始化 space owner 的 orgnization
 		# db.space_users.direct.update({space: space_id, user: space.owner}, {$set: {organization: org_id}})
 
-		_create_org = (orgName, sort_no)->
+		_create_org = (orgName,sortNo)->
 			_org = {}
 			_org.space = space_id
 			_org.name = orgName
 			_org.fullname = org.name + '/' + _org.name
 			_org.parents = [org_id]
 			_org.parent = org_id
-
-			if sort_no
-				_org.sort_no = sort_no
-
+			if sortNo
+				_org.sort_no=sortNo
 			db.organizations.insert(_org)
-
 		# 新建5个部门
 		if user.locale == "zh-cn"
-			_create_org("采购部")
 			_create_org("销售部")
 			_create_org("财务部")
 			_create_org("行政部")
 			_create_org("人事部")
-			_create_org("公司领导")
+			_create_org("公司领导",101)
 		else
-			_create_org("Procurement Department")
 			_create_org("Sales Department")
 			_create_org("Finance Department")
 			_create_org("Administrative Department")
 			_create_org("Human Resources Department")
-			_create_org("Company Leader")
+			_create_org("Company Leader",101)
 
 		return true
 
