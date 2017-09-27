@@ -40,7 +40,7 @@
                 speed = 'slow',
                 conditionalPaging = function(e) {
                     // 增加div.dataTables_length，让一页显示多少条记录选项框与翻页按钮一同显示或隐藏
-                    var $paging = $(api.table().container()).find('div.dataTables_paginate'),
+                    var $paging = $(api.table().container()).find('div.dataTables_paginate22222'),
                         $lengthing = $(api.table().container()).find('div.dataTables_length'),
                         pages = api.page.info().pages,
                         recordsTotal = api.page.info().recordsTotal;
@@ -62,22 +62,22 @@
                                 $paging.css('visibility', '');
                             }
                         }
-                        if (recordsTotal <= 10) {
-                            if (config.style === 'fade') {
-                                $lengthing.stop().fadeTo(speed, 0);
-                            }
-                            else {
-                                $lengthing.css('visibility', 'hidden');
-                            }
-                        }
-                        else {
-                            if (config.style === 'fade') {
-                                $lengthing.stop().fadeTo(speed, 1);
-                            }
-                            else {
-                                $lengthing.css('visibility', '');
-                            }
-                        }
+                        // if (recordsTotal <= 10) {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.stop().fadeTo(speed, 0);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', 'hidden');
+                        //     }
+                        // }
+                        // else {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.stop().fadeTo(speed, 1);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', '');
+                        //     }
+                        // }
                     }
                     else if (pages <= 1) {
                         if (config.style === 'fade') {
@@ -86,14 +86,14 @@
                         else {
                             $paging.css('visibility', 'hidden');
                         }
-                        if (recordsTotal <= 10) {
-                            if (config.style === 'fade') {
-                                $lengthing.css('opacity', 0);
-                            }
-                            else {
-                                $lengthing.css('visibility', 'hidden');
-                            }
-                        }
+                        // if (recordsTotal <= 10) {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.css('opacity', 0);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', 'hidden');
+                        //     }
+                        // }
                     }
                 };
 
