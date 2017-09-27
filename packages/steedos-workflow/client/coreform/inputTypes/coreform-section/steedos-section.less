@@ -1,18 +1,29 @@
 .section{
-	&.callout.callout-default{
-		padding: 2px 0;
-		border: none;
-		background: #fff;
-		border-radius: 0px;
-		margin-top: 5px;
-		margin-bottom: -10px;
-	}
 	.control-label{
 		color: #333;
 		font-weight: bold;
 		font-size: 15px;
-		width: 100%;
-		border-bottom: solid 1px #d2d6de;
-		padding-bottom: 2px;
+	}
+}
+.instance{
+	&.instance-default{
+		.section{
+			&.callout.callout-default{
+				padding: 2px 0;
+				border: none;
+				background: #fff;
+				border-radius: 0px;
+				margin-top: 5px;
+				margin-bottom: -10px;
+			}
+			.control-label{
+				color: #333;
+				font-weight: bold;
+				font-size: 15px;
+				width: 100%;
+				border-bottom: solid 1px #d2d6de;
+				padding-bottom: 2px;
+			}
+		}
 	}
 }
