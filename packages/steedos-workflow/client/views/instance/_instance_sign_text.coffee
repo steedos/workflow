@@ -156,7 +156,6 @@ InstanceSignText.helpers =
 			return Spacebars.SafeString(Markdown(markDownString, {renderer: renderer}))
 
 	steps: (field_formula, step, only_cc_opinion, image_sign)->
-		debugger
 		steps = []
 		if !step
 			if !field_formula

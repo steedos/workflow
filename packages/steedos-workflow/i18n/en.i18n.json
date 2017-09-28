@@ -555,6 +555,7 @@
 
 	"my_instances": "My Requests",
 	"workflow_import_export_flows": "Workflow import or export",
+	"workflow_history_approve_counts": "Show %s history descriptions",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",

@@ -570,6 +570,7 @@
 
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
+	"workflow_history_approve_counts": "已显示%s条历史意见",
 	"workflow_history_approve_description": "历史意见",
 	"instances_start_date": "接收时间",
 	"instances_is_archived": "已归档",
