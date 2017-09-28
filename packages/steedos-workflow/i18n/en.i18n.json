@@ -571,9 +571,12 @@
 	"ERROR": "Error",
 
 	"steedos_table_add_item": "Add item",
-	"copy": "Copy",
+
 	"approved_description": "Approved",
 	"rejected_description": "Rejected",
+
+	"copy": "Copy and Create",
+
 
 	"from": "From"
 }

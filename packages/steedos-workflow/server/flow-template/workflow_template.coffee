@@ -36,9 +36,13 @@ Meteor.startup ()->
 		if fs.existsSync(absolute_path_cn)
 			readFileList(absolute_path_cn, filesList_cn)
 			filesList_cn.forEach (file)->
-				if mime.getType(file.name) is "application/json"
-					data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
-					workflowTemplate["zh-CN"].push(JSON.parse(data))
+				try
+					if mime.getType(file.name) is "application/json"
+						data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
+						workflowTemplate["zh-CN"].push(JSON.parse(data))
+				catch e
+					console.error "获取zh-cn文件夹下的所有文件", path.join(file.path, file.name)
+					console.error e.stack
 
 	#获取en-us文件夹下的所有文件
 	filesList_us = []
@@ -49,8 +53,14 @@ Meteor.startup ()->
 		if fs.existsSync(absolute_path_us)
 			readFileList(absolute_path_us, filesList_us)
 			filesList_us.forEach (file)->
-				if mime.getType(file.name) is "application/json"
-					data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
-					workflowTemplate["en"].push(JSON.parse(data))
+				try
+					if mime.getType(file.name) is "application/json"
+						data = fs.readFileSync(path.join(file.path, file.name), 'utf8')
+						workflowTemplate["en"].push(JSON.parse(data))
+				catch e
+					console.error "获取en-us文件夹下的所有文件", path.join(file.path, file.name)
+					console.error e.stack
+				
+					
 
 

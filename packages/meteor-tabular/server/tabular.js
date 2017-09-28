@@ -215,15 +215,32 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 
 	self.ready();
 
+	// var error_ids = [];
+
 	// Handle docs being added or removed from the result set.
 	var initializing = true;
 	var handle = filteredCursor.observeChanges({
 		added: function (id) {
 			if (initializing) return;
+			// console.log("ADDED");
 
-			//console.log("ADDED");
-			filteredRecordIds.push(id);
-			updateRecords();
+			if(table.filteredRecordIds){
+				if(!filteredRecordIds.includes(id) ){
+					filteredRecordIds.push(id);
+					updateRecords();
+				}else{
+					if(table.filteredRecordIds){
+						//异常情况下，重新计算ids集合
+						filteredRecordIds = table.filteredRecordIds(table, selector, sort, skip, limit, filteredRecordIds, self.userId, findOptions);
+
+						updateRecords();
+					}
+				}
+			}else{
+				filteredRecordIds.push(id);
+				updateRecords();
+			}
+
 		},
 		removed: function (id) {
 			//console.log("REMOVED");

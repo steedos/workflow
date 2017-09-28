@@ -28,16 +28,6 @@ Meteor.startup ()->
 							label: obj.name,
 							value: obj._id
 					return options
-		users:
-			type: [String],
-			foreign_key: true,
-			references:
-				collection: 'space_users'
-				key: 'user'
-				search_keys: ['name', 'email']
-			autoform:
-				type: "selectuser"
-				multiple: true
 
 		org:
 			type: String,
@@ -55,6 +45,18 @@ Meteor.startup ()->
 							_id: 1,
 						}
 					})?._id;
+
+		users:
+			type: [String],
+			foreign_key: true,
+			references:
+				collection: 'space_users'
+				key: 'user'
+				search_keys: ['name', 'email']
+			autoform:
+				type: "selectuser"
+				multiple: true
+
 
 
 	if Meteor.isClient
@@ -166,6 +168,21 @@ Meteor.startup ()->
 		name: "flow_positions",
 		collection: db.flow_positions,
 		pub: "flow_positions_tabular",
+		drawCallback:(settings)->
+			if $(this).hasClass("datatable-flows-roles") and !$(".datatable-flows-roles tfoot").length
+				tfoot = """
+					<tfoot>
+						<tr>
+							<td colspan='2'>
+								<div class="add-positions">
+									<i class="ion ion-plus-round"></i>新增岗位成员
+								</div>
+							</td>
+						<tr>
+					</tfoot>
+				"""	
+				$(".datatable-flows-roles tbody").after(tfoot)
+
 		columns: [
 			{
 				data: "role_name()",
@@ -186,15 +203,15 @@ Meteor.startup ()->
 				render: (val, type, doc) ->
 					return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
 			},
-			{
-				data: "",
-				title: "",
-				orderable: false,
-				width: '1px',
-				render: (val, type, doc) ->
-					title = t('copy')
-					return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
-			},
+#			{
+#				data: "",
+#				title: "",
+#				orderable: false,
+#				width: '1px',
+#				render: (val, type, doc) ->
+#					title = t('copy')
+#					return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
+#			},
 			{
 				data: "",
 				title: "",
