@@ -17,7 +17,6 @@ Meteor.methods joinSpaceFromLogin: (options) ->
 	currentUser = Accounts.user()
 	space_user = db.space_users.findOne({space: space_logined, user: currentUser._id})
 	if space_user
-		console.log "alerty exist"
 		return true
 
 	user_email = currentUser.emails[0].address

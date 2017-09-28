@@ -202,7 +202,6 @@ if Meteor.isServer
 
 
 	db.users.after.insert (userId, doc) ->
-		console.log "db.users.after.insert:", doc
 		space_registered = doc.profile?.space_registered
 		if space_registered
 			# 从工作区特定的注册界面注册的用户，需要自动加入到工作区中

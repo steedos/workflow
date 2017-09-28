@@ -53,7 +53,6 @@ Meteor.startup ->
 	Accounts.onLogin ()->
 		space_logined = AccountsTemplates.getSpaceId()
 		if space_logined
-			console.log "Accounts.onLogin,space_logined:#{space_logined}"
 			$("body").addClass("loading")
 			Meteor.call "joinSpaceFromLogin", {space_logined}, ->
 				$("body").removeClass("loading")
