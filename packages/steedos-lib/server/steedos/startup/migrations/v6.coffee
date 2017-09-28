@@ -6,6 +6,37 @@ Meteor.startup ->
 			console.log 'version 6 up'
 			console.time 'billing upgrade'
 			try
+				# 清空modules表
+				db.modules.remove({})
+
+				db.modules.insert({
+					"_id": "workflow.standard",
+					"name_en": "Workflow Standard",
+					"name": "workflow.standard",
+					"name_zh": "审批王标准版",
+					"listprice": 1.0,
+					"listprice_rmb": 2
+				})
+
+				db.modules.insert({
+					"_id": "workflow.professional",
+					"name_en": "Workflow Professional",
+					"name": "workflow.professional",
+					"name_zh": "审批王专业版扩展包",
+					"listprice": 3.0,
+					"listprice_rmb": 18
+				})
+
+				db.modules.insert({
+					"_id": "workflow.enterprise",
+					"name_en": "Workflow Enterprise",
+					"name": "workflow.enterprise",
+					"name_zh": "审批王企业版扩展包",
+					"listprice": 6.0,
+					"listprice_rmb": 40
+				})
+
+
 				start_date = new Date
 				start_date.setHours(0)
 				start_date.setMinutes(0)
@@ -23,7 +54,7 @@ Meteor.startup ->
 							module = db.modules.findOne({name: pm})
 							if module and module.listprice
 								listprices += module.listprice
-						months = parseInt((balance/listprices).toFixed()) + 1
+						months = parseInt((balance/(listprices*user_count)).toFixed()) + 1
 						end_date = new Date
 						end_date.setMonth(end_date.getMonth()+months)
 						end_date.setHours(0)
@@ -36,6 +67,9 @@ Meteor.startup ->
 					else if balance <= 0
 						set_obj.start_date = start_date
 						set_obj.end_date = new Date
+
+					s.modules.push("workflow.standard")
+					set_obj.modules = _.uniq(s.modules)
 
 					db.spaces.direct.update({_id: s._id}, {$set: set_obj})
 

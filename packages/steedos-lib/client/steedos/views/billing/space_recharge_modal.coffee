@@ -53,8 +53,8 @@ Template.space_recharge_modal.events
 
 		_.each space_modules, (sm)->
 			module = db.modules.findOne({name: sm})
-			if module and module.listprice
-				listprices += module.listprice
+			if module and module.listprice_rmb
+				listprices += module.listprice_rmb
 
 		if space.is_paid
 
@@ -73,17 +73,20 @@ Template.space_recharge_modal.events
 
 			_.each old_paid_modules, (pm)->
 				module = db.modules.findOne({name: pm})
-				if module and module.listprice
-					old_listprices += module.listprice
+				if module and module.listprice_rmb
+					old_listprices += module.listprice_rmb
 
 			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
 
-			balance = old_listprices * (20/3) * old_user_limit * remain_months
+			balance = old_listprices * old_user_limit * remain_months
 
 			new_user_limit = user_count + old_user_limit
-
+			console.log "space_modules", space_modules
+			console.log "listprices", listprices
+			console.log "months", months
+			console.log "new_user_limit",new_user_limit
 			if space_modules.length > 0 and listprices > 0 and months > 0
-				total_fee = listprices * (20/3) * new_user_limit * months
+				total_fee = listprices * new_user_limit * months
 				fee_value = total_fee - balance
 			else
 				return
@@ -94,7 +97,7 @@ Template.space_recharge_modal.events
 				return
 		
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
-				fee_value = listprices * (20/3) * user_count * months
+				fee_value = listprices * user_count * months
 			else
 				return
 
@@ -121,6 +124,32 @@ Template.space_recharge_modal.events
 
 	'change #space_recharge_modules input,#space_recharge_end_date': (event, template)->
 		console.log "1"
+		space = db.spaces.findOne(Session.get('spaceId'))
+		modules = space.modules
+		value = event.target.value
+		checked = event.target.checked
+		if value is "workflow.enterprise"
+			if checked
+				document.getElementById('workflow.professional').checked = true
+				document.getElementById('workflow.professional').disabled = "disabled"
+				document.getElementById('workflow.standard').checked = true
+				document.getElementById('workflow.standard').disabled = "disabled"
+			else
+				if modules and !modules.includes("workflow.professional")
+					document.getElementById('workflow.professional').disabled = ""
+				else if !modules
+					document.getElementById('workflow.professional').disabled = ""
+
+		else if value is "workflow.professional"
+			if checked
+				document.getElementById('workflow.standard').checked = true
+				document.getElementById('workflow.standard').disabled = "disabled"
+			else 
+				if modules and !modules.includes("workflow.standard")
+					document.getElementById('workflow.standard').disabled = ""
+				else if !modules
+					document.getElementById('workflow.standard').disabled = ""
+
 		$('#space_recharge_user_count').trigger('input')
 
 	'input #space_recharge_user_count': (event, template)->
@@ -148,8 +177,8 @@ Template.space_recharge_modal.events
 		console.log "space_modules: #{space_modules}"
 		_.each space_modules, (sm)->
 			module = db.modules.findOne({name: sm})
-			if module and module.listprice
-				listprices += module.listprice
+			if module and module.listprice_rmb
+				listprices += module.listprice_rmb
 
 		if space.is_paid
 			console.log "is_paid"
@@ -168,19 +197,19 @@ Template.space_recharge_modal.events
 
 			_.each old_paid_modules, (pm)->
 				module = db.modules.findOne({name: pm})
-				if module and module.listprice
-					old_listprices += module.listprice
+				if module and module.listprice_rmb
+					old_listprices += module.listprice_rmb
 
 			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
 
-			balance = old_listprices * (20/3) * old_user_limit * remain_months
+			balance = old_listprices * old_user_limit * remain_months
 
 			new_user_limit = user_count + old_user_limit
 			console.log space_modules
 			console.log listprices
 			console.log months
 			if space_modules.length > 0 and listprices > 0 and months > 0
-				total_fee = listprices * (20/3) * new_user_limit * months
+				total_fee = listprices * new_user_limit * months
 				paid_fee = total_fee - balance
 				console.log "total_fee", total_fee
 				console.log "balance", balance
@@ -189,7 +218,7 @@ Template.space_recharge_modal.events
 				$('#space_recharge_fee')[0].value = ""
 		else
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
-				space_recharge_fee = listprices * (20/3) * user_count * months
+				space_recharge_fee = listprices * user_count * months
 				$('#space_recharge_fee')[0].value = space_recharge_fee.toFixed()
 			else
 				$('#space_recharge_fee')[0].value = ""

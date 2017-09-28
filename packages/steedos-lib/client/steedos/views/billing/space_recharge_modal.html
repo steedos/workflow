@@ -16,7 +16,7 @@
                             {{#each modules }}
                                 <div class="checkbox {{#if is_paid_module name}}disabled{{/if}}">
                                     <label>
-                                        <input type="checkbox" value="{{name}}" disabled="{{#if is_paid_module name}}disabled{{/if}}" checked="{{#if is_paid_module name}}checked{{/if}}">
+                                        <input type="checkbox" value="{{name}}" disabled="{{#if is_paid_module name}}disabled{{/if}}" checked="{{#if is_paid_module name}}checked{{/if}}" id="{{name}}">
                                         {{name_zh}}
                                     </label>
                                 </div>
