@@ -252,3 +252,92 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 
 		a_m = moment(new Date(parseInt(accounting_month.slice(0,4)), parseInt(accounting_month.slice(4,6)), 1).getTime()).format("YYYYMM")
 		billingManager.caculate_by_accounting_month(a_m, space_id)
+
+billingManager.special_pay = (space_id, module_names, total_fee, operator_id, end_date, user_count)->
+	amount = (total_fee/100) * (3/20) 
+	space = db.spaces.findOne(space_id)
+	user_limit = 0
+	if space.is_paid
+		user_limit = space.user_limit + user_count
+	else
+		user_limit = user_count
+
+	modules = space.modules || new Array
+	
+	new_modules = _.difference(module_names, modules)
+
+	transaction = "Payment"
+
+	m = moment()
+	now = m._d
+
+	space_update_obj = new Object
+
+	# 检查此工作区是否已经生成了Billing
+	pay_count = db.billings.find({space: space_id}).count()
+	# 若记录数≠0，说明该工作区不是第一次付费，跳过这个步骤
+	# 若记录数=0，说明该工作区第一次付费，因此执行以下操作
+	if pay_count is 0
+		# 先执行初始化账户的操作
+		bill = new Object
+		bill._id = db.billings._makeNewID()
+		bill.billing_month = m.format("YYYYMM")
+		bill.billing_date = m.format("YYYYMMDD")
+		bill.operator = operator_id
+		bill.space = space_id
+		bill.transaction = "Starting balance"
+		bill.created = now
+		bill.created_by = operator_id
+		bill.modified = now
+
+		bill_id = db.billings.insert(bill)
+		if bill_id
+			# 更新space是否专业版的标记
+			if space.is_paid isnt true
+				space_update_obj.is_paid = true
+				space_update_obj.start_date = new Date
+
+	# 在billings中插入付费信息
+	last_bill = db.billings.findOne({space: space_id},{sort:{modified: -1}, limit: 1})
+	last_balance = if last_bill.balance then last_bill.balance else 0.0
+
+	new_bill = new Object
+	new_bill._id = db.billings._makeNewID()
+	new_bill.billing_month = m.format("YYYYMM")
+	new_bill.billing_date = m.format("YYYYMMDD")
+	new_bill.operator = operator_id
+	new_bill.space = space_id
+	new_bill.transaction = transaction
+	new_bill.credits = Number(amount.toFixed(2))
+	new_bill.balance = Number((last_balance + amount).toFixed(2))
+	new_bill.created = now
+	new_bill.created_by = operator_id
+	new_bill.modified = now
+	
+	new_bill_id = db.billings.insert(new_bill)
+	if new_bill_id
+		# 更新modules
+		space_update_obj.modules = module_names
+		space_update_obj.balance = new_bill.balance
+		space_update_obj.modified = now
+		space_update_obj.modified_by = operator_id
+		space_update_obj.end_date = new Date(end_date)
+		space_update_obj.user_limit = user_limit
+
+		r = db.spaces.direct.update({_id: space_id}, {$set: space_update_obj})
+		if r
+			console.log r
+			_.each new_modules, (module)->
+				mcl = new Object
+				mcl._id = db.modules_changelogs._makeNewID()
+				mcl.change_date = m.format("YYYYMMDD")
+				mcl.operator = operator_id
+				mcl.space = space_id
+				mcl.operation = "install"
+				mcl.module = module
+				mcl.created = now
+				db.modules_changelogs.insert(mcl)
+			# 重新结算以更新remaining_months
+			billingManager.caculate_by_accounting_month(m.format("YYYYMM"), space_id)
+
+	return

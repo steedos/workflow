@@ -109,6 +109,30 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	user_limit:
+		type: Number
+		optional: true
+		autoform:
+			omit: true
+
+	end_date:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	start_date:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	modules:
+		type: [String]
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")
 

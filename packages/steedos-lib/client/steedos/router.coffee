@@ -165,4 +165,7 @@ FlowRouter.route '/admin/about',
 		BlazeLayout.render 'adminLayout',
 			main: "steedosAbout"
 
-
+FlowRouter.route '/steedos/cloudadmin/billing',
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "steedos_billing"

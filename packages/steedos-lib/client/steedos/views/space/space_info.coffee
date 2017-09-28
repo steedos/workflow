@@ -29,6 +29,25 @@ Template.space_info.helpers
             return true
         return !disableAddSpace
 
+    total_user_count: ->
+        return this.user_count_info?.get().total_user_count
+
+    paid_user_count: ->
+        s = db.spaces.findOne({_id:Session.get('spaceId')}, {fields: {user_limit: 1}})
+        return s.user_limit
+
+    accepted_user_count: ->
+        return this.user_count_info?.get().accepted_user_count
+
+    paid_modules: ->
+        pm = ""
+        s = db.spaces.findOne(Session.get('spaceId'))
+        if s and s.modules
+            ms = db.modules.find({name: {$in: s.modules}}).fetch()
+            pm = _.pluck(ms, 'name_zh').join(',')
+        return pm
+
+
 Template.space_info.events
 
     'click .btn-new-space': (event)->
@@ -39,6 +58,10 @@ Template.space_info.events
 
 
     'click .btn-exit-space': (event)->
+
+
+    'click #space_recharge': (event, template)->
+        Modal.show('space_recharge_modal')
 
 
 
@@ -56,3 +79,15 @@ Meteor.startup ->
                     toastr.error error.reason
                 else 
                     toastr.error error
+
+Template.space_info.onCreated ()->
+    this.data.user_count_info = new ReactiveVar({})
+
+Template.space_info.onRendered ()->
+    that = this
+    if Session.get('spaceId')
+        Meteor.call 'get_space_user_count', Session.get('spaceId'), (err, result)->
+            if err
+                console.log err.reason
+            if result
+                that.data.user_count_info.set(result)
