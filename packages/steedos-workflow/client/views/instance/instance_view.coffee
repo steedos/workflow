@@ -231,8 +231,9 @@ Template.instance_view.events
 
 		if error && error_type == 'applicantRole'
 			swal({
-				title: t('instance_next_step_users') + t('ERROR'),
-				text: error
+				title: t('not_found_user'),
+				text: error,
+				html: true,
 				showCancelButton: true,
 				closeOnConfirm: false,
 				confirmButtonText: t('Help'),
