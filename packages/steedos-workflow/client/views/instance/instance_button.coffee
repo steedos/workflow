@@ -200,7 +200,7 @@ Template.instance_button.helpers
 		# 设置了允许分发才显示分发按钮
 		if InstanceManager.isInbox()
 			cs = InstanceManager.getCurrentStep()
-			if cs && (cs.allowDistribute is true)&& Steedos.isLegalVersion('',"workflow_ent")
+			if cs && (cs.allowDistribute is true)
 				return true
 		
 		return false

@@ -89,11 +89,6 @@ Template.forward_select_flow_modal.events({
 	},
 
 	'click #forward_flow_ok': function(event, template) {
-		if (!Steedos.isLegalVersion('',"workflow_pro"))
-			{
-				Steedos.spaceUpgradedModal()
-				return;
-			}
 		var action_type = template.data.action_type;
 		var flow = $("#forward_flow")[0].dataset.flow;
 
@@ -105,8 +100,18 @@ Template.forward_select_flow_modal.events({
 		var related = false;
 
 		if (action_type == 'forward') {
+			if (!Steedos.isLegalVersion('',"workflow_pro"))
+			{
+				Steedos.spaceUpgradedModal()
+				return;
+			}
 			selectedUsers = [Meteor.userId()];
 		} else if (action_type == 'distribute') {
+			if (!Steedos.isLegalVersion('',"workflow_ent"))
+			{
+				Steedos.spaceUpgradedModal()
+				return;
+			}
 			var values = $("#forward_select_user")[0].dataset.values;
 			selectedUsers = values ? values.split(",") : [];
 			if ($("#instance_distribute_to_self")[0] && $("#instance_distribute_to_self")[0].checked) {
