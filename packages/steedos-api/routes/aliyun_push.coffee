@@ -200,7 +200,7 @@ Meteor.startup ->
 		Push.sendAPN = (userToken, notification) ->
 			if notification.title and notification.text
 				noti = _.clone(notification)
-				noti.text = noti.title + noti.text
+				noti.text = noti.title + " " + noti.text
 				noti.title = ""
 				Push.old_sendAPN(userToken, noti)
 			else
