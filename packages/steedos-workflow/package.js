@@ -10,7 +10,8 @@ Npm.depends({
 	ejs: "2.5.5",
 	"ejs-lint": "0.2.0",
 	"eval": "0.1.2",
-	mkdirp: "0.3.5"
+	mkdirp: "0.3.5",
+	mime: "2.0.2"
 });
 
 Package.onUse(function(api) {
@@ -128,6 +129,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
@@ -384,30 +386,6 @@ Package.onUse(function(api) {
 	api.export('InstanceNumberRules');
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
-
-	// workflow_template（zh-CN）
-	api.addFiles('server/flow-template/zh-CN/payment_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/travel_expenses.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/car_rental_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/outgoing_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/invoice_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/daily_expenses.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/purchase_contract.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/issued_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/metting_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/income_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/seal_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/sale_contract.coffee', 'server');
-	// workflow_template（en）
-	api.addFiles('server/flow-template/en/capex.coffee', 'server');
-	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');
-	api.addFiles('server/flow-template/en/loan_request.coffee', 'server');
-	api.addFiles('server/flow-template/en/pay_my_invoice.coffee', 'server');
-	api.addFiles('server/flow-template/en/salary_advance.coffee', 'server');
-	api.addFiles('server/flow-template/en/travel_expenses.coffee', 'server');
 
 	api.addFiles('server/startup.coffee', 'server');
 

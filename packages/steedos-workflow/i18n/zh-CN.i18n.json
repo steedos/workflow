@@ -111,7 +111,7 @@
 	"instance_reassign_curstep": "当前步骤: ",
 	"instance_reassign_reason": "请填写转签核的理由。",
 	"instance_reassign_ok": "转签核提交成功。",
-	"instance_reassign_user": "处理人",
+	"instance_reassign_user": "变更处理人",
 
 	"instance_cancel_title": "取消申请",
 	"instance_cancel_reason": "请填写取消申请的理由",
@@ -287,12 +287,12 @@
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__",
-				"first_submit_inbox": "您有新的待办文件:__instance_name__",
+				"first_submit_inbox": "__instance_name__",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__",
 				"submit_pending_rejected_approve": "",
-				"submit_pending_rejected_inbox": "您有新的待办文件:__instance_name__",
-				"submit_pending_inbox": "您有新的待办文件:__instance_name__",
+				"submit_pending_rejected_inbox": "__instance_name__",
+				"submit_pending_inbox": "__instance_name__",
 				"submit_terminate_applicant": "__instance_name__被我取消申请了",
 				"submit_terminate_approve": "",
 				"monitor_delete_applicant": "您的__instance_name__已被删除",
@@ -302,8 +302,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "您的__instance_name__已被驳回",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
-				"trace_approve_cc": "您有新的待办文件:__instance_name__",
+				"reassign_new_inbox_users": "__instance_name__",
+				"trace_approve_cc": "__instance_name__",
 				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
 			}
 		},
@@ -496,7 +496,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web 数据连接器已复制",
 	"instance_related_instances": "相关文件",
 	"instance_related_instances_title": "关联文件",
-	"instance_related_instances_placeholder": "请输入文件名称",
+	"instance_related_instances_placeholder": "请输入文件名称搜索关联文件",
 
 	"workflow_install_desktop": "安装客户端",
 
@@ -586,5 +586,8 @@
 	"tableau_introduction_modal_close": "关闭",
 	"ERROR": "错误",
 
-	"steedos_table_add_item": "新增一行"
+	"steedos_table_add_item": "新增一行",
+	"copy": "复制并新建",
+
+	"from": "来自"
 }

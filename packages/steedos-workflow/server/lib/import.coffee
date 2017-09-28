@@ -29,6 +29,20 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			delete form.category_name
 
+		if form?.instance_number_rules
+			form.instance_number_rules.forEach (nr)->
+				try
+					rules = db.instance_number_rules.findOne({space: spaceId, "name": nr.name})
+
+					if !rules
+						nr.space = spaceId
+						nr._id = new Mongo.ObjectID()._str
+						db.instance_number_rules.direct.insert(nr)
+				catch e
+					console.log "steedosImport.workflow", e
+
+			delete form.instance_number_rules
+
 		form_id = new Mongo.ObjectID()._str
 
 		flows = form.flows
@@ -68,6 +82,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 		form.import = true
 
 		db.forms.direct.insert(form)
+
+
 
 		new_form_ids.push(form_id)
 

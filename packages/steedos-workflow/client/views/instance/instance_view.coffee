@@ -36,11 +36,11 @@ Template.instance_view.helpers
 		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
-			return ""
+			return "instance-default"
 
 		if form?.instance_style == 'table'
 			return "instance-table"
-		return "";
+		return "instance-default";
 
 	showTracesView: (form, form_version)->
 		return TracesTemplate.helpers.showTracesView(form, form_version)
@@ -103,6 +103,15 @@ Template.instance_view.onCreated ->
 
 Template.instance_view.onRendered ->
 
+	ins = WorkflowManager.getInstance();
+
+	form_version = db.form_versions.findOne({_id: ins.form_version})
+
+	flow_version = db.flow_versions.findOne({_id: ins.flow_version})
+
+	if Session.get("box") == 'draft' && (form_version.latest != true || flow_version.latest != true)
+		InstanceManager.saveIns();
+
 	Form_formula.runFormScripts("instanceform", "onload");
 
 	if Session.get("box") == "inbox"
@@ -138,9 +147,7 @@ Template.instance_view.onRendered ->
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-							setTimeout ->
-								InstanceManager.fixInstancePosition(true)
-							,100
+							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
 

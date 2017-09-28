@@ -44,9 +44,6 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 
 		return
 
-
-
-
 	JsonRoutes.parseFiles req, res, ()->
 		if req.files and req.files[0]
 

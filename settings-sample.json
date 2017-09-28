@@ -207,5 +207,10 @@
   //全文检索服务
   "records": {
     "es_search_index": "steedos"
+  },
+  // 工作区流程模板
+  "workflowTemplates": {
+    "path_cn": "/srv/git/workflow-templates/zh-cn/default",
+    "path_us": "/srv/git/workflow-templates/en-us/default"
   }
 }

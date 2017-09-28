@@ -116,8 +116,9 @@
 	"Help": "帮助",
 	"New": "新建",
 
-	"Account": "账户",
 	"Account Settings": "账户设置",
+	"Account": "账户",
+	"Settings": "设置",
 	"Select Space": "选择工作区",
 	"Add space": "新增工作区",
 
@@ -469,5 +470,7 @@
 	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"__steedos_id__\"已被管理员从工作区\"__space_name__\"中删除。<br/><br/>谢谢！",
 
 	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
-	"Steedos Records": "全文检索"
+	"Steedos Records": "全文检索",
+
+	"Client download": "下载客户端"
 }

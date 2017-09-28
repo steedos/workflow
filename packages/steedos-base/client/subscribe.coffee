@@ -10,8 +10,8 @@ Tracker.autorun (c)->
 			spaceId = Steedos.getSpaceId()
 			if spaceId
 				Steedos.setSpaceId(spaceId)
-			else
-				FlowRouter.go("/accounts/setup/space")
+			# else
+			# 	FlowRouter.go("/accounts/setup/space")
 
 Steedos.subsSpaceBase = new SubsManager();
 

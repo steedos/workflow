@@ -2,7 +2,6 @@
 }
 
 .workflow-main {
-	background: rgba(255, 255, 255, 0.6);
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -21,6 +20,18 @@
 	top: 0px;
 	bottom: 0px;
 	background: #fff;
+
+	.navigation-bar{
+		.btn-offcanvas{
+			max-width: 38px;
+			.inbox-pending-icon{
+				font-size: 75%;
+				position: relative;
+				left: -8px;
+				top: -6px;
+			}
+		}
+	}
 
 	.toolbar{
 		height: 51px;
@@ -188,6 +199,12 @@
 			}
 		}
 
+		@media (max-width: 767px) {
+			.instance-suggestion-close {
+				display: none;
+			}
+		}
+
 		.instance-suggestion-next-steps{
 			.only-one-next-step{
 				padding: 3px 0 3px 12px;
@@ -203,6 +220,10 @@
 			label{
 				height: 22px;
 				line-height: 22px;
+				margin-right: 10px;
+			}
+			.radio-inline + .radio-inline {
+				margin-left: 0px;
 			}
 		}
 
@@ -264,7 +285,16 @@
 				margin-bottom:8px;
 				.cc-description-box{
 					word-wrap: break-word;
-					width: 92%;
+					width: calc(~"100% - 20px");
+					label {
+						margin-right: 3px;
+						margin-bottom: 0px;
+					}
+				}
+				@media (max-width: 767px) {
+					.cc-description-box {
+						width: 100%;
+					}
 				}
 			}
 			.input-group-addon{
@@ -316,6 +346,11 @@
 					}
 				}
 			}
+
+			.nextStepUsers{
+				background: #fff !important;
+			}
+
 			.has-error{
 				.instance-suggestion-next-steps{
 					border-color: #dd4b39;
@@ -348,6 +383,15 @@
 				margin-left: 0px;
 			}
 
+			&.instance-default{
+				.form-group{
+					margin-bottom: 5px;
+					.control-label{
+						margin-bottom: 3px;
+					}
+				}
+			}
+
 			.box-body {
 				padding-left: 15px;
 				padding-right: 15px;
@@ -362,6 +406,8 @@
 				position: relative;
 				box-shadow: none;
 				z-index: auto;
+				/*草稿箱审批栏离底部不应该有20px的空隙*/
+				margin-bottom: -20px;
 				.btn-remove{
 					display:none;
 				}
@@ -426,6 +472,9 @@ _:-ms-fullscreen,
 		right: 0px;
 		border-right: 0px;
 		transition: 0.3s ease-in-out;
+		.instance-list {
+			overflow: auto;
+		}
 	}
 	.instance-wrapper {
 		display: none;

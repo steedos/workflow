@@ -155,9 +155,12 @@ instancesListTableTabular = (flowId)->
 				title: t("instances_step_current_name"),
 				render: (val, type, doc) ->
 					if doc.state == "completed"
-						judge = doc.final_decision
+						judge = doc.final_decision || "approved"
+
+					step_current_name = doc.step_current_name || ''
+
 					return """
-						<div class="step-current-state #{judge}">#{doc.step_current_name}</div>
+						<div class="step-current-state #{judge}">#{step_current_name}</div>
 					"""
 				visible: false,
 				orderable: false

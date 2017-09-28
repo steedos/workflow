@@ -27,6 +27,10 @@
 					{{_ "Create"}}
 				{{/afModal}}
 
+				{{#afModal class="btn btn-primary record-types-copy hidden" collection="db.instance_number_rules"  operation="insert" dialogClass="modal-lg modal-body-zoom" buttonContent=insertButtonContent}}
+					{{_ "Create"}}
+				{{/afModal}}
+
 				{{#afModal class="btn btn-danger record-types-remove hidden" collection="db.instance_number_rules" operation="remove" doc=_id buttonContent=removeButtonContent prompt=removePrompt }}
 					{{_ "Delete"}}
 				{{/afModal}}

@@ -266,7 +266,7 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
-		InstanceManager.checkSuggestion();
+		InstanceManager.checkSuggestion(0);
 
 	# 'change .nextSteps': (event) ->
 	# 	if event.target.name == 'nextSteps'
@@ -284,7 +284,7 @@ Template.instance_suggestion.events
 			Session.set("next_user_multiple", false)
 		Session.set("next_step_id", checkedNextStepRadio.val())
 
-	'click #instance_flow_opinions': (event, template)->
+	'tap #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 

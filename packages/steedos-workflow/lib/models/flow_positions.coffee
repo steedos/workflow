@@ -47,6 +47,14 @@ Meteor.startup ()->
 				search_keys: ['name', 'fullname']
 			autoform:
 				type: "selectorg"
+				defaultValue: ()->
+					return SteedosDataManager.organizationRemote.findOne({
+						is_company: true
+					}, {
+						fields: {
+							_id: 1,
+						}
+					})?._id;
 
 
 	if Meteor.isClient
@@ -178,6 +186,15 @@ Meteor.startup ()->
 				render: (val, type, doc) ->
 					return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
 			},
+#			{
+#				data: "",
+#				title: "",
+#				orderable: false,
+#				width: '1px',
+#				render: (val, type, doc) ->
+#					title = t('copy')
+#					return '<button type="button" class="btn btn-xs btn-default" id="copy" data-toggle="tooltip" title="'+title+'"><i class="fa fa-files-o"></i></button>'
+#			},
 			{
 				data: "",
 				title: "",

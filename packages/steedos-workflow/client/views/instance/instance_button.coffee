@@ -161,7 +161,7 @@ Template.instance_button.helpers
 		cs = InstanceManager.getCurrentStep()
 		if _.isEmpty(cs)
 			return false
-		if cs.step_type is "submit"
+		if cs.step_type is "submit" or cs.step_type is "sign"
 			return true
 
 		return false
@@ -350,7 +350,7 @@ Template.instance_button.onRendered ->
 		e.clearSelection()
 
 Template.instance_button.onDestroyed ->
-	Template.instance_button.copyUrlClipboard.destroy();
+	Template.instance_button.copyUrlClipboard?.destroy();
 
 Template.instance_button.events
 
