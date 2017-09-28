@@ -1,6 +1,5 @@
 Template.admin_flows_roles_modal.onRendered ->
 	Tracker.autorun (c) ->
-		console.log ($(".datatable-flows-roles").length)
 		if $(".datatable-flows-roles").length
 			table = $(".datatable-flows-roles").DataTable()
 			table.column(0)?.visible(false)
@@ -10,7 +9,6 @@ Template.admin_flows_roles_modal.onRendered ->
 Template.admin_flows_roles_modal.helpers
 	selector: ->
 		data = Template.instance().data
-		console.log data
 		selector = 
 			space: data.space
 			role: data._id

@@ -28,16 +28,6 @@ Meteor.startup ()->
 							label: obj.name,
 							value: obj._id
 					return options
-		users:
-			type: [String],
-			foreign_key: true,
-			references:
-				collection: 'space_users'
-				key: 'user'
-				search_keys: ['name', 'email']
-			autoform:
-				type: "selectuser"
-				multiple: true
 
 		org:
 			type: String,
@@ -55,6 +45,18 @@ Meteor.startup ()->
 							_id: 1,
 						}
 					})?._id;
+
+		users:
+			type: [String],
+			foreign_key: true,
+			references:
+				collection: 'space_users'
+				key: 'user'
+				search_keys: ['name', 'email']
+			autoform:
+				type: "selectuser"
+				multiple: true
+
 
 
 	if Meteor.isClient
