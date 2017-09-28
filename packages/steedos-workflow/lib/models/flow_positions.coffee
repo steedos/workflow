@@ -166,6 +166,21 @@ Meteor.startup ()->
 		name: "flow_positions",
 		collection: db.flow_positions,
 		pub: "flow_positions_tabular",
+		drawCallback:(settings)->
+			if $(this).hasClass("datatable-flows-roles") and !$(".datatable-flows-roles tfoot").length
+				tfoot = """
+					<tfoot>
+						<tr>
+							<td colspan='2'>
+								<div class="add-positions">
+									<i class="ion ion-plus-round"></i>新增岗位成员
+								</div>
+							</td>
+						<tr>
+					</tfoot>
+				"""	
+				$(".datatable-flows-roles tbody").after(tfoot)
+
 		columns: [
 			{
 				data: "role_name()",
