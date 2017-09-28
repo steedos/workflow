@@ -236,7 +236,7 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 
 						selector._id = {$nin: error_ids}
 
-						console.log(selector)
+						// console.log(selector)
 
 						filteredCursor = table.collection.find(selector, findOptions);
 
