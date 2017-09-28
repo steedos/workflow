@@ -31,8 +31,7 @@ Template.steedos_contacts_user_list.helpers
 
 			query.organizations = {$in: orgs};
 
-		if !Session.get('contacts_is_org_admin')
-			query.user_accepted = true
+		query.user_accepted = true
 		return query;
 
 	books_selector: ->

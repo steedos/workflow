@@ -266,7 +266,8 @@ SteedosTable.getThead = function(field, editable) {
         width = 100;
 
     if (editable) {
-        trs = "<th class='removed'></th>"
+        // trs = "<th class='removed'></th>"
+		trs = ""
     }
 
     var sfields = fieldObj.sfields;
@@ -283,7 +284,7 @@ SteedosTable.getThead = function(field, editable) {
 
         label = (sf.name != null && sf.name.length > 0) ? sf.name : sf.code;
 
-        trs = trs + "<th nowrap='nowrap' ";
+        trs = trs + "<td nowrap='nowrap' ";
 
         trs = trs + " class='title " + sf.type + "'";
 
@@ -295,7 +296,7 @@ SteedosTable.getThead = function(field, editable) {
             }
         }
 
-        trs = trs + ">" + label + "</th>"
+        trs = trs + ">" + label + "</td>"
     });
 
     thead = '<tr>' + trs + '</tr>';
@@ -361,7 +362,8 @@ SteedosTable.getTr = function(keys, item_value, index, field, editable) {
 }
 
 SteedosTable.getRemoveTd = function(field, index) {
-    return "<td class='steedosTable-item-remove removed' data-index='" + index + "'><i class='fa fa-times' aria-hidden='true'></td>";
+    // return "<td class='steedosTable-item-remove removed' data-index='" + index + "'><i class='fa fa-times' aria-hidden='true'></td>";
+	return ""
 }
 
 SteedosTable.getTd = function(field, index, value) {
@@ -506,6 +508,7 @@ SteedosTable.getTDValue = function(field, value) {
                         value = parseFloat(value)
                     }
                     td_value = value.toFixed(field.digits);
+                    td_value = Steedos.numberToString(td_value);
                 }
                 break;
             default:
@@ -545,7 +548,7 @@ if(Meteor.isClient){
     });
 
     Template.afTable.events({
-        'click .steedos-table .steedosTable-item-add': function(event, template) {
+        'tap .steedos-table .steedosTable-item-add,.add-item-tr': function(event, template) {
             var name = template.data.name;
 
             var tableValue = SteedosTable.getTableValue(name);
@@ -555,7 +558,7 @@ if(Meteor.isClient){
             SteedosTable.showModal(name, new_item_index, "add");
         },
 
-        'click .steedos-table .steedosTable-item-field': function(event, template) {
+        'tap .steedos-table .steedosTable-item-field': function(event, template) {
             if (template.data.atts.editable) {
                 var field = template.data.name;
                 var index = event.currentTarget.dataset.index;
@@ -563,14 +566,14 @@ if(Meteor.isClient){
             }
         },
 
-        'click .steedos-table .steedosTable-item-remove': function(event, template) {
+        'tap .steedos-table .steedosTable-item-remove': function(event, template) {
             var field = template.data.name;
             var item_index = event.currentTarget.dataset.index;
             Session.set("instance_change", true);
             SteedosTable.removeItem(field, item_index);
         },
 
-        'click .steedos-table .item-readonly': function (event, template) {
+        'tap .steedos-table .item-readonly': function (event, template) {
 			if (!template.data.atts.editable) {
 				var field = template.data.name;
 				var index = event.currentTarget.dataset.index;
@@ -592,5 +595,12 @@ if(Meteor.isClient){
         $("thead[name='" + field + "Thead']").html(SteedosTable.getThead(field, this.data.atts.editable));
 
         $("tbody[name='" + field + "Tbody']").html(SteedosTable.getTbody(keys, field, SteedosTable.getTableValue(field), this.data.atts.editable));
+        
+        str = t("steedos_table_add_item");
+        addItemTr = "<tr class='add-item-tr'><td colspan='"+keys.length+"'><i class='ion ion-plus-round'></i>"+str+"</td></tr>";
+
+        if (this.data.atts.editable) {
+           $("tfoot[name='" + field + "Tfoot']").append(addItemTr);
+        }
     };
 }

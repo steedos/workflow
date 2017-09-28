@@ -90,7 +90,7 @@ steedos:adminlte
 steedos:base
 steedos:slipjs
 steedos:jstree
-# steedos:meteor-cookie-login
+steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
 steedos:ui
@@ -119,6 +119,7 @@ cfs:s3
 
 jeremy:selectize
 comerc:autoform-selectize
+# hausor:autoform-bs-minicolors
 
 # steedos:qhd
 # steedos:theme-qhd
@@ -156,6 +157,7 @@ steedos:accounts
 
 steedos:remind
 
+
 steedos:calendar
 steedos:calendar-i18n
 
@@ -163,6 +165,7 @@ steedos:calendar-i18n
 
 steedos:freeboard
 steedos:dashboard
+
 
 # steedos:distribute-qhd
 
@@ -177,3 +180,4 @@ chuangbo:cookie
 # steedos:express-status-monitor
 
 steedos:authenticate-user-by-access-token
+steedos:authenticate-user-by-auth-token

@@ -86,7 +86,7 @@ AccountsTemplates.addFields([
     type: "text",
     displayName: "username",
     required: true,
-    minLength: 5
+    minLength: 6
   },
   pwdField
 ]);

@@ -6,9 +6,11 @@
         "status": "active",
         "url": "https://www.steedos.com:443"
       },
+      //全文检索
       "elasticsearch": {
         "status": "active",
-        "url": "https://127.0.0.1:9200"
+        //秦皇岛records项目的搜索引擎接口
+        "url": "http://192.1.1.153:9200"
       }
     },
     "cfs": {
@@ -24,7 +26,8 @@
     "accounts": {
       "disableAccountRegistration": false, //是否禁止注册新用户
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
-      "loginExpirationInDays": 90
+      "loginExpirationInDays": 90,
+      "is_username_skip_minrequiredlength": false // 个人设置中修改用户名时是否忽略用户名长度限制
     },
     //手机号及其验证相关，该属性不存在时不显示任务手机号相关界面及功能
     "phone": {
@@ -144,7 +147,8 @@
     "qcloud": {
       "smsqueue_interval": 1000,
       "sdkappid": "xxx",
-      "appkey": "xxx"
+      "appkey": "xxx",
+      "signname": "xxx" // 短信签名
     }
   },
   //日志相关
@@ -193,7 +197,23 @@
     "update_email": true, //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
     "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
   },
-
+  //监控服务
+  "kadira": {
+    "appId": "tPsdNDPWWQZzFELco", //应用Id
+    "appSecret": "fec76d09-363c-45f3-8ba6-3c821c870f40", //应用Token
+    "options": {
+      "endpoint": "http://192.168.0.134:88" //监控服务engine URL
+    }
+  },
+  //全文检索服务
+  "records": {
+    "es_search_index": "steedos"
+  },
+  // 工作区流程模板
+  "workflowTemplates": {
+    "path_cn": "/srv/git/workflow-templates/zh-cn/default",
+    "path_us": "/srv/git/workflow-templates/en-us/default"
+  },
   "billing": {
     "appid": "xxx",
     "mch_id": "xxx",

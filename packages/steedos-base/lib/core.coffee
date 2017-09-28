@@ -6,11 +6,27 @@ Steedos =
 	subs: {}
 	isPhoneEnabled: ->
 		return !!Meteor.settings?.public?.phone
+	numberToString: (number, locale)->
+		if typeof number == "number"
+			number = number.toString()
+		if number != "NaN"
+			unless locale
+				locale = Steedos.locale()
+			if locale == "zh-cn" || locale == "zh-CN"
+				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
+			else
+				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		else
+			return ""
 
 ###
 # Kick off the global namespace for Steedos.
 # @namespace Steedos
 ###
+
+Steedos.getHelpUrl = (locale)->
+	country = locale.substring(3)
+	return "http://www.steedos.com/" + country + "/help/"
 
 if Meteor.isClient
 
@@ -111,10 +127,13 @@ if Meteor.isClient
 					localStorage.removeItem("accountZoomValue.name")
 					localStorage.removeItem("accountZoomValue.size")
 
-	Steedos.showHelp = ()->
+	Steedos.showHelp = (url)->
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
-		window.open("http://www.steedos.com/" + country + "/help/", '_help', 'EnableViewPortScale=yes')
+
+		url = url || "http://www.steedos.com/" + country + "/help/"
+
+		window.open(url, '_help', 'EnableViewPortScale=yes')
 
 	Steedos.getUrlWithToken = (url)->
 		authToken = {};
@@ -226,16 +245,19 @@ if Meteor.isClient
 			toastr.error t("space_balance_insufficient")
 
 	Steedos.getModalMaxHeight = (offset)->
-		reValue = $(window).height() - 180 - 25
+		if Steedos.isMobile()
+			reValue = window.screen.height - 126 - 180 - 25
+		else
+			reValue = $(window).height() - 180 - 25 
 		unless Steedos.isiOS() or Steedos.isMobile()
 			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()
 			switch accountZoomValue.name
 				when 'large'
 					# 测下来这里不需要额外减数
-					reValue -= 0
+					reValue -= 50
 				when 'extra-large'
-					reValue -= 25
+					reValue -= 145
 		if offset
 			reValue -= offset
 		return reValue + "px";
@@ -460,7 +482,7 @@ if Meteor.isServer
 
 		return password;
 
-	Steedos.getUserIdFromAuthToken = (access_token)->
+	Steedos.getUserIdFromAccessToken = (access_token)->
 
 		if !access_token
 			return null;
@@ -475,6 +497,54 @@ if Meteor.isServer
 			return userId
 		return null;
 
+	Steedos.getUserIdFromAuthToken = (req, res)->
+
+		userId = req.query?["X-User-Id"]
+
+		authToken = req.query?["X-Auth-Token"]
+
+		if Steedos.checkAuthToken(userId,authToken)
+			return db.users.findOne({_id: userId})?._id
+
+		cookies = new Cookies(req, res);
+
+		if req.headers
+			userId = req.headers["x-user-id"]
+			authToken = req.headers["x-auth-token"]
+
+		# then check cookie
+		if !userId or !authToken
+			userId = cookies.get("X-User-Id")
+			authToken = cookies.get("X-Auth-Token")
+
+		if !userId or !authToken
+			return null
+
+		if Steedos.checkAuthToken(userId, authToken)
+			return db.users.findOne({_id: userId})?._id
+
+	Steedos.APIAuthenticationCheck = (req, res) ->
+		try
+			userId = req.userId
+
+			user = db.users.findOne({_id: userId})
+
+			if !userId || !user
+				JsonRoutes.sendResult res,
+					data:
+						"error": "Validate Request -- Missing X-Auth-Token,X-User-Id Or access_token",
+					code: 401,
+				return false;
+			else
+				return true;
+		catch e
+			if !userId || !user
+				JsonRoutes.sendResult res,
+					code: 401,
+					data:
+						"error": e.message,
+						"success": false
+				return false;
 
 
 # This will add underscore.string methods to Underscore.js

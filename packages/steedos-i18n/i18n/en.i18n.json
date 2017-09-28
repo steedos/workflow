@@ -48,8 +48,8 @@
 	"Steedos Admin": "Admin",
 	"Flow Designer": "Flow Designer",
 	"Steedos CMS": "CMS",
-	"Steedos Boards":"Boards",
-	"Steedos OldCalendar":"Calendar(Old)",
+	"Steedos Boards": "Boards",
+	"Steedos OldCalendar": "Calendar(Old)",
 
 
 	"Forgot Password": "Forgot Password",
@@ -106,8 +106,9 @@
 	"Help": "Help",
 	"New": "New",
 
-	"Account": "Account",
 	"Account Settings": "Account Settings",
+	"Account": "Account",
+	"Settings": "Settings",
 	"Select Space": "Select Space",
 	"Add space": "Add space",
 
@@ -407,6 +408,7 @@
 	"Change username successfully": "Change username successfully",
 	"username-invalid": "Not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores",
 	"username-unavailable": "This username is already in use",
+	"username-minrequiredlength": "The minimum length can not be less than 6 digits",
 
 	"afModal_insert": "Save",
 	"afModal_update": "Save",
@@ -444,5 +446,13 @@
 	"meteor_status_reconnect_in": "",
 	"meteor_status_reconnect_in_plural": "",
 	"meteor_status_connecting": "Connecting...",
-	"meteor_status_try_now_waiting": "Retry"
+	"meteor_status_try_now_waiting": "Retry",
+	"btn_back_title": "Back",
+	"space_users_remove_mail_subject": "Your account has been deleted from the workspace by the administrator",
+	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"__steedos_id__\" has been removed from the workspace \"__space_name__\" by the administrator. <br/><br/>Thank you!",
+
+	"steedos_i18n_404_not_found": "The page you requested could not be found.",
+	"Steedos Records": "Full Text Search",
+
+	"Client download": "Download client"
 }

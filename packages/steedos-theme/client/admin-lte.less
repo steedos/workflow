@@ -127,7 +127,7 @@
 		bottom: 0;
 	}
 	.content-wrapper {
-		background: transparent;
+		background: rgba(255, 255, 255, 0.6);
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -137,6 +137,15 @@
 		min-height: auto;
 		&.no-sidebar{
 			margin-left: 0px!important;
+		}
+	}
+
+	&.no-sidebar{
+		.main-sidebar{
+			display:none;
+		}
+		.content-wrapper{
+			margin-left: 0px;
 		}
 	}
 

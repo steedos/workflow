@@ -836,10 +836,10 @@ if (Meteor.isClient) {
 				reName = '指定审批岗位';
 				break;
 			case 'applicantSuperior':
-				reName = '申请人上级';
+				reName = '提交人上级';
 				break;
 			case 'applicant':
-				reName = '申请人';
+				reName = '提交人';
 				break;
 			case 'orgField':
 				reName = '指定部门';

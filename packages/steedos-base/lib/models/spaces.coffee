@@ -287,61 +287,29 @@ if Meteor.isServer
 		# 初始化 space owner 的 orgnization
 		# db.space_users.direct.update({space: space_id, user: space.owner}, {$set: {organization: org_id}})
 
+		_create_org = (orgName,sortNo)->
+			_org = {}
+			_org.space = space_id
+			_org.name = orgName
+			_org.fullname = org.name + '/' + _org.name
+			_org.parents = [org_id]
+			_org.parent = org_id
+			if sortNo
+				_org.sort_no=sortNo
+			db.organizations.insert(_org)
 		# 新建5个部门
 		if user.locale == "zh-cn"
-			procurement_name = "采购部"
-			sales_name = "销售部"
-			finance_name = "财务部"
-			administrative_name = "行政部"
-			human_resources_name = "人事部"
+			_create_org("销售部")
+			_create_org("财务部")
+			_create_org("行政部")
+			_create_org("人事部")
+			_create_org("公司领导",101)
 		else
-			procurement_name = "Procurement Department"
-			sales_name = "Sales Department"
-			finance_name = "Finance Department"
-			administrative_name = "Administrative Department"
-			human_resources_name = "Human Resources Department"
-
-		# 采购部
-		procurement = {}
-		procurement.space = space_id
-		procurement.name = procurement_name
-		procurement.fullname = org.name + '/' + procurement.name
-		procurement.parents = [org_id]
-		procurement.parent = org_id
-		db.organizations.insert(procurement)
-
-		# 销售部
-		sales = {}
-		sales.space = space_id
-		sales.name = sales_name
-		sales.fullname = org.name + '/' + sales.name
-		sales.parents = [org_id]
-		sales.parent = org_id
-		db.organizations.insert(sales)
-		
-		# 财务部
-		finance = {}
-		finance.space = space_id
-		finance.name = finance_name
-		finance.fullname = org.name + '/' + finance.name
-		finance.parent = org_id
-		db.organizations.insert(finance)
-
-		# 行政部
-		administrative = {}
-		administrative.space = space_id
-		administrative.name = administrative_name
-		administrative.fullname = org.name + '/' + administrative.name
-		administrative.parent = org_id
-		db.organizations.insert(administrative)
-
-		# 人事部
-		human_resources = {}
-		human_resources.space = space_id
-		human_resources.name = human_resources_name
-		human_resources.fullname = org.name + '/' + human_resources.name
-		human_resources.parent = org_id
-		db.organizations.insert(human_resources)
+			_create_org("Sales Department")
+			_create_org("Finance Department")
+			_create_org("Administrative Department")
+			_create_org("Human Resources Department")
+			_create_org("Company Leader",101)
 
 		return true
 

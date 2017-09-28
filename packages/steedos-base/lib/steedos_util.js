@@ -1,9 +1,12 @@
-Array.prototype.sortByName = function () {
+Array.prototype.sortByName = function (locale) {
     if (!this) {
         return;
     }
+    if(!locale){
+        locale = Steedos.locale()
+    }
     this.sort(function (p1, p2) {
-        return p1.name.localeCompare(p2.name);
+        return p1.name.localeCompare(p2.name, locale);
     });
 };
 

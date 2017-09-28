@@ -11,6 +11,7 @@ Template.steedos_contacts_org_tree.helpers
 Template.steedos_contacts_org_tree.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	$(document.body).addClass('loading')
+	showHiddenOrg = this.data?.showHiddenOrg
 
 	$("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
 		# 清除整个浏览器的文字选中状态，解决edge浏览器中选中文字造成的一些问题，
@@ -34,7 +35,9 @@ Template.steedos_contacts_org_tree.onRendered ->
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
 				# this.select_node(node)
-				cb(ContactsManager.getOrgNode(node, Session.get('contacts_is_org_admin'))) # 普通用户只显示非隐藏的组织
+				unless showHiddenOrg == false
+					showHiddenOrg = Session.get('contacts_is_org_admin')
+				cb(ContactsManager.getOrgNode(node, showHiddenOrg)) # 普通用户只显示非隐藏的组织
 
 		plugins: ["wholerow", "search"]
 

@@ -195,3 +195,13 @@ Meteor.startup ->
 			Push.sendAliyun(aliyunTokens, notification);
 
 			Push.old_sendGCM(gcmTokens, notification);
+
+		Push.old_sendAPN = Push.sendAPN
+		Push.sendAPN = (userToken, notification) ->
+			if notification.title and notification.text
+				noti = _.clone(notification)
+				noti.text = noti.title + " " + noti.text
+				noti.title = ""
+				Push.old_sendAPN(userToken, noti)
+			else
+				Push.old_sendAPN(userToken, notification)

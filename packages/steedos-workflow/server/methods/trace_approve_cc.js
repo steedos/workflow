@@ -1,6 +1,6 @@
 Meteor.methods({
     // ??? 能否传阅给当前步骤处理人 如果当前步骤是会签。
-    cc_do: function(approve, cc_user_ids) {
+    cc_do: function(approve, cc_user_ids, description) {
 
         var setObj = {};
         var ins_id = approve.instance;
@@ -75,7 +75,8 @@ Meteor.methods({
                         'from_user_name': from_user_name,
                         'opinion_fields_code': approve.opinion_fields_code,
                         'sign_field_code': (approve.opinion_fields_code && approve.opinion_fields_code.length == 1) ? approve.opinion_fields_code[0] : "",
-                        'from_approve_id': approve_id
+                        'from_approve_id': approve_id,
+                        'cc_description': description
                     };
                     uuflowManager.setRemindInfo(instance.values, appr)
                     t.approves.push(appr);

@@ -21,7 +21,7 @@
 
 	"instances": "申请单",
 	"instances_name": "标题",
-	"instances_applicant_name": "申请人",
+	"instances_applicant_name": "提交人",
 	"instances_modified": "处理时间",
 	"instances_applicant_organization_name": "部门",
 	"instances_submit_date": "提交时间",
@@ -51,13 +51,14 @@
 
 	"flow_positions": "岗位成员",
 	"flow_positions_role": "岗位",
-	"flow_positions_org": "管辖范围",
+	"flow_positions_org": "审批范围",
 	"flow_positions_users": "岗位成员",
 	"flow_positions_role_name()": "岗位",
-	"flow_positions_org_name()": "管辖范围",
+	"flow_positions_org_name()": "审批范围",
 	"flow_positions_users_name()": "岗位成员",
 
 	"workflow_table_confirm": "确认",
+	"workflow_table_delete": "删除",
 
 	"Attachment deleted successfully": "文件删除成功!",
 	"Attachment was added successfully": "文件添加成功!",
@@ -110,7 +111,7 @@
 	"instance_reassign_curstep": "当前步骤: ",
 	"instance_reassign_reason": "请填写转签核的理由。",
 	"instance_reassign_ok": "转签核提交成功。",
-	"instance_reassign_user": "处理人",
+	"instance_reassign_user": "变更处理人",
 
 	"instance_cancel_title": "取消申请",
 	"instance_cancel_reason": "请填写取消申请的理由",
@@ -184,6 +185,9 @@
 	"workflow_left_parenthesis": "（",
 	"workflow_right_parenthesis": "）",
 
+	"instance_cc_description": "传阅说明",
+	"instance_cc_from": "传阅自",
+
 	"instance_cc_title": "传阅",
 	"instance_cc_done": "已传阅",
 	"instance_curstep": "当前步骤: ",
@@ -229,8 +233,8 @@
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
 	"instance_search_name": "申请单标题",
-	"instance_search_applicant_name": "申请人姓名",
-	"instance_search_applicant_organization_name": "申请人所属部门名称",
+	"instance_search_applicant_name": "提交人姓名",
+	"instance_search_applicant_organization_name": "提交人所属部门名称",
 	"instance_search_submit_date": "提交日期",
 	"instance_search_start": "起",
 	"instance_search_end": "至",
@@ -283,12 +287,12 @@
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__",
-				"first_submit_inbox": "您有新的待办文件:__instance_name__",
+				"first_submit_inbox": "__instance_name__",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__",
 				"submit_pending_rejected_approve": "",
-				"submit_pending_rejected_inbox": "您有新的待办文件:__instance_name__",
-				"submit_pending_inbox": "您有新的待办文件:__instance_name__",
+				"submit_pending_rejected_inbox": "__instance_name__",
+				"submit_pending_inbox": "__instance_name__",
 				"submit_terminate_applicant": "__instance_name__被我取消申请了",
 				"submit_terminate_approve": "",
 				"monitor_delete_applicant": "您的__instance_name__已被删除",
@@ -298,8 +302,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "您的__instance_name__已被驳回",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
-				"trace_approve_cc": "您有新的待办文件:__instance_name__",
+				"reassign_new_inbox_users": "__instance_name__",
+				"trace_approve_cc": "__instance_name__",
 				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
 			}
 		},
@@ -424,7 +428,7 @@
 
 	"instance_retrieve": "取回",
 	"instance_retrieve_reason": "备注",
-	"instance_retrieve_rules_title": "取回失败",
+	"instance_retrieve_rules_title": "无法取回",
 	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "取回成功!",
 	"Instance State retrieved": "已取回",
@@ -492,7 +496,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web 数据连接器已复制",
 	"instance_related_instances": "相关文件",
 	"instance_related_instances_title": "关联文件",
-	"instance_related_instances_placeholder": "请输入文件名称",
+	"instance_related_instances_placeholder": "请输入文件名称搜索关联文件",
 
 	"workflow_install_desktop": "安装客户端",
 
@@ -500,7 +504,7 @@
 
 	"instance_return": "退回",
 	"instance_return_success": "退回成功",
-	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
+	"instance_return_confirm": "确认退回至__step_name__(__handlers_name__)?",
 	"Instance State returned": "已退回",
 
 	"instance_main_attachment": "正文",
@@ -539,7 +543,7 @@
 	"categories_sort_no": "排序号",
 
 	"next_step_users_not_found": {
-		"applicant_role": "步骤(__step_name__)指定岗位(__role_name__)未找到处理人员，请联络系统管理员"
+		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要系统管理员在岗位成员中进行配置。"
 	},
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
@@ -574,5 +578,16 @@
 	"instances_not_archived": "未归档",
 	"workflow_more_inbox": "更多待审核",
 
-	"instance_back": "返回"
+	"instance_back": "返回",
+
+	"steedos_tableau_statistical_analysis": "统计分析",
+
+	"steedos_tableau_copy_link": "复制链接",
+	"tableau_introduction_modal_close": "关闭",
+	"ERROR": "错误",
+
+	"steedos_table_add_item": "新增一行",
+	"copy": "复制并新建",
+
+	"from": "来自"
 }

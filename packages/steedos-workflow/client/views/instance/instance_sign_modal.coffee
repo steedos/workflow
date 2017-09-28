@@ -36,8 +36,22 @@ Template.instanceSignModal.events
 		Modal.hide(template)
 
 	'click .instance-sign-opinion-btn': (event, template)->
+		regText = ""
+		$(".instance-sign-opinion-btn").each ->
+			regText += "#{$(this).text()}#{t("instance_sign_period")}|"
 
-		val = ($("#modal_suggestion").val() || "") + event.target.text + t("instance_sign_period")
+		regText = regText.substring(0,regText.length-1)
+
+		reg = new RegExp(regText,"ig")
+
+		currentText = event.target.text+t("instance_sign_period")
+
+		suggestion = $("#modal_suggestion").val() || ""
+		
+		if suggestion.match(reg) == null
+			val = suggestion + currentText
+		else
+			val = suggestion.replace(reg,currentText)
 
 		$("#modal_suggestion").val(val)
 

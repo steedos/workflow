@@ -14,7 +14,7 @@
       {{/if}}
 
       <span class="navigation-title dropdown">
-        {{_ "Account"}}
+        {{navigationTitle}}
       </span>
       <div class="pull-right">
       </div>
@@ -43,7 +43,7 @@
               <li class=""><a href="#account" data-toggle="tab" aria-expanded="false">{{_ "Account"}}</a></li>
               <li class=""><a href="#emails" data-toggle="tab" aria-expanded="false">{{_ "email"}}</a></li>
               <li class=""><a href="#personalization" data-toggle="tab" aria-expanded="false">{{_ "personalization"}}</a></li>
-			  <li class=""><a href="#secrets" data-toggle="tab" aria-expanded="false">{{_ "Secret"}}</a></li>
+			        <!-- <li class=""><a href="#secrets" data-toggle="tab" aria-expanded="false">{{_ "Secret"}}</a></li> -->
 
             </ul>
             <div class="tab-content">
@@ -52,7 +52,7 @@
 
                 <div class="box box-solid">
                   <div class="box-body">
-                    {{> quickForm collection="db.users" doc=user id="updateProfile" schema=schema type="update" fields="steedos_id,name,locale,company,position,work_phone,mobile,email_notification" buttonContent=btn_save_i18n}}
+                    {{> quickForm collection="db.users" doc=user id="updateProfile" schema=schema type="update" fields="steedos_id,name,locale,company,position,work_phone,email_notification" buttonContent=btn_save_i18n}}
                   </div>
                 </div>
 
@@ -69,7 +69,7 @@
                         <i class="ion ion-android-person account-default-avatar" aria-hidden="true"></i>
                       {{/if}}
                       <div class="btn btn-primary btn-sm change-avatar {{#unless user.avatar}}miss-avator{{/unless}}">{{_ 'Change Avatar'}}
-                        <input type="file" class="avatar-file" accept="image/*">
+                        <input type="file" class="avatar-file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" />
                       </div>
                     </div>
                   </div>
@@ -230,9 +230,9 @@
                     <div class="row zoom-setting">
                       {{#each zooms}}
                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                          <a data-name="{{name}}" data-size="{{size}}" class="thumbnail zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave name}} {{isCurrentZoomNameActive name}}">
-                            <div class="zoom-setting-item zoom-{{name}}">
-                              {{title}}
+                          <a data-name="{{this.name}}" data-size="{{this.size}}" class="thumbnail zoom-setting-item-wrap clearfix full-opacity-hover {{isCurrentZoomNameWaitingSave this.name}} {{isCurrentZoomNameActive this.name}}">
+                            <div class="zoom-setting-item zoom-{{this.name}}">
+                              {{this.title}}
                             </div>
                           </a>
                         </div>
@@ -276,7 +276,7 @@
                   </div>
                 </div>
               </div>
-				<div class="tab-pane" id="secrets">
+				<!-- <div class="tab-pane" id="secrets">
 					{{#each user.secrets}}
 						<div class="weui-cells__title name text-overflow">{{this.name}}</div>
 						<div class="weui-cells">
@@ -292,7 +292,7 @@
 						</div>
 					{{/each}}
 					<button type="submit" class="btn btn-primary btn-sm btn-get-secrets" style="margin-top: 10px;">{{_ 'New'}}</button>
-				</div>
+				</div> -->
 			</div>
           </div>
 

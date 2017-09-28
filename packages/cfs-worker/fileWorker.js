@@ -7,6 +7,8 @@
  * @type Object
  */
 FS.FileWorker = {};
+var path = Npm.require('path');
+var fs = Npm.require('fs');
 
 /**
  * @method FS.FileWorker.observe
@@ -81,9 +83,15 @@ FS.FileWorker.observe = function(fsCollection) {
  *  }
  */
 function getReadyQuery(storeName) {
-  var selector = {uploadedAt: {$exists: true}};
+  var selector = {
+    uploadedAt: {
+      $exists: true
+    }
+  };
   selector['copies.' + storeName] = null;
-  selector['failures.copies.' + storeName + '.doneTrying'] = {$ne: true};
+  selector['failures.copies.' + storeName + '.doneTrying'] = {
+    $ne: true
+  };
   return selector;
 }
 
@@ -124,18 +132,30 @@ function getReadyQuery(storeName) {
  */
 function getDoneQuery(stores) {
   var selector = {
-    $and: [{chunks: {$exists: true}}]
+    $and: [{
+      chunks: {
+        $exists: true
+      }
+    }]
   };
 
   // Add conditions for all defined stores
   FS.Utility.each(stores, function(store) {
     var storeName = store.name;
-    var copyCond = {$or: [{$and: []}]};
+    var copyCond = {
+      $or: [{
+        $and: []
+      }]
+    };
     var tempCond = {};
-    tempCond["copies." + storeName] = {$ne: null};
+    tempCond["copies." + storeName] = {
+      $ne: null
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
-    tempCond["copies." + storeName] = {$ne: false};
+    tempCond["copies." + storeName] = {
+      $ne: false
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
     tempCond['failures.copies.' + storeName + '.doneTrying'] = true;
@@ -169,9 +189,33 @@ function saveCopy(fsFile, storeName, options) {
 
   FS.debug && console.log('saving to store ' + storeName);
 
-  var writeStream = storage.adapter.createWriteStream(fsFile);
-  var readStream = FS.TempStore.createReadStream(fsFile);
+  if (FS.TempStore.exists(fsFile)) {
+    var temp_chunk = FS.TempStore.Tracker.findOne({
+      fileId: fsFile._id
+    });
+    if (temp_chunk.is_saveCopy) {
+      return;
+    }
+    var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
+    exists = fs.existsSync(filepath);
+    if (exists) {
+      var r = FS.TempStore.Tracker.update({
+        fileId: fsFile._id,
+        is_saveCopy: {
+          $exists: false
+        }
+      }, {
+        $set: {
+          is_saveCopy: true
+        }
+      });
+      if (r) {
+        var writeStream = storage.adapter.createWriteStream(fsFile);
+        var readStream = FS.TempStore.createReadStream(fsFile);
+        // Pipe the temp data into the storage adapter
+        readStream.pipe(writeStream);
+      }
+    }
 
-  // Pipe the temp data into the storage adapter
-  readStream.pipe(writeStream);
+  }
 }

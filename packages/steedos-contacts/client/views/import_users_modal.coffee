@@ -8,8 +8,14 @@ Template.import_users_modal.helpers
 
 Template.import_users_modal.events
 	'change #import-file': (event, template) ->
+
 		items = new Array();
+
 		files = event.currentTarget.files;
+
+		if files.length < 1
+			return ;
+
 		reader = new FileReader();
 		reader.onload = (ev) ->
 			try
@@ -24,7 +30,6 @@ Template.import_users_modal.events
 			for sheet of workbook.Sheets
 				if workbook.Sheets.hasOwnProperty(sheet)
 					fromTo = workbook.Sheets[sheet]['!ref']
-					console.log fromTo
 					items = items.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]))
 			# break; // 如果只取第一张表，就取消注释这行
 
@@ -89,7 +94,6 @@ Template.import_users_modal.events
 			return
 
 		$("body").addClass("loading")
-#		console.log "template.items.get()", template.items.get()
 		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
 			if error
 				toastr.error(error.reason);

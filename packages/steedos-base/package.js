@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.58',
+	version: '0.0.60',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -39,9 +39,9 @@ Package.onUse(function(api) {
 	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:ionicons@0.1.7');
-	api.use('steedos:i18n@0.0.7');
+	api.use('steedos:i18n@0.0.10');
 	api.use('steedos:ui@0.0.1');
-	api.use('steedos:theme@0.0.27');
+	api.use('steedos:theme@0.0.28');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
@@ -49,6 +49,8 @@ Package.onUse(function(api) {
 		'lib/core.coffee',
 		'lib/tap-i18n.coffee'
 	]);
+
+	api.addFiles('lib/simple_schema_extend.js');
 
 	api.addFiles('lib/models/apps.coffee');
 	api.addFiles('lib/models/users.coffee');
@@ -79,13 +81,12 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
-	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
-
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
 	api.addFiles([
 		'client/core.coffee',
 		'client/swipe.coffee',
+		'client/swipe.less',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/router.coffee',
@@ -104,6 +105,7 @@ Package.onUse(function(api) {
 		'client/layout/header.html',
 		'client/layout/header.coffee',
 		'client/layout/header.less',
+		'client/layout/content_wrapper_shadow.html',
 		'client/layout/sidebar.html',
 		'client/layout/steedosheader-account.html',
 		'client/layout/steedosheader-account.coffee',
@@ -123,6 +125,9 @@ Package.onUse(function(api) {
 		'client/views/sidebar_user_panel.coffee',
 		'client/views/sidebar_user_panel.less'
 	], "client");
+
+
+	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
 	api.addFiles('client/layout/login_layout.html', "client");
 	api.addFiles('client/layout/login_layout.coffee', "client");
@@ -148,6 +153,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/layout/master.less', 'client');
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
+
+	api.addFiles('client/layout/notFound_layout.html','client');
+	api.addFiles('client/layout/notFound_layout.coffee','client');
+	api.addFiles('client/layout/notFound_layout.less','client');
 
 	api.export('Steedos');
 	api.export('db');
