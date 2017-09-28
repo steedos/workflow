@@ -86,11 +86,6 @@ Template.relocate_modal.events({
     },
 
     'click #relocate_modal_ok': function(event, template) {
-        if (!Steedos.isLegalVersion('',"workflow_pro"))
-            {
-                Steedos.spaceUpgradedModal()
-                return;
-            }
         var sv = $("#relocate_steps").val();
         if (!sv) {
             return;

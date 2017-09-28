@@ -9,7 +9,9 @@ Template.admin_import_flow_modal.events
 		if $("#importFlowFile")[0].files.length == 0
 			toastr.warning(t("workflow_import_flow_info"))
 			return;
-
+		if !Steedos.isLegalVersion('',"workflow_pro")
+			Steedos.spaceUpgradedModal()
+			return;
 		formData = new FormData();
 
 		formData.append('file-0', $("#importFlowFile")[0].files[0]);
