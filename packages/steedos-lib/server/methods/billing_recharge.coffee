@@ -9,18 +9,20 @@ Meteor.methods
 
 		user_id = this.userId
 
+		listprices = 0
+		order_body = []
+		db.modules.find({name: {$in: module_names}}).forEach (m)->
+			listprices += m.listprice
+			order_body.push m.name_zh
+
 		space = db.spaces.findOne(space_id)
 		if not space.is_paid
-			listprices = 0
-			order_body = []
-			db.modules.find({name: {$in: module_names}}).forEach (m)->
-				listprices += m.listprice
-				order_body.push m.name_zh
 			space_user_count = db.space_users.find({space:space_id}).count()
 			one_month_yuan = space_user_count * (listprices*20/3)
 			if total_fee < one_month_yuan*100
 				throw new Meteor.Error 'error!', "充值金额应不少于一个月所需费用：￥#{one_month_yuan}"
 
+		total_fee = 1 #测试用记得删掉
 
 		result_obj = {}
 

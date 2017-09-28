@@ -176,10 +176,14 @@ Template.space_recharge_modal.events
 			balance = old_listprices * (20/3) * old_user_limit * remain_months
 
 			new_user_limit = user_count + old_user_limit
-
+			console.log space_modules
+			console.log listprices
+			console.log months
 			if space_modules.length > 0 and listprices > 0 and months > 0
 				total_fee = listprices * (20/3) * new_user_limit * months
 				paid_fee = total_fee - balance
+				console.log "total_fee", total_fee
+				console.log "balance", balance
 				$('#space_recharge_fee')[0].value = paid_fee.toFixed()
 			else
 				$('#space_recharge_fee')[0].value = ""
