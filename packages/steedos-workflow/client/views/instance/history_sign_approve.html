@@ -14,9 +14,26 @@
 							<tbody>
 								{{#each sign_approves}}
 									<tr data-id="{{_id}}">
-										<td>
+										<td class="use-suggestion">
 											<a class="instance-sign-opinion-btn">{{description}}</a>
 											<a class="instance-sign-opinion-btn finish-date">{{format finish_date}}</a>
+										</td>
+										<td class="select-suggestion-td">
+											<!-- <div class="select-suggestion">
+												<label>
+													<input type="checkbox" checked="{{sign_show}}" value="{{_id}}" class="is-{{sign_show}}">
+												</label>
+											</div> -->
+											<!-- <div class="checkbox select-suggestion">
+											    <input type="checkbox" checked="{{sign_show}}" value="{{_id}}" class="is-{{sign_show}}">
+											    <label></label>
+											</div> -->
+											<div class="weui-cell__ft select-suggestion">
+							                    <label for="switchCP-{{_id}}" class="weui-switch-cp">
+							                        <input id="switchCP-{{_id}}" class="weui-switch-cp__input is-{{sign_show}}" type="checkbox" checked="{{sign_show}}" value="{{_id}}">
+							                        <div class="weui-switch-cp__box"></div>
+							                    </label>
+							                </div>
 										</td>
 									</tr>
 								{{/each}}

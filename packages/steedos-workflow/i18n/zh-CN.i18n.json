@@ -570,6 +570,7 @@
 
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
+	"workflow_history_approve_counts": "已显示%s条历史意见",
 	"workflow_history_approve_description": "历史意见",
 	"instances_start_date": "接收时间",
 	"instances_is_archived": "已归档",
@@ -587,7 +588,13 @@
 	"ERROR": "错误",
 
 	"steedos_table_add_item": "新增一行",
+
+
+	"approved_description": "同意",
+	"rejected_description": "不同意",
+
 	"copy": "复制并新建",
+
 
 	"from": "来自"
 }

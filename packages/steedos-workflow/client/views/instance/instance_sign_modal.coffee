@@ -9,6 +9,16 @@ Template.instanceSignModal.helpers
 			description = Session.get("instance_my_approve_description") || approve?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
 			return description;
 
+	show_suggestion_counts: ()->
+		ins = WorkflowManager.getInstance()
+		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId()) || []
+		count = 0
+		sign_approves.forEach (approve) ->
+			if approve.sign_show == true
+				count++ 
+
+		return count
+
 	sign_type_add: ()->
 		ins = WorkflowManager.getInstance()
 
