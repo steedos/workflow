@@ -174,12 +174,6 @@ AT.prototype.atPwdFormEvents = {
 
             return Meteor.loginWithPassword(loginSelector, password, function(error) {
                 AccountsTemplates.submitCallback(error, state, function(){
-                    if(Steedos){
-                        var spaceId = AccountsTemplates.getSpaceId();
-                        if(spaceId){
-                            Steedos.setSpaceId(spaceId);
-                        }
-                    }
                     FlowRouter.go("/");
                 });
             });

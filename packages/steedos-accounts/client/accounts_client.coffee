@@ -55,6 +55,7 @@ Meteor.startup ->
 		if space_logined
 			$("body").addClass("loading")
 			Meteor.call "joinSpaceFromLogin", {space_logined}, ->
+				Steedos.setSpaceId(space_logined);
 				$("body").removeClass("loading")
 				Setup.validate()
 		else
