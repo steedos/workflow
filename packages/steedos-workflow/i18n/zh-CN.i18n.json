@@ -616,5 +616,8 @@
 	"flow_positions_add_failed": "添加失败",
 	"flow_positions_update_suceess": "更新成功",
 	"flow_positions_update_failed": "更新失败",
-	"flow_positions_delete_suceess": "删除成功"
+	"flow_positions_delete_suceess": "删除成功",
+	"instance_role_set_is_complete": "岗位设置完成？",
+
+	"flow_roles_help": "帮助"
 }

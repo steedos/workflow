@@ -216,6 +216,12 @@
 						display: none!important;
 					}
 				}
+				&.datatable-mobile-organizations{
+					//手机通讯录中永远不显示“没有组织”字眼
+					.dataTables_empty{
+						display: none;
+					}
+				}
 			}
 		}
 
@@ -573,3 +579,16 @@
 	}
 }
 
+#steedos_contacts_space_user_info_modal {
+	.weui-modal-content {
+		padding-bottom: 0px;
+		.weui-cells:after {
+			display: none;
+		}
+	}
+	.modal-footer {
+		.weui-btn-area {
+			margin: 0;
+		}
+	}
+}

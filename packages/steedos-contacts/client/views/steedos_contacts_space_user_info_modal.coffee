@@ -1,11 +1,17 @@
 Template.steedos_contacts_space_user_info_modal.helpers
+	isMobile: ->
+		return Steedos.isMobile()
+
 	spaceUser: ->
 		return db.space_users.findOne this.targetId;
 	
 	spaceUserOrganizations: ->
 		spaceUser = db.space_users.findOne this.targetId;
 		if spaceUser
-			return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
+			if Steedos.isMobile()
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {name: 1}})
+			else
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 		return []
 
 	isPrimaryOrg: (id)->

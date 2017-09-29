@@ -109,15 +109,16 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
     options = parseOptions(options, 'afFieldLabelText');
 
     var fieldSchema = AutoForm.getSchemaForField(options.name);
-
-    try{
-      setTimeout(function () {
-        if(!fieldSchema.optional){
-          $(".td-title-" + options.name).addClass("is-required");
-        }
-      }, 1);
-    }catch (e){
-      console.error(e);
+    if(fieldSchema){
+      try{
+        setTimeout(function () {
+          if(!fieldSchema.optional){
+            $(".td-title-" + options.name).addClass("is-required");
+          }
+        }, 1);
+      }catch (e){
+        console.error(e);
+      }
     }
 
     if(fieldSchema && fieldSchema.autoform){
