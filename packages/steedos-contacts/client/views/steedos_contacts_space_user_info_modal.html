@@ -59,12 +59,17 @@
 						</div>
 						<div class="weui-cell">
 							<div class="weui-cell_hd">
-								<span class="weui-label">{{_ "space_users_organizations"}}</span>
+								<span class="weui-label">{{_ "users_organizations"}}</span>
 							</div>
 							<div class="weui-cell_bd weui-cell_primary text-muted user-org-list">
 								<span class="weui-input">
 									{{#each spaceUserOrganizations}}
-										<div class="user-org-item">{{fullname}} 
+										<div class="user-org-item">
+											{{#if isMobile}}
+												{{name}} 
+											{{else}}
+												{{fullname}}
+											{{/if}}
 											{{#if isPrimaryOrg _id}}
 												<span class="badge">{{_ "space_users_organization"}}</span>
 											{{else}}
@@ -93,6 +98,8 @@
 						{{/if}}
 						{{/if}}
 					</div>
+				</div>
+				<div class="modal-footer">
 					<div class="weui-btn-area text-right">
 						{{#if isEditable}}
 							<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}">{{_ "Edit"}}</button>
