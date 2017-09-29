@@ -224,7 +224,7 @@ Template.instance_view.events
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
 
-	'tap #nextStepUsers': (event, template)->
+	'click #nextStepUsers': (event, template)->
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
