@@ -530,6 +530,10 @@
 	"next_step_users_not_found": {
 		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
 	},
+	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
+
+	"instanc_user_role_text": " configuration in position",
+
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",

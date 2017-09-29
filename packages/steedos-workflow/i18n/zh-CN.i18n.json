@@ -543,7 +543,7 @@
 	"categories_sort_no": "排序号",
 	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在。"
+		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在"
 	},
 
 	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置</a>",
