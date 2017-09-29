@@ -37,7 +37,7 @@ Template.instanceSignModal.events
 
 		myApprove = InstanceManager.getCurrentApprove()
 
-		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "add", Template.instance()?.history_approve.get() || InstanceSignText.helpers.getLastSignApprove()
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "update", Template.instance()?.history_approve.get() || InstanceSignText.helpers.getLastSignApprove()
 
 		$("#suggestion").val($("#modal_suggestion").val()).trigger("input").focus();
 
