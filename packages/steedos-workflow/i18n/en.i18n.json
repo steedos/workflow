@@ -597,5 +597,6 @@
 	"flow_positions_add_failed": "Be failed to add",
 	"flow_positions_update_suceess": "Update successfully",
 	"flow_positions_update_failed": "Be failed to update",
-	"flow_positions_delete_suceess": "Delete successfully"
+	"flow_positions_delete_suceess": "Delete successfully",
+	"instance_role_set_is_complete": "Role set up?"
 }

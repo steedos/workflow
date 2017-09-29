@@ -11,7 +11,7 @@
   "configure": "配置",
   "createAccount": "创建账户",
   "currentPassword": "当前密码",
-  "dontHaveAnAccount": "没有账户？",
+  "dontHaveAnAccount": "不是客户？",
   "email": "电子邮箱",
   "emailAddress": "电邮地址",
   "emailResetLink": "重置密码",
@@ -182,5 +182,6 @@
   "Username": "用户名",
 
   "loginWithPhone": "手机验证码登录",
-  "email_input_placeholder": "请输入邮件地址"
+  "email_input_placeholder": "请输入邮件地址",
+  "signUpFree": "免费试用"
 }
