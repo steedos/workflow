@@ -68,7 +68,7 @@ Meteor.methods
 				lastTrace?.approves.forEach (a)->
 					if a._id == lastSignApprove._id
 						if sign_type == "update"
-							a.sign_show = false
+							# a.sign_show = false
 							a.modified = new Date();
 							a.modified_by = session_userId
 #							else
@@ -103,3 +103,26 @@ Meteor.methods
 				$set: {"traces.$.approves": trace.approves}
 			})
 			return true
+
+
+	update_sign_show: (instanceId, traceId, approveId, sign_show)->
+		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
+		if instance?.traces?.length > 0
+			trace = instance.traces[0]
+
+			trace.approves.forEach (approve)->
+				if approve._id == approveId
+
+					approve.sign_show = sign_show
+
+			db.instances.update({
+				_id: instanceId,
+				"traces._id": traceId
+			}, {
+				$set: {"traces.$.approves": trace.approves}
+			})
+			return true
+
+
+
+		# db.instances.update({_id: instanceId, 'traces.approves._id': approveId}, { $set : {"traces.$.approves.$.sign_show":  sign_show}})

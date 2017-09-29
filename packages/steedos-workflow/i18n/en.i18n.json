@@ -526,7 +526,7 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-
+	"not_found_user":"Not FOund User",
 	"next_step_users_not_found": {
 		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
 	},
@@ -555,6 +555,7 @@
 
 	"my_instances": "My Requests",
 	"workflow_import_export_flows": "Workflow import or export",
+	"workflow_history_approve_counts": "Show %s history descriptions",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",
@@ -571,7 +572,12 @@
 	"ERROR": "Error",
 
 	"steedos_table_add_item": "Add item",
+
+	"approved_description": "Approved",
+	"rejected_description": "Rejected",
+
 	"copy": "Copy and Create",
+
 
 	"from": "From"
 }

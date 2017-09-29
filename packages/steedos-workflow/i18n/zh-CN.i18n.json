@@ -541,9 +541,9 @@
 	"categories": "流程分类",
 	"categories_name": "名称",
 	"categories_sort_no": "排序号",
-
+	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要系统管理员在岗位成员中进行配置。"
+		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在<a href='/admin/workflow/flow_roles' target='_blank'>岗位中进行配置</a>。"
 	},
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
@@ -570,6 +570,7 @@
 
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
+	"workflow_history_approve_counts": "已显示%s条历史意见",
 	"workflow_history_approve_description": "历史意见",
 	"instances_start_date": "接收时间",
 	"instances_is_archived": "已归档",
@@ -587,7 +588,13 @@
 	"ERROR": "错误",
 
 	"steedos_table_add_item": "新增一行",
+
+
+	"approved_description": "同意",
+	"rejected_description": "不同意",
+
 	"copy": "复制并新建",
+
 
 	"from": "来自"
 }
