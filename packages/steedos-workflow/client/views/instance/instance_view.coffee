@@ -231,33 +231,45 @@ Template.instance_view.events
 
 		if error && error_type == 'applicantRole'
 
+#			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
+#				url = Steedos.absoluteUrl('admin/workflow/flow_roles')
+#
+#				text = t('instanc_admin_role_text', url)
+#			else
+#				text = t('instanc_user_role_text')
 			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
-				url = Steedos.absoluteUrl('admin/workflow/flow_roles')
+				swal({
+					title: t('not_found_user'),
+					text: error,
+					html: true,
+					showCancelButton: true,
+					closeOnConfirm: false,
+					confirmButtonText: t('instanc_set_applicant_role_text'),
+					cancelButtonText: t('Cancel'),
+					showLoaderOnConfirm: false
+				}, (inputValue) ->
+					if inputValue == false
+						swal.close();
+					else
 
-				text = t('instanc_admin_role_text', url)
+	#					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
+	#
+	#					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
+
+						Steedos.openWindow(Steedos.absoluteUrl('admin/workflow/flow_roles'))
+
+						swal.close();
+				);
 			else
-				text = t('instanc_user_role_text')
-
-			swal({
-				title: t('not_found_user'),
-				text: error + text,
-				html: true,
-				showCancelButton: true,
-				closeOnConfirm: false,
-				confirmButtonText: t('Help'),
-				cancelButtonText: t('Cancel'),
-				showLoaderOnConfirm: false
-			}, (inputValue) ->
-				if inputValue == false
-					swal.close();
-				else
-
-					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
-
-					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
-
-					swal.close();
-			);
+				swal({
+					title: t('not_found_user'),
+					text: error,
+					html: true,
+					showCancelButton: false,
+					closeOnConfirm: false,
+					cancelButtonText: t('Cancel')
+					confirmButtonText: t('OK'),
+				});
 
 			event.preventDefault()
 
