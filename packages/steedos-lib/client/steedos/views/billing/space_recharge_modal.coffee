@@ -41,7 +41,7 @@ Template.space_recharge_modal.events
 
 		months = (end_date - now)/(1000*3600*24*30) #一个月按30天算
 
-		user_count = $('#space_recharge_user_count')[0].value.to_integer() || 0
+		user_count = parseInt($('#space_recharge_user_count')[0].value) || 0
 
 		space = db.spaces.findOne(Session.get('spaceId'))
 		space_modules = _.clone(space.modules) || []
@@ -113,7 +113,7 @@ Template.space_recharge_modal.events
 			$('#space_recharge_fee')[0].value = ""
 			return
 
-		total_fee = 100 * fee_value.toFixed().to_integer()
+		total_fee = 100 * parseFloat(fee_value.toFixed(2))
 
 		new_id = db.billing_pay_records._makeNewID() 
 
@@ -172,7 +172,7 @@ Template.space_recharge_modal.events
 
 		months = (end_date - now)/(1000*3600*24*30) #一个月按30天算
 
-		user_count = $('#space_recharge_user_count')[0].value.to_integer() || 0
+		user_count = parseInt($('#space_recharge_user_count')[0].value) || 0
 
 		space = db.spaces.findOne(Session.get('spaceId'))
 		space_modules = _.clone(space.modules) || []
@@ -221,12 +221,12 @@ Template.space_recharge_modal.events
 				paid_fee = total_fee - balance
 				console.log "total_fee", total_fee
 				console.log "balance", balance
-				$('#space_recharge_fee')[0].value = paid_fee.toFixed()
+				$('#space_recharge_fee')[0].value = paid_fee.toFixed(2)
 			else
 				$('#space_recharge_fee')[0].value = ""
 		else
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
 				space_recharge_fee = listprices * user_count * months
-				$('#space_recharge_fee')[0].value = space_recharge_fee.toFixed()
+				$('#space_recharge_fee')[0].value = space_recharge_fee.toFixed(2)
 			else
 				$('#space_recharge_fee')[0].value = ""
