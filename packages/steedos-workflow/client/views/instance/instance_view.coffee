@@ -231,12 +231,6 @@ Template.instance_view.events
 
 		if error && error_type == 'applicantRole'
 
-#			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
-#				url = Steedos.absoluteUrl('admin/workflow/flow_roles')
-#
-#				text = t('instanc_admin_role_text', url)
-#			else
-#				text = t('instanc_user_role_text')
 			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
 				swal({
 					title: t('not_found_user'),
@@ -251,14 +245,16 @@ Template.instance_view.events
 					if inputValue == false
 						swal.close();
 					else
-
-	#					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
-	#
-	#					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
-
 						Steedos.openWindow(Steedos.absoluteUrl('admin/workflow/flow_roles'))
-
-						swal.close();
+						swal({
+							title: t('instance_role_set_is_complete'),
+							type: "warning",
+							confirmButtonText: t("OK"),
+							closeOnConfirm: true
+						}, ()->
+							Session.set("instance_next_user_recalculate", Random.id())
+							swal.close();
+						)
 				);
 			else
 				swal({
@@ -274,4 +270,5 @@ Template.instance_view.events
 			event.preventDefault()
 
 			return false;
+
 		

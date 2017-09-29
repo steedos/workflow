@@ -58,6 +58,9 @@ Template.instance_suggestion.helpers
 	#    return InstanceManager.getNextUserOptions();
 
 	next_user_context: ->
+
+		Session.get("instance_next_user_recalculate")
+
 		instance_form_values = Session.get("instance_form_values")
 		if instance_form_values?.instanceId != Session.get("instanceId")
 			return {};
