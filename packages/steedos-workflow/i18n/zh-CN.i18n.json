@@ -543,8 +543,13 @@
 	"categories_sort_no": "排序号",
 	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在<a href='/admin/workflow/flow_roles' target='_blank'>岗位中进行配置</a>。"
+		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在。"
 	},
+
+	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置</a>",
+
+	"instanc_user_role_text": "岗位中进行配置",
+
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
 	"instance_sign_agree": "同意",

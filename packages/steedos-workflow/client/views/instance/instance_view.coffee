@@ -230,9 +230,17 @@ Template.instance_view.events
 		error_type = event.target.dataset.error_type
 
 		if error && error_type == 'applicantRole'
+
+			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
+				url = Steedos.absoluteUrl('admin/workflow/flow_roles')
+
+				text = t('instanc_admin_role_text', url)
+			else
+				text = t('instanc_user_role_text')
+
 			swal({
 				title: t('not_found_user'),
-				text: error,
+				text: error + text,
 				html: true,
 				showCancelButton: true,
 				closeOnConfirm: false,
