@@ -32,7 +32,9 @@
 								</div>
 								<a href="javascript:" class="weui-search-bar__cancel-btn">{{_ "Cancel"}}</a>
 							</div>
-							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
+							{{#if isShowContactsUsers}}
+								{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
+							{{/if}}
 							{{#unless isSearching}}
 								{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
 							{{/unless}}

@@ -1,3 +1,66 @@
+spaceUsersSelector = ->
+	spaceId = Steedos.spaceId()
+
+	is_within_user_organizations = ContactsManager.is_within_user_organizations();
+
+	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+
+	query = {space: spaceId, user: {$nin: hidden_users}}
+
+	isSearching = Template.instance().isSearching?.get()
+	searchingTag = Template.instance().searchingTag?.get()
+	if isSearching
+		searchKey = $("#contact-list-search-key").val().trim()
+		unless searchKey
+			return { _id: -1 }
+		if is_within_user_organizations
+			orgs = db.organizations.find().fetch().getProperty("_id")
+
+			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
+				fields: {
+					_id: 1
+				}
+			});
+
+			orgs = orgs.concat(orgs_childs.getProperty("_id"))
+
+			query.organizations = {$in: orgs}
+	else
+		orgId = Session.get("contacts_org_mobile");
+		query.organizations = {$in: [orgId]};
+
+	query.user_accepted = true
+	return query;
+
+organizationsSelector = ->
+	currentOrgId = Session.get('contacts_org_mobile')
+	spaceId = Steedos.spaceId()
+	selector = {_id: -1}
+	if currentOrgId
+		selector =
+			space: spaceId
+			parent: currentOrgId
+			hidden: { $ne: true }
+	else
+		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
+		if isWithinUserOrganizations
+			userId = Meteor.userId()
+			uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
+			_ids = uOrgs.getProperty('_id')
+			orgs = _.filter uOrgs, (org) ->
+				parents = org.parents or []
+				return _.intersection(parents, _ids).length < 1
+			selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
+		else
+			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+			selector = {
+				space: spaceId
+				parent: rootOrg?._id
+				hidden: { $ne: true }
+			}
+	return selector
+
+
 Template.org_main_mobile.helpers
 	subsReady: ->
 		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready();
@@ -26,67 +89,24 @@ Template.org_main_mobile.helpers
 		return Template.instance().isSearching?.get()
 
 	selector: ->
-
-		spaceId = Steedos.spaceId()
-
-		is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
-		hidden_users = SteedosContacts.getHiddenUsers(spaceId)
-
-		query = {space: spaceId, user: {$nin: hidden_users}}
-
-		isSearching = Template.instance().isSearching?.get()
-		searchingTag = Template.instance().searchingTag?.get()
-		if isSearching
-			searchKey = $("#contact-list-search-key").val().trim()
-			unless searchKey
-				return { _id: -1 }
-			if is_within_user_organizations
-				orgs = db.organizations.find().fetch().getProperty("_id")
-
-				orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
-					fields: {
-						_id: 1
-					}
-				});
-
-				orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
-				query.organizations = {$in: orgs}
-		else
-			orgId = Session.get("contacts_org_mobile");
-			query.organizations = {$in: [orgId]};
-
-		query.user_accepted = true
-		return query;
+		return spaceUsersSelector()
 
 	selectorForOrgs: ->
-		currentOrgId = Session.get('contacts_org_mobile')
-		spaceId = Steedos.spaceId()
-		selector = {_id: -1}
-		if currentOrgId
-			selector =
-				space: spaceId
-				parent: currentOrgId
-				hidden: { $ne: true }
+		return organizationsSelector()
+
+	isShowContactsUsers: ->
+		usersCount = db.space_users.find(spaceUsersSelector()).count()
+		organizationsCount = db.organizations.find(organizationsSelector()).count()
+		console.log "usersCount:#{usersCount}"
+		console.log "organizationsCount:#{organizationsCount}"
+		console.log "usersCount1:", spaceUsersSelector()
+		console.log "organizationsCount2:", organizationsSelector()
+		if organizationsCount and !usersCount
+			# 组织中有数据并且人员中没有数据时，就要隐藏人员列表，只让用户看到组织列表中的数据
+			return false
 		else
-			isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-			if isWithinUserOrganizations
-				userId = Meteor.userId()
-				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
-				_ids = uOrgs.getProperty('_id')
-				orgs = _.filter uOrgs, (org) ->
-					parents = org.parents or []
-					return _.intersection(parents, _ids).length < 1
-				selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
-			else
-				rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
-				selector = {
-					space: spaceId
-					parent: rootOrg?._id
-					hidden: { $ne: true }
-				}
-		return selector
+			return true
+
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
