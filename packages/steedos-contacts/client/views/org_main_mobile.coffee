@@ -97,10 +97,6 @@ Template.org_main_mobile.helpers
 	isShowContactsUsers: ->
 		usersCount = db.space_users.find(spaceUsersSelector()).count()
 		organizationsCount = db.organizations.find(organizationsSelector()).count()
-		console.log "usersCount:#{usersCount}"
-		console.log "organizationsCount:#{organizationsCount}"
-		console.log "usersCount1:", spaceUsersSelector()
-		console.log "organizationsCount2:", organizationsSelector()
 		if organizationsCount and !usersCount
 			# 组织中有数据并且人员中没有数据时，就要隐藏人员列表，只让用户看到组织列表中的数据
 			return false
