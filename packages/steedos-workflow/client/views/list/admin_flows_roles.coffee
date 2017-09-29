@@ -6,6 +6,9 @@ Template.admin_flow_roles.helpers
 
 		return selector
 
+	insertButtonContent: () ->
+		return t("admin_flow_roles_create")
+
 Template.admin_flow_roles.events
 	'click .role-edit': (event,template) ->
 		roleid = event.currentTarget.dataset.roleid
@@ -26,9 +29,9 @@ Template.admin_flow_roles.events
 		}, () ->
 			db.flow_roles.remove {_id:roleid} , (error,result)->
 				if result
-					toastr.success("删除成功")
+					toastr.success t("flow_roles_delete_success")
 				else
-					toastr.error(t(error.reason))
+					toastr.error t(error.reason) 
 				
 
 

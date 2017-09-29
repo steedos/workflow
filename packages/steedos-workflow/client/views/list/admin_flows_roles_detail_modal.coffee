@@ -1,4 +1,5 @@
 Template.admin_flows_roles_detail_modal.onRendered ->
+	$(".admin-flows-roles-detail-modal .modal-body").css("max-height" , Steedos.getModalMaxHeight())
 	Modal.allowMultiple = false
 
 Template.admin_flows_roles_detail_modal.helpers
@@ -24,9 +25,9 @@ Template.admin_flows_roles_detail_modal.events
 
 		a = db.flow_positions.insert(data)
 		if a
-			toastr.success("添加成功")
+			toastr.success t("flow_positions_add_suceess")
 		else
-			toastr.error("添加失败")
+			toastr.error t("flow_positions_add_failed")
 
 		Modal.hide(template)
 
@@ -39,9 +40,9 @@ Template.admin_flows_roles_detail_modal.events
 			users: data.users
 			org: data.org
 		if a
-			toastr.success("更新成功")
+			toastr.success t("flow_positions_update_suceess")
 		else
-			toastr.error("更新失败")
+			toastr.error t("flow_positions_update_failed")
 		
 		Modal.hide(template)
 
@@ -49,7 +50,7 @@ Template.admin_flows_roles_detail_modal.events
 		data = Template.instance().data
 		db.flow_positions.remove {_id:data._id},(error,result) ->
 			if result
-				toastr.success("删除成功")
+				toastr.success t("flow_positions_delete_suceess")
 			else
-				toastr.error(error.reason)
+				toastr.error t(error.reason)
 		Modal.hide(template)
