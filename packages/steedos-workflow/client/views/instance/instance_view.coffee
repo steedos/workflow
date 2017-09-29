@@ -224,7 +224,7 @@ Template.instance_view.events
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
 
-	'click #nextStepUsers': (event, template)->
+	'tap #nextStepUsers': (event, template)->
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
@@ -258,5 +258,8 @@ Template.instance_view.events
 
 					swal.close();
 			);
+
 			event.preventDefault()
+
+			return false;
 		
