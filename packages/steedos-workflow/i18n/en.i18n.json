@@ -583,5 +583,20 @@
 	"copy": "Copy and Create",
 
 
-	"from": "From"
+	"from": "From",
+
+
+	"admin_flow_roles_create": "Create",
+
+	"flow_roles_delete_success": "Delete successfully",
+	"add_positions": "Add",
+	"save_role":"Save",
+	"flow_roles_update_success": "Update successfully",
+	"flow_roles_necessary": "Please fill in role's name",
+	"flow_positions_add_suceess": "Add successfully",
+	"flow_positions_add_failed": "Be failed to add",
+	"flow_positions_update_suceess": "Update successfully",
+	"flow_positions_update_failed": "Be failed to update",
+	"flow_positions_delete_suceess": "Delete successfully",
+	"instance_role_set_is_complete": "Role set up?"
 }

@@ -99,11 +99,11 @@ new Tabular.Table
 		{
 			data: ""
 			title: ""
-			width: "100px"
+			width: "70px"
 			render: (val, type, doc) ->
 				return """
-					<a data-roleId="#{doc._id}" class="btn btn-xs btn-primary role-edit"><i class="fa fa-pencil"></i></a>
-					<a data-roleId="#{doc._id}" class="btn btn-xs btn-primary role-remove"><i class="fa fa-times"></i></a>
+					<a data-roleId="#{doc._id}" class="btn btn-xs btn-default role-edit"><i class="fa fa-pencil"></i></a>
+					<a data-roleId="#{doc._id}" class="btn btn-xs btn-default role-remove"><i class="fa fa-times"></i></a>
 				"""
 		}
 	]

@@ -5,7 +5,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="">
-						岗位
+						{{_ "flow_roles"}}
 					</h4>
 				</div>
 				<div class="modal-body modal-zoom panel panel-default admin-role-panel">
@@ -19,10 +19,7 @@
 								{{/autoForm}}
 							</div>
 							<div class="panel-content">
-								<div class="admin-role">  
-									<label class="control-label" for="ZQQZ2jg9BaHjpb2P3">岗位成员</label>
-								</div>
-								{{> tabular table=TabularTables.flow_positions selector=selector class="table dataTable table-bordered no-footer datatable-flows-roles"}}
+								{{> tabular table=TabularTables.new_flow_positions selector=selector class="table dataTable table-bordered no-footer datatable-flows-roles"}}
 								<!-- <div class="add-positions">
 									<i class="ion ion-plus-round"></i>新增岗位成员
 								</div> -->
@@ -33,7 +30,7 @@
 				<div class="modal-footer">
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary save-role">
-							保存
+							{{_ "save_role"}}
 						</button>
 					</div>
 				</div>
@@ -41,10 +38,3 @@
 		</div>
 	</div>
 </template>
-
-<!-- {{#afModal class="btn btn-primary flows-roles flows-roles-edit hidden" collection="db.flow_positions"  operation="update" dialogClass="modal-lg modal-body-zoom modal-flows-roles-edit" buttonContent=updateButtonContent}}
-	{{_ "Edit"}}
-{{/afModal}}
-{{#afModal class="btn btn-danger flows-roles flows-roles-remove hidden" collection="db.flow_positions" operation="remove" buttonContent=removeButtonContent prompt=removePrompt }}
-	{{_ "Delete"}}
-{{/afModal}} -->
