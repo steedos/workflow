@@ -48,13 +48,13 @@ Template.instanceSignModal.events
 	'click .instance-sign-opinion-btn': (event, template)->
 		regText = ""
 		$(".instance-sign-opinion-btn").each ->
-			regText += "#{$(this).text()}#{t("instance_sign_period")}|"
+			regText += "#{$(this).text()}|"
 
 		regText = regText.substring(0,regText.length-1)
 
 		reg = new RegExp(regText,"ig")
 
-		currentText = event.target.text+t("instance_sign_period")
+		currentText = event.target.text
 
 		suggestion = $("#modal_suggestion").val() || ""
 		
