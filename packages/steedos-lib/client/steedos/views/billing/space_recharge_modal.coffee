@@ -95,6 +95,14 @@ Template.space_recharge_modal.events
 				toastr.error "购买用户数不能小于工作区当前用户数：#{Session.get('space_user_count')}"
 				$('#space_recharge_fee')[0].value = ""
 				return
+
+			if _.isEmpty(space_modules)
+				toastr.error "请选择应用"
+				return
+
+			if not user_count
+				toastr.error "请填写用户数"
+				return
 		
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
 				fee_value = listprices * user_count * months
