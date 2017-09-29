@@ -528,7 +528,7 @@
 	"categories_sort_no": "Sort no",
 	"not_found_user":"Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
+		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator."
 	},
 	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
 
