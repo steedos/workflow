@@ -292,6 +292,7 @@ Template.instance_suggestion.events
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
+		Session.set("instance_change", true);
 		InstanceManager.checkSuggestion();
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 
