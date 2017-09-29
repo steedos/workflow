@@ -37,7 +37,7 @@ Template.instanceSignModal.events
 
 		myApprove = InstanceManager.getCurrentApprove()
 
-		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "add", Template.instance()?.history_approve.get() || InstanceSignText.helpers.getLastSignApprove()
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, template.data.sign_field_code, $("#modal_suggestion").val(), $("#sign_type:checked")?.val() || "update", Template.instance()?.history_approve.get() || InstanceSignText.helpers.getLastSignApprove()
 
 		$("#suggestion").val($("#modal_suggestion").val()).trigger("input").focus();
 
@@ -48,13 +48,13 @@ Template.instanceSignModal.events
 	'click .instance-sign-opinion-btn': (event, template)->
 		regText = ""
 		$(".instance-sign-opinion-btn").each ->
-			regText += "#{$(this).text()}#{t("instance_sign_period")}|"
+			regText += "#{$(this).text()}|"
 
 		regText = regText.substring(0,regText.length-1)
 
 		reg = new RegExp(regText,"ig")
 
-		currentText = event.target.text+t("instance_sign_period")
+		currentText = event.target.text
 
 		suggestion = $("#modal_suggestion").val() || ""
 		

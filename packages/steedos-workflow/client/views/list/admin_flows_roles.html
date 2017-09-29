@@ -8,7 +8,7 @@
 			</button>
 
 			<span class="navigation-title">
-				岗位
+				{{_ "flow_roles"}}
 			</span>
 
 			<div class="pull-right">
@@ -19,7 +19,7 @@
 			<div class="box-body" style="display: block;">
 				{{> tabular table=TabularTables.flow_roles  selector=selector class="table dataTable no-footer"}}
 
-				{{#afModal class="btn btn-primary admin-roles-add hidden" collection="db.flow_roles"  operation="insert" dialogClass="modal-lg modal-body-zoom"}}
+				{{#afModal class="btn btn-primary admin-roles-add hidden" collection="db.flow_roles"  operation="insert" dialogClass="modal-lg modal-body-zoom" buttonContent=insertButtonContent}}
 					{{_ "Create"}}
 				{{/afModal}}
 

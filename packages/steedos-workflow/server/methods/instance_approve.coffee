@@ -59,6 +59,9 @@ Meteor.methods
 
 		if lastSignApprove
 
+			if lastSignApprove.custom_sign_show
+				return ;
+
 			instance = db.instances.findOne({_id: instanceId, "traces._id": lastSignApprove.trace}, {fields: {"traces.$": 1}})
 
 			lastTrace = _.find instance?.traces, (t)->
@@ -68,7 +71,7 @@ Meteor.methods
 				lastTrace?.approves.forEach (a)->
 					if a._id == lastSignApprove._id
 						if sign_type == "update"
-							# a.sign_show = false
+							a.sign_show = false
 							a.modified = new Date();
 							a.modified_by = session_userId
 #							else
@@ -114,6 +117,8 @@ Meteor.methods
 				if approve._id == approveId
 
 					approve.sign_show = sign_show
+
+					approve.custom_sign_show = sign_show
 
 			db.instances.update({
 				_id: instanceId,

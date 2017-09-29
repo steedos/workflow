@@ -1,10 +1,5 @@
 Template.admin_flows_roles_modal.onRendered ->
-	Tracker.autorun (c) ->
-		if $(".datatable-flows-roles").length
-			table = $(".datatable-flows-roles").DataTable()
-			table.column(0)?.visible(false)
-			table.column(3)?.visible(false)
-			table.column(4)?.visible(false)
+	$(".admin-flows-roles-modal .modal-body").css("max-height" , Steedos.getModalMaxHeight())
 
 Template.admin_flows_roles_modal.helpers
 	selector: ->
@@ -18,21 +13,6 @@ Template.admin_flows_roles_modal.helpers
 		return Template.instance()?.data
 
 Template.admin_flows_roles_modal.events
-	# 'click #edit': (event,template) ->
-	# 	dataTable = $(event.target).closest('table').DataTable();
-	# 	rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
-	# 	if rowData
-	# 		Session.set "cmDoc",rowData
-	# 		$(".flows-roles-edit").click()
-	# 		$(".flows-roles").closest(".modal").css("background","transparent")
-
-	# 'click #remove': (event,template) ->
-	# 	dataTable = $(event.target).closest('table').DataTable();
-	# 	rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
-	# 	if rowData
-	# 		Session.set "cmDoc",rowData
-	# 		$(".flows-roles-remove").click()
-	# 		$(".flows-roles").closest(".modal").css("background","transparent")
 
 	'click .datatable-flows-roles tbody tr': (event,template) ->
 		Session.set "position-action","edit"
@@ -62,7 +42,7 @@ Template.admin_flows_roles_modal.events
 						if error
 							console.log error
 						else
-							toastr.success "更新成功"	
+							toastr.success t("flow_roles_update_success")	
 							Modal.hide(template)	
 		else
-			toastr.error("请填写岗位名称")	
+			toastr.error t("flow_roles_necessary")	
