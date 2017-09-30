@@ -599,6 +599,12 @@
 				top: -2px;
 			}
 		}
+		.weui-panel__bd:nth-of-type(2) {
+			//这里的margin-top是为解决第二个字段的底部边框线没了，可能是新版本chrome的BUG.
+			.weui-cells {
+				margin-top: 1px;
+			}
+		}
 		.weui-cell {
 			padding: 1px 15px 2px;
 			p {
