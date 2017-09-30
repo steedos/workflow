@@ -606,9 +606,17 @@
 			font-size: 15px;
 		}
 		.weui-cell__bd {
-			.badge {
-				position: relative;
-				top: -2px;
+			.user-org-item {
+				cursor: pointer;
+				.badge {
+					position: relative;
+					top: -2px;
+				}
+				&:hover .btn-set-primary{
+					display: inline!important;
+					margin-top: -2px;
+					margin-left: 6px;
+				}
 			}
 		}
 		.weui-panel__bd:nth-of-type(2) {
