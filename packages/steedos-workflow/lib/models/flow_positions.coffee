@@ -219,7 +219,7 @@ Meteor.startup ()->
 			return selector
 
 	new Tabular.Table
-		name: "new_flow_positions",
+		name: "admin_flow_positions",
 		collection: db.flow_positions,
 		pub: "flow_positions_tabular",
 		drawCallback:(settings)->

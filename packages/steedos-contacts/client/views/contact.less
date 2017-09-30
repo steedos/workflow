@@ -580,10 +580,39 @@
 }
 
 #steedos_contacts_space_user_info_modal {
-	.weui-modal-content {
-		padding-bottom: 0px;
-		.weui-cells:after {
+	.space-user-info-container:before,
+	.space-user-info-container:after {
+		display: none;
+	}
+	.space-user-info-container {
+		.weui-panel__hd:after {
 			display: none;
+		}
+		.weui-panel__hd {
+			padding: 12px 15px 5px;
+			font-size: 15px;
+		}
+		.weui-cell__bd {
+			.badge {
+				position: relative;
+				top: -2px;
+			}
+		}
+		.weui-cell {
+			padding: 1px 15px 2px;
+			p {
+				font-size: 16px;
+				margin: 0 0 7px;
+			}
+		}
+		.weui-cells:after {
+			left: 16px;
+			right: 15px;
+		}
+		.weui-panel__bd:last-of-type {
+			.weui-cells:after {
+				display: none;
+			}
 		}
 	}
 	.modal-footer {
