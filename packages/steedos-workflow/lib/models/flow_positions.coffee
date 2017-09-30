@@ -245,7 +245,7 @@ Meteor.startup ()->
 					org = db.organizations.findOne({_id: doc.org}, {fields: {fullname: 1}});
 					return """
 						<div class="users-name">#{val}</div>
-						<div class="org-fullname">#{org.fullname}</div>	
+						<div class="org-fullname">#{org?.fullname}</div>	
 					"""
 			}
 		]

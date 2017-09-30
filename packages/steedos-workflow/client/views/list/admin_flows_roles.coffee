@@ -11,6 +11,7 @@ Template.admin_flow_roles.helpers
 
 Template.admin_flow_roles.events
 	'click .role-edit': (event,template) ->
+		Session.set('Tabular.LastSkip', 0);
 		roleid = event.currentTarget.dataset.roleid
 		flowRole = db.flow_roles.findOne(roleid)
 		Modal.show("admin_flows_roles_modal",flowRole)
