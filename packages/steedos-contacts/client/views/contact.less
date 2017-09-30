@@ -3,6 +3,10 @@
 	table.dataTable {
 		margin-top: 0px !important;
 		margin-bottom: 0px !important;
+		&.datatable-mobile-users,
+		&.datatable-mobile-organizations {
+			cursor: pointer;
+		}
 	}
 	
 	.contacts-list-wrapper {
@@ -169,6 +173,9 @@
 					margin-top: 2px;
 				}
 			}
+			.weui-search-bar__cancel-btn {
+				cursor: pointer;
+			}
 			.dataTable{
 				thead{
 					display: none;
@@ -275,8 +282,10 @@
 				}
 			}
 			.contacts-wrapper {
-				width: 65%;
-				left: 35%;
+				// width: 65%;
+				// left: 35%;
+				width: 100%;
+				left: 0;
 				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
 				.offcanvas{
 					display: none;
