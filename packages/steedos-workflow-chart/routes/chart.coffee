@@ -109,6 +109,8 @@ FlowversionAPI =
 						}
 						.node rect{
 							fill: #ccccff;
+							stroke: rgb(144, 144, 255);
+    						stroke-width: 2px;
 						}
 						.node.current-step-node rect{
 							fill: #cde498;
@@ -117,6 +119,8 @@ FlowversionAPI =
 						}
 						.node.condition rect{
 							fill: #ececff;
+							stroke: rgb(204, 204, 255);
+    						stroke-width: 1px;
 						}
 					</style>
 				</head>

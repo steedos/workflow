@@ -15,7 +15,7 @@ if Meteor.isClient
 		title: "flow_roles"
 		app: "workflow"
 		icon: "ion ion-ios-grid-view-outline"
-		url: "/admin/view/flow_roles"
+		url: "/admin/workflow/flow_roles"
 		sort: 20
 		parent: "workflow"
 

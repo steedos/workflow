@@ -427,9 +427,9 @@ var tabularOnRendered = function () {
 
 			// console.log("tableInfo.recordsTotal / tableLength", tableInfo.recordsTotal / tableLength)
 			if ((tableInfo.recordsTotal / tableLength) < 1) {
-				$('div.dataTables_paginate').css('visibility', 'hidden');
+				$('div.dataTables_paginate', $(".instance-list")).css('visibility', 'hidden');
 			} else {
-				$('div.dataTables_paginate').css('visibility', '');
+				$('div.dataTables_paginate', $(".instance-list")).css('visibility', '');
 				if (table) {
 					table.ajax.reload(null, false);
 				}

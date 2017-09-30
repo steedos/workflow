@@ -215,6 +215,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/instance/history_sign_approve.html', 'client');
 	api.addFiles('client/views/instance/history_sign_approve.coffee', 'client');
+	api.addFiles('client/views/instance/history_sign_approve.less', 'client');
 
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
@@ -271,6 +272,18 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
 	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
 
+	api.addFiles('client/views/list/admin_flows_roles.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flows_roles_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_modal.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_categories.html', 'client');
 	api.addFiles('client/views/list/admin_categories.coffee', 'client');
 
@@ -311,6 +324,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
 	api.addFiles('server/methods/related_instances.coffee', 'server');
+	api.addFiles('server/methods/edit_flow_positions.coffee','server')
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');

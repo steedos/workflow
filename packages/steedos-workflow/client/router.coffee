@@ -137,3 +137,9 @@ FlowRouter.route '/admin/workflow/flow_positions',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_flow_positions"
+
+FlowRouter.route '/admin/workflow/flow_roles',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_flow_roles"
