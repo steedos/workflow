@@ -35,7 +35,7 @@ Template.admin_flow_roles.events
 					toastr.error t(error.reason) 
 				
 	'click .role-help': () ->
-		Steedos.openWindow("https://www.steedos.com/cn/help/workflow/admin_roles.html")
+		Steedos.openWindow("https://www.steedos.com/cn/help/workflow/admin_positions.html")
 
 	'click #create': (event,template) ->
 		Session.set "cmDoc",{}
