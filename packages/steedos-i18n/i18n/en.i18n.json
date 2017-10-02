@@ -106,6 +106,7 @@
 	"Help": "Help",
 	"New": "New",
 
+	"Account Settings": "Account Settings",
 	"Account": "Account",
 	"Settings": "Settings",
 	"Select Space": "Select Space",
@@ -205,7 +206,7 @@
 	"apps_desktop": "Show on desktop",
 	"apps_menu": "Show on left menu",
 	"apps_sort_no": "Sort No.",
-	"apps_secret": "App Secret",
+	"apps_secret": "API key",
 	"apps_internal": "Internal",
 	"apps_sort": "Sort",
 	"apps_id": "ID",

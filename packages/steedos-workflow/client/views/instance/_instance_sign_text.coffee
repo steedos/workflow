@@ -82,7 +82,7 @@ InstanceSignText.helpers =
 #			有输入意见 或 最新一条并且用户没有输入过意见
 #			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 #			if !hasNext(approve, approvesGroup)
-			if approve.sign_show != false
+			if approve.sign_show != false && (approve.description || (!approve.description && !hasNext(approve, approvesGroup)) )
 				approve._display = true
 
 		approves_sorted = _.filter approves_sorted, (a) ->
@@ -201,6 +201,18 @@ InstanceSignText.helpers =
 			else
 				return true;
 		return false;
+
+	judge_description: (judge)->
+		return t(judge + "_description")
+
+	is_approved: (judge)->
+		return "approved" == judge
+
+	is_rejected: (judge)->
+		return "rejected" == judge
+
+	is_readed: (judge)->
+		return "submitted" == judge || "readed" == judge
 
 	addClass: ()->
 		name = Template.instance()?.data?.name

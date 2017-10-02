@@ -6,6 +6,18 @@ Steedos =
 	subs: {}
 	isPhoneEnabled: ->
 		return !!Meteor.settings?.public?.phone
+	numberToString: (number, locale)->
+		if typeof number == "number"
+			number = number.toString()
+		if number != "NaN"
+			unless locale
+				locale = Steedos.locale()
+			if locale == "zh-cn" || locale == "zh-CN"
+				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
+			else
+				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		else
+			return ""
 
 ###
 # Kick off the global namespace for Steedos.
@@ -233,7 +245,10 @@ if Meteor.isClient
 			toastr.error t("space_balance_insufficient")
 
 	Steedos.getModalMaxHeight = (offset)->
-		reValue = $(window).height() - 180 - 25
+		if Steedos.isMobile()
+			reValue = window.screen.height - 126 - 180 - 25
+		else
+			reValue = $(window).height() - 180 - 25 
 		unless Steedos.isiOS() or Steedos.isMobile()
 			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()

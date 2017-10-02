@@ -526,10 +526,14 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-
+	"not_found_user":"Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
+		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator."
 	},
+	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
+
+	"instanc_user_role_text": " configuration in position",
+	"instanc_set_applicant_role_text":"set positions users",
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
@@ -555,6 +559,7 @@
 
 	"my_instances": "My Requests",
 	"workflow_import_export_flows": "Workflow import or export",
+	"workflow_history_approve_counts": "Show %s history descriptions",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",
@@ -571,5 +576,29 @@
 	"ERROR": "Error",
 
 	"steedos_table_add_item": "Add item",
-	"copy": "Copy"
+
+	"approved_description": "Approved",
+	"rejected_description": "Rejected",
+
+	"copy": "Copy and Create",
+
+
+	"from": "From",
+
+
+	"admin_flow_roles_create": "Create",
+
+	"flow_roles_delete_success": "Delete successfully",
+	"add_positions": "Add",
+	"save_role":"Save",
+	"flow_roles_update_success": "Update successfully",
+	"flow_roles_necessary": "Please fill in role's name",
+	"flow_positions_add_suceess": "Add successfully",
+	"flow_positions_add_failed": "Be failed to add",
+	"flow_positions_update_suceess": "Update successfully",
+	"flow_positions_update_failed": "Be failed to update",
+	"flow_positions_delete_suceess": "Delete successfully",
+	"instance_role_set_is_complete": "Role set up?",
+
+	"flow_roles_help": "Help"
 }

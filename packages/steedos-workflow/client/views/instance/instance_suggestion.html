@@ -27,7 +27,7 @@
 							{{#if isCC}}
 								{{#if (gt opinionFields.length 1)}}
 									<div class="cc-description-box">
-										<label>{{_ "instance_cc_title"}} (来自{{ccFromUserName}})</label>
+										<label>{{_ "instance_cc_title"}} ({{_ "from"}}{{ccFromUserName}})</label>
 										{{#if ccDescription.length}}
 											: {{ccDescription}}
 										{{/if}}
@@ -39,7 +39,7 @@
 									{{/each}}
 								{{else}}
 									<div class="cc-description-box">
-										<label>{{cc_opinion_field_code}} (来自{{ccFromUserName}})</label>
+										<label>{{cc_opinion_field_code}} ({{_ "from"}}{{ccFromUserName}})</label>
 										{{#if ccDescription.length}}
 											: {{ccDescription}}
 										{{/if}}

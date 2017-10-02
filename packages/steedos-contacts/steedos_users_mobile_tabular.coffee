@@ -47,7 +47,7 @@ TabularTables.steedosContactsMobileUsers = new Tabular.Table({
 
 	dom: "tp",
 	order:[[4,"desc"],[5,"asc"]],
-	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization", "space"],
 	lengthChange: false,
 	pageLength: -1,
 	limit: 500,

@@ -111,7 +111,7 @@
 	"instance_reassign_curstep": "当前步骤: ",
 	"instance_reassign_reason": "请填写转签核的理由。",
 	"instance_reassign_ok": "转签核提交成功。",
-	"instance_reassign_user": "处理人",
+	"instance_reassign_user": "变更处理人",
 
 	"instance_cancel_title": "取消申请",
 	"instance_cancel_reason": "请填写取消申请的理由",
@@ -287,12 +287,12 @@
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__",
-				"first_submit_inbox": "您有新的待办文件:__instance_name__",
+				"first_submit_inbox": "__instance_name__",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__",
 				"submit_pending_rejected_approve": "",
-				"submit_pending_rejected_inbox": "您有新的待办文件:__instance_name__",
-				"submit_pending_inbox": "您有新的待办文件:__instance_name__",
+				"submit_pending_rejected_inbox": "__instance_name__",
+				"submit_pending_inbox": "__instance_name__",
 				"submit_terminate_applicant": "__instance_name__被我取消申请了",
 				"submit_terminate_approve": "",
 				"monitor_delete_applicant": "您的__instance_name__已被删除",
@@ -302,8 +302,8 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "您的__instance_name__已被驳回",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
-				"trace_approve_cc": "您有新的待办文件:__instance_name__",
+				"reassign_new_inbox_users": "__instance_name__",
+				"trace_approve_cc": "__instance_name__",
 				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
 			}
 		},
@@ -541,10 +541,17 @@
 	"categories": "流程分类",
 	"categories_name": "名称",
 	"categories_sort_no": "排序号",
-
+	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要系统管理员在岗位成员中进行配置。"
+		"applicant_role": "您要找的「__role_name__」还未配置，请联系管理员。"
 	},
+
+	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置。</a>",
+
+	"instanc_user_role_text": "岗位中进行配置",
+
+	"instanc_set_applicant_role_text": "设置",
+
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
 	"instance_sign_agree": "同意",
@@ -570,6 +577,7 @@
 
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
+	"workflow_history_approve_counts": "已显示%s条历史意见",
 	"workflow_history_approve_description": "历史意见",
 	"instances_start_date": "接收时间",
 	"instances_is_archived": "已归档",
@@ -587,5 +595,29 @@
 	"ERROR": "错误",
 
 	"steedos_table_add_item": "新增一行",
-	"copy": "复制"
+
+
+	"approved_description": "同意",
+	"rejected_description": "不同意",
+
+	"copy": "复制并新建",
+
+
+	"from": "来自",
+	
+	"admin_flow_roles_create": "新建",
+
+	"flow_roles_delete_success": "删除成功",
+	"add_positions": "新增",
+	"save_role":"保存",
+	"flow_roles_update_success": "更新成功",
+	"flow_roles_necessary": "请填写岗位名称",
+	"flow_positions_add_suceess": "添加成功",
+	"flow_positions_add_failed": "添加失败",
+	"flow_positions_update_suceess": "更新成功",
+	"flow_positions_update_failed": "更新失败",
+	"flow_positions_delete_suceess": "删除成功",
+	"instance_role_set_is_complete": "岗位设置完成？",
+
+	"flow_roles_help": "帮助"
 }

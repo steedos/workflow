@@ -1,0 +1,33 @@
+<template name="admin_flow_roles">
+
+	<section class="admin admin-flow-roles">
+		<div class="navigation-bar">
+
+			<button type="button" class="btn btn-default" data-toggle="offcanvas">
+				<i class="fa fa-bars"></i>
+			</button>
+
+			<span class="navigation-title">
+				{{_ "flow_roles"}}
+				<a class="btn btn-xs btn-default role-help">
+                	<i class="ion ion-ios-help-outline" title='{{_ "flow_roles_help"}}'></i>
+                </a>
+			</span>
+
+			<div class="pull-right">
+				<button type="button" class="btn btn-primary" id="create">{{_ "New"}}</button>
+			</div>
+		</div>
+		<div class="admin-content">
+			<div class="box-body" style="display: block;">
+				{{> tabular table=TabularTables.flow_roles  selector=selector class="table dataTable no-footer"}}
+
+				{{#afModal class="btn btn-primary admin-roles-add hidden" collection="db.flow_roles"  operation="insert" dialogClass="modal-lg modal-body-zoom" buttonContent=insertButtonContent}}
+					{{_ "Create"}}
+				{{/afModal}}
+
+			</div>
+		</div>
+	</section>
+
+</template>

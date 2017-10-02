@@ -11,7 +11,7 @@
   "configure": "Configure",
   "createAccount": "Create an Account",
   "currentPassword": "Current Password",
-  "dontHaveAnAccount": "Don't have an account?",
+  "dontHaveAnAccount": "Not a customer?",
   "email": "Email",
   "emailAddress": "Email Address",
   "emailResetLink": "Reset Password",
@@ -200,5 +200,6 @@
   "Username": "Username",
 
   "loginWithPhone": "Login with phone",
-  "email_input_placeholder": "Please enter the email address"
+  "email_input_placeholder": "Please enter the email address",
+  "signUpFree": "Free trial"
 }

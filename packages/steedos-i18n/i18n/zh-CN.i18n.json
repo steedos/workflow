@@ -116,6 +116,7 @@
 	"Help": "帮助",
 	"New": "新建",
 
+	"Account Settings": "账户设置",
 	"Account": "账户",
 	"Settings": "设置",
 	"Select Space": "选择工作区",
@@ -219,7 +220,7 @@
 	"apps_desktop": "在桌面应用中显示",
 	"apps_menu": "在左侧菜单显示",
 	"apps_sort_no": "排序号",
-	"apps_secret": "App 密钥",
+	"apps_secret": "API 密钥",
 	"apps_internal": "App内置",
 	"apps_sort": "排序",
 	"apps_id": "ID",
