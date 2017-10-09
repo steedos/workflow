@@ -84,11 +84,11 @@ if Meteor.isClient
 		icon:"ion ion-ios-loop"
 		sort: 60
 
-	# 个性化
+	# 密钥
 	Admin.addMenu
 		_id: "secrets"
 		title: "Secret"
-		icon:"ion ion-key"
+		icon:"ion ion-ios-unlocked-outline"
 		url: "/admin/api/secrets"
 		sort: 10
 		parent: "api"
