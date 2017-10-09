@@ -178,6 +178,12 @@
 				padding-left: 8px;
 				margin-top: 2px;
 			}
+			@media (max-width: 767px) {
+				.btn-instance-submit {
+					background-color: #1E7C8B;
+					border-color: #1c7786;
+				}
+			}
 		}
 	}
 
@@ -564,6 +570,7 @@ _:-ms-fullscreen,
 			.instance-list-wrapper {
 				margin: 0px 0px 0px 0px;
 				border-radius: 0px;
+				background-color: transparent;
 				.instance-list{
 					/*border-top纯粹是因为在手机模式下，底部有翻页按钮时会出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
 					border-top:solid 1px #ffffff;
