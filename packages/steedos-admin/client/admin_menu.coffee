@@ -80,14 +80,14 @@ if Meteor.isClient
 	# API
 	Admin.addMenu
 		_id: "api"
-		title: "API"
+		title: "Developer"
 		icon:"ion ion-ios-loop"
 		sort: 60
 
 	# 密钥
 	Admin.addMenu
 		_id: "secrets"
-		title: "Secret"
+		title: "API Token"
 		icon:"ion ion-ios-unlocked-outline"
 		url: "/admin/api/secrets"
 		sort: 10

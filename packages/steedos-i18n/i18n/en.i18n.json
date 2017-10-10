@@ -100,6 +100,7 @@
 	"Search": "Search",
 	"Online": "Online",
 
+	"Developer":"Developer",
 	"Home": "Home",
 	"Profile": "Profile",
 	"Settings": "Settings",
@@ -441,7 +442,7 @@
 	"warning_description": "Please enter a description",
 	"delete_confirm": "Are you sure?",
 	"get_secret_successfully": "New success",
-	"Secret": "Secret",
+	"Secret": "API Token",
 	"meteor_status_waiting": "Network failure...",
 	"meteor_status_reconnect_in": "",
 	"meteor_status_reconnect_in_plural": "",
