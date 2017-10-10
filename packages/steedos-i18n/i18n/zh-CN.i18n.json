@@ -393,7 +393,7 @@
 	"zoom_title_extra_large": "超大字体",
 	"profile_save_zoom_setting": "保存字体",
 	"profile_save_zoom_suc": "字体保存成功",
-	"space_balance_insufficient": "工作区余额不足",
+	"space_balance_insufficient": "租用即将到期，请及时充值以免影响正常使用",
 	"close": "关闭",
 
 	"billings_billing_date": "日期",

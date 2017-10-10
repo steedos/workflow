@@ -47,6 +47,12 @@ Template.space_info.helpers
             pm = _.pluck(ms, 'name_zh').join(',')
         return pm
 
+    end_date: ->
+        s = db.spaces.findOne({_id:Session.get('spaceId')}, {fields: {end_date: 1}})
+        if s.end_date
+            return moment(s.end_date).format('YYYY-MM-DD')
+        return ""
+
 
 Template.space_info.events
 

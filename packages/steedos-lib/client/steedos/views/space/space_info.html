@@ -82,28 +82,38 @@
         </div>
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">已启用用户数</span>
+            <span class="weui_label">已启用用户</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{accepted_user_count}}</span>
           </div>
         </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <span class="weui_label">已购买用户数</span>
+        {{#if isPaidSpace}}
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <span class="weui_label">已购买用户</span>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary text-muted">
+              <span class="weui_input">{{paid_user_count}}</span>
+            </div>
           </div>
-          <div class="weui_cell_bd weui_cell_primary text-muted">
-            <span class="weui_input">{{paid_user_count}}</span>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <span class="weui_label">已购买应用</span>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary text-muted">
+              <span class="weui_input">{{paid_modules}}</span>
+            </div>
           </div>
-        </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <span class="weui_label">已购买应用</span>
+          <div class="weui_cell">
+            <div class="weui_cell_hd">
+              <span class="weui_label">购买日期至</span>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary text-muted">
+              <span class="weui_input">{{end_date}}</span>
+            </div>
           </div>
-          <div class="weui_cell_bd weui_cell_primary text-muted">
-            <span class="weui_input">{{paid_modules}}</span>
-          </div>
-        </div>
+        {{/if}}
         <div class="weui_cell">
           <div class="weui_cell_hd">
             <button type="button" class="btn btn-primary" id="space_recharge">升级</button>
