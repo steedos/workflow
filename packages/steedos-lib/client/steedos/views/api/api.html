@@ -1,15 +1,15 @@
 <template name="admin_api">
 
 	<div class="navigation-bar">
-        <button type="button" class="btn btn-default" data-toggle="offcanvas">
-          <i class="fa fa-bars"></i>
-        </button>
-    	<span class="navigation-title dropdown">
-        	API
-    	</span>
-    	<div class="pull-right">
-    	</div>
-    </div>
+		<button type="button" class="btn btn-default" data-toggle="offcanvas">
+		  <i class="fa fa-bars"></i>
+		</button>
+		<span class="navigation-title dropdown">
+		</span>
+		<div class="pull-right">
+			<button type="submit" class="btn btn-primary btn-get-secrets">{{_ 'New'}}</button>
+		</div>
+	</div>
 	<section class="content admin-content admin-profile-content">
 
 
@@ -20,25 +20,26 @@
 		</div>
 		<div class="tab-content">
 			<div class="tab-pane active" id="secrets">
-				{{#each user.secrets}}
-					<div class="weui-cells__title name text-overflow">{{this.name}}</div>
-					<div class="weui-cells">
-						<div  class="weui-cell">
-							<div class="weui-cell__hd copy-secret" data-clipboard-text="{{this.token}}"><i class="ion ion-ios-copy-outline" style="width:20px;margin-right:5px;display:block"></i></div>
-							<div class="weui-cell__bd token">
-								<p style="margin: 0px;" class="text-overflow">{{this.token}}</p>
+				<div class="weui-cells">
+					{{#each user.secrets}}
+						<div class="weui-cell">
+							<div class="weui-cell__bd">
+								<p>{{this.name}}</p>
 							</div>
+							<div class="weui-cell__ft">{{this.token}}</div>
 							<div class="weui-cell__ft remove-secret">
-								<a class="weui-swiped-btn weui-swiped-btn_warn" href="javascript:"><i class="ion ion-ios-close-empty"></i></a>
+								<a class="weui-swiped-btn weui-swiped-btn_warn">
+									<i class="ion ion-ios-close-empty"></i>
+								</a>
 							</div>
 						</div>
-					</div>
-				{{/each}}
-				<button type="submit" class="btn btn-primary btn-sm btn-get-secrets" style="margin-top: 10px;">{{_ 'New'}}</button>
+					{{/each}}
+				</div>
 			</div>
+
 		</div>
 
-
+		
 	</section>
 
 </template>
