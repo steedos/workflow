@@ -11,6 +11,7 @@ Template.admin_flow_roles.helpers
 
 Template.admin_flow_roles.events
 	'click .role-edit': (event,template) ->
+		Session.set('Tabular.LastSkip', 0);
 		roleid = event.currentTarget.dataset.roleid
 		flowRole = db.flow_roles.findOne(roleid)
 		Modal.show("admin_flows_roles_modal",flowRole)
@@ -33,7 +34,8 @@ Template.admin_flow_roles.events
 				else
 					toastr.error t(error.reason) 
 				
-
+	'click .role-help': () ->
+		Steedos.openWindow("https://www.steedos.com/cn/help/workflow/admin_positions.html")
 
 	'click #create': (event,template) ->
 		Session.set "cmDoc",{}

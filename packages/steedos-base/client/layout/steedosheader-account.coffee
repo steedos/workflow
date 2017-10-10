@@ -22,7 +22,7 @@ Template.steedosHeaderAccount.events
 		locale = Steedos.getLocale()
 		country = locale.substring(3)
 		if country = "cn"
-			url = "https://www.steedos.com/cn/workflow/download/"
+			url = "https://www.steedos.com/cn/workflow/downloads/"
 		else
 			url = "https://www.steedos.com/us/workflow/downloads/"
 		Steedos.openWindow(url)

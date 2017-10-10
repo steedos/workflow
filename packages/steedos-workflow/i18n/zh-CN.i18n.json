@@ -543,14 +543,14 @@
 	"categories_sort_no": "排序号",
 	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要工作区管理员在岗位中进行配置。"
+		"applicant_role": "您要找的「__role_name__」还未配置，请联系管理员。"
 	},
 
 	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置。</a>",
 
 	"instanc_user_role_text": "岗位中进行配置",
 
-	"instanc_set_applicant_role_text": "设置岗位成员",
+	"instanc_set_applicant_role_text": "设置",
 
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
@@ -616,5 +616,8 @@
 	"flow_positions_add_failed": "添加失败",
 	"flow_positions_update_suceess": "更新成功",
 	"flow_positions_update_failed": "更新失败",
-	"flow_positions_delete_suceess": "删除成功"
+	"flow_positions_delete_suceess": "删除成功",
+	"instance_role_set_is_complete": "岗位设置完成？",
+
+	"flow_roles_help": "帮助"
 }

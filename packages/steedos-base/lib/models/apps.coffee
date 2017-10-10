@@ -18,7 +18,7 @@ db.apps._simpleSchema = new SimpleSchema
 		type: String
 		max: 200
 		autoform:
-			defaultValue: "ion-ios-keypad-outline"
+			defaultValue: "ion-ios-color-filter-outline"
 	auth_name:
 		type: String
 		optional: true

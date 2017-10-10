@@ -219,7 +219,7 @@ Meteor.startup ()->
 			return selector
 
 	new Tabular.Table
-		name: "new_flow_positions",
+		name: "admin_flow_positions",
 		collection: db.flow_positions,
 		pub: "flow_positions_tabular",
 		drawCallback:(settings)->
@@ -245,7 +245,7 @@ Meteor.startup ()->
 					org = db.organizations.findOne({_id: doc.org}, {fields: {fullname: 1}});
 					return """
 						<div class="users-name">#{val}</div>
-						<div class="org-fullname">#{org.fullname}</div>	
+						<div class="org-fullname">#{org?.fullname}</div>	
 					"""
 			}
 		]
