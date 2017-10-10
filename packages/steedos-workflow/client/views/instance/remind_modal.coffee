@@ -111,7 +111,7 @@ Template.remind_modal.onRendered ()->
 	
 Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->
-		if !Steedos.isLegalVersion('',"workflow_pro")
+		if !Steedos.isLegalVersion('',"workflow.professional")
 				Steedos.spaceUpgradedModal();
 				return	
 		values = $("#instance_remind_select_users")[0].dataset.values

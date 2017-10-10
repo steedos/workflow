@@ -56,7 +56,7 @@ db.space_user_signs.helpers
 if (Meteor.isServer) 
 
 	db.space_user_signs.before.insert (userId, doc) ->
-		if (!Steedos.isLegalVersion(doc.space,"workflow_pro"))
+		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
 			throw new Meteor.Error(400, "space_paid_info_title");
 		doc.created_by = userId;
 		doc.created = new Date();
@@ -72,7 +72,7 @@ if (Meteor.isServer)
 		
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
-		if (!Steedos.isLegalVersion(doc.space,"workflow_pro"))
+		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
 			throw new Meteor.Error(400, "space_paid_info_title");
 		if modifier.$set.user
 			userSign = db.space_user_signs.findOne({space: doc.space, user: modifier.$set.user, _id:{$ne: doc._id}});
