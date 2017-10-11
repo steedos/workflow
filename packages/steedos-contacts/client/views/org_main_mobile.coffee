@@ -12,7 +12,7 @@ spaceUsersSelector = ->
 	if isSearching
 		searchKey = $("#contact-list-search-key").val().trim()
 		unless searchKey
-			return { _id: -1 }
+			return {}
 		if is_within_user_organizations
 			orgs = db.organizations.find().fetch().getProperty("_id")
 
@@ -149,6 +149,7 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', lastOrgId)
 		organizationsPath.pop()
 		template.organizationsPath.set(organizationsPath)
+		$(".weui-search-bar__cancel-btn").trigger("click")
 
 	'click .weui-search-bar__label': (event, template)->
 		$("#contact-list-search-key").focus()
