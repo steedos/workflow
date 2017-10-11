@@ -396,6 +396,22 @@ textarea {
 		.field-editable{
 			background-color: rgba(255, 255, 0, 0.03) !important;
 		}
+    .readonly-table {
+      border: solid 1px #d2d6de;
+      table {
+        border: none;
+        tr {
+          td:first-of-type {
+            // border-left-color: transparent;
+            border-left: none;
+          }
+          td:last-of-type {
+            // border-right-color: transparent;
+            border-right: none;
+          }
+        }
+      }
+    }
 	}
 }
 
