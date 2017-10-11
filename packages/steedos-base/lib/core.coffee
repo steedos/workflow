@@ -195,10 +195,10 @@ if Meteor.isClient
 				exec = nw.require('child_process').exec
 				if on_click
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
-					open_url = Meteor.absoluteUrl(path)
+					open_url = window.location.origin + "/" + path
 				else
 					open_url = Steedos.getAppUrlWithToken app_id
-					open_url = Meteor.absoluteUrl open_url
+					open_url = window.location.origin + "/" + open_url
 				cmd = "start iexplore.exe \"#{open_url}\""
 				exec cmd, (error, stdout, stderr) ->
 					if error
