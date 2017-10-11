@@ -30,7 +30,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 								<label class='control-label'>{{getLabel code}}</label>
 								<span class="description">{{{description}}}</span>
 							</div>
-							<div style="padding:0px;overflow-x:auto;">
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
 									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
 										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
 											{{{getTableThead this}}}
