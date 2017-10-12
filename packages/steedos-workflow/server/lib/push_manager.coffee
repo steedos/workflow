@@ -453,7 +453,7 @@ pushManager.send_message_by_raix_push = (data)->
 
 			notification["payload"] = payload
 
-		if data["data"]["badge"]
+		if data["data"]["badge"] > -1
 			notification['badge'] = data["data"]["badge"]
 
 		_.each data["toUsers"], (u)->

@@ -31,6 +31,27 @@
 				top: -6px;
 			}
 		}
+		@media (max-width: 767px) {
+			.btn-offcanvas {
+				max-width: 42px;
+				position: relative;
+				left: -9px;
+				padding: 14px;
+				top: -9px;
+			}
+			.pull-right {
+				.instance_new {
+					position: relative;
+					right: -9px;
+					padding: 14px;
+					top: -9px;
+					.ion-plus {
+						position: relative;
+						top: 1px;
+					}
+				}
+			}
+		}
 	}
 
 	.toolbar{
@@ -129,6 +150,11 @@
 			 }
 
 		}
+
+		.table-bordered {
+			border-left: none;
+		}
+
 		.dataTables_paginate {
 			padding-right: 10px;
 		}
@@ -182,6 +208,28 @@
 				.btn-instance-submit {
 					background-color: rgba(0, 0, 0, 0.2);
 					border-color: rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+		@media (max-width: 767px) {
+			.instance-left-buttons {
+				height: 50px;
+				top: -9px;
+				left: -9px;
+				.btn {
+					padding: 8px 8px;
+					margin-top: 1px;
+				}
+				.btn-instance-back {
+					padding: 14px;
+				}
+			}
+			.pull-right {
+				.btn {
+					position: relative;
+					top: -9px;
+					padding: 14px;
+					right: -9px;
 				}
 			}
 		}
