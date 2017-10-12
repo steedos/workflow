@@ -8,11 +8,11 @@ spaceUsersSelector = ->
 	query = {space: spaceId, user: {$nin: hidden_users}}
 
 	isSearching = Template.instance().isSearching?.get()
-	searchingTag = Template.instance().searchingTag?.get()
+
 	if isSearching
-		searchKey = $("#contact-list-search-key").val().trim()
-		unless searchKey
-			return { _id: -1 }
+		searchingKey = Session.get('contacts_searching_key_mobile')
+		unless searchingKey
+			return { _id : -1}
 		if is_within_user_organizations
 			orgs = db.organizations.find().fetch().getProperty("_id")
 
@@ -60,10 +60,18 @@ organizationsSelector = ->
 			}
 	return selector
 
+isShowContactsUsers = ->
+	usersCount = db.space_users.find(spaceUsersSelector()).count()
+	organizationsCount = db.organizations.find(organizationsSelector()).count()
+	if organizationsCount and !usersCount
+		# 组织中有数据并且人员中没有数据时，就要隐藏人员列表，只让用户看到组织列表中的数据
+		return false
+	else
+		return true
 
 Template.org_main_mobile.helpers
 	subsReady: ->
-		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready();
+		return Steedos.subsAddressBook.ready() and Steedos.subsSpaceBase.ready() and Steedos.subsSpace.ready()
 
 	isShowOrg: ->
 		unless Steedos.isNotSync()
@@ -85,28 +93,30 @@ Template.org_main_mobile.helpers
 	organizationsPathLength: ()->
 		return Template.instance().organizationsPath.get().length
 
-	isSearching: ()->
-		return Template.instance().isSearching?.get()
-
 	selector: ->
 		return spaceUsersSelector()
 
 	selectorForOrgs: ->
 		return organizationsSelector()
 
-	isShowContactsUsers: ->
-		usersCount = db.space_users.find(spaceUsersSelector()).count()
-		organizationsCount = db.organizations.find(organizationsSelector()).count()
-		if organizationsCount and !usersCount
-			# 组织中有数据并且人员中没有数据时，就要隐藏人员列表，只让用户看到组织列表中的数据
-			return false
-		else
-			return true
+	tabular_users_class: ->
+		className = "table table-striped datatable-mobile-users"
+		unless isShowContactsUsers()
+			className += " hidden" 
+		return className
+
+	tabular_organizations_class: ->
+		className = "table table-striped datatable-mobile-organizations"
+		isSearching = Template.instance().isSearching?.get()
+		if isSearching
+			className += " hidden"
+		return className
 
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
-	this.searchingTag = new ReactiveVar(0) #在搜索条件变化时触发tabular的selector属性重新计算
+	# this.searchingTag = new ReactiveVar(0) #在搜索条件变化时触发tabular的selector属性重新计算
+	# this.searchingKey = new ReactiveVar("")
 	this.organizationsPath = new ReactiveVar([])
 	Session.set('contacts_org_mobile',null)
 	this.autorun ->
@@ -133,6 +143,14 @@ Template.org_main_mobile.onRendered ->
 		FlowRouter.go rootPath
 		toastr.error(t("contacts_organization_permission_alert"));
 
+	this.autorun ->
+		searchingKey = Session.get('contacts_searching_key_mobile')
+		if searchingKey || searchingKey == ""
+			dataTable = $(".datatable-mobile-users").DataTable()
+			dataTable.search(
+				searchingKey
+			).draw()
+
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
 		organizationsPath = template.organizationsPath.get()
@@ -149,6 +167,7 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', lastOrgId)
 		organizationsPath.pop()
 		template.organizationsPath.set(organizationsPath)
+		$(".contacts-mobile .weui-search-bar__cancel-btn").trigger("click")
 
 	'click .weui-search-bar__label': (event, template)->
 		$("#contact-list-search-key").focus()
@@ -156,7 +175,6 @@ Template.org_main_mobile.events
 	'click .weui-icon-clear': (event, template)->
 		$(event.currentTarget).addClass("empty")
 		$("#contact-list-search-key").val("")
-		$("#contact-list-search-key").trigger("input")
 		$("#contact-list-search-key").focus()
 
 	'click .weui-search-bar__cancel-btn': (event, template)->
@@ -164,7 +182,7 @@ Template.org_main_mobile.events
 		$(event.currentTarget).closest(".contacts").removeClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").removeClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").val("")
-		$("#contact-list-search-key").trigger("input")
+		Session.set('contacts_searching_key_mobile',"")
 
 	'input #contact-list-search-key': (event, template)->
 		searchKey = $(event.currentTarget).val().trim()
@@ -176,26 +194,16 @@ Template.org_main_mobile.events
 		if arguments.callee.timer
 			clearTimeout arguments.callee.timer
 
-		doSearch = (key, template)->
-			if template.isSearching.get()
-				# 匹配双字节字符(包括汉字在内)
-				reg = /[^x00-xff]/
-				unless /[^x00-xff]/.test(key)
-					if key.length < 3
-						# 非汉字等双字节字符，长度小于3时不执行搜索
-						return
-			template.searchingTag.set(template.searchingTag.get() + 1)
-			dataTable = $(".datatable-mobile-users").DataTable()
-			dataTable.search(
-				key
-			).draw()
-
 		if template.isSearching.get()
 			arguments.callee.timer = setTimeout ()->
-				doSearch searchKey, template
+				# 匹配双字节字符(包括汉字在内)
+				reg = /[^x00-xff]/
+				unless /[^x00-xff]/.test(searchKey)
+					if searchKey.length < 3
+						# 非汉字等双字节字符，长度小于3时不执行搜索
+						return
+				Session.set('contacts_searching_key_mobile',searchKey)
 			, 800
-		else
-			doSearch searchKey, template
 
 	'focus #contact-list-search-key': (event, template)->
 		template.isSearching.set(true)
