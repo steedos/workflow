@@ -35,7 +35,7 @@ Template.space_recharge_modal.events
 		end_date = new Date(end_date_str)
 
 		if end_date <= now
-			toastr.error "购买日期不能小于当前日期"
+			toastr.warning "购买日期不能小于当前日期"
 			$('#space_recharge_fee')[0].value = ""
 			return
 
@@ -67,7 +67,7 @@ Template.space_recharge_modal.events
 			console.log "old_paid_modules: #{old_paid_modules}"
 
 			if end_date < old_end_date
-				toastr.error "购买日期不能小于已购买日期"
+				toastr.warning "购买日期不能小于已购买日期"
 				$('#space_recharge_fee')[0].value = ""
 				return
 
@@ -92,16 +92,16 @@ Template.space_recharge_modal.events
 				return
 		else
 			if user_count < Session.get('space_user_count')
-				toastr.error "购买用户数不能小于工作区当前用户数：#{Session.get('space_user_count')}"
+				toastr.warning "购买用户数不能小于工作区当前用户数：#{Session.get('space_user_count')}"
 				$('#space_recharge_fee')[0].value = ""
 				return
 
 			if _.isEmpty(space_modules)
-				toastr.error "请选择应用"
+				toastr.warning "请选择应用"
 				return
 
 			if not user_count
-				toastr.error "请填写用户数"
+				toastr.warning "请填写用户数"
 				return
 		
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
@@ -123,7 +123,7 @@ Template.space_recharge_modal.events
 			if err
 				$("body").removeClass("loading")
 				console.log err
-				toastr.error(err.reason)
+				toastr.warning(err.reason)
 			if result
 				data = new Object
 				data._id = new_id
@@ -166,7 +166,7 @@ Template.space_recharge_modal.events
 		end_date = new Date($('#space_recharge_end_date').val())
 
 		if end_date <= now
-			toastr.error "购买日期不能小于当前日期"
+			toastr.warning "购买日期不能小于当前日期"
 			$('#space_recharge_fee')[0].value = ""
 			return
 
@@ -199,7 +199,7 @@ Template.space_recharge_modal.events
 			console.log "old_paid_modules: #{old_paid_modules}"
 
 			if end_date < old_end_date
-				toastr.error "购买日期不能小于已购买日期"
+				toastr.warning "购买日期不能小于已购买日期"
 				$('#space_recharge_fee')[0].value = ""
 				return
 
