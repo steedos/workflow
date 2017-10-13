@@ -1,3 +1,16 @@
+isOrgAdmin = ->
+	currentOrg = Session.get('contacts_org_mobile')
+	Session.set 'is_org_admin', false
+	if Steedos.isSpaceAdmin()
+		Session.set 'is_org_admin', true
+
+	Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
+		if error
+			console.log(error)
+		else
+			if is_suc
+				Session.set 'is_org_admin', true
+
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
 
@@ -159,7 +172,8 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
 	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
-		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
+		isOrgAdmin()
+		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'click .btn-back': (event, template)->
 		organizationsPath = template.organizationsPath.get()
