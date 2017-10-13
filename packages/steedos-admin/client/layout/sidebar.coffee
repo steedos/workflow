@@ -51,12 +51,12 @@ Admin.menuTemplate =
 
 	getSidebarMenuTemplate: ()->
 		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
-			unless Admin.menuTemplate.checkRoles(rootMenu)
+			unless Admin.menuTemplate.checkMenu(rootMenu)
 				return ""
 			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
 			if children.count()
 				items = children.map (menu, index) ->
-					unless Admin.menuTemplate.checkRoles(menu)
+					unless Admin.menuTemplate.checkMenu(menu)
 						return ""
 					# 二级菜单才有url及onclick函数
 
@@ -108,12 +108,12 @@ Admin.menuTemplate =
 
 	getHomeTemplate: ()->
 		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
-			unless Admin.menuTemplate.checkRoles(rootMenu)
+			unless Admin.menuTemplate.checkMenu(rootMenu)
 				return ""
 			children = db.admin_menus.find({parent:rootMenu._id}, {sort: {sort: 1}})
 			if children.count()
 				items = children.map (menu, index) ->
-					unless Admin.menuTemplate.checkRoles(menu)
+					unless Admin.menuTemplate.checkMenu(menu)
 						return ""
 					if menu.target
 						targetStr = "target=#{menu.target}"
@@ -179,10 +179,10 @@ Admin.menuTemplate =
 		if menu.app
 			isChecked = !!Steedos.getSpaceAppById(menu.app)
 
-#		if menu.app and menu.paid
-#			# 未来是按APP收费，所以判断是否付费要求带上app属性
-#			unless Steedos.isPaidSpace()
-#				isChecked = false
+		# if menu.app and menu.paid
+		# 	# 未来是按APP收费，所以判断是否付费要求带上app属性
+		# 	unless Steedos.isPaidSpace()
+		# 		isChecked = false
 
 		if isChecked and menu.roles?.length
 			roles = menu.roles
@@ -202,3 +202,13 @@ Admin.menuTemplate =
 					break 
 			return isChecked
 		return isChecked
+
+	checkMenu: (menu)->
+		unless Admin.menuTemplate.checkRoles(menu)
+			return false
+
+		if menu.mobile == false and Steedos.isMobile()
+			return false
+
+		return true
+
