@@ -155,6 +155,41 @@ Template.profile.onRendered ->
 			FlowRouter.go '/admin'
 		)
 
+Template.profile.onCreated ->
+
+	@clearForm = ->
+		@find('#oldPassword').value = ''
+		@find('#Password').value = ''
+		@find('#confirmPassword').value = ''
+
+	@changePassword = (callback) ->
+		instance = @
+
+		oldPassword = $('#oldPassword').val()
+		Password = $('#Password').val()
+		confirmPassword = $('#confirmPassword').val()
+
+		result = Steedos.validatePassword Password
+		if result.error
+			return toastr.error result.error.reason
+
+		if !oldPassword or !Password or !confirmPassword
+			toastr.error t('Old_and_new_password_required')
+
+		else if Password == confirmPassword
+			Accounts.changePassword oldPassword, Password, (error) ->
+				if error
+					toastr.error t('Incorrect_Password')
+				else
+					toastr.success t('Password_changed_successfully')
+					instance.clearForm();
+					if callback
+						return callback()
+					else
+						return undefined
+		else
+			toastr.error t('Confirm_Password_Not_Match')
+
 Template.profile.events
 
 	'click .change-password': (e, t) ->
