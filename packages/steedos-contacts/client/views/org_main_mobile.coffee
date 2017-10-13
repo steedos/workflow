@@ -225,3 +225,6 @@ Template.org_main_mobile.events
 		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
 
+	'click .add-contact-user': (event,template) ->
+		Modal.show("steedos_contacts_add_user_modal")
+
