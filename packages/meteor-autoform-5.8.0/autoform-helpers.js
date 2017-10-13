@@ -109,14 +109,36 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
     options = parseOptions(options, 'afFieldLabelText');
 
     var fieldSchema = AutoForm.getSchemaForField(options.name);
-
-    if(fieldSchema && fieldSchema.autoform && fieldSchema.autoform.disabled === true){
+    if(fieldSchema){
       try{
         setTimeout(function () {
-          $(".td-title-" + options.name).removeClass("is-required");
+          if(!fieldSchema.optional){
+            $(".td-title-" + options.name).addClass("is-required");
+          }
         }, 1);
       }catch (e){
         console.error(e);
+      }
+    }
+
+    if(fieldSchema && fieldSchema.autoform){
+      if(fieldSchema.autoform.disabled === true){
+        try{
+          setTimeout(function () {
+           $(".td-title-" + options.name).removeClass("is-required");
+          }, 1);
+        }catch (e){
+          console.error(e);
+        }
+      }else{
+        try{
+          setTimeout(function () {
+            $(".td-title-" + options.name).addClass("title-editable");
+
+          }, 1);
+        }catch (e){
+          console.error(e);
+        }
       }
     }
 

@@ -79,8 +79,6 @@ Package.onUse(function (api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
-	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
-
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
 	api.addFiles([
@@ -125,6 +123,9 @@ Package.onUse(function (api) {
 		'client/views/sidebar_user_panel.coffee',
 		'client/views/sidebar_user_panel.less'
 	], "client");
+
+
+	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
 	api.addFiles('client/layout/login_layout.html', "client");
 	api.addFiles('client/layout/login_layout.coffee', "client");

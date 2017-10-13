@@ -110,5 +110,13 @@ Template.workflowSidebar.events
 		# 切换箱子的时候清空搜索条件
 		$("#instance_search_tip_close_btn").click()
 
+	'click .inbox>a': (event, template)->
+		event.preventDefault()
+		inboxUrl = $(event.currentTarget).attr("href")
+		FlowRouter.go inboxUrl
+		if Steedos.isMobile()
+			# 移动端不要触发展开折叠菜单
+			event.stopPropagation()
+
 	'click .header-app': (event) ->
 		FlowRouter.go "/workflow/"

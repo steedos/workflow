@@ -58,6 +58,9 @@ Template.instance_suggestion.helpers
 	#    return InstanceManager.getNextUserOptions();
 
 	next_user_context: ->
+
+		Session.get("instance_next_user_recalculate")
+
 		instance_form_values = Session.get("instance_form_values")
 		if instance_form_values?.instanceId != Session.get("instanceId")
 			return {};
@@ -266,6 +269,8 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
+		InstanceManager.checkSuggestion(0);
+
 	# 'change .nextSteps': (event) ->
 	# 	if event.target.name == 'nextSteps'
 	# 		if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
@@ -287,6 +292,7 @@ Template.instance_suggestion.events
 		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
+		Session.set("instance_change", true);
 		InstanceManager.checkSuggestion();
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 

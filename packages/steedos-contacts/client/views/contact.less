@@ -3,6 +3,10 @@
 	table.dataTable {
 		margin-top: 0px !important;
 		margin-bottom: 0px !important;
+		&.datatable-mobile-users,
+		&.datatable-mobile-organizations {
+			cursor: pointer;
+		}
 	}
 	
 	.contacts-list-wrapper {
@@ -169,6 +173,9 @@
 					margin-top: 2px;
 				}
 			}
+			.weui-search-bar__cancel-btn {
+				cursor: pointer;
+			}
 			.dataTable{
 				thead{
 					display: none;
@@ -214,6 +221,12 @@
 				&.datatable-mobile-organizations,&.datatable-mobile-users{
 					&+.dataTables_paginate{
 						display: none!important;
+					}
+				}
+				&.datatable-mobile-organizations{
+					//手机通讯录中永远不显示“没有组织”字眼
+					.dataTables_empty{
+						display: none;
 					}
 				}
 			}
@@ -275,6 +288,10 @@
 				.offcanvas{
 					display: none;
 				}
+				&.contacts-wrapper-mobile {
+					width: 100%;
+					left: 0;
+				}
 			}   
 		}
 	}
@@ -322,7 +339,7 @@
 				left: 0;
 				width: 100%;
 				transition: 0.3s ease-in-out;
-				background: #fff;
+				background: transparent;
 				.contacts{
 					top: 102px;
 					bottom: 50px;
@@ -573,3 +590,61 @@
 	}
 }
 
+#steedos_contacts_space_user_info_modal {
+	.space-user-info-container:before,
+	.space-user-info-container:after {
+		display: none;
+	}
+	.space-user-info-container {
+		overflow: auto;
+		margin-top: 0px;
+		.weui-panel__hd:after {
+			display: none;
+		}
+		.weui-panel__hd {
+			padding: 12px 15px 5px;
+			font-size: 15px;
+		}
+		.weui-cell__bd {
+			.user-org-item {
+				cursor: pointer;
+				.badge {
+					position: relative;
+					top: -2px;
+				}
+				&:hover .btn-set-primary{
+					display: inline!important;
+					margin-top: -2px;
+					margin-left: 6px;
+				}
+			}
+		}
+		.weui-panel__bd:nth-of-type(2) {
+			//这里的margin-top是为解决第二个字段的底部边框线没了，可能是新版本chrome的BUG.
+			.weui-cells {
+				margin-top: 1px;
+			}
+		}
+		.weui-cell {
+			padding: 1px 15px 2px;
+			p {
+				font-size: 16px;
+				margin: 0 0 7px;
+			}
+		}
+		.weui-cells:after {
+			left: 16px;
+			right: 15px;
+		}
+		.weui-panel__bd:last-of-type {
+			.weui-cells:after {
+				display: none;
+			}
+		}
+	}
+	.modal-footer {
+		.weui-btn-area {
+			margin: 0;
+		}
+	}
+}

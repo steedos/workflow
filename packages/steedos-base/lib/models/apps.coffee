@@ -18,11 +18,13 @@ db.apps._simpleSchema = new SimpleSchema
 		type: String
 		max: 200
 		autoform:
-			defaultValue: "ion-ios-keypad-outline"
+			defaultValue: "ion-ios-color-filter-outline"
 	auth_name:
 		type: String
 		optional: true
 		max: 200
+		autoform:
+			type: "hidden"
 	sort:
 		type: Number
 		optional: true
@@ -50,26 +52,24 @@ db.apps._simpleSchema = new SimpleSchema
 		optional: true
 		autoform: 
 			defaultValue: false
-
-
 	is_use_iframe: 
 		type: Boolean
 		optional: true
 		autoform: 
 			defaultValue: false
-
 	is_new_window:
 		type: Boolean
 		optional: true
 		autoform:
 			defaultValue: false
-
 	on_click:
 		type: String
 		optional: true
 		autoform:
 			rows: 10
+			type: "hidden"
 		optional: true
+
 
 if Meteor.isClient
 	db.apps._simpleSchema.i18n("apps")

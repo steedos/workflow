@@ -81,7 +81,7 @@ TemplateManager.handleTableTemplate = (instance) ->
 				else
 					template += table_field.tr_start
 					template += """
-						<td class="td-title td-title-#{table_field.code} #{required}">
+						<td class="td-title td-title-#{table_field.code} title-#{table_field.permission} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
 						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">
@@ -137,7 +137,7 @@ TemplateManager._template =
 			{{#each steedos_form.fields}}
 				{{#if isOpinionField this}}
 					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-						<div class="form-group opinion-field">
+						<div class="form-group automatic opinion-field-{{this.code}}">
 							<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
 							{{> instanceSignText name=this.code}}

@@ -4,6 +4,8 @@ Template.search_records_repository.events
 	'click .records-searched-instace': (event,template)->
 		event.preventDefault()
 		instance_detail_url = $(event.target).attr("url-data")
+		if !instance_detail_url
+			instance_detail_url = $(event.target).parent().attr("url-data")
 		Steedos.openWindow Steedos.absoluteUrl(instance_detail_url)
 
 	'keyup [name=input_search]':(event)->

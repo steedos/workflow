@@ -325,7 +325,7 @@ AT.prototype.texts = {
   signInLink_link: "signin",
   signInLink_suff: "",
   signUpLink_pre: "dontHaveAnAccount",
-  signUpLink_link: "signUp",
+  signUpLink_link: "signUpFree",
   signUpLink_suff: "",
   socialAdd: "add",
   socialConfigure: "configure",

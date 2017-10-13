@@ -17,3 +17,12 @@ Template.steedosHeaderAccount.helpers
 Template.steedosHeaderAccount.events
 	'click .btn-logout': (event,template) ->
 		$("body").addClass("loading")
+
+	'click .steedos-download': () ->
+		locale = Steedos.getLocale()
+		country = locale.substring(3)
+		if country = "cn"
+			url = "https://www.steedos.com/cn/workflow/downloads/"
+		else
+			url = "https://www.steedos.com/us/workflow/downloads/"
+		Steedos.openWindow(url)

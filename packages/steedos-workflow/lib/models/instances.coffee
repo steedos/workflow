@@ -261,7 +261,7 @@ if Meteor.isServer
 	},{background: true})
 
 	db.instances._ensureIndex({
-		"keywords": 1,
+		"keywords": "hashed",
 	},{background: true})
 
 	db.instances._ensureIndex({

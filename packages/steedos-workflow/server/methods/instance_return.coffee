@@ -1,5 +1,5 @@
 Meteor.methods
-	instance_return: (approve)->
+	instance_return: (approve, reason)->
 		check(approve, Object)
 
 		current_user = this.userId
@@ -25,10 +25,10 @@ Meteor.methods
 		if pre_step.step_type is "counterSign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
-		# - 当前步骤为填写
+		# - 当前步骤为填写或者审批
 		last_trace = _.last(ins.traces)
 		current_step = uuflowManager.getStep(ins, flow, last_trace.step)
-		if current_step.step_type isnt "submit"
+		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
 		# - 参数approve中trace与当前获取的trace是否匹配
@@ -37,7 +37,7 @@ Meteor.methods
 
 		new_inbox_users = new Array
 		_.each pre_trace.approves, (a)->
-			if !a.type and !a.judge
+			if (!a.type or a.type is "draft") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 				new_inbox_users.push(a.user)
 
 		traces = ins.traces
@@ -57,6 +57,7 @@ Meteor.methods
 						a.is_finished = true
 						a.judge = "returned"
 						a.cost_time = a.finish_date - a.start_date
+						a.description = reason
 				# 更新当前trace记录
 				t.is_finished = true
 				t.finish_date = now

@@ -426,8 +426,7 @@
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
 	"instance_retrieve_rules_title": "Retrieve failed",
-	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.
-",
+	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -482,7 +481,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web Data Connector copy successful",
 	"instance_related_instances": "Related requests",
 	"instance_related_instances_title": "Linked requests",
-	"instance_related_instances_placeholder": "Please enter request name",
+	"instance_related_instances_placeholder": "Please enter the file name to search for the associated file",
 
 	"workflow_install_desktop": "Install Desktop",
 
@@ -490,7 +489,7 @@
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",
-	"instance_return_confirm": "Are you sure to return the request to the previous step?",
+	"instance_return_confirm": "Return the request to __step_name__(__handlers_name__)?",
 	"Instance State returned": "Returned",
 
 	"instance_main_attachment": "Main attach",
@@ -527,10 +526,14 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-
+	"not_found_user":"Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
+		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator."
 	},
+	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
+
+	"instanc_user_role_text": " configuration in position",
+	"instanc_set_applicant_role_text":"set positions users",
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
@@ -556,6 +559,7 @@
 
 	"my_instances": "My Requests",
 	"workflow_import_export_flows": "Workflow import or export",
+	"workflow_history_approve_counts": "Show %s history descriptions",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",
@@ -569,5 +573,32 @@
 
 	"steedos_tableau_copy_link": "Copy link",
 	"tableau_introduction_modal_close": "Close",
-	"ERROR": "Error"
+	"ERROR": "Error",
+
+	"steedos_table_add_item": "Add item",
+
+	"approved_description": "Approved",
+	"rejected_description": "Rejected",
+
+	"copy": "Copy and Create",
+
+
+	"from": "From",
+
+
+	"admin_flow_roles_create": "Create",
+
+	"flow_roles_delete_success": "Delete successfully",
+	"add_positions": "Add",
+	"save_role":"Save",
+	"flow_roles_update_success": "Update successfully",
+	"flow_roles_necessary": "Please fill in role's name",
+	"flow_positions_add_suceess": "Add successfully",
+	"flow_positions_add_failed": "Be failed to add",
+	"flow_positions_update_suceess": "Update successfully",
+	"flow_positions_update_failed": "Be failed to update",
+	"flow_positions_delete_suceess": "Delete successfully",
+	"instance_role_set_is_complete": "Role set up?",
+
+	"flow_roles_help": "Help"
 }

@@ -36,11 +36,11 @@ Template.instance_view.helpers
 		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
-			return ""
+			return "instance-default"
 
 		if form?.instance_style == 'table'
 			return "instance-table"
-		return "";
+		return "instance-default";
 
 	showTracesView: (form, form_version)->
 		return TracesTemplate.helpers.showTracesView(form, form_version)
@@ -103,6 +103,15 @@ Template.instance_view.onCreated ->
 
 Template.instance_view.onRendered ->
 
+	ins = WorkflowManager.getInstance();
+
+	form_version = db.form_versions.findOne({_id: ins.form_version})
+
+	flow_version = db.flow_versions.findOne({_id: ins.flow_version})
+
+	if Session.get("box") == 'draft' && (form_version.latest != true || flow_version.latest != true)
+		InstanceManager.saveIns();
+
 	Form_formula.runFormScripts("instanceform", "onload");
 
 	if Session.get("box") == "inbox"
@@ -138,9 +147,7 @@ Template.instance_view.onRendered ->
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-							setTimeout ->
-								InstanceManager.fixInstancePosition(true)
-							,100
+							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
 
@@ -223,24 +230,45 @@ Template.instance_view.events
 		error_type = event.target.dataset.error_type
 
 		if error && error_type == 'applicantRole'
-			swal({
-				title: t('instance_next_step_users') + t('ERROR'),
-				text: error
-				showCancelButton: true,
-				closeOnConfirm: false,
-				confirmButtonText: t('Help'),
-				cancelButtonText: t('Cancel'),
-				showLoaderOnConfirm: false
-			}, (inputValue) ->
-				if inputValue == false
-					swal.close();
-				else
 
-					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
+			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
+				swal({
+					title: t('not_found_user'),
+					text: error,
+					html: true,
+					showCancelButton: true,
+					closeOnConfirm: false,
+					confirmButtonText: t('instanc_set_applicant_role_text'),
+					cancelButtonText: t('Cancel'),
+					showLoaderOnConfirm: false
+				}, (inputValue) ->
+					if inputValue == false
+						swal.close();
+					else
+						Steedos.openWindow(Steedos.absoluteUrl('admin/workflow/flow_roles'))
+						swal({
+							title: t('instance_role_set_is_complete'),
+							type: "warning",
+							confirmButtonText: t("OK"),
+							closeOnConfirm: true
+						}, ()->
+							Session.set("instance_next_user_recalculate", Random.id())
+							swal.close();
+						)
+				);
+			else
+				swal({
+					title: t('not_found_user'),
+					text: error,
+					html: true,
+					showCancelButton: false,
+					closeOnConfirm: false,
+					cancelButtonText: t('Cancel')
+					confirmButtonText: t('OK'),
+				});
 
-					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
-
-					swal.close();
-			);
 			event.preventDefault()
+
+			return false;
+
 		

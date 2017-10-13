@@ -147,11 +147,11 @@ Template.instance_button.helpers
 
 		pre_trace = ins.traces[ins.traces.length - 2]
 
-		is_relocated = false
+		is_not_return = false
 		_.each pre_trace.approves, (ap)->
-			if ap.judge is 'relocated'
-				is_relocated = true
-		if is_relocated
+			if ap.judge is 'relocated' or ap.judge is 'returned'
+				is_not_return = true
+		if is_not_return
 			return false
 
 		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
@@ -161,7 +161,7 @@ Template.instance_button.helpers
 		cs = InstanceManager.getCurrentStep()
 		if _.isEmpty(cs)
 			return false
-		if cs.step_type is "submit"
+		if cs.step_type is "submit" or cs.step_type is "sign"
 			return true
 
 		return false
@@ -350,7 +350,7 @@ Template.instance_button.onRendered ->
 		e.clearSelection()
 
 Template.instance_button.onDestroyed ->
-	Template.instance_button.copyUrlClipboard.destroy();
+	Template.instance_button.copyUrlClipboard?.destroy();
 
 Template.instance_button.events
 
@@ -358,11 +358,15 @@ Template.instance_button.events
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
 		else
-				uobj = {}
-				uobj["box"] = Session.get("box")
-				uobj["X-User-Id"] = Meteor.userId()
-				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
+			btn_instance_update = $('.btn-instance-update')[0]
+			if btn_instance_update
+				btn_instance_update.click()
+
+			uobj = {}
+			uobj["box"] = Session.get("box")
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
 
 	'click .btn-instance-update': (event)->
 
@@ -419,17 +423,26 @@ Template.instance_button.events
 		Modal.show('instance_cc_modal');
 
 	'click .btn-instance-return': (event, template) ->
+		ins = WorkflowManager.getInstance()
+		pre_trace = ins.traces[ins.traces.length - 2]
+		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
+		pre_handlers = _.pluck pre_trace.approves, "handler_name"
+
 		swal {
-			title: TAPi18n.__("instance_return_confirm"),
-			type: "warning",
-			showCancelButton: true,
-			cancelButtonText: t('Cancel'),
-			confirmButtonColor: "#DD6B55",
+			title: t("instance_return"),
+			text: TAPi18n.__("instance_return_confirm", {step_name: pre_step.name, handlers_name: pre_handlers.join(",")}),
+			type: "input",
 			confirmButtonText: t('OK'),
+			cancelButtonText: t('Cancel'),
+			showCancelButton: true,
 			closeOnConfirm: true
-		}, () ->
+		}, (reason) ->
+			# 用户选择取消
+			if (reason == false)
+				return false;
+
 			$("body").addClass("loading")
-			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
+			Meteor.call "instance_return", InstanceManager.getMyApprove(), reason, (err, result)->
 				$("body").removeClass("loading")
 				if err
 					toastr.error TAPi18n.__(err.reason)

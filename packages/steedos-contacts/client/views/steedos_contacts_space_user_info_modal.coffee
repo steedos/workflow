@@ -1,11 +1,17 @@
 Template.steedos_contacts_space_user_info_modal.helpers
+	isMobile: ->
+		return Steedos.isMobile()
+
 	spaceUser: ->
 		return db.space_users.findOne this.targetId;
 	
 	spaceUserOrganizations: ->
 		spaceUser = db.space_users.findOne this.targetId;
 		if spaceUser
-			return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
+			if Steedos.isMobile()
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {name: 1}})
+			else
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 		return []
 
 	isPrimaryOrg: (id)->
@@ -116,7 +122,7 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
-	$("#steedos_contacts_space_user_info_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
+	$("#steedos_contacts_space_user_info_modal .space-user-info-container").css("max-height", Steedos.getModalMaxHeight(30));
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

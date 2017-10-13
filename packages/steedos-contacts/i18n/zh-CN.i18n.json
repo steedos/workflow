@@ -102,6 +102,8 @@
 	"steedos_contacts_settings_hidden_users": "隐藏的用户",
 	"steedos_contacts_settings_hidden_users_tips": "被隐藏的用户，不会显示在通讯录中",
 	"steedos_contacts_settings_hidden_users_edit": "编辑要隐藏的用户",
-	"steedos_contacts_mobile_edit_power": "需由用户自行修改手机号"
+	"steedos_contacts_mobile_edit_power": "需由用户自行修改手机号",
+
+	"users_organizations": "部门"
 
 }
