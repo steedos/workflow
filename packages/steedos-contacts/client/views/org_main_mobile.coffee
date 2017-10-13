@@ -103,8 +103,15 @@ Template.org_main_mobile.helpers
 		else
 			return Steedos.spaceName()
 
-	organizationsPathLength: ()->
-		return Template.instance().organizationsPath.get().length
+	isBackButtonNeeded: ()->
+		currentOrgId = Session.get('contacts_org_mobile')
+		unless currentOrgId
+			return false
+		currentOrg = db.organizations.findOne({ _id: currentOrgId })
+		if currentOrg
+			return !currentOrg.is_company
+		else
+			return false
 
 	selector: ->
 		return spaceUsersSelector()
@@ -128,9 +135,6 @@ Template.org_main_mobile.helpers
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
-	# this.searchingTag = new ReactiveVar(0) #在搜索条件变化时触发tabular的selector属性重新计算
-	# this.searchingKey = new ReactiveVar("")
-	this.organizationsPath = new ReactiveVar([])
 	Session.set('contacts_org_mobile',null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
@@ -166,9 +170,6 @@ Template.org_main_mobile.onRendered ->
 
 Template.org_main_mobile.events
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
-		organizationsPath = template.organizationsPath.get()
-		organizationsPath.push Session.get('contacts_org_mobile')
-		template.organizationsPath.set(organizationsPath)
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
 	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
@@ -176,11 +177,27 @@ Template.org_main_mobile.events
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'click .btn-back': (event, template)->
-		organizationsPath = template.organizationsPath.get()
-		lastOrgId = organizationsPath[organizationsPath.length - 1]
-		Session.set('contacts_org_mobile', lastOrgId)
-		organizationsPath.pop()
-		template.organizationsPath.set(organizationsPath)
+		currentOrgId = Session.get('contacts_org_mobile')
+		newOrgId = null
+		currentOrg = if currentOrgId then db.organizations.findOne(currentOrgId) else null
+		if currentOrg and currentOrg.parent
+			isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
+			if isWithinUserOrganizations
+				spaceId = Steedos.spaceId()
+				userId = Meteor.userId()
+				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
+				_ids = uOrgs.getProperty('_id')
+				orgs = _.filter uOrgs, (org) ->
+					parents = org.parents or []
+					return _.intersection(parents, _ids).length < 1
+				orgIds = orgs.getProperty('_id')
+				# 只有当前用户有权限访问父组织时才返回到父组织
+				if orgIds.indexOf(currentOrg.parent) > -1
+					newOrgId = currentOrg.parent
+			else
+				newOrgId = currentOrg.parent
+
+		Session.set('contacts_org_mobile', newOrgId)
 		$(".contacts-mobile .weui-search-bar__cancel-btn").trigger("click")
 
 	'click .weui-search-bar__label': (event, template)->
