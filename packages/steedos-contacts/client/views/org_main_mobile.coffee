@@ -139,7 +139,14 @@ Template.org_main_mobile.onCreated ->
 	this.autorun ->
 		spaceId = Steedos.spaceId()
 		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-		unless isWithinUserOrganizations
+		if isWithinUserOrganizations
+			orgs = db.organizations.find(organizationsSelector())
+			organizationsCount = orgs.count()
+			if organizationsCount == 1
+				org = orgs.fetch()[0]
+				if org.is_company
+					Session.set('contacts_org_mobile', org._id)
+		else
 			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			if rootOrg
