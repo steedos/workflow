@@ -10,6 +10,7 @@ if Meteor.isClient
 		onclick: ->
 		app: "workflow"
 		paid : true
+		mobile: true
 		roles:["space_admin", "space_owner", "cloud_admin"]
 		sort: 30
 		parent: parentId
@@ -81,6 +82,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "api"
 		title: "Developer"
+		mobile: false
 		icon:"ion ion-ios-loop"
 		sort: 60
 
