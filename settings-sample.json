@@ -194,6 +194,7 @@
   },
 
   "import_user": {
+    "update_email": true, //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
     "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
   },
   //监控服务
@@ -212,5 +213,10 @@
   "workflowTemplates": {
     "path_cn": "/srv/git/workflow-templates/zh-cn/default",
     "path_us": "/srv/git/workflow-templates/en-us/default"
+  },
+  "billing": {
+    "appid": "xxx",
+    "mch_id": "xxx",
+    "partner_key": "xxx"
   }
 }

@@ -272,8 +272,13 @@ Template.instance_list.events
 			FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
 		, 1
 
+	'click .dropdown-menu li a.export-thismonth': () ->
+		InstanceManager.exportIns(event.target.type);
 
-	'click .dropdown-menu li a': (event) ->
+	'click .dropdown-menu li a.export-pro': () ->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
 		InstanceManager.exportIns(event.target.type);
 
 	'keyup #instance_search': (event) ->
