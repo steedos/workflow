@@ -4,10 +4,10 @@
 			{{#if isShowOrg}}
 				<div class="contacts-wrapper contacts-wrapper-mobile">
 					<div class="navigation-bar">
-						{{#if organizationsPathLength}}
+						{{#if isBackButtonNeeded}}
 							<button type="button" class="btn btn-default btn-back">
-								<i class="ion ion-chevron-left"></i>
-								<span>{{_ "btn_back_title"}}</span>
+								<i class="ion ion-android-arrow-back"></i>
+								<!-- span>{{_ "btn_back_title"}}</span> -->
 							</button>
 						{{else}}
 							<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
@@ -32,12 +32,8 @@
 								</div>
 								<a href="javascript:" class="weui-search-bar__cancel-btn">{{_ "Cancel"}}</a>
 							</div>
-							{{#if isShowContactsUsers}}
-								{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class="table table-striped datatable-mobile-users"}}
-							{{/if}}
-							{{#unless isSearching}}
-								{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class="table table-striped datatable-mobile-organizations"}}
-							{{/unless}}
+							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class=tabular_users_class}}
+							{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class=tabular_organizations_class}}
 						</div>
 					</div>
 				</div>

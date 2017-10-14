@@ -10,6 +10,7 @@ if Meteor.isClient
 		onclick: ->
 		app: "workflow"
 		paid : true
+		mobile: true
 		roles:["space_admin", "space_owner", "cloud_admin"]
 		sort: 30
 		parent: parentId
@@ -80,15 +81,16 @@ if Meteor.isClient
 	# API
 	Admin.addMenu
 		_id: "api"
-		title: "API"
+		title: "Developer"
+		mobile: false
 		icon:"ion ion-ios-loop"
 		sort: 60
 
-	# 个性化
+	# 密钥
 	Admin.addMenu
 		_id: "secrets"
-		title: "Secret"
-		icon:"ion ion-key"
+		title: "API Token"
+		icon:"ion ion-ios-unlocked-outline"
 		url: "/admin/api/secrets"
 		sort: 10
 		parent: "api"
