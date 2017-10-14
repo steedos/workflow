@@ -525,7 +525,7 @@ uuflowManager.getForm = (form_id) ->
 	return form
 
 uuflowManager.getInstanceName = (instance) ->
-	values = instance.values || {}
+	values = _.clone(instance.values || {})
 
 	applicant = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant);
 
