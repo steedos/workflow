@@ -149,6 +149,7 @@ Template.org_main_mobile.helpers
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
 	Session.set('contacts_org_mobile',null)
+	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
 		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
