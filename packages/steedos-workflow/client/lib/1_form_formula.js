@@ -245,6 +245,11 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
                     if(_.isNaN(afValue) || (!_.isNumber(afValue) && _.isEmpty(afValue))){
                         afValue = '';
                     }
+
+                    if(_.isArray(afValue)){
+						afValue = afValue.join(",")
+					}
+
                     if("DIV" == afField.prop("tagName")){
                         afField.html(afValue);
                         afField.attr("value", afValue)

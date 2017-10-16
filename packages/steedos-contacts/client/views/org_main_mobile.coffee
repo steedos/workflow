@@ -132,6 +132,19 @@ Template.org_main_mobile.helpers
 			className += " hidden"
 		return className
 
+	orgFields: ()->
+		is_with = ContactsManager.is_within_user_organizations()
+		fields =
+			contacts_org_mobile_sel:
+				autoform:
+					type: 'selectorg'
+					is_within_user_organizations: !!is_with
+				optional: false
+				type: String
+				label: ''
+
+		return new SimpleSchema(fields)
+
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
@@ -146,11 +159,13 @@ Template.org_main_mobile.onCreated ->
 				org = orgs.fetch()[0]
 				if org.is_company
 					Session.set('contacts_org_mobile', org._id)
+					Session.set('contacts_org_mobile_root', org._id)
 		else
 			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			if rootOrg
 				Session.set('contacts_org_mobile', rootOrg._id)
+				Session.set('contacts_org_mobile_root', rootOrg._id)
 
 Template.org_main_mobile.onDestroyed ->
 	Steedos.subs["Organization"].clear()
@@ -176,6 +191,17 @@ Template.org_main_mobile.onRendered ->
 			).draw()
 
 Template.org_main_mobile.events
+	'click .contacts-wrapper-mobile .navigation-title': (event,template) ->
+		$("input[name='contacts_org_mobile_sel']").click()
+
+	'change input[name="contacts_org_mobile_sel"]':()->
+		contacts_org_mobile_sel = AutoForm.getFieldValue("contacts_org_mobile_sel","contacts_org_mobile_sel_form") || null
+		unless contacts_org_mobile_sel
+			rootOrg = Session.get("contacts_org_mobile_root")
+			contacts_org_mobile_sel = rootOrg
+		Session.set('contacts_org_mobile', contacts_org_mobile_sel)
+		AutoForm.resetForm("contacts_org_mobile_sel_form")
+
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
