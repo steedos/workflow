@@ -14,5 +14,7 @@ Template.admin_flows.events
 		dataTable = $(event.target).closest('table').DataTable();
 		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
 		if (rowData)
-			Session.set 'cmDoc', rowData
-			$('.btn.record-types-edit').click();
+			Modal.show("admin_flow_modal", rowData)
+
+#			Session.set 'cmDoc', rowData
+#			$('.btn.record-types-edit').click();

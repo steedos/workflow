@@ -80,7 +80,12 @@ Template.afSelectUser.helpers({
 
             return val;
         }
-    }
+    },
+
+    disabled: function () {
+		return "disabled" in this.atts;
+	}
+
 });
 
 
