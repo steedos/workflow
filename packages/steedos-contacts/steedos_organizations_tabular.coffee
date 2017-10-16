@@ -67,7 +67,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #  style: 'single'
 	dom: "tp",
 	order:[[6,"desc"],[7,"asc"]],
-	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization", "invite_state"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,

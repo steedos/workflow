@@ -25,8 +25,7 @@ Template.steedos_contacts_add_user_modal.helpers
 			email:
 				type: String,
 				label: "邮件"
-				regEx: SimpleSchema.RegEx.Email,
-				optional: true
+				optional: false
 				autoform:
 					type: "text"
 			organizations:
@@ -57,6 +56,11 @@ Template.steedos_contacts_add_user_modal.helpers
 				type: String,
 				label: "单位"
 				optional: true
+			invite_state:
+				type: String
+				autoform:
+					type: "hidden"
+					defaultValue: "wait-confirm"
 			created:
 				type: Date,
 				optional: true
@@ -86,18 +90,11 @@ Template.steedos_contacts_add_user_modal.helpers
 Template.steedos_contacts_add_user_modal.events
 	"click .contacts-add-user-save": (e,t)->
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
-		unless doc.name 
-			toastr.error "需填写姓名"
-			return
-
-		unless doc.email
-			toastr.error "需填写邮件"
-			return
 		
 		# console.log doc
 		Meteor.call 'addContactsUser', doc, (error,result) ->
 			if error
-				console.log error
+				toastr.error error.reason
 			else
 				console.log result
 
