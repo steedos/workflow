@@ -20,7 +20,7 @@ Meteor.methods
 			if isInThisSpace
 				throw new Meteor.Error(400, "该用户已存在")
 			else
-				doc.invite_state = "wait-confirm"
+				doc.invite_state = "pending"
 				doc.user_accepted = false
 
 				db.space_users.insert doc

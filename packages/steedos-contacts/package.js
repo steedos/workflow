@@ -68,6 +68,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/contact_cards.coffee', 'server');
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
+	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
@@ -76,6 +77,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/import_users.coffee', 'server');
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
 	api.addFiles('server/methods/set_primary_org.coffee', 'server');
+	api.addFiles('server/methods/get_space_users_info.coffee', 'server');
 
 	api.addFiles('server/methods/add_contacts_user.coffee', 'server');
 

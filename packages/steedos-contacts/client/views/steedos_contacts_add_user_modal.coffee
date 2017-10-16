@@ -60,7 +60,7 @@ Template.steedos_contacts_add_user_modal.helpers
 				type: String
 				autoform:
 					type: "hidden"
-					defaultValue: "wait-confirm"
+					defaultValue: "pending"
 			created:
 				type: Date,
 				optional: true
@@ -97,6 +97,9 @@ Template.steedos_contacts_add_user_modal.events
 				toastr.error error.reason
 			else
 				console.log result
+				toastr.success "邀请成功"
+
+		Modal.hide(t)
 
 
 			

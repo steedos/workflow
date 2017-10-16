@@ -7,6 +7,22 @@
 					<h4 class="modal-title">{{spaceUser.name}}</h4>
 				</div>
 				<div class="weui-panel space-user-info-container modal-zoom">
+					{{#if isShowInviteState spaceUser.invite_state}}
+						<div class="weui-panel__hd">{{_ "contact_invite_state"}}</div>
+						<div class="weui-panel__bd">
+							<div class="weui-media-box weui-media-box_small-appmsg">
+								<div class="weui-cells">
+									<div class="weui-cell">
+										<div class="weui-cell__bd weui-cell_primary">
+											<p>
+												{{isShowInviteState spaceUser.invite_state}}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{{/if}}
 					<div class="weui-panel__hd">{{_ "space_users_mobile"}}</div>
 					<div class="weui-panel__bd">
 						<div class="weui-media-box weui-media-box_small-appmsg">

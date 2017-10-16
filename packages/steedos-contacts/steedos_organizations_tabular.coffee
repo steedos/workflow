@@ -11,6 +11,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-name #{colorClass} nowrap'>" + doc.name + "</div>"
 		},
 		{
@@ -18,6 +22,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-mobile #{colorClass} nowrap'>" + (doc.mobile || "") + "</div>"
 		},
 		{
@@ -25,6 +33,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-work_phone #{colorClass} nowrap'>" + (doc.work_phone || "") + "</div>"
 		},
 		{
@@ -32,6 +44,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.company || "") + "</div>"
 		},
 		{
@@ -39,6 +55,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.position || "") + "</div>"
 		},
 		{
@@ -46,6 +66,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
 		},
 		{

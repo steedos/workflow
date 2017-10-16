@@ -54,12 +54,18 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	isModifiable: (id)->
 		userObj = db.space_users.findOne(id)
-		debugger
-		if userObj?.invite_state == "wait-confirm"
+		if userObj?.invite_state == "pending" || userObj?.invite_state == "refused"
 			return false
 		
 		return true
 
+	isShowInviteState: (state) ->
+		if state == 'pending'
+			return t('contact_invite_pending')
+		else if state == 'refused'
+			return t('contact_invite_refused') 
+
+		return false
 
 
 
