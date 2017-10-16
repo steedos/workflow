@@ -50,7 +50,17 @@ Template.steedos_contacts_space_user_info_modal.helpers
 			return false
 
 	username: () ->
-		 return Template.instance().username?.get()
+		return Template.instance().username?.get()
+
+	isModifiable: (id)->
+		userObj = db.space_users.findOne(id)
+		debugger
+		if userObj?.invite_state == "wait-confirm"
+			return false
+		
+		return true
+
+
 
 
 Template.steedos_contacts_space_user_info_modal.events

@@ -52,6 +52,12 @@ db.space_users._simpleSchema = new SimpleSchema
 		autoform:
 			defaultValue: true
 
+	invite_state:
+		type: String
+		optional: true,
+		autoform:
+			omit: true
+
 	created:
 		type: Date,
 		optional: true
@@ -140,6 +146,8 @@ if (Meteor.isServer)
 		doc.created = new Date();
 		doc.modified_by = userId;
 		doc.modified = new Date();
+
+		console.log JSON.stringify(doc)
 
 		if !doc.space
 			throw new Meteor.Error(400, "space_users_error_space_required");
