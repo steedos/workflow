@@ -9,7 +9,7 @@ Npm.depends({
 	cookies: "0.6.1"
 });
 
-Package.onUse(function (api) {
+Package.onUse(function(api) {
 	api.versionsFrom('METEOR@1.3');
 
 	api.use('session');
@@ -47,7 +47,8 @@ Package.onUse(function (api) {
 
 	api.addFiles([
 		'lib/core.coffee',
-		'lib/tap-i18n.coffee']);
+		'lib/tap-i18n.coffee'
+	]);
 
 	api.addFiles('lib/simple_schema_extend.js');
 
@@ -64,6 +65,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
 	api.addFiles('lib/models/modules_changelogs.coffee');
+	api.addFiles('lib/models/billing_pay_records.coffee');
 	api.addFiles('lib/models/space_settings.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
@@ -136,7 +138,7 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.less', 'client');
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
-	api.addAssets('client/images/default-avatar.png','client');
+	api.addAssets('client/images/default-avatar.png', 'client');
 
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');
@@ -163,6 +165,6 @@ Package.onUse(function (api) {
 	api.export("SteedosDataManager");
 });
 
-Package.onTest(function (api) {
+Package.onTest(function(api) {
 
 });

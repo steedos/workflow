@@ -47,6 +47,7 @@ if Meteor.isClient
 		icon: "ion ion-ios-paper-outline"
 		url: "/admin/flows"
 		paid: "true"
+		appversion:"workflow_pro"
 		sort: 50
 		parent: "workflow"
 
@@ -58,6 +59,7 @@ if Meteor.isClient
 		icon: "ion ion-ios-cloud-download-outline"
 		url: "/admin/importorexport/flows"
 		paid: "true"
+		appversion:"workflow_pro"
 		sort: 50
 		parent: "workflow"
 
@@ -69,6 +71,7 @@ if Meteor.isClient
 		icon: "ion ion-ios-pulse"
 		url: "/admin/view/space_user_signs"
 		paid: "true"
+		appversion:"workflow_pro"
 		sort: 60
 		parent: "workflow"
 
@@ -80,6 +83,7 @@ if Meteor.isClient
 		icon: "ion ion-ios-paperplane-outline"
 		url: "/admin/view/webhooks"
 		paid: "true"
+		appversion:"workflow_pro"
 		sort: 70
 		parent: "workflow"
 
