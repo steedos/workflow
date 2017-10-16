@@ -132,6 +132,19 @@ Template.org_main_mobile.helpers
 			className += " hidden"
 		return className
 
+	orgFields: ()->
+		is_with = Meteor.settings?.public?.calendar?.user_selection_within_user_organizations
+		fields =
+			contacts_org_mobile_sel:
+				autoform:
+					type: 'selectorg'
+					is_within_user_organizations: !!is_with
+				optional: false
+				type: String
+				label: ''
+
+		return new SimpleSchema(fields)
+
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
@@ -176,6 +189,14 @@ Template.org_main_mobile.onRendered ->
 			).draw()
 
 Template.org_main_mobile.events
+	'click .contacts-wrapper-mobile .navigation-title': (event,template) ->
+		$("input[name='contacts_org_mobile_sel']").click()
+
+	'change input[name="contacts_org_mobile_sel"]':()->
+		contacts_org_mobile_sel = AutoForm.getFieldValue("contacts_org_mobile_sel","contacts_org_mobile_sel_form") || null
+		Session.set('contacts_org_mobile', contacts_org_mobile_sel)
+		AutoForm.resetForm("contacts_org_mobile_sel_form")
+
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
