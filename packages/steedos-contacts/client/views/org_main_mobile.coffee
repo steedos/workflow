@@ -139,7 +139,14 @@ Template.org_main_mobile.onCreated ->
 	this.autorun ->
 		spaceId = Steedos.spaceId()
 		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-		unless isWithinUserOrganizations
+		if isWithinUserOrganizations
+			orgs = db.organizations.find(organizationsSelector())
+			organizationsCount = orgs.count()
+			if organizationsCount == 1
+				org = orgs.fetch()[0]
+				if org.is_company
+					Session.set('contacts_org_mobile', org._id)
+		else
 			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			if rootOrg
@@ -187,12 +194,9 @@ Template.org_main_mobile.events
 				userId = Meteor.userId()
 				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
 				_ids = uOrgs.getProperty('_id')
-				orgs = _.filter uOrgs, (org) ->
-					parents = org.parents or []
-					return _.intersection(parents, _ids).length < 1
-				orgIds = orgs.getProperty('_id')
-				# 只有当前用户有权限访问父组织时才返回到父组织
-				if orgIds.indexOf(currentOrg.parent) > -1
+				if _ids.indexOf(currentOrg.parent) > -1
+					newOrgId = currentOrg.parent
+				else if _.intersection(currentOrg.parents, _ids).length > 0
 					newOrgId = currentOrg.parent
 			else
 				newOrgId = currentOrg.parent

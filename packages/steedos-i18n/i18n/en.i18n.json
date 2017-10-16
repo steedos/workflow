@@ -140,6 +140,10 @@
 	"steedos_version": "Version",
 	"steedos_commit_date": "Commit Date",
 	"steedos_build_date": "Build Date",
+	"steedos_company": "Company",
+	"steedos_hotlong_software": "HotLong Software",
+	"steedos_phone": "Phone",
+	"steedos_email": "Email",
 	"steedos_copyright": "© HotLong Software. All rights reserverd.",
 
 	"Profile_saved_successfully": "Profile saved successfully",
