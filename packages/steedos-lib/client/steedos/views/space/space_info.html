@@ -74,7 +74,7 @@
         </div>
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">总用户数</span>
+            <span class="weui_label">{{_ "billing.total_user_count"}}</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{total_user_count}}</span>
@@ -82,7 +82,7 @@
         </div>
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <span class="weui_label">已启用用户</span>
+            <span class="weui_label">{{_ "billing.accepted_user_count"}}</span>
           </div>
           <div class="weui_cell_bd weui_cell_primary text-muted">
             <span class="weui_input">{{accepted_user_count}}</span>
@@ -91,7 +91,7 @@
         {{#if isPaidSpace}}
           <div class="weui_cell">
             <div class="weui_cell_hd">
-              <span class="weui_label">已购买用户</span>
+              <span class="weui_label">{{_ "billing.paid_user_count"}}</span>
             </div>
             <div class="weui_cell_bd weui_cell_primary text-muted">
               <span class="weui_input">{{paid_user_count}}</span>
@@ -99,7 +99,7 @@
           </div>
           <div class="weui_cell">
             <div class="weui_cell_hd">
-              <span class="weui_label">已购买应用</span>
+              <span class="weui_label">{{_ "billing.paid_modules"}}</span>
             </div>
             <div class="weui_cell_bd weui_cell_primary text-muted">
               <span class="weui_input">{{paid_modules}}</span>
@@ -107,7 +107,7 @@
           </div>
           <div class="weui_cell">
             <div class="weui_cell_hd">
-              <span class="weui_label">购买日期至</span>
+              <span class="weui_label">{{_ "billing.expire_date"}}</span>
             </div>
             <div class="weui_cell_bd weui_cell_primary text-muted">
               <span class="weui_input">{{end_date}}</span>
@@ -116,7 +116,7 @@
         {{/if}}
         <div class="weui_cell">
           <div class="weui_cell_hd">
-            <button type="button" class="btn btn-primary" id="space_recharge">升级</button>
+            <button type="button" class="btn btn-primary" id="space_recharge">{{_ "billing.upgrade"}}</button>
           </div>
         </div>
       </div>

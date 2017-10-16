@@ -110,7 +110,7 @@
 	"Search": "搜索",
 	"Online": "在线",
 
-	"Developer":"开发人员",
+	"Developer": "开发人员",
 	"Home": "主页",
 	"Profile": "个人信息",
 	"Settings": "设置",
@@ -477,5 +477,18 @@
 	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
 	"Steedos Records": "全文检索",
 
-	"Client download": "下载客户端"
+	"Client download": "下载客户端",
+
+	"billing": {
+		"upgrade": "升级",
+		"total_user_count": "总用户数",
+		"accepted_user_count": "已启用用户",
+		"paid_user_count": "已购买用户",
+		"paid_modules": "已购买应用",
+		"expire_date": "购买日期至",
+		"buy_modules": "购买应用",
+		"buy_user_count": "购买用户数",
+		"buy_date": "购买日期至",
+		"amount": "付款金额￥"
+	}
 }
