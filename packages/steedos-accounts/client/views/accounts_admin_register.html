@@ -1,55 +1,54 @@
 <template name="accounts_admin_register">
 	<div class="container accounts-admin-register-wrapper">
-		<div class="panel panel-default">
-			<div class="accounts-admin-header">注册企业</div>
-			<div class="panel-heading">企业信息</div>
-			<div class="panel-body">
-				<div class="form-horizontal">
-					<div class="form-group">
-						<label class="col-sm-3 control-label">企业名称</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control">
-						</div>
+		<div class="page__hd">
+			<h1 class="page__title">注册企业</h1>
+		</div>
+		<div class="page__bd">
+			<div class="weui-cells__title">企业信息</div>
+			<div class="weui-cells weui-cells_form">
+				<div class="weui-cell">
+					<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input" type="text" placeholder="请输入企业名称">
 					</div>
 				</div>
 			</div>
-			<div class="panel-heading">管理员信息</div>
-			<div class="panel-body">
-				<div class="form-horizontal">
-					<div class="form-group">
-						<label class="col-sm-3 control-label">管理员姓名</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control">
-							<p class="help-block">请填写企业微信管理员的姓名</p>
-						</div>
+			<div class="weui-cells__title">管理员信息</div>
+			<div class="weui-cells weui-cells_form">
+				<div class="weui-cell">
+					<div class="weui-cell__hd"><label class="weui-label">管理员姓名</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input" type="text" placeholder="请输入管理员姓名">
 					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label">管理员手机号</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control">
-							<p class="help-block">请输入您的手机号码</p>
-						</div>
+				</div>
+				<div class="weui-cell weui-cell_vcode">
+					<div class="weui-cell__hd">
+						<label class="weui-label">管理员手机号</label>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label">短信验证码</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control">
-							<p class="help-block">请输入手机短信收到的6位验证码</p>
-						</div>
+					<div class="weui-cell__bd">
+						<input class="weui-input" type="text" placeholder="请输入手机号">
+					</div>
+					<div class="weui-cell__ft">
+						<button class="weui-vcode-btn">获取验证码</button>
+					</div>
+				</div>
+				<div class="weui-cell">
+					<div class="weui-cell__hd"><label class="weui-label">短信验证码</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input" type="text" value="" placeholder="请输入手机短信收到的验证码">
 					</div>
 				</div>
 			</div>
-			<div class="accounts-admin-footer">
-				<div class="iagree-box">
-					<label>
-						<input class="" type="checkbox" id="iagree">
-						<span>
-							我同意并遵守
-							<a target="_blank" href="">《华炎办公平台服务协议》</a>
-						</span>
-					</label>	
-				</div>
-				<button class="btn btn-primary btn-save">注册</button>
+
+			<label for="weuiAgree" class="weui-agree hide">
+				<input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+				<span class="weui-agree__text">
+					阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+				</span>
+			</label>
+
+			<div class="weui-btn-area">
+				<a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">注册</a>
 			</div>
 		</div>
 	</div>
