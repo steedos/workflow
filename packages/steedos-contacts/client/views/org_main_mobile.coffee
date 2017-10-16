@@ -133,7 +133,7 @@ Template.org_main_mobile.helpers
 		return className
 
 	orgFields: ()->
-		is_with = Meteor.settings?.public?.calendar?.user_selection_within_user_organizations
+		is_with = ContactsManager.is_within_user_organizations()
 		fields =
 			contacts_org_mobile_sel:
 				autoform:
