@@ -120,6 +120,9 @@ Template.afSelectOrg.helpers({
 
 			return val;
 		}
+	},
+	disabled: function () {
+		return "disabled" in this.atts;
 	}
 });
 

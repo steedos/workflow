@@ -68,7 +68,7 @@ if Meteor.isServer
 			if searchText
 				pinyin = /^[a-zA-Z\']*$/.test(searchText)
 				if (pinyin && searchText.length > 8) || (!pinyin && searchText.length > 1)
-					console.log "searchText is #{searchText}"
+#					console.log "searchText is #{searchText}"
 					query = {state: {$in: ["pending", "completed"]}, name: {$regex: searchText},$or: [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}, {cc_users: uid}]}
 
 					if selectedOPtions && _.isArray(selectedOPtions)
