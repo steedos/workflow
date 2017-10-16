@@ -20,11 +20,6 @@ Meteor.methods
 		if !space.is_paid
 			throw new Meteor.Error(401, "标准版不支持此功能");
 
-		accepted_user_count = db.space_users.find({space: space._id, user_accepted: true}).count()
-		if (accepted_user_count + data.length) > space.user_limit 
-			c = (accepted_user_count + data.length) - space.user_limit 
-			throw new Meteor.Error(400, "需要额外购买" + c + "个用户名额")
-
 		owner_id = space.owner
 
 		testData = []

@@ -72,61 +72,14 @@
             <span class="weui_input">{{adminsNames space.admins}}</span>
           </div>
         </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <span class="weui_label">总用户数</span>
-          </div>
-          <div class="weui_cell_bd weui_cell_primary text-muted">
-            <span class="weui_input">{{total_user_count}}</span>
-          </div>
-        </div>
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <span class="weui_label">已启用用户</span>
-          </div>
-          <div class="weui_cell_bd weui_cell_primary text-muted">
-            <span class="weui_input">{{accepted_user_count}}</span>
-          </div>
-        </div>
-        {{#if isPaidSpace}}
-          <div class="weui_cell">
-            <div class="weui_cell_hd">
-              <span class="weui_label">已购买用户</span>
-            </div>
-            <div class="weui_cell_bd weui_cell_primary text-muted">
-              <span class="weui_input">{{paid_user_count}}</span>
-            </div>
-          </div>
-          <div class="weui_cell">
-            <div class="weui_cell_hd">
-              <span class="weui_label">已购买应用</span>
-            </div>
-            <div class="weui_cell_bd weui_cell_primary text-muted">
-              <span class="weui_input">{{paid_modules}}</span>
-            </div>
-          </div>
-          <div class="weui_cell">
-            <div class="weui_cell_hd">
-              <span class="weui_label">购买日期至</span>
-            </div>
-            <div class="weui_cell_bd weui_cell_primary text-muted">
-              <span class="weui_input">{{end_date}}</span>
-            </div>
-          </div>
-        {{/if}}
-        <div class="weui_cell">
-          <div class="weui_cell_hd">
-            <button type="button" class="btn btn-primary" id="space_recharge">升级</button>
-          </div>
-        </div>
       </div>
-      {{#if isSpaceOwner}}
-        <div class="form-group" style="padding-left: 15px;padding-top: 10px;">
-          <button type="submit" class="btn btn-primary btn-edit-space">
-            {{_ "Edit"}}
-          </button>
-        </div>
-      {{/if}}
+	{{#if isSpaceOwner}}
+		<div class="form-group" style="padding-left: 15px;padding-top: 10px;">
+			<button type="submit" class="btn btn-primary btn-edit-space">
+				{{_ "Edit"}}
+			</button>
+		</div>
+	{{/if}}
     </section>
 
 </template>
