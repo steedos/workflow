@@ -814,7 +814,7 @@ WorkflowManager.isArrearageSpace = function() {
 	if (space) {
 		if (space.is_paid) {
 
-			return space.balance <= 0.00 ? true : false;
+			return space.end_date <= new Date ? true : false;
 
 		} else {
 			return false;
