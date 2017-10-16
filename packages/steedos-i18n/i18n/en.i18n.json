@@ -470,6 +470,7 @@
 		"expire_date": "Expiration date",
 		"buy_modules": "Modules",
 		"buy_user_count": "User count",
+		"buy_additional_user_count": "The number of users to purchase additional (not required)",
 		"buy_date": "Expiration date",
 		"amount": "Amount ￥"
 	}

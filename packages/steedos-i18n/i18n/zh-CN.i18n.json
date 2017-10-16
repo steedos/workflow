@@ -488,6 +488,7 @@
 		"expire_date": "购买日期至",
 		"buy_modules": "购买应用",
 		"buy_user_count": "购买用户数",
+		"buy_additional_user_count": "购买额外用户数(非必填)",
 		"buy_date": "购买日期至",
 		"amount": "付款金额￥"
 	}
