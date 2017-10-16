@@ -239,8 +239,8 @@ if Meteor.isClient
 		if Steedos.isSpaceAdmin()
 			min_months = 3
 		space = db.spaces.findOne(spaceId)
-		end_date = space.end_date
-		if space?.is_paid and end_date != undefined and (end_date - new Date) <= (min_months*30*24*3600*1000)
+		remaining_months = space?.billing?.remaining_months
+		if space?.is_paid and remaining_months != undefined and remaining_months <= min_months
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
 
@@ -323,15 +323,6 @@ if Meteor.isServer
 		if !space || !space.admins
 			return false;
 		return space.admins.indexOf(userId)>=0
-
-	Steedos.isLegalVersion = (spaceId,app_version)->
-		if !spaceId
-			return false
-		check = false
-		modules = db.spaces.findOne(spaceId)?.modules
-		if modules and modules.includes(app_version)
-			check = true
-		return check
 
 	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->

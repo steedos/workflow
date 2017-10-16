@@ -27,10 +27,3 @@ Tracker.autorun (c)->
 		Steedos.subsForwardRelated.subscribe("distribute_optional_flows", distribute_optional_flows);
 
 
-Steedos.subsModules = new SubsManager();
-
-Tracker.autorun (c)->
-	user_id = Meteor.userId()
-	Steedos.subsModules.reset();
-	if user_id
-		Steedos.subsModules.subscribe("modules");

@@ -85,11 +85,10 @@ JsonRoutes.add 'get', '/tableau/api/workflow/instances/space/:space/flow/:flow',
 		period = 1
 
 	if period !=0
+
 		start_date = new Date();
-		if !Steedos.isLegalVersion(spaceId,"workflow.enterprise")
-			start_date.setDate(start_date.getDate() - 14)
-		else
-			start_date.setMonth(start_date.getMonth() - period)
+
+		start_date.setMonth(start_date.getMonth() - period)
 
 		query.submit_date = {$gt: start_date}
 

@@ -109,30 +109,6 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
-	user_limit:
-		type: Number
-		optional: true
-		autoform:
-			omit: true
-
-	end_date:
-		type: Date
-		optional: true
-		autoform:
-			omit: true
-
-	start_date:
-		type: Date
-		optional: true
-		autoform:
-			omit: true
-
-	modules:
-		type: [String]
-		optional: true
-		autoform:
-			omit: true
-
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")
 
@@ -186,11 +162,12 @@ if Meteor.isServer
 			
 
 	db.spaces.before.update (userId, doc, fieldNames, modifier, options) ->
-		modifier.$set = modifier.$set || {}; 
+		modifier.$set = modifier.$set || {};
+
+		# only space owner can modify space
 		if doc.owner != userId
 			throw new Meteor.Error(400, "spaces_error_space_owner_only");
-		if (!Steedos.isLegalVersion(doc._id,"workflow.professional")) and modifier.$set.avatar
-			throw new Meteor.Error(400, "space_paid_info_title");	
+
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
