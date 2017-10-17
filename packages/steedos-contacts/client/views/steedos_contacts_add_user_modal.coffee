@@ -10,27 +10,27 @@ Template.steedos_contacts_add_user_modal.helpers
 			name:
 				type: String,
 				max: 50,
-				label: "姓名"
+				label: t("space_users_name")
 			mobile: 
 				type: String,
 				optional: true,
-				label: "手机号"
+				label: t("space_users_mobile")
 				autoform:
 					type: ->
 						return "text"
 			work_phone:
 				type: String,
-				label: "固定电话"
+				label: t("space_users_work_phone")
 				optional: true
 			email:
 				type: String,
-				label: "邮件"
+				label: t("space_users_email")
 				optional: false
 				autoform:
 					type: "text"
 			organizations:
 				type: [String],
-				label: "所属部门"
+				label: t("space_users_organizations")
 				autoform:
 					type: "selectorg"
 					multiple: true
@@ -38,7 +38,7 @@ Template.steedos_contacts_add_user_modal.helpers
 						return []
 			manager:
 				type: String,
-				label: "上级主管"
+				label: t("space_users_manager")
 				optional: true,
 				autoform:
 					type: "selectuser"
@@ -50,11 +50,11 @@ Template.steedos_contacts_add_user_modal.helpers
 					defaultValue: true
 			position:
 				type: String,
-				label: "职务"
+				label: t("space_users_position")
 				optional: true
 			company:
 				type: String,
-				label: "单位"
+				label: t("space_users_company")
 				optional: true
 			invite_state:
 				type: String
@@ -88,18 +88,17 @@ Template.steedos_contacts_add_user_modal.helpers
 		return {}
 
 Template.steedos_contacts_add_user_modal.events
-	"click .contacts-add-user-save": (e,t)->
+	"click .contacts-add-user-save": (event,template)->
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
 		
 		# console.log doc
 		Meteor.call 'addContactsUser', doc, (error,result) ->
 			if error
-				toastr.error error.reason
+				toastr.error t(error.reason)
 			else
 				console.log result
-				toastr.success "邀请成功"
-
-		Modal.hide(t)
+				toastr.success t(result)
+				Modal.hide(template)
 
 
 			

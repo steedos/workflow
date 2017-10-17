@@ -22,8 +22,9 @@ Meteor.startup ->
 					if error
 						console.log error
 					else
+						debugger
 						swal {
-							title: "#{result.inviter}邀请你加入#{result.sapce}"
+							title: t("contact_invite_info", {inviter: result.inviter, space: result.space})
 							type: "info"
 							showCancelButton: true
 							cancelButtonText: "拒绝"

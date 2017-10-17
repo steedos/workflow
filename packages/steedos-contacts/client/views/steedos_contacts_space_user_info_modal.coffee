@@ -120,8 +120,6 @@ Template.steedos_contacts_space_user_info_modal.events
 		Meteor.call 'reInviteUser', id, (error, result) ->
 			if error
 				console.log error
-			else 
-				console.log result
 			
 
 	'click .steedos-info-delete': (event, template) ->

@@ -1,13 +1,13 @@
 Meteor.methods
 	addContactsUser: (doc) ->
 		if !doc.name
-			throw new Meteor.Error(400,"请填写姓名")
+			throw new Meteor.Error(400,"contact_needs_name")
 
 		if !doc.email
-			throw new Meteor.Error(400,"请填写邮件")
+			throw new Meteor.Error(400,"contact_needs_email")
 
 		if !doc.organizations
-			throw new Meteor.Error(400,"请填写所属部门")
+			throw new Meteor.Error(400,"contact_needs_organizations")
 
 		userObj = db.users.findOne({"emails.address": doc.email});
 		if userObj 
@@ -21,18 +21,19 @@ Meteor.methods
 				if isInThisSpace.invite_state == "refused"
 					return "isInThisSpace.invite_state"
 				else
-					throw new Meteor.Error(400, "该用户已存在")
+					throw new Meteor.Error(400, "contact_space_user_exist")
 			else
 				doc.invite_state = "pending"
 				doc.user_accepted = false
 
 				db.space_users.insert doc
+				return "contact_invitation_sends"
 
 		else
 			doc.invite_state = "accepted"
 			doc.user_accepted = true
 			db.space_users.insert doc
-			return doc
+			return "contact_invite_success"
 
 	reInviteUser: (id) ->
 		if id

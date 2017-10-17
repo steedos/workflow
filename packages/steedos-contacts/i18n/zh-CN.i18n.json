@@ -108,6 +108,17 @@
 
 	"contact_invite_state": "受邀状态",
 	"contact_invite_pending": "待反馈",
-	"contact_invite_refused": "已拒绝"
+	"contact_invite_refused": "已拒绝",
+
+	"contact_needs_name": "请填写姓名",
+	"contact_needs_email": "请填写邮件",
+	"contact_needs_organizations": "请填写所属部门",
+	"contact_invitation_sends": "邀请通知已发送，请等待用户反馈",
+	"contact_invite_success": "已成功邀请用户加入该工作区",
+	"contact_space_user_exist": "该用户已在该工作区",
+	"cantact_add_space_user": "添加成员",
+	"contact_save_user": "保存",
+
+	"contact_invite_info": "__inviter__邀请您加入__space__"
 
 }
