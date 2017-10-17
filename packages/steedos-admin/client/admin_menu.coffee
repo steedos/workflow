@@ -84,7 +84,7 @@ if Meteor.isClient
 		title: "Developer"
 		mobile: false
 		icon:"ion ion-ios-loop"
-		sort: 60
+		sort: 3000
 
 	# 密钥
 	Admin.addMenu
