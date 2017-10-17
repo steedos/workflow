@@ -18,13 +18,15 @@ Meteor.methods
 			})
 			# 判断该用户是否已存在该工作区
 			if isInThisSpace
-				throw new Meteor.Error(400, "该用户已存在")
+				if isInThisSpace.invite_state == "refused"
+					return "isInThisSpace.invite_state"
+				else
+					throw new Meteor.Error(400, "该用户已存在")
 			else
 				doc.invite_state = "pending"
 				doc.user_accepted = false
 
 				db.space_users.insert doc
-
 
 		else
 			doc.invite_state = "accepted"
@@ -32,12 +34,10 @@ Meteor.methods
 			db.space_users.insert doc
 			return doc
 
+	reInviteUser: (id) ->
+		if id
+			db.space_users.direct.update({_id: id}, {$set:{invite_state: "pending", user_accepted: false}})
+			return id
+		else
+			throw new Meteor.Error(400, "id is required")
 
-
-
-		# unless userObj
-		# 	console.log "该用户不在db.users表中"
-		# else
-		# 	doc.mobile = userObj.mobile
-
-			# db.space_users.insert
