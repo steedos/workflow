@@ -267,8 +267,14 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flows.less', 'client');
+	api.addFiles('client/views/list/admin_flow_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flow_modal.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_flows.html', 'client');
 	api.addFiles('client/views/list/admin_flows.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
 	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
 
@@ -347,6 +353,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
+
+	api.addFiles('routes/export_table_template.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
 
