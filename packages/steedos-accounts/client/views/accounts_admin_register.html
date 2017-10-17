@@ -6,26 +6,44 @@
 		<div class="page__bd">
 			<div class="weui-cells__title">企业信息</div>
 			<div class="weui-cells weui-cells_form">
-				<div class="weui-cell">
+				<div class="weui-cell {{#if errors.company}}weui-cell_warn{{/if}}">
 					<div class="weui-cell__hd"><label class="weui-label">企业名称</label></div>
 					<div class="weui-cell__bd">
-						<input class="weui-input" type="text" placeholder="请输入企业名称">
+						<input class="weui-input form-company" type="text" placeholder="请输入企业名称">
+						{{#if errors.company}}
+							<span class="text-danger">{{errors.company}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
-				<div class="weui-cell">
+				<div class="weui-cell {{#if errors.email}}weui-cell_warn{{/if}}">
 					<div class="weui-cell__hd"><label class="weui-label">企业邮箱</label></div>
 					<div class="weui-cell__bd">
-						<input class="weui-input" type="text" placeholder="请输入企业邮箱">
+						<input class="weui-input form-email" type="text" placeholder="请输入企业邮箱">
+						{{#if errors.email}}
+							<span class="text-danger">{{errors.email}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
 			</div>
 			<div class="weui-cells__tips">如无企业邮箱，请输入管理员用于工作的个人邮箱。</div>
 			<div class="weui-cells__title">管理员信息</div>
 			<div class="weui-cells weui-cells_form">
-				<div class="weui-cell">
+				<div class="weui-cell {{#if errors.name}}weui-cell_warn{{/if}}">
 					<div class="weui-cell__hd"><label class="weui-label">管理员姓名</label></div>
 					<div class="weui-cell__bd">
-						<input class="weui-input" type="text" placeholder="请输入管理员姓名">
+						<input class="weui-input form-name" type="text" placeholder="请输入管理员姓名">
+						{{#if errors.name}}
+							<span class="text-danger">{{errors.name}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
 				<div class="weui-cell weui-cell_vcode">
@@ -37,12 +55,16 @@
 					</div>
 					<div class="weui-cell__ft">
 						<button class="weui-vcode-btn">获取验证码</button>
+						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
 				<div class="weui-cell">
 					<div class="weui-cell__hd"><label class="weui-label">短信验证码</label></div>
 					<div class="weui-cell__bd">
 						<input class="weui-input" type="text" value="" placeholder="请输入手机短信收到的验证码">
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
 			</div>
@@ -55,7 +77,7 @@
 			</label>
 
 			<div class="weui-btn-area">
-				<a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">注册</a>
+				<a class="weui-btn weui-btn_primary btn-save" href="javascript:" id="showTooltips">注册</a>
 			</div>
 		</div>
 	</div>
