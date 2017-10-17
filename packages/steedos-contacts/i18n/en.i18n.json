@@ -119,5 +119,7 @@
 	"contact_invite_success": "The user has been invited to join the workspace successfully",
 	"contact_space_user_exist": "The user is already in the workspace",
 	"cantact_add_space_user": "Add members",
-	"contact_save_user": "Save"
+	"contact_save_user": "Save",
+
+	"contact_invite_info": "__inviter__invite you to join__space__"
 }
