@@ -52,5 +52,11 @@
 	"accounts_space_calcel": "取消",
 	"accounts_space_placeholder": "请输入工作区名称",
 	"accounts_space_success": "工作区创建成功",
-	"accounts_space_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。"
+	"accounts_space_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
+
+	"accounts_register_company_empty": "企业名称不能为空",
+	"accounts_register_name_empty": "管理员姓名不能为空",
+	"accounts_register_email_empty": "管理员邮箱不能为空",
+	"accounts_register_password_empty": "密码不能为空",
+	"accounts_register_email_exist": "邮箱地址已被占用"
 }
