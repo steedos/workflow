@@ -119,7 +119,7 @@ Template.instance_button.helpers
 			step_id = InstanceManager.getLastTraceStepId(ins.traces)
 			if step_id
 				step = WorkflowManager.getInstanceStep(step_id)
-				if step and (step.disableCC is true)
+				if step and (step.disableCC is true or step.step_type is "start")
 					return false
 				return true
 			else
