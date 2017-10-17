@@ -156,6 +156,29 @@ InstanceManager.getNextStepOptions = function() {
 //   });
 // }
 
+InstanceManager.nextStepUsersWillUpdate = function (changeField, nextStep) {
+
+	'use strict';
+
+	if(!changeField || !nextStep){
+		return false;
+	}
+
+	if(changeField.name === 'applicant' && (nextStep.deal_type === 'applicant'  || nextStep.deal_type === 'applicantRole' || nextStep.deal_type === 'applicantSuperior')){
+		return true;
+	}else{
+		if(changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')){
+			return true;
+		}else if(changeField.type === 'org' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	return false;
+};
+
 InstanceManager.getNextUserOptions = function() {
 
 	var next_user_options = []
@@ -1362,6 +1385,20 @@ InstanceManager.instanceformChangeEvent = function(event) {
 
 	if (code === 'ins_applicant') {
 		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
+
+		if(InstanceManager.nextStepUsersWillUpdate({name: 'applicant'}, WorkflowManager.getInstanceStep(Session.get("next_step_id")))){
+			Session.set("instance_next_user_recalculate", Random.id())
+		}
+
+	}else{
+		var instanceFields = WorkflowManager.getInstanceFields();
+		var field = instanceFields.filterProperty("code", code);
+		if (field.length > 0) {
+			if(InstanceManager.nextStepUsersWillUpdate(field[0], WorkflowManager.getInstanceStep(Session.get("next_step_id")))){
+				Session.set("instance_next_user_recalculate", Random.id())
+			}
+		}
+
 	}
 }
 
