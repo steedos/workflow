@@ -16,15 +16,28 @@ Template.accounts_admin_register.events
 		unless _.isEmpty(errors)
 			return
 
-		user = 
-			company: $(".form-company").val()
-			name: $(".form-name").val()
-			email: $(".form-email").val()
-			password: $(".form-password").val()
+		company = $(".form-company").val()
+		name = $(".form-name").val()
+		password = $(".form-password").val()
+		email = $(".form-email").val()
+		email = email.toLowerCase().replace(/\s+/gm, '')
+		options = 
+			company: company
+			name: name
+			email: email
+			password: password
+			profile: 
+				company: company
+				name: name
+				email: email
 
+		preSignUpHook = AccountsTemplates.options.preSignUpHook;
+		if preSignUpHook
+			preSignUpHook(password, options)
+		hash = Accounts._hashPassword(password)
+		options.password = hash
 		$("body").addClass("loading")
-		Meteor.call "checkUser", user, (error, result)->
-			debugger
+		Meteor.call "checkUser", options, (error, result)->
 			$("body").removeClass("loading")
 			if error
 				if /_company_/.test error.reason
@@ -39,7 +52,12 @@ Template.accounts_admin_register.events
 					errors[errorKey] = t error.reason
 				template.errors.set(errors)
 				toastr.error t error.reason
-			# if result == true
+			if result == true
+				$("body").addClass("loading");
+				Meteor.call "ATCreateUserServer", options, (error, result)->
+					$("body").removeClass("loading")
+					loginSelector = {email: email}
+					Meteor.loginWithPassword loginSelector, password, (error)-> 
 
 	'change .form-company': (event,template) ->
 		val = $(event.currentTarget).val()

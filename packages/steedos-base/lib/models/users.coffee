@@ -134,7 +134,6 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "users_error_username_exists");
 
 	db.users.before.insert (userId, doc) ->
-
 		doc.created = new Date();
 		doc.is_deleted = false;
 		if userId
@@ -198,8 +197,12 @@ if Meteor.isServer
 
 	db.users.after.insert (userId, doc) ->
 		if !(doc.spaces_invited?.length>0)
+			if doc.company
+				space_name = doc.company
+			else
+				space_name = doc.name + " " + trl("space")
 			db.spaces.insert
-				name: doc.name + " " + trl("space")
+				name: space_name
 				owner: doc._id
 				admins: [doc._id]
 

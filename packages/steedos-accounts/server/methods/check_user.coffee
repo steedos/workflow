@@ -1,10 +1,12 @@
 Meteor.methods checkUser: (options) ->
+	console.log "checkUser,options:",options
 	check options, Object
-	{ company,name,email,password } = options
+	{ company,name,email,password,profile } = options
 	check company, String
 	check name, String
 	check email, String
-	check password, String
+	check password, Object
+	check profile, Object
 
 	unless company
 		throw new Meteor.Error(403, "accounts_register_company_empty")
