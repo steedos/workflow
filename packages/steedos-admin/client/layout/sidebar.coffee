@@ -132,7 +132,7 @@ Admin.menuTemplate =
 						</div>
 					"""
 				return """
-					<div class="row admin-grids">
+					<div class="row admin-grids admin-grids-#{rootMenu._id}">
 						#{items.join("")}
 					</div>
 				"""
@@ -142,7 +142,7 @@ Admin.menuTemplate =
 				else
 					targetStr = ""
 				return """
-					<div class="row admin-grids">
+					<div class="row admin-grids admin-grids-#{rootMenu._id}">
 						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{rootMenu._id}">
 							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-menu-#{rootMenu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
@@ -157,7 +157,7 @@ Admin.menuTemplate =
 				"""
 		if Steedos.isMobile()
 			reTemplates.push """
-				<div class="row admin-grids">
+				<div class="row admin-grids admin-grids-logout">
 					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-logout">
 						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
 							<div class="admin-grid-icon">
