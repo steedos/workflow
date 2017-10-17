@@ -18,20 +18,7 @@
 						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
-				<div class="weui-cell {{#if errors.email}}weui-cell_warn{{/if}}">
-					<div class="weui-cell__hd"><label class="weui-label">企业邮箱</label></div>
-					<div class="weui-cell__bd">
-						<input class="weui-input form-email" type="text" placeholder="请输入企业邮箱">
-						{{#if errors.email}}
-							<span class="text-danger">{{errors.email}}</span>
-						{{/if}}
-					</div>
-					<div class="weui-cell__ft">
-						<i class="weui-icon-warn"></i>
-					</div>
-				</div>
 			</div>
-			<div class="weui-cells__tips">如无企业邮箱，请输入管理员用于工作的个人邮箱。</div>
 			<div class="weui-cells__title">管理员信息</div>
 			<div class="weui-cells weui-cells_form">
 				<div class="weui-cell {{#if errors.name}}weui-cell_warn{{/if}}">
@@ -46,22 +33,64 @@
 						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
-				<div class="weui-cell weui-cell_vcode">
+				<div class="weui-cell weui-cell_vcode hide {{#if errors.mobile}}weui-cell_warn{{/if}}">
 					<div class="weui-cell__hd">
 						<label class="weui-label">管理员手机号</label>
 					</div>
 					<div class="weui-cell__bd">
-						<input class="weui-input" type="text" placeholder="请输入手机号">
+						<input class="weui-input form-mobile" type="text" placeholder="请输入手机号">
+						{{#if errors.mobile}}
+							<span class="text-danger">{{errors.mobile}}</span>
+						{{/if}}
 					</div>
 					<div class="weui-cell__ft">
 						<button class="weui-vcode-btn">获取验证码</button>
 						<i class="weui-icon-warn"></i>
 					</div>
 				</div>
-				<div class="weui-cell">
+				<div class="weui-cell hide {{#if errors.vcode}}weui-cell_warn{{/if}}">
 					<div class="weui-cell__hd"><label class="weui-label">短信验证码</label></div>
 					<div class="weui-cell__bd">
-						<input class="weui-input" type="text" value="" placeholder="请输入手机短信收到的验证码">
+						<input class="weui-input form-vcode" type="text" value="" placeholder="请输入手机短信收到的验证码">
+						{{#if errors.vcode}}
+							<span class="text-danger">{{errors.vcode}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
+					</div>
+				</div>
+				<div class="weui-cell {{#if errors.email}}weui-cell_warn{{/if}}">
+					<div class="weui-cell__hd"><label class="weui-label">管理员邮箱</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input form-email" type="text" placeholder="请输入邮箱地址">
+						{{#if errors.email}}
+							<span class="text-danger">{{errors.email}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
+					</div>
+				</div>
+				<div class="weui-cell {{#if errors.password}}weui-cell_warn{{/if}}">
+					<div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input form-password" type="password" placeholder="请输入密码">
+						{{#if errors.password}}
+							<span class="text-danger">{{errors.password}}</span>
+						{{/if}}
+					</div>
+					<div class="weui-cell__ft">
+						<i class="weui-icon-warn"></i>
+					</div>
+				</div>
+				<div class="weui-cell {{#if errors.confirmpwd}}weui-cell_warn{{/if}}">
+					<div class="weui-cell__hd"><label class="weui-label">确认密码</label></div>
+					<div class="weui-cell__bd">
+						<input class="weui-input form-confirmpwd" type="password" placeholder="请再输一次密码">
+						{{#if errors.confirmpwd}}
+							<span class="text-danger">{{errors.confirmpwd}}</span>
+						{{/if}}
 					</div>
 					<div class="weui-cell__ft">
 						<i class="weui-icon-warn"></i>
