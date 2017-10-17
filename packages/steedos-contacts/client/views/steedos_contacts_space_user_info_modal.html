@@ -154,6 +154,9 @@
 							{{#if isModifiable targetId}}
 								<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}">{{_ "Edit"}}</button>
 							{{/if}}
+							{{#if isShowReinvite spaceUser.invite_state}}
+								<button class="btn btn-default steedos-contact-reinvite pull-left" data-id="{{targetId}}">再次邀请</button>
+							{{/if}}
 							<button class="btn btn-default steedos-info-delete pull-left" data-id="{{targetId}}">{{_ "Delete"}}</button>
 						{{/if}}
 

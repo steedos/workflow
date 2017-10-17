@@ -67,6 +67,12 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 		return false
 
+	isShowReinvite: (state) ->
+		if state == 'refused'
+			return true
+
+		return false
+
 
 
 Template.steedos_contacts_space_user_info_modal.events
@@ -108,6 +114,15 @@ Template.steedos_contacts_space_user_info_modal.events
 					swal.close()
 				if error
 					toastr.error(TAPi18n.__(error.error))
+
+	'click .steedos-contact-reinvite': (event, template) ->
+		id = event.currentTarget.dataset.id
+		Meteor.call 'reInviteUser', id, (error, result) ->
+			if error
+				console.log error
+			else 
+				console.log result
+			
 
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
