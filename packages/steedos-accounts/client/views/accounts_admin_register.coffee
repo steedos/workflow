@@ -12,6 +12,34 @@ Template.accounts_admin_register.onRendered ->
 Template.accounts_admin_register.events
 	'click .btn-save': (event,template) ->
 		$(".weui-input").trigger("change")
+		errors = template.errors.get()
+		unless _.isEmpty(errors)
+			return
+
+		user = 
+			company: $(".form-company").val()
+			name: $(".form-name").val()
+			email: $(".form-email").val()
+			password: $(".form-password").val()
+
+		$("body").addClass("loading")
+		Meteor.call "checkUser", user, (error, result)->
+			debugger
+			$("body").removeClass("loading")
+			if error
+				if /_company_/.test error.reason
+					errorKey = "company"
+				else if /_name_/.test error.reason
+					errorKey = "name"
+				else if /_email_/.test error.reason
+					errorKey = "email"
+				else if /_password_/.test error.reason
+					errorKey = "password"
+				if errorKey
+					errors[errorKey] = t error.reason
+				template.errors.set(errors)
+				toastr.error t error.reason
+			# if result == true
 
 	'change .form-company': (event,template) ->
 		val = $(event.currentTarget).val()
@@ -54,6 +82,8 @@ Template.accounts_admin_register.events
 			result = Steedos.validatePassword val
 			if result.error
 				errors.password = result.error.reason
+			else if val == $(".form-confirmpwd").val()
+				delete errors.confirmpwd
 			template.errors.set(errors)
 		else
 			errors.password = "不能为空"
