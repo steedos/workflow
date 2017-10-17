@@ -8,6 +8,8 @@ Package.describe({
 Npm.depends({
 	"node-schedule": "1.1.1",
 	cookies: "0.6.1",
+	"weixin-pay": "1.1.7",
+	"xml2js": "0.4.17",
 	mkdirp: "0.3.5"
 });
 
@@ -143,6 +145,14 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/about/steedos_about.coffee', 'client');
 	api.addFiles('client/steedos/views/about/steedos_about.css', 'client');
 
+	api.addFiles('client/steedos/views/billing/steedos_billing.html', 'client');
+	api.addFiles('client/steedos/views/billing/steedos_billing.coffee', 'client');
+	api.addFiles('client/steedos/views/billing/steedos_billing.less', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_modal.html', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_modal.coffee', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.html', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.coffee', 'client');
+
 	api.addFiles('client/tooltip.coffee', 'client');
 
 	api.addFiles('server/steedos/startup/migrations/v1.coffee', 'server');
@@ -150,16 +160,21 @@ Package.onUse(function(api) {
 	api.addFiles('server/steedos/startup/migrations/v3.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v4.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/v5.coffee', 'server');
+	api.addFiles('server/steedos/startup/migrations/v6.coffee', 'server');
 	api.addFiles('server/steedos/startup/migrations/xrun.coffee', 'server');
 
 	// methods
 	api.addFiles('server/methods/setKeyValue.js', 'server');
 	api.addFiles('server/methods/billing_settleup.coffee', 'server');
 	api.addFiles('server/methods/setUsername.coffee', 'server');
+	api.addFiles('server/methods/billing_recharge.coffee', 'server');
+	api.addFiles('server/methods/get_space_user_count.coffee', 'server');
 	api.addFiles('server/methods/user_secret.coffee', 'server');
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
+	api.addFiles('server/publications/modules.coffee', 'server');
+	api.addFiles('server/publications/weixin_pay_code_url.coffee', 'server');
 
 	// managers
 	api.addFiles('server/lib/billing_manager.coffee', 'server');
@@ -178,6 +193,9 @@ Package.onUse(function(api) {
 
 	// functions
 	api.addFiles('server/functions/checkUsernameAvailability.coffee', 'server');
+
+	// routes
+	api.addFiles('server/routes/api_billing_recharge_notify.coffee', 'server');
 
 	// EXPORT
 	api.export('Steedos');

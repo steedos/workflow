@@ -18,12 +18,12 @@ Template.tableau_info.events
 
 		space = db.spaces.findOne({_id: Session.get("spaceId")})
 
-		if !Steedos.isPaidSpace()
-			toastr.info("标准版只能统计一个月内的数据")
+		if !Steedos.isLegalVersion('',"workflow.enterprise")
+			toastr.info("非企业版只能统计两周以内的数据")
 
 		Modal.show('tableau_flow_list')
 
 	'click .steedos-tableau-approve-cost-time': ()->
-		if !Steedos.isPaidSpace()
+		if !Steedos.isLegalVersion('',"workflow.enterprise")
 			Steedos.spaceUpgradedModal()
 			return;
