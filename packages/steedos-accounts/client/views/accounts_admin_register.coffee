@@ -74,7 +74,7 @@ Template.accounts_admin_register.events
 			delete errors.company
 			template.errors.set(errors)
 		else
-			errors.company = "不能为空"
+			errors.company = t "requiredField"
 			template.errors.set(errors)
 
 	'change .form-email': (event,template) ->
@@ -87,7 +87,7 @@ Template.accounts_admin_register.events
 				errors.email = t 'Invalid email'
 			template.errors.set(errors)
 		else
-			errors.email = "不能为空"
+			errors.email = t "requiredField"
 			template.errors.set(errors)
 
 	'change .form-name': (event,template) ->
@@ -97,7 +97,7 @@ Template.accounts_admin_register.events
 			delete errors.name
 			template.errors.set(errors)
 		else
-			errors.name = "不能为空"
+			errors.name = t "requiredField"
 			template.errors.set(errors)
 
 	'change .form-password': (event,template) ->
@@ -112,7 +112,7 @@ Template.accounts_admin_register.events
 				delete errors.confirmpwd
 			template.errors.set(errors)
 		else
-			errors.password = "不能为空"
+			errors.password = t "requiredField"
 			template.errors.set(errors)
 
 	'change .form-confirmpwd': (event,template) ->
@@ -121,10 +121,10 @@ Template.accounts_admin_register.events
 		if val
 			delete errors.confirmpwd
 			unless val == $(".form-password").val()
-				errors.confirmpwd = "两次密码不一致"
+				errors.confirmpwd = t "error.pwdsDontMatch"
 			template.errors.set(errors)
 		else
-			errors.confirmpwd = "不能为空"
+			errors.confirmpwd = t "requiredField"
 			template.errors.set(errors)
 
 
