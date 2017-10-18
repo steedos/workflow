@@ -10,6 +10,10 @@ Template.accounts_admin_register.onCreated ->
 Template.accounts_admin_register.onRendered ->
 
 Template.accounts_admin_register.events
+	'click .signin-link a': (event,template) ->
+		event.preventDefault()
+		AccountsTemplates.linkClick("signIn")
+
 	'click .btn-save': (event,template) ->
 		$(".weui-input").trigger("change")
 		errors = template.errors.get()

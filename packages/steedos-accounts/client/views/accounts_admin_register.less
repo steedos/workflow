@@ -2,11 +2,12 @@
 	background: #fff;
 	border-radius: 6px;
 	padding: 0px;
+	width: 460px;
 	.page__title{
 		text-align: center;
 	}
 	@media (max-width: 767px) {
-		margin: 15px;
+		margin: 20px;
 		.page__bd{
 			.weui-cell {
 				.weui-cell__hd{
@@ -20,10 +21,19 @@
 	}
 	.page__bd{
 		margin-bottom: 20px;
+		.weui-cells__title:not(:first-child) {
+			margin-top: 20px;
+		}
 	}
 	.weui-label{
 		margin-bottom: 0px;
 		font-weight: normal;
 		width: 125px;
+	}
+	.weui-btn-area{
+		.signin-link{
+			text-align: center;
+			margin: 10px;
+		}
 	}
 }
