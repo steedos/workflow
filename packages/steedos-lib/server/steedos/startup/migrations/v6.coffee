@@ -42,7 +42,7 @@ Meteor.startup ->
 				start_date.setMinutes(0)
 				start_date.setSeconds(0)
 				start_date.setMilliseconds(0)
-				db.spaces.find({is_paid: true, user_limit: {$exists: false}}).forEach (s)->
+				db.spaces.find({is_paid: true, user_limit: {$exists: false}, modules: {$exists: true}}).forEach (s)->
 					set_obj = {}
 					user_count = db.space_users.find({space: s._id, user_accepted: true}).count()
 					set_obj.user_limit = user_count
