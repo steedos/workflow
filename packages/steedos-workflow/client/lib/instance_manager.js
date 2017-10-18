@@ -335,10 +335,10 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-InstanceManager._setError_next_step_users = function (error, error_type) {
+InstanceManager._setError_next_step_users = function(error, error_type) {
 	var next_user = $("input[name='nextStepUsers']");
 
-	if(next_user.length > 0){
+	if (next_user.length > 0) {
 		next_user[0].dataset["error"] = error;
 		next_user[0].dataset["error_type"] = error_type;
 	}
@@ -347,8 +347,8 @@ InstanceManager._setError_next_step_users = function (error, error_type) {
 //下一步处理人校验
 InstanceManager.checkNextStepUser = function() {
 
-	if($("input[name='nextStepUsers']").length < 1){
-		return ;
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
 	}
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
@@ -382,11 +382,11 @@ InstanceManager.checkSuggestion = function(alter) {
 		if ($("#suggestion").val())
 			removeMessage(suggestion_parent_group);
 		else
-			if(alter == 0)
-				showMessageInblock(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
-			else{
-				showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
-			}
+		if (alter == 0)
+			showMessageInblock(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+		else {
+			showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+		}
 	} else {
 		removeMessage(suggestion_parent_group);
 	}
@@ -1412,11 +1412,19 @@ InstanceManager.isCCMustFinished = function() {
 			});
 			var not_finished_users_name = new Array(),
 				user_id = Meteor.userId();
-			_.each(trace.approves, function(a) {
-				if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
-					not_finished_users_name.push(a.user_name);
-				}
-			})
+			if (InstanceManager.isCC(ins)) {
+				_.each(trace.approves, function(a) {
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.user != user_id) {
+						not_finished_users_name.push(a.user_name);
+					}
+				})
+			} else {
+				_.each(trace.approves, function(a) {
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
+						not_finished_users_name.push(a.user_name);
+					}
+				})
+			}
 			if (!_.isEmpty(not_finished_users_name)) {
 				toastr.error(TAPi18n.__('instance_cc_must_finished', {
 					not_finished_users_name: not_finished_users_name.toString()
