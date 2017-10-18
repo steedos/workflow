@@ -29,7 +29,6 @@ Template.accounts_admin_register.events
 			profile: 
 				company: company
 				name: name
-				email: email
 
 		preSignUpHook = AccountsTemplates.options.preSignUpHook;
 		if preSignUpHook

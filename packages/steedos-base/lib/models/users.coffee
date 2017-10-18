@@ -197,9 +197,8 @@ if Meteor.isServer
 
 	db.users.after.insert (userId, doc) ->
 		if !(doc.spaces_invited?.length>0)
-			if doc.company
-				space_name = doc.company
-			else
+			space_name = doc.company || doc.profile?.company
+			unless space_name
 				space_name = doc.name + " " + trl("space")
 			db.spaces.insert
 				name: space_name
