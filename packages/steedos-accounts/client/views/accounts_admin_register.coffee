@@ -57,6 +57,11 @@ Template.accounts_admin_register.events
 					$("body").removeClass("loading")
 					loginSelector = {email: email}
 					Meteor.loginWithPassword loginSelector, password, (error)-> 
+						if error
+							console.error error
+							toastr.error t error.reason
+						else
+							FlowRouter.go "/"
 
 	'change .form-company': (event,template) ->
 		val = $(event.currentTarget).val()
