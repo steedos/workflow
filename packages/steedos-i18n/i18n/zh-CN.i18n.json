@@ -490,6 +490,14 @@
 		"buy_user_count": "购买用户数",
 		"buy_additional_user_count": "购买额外用户数(非必填)",
 		"buy_date": "购买日期至",
-		"amount": "付款金额￥"
-	}
+		"amount": "付款金额 ￥"
+	},
+
+	"billing_pay_records": "订单",
+	"billing_pay_records_created": "创建时间",
+	"billing_pay_records_modules": "模块",
+	"billing_pay_records_user_count": "名额",
+	"billing_pay_records_end_date": "租用日期至",
+	"billing_pay_records_total_fee": "金额 ￥",
+	"billing_pay_records_paid": "状态"
 }

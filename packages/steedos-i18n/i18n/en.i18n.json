@@ -473,5 +473,13 @@
 		"buy_additional_user_count": "The number of users to purchase additional (not required)",
 		"buy_date": "Expiration date",
 		"amount": "Amount ￥"
-	}
+	},
+
+	"billing_pay_records": "Orders",
+	"billing_pay_records_created": "Created time",
+	"billing_pay_records_modules": "Modules",
+	"billing_pay_records_user_count": "Places",
+	"billing_pay_records_end_date": "Expiration date",
+	"billing_pay_records_total_fee": "Amount ￥",
+	"billing_pay_records_paid": "Status"
 }

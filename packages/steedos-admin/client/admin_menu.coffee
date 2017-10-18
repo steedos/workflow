@@ -135,12 +135,12 @@ if Meteor.isClient
 		sort: 40
 		parent: "spaces"
 
-	# # 财务
-	# Admin.addMenu
-	# 	_id: "billings"
-	# 	title: "billings"
-	# 	icon: "ion ion-social-usd-outline"
-	# 	url: "/admin/view/billings"
-	# 	roles:["space_admin"]
-	# 	sort: 50
-	# 	parent: "spaces"
+	# 财务
+	Admin.addMenu
+		_id: "billing_pay_records"
+		title: "billing_pay_records"
+		icon: "ion ion-social-usd-outline"
+		url: "/admin/view/billing_pay_records"
+		roles:["space_admin"]
+		sort: 50
+		parent: "spaces"
