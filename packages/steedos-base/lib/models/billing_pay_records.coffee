@@ -2,7 +2,6 @@ db.billing_pay_records = new Meteor.Collection('billing_pay_records')
 
 db.billing_pay_records.helpers
 	order_created: ()->
-		console.log this.created
 		return moment(this.created).format('YYYY-MM-DD HH:mm:ss')
 
 	order_paid: ()->
