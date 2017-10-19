@@ -28,16 +28,24 @@ db.billing_pay_records.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [
-		{name: "created"},
+		{name: "order_created()"},
 		{name: "modules"},
 		{name: "user_count"},
 		{name: "end_date"},
-		{name: "total_fee"},
-		{name: "paid"}
+		{name: "order_total_fee()"},
+		{name: "order_paid()"}
 	]
-	extraFields: ["space"]
+	extraFields: ["space", "created", "paid", "total_fee"]
 	routerAdmin: "/admin"
-	selector: Selector.selectorCheckSpaceAdmin
+	selector: (userId) ->
+		if Meteor.isClient
+			if Steedos.isSpaceAdmin()
+				return {space: Session.get("spaceId"), paid: true}
+			else
+				return {_id: -1}
+
+		if Meteor.isServer
+			return {}
 	showEditColumn: false
 	showDelColumn: false
 	disableAdd: true
