@@ -4,6 +4,17 @@ Template.space_recharge_modal.onRendered ()->
 		locale: Session.get("TAPi18n::loaded_lang")
 	})
 
+	space = db.spaces.findOne(Session.get('spaceId'))
+	if space
+		space_modules = _.clone(space.modules) || []
+		listprices = 0
+		_.each space_modules, (sm)->
+			module = db.modules.findOne({name: sm})
+			if module and module.listprice_rmb
+				listprices += module.listprice_rmb
+
+		$("#space_recharge_price").text(listprices)
+
 
 Template.space_recharge_modal.helpers
 	modules: ()->
@@ -30,16 +41,15 @@ Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
 		fee_value = 0
 
-		now = new Date
-		end_date_str = $('#space_recharge_end_date').val()
-		end_date = new Date(end_date_str)
+		now = new Date(moment(new Date).format("YYYY-MM-DD"))
+		end_date = new Date($('#space_recharge_end_date').val())
 
 		if end_date <= now
 			toastr.warning "购买日期不能小于当前日期"
 			$('#space_recharge_fee')[0].value = ""
 			return
-
-		months = (end_date - now)/(1000*3600*24*30) #一个月按30天算
+		month_days = if moment().isLeapYear() then 366/12 else 365/12
+		months = (end_date - now)/(1000*3600*24*month_days) #一个月多少天按是否闰年计算
 
 		user_count = parseInt($('#space_recharge_user_count')[0].value) || 0
 
@@ -76,7 +86,7 @@ Template.space_recharge_modal.events
 				if module and module.listprice_rmb
 					old_listprices += module.listprice_rmb
 
-			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
+			remain_months = (old_end_date - now)/(1000*3600*24*month_days) #一个月多少天按是否闰年计算
 
 			balance = old_listprices * old_user_limit * remain_months
 
@@ -162,15 +172,15 @@ Template.space_recharge_modal.events
 
 	'input #space_recharge_user_count': (event, template)->
 		console.log "2"
-		now = new Date
+		now = new Date(moment(new Date).format("YYYY-MM-DD"))
 		end_date = new Date($('#space_recharge_end_date').val())
 
 		if end_date <= now
 			toastr.warning "购买日期不能小于当前日期"
 			$('#space_recharge_fee')[0].value = ""
 			return
-
-		months = (end_date - now)/(1000*3600*24*30) #一个月按30天算
+		month_days = if moment().isLeapYear() then 366/12 else 365/12
+		months = (end_date - now)/(1000*3600*24*month_days) #一个月多少天按是否闰年计算
 
 		user_count = parseInt($('#space_recharge_user_count')[0].value) || 0
 
@@ -187,6 +197,8 @@ Template.space_recharge_modal.events
 			module = db.modules.findOne({name: sm})
 			if module and module.listprice_rmb
 				listprices += module.listprice_rmb
+
+		$("#space_recharge_price").text(listprices)
 
 		if space.is_paid
 			console.log "is_paid"
@@ -208,7 +220,7 @@ Template.space_recharge_modal.events
 				if module and module.listprice_rmb
 					old_listprices += module.listprice_rmb
 
-			remain_months = (old_end_date - now)/(1000*3600*24*30) #一个月按30天算
+			remain_months = (old_end_date - now)/(1000*3600*24*month_days) #一个月多少天按是否闰年计算
 
 			balance = old_listprices * old_user_limit * remain_months
 

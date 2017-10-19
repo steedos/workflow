@@ -495,8 +495,9 @@
 		"buy_additional_user_count": "购买额外用户数(非必填)",
 		"buy_date": "购买日期至",
 		"amount": "付款金额 ￥",
-		"has_paid": "已完成",
-		"not_paid": "未完成"
+		"has_paid": "支付成功",
+		"not_paid": "未支付",
+		"price": "单价"
 	},
 
 	"billing_pay_records": "订单",

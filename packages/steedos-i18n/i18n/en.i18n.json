@@ -478,7 +478,8 @@
 		"buy_date": "Expiration date",
 		"amount": "Amount ￥",
 		"had_paid": "Finished",
-		"not_paid": "Not finished"
+		"not_paid": "Not finished",
+		"price": "Price"
 	},
 
 	"billing_pay_records": "Orders",
