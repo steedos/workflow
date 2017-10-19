@@ -4,7 +4,6 @@ Template.admin_flow_modal.helpers
 
 
 Template.admin_flow_modal.onRendered ->
-	$(".admin_flow_modal .modal-body").css("max-height", Steedos.getModalMaxHeight())
 
 Template.admin_flow_modal.events
 	'click .save-flow': (event, template)->

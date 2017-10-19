@@ -16,8 +16,6 @@ Template.instance_more_search_modal.onRendered(function() {
 
 	$("[name='instance_is_archived']").val(Session.get("instance-earch-is-archived"));
 
-	$("#instance_more_search_modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
-
 })
 
 Template.instance_more_search_modal.helpers({

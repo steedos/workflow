@@ -107,7 +107,6 @@ Template.remind_modal.helpers
 
 
 Template.remind_modal.onRendered ()->
-	$("#remind_modal .modal-body").css("max-height", Steedos.getModalMaxHeight())
 	
 Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->

@@ -255,8 +255,8 @@ if Meteor.isClient
 			when 'extra-large'
 				offset = -7
 
-		if $(".modal.in").length
-			$(".modal.in").each ->
+		if $(".modal").length
+			$(".modal").each ->
 				headerHeight = 0
 				footerHeight = 0
 				totalHeight = 0
@@ -268,7 +268,10 @@ if Meteor.isClient
 				totalHeight = headerHeight + footerHeight
 				height = $("body").innerHeight() - totalHeight - offset
 
-				$(".modal-body",$(this)).css({"height": "#{height}px"})
+				if Steedos.isMobile()
+					$(".modal-body",$(this)).css({"height": "#{height}px"})
+				else
+					$(".modal-body",$(this)).css({"max-height": "#{height}px"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
