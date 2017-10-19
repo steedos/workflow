@@ -1007,20 +1007,24 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 				}
 			});
 		} else if (state == "pending") {
-			var myApprove = {};
-			$.extend(myApprove, InstanceManager.getMyApprove());
-			myApprove.attachments = attachs;
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
-				Session.set('change_date', new Date());
-				WorkflowManager.instanceModified.set(false);
-				if (result == true) {
+			if (InstanceManager.isCC(instance)) {
+				toastr.success(TAPi18n.__('Attachment was added successfully'));
+			} else {
+				var myApprove = {};
+				$.extend(myApprove, InstanceManager.getMyApprove());
+				myApprove.attachments = attachs;
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+					Session.set('change_date', new Date());
+					WorkflowManager.instanceModified.set(false);
+					if (result == true) {
 
-					toastr.success(TAPi18n.__('Attachment was added successfully'));
-				} else {
-					toastr.error(error);
-				}
-			});
+						toastr.success(TAPi18n.__('Attachment was added successfully'));
+					} else {
+						toastr.error(error);
+					}
+				});
+			}
 		}
 	}
 }
@@ -1060,21 +1064,26 @@ InstanceManager.removeAttach = function() {
 				}
 			});
 		} else if (state == "pending") {
-			instance.attachments = newAttachs;
-			var myApprove = {};
-			$.extend(myApprove, InstanceManager.getMyApprove());
-			myApprove.attachments = newAttachs;
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
-				Session.set('change_date', new Date());
-				WorkflowManager.instanceModified.set(false);
-				if (result == true) {
+			if (InstanceManager.isCC(instance)) {
+				toastr.success(TAPi18n.__('Attachment deleted successfully'));
+			} else {
+				instance.attachments = newAttachs;
+				var myApprove = {};
+				$.extend(myApprove, InstanceManager.getMyApprove());
+				myApprove.attachments = newAttachs;
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+					Session.set('change_date', new Date());
+					WorkflowManager.instanceModified.set(false);
+					if (result == true) {
 
-					toastr.success(TAPi18n.__('Attachment deleted successfully'));
-				} else {
-					toastr.error(error);
-				}
-			});
+						toastr.success(TAPi18n.__('Attachment deleted successfully'));
+					} else {
+						toastr.error(error);
+					}
+				});
+			}
+
 		}
 	}
 }
