@@ -53,7 +53,8 @@ Template.cf_contact_modal.events
 		cssHeightKey = "max-height"
 		if Steedos.isMobile()
 			cssHeightKey = "height"
-		$(".cf-users-organization-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+
+		Steedos.setModalMaxHeight()
 
 	'hide.bs.modal #cf_contact_modal': (event, template) ->
 		Modal.allowMultiple = false;
@@ -65,9 +66,4 @@ Template.cf_contact_modal.events
 Template.cf_contact_modal.onRendered ->
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues, @data.spaceId));
 	CFDataManager.handerContactModalValueLabel();
-	cssHeightKey = "max-height"
-	if Steedos.isMobile()
-		cssHeightKey = "height"
-	$(".cf-organization-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
-	$(".cf-spaceusers-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
 

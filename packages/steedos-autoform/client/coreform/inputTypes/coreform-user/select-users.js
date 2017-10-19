@@ -167,10 +167,8 @@ Template.afSelectUser.events({
         options.targetId = template.data.atts.id;
         Modal.allowMultiple = true;
         Modal.show("cf_contact_modal", options);
-        cssHeightKey = "max-height"
-        if (Steedos.isMobile())
-            cssHeightKey = "height"
-        $(".contacts-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+        
+        Steedos.setModalMaxHeight()
     }
 });
 

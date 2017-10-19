@@ -122,7 +122,8 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
-	$("#steedos_contacts_space_user_info_modal .space-user-info-container").css("max-height", Steedos.getModalMaxHeight(30));
+		
+	Steedos.setModalMaxHeight()
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

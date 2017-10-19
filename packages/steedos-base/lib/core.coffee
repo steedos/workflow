@@ -245,6 +245,31 @@ if Meteor.isClient
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
 
+	Steedos.setModalMaxHeight = ()->
+		accountZoomValue = Steedos.getAccountZoomValue()
+		switch accountZoomValue.name
+			when 'normal'
+				offset = 5
+			when 'large'
+				offset = 9
+			when 'extra-large'
+				offset = -7
+
+		if $(".modal.in").length
+			$(".modal.in").each ->
+				headerHeight = 0
+				footerHeight = 0
+				totalHeight = 0
+				$(".modal-header", $(this)).each ->
+					headerHeight += $(this).outerHeight(false)
+				$(".modal-footer", $(this)).each ->
+					footerHeight += $(this).outerHeight(false)
+
+				totalHeight = headerHeight + footerHeight
+				height = $("body").innerHeight() - totalHeight - offset
+
+				$(".modal-body",$(this)).css({"height": "#{height}px"})
+
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
 			reValue = window.screen.height - 126 - 180 - 25

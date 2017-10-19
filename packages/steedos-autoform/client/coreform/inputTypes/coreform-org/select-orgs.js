@@ -90,7 +90,8 @@ Template.afSelectOrg.events({
 
 		Modal.allowMultiple = true;
 		Modal.show("cf_organization_modal", options);
-		$(".contacts-modal-body").css("max-height", Steedos.getModalMaxHeight(20));
+		
+		Steedos.setModalMaxHeight();
 	}
 });
 
