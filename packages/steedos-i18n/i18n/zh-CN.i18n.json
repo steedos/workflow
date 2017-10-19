@@ -479,6 +479,10 @@
 
 	"Client download": "下载客户端",
 
+	"steedos_desktop_zone_info": "当前服务为美国区域，是否跳转到中国区域？",
+	"steedos_desktop_confirm": "确定",
+	"steedos_desktop_cancel": "取消",
+
 	"billing": {
 		"upgrade": "升级",
 		"total_user_count": "总用户数",

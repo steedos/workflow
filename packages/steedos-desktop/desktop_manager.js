@@ -4,6 +4,37 @@ if (Steedos.isNode()){
 
 	globalWin.maximize();
 
+	var zoneArray = ["cn", "us", "beta"];
+	var currentZone = window.location.host.split(".", 1);
+	
+	// 只在cn、us和beta域下存入cookie
+	if (_.indexOf(zoneArray, currentZone[0]) > -1){
+		// 首次登录客户端会在cookie中记录当前域名
+		var zone = document.cookie.replace(/(?:(?:^|.*;\s*)X-Zone\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+		var expires = new Date();
+		if (zone == ""){
+			if (Steedos.userId() && !Meteor.loggingIn()){
+				// 有效期为10年
+				expires.setTime(expires.getTime() + 365 * 24 * 3600000 * 10);
+				document.cookie = "X-Zone=" + window.location.origin + "; path=/; domain=.steedos.com; expires=" + expires.toGMTString();
+			}
+		}else{
+			// 再次登录后判断是否与cookie中所存域名一致，不一致时提示跳转
+			if (zone != window.location.origin){
+				swal({
+					title: t("steedos_desktop_zone_info"),
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonText: t("steedos_desktop_confirm"),
+					cancelButtonText: t("steedos_desktop_cancel"),
+					closeOnCancel: true
+				}, function() {
+					window.location = zone;
+				})
+			}
+		}
+	}
+
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
 		if(window.name){

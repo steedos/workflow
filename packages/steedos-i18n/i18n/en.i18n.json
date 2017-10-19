@@ -461,6 +461,10 @@
 
 	"Client download": "Download client",
 
+	"steedos_desktop_zone_info": "Does the current service for the US zone, whether to jump to the Chinese zone?",
+	"steedos_desktop_confirm": "Confirm",
+	"steedos_desktop_cancel": "Cancel",
+
 	"billing": {
 		"upgrade": "Upgrade",
 		"total_user_count": "Tolal user count",
