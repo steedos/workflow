@@ -58,18 +58,18 @@
 	"accounts_register_company_placeholder": "Please enter the company name",
 	"accounts_register_company_empty": "Company name can not be empty",
 	"accounts_register_name_label": "Admin name",
-	"accounts_register_name_placeholder": "Please enter the administrator name",
-	"accounts_register_name_empty": "The administrator name can not be empty",
+	"accounts_register_name_placeholder": "Please enter the admin name",
+	"accounts_register_name_empty": "The admin name can not be empty",
 	"accounts_register_email_label": "Admin email",
 	"accounts_register_email_placeholder": "Please enter the email address",
-	"accounts_register_email_empty": "The administrator mail address can not be empty",
+	"accounts_register_email_empty": "The admin mail address can not be empty",
 	"accounts_register_password_label": "Password",
 	"accounts_register_password_placeholder": "Please enter the password",
 	"accounts_register_password_empty": "The password can not be empty",
 	"accounts_register_confirmpwd_label": "Confirm password",
-	"accounts_register_confirmpwd_placeholder": "Please enter your password again",
+	"accounts_register_confirmpwd_placeholder": "Please enter the password again",
 	"accounts_register_email_exist": "The mail address already exist",
 	"accounts_register_title": "Registered Company",
 	"accounts_register_company_title": "Company Information",
-	"accounts_register_admin_title": "Admin information"
+	"accounts_register_admin_title": "Administrator information"
 }
