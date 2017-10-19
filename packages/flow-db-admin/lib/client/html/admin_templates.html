@@ -58,7 +58,7 @@
 	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
 	        </div>
-	        <div class="modal-body admin-dashboard-body" style='overflow-y:auto'>
+	        <div class="modal-body modal-zoom admin-dashboard-body" style='overflow-y:auto'>
 				{{> quickForm id="admin_modal_insert" collection=admin_collection_name doc=this fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_create_i18n}}
 			</div>
 		  </div>
@@ -74,7 +74,7 @@
 	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	          <h4 class="modal-title" id="myModalLabel">{{_ admin_collection_name}}</h4>
 	        </div>
-	        <div class="modal-body admin-dashboard-body" style='overflow-y:auto'>
+	        <div class="modal-body admin-dashboard-body modal-zoom" style='overflow-y:auto'>
 	        	{{#if fadmin_doc}}
 				{{> quickForm id="admin_modal_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
 				{{else}}
