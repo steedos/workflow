@@ -288,7 +288,7 @@ if Meteor.isClient
 				if Steedos.isMobile()
 					$(".modal-body",$(this)).css({"height": "#{height}px"})
 				else
-					$(".modal-body",$(this)).css({"max-height": "#{height}px"})
+					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()

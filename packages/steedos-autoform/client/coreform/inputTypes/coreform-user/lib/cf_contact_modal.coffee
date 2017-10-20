@@ -54,7 +54,6 @@ Template.cf_contact_modal.events
 		if Steedos.isMobile()
 			cssHeightKey = "height"
 
-		Steedos.setModalMaxHeight()
 
 	'hide.bs.modal #cf_contact_modal': (event, template) ->
 		Modal.allowMultiple = false;

@@ -168,7 +168,6 @@ Template.afSelectUser.events({
         Modal.allowMultiple = true;
         Modal.show("cf_contact_modal", options);
         
-        Steedos.setModalMaxHeight()
     }
 });
 

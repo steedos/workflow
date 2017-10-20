@@ -91,7 +91,6 @@ Template.afSelectOrg.events({
 		Modal.allowMultiple = true;
 		Modal.show("cf_organization_modal", options);
 		
-		Steedos.setModalMaxHeight();
 	}
 });
 
