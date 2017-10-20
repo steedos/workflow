@@ -249,11 +249,28 @@ if Meteor.isClient
 		accountZoomValue = Steedos.getAccountZoomValue()
 		switch accountZoomValue.name
 			when 'normal'
-				offset = 5
+				if Steedos.isMobile()
+					offset = 5
+				else
+					offset = 75
 			when 'large'
-				offset = 9
+				if Steedos.isMobile()
+					offset = 9
+				else
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 199
+					else
+						offset = 9
 			when 'extra-large'
-				offset = -7
+				if Steedos.isMobile()
+					offset = -7
+				else 
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 303
+					else
+						offset = 53
 
 		if $(".modal").length
 			$(".modal").each ->
