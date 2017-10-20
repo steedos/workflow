@@ -331,7 +331,9 @@ Template.instance_suggestion.events
 
 	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
 		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
-		InstanceManager.fixInstancePosition()
+		Meteor.setTimeout ->
+			InstanceManager.fixInstancePosition()
+		,1
 
 	'change #opinion_fields_code': (event, template)->
 		console.log("change opinion_fields_code")
