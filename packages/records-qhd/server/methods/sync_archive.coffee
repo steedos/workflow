@@ -19,7 +19,10 @@ Meteor.methods
 		db.instances.update({_id: {$in: ins_ids}}, {$set: {is_archived: false}}, {multi:true})
 
 		if Steedos.isSpaceAdmin(spaceId, this.userId)
-			RecordsQHD.instanceToArchive ins_ids
-			return ins.fetch()
+			try
+				RecordsQHD.instanceToArchive ins_ids
+				return ins.fetch()
+			catch  e
+				throw new Meteor.Error(e.message)
 		else
 			throw new Meteor.Error("No permission")

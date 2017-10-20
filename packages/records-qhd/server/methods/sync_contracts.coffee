@@ -10,7 +10,10 @@ Meteor.methods
 			throw new Meteor.Error("Missing spaceId")
 
 		if Steedos.isSpaceAdmin(spaceId, this.userId)
-			data = RecordsQHD.instanceToContracts submit_date_start, submit_date_end, [spaceId]
-			return data
+			try
+				data = RecordsQHD.instanceToContracts submit_date_start, submit_date_end, [spaceId]
+				return data
+			catch  e
+				throw new Meteor.Error(e.message)
 		else
 			throw new Meteor.Error("No permission")

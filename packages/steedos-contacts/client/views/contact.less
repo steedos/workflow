@@ -98,6 +98,9 @@
 			position: relative;
 			top: -1px;
 			width: 200px;
+			&.add-contact-user {
+				width: auto;
+			}
 		}
 
 		@media screen and (max-width: 1024px){
@@ -108,7 +111,13 @@
 
 		@media screen and (max-width: 767px){
 			.pull-right{
-				width: 150px;
+				width: 145px;
+				&.add-contact-user {
+					position: relative;
+					right: -9px;
+					padding: 15px;
+					top: -9px;
+				}
 			}
 		}
 
@@ -351,6 +360,12 @@
 				.offcanvas{
 					display: inline-block;
 				}
+				.btn-back {
+					position: relative;
+					left: -9px;
+					padding: 15px;
+					top: -9px;	
+				}
 				&.contacts-wrapper-mobile{
 					.contacts{
 						top: 51px;
@@ -438,6 +453,14 @@
 	.datatable-steedos-contacts{
 		tr[data-id]{
 			cursor: pointer;
+			td {
+				.invite-refused {
+					color: #d33724;
+				}
+				.invite-pending {
+					color: #357ca5;
+				}
+			}
 		}
 		.drag-source{
 			cursor: pointer;
@@ -480,6 +503,25 @@
 						&:nth-child(1){
 							display: block;
 						}
+					}
+				}
+			}
+		}
+	}
+	.contacts-wrapper-mobile{
+		.navigation-bar{
+			.navigation-title{
+				cursor: pointer;
+				.top-title{
+					max-width: 85%;
+				}
+				.top-ion{
+					display: inline-block;
+					overflow: hidden;
+					line-height: 30px;
+					height: 30px;
+					.ion{
+						font-size: 100%;
 					}
 				}
 			}
