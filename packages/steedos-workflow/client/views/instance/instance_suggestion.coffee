@@ -327,13 +327,13 @@ Template.instance_suggestion.events
 	'change input[name=judge]': (event)->
 		if $('input[name=judge]:checked').val() == "approved"
 			InstanceManager.checkSuggestion()
-		InstanceManager.fixInstancePosition()
-
-	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
-		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
 		Meteor.setTimeout ->
 			InstanceManager.fixInstancePosition()
 		,1
+
+	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
+		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
+		InstanceManager.fixInstancePosition()
 
 	'change #opinion_fields_code': (event, template)->
 		console.log("change opinion_fields_code")
