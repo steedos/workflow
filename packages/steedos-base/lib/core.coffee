@@ -240,7 +240,7 @@ if Meteor.isClient
 		if Steedos.isSpaceAdmin()
 			min_months = 3
 		space = db.spaces.findOne(spaceId)
-		end_date = space.end_date
+		end_date = space?.end_date
 		if space?.is_paid and end_date != undefined and (end_date - new Date) <= (min_months*30*24*3600*1000)
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
