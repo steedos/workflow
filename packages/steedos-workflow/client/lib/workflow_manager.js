@@ -164,7 +164,7 @@ WorkflowManager.getInstanceFields = function() {
 }
 
 WorkflowManager.getInstanceStep = function(stepId) {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -185,7 +185,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 };
 
 WorkflowManager.getInstanceSteps = function() {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -203,7 +203,7 @@ WorkflowManager.getInstanceSteps = function() {
 };
 
 WorkflowManager.getInstanceFieldPermission = function() {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 
 	if (!instance) {
 		return {};
@@ -225,7 +225,7 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		);
 	}
 
-	step = WorkflowManager.getInstanceStep(current_stepId);
+	var step = WorkflowManager.getInstanceStep(current_stepId);
 	if (!step) {
 		return {}
 	}
