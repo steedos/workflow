@@ -209,6 +209,10 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		return {};
 	}
 
+	if(InstanceManager.isCC(instance)){
+		return {};
+	}
+
 	var current_stepId = "";
 	if (instance.traces) {
 		instance.traces.forEach(
