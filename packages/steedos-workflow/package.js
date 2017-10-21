@@ -116,6 +116,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/lib/instance_macro.coffee', 'client');
 
+	api.addFiles('client/lib/next_step_user.coffee', 'client');
+
 
 	//add client file
 	api.addFiles('client/layout/master_print.less', 'client');

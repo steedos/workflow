@@ -187,10 +187,13 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         };
                         nextStepUsers = UUflow_api.caculate_nextstep_users('applicantRole', Session.get('spaceId'), data);
                         if (!nextStepUsers.length) {
-                            error_obj.deal_type = nextStep.deal_type;
-                            error_obj.params = {
-                                approver_roles: approveRoleIds
-                            };
+                            // error_obj.deal_type = nextStep.deal_type;
+                            // error_obj.params = {
+                            //     approver_roles: approveRoleIds
+                            // };
+							var roles = WorkflowManager.remoteFlowRoles.find({_id: {$in: approveRoleIds}}, {fields: {name:1} });
+							var roles_name = _.pluck(roles, 'name').toString();
+							ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.applicant_role', {step_name: nextStep.name, role_name: roles_name});
                         }
                         break;
                     case 'applicantSuperior': //申请人上级
@@ -295,7 +298,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         if (!nextStepUsers.length) {
                             var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
                             var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, specifyOrgIds);
-                            ApproveManager.error.nextStepUsers = '"' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '"部门中没有人员';
+                            ApproveManager.error.nextStepUsers = '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '」部门中没有人员';
                         }
                         break;
                     case 'userFieldRole': //指定人员字段相关审批岗位
@@ -400,15 +403,19 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
         return p1.name.localeCompare(p2.name);
     });
 
-    if (error_obj.deal_type) {
-        Meteor.call('next_step_users_not_found', error_obj.deal_type, error_obj.step_name, error_obj.params, function(error, result) {
-            if (result) {
-                ApproveManager.error.nextStepUsers = result;
-				ApproveManager.error.type = error_obj.deal_type;
-                InstanceManager.checkNextStepUser();
-            }
-        })
-    }
+    // if (error_obj.deal_type) {
+    //     Meteor.call('next_step_users_not_found', error_obj.deal_type, error_obj.step_name, error_obj.params, function(error, result) {
+    //         if (result) {
+    //             ApproveManager.error.nextStepUsers = result;
+		// 		ApproveManager.error.type = error_obj.deal_type;
+    //         }
+    //     })
+    // }
+	if(ApproveManager.error.nextStepUsers){
+		ApproveManager.error.type = nextStep.deal_type;
+	}
+
+	InstanceManager.checkNextStepUser();
 
     return nextStepUsers;
 };
