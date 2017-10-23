@@ -1,26 +1,24 @@
 isOrgAdmin = ->
 	currentOrg = Session.get('contacts_org_mobile')
-	Session.set 'is_org_admin', false
+	Session.set 'contacts_is_org_admin', false
 	if Steedos.isSpaceAdmin()
-		Session.set 'is_org_admin', true
-
-	Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
-		if error
-			console.log(error)
-		else
-			if is_suc
-				Session.set 'is_org_admin', true
+		Session.set 'contacts_is_org_admin', true
+	else
+		Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
+			if error
+				console.log(error)
+			else
+				if is_suc
+					Session.set 'contacts_is_org_admin', true
 
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
 
 	is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+	query = {space: spaceId}
 
-	query = {space: spaceId, user: {$nin: hidden_users}}
-
-	isSearching = Template.instance().isSearching?.get()
+	isSearching = Session.get "contact_list_search"
 
 	if isSearching
 		searchingKey = Session.get('contacts_searching_key_mobile')
@@ -127,7 +125,7 @@ Template.org_main_mobile.helpers
 
 	tabular_organizations_class: ->
 		className = "table table-striped datatable-mobile-organizations"
-		isSearching = Template.instance().isSearching?.get()
+		isSearching = Session.get "contact_list_search"
 		if isSearching
 			className += " hidden"
 		return className
@@ -147,7 +145,8 @@ Template.org_main_mobile.helpers
 
 
 Template.org_main_mobile.onCreated ->
-	this.isSearching = new ReactiveVar(false)
+	Session.set 'contacts_is_org_admin', false
+	Session.set "contact_list_search", false
 	Session.set('contacts_org_mobile',null)
 	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
@@ -240,7 +239,7 @@ Template.org_main_mobile.events
 		$("#contact-list-search-key").focus()
 
 	'click .weui-search-bar__cancel-btn': (event, template)->
-		template.isSearching.set(false)
+		Session.set "contact_list_search", false
 		$(event.currentTarget).closest(".contacts").removeClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").removeClass("weui-search-bar_focusing")
 		$("#contact-list-search-key").val("")
@@ -256,7 +255,7 @@ Template.org_main_mobile.events
 		if arguments.callee.timer
 			clearTimeout arguments.callee.timer
 
-		if template.isSearching.get()
+		if Session.get "contact_list_search"
 			arguments.callee.timer = setTimeout ()->
 				# 匹配双字节字符(包括汉字在内)
 				reg = /[^x00-xff]/
@@ -268,7 +267,7 @@ Template.org_main_mobile.events
 			, 800
 
 	'focus #contact-list-search-key': (event, template)->
-		template.isSearching.set(true)
+		Session.set "contact_list_search", true
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
 		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
