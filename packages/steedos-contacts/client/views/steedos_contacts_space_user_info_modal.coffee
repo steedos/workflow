@@ -73,6 +73,13 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 		return false
 
+	isHiddenUser: () ->
+		unless Session.get('contacts_is_org_admin')
+			su = db.space_users.findOne this.targetId;
+			hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+			if hidden_users.indexOf(su.user) > -1
+				return true
+		return false
 
 
 Template.steedos_contacts_space_user_info_modal.events

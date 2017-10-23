@@ -3,8 +3,13 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	collection: db.space_users,
 	createdRow:(row,data,index)->
 		row.dataset.id = data._id
+		row.dataset.user = data.user
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$(row).addClass("drag-source").attr "draggable",true
+		unless Session.get('contacts_is_org_admin')
+			hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+			if hidden_users.indexOf(data.user) > -1
+				$(row).addClass("hidden-user")
 	columns: [
 		{
 			data: "name",
