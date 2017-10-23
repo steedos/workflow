@@ -1,5 +1,11 @@
 request = Npm.require('request')
 
+path = Npm.require('path');
+
+pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
+
+absolutePath = path.resolve(pathname);
+
 logger = new Logger 'Records_QHD -> InstancesToContracts'
 
 _fieldMap = """
@@ -98,6 +104,17 @@ _minxiInstanceData = (formData, instance) ->
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
+	fileHandle = (f)->
+		try
+			filepath = path.join(absolutePath, f.copies.instances.key);
+			formData.attach.push {
+				value:  fs.createReadStream(filepath),
+				options: {filename: f.name()}
+			}
+		catch e
+			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
+
+
 	#	正文附件
 	mainFile = cfs.instances.find({
 		'metadata.instance': instance._id,
@@ -105,11 +122,7 @@ _minxiInstanceData = (formData, instance) ->
 		"metadata.main": true
 	}).fetch()
 
-	mainFile.forEach (f) ->
-		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-		catch e
-			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
+	mainFile.forEach fileHandle
 
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
@@ -118,12 +131,33 @@ _minxiInstanceData = (formData, instance) ->
 		"metadata.main": {$ne: true}
 	})
 
-	nonMainFile.forEach (f)->
-		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-		catch e
-			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
+	nonMainFile.forEach fileHandle
 
+	#分发
+	if instance.distribute_from_instance
+		#	正文附件
+		mainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": true,
+			"metadata.is_private": {
+				$ne: true
+			}
+		}).fetch()
+
+		mainFile.forEach fileHandle
+
+		#	非正文附件
+		nonMainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": {$ne: true},
+			"metadata.is_private": {
+				$ne: true
+			}
+		})
+
+		nonMainFile.forEach fileHandle
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})

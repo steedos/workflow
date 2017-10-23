@@ -11,9 +11,13 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
+		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {
+			return false
+		}
+
 		var current_step = InstanceManager.getCurrentStep();
 
-		if(!current_step)
+		if (!current_step)
 			return false;
 
 		// 分发的正文或者附件不显示转为pdf按钮

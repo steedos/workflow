@@ -34,7 +34,7 @@ Template.instance_attachments.onRendered(function() {
 		}
 	}
 
-	if (current_step.can_edit_main_attach == true || main_attach_count > 0 || distribute_main_attach_count > 0) {
+	if ((current_step.can_edit_main_attach == true && (Session.get("box") == "draft" || Session.get("box") == "inbox")) || main_attach_count > 0 || distribute_main_attach_count > 0) {
 		self.workflowMainAttachTitle.set(true);
 	} else {
 		self.workflowMainAttachTitle.set(false);

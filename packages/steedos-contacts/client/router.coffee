@@ -21,7 +21,7 @@ contactsRoutes.route '/orgs',
 				main: "org_main_mobile"
 		else
 			BlazeLayout.render 'contactsLayout',
-				main: "admin_org_main"
+				main: "org_main"
 
 
 contactsRoutes.route '/banch',

@@ -138,9 +138,11 @@
 									<div class="weui-cell__bd weui-cell_primary">
 										<p>
 											{{username}}
-											<button class="btn btn-transparent btn-edit-username" data-id="{{spaceUser.user}}" title="{{_ 'Edit'}}">
-												<i class="ion ion-ios-compose-outline"></i>
-											</button>
+											{{#if isEditable}}
+												<button class="btn btn-transparent btn-edit-username" data-id="{{spaceUser.user}}" title="{{_ 'Edit'}}">
+													<i class="ion ion-ios-compose-outline"></i>
+												</button>
+											{{/if}}
 										</p>
 									</div>
 								</div>

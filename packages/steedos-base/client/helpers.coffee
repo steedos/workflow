@@ -392,6 +392,25 @@ TemplateHelpers =
 			b = db.steedos_keyvalues.findOne(spaceSelector)
 			if b
 				badge = b.value?[appId]
+
+		appUrl = db.apps.findOne(appId).url
+		if appUrl == "/calendar"
+			calendarid = Session.get("defaultcalendarid")
+			userId = Meteor.userId()
+			today = moment(moment().format("YYYY-MM-DD 00:00")).toDate()
+			selector = 
+				{
+					calendarid: calendarid,
+					start: {$gte:today},
+					"attendees": {
+						$elemMatch: {
+							id: userId,
+							partstat: "NEEDS-ACTION"
+						}
+					}
+				}
+			badge = Events.find(selector).count()
+
 		if badge
 			return badge
 
