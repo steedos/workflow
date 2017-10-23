@@ -156,22 +156,22 @@ InstanceManager.getNextStepOptions = function() {
 //   });
 // }
 
-InstanceManager.nextStepUsersWillUpdate = function (changeField, nextStep) {
+InstanceManager.nextStepUsersWillUpdate = function(changeField, nextStep) {
 
 	'use strict';
 
-	if(!changeField || !nextStep){
+	if (!changeField || !nextStep) {
 		return false;
 	}
 
-	if(changeField.name === 'applicant' && (nextStep.deal_type === 'applicant'  || nextStep.deal_type === 'applicantRole' || nextStep.deal_type === 'applicantSuperior')){
+	if (changeField.name === 'applicant' && (nextStep.deal_type === 'applicant' || nextStep.deal_type === 'applicantRole' || nextStep.deal_type === 'applicantSuperior')) {
 		return true;
-	}else{
-		if(changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')){
+	} else {
+		if (changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')) {
 			return true;
-		}else if(changeField.type === 'org' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')){
+		} else if (changeField.type === 'org' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -527,27 +527,6 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	return values;
 }
 
-InstanceManager.resetId = function(instance) {
-	if (instance._id) {
-		instance.id = instance._id;
-		delete instance._id;
-	}
-	instance.traces.forEach(function(t) {
-		if (t._id) {
-			t.id = t._id;
-			delete t._id;
-		}
-		if (t.approves) {
-			t.approves.forEach(function(a) {
-				if (a._id) {
-					a.id = a._id;
-					delete a._id;
-				}
-			})
-		}
-	})
-}
-
 InstanceManager.getCurrentStep = function() {
 
 	var instance = WorkflowManager.getInstance();
@@ -826,7 +805,6 @@ InstanceManager.submitIns = function() {
 				};
 			});
 		} else {
-			InstanceManager.resetId(instance);
 			var state = instance.state;
 			if (state == "draft") {
 
@@ -875,7 +853,6 @@ InstanceManager.submitIns = function() {
 InstanceManager.terminateIns = function(reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.terminate_reason = reason;
 		UUflow_api.post_terminate(instance);
 	}
@@ -893,7 +870,6 @@ InstanceManager.exportIns = function(type) {
 InstanceManager.reassignIns = function(user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.inbox_users = user_ids;
 		instance.reassign_reason = reason;
 		UUflow_api.put_reassign(instance);
@@ -904,7 +880,6 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.relocate_next_step = step_id;
 		instance.relocate_inbox_users = user_ids;
 		instance.relocate_comment = reason;
@@ -1395,15 +1370,17 @@ InstanceManager.instanceformChangeEvent = function(event) {
 	if (code === 'ins_applicant') {
 		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
 
-		if(InstanceManager.nextStepUsersWillUpdate({name: 'applicant'}, WorkflowManager.getInstanceStep(Session.get("next_step_id")))){
+		if (InstanceManager.nextStepUsersWillUpdate({
+				name: 'applicant'
+			}, WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
 			Session.set("instance_next_user_recalculate", Random.id())
 		}
 
-	}else{
+	} else {
 		var instanceFields = WorkflowManager.getInstanceFields();
 		var field = instanceFields.filterProperty("code", code);
 		if (field.length > 0) {
-			if(InstanceManager.nextStepUsersWillUpdate(field[0], WorkflowManager.getInstanceStep(Session.get("next_step_id")))){
+			if (InstanceManager.nextStepUsersWillUpdate(field[0], WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
 				Session.set("instance_next_user_recalculate", Random.id())
 			}
 		}

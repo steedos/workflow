@@ -332,7 +332,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
 	api.addFiles('server/methods/related_instances.coffee', 'server');
-	api.addFiles('server/methods/edit_flow_positions.coffee','server')
+	api.addFiles('server/methods/edit_flow_positions.coffee', 'server')
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
@@ -361,6 +361,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_submit.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
