@@ -285,10 +285,7 @@ if Meteor.isClient
 				totalHeight = headerHeight + footerHeight
 				height = $("body").innerHeight() - totalHeight - offset
 
-				if Steedos.isMobile()
-					$(".modal-body",$(this)).css({"height": "#{height}px"})
-				else
-					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
+				$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
