@@ -228,16 +228,19 @@ Template.instance_view.events
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
+		error_code = event.target.dataset.error_code
 
-		console.log("error", error)
-
-		console.log("error_type", error_type)
+#		console.log("error", error)
+#
+#		console.log("error_type", error_type)
+#
+#		console.log("error_code", error_code)
 
 		if error && error_type
 
 			console.log(ApproveManager.isReadOnly());
 
-			NextStepUser.handleException({error: error_type, reason: error})
+			NextStepUser.handleException({error: error_type, reason: error, error_code: error_code})
 
 #			event.preventDefault()
 #
@@ -245,4 +248,6 @@ Template.instance_view.events
 
 			return false;
 
+	'change #nextStepUsers': (event, template)->
+		InstanceManager.checkNextStepUser()
 		

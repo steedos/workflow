@@ -132,6 +132,9 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 };
 
 ApproveManager.getNextStepUsers = function(instance, nextStepId) {
+
+	console.log("ApproveManager.getNextStepUsers run...")
+
     ApproveManager.error.nextStepUsers = '';
 	ApproveManager.error.type = '';
 	InstanceManager._setError_next_step_users("")
@@ -217,29 +220,34 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         if (userField) {
                             var userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                             if (userFieldValue) {
+
+                            	console.log("if ....")
+
                                 var data = {
                                     'userField': userField,
                                     'userFieldValue': userFieldValue
                                 };
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
-                            } else {
-                                var fieldValue = instance.values[userField.code];
-                                var user_field_value;
-                                if (fieldValue instanceof Array) {
-                                    user_field_value = _.pluck(fieldValue, "id");
-                                } else if (fieldValue instanceof Object) {
-                                    user_field_value = fieldValue.id;
-                                }
-
-                                if (user_field_value) {
-                                    var data = {
-                                        'userField': userField,
-                                        'userFieldValue': user_field_value
-                                    };
-                                    nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
-                                }
-
                             }
+                            // else {
+								// console.log("else ....")
+                            //     var fieldValue = instance.values[userField.code];
+                            //     var user_field_value;
+                            //     if (fieldValue instanceof Array) {
+                            //         user_field_value = _.pluck(fieldValue, "id");
+                            //     } else if (fieldValue instanceof Object) {
+                            //         user_field_value = fieldValue.id;
+                            //     }
+							//
+                            //     if (user_field_value) {
+                            //         var data = {
+                            //             'userField': userField,
+                            //             'userFieldValue': user_field_value
+                            //         };
+                            //         nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
+                            //     }
+							//
+                            // }
                         }
                         if (!nextStepUsers.length) {
                             //todo 记录记录未找到的原因，用于前台显示
@@ -261,24 +269,28 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                     'orgField': orgField,
                                     'orgFieldValue': orgFieldValue
                                 };
-                                nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
-                            } else {
-                                var fieldValue = instance.values[orgField.code];
-                                var org_field_value;
-                                if (fieldValue instanceof Array) {
-                                    org_field_value = _.pluck(fieldValue, "id");
-                                } else if (fieldValue instanceof Object) {
-                                    org_field_value = fieldValue.id;
-                                }
 
-                                if (org_field_value) {
-                                    var data = {
-                                        'orgField': orgField,
-                                        'orgFieldValue': org_field_value
-                                    };
-                                    nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
-                                }
                             }
+                            // else {
+                            //     var fieldValue = instance.values[orgField.code];
+                            //     if (fieldValue instanceof Array) {
+								// 	orgFieldValue = _.pluck(fieldValue, "id");
+                            //     } else if (fieldValue instanceof Object) {
+								// 	orgFieldValue = fieldValue.id;
+                            //     }
+                            // }
+
+							if (orgFieldValue) {
+								var data = {
+									'orgField': orgField,
+									'orgFieldValue': orgFieldValue
+								};
+								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgField', Session.get('spaceId'), data)
+
+								nextStepUsers = caculateNextstepUsers.nextStepUsers
+
+								ApproveManager.error.code = caculateNextstepUsers.error
+							}
                         }
                         if (!nextStepUsers.length) {
                             if (!orgs.length) {
@@ -298,7 +310,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         if (!nextStepUsers.length) {
                             var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
                             var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, specifyOrgIds);
-                            ApproveManager.error.nextStepUsers = '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('name').toString() + '」部门中没有人员';
+                            ApproveManager.error.nextStepUsers = '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString() + '」部门中没有人员';
                         }
                         break;
                     case 'userFieldRole': //指定人员字段相关审批岗位
@@ -315,25 +327,29 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                     'approverRoleIds': approverRoleIds
 
                                 };
-                                nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
-                            } else {
-                                var fieldValue = instance.values[userField.code];
-                                var user_field_value;
-                                if (fieldValue instanceof Array) {
-                                    user_field_value = _.pluck(fieldValue, "id");
-                                } else if (fieldValue instanceof Object) {
-                                    user_field_value = fieldValue.id;
-                                }
-
-                                if (user_field_value) {
-                                    var data = {
-                                        'userField': userField,
-                                        'userFieldValue': user_field_value,
-                                        'approverRoleIds': approverRoleIds
-                                    };
-                                    nextStepUsers = UUflow_api.caculate_nextstep_users('userFieldRole', Session.get('spaceId'), data);
-                                }
                             }
+                            // else {
+                            //     var fieldValue = instance.values[userField.code];
+                            //     var user_field_value;
+                            //     if (fieldValue instanceof Array) {
+								// 	userFieldValue = _.pluck(fieldValue, "id");
+                            //     } else if (fieldValue instanceof Object) {
+								// 	userFieldValue = fieldValue.id;
+                            //     }
+                            // }
+
+							if (userFieldValue) {
+								var data = {
+									'userField': userField,
+									'userFieldValue': userFieldValue,
+									'approverRoleIds': approverRoleIds
+								};
+								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('userFieldRole', Session.get('spaceId'), data);
+
+								nextStepUsers = caculateNextstepUsers.nextStepUsers
+
+								ApproveManager.error.code = caculateNextstepUsers.error
+							}
                         }
                         if (!nextStepUsers.length) {
 
@@ -359,25 +375,30 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                     'approverRoleIds': approverRoleIds
 
                                 };
-                                nextStepUsers = UUflow_api.caculate_nextstep_users('orgFieldRole', Session.get('spaceId'), data);
-                            } else {
-                                var fieldValue = instance.values[orgField.code];
-                                var org_field_value;
-                                if (fieldValue instanceof Array) {
-                                    org_field_value = _.pluck(fieldValue, "id");
-                                } else if (fieldValue instanceof Object) {
-                                    org_field_value = fieldValue.id;
-                                }
 
-                                if (org_field_value) {
-                                    var data = {
-                                        'orgField': orgField,
-                                        'orgFieldValue': org_field_value,
-                                        'approverRoleIds': approverRoleIds
-                                    };
-                                    nextStepUsers = UUflow_api.caculate_nextstep_users('orgField', Session.get('spaceId'), data);
-                                }
                             }
+                            // else {
+                            //     var fieldValue = instance.values[orgField.code];
+                            //     var org_field_value;
+                            //     if (fieldValue instanceof Array) {
+								// 	orgFieldValue = _.pluck(fieldValue, "id");
+                            //     } else if (fieldValue instanceof Object) {
+								// 	orgFieldValue = fieldValue.id;
+                            //     }
+                            // }
+
+							if (orgFieldValue) {
+								var data = {
+									'orgField': orgField,
+									'orgFieldValue': orgFieldValue,
+									'approverRoleIds': approverRoleIds
+								};
+								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgFieldRole', Session.get('spaceId'), data);
+
+								nextStepUsers = caculateNextstepUsers.nextStepUsers
+
+								ApproveManager.error.code = caculateNextstepUsers.error
+							}
                         }
                         if (nextStepUsers < 1) {
                             if (!orgFieldValue) {
@@ -415,7 +436,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 		ApproveManager.error.type = nextStep.deal_type;
 	}
 
-	InstanceManager.checkNextStepUser();
+	InstanceManager.handleErrorMessage();
 
     return nextStepUsers;
 };

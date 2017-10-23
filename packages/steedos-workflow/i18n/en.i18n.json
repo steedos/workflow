@@ -528,7 +528,9 @@
 	"categories_sort_no": "Sort no",
 	"not_found_user":"Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator."
+		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator.",
+		"field_value_empty": "Please enter the value of the <__field_name__>field",
+		"org_no_members": "<__org_name__> has no members"
 	},
 	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
 
@@ -599,6 +601,7 @@
 	"flow_positions_update_failed": "Be failed to update",
 	"flow_positions_delete_suceess": "Delete successfully",
 	"instance_role_set_is_complete": "Role set up?",
+	"instance_set_is_complete": "set up?",
 
 	"flow_roles_help": "Help"
 }

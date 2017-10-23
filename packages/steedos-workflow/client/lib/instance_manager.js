@@ -284,6 +284,11 @@ InstanceManager.getApplicantUserId = function() {
 }
 
 function showMessage(parent_group, message) {
+
+	if(parent_group.hasClass("has-error")){
+		return;
+	}
+
 	parent_group.addClass("has-error");
 	$(".help-block", parent_group).html(message);
 	if (message && message.length > 0) {
@@ -297,6 +302,7 @@ function showMessageInblock(parent_group, message) {
 }
 
 function removeMessage(parent_group) {
+	toastr.remove()
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
 }
@@ -335,12 +341,35 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-InstanceManager._setError_next_step_users = function(error, error_type) {
+InstanceManager._setError_next_step_users = function(error, error_type, error_cdoe) {
 	var next_user = $("input[name='nextStepUsers']");
 
 	if (next_user.length > 0) {
 		next_user[0].dataset["error"] = error;
 		next_user[0].dataset["error_type"] = error_type;
+		next_user[0].dataset["error_code"] = error_cdoe;
+	}
+}
+
+//下一步处理人校验
+InstanceManager.handleErrorMessage = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	InstanceManager._setError_next_step_users("","","")
+
+	if (ApproveManager.error.nextStepUsers != '') {
+		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		nextStepUsers_parent_group.addClass("has-error");
+
+		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type, ApproveManager.error.code)
+
+		ApproveManager.error.nextStepUsers = '';
+		return;
 	}
 }
 
@@ -353,17 +382,17 @@ InstanceManager.checkNextStepUser = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	InstanceManager._setError_next_step_users("")
+	// InstanceManager._setError_next_step_users("")
 
-	if (ApproveManager.error.nextStepUsers != '') {
-		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
-		nextStepUsers_parent_group.addClass("has-error");
-
-		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
-
-		ApproveManager.error.nextStepUsers = '';
-		return;
-	}
+	// if (ApproveManager.error.nextStepUsers != '') {
+	// 	// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+	// 	nextStepUsers_parent_group.addClass("has-error");
+	//
+	// 	InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
+	//
+	// 	ApproveManager.error.nextStepUsers = '';
+	// 	return;
+	// }
 	var value = ApproveManager.getNextStepUsersSelectValue();
 	var nextStepId = ApproveManager.getNextStepsSelectValue();
 	var nextStep = WorkflowManager.getInstanceStep(nextStepId);

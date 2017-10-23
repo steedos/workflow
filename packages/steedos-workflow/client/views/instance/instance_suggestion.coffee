@@ -143,6 +143,8 @@ Template.instance_suggestion.helpers
 				next_user[0].dataset.values = selectedUser.getProperty("id").toString()
 				data.value = next_user[0].value
 				data.dataset['values'] = selectedUser.getProperty("id").toString()
+
+			InstanceManager.checkNextStepUser()
 		else
 			if !Session.get("next_step_users_showOrg")
 				data.dataset['userOptions'] = users.getProperty("id")
