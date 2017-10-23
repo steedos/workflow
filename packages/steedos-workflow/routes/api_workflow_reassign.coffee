@@ -5,7 +5,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-			instance_id = instance_from_client['id']
+			instance_id = instance_from_client['_id']
 			instance = uuflowManager.getInstance(instance_id)
 			space_id = instance.space
 			# 验证instance为审核中状态
@@ -13,7 +13,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			# 验证当前执行转签核的trace未结束
 			last_trace_from_client = _.last(instance_from_client["traces"])
 			last_trace = _.find(instance.traces, (t)->
-				return t._id is last_trace_from_client["id"]
+				return t._id is last_trace_from_client["_id"]
 			)
 			if last_trace.is_finished is true
 				return

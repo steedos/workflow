@@ -8,7 +8,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 		_.each hashData['Approvals'], (approve_from_client) ->
 			instance_id = approve_from_client["instance"]
 			trace_id = approve_from_client["trace"]
-			approve_id = approve_from_client["id"]
+			approve_id = approve_from_client["_id"]
 			values = approve_from_client["values"]
 			if not values then values = new Object
 			next_steps = approve_from_client["next_steps"]

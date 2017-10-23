@@ -60,7 +60,7 @@ UUflow_api.delete_draft = function(instanceId) {
 	var url = Steedos.absoluteUrl() + "api/workflow/remove?" + $.param(uobj);
 	var data = {
 		"Instances": [{
-			"id": instanceId
+			"_id": instanceId
 		}]
 	};
 	data = JSON.stringify(data);

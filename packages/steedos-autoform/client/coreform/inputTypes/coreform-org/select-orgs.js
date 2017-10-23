@@ -88,6 +88,8 @@ Template.afSelectOrg.events({
 			}
 		}
 
+		options.title = this.atts.title?  this.atts.title: t('coreform_select_org_title'); //t('coreform_select') +
+
 		Modal.allowMultiple = true;
 		Modal.show("cf_organization_modal", options);
 		
