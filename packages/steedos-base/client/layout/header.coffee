@@ -4,8 +4,12 @@ Template.steedosHeader.helpers
 			return Steedos.getBadge("workflow")
 		else if appId == "cms"
 			return Steedos.getBadge("cms")
-		else
-			return ""
+		
+		appUrl = db.apps.findOne(appId).url
+		if appUrl == "/calendar"
+			return Steedos.getBadge(appId)
+
+		return ""
 
 	subsReady: ->
 		return Steedos.subsBootstrap.ready("steedos_keyvalues") && Steedos.subsSpaceBase.ready("apps")
