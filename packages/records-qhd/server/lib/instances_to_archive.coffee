@@ -217,7 +217,10 @@ _minxiInstanceData = (formData, instance) ->
 		mainFile = cfs.instances.find({
 			'metadata.instance': instance.distribute_from_instance,
 			'metadata.current': true,
-			"metadata.main": true
+			"metadata.main": true,
+			"metadata.is_private": {
+				$ne: true
+			}
 		}).fetch()
 
 		mainFile.forEach mainFilesHandle
@@ -226,7 +229,10 @@ _minxiInstanceData = (formData, instance) ->
 		nonMainFile = cfs.instances.find({
 			'metadata.instance': instance.distribute_from_instance,
 			'metadata.current': true,
-			"metadata.main": {$ne: true}
+			"metadata.main": {$ne: true},
+			"metadata.is_private": {
+				$ne: true
+			}
 		})
 
 		nonMainFile.forEach nonMainFileHandle
