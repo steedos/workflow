@@ -123,7 +123,7 @@ Template.instance_view.onRendered ->
 	$(".workflow-main").addClass("instance-show")
 
 	# isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
-	isNeedActiveSuggestion = InstanceManager.isInbox()
+	isNeedActiveSuggestion = true
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
 		$('.instance').perfectScrollbar().css("right","-1px")
