@@ -11,7 +11,7 @@
   "configure": "Configure",
   "createAccount": "Create an Account",
   "currentPassword": "Current Password",
-  "dontHaveAnAccount": "Not a customer?",
+  "dontHaveAnAccount": "No account?",
   "email": "Email",
   "emailAddress": "Email Address",
   "emailResetLink": "Reset Password",
