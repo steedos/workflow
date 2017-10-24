@@ -115,7 +115,6 @@ momentjs:moment@2.14.1
 mongo@1.1.12
 mongo-id@1.0.5
 mongo-livedata@1.0.12
-mpowaga:autoform-summernote@0.4.3
 mpowaga:jquery-fileupload@9.11.2
 mpowaga:jquery-ui-widget@1.11.4
 mpowaga:string-template@0.1.0
@@ -212,7 +211,6 @@ steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
 steedos:workflow-chart@0.0.1
-summernote:summernote@0.8.2
 tap:i18n@1.8.2
 templating@1.2.15
 templating-compiler@1.2.15
