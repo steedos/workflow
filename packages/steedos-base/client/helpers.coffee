@@ -386,15 +386,7 @@ TemplateHelpers =
 			else
 				if db.cms_unreads
 					badge = db.cms_unreads.find({user: Meteor.userId()}).count()
-		else
-			# spaceId为空时统计所有space计数值
-			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
-			b = db.steedos_keyvalues.findOne(spaceSelector)
-			if b
-				badge = b.value?[appId]
-
-		appUrl = db.apps.findOne(appId).url
-		if appUrl == "/calendar"
+		else if appId == "calendar"
 			calendarid = Session.get("defaultcalendarid")
 			userId = Meteor.userId()
 			today = moment(moment().format("YYYY-MM-DD 00:00")).toDate()
@@ -410,6 +402,12 @@ TemplateHelpers =
 					}
 				}
 			badge = Events.find(selector).count()
+		else
+			# spaceId为空时统计所有space计数值
+			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
+			b = db.steedos_keyvalues.findOne(spaceSelector)
+			if b
+				badge = b.value?[appId]
 
 		if badge
 			return badge

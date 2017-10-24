@@ -23,7 +23,6 @@ contactsRoutes.route '/orgs',
 			BlazeLayout.render 'contactsLayout',
 				main: "admin_org_main"
 
-
 contactsRoutes.route '/banch',
 	action: (params, queryParams)->
 		Session.set('contact_showBooks', false)
