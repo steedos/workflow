@@ -156,6 +156,10 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	if Session.get("box") == "inbox" || Session.get("box") == "draft"
+		console.log("onRendered 160...")
+		Session.set("instance_next_user_recalculate", Random.id())
+
 	$("body").removeClass("loading")
 
 Template.instance_view.events

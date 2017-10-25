@@ -137,6 +137,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 
     ApproveManager.error.nextStepUsers = '';
 	ApproveManager.error.type = '';
+	ApproveManager.error.code = '';
 	InstanceManager._setError_next_step_users("")
     var nextStepUsers = new Array();
 
