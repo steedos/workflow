@@ -528,9 +528,10 @@
 	"categories_sort_no": "Sort no",
 	"not_found_user":"Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator.",
+		"aplicant_superior":"The applicant's superior is not configured, please contact the Administrator.",
+		"applicant_role": "The <__role_name__> you are looking for have not configured,Please contact the administrator.",
 		"field_value_empty": "Please enter the value of the <__field_name__>field",
-		"org_no_members": "<__org_name__> has no members"
+		"org_no_members": "The next step need <__org_name__> processing,Please contact the administrator."
 	},
 	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
 
