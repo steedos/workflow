@@ -401,7 +401,7 @@ TemplateHelpers =
 			if b
 				badge = b.value?[appId]
 
-		appUrl = db.apps.findOne(appId).url
+		appUrl = db.apps.findOne(appId)?.url
 		if appUrl == "/calendar"
 			calendarid = Session.get("defaultcalendarid")
 			userId = Meteor.userId()
