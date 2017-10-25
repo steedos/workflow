@@ -21,7 +21,7 @@ Template.history_sign_approve.events
 		template.data.parent.history_approve.set(this)
 		Modal.hide(template)
 
-	'click .select-suggestion input': (event, template) ->
+	'change .select-suggestion input': (event, template) ->
 		targetObj = {}
 
 		sign_show = $(event.target).is(":checked")
