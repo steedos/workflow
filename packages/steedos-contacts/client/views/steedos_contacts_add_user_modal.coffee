@@ -91,7 +91,7 @@ Template.steedos_contacts_add_user_modal.events
 	"click .contacts-add-user-save": (event,template)->
 		unless AutoForm.validateForm("addContactsUser")
 			return
-		unless AutoForm.getFieldValue("mobile","addContactsUser") and AutoForm.getFieldValue("email","addContactsUser")
+		unless AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
 			$('input[data-schema-key="mobile"]').after('<span class="help-block">手机和邮箱不能同时为空</span>')
 			$('input[data-schema-key="mobile"]').closest(".form-group").addClass("has-error")
 			return

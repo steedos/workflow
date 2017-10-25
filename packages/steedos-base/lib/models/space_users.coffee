@@ -175,7 +175,7 @@ if (Meteor.isServer)
 			if doc.email && doc.mobile
 				phoneNumber = "+86" + doc.mobile
 				userObj = db.users.findOne({
-					$or:[{"emails.address": email}, {"phone.number": phoneNumber}]
+					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 				})
 			else if doc.email
 				userObj = db.users.findOne({"emails.address": doc.email})
@@ -221,14 +221,14 @@ if (Meteor.isServer)
 		if doc.email && doc.mobile
 			phoneNumber = "+86" + doc.mobile
 			oldUser = db.users.findOne({
-				$or:[{"emails.address": email}, {"phone.number": phoneNumber}]
+				$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 			})
 		else if doc.email
 			oldUser = db.users.findOne({"emails.address": doc.email})
 		else if doc.mobile
 			phoneNumber = "+86" + doc.mobile
 			oldUser = db.users.findOne({"phone.number": phoneNumber})
-				
+
 		existed=db.space_users.find
 			"user":oldUser?._id,"space":doc.space
 		if existed.count()>0
