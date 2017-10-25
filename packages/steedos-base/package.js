@@ -116,6 +116,7 @@ Package.onUse(function (api) {
 		'client/views/space_switcher.less',
 		'client/subscribe.coffee',
 		'client/views/loading.html',
+		'client/views/loading.coffee',
 		'client/views/loading.less',
 		'client/views/space_switcher_modal.html',
 		'client/views/space_switcher_modal.coffee',

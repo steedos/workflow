@@ -263,6 +263,9 @@
 	<script type="text/javascript">
 		$(function(){
 			$("body").addClass("loading");
+			$(".loading-text .btn-reload").on("click",function(){
+				window.location.reload()
+			});
 		});
 	</script>
 
@@ -276,7 +279,7 @@
 				<div class="rect5"></div>
 			</div>
 			<div class="loading-text">
-				<a href = "javascript:window.location.reload()" class = "btn btn-warning hide">{{_ "loading_reload_button_title"}}</a>
+				<a class = "btn btn-warning btn-reload hide">{{_ "loading_reload_button_title"}}</a>
 			</div>
 		</div>
 	</section>
