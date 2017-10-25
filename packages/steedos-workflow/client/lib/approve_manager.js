@@ -206,7 +206,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         };
                         nextStepUsers = UUflow_api.caculate_nextstep_users('applicantSuperior', Session.get('spaceId'), data);
                         if (!nextStepUsers || nextStepUsers.length == 0) {
-                            ApproveManager.error.nextStepUsers = '申请人上级未指定';
+                            ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.aplicant_superior');
                         }
                         break;
                     case 'applicant': //申请人
@@ -295,9 +295,9 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         }
                         if (!nextStepUsers.length) {
                             if (!orgs.length) {
-                                ApproveManager.error.nextStepUsers = '"' + orgField.code + '"字段没有值';
+                                ApproveManager.error.nextStepUsers = t('next_step_users_not_found.field_value_empty');
                             } else {
-                                ApproveManager.error.nextStepUsers = '"' + orgs.concat(orgChildrens).getProperty('name').toString() + '"部门中没有人员';
+                                ApproveManager.error.nextStepUsers = t('next_step_users_not_found.org_no_members',orgField.code);
                             }
                         }
                         break;
@@ -311,7 +311,8 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         if (!nextStepUsers.length) {
                             var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
                             var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, specifyOrgIds);
-                            ApproveManager.error.nextStepUsers = '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString() + '」部门中没有人员';
+                            ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.org_no_members', {step_name: nextStep.name, org_name: specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString()});
+                            //ApproveManager.error.nextStepUsers =  '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString() + '」部门中没有人员';
                         }
                         break;
                     case 'userFieldRole': //指定人员字段相关审批岗位

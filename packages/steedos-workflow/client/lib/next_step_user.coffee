@@ -66,7 +66,7 @@ NextStepUser.handleException = (e)->
 		when 'applicantRole'
 			_swal_guide(e.reason, t('instanc_set_applicant_role_text'), 'admin/workflow/flow_roles', t('instance_role_set_is_complete'))
 		when 'applicantSuperior'
-			_swal_guide(e.reason, t('set_applicant_manager'), 'admin/organizations', t('instance_set_is_complete'))
+			_swal_guide(e.reason, t('instanc_set_applicant_role_text'), 'admin/organizations', t('instance_set_is_complete'))
 		when 'userField'
 			_fieldEmpty('approver_user_field')
 		when 'orgField'
@@ -76,12 +76,12 @@ NextStepUser.handleException = (e)->
 
 				orgFieldValue = InstanceManager.getFormFieldValue(orgField.code);
 
-				_swal_guide( t('next_step_users_not_found.org_no_members', {org_name: WorkflowManager.getOrganization(orgFieldValue)?.fullname}), t('set_org_members'), 'admin/organizations', t('instance_set_is_complete'))
+				_swal_guide( t('next_step_users_not_found.org_no_members', {org_name: WorkflowManager.getOrganization(orgFieldValue)?.fullname}), t('instanc_set_applicant_role_text'), 'admin/organizations', t('instance_set_is_complete'))
 			else
 				_fieldEmpty('approver_org_field')
 		when 'specifyOrg'
 
-			_swal_guide(e.reason, t('set_org_members'), 'admin/organizations', t('instance_set_is_complete'))
+			_swal_guide(e.reason, t('instanc_set_applicant_role_text'), 'admin/organizations', t('instance_set_is_complete'))
 
 		when 'userFieldRole'
 			if e.error_code == 'ROLE_NO_MEMBERS'
