@@ -143,6 +143,9 @@ Template.org_main_mobile.helpers
 
 		return new SimpleSchema(fields)
 
+	showAddContactUserBtn: ()->
+		return Steedos.isSpaceAdmin()
+
 
 Template.org_main_mobile.onCreated ->
 	Session.set 'contacts_is_org_admin', false
