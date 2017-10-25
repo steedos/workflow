@@ -18,16 +18,16 @@ Template.steedos_contacts_add_user_modal.helpers
 				autoform:
 					type: ->
 						return "text"
+			email:
+				type: String,
+				label: t("space_users_email")
+				optional: true
+				autoform:
+					type: "text"
 			work_phone:
 				type: String,
 				label: t("space_users_work_phone")
 				optional: true
-			email:
-				type: String,
-				label: t("space_users_email")
-				optional: false
-				autoform:
-					type: "text"
 			organizations:
 				type: [String],
 				label: t("space_users_organizations")
@@ -89,6 +89,12 @@ Template.steedos_contacts_add_user_modal.helpers
 
 Template.steedos_contacts_add_user_modal.events
 	"click .contacts-add-user-save": (event,template)->
+		unless AutoForm.validateForm("addContactsUser")
+			return
+		unless AutoForm.getFieldValue("mobile","addContactsUser") and AutoForm.getFieldValue("email","addContactsUser")
+			$('input[data-schema-key="mobile"]').after('<span class="help-block">手机和邮箱不能同时为空</span>')
+			$('input[data-schema-key="mobile"]').closest(".form-group").addClass("has-error")
+			return
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
 		
 		# console.log doc

@@ -147,16 +147,15 @@ if (Meteor.isServer)
 		doc.modified_by = userId;
 		doc.modified = new Date();
 
-		console.log JSON.stringify(doc)
-
 		if !doc.space
 			throw new Meteor.Error(400, "space_users_error_space_required");
 
-		if !doc.email
+		if !doc.email and !doc.mobile
 			throw new Meteor.Error(400, "email_required");
 
-		if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
-			throw new Meteor.Error(400, "email_format_error");
+		if doc.email
+			if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
+				throw new Meteor.Error(400, "email_format_error");
 
 		# check space exists
 		space = db.spaces.findOne(doc.space)
@@ -172,8 +171,18 @@ if (Meteor.isServer)
 
 		creator = db.users.findOne(userId)
 
-		if (!doc.user) && (doc.email)
-			userObj = db.users.findOne({"emails.address": doc.email});
+		if (!doc.user) && (doc.email || doc.mobile)
+			if doc.email && doc.mobile
+				phoneNumber = "+86" + doc.mobile
+				userObj = db.users.findOne({
+					$or:[{"emails.address": email}, {"phone.number": phoneNumber}]
+				})
+			else if doc.email
+				userObj = db.users.findOne({"emails.address": doc.email})
+			else if doc.mobile
+				phoneNumber = "+86" + doc.mobile
+				userObj = db.users.findOne({"phone.number": phoneNumber})
+
 			if (userObj)
 				doc.user = userObj._id
 				doc.name = userObj.name
@@ -181,11 +190,27 @@ if (Meteor.isServer)
 				user = {}
 				if !doc.name
 					doc.name = doc.email.split('@')[0]
-				doc.user = db.users.insert
-					emails: [{address: doc.email, verified: false}]
+
+				options = 
 					name: doc.name
 					locale: creator.locale
 					spaces_invited: [space._id]
+
+				if doc.mobile
+					phoneNumber = "+86" + doc.mobile
+					phone = 
+						number: phoneNumber
+						verified: false
+						modified: new Date()
+					options.phone = phone
+
+				if doc.email
+					email = [{address: doc.email, verified: false}]
+					options.email = email
+
+				console.log options
+
+				doc.user = db.users.insert options
 
 		if !doc.user
 			throw new Meteor.Error(400, "space_users_error_user_required");
@@ -193,11 +218,19 @@ if (Meteor.isServer)
 		if !doc.name
 			throw new Meteor.Error(400, "space_users_error_name_required");
 
-		# check space_users exists
-		oldUser=db.users.findOne
-			"emails.address":doc.email
+		if doc.email && doc.mobile
+			phoneNumber = "+86" + doc.mobile
+			oldUser = db.users.findOne({
+				$or:[{"emails.address": email}, {"phone.number": phoneNumber}]
+			})
+		else if doc.email
+			oldUser = db.users.findOne({"emails.address": doc.email})
+		else if doc.mobile
+			phoneNumber = "+86" + doc.mobile
+			oldUser = db.users.findOne({"phone.number": phoneNumber})
+				
 		existed=db.space_users.find
-			"user":oldUser._id,"space":doc.space
+			"user":oldUser?._id,"space":doc.space
 		if existed.count()>0
 			throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
