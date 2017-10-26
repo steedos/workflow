@@ -53,6 +53,133 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 	</div>
 """
 
+InstanceReadOnlyTemplate.afFormGroup = """
+
+	{{#with getField this.name}}
+			{{#if equals type 'section'}}
+					<div class='section callout callout-default'>
+						<label class="control-label">{{f_label this}}</label>
+						<p>{{{description}}}</p>
+					</div>
+			{{else}}
+				{{#if equals type 'table'}}
+					<div class="panel panel-default steedos-table">
+						<div class="panel-body" style="padding:0px;">
+							<div class="panel-heading" >
+								<label class='control-label'>{{getLabel code}}</label>
+								<span class="description">{{{description}}}</span>
+							</div>
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
+										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
+											{{{getTableThead this}}}
+										</thead>
+										<tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
+											{{{getTableBody this}}}
+										</tbody>
+									</table>
+							</div>
+						</div>
+					</div>
+				{{else}}
+					{{#if equals type 'input'}}
+						<div class="form-group">
+							<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+							<input type="text" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+						</div>
+					{{else}}
+						{{#if equals type 'number'}}
+							<div class="form-group">
+								<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+								<input type="number" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+							</div>
+						{{else}}
+							{{#if equals type 'date'}}
+								<div class="form-group">
+									<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+									<input type="date" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+								</div>
+							{{else}}
+								{{#if equals type 'dateTime'}}
+									<div class="form-group">
+										<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+										<input type="datetime-local" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+									</div>
+								{{else}}
+									{{#if equals type 'password'}}
+										<div class="form-group">
+											<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+											<input type="password" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+										</div>
+									{{else}}
+										{{#if equals type 'select'}}
+											<div class="form-group">
+												<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+												<select name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+													{{#each options this}}
+														<option value="{{value}}">{{label}}</option>
+													{{/each}}
+												</select>
+											</div>
+										{{else}}
+											{{#if equals type 'radio'}}
+												<div class="form-group">
+													<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+													<div class="af-radio-group" data-schema-key="{{getLabel code}}">
+														{{#each options this}}
+        												<label class="radio-inline fix-indent"><input type="radio" value="{{value}}" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="radio-inline fix-indent"> {{label}}</label>
+    													{{/each}}
+    												</div>
+												</div>
+											{{else}}
+												{{#if equals type 'multiSelect'}}
+													<div class="form-group">
+														<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+														<div class="af-checkbox-group" data-schema-key="{{getLabel code}}">
+															{{#each options this}}
+															<label class="checkbox-inline fix-indent"><input type="checkbox" value="{{value}}" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="checkbox-inline fix-indent"> {{label}}</label>
+															{{/each}}
+														</div>
+													</div>
+												{{else}}
+													{{#if equals type 'url'}}
+														<div class="form-group">
+															<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+															<input type="url" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+														</div>
+													{{else}}
+														{{#if equals type 'email'}}
+															<div class="form-group">
+																<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																<input type="email" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+															</div>
+														{{else}}
+															{{#if equals type 'checkbox'}}
+																<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																<div class="checkbox" data-schema-key="{{getLabel code}}">
+																	<label style="width: 100%;"><input type="checkbox" value="true" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="checkbox-inline fix-indent"></label>
+																</div>
+															{{else}}
+																<div class="form-group">
+																	{{type}}<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																	<div class='{{getCfClass this}} form-control' readonly disabled>{{{getValue code}}}</div>
+																</div>
+															{{/if}}
+														{{/if}}
+													{{/if}}
+												{{/if}}
+											{{/if}}
+										{{/if}}
+									{{/if}}
+								{{/if}}
+							{{/if}}
+						{{/if}}
+					{{/if}}
+				{{/if}}
+			{{/if}}
+		{{/with}}
+"""
+
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 	template = InstanceReadOnlyTemplate[tempalteName]
 
@@ -86,6 +213,7 @@ InstanceReadOnlyTemplate.createImageSign = (steedosData) ->
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
+	InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("instance_attachment", {absolute: steedosData.absolute});
@@ -278,8 +406,10 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 	instanceTemplate = TemplateManager.getTemplate(instance, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
-
-	instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
+	console.log("111111111111111111111111111111111")
+	if !options?.editable
+		console.log("2222222222222222222222222222")
+		instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
 

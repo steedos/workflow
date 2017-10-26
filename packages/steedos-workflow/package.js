@@ -337,6 +337,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
 
+	api.addFiles('server/routes/instance_draft_view.coffee', 'server');
+
 	// routes
 	api.addFiles('routes/nextStepUsers.js', 'server');
 	api.addFiles('routes/getSpaceUsers.js', 'server');

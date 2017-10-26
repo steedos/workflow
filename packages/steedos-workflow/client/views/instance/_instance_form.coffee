@@ -521,6 +521,14 @@ if Meteor.isServer
 		else
 			return "/api/files/instances/#{_id}?download=true";
 
+	InstanceformTemplate.helpers.options = (field)->
+		options = field?.options?.split("\n")
+		rev = []
+		options?.forEach (item)->
+			rev.push({label: item, value: item})
+
+		return rev
+
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->
 		InstanceManager.instanceformChangeEvent(event)
