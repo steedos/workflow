@@ -215,7 +215,7 @@ if (Meteor.isServer)
 
 				if doc.email
 					email = [{address: doc.email, verified: false}]
-					options.email = email
+					options.emails = email
 
 				console.log options
 
