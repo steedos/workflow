@@ -104,6 +104,8 @@
 	"steedos_contacts_settings_hidden_users_edit": "编辑要隐藏的用户",
 	"steedos_contacts_mobile_edit_power": "需由用户自行修改手机号",
 
-	"users_organizations": "部门"
+	"users_organizations": "部门",
+
+	"contact_space_user_needed": "工作区管理员才能修改用户名"
 
 }
