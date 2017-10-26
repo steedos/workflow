@@ -174,9 +174,14 @@ if (Meteor.isServer)
 		if (!doc.user) && (doc.email || doc.mobile)
 			if doc.email && doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				userObj = db.users.findOne({
+				userObjs = db.users.find({
 					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
-				})
+				}).fetch()
+				if userObjs.length > 1
+					throw new Meteor.Error(400,"邮件和手机号不匹配")
+				else
+					userObj = userObjs[0]
+
 			else if doc.email
 				userObj = db.users.findOne({"emails.address": doc.email})
 			else if doc.mobile
