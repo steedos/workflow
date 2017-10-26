@@ -16,9 +16,7 @@ spaceUsersSelector = ->
 
 	is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
-
-	query = {space: spaceId, user: {$nin: hidden_users}}
+	query = {space: spaceId}
 
 	isSearching = Template.instance().isSearching?.get()
 
@@ -39,8 +37,13 @@ spaceUsersSelector = ->
 
 			query.organizations = {$in: orgs}
 	else
-		orgId = Session.get("contacts_org_mobile");
-		query.organizations = {$in: [orgId]};
+		orgId = Session.get("contacts_org_mobile")
+		rootOrg = Session.get("contacts_org_mobile_root")
+		if is_within_user_organizations and rootOrg and rootOrg == orgId
+			# 当在根组织时，不显示人员
+			query._id = -1
+		else
+			query.organizations = {$in: [orgId]};
 
 	query.user_accepted = true
 	return query;

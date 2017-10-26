@@ -7,16 +7,15 @@ Template.steedos_contacts_org_user_list.helpers
 
 		is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-		if Meteor.settings.public?.contacts?.hidden_users
-			if Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId())
-				query = {space: Session.get("spaceId")}
-			else
-				query = {space: Session.get("spaceId"), user: {$nin: Meteor.settings.public?.contacts?.hidden_users}}
-		else
-			query = {space: Session.get("spaceId")}
+		query = {space: Session.get("spaceId")}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
-			query.organizations = {$in: [orgId]};
+			isAdminOrgRoute = /\/admin\/organizations/.test(FlowRouter.current().path)
+			if is_within_user_organizations and !isAdminOrgRoute and db.organizations.findOne({ _id: orgId })?.is_company
+				# 当不在系统设置的组织架构路由中且在根组织时，不显示人员
+				query._id = -1
+			else
+				query.organizations = {$in: [orgId]};
 		else
 			if is_within_user_organizations
 				orgs = db.organizations.find().fetch().getProperty("_id")

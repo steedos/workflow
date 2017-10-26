@@ -331,10 +331,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if InstanceManager.isInbox()
-			return true
-
-		return false
+		return true
 
 	isMobile: ()->
 		return Steedos.isMobile()
