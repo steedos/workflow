@@ -97,8 +97,6 @@ Package.onUse(function(api) {
 	// api.addFiles('client/steedos/views/admin/admin_dashboard.html', 'client');
 	// api.addFiles('client/steedos/views/admin/admin_dashboard.coffee', 'client');
 
-	api.addFiles('client/steedos/views/layouts/main.html', 'client');
-
 	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
 

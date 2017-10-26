@@ -87,6 +87,9 @@ _minxiAttachmentInfo = (formData, instance, attach) ->
 	formData.attachInfo.push {instance: instance._id, attach_name: encodeURI(attach.name()), owner: attach.metadata.owner, owner_username: encodeURI(user.username || user.steedos_id), is_private: attach.metadata.is_private || false}
 
 _minxiInstanceData = (formData, instance) ->
+
+	fs = Npm.require('fs');
+
 	if !formData || !instance
 		return
 

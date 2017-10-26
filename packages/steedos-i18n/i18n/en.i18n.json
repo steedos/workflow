@@ -455,9 +455,8 @@
 	"btn_back_title": "Back",
 	"space_users_remove_mail_subject": "Your account has been deleted from the workspace by the administrator",
 	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"__steedos_id__\" has been removed from the workspace \"__space_name__\" by the administrator. <br/><br/>Thank you!",
-
 	"steedos_i18n_404_not_found": "The page you requested could not be found.",
 	"Steedos Records": "Full Text Search",
-
-	"Client download": "Download client"
+	"Client download": "Download client",
+	"loading_reload_button_title": "Reload"
 }

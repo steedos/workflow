@@ -46,6 +46,9 @@ Template.adminSidebar.events
 
 	'click .header-app': (event) ->
 		FlowRouter.go "/admin/home/"
+		if Steedos.isMobile()
+			# 手机上可能菜单展开了，需要额外收起来
+			$("body").removeClass("sidebar-open")
 
 Admin.menuTemplate = 
 

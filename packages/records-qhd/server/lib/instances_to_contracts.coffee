@@ -64,6 +64,9 @@ InstancesToContracts::getContractInstances = ()->
 
 
 _minxiInstanceData = (formData, instance) ->
+
+	fs = Npm.require('fs');
+
 	if !formData || !instance
 		return
 
