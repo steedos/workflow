@@ -178,7 +178,7 @@ if (Meteor.isServer)
 					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 				}).fetch()
 				if userObjs.length > 1
-					throw new Meteor.Error(400,"邮件和手机号不匹配")
+					throw new Meteor.Error(400,"contact_mail_not_match_phine")
 				else
 					userObj = userObjs[0]
 

@@ -22,7 +22,7 @@ Meteor.methods
 		else if userObj.length < 1
 			userObj = null
 		else if userObj.length > 1
-			throw new Meteor.Error(400,"邮件和手机号不匹配")
+			throw new Meteor.Error(400,"contact_mail_not_match_phine")
 
 		console.log userObj
 		console.log "=========================="
@@ -46,7 +46,7 @@ Meteor.methods
 						db.space_users.direct.update({_id: spaceUser._id}, {$set: {invite_state: "pending", user_accepted: false}})
 					else
 						throw new Meteor.Error(400, "contact_space_user_exist")
-				return "已再次邀请该用户"
+				return "contact_reinvite_user"
 			else
 				doc.invite_state = "pending"
 				doc.user_accepted = false

@@ -121,5 +121,8 @@
 	"cantact_add_space_user": "Add members",
 	"contact_save_user": "Save",
 
-	"contact_invite_info": "__inviter__invite you to join__space__"
+	"contact_invite_info": "__inviter__invite you to join__space__",
+
+	"contact_mail_not_match_phine": "Mail and phone number doesn't match",
+	"contact_reinvite_user": "This user has been invited again"
 }
