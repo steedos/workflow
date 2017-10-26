@@ -19,6 +19,10 @@ Steedos =
 				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		else
 			return ""
+	valiJquerySymbols: (str)->
+		# reg = /^[^!"#$%&'()*+,./:;<=>?@[\]^`{|}~]+$/g
+		reg = new RegExp("^[^!\"#$%&'()*\+,\.\/:;<=>?@[\\]^`{|}~]+$")
+		return reg.test(str)
 
 ###
 # Kick off the global namespace for Steedos.
