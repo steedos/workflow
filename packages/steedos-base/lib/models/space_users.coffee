@@ -191,10 +191,14 @@ if (Meteor.isServer)
 				if !doc.name
 					doc.name = doc.email.split('@')[0]
 
+				id = db.users._makeNewID()
+
 				options = 
 					name: doc.name
 					locale: creator.locale
 					spaces_invited: [space._id]
+					_id: id
+					steedos_id: doc.email || id
 
 				if doc.mobile
 					phoneNumber = "+86" + doc.mobile
