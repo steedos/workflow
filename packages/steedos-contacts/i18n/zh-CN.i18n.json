@@ -80,6 +80,7 @@
 	"steedos_contacts_import_users_download_simple_data_file": "下载导入模板",
 	"steedos_contacts_import_users_match_user_base_username": "根据用户名匹配用户",
 	"steedos_contacts_import_users_match_user_base_email": "根据邮箱匹配用户",
+	"steedos_contacts_import_users_match_user_base_mobile": "根据手机号匹配用户",
 	"steedos_contacts_import_users_preview": "数据预览",
 	"steedos_contacts_import_users_title": "导入",
 	"steedos_contacts_import_users_check": "数据校验",

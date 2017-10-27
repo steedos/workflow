@@ -327,10 +327,13 @@ Meteor.methods
 					su_doc.user = user_id
 					su_doc.space = space_id
 
-					su_doc.user_accepted = true
+					su_doc.user_accepted = false
+					su_doc.invite_state = "pending"
 
-					if item.user_accepted == 0
-						su_doc.user_accepted = false
+					# su_doc.user_accepted = true
+
+					# if item.user_accepted == 0
+					# 	su_doc.user_accepted = false
 
 					su_doc.name = item.name
 					if item.email

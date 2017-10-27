@@ -82,6 +82,7 @@
 	"steedos_contacts_import_users_download_simple_data_file": "Download the import template",
 	"steedos_contacts_import_users_match_user_base_username": "Match users based on username",
 	"steedos_contacts_import_users_match_user_base_email": "Match users based on email",
+	"steedos_contacts_import_users_match_user_base_mobile": "Match users based on mobile",
 	"steedos_contacts_import_users_preview": "Preview",
 	"steedos_contacts_import_users_title": "Import",
 	"steedos_contacts_import_users_check": "Check",
