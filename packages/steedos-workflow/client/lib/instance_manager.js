@@ -285,7 +285,7 @@ InstanceManager.getApplicantUserId = function() {
 
 function showMessage(parent_group, message) {
 
-	if(parent_group.hasClass("has-error")){
+	if (parent_group.hasClass("has-error")) {
 		return;
 	}
 
@@ -360,7 +360,7 @@ InstanceManager.handleErrorMessage = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	InstanceManager._setError_next_step_users("","","")
+	InstanceManager._setError_next_step_users("", "", "")
 
 	if (ApproveManager.error.nextStepUsers != '') {
 		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);

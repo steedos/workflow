@@ -11,7 +11,8 @@ Npm.depends({
 	"ejs-lint": "0.2.0",
 	"eval": "0.1.2",
 	mkdirp: "0.3.5",
-	mime: "2.0.2"
+	mime: "2.0.2",
+	busboy: "0.2.13"
 });
 
 Package.onUse(function(api) {
@@ -366,6 +367,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_submit.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_save.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
