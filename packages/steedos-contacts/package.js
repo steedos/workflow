@@ -68,6 +68,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/contact_cards.coffee', 'server');
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
+	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
@@ -76,6 +77,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/import_users.coffee', 'server');
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
 	api.addFiles('server/methods/set_primary_org.coffee', 'server');
+	api.addFiles('server/methods/get_space_users_info.coffee', 'server');
+
+	api.addFiles('server/methods/add_contacts_user.coffee', 'server');
 
 	api.addFiles('server/routes/contacts.coffee', 'server');
 
@@ -134,6 +138,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_space_user_info_modal.coffee', 'client');
 	api.addFiles('client/views/steedos_contacts_address_book_info_modal.html', 'client');
 	api.addFiles('client/views/steedos_contacts_address_book_info_modal.coffee', 'client');
+
+	api.addFiles('client/views/steedos_contacts_add_user_modal.html', 'client');
+	api.addFiles('client/views/steedos_contacts_add_user_modal.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_add_user_modal.less', 'client');
 
 	api.addFiles('client/views/import_users_modal.less', 'client');
 	api.addFiles('client/views/import_users_modal.html', 'client');
