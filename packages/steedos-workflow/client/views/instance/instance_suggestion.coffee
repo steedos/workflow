@@ -15,10 +15,7 @@ Template.instance_suggestion.helpers
 				return "box-danger"
 
 	show_toggle_button: ->
-		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
-		if isShow
-			isShow = WorkflowManager.getInstance().state != "draft"
-		return isShow
+		return InstanceManager.isInbox()
 
 	show_suggestion: ->
 		return !ApproveManager.isReadOnly() || InstanceManager.isInbox();

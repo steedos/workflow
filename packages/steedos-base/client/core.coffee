@@ -25,3 +25,16 @@ Meteor.startup ->
 				setTimeout ()->
 					Steedos.setModalMaxHeight()
 				,500
+
+	Steedos.loadingTimeCount = 0
+	Meteor.setInterval ->
+		isLoading = $("body").hasClass("loading")
+		if isLoading
+			Steedos.loadingTimeCount++
+		else
+			Steedos.loadingTimeCount = 0
+		if Steedos.loadingTimeCount > 5
+			$(".loading-text a").removeClass("hide")
+		else
+			$(".loading-text a").addClass("hide")
+	, 5 * 1000
