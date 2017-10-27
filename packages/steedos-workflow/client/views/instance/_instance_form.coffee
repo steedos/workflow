@@ -529,6 +529,11 @@ if Meteor.isServer
 
 		return rev
 
+	InstanceformTemplate.helpers.getPermissions = (code)->
+		if !Template.instance().view.template.steedosData.startStepEditableFields?.includes(code)
+			return "readonly disabled"
+		return ""
+
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->
 		InstanceManager.instanceformChangeEvent(event)
