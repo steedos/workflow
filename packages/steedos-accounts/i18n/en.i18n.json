@@ -71,5 +71,7 @@
 	"accounts_register_email_exist": "The mail address already exist",
 	"accounts_register_title": "Register Company",
 	"accounts_register_company_title": "Company Information",
-	"accounts_register_admin_title": "Administrator Information"
+	"accounts_register_admin_title": "Administrator Information",
+	"accounts_phone_code_update_fail": "Verification passed, but failed to update data, please try again later",
+	"accounts_phone_verify_fail": "Your phone number is not verified, please re-bind the phone number!"
 }

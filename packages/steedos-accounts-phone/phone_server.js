@@ -453,6 +453,20 @@ Meteor.methods({
                 throw new Meteor.Error(403, errMsg);
             }
         }
+        else{
+            // 已登录用户，有可能需要手机号已验证才发验证码，比如通过手机号找回密码
+            if(checkVerified){
+                var validUser = Meteor.users.findOne({
+                    _id: userId,
+                    'phone.number': phone,
+                    'phone.verified': true
+                });
+                if(!validUser){
+                    var errMsg = TAPi18n.__('accounts_phone_verify_fail', {}, locale);
+                    throw new Meteor.Error(403, errMsg);
+                }
+            }
+        }
         Accounts.sendPhoneVerificationCode(userId, phone);
     }
 });
@@ -464,6 +478,7 @@ Meteor.methods({
     verifyPhone: function(phone, code, newPassword) {
         var self = this;
         // Check if needs to change password
+        var userId = this.userId;
 
         return Accounts._loginMethod(
             self,
@@ -479,10 +494,26 @@ Meteor.methods({
                 }
                 // Change phone format to international SMS format
                 phone = normalizePhone(phone);
+                if(!phone){
+                    throw new Meteor.Error(403, "accounts_phone_invalid")
+                    return false;
+                }
 
-                var user = Meteor.users.findOne({
-                    "phone.number": phone
-                });
+                var user;
+                // 因绑定修改手机号要求先验证通过才更新手机号，所以这里不可以通过手机号找用户，只能找当前登录用户
+                // 这样的话，对于已登录用户来说，就只能验证自己的手机号了
+                if(userId){
+                    user = Meteor.users.findOne({
+                        "_id": userId
+                    });
+                }
+                else{
+                    user = Meteor.users.findOne({
+                        "phone.number": phone
+                    });
+                }
+
+
                 if (!user)
                     throw new Meteor.Error(403, "accounts_phone_invalid");
 
@@ -499,6 +530,11 @@ Meteor.methods({
                     unSetOptions = {
                         'services.phone.verify': 1
                     };
+
+                if(userId){
+                    // 当用户验证绑定自己的手机号时，把手机号一起改掉，就不用再单独调用修改手机号的接口了
+                    setOptions['phone.number'] = phone;
+                }
                 var resetToOldToken;
                 // If needs to update password
                 if (newPassword) {
@@ -525,13 +561,25 @@ Meteor.methods({
                 try {
                     var query = {
                         _id: user._id,
-                        'phone.number': phone,
+                        // 'phone.number': phone,//手机号登录不要求验证通过，所以这个条件要去掉
                         'services.phone.verify.code': code
                     };
                     // Allow master code from settings
                     if (isMasterCode(code)) {
                         delete query['services.phone.verify.code'];
                     }
+                    // 验证通过后，可以也需要把重复的手机号全部清除，以免后面更新手机号时报唯一性索引的错
+                    Meteor.users.update({
+                        'phone.number': phone,
+                        _id: {
+                            $ne: user._id
+                        }
+                    }, {
+                        $unset: {
+                            "phone": 1,
+                            "services.phone": 1
+                        }
+                    });
                     // Update the user record by:
                     // - Changing the password to the new one
                     // - Forgetting about the verification code that was just used
@@ -541,11 +589,13 @@ Meteor.methods({
                             $set: setOptions,
                             $unset: unSetOptions
                         });
-                    if (affectedRecords !== 1)
+                    if (affectedRecords !== 1){
+                        var errMsg = userId ? "accounts_phone_code_update_fail" : "accounts_phone_not_exist";
                         return {
                             userId: user._id,
-                            error: new Meteor.Error(403, "accounts_phone_not_exist")
+                            error: new Meteor.Error(403, errMsg)
                         };
+                    }
 
                     successfulVerification(user._id);
                 } catch (err) {

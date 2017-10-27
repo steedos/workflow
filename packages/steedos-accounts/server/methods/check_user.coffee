@@ -1,5 +1,4 @@
 Meteor.methods checkUser: (options) ->
-	console.log "checkUser,options:",options
 	check options, Object
 	{ company,name,email,password,profile } = options
 	check company, String
