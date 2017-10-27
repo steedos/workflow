@@ -71,5 +71,7 @@
 	"accounts_register_email_exist": "邮箱地址已被占用",
 	"accounts_register_title": "注册企业",
 	"accounts_register_company_title": "企业信息",
-	"accounts_register_admin_title": "管理员信息"
+	"accounts_register_admin_title": "管理员信息",
+	"accounts_phone_code_update_fail": "验证通过，但是更新数据失败，请稍后再试",
+	"accounts_phone_verify_fail": "您的手机号未验证，请重新绑定手机号！"
 }
