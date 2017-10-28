@@ -430,10 +430,30 @@ WorkflowManager.getFormVersion = function(id, versionId) {
     var form = db.forms.findOne({
         _id: id
     });
+    
     var form_version = form.current
-    if (form_version._id != versionId) {
+    
+	if (form_version._id != versionId) {
         form_version = form.historys.findPropertyByPK("_id", versionId)
     }
+    
+    var form_fields = [];
+
+	form_version.fields.forEach(function (field) {
+		if (field.type == 'section') {
+			form_fields.push(field);
+			if (field.fields) {
+				field.fields.forEach(function(f) {
+					form_fields.push(f);
+				});
+			}
+		} else {
+			form_fields.push(field);
+		}
+	});
+
+	form_version.fields = form_fields;
+    
     return form_version;
 }
 
