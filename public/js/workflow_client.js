@@ -49,7 +49,18 @@ workflowClient.prototype.checkFormData = function(){
 };
 
 
+workflowClient.prototype.submit_success = function (data, textStatus) {
+	$("[name='instanceForm']")[0].reset();
+	window.toastr.success("提交成功");
+};
+
+workflowClient.prototype.submit_error = function (jqXHR, textStatus, errorThrown) {
+	window.toastr.error("提交失败");
+};
+
 workflowClient.prototype.submit = function () {
+
+	var that = this;
 
 	if(!this.checkFormData()){
 		return ;
@@ -90,10 +101,8 @@ workflowClient.prototype.submit = function () {
 		dataType: 'json',
 		processData: false,
 		contentType: "application/json",
-		success: function(data, textStatus){
-			rev = data
-			return;
-		}
+		success: that.submit_success,
+		error: that.submit_error
 	});
 
 	console.log(rev);

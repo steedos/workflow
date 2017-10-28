@@ -22,7 +22,7 @@ JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, 
 		templateName: "default",
 		editable: true,
 		width: "100%",
-
+		instance_style: "instance-default",
 		plugins: """
 
 			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />

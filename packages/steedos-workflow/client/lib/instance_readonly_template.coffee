@@ -57,10 +57,12 @@ InstanceReadOnlyTemplate.afFormGroup = """
 
 	{{#with getField this.name}}
 			{{#if equals type 'section'}}
+				<div class="form-group">
 					<div class='section callout callout-default'>
 						<label class="control-label">{{f_label this}}</label>
 						<p>{{{description}}}</p>
 					</div>
+  				</div>
 			{{else}}
 				{{#if equals type 'table'}}
 					<div class="panel panel-default steedos-table">
@@ -127,7 +129,7 @@ InstanceReadOnlyTemplate.afFormGroup = """
 													<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
 													<div class="af-radio-group" data-schema-key="{{getLabel code}}">
 														{{#each options this}}
-        												<label class="radio-inline fix-indent"><input type="radio" value="{{value}}" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="radio-inline fix-indent"> {{label}}</label>
+        												<label class="radio-inline fix-indent"><input type="radio" value="{{value}}" name="{{../code}}" class="radio-inline fix-indent"> {{label}}</label>
     													{{/each}}
     												</div>
 												</div>
@@ -137,7 +139,7 @@ InstanceReadOnlyTemplate.afFormGroup = """
 														<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
 														<div class="af-checkbox-group" data-schema-key="{{getLabel code}}">
 															{{#each options this}}
-															<label class="checkbox-inline fix-indent"><input type="checkbox" value="{{value}}" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="checkbox-inline fix-indent"> {{label}}</label>
+															<label class="checkbox-inline fix-indent"><input type="checkbox" value="{{value}}" name="{{../code}}" class="checkbox-inline fix-indent"> {{label}}</label>
 															{{/each}}
 														</div>
 													</div>
@@ -158,7 +160,7 @@ InstanceReadOnlyTemplate.afFormGroup = """
 																<div class="form-group">
 																	<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
 																	<div class="checkbox" data-schema-key="{{getLabel code}}">
-																		<label style="width: 100%;"><input type="checkbox" value="true" name="{{code}}" id="YXBAAH8PsfJYaZg5v" class="checkbox-inline fix-indent"></label>
+																		<label style="width: 100%;"><input type="checkbox" value="true" name="{{code}}" class="checkbox-inline fix-indent"></label>
 																	</div>
 																</div>
 															{{else}}
@@ -593,6 +595,9 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	if options?.templateName == 'table'
 		instance_style = "instance-table"
+
+	if options?.instance_style
+		instance_style = options.instance_style
 
 	if !options || options.showTrace == true
 		trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
