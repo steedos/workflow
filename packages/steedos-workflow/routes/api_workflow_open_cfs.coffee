@@ -186,9 +186,9 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 			code: 200
 			data: { errors: [{errorMessage: e.message}]}
 
-JsonRoutes.add "delete", "/api/workflow/open/cfs/:attach_id",  (req, res, next) ->
+JsonRoutes.add "delete", "/api/workflow/open/cfs/:ins_id",  (req, res, next) ->
 	try
-		attach_id = req.params.attach_id
+		ins_id = req.params.ins_id
 
 		if !Steedos.APIAuthenticationCheck(req, res)
 			return ;
@@ -205,17 +205,29 @@ JsonRoutes.add "delete", "/api/workflow/open/cfs/:attach_id",  (req, res, next) 
 		if not current_user_info
 			throw new Meteor.Error('error', 'can not find user')
 
+		instance = uuflowManager.getInstance(ins_id)
+
+		if instance.state isnt "draft"
+			throw new Meteor.Error('error', '申请单草稿状态时才能删除附件')
+
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
 		uuflowManager.isSpaceAdmin(space_id, current_user)
 
+		hashData = req.body || {}
+		attach_id = hashData["attach_id"]
+
+		if not attach_id
+			throw new Meteor.Error('error', 'can not find attach_id')
+
 		collection = cfs.instances
 
-		if attach_id
-			file = collection.findOne({ _id: attach_id })
-			if file
-				file.remove()
+		file = collection.findOne({ _id: attach_id, 'metadata.instance': ins_id})
+		if file
+			file.remove()
+		else
+			throw new Meteor.Error('error', '此附件不属于此申请单，或已被删除')
 
 		result = new Object
 		JsonRoutes.sendResult res,
@@ -252,7 +264,7 @@ JsonRoutes.add "get", "/api/workflow/open/cfs/:attach_id",  (req, res, next) ->
 		uuflowManager.isSpaceAdmin(space_id, current_user)
 
 		res.statusCode = 302
-		res.setHeader "Location", Steedos.absoluteUrl("api/files/instances/") + attach_id + "?download=1"
+		res.setHeader "Location", Steedos.absoluteUrl("api/files/instances/") + attach_id + "?download=true"
 		res.end()
 	catch e
 		console.error e.stack
