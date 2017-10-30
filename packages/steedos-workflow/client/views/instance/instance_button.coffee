@@ -331,6 +331,9 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
+		if InstanceManager.isInbox() || Session.get('box') is "draft"
+			return true
+
 		return true
 
 	isMobile: ()->
