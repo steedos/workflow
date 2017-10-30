@@ -72,6 +72,13 @@ Template.AdminLTE.events({
       Steedos.fixSideBarScroll()
   },
 
+  'click .main-sidebar': function (e, t) {
+    if (Steedos && Steedos.isMobile()){
+      //手机上可能菜单展开了，需要额外收起来
+      $("body").removeClass("sidebar-open")
+    }
+  },
+
   'click .content-wrapper': function (e, t) {
 
     if (e.target && e.target.getAttribute)
