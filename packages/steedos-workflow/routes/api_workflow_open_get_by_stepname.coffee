@@ -14,7 +14,7 @@ body格式:
 	}
 }
 ###
-JsonRoutes.add 'put', '/api/workflow/open/getbystepname', (req, res, next) ->
+JsonRoutes.add 'post', '/api/workflow/open/getbystepname', (req, res, next) ->
 	try
 
 		if !Steedos.APIAuthenticationCheck(req, res)
