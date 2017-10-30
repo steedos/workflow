@@ -43,14 +43,17 @@ JsonRoutes.add 'put', '/api/workflow/open/getbystepname', (req, res, next) ->
 		if not stepname
 			throw new Meteor.Error('error', 'need stepname')
 
-		instances = db.instances.find({space: space_id, "traces.name": stepname}).fetch()
+		# 去掉{fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}
+		instances = db.instances.find({space: space_id, "traces.name": stepname}, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}}).fetch()
+		instances.forEach (instance)->
 
-		result = new Object
-		result.instances = instances || []
+			attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+
+			instance.attachments = attachments
 
 		JsonRoutes.sendResult res,
 			code: 200
-			data: { status: "success", data: result}
+			data: { status: "success", data: instances}
 	catch e
 		console.error e.stack
 		JsonRoutes.sendResult res,
