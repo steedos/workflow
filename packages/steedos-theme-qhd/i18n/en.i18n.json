@@ -24,5 +24,6 @@
 	"instance_search_applicant_organization_name": "Applicant Organization Name",
 	"login_title": "Hebei Port Office",
 	"login_title_mobile": "Hebei Port Office",
-	"Username_and_email": "Username"
+	"Username_and_email": "Username",
+	"password_invalid": "The password can not be less than 6 digits"
 }
