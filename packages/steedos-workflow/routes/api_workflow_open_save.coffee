@@ -1,12 +1,10 @@
 ###
+描述：修改当前申请单未结束的trace中未结束的approve的values（非传阅 非会签）
 Content-Type：application/json
 body 格式:
 {
-	"approve": {
-		"_id": "xx",
-		"values": {
-			...
-		}
+	"values": {
+		...
 	}
 }
 ###
@@ -34,30 +32,28 @@ JsonRoutes.add 'put', '/api/workflow/open/save/:ins_id', (req, res, next) ->
 		# 校验当前登录用户是否是space的管理员
 		uuflowManager.isSpaceAdmin(space_id, current_user)
 
-		hashData = req.body
+		values = req.body
 
-		approve = hashData["approve"]
+		if not values
+			throw new Meteor.Error('error', 'need values')
 
-		if not approve
-			throw new Meteor.Error('error', 'need approve')
-
-		if not approve._id
-			throw new Meteor.Error('error', 'need approve._id')
-
-		if not approve.values
-			throw new Meteor.Error('error', 'need approve.values')
-
-		approve_id = approve._id
-		values = approve.values
 		current_trace = null
 		setObj = new Object
 		instance = uuflowManager.getInstance(ins_id)
-		
+		flow = uuflowManager.getFlow(instance.flow)
+
 		_.each instance.traces, (t)->
-			_.each t.approves, (a)->
-				if a._id is approve_id
-					a.values = values
-					current_trace = t
+			if t.is_finished isnt true
+				current_trace = t
+
+		current_step = uuflowManager.getStep(instance, flow, current_trace.step)
+
+		if current_step.step_type is "counterSign"
+			throw new Meteor.Error('error', '会签步骤不能修改表单值')
+
+		_.each current_trace.approves, (a)->
+			if a.is_finished isnt true and a.type isnt "cc"
+				a.values = values
 
 		setObj.modified = new Date
 		setObj["traces.$.approves"] = current_trace.approves
