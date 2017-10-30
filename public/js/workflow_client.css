@@ -41,3 +41,10 @@
 	padding-left: 0px;
 	padding-top: 0px;
 }
+
+
+.instance-default .instance-form .form-control[disabled], .instance-default .instance-form .form-control[readonly], .instance-default .instance-form fieldset[disabled] .form-control {
+	background-color: #F9F9F9 !important;
+	opacity: 1;
+	color: black;
+}
