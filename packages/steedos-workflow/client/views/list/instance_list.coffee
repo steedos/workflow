@@ -116,7 +116,7 @@ Template.instance_list.helpers
 		# 		return true
 
 		# return false;
-		return false
+		return true
 	
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0
