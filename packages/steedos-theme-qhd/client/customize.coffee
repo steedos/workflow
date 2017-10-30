@@ -4,6 +4,9 @@ if Meteor.isClient
 		Theme.logo_en = Theme.logo
 		Theme.icon = "/packages/steedos_theme-qhd/client/images/icon.png"
 		Theme.icon_en = Theme.icon
+		# qhd密码可以随便写
+		Steedos.validatePassword = (pwd)->
+			return true
 
 	Template.atTitle.onRendered ->
 		this.autorun ->
