@@ -2,13 +2,7 @@
 Content-Type：application/json
 form-data 格式:
 fd = new FormData;
-fd.append('Content-Type', 'xxx');
 fd.append("file", file);
-fd.append("instance", instance_id);
-fd.append("space", space_id);
-fd.append("approve", approve_id);
-fd.append("owner", user_id);
-fd.append("owner_name", user_name);
 
 fd.append("is_private", false);
 
@@ -85,6 +79,13 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 		if not current_user_info
 			throw new Meteor.Error('error', 'can not find user')
 
+		instance = uuflowManager.getInstance(ins_id)
+
+		if instance.state isnt "draft"
+			throw new Meteor.Error('error', '申请单草稿状态时才能上传')
+
+		approve_id = instance.traces[0].approves[0]._id
+
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
@@ -103,6 +104,13 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 						filename = "image-" + moment(new Date()).format('YYYYMMDDHHmmss') + "." + filename.split('.').pop()
 
 					body = req.body
+
+					body['owner'] = instance.submitter
+					body['owner_name'] = instance.submitter_name
+					body['space'] = space_id
+					body['instance'] = ins_id
+					body['approve'] = approve_id
+
 					try
 						if body && (body['upload_from'] is "IE" or body['upload_from'] is "node")
 							filename = decodeURIComponent(filename)
