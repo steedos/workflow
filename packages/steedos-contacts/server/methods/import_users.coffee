@@ -25,7 +25,7 @@ Meteor.methods
 		testData = []
 
 		data.forEach (item, i)->
-			console.log("item", item)
+			# console.log("item", item)
 			testObj = {}
 			if item.username
 				testObj.username = item.username
@@ -90,12 +90,10 @@ Meteor.methods
 				org_depts = org.split("/")
 				organization_depts.push(org_depts)
 
-			console.log organization_depts
+			# console.log organization_depts
 
 
 			organization_depts.forEach (depts, index) ->
-				console.log depts.length
-				console.log depts[0]
 				if depts.length < 1 || depts[0] != root_org.name
 					throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
@@ -302,13 +300,17 @@ Meteor.methods
 
 			organizationFullNames = item.organization.split(",")
 
+			# console.log "organizationFullNames is #{organizationFullNames}"
+
 			space_user_orgs = db.organizations.find({space: space_id, fullname: $in:organizationFullNames}).fetch()
+
+			# console.log space_user_orgs.getProperty("_id")
 
 			if space_user
 				if space_user_orgs
 					if !space_user.organizations
 						space_user.organizations = []
-					space_user.organizations.push(space_user_orgs.getProperty("_id"))
+					space_user.organizations = space_user.organizations.concat(space_user_orgs.getProperty("_id"))
 
 
 					space_user_update_doc = {}
@@ -333,7 +335,8 @@ Meteor.methods
 					if _.keys(space_user_update_doc).length > 0
 						db.space_users.direct.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
 
-					space_user_org.updateUsers()
+					space_user_orgs.forEach (space_user_org) ->
+						space_user_org.updateUsers()
 			else
 				if space_user_orgs
 					space_user_org_ids = space_user_orgs.getProperty("_id")
@@ -375,7 +378,8 @@ Meteor.methods
 
 					space_user_id = db.space_users.direct.insert(su_doc)
 					if space_user_id
-						space_user_org.updateUsers()
+						space_user_orgs.forEach (space_user_org) ->
+							space_user_org.updateUsers()
 
 						# users_changelogs
 						ucl_doc = {}
