@@ -83,10 +83,21 @@ Meteor.methods
 			if !organization
 				throw new Meteor.Error(500, "第#{i + 1}行：部门不能为空");
 
-			organization_depts = organization.split("/");
+			organization_depts = []
 
-			if organization_depts.length < 1 || organization_depts[0] != root_org.name
-				throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
+			organizationArrays = organization.split(",")
+			organizationArrays.forEach (org, index) ->
+				org_depts = org.split("/")
+				organization_depts.push(org_depts)
+
+			console.log organization_depts
+
+
+			organization_depts.forEach (depts, index) ->
+				console.log depts.length
+				console.log depts[0]
+				if depts.length < 1 || depts[0] != root_org.name
+					throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
 			if !item.email && !item.phone && user_pk != 'username'
 				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
@@ -141,9 +152,10 @@ Meteor.methods
 			if item.password && user?.services?.password?.bcrypt
 				throw new Meteor.Error(500, "第#{i + 1}行：用户已设置密码，不允许修改");
 
-			organization_depts.forEach (dept_name, j) ->
-				if !dept_name
-					throw new Meteor.Error(500, "第#{i + 1}行：无效的部门");
+			organization_depts.forEach (depts, index) ->
+				depts.forEach (dept_name, index) ->
+					if !dept_name
+						throw new Meteor.Error(500, "第#{i + 1}行：无效的部门");
 
 			if onlyCheck
 				return ;
@@ -152,40 +164,41 @@ Meteor.methods
 
 			parent_org_id = root_org._id
 
-			organization_depts.forEach (dept_name, j) ->
-				if j > 0
-					fullname = fullname + "/" + dept_name
+			organization_depts.forEach (depts, index) ->
+				depts.forEach (dept_name, j) ->
+					if j > 0
+						fullname = fullname + "/" + dept_name
 
-					org = db.organizations.findOne({space: space_id, fullname: fullname})
+						org = db.organizations.findOne({space: space_id, fullname: fullname})
 
-					if org
-						parent_org_id = org._id
-					else
-						org_doc = {}
-						org_doc._id = db.organizations._makeNewID()
-						org_doc.space = space_id
-						org_doc.name = dept_name
-						org_doc.parent = parent_org_id
-						org_doc.created = now
-						org_doc.created_by = owner_id
-						org_doc.modified = now
-						org_doc.modified_by = owner_id
-						org_id = db.organizations.direct.insert(org_doc)
+						if org
+							parent_org_id = org._id
+						else
+							org_doc = {}
+							org_doc._id = db.organizations._makeNewID()
+							org_doc.space = space_id
+							org_doc.name = dept_name
+							org_doc.parent = parent_org_id
+							org_doc.created = now
+							org_doc.created_by = owner_id
+							org_doc.modified = now
+							org_doc.modified_by = owner_id
+							org_id = db.organizations.direct.insert(org_doc)
 
-						if org_id
-							org = db.organizations.findOne(org_id)
-							updateFields = {}
-							updateFields.parents = org.calculateParents()
-							updateFields.fullname = org.calculateFullname()
+							if org_id
+								org = db.organizations.findOne(org_id)
+								updateFields = {}
+								updateFields.parents = org.calculateParents()
+								updateFields.fullname = org.calculateFullname()
 
-							if !_.isEmpty(updateFields)
-								db.organizations.direct.update(org._id, {$set: updateFields})
+								if !_.isEmpty(updateFields)
+									db.organizations.direct.update(org._id, {$set: updateFields})
 
-							if org.parent
-								parent = db.organizations.findOne(org.parent)
-								db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
+								if org.parent
+									parent = db.organizations.findOne(org.parent)
+									db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
 
-							parent_org_id = org_id
+								parent_org_id = org_id
 
 			user_id = null
 			if user
@@ -287,13 +300,15 @@ Meteor.methods
 
 			space_user = db.space_users.findOne({space: space_id, user: user_id})
 
-			space_user_org = db.organizations.findOne({space: space_id, fullname: item.organization})
+			organizationFullNames = item.organization.split(",")
+
+			space_user_orgs = db.organizations.find({space: space_id, fullname: $in:organizationFullNames}).fetch()
 
 			if space_user
-				if space_user_org
+				if space_user_orgs
 					if !space_user.organizations
 						space_user.organizations = []
-					space_user.organizations.push(space_user_org._id)
+					space_user.organizations.push(space_user_orgs.getProperty("_id"))
 
 
 					space_user_update_doc = {}
@@ -320,8 +335,8 @@ Meteor.methods
 
 					space_user_org.updateUsers()
 			else
-				if space_user_org
-					space_user_org_id = space_user_org._id
+				if space_user_orgs
+					space_user_org_ids = space_user_orgs.getProperty("_id")
 					su_doc = {}
 					su_doc._id = db.space_users._makeNewID()
 					su_doc.user = user_id
@@ -340,8 +355,8 @@ Meteor.methods
 						su_doc.email = item.email
 					su_doc.created = now
 					su_doc.created_by = owner_id
-					su_doc.organization = space_user_org_id
-					su_doc.organizations = [su_doc.organization]
+					su_doc.organization = space_user_org_ids[0]
+					su_doc.organizations = space_user_org_ids
 
 					if item.position
 						su_doc.position = item.position

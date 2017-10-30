@@ -35,9 +35,9 @@ Template.import_users_modal.events
 
 
 			items.forEach (item)->
-				if _.has(item, "部门")
-					item.organization = item["部门"]?.trim()
-					delete item["部门"]
+				if _.has(item, "所属部门")
+					item.organization = item["所属部门"]?.trim()
+					delete item["所属部门"]
 				if _.has(item, "用户名")
 					item.username = item["用户名"]?.trim()
 					delete item["用户名"]
@@ -50,18 +50,18 @@ Template.import_users_modal.events
 				if _.has(item, "职务")
 					item.position = item["职务"]?.trim()
 					delete item["职务"]
-				if _.has(item, "工作电话")
-					item.work_phone = item["工作电话"]?.trim()
-					delete item["工作电话"]
+				if _.has(item, "固定电话")
+					item.work_phone = item["固定电话"]?.trim()
+					delete item["固定电话"]
 				if _.has(item, "手机")
 					item.phone = item["手机"]?.trim()
 					delete item["手机"]
 				if _.has(item, "单位")
 					item.company = item["单位"]?.trim()
 					delete item["单位"]
-				if _.has(item, "状态")
-					item.user_accepted = item["状态"]?.trim()
-					delete item["状态"]
+				if _.has(item, "有效")
+					item.user_accepted = item["有效"]?.trim()
+					delete item["有效"]
 				if _.has(item, "排序号")
 					item.sort_no = item["排序号"]?.trim()
 					delete item["排序号"]
