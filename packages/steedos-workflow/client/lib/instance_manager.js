@@ -285,9 +285,10 @@ InstanceManager.getApplicantUserId = function() {
 
 function showMessage(parent_group, message) {
 
-	if (parent_group.hasClass("has-error")) {
-		return;
-	}
+	// if (parent_group.hasClass("has-error")) {
+	// 	return;
+	// }
+	debugger;
 
 	parent_group.addClass("has-error");
 	$(".help-block", parent_group).html(message);
@@ -302,7 +303,7 @@ function showMessageInblock(parent_group, message) {
 }
 
 function removeMessage(parent_group) {
-	toastr.remove()
+	// toastr.remove()
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
 }
@@ -382,17 +383,10 @@ InstanceManager.checkNextStepUser = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	// InstanceManager._setError_next_step_users("")
-
-	// if (ApproveManager.error.nextStepUsers != '') {
-	// 	// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
-	// 	nextStepUsers_parent_group.addClass("has-error");
-	//
-	// 	InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
-	//
-	// 	ApproveManager.error.nextStepUsers = '';
-	// 	return;
-	// }
+	if (nextStepUsers_parent_group.length < 1){
+		return ;
+	}
+	
 	var value = ApproveManager.getNextStepUsersSelectValue();
 	var nextStepId = ApproveManager.getNextStepsSelectValue();
 	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -401,6 +395,28 @@ InstanceManager.checkNextStepUser = function() {
 		removeMessage(nextStepUsers_parent_group);
 	else
 		showMessage(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
+}
+
+InstanceManager.nextStepUserErrorClass = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	if (nextStepUsers_parent_group.length < 1){
+		return ;
+	}
+
+	var value = ApproveManager.getNextStepUsersSelectValue();
+	var nextStepId = ApproveManager.getNextStepsSelectValue();
+	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
+
+	if (value.length > 0 || (nextStep && nextStep.step_type == 'end'))
+		removeMessage(nextStepUsers_parent_group);
+	else
+		showMessageInblock(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
 }
 
 //如果是驳回必须填写意见
