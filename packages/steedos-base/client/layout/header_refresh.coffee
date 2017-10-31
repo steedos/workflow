@@ -5,4 +5,4 @@ Template.headerRefresh.helpers
 
 Template.headerRefresh.events
 	'click .header-refresh' : (event) ->
-		window.location.reload()
+		window.location.reload(true)
