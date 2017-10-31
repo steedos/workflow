@@ -26,5 +26,6 @@
 	"login_title_mobile": "河港协同办公系统",
 	"Username_and_email": "用户名",
 	"steedos_apps": "河北港口集团协同办公系统",
-	"steedos_info": "集团版的协同办公系统，包括公文处理、本周安排、信息发布、通讯录等功能模块。"
+	"steedos_info": "集团版的协同办公系统，包括公文处理、本周安排、信息发布、通讯录等功能模块。",
+	"password_invalid": "密码不能少于6位"
 }

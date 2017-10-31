@@ -25,7 +25,7 @@ Template.workflowSidebar.helpers
 
 		return inboxInstances.length > 0
 
-	inboxInstancesFlow: ()->
+	inboxInstancesFlow: (category_id)->
 
 		inboxInstancesFlow = []
 
@@ -37,6 +37,17 @@ Template.workflowSidebar.helpers
 		}]
 
 		query.space = Session.get("spaceId")
+
+		if category_id
+			category_forms = db.forms.find({category: category_id}, {fields: {_id:1}}).fetch();
+
+			query.form = {$in: category_forms.getProperty("_id")}
+		else
+			category_forms = db.forms.find({category: {
+				$in: [null, ""]
+			}}, {fields: {_id:1}}).fetch();
+
+			query.form = {$in: category_forms.getProperty("_id")}
 
 		inboxInstances = db.instances.find(query).fetch();
 
@@ -87,6 +98,11 @@ Template.workflowSidebar.helpers
 	showOthenInbox: (inboxSpaces)->
 		return inboxSpaces.length > 0
 
+	categorys: ()->
+		return WorkflowManager.getSpaceCategories(Session.get("spaceId"))
+
+	hasInstances: (instances)->
+		return instances?.length > 0
 
 Template.workflowSidebar.events
 
@@ -103,7 +119,7 @@ Template.workflowSidebar.events
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
 
-	'click .inbxo-flow': (event, template)->
+	'click .inbox-flow': (event, template)->
 		Session.set("flowId", this?._id);
 
 	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->

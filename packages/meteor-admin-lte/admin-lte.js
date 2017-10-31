@@ -72,6 +72,14 @@ Template.AdminLTE.events({
       Steedos.fixSideBarScroll()
   },
 
+  // 点击空白处，菜单需要收起来
+  'click .main-sidebar': function (e, t) {
+    if (Steedos && Steedos.isMobile()){
+      //手机上可能菜单展开了，需要额外收起来
+      $("body").removeClass("sidebar-open")
+    }
+  },
+
   'click .content-wrapper': function (e, t) {
 
     if (e.target && e.target.getAttribute)
@@ -126,6 +134,12 @@ Template.AdminLTE.events({
     //if this isn't a link, prevent the page from being redirected
     if (checkElement.is('.treeview-menu')) {
       e.preventDefault();
+      var currentHref = $this.attr("href");
+      currentHref = currentHref ? currentHref.trim() : null;
+      // 当href属性不存在时，应该不自动收起左侧菜单
+      if(!(currentHref && currentHref != "javascript:void(0)" && currentHref != "#")){
+        e.stopPropagation();
+      }
     }
   }
 });

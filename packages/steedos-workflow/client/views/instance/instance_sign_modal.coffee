@@ -27,6 +27,13 @@ Template.instanceSignModal.helpers
 		if sign_approves.length == 0
 			return true
 
+	opinions: () ->
+		opinions = []
+		o = db.steedos_keyvalues.findOne({user: Meteor.userId(), key: 'flow_opinions', 'value.workflow': $exists: true})
+		if o
+			opinions = o.value.workflow
+		return opinions.slice(0,3)
+
 Template.instanceSignModal.events
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#modal_suggestion").val())

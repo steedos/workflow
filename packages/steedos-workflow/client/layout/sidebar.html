@@ -16,17 +16,53 @@
 					</a>
 					{{#if hasInbox}}
 						<ul class="treeview-menu menu-open" style="display: block;">
-							{{#each inboxInstancesFlow}}
-								<li class="{{#if (equals selected_flow _id)}}active{{/if}}">
-									<a class="inbxo-flow text-overflow" href="{{urlPrefix}}/workflow/space/{{space}}/inbox" undefined="">
-										<!--<i class="ion ion-clipboard"></i>-->
-										<span class="flow-name text-overflow">{{name}}</span>
+
+							{{#each categorys}}
+								{{#if hasInstances (inboxInstancesFlow this._id)}}
+								<li>
+									<a href="#"><i class="ion ion-ios-copy-outline"></i> {{name}}
 										<span class="pull-right-container">
-											<span class="label pull-right bg-red">{{inbox_count}}</span>
+											<i class="fa fa-angle-left pull-right"></i>
 										</span>
 									</a>
+									<ul class="treeview-menu">
+										{{#each inboxInstancesFlow this._id}}
+											<li class="{{#if (equals selected_flow _id)}}active{{/if}}">
+												<a class="inbox-flow text-overflow" href="{{urlPrefix}}/workflow/space/{{space}}/inbox" undefined="">
+													<!--<i class="ion ion-clipboard"></i>-->
+													<span class="flow-name text-overflow">{{name}}</span>
+													<span class="pull-right-container">
+												<span class="label pull-right bg-red">{{inbox_count}}</span>
+											</span>
+												</a>
+											</li>
+										{{/each}}
+									</ul>
 								</li>
+								{{/if}}
 							{{/each}}
+							{{#if hasInstances (inboxInstancesFlow)}}
+							<li>
+								<a href="#"><i class="ion ion-ios-copy-outline"></i> {{_ "workflow_no_category"}}
+									<span class="pull-right-container">
+								  		<i class="fa fa-angle-left pull-right"></i>
+									</span>
+								</a>
+								<ul class="treeview-menu">
+									{{#each inboxInstancesFlow}}
+										<li class="{{#if (equals selected_flow _id)}}active{{/if}}">
+											<a class="inbox-flow text-overflow" href="{{urlPrefix}}/workflow/space/{{space}}/inbox" undefined="">
+												<!--<i class="ion ion-clipboard"></i>-->
+												<span class="flow-name text-overflow">{{name}}</span>
+												<span class="pull-right-container">
+											<span class="label pull-right bg-red">{{inbox_count}}</span>
+										</span>
+											</a>
+										</li>
+									{{/each}}
+								</ul>
+							</li>
+							{{/if}}
 						</ul>
 					{{/if}}
 				</li>

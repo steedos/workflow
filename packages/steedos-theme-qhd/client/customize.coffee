@@ -4,6 +4,19 @@ if Meteor.isClient
 		Theme.logo_en = Theme.logo
 		Theme.icon = "/packages/steedos_theme-qhd/client/images/icon.png"
 		Theme.icon_en = Theme.icon
+		# qhd密码规则为至少6位
+		Steedos.validatePassword = (pwd)->
+			reason = t "password_invalid"
+			valid = true
+			unless pwd
+				valid = false
+			if pwd.length < 6
+				valid = false
+			if valid
+				return true
+			else
+				return error:
+					reason: reason
 
 	Template.atTitle.onRendered ->
 		this.autorun ->
