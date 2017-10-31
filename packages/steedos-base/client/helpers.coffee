@@ -306,9 +306,16 @@ TemplateHelpers =
 				return false
 
 	getSpaceApps: ()->
-		selector = {}
-		if Steedos.getSpaceId()
-			space = db.spaces.findOne(Steedos.getSpaceId())
+		organizations = Steedos.getUserOrganizations(true)
+		userId = Meteor.userId()
+		selector = $or: [
+			{ internal: true }
+			{ space:{ $exists: false } }
+			{ 'members.organizations': $in: organizations }
+			{ 'members.users': $in: [ userId ] }
+		]
+		# if Steedos.getSpaceId()
+		# 	space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
