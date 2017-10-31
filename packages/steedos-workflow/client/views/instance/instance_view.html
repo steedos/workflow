@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            {{#if isInbox}}
+            {{#if unequals 'draft' instance.state}}
 				{{#if (showTracesView instance.form instance.form_version)}}
                 	{{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
 				{{/if}}

@@ -68,6 +68,22 @@ Template.instance_list.helpers
 
 		query.is_deleted = false
 
+		workflowCategory = Session.get("workflowCategory")
+
+		if workflowCategory
+			if workflowCategory == '-1'
+				category_forms = db.forms.find({category: {
+					$in: [null, ""]
+				}}, {fields: {_id:1}}).fetch();
+
+				query.form = {$in: category_forms.getProperty("_id")}
+			else
+				category_forms = db.forms.find({category: workflowCategory}, {fields: {_id:1}}).fetch();
+
+				query.form = {$in: category_forms.getProperty("_id")}
+
+
+
 		instance_more_search_selector = Session.get('instance_more_search_selector')
 		if (instance_more_search_selector)
 			_.keys(instance_more_search_selector).forEach (k)->
@@ -96,12 +112,12 @@ Template.instance_list.helpers
 			return "display: none;";
 
 	is_display_search_tip: ->
-		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId") or Session.get("workflowCategory")
 			return ""
 		return "display: none;"
 
 	is_select_bar_show: ->
-		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId") or Session.get("workflowCategory")
 			return "selectbar-is-show"
 		else
 			return "selectbar-is-hide"
@@ -116,7 +132,7 @@ Template.instance_list.helpers
 		# 		return true
 
 		# return false;
-		return false
+		return true
 	
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0
@@ -124,7 +140,22 @@ Template.instance_list.helpers
 		return false
 
 	filterFlowName: ->
-		return db.flows.findOne(Session.get("flowId"))?.name
+		rev = new Array();
+
+		category = db.categories.findOne(Session.get("workflowCategory"))
+
+		if category
+			rev.push category.name
+
+		if Session.get("workflowCategory") == '-1'
+			rev.push TAPi18n.__("workflow_no_category")
+
+		flow = db.flows.findOne(Session.get("flowId"))
+
+		if flow
+			rev.push flow.name
+
+		return rev
 
 	getInstanceListTabular: ->
 		if Session.get("flowId")
@@ -314,6 +345,7 @@ Template.instance_list.events
 		Session.set("instance-search-applicant-organization-name", undefined)
 		Session.set("submit-date-start", undefined);
 		Session.set("submit-date-end", undefined);
+		Session.set("workflowCategory", undefined);
 		#清空搜索框
 		$('#instance_search').val("").trigger('keyup')
 

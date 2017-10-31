@@ -111,6 +111,8 @@
 	"contact_invite_pending": "待反馈",
 	"contact_invite_refused": "已拒绝",
 
+	"search_contact": "搜索联系人",
+
 	"contact_needs_name": "请填写姓名",
 	"contact_needs_email": "请填写邮件",
 	"contact_needs_organizations": "请填写所属部门",

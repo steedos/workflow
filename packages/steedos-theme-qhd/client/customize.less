@@ -7,13 +7,13 @@
 			.instance_new{
 				display: none !important;
 			}
-			.navigation-title{
-				.dropdown-toggle{
-					i{
-						display: none !important;
-					}
-				}
-			}
+			//.navigation-title{
+			//	.dropdown-toggle{
+			//		i{
+			//			display: none !important;
+			//		}
+			//	}
+			//}
 		}
 	}
 	.steedos-help{
@@ -114,12 +114,52 @@
 			display: none;
 		}
 	}
+	.weui-tabbar{
+		.weui-tabbar-admin{
+			display: none;
+		}
+	}
+
+	@media (max-width: 767px){
+		.btn[data-toggle='offcanvas']{
+			.fa-bars{
+				display: none;
+			}
+		}
+		.btn[data-toggle='offcanvas']::before {
+			content: '菜单';
+		}
+
+		.instance-list-wrapper .navigation-bar .btn-offcanvas .inbox-pending-icon{
+			left: -5px;
+			top: -10px;
+		}
+	}
 }
+
+
 
 .instance-table, .traces_table_modal{
 	.form-table{
 		.td-title{
 			text-align: left;
 		}
+	}
+}
+
+.steedos.steedos-calendar {
+	.main-sidebar {
+		padding-bottom: 0;
+		.mobile-sync {
+			display: none;
+		}
+	}
+}
+
+
+.steedos-base-tabbar{
+	.weui-tabbar__label{
+		font-size: 12px;
+		font-weight: bold;
 	}
 }

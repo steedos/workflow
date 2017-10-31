@@ -32,40 +32,7 @@ FlowRouter.triggers.enter [
 
 FlowRouter.route '/', 
 	action: (params, queryParams)->
-		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
-		else
-			# # 登录最近关闭的URL
-			# lastUrl = localStorage.getItem('Steedos.lastURL:' + Meteor.userId())
-			# # 这时不能用lastUrl.startsWith，因为那样无法判断后面是否加了其他字符
-			# if (!Steedos.isMobile() && lastUrl)
-			# 	if /^\/?workflow\b/.test(lastUrl)
-			# 		FlowRouter.go "/workflow"
-			# 	else if /^\/?cms\b/.test(lastUrl)
-			# 		FlowRouter.go "/cms"
-			# 	else if /^\/?emailjs\b/.test(lastUrl)
-			# 		FlowRouter.go "/emailjs"
-			# 	else if /^\/?contacts\b/.test(lastUrl)
-			# 		FlowRouter.go "/contacts"
-			# 	else if /^\/?portal\b/.test(lastUrl)
-			# 		FlowRouter.go "/portal"
-			# 	else 
-			# 		FlowRouter.go "/admin"
-			# else
-			if (Steedos.isMobile())
-				FlowRouter.go "/workflow"
-			else
-				Tracker.autorun (c)->
-					firstApp = Steedos.getSpaceFirstApp()
-					if !firstApp
-						# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
-						BlazeLayout.render 'steedosLoading'
-						$("body").addClass('loading')
-					else
-						c.stop()
-						currentPath = FlowRouter.current().path
-						if currentPath == "/"
-							Steedos.openApp firstApp._id
+		Steedos.goHome()
 
 
 # FlowRouter.route '/steedos', 

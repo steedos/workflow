@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.60',
+	version: '0.0.61',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -41,7 +41,7 @@ Package.onUse(function(api) {
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.10');
 	api.use('steedos:ui@0.0.1');
-	api.use('steedos:theme@0.0.28');
+	api.use('steedos:theme@0.0.29');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
@@ -155,9 +155,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
 
-	api.addFiles('client/layout/notFound_layout.html','client');
-	api.addFiles('client/layout/notFound_layout.coffee','client');
-	api.addFiles('client/layout/notFound_layout.less','client');
+	api.addFiles('client/layout/notFound_layout.html', 'client');
+	api.addFiles('client/layout/notFound_layout.coffee', 'client');
+	api.addFiles('client/layout/notFound_layout.less', 'client');
+
+	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 
 	api.export('Steedos');
 	api.export('db');
