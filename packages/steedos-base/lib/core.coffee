@@ -251,6 +251,8 @@ if Meteor.isClient
 
 	Steedos.setModalMaxHeight = ()->
 		accountZoomValue = Steedos.getAccountZoomValue()
+		unless accountZoomValue.name
+			accountZoomValue.name = 'large'
 		switch accountZoomValue.name
 			when 'normal'
 				if Steedos.isMobile()

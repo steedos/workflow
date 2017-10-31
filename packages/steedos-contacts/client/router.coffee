@@ -9,7 +9,7 @@ contactsRoutes = FlowRouter.group
 
 contactsRoutes.route '/', 
 	action: (params, queryParams)->
-		FlowRouter.go '/contacts/banch'
+		FlowRouter.go '/contacts/orgs'
 
 contactsRoutes.route '/orgs', 
 	action: (params, queryParams)->
