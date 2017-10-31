@@ -129,10 +129,17 @@ Template.workflowSidebar.events
 	'click .inbox>a': (event, template)->
 		event.preventDefault()
 		inboxUrl = $(event.currentTarget).attr("href")
+		Session.set("workflowCategory", undefined)
 		FlowRouter.go inboxUrl
 		if Steedos.isMobile()
 			# 移动端不要触发展开折叠菜单
 			event.stopPropagation()
+
+	'click .workflow-category>a': (event, template)->
+		inboxUrl = $(event.currentTarget).attr("href")
+		Session.set("flowId", false)
+		Session.set("workflowCategory",this._id || "-1")
+		FlowRouter.go inboxUrl
 
 	'click .header-app': (event) ->
 		FlowRouter.go "/workflow/"
