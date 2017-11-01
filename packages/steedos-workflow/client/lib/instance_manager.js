@@ -288,7 +288,6 @@ function showMessage(parent_group, message) {
 	// if (parent_group.hasClass("has-error")) {
 	// 	return;
 	// }
-	debugger;
 
 	parent_group.addClass("has-error");
 	$(".help-block", parent_group).html(message);
