@@ -97,3 +97,5 @@ Template.space_info.onRendered ()->
                 console.log err.reason
             if result
                 that.data.user_count_info.set(result)
+                Session.set('space_user_count', result.accepted_user_count)
+
