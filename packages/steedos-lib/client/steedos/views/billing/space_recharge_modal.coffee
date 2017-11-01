@@ -42,7 +42,8 @@ Template.space_recharge_modal.events
 		fee_value = 0
 
 		now = new Date(moment(new Date).format("YYYY-MM-DD"))
-		end_date = new Date($('#space_recharge_end_date').val())
+		end_date_str = $('#space_recharge_end_date').val()
+		end_date = new Date(end_date_str)
 
 		if end_date <= now
 			toastr.warning "购买日期不能小于当前日期"
