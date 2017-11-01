@@ -147,7 +147,7 @@ steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
-steedos:universe-autoform-select
+vazco:universe-autoform-select
 
 steedos:workflow-chart
 steedos:records-qhd
