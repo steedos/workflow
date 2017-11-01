@@ -19,8 +19,8 @@
 
 							{{#each categorys}}
 								{{#if hasInstances (inboxInstancesFlow this._id)}}
-								<li>
-									<a href="#"><i class="ion ion-ios-copy-outline"></i> {{name}}
+								<li class="workflow-category">
+									<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/"><i class="ion ion-ios-copy-outline"></i> {{name}}
 										<span class="pull-right-container">
 											<i class="fa fa-angle-left pull-right"></i>
 										</span>
@@ -42,8 +42,8 @@
 								{{/if}}
 							{{/each}}
 							{{#if hasInstances (inboxInstancesFlow)}}
-							<li>
-								<a href="#"><i class="ion ion-ios-copy-outline"></i> {{_ "workflow_no_category"}}
+							<li class="workflow-category">
+								<a href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/"><i class="ion ion-ios-copy-outline"></i> {{_ "workflow_no_category"}}
 									<span class="pull-right-container">
 								  		<i class="fa fa-angle-left pull-right"></i>
 									</span>

@@ -83,6 +83,8 @@ if Meteor.isClient
 			return -1
 		else
 			return 1
+	db.organizations.getRoot = (fields)->
+		return SteedosDataManager.organizationRemote.findOne { is_company: true }, fields: fields
 
 db.organizations.attachSchema db.organizations._simpleSchema;
 

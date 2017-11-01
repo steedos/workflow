@@ -458,5 +458,8 @@
 	"steedos_i18n_404_not_found": "The page you requested could not be found.",
 	"Steedos Records": "Full Text Search",
 	"Client download": "Download client",
-	"loading_reload_button_title": "Reload"
+	"loading_reload_button_title": "Reload",
+	"apps_members": "Authorized object",
+	"apps_members_users": "Authorized personnel",
+	"apps_members_organizations": "Authorized department"
 }
