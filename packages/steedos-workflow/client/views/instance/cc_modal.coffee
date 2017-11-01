@@ -21,10 +21,19 @@ Template.instance_cc_modal.helpers
 					rev = true
 			return rev;
 
+		getTrace = (ins, trace_id)->
+			return _.find ins?.traces, (n)->
+				return n._id == trace_id
+
 		if InstanceManager.isInbox() && ins.state is "pending"
 			opinionFields = _.filter(form_version.fields, (field) ->
 				if currentApprove.type == 'cc'
-					return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1 and canCC(field.formula, currentStep)
+
+					_trace = getTrace(ins, currentApprove.trace)
+
+					step = WorkflowManager.getInstanceStep(_trace?.step)
+
+					return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1 and canCC(field.formula, step)
 				InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0 and canCC(field.formula, currentStep)
 			)
 
