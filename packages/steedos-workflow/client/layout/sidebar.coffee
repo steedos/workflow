@@ -90,7 +90,8 @@ Template.workflowSidebar.helpers
 	inboxSpaces: ()->
 		return db.steedos_keyvalues.find({key: "badge"}).fetch().filter (_item)->
 			if _item?.value["workflow"] > 0 && _item.space && _item.space != Session.get("spaceId")
-				return _item
+				if db.spaces.findOne({_id: _item.space})
+					return _item
 
 	spaceName: (_id)->
 		return db.spaces.findOne({_id: _id})?.name
