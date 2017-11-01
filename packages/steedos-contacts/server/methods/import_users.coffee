@@ -20,6 +20,11 @@ Meteor.methods
 		if !space.is_paid
 			throw new Meteor.Error(401, "标准版不支持此功能");
 
+		accepted_user_count = db.space_users.find({space: space._id, user_accepted: true}).count()
+		if (accepted_user_count + data.length) > space.user_limit 
+			c = (accepted_user_count + data.length) - space.user_limit 
+			throw new Meteor.Error(400, "需要额外购买" + c + "个用户名额")
+
 		owner_id = space.owner
 
 		testData = []
@@ -88,7 +93,7 @@ Meteor.methods
 			if organization_depts.length < 1 || organization_depts[0] != root_org.name
 				throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
-			if !item.email && user_pk != 'username'
+			if !item.email && !item.phone && user_pk != 'username'
 				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
 
 
@@ -98,6 +103,11 @@ Meteor.methods
 				if !item.username
 					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
 				user = db.users.findOne({username: item.username})
+			else if user_pk == 'phone'
+				if !item.phone
+					throw new Meteor.Error(500, "第#{i + 1}行：手机号不能为空");
+				phoneNumber = "+86" + item.phone
+				user = db.users.findOne({"phone.number": phoneNumber})
 			else
 				user = db.users.findOne({"emails.address": item.email})
 
@@ -241,8 +251,10 @@ Meteor.methods
 
 				if item.email
 					udoc.steedos_id = item.email
-				else
+				else if item.username
 					udoc.steedos_id = item.username
+				else
+					udoc.steedos_id = udoc._id
 
 				udoc.name = item.name
 				udoc.locale = "zh-cn"
@@ -320,10 +332,13 @@ Meteor.methods
 					su_doc.user = user_id
 					su_doc.space = space_id
 
-					su_doc.user_accepted = true
+					su_doc.user_accepted = false
+					su_doc.invite_state = "pending"
 
-					if item.user_accepted == 0
-						su_doc.user_accepted = false
+					# su_doc.user_accepted = true
+
+					# if item.user_accepted == 0
+					# 	su_doc.user_accepted = false
 
 					su_doc.name = item.name
 					if item.email

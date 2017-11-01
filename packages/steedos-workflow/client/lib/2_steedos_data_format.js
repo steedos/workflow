@@ -280,6 +280,8 @@ var s_schema = function (label, field) {
 		schema.autoform.label = field.name;
     }
 
+	schema.autoform.title = schema.label;
+
     return schema;
 };
 

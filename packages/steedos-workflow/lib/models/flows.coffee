@@ -201,12 +201,13 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flows.before.update (userId, doc, fieldNames, modifier, options) ->
-
+	
 		modifier.$set = modifier.$set || {};
 
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
-
+		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
+			throw new Meteor.Error(400, "space_paid_info_title");
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
 

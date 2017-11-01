@@ -6,7 +6,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
 			terminate_reason = instance_from_client["terminate_reason"]
-			instance_id = instance_from_client["id"]
+			instance_id = instance_from_client["_id"]
 			# 获取一个instance
 			instance = uuflowManager.getInstance(instance_id)
 			space_id = instance.space

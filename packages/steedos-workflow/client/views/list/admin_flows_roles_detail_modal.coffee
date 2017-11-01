@@ -1,5 +1,4 @@
 Template.admin_flows_roles_detail_modal.onRendered ->
-	$(".admin-flows-roles-detail-modal .modal-body").css("max-height" , Steedos.getModalMaxHeight())
 	Modal.allowMultiple = false
 
 Template.admin_flows_roles_detail_modal.helpers

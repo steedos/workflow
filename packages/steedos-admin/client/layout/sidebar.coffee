@@ -65,7 +65,7 @@ Admin.menuTemplate =
 
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
 
-						if menu.paid && !Steedos.isPaidSpace()
+						if menu.paid && !Steedos.isPaidSpace() 
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;

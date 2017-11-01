@@ -23,7 +23,7 @@ Template.steedos_contacts_address_book_info_modal.events
 
 
 Template.steedos_contacts_address_book_info_modal.onRendered ()->
-	$("#steedos_contacts_address_book_info_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
+
 
 Template.steedos_contacts_address_book_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

@@ -156,6 +156,29 @@ InstanceManager.getNextStepOptions = function() {
 //   });
 // }
 
+InstanceManager.nextStepUsersWillUpdate = function(changeField, nextStep) {
+
+	'use strict';
+
+	if (!changeField || !nextStep) {
+		return false;
+	}
+
+	if (changeField.name === 'applicant' && (nextStep.deal_type === 'applicant' || nextStep.deal_type === 'applicantRole' || nextStep.deal_type === 'applicantSuperior')) {
+		return true;
+	} else {
+		if (changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')) {
+			return true;
+		} else if (changeField.type === 'org' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	return false;
+};
+
 InstanceManager.getNextUserOptions = function() {
 
 	var next_user_options = []
@@ -261,6 +284,11 @@ InstanceManager.getApplicantUserId = function() {
 }
 
 function showMessage(parent_group, message) {
+
+	// if (parent_group.hasClass("has-error")) {
+	// 	return;
+	// }
+
 	parent_group.addClass("has-error");
 	$(".help-block", parent_group).html(message);
 	if (message && message.length > 0) {
@@ -274,6 +302,7 @@ function showMessageInblock(parent_group, message) {
 }
 
 function removeMessage(parent_group) {
+	// toastr.remove()
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
 }
@@ -312,12 +341,35 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-InstanceManager._setError_next_step_users = function(error, error_type) {
+InstanceManager._setError_next_step_users = function(error, error_type, error_cdoe) {
 	var next_user = $("input[name='nextStepUsers']");
 
 	if (next_user.length > 0) {
 		next_user[0].dataset["error"] = error;
 		next_user[0].dataset["error_type"] = error_type;
+		next_user[0].dataset["error_code"] = error_cdoe;
+	}
+}
+
+//下一步处理人校验
+InstanceManager.handleErrorMessage = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	InstanceManager._setError_next_step_users("", "", "")
+
+	if (ApproveManager.error.nextStepUsers != '') {
+		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		nextStepUsers_parent_group.addClass("has-error");
+
+		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type, ApproveManager.error.code)
+
+		ApproveManager.error.nextStepUsers = '';
+		return;
 	}
 }
 
@@ -330,17 +382,10 @@ InstanceManager.checkNextStepUser = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	InstanceManager._setError_next_step_users("")
-
-	if (ApproveManager.error.nextStepUsers != '') {
-		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
-		nextStepUsers_parent_group.addClass("has-error");
-
-		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
-
-		ApproveManager.error.nextStepUsers = '';
-		return;
+	if (nextStepUsers_parent_group.length < 1){
+		return ;
 	}
+	
 	var value = ApproveManager.getNextStepUsersSelectValue();
 	var nextStepId = ApproveManager.getNextStepsSelectValue();
 	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -349,6 +394,28 @@ InstanceManager.checkNextStepUser = function() {
 		removeMessage(nextStepUsers_parent_group);
 	else
 		showMessage(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
+}
+
+InstanceManager.nextStepUserErrorClass = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	if (nextStepUsers_parent_group.length < 1){
+		return ;
+	}
+
+	var value = ApproveManager.getNextStepUsersSelectValue();
+	var nextStepId = ApproveManager.getNextStepsSelectValue();
+	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
+
+	if (value.length > 0 || (nextStep && nextStep.step_type == 'end'))
+		removeMessage(nextStepUsers_parent_group);
+	else
+		showMessageInblock(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
 }
 
 //如果是驳回必须填写意见
@@ -502,27 +569,6 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	});
 
 	return values;
-}
-
-InstanceManager.resetId = function(instance) {
-	if (instance._id) {
-		instance.id = instance._id;
-		delete instance._id;
-	}
-	instance.traces.forEach(function(t) {
-		if (t._id) {
-			t.id = t._id;
-			delete t._id;
-		}
-		if (t.approves) {
-			t.approves.forEach(function(a) {
-				if (a._id) {
-					a.id = a._id;
-					delete a._id;
-				}
-			})
-		}
-	})
 }
 
 InstanceManager.getCurrentStep = function() {
@@ -803,7 +849,6 @@ InstanceManager.submitIns = function() {
 				};
 			});
 		} else {
-			InstanceManager.resetId(instance);
 			var state = instance.state;
 			if (state == "draft") {
 
@@ -852,7 +897,6 @@ InstanceManager.submitIns = function() {
 InstanceManager.terminateIns = function(reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.terminate_reason = reason;
 		UUflow_api.post_terminate(instance);
 	}
@@ -870,7 +914,6 @@ InstanceManager.exportIns = function(type) {
 InstanceManager.reassignIns = function(user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.inbox_users = user_ids;
 		instance.reassign_reason = reason;
 		UUflow_api.put_reassign(instance);
@@ -881,7 +924,6 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.relocate_next_step = step_id;
 		instance.relocate_inbox_users = user_ids;
 		instance.relocate_comment = reason;
@@ -1371,6 +1413,22 @@ InstanceManager.instanceformChangeEvent = function(event) {
 
 	if (code === 'ins_applicant') {
 		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
+
+		if (InstanceManager.nextStepUsersWillUpdate({
+				name: 'applicant'
+			}, WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
+			Session.set("instance_next_user_recalculate", Random.id())
+		}
+
+	} else {
+		var instanceFields = WorkflowManager.getInstanceFields();
+		var field = instanceFields.filterProperty("code", code);
+		if (field.length > 0) {
+			if (InstanceManager.nextStepUsersWillUpdate(field[0], WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
+				Session.set("instance_next_user_recalculate", Random.id())
+			}
+		}
+
 	}
 }
 

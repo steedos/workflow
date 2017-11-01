@@ -102,7 +102,7 @@ Template.afSelectUser.events({
         var dataset = $("input[name='" + template.data.name + "']")[0].dataset;
 
         if(dataset.error){
-			swal({title: dataset.error,confirmButtonText: t("OK")})
+			// swal({title: dataset.error,confirmButtonText: t("OK")})
         	return ;
 		}
 
@@ -164,13 +164,12 @@ Template.afSelectUser.events({
             options.defaultValues = values.split(",");
         }
 
+        options.title = this.atts.title?  this.atts.title: t('coreform_select_user_title'); //t('coreform_select') +
+
         options.targetId = template.data.atts.id;
         Modal.allowMultiple = true;
         Modal.show("cf_contact_modal", options);
-        cssHeightKey = "max-height"
-        if (Steedos.isMobile())
-            cssHeightKey = "height"
-        $(".contacts-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+        
     }
 });
 

@@ -45,3 +45,7 @@ Meteor.startup ->
 
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
+
+	Tracker.autorun (c)->
+		locale = Steedos.locale()
+		$("body").addClass("locale-#{locale}")

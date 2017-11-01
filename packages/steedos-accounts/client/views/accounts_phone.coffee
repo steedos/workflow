@@ -45,8 +45,9 @@ Template.accounts_phone.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			unless Meteor.userId()
-				checkVerified = true
+			# 如果是重置密码，则发验证码前要求手机号验证通过
+			# 反之，修改/绑定手机号或手机号登录界面不要求手机号验证通过
+			checkVerified = isSetupPassword
 			Accounts.requestPhoneVerification number, checkVerified, (error)->
 				$(document.body).removeClass('loading')
 				if error

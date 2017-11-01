@@ -1,9 +1,9 @@
 #tableau_introduction_modal {
 	.modal-body{
+		padding: 0;
 		padding-bottom: 4px;
 		.tableau_introduction {
 			padding: 0 15px;
-			margin-top: -15px;
 			h5 {
 				line-height: 20px;
 			}
@@ -12,6 +12,9 @@
 			.weui-media-box__desc {
 				color: #666;
 				font-size: 14px;
+				overflow: auto;
+				text-overflow: unset;
+				-webkit-line-clamp: 20;
 			}
 			.weui-media-box_text {
 				padding-bottom: 0;

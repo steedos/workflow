@@ -8,8 +8,13 @@
                     <h4 class="modal-title" >{{_ "instance_remind_title"}}</h4>
                 </div>
 
-                <div class="modal-body">
-                    <div class="modal-zoom">
+                <div class="modal-body modal-zoom">
+                    <div class="">
+                        <div class="form-group">
+                            {{#autoForm id='instance_remind_deadline' schema=deadline_fields doc=deadline_values }}
+                                  {{> afFormGroup name="remind_deadline"}}
+                            {{/autoForm}}
+                        </div>
                         <div class="form-group">
                             <label for="instance_remind_select_users" class="control-label">{{_ 'instance_remind_select_users'}}</label>
                             {{>afSelectUser user_context}}
@@ -23,11 +28,6 @@
                                     </label>
                                 {{/each}}
                             </div>
-                        </div>
-                        <div class="form-group">
-                            {{#autoForm id='instance_remind_deadline' schema=deadline_fields doc=deadline_values }}
-                                  {{> afFormGroup name="remind_deadline"}}
-                            {{/autoForm}}
                         </div>
                     </div>
                 </div>

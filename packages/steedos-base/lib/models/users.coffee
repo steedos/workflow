@@ -134,7 +134,6 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "users_error_username_exists");
 
 	db.users.before.insert (userId, doc) ->
-
 		doc.created = new Date();
 		doc.is_deleted = false;
 		if userId
@@ -198,8 +197,11 @@ if Meteor.isServer
 
 	db.users.after.insert (userId, doc) ->
 		if !(doc.spaces_invited?.length>0)
+			space_name = doc.company || doc.profile?.company
+			unless space_name
+				space_name = doc.name + " " + trl("space")
 			db.spaces.insert
-				name: doc.name + " " + trl("space")
+				name: space_name
 				owner: doc._id
 				admins: [doc._id]
 
@@ -226,7 +228,10 @@ if Meteor.isServer
 
 		if modifier.$set['phone.verified'] is true
 			# substring(3) 是为了去掉 "+86"
-			modifier.$set.mobile = doc.phone.number.substring(3)
+			newNumber = modifier.$set['phone.number']
+			unless newNumber
+				newNumber = doc.phone.number
+			modifier.$set.mobile = newNumber.substring(3)
 		modifier.$set.modified = new Date();
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
@@ -236,7 +241,10 @@ if Meteor.isServer
 		if modifier.$set['phone.verified'] is true
 			# db.users.before.update中对modifier.$set.mobile的修改这里识别不到，所以只能重新设置其值
 			# substring(3) 是为了去掉 "+86"
-			modifier.$set.mobile = doc.phone.number.substring(3)
+			newNumber = modifier.$set['phone.number']
+			unless newNumber
+				newNumber = doc.phone.number
+			modifier.$set.mobile = newNumber.substring(3)
 
 		user_set = {}
 		user_unset = {}

@@ -1,17 +1,33 @@
 <template name="steedos_contacts_space_user_info_modal">
 	<div class="modal fade contacts-detail-info-modal" id="steedos_contacts_space_user_info_modal" role="dialog" aria-labelledby="modalLabel2">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content {{#if isHiddenUser}}hidden-user{{/if}}">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title">{{spaceUser.name}}</h4>
 				</div>
-				<div class="weui-panel space-user-info-container modal-zoom">
+				<div class="weui-panel space-user-info-container modal-body modal-zoom">
+					{{#if isShowInviteState spaceUser.invite_state}}
+						<div class="weui-panel__hd">{{_ "contact_invite_state"}}</div>
+						<div class="weui-panel__bd">
+							<div class="weui-media-box weui-media-box_small-appmsg">
+								<div class="weui-cells">
+									<div class="weui-cell">
+										<div class="weui-cell__bd weui-cell_primary">
+											<p>
+												{{isShowInviteState spaceUser.invite_state}}
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{{/if}}
 					<div class="weui-panel__hd">{{_ "space_users_mobile"}}</div>
 					<div class="weui-panel__bd">
 						<div class="weui-media-box weui-media-box_small-appmsg">
 							<div class="weui-cells">
-								<div class="weui-cell">
+								<div class="weui-cell weui-cell-hidden-user-field">
 									<div class="weui-cell__bd weui-cell_primary">
 										<p>
 											{{#if isAndroidOrIOS}}
@@ -43,7 +59,7 @@
 					<div class="weui-panel__bd">
 						<div class="weui-media-box weui-media-box_small-appmsg">
 							<div class="weui-cells">
-								<div class="weui-cell">
+								<div class="weui-cell weui-cell-hidden-user-field">
 									<div class="weui-cell__bd weui-cell_primary">
 										<p>
 											{{#if isAndroidOrIOS}}
@@ -137,7 +153,12 @@
 				<div class="modal-footer">
 					<div class="weui-btn-area text-right">
 						{{#if isEditable}}
-							<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}">{{_ "Edit"}}</button>
+							{{#if isModifiable targetId}}
+								<button class="btn btn-default steedos-info-edit pull-left" data-id="{{targetId}}">{{_ "Edit"}}</button>
+							{{/if}}
+							{{#if isShowReinvite spaceUser.invite_state}}
+								<button class="btn btn-default steedos-contact-reinvite pull-left" data-id="{{targetId}}">再次邀请</button>
+							{{/if}}
 							<button class="btn btn-default steedos-info-delete pull-left" data-id="{{targetId}}">{{_ "Delete"}}</button>
 						{{/if}}
 

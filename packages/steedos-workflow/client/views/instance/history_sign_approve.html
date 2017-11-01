@@ -9,37 +9,24 @@
 				</div>
 
 				<div class="modal-body modal-zoom">
-					<div class="sign-approves">
-						<table class="table table-striped">
-							<tbody>
-								{{#each sign_approves}}
-									<tr data-id="{{_id}}">
-										<td class="use-suggestion">
-											<a class="instance-sign-opinion-btn">{{description}}</a>
-											<a class="instance-sign-opinion-btn finish-date">{{format finish_date}}</a>
-										</td>
-										<td class="select-suggestion-td">
-											<!-- <div class="select-suggestion">
-												<label>
-													<input type="checkbox" checked="{{sign_show}}" value="{{_id}}" class="is-{{sign_show}}">
-												</label>
-											</div> -->
-											<!-- <div class="checkbox select-suggestion">
-											    <input type="checkbox" checked="{{sign_show}}" value="{{_id}}" class="is-{{sign_show}}">
-											    <label></label>
-											</div> -->
-											<div class="weui-cell__ft select-suggestion">
-							                    <label for="switchCP-{{_id}}" class="weui-switch-cp">
-							                        <input id="switchCP-{{_id}}" class="weui-switch-cp__input is-{{sign_show}}" type="checkbox" checked="{{sign_show}}" value="{{_id}}">
-							                        <div class="weui-switch-cp__box"></div>
-							                    </label>
-							                </div>
-										</td>
-									</tr>
-								{{/each}}
-							</tbody>
-						</table>
+					<div class="weui-cells weui-cells_form sign-approves">
+						{{#each sign_approves}}
+							<div class="weui-cell weui-cell_switch" data-id="{{_id}}">
+								<div class="weui-cell__bd use-suggestion">
+									<h4 class="weui-media-box__title">{{description}}</h4>
+									<p class="weui-media-box__desc">{{format finish_date}}</p>
+								</div>
+								<div class="weui-cell__ft select-suggestion">
+									<input id="switchCP-{{_id}}" class="weui-switch is-{{sign_show}}" type="checkbox" checked="{{sign_show}}" value="{{_id}}">
+								</div>
+							</div>
+						{{/each}}
 					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary confirm-select-suggestion">确认</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>

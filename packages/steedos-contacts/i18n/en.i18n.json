@@ -82,6 +82,7 @@
 	"steedos_contacts_import_users_download_simple_data_file": "Download the import template",
 	"steedos_contacts_import_users_match_user_base_username": "Match users based on username",
 	"steedos_contacts_import_users_match_user_base_email": "Match users based on email",
+	"steedos_contacts_import_users_match_user_base_mobile": "Match users based on mobile",
 	"steedos_contacts_import_users_preview": "Preview",
 	"steedos_contacts_import_users_title": "Import",
 	"steedos_contacts_import_users_check": "Check",
@@ -107,6 +108,24 @@
 	"steedos_contacts_mobile_edit_power": "Need to modify the phone number by the user self",
 
 	"users_organizations": "Organizations",
+	"contact_space_user_needed": "Only space admins can change username",
+	"contact_invite_state": "Invited state",
+	"contact_invite_pending": "Pending",
+	"contact_invite_refused": "Refused",
+
+	"contact_needs_name": "Please fill in the name",
+	"contact_needs_email": "Please fill in the email",
+	"contact_needs_organizations": "Please fill in the organizations",
+	"contact_invitation_sends": "Invitation notification has been sent. Please wait for user feedback",
+	"contact_invite_success": "The user has been invited to join the workspace successfully",
+	"contact_space_user_exist": "The user is already in the workspace",
+	"cantact_add_space_user": "Add members",
+	"contact_save_user": "Save",
+
+	"contact_invite_info": "__inviter__invite you to join__space__",
+
+	"contact_mail_not_match_phine": "Mail and phone number doesn't match",
+	"contact_reinvite_user": "This user has been invited again",
 
 	"search_contact": "Contacts search"
 }

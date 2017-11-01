@@ -157,73 +157,73 @@ JsonRoutes.add "get", "/s3/",  (req, res, next) ->
   res.end();
 
 
-Meteor.methods
+# Meteor.methods
 
-  s3_upgrade: (min, max) ->
-    console.log("/s3/upgrade")
+#   s3_upgrade: (min, max) ->
+#     console.log("/s3/upgrade")
 
-    fs = Npm.require('fs')
-    mime = Npm.require('mime')
+#     fs = Npm.require('fs')
+#     mime = Npm.require('mime')
 
-    root_path = "/mnt/fakes3/10"
-    console.log(root_path)
-    collection = cfs.instances
+#     root_path = "/mnt/fakes3/10"
+#     console.log(root_path)
+#     collection = cfs.instances
 
-    # 遍历instance 拼出附件路径 到本地找对应文件 分两种情况 1./filename_versionId 2./filename；
-    deal_with_version = (root_path, space, ins_id, version, attach_filename) ->
-      _rev = version._rev
-      if (collection.find({"_id": _rev}).count() >0)
-        return
-      created_by = version.created_by
-      approve = version.approve
-      filename = version.filename || attach_filename;
-      mime_type = mime.lookup(filename)
-      new_path = root_path + "/spaces/" + space + "/workflow/" + ins_id + "/" + filename + "_" + _rev
-      old_path = root_path + "/spaces/" + space + "/workflow/" + ins_id + "/" + filename
+#     # 遍历instance 拼出附件路径 到本地找对应文件 分两种情况 1./filename_versionId 2./filename；
+#     deal_with_version = (root_path, space, ins_id, version, attach_filename) ->
+#       _rev = version._rev
+#       if (collection.find({"_id": _rev}).count() >0)
+#         return
+#       created_by = version.created_by
+#       approve = version.approve
+#       filename = version.filename || attach_filename;
+#       mime_type = mime.lookup(filename)
+#       new_path = root_path + "/spaces/" + space + "/workflow/" + ins_id + "/" + filename + "_" + _rev
+#       old_path = root_path + "/spaces/" + space + "/workflow/" + ins_id + "/" + filename
 
-      readFile = (full_path) ->
-        data = fs.readFileSync full_path
+#       readFile = (full_path) ->
+#         data = fs.readFileSync full_path
 
-        if data
-          newFile = new FS.File();
-          newFile._id = _rev;
-          newFile.metadata = {owner:created_by, space:space, instance:ins_id, approve: approve};
-          newFile.attachData data, {type: mime_type}
-          newFile.name(filename)
-          fileObj = collection.insert newFile
-          console.log(fileObj._id)
+#         if data
+#           newFile = new FS.File();
+#           newFile._id = _rev;
+#           newFile.metadata = {owner:created_by, space:space, instance:ins_id, approve: approve};
+#           newFile.attachData data, {type: mime_type}
+#           newFile.name(filename)
+#           fileObj = collection.insert newFile
+#           console.log(fileObj._id)
 
-      try
-        n = fs.statSync new_path
-        if n && n.isFile()
-          readFile new_path
-      catch error
-        try
-          old = fs.statSync old_path
-          if old && old.isFile()
-            readFile old_path
-        catch error
-          console.error("file not found: " + old_path)
+#       try
+#         n = fs.statSync new_path
+#         if n && n.isFile()
+#           readFile new_path
+#       catch error
+#         try
+#           old = fs.statSync old_path
+#           if old && old.isFile()
+#             readFile old_path
+#         catch error
+#           console.error("file not found: " + old_path)
 
 
-    count = db.instances.find({"attachments.current": {$exists: true}}, {sort: {modified: -1}}).count();
-    console.log("all instances: " + count)
+#     count = db.instances.find({"attachments.current": {$exists: true}}, {sort: {modified: -1}}).count();
+#     console.log("all instances: " + count)
 
-    b = new Date()
+#     b = new Date()
 
-    i = min
-    db.instances.find({"attachments.current": {$exists: true}}, {sort: {modified: -1}, skip: min, limit: max-min}).forEach (ins) ->
-      i = i + 1
-      console.log(i + ":" + ins.name)
-      attachs = ins.attachments
-      space = ins.space
-      ins_id = ins._id
-      attachs.forEach (att) ->
-        deal_with_version root_path, space, ins_id, att.current, att.filename
-        if att.historys
-          att.historys.forEach (his) ->
-            deal_with_version root_path, space, ins_id, his, att.filename
+#     i = min
+#     db.instances.find({"attachments.current": {$exists: true}}, {sort: {modified: -1}, skip: min, limit: max-min}).forEach (ins) ->
+#       i = i + 1
+#       console.log(i + ":" + ins.name)
+#       attachs = ins.attachments
+#       space = ins.space
+#       ins_id = ins._id
+#       attachs.forEach (att) ->
+#         deal_with_version root_path, space, ins_id, att.current, att.filename
+#         if att.historys
+#           att.historys.forEach (his) ->
+#             deal_with_version root_path, space, ins_id, his, att.filename
 
-    console.log(new Date() - b)
+#     console.log(new Date() - b)
 
-    return "ok"
+#     return "ok"
