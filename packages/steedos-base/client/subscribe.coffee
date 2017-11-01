@@ -19,8 +19,8 @@ Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
 
 	Steedos.subsSpaceBase.clear();
-	Steedos.subsSpaceBase.subscribe("apps", spaceId)
 	if spaceId
+		Steedos.subsSpaceBase.subscribe("apps", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_space_user", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_organizations", spaceId)
 		Steedos.subsSpaceBase.subscribe("space_settings", spaceId)

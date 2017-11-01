@@ -70,6 +70,25 @@ db.apps._simpleSchema = new SimpleSchema
 			type: "hidden"
 		optional: true
 
+	members:
+		type: Object,
+		optional: false
+
+	"members.users": 
+		type: [String],
+		optional: true,
+		autoform:
+			type: "selectuser"
+			multiple: true
+
+
+	"members.organizations": 
+		type: [String],
+		optional: true,
+		autoform:
+			type: "selectorg"
+			multiple: true
+
 
 if Meteor.isClient
 	db.apps._simpleSchema.i18n("apps")
