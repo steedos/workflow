@@ -32,8 +32,8 @@
 					<div class="weui_cell_bd weui_cell_primary">{{_ "inbox"}}</div>
 				</a>
 				{{#each inboxInstancesByCategorys}}
-					<a class="weui_cell menu-inbox-category" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
-						<div class="weui-cell__hd" style="padding-left: 10px;padding-right: 5px;"><i class="ion ion-ios-copy-outline"></i></div>
+					<a class="weui_cell menu-inbox-category {{#if (equals Session_category _id)}}active{{/if}}" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
+						<div class="weui-cell__hd" style="padding-left: 10px;padding-right: 5px;"><i class="ion ion-ios-folder-outline"></i></div>
 						<div class="weui_cell_bd weui_cell_primary">{{this.name}}</div>
 						<span class="weui-badge" style="margin-left: 5px;">{{this.inbox_count}}</span>
 					</a>
