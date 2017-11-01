@@ -317,7 +317,6 @@ TemplateHelpers =
 		organizations = Steedos.getUserOrganizations(true)
 		userId = Meteor.userId()
 		selector = $or: [
-			{ internal: true }
 			{ space:{ $exists: false } }
 			{ 'members.organizations': $in: organizations }
 			{ 'members.users': $in: [ userId ] }
