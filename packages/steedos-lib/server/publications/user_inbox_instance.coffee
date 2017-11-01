@@ -22,7 +22,7 @@ Meteor.publishComposite "user_inbox_instance", ()->
 				name: 1,
 				modified: 1,
 				form: 1
-			}, sort: {modified: -1}, skip: 0, limit: 100
+			}, sort: {modified: -1}, skip: 0, limit: 200
 		});
 	children: [
 		{
