@@ -119,6 +119,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "contacts_organizations"
 		title: "contacts_organizations"
+		mobile: false
 		icon: "ion ion-ios-people-outline"
 		url: "/admin/organizations"
 		roles:["space_admin"]

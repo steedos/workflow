@@ -23,6 +23,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "flow_positions"
 		title: "flow_positions"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-at-outline"
 		url: "/admin/workflow/flow_positions"
@@ -33,6 +34,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "workflow_designer"
 		title: "Workflow Designer"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-shuffle"
 		url: "/workflow/designer"
@@ -43,6 +45,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "workflow_form_edit"
 		title: "workflow_form_edit"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-paper-outline"
 		url: "/admin/flows"
@@ -55,6 +58,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "workflow_import_export_flows"
 		title: "workflow_import_export_flows"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-cloud-download-outline"
 		url: "/admin/importorexport/flows"
@@ -67,6 +71,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "space_user_signs"
 		title: "space_user_signs"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-pulse"
 		url: "/admin/view/space_user_signs"
@@ -79,6 +84,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "webhooks"
 		title: "webhooks"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-paperplane-outline"
 		url: "/admin/view/webhooks"
@@ -90,6 +96,7 @@ if Meteor.isClient
 	# 流程分类
 	Admin.addMenu
 		_id: "categories"
+		mobile: false
 		title: "categories"
 		app: "workflow"
 		icon: "ion ion-ios-folder-outline"
@@ -97,9 +104,11 @@ if Meteor.isClient
 		sort: 45
 		parent: "workflow"
 
+	# 流程编号规则
 	Admin.addMenu
 		_id: "instance_number_rules"
 		title: "instance_number_rules"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-refresh-outline"
 		url: "/admin/instance_number_rules"
