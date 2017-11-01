@@ -458,7 +458,6 @@
 	"steedos_i18n_404_not_found": "The page you requested could not be found.",
 	"Steedos Records": "Full Text Search",
 	"Client download": "Download client",
-
 	"steedos_desktop_zone_info": "Does the current service for the US zone, whether to jump to the Chinese zone?",
 	"steedos_desktop_confirm": "Confirm",
 	"steedos_desktop_cancel": "Cancel",
@@ -487,5 +486,9 @@
 	"billing_pay_records_end_date": "Expiration date",
 	"billing_pay_records_order_total_fee()": "Amount ￥",
 	"billing_pay_records_order_paid()": "Status",
-	"loading_reload_button_title": "Reload"
+	"loading_reload_button_title": "Reload",
+	"loading_reload_button_title": "Reload",
+	"apps_members": "Authorized object",
+	"apps_members_users": "Authorized personnel",
+	"apps_members_organizations": "Authorized department"
 }

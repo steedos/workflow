@@ -476,7 +476,6 @@
 	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
 	"Steedos Records": "全文检索",
 	"Client download": "下载客户端",
-
 	"steedos_desktop_zone_info": "当前服务为美国区域，是否跳转到中国区域？",
 	"steedos_desktop_confirm": "确定",
 	"steedos_desktop_cancel": "取消",
@@ -505,5 +504,9 @@
 	"billing_pay_records_end_date": "租用日期至",
 	"billing_pay_records_order_total_fee()": "金额 ￥",
 	"billing_pay_records_order_paid()": "状态",
-	"loading_reload_button_title": "重新加载"
+	"loading_reload_button_title": "重新加载",
+	"loading_reload_button_title": "重新加载",
+	"apps_members": "授权对象",
+	"apps_members_users": "授权人员",
+	"apps_members_organizations": "授权部门"
 }
