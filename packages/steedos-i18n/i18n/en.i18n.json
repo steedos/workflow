@@ -121,6 +121,10 @@
 	"OK": "OK",
 	"Cancel": "Cancel",
 	"About": "About Steedos",
+	"Password": "Password",
+	"Accountzoom": "Font size",
+	"Backgroundimage": "Background image",
+	"binding_mailbox": "Binding mailbox",
 
 	"primary_email_needed": "Setup your primary email",
 	"primary_email_needed_description": "Please enter your primary email address here. You can use this email address to signin steedos, or reset your password.",

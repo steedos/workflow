@@ -105,6 +105,9 @@ Template.workflowSidebar.helpers
 	hasInstances: (instances)->
 		return instances?.length > 0
 
+	Session_category: ()->
+		return Session.get("workflowCategory")
+
 Template.workflowSidebar.events
 
 	'click .instance_new': (event, template)->
