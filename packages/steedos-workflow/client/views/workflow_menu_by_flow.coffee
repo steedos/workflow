@@ -92,6 +92,9 @@ Template.workflowMenuByFlow.helpers
 #        return Steedos.isMobile()
 		return false;
 
+	Session_category: ()->
+		return Session.get("workflowCategory")
+
 Template.workflowMenuByFlow.events
 	'click .weui-navbar__item': (event, template)->
 		box = event.currentTarget.dataset?.box
