@@ -305,18 +305,18 @@ Template.profile.events
 						confirmButtonText:t('OK')
 					}
 
-	'click #personalization .bg-body-setting a.thumbnail': (event)->
+	'click #backgroundImage .bg-body-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset
 		url = dataset.url
 		accountBgBodyValue = Steedos.getAccountBgBodyValue()
-		btn_save = $("#personalization button.btn-save-bg")[0]
+		btn_save = $("#backgroundImage button.btn-save-bg")[0]
 		btn_save.dataset.url = url
 		btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 		Steedos.applyAccountBgBodyValue(btn_save.dataset)
 		Session.set("waiting_save_profile_bg", url)
-		$("#personalization button.btn-save-bg").trigger("click")
+		$("#backgroundImage button.btn-save-bg").trigger("click")
 
-	'click #personalization button.btn-save-bg': (event)->
+	'click #backgroundImage button.btn-save-bg': (event)->
 		dataset = event.currentTarget.dataset
 		url = dataset.url
 		accountBgBodyValue = Steedos.getAccountBgBodyValue()
@@ -331,7 +331,7 @@ Template.profile.events
 				console.error error
 				toastr.error(error)
 
-	'change #personalization .btn-upload-bg-file .avatar-file': (event, template) ->
+	'change #backgroundImage .btn-upload-bg-file .avatar-file': (event, template) ->
 		oldAvatar = Steedos.getAccountBgBodyValue().avatar
 		if oldAvatar
 			Session.set("waiting_save_profile_bg", oldAvatar)
@@ -348,7 +348,7 @@ Template.profile.events
 					toastr.success t('profile_save_bg_suc')
 					
 					accountBgBodyValue = Steedos.getAccountBgBodyValue()
-					btn_save = $("#personalization button.btn-save-bg")[0]
+					btn_save = $("#backgroundImage button.btn-save-bg")[0]
 					btn_save.dataset.url = url
 					btn_save.dataset.avatar = accountBgBodyValue.avatar #自定义头像保持不变
 				else
@@ -384,18 +384,18 @@ Template.profile.events
 				console.error error
 				toastr.error(error)
 
-	'click #personalization .zoom-setting a.thumbnail': (event)->
+	'click #accountZoom .zoom-setting a.thumbnail': (event)->
 		dataset = event.currentTarget.dataset
 		name = dataset.name
 		size = dataset.size
-		btn_save = $("#personalization button.btn-save-zoom")[0]
+		btn_save = $("#accountZoom button.btn-save-zoom")[0]
 		btn_save.dataset.name = name
 		btn_save.dataset.size = size
 		Steedos.applyAccountZoomValue btn_save.dataset
 		Session.set("waiting_save_profile_zoom_name", name)
-		$("#personalization button.btn-save-zoom").trigger("click")
+		$("#accountZoom button.btn-save-zoom").trigger("click")
 
-	'click #personalization button.btn-save-zoom': (event)->
+	'click #accountZoom button.btn-save-zoom': (event)->
 		dataset = event.currentTarget.dataset
 		name = dataset.name
 		size = dataset.size
@@ -414,7 +414,6 @@ Template.profile.events
 
 	'click .change-username': (event, template) ->
 		user = Meteor.user()
-		space_id = Steedos.spaceId()
 		swal {
 			title: t('Change username')
 			type: "input"
@@ -427,7 +426,7 @@ Template.profile.events
 		}, (inputValue)->
 			if inputValue is false
 				return false
-			Meteor.call "setUsername", Steedos.spaceId(), inputValue.trim(), (error, results)->
+			Meteor.call "setUsername", inputValue.trim(), (error, results)->
 				if results
 					toastr.success t('Change username successfully')
 					swal.close()

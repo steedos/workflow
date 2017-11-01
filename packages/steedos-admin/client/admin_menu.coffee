@@ -55,27 +55,36 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "account_info"
 		title: "Account"
-		icon:"ion ion-ios-locked-outline"
+		icon:"ion ion-ios-lightbulb-outline"
 		url: "/admin/profile/account"
 		sort: 30
 		parent: "account"
 
-	# 邮件
+	# 密码
 	Admin.addMenu
-		_id: "email"
-		title: "email"
-		icon:"ion ion-ios-email-outline"
-		url: "/admin/profile/emails"
+		_id: "password"
+		title: "Password"
+		icon:"ion ion-ios-locked-outline"
+		url: "/admin/profile/password"
 		sort: 40
 		parent: "account"
 
-	# 个性化
+	#设置字体
 	Admin.addMenu
-		_id: "personalization"
-		title: "personalization"
-		icon:"ion ion-ios-color-wand-outline"
-		url: "/admin/profile/personalization"
+		_id: "accountZoom"
+		title: "Accountzoom"
+		icon:"ion ion-ios-glasses-outline"
+		url: "/admin/profile/accountZoom"
 		sort: 50
+		parent: "account"
+
+	#设置背景
+	Admin.addMenu
+		_id: "backgroundImage"
+		title: "Backgroundimage"
+		icon:"ion ion-ios-color-wand-outline"
+		url: "/admin/profile/backgroundImage"
+		sort: 60
 		parent: "account"
 
 	# API
