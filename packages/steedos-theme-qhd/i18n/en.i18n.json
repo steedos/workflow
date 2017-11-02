@@ -25,5 +25,6 @@
 	"login_title": "Hebei Port Office",
 	"login_title_mobile": "Hebei Port Office",
 	"Username_and_email": "Username",
-	"password_invalid": "The password can not be less than 6 digits"
+	"password_invalid": "The password can not be less than 6 digits",
+	"tabbar_admin": "Admin"
 }
