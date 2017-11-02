@@ -131,7 +131,7 @@ Meteor.methods({
 		if (name_forumla) {
 			// var iscript = name_forumla.replace(/\{/g, "(values['").replace(/\}/g, "'] || '')");
 			// var rev = eval(iscript);
-			setObj.name = uuflowManager.getInstanceName(ins);
+			setObj.name = uuflowManager.getInstanceName(ins, values);
 		}
 
 		db.instances.update({
@@ -161,7 +161,9 @@ Meteor.methods({
 				traces: 1,
 				flow_version: 1,
 				flow: 1,
-				state: 1
+				state: 1,
+				form: 1,
+				form_version: 1
 			}
 		});
 
@@ -240,6 +242,14 @@ Meteor.methods({
 		setObj.attachments = approve.attachments;
 
 		setObj["traces.$.approves"] = current_trace.approves;
+
+		// 计算申请单标题
+		var form = db.forms.findOne(instance.form);
+		var form_v = uuflowManager.getFormVersion(form, instance.form_version);
+		var name_forumla = form_v.name_forumla;
+		if (name_forumla) {
+			setObj.name = uuflowManager.getInstanceName(instance, values);
+		}
 
 		db.instances.update({
 			_id: ins_id,
