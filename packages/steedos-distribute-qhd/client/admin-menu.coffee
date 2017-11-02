@@ -3,6 +3,7 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "distribute_manager"
 		title: "distribute_manager"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-browsers-outline"
 		url: "/admin/distribute/flows"
