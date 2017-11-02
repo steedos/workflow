@@ -65,7 +65,7 @@ Admin.menuTemplate =
 
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
 
-						if menu.paid && !Steedos.isPaidSpace()
+						if menu.paid && !Steedos.isPaidSpace() 
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;
@@ -122,18 +122,24 @@ Admin.menuTemplate =
 						targetStr = "target=#{menu.target}"
 					else
 						targetStr = ""
-					return """
-						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{menu._id}">
-							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
-								<div class="admin-grid-icon">
-									<i class="#{menu.icon}"></i>
-								</div>
-								<div class="admin-grid-label">
-									#{t(menu.title)}
-								</div>
-							</a>
-						</div>
-					"""
+
+
+					# QHD隐藏个人信息
+					if menu._id == "profile" and Meteor.settings.public?.admin?.disableProfileInfo == true
+						return ""
+					else
+						return """
+							<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{menu._id}">
+								<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
+									<div class="admin-grid-icon">
+										<i class="#{menu.icon}"></i>
+									</div>
+									<div class="admin-grid-label">
+										#{t(menu.title)}
+									</div>
+								</a>
+							</div>
+						"""
 				return """
 					<div class="row admin-grids admin-grids-#{rootMenu._id}">
 						#{items.join("")}

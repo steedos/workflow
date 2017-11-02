@@ -63,6 +63,9 @@ workflowSpaceRoutes.route '/:box/',
 		Session.set("box", params.box);
 #		Session.set("flowId", undefined);
 		Session.set("instanceId", null);
+		if params.box != 'inbox'
+			Session.set("workflowCategory", undefined);
+
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 

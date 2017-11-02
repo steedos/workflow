@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.60',
+	version: '0.0.61',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -9,7 +9,7 @@ Npm.depends({
 	cookies: "0.6.1"
 });
 
-Package.onUse(function (api) {
+Package.onUse(function(api) {
 	api.versionsFrom('METEOR@1.3');
 
 	api.use('session');
@@ -41,13 +41,14 @@ Package.onUse(function (api) {
 	api.use('steedos:ionicons@0.1.7');
 	api.use('steedos:i18n@0.0.10');
 	api.use('steedos:ui@0.0.1');
-	api.use('steedos:theme@0.0.28');
+	api.use('steedos:theme@0.0.29');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 
 	api.addFiles([
 		'lib/core.coffee',
-		'lib/tap-i18n.coffee']);
+		'lib/tap-i18n.coffee'
+	]);
 
 	api.addFiles('lib/simple_schema_extend.js');
 
@@ -64,6 +65,7 @@ Package.onUse(function (api) {
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
 	api.addFiles('lib/models/modules_changelogs.coffee');
+	api.addFiles('lib/models/billing_pay_records.coffee');
 	api.addFiles('lib/models/space_settings.coffee');
 
 	api.addFiles('routes/collection.coffee', 'server');
@@ -137,7 +139,7 @@ Package.onUse(function (api) {
 	api.addFiles('client/views/springboard.less', 'client');
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
-	api.addAssets('client/images/default-avatar.png','client');
+	api.addAssets('client/images/default-avatar.png', 'client');
 
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');
@@ -153,9 +155,11 @@ Package.onUse(function (api) {
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
 
-	api.addFiles('client/layout/notFound_layout.html','client');
-	api.addFiles('client/layout/notFound_layout.coffee','client');
-	api.addFiles('client/layout/notFound_layout.less','client');
+	api.addFiles('client/layout/notFound_layout.html', 'client');
+	api.addFiles('client/layout/notFound_layout.coffee', 'client');
+	api.addFiles('client/layout/notFound_layout.less', 'client');
+
+	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 
 	api.export('Steedos');
 	api.export('db');
@@ -164,6 +168,6 @@ Package.onUse(function (api) {
 	api.export("SteedosDataManager");
 });
 
-Package.onTest(function (api) {
+Package.onTest(function(api) {
 
 });

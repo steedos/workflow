@@ -108,7 +108,7 @@
 	"steedos_contacts_mobile_edit_power": "Need to modify the phone number by the user self",
 
 	"users_organizations": "Organizations",
-
+	"contact_space_user_needed": "Only space admins can change username",
 	"contact_invite_state": "Invited state",
 	"contact_invite_pending": "Pending",
 	"contact_invite_refused": "Refused",
@@ -125,5 +125,7 @@
 	"contact_invite_info": "__inviter__invite you to join__space__",
 
 	"contact_mail_not_match_phine": "Mail and phone number doesn't match",
-	"contact_reinvite_user": "This user has been invited again"
+	"contact_reinvite_user": "This user has been invited again",
+
+	"search_contact": "Contacts search"
 }

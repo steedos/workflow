@@ -1,11 +1,11 @@
 Template.tableau_introduction_modal.onCreated ->
 
-	$("#tableau_introduction_modal .modal-body").css("max-height",Steedos.getModalMaxHeight())
-
 	this.copyTableauUrlClipboard = new Clipboard('#copyTableauUrl');
 	this.copyTableauUrlClipboard.on 'success', (e) ->
 		toastr.success(t("instance_readonly_view_url_copy_success"))
 		e.clearSelection()
+
+Template.tableau_introduction_modal.onRendered ->
 
 Template.tableau_introduction_modal.helpers
 

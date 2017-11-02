@@ -24,9 +24,6 @@ Meteor.methods
 		else if userObj.length > 1
 			throw new Meteor.Error(400,"contact_mail_not_match_phine")
 
-		console.log userObj
-		console.log "=========================="
-
 		if userObj 
 			userId = userObj._id
 			if doc.email && doc.mobile

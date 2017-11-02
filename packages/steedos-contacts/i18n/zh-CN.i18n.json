@@ -106,10 +106,12 @@
 	"steedos_contacts_mobile_edit_power": "需由用户自行修改手机号",
 
 	"users_organizations": "部门",
-
+	"contact_space_user_needed": "工作区管理员才能修改用户名",
 	"contact_invite_state": "受邀状态",
 	"contact_invite_pending": "待反馈",
 	"contact_invite_refused": "已拒绝",
+
+	"search_contact": "搜索联系人",
 
 	"contact_needs_name": "请填写姓名",
 	"contact_needs_email": "请填写邮件",

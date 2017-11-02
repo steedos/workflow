@@ -284,7 +284,15 @@ TemplateHelpers =
 			if space
 				return space.is_paid
 
-
+	isLegalVersion: (spaceId,app_version)->
+		if !spaceId
+			spaceId = Steedos.getSpaceId()
+		check = false
+		modules = db.spaces.findOne(spaceId)?.modules
+		if modules and modules.includes(app_version)
+			check = true
+		return check
+	
 	isCloudAdmin: ->
 		return Meteor.user()?.is_cloudadmin
 
@@ -306,9 +314,15 @@ TemplateHelpers =
 				return false
 
 	getSpaceApps: ()->
-		selector = {}
-		if Steedos.getSpaceId()
-			space = db.spaces.findOne(Steedos.getSpaceId())
+		organizations = Steedos.getUserOrganizations(true)
+		userId = Meteor.userId()
+		selector = $or: [
+			{ space:{ $exists: false } }
+			{ 'members.organizations': $in: organizations }
+			{ 'members.users': $in: [ userId ] }
+		]
+		# if Steedos.getSpaceId()
+		# 	space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()

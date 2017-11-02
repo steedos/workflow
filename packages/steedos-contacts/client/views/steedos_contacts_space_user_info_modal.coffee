@@ -94,6 +94,7 @@ Template.steedos_contacts_space_user_info_modal.events
 			$("body").off("click",".admin-dashboard-body input[name=mobile]")
 
 	'click .btn-edit-username': (event, template) ->
+		space_id = Session.get("spaceId")
 		username = template.username?.get()
 		user_id = event.currentTarget.dataset.id
 		unless user_id
@@ -113,7 +114,7 @@ Template.steedos_contacts_space_user_info_modal.events
 			if inputValue?.trim() == username?.trim()
 				swal.close()
 				return false;
-			Meteor.call "setUsername", inputValue?.trim(), user_id, (error, results)->
+			Meteor.call "setUsername", space_id, inputValue?.trim(), user_id, (error, results)->
 				if results
 					template.username.set(results);
 					toastr.success t('Change username successfully')
@@ -157,7 +158,6 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
-	$("#steedos_contacts_space_user_info_modal .space-user-info-container").css("max-height", Steedos.getModalMaxHeight(30));
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

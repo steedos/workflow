@@ -18,6 +18,13 @@ Meteor.startup ->
 			$("body").removeClass("offline")
 		else
 			$("body").addClass("offline")
+		
+	if Steedos.isMobile()
+		$(window).resize ->
+			if $(".modal.in").length
+				setTimeout ()->
+					Steedos.setModalMaxHeight()
+				,500
 
 	Steedos.loadingTimeCount = 0
 	Meteor.setInterval ->

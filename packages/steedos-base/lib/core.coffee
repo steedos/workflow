@@ -244,10 +244,54 @@ if Meteor.isClient
 		if Steedos.isSpaceAdmin()
 			min_months = 3
 		space = db.spaces.findOne(spaceId)
-		remaining_months = space?.billing?.remaining_months
-		if space?.is_paid and remaining_months != undefined and remaining_months <= min_months
+		end_date = space?.end_date
+		if space?.is_paid and end_date != undefined and (end_date - new Date) <= (min_months*30*24*3600*1000)
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
+
+	Steedos.setModalMaxHeight = ()->
+		accountZoomValue = Steedos.getAccountZoomValue()
+		unless accountZoomValue.name
+			accountZoomValue.name = 'large'
+		switch accountZoomValue.name
+			when 'normal'
+				if Steedos.isMobile()
+					offset = 5
+				else
+					offset = 75
+			when 'large'
+				if Steedos.isMobile()
+					offset = 9
+				else
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 199
+					else
+						offset = 9
+			when 'extra-large'
+				if Steedos.isMobile()
+					offset = -7
+				else 
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 303
+					else
+						offset = 53
+
+		if $(".modal").length
+			$(".modal").each ->
+				headerHeight = 0
+				footerHeight = 0
+				totalHeight = 0
+				$(".modal-header", $(this)).each ->
+					headerHeight += $(this).outerHeight(false)
+				$(".modal-footer", $(this)).each ->
+					footerHeight += $(this).outerHeight(false)
+
+				totalHeight = headerHeight + footerHeight
+				height = $("body").innerHeight() - totalHeight - offset
+
+				$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
@@ -328,6 +372,15 @@ if Meteor.isServer
 		if !space || !space.admins
 			return false;
 		return space.admins.indexOf(userId)>=0
+
+	Steedos.isLegalVersion = (spaceId,app_version)->
+		if !spaceId
+			return false
+		check = false
+		modules = db.spaces.findOne(spaceId)?.modules
+		if modules and modules.includes(app_version)
+			check = true
+		return check
 
 	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->

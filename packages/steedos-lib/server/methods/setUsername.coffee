@@ -1,6 +1,10 @@
 Meteor.methods
-	setUsername: (username, user_id) ->
+	setUsername: (space_id, username, user_id) ->
+		check(space_id, String);
 		check(username, String);
+
+		if !Steedos.isSpaceAdmin(space_id, Meteor.userId()) and user_id
+			throw new Meteor.Error 'contact_space_user_needed', 'Only space admins and user-self can change username'
 
 		if not Meteor.userId()
 			throw new Meteor.Error('error-invalid-user', "Invalid user", { method: 'setUsername' })

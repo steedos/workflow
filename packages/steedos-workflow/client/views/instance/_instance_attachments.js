@@ -15,6 +15,11 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 		}
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		var current_step = InstanceManager.getCurrentStep();
 
 		if (!current_step)
@@ -72,6 +77,11 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 
 		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {
+			return false
+		}
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
 			return false
 		}
 

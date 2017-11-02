@@ -60,7 +60,7 @@ UUflow_api.delete_draft = function(instanceId) {
 	var url = Steedos.absoluteUrl() + "api/workflow/remove?" + $.param(uobj);
 	var data = {
 		"Instances": [{
-			"id": instanceId
+			"_id": instanceId
 		}]
 	};
 	data = JSON.stringify(data);
@@ -394,6 +394,39 @@ UUflow_api.caculate_nextstep_users = function(deal_type, spaceId, body) {
 	});
 
 	return nextStepUsers;
+};
+
+// 计算下一步处理人
+UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
+	var q = {};
+	q.deal_type = deal_type;
+	q.spaceId = spaceId;
+
+	var nextStepUsers = [],error="";
+	var data = JSON.stringify(body);
+	$.ajax({
+		url: Steedos.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
+		type: 'POST',
+		async: false,
+		data: data,
+		dataType: 'json',
+		processData: false,
+		contentType: "application/json",
+		success: function(responseText, status) {
+			if (responseText.errors) {
+				toastr.error(responseText.errors);
+				return;
+			}
+
+			nextStepUsers = responseText.nextStepUsers;
+			error = responseText.error;
+		},
+		error: function(xhr, msg, ex) {
+			toastr.error(msg);
+		}
+	});
+
+	return {nextStepUsers: nextStepUsers, error: error};
 };
 
 // 获取space_users

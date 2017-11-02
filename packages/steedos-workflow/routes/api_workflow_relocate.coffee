@@ -5,7 +5,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-			instance = uuflowManager.getInstance(instance_from_client["id"])
+			instance = uuflowManager.getInstance(instance_from_client["_id"])
 			
 			last_trace = _.last(instance.traces)
 

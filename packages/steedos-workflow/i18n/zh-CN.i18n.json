@@ -167,7 +167,7 @@
 	"User Management": "用户管理",
 
 	"All flows": "所有流程",
-	"Select a flow": "请选择流程",
+	"Select a flow": "请点击流程分类选择相应流程",
 	"Fill in form": "填写表单",
 
 	"Flow upgraded": "流程已升级，请检查您填写的内容是否符合修改后的要求。",
@@ -537,13 +537,16 @@
 		"single": "单次提醒",
 		"multi": "多次提醒"
 	},
-	"instance_opinion_title_select": "选择常用意见",
+	"instance_opinion_title_select": "其他常用意见",
 	"categories": "流程分类",
 	"categories_name": "名称",
 	"categories_sort_no": "排序号",
 	"not_found_user":"未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "您要找的「__role_name__」还未配置，请联系管理员。"
+		"aplicant_superior":"申请人上级未配置，请联系管理员。",
+		"applicant_role": "您要找的「__role_name__」还未配置，请联系管理员。",
+		"field_value_empty": "获取处理人，请先填写「__field_name__」。",
+		"org_no_members": "下一步需「__org_name__」处理，请联系管理员。"
 	},
 
 	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置。</a>",
@@ -619,5 +622,11 @@
 	"flow_positions_delete_suceess": "删除成功",
 	"instance_role_set_is_complete": "岗位设置完成？",
 
-	"flow_roles_help": "帮助"
+	"instance_set_is_complete": "设置完成？",
+
+	"flow_roles_help": "帮助",
+
+	 "set_org_members": "设置部门成员",
+
+	 "set_applicant_manager": "设置申请人上级主管"
 }

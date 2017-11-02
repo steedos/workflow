@@ -14,8 +14,12 @@
 
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}
-					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}} <i class="caret"></i>
+
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}}
+					{{!--
+					{{#if hasApproves}}
+					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}}
+					--}}<i class="caret"></i>
 				</a>
 				<div class="dropdown-menu workflow-menu" style="max-height: {{maxHeight}}">
 					{{> workflowMenuByFlow}}
@@ -42,10 +46,10 @@
 					<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
-					<li><a href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
-					<li><a href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
-					<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
+					<li><a class="export-thismonth" href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
+					<li><a class="export-pro" href="#" type="3">{{_ "workflow_export_all"}}</a></li>
 				</ul>
 			</div>
 
@@ -75,7 +79,12 @@
 		</div>
 	</div>
 	<div class="search-tip-bar" style="{{is_display_search_tip}}">
-		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}: <b>{{filterFlowName}}</b></span>
+		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}:
+			<ol class="breadcrumb">
+				{{#each filterFlowName}}<li>{{this}}</li>{{/each}}
+			</ol>
+
+		</span>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
 	<div class="instance-list {{is_select_bar_show}}">

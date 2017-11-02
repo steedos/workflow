@@ -108,26 +108,27 @@ Meteor.methods
 			return true
 
 
-	update_sign_show: (instanceId, traceId, approveId, sign_show)->
-		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
-		if instance?.traces?.length > 0
-			trace = instance.traces[0]
+	update_sign_show: (objs)->
+		objs.forEach (obj, index) ->
+			instance = db.instances.findOne({_id: obj.instance, "traces._id": obj.trace}, {fields: {"traces.$": 1}})
+			if instance?.traces?.length > 0
+				trace = instance.traces[0]
 
-			trace.approves.forEach (approve)->
-				if approve._id == approveId
+				trace.approves.forEach (approve)->
+					if approve._id == obj._id
 
-					approve.sign_show = sign_show
+						approve.sign_show = obj.sign_show
 
-					approve.custom_sign_show = sign_show
+						approve.custom_sign_show = obj.sign_show
 
-			db.instances.update({
-				_id: instanceId,
-				"traces._id": traceId
-			}, {
-				$set: {"traces.$.approves": trace.approves}
-			})
-			return true
+				db.instances.update({
+					_id: obj.instance,
+					"traces._id": obj.trace
+				}, {
+					$set: {"traces.$.approves": trace.approves}
+				})
+				
+		return true
 
 
 
-		# db.instances.update({_id: instanceId, 'traces.approves._id': approveId}, { $set : {"traces.$.approves.$.sign_show":  sign_show}})

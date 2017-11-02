@@ -112,7 +112,7 @@ Template.instance_button.helpers
 				return true
 			else
 				cs = InstanceManager.getCurrentStep()
-				if cs && (cs.disableCC is true)
+				if cs && (cs.disableCC is true or cs.step_type is "start")
 					return false
 				return true
 		else if Session.get("box") is 'outbox' and ins.state is "pending"
@@ -331,7 +331,10 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		return true
+		if InstanceManager.isInbox() || Session.get('box') is "draft"
+			return true
+
+		return false
 
 	isMobile: ()->
 		return Steedos.isMobile()
@@ -410,6 +413,7 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-instance-reassign': (event, template) ->
+		
 		Modal.show('reassign_modal')
 
 	'click .btn-instance-relocate': (event, template) ->
@@ -449,17 +453,11 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
@@ -557,10 +555,6 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
 

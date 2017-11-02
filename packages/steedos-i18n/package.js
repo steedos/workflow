@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:i18n',
-  version: '0.0.10',
+  version: '0.0.11',
   summary: 'i18n for Steedos',
   git: 'https://github.com/steedos/framework/packages/steedos-i18n'
 });

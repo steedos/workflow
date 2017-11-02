@@ -2,6 +2,7 @@ Meteor.startup ()->
 	Admin.addMenu
 		_id: "records_qhd_sync_contracts"
 		title: "records_qhd_sync_contracts_title"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-loop"
 		url: "/records_qhd/sync_contracts"
@@ -11,6 +12,7 @@ Meteor.startup ()->
 	Admin.addMenu
 		_id: "records_qhd_sync_archive"
 		title: "records_qhd_sync_archive_title"
+		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-loop"
 		url: "/records_qhd/sync_archive"

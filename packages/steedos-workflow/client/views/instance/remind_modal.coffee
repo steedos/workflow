@@ -107,11 +107,12 @@ Template.remind_modal.helpers
 
 
 Template.remind_modal.onRendered ()->
-	console.log "remind_modal onRendered"
-	$("#remind_modal .modal-body").css("max-height", Steedos.getModalMaxHeight())
 	
 Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+				Steedos.spaceUpgradedModal();
+				return	
 		values = $("#instance_remind_select_users")[0].dataset.values
 		remind_users = if values then values.split(",") else []
 		remind_count = ''
