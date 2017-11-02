@@ -36,6 +36,9 @@ Template.space_recharge_modal.helpers
 
 		return e
 
+	accepted_user_count: ->
+        return Session.get('space_user_count')
+
 
 Template.space_recharge_modal.events
 	'click #space_recharge_generate_qrcode': (event, template)->
@@ -82,6 +85,11 @@ Template.space_recharge_modal.events
 				$('#space_recharge_fee')[0].value = ""
 				return
 
+			if user_count < old_user_limit
+				toastr.warning "购买用户数不能小于工作区当前已购买用户数：#{old_user_limit}"
+				$('#space_recharge_fee')[0].value = ""
+				return
+
 			_.each old_paid_modules, (pm)->
 				module = db.modules.findOne({name: pm})
 				if module and module.listprice_rmb
@@ -91,19 +99,18 @@ Template.space_recharge_modal.events
 
 			balance = old_listprices * old_user_limit * remain_months
 
-			new_user_limit = user_count + old_user_limit
 			console.log "space_modules", space_modules
 			console.log "listprices", listprices
 			console.log "months", months
-			console.log "new_user_limit",new_user_limit
+			console.log "new_user_limit",user_count
 			if space_modules.length > 0 and listprices > 0 and months > 0
-				total_fee = listprices * new_user_limit * months
+				total_fee = listprices * user_count * months
 				fee_value = total_fee - balance
 			else
 				return
 		else
 			if user_count < Session.get('space_user_count')
-				toastr.warning "购买用户数不能小于工作区当前用户数：#{Session.get('space_user_count')}"
+				toastr.warning "购买用户数不能小于工作区当前启用用户数：#{Session.get('space_user_count')}"
 				$('#space_recharge_fee')[0].value = ""
 				return
 
@@ -225,12 +232,11 @@ Template.space_recharge_modal.events
 
 			balance = old_listprices * old_user_limit * remain_months
 
-			new_user_limit = user_count + old_user_limit
 			console.log space_modules
 			console.log listprices
 			console.log months
-			if space_modules.length > 0 and listprices > 0 and months > 0
-				total_fee = listprices * new_user_limit * months
+			if space_modules.length > 0 and listprices > 0 and months > 0 and user_count >= old_user_limit
+				total_fee = listprices * user_count * months
 				paid_fee = total_fee - balance
 				console.log "total_fee", total_fee
 				console.log "balance", balance
