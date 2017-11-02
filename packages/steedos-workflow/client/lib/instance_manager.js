@@ -382,10 +382,10 @@ InstanceManager.checkNextStepUser = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	if (nextStepUsers_parent_group.length < 1){
-		return ;
+	if (nextStepUsers_parent_group.length < 1) {
+		return;
 	}
-	
+
 	var value = ApproveManager.getNextStepUsersSelectValue();
 	var nextStepId = ApproveManager.getNextStepsSelectValue();
 	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -404,8 +404,8 @@ InstanceManager.nextStepUserErrorClass = function() {
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	if (nextStepUsers_parent_group.length < 1){
-		return ;
+	if (nextStepUsers_parent_group.length < 1) {
+		return;
 	}
 
 	var value = ApproveManager.getNextStepUsersSelectValue();
@@ -541,8 +541,7 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	var fields = WorkflowManager.getInstanceFields();
 
 	var instanceValue = InstanceManager.getCurrentValues();
-	var autoFormValue = _.extend(AutoForm.getFormValues("instanceform").insertDoc, AutoForm.getFormValues("instanceform").updateDoc.$unset);
-	// AutoForm.getFormValues("instanceform").insertDoc;
+	var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
 
 	var values = {};
 
