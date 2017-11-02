@@ -112,7 +112,7 @@ Template.instance_button.helpers
 				return true
 			else
 				cs = InstanceManager.getCurrentStep()
-				if cs && (cs.disableCC is true)
+				if cs && (cs.disableCC is true or cs.step_type is "start")
 					return false
 				return true
 		else if Session.get("box") is 'outbox' and ins.state is "pending"
