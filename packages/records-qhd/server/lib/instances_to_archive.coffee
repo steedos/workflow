@@ -1,6 +1,11 @@
 request = Npm.require('request')
+path = Npm.require('path');
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
+
+pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
+
+absolutePath = path.resolve(pathname);
 
 #logger = console
 #
@@ -82,6 +87,9 @@ _minxiAttachmentInfo = (formData, instance, attach) ->
 	formData.attachInfo.push {instance: instance._id, attach_name: encodeURI(attach.name()), owner: attach.metadata.owner, owner_username: encodeURI(user.username || user.steedos_id), is_private: attach.metadata.is_private || false}
 
 _minxiInstanceData = (formData, instance) ->
+
+	fs = Npm.require('fs');
+
 	if !formData || !instance
 		return
 
@@ -122,23 +130,20 @@ _minxiInstanceData = (formData, instance) ->
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
-	#	正文附件
-	mainFile = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true,
-		"metadata.main": true
-	}).fetch()
-
-	mainFile.forEach (f) ->
+	mainFilesHandle = (f)->
 		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+			filepath = path.join(absolutePath, f.copies.instances.key);
+			formData.attach.push {
+				value:  fs.createReadStream(filepath),
+				options: {filename: f.name()}
+			}
 
 			_minxiAttachmentInfo formData, instance, f
 		catch e
 			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
 		mainFileHistory = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': f.metadata.instance,
 			'metadata.current': {$ne: true},
 			"metadata.main": true,
 			"metadata.parent": f.metadata.parent
@@ -149,27 +154,29 @@ _minxiInstanceData = (formData, instance) ->
 		mainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
 			try
-				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+				filepath = path.join(absolutePath, f.copies.instances.key);
+				formData.attach.push {
+					value:  fs.createReadStream(filepath),
+					options: {filename: fName}
+				}
 				_minxiAttachmentInfo formData, instance, f
 			catch e
 				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
-	#	非正文附件
-	nonMainFile = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true,
-		"metadata.main": {$ne: true}
-	})
 
-	nonMainFile.forEach (f)->
+	nonMainFileHandle = (f)->
 		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+			filepath = path.join(absolutePath, f.copies.instances.key);
+			formData.attach.push {
+				value:  fs.createReadStream(filepath),
+				options: {filename: f.name()}
+			}
 			_minxiAttachmentInfo formData, instance, f
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
 		nonMainFileHistory = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': f.metadata.instance,
 			'metadata.current': {$ne: true},
 			"metadata.main": {$ne: true},
 			"metadata.parent": f.metadata.parent
@@ -180,11 +187,58 @@ _minxiInstanceData = (formData, instance) ->
 		nonMainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
 			try
-				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
+				filepath = path.join(absolutePath, f.copies.instances.key);
+				formData.attach.push {
+					value:  fs.createReadStream(filepath),
+					options: {filename: fName}
+				}
 				_minxiAttachmentInfo formData, instance, f
 			catch e
 				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
+	#	正文附件
+	mainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": true
+	}).fetch()
+
+	mainFile.forEach mainFilesHandle
+
+	#	非正文附件
+	nonMainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": {$ne: true}
+	})
+
+	nonMainFile.forEach nonMainFileHandle
+
+	#分发
+	if instance.distribute_from_instance
+		#	正文附件
+		mainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": true,
+			"metadata.is_private": {
+				$ne: true
+			}
+		}).fetch()
+
+		mainFile.forEach mainFilesHandle
+
+		#	非正文附件
+		nonMainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": {$ne: true},
+			"metadata.is_private": {
+				$ne: true
+			}
+		})
+
+		nonMainFile.forEach nonMainFileHandle
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
@@ -215,10 +269,12 @@ InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 		#	发送数据
 		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
-		if httpResponse.statusCode == 200
+		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
 			InstancesToArchive.failed instance, httpResponse?.body
+
+		httpResponse = null
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
@@ -277,9 +333,11 @@ InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 		#	发送数据
 		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
-		if httpResponse.statusCode == 200
+		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
 			InstancesToArchive.failed instance, httpResponse
+
+		httpResponse = null
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"

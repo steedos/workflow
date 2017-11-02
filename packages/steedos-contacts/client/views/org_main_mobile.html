@@ -14,7 +14,14 @@
 								<i class="fa fa-bars"></i>
 							</button>
 						{{/if}}
-						<span class="navigation-title">{{title}}</span>
+						<span class="navigation-title">
+							<span class="top-title text-overflow">{{title}}</span>
+							<span class="top-ion"><i class="ion ion-android-arrow-dropdown"></i></span>
+						</span>
+
+						{{#autoForm id='contacts_org_mobile_sel_form' schema=orgFields class="hide"}}
+							{{> afFormGroup name="contacts_org_mobile_sel" label=false}}
+						{{/autoForm}}
 					</div>
 					<div class="contacts">
 						<div class="contacts-mobile">
@@ -22,18 +29,18 @@
 								<div class="weui-search-bar__form">
 									<div class="weui-search-bar__box">
 										<i class="weui-icon-search"></i>
-										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder={{_ "Search"}} />
+										<input type="search" class="weui-search-bar__input" id="contact-list-search-key" placeholder={{_ "search_contact"}} />
 										<a href="javascript:" class="weui-icon-clear empty"></a>
 									</div>
 									<label class="weui-search-bar__label">
 										<i class="weui-icon-search"></i>
-										<span>{{_ "Search"}}</span>
+										<span>{{_ "search_contact"}}</span>
 									</label>
 								</div>
 								<a href="javascript:" class="weui-search-bar__cancel-btn">{{_ "Cancel"}}</a>
 							</div>
-							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class=tabular_users_class}}
 							{{> tabular table=TabularTables.steedosContactsMobileOrganizations selector=selectorForOrgs class=tabular_organizations_class}}
+							{{> tabular table=TabularTables.steedosContactsMobileUsers selector=selector class=tabular_users_class}}
 						</div>
 					</div>
 				</div>

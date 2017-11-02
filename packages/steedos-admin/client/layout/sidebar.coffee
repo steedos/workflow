@@ -46,6 +46,9 @@ Template.adminSidebar.events
 
 	'click .header-app': (event) ->
 		FlowRouter.go "/admin/home/"
+		if Steedos.isMobile()
+			# 手机上可能菜单展开了，需要额外收起来
+			$("body").removeClass("sidebar-open")
 
 Admin.menuTemplate = 
 
@@ -119,20 +122,26 @@ Admin.menuTemplate =
 						targetStr = "target=#{menu.target}"
 					else
 						targetStr = ""
-					return """
-						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{menu._id}">
-							<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
-								<div class="admin-grid-icon">
-									<i class="#{menu.icon}"></i>
-								</div>
-								<div class="admin-grid-label">
-									#{t(menu.title)}
-								</div>
-							</a>
-						</div>
-					"""
+
+
+					# QHD隐藏个人信息
+					if menu._id == "profile" and Meteor.settings.public?.admin?.disableProfileInfo == true
+						return ""
+					else
+						return """
+							<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{menu._id}">
+								<a href="#{menu.url}" class="admin-grid-item btn btn-block admin-menu-#{menu._id}" #{targetStr}>
+									<div class="admin-grid-icon">
+										<i class="#{menu.icon}"></i>
+									</div>
+									<div class="admin-grid-label">
+										#{t(menu.title)}
+									</div>
+								</a>
+							</div>
+						"""
 				return """
-					<div class="row admin-grids">
+					<div class="row admin-grids admin-grids-#{rootMenu._id}">
 						#{items.join("")}
 					</div>
 				"""
@@ -142,7 +151,7 @@ Admin.menuTemplate =
 				else
 					targetStr = ""
 				return """
-					<div class="row admin-grids">
+					<div class="row admin-grids admin-grids-#{rootMenu._id}">
 						<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-#{rootMenu._id}">
 							<a href="#{rootMenu.url}" class="admin-grid-item btn btn-block admin-menu-#{rootMenu._id}" #{targetStr}>
 								<div class="admin-grid-icon">
@@ -157,7 +166,7 @@ Admin.menuTemplate =
 				"""
 		if Steedos.isMobile()
 			reTemplates.push """
-				<div class="row admin-grids">
+				<div class="row admin-grids admin-grids-logout">
 					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-logout">
 						<a href="/steedos/logout" class="admin-grid-item btn btn-block admin-menu-logout">
 							<div class="admin-grid-icon">

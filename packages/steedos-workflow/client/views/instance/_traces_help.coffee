@@ -187,8 +187,8 @@ TracesTemplate.helpers =
     	false: 不显示traces view，签核历程按钮点击后,以Modal 方式显示traces view
 	###
 	showTracesView: (form, form_version)->
-		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
-
+#		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
+		return !InstanceformTemplate.helpers.includesOpinionField(form, form_version)
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->

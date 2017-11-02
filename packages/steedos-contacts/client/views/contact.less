@@ -98,6 +98,9 @@
 			position: relative;
 			top: -1px;
 			width: 200px;
+			&.add-contact-user {
+				width: auto;
+			}
 		}
 
 		@media screen and (max-width: 1024px){
@@ -108,7 +111,13 @@
 
 		@media screen and (max-width: 767px){
 			.pull-right{
-				width: 150px;
+				width: 145px;
+				&.add-contact-user {
+					position: relative;
+					right: -9px;
+					padding: 15px;
+					top: -9px;
+				}
 			}
 		}
 
@@ -186,32 +195,33 @@
 							background: none;
 						}
 						td{
-							height: 28px;
-							line-height: 28px;
+							height: 24px;
+							line-height: 24px;
 							.contacts-users-mobile-avatar, .contacts-organizations-mobile-avatar{
 								position: absolute;
-								height: 28px;
-								line-height: 28px;
+								height: 24px;
+								line-height: 24px;
+								margin-top: 0;
 								img{
-									width: 25px;
-									height: 25px;
+									width: 24px;
+									height: 24px;
 									border-radius: 4px;
-									margin-top: -4px;
 								}
 							}
 							.contacts-users-mobile-name, .contacts-organizations-mobile-name{
 								position: absolute;
 								left: 42px;
 								right: 10px;
-								height: 28px;
-								line-height: 28px;
+								height: 24px;
+								line-height: 24px;
+								font-weight: bold;
 							}
 							.contacts-organizations-mobile-avatar{
 								background: rgba(228, 229, 230, 0.68);
 								padding: 4px;
 								border-radius: 4px;
 								.ion{
-									font-size: 22px;
+									font-size: 17px;
 									color: rgba(63, 135, 217, 0.55);
 								}
 							}
@@ -351,6 +361,12 @@
 				.offcanvas{
 					display: inline-block;
 				}
+				.btn-back {
+					position: relative;
+					left: -9px;
+					padding: 15px;
+					top: -9px;	
+				}
 				&.contacts-wrapper-mobile{
 					.contacts{
 						top: 51px;
@@ -438,6 +454,14 @@
 	.datatable-steedos-contacts{
 		tr[data-id]{
 			cursor: pointer;
+			td {
+				.invite-refused {
+					color: #d33724;
+				}
+				.invite-pending {
+					color: #357ca5;
+				}
+			}
 		}
 		.drag-source{
 			cursor: pointer;
@@ -480,6 +504,25 @@
 						&:nth-child(1){
 							display: block;
 						}
+					}
+				}
+			}
+		}
+	}
+	.contacts-wrapper-mobile{
+		.navigation-bar{
+			.navigation-title{
+				cursor: pointer;
+				.top-title{
+					max-width: 85%;
+				}
+				.top-ion{
+					display: inline-block;
+					overflow: hidden;
+					line-height: 30px;
+					height: 30px;
+					.ion{
+						font-size: 100%;
 					}
 				}
 			}

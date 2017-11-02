@@ -4,9 +4,7 @@
         {{> instance_button}}
     </div>
     <div class="instance-view {{get_priority_class}}">
-        {{#if unequals 'draft' instance.state}}
-            {{> instance_suggestion}}
-        {{/if}}
+        {{> instance_suggestion}}
         <div class="instance {{instanceStyle instance.form}}">
             <div class="instance-form {{instance_box_style }} {{box}}">
                 {{#if formDescription}}
@@ -37,8 +35,6 @@
 				{{#if (showTracesView instance.form instance.form_version)}}
                 	{{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
 				{{/if}}
-            {{else}}
-                {{> instance_suggestion}}
             {{/if}}
         </div>
     </div>

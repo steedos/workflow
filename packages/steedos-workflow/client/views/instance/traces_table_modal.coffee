@@ -8,6 +8,21 @@ Template.traces_table_modal.helpers
 	maxHeight: ->
 		return Template.instance()?.maxHeight.get() - 200 + 'px'
 
+	traces_list_template: ->
+		steedos_instance = WorkflowManager.getInstance();
+		if InstanceManager.isTableStyle(steedos_instance.form)
+			return 'instance_traces_table'
+		else
+			return 'instance_traces'
+
+	traces_modal_calss: ->
+		steedos_instance = WorkflowManager.getInstance();
+		if InstanceManager.isTableStyle(steedos_instance.form)
+			return 'traces_table_modal'
+		else
+			return 'traces_modal'
+
+
 Template.traces_table_modal.onCreated ->
 	self = this;
 

@@ -25,7 +25,7 @@ Template.workflowSidebar.helpers
 
 		return inboxInstances.length > 0
 
-	inboxInstancesFlow: ()->
+	inboxInstancesFlow: (category_id)->
 
 		inboxInstancesFlow = []
 
@@ -37,6 +37,17 @@ Template.workflowSidebar.helpers
 		}]
 
 		query.space = Session.get("spaceId")
+
+		if category_id
+			category_forms = db.forms.find({category: category_id}, {fields: {_id:1}}).fetch();
+
+			query.form = {$in: category_forms.getProperty("_id")}
+		else
+			category_forms = db.forms.find({category: {
+				$in: [null, ""]
+			}}, {fields: {_id:1}}).fetch();
+
+			query.form = {$in: category_forms.getProperty("_id")}
 
 		inboxInstances = db.instances.find(query).fetch();
 
@@ -79,7 +90,8 @@ Template.workflowSidebar.helpers
 	inboxSpaces: ()->
 		return db.steedos_keyvalues.find({key: "badge"}).fetch().filter (_item)->
 			if _item?.value["workflow"] > 0 && _item.space && _item.space != Session.get("spaceId")
-				return _item
+				if db.spaces.findOne({_id: _item.space})
+					return _item
 
 	spaceName: (_id)->
 		return db.spaces.findOne({_id: _id})?.name
@@ -87,6 +99,14 @@ Template.workflowSidebar.helpers
 	showOthenInbox: (inboxSpaces)->
 		return inboxSpaces.length > 0
 
+	categorys: ()->
+		return WorkflowManager.getSpaceCategories(Session.get("spaceId"))
+
+	hasInstances: (instances)->
+		return instances?.length > 0
+
+	Session_category: ()->
+		return Session.get("workflowCategory")
 
 Template.workflowSidebar.events
 
@@ -103,7 +123,7 @@ Template.workflowSidebar.events
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
 
-	'click .inbxo-flow': (event, template)->
+	'click .inbox-flow': (event, template)->
 		Session.set("flowId", this?._id);
 
 	'click .inbox>a,.outbox,.monitor,.draft,.pending,.completed': (event, template)->
@@ -113,10 +133,20 @@ Template.workflowSidebar.events
 	'click .inbox>a': (event, template)->
 		event.preventDefault()
 		inboxUrl = $(event.currentTarget).attr("href")
+		Session.set("workflowCategory", undefined)
 		FlowRouter.go inboxUrl
 		if Steedos.isMobile()
 			# 移动端不要触发展开折叠菜单
 			event.stopPropagation()
 
+	'click .workflow-category>a': (event, template)->
+		inboxUrl = $(event.currentTarget).attr("href")
+		Session.set("flowId", false)
+		Session.set("workflowCategory",this._id || "-1")
+		FlowRouter.go inboxUrl
+
 	'click .header-app': (event) ->
 		FlowRouter.go "/workflow/"
+		if Steedos.isMobile()
+			# 手机上可能菜单展开了，需要额外收起来
+			$("body").removeClass("sidebar-open")

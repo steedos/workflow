@@ -2080,6 +2080,9 @@ uuflowManager.checkMainAttach = (instance_id, name)->
 	if main
 		ins = db.instances.findOne({_id: instance_id}, {fields: {name: 1}})
 		new_ins_name = name || ins.name
+
+		new_ins_name = new_ins_name.replace(/\r/g,"").replace(/\n/g,"")
+
 		main_name_split = main.name().split('.')
 		main_name_split.pop()
 		if new_ins_name isnt main_name_split.join("")

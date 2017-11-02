@@ -1,10 +1,14 @@
 <template name="instance_suggestion">
 	{{#if show_toggle_button}}
+		{{!--
 		{{#if isMobile}}
 			<button type="utton" class="btn btn-primary btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
 		{{else}}
 			<button type="utton" class="btn btn-primary btn-suggestion-toggle txt-suggestion-toggle animated bounceInUp">{{_ 'instance_sign'}}</button>
 		{{/if}}
+		--}}
+		<button type="utton" class="btn btn-primary btn-suggestion-toggle txt-suggestion-toggle animated bounceInUp">{{_ 'instance_sign'}}</button>
+
 	{{/if}}
 	{{#if show_suggestion}}
 		{{!-- chrome版本升级到 61.0.3163.79后fadeInUp等动画效果会造成一些样式BUG --}}

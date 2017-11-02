@@ -1,11 +1,22 @@
+isOrgAdmin = ->
+	currentOrg = Session.get('contacts_org_mobile')
+	Session.set 'is_org_admin', false
+	if Steedos.isSpaceAdmin()
+		Session.set 'is_org_admin', true
+
+	Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
+		if error
+			console.log(error)
+		else
+			if is_suc
+				Session.set 'is_org_admin', true
+
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
 
 	is_within_user_organizations = ContactsManager.is_within_user_organizations();
 
-	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
-
-	query = {space: spaceId, user: {$nin: hidden_users}}
+	query = {space: spaceId}
 
 	isSearching = Template.instance().isSearching?.get()
 
@@ -26,8 +37,13 @@ spaceUsersSelector = ->
 
 			query.organizations = {$in: orgs}
 	else
-		orgId = Session.get("contacts_org_mobile");
-		query.organizations = {$in: [orgId]};
+		orgId = Session.get("contacts_org_mobile")
+		rootOrg = Session.get("contacts_org_mobile_root")
+		if is_within_user_organizations and rootOrg and rootOrg == orgId
+			# 当在根组织时，不显示人员
+			query._id = -1
+		else
+			query.organizations = {$in: [orgId]};
 
 	query.user_accepted = true
 	return query;
@@ -119,18 +135,41 @@ Template.org_main_mobile.helpers
 			className += " hidden"
 		return className
 
+	orgFields: ()->
+		is_with = ContactsManager.is_within_user_organizations()
+		fields =
+			contacts_org_mobile_sel:
+				autoform:
+					type: 'selectorg'
+					is_within_user_organizations: !!is_with
+				optional: false
+				type: String
+				label: ''
+
+		return new SimpleSchema(fields)
+
 
 Template.org_main_mobile.onCreated ->
 	this.isSearching = new ReactiveVar(false)
 	Session.set('contacts_org_mobile',null)
+	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
 		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-		unless isWithinUserOrganizations
+		if isWithinUserOrganizations
+			orgs = db.organizations.find(organizationsSelector())
+			organizationsCount = orgs.count()
+			if organizationsCount == 1
+				org = orgs.fetch()[0]
+				if org.is_company
+					Session.set('contacts_org_mobile', org._id)
+					Session.set('contacts_org_mobile_root', org._id)
+		else
 			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			if rootOrg
 				Session.set('contacts_org_mobile', rootOrg._id)
+				Session.set('contacts_org_mobile_root', rootOrg._id)
 
 Template.org_main_mobile.onDestroyed ->
 	Steedos.subs["Organization"].clear()
@@ -156,10 +195,22 @@ Template.org_main_mobile.onRendered ->
 			).draw()
 
 Template.org_main_mobile.events
+	'click .contacts-wrapper-mobile .navigation-title': (event,template) ->
+		$("input[name='contacts_org_mobile_sel']").click()
+
+	'change input[name="contacts_org_mobile_sel"]':()->
+		contacts_org_mobile_sel = AutoForm.getFieldValue("contacts_org_mobile_sel","contacts_org_mobile_sel_form") || null
+		unless contacts_org_mobile_sel
+			rootOrg = Session.get("contacts_org_mobile_root")
+			contacts_org_mobile_sel = rootOrg
+		Session.set('contacts_org_mobile', contacts_org_mobile_sel)
+		AutoForm.resetForm("contacts_org_mobile_sel_form")
+
 	'click .datatable-mobile-organizations tbody tr[data-id]': (event, template)->
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
 	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
+		# isOrgAdmin()
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id, isEditable: false})
 
 	'click .btn-back': (event, template)->
@@ -224,4 +275,7 @@ Template.org_main_mobile.events
 		$(event.currentTarget).next(".weui-icon-clear").addClass("empty")
 		$(event.currentTarget).closest(".contacts").addClass("mobile-searching")
 		$(event.currentTarget).closest(".weui-search-bar").addClass("weui-search-bar_focusing")
+
+	'click .add-contact-user': (event,template) ->
+		Modal.show("steedos_contacts_add_user_modal")
 

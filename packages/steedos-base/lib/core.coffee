@@ -13,11 +13,16 @@ Steedos =
 			unless locale
 				locale = Steedos.locale()
 			if locale == "zh-cn" || locale == "zh-CN"
-				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
+				# 中文万分位财务人员看不惯，所以改为国际一样的千分位
+				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 			else
 				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		else
 			return ""
+	valiJquerySymbols: (str)->
+		# reg = /^[^!"#$%&'()*+,./:;<=>?@[\]^`{|}~]+$/g
+		reg = new RegExp("^[^!\"#$%&'()*\+,\.\/:;<=>?@[\\]^`{|}~]+$")
+		return reg.test(str)
 
 ###
 # Kick off the global namespace for Steedos.

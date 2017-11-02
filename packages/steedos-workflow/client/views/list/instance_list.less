@@ -73,19 +73,19 @@
 		color: blue;
 		display: none;
 		&.instance-name {
-			display: inline;
+			display: inline-block;
 		}
 		&.color-priority-danger {
 			color: @instance-priority-color-danger;
-			display: inline;
+			display: inline-block;
 		}
 		&.color-priority-warning {
 			color: @instance-priority-color-warning;
-			display: inline;
+			display: inline-block;
 		}
 		&.color-priority-muted {
 			color: @instance-priority-color-muted;
-			display: inline;
+			display: inline-block;
 		}
 	}
 
@@ -187,6 +187,21 @@
 	.search-tip-bar {
 		border-bottom: 1px solid #eee;
 		padding: 10px 20px;
+	}
+}
+
+.instance-list-wrapper .search-tip-bar {
+	.label{
+		margin-right: 5px;
+		border-radius: 0px;
+		font-size: 12px;
+	}
+
+	.breadcrumb{
+		display: inline-block;
+		margin-bottom: 0px;
+		padding: 0px;
+		background-color: #fff;
 	}
 }
 

@@ -64,6 +64,9 @@
     .add-item-tr {
         background: rgba(255, 255, 0, 0.03);
         cursor: pointer;
+        td {
+            border-bottom: 0px !important;
+        }
         .ion {
             height: 20px;
             line-height: 20px;
@@ -106,6 +109,7 @@
                 }
             }
             .panel-content{
+                padding-bottom: 1px;
                 border: solid 1px #d2d6de;
                 .table-bordered{
                     border: none;
@@ -135,7 +139,8 @@
 
 .steedos-table-modal .steedos-table-modal-body{
     overflow-y:auto;
-
+    padding: 0;
+    
     .panel{
         // min-height: 270px;
         border: none;
