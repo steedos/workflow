@@ -55,6 +55,11 @@ Template.instance_attachment.helpers({
 			return false
 		}
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		var isDraftOrInbox = false;
 		var isFlowEnable = false;
 		var isHistoryLenthZero = false;
@@ -146,6 +151,11 @@ Template.instance_attachment.helpers({
 
 		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
 		if (ins.distribute_from_instance == this.metadata.instance) {
+			return false
+		}
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
 			return false
 		}
 
@@ -341,6 +351,11 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return false
 
@@ -384,6 +399,11 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
 		if (ins.distribute_from_instance == this.metadata.instance)
@@ -465,6 +485,11 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
 		if (ins.distribute_from_instance == this.metadata.instance)
 			return false
@@ -496,6 +521,11 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
 		if (ins.distribute_from_instance == this.metadata.instance)
