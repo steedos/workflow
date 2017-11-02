@@ -257,6 +257,7 @@ Template.instance_list.onCreated ->
 	self.autorun ()->
 		$(window).resize ->
 			Template.instance_list._tableColumns();
+			$(".instance-list").perfectScrollbar("update");
 
 Template.instance_list.onRendered ->
 	self = this;
