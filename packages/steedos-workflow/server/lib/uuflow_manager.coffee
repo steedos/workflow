@@ -524,8 +524,22 @@ uuflowManager.getForm = (form_id) ->
 
 	return form
 
-uuflowManager.getInstanceName = (instance) ->
-	values = _.clone(instance.values || {})
+uuflowManager.getFormVersion = (form, form_version) ->
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h)->
+			return form_version is form_h._id
+		)
+
+	if not form_v
+		throw new Meteor.Error('error!', '未找到表单对应的版本')
+
+	return form_v
+
+uuflowManager.getInstanceName = (instance, vals) ->
+	values = _.clone(vals || instance.values) || {}
 
 	applicant = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant);
 
@@ -542,7 +556,10 @@ uuflowManager.getInstanceName = (instance) ->
 	flow = uuflowManager.getFlow(instance.flow)
 
 	default_value = flow.name + ' ' + instance.code
-	name_forumla = uuflowManager.getForm(form_id).current.name_forumla
+	form_version = instance.form_version
+	form = uuflowManager.getForm(form_id)
+	form_v = uuflowManager.getFormVersion(form, form_version)
+	name_forumla = form_v.name_forumla
 	rev = default_value
 
 	if name_forumla
