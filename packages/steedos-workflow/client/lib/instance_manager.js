@@ -474,7 +474,8 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	var fields = WorkflowManager.getInstanceFields();
 
 	var instanceValue = InstanceManager.getCurrentValues();
-	var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	var autoFormValue = _.extend(AutoForm.getFormValues("instanceform").insertDoc, AutoForm.getFormValues("instanceform").updateDoc.$unset);
+	// AutoForm.getFormValues("instanceform").insertDoc;
 
 	var values = {};
 
