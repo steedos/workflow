@@ -4,7 +4,7 @@ Template.accounts_phone_password_code.helpers
 		if isPhoneVerified
 			return Accounts.getPhoneNumber(true)
 		else
-			return ""
+			return t "accounts_phone_verify_fail"
 	title: ->
 		return t "accounts_phone_password_title"
 
@@ -66,7 +66,7 @@ Template.accounts_phone_password_code.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			Accounts.requestPhoneVerification number, (error)->
+			Accounts.requestPhoneVerification number, true, (error)->
 				$(document.body).removeClass('loading')
 				if error
 					toastr.error t error.reason

@@ -9,7 +9,7 @@
 
 		self = this;
 		userSpaces = []
-		sus = db.space_users.find({user: this.userId}, {fields: {space:1}})
+		sus = db.space_users.find({user: this.userId, user_accepted: true}, {fields: {space:1}})
 		sus.forEach (su) ->
 			userSpaces.push(su.space)
 

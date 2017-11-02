@@ -85,7 +85,7 @@ AccountsTemplates.addFields([
     _id: "username",
     type: "text",
     displayName: "username",
-    required: true,
+    required: false,#企业注册界面没有该字段，所以改为非必填
     minLength: 6
   },
   pwdField

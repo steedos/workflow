@@ -60,3 +60,9 @@ accountsRoutes.route '/setup/space',
 	action: (params, queryParams)->
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_space"
+
+# 手机号注册企业
+FlowRouter.route '/steedos/admin/register',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_admin_register"

@@ -257,6 +257,8 @@ Template.instance_list.onCreated ->
 	self.autorun ()->
 		$(window).resize ->
 			Template.instance_list._tableColumns();
+			if !Steedos.isMobile() and !Steedos.isPad()
+				$(".instance-list").perfectScrollbar("update");
 
 Template.instance_list.onRendered ->
 	self = this;
@@ -303,8 +305,13 @@ Template.instance_list.events
 			FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
 		, 1
 
+	'click .dropdown-menu li a.export-thismonth': () ->
+		InstanceManager.exportIns(event.target.type);
 
-	'click .dropdown-menu li a': (event) ->
+	'click .dropdown-menu li a.export-pro': () ->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
 		InstanceManager.exportIns(event.target.type);
 
 	'keyup #instance_search': (event) ->

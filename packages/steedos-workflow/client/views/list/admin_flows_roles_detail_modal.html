@@ -6,7 +6,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 							aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="">
-						岗位成员
+						{{_ "flow_positions"}}
 					</h4>
 				</div>
 
@@ -23,18 +23,18 @@
 					{{#if isAdd}}
 						<div class="pull-right">
 						<button type="button" class="btn btn-default add-positions">
-								添加
+								{{_ "Add"}}
 							</button>
 						</div>
 					{{else}}
 						<div class="pull-left">
 							<button type="button" class="btn btn-danger remove-positions">
-								删除
+								{{_ "Delete"}}
 							</button>
 						</div>
 						<div class="pull-right">
 							<button type="button" class="btn btn-default save-positions">
-								确认
+								{{_ "OK"}}
 							</button>
 						</div>
 					{{/if}}

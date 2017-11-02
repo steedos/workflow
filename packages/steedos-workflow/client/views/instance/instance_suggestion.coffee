@@ -56,13 +56,15 @@ Template.instance_suggestion.helpers
 
 	next_user_context: ->
 
+		console.log('Calculate the next step to process the person')
+
 		Session.get("instance_next_user_recalculate")
 
-		instance_form_values = Session.get("instance_form_values")
-		if instance_form_values?.instanceId != Session.get("instanceId")
-			return {};
+#		instance_form_values = Session.get("instance_form_values")
+#		if instance_form_values?.instanceId != Session.get("instanceId")
+#			return {};
 
-		ins_applicant = Session.get("ins_applicant");
+#		ins_applicant = Session.get("ins_applicant");
 
 		next_step_id = Session.get("next_step_id");
 
@@ -74,7 +76,7 @@ Template.instance_suggestion.helpers
 				$("#nextStepUsers_div").hide();
 
 
-		form_values = instance_form_values.values
+#		form_values = instance_form_values.values
 		users = InstanceManager.getNextUserOptions();
 		data = {
 			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
@@ -84,7 +86,8 @@ Template.instance_suggestion.helpers
 				id: 'nextStepUsers',
 				class: 'selectUser nextStepUsers form-control',
 				style: 'padding:6px 12px;',
-				placeholder: t("instance_next_step_users_placeholder")
+				placeholder: t("instance_next_step_users_placeholder"),
+				title: t("instance_next_step_users_placeholder")
 			}
 		};
 
@@ -137,6 +140,8 @@ Template.instance_suggestion.helpers
 				next_user[0].dataset.values = selectedUser.getProperty("id").toString()
 				data.value = next_user[0].value
 				data.dataset['values'] = selectedUser.getProperty("id").toString()
+
+			InstanceManager.nextStepUserErrorClass()
 		else
 			if !Session.get("next_step_users_showOrg")
 				data.dataset['userOptions'] = users.getProperty("id")

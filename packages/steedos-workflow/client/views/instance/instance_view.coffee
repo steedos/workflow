@@ -160,6 +160,10 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	if Session.get("box") == "inbox" || Session.get("box") == "draft"
+		console.log("onRendered 160...")
+		Session.set("instance_next_user_recalculate", Random.id())
+
 	$("body").removeClass("loading")
 
 Template.instance_view.events
@@ -232,47 +236,26 @@ Template.instance_view.events
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
+		error_code = event.target.dataset.error_code
 
-		if error && error_type == 'applicantRole'
+#		console.log("error", error)
+#
+#		console.log("error_type", error_type)
+#
+#		console.log("error_code", error_code)
 
-			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
-				swal({
-					title: t('not_found_user'),
-					text: error,
-					html: true,
-					showCancelButton: true,
-					closeOnConfirm: false,
-					confirmButtonText: t('instanc_set_applicant_role_text'),
-					cancelButtonText: t('Cancel'),
-					showLoaderOnConfirm: false
-				}, (inputValue) ->
-					if inputValue == false
-						swal.close();
-					else
-						Steedos.openWindow(Steedos.absoluteUrl('admin/workflow/flow_roles'))
-						swal({
-							title: t('instance_role_set_is_complete'),
-							type: "warning",
-							confirmButtonText: t("OK"),
-							closeOnConfirm: true
-						}, ()->
-							Session.set("instance_next_user_recalculate", Random.id())
-							swal.close();
-						)
-				);
-			else
-				swal({
-					title: t('not_found_user'),
-					text: error,
-					html: true,
-					showCancelButton: false,
-					closeOnConfirm: false,
-					cancelButtonText: t('Cancel')
-					confirmButtonText: t('OK'),
-				});
+		if error && error_type
 
-			event.preventDefault()
+			console.log(ApproveManager.isReadOnly());
+
+			NextStepUser.handleException({error: error_type, reason: error, error_code: error_code})
+
+#			event.preventDefault()
+#
+#			event.stopPropagation()
 
 			return false;
 
+	'change #nextStepUsers': (event, template)->
+		InstanceManager.checkNextStepUser()
 		

@@ -23,6 +23,7 @@ Modal = {
 
 			$modal.on('shown.bs.modal', function(event){
 				$modal.find('[autofocus]').focus()
+				Steedos.setModalMaxHeight()
 			})
 			
 			$modal.on('hidden.bs.modal', function(event){

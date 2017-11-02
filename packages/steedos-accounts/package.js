@@ -55,6 +55,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
 	api.addFiles('server/methods/disable_phone.coffee', 'server');
+	api.addFiles('server/methods/check_user.coffee', 'server');
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
@@ -70,6 +71,10 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/forgot_password_token.html', 'client');
 	api.addFiles('client/views/forgot_password_token.coffee', 'client');
+
+	api.addFiles('client/views/accounts_admin_register.html', 'client');
+	api.addFiles('client/views/accounts_admin_register.coffee', 'client');
+	api.addFiles('client/views/accounts_admin_register.less', 'client');
 
 	api.addFiles('client/views/at_form.coffee', "client");
 	api.addFiles('client/views/at_form.less', "client");

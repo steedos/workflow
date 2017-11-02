@@ -1,7 +1,8 @@
 JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
   var
     deal_type = req.query.deal_type,
-    spaceId = req.query.spaceId;
+    spaceId = req.query.spaceId,
+  	error = "";
 
   if (!deal_type || !spaceId) {
     JsonRoutes.sendResult(res, {
@@ -58,19 +59,27 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
         nextStepUsers,
         orgField = body.orgField,
         orgFieldValue = body.orgFieldValue;
-      if (orgField.is_multiselect) { //如果多选，以orgFieldValue值为Array
-        orgs = WorkflowManager.getOrganizations(orgFieldValue);
-        orgChildrens = WorkflowManager.getOrganizationsChildrens(spaceId, orgFieldValue);
-      } else {
-        orgs = [WorkflowManager.getOrganization(orgFieldValue)];
-        orgChildrens = WorkflowManager.getOrganizationChildrens(spaceId, orgFieldValue);
-      }
+      if(orgFieldValue){
+		  if (orgField.is_multiselect) { //如果多选，以orgFieldValue值为Array
+			  orgs = WorkflowManager.getOrganizations(orgFieldValue);
+			  orgChildrens = WorkflowManager.getOrganizationsChildrens(spaceId, orgFieldValue);
+		  } else {
+			  orgs = [WorkflowManager.getOrganization(orgFieldValue)];
+			  orgChildrens = WorkflowManager.getOrganizationChildrens(spaceId, orgFieldValue);
+		  }
+		  nextStepUsers = WorkflowManager.getOrganizationsUsers(spaceId, orgChildrens);
 
-      nextStepUsers = WorkflowManager.getOrganizationsUsers(spaceId, orgChildrens);
+		  orgFieldUsers = WorkflowManager.getOrganizationsUsers(spaceId, orgs);
 
-      orgFieldUsers = WorkflowManager.getOrganizationsUsers(spaceId, orgs);
+		  nextStepUsers = nextStepUsers.concat(orgFieldUsers);
 
-      nextStepUsers = nextStepUsers.concat(orgFieldUsers);
+		  if(!nextStepUsers || nextStepUsers.length < 1){
+		  	error = "ORG_NO_MEMBERS";
+		  }
+	  }else{
+		  error = "FIELD_VALUE_EMPTY";
+	  }
+
       break;
     case 'specifyOrg':
       var specifyOrgIds = body.specifyOrgIds;
@@ -85,29 +94,47 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
         userField = body.userField,
         userFieldValue = body.userFieldValue,
         approverRoleIds = body.approverRoleIds;
-      if (userField.is_multiselect) { //如果多选，以userFieldValue值为Array
-        nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(spaceId, userFieldValue, approverRoleIds);
-      } else {
-        nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(spaceId, [userFieldValue], approverRoleIds);
-      }
+		if(userFieldValue){
+			if (userField.is_multiselect) { //如果多选，以userFieldValue值为Array
+				nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(spaceId, userFieldValue, approverRoleIds);
+			} else {
+				nextStepUsers = WorkflowManager.getRoleUsersByUsersAndRoles(spaceId, [userFieldValue], approverRoleIds);
+			}
+
+			if(!nextStepUsers || nextStepUsers.length < 1){
+				error = "ROLE_NO_MEMBERS";
+			}
+		}else{
+			error = "FIELD_VALUE_EMPTY";
+		}
+
+
       break;
     case 'orgFieldRole':
       var
         orgField = body.orgField,
         orgFieldValue = body.orgFieldValue,
         approverRoleIds = body.approverRoleIds;
-      if (orgField.is_multiselect) { //如果多选，以orgFieldValue值为Array
-        nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, orgFieldValue, approverRoleIds);
-      } else {
-        nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, [orgFieldValue], approverRoleIds);
-      }
+
+		if(orgFieldValue){
+			if (orgField.is_multiselect) { //如果多选，以orgFieldValue值为Array
+				nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, orgFieldValue, approverRoleIds);
+			} else {
+				nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, [orgFieldValue], approverRoleIds);
+			}
+
+			if(!nextStepUsers || nextStepUsers.length < 1){
+				error = "ROLE_NO_MEMBERS";
+			}
+		}else{
+			error = "FIELD_VALUE_EMPTY";
+		}
       break;
     default:
       break;
   }
 
   var result = [];
-
 
   nextStepUsers.forEach(function(su) {
     var o = {
@@ -120,7 +147,8 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
   JsonRoutes.sendResult(res, {
     code: 200,
     data: {
-      'nextStepUsers': result
+      'nextStepUsers': result,
+	  'error': error
     }
   });
 })

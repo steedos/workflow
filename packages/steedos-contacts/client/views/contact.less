@@ -242,6 +242,11 @@
 			}
 		}
 
+		.hidden-user{
+			.contacts-mobile,.contacts-work_phone{
+				display: none;
+			}
+		}
 	}
 
 	.contacts-main{
@@ -585,6 +590,13 @@
 			}
 		}
 	}
+	.hidden-user{
+		.weui-cell-hidden-user-field{
+			.weui-input{
+				display: none;
+			}
+		}
+	}
 }
 
 .contacts-settings{
@@ -642,6 +654,7 @@
 		display: none;
 	}
 	.space-user-info-container {
+		padding: 0;
 		overflow: auto;
 		margin-top: 0px;
 		.weui-panel__hd:after {

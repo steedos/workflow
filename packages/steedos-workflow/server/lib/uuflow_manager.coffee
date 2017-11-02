@@ -514,7 +514,7 @@ uuflowManager.getUpdatedValues = (instance) ->
 	else if not trace_approve.values
 		newest_values = instance.values
 	else
-		newest_values = _.extend(instance.values, trace_approve.values)
+		newest_values = trace_approve.values || {}
 	return newest_values
 
 uuflowManager.getForm = (form_id) ->
@@ -1584,9 +1584,9 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	if user_info.locale is 'zh-cn'
 		lang = 'zh-CN'
 
-	instance_id = instance_from_client["id"]
-	trace_id = instance_from_client["traces"][0]["id"]
-	approve_id = instance_from_client["traces"][0]["approves"][0]["id"]
+	instance_id = instance_from_client["_id"]
+	trace_id = instance_from_client["traces"][0]["_id"]
+	approve_id = instance_from_client["traces"][0]["approves"][0]["_id"]
 	values = instance_from_client["traces"][0]["approves"][0]["values"]
 	if not values
 		values = new Object
@@ -1645,7 +1645,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 判断:applicant和原instance的applicant是否相等
 	if applicant_id is instance.applicant
 		# applicant和原instance的applicant相等
-		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
+		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
 			instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
@@ -1685,7 +1685,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		instance_traces[0]["approves"][0].user_name = user.name
 		instance_traces[0]["approves"][0].judge = "submitted"
 
-		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
+		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
 			instance_traces[0]["approves"][0].values = values
 			# 判断next_steps是否为空,不为空则写入到当前approve的next_steps中
@@ -1747,7 +1747,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		newTrace = new Object
 		newTrace._id = new Mongo.ObjectID()._str
 		newTrace.instance = instance_id
-		newTrace.previous_trace_ids = [trace["id"]]
+		newTrace.previous_trace_ids = [trace["_id"]]
 		newTrace.is_finished = true
 		newTrace.step = next_step._id
 		newTrace.name = next_step.name
@@ -1798,7 +1798,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					nextTrace = new Object
 					nextTrace._id = new Mongo.ObjectID()._str
 					nextTrace.instance = instance_id
-					nextTrace.previous_trace_ids = [trace["id"]]
+					nextTrace.previous_trace_ids = [trace["_id"]]
 					nextTrace.is_finished = false
 					nextTrace.step = next_step._id
 					nextTrace.name = next_step.name

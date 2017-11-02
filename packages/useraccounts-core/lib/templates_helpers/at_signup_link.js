@@ -3,7 +3,9 @@ AT.prototype.atSignupLinkHelpers = {
         return AccountsTemplates.disabled();
     },
     signUpLink: function(){
-        return AccountsTemplates.getRoutePath("signUp");
+        // return AccountsTemplates.getRoutePath("signUp");
+        // 注册界面重写
+        return "/steedos/admin/register";
     },
     preText: function(){
         return T9n.get(AccountsTemplates.texts.signUpLink_pre, markIfMissing=false);
@@ -19,6 +21,8 @@ AT.prototype.atSignupLinkHelpers = {
 AT.prototype.atSignupLinkEvents = {
     "click #at-signUp": function(event, t) {
         event.preventDefault();
-        AccountsTemplates.linkClick('signUp');
+        // AccountsTemplates.linkClick('signUp');
+        // 注册界面重写
+        FlowRouter.go("/steedos/admin/register")
     },
 };

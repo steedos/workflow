@@ -52,5 +52,26 @@
 	"accounts_space_calcel": "取消",
 	"accounts_space_placeholder": "请输入工作区名称",
 	"accounts_space_success": "工作区创建成功",
-	"accounts_space_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。"
+	"accounts_space_help": "一个工作区就是一个工作团队，可以邀请同事、工作伙伴加入工作区，然后一起协同办公。",
+
+	"accounts_register_company_label": "企业名称",
+	"accounts_register_company_placeholder": "请输入企业名称",
+	"accounts_register_company_empty": "企业名称不能为空",
+	"accounts_register_name_label": "管理员姓名",
+	"accounts_register_name_placeholder": "请输入管理员姓名",
+	"accounts_register_name_empty": "管理员姓名不能为空",
+	"accounts_register_email_label": "管理员邮箱",
+	"accounts_register_email_placeholder": "请输入邮箱地址",
+	"accounts_register_email_empty": "管理员邮箱不能为空",
+	"accounts_register_password_label": "密码",
+	"accounts_register_password_placeholder": "请输入密码",
+	"accounts_register_password_empty": "密码不能为空",
+	"accounts_register_confirmpwd_label": "确认密码",
+	"accounts_register_confirmpwd_placeholder": "请再输一次密码",
+	"accounts_register_email_exist": "邮箱地址已被占用",
+	"accounts_register_title": "注册企业",
+	"accounts_register_company_title": "企业信息",
+	"accounts_register_admin_title": "管理员信息",
+	"accounts_phone_code_update_fail": "验证通过，但是更新数据失败，请稍后再试",
+	"accounts_phone_verify_fail": "您的手机号未验证，请重新绑定手机号！"
 }

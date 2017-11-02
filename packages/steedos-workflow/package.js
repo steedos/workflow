@@ -11,7 +11,8 @@ Npm.depends({
 	"ejs-lint": "0.2.0",
 	"eval": "0.1.2",
 	mkdirp: "0.3.5",
-	mime: "2.0.2"
+	mime: "2.0.2",
+	busboy: "0.2.13"
 });
 
 Package.onUse(function(api) {
@@ -115,6 +116,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/instance_number_rules.coffee', 'client');
 
 	api.addFiles('client/lib/instance_macro.coffee', 'client');
+
+	api.addFiles('client/lib/next_step_user.coffee', 'client');
 
 
 	//add client file
@@ -330,10 +333,12 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
 	api.addFiles('server/methods/related_instances.coffee', 'server');
-	api.addFiles('server/methods/edit_flow_positions.coffee','server')
+	api.addFiles('server/methods/edit_flow_positions.coffee', 'server')
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
+
+	api.addFiles('server/routes/instance_draft_view.coffee', 'server');
 
 	// routes
 	api.addFiles('routes/nextStepUsers.js', 'server');
@@ -359,6 +364,10 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_submit.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_save.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');

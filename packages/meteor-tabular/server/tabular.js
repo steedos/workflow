@@ -145,7 +145,12 @@ Meteor.publish("tabular_getInfo", function (tableName, selector, sort, skip, lim
 						or.push(fine_where);
 					})
 
+
 					subQuery["$and"][1]["$or"] = or;
+
+					if(!_.has(db[references.collection]._simpleSchema._schema, "space")){
+						subQuery = {"$or": or}
+					}
 
 					// console.log("subQuery" + key, JSON.stringify(subQuery));
 					//

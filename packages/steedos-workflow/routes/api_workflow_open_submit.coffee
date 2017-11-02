@@ -7,7 +7,7 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 
 		current_user = req.userId
 
-		space_id = req.headers['X_Space_Id']
+		space_id = req.headers['x-space-id']
 
 		if not space_id
 			throw new Meteor.Error('error', 'need header X_Space_Id')
@@ -20,7 +20,7 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(current_user, space_id)
+		uuflowManager.isSpaceAdmin(space_id, current_user)
 
 		hashData = req.body
 
