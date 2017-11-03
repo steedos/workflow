@@ -166,7 +166,10 @@ Template.afSelectUser.events({
 
         options.title = this.atts.title?  this.atts.title: t('coreform_select_user_title'); //t('coreform_select') +
 
-        options.targetId = template.data.atts.id;
+        // options.targetId = template.data.atts.id;
+
+		options.target = event.target
+
         Modal.allowMultiple = true;
         Modal.show("cf_contact_modal", options);
         

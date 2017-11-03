@@ -29,21 +29,24 @@ Template.cf_contact_modal.helpers
 
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
-		target = $("#" + template.data.targetId)
+		target = template.data.target
+
+#		target = $("#" + template.data.targetId)
 		values = CFDataManager.getContactModalValue();
 
-		target[0].dataset.values = values.getProperty("id").toString();
+		target.dataset.values = values.getProperty("id").toString();
 
-		target.val(values.getProperty("name").toString()).trigger('change');
+		$(target).val(values.getProperty("name").toString()).trigger('change');
 
 		Modal.hide("cf_contact_modal");
 
 		Modal.allowMultiple = false;
 
 	'click #remove': (event, template) ->
-		target = $("#" + template.data.targetId)
-		target[0].dataset.values = "";
-		target.val("").trigger('change');
+		target = template.data.target
+#		target = $("#" + template.data.targetId)
+		target.dataset.values = "";
+		$(target).val("").trigger('change');
 		Modal.hide("cf_contact_modal");
 		Modal.allowMultiple = false;
 
