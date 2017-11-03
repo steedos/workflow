@@ -494,5 +494,10 @@
 	"loading_reload_button_title": "Reload",
 	"apps_members": "Authorized object",
 	"apps_members_users": "Authorized personnel",
-	"apps_members_organizations": "Authorized department"
+	"apps_members_organizations": "Authorized department",
+	"nw_menu_cut": "Cut",
+	"nw_menu_copy": "Copy",
+	"nw_menu_paste": "Paste",
+	"nw_menu_selectall": "SelectAll",
+	"nw_menu_reload": "Reload"
 }
