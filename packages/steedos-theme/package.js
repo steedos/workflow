@@ -30,7 +30,8 @@ Package.onUse(function(api) {
     'client/style.less',
     'client/zoom.less',
     'client/sweetalert.less',
-    'client/status.less'
+    'client/status.less',
+    'client/jstree.less'
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");

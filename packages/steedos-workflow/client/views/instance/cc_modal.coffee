@@ -1,78 +1,85 @@
 Template.instance_cc_modal.helpers
 	fields: ->
-		form_version = WorkflowManager.getInstanceFormVersion()
-		currentStep = InstanceManager.getCurrentStep()
-		ins = WorkflowManager.getInstance()
-		if InstanceManager.isInbox() && ins.state is "pending" 
-			currentApprove = InstanceManager.getCurrentApprove()
-		else
-			currentApprove = InstanceManager.getLastApprove(ins.traces)
 
-		if !currentApprove
-			return
+		modalFields = Tracker.nonreactive ()->
 
-		canCC = (formula, currentStep)->
-			formulas = InstanceformTemplate.helpers.getOpinionFieldStepsName(formula)
+			form_version = WorkflowManager.getInstanceFormVersion()
+			currentStep = InstanceManager.getCurrentStep()
+			ins = WorkflowManager.getInstance()
+			if InstanceManager.isInbox() && ins.state is "pending"
+				currentApprove = InstanceManager.getCurrentApprove()
+			else
+				currentApprove = InstanceManager.getLastApprove(ins.traces)
 
-			rev = false;
-
-			formulas.forEach (f)->
-				if !f.only_handler && f.stepName == currentStep.name
-					rev = true
-			return rev;
-
-		getTrace = (ins, trace_id)->
-			return _.find ins?.traces, (n)->
-				return n._id == trace_id
-
-		if InstanceManager.isInbox() && ins.state is "pending"
-			opinionFields = _.filter(form_version.fields, (field) ->
-				if currentApprove.type == 'cc'
-
-					_trace = getTrace(ins, currentApprove.trace)
-
-					step = WorkflowManager.getInstanceStep(_trace?.step)
-
-					return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1 and canCC(field.formula, step)
-				InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0 and canCC(field.formula, currentStep)
-			)
-
-		modalFields = 
-			cc_users:
-				autoform:
-					type: 'selectuser'
-					multiple: true,
-					is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
-				optional: false
-				type: [ String ]
-				label: TAPi18n.__('instance_cc_user')
-			
-			cc_description:
-				type: String,
-				optional: true,
-				autoform:
-					type:'coreform-textarea'
-				label: TAPi18n.__('instance_cc_description')
-
-		if opinionFields?.length > 0
-			modalFields.opinion_fields =
-				autoform: type: 'coreform-multiSelect'
-				type: [String]
-				label: TAPi18n.__('instance_opinion_field')
-				optional: true
-			options = new Array
-			opinionFields.forEach (field) ->
-				label = field.name || field.code
-				options.push
-					label: label
-					value: field.code
+			if !currentApprove
 				return
 
-			modalFields.opinion_fields.autoform.defaultValue = options.getProperty("value") || []
+			canCC = (formula, currentStep)->
+				formulas = InstanceformTemplate.helpers.getOpinionFieldStepsName(formula)
 
-			modalFields.opinion_fields.autoform.options = options
-			if options.length == 1
-				modalFields.opinion_fields.autoform.defaultValue = options[0].value
+				rev = false;
+
+				formulas.forEach (f)->
+					if !f.only_handler && f.stepName == currentStep.name
+						rev = true
+				return rev;
+
+			getTrace = (ins, trace_id)->
+				return _.find ins?.traces, (n)->
+					return n._id == trace_id
+
+			if InstanceManager.isInbox() && ins.state is "pending"
+				opinionFields = _.filter(form_version.fields, (field) ->
+					if currentApprove.type == 'cc'
+
+						_trace = getTrace(ins, currentApprove.trace)
+
+						step = WorkflowManager.getInstanceStep(_trace?.step)
+
+						return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1 and canCC(field.formula, step)
+					InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0 and canCC(field.formula, currentStep)
+				)
+
+			modalFields =
+				cc_users:
+					autoform:
+						type: 'selectuser'
+						multiple: true,
+						is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
+					optional: false
+					type: [ String ]
+					label: TAPi18n.__('instance_cc_user')
+
+				cc_description:
+					type: String,
+					optional: true,
+					autoform:
+						type:'coreform-textarea'
+					label: TAPi18n.__('instance_cc_description')
+
+			if opinionFields?.length > 0
+				modalFields.opinion_fields =
+					autoform: type: 'coreform-multiSelect'
+					type: [String]
+					label: TAPi18n.__('instance_opinion_field')
+					optional: true
+				options = new Array
+				opinionFields.forEach (field) ->
+					label = field.name || field.code
+					options.push
+						label: label
+						value: field.code
+					return
+
+				modalFields.opinion_fields.autoform.defaultValue = options.getProperty("value") || []
+
+				modalFields.opinion_fields.autoform.options = options
+				if options.length == 1
+					modalFields.opinion_fields.autoform.defaultValue = options[0].value
+
+			return modalFields
+
+
 		new SimpleSchema(modalFields)
 	values: ->
 		{}

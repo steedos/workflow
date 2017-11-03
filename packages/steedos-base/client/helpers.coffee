@@ -404,10 +404,12 @@ TemplateHelpers =
 			calendarid = Session.get("defaultcalendarid")
 			userId = Meteor.userId()
 			today = moment(moment().format("YYYY-MM-DD 00:00")).toDate()
+			endLine = moment().toDate()
 			selector = 
 				{
 					calendarid: calendarid,
 					start: {$gte:today},
+					end: {$gte: endLine},
 					"attendees": {
 						$elemMatch: {
 							id: userId,
