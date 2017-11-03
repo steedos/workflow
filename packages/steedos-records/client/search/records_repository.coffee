@@ -21,7 +21,7 @@ Template.search_records_repository.events
 
 		$('.table-responsive').css 'display', 'initial'
 
-		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + '&q=' + seatch_txt
+		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + "&isSpaceAdmin=" + Steedos.isSpaceAdmin() + '&q=' + seatch_txt
 
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 

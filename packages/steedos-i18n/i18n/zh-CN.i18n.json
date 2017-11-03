@@ -512,5 +512,10 @@
 	"loading_reload_button_title": "重新加载",
 	"apps_members": "授权对象",
 	"apps_members_users": "授权人员",
-	"apps_members_organizations": "授权部门"
+	"apps_members_organizations": "授权部门",
+	"nw_menu_cut": "剪切",
+	"nw_menu_copy": "复制",
+	"nw_menu_paste": "粘贴",
+	"nw_menu_selectall": "全选",
+	"nw_menu_reload": "刷新"
 }

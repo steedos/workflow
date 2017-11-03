@@ -8,7 +8,7 @@ Package.describe({
 
 Npm.depends({
     'request':'2.40.0',
-    mkdirp: "0.3.5"
+    'mkdirp': "0.3.5"
 });
 
 Package.onUse(function(api) {
@@ -70,7 +70,10 @@ Package.onUse(function(api) {
     api.addFiles('client/core.coffee', 'client');
     api.addFiles('client/router.coffee', 'client');
 
-    api.addFiles('server/api/search/search_api.coffee','server');
+    // api.addFiles('models/flows.coffee','server');
+
+
+    api.addFiles('server/routes/search.coffee','server');
 
 });
 
