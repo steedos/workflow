@@ -3,9 +3,14 @@
 		<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
+		{{#if isSpaceAdmin}}
+			<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default btn-flat" id="steedos_contacts_add_users_btn">
+				{{_ "steedos_contacts_invite_users"}}
+			</button>
+		{{/if}}
 		{{#if is_admin}}
-			<button type="button" data-toggle="tooltip" data-placement="right" title="{{_ 'steedos_contacts_invite_users'}}" class="btn btn-default btn-flat" id="steedos_contacts_invite_users_btn">
-				<i class="ion ion-plus-round"></i>
+			<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default btn-flat" id="steedos_contacts_add_users_btn">
+				{{_ "steedos_contacts_invite_users"}}
 			</button>
 		{{/if}}
 

@@ -25,6 +25,20 @@
 			background-color: #fff;
 			height: calc(~"100% - 43px");
 			overflow-y: auto;
+			width: 100%;
+			overflow-x: hidden;
+			#steedos_contacts_org_tree {
+				ul.jstree-container-ul {
+					width: 100%;
+					a.jstree-anchor {
+						width: calc(~"100% - 65px");
+						display: inline-block;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
 			.box-solid{
 				margin-bottom: 0px;
 			}

@@ -84,6 +84,8 @@ function handerOrg(orgs, parentId) {
 
         node.id = org._id;
 
+        node.li_attr = {}; 
+
         if (org.children && org.children.length > 0) {
             node.children = true;
         }
@@ -102,6 +104,8 @@ function handerOrg(orgs, parentId) {
                 class:"text-muted"
             };
         }
+
+        node.li_attr["data-admins"] = org.admins;
 
 		node.parent = parentId;
 
@@ -123,7 +127,8 @@ ContactsManager.getRoot = function() {
             parent: 1,
             children: 1,
             childrens: 1,
-            is_company: 1
+            is_company: 1,
+            admins: 1
         }
     });
 };
@@ -147,7 +152,8 @@ ContactsManager.getChild = function(parentId,showHiddenOrg) {
             children: 1,
             childrens: 1,
             hidden: 1,
-            sort_no: 1
+            sort_no: 1,
+            admins: 1
         },
 		sort: {
 			sort_no: -1,
@@ -176,7 +182,8 @@ ContactsManager.getOrgAndChild = function(orgId) {
         parents: orgId
     }, {
         fields: {
-            _id: 1
+            _id: 1,
+            admins: 1
         }
     });
     orgs = childrens.getProperty("_id");

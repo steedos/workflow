@@ -1,3 +1,34 @@
+addEditMenu = ->
+	# console.log "class is #{$(".jstree-wholerow-clicked").hasClass("added-edit-menu")}"
+	# console.log "length is #{$(".jstree-wholerow-clicked").length}"
+	unless $(".jstree-wholerow-clicked").hasClass("added-edit-menu") and $(".jstree-wholerow-clicked").length
+		$(".jstree-wholerow-clicked").addClass("added-edit-menu")
+		admins = $(".jstree-wholerow-clicked").closest("li").data("admins")?.split(",")
+		organizationId = $(".jstree-wholerow-clicked").closest("li").attr("id")
+		userId = Meteor.userId()
+
+		# console.log Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+		if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+			html = """
+				<div class="pull-right edit-menu">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<span class="ion ion-android-more-vertical"></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right" role="menu">
+							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
+							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
+							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
+						</ul>
+					</div>
+				</div>
+			"""
+		else
+			html = ""
+
+		$(".jstree-wholerow-clicked").after(html)
+
+
 Template.steedos_contacts_org_tree.helpers
 	isEditable: ()->
 		return Session.get('contacts_is_org_admin') && !this.isDisabled
@@ -13,6 +44,7 @@ Template.steedos_contacts_org_tree.onRendered ->
 	$(document.body).addClass('loading')
 	showHiddenOrg = this.data?.showHiddenOrg
 
+
 	$("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
 		# 清除整个浏览器的文字选中状态，解决edge浏览器中选中文字造成的一些问题，
 		# 比如在space user列表选中一些文字，然后切换到其他组织，会发现edge浏览器上无法拖动了（有权限的情况）等
@@ -22,6 +54,9 @@ Template.steedos_contacts_org_tree.onRendered ->
 			Session.set("contact_list_search", false);
 			Session.set("contacts_orgId", data.selected[0]);
 			ContactsManager.checkOrgAdmin();
+
+		# console.log "changed.jstree"
+		addEditMenu()
 		return
 	).on('ready.jstree',(e, data) ->
 		ins = data.instance
@@ -29,6 +64,10 @@ Template.steedos_contacts_org_tree.onRendered ->
 		if rootNode.children.length
 			firstNode = rootNode.children[0]
 			ins.select_node(firstNode)
+
+		addEditMenu()
+	).on('refresh.jstree',(e, data) ->
+		addEditMenu()
 	).jstree
 		core:
 			multiple:false,
@@ -52,22 +91,52 @@ Template.steedos_contacts_org_tree.onRendered ->
 
 
 Template.steedos_contacts_org_tree.events
+	'mouseenter .jstree-wholerow': (event, template) ->
+
+		unless $(event.target).hasClass("added-edit-menu")
+			$(event.target).addClass("added-edit-menu")
+			organizationId = $(event.currentTarget).closest("li").attr("id")
+			admins = $(event.currentTarget).closest("li").data("admins")?.split(",")
+			userId = Meteor.userId()
+
+			if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+				html = """
+					<div class="pull-right edit-menu">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<span class="ion ion-android-more-vertical"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right" role="menu">
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
+							</ul>
+						</div>
+					</div>
+				"""
+			else
+				html = ""
+			$(event.target).after(html)
+
 	'click #search-btn': (event, template) ->
 		$('#steedos_contacts_org_tree').jstree(true).search($("#search-key").val())
 
 	'click #steedos_contacts_org_tree_add_btn': (event, template) ->
-		doc = { parent: Session.get('contacts_orgId') }
+		orgId = event.target.dataset.orgid
+		doc = { parent: orgId }
 		AdminDashboard.modalNew 'organizations', doc, ()->
 			$.jstree.reference('#steedos_contacts_org_tree').refresh()
 
 	'click #steedos_contacts_org_tree_edit_btn': (event, template) ->
-		AdminDashboard.modalEdit 'organizations', Session.get('contacts_orgId'), ()->
+		orgId = event.target.dataset.orgid
+		AdminDashboard.modalEdit 'organizations', orgId, ()->
 			$.jstree.reference('#steedos_contacts_org_tree').refresh()
 
 	'click #steedos_contacts_org_tree_remove_btn': (event, template) ->
-		AdminDashboard.modalDelete 'organizations', Session.get('contacts_orgId'), ()->
+		orgId = event.target.dataset.orgid
+		AdminDashboard.modalDelete 'organizations', orgId, ()->
 			orgTree = $.jstree.reference('#steedos_contacts_org_tree')
-			parent = orgTree.get_parent(Session.get("contacts_orgId"))
+			parent = orgTree.get_parent(orgId)
 			orgTree.select_node(parent)
 			orgTree.refresh()
 
