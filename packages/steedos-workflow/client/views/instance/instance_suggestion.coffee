@@ -70,14 +70,19 @@ Template.instance_suggestion.helpers
 
 		$("#nextStepUsers_div").show();
 
+
+		_getNextStep = ()->
+			return WorkflowManager.getInstanceStep(Session.get("next_step_id"))
+
+
 		if next_step_id
-			nextStep = WorkflowManager.getInstanceStep(next_step_id)
+			nextStep = Tracker.nonreactive(_getNextStep)
 			if nextStep && nextStep.step_type == 'end'
 				$("#nextStepUsers_div").hide();
 
 
 #		form_values = instance_form_values.values
-		users = InstanceManager.getNextUserOptions();
+		users = Tracker.nonreactive(InstanceManager.getNextUserOptions)
 		data = {
 			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
 			name: 'nextStepUsers',
@@ -141,7 +146,7 @@ Template.instance_suggestion.helpers
 				data.value = next_user[0].value
 				data.dataset['values'] = selectedUser.getProperty("id").toString()
 
-			InstanceManager.nextStepUserErrorClass()
+			Tracker.nonreactive(InstanceManager.nextStepUserErrorClass)
 		else
 			if !Session.get("next_step_users_showOrg")
 				data.dataset['userOptions'] = users.getProperty("id")
