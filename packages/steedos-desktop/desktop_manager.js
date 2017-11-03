@@ -48,10 +48,83 @@ if (Steedos.isNode()){
 		}
 	});
 
+	var gui = nw.require("nw.gui");
+	var cutMenu = new gui.MenuItem({
+		label: "nw_menu_cut",
+		click: function() {
+			document.execCommand("cut");
+		}
+	});
+	var copyMenu = new gui.MenuItem({
+		label: "nw_menu_copy",
+		click: function() {
+			document.execCommand("copy");
+		}
+	});
+	var pasteMenu = new gui.MenuItem({
+		label: "nw_menu_paste",
+		click: function() {
+			document.execCommand("paste");
+		}
+	});
+	var selectallMenu = new gui.MenuItem({
+		label: "nw_menu_selectall",
+		click: function() {
+			document.execCommand("selectall");
+		}
+	});
+	var reloadMenu = new gui.MenuItem({
+		label: "nw_menu_reload",
+		click: function() {
+			window.location.reload(true);
+		}
+	});
+	var gInputMenu = new gui.Menu;
+	gInputMenu.append(cutMenu);
+	gInputMenu.append(copyMenu);
+	gInputMenu.append(pasteMenu);
+	gInputMenu.append(selectallMenu);
+	var gCopyMenu = new gui.Menu;
+	gCopyMenu.append(copyMenu);
+	var gMenu = new gui.Menu;
+	gMenu.append(reloadMenu);
+
+	$(function(){
+		[cutMenu,copyMenu,pasteMenu,selectallMenu,reloadMenu].forEach(function(n){
+			n.label = t(n.label);
+		});
+	});
+
 	// 去除客户端右击事件
 	document.body.addEventListener('contextmenu', function(ev) { 
 		ev.preventDefault();
-		return false;
+		var selectedText = window.getSelection().toString();
+		if (!ev.target.disabled && (ev.target instanceof HTMLInputElement 
+			|| ev.target instanceof HTMLTextAreaElement 
+			|| ev.target.isContentEditable)) {
+			cutMenu.enabled = true;
+			copyMenu.enabled = true;
+			pasteMenu.enabled = true;
+			selectallMenu.enabled = true;
+			if(!selectedText){
+				cutMenu.enabled = false;
+				copyMenu.enabled = false;
+			}
+			if(!gui.Clipboard.get().get()){
+				pasteMenu.enabled = false;
+			}
+			if(!ev.target.value){
+				selectallMenu.enabled = false;
+			}
+			gInputMenu.popup(ev.x, ev.y);
+		}
+		else if(selectedText){
+			copyMenu.enabled = true;
+			gCopyMenu.popup(ev.x, ev.y);
+		}
+		else{
+			gMenu.popup(ev.x, ev.y);
+		}
 	});
 	
 	// 关闭时判断
