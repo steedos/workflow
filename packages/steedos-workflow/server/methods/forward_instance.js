@@ -242,7 +242,14 @@ Meteor.methods({
 			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
 			if (action_type == 'distribute') {
-				ins_obj.distribute_from_instance = instance_id
+				// 解决多次分发看不到正文、附件问题
+				if (ins.distribute_from_instance) {
+					ins_obj.distribute_from_instance = ins.distribute_from_instance;
+				} else {
+					ins_obj.distribute_from_instance = instance_id;
+				}
+				ins_obj.distribute_from_instances = ins.distribute_from_instances || [];
+				ins_obj.distribute_from_instances.push(instance_id);
 
 				if (related) {
 					ins_obj.related_instances = [instance_id]

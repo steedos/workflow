@@ -70,7 +70,9 @@ Template.afSelectOrg.events({
 
 		options.showUser = false;
 
-		options.targetId = template.data.atts.id;
+		// options.targetId = template.data.atts.id;
+
+		options.target = event.target
 
 		if(template.data.atts.spaceId === false){
 			options.spaceId = false

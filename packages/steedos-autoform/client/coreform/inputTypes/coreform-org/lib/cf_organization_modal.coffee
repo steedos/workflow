@@ -24,24 +24,26 @@ Template.cf_organization_modal.helpers
 
 Template.cf_organization_modal.events
 	'click #confirm': (event, template) ->
-		target = $("#"+template.data.targetId)
+
+		target = template.data.target
+#		target = $("#"+template.data.targetId)
 
 		values = CFDataManager.getOrganizationModalValue();
 
-		target[0].dataset.values = values.getProperty("id").toString();
+		target.dataset.values = values.getProperty("id").toString();
 
-		target.val(values.getProperty("fullname").toString()).trigger('change');
+		$(target).val(values.getProperty("fullname").toString()).trigger('change');
 
 		Modal.hide("cf_organization_modal");
 
 		Modal.allowMultiple = false;
 
 	'click #remove': (event, template) ->
-		target = $("#"+template.data.targetId)
+#		target = $("#"+template.data.targetId)
+		target = template.data.target
+		target.dataset.values = "";
 
-		target[0].dataset.values = "";
-
-		target.val("").trigger('change');
+		$(target).val("").trigger('change');
 
 		Modal.hide("cf_organization_modal");
 
