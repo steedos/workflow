@@ -222,8 +222,6 @@ Meteor.startup ()->
 						email = [{address: doc.email, verified: false}]
 						options.emails = email
 
-					console.log options
-
 					doc.user = db.users.insert options
 
 			if !doc.user
