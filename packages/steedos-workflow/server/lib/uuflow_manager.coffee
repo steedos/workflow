@@ -18,7 +18,7 @@ uuflowManager.check_authorization = (req)->
 uuflowManager.getInstance = (instance_id) ->
 	ins = db.instances.findOne(instance_id)
 	if not ins
-		throw new Meteor.Error('error!', "instance_id有误或此instance已经被删除")
+		throw new Meteor.Error('error!', "申请单ID：#{instance_id}有误或此申请单已经被删除")
 	return ins
 
 uuflowManager.getSpace = (space_id) ->

@@ -97,14 +97,13 @@ Template.steedos_contacts_add_user_modal.events
 			return
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
 		
+		$("body").addClass("loading")
 		# console.log doc
 		Meteor.call 'addContactsUser', doc, (error,result) ->
 			if error
+				$("body").removeClass("loading")
 				toastr.error t(error.reason)
 			else
-				console.log result
+				$("body").removeClass("loading")
 				toastr.success t(result)
 				Modal.hide(template)
-
-
-			

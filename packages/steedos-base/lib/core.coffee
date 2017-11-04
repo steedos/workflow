@@ -256,12 +256,12 @@ if Meteor.isClient
 		switch accountZoomValue.name
 			when 'normal'
 				if Steedos.isMobile()
-					offset = 5
+					offset = -12
 				else
 					offset = 75
 			when 'large'
 				if Steedos.isMobile()
-					offset = 9
+					offset = -6
 				else
 					# 区分IE浏览器
 					if Steedos.detectIE()
@@ -270,7 +270,7 @@ if Meteor.isClient
 						offset = 9
 			when 'extra-large'
 				if Steedos.isMobile()
-					offset = -7
+					offset = -26
 				else 
 					# 区分IE浏览器
 					if Steedos.detectIE()

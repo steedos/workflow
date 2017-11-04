@@ -332,7 +332,7 @@ InstanceformTemplate.helpers =
 
 		utcOffset = Template.instance().view.template.steedosData.utcOffset
 
-		values = instance.values
+		values = instance.values || {}
 
 		if Meteor.isClient
 			values = WorkflowManager_format.getAutoformSchemaValues()
@@ -354,7 +354,7 @@ InstanceformTemplate.helpers =
 
 		if Meteor.isServer
 			instance = Template.instance().view.template.steedosData.instance
-			values = instance.values
+			values = instance.values || {}
 		else
 			values = WorkflowManager_format.getAutoformSchemaValues()
 

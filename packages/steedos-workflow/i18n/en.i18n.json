@@ -604,5 +604,6 @@
 	"instance_role_set_is_complete": "Role set up?",
 	"instance_set_is_complete": "set up?",
 
-	"flow_roles_help": "Help"
+	"flow_roles_help": "Help",
+	"instance_permissions_error": "You do not have permission to view this request"
 }

@@ -80,12 +80,26 @@ getInstanceReadOnly = (req, res, next, options) ->
 					"error": "Validate Request -- Missing sapceUser",
 					"success": false
 			return;
+
 	#校验user是否对instance有查看权限
-	if !WorkflowManager.hasInstancePermissions(user, instance)
+	_hasPermission = WorkflowManager.hasInstancePermissions(user, instance)
+
+	if !_hasPermission  && instance.distribute_from_instance
+		_parent_instances = _.union([instance.distribute_from_instance], instance.distribute_from_instances || [])
+
+		_hasPermission = _.find _parent_instances, (_parent_id)->
+			_parent_ins = db.instances.findOne({_id:_parent_id}, {fields: {traces: 0}})
+
+			return WorkflowManager.hasInstancePermissions(user, _parent_ins)
+
+	if !_hasPermission
+		_locale = Steedos.locale(user._id, true)
+		error = TAPi18n.__("instance_permissions_error", {}, _locale)
+		res.charset = "utf-8"
 		JsonRoutes.sendResult res,
 			code: 401,
 			data:
-				"error": "Validate Request -- Not Instance Permissions",
+				"error": error,
 				"success": false
 		return;
 
