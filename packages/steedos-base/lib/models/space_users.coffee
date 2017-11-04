@@ -575,3 +575,7 @@ Meteor.startup ()->
 		db.space_users._ensureIndex({
 			"organizations": 1
 		},{background: true})
+
+		db.space_users._ensureIndex({
+			"mobile": 1
+		},{background: true})
