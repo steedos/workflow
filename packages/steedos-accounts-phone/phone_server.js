@@ -576,6 +576,7 @@ Meteor.methods({
                         }
                     }, {
                         $unset: {
+                            "mobile": 1,
                             "phone": 1,
                             "services.phone": 1
                         }
