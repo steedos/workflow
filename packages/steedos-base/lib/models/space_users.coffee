@@ -399,6 +399,10 @@ Meteor.startup ()->
 			if modifier.$unset.work_phone != undefined
 				user_unset.work_phone = modifier.$unset.work_phone
 
+			if modifier.$set.mobile
+				# 只要管理员改过手机号，那么users.mobile就应该清除，否则该users.mobile可能与其他用户的users.mobile值重复
+				user_unset.mobile = 1
+
 			# 更新users表中的相关字段
 			if not _.isEmpty(user_set)
 				# 这里不可以更新mobile字段，因该字段是用于发短信的，只有验证通过后才可以同步
