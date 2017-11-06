@@ -103,40 +103,85 @@ Meteor.methods
 				if !item.username
 					throw new Meteor.Error(500, "第#{i + 1}行：用户名不能为空");
 				user = db.users.findOne({username: item.username})
+				if item.phone
+					phoneNumber = "+86" + item.phone
+					user_phone_check = db.users.find({"phone.number": phoneNumber}).fetch()
+					if user_phone_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用")
+					else if user_phone_check.length == 1
+						if user_phone_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用")
+				if item.email
+					user_email_check = db.users.find({"email.address": item.email}).fetch()
+					if user_email_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用")
+					if user_email_check.length == 1
+						if user_email_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用")
+				
 			else if user_pk == 'phone'
 				if !item.phone
 					throw new Meteor.Error(500, "第#{i + 1}行：手机号不能为空");
 				phoneNumber = "+86" + item.phone
 				user = db.users.findOne({"phone.number": phoneNumber})
+				if item.username
+					user_username_check = db.users.find({username: item.username}).fetch()
+					if user_username_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：用户名已被占用")
+					else if user_username_check.length == 1
+						if user_username_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：用户名已被占用")
+				if item.email
+					user_email_check = db.users.find({"email.address": item.email}).fetch()
+					if user_email_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用")
+					if user_email_check.length == 1
+						if user_email_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用")
 			else
 				user = db.users.findOne({"emails.address": item.email})
+				if item.phone
+					phoneNumber = "+86" + item.phone
+					user_phone_check = db.users.find({"phone.number": phoneNumber}).fetch()
+					if user_phone_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用")
+					else if user_phone_check.length == 1
+						if user_phone_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用")
+				if item.username
+					user_username_check = db.users.find({username: item.username}).fetch()
+					if user_username_check.length > 1
+						throw new Meteor.Error(500, "第#{i + 1}行：用户名已被占用")
+					else if user_username_check.length == 1
+						if user_username_check[0]._id != user?._id
+							throw new Meteor.Error(500, "第#{i + 1}行：用户名已被占用")
 
 			# 校验手机号是否被占用
-			if item.phone
+			# if item.phone
 
-				user_by_phone = db.users.find({"phone.number": item.phone})
+			# 	user_by_phone = db.users.find({"phone.number": item.phone})
 
-				if user_by_phone.count() > 1
-					throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+			# 	if user_by_phone.count() > 1
+			# 		throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
 
-				if user_by_phone.count() == 1
-					if user_pk == 'username'
-						if user_by_phone.fetch()[0]["username"] != item.username
-							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
-					if user_pk == 'email'
-						if user_by_phone.fetch()[0]?.emails?[0].address != item.email
-							throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+			# 	if user_by_phone.count() == 1
+			# 		if user_pk == 'username'
+			# 			if user_by_phone.fetch()[0]["username"] != item.username
+			# 				throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
+			# 		if user_pk == 'email'
+			# 			if user_by_phone.fetch()[0]?.emails?[0].address != item.email
+			# 				throw new Meteor.Error(500, "第#{i + 1}行：手机号已被占用");
 
-			if item.email
+			# if item.email
 
-				user_by_email = db.users.findOne({"emails.address": item.email})
+			# 	user_by_email = db.users.findOne({"emails.address": item.email})
 
-				if user
+			# 	if user
 
-					if user_pk == 'username'
-						if item.email != user.steedos_id
-							if user_by_email
-								throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
+			# 		if user_pk == 'username'
+			# 			if item.email != user.steedos_id
+			# 				if user_by_email
+			# 					throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用");
 
 				# ck_space_user = db.space_users.findOne({space: space_id, user: user._id})
 
@@ -331,9 +376,12 @@ Meteor.methods
 					su_doc._id = db.space_users._makeNewID()
 					su_doc.user = user_id
 					su_doc.space = space_id
+					su_doc.user_accepted =  true
+					su_doc.invite_state = "accepted"
 
-					su_doc.user_accepted = false
-					su_doc.invite_state = "pending"
+					if user
+						su_doc.user_accepted = false
+						su_doc.invite_state = "pending"
 
 					# su_doc.user_accepted = true
 
