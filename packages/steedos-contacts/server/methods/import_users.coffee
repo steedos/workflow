@@ -92,9 +92,6 @@ Meteor.methods
 			if organization_depts.length < 1 || organization_depts[0] != root_org.name
 				throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
-			if !item.email && !item.phone && user_pk != 'username'
-				throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
-
 
 			# 获取用户
 
@@ -138,6 +135,8 @@ Meteor.methods
 						if user_email_check[0]._id != user?._id
 							throw new Meteor.Error(500, "第#{i + 1}行：邮件已被占用")
 			else
+				if !item.email
+					throw new Meteor.Error(500, "第#{i + 1}行：邮箱不能为空");
 				user = db.users.findOne({"emails.address": item.email})
 				if item.phone
 					phoneNumber = "+86" + item.phone
