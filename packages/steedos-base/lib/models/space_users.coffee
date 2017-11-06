@@ -232,17 +232,19 @@ Meteor.startup ()->
 
 			if doc.email && doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.findOne({
+				oldUser = db.users.find({
 					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
-				})
+				}).fetch()
 			else if doc.email
-				oldUser = db.users.findOne({"emails.address": doc.email})
+				oldUser = db.users.find({"emails.address": doc.email}).fetch()
 			else if doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.findOne({"phone.number": phoneNumber})
+				oldUser = db.users.find({"phone.number": phoneNumber}).fetch()
+
+			userIds = oldUser.getProperty("_id");
 
 			existed=db.space_users.find
-				"user":oldUser?._id,"space":doc.space
+				"user": {$in: userIds},"space":doc.space
 			if existed.count()>0
 				throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
