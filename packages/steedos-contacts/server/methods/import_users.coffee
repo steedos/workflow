@@ -30,7 +30,6 @@ Meteor.methods
 		testData = []
 
 		data.forEach (item, i)->
-			console.log("item", item)
 			testObj = {}
 			if item.username
 				testObj.username = item.username
