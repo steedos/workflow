@@ -222,8 +222,6 @@ Meteor.startup ()->
 						email = [{address: doc.email, verified: false}]
 						options.emails = email
 
-					console.log options
-
 					doc.user = db.users.insert options
 
 			if !doc.user
@@ -574,4 +572,8 @@ Meteor.startup ()->
 
 		db.space_users._ensureIndex({
 			"organizations": 1
+		},{background: true})
+
+		db.space_users._ensureIndex({
+			"mobile": 1
 		},{background: true})
