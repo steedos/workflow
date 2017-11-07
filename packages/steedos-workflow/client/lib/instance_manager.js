@@ -1523,3 +1523,11 @@ InstanceManager.getLastTraceStepId = function(traces) {
 
 	return step_id;
 }
+
+InstanceManager.isAttachLocked = function(instance_id, user_id) {
+	return !!cfs.instances.find({
+		'metadata.instance': instance_id,
+		'metadata.current': true,
+		'metadata.locked_by': user_id
+	}).count()
+}

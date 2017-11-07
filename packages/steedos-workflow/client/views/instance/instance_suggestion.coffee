@@ -309,6 +309,11 @@ Template.instance_suggestion.events
 			if ins.state == "draft"
 				toastr.error(t("spaces_isarrearageSpace"));
 				return
+
+		if InstanceManager.isAttachLocked(Session.get('instanceId'), Meteor.userId())
+			toastr.warning(t("workflow_attachment_locked_tip"));
+			return
+
 		if !ApproveManager.isReadOnly()
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)

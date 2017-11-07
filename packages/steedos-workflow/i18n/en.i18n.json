@@ -90,6 +90,7 @@
 	"workflow_attachment_convert_to_pdf": "Converting '%s' to pdf format...",
 	"workflow_attachment_wordToPdf": "Convert To Pdf",
 	"workflow_attachment_wordToPdf_failed": "Convert to PDF failed!",
+	"workflow_attachment_locked_tip": "Unlock the file, then submit",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
@@ -526,9 +527,9 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-	"not_found_user":"Not Found User",
+	"not_found_user": "Not Found User",
 	"next_step_users_not_found": {
-		"aplicant_superior":"The applicant's superior is not configured, please contact the Administrator.",
+		"aplicant_superior": "The applicant's superior is not configured, please contact the Administrator.",
 		"applicant_role": "The <__role_name__> you are looking for have not configured,Please contact the administrator.",
 		"field_value_empty": "Please enter the value of the <__field_name__>field",
 		"org_no_members": "The next step need <__org_name__> processing,Please contact the administrator."
@@ -536,7 +537,7 @@
 	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
 
 	"instanc_user_role_text": " configuration in position",
-	"instanc_set_applicant_role_text":"set positions users",
+	"instanc_set_applicant_role_text": "set positions users",
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
@@ -593,7 +594,7 @@
 
 	"flow_roles_delete_success": "Delete successfully",
 	"add_positions": "Add",
-	"save_role":"Save",
+	"save_role": "Save",
 	"flow_roles_update_success": "Update successfully",
 	"flow_roles_necessary": "Please fill in role's name",
 	"flow_positions_add_suceess": "Add successfully",
