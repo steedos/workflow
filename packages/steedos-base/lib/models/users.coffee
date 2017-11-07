@@ -20,9 +20,6 @@ db.users._simpleSchema = new SimpleSchema
 		autoform: 
 			type: "text"
 			readonly: true
-	company: 
-		type: String,
-		optional: true,
 	mobile: 
 		type: String,
 		optional: true,
@@ -31,12 +28,6 @@ db.users._simpleSchema = new SimpleSchema
 				readonly: true
 			else
 				type: "hidden"
-	work_phone:
-		type: String,
-		optional: true
-	position:
-		type: String,
-		optional: true
 	locale: 
 		type: String,
 		optional: true,
@@ -165,9 +156,6 @@ if Meteor.isServer
 		if (doc.profile?.locale && !doc.locale)
 			doc.locale = doc.profile.locale
 
-		if (doc.profile?.company && !doc.company)
-			doc.company = doc.profile.company
-
 		if (doc.profile?.mobile && !doc.mobile)
 			doc.mobile = doc.profile.mobile
 
@@ -250,19 +238,11 @@ if Meteor.isServer
 		user_unset = {}
 		if modifier.$set.name != undefined
 			user_set.name = modifier.$set.name
-		if modifier.$set.position != undefined
-			user_set.position = modifier.$set.position
-		if modifier.$set.work_phone != undefined
-			user_set.work_phone = modifier.$set.work_phone
 		if modifier.$set.mobile != undefined
 			user_set.mobile = modifier.$set.mobile
 
 		if modifier.$unset.name != undefined
 			user_unset.name = modifier.$unset.name
-		if modifier.$unset.position != undefined
-			user_unset.position = modifier.$unset.position
-		if modifier.$unset.work_phone != undefined
-			user_unset.work_phone = modifier.$unset.work_phone
 		if modifier.$unset.mobile != undefined
 			user_unset.mobile = modifier.$unset.mobile
 
@@ -287,9 +267,6 @@ if Meteor.isServer
 			fields:
 				steedos_id: 1
 				name: 1
-				company: 1
-				work_phone: 1
-				position: 1
 				mobile: 1
 				locale: 1
 				username: 1
@@ -332,7 +309,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1
 	},{background: true})
 
 	db.users._ensureIndex({
@@ -341,7 +317,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1,
 		"created": 1
 	},{background: true})
 
@@ -351,7 +326,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1,
 		"created": 1,
 		"last_logon": 1
 	},{background: true})
