@@ -414,6 +414,7 @@ Template.profile.events
 
 	'click .change-username': (event, template) ->
 		user = Meteor.user()
+		spaceId = Steedos.spaceId()
 		swal {
 			title: t('Change username')
 			type: "input"
@@ -426,7 +427,7 @@ Template.profile.events
 		}, (inputValue)->
 			if inputValue is false
 				return false
-			Meteor.call "setUsername", inputValue.trim(), (error, results)->
+			Meteor.call "setUsername", spaceId, inputValue.trim(), (error, results)->
 				if results
 					toastr.success t('Change username successfully')
 					swal.close()
