@@ -17,7 +17,12 @@ Template.flow_list_box.helpers
 
 	start_flows: ()->
 		start_flows = db.steedos_keyvalues.findOne({space: Session.get("spaceId"), user: Meteor.userId(), key: 'start_flows'})?.value || []
-		return db.flows.find({_id: {$in: start_flows}})
+
+		can_add_flows = WorkflowManager.getMyCanAddFlows() || []
+
+		flows = db.flows.find({_id: {$in: _.intersection(start_flows, can_add_flows)}})
+
+		return flows
 
 	show_start_flows: (start_flows)->
 		if start_flows?.count() > 0
