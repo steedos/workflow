@@ -125,5 +125,7 @@
 	"contact_invite_info": "__inviter__邀请您加入__space__",
 
 	"contact_mail_not_match_phine": "邮件和手机号不匹配",
-	"contact_reinvite_user": "已再次邀请该用户"
+	"contact_reinvite_user": "已再次邀请该用户",
+
+	"contact_need_phone_or_email": "手机和邮箱不能同时为空"
 }

@@ -127,5 +127,7 @@
 	"contact_mail_not_match_phine": "Mail and phone number doesn't match",
 	"contact_reinvite_user": "This user has been invited again",
 
-	"search_contact": "Contacts search"
+	"search_contact": "Contacts search",
+
+	"contact_need_phone_or_email": "You should fill in phone-number or email-address"
 }

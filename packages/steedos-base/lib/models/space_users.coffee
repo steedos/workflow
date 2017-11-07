@@ -145,6 +145,48 @@ Meteor.startup ()->
 				return
 
 	if (Meteor.isServer)
+		db.space_users.insertVaildate = (userId, doc) ->
+			if !doc.space
+				throw new Meteor.Error(400, "space_users_error_space_required");
+			if !doc.email and !doc.mobile
+				throw new Meteor.Error(400, "contact_need_phone_or_email");
+			if doc.email
+				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
+					throw new Meteor.Error(400, "email_format_error");
+
+			# 校验工作区是否存在
+			space = db.spaces.findOne(doc.space)
+			if !space
+				throw new Meteor.Error(400, "space_users_error_space_not_found");
+
+			# 要添加用户，需要至少有一个组织权限
+			if space.admins.indexOf(userId) < 0
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+				unless isOrgAdmin
+					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
+			if doc.email and doc.mobile
+				phoneNumber = "+86" + doc.mobile
+				userExist = db.users.find({$or: ["emails.address": doc.email, "phone.number": phoneNumber]})
+				if userExist.count() > 1
+					throw new Meteor.Error(400, "邮箱和手机号不匹配")
+
+			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
+			if doc.email and doc.mobile
+				spaceUserExisted = db.space_users.find({space: doc.space}, $or: [{email: doc.email}, {mobile: doc.mobile}])
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "邮箱或手机号已存在")
+			else if doc.email
+				spaceUserExisted = db.space_users.find({space: doc.space, email: doc.email})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该邮箱已存在")
+			else if doc.mobile
+				spaceUserExisted = db.space_users.find({space: doc.space, mobile: doc.mobile})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该手机号已存在")
+
+
 
 		db.space_users.before.insert (userId, doc) ->
 			doc.created_by = userId;
@@ -261,9 +303,22 @@ Meteor.startup ()->
 
 			# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
 			# 需要把users表中的信息同步到新的space_users表中。
-			user = db.users.findOne(doc.user, {fields:{name:1, mobile:1}})
+			user = db.users.findOne(doc.user, {fields:{name:1, mobile:1, emails: 1, email: 1}})
+			unset = {}
+			# 同步mobile和email到space_user，没有值的话，就清空space_user的mobile和email字段
+			unless user.mobile
+				unset.mobile = ""
+			unless user.emails
+				unset.email = ""
+			if !user.email and user.emails
+				user.email = user.emails[0].address
+			
 			delete user._id
-			db.space_users.direct.update({_id: doc._id}, {$set: user})
+			delete user.emails
+			if _.isEmpty unset
+				db.space_users.direct.update({_id: doc._id}, {$set: user})
+			else
+				db.space_users.direct.update({_id: doc._id}, {$set: user, $unset: unset})
 
 			db.users_changelogs.direct.insert
 				operator: userId
@@ -389,17 +444,9 @@ Meteor.startup ()->
 			user_unset = {}
 			if modifier.$set.name != undefined
 				user_set.name = modifier.$set.name
-			if modifier.$set.position != undefined
-				user_set.position = modifier.$set.position
-			if modifier.$set.work_phone != undefined
-				user_set.work_phone = modifier.$set.work_phone
 
 			if modifier.$unset.name != undefined
 				user_unset.name = modifier.$unset.name
-			if modifier.$unset.position != undefined
-				user_unset.position = modifier.$unset.position
-			if modifier.$unset.work_phone != undefined
-				user_unset.work_phone = modifier.$unset.work_phone
 
 			# 更新users表中的相关字段
 			if not _.isEmpty(user_set)
