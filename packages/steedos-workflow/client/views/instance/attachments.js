@@ -210,6 +210,10 @@ Template.instance_attachment.helpers({
 	locked_info: function(locked_by_name) {
 		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
 	},
+
+	can_unlock: function(locked_by) {
+		return locked_by == Meteor.userId();
+	}
 });
 
 Template.instance_attachment.events({
@@ -297,6 +301,10 @@ Template.instance_attachment.events({
 			})
 			return true;
 		});
+	},
+
+	"click .ins-attach-unlock": function(event, template) {
+		InstanceManager.unlockAttach(event.target.id);
 	}
 })
 
