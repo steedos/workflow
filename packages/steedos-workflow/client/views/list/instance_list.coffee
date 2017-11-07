@@ -212,8 +212,9 @@ Template.instance_list._tableColumns = ()->
 			table.column(3).visible(false)
 			table.column(4).visible(false)
 			table.column(6).visible(false)
-			table.column(7).visible(false)
+			table.column(7).visible(show)
 			table.column(8).visible(false)
+
 			if columnCount > 11
 				_.range(12, columnCount + 1).forEach (index)->
 					table.column(index - 1)?.visible(false)
@@ -237,6 +238,15 @@ Template.instance_list._tableColumns = ()->
 			table.column(11).visible(true)
 		else
 			table.column(11).visible(false)
+
+
+		if Session.get("box") == 'draft' || Session.get("box") == 'pending' || Session.get("box") == 'completed'
+			table.order([7, 'desc']).draw();
+
+		if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
+			table.order([4, 'desc']).draw();
+
+
 
 		if show
 			thead.show()

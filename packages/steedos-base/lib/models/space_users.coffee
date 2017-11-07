@@ -232,17 +232,19 @@ Meteor.startup ()->
 
 			if doc.email && doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.findOne({
+				oldUser = db.users.find({
 					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
-				})
+				}).fetch()
 			else if doc.email
-				oldUser = db.users.findOne({"emails.address": doc.email})
+				oldUser = db.users.find({"emails.address": doc.email}).fetch()
 			else if doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.findOne({"phone.number": phoneNumber})
+				oldUser = db.users.find({"phone.number": phoneNumber}).fetch()
+
+			userIds = oldUser.getProperty("_id");
 
 			existed=db.space_users.find
-				"user":oldUser?._id,"space":doc.space
+				"user": {$in: userIds},"space":doc.space
 			if existed.count()>0
 				throw new Meteor.Error(400, "space_users_error_space_users_exists");
 
@@ -406,7 +408,11 @@ Meteor.startup ()->
 			if not _.isEmpty(user_unset)
 				# 这里需要更新mobile字段，删除mobile字段的相关逻辑在[db.space_users.before.update]中已经有了
 				db.users.update({_id: doc.user}, {$unset: user_unset})
-				
+
+			if modifier.$set.mobile
+				# 只要管理员改过手机号，那么users.mobile就应该清除，否则该users.mobile可能与其他用户的users.mobile值重复
+				# 这时只能单独用direct.update，否则users.update又会进一步把清空后的手机号同步回space_users。
+				db.users.direct.update({_id: doc.user}, {$unset: {mobile: 1}})
 
 			if modifier.$set.organizations
 				modifier.$set.organizations.forEach (org)->

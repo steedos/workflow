@@ -48,7 +48,12 @@ instancesListTableTabular = (flowId)->
 				orderable: false
 				render: (val, type, doc) ->
 					modifiedString = moment(doc.modified).format('YYYY-MM-DD');
-					modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
+
+					modified = doc.modified
+					if Session.get("box") == 'inbox' && doc.state != 'draft'
+						modified = doc.start_date || doc.modified
+
+					modifiedFromNow = Steedos.momentReactiveFromNow(modified);
 					flow_name = WorkflowManager.getFlow(doc.flow)?.name
 					cc_view = "";
 					step_current_name_view = "";
@@ -211,7 +216,7 @@ instancesListTableTabular = (flowId)->
 				'tp'
 			else
 				'tpl'
-		order: [[7, "desc"]],
+		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords", "final_decision"],
 		lengthChange: true,

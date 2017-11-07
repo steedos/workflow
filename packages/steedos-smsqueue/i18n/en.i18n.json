@@ -19,6 +19,10 @@
 		"meeting_cc": {
 			"code": "SMS_71335682",
 			"template": "会议通知：__instance_name__，申请单：__open_app_url__"
+		},
+		"calendar_event":{
+			"code":"SMS_67200967",
+			"template":"会议通知：__event_action__,标题：__event_title__,时间：__event_time__,地点：__event_location__"
 		}
 	}
 }
