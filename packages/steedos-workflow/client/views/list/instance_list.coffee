@@ -176,6 +176,16 @@ Template.instance_list.helpers
 	tableauUrl: ()->
 		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
 
+Template.instance_list._changeOrder = ()->
+
+	table = $(".datatable-instances")?.DataTable();
+
+	if Session.get("box") == 'draft' || Session.get("box") == 'pending' || Session.get("box") == 'completed'
+		table?.order([7, 'desc']).draw();
+
+	if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
+		table?.order([4, 'desc']).draw();
+
 Template.instance_list._tableColumns = ()->
 
 	if !$(".datatable-instances") || $(".datatable-instances").length < 1
@@ -238,15 +248,6 @@ Template.instance_list._tableColumns = ()->
 			table.column(11).visible(true)
 		else
 			table.column(11).visible(false)
-
-
-		if Session.get("box") == 'draft' || Session.get("box") == 'pending' || Session.get("box") == 'completed'
-			table.order([7, 'desc']).draw();
-
-		if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
-			table.order([4, 'desc']).draw();
-
-
 
 		if show
 			thead.show()
