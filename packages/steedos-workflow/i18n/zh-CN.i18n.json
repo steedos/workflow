@@ -631,5 +631,7 @@
 
 	"set_applicant_manager": "设置申请人上级主管",
 
-	"instance_permissions_error": "您没有权限查看此申请单"
+	"instance_permissions_error": "您没有权限查看此申请单",
+
+	"start_flows": "星标流程"
 }

@@ -333,7 +333,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
 	api.addFiles('server/methods/related_instances.coffee', 'server');
-	api.addFiles('server/methods/edit_flow_positions.coffee', 'server')
+	api.addFiles('server/methods/edit_flow_positions.coffee', 'server');
+	api.addFiles('server/methods/start_flow.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
