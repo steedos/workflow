@@ -24,10 +24,7 @@ db.users._simpleSchema = new SimpleSchema
 		type: String,
 		optional: true,
 		autoform:
-			if Steedos.isPhoneEnabled()
-				readonly: true
-			else
-				type: "hidden"
+			readonly: true
 	locale: 
 		type: String,
 		optional: true,

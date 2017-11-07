@@ -442,12 +442,10 @@ Template.profile.events
 			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
-		if Steedos.isPhoneEnabled()
-			if Steedos.isAndroidOrIOS()
-				FlowRouter.go("/accounts/setup/phone")
-			else
-				Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
-		return
+		if Steedos.isAndroidOrIOS()
+			FlowRouter.go("/accounts/setup/phone")
+		else
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click .btn-set-password-by-phone': (event, template) ->
 		if Accounts.isPhoneVerified()
