@@ -190,6 +190,27 @@ TracesTemplate.helpers =
 #		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
 		return !InstanceformTemplate.helpers.includesOpinionField(form, form_version)
 
+	getInstanceStateText: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1}})
+		if not ins 
+			return ''
+
+		if Meteor.isServer
+			locale = Template.instance().view.template.steedosData.locale
+			if locale.toLocaleLowerCase() == 'zh-cn'
+				locale = "zh-CN"
+		else
+			locale = Session.get("TAPi18n::loaded_lang")
+
+		text = ''
+		if ins.state is 'completed'
+			text = TAPi18n.__('completed', {}, locale)
+		else if ins.state is 'pending'
+			text = TAPi18n.__('pending', {}, locale)
+
+		return text
+
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date

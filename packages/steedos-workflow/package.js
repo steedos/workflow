@@ -388,6 +388,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_list.coffee', 'server');
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
+	api.addFiles('server/publications/instances_by_ids.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');

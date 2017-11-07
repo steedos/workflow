@@ -9,6 +9,8 @@ Steedos.subs["Instance"] = new SubsManager
 Steedos.subs["instances_draft"] = new SubsManager
 	cacheLimit: 99
 
+Steedos.subs["distributed_instances"] = new SubsManager
+
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
 
