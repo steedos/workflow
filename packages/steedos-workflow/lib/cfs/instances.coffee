@@ -43,9 +43,6 @@ else
 
                 final_filename = name_split.join('.').substring(0,50) + '.' + extention
 
-                console.log('name:',name)
-                console.log('final_filename:', final_filename)
-
                 now = new Date
                 year = now.getFullYear()
                 month = now.getMonth() + 1
