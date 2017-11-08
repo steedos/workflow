@@ -653,7 +653,8 @@ InstanceManager.getCurrentApprove = function() {
 		var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 	}
 
-	if (!currentApprove) {
+	//传阅的approve返回最新一条
+	if (!currentApprove || currentApprove.type == 'cc') {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
