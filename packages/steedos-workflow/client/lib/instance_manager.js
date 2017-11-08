@@ -1532,3 +1532,20 @@ InstanceManager.isAttachLocked = function(instance_id, user_id) {
 		'metadata.locked_by': user_id
 	}).count()
 }
+
+InstanceManager.getCCStep = function() {
+	var currentApprove = InstanceManager.getCurrentApprove();
+	if (!currentApprove)
+		return false;
+	var ins = WorkflowManager.getInstance();
+	if (!ins)
+		return false;
+	var step;
+	var trace = _.find(ins.traces, function(t) {
+		return t._id == currentApprove.trace;
+	})
+	if (trace) {
+		step = WorkflowManager.getInstanceStep(trace.step);
+	}
+	return step;
+}
