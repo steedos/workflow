@@ -104,56 +104,48 @@
 				<div class="tab-pane" id="account">
 					<div class="box box-solid">
 						<div class="box-body">
-							{{#if isPhoneEnabled}}
 							<h2 style="margin-top: 0px;">
 								{{_ 'change_phone'}}
 							</h2>
 							<hr style="margin-top: 0px;"/>
-								{{#if user.phone}}
-								<div class="phone-box">
-									<span class="phone-number">
-										{{accountPhoneNumber}}
-									</span>
-									{{#if user.phone.verified}}
-									<span class="phone-status text-success">
-										<i class="ion ion-checkmark-circled">
-										</i>
-										<span class="phone-status-text">
-											{{_ 'account_phone_verified_text'}}
-										</span>
-									</span>
-									{{else}}
-									<span class="phone-status text-danger">
-										<i class="ion ion-alert-circled">
-										</i>
-										<span class="phone-status-text">
-											{{_ 'account_phone_unverified_text'}}
-										</span>
-									</span>
-									{{/if}}
-								</div>
-								{{else}}
-								<div class="phone-box">
+							{{#if user.phone}}
+							<div class="phone-box">
+								<span class="phone-number">
+									{{accountPhoneNumber}}
+								</span>
+								{{#if user.phone.verified}}
+								<span class="phone-status text-success">
+									<i class="ion ion-checkmark-circled">
+									</i>
 									<span class="phone-status-text">
-										{{_ 'account_phone_unbind_text'}}
+										{{_ 'account_phone_verified_text'}}
 									</span>
-								</div>
+								</span>
+								{{else}}
+								<span class="phone-status text-danger">
+									<i class="ion ion-alert-circled">
+									</i>
+									<span class="phone-status-text">
+										{{_ 'account_phone_unverified_text'}}
+									</span>
+								</span>
 								{{/if}}
-								<button class="btn btn-primary btn-sm btn-change-phone" type="submit">
-									{{_ 'change_phone'}}
-								</button>
+							</div>
+							{{else}}
+							<div class="phone-box">
+								<span class="phone-status-text">
+									{{_ 'account_phone_unbind_text'}}
+								</span>
+							</div>
 							{{/if}}
+							<button class="btn btn-primary btn-sm btn-change-phone" type="submit">
+								{{_ 'change_phone'}}
+							</button>
 							<!-- 更改用户名 -->
 							<div class="change-username-box">
-								{{#if isPhoneEnabled}}
 								<h2 style="margin-top: 40px;">
 									{{_ 'Change username'}}
 								</h2>
-								{{else}}
-								<h2 style="margin-top: 0px;">
-									{{_ 'Change username'}}
-								</h2>
-								{{/if}}
 								<hr style="margin-top: 0px;"/>
 								{{#if user.username}}
 								<div class="username-text">
@@ -260,11 +252,9 @@
 							<button class="btn btn-primary btn-sm change-password" type="submit">
 								{{_ 'Change Password'}}
 							</button>
-							{{#if isPhoneEnabled}}
 							<a class="btn btn-link btn-sm btn-set-password-by-phone">
 								{{_ 'set_password_by_phone'}}
 							</a>
-							{{/if}}
 						</div>
 					</div>
 				</div>

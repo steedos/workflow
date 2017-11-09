@@ -370,30 +370,29 @@ Meteor.startup ()->
 			isMobileCleared = modifier.$unset?.mobile != undefined
 			if  newMobile != doc.mobile
 				if newMobile
-					if Steedos.isPhoneEnabled()
-						# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
-						# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
-						# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
-						number = "+86" + newMobile
-						repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
-						if repeatNumberUser
-							throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
+					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
+					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
+					number = "+86" + newMobile
+					repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
+					if repeatNumberUser
+						throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 
-						user_set = {}
-						user_set.phone = {}
-						# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
-						# user_set.mobile = newMobile
-						# 目前只考虑国内手机
-						user_set.phone.number = number
-						# 变更手机号设置verified为false，以让用户重新验证手机号
-						user_set.phone.verified = false
-						user_set.phone.modified = new Date()
-						if not _.isEmpty(user_set)
-							db.users.direct.update({_id: doc.user}, {$set: user_set})
+					user_set = {}
+					user_set.phone = {}
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
+					# user_set.mobile = newMobile
+					# 目前只考虑国内手机
+					user_set.phone.number = number
+					# 变更手机号设置verified为false，以让用户重新验证手机号
+					user_set.phone.verified = false
+					user_set.phone.modified = new Date()
+					if not _.isEmpty(user_set)
+						db.users.direct.update({_id: doc.user}, {$set: user_set})
 
-						# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
-						# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
-						db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
+					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
+					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
 
 				else if isMobileCleared
 					user_unset = {}
@@ -403,7 +402,7 @@ Meteor.startup ()->
 					db.users.update({_id: doc.user}, {$unset: user_unset})
 
 
-				if (newMobile or isMobileCleared) and Steedos.isPhoneEnabled()
+				if (newMobile or isMobileCleared)
 					# 修改人
 					lang = Steedos.locale doc.user,true
 					euser = db.users.findOne({_id: userId},{fields: {name: 1}})
