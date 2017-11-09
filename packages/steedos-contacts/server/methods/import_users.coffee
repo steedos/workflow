@@ -34,7 +34,7 @@ Meteor.methods
 		# 数据统一校验
 
 		data.forEach (item, i)->
-			console.log "item: #{item}"
+			console.log item
 			# 用户名，手机号，邮箱不能都为空
 			if !item.phone and !item.email
 				throw new Meteor.Error(500, "第#{i + 1}行: 手机号，邮箱不能都为空")
@@ -244,6 +244,9 @@ Meteor.methods
 
 					if item.company
 						space_user_update_doc.company = item.company
+
+					if item.email
+						space_user_update_doc.email = item.email
 
 					if _.keys(space_user_update_doc).length > 0
 						db.space_users.update({space: space_id, user: user_id}, {$set: space_user_update_doc})

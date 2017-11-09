@@ -139,7 +139,11 @@ if Meteor.isServer
 		if not nameValidation.test username
 			throw new Meteor.Error 'username-invalid', "#{username} is not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores"
 
-
+	db.users.validatePhone = (userId, doc, modifier) ->
+		modifier.$set  = modifier.$set || {}
+		if doc._id != userId and modifier.$set["phone.number"]
+			if doc["phone.verified"] == true and doc["phone.number"] != modifier.$set["phone.number"]
+				throw new Meteor.Error(400, "用户已验证手机，不能修改")
 
 	db.users.before.insert (userId, doc) ->
 		if doc.username
@@ -221,6 +225,7 @@ if Meteor.isServer
 
 
 	db.users.before.update  (userId, doc, fieldNames, modifier, options) ->
+		db.users.validatePhone(userId, doc, modifier)
 		if modifier.$unset && modifier.$unset.steedos_id == ""
 			throw new Meteor.Error(400, "users_error_steedos_id_required");
 
