@@ -541,7 +541,8 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	var fields = WorkflowManager.getInstanceFields();
 
 	var instanceValue = InstanceManager.getCurrentValues();
-	var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	// var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	var autoFormValue = _.extend(AutoForm.getFormValues("instanceform").insertDoc, AutoForm.getFormValues("instanceform").updateDoc.$unset);
 
 	var values = {};
 
@@ -838,8 +839,8 @@ InstanceManager.submitIns = function() {
 	if (instance) {
 		if (InstanceManager.isCC(instance)) {
 
-			if(Session.get("instance_submitting")){
-				return ;
+			if (Session.get("instance_submitting")) {
+				return;
 			}
 
 			Session.set("instance_submitting", true);
@@ -1296,8 +1297,8 @@ InstanceManager.unlockAttach = function(file_id) {
 // 申请单转发/分发
 InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
