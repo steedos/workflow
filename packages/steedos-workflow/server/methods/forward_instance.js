@@ -249,7 +249,7 @@ Meteor.methods({
 				} else {
 					ins_obj.distribute_from_instance = instance_id;
 				}
-				ins_obj.distribute_from_instances = ins.distribute_from_instances || [];
+				ins_obj.distribute_from_instances = _.clone(ins.distribute_from_instances) || [];
 				ins_obj.distribute_from_instances.push(instance_id);
 
 				if (related) {

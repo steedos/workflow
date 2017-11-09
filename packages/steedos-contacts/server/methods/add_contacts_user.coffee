@@ -25,31 +25,12 @@ Meteor.methods
 			throw new Meteor.Error(400,"contact_mail_not_match_phine")
 
 		if userObj 
-			userId = userObj._id
-			if doc.email && doc.mobile
-				inThisSpaceUsers = db.space_users.find({
-					space: doc.space, 
-					$or:[{email: doc.email}, {mobile: doc.mobile}]
-				}).fetch()
-			else if doc.email
-				inThisSpaceUsers = db.space_users.find({space: doc.space_users, email: doc.email})
-			else if doc.mobile
-				inThisSpaceUsers = db.space_users.find({space: doc.space_users, mobile: doc.mobile})
-			
-			# 判断该用户是否已存在该工作区 
-			if inThisSpaceUsers.length
-				inThisSpaceUsers.forEach (spaceUser, index) ->
-					if spaceUser.invite_state == "refused" or spaceUser.invite_state == "pending"
-						db.space_users.direct.update({_id: spaceUser._id}, {$set: {invite_state: "pending", user_accepted: false}})
-					else
-						throw new Meteor.Error(400, "contact_space_user_exist")
-				return "contact_reinvite_user"
-			else
-				doc.invite_state = "pending"
-				doc.user_accepted = false
+			# 用户是否在当前工作区已经存在的逻辑在space_users.before.insert
+			doc.invite_state = "pending"
+			doc.user_accepted = false
 
-				db.space_users.insert doc
-				return "contact_invitation_sends"
+			db.space_users.insert doc
+			return "contact_invitation_sends"
 
 		else
 			doc.invite_state = "accepted"

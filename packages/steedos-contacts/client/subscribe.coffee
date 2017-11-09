@@ -22,7 +22,6 @@ Meteor.startup ->
 					if error
 						console.log error
 					else
-						debugger
 						swal {
 							title: t("contact_invite_info", {inviter: result.inviter, space: result.space})
 							type: "info"
@@ -31,6 +30,8 @@ Meteor.startup ->
 							confirmButtonColor: "#2196f3"
 							confirmButtonText: t('OK')
 							closeOnConfirm: true
+							allowEscapeKey: false
+							allowOutsideClick: false
 						}, (option)->
 							if option
 								Meteor.call 'acceptJoinWorkflow', obj._id, (error,result) ->

@@ -71,6 +71,9 @@
 					{{#if this.metadata.locked_by}}
 						<span style="margin-left: 10px;">{{locked_info this.metadata.locked_by_name}}</span>
 					{{/if}}
+					{{#if can_unlock this.metadata.locked_by}}
+						<a class="mouse-hover ins-attach-unlock" id="{{this._id}}">{{_ 'workflow_attach_unlock'}}</a>
+					{{/if}}
 					{{#if can_delete this.metadata.approve this.metadata.parent}}
 						<a class="mouse-hover ins-attach-delete" id="{{this._id}}" data-name="{{this.name}}">{{_ "workflow_attachment_delete"}}</a>
 					{{/if}}

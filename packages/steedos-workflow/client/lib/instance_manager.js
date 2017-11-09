@@ -653,7 +653,8 @@ InstanceManager.getCurrentApprove = function() {
 		var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 	}
 
-	if (!currentApprove) {
+	//传阅的approve返回最新一条
+	if (!currentApprove || currentApprove.type == 'cc') {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
@@ -1522,4 +1523,29 @@ InstanceManager.getLastTraceStepId = function(traces) {
 	}
 
 	return step_id;
+}
+
+InstanceManager.isAttachLocked = function(instance_id, user_id) {
+	return !!cfs.instances.find({
+		'metadata.instance': instance_id,
+		'metadata.current': true,
+		'metadata.locked_by': user_id
+	}).count()
+}
+
+InstanceManager.getCCStep = function() {
+	var currentApprove = InstanceManager.getCurrentApprove();
+	if (!currentApprove)
+		return false;
+	var ins = WorkflowManager.getInstance();
+	if (!ins)
+		return false;
+	var step;
+	var trace = _.find(ins.traces, function(t) {
+		return t._id == currentApprove.trace;
+	})
+	if (trace) {
+		step = WorkflowManager.getInstanceStep(trace.step);
+	}
+	return step;
 }

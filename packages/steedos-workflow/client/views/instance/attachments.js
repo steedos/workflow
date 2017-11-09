@@ -163,7 +163,16 @@ Template.instance_attachment.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step) {
+					if (mainFile) {
+						return step.can_edit_main_attach
+					} else {
+						if (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined) {
+							return true
+						}
+					}
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 
@@ -210,6 +219,10 @@ Template.instance_attachment.helpers({
 	locked_info: function(locked_by_name) {
 		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
 	},
+
+	can_unlock: function(locked_by) {
+		return locked_by == Meteor.userId();
+	}
 });
 
 Template.instance_attachment.events({
@@ -297,6 +310,10 @@ Template.instance_attachment.events({
 			})
 			return true;
 		});
+	},
+
+	"click .ins-attach-unlock": function(event, template) {
+		InstanceManager.unlockAttach(event.target.id);
 	}
 })
 
@@ -376,7 +393,16 @@ Template.ins_attach_version_modal.helpers({
 
 		if (Session.get("box") == "draft" || Session.get("box") == "inbox") {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				// 如果是正文 则判断是否有编辑权限
+				if (current.metadata.main == true) {
+					if (step && step.can_edit_main_attach == true)
+						return true
+				} else {
+					// 如果是附件 则判断是否有编辑权限
+					if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined))
+						return true
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				// 如果是正文 则判断是否有编辑权限
@@ -498,7 +524,16 @@ Template.ins_attach_version_modal.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step) {
+					if (mainFile) {
+						return step.can_edit_main_attach
+					} else {
+						if (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined) {
+							return true
+						}
+					}
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				if (current_step) {
@@ -508,11 +543,9 @@ Template.ins_attach_version_modal.helpers({
 						if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
 							return true
 						}
-
 					}
 				}
 			}
-
 		}
 		return false;
 	},
@@ -535,18 +568,18 @@ Template.ins_attach_version_modal.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step && step.can_edit_main_attach == true)
+					return true
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				if (current_step) {
 					if (mainFile)
 						return current_step.can_edit_main_attach
-					else
-						return false;
 				}
 			}
-
 		}
+		return false;
 	},
 
 	getUrl: function(_rev, isPreview) {
