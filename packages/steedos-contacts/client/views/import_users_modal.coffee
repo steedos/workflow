@@ -83,7 +83,7 @@ Template.import_users_modal.events
 				toastr.error(error.reason);
 			else
 				console.log result
-				toastr.success(TAPi18n.__("steedos_contacts_import_users_import_success"))
+				# toastr.success(TAPi18n.__("steedos_contacts_import_users_import_success"))
 			Modal.hide(template)
 			$.jstree.reference('#steedos_contacts_org_tree').refresh()
 			$("body").removeClass("loading")

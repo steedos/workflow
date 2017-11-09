@@ -31,6 +31,8 @@ Meteor.methods
 
 		testData = []
 
+		errorList = []
+
 		# 数据统一校验
 
 		data.forEach (item, i)->
@@ -76,7 +78,6 @@ Meteor.methods
 
 			console.log JSON.stringify({$or: selector})
 			userExist = db.users.find({$or: selector})
-			console.log "count is #{userExist.count()}"
 
 
 			# 先判断是否能匹配到唯一的user，然后判断该用户是insert到space_users还是update
@@ -93,7 +94,6 @@ Meteor.methods
 				# 新增space_users的数据校验
 				operating = "insert"
 
-			console.log operating
 			# 判断是否能修改用户的密码
 			if item.password and userExist.count() == 1
 				if userExist.fetch()[0].services?.password?.bcrypt
@@ -123,167 +123,179 @@ Meteor.methods
 
 		# 数据导入
 		data.forEach (item, i)->
-			selector = []
-			operating = ""
-			if item.username
-				selector.push {username: item.username}
-			if item.email
-				selector.push {"emails.address": item.email}
-			if item.phone
-				phoneNumber = "+86" + item.phone
-				selector.push {"phone.number": phoneNumber}
-			userExist = db.users.find({$or: selector})
-			if userExist.count() > 1
-				throw new Meteor.Error(500, "第#{i + 1}行：用户名、手机号、邮箱信息有误，无法匹配到同一账号")
-			else if userExist.count() == 1
-				user = userExist.fetch()[0]
-
-			now = new Date()
-
-			organization = item.organization
-			organization_depts = organization.split("/");
-			fullname = root_org.name
-			parent_org_id = root_org._id
-			organization_depts.forEach (dept_name, j) ->
-				if j > 0
-					fullname = fullname + "/" + dept_name
-
-					org = db.organizations.findOne({space: space_id, fullname: fullname})
-
-					if org
-						parent_org_id = org._id
-					else
-						org_doc = {}
-						org_doc._id = db.organizations._makeNewID()
-						org_doc.space = space_id
-						org_doc.name = dept_name
-						org_doc.parent = parent_org_id
-						org_doc.created = now
-						org_doc.created_by = owner_id
-						org_doc.modified = now
-						org_doc.modified_by = owner_id
-						org_id = db.organizations.direct.insert(org_doc)
-
-						if org_id
-							org = db.organizations.findOne(org_id)
-							updateFields = {}
-							updateFields.parents = org.calculateParents()
-							updateFields.fullname = org.calculateFullname()
-
-							if !_.isEmpty(updateFields)
-								db.organizations.direct.update(org._id, {$set: updateFields})
-
-							if org.parent
-								parent = db.organizations.findOne(org.parent)
-								db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
-
-							parent_org_id = org_id
-
-			user_id = null
-			if user
-				user_id = user._id
-				u_update_doc = {}
+			error = {}
+			try 
+				selector = []
+				operating = ""
 				if item.username
-					u_update_doc.username = item.username
-
-				if _.keys(u_update_doc).length > 0
-					db.users.update({_id: user_id},{$set:u_update_doc})
-
-				if item.password and user.services?.password?.bcrypt
-					Accounts.setPassword(user_id, item.password, {logout: false})
-			else
-				udoc = {}
-				udoc._id = db.users._makeNewID()
-
-				udoc.steedos_id = item.email || udoc._id
-				
-				udoc.name = item.name
+					selector.push {username: item.username}
 				if item.email
-					udoc.emails = [{address: item.email, verified: false}]
-
-				if item.username
-					udoc.username = item.username
-
+					selector.push {"emails.address": item.email}
 				if item.phone
-					udoc.phone = {
-						number: "+86" + item.phone
-						verified: false
-						modified: now
-					}
+					phoneNumber = "+86" + item.phone
+					selector.push {"phone.number": phoneNumber}
+				userExist = db.users.find({$or: selector})
+				if userExist.count() > 1
+					throw new Meteor.Error(500, "第#{i + 1}行：用户名、手机号、邮箱信息有误，无法匹配到同一账号")
+				else if userExist.count() == 1
+					user = userExist.fetch()[0]
 
-				user_id = db.users.insert(udoc)
+				now = new Date()
 
-				if item.password
-					Accounts.setPassword(user_id, item.password, {logout: false})
+				organization = item.organization
+				organization_depts = organization.split("/");
+				fullname = root_org.name
+				parent_org_id = root_org._id
+				organization_depts.forEach (dept_name, j) ->
+					if j > 0
+						fullname = fullname + "/" + dept_name
 
-			space_user = db.space_users.findOne({space: space_id, user: user_id})
+						org = db.organizations.findOne({space: space_id, fullname: fullname})
 
-			space_user_org = db.organizations.findOne({space: space_id, fullname: item.organization})
+						if org
+							parent_org_id = org._id
+						else
+							org_doc = {}
+							org_doc._id = db.organizations._makeNewID()
+							org_doc.space = space_id
+							org_doc.name = dept_name
+							org_doc.parent = parent_org_id
+							org_doc.created = now
+							org_doc.created_by = owner_id
+							org_doc.modified = now
+							org_doc.modified_by = owner_id
+							org_id = db.organizations.direct.insert(org_doc)
 
-			if space_user
-				if space_user_org
-					if !space_user.organizations
-						space_user.organizations = []
-					space_user.organizations.push(space_user_org._id)
+							if org_id
+								org = db.organizations.findOne(org_id)
+								updateFields = {}
+								updateFields.parents = org.calculateParents()
+								updateFields.fullname = org.calculateFullname()
 
-					space_user_update_doc = {}
+								if !_.isEmpty(updateFields)
+									db.organizations.direct.update(org._id, {$set: updateFields})
 
-					space_user_update_doc.organizations = _.uniq(space_user.organizations)
+								if org.parent
+									parent = db.organizations.findOne(org.parent)
+									db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
 
-					if item.position
-						space_user_update_doc.position = item.position
+								parent_org_id = org_id
 
-					if item.work_phone
-						space_user_update_doc.work_phone = item.work_phone
+				user_id = null
+				if user
+					user_id = user._id
+					u_update_doc = {}
+					if item.username
+						u_update_doc.username = item.username
 
-					if item.phone
-						space_user_update_doc.mobile = item.phone
+					if _.keys(u_update_doc).length > 0
+						db.users.update({_id: user_id},{$set:u_update_doc})
 
-					if item.sort_no
-						space_user_update_doc.sort_no = item.sort_no
+					if item.password and user.services?.password?.bcrypt
+						Accounts.setPassword(user_id, item.password, {logout: false})
+				else
+					udoc = {}
+					udoc._id = db.users._makeNewID()
 
-					if item.company
-						space_user_update_doc.company = item.company
-
-					if item.email
-						space_user_update_doc.email = item.email
-
-					if _.keys(space_user_update_doc).length > 0
-						db.space_users.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
-			else
-				if space_user_org
-					space_user_org_id = space_user_org._id
-					su_doc = {}
-					su_doc._id = db.space_users._makeNewID()
-					su_doc.user = user_id
-					su_doc.space = space_id
-					su_doc.user_accepted =  true
-					su_doc.invite_state = "accepted"
-
-					if user
-						su_doc.user_accepted = false
-						su_doc.invite_state = "pending"
-
-					su_doc.name = item.name
-					if item.email
-						su_doc.email = item.email
-					su_doc.organization = space_user_org_id
-					su_doc.organizations = [su_doc.organization]
-
-					if item.position
-						su_doc.position = item.position
-
-					if item.work_phone
-						su_doc.work_phone = item.work_phone
-
-					if item.phone
-						su_doc.mobile = item.phone
-
-					if item.sort_no
-						su_doc.sort_no = item.sort_no
-
-					if item.company
-						su_doc.company = item.company
-
-					db.space_users.insert(su_doc)
+					udoc.steedos_id = item.email || udoc._id
 					
+					udoc.name = item.name
+					if item.email
+						udoc.emails = [{address: item.email, verified: false}]
+
+					if item.username
+						udoc.username = item.username
+
+					if item.phone
+						udoc.phone = {
+							number: "+86" + item.phone
+							verified: false
+							modified: now
+						}
+
+					user_id = db.users.insert(udoc)
+
+					if item.password
+						Accounts.setPassword(user_id, item.password, {logout: false})
+
+				space_user = db.space_users.findOne({space: space_id, user: user_id})
+
+				space_user_org = db.organizations.findOne({space: space_id, fullname: item.organization})
+
+				if space_user
+					if space_user_org
+						if !space_user.organizations
+							space_user.organizations = []
+						space_user.organizations.push(space_user_org._id)
+
+						space_user_update_doc = {}
+
+						space_user_update_doc.organizations = _.uniq(space_user.organizations)
+
+						if item.email
+							space_user_update_doc.email = item.email
+
+						if item.name
+							space_user_update_doc.name = item.name
+
+						if item.company
+							space_user_update_doc.company = item.company
+
+						if item.position
+							space_user_update_doc.position = item.position
+
+						if item.work_phone
+							space_user_update_doc.work_phone = item.work_phone
+
+						if item.phone
+							space_user_update_doc.mobile = item.phone
+
+						if item.sort_no
+							space_user_update_doc.sort_no = item.sort_no
+
+						if _.keys(space_user_update_doc).length > 0
+							db.space_users.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+				else
+					if space_user_org
+						space_user_org_id = space_user_org._id
+						su_doc = {}
+						su_doc._id = db.space_users._makeNewID()
+						su_doc.user = user_id
+						su_doc.space = space_id
+						su_doc.user_accepted =  true
+						su_doc.invite_state = "accepted"
+
+						if user
+							su_doc.user_accepted = false
+							su_doc.invite_state = "pending"
+
+						su_doc.name = item.name
+						if item.email
+							su_doc.email = item.email
+						su_doc.organization = space_user_org_id
+						su_doc.organizations = [su_doc.organization]
+
+						if item.position
+							su_doc.position = item.position
+
+						if item.work_phone
+							su_doc.work_phone = item.work_phone
+
+						if item.phone
+							su_doc.mobile = item.phone
+
+						if item.sort_no
+							su_doc.sort_no = item.sort_no
+
+						if item.company
+							su_doc.company = item.company
+
+						db.space_users.insert(su_doc)
+			catch e
+				error.line = i+1
+				error.message = e.reason
+				errorList.push(error)
+				console.log JSON.stringify(errorList)
+
+
+		return errorList
