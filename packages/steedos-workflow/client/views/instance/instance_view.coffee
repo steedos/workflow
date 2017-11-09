@@ -103,6 +103,7 @@ Template.instance_view.helpers
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
+	Session.set("instance_submitting", false);
 
 Template.instance_view.onRendered ->
 
