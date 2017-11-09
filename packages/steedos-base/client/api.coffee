@@ -38,7 +38,6 @@ _.extend Steedos,
 				$(".sidebar-menu").css("width", "100%");
 
 	goHome: ()->
-		console.log "goHome_main"
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
 		else
