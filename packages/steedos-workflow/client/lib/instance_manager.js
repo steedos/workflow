@@ -837,15 +837,24 @@ InstanceManager.submitIns = function() {
 
 	if (instance) {
 		if (InstanceManager.isCC(instance)) {
+
+			if(Session.get("instance_submitting")){
+				return ;
+			}
+
+			Session.set("instance_submitting", true);
+
 			var description = $("#suggestion").val();
 			Meteor.call('cc_submit', instance._id, description, function(error, result) {
 				if (error) {
 					toastr.error(error);
+					Session.set("instance_submitting", false);
 				};
 
 				if (result == true) {
 					WorkflowManager.instanceModified.set(false);
 					toastr.success(TAPi18n.__('Submitted successfully'));
+					Session.set("instance_submitting", false);
 					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 				};
 			});
@@ -1286,9 +1295,19 @@ InstanceManager.unlockAttach = function(file_id) {
 
 // 申请单转发/分发
 InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	$('body').addClass("loading");
 	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
 		$('body').removeClass("loading");
+
+		Session.set("instance_submitting", false);
+
 		if (error) {
 			if (error.error == 'no_permission') {
 				if (action_type == 'forward') {
