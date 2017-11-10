@@ -37,6 +37,7 @@ Tracker.autorun (c) ->
 Tracker.autorun (c)->
 	instanceId = Session.get("instanceId")
 	#	Steedos.instanceSpace.clear(); # 清理已订阅数据
+	Steedos.subs["Instance"].clear();
 	if instanceId
 		Steedos.subs["Instance"].subscribe("cfs_instances", instanceId)
 
