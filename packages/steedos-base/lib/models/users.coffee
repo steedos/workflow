@@ -127,7 +127,7 @@ if Meteor.isServer
 			throw new Meteor.Error 'username-unavailable', "<strong>" + username + "</strong> is already in use.", { method: 'setUsername', field: username }
 		if !Meteor.settings.public?.accounts?.is_username_skip_minrequiredlength
 			if username.length < 6
-				throw new Meteor.Error 'username-minrequiredlength', "The minimum length can not be less than 6 digits"
+				throw new Meteor.Error 'username-minrequiredlength', "username-minrequiredlength"
 
 		try
 			if Meteor.settings.public?.accounts?.UTF8_Names_Validation
@@ -137,7 +137,7 @@ if Meteor.isServer
 		catch
 			nameValidation = new RegExp '^[A-Za-z0-9-_.\u00C0-\u017F\u4e00-\u9fa5]+$'
 		if not nameValidation.test username
-			throw new Meteor.Error 'username-invalid', "#{username} is not a valid username, use only chinese, letters, numbers, dots, hyphens and underscores"
+			throw new Meteor.Error 'username-invalid', "username-invalid"
 
 	db.users.validatePhone = (userId, doc, modifier) ->
 		modifier.$set  = modifier.$set || {}

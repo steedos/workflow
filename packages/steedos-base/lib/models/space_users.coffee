@@ -172,7 +172,9 @@ Meteor.startup ()->
 
 			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
 			if doc.email and doc.mobile
-				spaceUserExisted = db.space_users.find({space: doc.space}, $or: [{email: doc.email}, {mobile: doc.mobile}])
+				console.log doc.email
+				console.log doc.mobile
+				spaceUserExisted = db.space_users.find({space: doc.space, $or: [{email: doc.email}, {mobile: doc.mobile}]})
 				if spaceUserExisted.count() > 0
 					throw new Meteor.Error(400, "邮箱或手机号已存在")
 			else if doc.email
