@@ -7,57 +7,61 @@ Meteor.publish 'instance_data', (instanceId)->
 
 	instance = db.instances.findOne({_id: instanceId})
 
-	traces = new Array();
+	hasOpinionField = InstanceSignText.includesOpinionField(instance.form, instance.form_version)
 
-	console.time("instance_data")
+	if hasOpinionField
 
-	that = this
+		traces = new Array();
 
-	instance?.traces?.forEach (trace)->
+		console.time("instance_data")
 
-		_trace = _.clone(trace)
+		that = this
 
-		approves = new Array()
+		instance?.traces?.forEach (trace)->
 
-		trace?.approves?.forEach (approve)->
+			_trace = _.clone(trace)
 
-			if approve.type != 'cc' || approve.user == that.userId || approve.handler == that.userId || !_.isEmpty(approve.opinion_fields_code)
+			approves = new Array()
 
-				delete approve.handler_organization_fullname
+			trace?.approves?.forEach (approve)->
 
-				delete approve.handler_organization_name
+				if approve.type != 'cc' || approve.user == that.userId || approve.handler == that.userId || !_.isEmpty(approve.opinion_fields_code)
 
-				delete approve.handler_organization
+					delete approve.handler_organization_fullname
 
-				delete approve.cost_time
+					delete approve.handler_organization_name
 
-				delete approve.read_date
+					delete approve.handler_organization
 
-				delete approve.user_name
+					delete approve.cost_time
 
-				delete approve.deadline
+					delete approve.read_date
 
-				delete approve.remind_date
+					delete approve.user_name
 
-				delete approve.reminded_count
+					delete approve.deadline
 
-				delete approve.modified_by
+					delete approve.remind_date
 
-				delete approve.modified
+					delete approve.reminded_count
 
-				delete approve.geolocation
+					delete approve.modified_by
 
-				delete approve.cc_users
+					delete approve.modified
 
-				approves.push(approve)
+					delete approve.geolocation
 
-		_trace.approves = approves
+					delete approve.cc_users
 
-		traces.push(_trace)
+					approves.push(approve)
 
-	instance.traces = traces;
+			_trace.approves = approves
 
-	console.timeEnd("instance_data")
+			traces.push(_trace)
+
+		instance.traces = traces;
+
+		console.timeEnd("instance_data")
 
 	this.added("instances", instance._id, instance);
 
