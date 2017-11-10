@@ -40,7 +40,12 @@ AccountsTemplates.getparamToken = function() {
 
 // Getter for previous route's path
 AccountsTemplates.getPrevPath = function() {
-  return this._prevPath;
+  prevPath = this._prevPath
+  if(/^\/steedos\//g.test(prevPath)){
+    // 不重定位回到路由以steedos开头的登录前的界面
+    prevPath = null;
+  }
+  return prevPath;
 };
 
 // Setter for previous route's path

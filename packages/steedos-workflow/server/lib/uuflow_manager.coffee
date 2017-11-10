@@ -514,7 +514,7 @@ uuflowManager.getUpdatedValues = (instance) ->
 	else if not trace_approve.values
 		newest_values = instance.values
 	else
-		newest_values = trace_approve.values || {}
+		newest_values =  _.extend(_.clone(instance.values), trace_approve.values)
 	return newest_values
 
 uuflowManager.getForm = (form_id) ->
