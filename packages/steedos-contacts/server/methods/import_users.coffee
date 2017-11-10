@@ -36,7 +36,7 @@ Meteor.methods
 		# 数据统一校验
 
 		data.forEach (item, i)->
-			console.log item
+			# console.log item
 			# 用户名，手机号，邮箱不能都为空
 			if !item.phone and !item.email
 				throw new Meteor.Error(500, "第#{i + 1}行: 手机号，邮箱不能都为空")
@@ -94,6 +94,8 @@ Meteor.methods
 				# 新增space_users的数据校验
 				operating = "insert"
 
+			# console.log "operating is #{operating}"
+
 			# 判断是否能修改用户的密码
 			if item.password and userExist.count() == 1
 				if userExist.fetch()[0].services?.password?.bcrypt
@@ -136,7 +138,7 @@ Meteor.methods
 					selector.push {"phone.number": phoneNumber}
 				userExist = db.users.find({$or: selector})
 				if userExist.count() > 1
-					throw new Meteor.Error(500, "第#{i + 1}行：用户名、手机号、邮箱信息有误，无法匹配到同一账号")
+					throw new Meteor.Error(400, "用户名、手机号、邮箱信息有误，无法匹配到同一账号")
 				else if userExist.count() == 1
 					user = userExist.fetch()[0]
 
@@ -180,7 +182,6 @@ Meteor.methods
 									db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
 
 								parent_org_id = org_id
-
 				user_id = null
 				if user
 					user_id = user._id
@@ -296,6 +297,5 @@ Meteor.methods
 				error.message = e.reason
 				errorList.push(error)
 				console.log JSON.stringify(errorList)
-
 
 		return errorList
