@@ -598,6 +598,7 @@ InstanceManager.getStartStep = function() {
 
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
+		approve,
 		instanceValue;
 
 	var instance = WorkflowManager.getInstance();
