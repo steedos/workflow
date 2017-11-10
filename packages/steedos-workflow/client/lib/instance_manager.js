@@ -598,6 +598,7 @@ InstanceManager.getStartStep = function() {
 
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
+		approve,
 		instanceValue;
 
 	var instance = WorkflowManager.getInstance();
@@ -1465,14 +1466,14 @@ InstanceManager.isCCMustFinished = function() {
 				user_id = Meteor.userId();
 			if (InstanceManager.isCC(ins)) {
 				_.each(trace.approves, function(a) {
-					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.user != user_id) {
-						not_finished_users_name.push(a.user_name);
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.handler != user_id) {
+						not_finished_users_name.push(a.handler_name);
 					}
 				})
 			} else {
 				_.each(trace.approves, function(a) {
 					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
-						not_finished_users_name.push(a.user_name);
+						not_finished_users_name.push(a.handler_name);
 					}
 				})
 			}

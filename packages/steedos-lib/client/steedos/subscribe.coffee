@@ -16,7 +16,7 @@ Steedos.subsForwardRelated = new SubsManager()
 Tracker.autorun (c)->
 	space_id = Session.get('space_drop_down_selected_value')
 	distribute_optional_flows = Session.get('distribute_optional_flows')
-	Steedos.subsForwardRelated.reset();
+	Steedos.subsForwardRelated.clear();
 	if space_id
 		Steedos.subsForwardRelated.subscribe("my_space_user", space_id);
 		Steedos.subsForwardRelated.subscribe("my_organizations", space_id);
@@ -31,6 +31,6 @@ Steedos.subsModules = new SubsManager();
 
 Tracker.autorun (c)->
 	user_id = Meteor.userId()
-	Steedos.subsModules.reset();
+	Steedos.subsModules.clear();
 	if user_id
 		Steedos.subsModules.subscribe("modules");

@@ -100,6 +100,9 @@ Template.instance_view.helpers
 	isInbox: ()->
 		return InstanceManager.isInbox()
 
+	tracesListData: (instance)->
+		return instance.allTraces || instance.traces
+
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()

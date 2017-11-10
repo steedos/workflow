@@ -8,7 +8,7 @@
 				</div>
 
 				<div class="modal-body" style="max-height: {{maxHeight}}">
-					{{> Template.dynamic template=traces_list_template data=instance.traces}}
+					{{> Template.dynamic template=traces_list_template data=(tracesListData instance)}}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default btn-data-dismiss" data-dismiss="modal">{{_ "close"}}</button>

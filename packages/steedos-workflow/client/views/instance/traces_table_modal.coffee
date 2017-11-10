@@ -22,8 +22,20 @@ Template.traces_table_modal.helpers
 		else
 			return 'traces_modal'
 
+	tracesListData: (instance)->
+		return instance.allTraces || instance.traces
+
 
 Template.traces_table_modal.onCreated ->
+
+	$("body").addClass("loading")
+
+	Steedos.subs["instance_data"].subscribe("instance_data", Session.get("instanceId"), true)
+
+	Tracker.autorun (c) ->
+		if Steedos.subs["instance_data"].ready()
+			$("body").removeClass("loading")
+
 	self = this;
 
 	self.maxHeight = new ReactiveVar(
@@ -33,7 +45,7 @@ Template.traces_table_modal.onCreated ->
 		self.maxHeight?.set($(window).height());
 
 Template.traces_table_modal.onRendered ->
-	$("body").removeClass("loading")
+
 	Modal.allowMultiple = true
 
 	self = this;
