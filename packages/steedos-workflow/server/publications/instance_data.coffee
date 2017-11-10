@@ -138,8 +138,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 
 	handle = db.instances.find({_id: instanceId}).observeChanges {
 		changed: (id, fields)->
-			if(needChange(fields))
-
+			if( true || needChange(fields))
 				self.changed("instances", id, getMiniInstance(id, isAllData));
 		removed: (id)->
 			self.removed("instances", id);

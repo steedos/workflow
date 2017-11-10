@@ -28,14 +28,12 @@ Template.traces_table_modal.helpers
 
 Template.traces_table_modal.onCreated ->
 
-	console.log("Template.traces_table_modal.onCreated...")
-
 	$("body").addClass("loading")
 
-	Steedos.subs["Instance"].subscribe("instance_data", Session.get("instanceId"), true)
+	Steedos.subs["instance_data"].subscribe("instance_data", Session.get("instanceId"), true)
 
 	Tracker.autorun (c) ->
-		if Steedos.subs["Instance"].ready()
+		if Steedos.subs["instance_data"].ready()
 			$("body").removeClass("loading")
 
 	self = this;
