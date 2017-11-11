@@ -10,7 +10,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 	miniApproveFields = ['_id', 'is_finished', 'user', 'handler', 'handler_name', 'type', 'start_date', 'description',
 		'is_read', 'judge', 'finish_date', 'from_user_name', 'from_user', 'cc_description']
 
-	triggerChangeFields = ['form_version', 'flow_version', '_my_approve_ids']
+	triggerChangeFields = ['form_version', 'flow_version', '_my_approve_read_dates']
 
 	triggerChangeFieldsValues = {}
 
@@ -22,7 +22,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 		"traces.approves.handler_organization_name": 0,
 		"traces.approves.handler_organization": 0,
 		"traces.approves.cost_time": 0,
-		"traces.approves.read_date": 0,
+#		"traces.approves.read_date": 0,
 		"traces.approves.is_error": 0,
 		"traces.approves.user_name": 0,
 		"traces.approves.deadline": 0,
@@ -58,15 +58,15 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 
 		return traces
 
-	getMyapproveIds = (traces)->
-		myApproveIds = new Array()
+	getMyapproveModified = (traces)->
+		myApproveModifieds = new Array()
 
 		traces?.forEach (trace)->
 			trace?.approves?.forEach (approve)->
-				if (approve.user == self.userId || approve.handler == self.userId) && approve.is_finished
-					myApproveIds.push(approve._id)
+				if (approve.user == self.userId || approve.handler == self.userId) && !approve.is_finished
+					myApproveModifieds.push(approve.read_date)
 
-		return myApproveIds
+		return myApproveModifieds
 
 
 	getMiniInstance = (_instanceId, isAllData)->
@@ -78,8 +78,8 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 				instance.allTraces = getMiniTraces(instance.traces)
 
 			triggerChangeFields.forEach (key)->
-				if key == '_my_approve_ids'
-					triggerChangeFieldsValues[key] = getMyapproveIds(instance.traces)
+				if key == '_my_approve_read_dates'
+					triggerChangeFieldsValues[key] = getMyapproveModified(instance.traces)
 				else
 					triggerChangeFieldsValues[key] = instance[key]
 
@@ -115,18 +115,15 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 			_rev = _.find triggerChangeFields, (key)->
 				_key = key
 
-				if key == '_my_approve_ids'
+				if key == '_my_approve_read_dates'
 					_key = 'traces'
 
 				if _.has(changeFields, _key)
 
-					if key == '_my_approve_ids'
-
-						_my_approve_ids = getMyapproveIds(changeFields.traces)
-
-						return !_.isEqual(triggerChangeFieldsValues[key], _my_approve_ids)
+					if key == '_my_approve_read_dates'
+						_my_approve_modifieds = getMyapproveModified(changeFields.traces)
+						return !_.isEqual(triggerChangeFieldsValues[key], _my_approve_modifieds)
 					else
-						console.log(triggerChangeFieldsValues[key], changeFields[key])
 						return !_.isEqual(triggerChangeFieldsValues[key], changeFields[key])
 
 			if _rev
@@ -138,7 +135,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 
 	handle = db.instances.find({_id: instanceId}).observeChanges {
 		changed: (id, fields)->
-			if( true || needChange(fields))
+			if(needChange(fields))
 				self.changed("instances", id, getMiniInstance(id, isAllData));
 		removed: (id)->
 			self.removed("instances", id);
