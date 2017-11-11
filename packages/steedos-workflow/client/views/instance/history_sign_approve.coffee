@@ -35,7 +35,9 @@ Template.history_sign_approve.events
 					targetObj.sign_show = sign_show
 					targetObjs.push targetObj
 
-		Meteor.call('update_sign_show', targetObjs, 
+		myApprove = InstanceManager.getCurrentApprove()
+
+		Meteor.call('update_sign_show', targetObjs, myApprove?._id
 			(error, result) ->
 				if error
 					console.log error

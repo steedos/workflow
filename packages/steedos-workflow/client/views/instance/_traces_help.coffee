@@ -120,7 +120,7 @@ TracesTemplate.helpers =
 			if Session.get("box") == 'inbox'
 				myApprove = Template.instance()?.myApprove?.get()
 				if myApprove && myApprove.id == approveId
-					if Session.get("instance_my_approve_description") == null
+					if !Session.get("instance_my_approve_description")
 						return myApprove?.description || ""
 					return Session.get("instance_my_approve_description")
 	isForward: (approved) ->

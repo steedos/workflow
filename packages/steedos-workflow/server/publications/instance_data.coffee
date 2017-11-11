@@ -1,4 +1,4 @@
-Meteor.publish 'instance_data', (instanceId, isAllData)->
+Meteor.publish 'instance_data', (instanceId)->
 	unless this.userId
 		return this.ready()
 
@@ -35,47 +35,24 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 		"traces.approves.from_approve_id": 0
 	}
 
-
-	getMiniTraces = (_traces)->
-		traces = new Array();
-
-		_traces?.forEach (trace)->
-			_trace = _.clone(trace)
-
-			approves = new Array()
-
-			trace?.approves?.forEach (approve)->
-				_approve = new Object();
-
-				miniApproveFields.forEach (f)->
-					_approve[f] = approve[f]
-
-				approves.push(_approve)
-
-			_trace.approves = approves
-
-			traces.push(_trace)
-
-		return traces
-
 	getMyapproveModified = (traces)->
 		myApproveModifieds = new Array()
 
 		traces?.forEach (trace)->
 			trace?.approves?.forEach (approve)->
 				if (approve.user == self.userId || approve.handler == self.userId) && !approve.is_finished
+
+#					console.log("approve", approve._id, approve.read_date)
+
 					myApproveModifieds.push(approve.read_date)
 
 		return myApproveModifieds
 
 
-	getMiniInstance = (_instanceId, isAllData)->
+	getMiniInstance = (_instanceId)->
 		instance = db.instances.findOne({_id: _instanceId}, {fields: instance_fields_0})
 
 		if instance
-
-			if isAllData
-				instance.allTraces = getMiniTraces(instance.traces)
 
 			triggerChangeFields.forEach (key)->
 				if key == '_my_approve_read_dates'
@@ -85,7 +62,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 
 			hasOpinionField = InstanceSignText.includesOpinionField(instance.form, instance.form_version)
 
-			if hasOpinionField && !isAllData
+			if hasOpinionField
 
 				traces = new Array();
 
@@ -95,7 +72,7 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 					approves = new Array()
 
 					trace?.approves?.forEach (approve)->
-						if approve.type != 'cc' || approve.user == self.userId || approve.handler == self.userId || !_.isEmpty(approve.opinion_fields_code)
+						if approve.type != 'cc' || approve.user == self.userId || approve.handler == self.userId || (!_.isEmpty(approve.sign_field_code))
 							approves.push(approve)
 
 					_trace.approves = approves
@@ -121,7 +98,11 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 				if _.has(changeFields, _key)
 
 					if key == '_my_approve_read_dates'
+
 						_my_approve_modifieds = getMyapproveModified(changeFields.traces)
+
+#						console.log(triggerChangeFieldsValues[key], _my_approve_modifieds)
+
 						return !_.isEqual(triggerChangeFieldsValues[key], _my_approve_modifieds)
 					else
 						return !_.isEqual(triggerChangeFieldsValues[key], changeFields[key])
@@ -129,62 +110,29 @@ Meteor.publish 'instance_data', (instanceId, isAllData)->
 			if _rev
 				_change = true
 
+#			console.log(_rev, _change)
+
 			return _change
 
 		return true
 
 	handle = db.instances.find({_id: instanceId}).observeChanges {
 		changed: (id, fields)->
+#			console.log("changed.................")
 			if(needChange(fields))
-				self.changed("instances", id, getMiniInstance(id, isAllData));
+#				console.log("instances changed...")
+				self.changed("instances", id, getMiniInstance(id));
 		removed: (id)->
 			self.removed("instances", id);
 	}
 
-	instance = getMiniInstance(instanceId, isAllData)
+	instance = getMiniInstance(instanceId)
 
-	self.added("instances", instance._id, instance);
+#	console.log("instances added...")
+
+	self.added("instances", instance?._id, instance);
 
 	self.ready();
 
 	self.onStop ()->
 		handle.stop()
-
-#	return db.instances.find({_id: instanceId}, {
-#		fields: {
-#			"attachments": 0,
-#			"record_synced": 0,
-#			"distribute_from_instances": 0,
-#
-#			"traces.approves.handler_organization_fullname": 0,
-#			"traces.approves.handler_organization_name": 0,
-#			"traces.approves.handler_organization": 0,
-#			"traces.approves.cost_time": 0,
-#			"traces.approves.read_date": 0,
-#			"traces.approves.is_error": 0,
-#			"traces.approves.user_name": 0,
-#			"traces.approves.deadline": 0,
-#			"traces.approves.remind_date": 0,
-#			"traces.approves.reminded_count": 0,
-#			"traces.approves.modified_by": 0,
-#			"traces.approves.modified": 0,
-#			"traces.approves.geolocation": 0,
-#			"traces.approves.cc_users": 0,
-#			"traces.approves.values": 0,
-#			"traces.approves.next_steps": 0,
-#
-#			"traces.approves.instance": 0,
-#			"traces.approves.trace": 0,
-#			"traces.approves.start_date": 0,
-#			"traces.approves.is_read": 0,
-#			"traces.approves.finish_date": 0,
-#			"traces.approves.next_steps": 0,
-#			"traces.approves.next_steps": 0,
-#			"traces.approves.next_steps": 0,
-#			"traces.approves.next_steps": 0,
-#
-#
-#		}
-#	})
-
-#	return [instance]
