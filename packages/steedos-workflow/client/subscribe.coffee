@@ -7,7 +7,7 @@ Steedos.subs["Instance"] = new SubsManager
 	cacheLimit: 20
 
 Steedos.subs["instance_data"] = new SubsManager
-	cacheLimit: 1
+	cacheLimit: 10
 
 Steedos.subs["instances_draft"] = new SubsManager
 	cacheLimit: 99
