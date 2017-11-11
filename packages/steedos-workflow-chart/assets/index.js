@@ -15,6 +15,19 @@ var designer = {
 		if (flow_name) {
 			document.title = decodeURIComponent(decodeURIComponent(flow_name));
 		}
+		var Steedos = window.opener ? window.opener.Steedos : null;
+		if (Steedos && Steedos.isNode()) {
+			$("#ifrChart").load(function() {
+				var ifrBody;
+				ifrBody = $("#ifrChart").contents().find("body");
+				if (ifrBody) {
+					ifrBody[0].addEventListener('contextmenu', function(ev) {
+						ev.preventDefault();
+						return false;
+					});
+				}
+			});
+		}
 	}
 };
 $(function() {
