@@ -12,4 +12,11 @@ Template.iframeLayout.onCreated ()->
 Template.iframeLayout.onRendered ()->
 	$("#main_iframe").load ()->
 		$("body").removeClass("loading").removeClass("iframe-loading")
+		if Steedos.isNode()
+			# 去除客户端右击事件
+			ifrBody = $("#main_iframe").contents().find("body")
+			if ifrBody
+				ifrBody[0].addEventListener 'contextmenu', (ev) ->
+					ev.preventDefault()
+					return false
 
