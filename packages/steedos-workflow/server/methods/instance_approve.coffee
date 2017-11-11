@@ -35,6 +35,7 @@ Meteor.methods
 					approve.description = description
 					approve.finish_date = finish_date
 					approve.cost_time = approve.finish_date - approve.start_date
+					approve.read_date = new Date();
 
 			db.instances.update({
 				_id: instanceId,
