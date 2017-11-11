@@ -164,7 +164,7 @@ Meteor.methods({
                 t.approves.forEach(function(a) {
                     if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
                         a.is_finished = true;
-						a.is_read = true;
+                        a.is_read = true;
                         a.finish_date = new Date();
                         // a.description = description;
                         a.judge = "submitted";
@@ -175,18 +175,18 @@ Meteor.methods({
             }
         });
 
-		//设置意见，意见只添加到最后一条approve中
-		traces.forEach(function (t) {
-			if(current_approve && t._id === current_approve.trace){
-				if(t.approves){
-					t.approves.forEach(function (a) {
-						if(a._id === current_approve._id){
-							a.description = description;
-						}
-					});
-				}
-			}
-		});
+        //设置意见，意见只添加到最后一条approve中
+        traces.forEach(function(t) {
+            if (current_approve && t._id === current_approve.trace) {
+                if (t.approves) {
+                    t.approves.forEach(function(a) {
+                        if (a._id === current_approve._id) {
+                            a.description = description;
+                        }
+                    });
+                }
+            }
+        });
 
         ins_cc_users.forEach(function(u) {
             if (current_user_id != u) {
@@ -304,7 +304,7 @@ Meteor.methods({
         var new_cc_users = [];
         var current_user_id = this.userId;
 
-        var current_approve ;
+        var current_approve;
 
         traces.forEach(function(t) {
             if (t.approves) {
@@ -312,24 +312,25 @@ Meteor.methods({
                     if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
                         // a.description = description;
                         a.judge = "submitted";
-						current_approve = a;
+                        a.read_date = new Date();
+                        current_approve = a;
                     }
                 });
             }
         })
 
-		//设置意见，意见只添加到最后一条approve中
-		traces.forEach(function (t) {
-			if(current_approve && t._id === current_approve.trace){
-				if(t.approves){
-					t.approves.forEach(function (a) {
-						if(a._id === current_approve._id){
-							a.description = description;
-						}
-					});
-				}
-			}
-		});
+        //设置意见，意见只添加到最后一条approve中
+        traces.forEach(function(t) {
+            if (current_approve && t._id === current_approve.trace) {
+                if (t.approves) {
+                    t.approves.forEach(function(a) {
+                        if (a._id === current_approve._id) {
+                            a.description = description;
+                        }
+                    });
+                }
+            }
+        });
 
         setObj.traces = traces;
 
