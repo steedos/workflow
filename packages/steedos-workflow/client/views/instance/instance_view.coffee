@@ -101,7 +101,7 @@ Template.instance_view.helpers
 		return InstanceManager.isInbox()
 
 	tracesListData: (instance)->
-		return instance.allTraces || instance.traces
+		return instance.traces
 
 
 Template.instance_view.onCreated ->

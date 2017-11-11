@@ -120,6 +120,7 @@ Meteor.methods({
 				if (result != "upgraded" && next_steps) {
 					a.next_steps = next_steps;
 				}
+				a.read_date = new Date();
 			}
 		})
 
@@ -234,6 +235,7 @@ Meteor.methods({
 				} else {
 					a.judge = judge;
 				}
+				a.read_date = new Date();
 			}
 		})
 

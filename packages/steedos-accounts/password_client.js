@@ -52,7 +52,6 @@ Steedos.loginWithPassword = function (selector, password, callback) {
   if (typeof selector === 'string'){
     if (selector.indexOf('@') === -1){
       if (/^\+?\d+$/g.test(selector)){
-        // 如果符合手机号格式，则按手机号与用户名一起查找用户
         selector = {phone: selector};
       }
       else{
