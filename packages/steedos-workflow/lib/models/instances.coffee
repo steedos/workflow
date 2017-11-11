@@ -16,13 +16,13 @@ db.instances._simpleSchema = new SimpleSchema({
 
 #db.instances.attachSchema db.instances._simpleSchema
 
-db.instances.helpers
-	applicant_name: ->
-		applicant = db.space_users.findOne({user: this.applicant});
-		if applicant
-			return applicant.name;
-		else
-			return ""
+#db.instances.helpers
+#	applicant_name: ->
+#		applicant = db.space_users.findOne({user: this.applicant});
+#		if applicant
+#			return applicant.name;
+#		else
+#			return ""
 
 if Meteor.isServer
 	db.instances.allow
