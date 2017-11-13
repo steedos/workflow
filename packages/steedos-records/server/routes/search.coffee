@@ -99,38 +99,10 @@ Meteor.startup ()->
 											"bool": {
 												"should": [
 													{
-														"term": {
-															"submitter": userId
-														}
-													},
-													{
-														"term": {
-															"applicant": userId
-														}
-													},
-													{
-														"term": {
-															"created_by": userId
-														}
-													},
-													{
-														"term": {
-															"modified_by": userId
-														}
-													},
-													{
-														"term": {
-															"inbox_users": userId
-														}
-													},
-													{
-														"term": {
-															"cc_users": userId
-														}
-													},
-													{
-														"term": {
-															"outbox_users": userId
+														"match": {
+															"users": {
+																"query": userId
+															}
 														}
 													},
 													{
