@@ -510,8 +510,8 @@ uuflowManager.getUpdatedValues = (instance) ->
 	# 取得最新的values
 	newest_values = null
 	if not instance.values
-		newest_values = trace_approve.values
-	else if not trace_approve.values
+		newest_values = trace_approve?.values
+	else if not trace_approve?.values
 		newest_values = instance.values
 	else
 		newest_values =  _.extend(_.clone(instance.values), trace_approve.values)
