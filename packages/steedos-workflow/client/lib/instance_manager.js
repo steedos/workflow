@@ -1305,7 +1305,7 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 	Session.set("instance_submitting", true);
 
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, InstanceManager.getMyApprove()._id, function(error, result) {
 		$('body').removeClass("loading");
 
 		Session.set("instance_submitting", false);
