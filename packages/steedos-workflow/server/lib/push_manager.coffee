@@ -421,7 +421,7 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 		console.error e.stack
 
 pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
-	if not to_user.email or to_user.email_notification is false
+	if not to_user.email or not to_user.email_notification
 		return
 	try
 		from_displayName = reply_user.name
