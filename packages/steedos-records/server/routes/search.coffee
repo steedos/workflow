@@ -23,18 +23,32 @@ Meteor.startup ()->
 		data = {
 			"query": {
 				"bool" : {
-					"must" : {
-						"multi_match": {
-							"query": q,
-							"type": "cross_fields",
-							"fields": [
-								"name",
-								"values",
-								"attachments.*"
-							],
-							"operator": "or"
+					"should": [
+						{
+							"match": {
+								"name": {
+									"query": q,
+									"boost": 1.5
+								}
+							}
+						},
+						{
+							"match": {
+								"values": {
+								"query": q,
+								"boost": 1 
+								}
+							}
+						},
+						{
+							"match": {
+								"attachments.*": {
+									"query": q,
+									"boost": 0.5
+								}
+							}
 						}
-					}
+					],
 				}
 			},
 			"highlight": {
@@ -52,32 +66,32 @@ Meteor.startup ()->
 		isSpaceAdmin = req?.query?.isSpaceAdmin
 		# console.log !isSpaceAdmin
 		if isSpaceAdmin == "false"
-			# 1.查找当前用户可以监控的flow
-			# flowObjs = db.flows.find({$or:[
-			# 					{'perms.users_can_add':userId},
-			# 					{'perms.users_can_monitor':userId},
-			# 					{'perms.users_can_admin':userId}
-			# 				]},{_id:1})
+			## 1.查找当前用户可以监控的flow,返回id即可
+			flowObjs = db.flows.find({$or:[
+								{'perms.users_can_add':userId},
+								{'perms.users_can_monitor':userId},
+								{'perms.users_can_admin':userId}
+							]},{_id:1})
 
-			# flowObjs.forEach (flowObj)->
-			# 	if minitorFlowArrs.indexOf(flowObj?._id)==-1
-			# 		minitorFlowArrs.push flowObj._id
+			flowObjs.forEach (flowObj)->
+				if minitorFlowArrs.indexOf(flowObj?._id)==-1
+					minitorFlowArrs.push flowObj._id
 
-			# 2.查找当前用户所在部门可以监控的flow
-			# orgObjs = db.organizations.find({'users':userId},{_id:1})
-			# orgArr = []
-			# orgObjs.forEach (orgObj)->
-			# 	if orgArr.indexOf(orgObj?._id)==-1
-			# 		orgArr.push orgObj?._id
+			## 2.查找当前用户所在部门可以监控的flow,返回id即可
+			orgObjs = db.organizations.find({'users':userId},{_id:1})
+			orgArr = []
+			orgObjs.forEach (orgObj)->
+				if orgArr.indexOf(orgObj?._id)==-1
+					orgArr.push orgObj?._id
 
-			# flowObjs = db.flows.find({$or:[
-			# 					{'perms.orgs_can_add':{$in:orgArr}},
-			# 					{'perms.orgs_can_monitor':{$in:orgArr}},
-			# 					{'perms.orgs_can_admin':{$in:orgArr}}
-			# 				]},{_id:1})
-			# flowObjs.forEach (flowObj)->
-			# 	if minitorFlowArrs.indexOf(flowObj?._id)==-1
-			# 		minitorFlowArrs.push flowObj._id
+			flowObjs = db.flows.find({$or:[
+								{'perms.orgs_can_add':{$in:orgArr}},
+								{'perms.orgs_can_monitor':{$in:orgArr}},
+								{'perms.orgs_can_admin':{$in:orgArr}}
+							]},{_id:1})
+			flowObjs.forEach (flowObj)->
+				if minitorFlowArrs.indexOf(flowObj?._id)==-1
+					minitorFlowArrs.push flowObj._id
 
 			# console.log minitorFlowArrs
 
@@ -85,19 +99,45 @@ Meteor.startup ()->
 											"bool": {
 												"should": [
 													{
-														"match": {
-															"users": {
-																"query": userId,
-																"type": "phrase"
-															}
+														"term": {
+															"submitter": userId
+														}
+													},
+													{
+														"term": {
+															"applicant": userId
+														}
+													},
+													{
+														"term": {
+															"created_by": userId
+														}
+													},
+													{
+														"term": {
+															"modified_by": userId
+														}
+													},
+													{
+														"term": {
+															"inbox_users": userId
+														}
+													},
+													{
+														"term": {
+															"cc_users": userId
+														}
+													},
+													{
+														"term": {
+															"outbox_users": userId
+														}
+													},
+													{
+														"terms": {
+															"flow": minitorFlowArrs
 														}
 													}
-													# ,
-													# {
-													# 	"terms":{
-													# 		"flow":minitorFlowArrs
-													# 	}
-													# }
 												]
 											}
 										}

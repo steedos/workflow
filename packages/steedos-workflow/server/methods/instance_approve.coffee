@@ -35,6 +35,7 @@ Meteor.methods
 					approve.description = description
 					approve.finish_date = finish_date
 					approve.cost_time = approve.finish_date - approve.start_date
+					approve.read_date = new Date();
 
 			db.instances.update({
 				_id: instanceId,
@@ -98,6 +99,7 @@ Meteor.methods
 					approve.sign_show = true
 					approve.modified = new Date();
 					approve.modified_by = session_userId
+					approve.read_date = new Date()
 
 			db.instances.update({
 				_id: instanceId,
@@ -108,7 +110,7 @@ Meteor.methods
 			return true
 
 
-	update_sign_show: (objs)->
+	update_sign_show: (objs, myApprove_id)->
 		objs.forEach (obj, index) ->
 			instance = db.instances.findOne({_id: obj.instance, "traces._id": obj.trace}, {fields: {"traces.$": 1}})
 			if instance?.traces?.length > 0
@@ -120,6 +122,8 @@ Meteor.methods
 						approve.sign_show = obj.sign_show
 
 						approve.custom_sign_show = obj.sign_show
+					if approve._id == myApprove_id
+						approve.read_date = new Date()
 
 				db.instances.update({
 					_id: obj.instance,

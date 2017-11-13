@@ -504,17 +504,17 @@ uuflowManager.getUpdatedValues = (instance) ->
 	_.each(instance.traces, (trace)->
 		if trace.is_finished is false
 			trace_approve = _.find(trace.approves, (approve)->
-				return approve.is_finished is false
+				return approve.is_finished is false and approve.type isnt 'cc' and approve.type isnt 'distribute'
 			)
 	)
 	# 取得最新的values
 	newest_values = null
 	if not instance.values
-		newest_values = trace_approve.values
-	else if not trace_approve.values
+		newest_values = trace_approve?.values
+	else if not trace_approve?.values
 		newest_values = instance.values
 	else
-		newest_values = trace_approve.values || {}
+		newest_values =  _.extend(_.clone(instance.values), trace_approve.values)
 	return newest_values
 
 uuflowManager.getForm = (form_id) ->

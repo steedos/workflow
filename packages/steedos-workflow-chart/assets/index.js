@@ -15,6 +15,11 @@ var designer = {
 		if (flow_name) {
 			document.title = decodeURIComponent(decodeURIComponent(flow_name));
 		}
+		var Steedos = window.opener ? window.opener.Steedos : null;
+		if (Steedos) {
+			// 去除客户端右击事件
+			Steedos.forbidNodeContextmenu(window, "#ifrChart");
+		}
 	}
 };
 $(function() {

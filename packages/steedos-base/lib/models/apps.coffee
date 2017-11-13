@@ -72,7 +72,7 @@ db.apps._simpleSchema = new SimpleSchema
 
 	members:
 		type: Object,
-		optional: false
+		optional: true
 
 	"members.users": 
 		type: [String],

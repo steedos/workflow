@@ -21,7 +21,6 @@ if Meteor.isClient
 
 	# qhd首页定制
 	Steedos.goHome = ()->
-		console.log "goHome_qhd"
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
 		else

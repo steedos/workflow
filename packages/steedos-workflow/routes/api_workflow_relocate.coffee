@@ -34,6 +34,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 			traces = instance.traces
 			setObj = new Object
+			# 重定位的时候使用approve.values合并 instance.values生成新的instance.values #1328
+			setObj.values = uuflowManager.getUpdatedValues(instance)
 			now = new Date
 			i = 0
 			while i < traces.length

@@ -22,9 +22,27 @@ Template.traces_table_modal.helpers
 		else
 			return 'traces_modal'
 
+	tracesListData: (instance)->
+		return Template.instance()?.tracesData.get() || instance.traces
+
 
 Template.traces_table_modal.onCreated ->
+
+	$("body").addClass("loading")
+
 	self = this;
+
+	self.tracesData = new ReactiveVar()
+
+	Meteor.call "get_instance_traces", Session.get("instanceId"), (error, result)->
+		if error
+			toastr.error error
+		else
+			self.tracesData.set(result)
+
+		$("body").removeClass("loading")
+
+
 
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
@@ -33,7 +51,7 @@ Template.traces_table_modal.onCreated ->
 		self.maxHeight?.set($(window).height());
 
 Template.traces_table_modal.onRendered ->
-	$("body").removeClass("loading")
+
 	Modal.allowMultiple = true
 
 	self = this;
@@ -42,4 +60,6 @@ Template.traces_table_modal.onRendered ->
 
 
 Template.traces_table_modal.onDestroyed ->
+	console.log("Template.traces_table_modal.onDestroyed...")
 	Modal.allowMultiple = false
+	this.tracesData = null

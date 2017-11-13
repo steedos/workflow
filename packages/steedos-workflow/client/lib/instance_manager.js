@@ -541,7 +541,8 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	var fields = WorkflowManager.getInstanceFields();
 
 	var instanceValue = InstanceManager.getCurrentValues();
-	var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	// var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	var autoFormValue = _.extend(AutoForm.getFormValues("instanceform").insertDoc, AutoForm.getFormValues("instanceform").updateDoc.$unset);
 
 	var values = {};
 
@@ -597,6 +598,7 @@ InstanceManager.getStartStep = function() {
 
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
+		approve,
 		instanceValue;
 
 	var instance = WorkflowManager.getInstance();
@@ -653,7 +655,8 @@ InstanceManager.getCurrentApprove = function() {
 		var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 	}
 
-	if (!currentApprove) {
+	//传阅的approve返回最新一条
+	if (!currentApprove || currentApprove.type == 'cc') {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
@@ -836,15 +839,24 @@ InstanceManager.submitIns = function() {
 
 	if (instance) {
 		if (InstanceManager.isCC(instance)) {
+
+			if (Session.get("instance_submitting")) {
+				return;
+			}
+
+			Session.set("instance_submitting", true);
+
 			var description = $("#suggestion").val();
 			Meteor.call('cc_submit', instance._id, description, function(error, result) {
 				if (error) {
 					toastr.error(error);
+					Session.set("instance_submitting", false);
 				};
 
 				if (result == true) {
 					WorkflowManager.instanceModified.set(false);
 					toastr.success(TAPi18n.__('Submitted successfully'));
+					Session.set("instance_submitting", false);
 					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 				};
 			});
@@ -1285,9 +1297,19 @@ InstanceManager.unlockAttach = function(file_id) {
 
 // 申请单转发/分发
 InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+
+	if (Session.get("instance_submitting")) {
+		return;
+	}
+
+	Session.set("instance_submitting", true);
+
 	$('body').addClass("loading");
 	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
 		$('body').removeClass("loading");
+
+		Session.set("instance_submitting", false);
+
 		if (error) {
 			if (error.error == 'no_permission') {
 				if (action_type == 'forward') {
@@ -1444,14 +1466,14 @@ InstanceManager.isCCMustFinished = function() {
 				user_id = Meteor.userId();
 			if (InstanceManager.isCC(ins)) {
 				_.each(trace.approves, function(a) {
-					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.user != user_id) {
-						not_finished_users_name.push(a.user_name);
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.handler != user_id) {
+						not_finished_users_name.push(a.handler_name);
 					}
 				})
 			} else {
 				_.each(trace.approves, function(a) {
 					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
-						not_finished_users_name.push(a.user_name);
+						not_finished_users_name.push(a.handler_name);
 					}
 				})
 			}
@@ -1530,4 +1552,21 @@ InstanceManager.isAttachLocked = function(instance_id, user_id) {
 		'metadata.current': true,
 		'metadata.locked_by': user_id
 	}).count()
+}
+
+InstanceManager.getCCStep = function() {
+	var currentApprove = InstanceManager.getCurrentApprove();
+	if (!currentApprove)
+		return false;
+	var ins = WorkflowManager.getInstance();
+	if (!ins)
+		return false;
+	var step;
+	var trace = _.find(ins.traces, function(t) {
+		return t._id == currentApprove.trace;
+	})
+	if (trace) {
+		step = WorkflowManager.getInstanceStep(trace.step);
+	}
+	return step;
 }

@@ -25,4 +25,4 @@ Template.printLayout.helpers
 		return Template.instance().minHeight.get() + 'px'
 	
 	subsReady: ->
-		return Steedos.subsBootstrap.ready() && Steedos.subs["Instance"].ready()
+		return Steedos.subsBootstrap.ready() && Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()

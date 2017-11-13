@@ -6,8 +6,13 @@ Steedos.subs["related_instances"] = new SubsManager
 Steedos.subs["Instance"] = new SubsManager
 	cacheLimit: 20
 
+Steedos.subs["instance_data"] = new SubsManager
+	cacheLimit: 10
+
 Steedos.subs["instances_draft"] = new SubsManager
 	cacheLimit: 99
+
+Steedos.subs["distributed_instances"] = new SubsManager
 
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
@@ -23,7 +28,8 @@ Steedos.subscribeFormVersion = (space, formId, form_version)->
 Steedos.subscribeInstance = (instance)->
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
-	Steedos.subs["Instance"].subscribe("instance_data", instance._id)
+	Steedos.subs["instance_data"].subscribe("instance_data", instance._id)
+	Steedos.subs["Instance"].subscribe("flow", instance.space, instance.flow)
 	if instance.distribute_from_instance
 		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instance)
 
@@ -42,10 +48,10 @@ Tracker.autorun (c)->
 		if instance
 			Steedos.subscribeInstance(instance);
 		else
-			Steedos.subs["Instance"].subscribe("instance_data", instanceId)
+			Steedos.subs["instance_data"].subscribe("instance_data", instanceId)
 
 Tracker.autorun (c) ->
-	if Steedos.subs["Instance"].ready()
+	if Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()
 		if Session.get("instanceId")
 			instance = db.instances.findOne({_id: Session.get("instanceId")});
 			if !instance

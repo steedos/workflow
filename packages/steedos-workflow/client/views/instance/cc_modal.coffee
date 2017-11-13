@@ -127,6 +127,12 @@ Template.instance_cc_modal.events
 				myApprove = InstanceManager.getLastApprove(ins.traces)
 				
 		myApprove.opinion_fields_code = opinion_fields_code
+
+		if Session.get("instance_submitting")
+			return ;
+
+		Session.set("instance_submitting", true);
+
 		Meteor.call 'cc_do', myApprove, val, description, (error, result) ->
 			WorkflowManager.instanceModified.set false
 			if error
@@ -135,5 +141,7 @@ Template.instance_cc_modal.events
 			if result == true
 				toastr.success t('instance_cc_done')
 				Modal.hide template
+
+			Session.set("instance_submitting", false);
 			return
 		return

@@ -92,6 +92,13 @@ UUflow_api.delete_draft = function(instanceId) {
 
 // instance（申请单）的第一次提交
 UUflow_api.post_submit = function(instance) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -113,6 +120,7 @@ UUflow_api.post_submit = function(instance) {
 
 		success: function(responseText, status) {
 			$(document.body).removeClass("loading");
+
 			Session.set("instance_change", false);
 			if (responseText.errors) {
 				responseText.errors.forEach(function(e) {
@@ -135,16 +143,26 @@ UUflow_api.post_submit = function(instance) {
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Submitted successfully'));
+
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+			Session.set("instance_submitting", false);
 		}
 	})
 };
 
 // 待审核提交
 UUflow_api.post_engine = function(approve) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -176,16 +194,25 @@ UUflow_api.post_engine = function(approve) {
 			Session.set("instance_change", false);
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Submitted successfully'));
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+			Session.set("instance_submitting", false);
 		}
 	})
 };
 
 // 取消申请
 UUflow_api.post_terminate = function(instance) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -219,16 +246,26 @@ UUflow_api.post_terminate = function(instance) {
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Canceled successfully'));
+
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+			Session.set("instance_submitting", false);
 		}
 	})
 };
 
 // 转签核
 UUflow_api.put_reassign = function(instance) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "PUT";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -261,16 +298,27 @@ UUflow_api.put_reassign = function(instance) {
 
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Reasigned successfully'));
+
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+
+			Session.set("instance_submitting", false);
 		}
 	})
 };
 
 // 重定位
 UUflow_api.put_relocate = function(instance) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "PUT";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -304,10 +352,14 @@ UUflow_api.put_relocate = function(instance) {
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Relocated successfully'));
+
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+
+			Session.set("instance_submitting", false);
 		}
 	})
 };
@@ -464,6 +516,13 @@ UUflow_api.getSpaceUsers = function(spaceId, userIds) {
 
 // 取回
 UUflow_api.post_retrieve = function(instance) {
+
+	if(Session.get("instance_submitting")){
+		return ;
+	}
+
+	Session.set("instance_submitting", true);
+
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -500,10 +559,13 @@ UUflow_api.post_retrieve = function(instance) {
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/inbox");
 
 			toastr.success(TAPi18n.__('Retrieved successfully'));
+
+			Session.set("instance_submitting", false);
 		},
 		error: function(xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
+			Session.set("instance_submitting", false);
 		}
 	})
 };
