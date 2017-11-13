@@ -263,12 +263,6 @@ Meteor.methods
 						su_doc._id = db.space_users._makeNewID()
 						su_doc.user = user_id
 						su_doc.space = space_id
-						su_doc.user_accepted =  true
-						su_doc.invite_state = "accepted"
-
-						if user
-							su_doc.user_accepted = false
-							su_doc.invite_state = "pending"
 
 						su_doc.name = item.name
 						if item.email

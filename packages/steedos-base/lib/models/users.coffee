@@ -122,6 +122,8 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "users_error_username_exists");
 
 	db.users.validateUsername = (username, userId) ->
+		if /^\+?\d+$/g.test(username)
+			throw new Meteor.Error(400, "用户名不能使用全数字")
 		user = db.users.findOne({username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") }, _id: { $ne: userId }})
 		if user
 			throw new Meteor.Error 'username-unavailable', "<strong>" + username + "</strong> is already in use.", { method: 'setUsername', field: username }

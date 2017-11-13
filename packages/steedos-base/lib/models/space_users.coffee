@@ -240,6 +240,8 @@ Meteor.startup ()->
 
 			creator = db.users.findOne(userId)
 
+			space = db.spaces.findOne(doc.space)
+
 			if (!doc.user) && (doc.email || doc.mobile)
 				if doc.email && doc.mobile
 					phoneNumber = "+86" + doc.mobile
@@ -258,9 +260,17 @@ Meteor.startup ()->
 					userObj = db.users.findOne({"phone.number": phoneNumber})
 
 				if (userObj)
+					# 设置spaceUser初始状态，同步name和user字段，默认状态待反馈
 					doc.user = userObj._id
 					doc.name = userObj.name
+					doc.invite_state = "pending"
+					doc.user_accepted = false
 				else
+					# 设置设置spaceUser初始状态，默认状态接受邀请
+					doc.invite_state = "accepted"
+					doc.user_accepted = true
+
+					# 将用户插入到users表
 					user = {}
 					if !doc.name
 						doc.name = doc.email.split('@')[0]
@@ -307,11 +317,14 @@ Meteor.startup ()->
 
 			# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
 			# 需要把users表中的信息同步到新的space_users表中。
-			user = db.users.findOne(doc.user, {fields:{name:1, mobile:1, emails: 1, email: 1}})
+			user = db.users.findOne(doc.user, {fields:{name:1, phone:1, mobile:1, emails: 1, email: 1}})
 			unset = {}
 			# 同步mobile和email到space_user，没有值的话，就清空space_user的mobile和email字段
-			unless user.mobile
+			unless user.phone
 				unset.mobile = ""
+			if !user.mobile and user.phone
+				user.mobile = user.phone.number?.substring(3)
+
 			unless user.emails
 				unset.email = ""
 			if !user.email and user.emails

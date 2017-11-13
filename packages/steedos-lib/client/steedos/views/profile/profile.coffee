@@ -433,7 +433,7 @@ Template.profile.events
 					swal.close()
 
 				if error
-					toastr.error(TAPi18n.__(error.error))
+					toastr.error(TAPi18n.__(error.reason))
 
 	'click .btn-change-phone': (event, template) ->
 		if Steedos.isAndroidOrIOS()
