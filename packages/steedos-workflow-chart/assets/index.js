@@ -6,19 +6,32 @@ var designer = {
 		return null;
 	},
 	run: function() {
-		var instance_id = this.urlQuery("instance_id");
-		if (instance_id) {
-			// http://192.168.0.60:3000/api/workflow/chart?instance_id=57d11547d77d5e17f8000e54
-			$("#ifrChart").attr("src", "/api/workflow/chart?instance_id=" + instance_id);
-		}
-		var flow_name = this.urlQuery("flow_name");
-		if (flow_name) {
-			document.title = decodeURIComponent(decodeURIComponent(flow_name));
-		}
 		var Steedos = window.opener ? window.opener.Steedos : null;
+		var toastr = window.opener ? window.opener.toastr : null;
+		var title = this.urlQuery("title");
+		if (title) {
+			document.title = decodeURIComponent(decodeURIComponent(title));
+		}
 		if (Steedos) {
 			// 去除客户端右击事件
 			Steedos.forbidNodeContextmenu(window, "#ifrChart");
+		}
+		var type = this.urlQuery("type");
+		var instance_id = this.urlQuery("instance_id");
+		var errMsg = "";
+		if(!instance_id){
+			errMsg = "参数错误";
+			toastr && toastr.error("errMsg");
+			console.error(errMsg);
+			return;
+		}
+		switch(type){
+			case "traces":
+				$("#ifrChart").attr("src", "/api/workflow/chart/traces?instance_id=" + instance_id);
+				break;
+			default:
+				$("#ifrChart").attr("src", "/api/workflow/chart?instance_id=" + instance_id);
+				break;
 		}
 	}
 };

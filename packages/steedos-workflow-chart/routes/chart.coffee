@@ -13,7 +13,7 @@ FlowversionAPI =
 	replaceErrorSymbol: (str)->
 		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
-	generateGraphSyntax: (steps, currentStepId, isConvertToString)->
+	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
 		# 	graph LR
@@ -49,7 +49,42 @@ FlowversionAPI =
 		else
 			return nodes
 
-	sendHtmlResponse: (req, res)->
+	generateTracesGraphSyntax: (traces, isConvertToString)->
+		# 该函数返回以下格式的graph脚本
+		# graphSyntax = '''
+		# 	graph LR
+		# 		A-->B
+		# 		A-->C
+		# 		B-->C
+		# 		C-->A
+		# 		D-->C
+		# 	'''
+		nodes = ["graph TB"]
+		traces.forEach (trace)->
+			lines = trace.previous_trace_ids
+			if lines?.length
+				lines.forEach (line)->
+					fromTraceName = traces.findPropertyByPK("_id",line).name
+					if fromTraceName
+						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+						fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div></div>"
+						fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
+					else
+						fromTraceName = ""
+
+					toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+					nodes.push "	#{line}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
+
+
+		lastTrace = traces[traces.length-1]
+		nodes.push "	class #{lastTrace._id} current-step-node;"
+		if isConvertToString
+			graphSyntax = nodes.join "\n"
+			return graphSyntax
+		else
+			return nodes
+
+	sendHtmlResponse: (req, res, type)->
 		query = req.query
 		instance_id = query.instance_id
 
@@ -58,17 +93,32 @@ FlowversionAPI =
 
 		error_msg = ""
 		graphSyntax = ""
-		instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1,traces: {$slice: -1}}}
-		if instance
-			currentStepId = instance.traces?[0]?.step
-			flowversion = WorkflowManager.getInstanceFlowVersion(instance)
-			steps = flowversion?.steps
-			if steps?.length
-				graphSyntax = this.generateGraphSyntax steps,currentStepId
+		switch type
+			when 'traces'
+				instance = db.instances.findOne instance_id,{fields:{traces: 1}}
+				if instance
+					# currentStepId = instance.traces?[0]?.step
+					# flowversion = WorkflowManager.getInstanceFlowVersion(instance)
+					traces = instance.traces
+					if traces?.length
+						graphSyntax = this.generateTracesGraphSyntax traces
+					else
+						error_msg = "没有找到当前申请单的流程步骤数据"
+				else
+					error_msg = "当前申请单不存在或已被删除"
 			else
-				error_msg = "没有找到当前申请单的流程步骤数据"
-		else
-			error_msg = "当前申请单不存在或已被删除"
+				instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1,traces: {$slice: -1}}}
+				if instance
+					currentStepId = instance.traces?[0]?.step
+					flowversion = WorkflowManager.getInstanceFlowVersion(instance)
+					steps = flowversion?.steps
+					if steps?.length
+						graphSyntax = this.generateStepsGraphSyntax steps,currentStepId
+					else
+						error_msg = "没有找到当前申请单的流程步骤数据"
+				else
+					error_msg = "当前申请单不存在或已被删除"
+				break
 
 		return @writeResponse res, 200, """
 			<!DOCTYPE html>
@@ -154,4 +204,6 @@ FlowversionAPI =
 JsonRoutes.add 'get', '/api/workflow/chart?instance_id=:instance_id', (req, res, next) ->
 	FlowversionAPI.sendHtmlResponse req, res
 
+JsonRoutes.add 'get', '/api/workflow/chart/traces?instance_id=:instance_id', (req, res, next) ->
+	FlowversionAPI.sendHtmlResponse req, res, "traces"
 
