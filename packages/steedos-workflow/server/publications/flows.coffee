@@ -73,7 +73,8 @@ Meteor.publish 'distribute_optional_flows', (flow_ids)->
 			state: 1,
 			perms: 1,
 			space: 1,
-			distribute_optional_users: 1
+			distribute_optional_users: 1,
+			distribute_to_self: 1
 		}
 	})
 

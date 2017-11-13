@@ -345,6 +345,22 @@ if Meteor.isClient
 		else
 			return organizations
 
+	Steedos.forbidNodeContextmenu = (target, ifr)->
+		unless Steedos.isNode()
+			return
+		target.document.body.addEventListener 'contextmenu', (ev) ->
+			ev.preventDefault()
+			return false
+		if ifr
+			if typeof ifr == 'string'
+				ifr = target.$(ifr)
+			ifr.load ->
+				ifrBody = ifr.contents().find('body')
+				if ifrBody
+					ifrBody[0].addEventListener 'contextmenu', (ev) ->
+						ev.preventDefault()
+						return false
+
 if Meteor.isServer
 	Steedos.getUserOrganizations = (spaceId,userId,isIncludeParents)->
 		space_user = db.space_users.findOne({user:userId,space:spaceId},fields:{organizations:1})
