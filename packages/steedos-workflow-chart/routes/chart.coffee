@@ -49,6 +49,19 @@ FlowversionAPI =
 		else
 			return nodes
 
+	getTraceName: (trace, approve)->
+		traceName = trace.name
+		if traceName
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+			traceName = "<div class='graph-node'>
+				<div class='trace-name'>#{traceName}</div>
+				<div class='trace-handler-name'>#{approve.handler_name}</div>
+			</div>"
+			traceName = FlowversionAPI.replaceErrorSymbol(traceName)
+		else
+			traceName = ""
+		return traceName
+
 	generateTracesGraphSyntax: (traces, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
@@ -73,29 +86,16 @@ FlowversionAPI =
 							toApproves.forEach (toApprove)->
 								if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
 									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
-										fromTraceName = fromTrace.name
-										if fromTraceName
-											# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-											fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
-											fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
-										else
-											fromTraceName = ""
-										# 不是传阅、分发、转发，则连接到下一个trace
-										toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+										fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApprove
+										toTraceName = FlowversionAPI.getTraceName trace, toApprove
 										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
 
 						else
 							# 结束步骤的trace
 							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
-								fromTraceName = fromTrace.name
-								if fromTraceName
-									# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-									fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
-									fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
-								else
-									fromTraceName = ""
-								# 不是传阅、分发、转发，则连接到下一个trace
+								fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApprove
 								toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+								# 不是传阅、分发、转发，则连接到下一个trace
 								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 
 						# 一个trace中每个传阅、分发、转发只需要画一次，而不需要每个toApproves都画一次
@@ -113,15 +113,9 @@ FlowversionAPI =
 								when 'distribute'
 									typeName = "分发"
 							# 是传阅、分发、转发，则从from_approve_id连接过来
-							fromTraceName = fromTrace.name
-							if fromTraceName
-								# from_approve_id肯定是当前trace中的approve_id，需要查找到并给定正确的名称
-								ccFromApprove = fromTrace.approves.findPropertyByPK("_id",ccFromApproveId)
-								# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-								fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{ccFromApprove.handler_name}</div></div>"
-								fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
-							else
-								fromTraceName = ""
+							# 且from_approve_id肯定是当前trace中的approve_id，需要查找到并给定正确的名称
+							ccFromApprove = fromTrace.approves.findPropertyByPK("_id",ccFromApproveId)
+							fromTraceName = FlowversionAPI.getTraceName fromTrace, ccFromApprove
 							if ccFromApprove and ["cc","forward","distribute"].indexOf(ccFromApprove.type) >= 0
 								nodes.push "	#{ccFromApproveId}>\"#{fromTraceName}\"]--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
 							else
@@ -129,13 +123,7 @@ FlowversionAPI =
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
-					traceName = trace.name
-					if traceName
-						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						traceName = "<div class='graph-node'><div class='trace-name'>#{traceName}</div><div class='trace-handler-name'>#{approve.handler_name}</div></div>"
-						traceName = FlowversionAPI.replaceErrorSymbol(traceName)
-					else
-						traceName = ""
+					traceName = FlowversionAPI.getTraceName trace, approve
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
 				
 
