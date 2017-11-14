@@ -99,7 +99,8 @@ FlowversionAPI =
 		# 		D-->C
 		# 	'''
 		nodes = ["graph LR"]
-		toApproves = []
+		lastTrace = null
+		lastApproves = []
 		traces.forEach (trace)->
 			lines = trace.previous_trace_ids
 			if lines?.length
@@ -107,6 +108,8 @@ FlowversionAPI =
 					fromTrace = traces.findPropertyByPK("_id",line)
 					fromApproves = fromTrace.approves
 					toApproves = trace.approves
+					lastTrace = trace
+					lastApproves = toApproves
 					fromApproves.forEach (fromApprove)->
 						if toApproves?.length
 							toApproves.forEach (toApprove)->
@@ -133,9 +136,10 @@ FlowversionAPI =
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
 				
 
+		# 签批历程中最后的approves中有可能存在传阅、分发、转发，所以需要单独判断并处理下
 		# 签批历程中最后的approves高亮显示，结束步骤的trace中是没有approves的，所以结束步骤不高亮显示
-		lastApproves = toApproves
 		lastApproves?.forEach (lastApprove)->
+			FlowversionAPI.pushCCApproveGraphSyntax nodes, lastTrace, lastApprove
 			nodes.push "	class #{lastApprove._id} current-step-node;"
 
 		if isConvertToString
