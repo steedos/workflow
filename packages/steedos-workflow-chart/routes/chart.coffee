@@ -101,6 +101,9 @@ FlowversionAPI =
 						# 一个trace中每个传阅、分发、转发只需要画一次，而不需要每个toApproves都画一次
 						if ["cc","forward","distribute"].indexOf(fromApprove.type) >= 0
 							ccFromApproveId = fromApprove.from_approve_id
+							unless ccFromApproveId
+								# 部分老的数据分发、转发的approve中没有from_approve_id，直接忽略不处理
+								return
 							typeName = ""
 							switch fromApprove.type
 								when 'cc'
