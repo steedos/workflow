@@ -59,7 +59,7 @@ FlowversionAPI =
 		# 		C-->A
 		# 		D-->C
 		# 	'''
-		nodes = ["graph TB"]
+		nodes = ["graph LR"]
 		toApproves = []
 		traces.forEach (trace)->
 			lines = trace.previous_trace_ids
