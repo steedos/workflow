@@ -93,6 +93,19 @@ FlowversionAPI =
 											typeName = "分发"
 									# 是传阅、分发、转发，则从from_approve_id连接过来
 									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.user_name}\"]"
+			else
+				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
+				trace.approves.forEach (approve)->
+					traceName = trace.name
+					if traceName
+						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+						traceName = "<div class='graph-node'><div class='trace-name'>#{traceName}</div><div class='trace-handler-name'>#{approve.handler_name}</div></div>"
+						traceName = FlowversionAPI.replaceErrorSymbol(traceName)
+					else
+						traceName = ""
+					nodes.push "	#{approve._id}(\"#{traceName}\")"
+				
+
 
 		lastApproves = toApproves
 		lastApproves.forEach (lastApprove)->
