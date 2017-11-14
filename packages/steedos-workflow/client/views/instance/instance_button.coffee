@@ -210,7 +210,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
 			return true
 			# last_trace = _.last(ins.traces)
 			# previous_trace_id = last_trace.previous_trace_ids[0]
