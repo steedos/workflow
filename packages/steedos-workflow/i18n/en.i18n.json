@@ -606,6 +606,8 @@
 	"instance_set_is_complete": "set up?",
 
 	"flow_roles_help": "Help",
+	"set_org_members": "Set department members",
+	"set_applicant_manager": "Set the applicant supervisor",
 	"instance_permissions_error": "You do not have permission to view this request",
 	"start_flows": "Start flows",
 
