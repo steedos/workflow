@@ -179,15 +179,6 @@ InstanceformTemplate.helpers =
 #        return "disabled";
 #    return;
 
-
-#attachments: ->
-#    # instance 修改时重算
-#    WorkflowManager.instanceModified.get();
-#
-#    instance = WorkflowManager.getInstance();
-#    return instance.attachments;
-
-
 	table_fields: (instance)->
 		if Meteor.isClient
 			form_version = WorkflowManager.getInstanceFormVersion();

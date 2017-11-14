@@ -121,8 +121,6 @@ Template.instance_cc_modal.events
 			if InstanceManager.isInbox() && ins.state is "pending" 
 				myApprove = InstanceManager.getMyApprove()
 				myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
-				if instance.attachments and myApprove
-					myApprove.attachments = instance.attachments
 			else
 				myApprove = InstanceManager.getLastApprove(ins.traces)
 				

@@ -60,24 +60,57 @@ FlowversionAPI =
 		# 		D-->C
 		# 	'''
 		nodes = ["graph TB"]
+		toApproves = []
 		traces.forEach (trace)->
 			lines = trace.previous_trace_ids
 			if lines?.length
 				lines.forEach (line)->
-					fromTraceName = traces.findPropertyByPK("_id",line).name
-					if fromTraceName
+					fromTrace = traces.findPropertyByPK("_id",line)
+					fromApproves = fromTrace.approves
+					toApproves = trace.approves
+					fromApproves.forEach (fromApprove)->
+						toApproves.forEach (toApprove)->
+							if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
+								fromTraceName = fromTrace.name
+								if fromTraceName
+									# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+									fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
+									fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
+								else
+									fromTraceName = ""
+								if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
+									# 不是传阅、分发、转发，则连接到下一个trace
+									toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
+								else
+									typeName = ""
+									switch fromApprove.type
+										when 'cc'
+											typeName = "传阅"
+										when 'forward'
+											typeName = "转发"
+										when 'distribute'
+											typeName = "分发"
+									# 是传阅、分发、转发，则从from_approve_id连接过来
+									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+			else
+				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
+				trace.approves.forEach (approve)->
+					traceName = trace.name
+					if traceName
 						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div></div>"
-						fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
+						traceName = "<div class='graph-node'><div class='trace-name'>#{traceName}</div><div class='trace-handler-name'>#{approve.handler_name}</div></div>"
+						traceName = FlowversionAPI.replaceErrorSymbol(traceName)
 					else
-						fromTraceName = ""
+						traceName = ""
+					nodes.push "	#{approve._id}(\"#{traceName}\")"
+				
 
-					toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
-					nodes.push "	#{line}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 
+		lastApproves = toApproves
+		lastApproves.forEach (lastApprove)->
+			nodes.push "	class #{lastApprove._id} current-step-node;"
 
-		lastTrace = traces[traces.length-1]
-		nodes.push "	class #{lastTrace._id} current-step-node;"
 		if isConvertToString
 			graphSyntax = nodes.join "\n"
 			return graphSyntax
@@ -172,6 +205,9 @@ FlowversionAPI =
 							stroke: rgb(204, 204, 255);
     						stroke-width: 1px;
 						}
+						.node .trace-handler-name{
+							color: #777;
+						}
 					</style>
 				</head>
 				<body>
@@ -198,8 +234,6 @@ FlowversionAPI =
 				</body>
 			</html>
 		"""
-
-
 
 JsonRoutes.add 'get', '/api/workflow/chart?instance_id=:instance_id', (req, res, next) ->
 	FlowversionAPI.sendHtmlResponse req, res

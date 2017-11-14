@@ -788,9 +788,6 @@ InstanceManager.saveIns = function() {
 		} else if (state == "pending") {
 			var myApprove = InstanceManager.getMyApprove();
 			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			if (instance.attachments && myApprove) {
-				myApprove.attachments = instance.attachments;
-			}
 
 			if (!_.isEmpty(myApprove) && !_.isEmpty(myApprove._id)) {
 				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
@@ -895,9 +892,7 @@ InstanceManager.submitIns = function() {
 				UUflow_api.post_submit(instance);
 			} else if (state == "pending") {
 				var myApprove = InstanceManager.getMyApprove();
-				if (instance.attachments && myApprove) {
-					myApprove.attachments = instance.attachments;
-				}
+
 				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
 				UUflow_api.post_engine(myApprove);
 			}
@@ -1213,12 +1208,13 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 					});
 					return;
 				}
-				fileObj = {};
-				fileObj._id = responseText.version_id;
-				fileObj.name = Session.get('filename');
-				fileObj.type = cfs.getContentType(Session.get('filename'));
-				fileObj.size = responseText.size;
-				InstanceManager.addAttach(fileObj, isAddVersion);
+				// fileObj = {};
+				// fileObj._id = responseText.version_id;
+				// fileObj.name = Session.get('filename');
+				// fileObj.type = cfs.getContentType(Session.get('filename'));
+				// fileObj.size = responseText.size;
+				// InstanceManager.addAttach(fileObj, isAddVersion);
+				toastr.success(TAPi18n.__('Attachment was added successfully'));
 			},
 			error: function(xhr, msg, ex) {
 				$(document.body).removeClass('loading');
@@ -1305,7 +1301,7 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 	Session.set("instance_submitting", true);
 
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, InstanceManager.getMyApprove()._id, function(error, result) {
 		$('body').removeClass("loading");
 
 		Session.set("instance_submitting", false);
