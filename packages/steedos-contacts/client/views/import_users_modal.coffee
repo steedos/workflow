@@ -59,9 +59,9 @@ Template.import_users_modal.events
 				if _.has(item, "单位")
 					item.company = item["单位"]?.trim()
 					delete item["单位"]
-				if _.has(item, "状态")
-					item.user_accepted = item["状态"]?.trim()
-					delete item["状态"]
+				# if _.has(item, "状态")
+				# 	item.user_accepted = item["状态"]?.trim()
+				# 	delete item["状态"]
 				if _.has(item, "排序号")
 					item.sort_no = item["排序号"]?.trim()
 					delete item["排序号"]

@@ -172,8 +172,6 @@ Meteor.startup ()->
 
 			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
 			if doc.email and doc.mobile
-				console.log doc.email
-				console.log doc.mobile
 				spaceUserExisted = db.space_users.find({space: doc.space, $or: [{email: doc.email}, {mobile: doc.mobile}]})
 				if spaceUserExisted.count() > 0
 					throw new Meteor.Error(400, "邮箱或手机号已存在")
@@ -187,6 +185,9 @@ Meteor.startup ()->
 					throw new Meteor.Error(400, "该手机号已存在")
 
 		db.space_users.updatevaildate = (userId, doc, modifier) ->
+			if doc.invite_state == "refused" or doc.invite_state == "pending"
+				throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
+				
 			modifier.$set = modifier.$set || {}
 			space = db.spaces.findOne(doc.space)
 			if !space
@@ -242,6 +243,9 @@ Meteor.startup ()->
 
 			space = db.spaces.findOne(doc.space)
 
+			# console.log "doc"
+			# console.log JSON.stringify(userObj)
+
 			if (!doc.user) && (doc.email || doc.mobile)
 				if doc.email && doc.mobile
 					phoneNumber = "+86" + doc.mobile
@@ -263,17 +267,21 @@ Meteor.startup ()->
 					# 设置spaceUser初始状态，同步name和user字段，默认状态待反馈
 					doc.user = userObj._id
 					doc.name = userObj.name
-					doc.invite_state = "pending"
-					doc.user_accepted = false
+					if !doc.invite_state
+						doc.invite_state = "pending"
+					if !doc.user_accepted
+						doc.user_accepted = false
 				else
 					# 设置设置spaceUser初始状态，默认状态接受邀请
-					doc.invite_state = "accepted"
-					doc.user_accepted = true
+					if !doc.invite_state
+						doc.invite_state = "accepted"
+					if !doc.user_accepted
+						doc.user_accepted = true
+					if !doc.name
+						doc.name = doc.email.split('@')[0]
 
 					# 将用户插入到users表
 					user = {}
-					if !doc.name
-						doc.name = doc.email.split('@')[0]
 
 					id = db.users._makeNewID()
 

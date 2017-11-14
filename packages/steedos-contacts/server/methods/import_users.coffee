@@ -76,7 +76,6 @@ Meteor.methods
 				phoneNumber = "+86" + item.phone
 				selector.push {"phone.number": phoneNumber}
 
-			console.log JSON.stringify({$or: selector})
 			userExist = db.users.find({$or: selector})
 
 
@@ -93,8 +92,6 @@ Meteor.methods
 			else if userExist.count() == 0
 				# 新增space_users的数据校验
 				operating = "insert"
-
-			# console.log "operating is #{operating}"
 
 			# 判断是否能修改用户的密码
 			if item.password and userExist.count() == 1
@@ -213,7 +210,6 @@ Meteor.methods
 							verified: false
 							modified: now
 						}
-
 					user_id = db.users.insert(udoc)
 
 					if item.password
@@ -261,8 +257,14 @@ Meteor.methods
 						space_user_org_id = space_user_org._id
 						su_doc = {}
 						su_doc._id = db.space_users._makeNewID()
-						su_doc.user = user_id
 						su_doc.space = space_id
+
+						su_doc.user_accepted =  true
+						su_doc.invite_state = "accepted"
+
+						if user
+							su_doc.user_accepted = false
+							su_doc.invite_state = "pending"
 
 						su_doc.name = item.name
 						if item.email
@@ -290,6 +292,5 @@ Meteor.methods
 				error.line = i+1
 				error.message = e.reason
 				errorList.push(error)
-				console.log JSON.stringify(errorList)
 
 		return errorList
