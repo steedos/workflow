@@ -182,15 +182,6 @@ Meteor.methods
 				user_id = null
 				if user
 					user_id = user._id
-					u_update_doc = {}
-					if item.username
-						u_update_doc.username = item.username
-
-					if _.keys(u_update_doc).length > 0
-						db.users.update({_id: user_id},{$set:u_update_doc})
-
-					if item.password and user.services?.password?.bcrypt
-						Accounts.setPassword(user_id, item.password, {logout: false})
 				else
 					udoc = {}
 					udoc._id = db.users._makeNewID()
@@ -252,6 +243,15 @@ Meteor.methods
 
 						if _.keys(space_user_update_doc).length > 0
 							db.space_users.update({space: space_id, user: user_id}, {$set: space_user_update_doc})
+
+						if space_user.invite_state == "refused" or space_user.invite_state == "pending"
+							throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
+						else
+							if item.username
+								db.users.update({_id: user_id},{$set:{username: item.username}})
+							if item.password
+								Accounts.setPassword(user_id, item.password, {logout: false})
+
 				else
 					if space_user_org
 						space_user_org_id = space_user_org._id
