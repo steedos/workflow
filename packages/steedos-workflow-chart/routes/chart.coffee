@@ -122,8 +122,10 @@ FlowversionAPI =
 								fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
 							else
 								fromTraceName = ""
-							nodes.push "	#{ccFromApproveId}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
-
+							if ccFromApprove and ["cc","forward","distribute"].indexOf(ccFromApprove.type) >= 0
+								nodes.push "	#{ccFromApproveId}>\"#{fromTraceName}\"]--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+							else
+								nodes.push "	#{ccFromApproveId}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
