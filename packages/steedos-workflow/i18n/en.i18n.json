@@ -607,5 +607,7 @@
 
 	"flow_roles_help": "Help",
 	"instance_permissions_error": "You do not have permission to view this request",
-	"start_flows": "Start flows"
+	"start_flows": "Start flows",
+
+	"chart_traces": "Chart Traces"
 }

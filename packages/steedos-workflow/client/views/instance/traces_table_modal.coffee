@@ -63,3 +63,14 @@ Template.traces_table_modal.onDestroyed ->
 	console.log("Template.traces_table_modal.onDestroyed...")
 	Modal.allowMultiple = false
 	this.tracesData = null
+
+
+Template.traces_table_modal.events
+
+	'click .btn-view-chart-traces': (event, template)->
+		if Steedos.isIE()
+			toastr.warning t("instance_workflow_chart_ie_warning")
+			return
+		ins = WorkflowManager.getInstance()
+		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&type=traces&title=#{encodeURIComponent(encodeURIComponent(ins.name))}"),'workflow_traces_chart')
+

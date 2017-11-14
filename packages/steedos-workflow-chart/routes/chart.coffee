@@ -88,9 +88,9 @@ FlowversionAPI =
 										when 'cc'
 											typeName = "传阅"
 										when 'forward'
-											typeName = "分发"
-										when 'distribute'
 											typeName = "转发"
+										when 'distribute'
+											typeName = "分发"
 									# 是传阅、分发、转发，则从from_approve_id连接过来
 									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.user_name}\"]"
 
