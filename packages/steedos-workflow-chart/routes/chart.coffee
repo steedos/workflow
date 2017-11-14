@@ -69,30 +69,56 @@ FlowversionAPI =
 					fromApproves = fromTrace.approves
 					toApproves = trace.approves
 					fromApproves.forEach (fromApprove)->
-						toApproves.forEach (toApprove)->
-							if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
-								fromTraceName = fromTrace.name
-								if fromTraceName
-									# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-									fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
-									fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
-								else
-									fromTraceName = ""
-								if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
-									# 不是传阅、分发、转发，则连接到下一个trace
-									toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
-									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
-								else
-									typeName = ""
-									switch fromApprove.type
-										when 'cc'
-											typeName = "传阅"
-										when 'forward'
-											typeName = "转发"
-										when 'distribute'
-											typeName = "分发"
-									# 是传阅、分发、转发，则从from_approve_id连接过来
-									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+						if toApproves
+							toApproves.forEach (toApprove)->
+								if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
+									fromTraceName = fromTrace.name
+									if fromTraceName
+										# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+										fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
+										fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
+									else
+										fromTraceName = ""
+									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
+										# 不是传阅、分发、转发，则连接到下一个trace
+										toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
+									else
+										typeName = ""
+										switch fromApprove.type
+											when 'cc'
+												typeName = "传阅"
+											when 'forward'
+												typeName = "转发"
+											when 'distribute'
+												typeName = "分发"
+										# 是传阅、分发、转发，则从from_approve_id连接过来
+										nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+						else
+							# 结束步骤的trace
+							fromTraceName = fromTrace.name
+							if fromTraceName
+								# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+								fromTraceName = "<div class='graph-node'><div class='trace-name'>#{fromTraceName}</div><div class='trace-handler-name'>#{fromApprove.handler_name}</div></div>"
+								fromTraceName = FlowversionAPI.replaceErrorSymbol(fromTraceName)
+							else
+								fromTraceName = ""
+							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
+								# 不是传阅、分发、转发，则连接到下一个trace
+								toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
+							else
+								typeName = ""
+								switch fromApprove.type
+									when 'cc'
+										typeName = "传阅"
+									when 'forward'
+										typeName = "转发"
+									when 'distribute'
+										typeName = "分发"
+								# 是传阅、分发、转发，则从from_approve_id连接过来
+								nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
@@ -108,7 +134,7 @@ FlowversionAPI =
 
 
 		lastApproves = toApproves
-		lastApproves.forEach (lastApprove)->
+		lastApproves?.forEach (lastApprove)->
 			nodes.push "	class #{lastApprove._id} current-step-node;"
 
 		if isConvertToString
