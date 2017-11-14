@@ -11,6 +11,11 @@
         "status": "active",
         //秦皇岛records项目的搜索引擎接口
         "url": "http://192.1.1.153:9200"
+      },
+      //cas项目
+      "cas": {
+        "status": "active",
+        "url": "http://192.168.0.21:8086/cas"
       }
     },
     "cfs": {
