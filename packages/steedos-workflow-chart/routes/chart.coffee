@@ -82,7 +82,7 @@ FlowversionAPI =
 					fromApproves = fromTrace.approves
 					toApproves = trace.approves
 					fromApproves.forEach (fromApprove)->
-						if toApproves
+						if toApproves?.length
 							toApproves.forEach (toApprove)->
 								if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
 									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
