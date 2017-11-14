@@ -19,37 +19,13 @@ CAS 是 Yale 大学发起的一个开源项目，旨在为 Web 应用系统提�
   - service参数地址：
   `Meteor.absoluteUrl('api/cas/sso/')`
 - **2.CAS认证**
- - 跳转至cas登录界面。
- - 输入用户名密码后，点击登录按钮，将登录表单传递到cas后端
- - cas取username和password参数，进行验证并授权。
- - 如果用户名密码错误，则提示用户信息认证失败。
- - 验证通过，生成一个ticket，并跳转至service地址，即steedos的验证接口。
+  - 跳转至cas登录界面。
+  - 输入用户名密码后，点击登录按钮，将登录表单传递到cas后端
+  - cas取username和password参数，进行验证并授权。
+  - 如果用户名密码错误，则提示用户信息认证失败。
+  - 验证通过，生成一个ticket，并跳转至service地址，即steedos的验证接口。
 - **3.Steedos验证**
- - 浏览器跳转至api/cas/sso接口进行单点登录的验证。
- - steedos的验证接口提取生成的ticket以及service参数，并传递给cas服务器的验证接口。
- - cas根据ticket和service进行验证。
- - 验证通过后，cas会返回username，根据username获取当前用户的信息，并在steedos平台模拟登录，存储setAuthCookies等值，并跳转至主界面。
-
-
-## UML 图:
-
-验证序列图：
-
-```sequence
-用户->浏览器: 打开Steedos
-浏览器->Steedos平台:进入 https://cn.steedos.com
-Steedos平台-->>浏览器:跳转 http://xxx/cas/login?service=xxx
-浏览器->CAS服务器:进入 http://xxx/cas/login?service=xxx
-浏览器-->>用户:显示登录界面
-用户->浏览器: 提交登录表单
-浏览器->CAS服务器:请求 传参数username/password
-CAS服务器->CAS服务器:
-Note right of CAS服务器: 认证用户
-CAS服务器-->>浏览器:在cookies中存储生成的ticket
-浏览器->Steedos平台:请求api/cas/sso/ 传参数ticket
-Steedos平台->CAS服务器:调用serviceValidate 传参数ticket和service
-CAS服务器-->>Steedos平台:Code=200，验证通过，返回xml
-Note right of Steedos平台:根据username查找用户并设置cookies
-Steedos平台-->>浏览器:跳转Steedos主界面
-浏览器-->>用户:显示Steedos主界面
-```
+  - 浏览器跳转至api/cas/sso接口进行单点登录的验证。
+  - steedos的验证接口提取生成的ticket以及service参数，并传递给cas服务器的验证接口。
+  - cas根据ticket和service进行验证。
+  - 验证通过后，cas会返回username，根据username获取当前用户的信息，并在steedos平台模拟登录，存储setAuthCookies等值，并跳转至主界面。
