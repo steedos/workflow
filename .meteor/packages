@@ -163,6 +163,8 @@ steedos:calendar-i18n
 
 # steedos:records
 
+# steedos:cas
+
 steedos:freeboard
 steedos:dashboard
 
