@@ -27,7 +27,10 @@ Meteor.methods
 				"traces.approves.finish_date": 1,
 				"traces.approves.from_user_name": 1,
 				"traces.approves.from_user": 1,
-				"traces.approves.cc_description": 1
+				"traces.approves.cc_description": 1,
+				"traces.approves.trace": 1,
+				"traces.approves.forward_space": 1,
+				"traces.approves.forward_instance": 1
 			}
 		}
 
