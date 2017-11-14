@@ -92,7 +92,7 @@ FlowversionAPI =
 										when 'distribute'
 											typeName = "分发"
 									# 是传阅、分发、转发，则从from_approve_id连接过来
-									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.user_name}\"]"
+									nodes.push "	#{fromApprove.from_approve_id}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
