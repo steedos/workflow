@@ -50,6 +50,7 @@ FlowversionAPI =
 			return nodes
 
 	getTraceName: (trace, approve)->
+		# 返回trace节点名称
 		traceName = trace.name
 		if traceName
 			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
@@ -61,6 +62,31 @@ FlowversionAPI =
 		else
 			traceName = ""
 		return traceName
+
+	pushCCApproveGraphSyntax: (nodes, trace, approve)->
+		# 往nodes中push传阅、分发、转发相关的graph脚本
+		if ["cc","forward","distribute"].indexOf(approve.type) >= 0
+			ccFromApproveId = approve.from_approve_id
+			unless ccFromApproveId
+				# 部分老的数据分发、转发的approve中没有from_approve_id，直接忽略不处理
+				return
+			typeName = ""
+			switch approve.type
+				when 'cc'
+					typeName = "传阅"
+				when 'forward'
+					typeName = "转发"
+				when 'distribute'
+					typeName = "分发"
+			# 是传阅、分发、转发，则从from_approve_id连接过来
+			# 且from_approve_id肯定是当前trace中的approve_id，需要查找到并给定正确的名称
+			ccFromApprove = trace.approves.findPropertyByPK("_id",ccFromApproveId)
+			traceName = FlowversionAPI.getTraceName trace, ccFromApprove
+			if ccFromApprove and ["cc","forward","distribute"].indexOf(ccFromApprove.type) >= 0
+				nodes.push "	#{ccFromApproveId}>\"#{traceName}\"]--#{typeName}-->#{approve._id}>\"#{approve.handler_name}\"]"
+			else
+				nodes.push "	#{ccFromApproveId}(\"#{traceName}\")--#{typeName}-->#{approve._id}>\"#{approve.handler_name}\"]"
+
 
 	generateTracesGraphSyntax: (traces, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
@@ -99,27 +125,7 @@ FlowversionAPI =
 								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 
 						# 一个trace中每个传阅、分发、转发只需要画一次，而不需要每个toApproves都画一次
-						if ["cc","forward","distribute"].indexOf(fromApprove.type) >= 0
-							ccFromApproveId = fromApprove.from_approve_id
-							unless ccFromApproveId
-								# 部分老的数据分发、转发的approve中没有from_approve_id，直接忽略不处理
-								return
-							typeName = ""
-							switch fromApprove.type
-								when 'cc'
-									typeName = "传阅"
-								when 'forward'
-									typeName = "转发"
-								when 'distribute'
-									typeName = "分发"
-							# 是传阅、分发、转发，则从from_approve_id连接过来
-							# 且from_approve_id肯定是当前trace中的approve_id，需要查找到并给定正确的名称
-							ccFromApprove = fromTrace.approves.findPropertyByPK("_id",ccFromApproveId)
-							fromTraceName = FlowversionAPI.getTraceName fromTrace, ccFromApprove
-							if ccFromApprove and ["cc","forward","distribute"].indexOf(ccFromApprove.type) >= 0
-								nodes.push "	#{ccFromApproveId}>\"#{fromTraceName}\"]--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
-							else
-								nodes.push "	#{ccFromApproveId}(\"#{fromTraceName}\")--#{typeName}-->#{fromApprove._id}>\"#{fromApprove.handler_name}\"]"
+						FlowversionAPI.pushCCApproveGraphSyntax nodes, fromTrace, fromApprove
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
