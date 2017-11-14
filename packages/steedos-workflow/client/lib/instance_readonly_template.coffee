@@ -412,7 +412,6 @@ _getTemplateData = (user, space, instance, options)->
 		steedosData.ins_is_deleted = instance.ins_is_deleted
 		steedosData.applicant_name = instance.applicant_name
 		steedosData.applicantContext = instance.applicant_name
-		steedosData.attachments = instance.attachments
 
 	steedosData.instance = instance
 	steedosData.form_version = form_version
@@ -518,7 +517,7 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	Template.attachments_readonly_view.helpers InstanceAttachmentTemplate.helpers
 
-	body = Blaze.toHTMLWithData(Template.attachments_readonly_view, instance.attachments)
+	body = Blaze.toHTMLWithData(Template.attachments_readonly_view)
 
 	return body;
 

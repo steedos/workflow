@@ -16,7 +16,7 @@
                 {{/if}}
                 <div class="box-body">
                     <div class="col-md-12">
-                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" }}
                         {{> related_instances}}
                         {{#if isIReadable}}
                             {{{readOnlyView}}}

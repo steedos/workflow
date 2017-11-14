@@ -287,7 +287,6 @@ Template.instance_attachment.events({
 		if (!file_id) {
 			return false;
 		}
-		Session.set("file_id", file_id);
 
 		swal({
 			title: t('workflow_attach_confirm_delete'),
@@ -305,7 +304,7 @@ Template.instance_attachment.events({
 				}
 
 				if (result) {
-					InstanceManager.removeAttach();
+					toastr.success(TAPi18n.__('Attachment deleted successfully'));
 				}
 			})
 			return true;
@@ -726,8 +725,6 @@ Template.ins_attach_version_modal.events({
 			return false;
 		}
 
-		Session.set("file_id", file_id);
-
 		Modal.hide('ins_attach_version_modal');
 		swal({
 			title: t("workflow_attach_confirm_delete"),
@@ -759,7 +756,7 @@ Template.ins_attach_version_modal.events({
 							toastr.error(error.message);
 						}
 						if (result) {
-							InstanceManager.removeAttach();
+							toastr.success(TAPi18n.__('Attachment deleted successfully'));
 						}
 					})
 				}

@@ -15,7 +15,6 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			judge = approve_from_client["judge"]
 			description = approve_from_client["description"]
 			geolocation = approve_from_client["geolocation"]
-			attachments = approve_from_client["attachments"]
 
 			setObj = new Object
 
@@ -86,7 +85,6 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			# 更新instance记录
 			setObj.modified = new Date
 			setObj.modified_by = current_user
-			setObj.attachments = if attachments then attachments
 
 			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================
