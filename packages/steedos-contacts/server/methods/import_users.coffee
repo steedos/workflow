@@ -104,27 +104,17 @@ Meteor.methods
 			if !organization
 				throw new Meteor.Error(500, "第#{i + 1}行：部门不能为空");
 
-			organization_depts = []
+			organization_depts = organization.split("/");
 
-			organizationArrays = organization.split(",")
-			organizationArrays.forEach (org, index) ->
-				org_depts = org.split("/")
-				organization_depts.push(org_depts)
-
-			# console.log organization_depts
-
-
-			organization_depts.forEach (depts, index) ->
-				if depts.length < 1 || depts[0] != root_org.name
-					throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
+			if organization_depts.length < 1 || organization_depts[0] != root_org.name
+				throw new Meteor.Error(500, "第#{i + 1}行：无效的根部门");
 
 			if item.password && user?.services?.password?.bcrypt
 				throw new Meteor.Error(500, "第#{i + 1}行：用户已设置密码，不允许修改");
 
-			organization_depts.forEach (depts, index) ->
-				depts.forEach (dept_name, index) ->
-					if !dept_name
-						throw new Meteor.Error(500, "第#{i + 1}行：无效的部门");
+			organization_depts.forEach (dept_name, j) ->
+				if !dept_name
+					throw new Meteor.Error(500, "第#{i + 1}行：无效的部门");
 
 
 		if onlyCheck
@@ -303,4 +293,5 @@ Meteor.methods
 				error.line = i+1
 				error.message = e.reason
 				errorList.push(error)
+
 		return errorList
