@@ -77,7 +77,8 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					trace_approves[i].is_read = true
 					if trace_approves[i].read_date is null
 						trace_approves[i].read_date = new Date
-					trace_approves[i].values = values
+					# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
+					trace_approves[i].values = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
 
 				i++
 

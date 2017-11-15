@@ -1,0 +1,53 @@
+成功的xml格式数据
+<cas:serviceResponse xmlns:cas="\'http://www.yale.edu/tp/cas\'">
+    <cas:authenticationSuccess>
+        <cas:user>zhuang</cas:user>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>
+
+失败的xml格式数据
+<cas:serviceResponse xmlns:cas=\'http://www.yale.edu/tp/cas\'>
+	<cas:authenticationFailure code="INVALID_SERVICE">
+		票根&#39;ST-4-oHNQfhjEEzKJp16EuIWwCBcpY2g-LAPTOP-6CLL77CG&#39;不符合 目标服务
+	</cas:authenticationFailure>
+</cas:serviceResponse>
+
+
+<cas:serviceResponse xmlns:cas="\'http://www.yale.edu/tp/cas\'">
+    <cas:authenticationSuccess>
+        <cas:user>zhuang</cas:user>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>'
+
+
+{
+  "cas:serviceResponse": {
+    "$": {
+      "xmlns:cas": "http://www.yale.edu/tp/cas"
+    },
+    "cas:authenticationSuccess": [
+      {
+        "cas:user": [
+          "zhuang"
+        ]
+      }
+    ]
+  }
+}
+
+jsonObj = {
+  "cas:serviceResponse": {
+    "$": {
+      "xmlns:cas": "http://www.yale.edu/tp/cas"
+    },
+    "cas:authenticationSuccess": [
+      {
+        "cas:user": [
+          "zhuang"
+        ]
+      }
+    ]
+  }
+}
+
+jsonContent?['cas:authenticationSuccess']

@@ -23,26 +23,30 @@ Template.traces_table_modal.helpers
 			return 'traces_modal'
 
 	tracesListData: (instance)->
-		return Template.instance()?.tracesData.get() || instance.traces
+		return db.instance_traces.findOne({_id:Session.get("instanceId")})?.traces || instance.traces
 
 
 Template.traces_table_modal.onCreated ->
 
 	$("body").addClass("loading")
 
+	Steedos.subs["instance_traces"].subscribe("instance_traces", Session.get("instanceId"))
+
+	Tracker.autorun () ->
+		if Steedos.subs["instance_traces"].ready()
+			$("body").removeClass("loading")
+
 	self = this;
+#
+#	self.tracesData = new ReactiveVar()
 
-	self.tracesData = new ReactiveVar()
-
-	Meteor.call "get_instance_traces", Session.get("instanceId"), (error, result)->
-		if error
-			toastr.error error
-		else
-			self.tracesData.set(result)
-
-		$("body").removeClass("loading")
-
-
+#	Meteor.call "get_instance_traces", Session.get("instanceId"), (error, result)->
+#		if error
+#			toastr.error error
+#		else
+#			self.tracesData.set(result)
+#
+#		$("body").removeClass("loading")
 
 	self.maxHeight = new ReactiveVar(
 		$(window).height());
@@ -62,7 +66,8 @@ Template.traces_table_modal.onRendered ->
 Template.traces_table_modal.onDestroyed ->
 	console.log("Template.traces_table_modal.onDestroyed...")
 	Modal.allowMultiple = false
-	this.tracesData = null
+#	this.tracesData = null
+	Steedos.subs["instance_traces"].clear()
 
 
 Template.traces_table_modal.events
