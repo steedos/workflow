@@ -185,10 +185,11 @@ Meteor.methods
 				else
 					udoc = {}
 					udoc._id = db.users._makeNewID()
-
 					udoc.steedos_id = item.email || udoc._id
-					
-					udoc.name = item.name
+					udoc.locale = db.users.findOne({_id: _self.userId}).locale
+					if item.name
+						udoc.name = item.name
+
 					if item.email
 						udoc.emails = [{address: item.email, verified: false}]
 
