@@ -18,7 +18,7 @@ uuflowManager.check_authorization = (req)->
 uuflowManager.getInstance = (instance_id) ->
 	ins = db.instances.findOne(instance_id)
 	if not ins
-		throw new Meteor.Error('error!', "instance_id有误或此instance已经被删除")
+		throw new Meteor.Error('error!', "申请单ID：#{instance_id}有误或此申请单已经被删除")
 	return ins
 
 uuflowManager.getSpace = (space_id) ->
@@ -504,17 +504,17 @@ uuflowManager.getUpdatedValues = (instance) ->
 	_.each(instance.traces, (trace)->
 		if trace.is_finished is false
 			trace_approve = _.find(trace.approves, (approve)->
-				return approve.is_finished is false
+				return approve.is_finished is false and approve.type isnt 'cc' and approve.type isnt 'distribute'
 			)
 	)
 	# 取得最新的values
 	newest_values = null
 	if not instance.values
-		newest_values = trace_approve.values
-	else if not trace_approve.values
+		newest_values = trace_approve?.values
+	else if not trace_approve?.values
 		newest_values = instance.values
 	else
-		newest_values = trace_approve.values || {}
+		newest_values =  _.extend(_.clone(instance.values), trace_approve.values)
 	return newest_values
 
 uuflowManager.getForm = (form_id) ->
@@ -653,7 +653,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 						# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
-						instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+						# instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
 						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 					h++
 			i++
@@ -728,7 +728,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 									instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 									instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 									# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
-									instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+									# instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
 									instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 								h++
 						i++
@@ -1664,7 +1664,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		# applicant和原instance的applicant相等
 		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
 			# 判断next_steps是否为空,不为空则写入到当前approve的next_steps中
 			if next_steps
@@ -1683,7 +1683,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
 			instance_traces[0].step = start_step._id
 			instance_traces[0].name = start_step.name
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
 
 	else
@@ -1704,7 +1704,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 
 		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			# 判断next_steps是否为空,不为空则写入到当前approve的next_steps中
 			if next_steps
 				instance_traces[0]["approves"][0].next_steps = next_steps
@@ -1721,7 +1721,10 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
 			instance_traces[0].step = start_step._id
 			instance_traces[0].name = start_step.name
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
+
+	# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
+	instance_traces[0]["approves"][0].values = uuflowManager.getApproveValues(values, step.permissions, instance.form, instance.form_version)
 
 	setObj.traces = instance_traces
 	db.instances.update({_id: instance_id}, {$set: setObj})
@@ -1784,7 +1787,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		upObj.inbox_users = []
 		upObj.outbox_users = [current_user]
 		# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
-		traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
+		# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
 		traces.push(newTrace)
 		upObj.traces = traces
 	else # next_step不为结束节点
@@ -1867,7 +1870,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					instance.values = upObj.values
 					upObj.name = uuflowManager.getInstanceName(instance)
 					# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
-					traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step["permissions"], instance.form, instance.form_version)
+					# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step["permissions"], instance.form, instance.form_version)
 					traces.push(nextTrace)
 					upObj.traces = traces
 					upObj.outbox_users = []

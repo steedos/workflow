@@ -86,7 +86,9 @@ InstanceAttachmentTemplate.helpers = {
 		}
 
 		if (InstanceManager.isCC(ins)) {
-			return true
+			var step = InstanceManager.getCCStep();
+			if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined))
+				return true
 		} else {
 			var current_step = InstanceManager.getCurrentStep();
 			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))

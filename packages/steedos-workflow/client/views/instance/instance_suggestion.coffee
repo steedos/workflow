@@ -90,7 +90,7 @@ Template.instance_suggestion.helpers
 				name: 'nextStepUsers',
 				id: 'nextStepUsers',
 				class: 'selectUser nextStepUsers form-control',
-				style: 'padding:6px 12px;',
+#				style: 'padding:6px 12px;',
 				placeholder: t("instance_next_step_users_placeholder"),
 				title: t("instance_next_step_users_placeholder")
 			}
@@ -309,6 +309,11 @@ Template.instance_suggestion.events
 			if ins.state == "draft"
 				toastr.error(t("spaces_isarrearageSpace"));
 				return
+
+		if InstanceManager.isAttachLocked(Session.get('instanceId'), Meteor.userId())
+			toastr.warning(t("workflow_attachment_locked_tip"));
+			return
+
 		if !ApproveManager.isReadOnly()
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)

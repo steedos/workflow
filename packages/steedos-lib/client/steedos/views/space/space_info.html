@@ -118,15 +118,16 @@
           <div class="weui_cell_hd">
             <button type="button" class="btn btn-primary" id="space_recharge">{{_ "billing.upgrade"}}</button>
           </div>
+          {{#if isSpaceOwner}}
+            <div class="weui_cell_hd" style="padding-left: 15px;">
+              <button type="submit" class="btn btn-primary btn-edit-space">
+                {{_ "Edit"}}
+              </button>
+            </div>
+          {{/if}}
         </div>
       </div>
-      {{#if isSpaceOwner}}
-        <div class="form-group" style="padding-left: 15px;padding-top: 10px;">
-          <button type="submit" class="btn btn-primary btn-edit-space">
-            {{_ "Edit"}}
-          </button>
-        </div>
-      {{/if}}
+      
     </section>
 
 </template>

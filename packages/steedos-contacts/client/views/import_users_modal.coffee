@@ -59,9 +59,9 @@ Template.import_users_modal.events
 				if _.has(item, "单位")
 					item.company = item["单位"]?.trim()
 					delete item["单位"]
-				if _.has(item, "有效")
-					item.user_accepted = item["有效"]?.trim()
-					delete item["有效"]
+				# if _.has(item, "状态")
+				# 	item.user_accepted = item["状态"]?.trim()
+				# 	delete item["状态"]
 				if _.has(item, "排序号")
 					item.sort_no = item["排序号"]?.trim()
 					delete item["排序号"]
@@ -80,27 +80,52 @@ Template.import_users_modal.events
 		$("body").addClass("loading")
 		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), false, (error, result)->
 			if error
+				$("body").removeClass("loading")
 				toastr.error(error.reason);
 			else
-				toastr.success(TAPi18n.__("steedos_contacts_import_users_import_success"))
-			Modal.hide(template)
-			$.jstree.reference('#steedos_contacts_org_tree').refresh()
-			$("body").removeClass("loading")
+				$.jstree.reference('#steedos_contacts_org_tree').refresh()
+				$("body").removeClass("loading")
+
+				totalCount = template.items.get().length
+				errorCount = result.length
+				successCount = totalCount - errorCount
+				statistics = "<div class='report-title'>共导入数据#{totalCount}条，成功：#{successCount}条，失败：#{errorCount}条</div>"
+				errorReport = ""
+
+				if result.length > 0
+					errorReport = result.map (e, index) ->
+						return "<li>第#{e.line}行：#{e.message}</li>"
+					errorReport = "<ul class='export-report'>" + errorReport.join("") + "</ul>"
+
+				text = "<div class='error-report'>#{statistics}#{errorReport}</div>"
+				swal
+					title: "导入结果"
+					text: text
+					html: true
+					confirmButtonText: t('OK')
+					()->
+						console.log "swal.end"
+
+				# toastr.success(TAPi18n.__("steedos_contacts_import_users_import_success"))
+			# Modal.hide(template)
+			# $.jstree.reference('#steedos_contacts_org_tree').refresh()
+			# $("body").removeClass("loading")
 		);
 
-	'click #import-user-modal-check': (event, template) ->
-		if template.items.get().length < 1
-			toastr.error(TAPi18n.__("steedos_contacts_import_users_select_file"));
-			return
+	# 'click #import-user-modal-check': (event, template) ->
+	# 	if template.items.get().length < 1
+	# 		toastr.error(TAPi18n.__("steedos_contacts_import_users_select_file"));
+	# 		return
 
-		$("body").addClass("loading")
-		Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
-			if error
-				toastr.error(error.reason);
-			else
-				toastr.success(TAPi18n.__("steedos_contacts_import_users_check_success"))
-			$("body").removeClass("loading")
-		);
+	# 	$("body").addClass("loading")
+	# 	Meteor.call("import_users", Session.get("spaceId"), $("#user_pk:checked").val(), template.items.get(), true, (error, result)->
+	# 		if error
+	# 			toastr.error(error.reason);
+	# 		else
+	# 			console.log result
+	# 			toastr.success(TAPi18n.__("steedos_contacts_import_users_check_success"))
+	# 		$("body").removeClass("loading")
+	# 	);
 
 Template.import_users_modal.onCreated ()->
 	self = this;

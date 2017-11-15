@@ -92,19 +92,18 @@ Template.steedos_contacts_add_user_modal.events
 		unless AutoForm.validateForm("addContactsUser")
 			return
 		unless AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
-			$('input[data-schema-key="mobile"]').after('<span class="help-block">手机和邮箱不能同时为空</span>')
+			$('input[data-schema-key="mobile"]').after("""<span class="help-block">#{t("contact_need_phone_or_email")}</span>""")
 			$('input[data-schema-key="mobile"]').closest(".form-group").addClass("has-error")
 			return
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
 		
+		$("body").addClass("loading")
 		# console.log doc
 		Meteor.call 'addContactsUser', doc, (error,result) ->
 			if error
+				$("body").removeClass("loading")
 				toastr.error t(error.reason)
 			else
-				console.log result
+				$("body").removeClass("loading")
 				toastr.success t(result)
 				Modal.hide(template)
-
-
-			

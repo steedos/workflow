@@ -117,7 +117,7 @@
 	"contact_needs_email": "Please fill in the email",
 	"contact_needs_organizations": "Please fill in the organizations",
 	"contact_invitation_sends": "Invitation notification has been sent. Please wait for user feedback",
-	"contact_invite_success": "The user has been invited to join the workspace successfully",
+	"contact_invite_success": "The user has been invited successfully",
 	"contact_space_user_exist": "The user is already in the workspace",
 	"cantact_add_space_user": "Add members",
 	"contact_save_user": "Save",
@@ -127,5 +127,7 @@
 	"contact_mail_not_match_phine": "Mail and phone number doesn't match",
 	"contact_reinvite_user": "This user has been invited again",
 
-	"search_contact": "Contacts search"
+	"search_contact": "Contacts search",
+
+	"contact_need_phone_or_email": "You should fill in phone-number or email-address"
 }

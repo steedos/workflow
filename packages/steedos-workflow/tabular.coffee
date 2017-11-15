@@ -19,7 +19,7 @@ _handleListFields = (fields) ->
 updateTabularTitle = ()->
 
 # 如果columns有加减，请修改Template.instance_list._tableColumns 函数
-instancesListTableTabular = (flowId)->
+instancesListTableTabular = (flowId, fields)->
 	options = {
 		name: "instances",
 		collection: db.instances,
@@ -48,7 +48,12 @@ instancesListTableTabular = (flowId)->
 				orderable: false
 				render: (val, type, doc) ->
 					modifiedString = moment(doc.modified).format('YYYY-MM-DD');
-					modifiedFromNow = Steedos.momentReactiveFromNow(doc.modified);
+
+					modified = doc.modified
+					if Session.get("box") == 'inbox' && doc.state != 'draft'
+						modified = doc.start_date || doc.modified
+
+					modifiedFromNow = Steedos.momentReactiveFromNow(modified);
 					flow_name = WorkflowManager.getFlow(doc.flow)?.name
 					cc_view = "";
 					step_current_name_view = "";
@@ -211,7 +216,7 @@ instancesListTableTabular = (flowId)->
 				'tp'
 			else
 				'tpl'
-		order: [[7, "desc"]],
+		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
 			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords", "final_decision"],
 		lengthChange: true,
@@ -241,10 +246,10 @@ instancesListTableTabular = (flowId)->
 
 	if flowId
 		key = "instanceFlow" + flowId
+		
 		options.name = key
 
-		flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
-		TabularTables.instances.fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+		TabularTables.instances.fields = fields
 
 		ins_fields = _handleListFields TabularTables.instances.fields
 
@@ -286,8 +291,8 @@ instancesListTableTabular = (flowId)->
 TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
 
-_get_inbox_instances_tabular_options = (box, flowId)->
-	options = instancesListTableTabular(flowId)
+_get_inbox_instances_tabular_options = (box, flowId, fields)->
+	options = instancesListTableTabular(flowId, fields)
 
 	if !flowId
 		options.name = "inbox_instances"
@@ -364,25 +369,32 @@ Tracker.autorun (c) ->
 	if Meteor.isClient && !Steedos.isMobile()
 		if Session.get("flowId")
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
-				newInstancesListTabular Session.get("box"), Session.get("flowId")
+				console.log 'result', result
+				newInstancesListTabular Session.get("box"), Session.get("flowId"), result
 
 
-newInstancesListTabular = (box, flowId)->
-	flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
-	fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+newInstancesListTabular = (box, flowId, fields)->
+	if !fields
+		flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
+		fields = db.forms.findOne({_id: flow?.form})?.current?.fields
 
 	fields = _handleListFields fields
 
 	if fields?.filterProperty("is_list_display", true)?.length > 0
 		key = "instanceFlow" + flowId
 		if Meteor.isClient
-			TabularTables.flowInstances.set(new Tabular.Table _get_inbox_instances_tabular_options(box, flowId))
+			TabularTables.flowInstances.set(new Tabular.Table _get_inbox_instances_tabular_options(box, flowId, fields))
 		else
-			new Tabular.Table _get_inbox_instances_tabular_options(box, flowId)
+			new Tabular.Table _get_inbox_instances_tabular_options(box, flowId, fields)
 		console.log "new TabularTables ", key
 
 if Meteor.isServer
 	Meteor.methods
 		newInstancesListTabular: (box, flowId)->
 			newInstancesListTabular(box, flowId)
+
+			flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
+			fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+			return fields
+			
 

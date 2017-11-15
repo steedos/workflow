@@ -12,6 +12,10 @@ var designer = {
 			// https://cn.steedos.com/applications/designer/current/zh-cn/?spaceId=53215960334904539e00121a
 			$("#ifrDesigner").attr("src","/applications/designer/current/" + locale + "/?spaceId=" + space);
 		}
+		var Steedos = window.parent.Steedos || null;
+		if (Steedos) {
+			Steedos.forbidNodeContextmenu(window);
+		}
 	}
 };
 $(function(){

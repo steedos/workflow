@@ -60,11 +60,16 @@ workflowSpaceRoutes.route '/:box/',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
 
+		last_box = Session.get("box")
+
 		Session.set("box", params.box);
 #		Session.set("flowId", undefined);
 		Session.set("instanceId", null);
 		if params.box != 'inbox'
 			Session.set("workflowCategory", undefined);
+
+		if last_box != Session.get("box")
+			Template.instance_list._changeOrder()
 
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
