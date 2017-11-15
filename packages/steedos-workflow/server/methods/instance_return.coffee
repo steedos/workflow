@@ -48,7 +48,7 @@ Meteor.methods
 				if not t.approves
 					t.approves = new Array
 				_.each t.approves, (a)->
-					if !a.type and !a.judge
+					if !a.type and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 						a.start_date = now
 						a.finish_date = now
 						a.read_date = now
