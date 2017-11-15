@@ -91,8 +91,33 @@ Template.steedos_contacts_org_tree.onRendered ->
 
 
 Template.steedos_contacts_org_tree.events
-	'mouseenter .jstree-wholerow': (event, template) ->
+	'mouseenter .jstree-anchor': (event, template) ->
+		wholerow = $(event.currentTarget).prevAll(".jstree-wholerow")
+		unless wholerow.hasClass("added-edit-menu")
+			wholerow.addClass("added-edit-menu")
+			organizationId = wholerow.closest("li").attr("id")
+			admins =  wholerow.closest("li").data("admins")?.split(",")
+			userId = Meteor.userId()
+			if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+				html = """
+					<div class="pull-right edit-menu">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<span class="ion ion-android-more-vertical"></span>
+							</button>
+							<ul class="dropdown-menu dropdown-menu-right" role="menu">
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
+								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
+							</ul>
+						</div>
+					</div>
+				"""
+			else
+				html = ""
+			wholerow.after(html)
 
+	'mouseenter .jstree-wholerow': (event, template) ->
 		unless $(event.target).hasClass("added-edit-menu")
 			$(event.target).addClass("added-edit-menu")
 			organizationId = $(event.currentTarget).closest("li").attr("id")
