@@ -90,7 +90,7 @@ Template.instance_suggestion.helpers
 				name: 'nextStepUsers',
 				id: 'nextStepUsers',
 				class: 'selectUser nextStepUsers form-control',
-				style: 'padding:6px 12px;',
+#				style: 'padding:6px 12px;',
 				placeholder: t("instance_next_step_users_placeholder"),
 				title: t("instance_next_step_users_placeholder")
 			}

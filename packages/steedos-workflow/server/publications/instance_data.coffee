@@ -136,3 +136,28 @@ Meteor.publish 'instance_data', (instanceId)->
 
 	self.onStop ()->
 		handle.stop()
+
+
+Meteor.publish 'instance_traces', (instanceId)->
+	unless this.userId
+		return this.ready()
+
+	unless instanceId
+		return this.ready()
+
+	self = this
+
+	getInstanceTraces = (_insId)->
+		return db.instances.findOne({_id: _insId}, {fields: {_id: 1, traces: 1}})
+
+
+	handle =  db.instances.find({_id: instanceId}).observeChanges {
+		changed: (id)->
+			self.changed("instance_traces", instanceId, getInstanceTraces(instanceId));
+	}
+
+	self.added("instance_traces", instanceId, getInstanceTraces(instanceId));
+
+	self.ready();
+	self.onStop ()->
+		handle.stop()

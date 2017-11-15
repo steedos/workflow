@@ -209,7 +209,7 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		return {};
 	}
 
-	if(InstanceManager.isCC(instance)){
+	if (InstanceManager.isCC(instance)) {
 		return {};
 	}
 
@@ -328,18 +328,18 @@ WorkflowManager.getRole = function(roleId) {
 	return role;
 };
 
-WorkflowManager.getUser = function(userId) {
+WorkflowManager.getUser = function(userId, spaceId) {
 	if (!userId) {
 		return;
 	}
 
 	if (typeof userId != "string") {
 
-		return WorkflowManager.getUsers(userId);
+		return WorkflowManager.getUsers(userId, spaceId);
 
 	}
 
-	var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+	var spaceUsers = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userId);
 	if (!spaceUsers) {
 		return
 	};
@@ -352,15 +352,15 @@ WorkflowManager.getUser = function(userId) {
 	return spaceUser;
 };
 
-WorkflowManager.getUsers = function(userIds) {
+WorkflowManager.getUsers = function(userIds, spaceId) {
 
 	if ("string" == typeof(userIds)) {
-		return [WorkflowManager.getUser(userIds)]
+		return [WorkflowManager.getUser(userIds, spaceId)]
 	}
 
 	var users = new Array();
 	if (userIds) {
-		users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
+		users = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userIds);
 	}
 
 	return users;

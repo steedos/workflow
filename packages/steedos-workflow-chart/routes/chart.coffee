@@ -13,7 +13,7 @@ FlowversionAPI =
 	replaceErrorSymbol: (str)->
 		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
-	generateGraphSyntax: (steps, currentStepId, isConvertToString)->
+	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
 		# 	graph LR
@@ -49,7 +49,106 @@ FlowversionAPI =
 		else
 			return nodes
 
-	sendHtmlResponse: (req, res)->
+	getTraceName: (trace, approve)->
+		# 返回trace节点名称
+		traceName = trace.name
+		if traceName
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+			traceName = "<div class='graph-node'>
+				<div class='trace-name'>#{traceName}</div>
+				<div class='trace-handler-name'>#{approve.handler_name}</div>
+			</div>"
+			traceName = FlowversionAPI.replaceErrorSymbol(traceName)
+		else
+			traceName = ""
+		return traceName
+
+	pushCCApproveGraphSyntax: (nodes, trace, approve)->
+		# 往nodes中push传阅、分发、转发相关的graph脚本
+		if ["cc","forward","distribute"].indexOf(approve.type) >= 0
+			ccFromApproveId = approve.from_approve_id
+			unless ccFromApproveId
+				# 部分老的数据分发、转发的approve中没有from_approve_id，直接忽略不处理
+				return
+			typeName = ""
+			switch approve.type
+				when 'cc'
+					typeName = "传阅"
+				when 'forward'
+					typeName = "转发"
+				when 'distribute'
+					typeName = "分发"
+			# 是传阅、分发、转发，则从from_approve_id连接过来
+			# 且from_approve_id肯定是当前trace中的approve_id，需要查找到并给定正确的名称
+			ccFromApprove = trace.approves.findPropertyByPK("_id",ccFromApproveId)
+			traceName = FlowversionAPI.getTraceName trace, ccFromApprove
+			if ccFromApprove and ["cc","forward","distribute"].indexOf(ccFromApprove.type) >= 0
+				nodes.push "	#{ccFromApproveId}>\"#{traceName}\"]--#{typeName}-->#{approve._id}>\"#{approve.handler_name}\"]"
+			else
+				nodes.push "	#{ccFromApproveId}(\"#{traceName}\")--#{typeName}-->#{approve._id}>\"#{approve.handler_name}\"]"
+
+
+	generateTracesGraphSyntax: (traces, isConvertToString)->
+		# 该函数返回以下格式的graph脚本
+		# graphSyntax = '''
+		# 	graph LR
+		# 		A-->B
+		# 		A-->C
+		# 		B-->C
+		# 		C-->A
+		# 		D-->C
+		# 	'''
+		nodes = ["graph LR"]
+		lastTrace = null
+		lastApproves = []
+		traces.forEach (trace)->
+			lines = trace.previous_trace_ids
+			if lines?.length
+				lines.forEach (line)->
+					fromTrace = traces.findPropertyByPK("_id",line)
+					fromApproves = fromTrace.approves
+					toApproves = trace.approves
+					lastTrace = trace
+					lastApproves = toApproves
+					fromApproves.forEach (fromApprove)->
+						if toApproves?.length
+							toApproves.forEach (toApprove)->
+								if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
+									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
+										fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApprove
+										toTraceName = FlowversionAPI.getTraceName trace, toApprove
+										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
+
+						else
+							# 结束步骤的trace
+							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
+								fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApprove
+								toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+								# 不是传阅、分发、转发，则连接到下一个trace
+								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
+
+						# 一个trace中每个传阅、分发、转发只需要画一次，而不需要每个toApproves都画一次
+						FlowversionAPI.pushCCApproveGraphSyntax nodes, fromTrace, fromApprove
+			else
+				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
+				trace.approves.forEach (approve)->
+					traceName = FlowversionAPI.getTraceName trace, approve
+					nodes.push "	#{approve._id}(\"#{traceName}\")"
+				
+
+		# 签批历程中最后的approves中有可能存在传阅、分发、转发，所以需要单独判断并处理下
+		# 签批历程中最后的approves高亮显示，结束步骤的trace中是没有approves的，所以结束步骤不高亮显示
+		lastApproves?.forEach (lastApprove)->
+			FlowversionAPI.pushCCApproveGraphSyntax nodes, lastTrace, lastApprove
+			nodes.push "	class #{lastApprove._id} current-step-node;"
+
+		if isConvertToString
+			graphSyntax = nodes.join "\n"
+			return graphSyntax
+		else
+			return nodes
+
+	sendHtmlResponse: (req, res, type)->
 		query = req.query
 		instance_id = query.instance_id
 
@@ -58,17 +157,32 @@ FlowversionAPI =
 
 		error_msg = ""
 		graphSyntax = ""
-		instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1,traces: {$slice: -1}}}
-		if instance
-			currentStepId = instance.traces?[0]?.step
-			flowversion = WorkflowManager.getInstanceFlowVersion(instance)
-			steps = flowversion?.steps
-			if steps?.length
-				graphSyntax = this.generateGraphSyntax steps,currentStepId
+		switch type
+			when 'traces'
+				instance = db.instances.findOne instance_id,{fields:{traces: 1}}
+				if instance
+					# currentStepId = instance.traces?[0]?.step
+					# flowversion = WorkflowManager.getInstanceFlowVersion(instance)
+					traces = instance.traces
+					if traces?.length
+						graphSyntax = this.generateTracesGraphSyntax traces
+					else
+						error_msg = "没有找到当前申请单的流程步骤数据"
+				else
+					error_msg = "当前申请单不存在或已被删除"
 			else
-				error_msg = "没有找到当前申请单的流程步骤数据"
-		else
-			error_msg = "当前申请单不存在或已被删除"
+				instance = db.instances.findOne instance_id,{fields:{flow_version:1,flow:1,traces: {$slice: -1}}}
+				if instance
+					currentStepId = instance.traces?[0]?.step
+					flowversion = WorkflowManager.getInstanceFlowVersion(instance)
+					steps = flowversion?.steps
+					if steps?.length
+						graphSyntax = this.generateStepsGraphSyntax steps,currentStepId
+					else
+						error_msg = "没有找到当前申请单的流程步骤数据"
+				else
+					error_msg = "当前申请单不存在或已被删除"
+				break
 
 		return @writeResponse res, 200, """
 			<!DOCTYPE html>
@@ -122,6 +236,9 @@ FlowversionAPI =
 							stroke: rgb(204, 204, 255);
     						stroke-width: 1px;
 						}
+						.node .trace-handler-name{
+							color: #777;
+						}
 					</style>
 				</head>
 				<body>
@@ -149,9 +266,9 @@ FlowversionAPI =
 			</html>
 		"""
 
-
-
 JsonRoutes.add 'get', '/api/workflow/chart?instance_id=:instance_id', (req, res, next) ->
 	FlowversionAPI.sendHtmlResponse req, res
 
+JsonRoutes.add 'get', '/api/workflow/chart/traces?instance_id=:instance_id', (req, res, next) ->
+	FlowversionAPI.sendHtmlResponse req, res, "traces"
 

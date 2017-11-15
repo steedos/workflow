@@ -1,5 +1,5 @@
 Meteor.methods({
-	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, from_approve_id) {
 		if (!this.userId)
 			return;
 
@@ -11,6 +11,8 @@ Meteor.methods({
 		check(isForwardAttachments, Boolean);
 		check(selectedUsers, Array);
 		check(action_type, Match.OneOf('forward', 'distribute'));
+
+		check(from_approve_id, String);
 
 		var ins = db.instances.findOne(instance_id);
 		var old_space_id = ins.space;
@@ -418,7 +420,8 @@ Meteor.methods({
 				'from_user_name': from_user_name,
 				'forward_space': space_id,
 				'forward_instance': new_ins_id,
-				'description': description
+				'description': description,
+				'from_approve_id': from_approve_id
 			};
 
 			forward_approves.push(appr);
@@ -464,7 +467,7 @@ Meteor.methods({
 			return appr._id == approve_id;
 		})
 
-		if (approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
+		if (!approve || approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
 			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
 		}
 
