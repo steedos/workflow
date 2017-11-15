@@ -1,3 +1,24 @@
+editMenu = (admins, userId, organizationId) ->
+	if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+		html = """
+			<div class="pull-right edit-menu">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="ion ion-android-more-vertical"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu">
+						<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
+						<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
+						<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
+					</ul>
+				</div>
+			</div>
+		"""
+	else
+		html = ""
+	return html
+
+
 addEditMenu = ->
 	# console.log "class is #{$(".jstree-wholerow-clicked").hasClass("added-edit-menu")}"
 	# console.log "length is #{$(".jstree-wholerow-clicked").length}"
@@ -8,23 +29,7 @@ addEditMenu = ->
 		userId = Meteor.userId()
 
 		# console.log Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
-		if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
-			html = """
-				<div class="pull-right edit-menu">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<span class="ion ion-android-more-vertical"></span>
-						</button>
-						<ul class="dropdown-menu dropdown-menu-right" role="menu">
-							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
-							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
-							<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
-						</ul>
-					</div>
-				</div>
-			"""
-		else
-			html = ""
+		html = editMenu(admins, userId, organizationId)
 
 		$(".jstree-wholerow-clicked").after(html)
 
@@ -98,23 +103,7 @@ Template.steedos_contacts_org_tree.events
 			organizationId = wholerow.closest("li").attr("id")
 			admins =  wholerow.closest("li").data("admins")?.split(",")
 			userId = Meteor.userId()
-			if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
-				html = """
-					<div class="pull-right edit-menu">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="ion ion-android-more-vertical"></span>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-right" role="menu">
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
-							</ul>
-						</div>
-					</div>
-				"""
-			else
-				html = ""
+			html = editMenu(admins, userId, organizationId)
 			wholerow.after(html)
 
 	'mouseenter .jstree-wholerow': (event, template) ->
@@ -123,24 +112,7 @@ Template.steedos_contacts_org_tree.events
 			organizationId = $(event.currentTarget).closest("li").attr("id")
 			admins = $(event.currentTarget).closest("li").data("admins")?.split(",")
 			userId = Meteor.userId()
-
-			if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
-				html = """
-					<div class="pull-right edit-menu">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="ion ion-android-more-vertical"></span>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-right" role="menu">
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_add_btn">#{t 'add_sub_department'}</a></li>
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_edit_btn">#{t 'edit_department'}</a></li>
-								<li><a data-orgid="#{organizationId}" id="steedos_contacts_org_tree_remove_btn">#{t 'delete_department'}</a></li>
-							</ul>
-						</div>
-					</div>
-				"""
-			else
-				html = ""
+			html = editMenu(admins, userId, organizationId)
 			$(event.target).after(html)
 
 	'click #search-btn': (event, template) ->
