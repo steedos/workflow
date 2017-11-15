@@ -467,7 +467,7 @@ Meteor.methods({
 			return appr._id == approve_id;
 		})
 
-		if (approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
+		if (!approve || approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
 			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
 		}
 
