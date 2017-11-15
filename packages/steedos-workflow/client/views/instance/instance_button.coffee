@@ -210,7 +210,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
 			return true
 			# last_trace = _.last(ins.traces)
 			# previous_trace_id = last_trace.previous_trace_ids[0]
@@ -548,7 +548,7 @@ Template.instance_button.events
 			return
 		ins = WorkflowManager.getInstance()
 		flow = db.flows.findOne(ins.flow)
-		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&flow_name=#{encodeURIComponent(encodeURIComponent(flow.name))}"),'workflow_chart')
+		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&title=#{encodeURIComponent(encodeURIComponent(flow.name))}"),'workflow_chart')
 
 	'click .btn-suggestion-toggle': (event, template)->
 		$(".instance-wrapper .instance-view").addClass("suggestion-active")

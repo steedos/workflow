@@ -6,9 +6,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 		hashData = req.body
 		
 		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
-			JsonRoutes.sendResult res,
-				code: 500
-				data: { errors: "不具备hook执行条件"}
+			throw new Meteor.Error('error', '不具备hook执行条件')
 
 		current_approve = hashData.current_approve
 		current_cc_user_ids = current_approve.cc_user_ids

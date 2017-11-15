@@ -12,7 +12,6 @@ Meteor.methods({
 		var next_steps = ins.traces[0].approves[0].next_steps;
 		var values = ins.traces[0].approves[0].values || {};
 		var applicant_id = ins.applicant;
-		var attachments = ins.attachments;
 
 		var instance = db.instances.findOne(ins_id, {
 			fields: {
@@ -59,7 +58,6 @@ Meteor.methods({
 
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-		setObj.attachments = attachments;
 
 		if (flow.current._id != instance.flow_version) {
 			result = "upgraded";
@@ -120,6 +118,7 @@ Meteor.methods({
 				if (result != "upgraded" && next_steps) {
 					a.next_steps = next_steps;
 				}
+				a.read_date = new Date();
 			}
 		})
 
@@ -234,12 +233,12 @@ Meteor.methods({
 				} else {
 					a.judge = judge;
 				}
+				a.read_date = new Date();
 			}
 		})
 
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-		setObj.attachments = approve.attachments;
 
 		setObj["traces.$.approves"] = current_trace.approves;
 

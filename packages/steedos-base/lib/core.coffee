@@ -290,8 +290,10 @@ if Meteor.isClient
 
 				totalHeight = headerHeight + footerHeight
 				height = $("body").innerHeight() - totalHeight - offset
-
-				$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
+				if $(this).hasClass("cf_contact_modal")
+					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "#{height}px"})
+				else
+					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
@@ -344,6 +346,22 @@ if Meteor.isClient
 			return _.union organizations,parents
 		else
 			return organizations
+
+	Steedos.forbidNodeContextmenu = (target, ifr)->
+		unless Steedos.isNode()
+			return
+		target.document.body.addEventListener 'contextmenu', (ev) ->
+			ev.preventDefault()
+			return false
+		if ifr
+			if typeof ifr == 'string'
+				ifr = target.$(ifr)
+			ifr.load ->
+				ifrBody = ifr.contents().find('body')
+				if ifrBody
+					ifrBody[0].addEventListener 'contextmenu', (ev) ->
+						ev.preventDefault()
+						return false
 
 if Meteor.isServer
 	Steedos.getUserOrganizations = (spaceId,userId,isIncludeParents)->
@@ -762,3 +780,6 @@ if Meteor.isServer
 				if locale == "zh-cn"
 					locale = "zh-CN"
 			return locale
+
+		checkUsernameAvailability: (username) ->
+			return not Meteor.users.findOne({ username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") } })

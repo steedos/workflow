@@ -16,8 +16,6 @@ Meteor.startup ()->
 			type: String,
 			regEx: SimpleSchema.RegEx.Email,
 			optional: true
-			autoform:
-				type: "hidden"
 		user:
 			type: String,
 			optional: true,
@@ -145,6 +143,93 @@ Meteor.startup ()->
 				return
 
 	if (Meteor.isServer)
+		db.space_users.insertVaildate = (userId, doc) ->
+			if !doc.space
+				throw new Meteor.Error(400, "space_users_error_space_required");
+			if !doc.email and !doc.mobile
+				throw new Meteor.Error(400, "contact_need_phone_or_email");
+			if doc.email
+				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
+					throw new Meteor.Error(400, "email_format_error");
+
+			# 校验工作区是否存在
+			space = db.spaces.findOne(doc.space)
+			if !space
+				throw new Meteor.Error(400, "space_users_error_space_not_found");
+
+			# 要添加用户，需要至少有一个组织权限
+			if space.admins.indexOf(userId) < 0
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+				unless isOrgAdmin
+					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
+			if doc.email and doc.mobile
+				phoneNumber = "+86" + doc.mobile
+				userExist = db.users.find({$or: ["emails.address": doc.email, "phone.number": phoneNumber]})
+				if userExist.count() > 1
+					throw new Meteor.Error(400, "邮箱和手机号不匹配")
+
+			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
+			if doc.email and doc.mobile
+				spaceUserExisted = db.space_users.find({space: doc.space, $or: [{email: doc.email}, {mobile: doc.mobile}]})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "邮箱或手机号已存在")
+			else if doc.email
+				spaceUserExisted = db.space_users.find({space: doc.space, email: doc.email})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该邮箱已存在")
+			else if doc.mobile
+				spaceUserExisted = db.space_users.find({space: doc.space, mobile: doc.mobile})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该手机号已存在")
+
+		db.space_users.updatevaildate = (userId, doc, modifier) ->
+			if doc.invite_state == "refused" or doc.invite_state == "pending"
+				throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
+				
+			modifier.$set = modifier.$set || {}
+			space = db.spaces.findOne(doc.space)
+			if !space
+				throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			if modifier.$set.email
+				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(modifier.$set.email)
+					throw new Meteor.Error(400, "email_format_error");
+
+			if space.admins.indexOf(userId) < 0
+				# 要修改用户，需要至少有一个组织权限
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+				unless isOrgAdmin
+					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			if modifier.$set.user_accepted != undefined and !modifier.$set.user_accepted
+				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
+					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
+
+			if modifier.$set.space
+				if modifier.$set.space != doc.space
+					throw new Meteor.Error(400, "space_users_error_space_readonly");
+
+			if modifier.$set.user
+				if modifier.$set.user != doc.user
+					throw new Meteor.Error(400, "space_users_error_user_readonly");
+
+			if modifier.$set.email and modifier.$set.email != doc.email
+				if db.users.findOne({_id: doc.user, "emails.verified": true})
+					throw new Meteor.Error(400, "用户已验证邮箱，不能修改")
+				repeatEmailUser = db.users.findOne({"emails.address": modifier.$set.email})
+				if repeatEmailUser and repeatEmailUser._id != doc.user
+					throw new Meteor.Error(400, "该邮箱已被占用")
+
+			if modifier.$set.mobile and modifier.$set.mobile != doc.mobile
+				phoneNumber = "+86" + modifier.$set.mobile
+				if db.users.findOne({_id: doc.user, "phone.verified": true})
+					throw new Meteor.Error(400, "用户已验证手机，不能修改")
+				repeatNumberUser = db.users.findOne({"phone.number": phoneNumber})
+				if repeatNumberUser and repeatNumberUser._id != doc.user
+					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+
 
 		db.space_users.before.insert (userId, doc) ->
 			doc.created_by = userId;
@@ -152,29 +237,14 @@ Meteor.startup ()->
 			doc.modified_by = userId;
 			doc.modified = new Date();
 
-			if !doc.space
-				throw new Meteor.Error(400, "space_users_error_space_required");
-
-			if !doc.email and !doc.mobile
-				throw new Meteor.Error(400, "email_required");
-
-			if doc.email
-				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
-					throw new Meteor.Error(400, "email_format_error");
-
-			# check space exists
-			space = db.spaces.findOne(doc.space)
-			if !space
-				throw new Meteor.Error(400, "space_users_error_space_not_found");
-
-			# only space admin or org admin can insert space_users
-			if space.admins.indexOf(userId) < 0
-				# 要添加用户，需要至少有一个组织权限
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-				unless isOrgAdmin
-					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+			db.space_users.insertVaildate(userId, doc)
 
 			creator = db.users.findOne(userId)
+
+			space = db.spaces.findOne(doc.space)
+
+			# console.log "doc"
+			# console.log JSON.stringify(userObj)
 
 			if (!doc.user) && (doc.email || doc.mobile)
 				if doc.email && doc.mobile
@@ -194,12 +264,24 @@ Meteor.startup ()->
 					userObj = db.users.findOne({"phone.number": phoneNumber})
 
 				if (userObj)
+					# 设置spaceUser初始状态，同步name和user字段，默认状态待反馈
 					doc.user = userObj._id
 					doc.name = userObj.name
+					if !doc.invite_state
+						doc.invite_state = "pending"
+					if !doc.user_accepted
+						doc.user_accepted = false
 				else
-					user = {}
+					# 设置设置spaceUser初始状态，默认状态接受邀请
+					if !doc.invite_state
+						doc.invite_state = "accepted"
+					if !doc.user_accepted
+						doc.user_accepted = true
 					if !doc.name
 						doc.name = doc.email.split('@')[0]
+
+					# 将用户插入到users表
+					user = {}
 
 					id = db.users._makeNewID()
 
@@ -230,24 +312,6 @@ Meteor.startup ()->
 			if !doc.name
 				throw new Meteor.Error(400, "space_users_error_name_required");
 
-			if doc.email && doc.mobile
-				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.find({
-					$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
-				}).fetch()
-			else if doc.email
-				oldUser = db.users.find({"emails.address": doc.email}).fetch()
-			else if doc.mobile
-				phoneNumber = "+86" + doc.mobile
-				oldUser = db.users.find({"phone.number": phoneNumber}).fetch()
-
-			userIds = oldUser.getProperty("_id");
-
-			existed=db.space_users.find
-				"user": {$in: userIds},"space":doc.space
-			if existed.count()>0
-				throw new Meteor.Error(400, "space_users_error_space_users_exists");
-
 			if doc.organizations && doc.organizations.length > 0
 				# 如果主组织未设置或设置的值不在doc.organizations内，则自动设置为第一个组织
 				unless doc.organizations.includes doc.organization
@@ -261,9 +325,25 @@ Meteor.startup ()->
 
 			# 邀请老用户到新的工作区或在其他可能增加老用户到新工作区的逻辑中，
 			# 需要把users表中的信息同步到新的space_users表中。
-			user = db.users.findOne(doc.user,{fields:{name:1,position:1,work_phone:1,mobile:1}})
+			user = db.users.findOne(doc.user, {fields:{name:1, phone:1, mobile:1, emails: 1, email: 1}})
+			unset = {}
+			# 同步mobile和email到space_user，没有值的话，就清空space_user的mobile和email字段
+			unless user.phone
+				unset.mobile = ""
+			if !user.mobile and user.phone
+				user.mobile = user.phone.number?.substring(3)
+
+			unless user.emails
+				unset.email = ""
+			if !user.email and user.emails
+				user.email = user.emails[0].address
+			
 			delete user._id
-			db.space_users.direct.update({_id: doc._id}, {$set: user})
+			delete user.emails
+			if _.isEmpty unset
+				db.space_users.direct.update({_id: doc._id}, {$set: user})
+			else
+				db.space_users.direct.update({_id: doc._id}, {$set: user, $unset: unset})
 
 			db.users_changelogs.direct.insert
 				operator: userId
@@ -275,36 +355,7 @@ Meteor.startup ()->
 		db.space_users.before.update (userId, doc, fieldNames, modifier, options) ->
 			modifier.$set = modifier.$set || {};
 
-			# check space exists
-			space = db.spaces.findOne(doc.space)
-			if !space
-				throw new Meteor.Error(400, "space_users_error_space_not_found");
-
-			# only space admin or org admin can update space_users
-			if space.admins.indexOf(userId) < 0
-				# 要修改用户，需要至少有一个组织权限
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-				unless isOrgAdmin
-					throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
-			modifier.$set.modified_by = userId;
-			modifier.$set.modified = new Date();
-
-			if modifier.$set.user_accepted != undefined and !modifier.$set.user_accepted
-				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
-					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
-
-
-			if modifier.$set.email
-				if modifier.$set.email != doc.email
-					throw new Meteor.Error(400, "space_users_error_email_readonly");
-			if modifier.$set.space
-				if modifier.$set.space != doc.space
-					throw new Meteor.Error(400, "space_users_error_space_readonly");
-			if modifier.$set.user
-				if modifier.$set.user != doc.user
-					throw new Meteor.Error(400, "space_users_error_user_readonly");
-
+			db.space_users.updatevaildate(userId, doc, modifier)
 			if modifier.$set.organizations && modifier.$set.organizations.length > 0
 				# 修改所有组织且修改后的组织不包含原主组织，则把主组织自动设置为第一个组织
 				unless modifier.$set.organizations.includes doc.organization
@@ -313,32 +364,27 @@ Meteor.startup ()->
 			newMobile = modifier.$set.mobile
 			# 当把手机号设置为空值时，newMobile为undefined，modifier.$unset.mobile为空字符串
 			isMobileCleared = modifier.$unset?.mobile != undefined
-			if  newMobile != doc.mobile
+			if newMobile != doc.mobile
 				if newMobile
-					if Steedos.isPhoneEnabled()
-						# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
-						# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
-						# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
-						number = "+86" + newMobile
-						repeatNumberUser = db.users.findOne({'phone.number':number},{fields:{_id:1,phone:1}})
-						if repeatNumberUser
-							throw new Meteor.Error(400, "space_users_error_phone_already_existed")
+					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
+					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
+					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
+					number = "+86" + newMobile
+					user_set = {}
+					user_set.phone = {}
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
+					# user_set.mobile = newMobile
+					# 目前只考虑国内手机
+					user_set.phone.number = number
+					# 变更手机号设置verified为false，以让用户重新验证手机号
+					user_set.phone.verified = false
+					user_set.phone.modified = new Date()
+					if not _.isEmpty(user_set)
+						db.users.update({_id: doc.user}, {$set: user_set})
 
-						user_set = {}
-						user_set.phone = {}
-						# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
-						# user_set.mobile = newMobile
-						# 目前只考虑国内手机
-						user_set.phone.number = number
-						# 变更手机号设置verified为false，以让用户重新验证手机号
-						user_set.phone.verified = false
-						user_set.phone.modified = new Date()
-						if not _.isEmpty(user_set)
-							db.users.direct.update({_id: doc.user}, {$set: user_set})
-
-						# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
-						# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
-						db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
+					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以通过修改user的mobile字段来同步所有工作区的mobile字段
+					# 只能通过额外单独更新所有工作区的mobile字段，此时user表中mobile没有变更，也不允许直接变更
+					db.space_users.direct.update({user: doc.user}, {$set: {mobile: newMobile}}, {multi: true})
 
 				else if isMobileCleared
 					user_unset = {}
@@ -348,7 +394,7 @@ Meteor.startup ()->
 					db.users.update({_id: doc.user}, {$unset: user_unset})
 
 
-				if (newMobile or isMobileCleared) and Steedos.isPhoneEnabled()
+				if (newMobile or isMobileCleared)
 					# 修改人
 					lang = Steedos.locale doc.user,true
 					euser = db.users.findOne({_id: userId},{fields: {name: 1}})
@@ -380,6 +426,27 @@ Meteor.startup ()->
 							msg: TAPi18n.__('sms.chnage_mobile.template', params, lang)
 						})
 
+			newEmail = modifier.$set.email
+			# 当把邮箱设置为空值时，newEmail为undefined，modifier.$unset.email为空字符串
+			isEmailCleared = modifier.$unset?.email != undefined
+			if newEmail != doc.email
+				emails = []
+				email_val = {
+					address: newEmail
+					verified: false
+				}
+				emails.push(email_val)
+				db.users.update({_id: doc.user}, {$set: {emails: emails}})
+				db.space_users.direct.update({user: doc.user}, {$set: {email: newEmail}}, {multi: true})
+			else if isEmailCleared
+				emails = []
+				emails_val = {
+					address: ""
+					verified: ""
+				}
+				db.users.update({_id: doc.user}, {$unset: {emails: emails}})
+				db.space_users.direct.update({user: doc.user}, {$unset: {email: ""}}, {multi: true})
+
 
 		db.space_users.after.update (userId, doc, fieldNames, modifier, options) ->
 			modifier.$set = modifier.$set || {};
@@ -389,17 +456,9 @@ Meteor.startup ()->
 			user_unset = {}
 			if modifier.$set.name != undefined
 				user_set.name = modifier.$set.name
-			if modifier.$set.position != undefined
-				user_set.position = modifier.$set.position
-			if modifier.$set.work_phone != undefined
-				user_set.work_phone = modifier.$set.work_phone
 
 			if modifier.$unset.name != undefined
 				user_unset.name = modifier.$unset.name
-			if modifier.$unset.position != undefined
-				user_unset.position = modifier.$unset.position
-			if modifier.$unset.work_phone != undefined
-				user_unset.work_phone = modifier.$unset.work_phone
 
 			# 更新users表中的相关字段
 			if not _.isEmpty(user_set)

@@ -15,7 +15,6 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			judge = approve_from_client["judge"]
 			description = approve_from_client["description"]
 			geolocation = approve_from_client["geolocation"]
-			attachments = approve_from_client["attachments"]
 
 			setObj = new Object
 
@@ -78,7 +77,8 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					trace_approves[i].is_read = true
 					if trace_approves[i].read_date is null
 						trace_approves[i].read_date = new Date
-					trace_approves[i].values = values
+					# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
+					trace_approves[i].values = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
 
 				i++
 
@@ -86,7 +86,6 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			# 更新instance记录
 			setObj.modified = new Date
 			setObj.modified_by = current_user
-			setObj.attachments = if attachments then attachments
 
 			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================

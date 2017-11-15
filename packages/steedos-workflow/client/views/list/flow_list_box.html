@@ -1,31 +1,68 @@
 <template name="flow_list_box">
-    <div class='box box-solid flow_list_box'>
-        <div class='box-group' id='flow_accordion'>
-        <div class="form-subtitle"> {{_ "Select a flow"}}</div>
-            {{#each flow_list_data.categories}}
-                {{#if empty this}}
-                    <div class='panel box box-default'>
-                        <a data-toggle='collapse' data-parent='#flow_accordion' href='#categories_{{_id}}'>
-                            <div class='box-header with-border'>
-                                <h4 class='box-title'>
-                                    {{name}}
-                                </h4>
-                            </div>
-                        </a>
-                        <div class='panel-collapse collapse' id="categories_{{_id}}">
-                            <div class='weui_cells_weui_cells_access'>
-                                {{#each forms}}
-                                    {{#each flows}}
-                                        <a class='weui_cell' data-flow='{{_id}}'>
-                                            <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
-                                        </a>
-                                    {{/each}}
-                                {{/each}}
-                            </div>
-                        </div>
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-    </div>
+	<div class="flow_list_box">
+		<div class="form-subtitle"> {{_ "Select a flow"}}</div>
+		<div class='box box-solid '>
+			<div class='box-group' id='flow_accordion'>
+				{{#if show_start_flows start_flows}}
+					<div class='panel box box-default'>
+						<a data-toggle='collapse' data-parent='#flow_accordion' href='#categories_start' aria-expanded="true">
+							<div class='box-header with-border'>
+								<h4 class='box-title'>
+									{{_ "start_flows"}} <i class="ion ion-ios-star"></i>
+								</h4>
+							</div>
+						</a>
+						<div class="weui-cells panel-collapse collapse in" id="categories_start" aria-expanded="true">
+							{{#each start_flows}}
+								<div class='weui-cell flow-item'>
+									<div class='weui-cell__bd' data-flow='{{_id}}'>
+										<i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+									</div>
+									<div class="weui-cell__ft" data-start="true">
+										<i class="ion ion-ios-star"></i>
+									</div>
+								</div>
+							{{/each}}
+						</div>
+					</div>
+				{{/if}}
+
+				{{#each flow_list_data.categories}}
+					{{#if empty this}}
+						<div class='panel box box-default'>
+							<a data-toggle='collapse' data-parent='#flow_accordion' href='#categories_{{_id}}'>
+								<div class='box-header with-border'>
+									<h4 class='box-title'>
+										{{name}}
+									</h4>
+								</div>
+							</a>
+							<div class='panel-collapse collapse' id="categories_{{_id}}">
+								<div class="weui-cells">
+									{{#each forms}}
+										{{#each flows}}
+											<div class='weui-cell flow-item'>
+												<div class='weui-cell__bd' data-flow='{{_id}}'>
+													<i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+												</div>
+												{{#if is_start_flow _id}}
+													<div class="weui-cell__ft" data-start="true">
+														<i class="ion ion-ios-star"></i>
+													</div>
+												{{else}}
+													<div class="weui-cell__ft">
+														<i class="ion ion-ios-star-outline"></i>
+													</div>
+												{{/if}}
+											</div>
+										{{/each}}
+									{{/each}}
+								</div>
+							</div>
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+		</div>
+	</div>
 </template>

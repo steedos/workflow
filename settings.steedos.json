@@ -44,6 +44,14 @@
       "www" : {
         "status" : "active",
         "url" : "https://www.steedos.com"
+      },
+      "elasticsearch": {
+        "status": "active",
+        "url": "http://127.0.0.1:9200"
+      },
+      "cas": {
+        "status": "active",
+        "url": "http://192.168.0.21:8086/cas"
       }
     }
   }

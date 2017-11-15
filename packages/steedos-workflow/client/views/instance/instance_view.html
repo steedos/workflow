@@ -16,7 +16,7 @@
                 {{/if}}
                 <div class="box-body">
                     <div class="col-md-12">
-                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" }}
                         {{> related_instances}}
                         {{#if isIReadable}}
                             {{{readOnlyView}}}
@@ -33,7 +33,7 @@
             </div>
             {{#if unequals 'draft' instance.state}}
 				{{#if (showTracesView instance.form instance.form_version)}}
-                	{{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
+                	{{> Template.dynamic template=(tracesTemplateName instance.form) data=(tracesListData instance)}}
 				{{/if}}
             {{/if}}
         </div>

@@ -179,15 +179,6 @@ InstanceformTemplate.helpers =
 #        return "disabled";
 #    return;
 
-
-#attachments: ->
-#    # instance 修改时重算
-#    WorkflowManager.instanceModified.get();
-#
-#    instance = WorkflowManager.getInstance();
-#    return instance.attachments;
-
-
 	table_fields: (instance)->
 		if Meteor.isClient
 			form_version = WorkflowManager.getInstanceFormVersion();
@@ -378,7 +369,7 @@ InstanceformTemplate.helpers =
 		return InstanceformTemplate.helpers.isOpinionField_from_string(field.formula)
 
 	isOpinionField_from_string: (field_formula)->
-		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
+		return InstanceSignText.isOpinionField_from_string(field_formula)
 
 	includesOpinionField: (form, form_version)->
 
