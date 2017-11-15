@@ -45,6 +45,7 @@
 	"contacts_organizations": "Organizations",
 	"contacts_personal_contacts": "Personal Contacts",
 	"steedos_contacts_invite_users": "Invite Users",
+	"steedos_contacts_add_users_btn": "Add Users",
 	"steedos_contacts_invite_users_success": "Invitation has been sent.",
 	"steedos_contacts_invite_users_rule": "Please enter the email address, Use separate lines to separate multiple email addresses.",
 	"steedos_contacts_invite_users_input": "Please enter the email address.",
@@ -129,5 +130,8 @@
 
 	"search_contact": "Contacts search",
 
-	"contact_need_phone_or_email": "You should fill in phone-number or email-address"
+	"contact_need_phone_or_email": "You should fill in phone-number or email-address",
+	"add_sub_department": "Add sub department",
+	"edit_department": "Edit",
+	"delete_department": "Delete"
 }

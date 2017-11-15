@@ -45,6 +45,7 @@
 	"contacts_organizations": "组织架构",
 	"contacts_personal_contacts": "个人联系人",
 	"steedos_contacts_invite_users": "邀请用户",
+	"steedos_contacts_add_users_btn": "添加用户",
 	"steedos_contacts_invite_users_success": "已发送邀请信息",
 	"steedos_contacts_invite_users_rule": "请输入邮件地址,多个邮件地址之间请用换行相隔",
 	"steedos_contacts_invite_users_input": "请输入邮件地址，邀请用户",
@@ -127,5 +128,8 @@
 	"contact_mail_not_match_phine": "邮件和手机号不匹配",
 	"contact_reinvite_user": "已再次邀请该用户",
 
-	"contact_need_phone_or_email": "手机和邮箱不能同时为空"
+	"contact_need_phone_or_email": "手机和邮箱不能同时为空",
+	"add_sub_department": "添加子部门",
+	"edit_department": "编辑",
+	"delete_department": "删除"
 }

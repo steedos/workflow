@@ -102,6 +102,9 @@ Template.steedos_contacts_org_user_list.events
 	# 	event.stopPropagation()
 	# 	AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
 
+	'click #steedos_contacts_add_users_btn': (event,template) ->
+		Modal.show('steedos_contacts_add_user_modal')
+
 	'click #steedos_contacts_invite_users_btn': (event, template) ->
 		Modal.show('steedos_contacts_invite_users_modal')
 
