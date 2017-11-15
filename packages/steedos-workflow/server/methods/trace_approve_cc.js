@@ -27,11 +27,7 @@ Meteor.methods({
 
         traces.forEach(function(t) {
             if (t._id == trace_id) {
-                t.approves.forEach(function(a) {
-                    if (a._id == approve_id) {
-                        a.cc_users = cc_user_ids;
-                    }
-                });
+
                 cc_user_ids.forEach(function(userId) {
                     var user = db.users.findOne(userId, {
                         fields: {
