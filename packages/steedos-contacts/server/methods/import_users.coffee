@@ -187,6 +187,7 @@ Meteor.methods
 					udoc._id = db.users._makeNewID()
 					udoc.steedos_id = item.email || udoc._id
 					udoc.locale = db.users.findOne({_id: _self.userId}).locale
+					udoc.spaces_invited = [space_id]
 					if item.name
 						udoc.name = item.name
 
