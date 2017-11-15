@@ -18,6 +18,7 @@ Meteor.methods({
         var traces = instance.traces;
         var current_user_id = this.userId;
         var space_id = instance.space;
+        var updated_approves;
 
         var from_user_name = db.users.findOne(current_user_id, {
             fields: {
@@ -77,6 +78,8 @@ Meteor.methods({
                     uuflowManager.setRemindInfo(instance.values, appr)
                     t.approves.push(appr);
                 })
+
+                updated_approves = t.approves;
             }
         })
 
@@ -85,10 +88,11 @@ Meteor.methods({
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
-        setObj.traces = traces;
+        setObj['traces.$.approves'] = updated_approves;
 
         db.instances.update({
-            _id: ins_id
+            _id: ins_id,
+            'traces._id': trace_id
         }, {
             $set: setObj
         });
@@ -249,7 +253,6 @@ Meteor.methods({
                             new_approves.push(a);
                         }
                     });
-                    t.approves = new_approves;
                 }
             }
 
@@ -274,10 +277,11 @@ Meteor.methods({
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
-        setObj.traces = traces;
+        setObj['traces.$.approves'] = new_approves;
 
         db.instances.update({
-            _id: instanceId
+            _id: instanceId,
+            'traces._id': trace_id
         }, {
             $set: setObj
         });
