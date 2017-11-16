@@ -5,10 +5,11 @@ Template.cf_organization_list.onRendered ->
 	spaceId = Template.instance().data.spaceId
 	is_within_user_organizations = Template.instance().data.is_within_user_organizations
 	$("#cf_organizations_tree").on('changed.jstree', (e, data) ->
+		console.log("data", data)
 		if data.selected.length
 			Session.set("cf_selectOrgId", data.selected[0]);
 
-			node = $('#cf_organizations_tree').jstree('get_node', "MyCnecjrjExbg4Kdw");
+			node = $('#cf_organizations_tree').jstree('get_node', data.selected[0]);
 
 			if node
 				Session.set("cf_space", node?.data.spaceId);
