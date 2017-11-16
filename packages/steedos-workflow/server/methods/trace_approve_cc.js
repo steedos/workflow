@@ -18,6 +18,7 @@ Meteor.methods({
         var traces = instance.traces;
         var current_user_id = this.userId;
         var space_id = instance.space;
+        var new_approves = [];
 
         var from_user_name = db.users.findOne(current_user_id, {
             fields: {
@@ -25,76 +26,68 @@ Meteor.methods({
             }
         }).name
 
-        traces.forEach(function(t) {
-            if (t._id == trace_id) {
-                t.approves.forEach(function(a) {
-                    if (a._id == approve_id) {
-                        a.cc_users = cc_user_ids;
-                    }
-                });
-                cc_user_ids.forEach(function(userId) {
-                    var user = db.users.findOne(userId, {
-                        fields: {
-                            name: 1
-                        }
-                    });
-                    var space_user = db.space_users.findOne({
-                        space: space_id,
-                        user: userId
-                    }, {
-                        fields: {
-                            organization: 1
-                        }
-                    });
-                    var org_id = space_user.organization;
-                    var organization = db.organizations.findOne(org_id, {
-                        fields: {
-                            name: 1,
-                            fullname: 1
-                        }
-                    });
-                    var appr = {
-                        '_id': new Mongo.ObjectID()._str,
-                        'instance': ins_id,
-                        'trace': trace_id,
-                        'is_finished': false,
-                        'user': userId,
-                        'user_name': user.name,
-                        'handler': userId,
-                        'handler_name': user.name,
-                        'handler_organization': org_id,
-                        'handler_organization_name': organization.name,
-                        'handler_organization_fullname': organization.fullname,
-                        'type': 'cc',
-                        'start_date': new Date(),
-                        // 'read_date': ,
-                        'is_read': false,
-                        // 'is_error' : false,
-                        // 'values' :  ???
-                        'from_user': current_user_id,
-                        'from_user_name': from_user_name,
-                        'opinion_fields_code': approve.opinion_fields_code,
-                        'sign_field_code': (approve.opinion_fields_code && approve.opinion_fields_code.length == 1) ? approve.opinion_fields_code[0] : "",
-                        'from_approve_id': approve_id,
-                        'cc_description': description
-                    };
-                    uuflowManager.setRemindInfo(instance.values, appr)
-                    t.approves.push(appr);
-                })
-            }
+        cc_user_ids.forEach(function(userId) {
+            var user = db.users.findOne(userId, {
+                fields: {
+                    name: 1
+                }
+            });
+            var space_user = db.space_users.findOne({
+                space: space_id,
+                user: userId
+            }, {
+                fields: {
+                    organization: 1
+                }
+            });
+            var org_id = space_user.organization;
+            var organization = db.organizations.findOne(org_id, {
+                fields: {
+                    name: 1,
+                    fullname: 1
+                }
+            });
+            var appr = {
+                '_id': new Mongo.ObjectID()._str,
+                'instance': ins_id,
+                'trace': trace_id,
+                'is_finished': false,
+                'user': userId,
+                'user_name': user.name,
+                'handler': userId,
+                'handler_name': user.name,
+                'handler_organization': org_id,
+                'handler_organization_name': organization.name,
+                'handler_organization_fullname': organization.fullname,
+                'type': 'cc',
+                'start_date': new Date(),
+                'is_read': false,
+                'from_user': current_user_id,
+                'from_user_name': from_user_name,
+                'opinion_fields_code': approve.opinion_fields_code,
+                'sign_field_code': (approve.opinion_fields_code && approve.opinion_fields_code.length == 1) ? approve.opinion_fields_code[0] : "",
+                'from_approve_id': approve_id,
+                'cc_description': description
+            };
+            uuflowManager.setRemindInfo(instance.values, appr)
+            new_approves.push(appr);
         })
 
         setObj.cc_users = ins_cc_users.concat(cc_user_ids);
 
-
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
-        setObj.traces = traces;
 
         db.instances.update({
-            _id: ins_id
+            _id: ins_id,
+            'traces._id': trace_id
         }, {
-            $set: setObj
+            $set: setObj,
+            $addToSet: {
+                'traces.$.approves': {
+                    $each: new_approves
+                }
+            }
         });
 
         instance = db.instances.findOne(ins_id);
@@ -111,31 +104,33 @@ Meteor.methods({
     cc_read: function(approve) {
         var setObj = {};
         var ins_id = approve.instance;
+        var trace_id = approve.trace;
         var instance = db.instances.findOne(ins_id, {
             fields: {
                 traces: 1
             }
         });
-        var traces = instance.traces;
         var current_user_id = this.userId;
-
-        traces.forEach(function(t) {
-            if (t.approves) {
-                t.approves.forEach(function(a) {
-                    if (a.type == 'cc' && a.user == current_user_id && !a.is_read) {
-                        a.is_read = true;
-                        a.read_date = new Date();
-                    }
-                });
-            }
+        var current_trace = _.find(instance.traces, function(t) {
+            return t._id == trace_id;
         })
 
-        // setObj.modified = new Date();
-        // setObj.modified_by = this.userId;
+        var index = 0;
+
+        current_trace.approves.forEach(function(a, idx) {
+            if (a.type == 'cc' && a.user == current_user_id && !a.is_read) {
+                index = idx;
+            }
+        });
+
+        setObj['traces.$.approves.' + index + '.is_read'] = true;
+        setObj['traces.$.approves.' + index + '.read_date'] = new Date();
+
         setObj.traces = traces;
 
         db.instances.update({
-            _id: ins_id
+            _id: ins_id,
+            'traces._id': trace_id
         }, {
             $set: setObj
         });
@@ -161,27 +156,36 @@ Meteor.methods({
 
         traces.forEach(function(t) {
             if (t.approves) {
-                t.approves.forEach(function(a) {
+                t.approves.forEach(function(a, idx) {
                     if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
-                        a.is_finished = true;
-                        a.is_read = true;
-                        a.finish_date = new Date();
-                        // a.description = description;
-                        a.judge = "submitted";
-                        a.cost_time = a.finish_date - a.start_date;
                         current_approve = a;
+                        var upobj = {};
+                        upobj['traces.$.approves.' + idx + '.is_finished'] = true;
+                        upobj['traces.$.approves.' + idx + '.is_read'] = true;
+                        upobj['traces.$.approves.' + idx + '.finish_date'] = new Date();
+                        upobj['traces.$.approves.' + idx + '.judge'] = "submitted";
+                        upobj['traces.$.approves.' + idx + '.cost_time'] = a.finish_date - a.start_date;
+                        db.instances.update({
+                            _id: ins_id,
+                            'traces._id': t._id
+                        }, {
+                            $set: upobj
+                        })
                     }
                 });
             }
         });
 
+        var index = 0;
+
         //设置意见，意见只添加到最后一条approve中
         traces.forEach(function(t) {
             if (current_approve && t._id === current_approve.trace) {
                 if (t.approves) {
-                    t.approves.forEach(function(a) {
+                    t.approves.forEach(function(a, idx) {
                         if (a._id === current_approve._id) {
                             a.description = description;
+                            index = idx;
                         }
                     });
                 }
@@ -198,13 +202,14 @@ Meteor.methods({
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
-        setObj.traces = traces;
+        setObj['traces.$.approves.' + index + '.description'] = description;
 
         outbox_users.push(current_user_id);
         setObj.outbox_users = _.uniq(outbox_users);
 
         db.instances.update({
-            _id: ins_id
+            _id: ins_id,
+            'traces._id': current_approve.trace
         }, {
             $set: setObj
         });
@@ -253,7 +258,6 @@ Meteor.methods({
                             new_approves.push(a);
                         }
                     });
-                    t.approves = new_approves;
                 }
             }
 
@@ -278,12 +282,17 @@ Meteor.methods({
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
-        setObj.traces = traces;
 
         db.instances.update({
-            _id: instanceId
+            _id: instanceId,
+            'traces._id': trace_id
         }, {
-            $set: setObj
+            $set: setObj,
+            $pull: {
+                'traces.$.approves': {
+                    _id: approveId
+                }
+            }
         });
 
         pushManager.send_message_to_specifyUser("current_user", remove_user_id);
@@ -299,43 +308,50 @@ Meteor.methods({
             }
         });
         var traces = instance.traces;
-        var new_approves = [];
-        var ins_cc_users = instance.cc_users;
-        var new_cc_users = [];
         var current_user_id = this.userId;
 
         var current_approve;
 
         traces.forEach(function(t) {
             if (t.approves) {
-                t.approves.forEach(function(a) {
+                t.approves.forEach(function(a, idx) {
                     if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
-                        // a.description = description;
-                        a.judge = "submitted";
-                        a.read_date = new Date();
                         current_approve = a;
+                        var upobj = {};
+                        upobj['traces.$.approves.' + idx + '.judge'] = "submitted";
+                        upobj['traces.$.approves.' + idx + '.read_date'] = new Date();
+                        db.instances.update({
+                            _id: ins_id,
+                            'traces._id': t._id
+                        }, {
+                            $set: upobj
+                        })
+
                     }
                 });
             }
         })
 
+        var index = 0;
+
         //设置意见，意见只添加到最后一条approve中
         traces.forEach(function(t) {
             if (current_approve && t._id === current_approve.trace) {
                 if (t.approves) {
-                    t.approves.forEach(function(a) {
+                    t.approves.forEach(function(a, idx) {
                         if (a._id === current_approve._id) {
-                            a.description = description;
+                            index = idx;
                         }
                     });
                 }
             }
         });
 
-        setObj.traces = traces;
+        setObj['traces.$.approves.' + index + '.description'] = description;
 
         db.instances.update({
-            _id: ins_id
+            _id: ins_id,
+            'traces._id': current_approve.trace
         }, {
             $set: setObj
         });

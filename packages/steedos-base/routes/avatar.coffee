@@ -32,8 +32,34 @@ Meteor.startup ->
 			return
 
 		if not file?
-			res.setHeader "Location", Steedos.absoluteUrl("/packages/steedos_base/client/images/default-avatar.png")
-			res.writeHead 302
+			res.setHeader 'Content-Disposition', 'inline'
+			res.setHeader 'content-type', 'image/svg+xml'
+			res.setHeader 'cache-control', 'public, max-age=31536000'
+			svg = """
+				<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					 viewBox="0 0 72 72" style="enable-background:new 0 0 72 72;" xml:space="preserve">
+				<style type="text/css">
+					.st0{fill:#FFFFFF;}
+					.st1{fill:#D0D0D0;}
+				</style>
+				<g>
+					<path class="st0" d="M36,71.1c-19.3,0-35-15.7-35-35s15.7-35,35-35s35,15.7,35,35S55.3,71.1,36,71.1z"/>
+					<path class="st1" d="M36,2.1c18.7,0,34,15.3,34,34s-15.3,34-34,34S2,54.8,2,36.1S17.3,2.1,36,2.1 M36,0.1c-19.9,0-36,16.1-36,36
+						s16.1,36,36,36s36-16.1,36-36S55.9,0.1,36,0.1L36,0.1z"/>
+				</g>
+				<g>
+					<g>
+						<path class="st1" d="M35.8,42.6c8.3,0,15.1-6.8,15.1-15.1c0-8.3-6.8-15.1-15.1-15.1c-8.3,0-15.1,6.8-15.1,15.1
+							C20.7,35.8,27.5,42.6,35.8,42.6z"/>
+						<path class="st1" d="M36.2,70.7c8.7,0,16.7-3.1,22.9-8.2c-3.6-9.6-12.7-15.5-23.3-15.5c-10.4,0-19.4,5.7-23.1,15
+							C19,67.4,27.2,70.7,36.2,70.7z"/>
+					</g>
+				</g>
+				</svg>
+			"""
+			res.write svg
+#			res.setHeader "Location", Steedos.absoluteUrl("/packages/steedos_base/client/images/default-avatar.png")
+#			res.writeHead 302
 			res.end()
 			return
 
