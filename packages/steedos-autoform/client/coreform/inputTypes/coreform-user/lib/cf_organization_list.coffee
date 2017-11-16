@@ -8,7 +8,7 @@ Template.cf_organization_list.onRendered ->
 		if data.selected.length
 			Session.set("cf_selectOrgId", data.selected[0]);
 
-			node = $('#cf_organizations_tree').jstree('get_node', "MyCnecjrjExbg4Kdw");
+			node = $('#cf_organizations_tree').jstree('get_node', data.selected[0]);
 
 			if node
 				Session.set("cf_space", node?.data.spaceId);
