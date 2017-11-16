@@ -495,20 +495,18 @@ Meteor.methods({
 		}
 
 		var set_obj = new Object;
-		var new_approves = new Array;
-		_.each(trace.approves, function(appr) {
-			if (appr._id != approve_id) {
-				new_approves.push(appr);
-			}
-		});
 		set_obj.modified = new Date();
 		set_obj.modified_by = this.userId;
-		set_obj["traces.$.approves"] = new_approves;
 		db.instances.update({
 			_id: instance_id,
 			"traces._id": trace_id
 		}, {
-			$set: set_obj
+			$set: set_obj,
+			$pull: {
+				'traces.$.approves': {
+					_id: approve_id
+				}
+			}
 		})
 
 		return true;
