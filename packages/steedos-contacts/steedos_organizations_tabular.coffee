@@ -12,7 +12,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				$(row).addClass("hidden-user")
 
 	drawCallback:()->
-		if !Steedos.isSpaceAdmin() and !Session.get('contacts_is_org_admin')
+		unless Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$("th[aria-label='']",this).css("display","none")
 			$(".edit-person",this).each ->
 				$(this).closest("td").css("display","none")
@@ -101,7 +101,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				else
 					modifyPassword = ""
 
-				if Steedos.isSpaceAdmin() or Session.get('contacts_is_org_admin')
+				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 					html = """
 						<div class="edit-person">
 							<div class="btn-group">
