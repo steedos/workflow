@@ -86,10 +86,6 @@ Template.steedos_contacts_space_user_info_modal.events
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
-		unless Steedos.isPaidSpace()
-			$("body").on("click",".admin-dashboard-body input[name=mobile]",()->
-				swal({title: t("steedos_contacts_mobile_edit_power")})
-			)
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id, ->
 			$("body").off("click",".admin-dashboard-body input[name=mobile]")
 

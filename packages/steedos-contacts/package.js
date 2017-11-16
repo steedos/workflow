@@ -78,6 +78,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
 	api.addFiles('server/methods/set_primary_org.coffee', 'server');
 	api.addFiles('server/methods/get_space_users_info.coffee', 'server');
+	api.addFiles('server/methods/set_user_password.coffee', 'server');
 
 	api.addFiles('server/methods/add_contacts_user.coffee', 'server');
 

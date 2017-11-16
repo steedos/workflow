@@ -115,8 +115,9 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
-		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
+	'click .datatable-steedos-contacts tbody tr[data-id] td:not(:last-of-type)': (event, template)->
+		targetId = $(event.currentTarget).closest("tr").data("id")
+		Modal.show('steedos_contacts_space_user_info_modal', {targetId: targetId})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
 		return false
@@ -156,6 +157,80 @@ Template.steedos_contacts_org_user_list.events
 			uobj.org_id = orgId
 			url = Steedos.absoluteUrl() + "api/contacts/export/space_users?" + $.param(uobj)
 			window.open(url, '_parent', 'EnableViewPortScale=yes')
+
+	'click .edit-person .contacts-tableau-modify-username': (event, template) ->
+		# debugger
+		space_id = Session.get("spaceId")
+		username = ""
+		user_id = event.currentTarget.dataset.user
+		unless user_id
+			return;
+		Meteor.call 'fetchUsername', user_id, (error, result) ->
+			if error
+				toastr.error TAPi18n.__(error.reason)
+			else
+				username = result
+				swal {
+					title: t('contacts_tableau_modify_username')
+					type: "input"
+					inputValue: username || ""
+					showCancelButton: true
+					closeOnConfirm: false
+					confirmButtonText: t('OK')
+					cancelButtonText: t('Cancel')
+					showLoaderOnConfirm: false
+				}, (inputValue)->
+					if inputValue is false
+						return false
+					if inputValue?.trim() == username?.trim()
+						swal.close()
+						return false;
+					Meteor.call "setUsername", space_id, inputValue?.trim(), user_id, (error, results)->
+						if results
+							toastr.success t('Change username successfully')
+							swal.close()
+						if error
+							toastr.error(TAPi18n.__(error.error))
+
+
+	'click .edit-person .contacts-tableau-modify-password': (event, template) ->
+		user_id = event.currentTarget.dataset.user
+		swal {
+			title: t('contacts_tableau_modify_password')
+			type: "input"
+			inputType: "password"
+			inputValue: ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			
+			result = Steedos.validatePassword inputValue
+			if result.error
+				return toastr.error result.error.reason
+
+			Meteor.call "setUserPassword", user_id, inputValue, (error, result) ->
+				if error
+					toastr.error error.reason
+				else
+					swal.close()
+					toastr.success t("Change password successfully")
+
+	'click .edit-person .contacts-tableau-edit-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalEdit 'space_users', id, ->
+			$("body").off("click",".admin-dashboard-body input[name=mobile]")
+
+
+	'click .edit-person .contacts-tableau-delete-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalDelete 'space_users', id, ->
+				$("#steedos_contacts_space_user_info_modal .close").trigger("click")
+
 
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()

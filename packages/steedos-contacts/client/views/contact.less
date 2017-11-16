@@ -183,6 +183,11 @@
 
 		.navigation-bar{
 			height: 51px;
+			#navigation-bar, #steedos_contacts_import_users_btn, #steedos_contacts_export_users_btn{
+				.fa{
+					margin-right: 2px;
+				}
+			}
 		}
 
 		.contacts-mobile{
@@ -505,6 +510,36 @@
 	.contacts_orgs_list_table{
 		.datatable-steedos-contacts{
 			tr{
+				th:first-child{
+					padding-left: 22px;
+				}
+				td:first-child{
+					padding-left: 22px;
+				}
+				td:last-child{
+					.edit-person{
+						float: right;
+						width: 30px;
+						height: 20px;
+						position: relative;
+						visibility: hidden;
+						.btn-group{
+							position: absolute;
+							margin-top: -5px;
+							.dropdown-toggle{
+								padding: 4px 12px;
+								float: right;
+								span{
+									position: relative;
+									top: 2px;
+								}
+							}
+						}
+					}
+				}
+				&:hover td .edit-person{
+					visibility: visible;
+				}
 				th{
 					min-width: 80px;
 					&:nth-last-child(1){
