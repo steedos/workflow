@@ -2,6 +2,8 @@ FlowversionAPI =
 
 	traceCounter: {}
 
+	traceMaxApproveCount: 3
+
 	writeResponse: (res, httpCode, body)->
 		res.statusCode = httpCode;
 		res.end(body);
@@ -65,6 +67,19 @@ FlowversionAPI =
 			traceName = ""
 		return traceName
 
+	getTraceName2: (traceName, approveHandlerName)->
+		# 返回trace节点名称
+		if traceName
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+			traceName = "<div class='graph-node'>
+				<div class='trace-name'>#{traceName}</div>
+				<div class='trace-handler-name'>#{approveHandlerName}</div>
+			</div>"
+			traceName = FlowversionAPI.replaceErrorSymbol(traceName)
+		else
+			traceName = ""
+		return traceName
+
 	getToApproveCount: (trace, approve_id, type)->
 		# 查找approve_id对应的二次传阅、分发、转发数量
 		if type
@@ -110,6 +125,242 @@ FlowversionAPI =
 			else
 				nodes.push "	#{ccFromApproveId}(\"#{traceName}\")--#{typeName}-->#{approve._id}>\"#{approve.handler_name}\"]"
 
+	getApproveHandlerNamesWithType: (counter)->
+
+
+	getTraceCountersWithType_Old: (trace)->
+		traceCounters = []
+		approves = trace.approves
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+
+		approves.forEach (fromApprove)->
+			fromApproveType = fromApprove.type
+			fromApproveId = fromApprove._id
+			fromApproveHandlerName = fromApprove.handler_name
+			approves.forEach (toApprove)->
+				if toApprove.from_approve_id == fromApproveId
+					counter = traceCounters.findPropertyByPK("from_approve_id", fromApproveId)
+					unless counter
+						isEmpty = true
+						counter = {}
+					counter.from_type = fromApproveType
+					counter.to_type = toApprove.type
+					counter.from_approve_id = fromApproveId
+					counter.to_approve_id = toApprove._id
+					counter.from_approve_handler_name = fromApproveHandlerName
+					if counter.count
+						counter.count++
+					else
+						counter.count = 1
+					unless counter.to_approve_handler_names
+						counter.to_approve_handler_names = []
+					unless counter.count > traceMaxApproveCount
+						counter.to_approve_handler_names.push toApprove.handler_name
+				if isEmpty
+					traceCounters.push counter
+		console.log traceCounters
+		console.log "traceCounters.length:#{traceCounters.length}"
+		return traceCounters
+	
+	getTraceFromApproveCountersWithType: (trace)->
+		counters = {}
+		approves = trace.approves
+		approves.forEach (approve)->
+			if approve.from_approve_id
+				unless counters[approve.from_approve_id]
+					counters[approve.from_approve_id] = {}
+				if counters[approve.from_approve_id][approve.type]
+					counters[approve.from_approve_id][approve.type]++
+				else
+					counters[approve.from_approve_id][approve.type] = 1
+		return counters
+
+	getTraceCountersWithType: (trace)->
+		# 该函数生成json结构，表现出所有传阅、分发、转发的节点流向，其结构为
+		# counters = {
+		# 	[fromApproveId(来源节点ID)]:{
+		# 		[toApproveType(目标结点类型)]:[{
+		# 			from_type: 来源节点类型
+		# 			from_approve_handler_name: 来源节点处理人
+		# 			to_approve_id: 目标节点ID
+		# 			to_approve_handler_names: [多个目标节点汇总处理人集合]
+		# 			is_total: true/false，是否汇总节点
+		# 		},...]
+		# 	}
+		# }
+		# 上述目标结点内容中有一个属性is_total表示是否汇总节点，如果是，则把多个节点汇总合并成一个，
+		# 但是本身有后续子节点的节点不参与汇总及计数。
+		counters = {}
+		approves = trace.approves
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
+
+		approves.forEach (toApprove)->
+			toApproveType = toApprove.type
+			toApproveFromId = toApprove.from_approve_id
+			toApproveHandlerName = toApprove.handler_name
+			unless toApproveFromId
+				return
+			approves.forEach (fromApprove)->
+				if fromApprove._id == toApproveFromId
+					counter = counters[toApproveFromId]
+					unless counter
+						counter = counters[toApproveFromId] = {}
+					unless counter[toApprove.type]
+						counter[toApprove.type] = []
+					counter2 = counter[toApprove.type]
+					if traceFromApproveCounters[toApprove._id]?[toApproveType]
+						# 有后续子节点，则不参与汇总及计数
+						counter2.push
+							from_type: fromApprove.type
+							from_approve_handler_name: fromApprove.handler_name
+							to_approve_id: toApprove._id
+							to_approve_handler_name: toApprove.handler_name
+
+					else
+						counterContent = counter2.findPropertyByPK("is_total", true)
+						if counterContent
+							counterContent.count++
+							unless counterContent.count > traceMaxApproveCount
+								counterContent.to_approve_handler_names.push toApprove.handler_name
+						else
+							counter2.push
+								from_type: fromApprove.type
+								from_approve_handler_name: fromApprove.handler_name
+								to_approve_id: toApprove._id
+								count: 1
+								to_approve_handler_names: [toApprove.handler_name]
+								is_total: true
+
+
+							# if counter2.count
+							# 	counter2.count++
+							# else
+							# 	counter2.count = 1
+							# unless counter2.to_approve_handler_names
+							# 	counter2.to_approve_handler_names = []
+							# unless counter2.count > traceMaxApproveCount
+							# 	counter2.to_approve_handler_names.push toApprove.handler_name
+
+		console.log JSON.stringify(counters)
+		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
+		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
+		# for fromApproveId,fromApprove of counters
+
+		return counters
+
+	getTraceCountersWithType_Old2: (trace)->
+		counters = {}
+		approves = trace.approves
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
+
+		approves.forEach (fromApprove)->
+			fromApproveType = fromApprove.type
+			fromApproveId = fromApprove._id
+			fromApproveHandlerName = fromApprove.handler_name
+			approves.forEach (toApprove)->
+				if toApprove.from_approve_id == fromApproveId
+					# counter = counters.findPropertyByPK("from_approve_id", fromApproveId)
+					counter = counters[fromApproveId]
+					unless counter
+						counter = counters[fromApproveId] = {}
+					unless counter[toApprove.type]
+						counter[toApprove.type] = {}
+					# unless counter[toApprove.type][toApprove._id]
+					# 	counter[toApprove.type][toApprove._id] = {}
+					# counter2 = counter[toApprove.type][toApprove._id]
+					counter2 = counter[toApprove.type]
+					counter2.to_approve_id = toApprove._id
+					counter2.from_type = fromApproveType
+					counter2.from_approve_handler_name = fromApproveHandlerName
+					
+					if counter2.count
+						counter2.count++
+					else
+						counter2.count = 1
+					unless counter2.to_approve_handler_names
+						counter2.to_approve_handler_names = []
+					unless counter2.count > traceMaxApproveCount
+						counter2.to_approve_handler_names.push toApprove.handler_name
+		console.log JSON.stringify(counters)
+		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
+		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
+		# for fromApproveId,fromApprove of counters
+
+		return counters
+
+	pushApprovesWithTypeGraphSyntax: (nodes, trace)->
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		traceCounters = FlowversionAPI.getTraceCountersWithType trace
+		for fromApproveId,fromApprove of traceCounters
+			for toApproveType,toApproves of fromApprove
+				toApproves.forEach (toApprove)->
+					typeName = ""
+					switch toApproveType
+						when 'cc'
+							typeName = "传阅"
+						when 'forward'
+							typeName = "转发"
+						when 'distribute'
+							typeName = "分发"
+					traceName = FlowversionAPI.getTraceName2 trace.name, toApprove.from_approve_handler_name
+					if toApprove.is_total
+						toHandlerNames = toApprove.to_approve_handler_names.join(",")
+						extraCount = toApprove.count - traceMaxApproveCount
+						if extraCount > 0
+							toHandlerNames += "等#{toApprove.count}人"
+					else
+						toHandlerNames = toApprove.to_approve_handler_name
+					if ["cc","forward","distribute"].indexOf(toApprove.from_type) >= 0
+						nodes.push "	#{fromApproveId}>\"#{traceName}\"]--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
+					else
+						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
+
+
+		# traceCounters.forEach (counter)->
+		# 	typeName = ""
+		# 	switch counter.to_type
+		# 		when 'cc'
+		# 			typeName = "传阅"
+		# 		when 'forward'
+		# 			typeName = "转发"
+		# 		when 'distribute'
+		# 			typeName = "分发"
+		# 	traceName = FlowversionAPI.getTraceName2 trace.name, counter.from_approve_handler_name
+		# 	console.log "from_approve_handler_name:#{counter.from_approve_handler_name}"
+		# 	toHandlerNames = counter.to_approve_handler_names.join(",")
+		# 	extraCount = counter.count - traceMaxApproveCount
+		# 	if extraCount > 0
+		# 		toHandlerNames += "等#{counter.count}人"
+		# 	if ["cc","forward","distribute"].indexOf(counter.from_type) >= 0
+		# 		nodes.push "	#{counter.from_approve_id}>\"#{traceName}\"]--#{typeName}-->#{counter.to_approve_id}>\"#{toHandlerNames}\"]"
+		# 	else
+		# 		nodes.push "	#{counter.from_approve_id}(\"#{traceName}\")--#{typeName}-->#{counter.to_approve_id}>\"#{toHandlerNames}\"]"
+
+	pushApprovesWithTypeGraphSyntax_OLD: (nodes, trace)->
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		traceCounters = FlowversionAPI.getTraceCountersWithType trace
+		traceCounters.forEach (counter)->
+			typeName = ""
+			switch counter.to_type
+				when 'cc'
+					typeName = "传阅"
+				when 'forward'
+					typeName = "转发"
+				when 'distribute'
+					typeName = "分发"
+			traceName = FlowversionAPI.getTraceName2 trace.name, counter.from_approve_handler_name
+			console.log "from_approve_handler_name:#{counter.from_approve_handler_name}"
+			toHandlerNames = counter.to_approve_handler_names.join(",")
+			extraCount = counter.count - traceMaxApproveCount
+			if extraCount > 0
+				toHandlerNames += "等#{counter.count}人"
+			if ["cc","forward","distribute"].indexOf(counter.from_type) >= 0
+				nodes.push "	#{counter.from_approve_id}>\"#{traceName}\"]--#{typeName}-->#{counter.to_approve_id}>\"#{toHandlerNames}\"]"
+			else
+				nodes.push "	#{counter.from_approve_id}(\"#{traceName}\")--#{typeName}-->#{counter.to_approve_id}>\"#{toHandlerNames}\"]"
+
 
 	generateTracesGraphSyntax: (traces, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
@@ -121,7 +372,6 @@ FlowversionAPI =
 		# 		C-->A
 		# 		D-->C
 		# 	'''
-		FlowversionAPI.traceCounter = {}
 		nodes = ["graph LR"]
 		lastTrace = null
 		lastApproves = []
@@ -152,13 +402,15 @@ FlowversionAPI =
 								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 
 						# 一个trace中每个传阅、分发、转发只需要画一次，而不需要每个toApproves都画一次
-						FlowversionAPI.pushCCApproveGraphSyntax nodes, fromTrace, fromApprove
+						# FlowversionAPI.pushCCApproveGraphSyntax nodes, fromTrace, fromApprove
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
 					traceName = FlowversionAPI.getTraceName trace, approve
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
-				
+
+			FlowversionAPI.traceCounter = {}
+			FlowversionAPI.pushApprovesWithTypeGraphSyntax nodes, trace
 
 		# 签批历程中最后的approves中有可能存在传阅、分发、转发，所以需要单独判断并处理下
 		# 签批历程中最后的approves高亮显示，结束步骤的trace中是没有approves的，所以结束步骤不高亮显示
