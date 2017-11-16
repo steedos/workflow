@@ -60,15 +60,19 @@ function handerOrg(orgs, parentId) {
 			node.state.selected = true;
 		}
 
-		// if (org.children && org.children.length > 0) {
-		//     node.children = true;
-		// }
+		if (org.children && org.children.length > 0) {
+		    node.children = true;
+		}else{
+			node.children = false;
+		}
 
-		node.children = true;
+		// node.children = true;
 
 		if (org.is_company == true || org.open == true) {
 			node.state.opened = true;
-			// node.state.selected = true;
+			if(CFDataManager.getOrganizationModalValue().length === 0){
+				node.state.selected = true;
+			}
 		} else {
 			// node.parent = parentId;
 			// node.icon = false;

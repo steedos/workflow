@@ -430,18 +430,18 @@ Meteor.methods({
 			pushManager.send_message_to_specifyUser("current_user", user_id);
 		})
 
-		if (_.isEmpty(current_trace.approves)) {
-			current_trace.approves = new Array;
-		}
-		current_trace.approves = current_trace.approves.concat(forward_approves);
 		set_obj.modified = new Date();
 		set_obj.modified_by = current_user_id;
-		set_obj["traces.$.approves"] = current_trace.approves;
 		db.instances.update({
 			_id: instance_id,
 			"traces._id": current_trace_id
 		}, {
-			$set: set_obj
+			$set: set_obj,
+			$addToSet: {
+				'traces.$.approves': {
+					$each: forward_approves
+				}
+			}
 		});
 
 		return new_ins_ids;
@@ -495,20 +495,18 @@ Meteor.methods({
 		}
 
 		var set_obj = new Object;
-		var new_approves = new Array;
-		_.each(trace.approves, function(appr) {
-			if (appr._id != approve_id) {
-				new_approves.push(appr);
-			}
-		});
 		set_obj.modified = new Date();
 		set_obj.modified_by = this.userId;
-		set_obj["traces.$.approves"] = new_approves;
 		db.instances.update({
 			_id: instance_id,
 			"traces._id": trace_id
 		}, {
-			$set: set_obj
+			$set: set_obj,
+			$pull: {
+				'traces.$.approves': {
+					_id: approve_id
+				}
+			}
 		})
 
 		return true;

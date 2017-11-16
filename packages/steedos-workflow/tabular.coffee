@@ -166,8 +166,13 @@ instancesListTableTabular = (flowId, fields)->
 
 					step_current_name = doc.step_current_name || ''
 
+					cc_tag = ''
+
+					if doc.cc_users?.length > 0
+						cc_tag = TAPi18n.__('cc_tag')
+
 					return """
-						<div class="step-current-state #{judge}">#{step_current_name}</div>
+						<div class="step-current-state #{judge}">#{step_current_name}#{cc_tag}</div>
 					"""
 				visible: false,
 				orderable: false

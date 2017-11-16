@@ -630,5 +630,6 @@
 	"instance_permissions_error": "您没有权限查看此申请单",
 	"start_flows": "星标流程",
 
-	"chart_traces": "图形化历程"
+	"chart_traces": "图形化历程",
+	"cc_tag": "（传阅中）"
 }

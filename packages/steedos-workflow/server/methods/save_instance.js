@@ -5,6 +5,7 @@ Meteor.methods({
 			return;
 		var result = true;
 		var setObj = {};
+		var index = 0;
 		var ins_id = ins._id;
 		var trace_id = ins.traces[0]._id;
 		var approve_id = ins.traces[0].approves[0]._id;
@@ -33,6 +34,12 @@ Meteor.methods({
 		var current_trace = _.find(traces, function(t) {
 			return t._id == trace_id;
 		});
+		current_trace.approves.forEach(function(a, idx) {
+			if (a._id == approve_id) {
+				index = idx;
+			}
+		})
+		var key_str = 'traces.$.approves.' + index + '.';
 
 		// 判断一个instance是否为拟稿状态
 		var current_user = db.users.findOne({
@@ -101,28 +108,17 @@ Meteor.methods({
 			setObj.applicant_organization_name = organization.name;
 			setObj.applicant_organization_fullname = organization.fullname;
 
-			current_trace.approves.forEach(function(a) {
-				if (a._id == approve_id) {
-					a.user = applicant_id;
-					a.user_name = user.name;
-				}
-			})
-
+			setObj[key_str + 'user'] = applicant_id;
+			setObj[key_str + 'user_name'] = user.name;
 		}
 
-		current_trace.approves.forEach(function(a) {
-			if (a._id == approve_id) {
-				a.values = values;
-				a.description = description;
-				a.judge = "submitted";
-				if (result != "upgraded" && next_steps) {
-					a.next_steps = next_steps;
-				}
-				a.read_date = new Date();
-			}
-		})
-
-		setObj["traces.$.approves"] = current_trace.approves;
+		setObj[key_str + 'values'] = values;
+		setObj[key_str + 'description'] = description;
+		setObj[key_str + 'judge'] = 'submitted';
+		setObj[key_str + 'read_date'] = new Date();
+		if (result != "upgraded" && next_steps) {
+			setObj[key_str + 'next_steps'] = next_steps;
+		}
 
 		// 计算申请单标题
 		var form = db.forms.findOne(form_id);
@@ -147,6 +143,7 @@ Meteor.methods({
 			return;
 
 		var setObj = {};
+		var index = 0;
 		var ins_id = approve.instance;
 		var trace_id = approve.trace;
 		var approve_id = approve.id;
@@ -221,26 +218,27 @@ Meteor.methods({
 			return false;
 		var step_type = step.step_type;
 
-		current_trace.approves.forEach(function(a) {
+		current_trace.approves.forEach(function(a, idx) {
 			if (a._id == approve_id) {
-				a.is_read = true;
-				a.read_date = new Date();
-				a.values = values;
-				a.description = description;
-				a.next_steps = next_steps;
-				if (step_type == "submit" || step_type == "start") {
-					a.judge = "submitted";
-				} else {
-					a.judge = judge;
-				}
-				a.read_date = new Date();
+				index = idx;
 			}
 		})
 
+		var key_str = 'traces.$.approves.' + index + '.';
+
+		setObj[key_str + 'is_read'] = true;
+		setObj[key_str + 'read_date'] = new Date();
+		setObj[key_str + 'values'] = values;
+		setObj[key_str + 'description'] = description;
+		setObj[key_str + 'next_steps'] = next_steps;
+		if (step_type == "submit" || step_type == "start") {
+			setObj[key_str + 'judge'] = "submitted";
+		} else {
+			setObj[key_str + 'judge'] = judge;
+		}
+
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-
-		setObj["traces.$.approves"] = current_trace.approves;
 
 		// 计算申请单标题
 		var form = db.forms.findOne(instance.form);

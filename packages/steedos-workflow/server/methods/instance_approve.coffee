@@ -4,17 +4,20 @@ Meteor.methods
 
 		if instance?.traces?.length > 0
 			trace = instance.traces[0]
-
-			trace.approves.forEach (approve)->
+			index = 0
+			trace.approves.forEach (approve, idx)->
 				if approve._id == approveId && !approve.is_read
-					approve.is_read = true;
-					approve.read_date = new Date();
+					index = idx
+
+			setObj = {}
+			setObj["traces.$.approves.#{index}.is_read"] = true
+			setObj["traces.$.approves.#{index}.read_date"] = new Date()
 
 			db.instances.update({
 				_id: instanceId,
 				"traces._id": traceId
 			}, {
-				$set: {"traces.$.approves": trace.approves}
+				$set: setObj
 			});
 			return true;
 

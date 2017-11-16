@@ -1,5 +1,7 @@
 FlowversionAPI =
 
+	traceCounter: {}
+
 	writeResponse: (res, httpCode, body)->
 		res.statusCode = httpCode;
 		res.end(body);
@@ -63,6 +65,16 @@ FlowversionAPI =
 			traceName = ""
 		return traceName
 
+	getToApproveCount: (trace, approve_id, type)->
+		# 查找approve_id对应的二次传阅、分发、转发数量
+		if type
+			toApproves = trace.approves.filter (item,index)->
+				return item.from_approve_id == approve_id and item.type == type
+		else
+			toApproves = trace.approves.filter (item,index)->
+				return item.from_approve_id == approve_id
+		return toApproves.length
+
 	pushCCApproveGraphSyntax: (nodes, trace, approve)->
 		# 往nodes中push传阅、分发、转发相关的graph脚本
 		if ["cc","forward","distribute"].indexOf(approve.type) >= 0
@@ -70,6 +82,17 @@ FlowversionAPI =
 			unless ccFromApproveId
 				# 部分老的数据分发、转发的approve中没有from_approve_id，直接忽略不处理
 				return
+
+			countKey = "#{ccFromApproveId}-#{approve.type}"
+			count = FlowversionAPI.traceCounter[countKey]
+			if count
+				FlowversionAPI.traceCounter[countKey] = count + 1
+				# if count > 3 and !approve.cc_users
+				if count > 3 and !FlowversionAPI.getToApproveCount(trace, approve._id)
+					return
+			else
+				FlowversionAPI.traceCounter[countKey] = 1
+
 			typeName = ""
 			switch approve.type
 				when 'cc'
@@ -98,6 +121,7 @@ FlowversionAPI =
 		# 		C-->A
 		# 		D-->C
 		# 	'''
+		FlowversionAPI.traceCounter = {}
 		nodes = ["graph LR"]
 		lastTrace = null
 		lastApproves = []
