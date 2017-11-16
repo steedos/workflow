@@ -5,7 +5,6 @@ Template.cf_organization_list.onRendered ->
 	spaceId = Template.instance().data.spaceId
 	is_within_user_organizations = Template.instance().data.is_within_user_organizations
 	$("#cf_organizations_tree").on('changed.jstree', (e, data) ->
-		console.log("data", data)
 		if data.selected.length
 			Session.set("cf_selectOrgId", data.selected[0]);
 
