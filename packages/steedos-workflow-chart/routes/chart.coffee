@@ -555,7 +555,8 @@ FlowversionAPI =
 									event.preventDefault();
 									var currentWidth = $("svg").width();
 									var zoom = event.originalEvent.wheelDelta > 0 ? 1.1 : 0.9;
-									$("svg").width(currentWidth * zoom);
+									var newWidth = currentWidth * zoom;
+									$("svg").css("maxWidth",newWidth + "px").width(newWidth);
 								}
 							});
 						});
