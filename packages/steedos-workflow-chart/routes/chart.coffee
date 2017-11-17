@@ -183,7 +183,7 @@ FlowversionAPI =
 					counters[approve.from_approve_id][approve.type] = 1
 		return counters
 
-	getTraceCountersWithType: (trace)->
+	getTraceCountersWithType: (trace, traceFromApproveCounters)->
 		# 该函数生成json结构，表现出所有传阅、分发、转发的节点流向，其结构为：
 		# counters = {
 		# 	[fromApproveId(来源节点ID)]:{
@@ -203,7 +203,6 @@ FlowversionAPI =
 		unless approves
 			return null
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
-		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
 		isExpandApprove = FlowversionAPI.isExpandApprove
 
 		approves.forEach (toApprove)->
@@ -302,10 +301,12 @@ FlowversionAPI =
 		return counters
 
 	pushApprovesWithTypeGraphSyntax: (nodes, trace)->
-		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
-		traceCounters = FlowversionAPI.getTraceCountersWithType trace
+		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
+		traceCounters = FlowversionAPI.getTraceCountersWithType trace, traceFromApproveCounters
 		unless traceCounters
 			return
+		extraHandlerNamesCounter = {} #记录需要额外生成所有处理人姓名的被传阅、分发、转发节点
+		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
 		for fromApproveId,fromApprove of traceCounters
 			for toApproveType,toApproves of fromApprove
 				toApproves.forEach (toApprove)->
@@ -323,12 +324,35 @@ FlowversionAPI =
 						extraCount = toApprove.count - traceMaxApproveCount
 						if extraCount > 0
 							toHandlerNames += "等#{toApprove.count}人"
+							unless extraHandlerNamesCounter[fromApproveId]
+								extraHandlerNamesCounter[fromApproveId] = {}
+							extraHandlerNamesCounter[fromApproveId][toApproveType] = toApprove.to_approve_id
 					else
 						toHandlerNames = toApprove.to_approve_handler_name
 					if ["cc","forward","distribute"].indexOf(toApprove.from_type) >= 0
 						nodes.push "	#{fromApproveId}>\"#{traceName}\"]--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
 					else
 						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
+
+		approves = trace.approves
+		# extraHandlerNamesCounter的结构为：
+		# counters = {
+		# 	[fromApproveId(来源节点ID)]:{
+		# 		[toApproveType(目标结点类型)]:目标结点ID
+		# 	}
+		# }
+		console.log JSON.stringify(extraHandlerNamesCounter)
+		unless _.isEmpty(extraHandlerNamesCounter)
+			for fromApproveId,fromApprove of extraHandlerNamesCounter
+				for toApproveType,toApproveId of fromApprove
+					tempHandlerNames = []
+					approves.forEach (approve)->
+						if fromApproveId == approve.from_approve_id
+							unless traceFromApproveCounters[approve._id]?[toApproveType]
+								# 有后续子节点，则不参与汇总及计数
+								tempHandlerNames.push approve.handler_name
+					nodes.push "	click #{toApproveId} callback \"#{tempHandlerNames.join(",")}\""
+
 
 
 		# traceCounters.forEach (counter)->
@@ -420,7 +444,7 @@ FlowversionAPI =
 					traceName = FlowversionAPI.getTraceName trace, approve
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
 
-			FlowversionAPI.traceCounter = {}
+			# FlowversionAPI.traceCounter = {}
 			FlowversionAPI.pushApprovesWithTypeGraphSyntax nodes, trace
 
 		# 签批历程中最后的approves中有可能存在传阅、分发、转发，所以需要单独判断并处理下
@@ -510,22 +534,22 @@ FlowversionAPI =
 							font-size: 20px;
 							color: #a94442;
 						}
-						.node rect{
+						#flow-steps-svg .node rect{
 							fill: #ccccff;
 							stroke: rgb(144, 144, 255);
     						stroke-width: 2px;
 						}
-						.node.current-step-node rect{
+						#flow-steps-svg .node.current-step-node rect{
 							fill: #cde498;
 							stroke: #13540c;
 							stroke-width: 2px;
 						}
-						.node.condition rect{
+						#flow-steps-svg .node.condition rect{
 							fill: #ececff;
 							stroke: rgb(204, 204, 255);
     						stroke-width: 1px;
 						}
-						.node .trace-handler-name{
+						#flow-steps-svg .node .trace-handler-name{
 							color: #777;
 						}
 					</style>
@@ -535,7 +559,7 @@ FlowversionAPI =
 					<div class = "error-msg">#{error_msg}</div>
 					<div class="mermaid"></div>
 					<script type="text/javascript">
-						mermaidAPI.initialize({
+						mermaid.initialize({
 							startOnLoad:false
 						});
 						$(function(){
@@ -547,8 +571,18 @@ FlowversionAPI =
 							console.log(graphSyntax);
 							console.log("You can access the graph nodes by 'mermaid.currentNodes' in the console of browser.");
 							$(".loading").remove();
-							var svgs = mermaidAPI.render('flow-steps-svg', graphSyntax);
-							$('.mermaid').html(svgs);
+
+							var id = "flow-steps-svg";
+							var element = $('.mermaid');
+							var insertSvg = function(svgCode, bindFunctions) {
+								element.html(svgCode);
+								if(typeof callback !== 'undefined'){
+									callback(id);
+								}
+								bindFunctions(element[0]);
+							};
+							mermaid.render(id, graphSyntax, insertSvg, element[0]);
+
 							//支持鼠标滚轮缩放画布
 							$(window).on("mousewheel",function(event){
 								if(event.ctrlKey){
