@@ -50,21 +50,22 @@ Meteor.methods
 			if t._id is last_trace._id
 				if not t.approves
 					t.approves = new Array
-				_.each t.approves, (a)->
+				_.each t.approves, (a, idx)->
 					if !a.type and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
-						a.finish_date = now
-						a.read_date = now
-						a.is_error = false
-						a.is_read = true
-						a.is_finished = true
-						a.judge = "returned"
-						a.cost_time = a.finish_date - a.start_date
-						a.description = reason
-						a.values = approve_values
+						setObj['traces.$.approves.' + idx + '.finish_date'] = now
+						setObj['traces.$.approves.' + idx + '.read_date'] = now
+						setObj['traces.$.approves.' + idx + '.is_error'] = false
+						setObj['traces.$.approves.' + idx + '.is_read'] = true
+						setObj['traces.$.approves.' + idx + '.is_finished'] = true
+						setObj['traces.$.approves.' + idx + '.judge'] = "returned"
+						setObj['traces.$.approves.' + idx + '.cost_time'] = a.finish_date - a.start_date
+						setObj['traces.$.approves.' + idx + '.description'] = reason
+						setObj['traces.$.approves.' + idx + '.values'] = approve_values
+
 				# 更新当前trace记录
-				t.is_finished = true
-				t.finish_date = now
-				t.judge = "returned"
+				setObj['traces.$.is_finished'] = true
+				setObj['traces.$.finish_date'] = true
+				setObj['traces.$.judge'] = "returned"
 
 		ins.values = _.extend((ins.values || {}), approve_values)
 
@@ -116,12 +117,11 @@ Meteor.methods
 		setObj.outbox_users = _.uniq(ins.outbox_users)
 		setObj.modified = now
 		setObj.modified_by = current_user
-		traces.push(newTrace)
-		setObj.traces = traces
 		setObj.values = ins.values
 
-		r = db.instances.update({_id: instance_id}, {$set: setObj})
-		if r
+		r = db.instances.update({_id: instance_id, 'traces._id': last_trace._id}, {$set: setObj})
+		b = db.instances.update({_id: instance_id}, {$push: {traces: newTrace}})
+		if r && b
 			# 新inbox_users 和 当前用户 发送push
 			pushManager.send_message_to_specifyUser("current_user", current_user)
 			_.each new_inbox_users, (user_id)->
