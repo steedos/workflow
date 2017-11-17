@@ -133,12 +133,12 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
 
 ApproveManager.getNextStepUsers = function(instance, nextStepId) {
 
-	console.log("ApproveManager.getNextStepUsers run...")
+    console.log("ApproveManager.getNextStepUsers run...")
 
     ApproveManager.error.nextStepUsers = '';
-	ApproveManager.error.type = '';
-	ApproveManager.error.code = '';
-	InstanceManager._setError_next_step_users("")
+    ApproveManager.error.type = '';
+    ApproveManager.error.code = '';
+    InstanceManager._setError_next_step_users("")
     var nextStepUsers = new Array();
 
     var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -163,7 +163,8 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
             break;
         default:
             // 判断当前步骤类型是会签并且下一步是否已在申请单历史步骤中，如果在，则下一步骤处理人为历史步骤处理人
-            nextStepUsers = this.checkAndSetCounterSignNextStepUsers(nextStep._id);
+            // nextStepUsers = this.checkAndSetCounterSignNextStepUsers(nextStep._id);
+            nextStepUsers = [];
             if (_.isEmpty(nextStepUsers)) {
                 switch (nextStep.deal_type) {
                     case 'pickupAtRuntime': //审批时指定人员
@@ -195,9 +196,20 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             // error_obj.params = {
                             //     approver_roles: approveRoleIds
                             // };
-							var roles = WorkflowManager.remoteFlowRoles.find({_id: {$in: approveRoleIds}}, {fields: {name:1} });
-							var roles_name = _.pluck(roles, 'name').toString();
-							ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.applicant_role', {step_name: nextStep.name, role_name: roles_name});
+                            var roles = WorkflowManager.remoteFlowRoles.find({
+                                _id: {
+                                    $in: approveRoleIds
+                                }
+                            }, {
+                                fields: {
+                                    name: 1
+                                }
+                            });
+                            var roles_name = _.pluck(roles, 'name').toString();
+                            ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.applicant_role', {
+                                step_name: nextStep.name,
+                                role_name: roles_name
+                            });
                         }
                         break;
                     case 'applicantSuperior': //申请人上级
@@ -222,7 +234,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             var userFieldValue = InstanceManager.getFormFieldValue(userField.code);
                             if (userFieldValue) {
 
-                            	console.log("if ....")
+                                console.log("if ....")
 
                                 var data = {
                                     'userField': userField,
@@ -231,7 +243,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                                 nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
                             }
                             // else {
-								// console.log("else ....")
+                            // console.log("else ....")
                             //     var fieldValue = instance.values[userField.code];
                             //     var user_field_value;
                             //     if (fieldValue instanceof Array) {
@@ -239,7 +251,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             //     } else if (fieldValue instanceof Object) {
                             //         user_field_value = fieldValue.id;
                             //     }
-							//
+                            //
                             //     if (user_field_value) {
                             //         var data = {
                             //             'userField': userField,
@@ -247,7 +259,7 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             //         };
                             //         nextStepUsers = UUflow_api.caculate_nextstep_users('userField', Session.get('spaceId'), data);
                             //     }
-							//
+                            //
                             // }
                         }
                         if (!nextStepUsers.length) {
@@ -275,29 +287,29 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             // else {
                             //     var fieldValue = instance.values[orgField.code];
                             //     if (fieldValue instanceof Array) {
-								// 	orgFieldValue = _.pluck(fieldValue, "id");
+                            //  orgFieldValue = _.pluck(fieldValue, "id");
                             //     } else if (fieldValue instanceof Object) {
-								// 	orgFieldValue = fieldValue.id;
+                            //  orgFieldValue = fieldValue.id;
                             //     }
                             // }
 
-							if (orgFieldValue) {
-								var data = {
-									'orgField': orgField,
-									'orgFieldValue': orgFieldValue
-								};
-								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgField', Session.get('spaceId'), data)
+                            if (orgFieldValue) {
+                                var data = {
+                                    'orgField': orgField,
+                                    'orgFieldValue': orgFieldValue
+                                };
+                                caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgField', Session.get('spaceId'), data)
 
-								nextStepUsers = caculateNextstepUsers.nextStepUsers
+                                nextStepUsers = caculateNextstepUsers.nextStepUsers
 
-								ApproveManager.error.code = caculateNextstepUsers.error
-							}
+                                ApproveManager.error.code = caculateNextstepUsers.error
+                            }
                         }
                         if (!nextStepUsers.length) {
                             if (!orgs.length) {
                                 ApproveManager.error.nextStepUsers = t('next_step_users_not_found.field_value_empty');
                             } else {
-                                ApproveManager.error.nextStepUsers = t('next_step_users_not_found.org_no_members',orgField.code);
+                                ApproveManager.error.nextStepUsers = t('next_step_users_not_found.org_no_members', orgField.code);
                             }
                         }
                         break;
@@ -311,7 +323,10 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                         if (!nextStepUsers.length) {
                             var specifyOrgs = WorkflowManager.getOrganizations(specifyOrgIds);
                             var specifyOrgChildrens = WorkflowManager.getOrganizationsChildrens(instance.space, specifyOrgIds);
-                            ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.org_no_members', {step_name: nextStep.name, org_name: specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString()});
+                            ApproveManager.error.nextStepUsers = TAPi18n.__('next_step_users_not_found.org_no_members', {
+                                step_name: nextStep.name,
+                                org_name: specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString()
+                            });
                             //ApproveManager.error.nextStepUsers =  '「' + specifyOrgs.concat(specifyOrgChildrens).getProperty('fullname').toString() + '」部门中没有人员';
                         }
                         break;
@@ -334,24 +349,24 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             //     var fieldValue = instance.values[userField.code];
                             //     var user_field_value;
                             //     if (fieldValue instanceof Array) {
-								// 	userFieldValue = _.pluck(fieldValue, "id");
+                            //  userFieldValue = _.pluck(fieldValue, "id");
                             //     } else if (fieldValue instanceof Object) {
-								// 	userFieldValue = fieldValue.id;
+                            //  userFieldValue = fieldValue.id;
                             //     }
                             // }
 
-							if (userFieldValue) {
-								var data = {
-									'userField': userField,
-									'userFieldValue': userFieldValue,
-									'approverRoleIds': approverRoleIds
-								};
-								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('userFieldRole', Session.get('spaceId'), data);
+                            if (userFieldValue) {
+                                var data = {
+                                    'userField': userField,
+                                    'userFieldValue': userFieldValue,
+                                    'approverRoleIds': approverRoleIds
+                                };
+                                caculateNextstepUsers = UUflow_api.caculateNextstepUsers('userFieldRole', Session.get('spaceId'), data);
 
-								nextStepUsers = caculateNextstepUsers.nextStepUsers
+                                nextStepUsers = caculateNextstepUsers.nextStepUsers
 
-								ApproveManager.error.code = caculateNextstepUsers.error
-							}
+                                ApproveManager.error.code = caculateNextstepUsers.error
+                            }
                         }
                         if (!nextStepUsers.length) {
 
@@ -383,24 +398,24 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
                             //     var fieldValue = instance.values[orgField.code];
                             //     var org_field_value;
                             //     if (fieldValue instanceof Array) {
-								// 	orgFieldValue = _.pluck(fieldValue, "id");
+                            //  orgFieldValue = _.pluck(fieldValue, "id");
                             //     } else if (fieldValue instanceof Object) {
-								// 	orgFieldValue = fieldValue.id;
+                            //  orgFieldValue = fieldValue.id;
                             //     }
                             // }
 
-							if (orgFieldValue) {
-								var data = {
-									'orgField': orgField,
-									'orgFieldValue': orgFieldValue,
-									'approverRoleIds': approverRoleIds
-								};
-								caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgFieldRole', Session.get('spaceId'), data);
+                            if (orgFieldValue) {
+                                var data = {
+                                    'orgField': orgField,
+                                    'orgFieldValue': orgFieldValue,
+                                    'approverRoleIds': approverRoleIds
+                                };
+                                caculateNextstepUsers = UUflow_api.caculateNextstepUsers('orgFieldRole', Session.get('spaceId'), data);
 
-								nextStepUsers = caculateNextstepUsers.nextStepUsers
+                                nextStepUsers = caculateNextstepUsers.nextStepUsers
 
-								ApproveManager.error.code = caculateNextstepUsers.error
-							}
+                                ApproveManager.error.code = caculateNextstepUsers.error
+                            }
                         }
                         if (nextStepUsers < 1) {
                             if (!orgFieldValue) {
@@ -430,15 +445,15 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     //     Meteor.call('next_step_users_not_found', error_obj.deal_type, error_obj.step_name, error_obj.params, function(error, result) {
     //         if (result) {
     //             ApproveManager.error.nextStepUsers = result;
-		// 		ApproveManager.error.type = error_obj.deal_type;
+    //      ApproveManager.error.type = error_obj.deal_type;
     //         }
     //     })
     // }
-	if(ApproveManager.error.nextStepUsers){
-		ApproveManager.error.type = nextStep.deal_type;
-	}
+    if (ApproveManager.error.nextStepUsers) {
+        ApproveManager.error.type = nextStep.deal_type;
+    }
 
-	InstanceManager.handleErrorMessage();
+    InstanceManager.handleErrorMessage();
 
     return nextStepUsers;
 };

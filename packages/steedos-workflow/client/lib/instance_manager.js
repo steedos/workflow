@@ -200,13 +200,14 @@ InstanceManager.getNextUserOptions = function() {
 		var lastStepHandlers = TracesManager.getStepLastHandlers(next_step_id, instance)
 
 		if (nextStepUsers) {
-
+			var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 			if (nextStepUsers.length == 0) { //为指定处理人并且没有暂存处理人时
-				var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 
 				if (nextStep.deal_type == "pickupAtRuntime") {
+					if (nextStep.step_type != 'counterSign') { // 会签节点不默认选择处理人。 #1350
+						nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
+					}
 
-					nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
 				}
 
 			}
@@ -227,11 +228,14 @@ InstanceManager.getNextUserOptions = function() {
 
 					// 如果有处理人
 					if (nextStepUsers.length > 1) {
-						// 设置下一步处理人默认值为最近一次处理人
-
-						if (lastStepHandlers.includes(user.id)) {
-							option.selected = true;
+						// 会签节点不默认选择处理人。 #1350
+						if (nextStep.step_type != 'counterSign') {
+							// 设置下一步处理人默认值为最近一次处理人
+							if (lastStepHandlers.includes(user.id)) {
+								option.selected = true;
+							}
 						}
+
 					}
 				}
 
