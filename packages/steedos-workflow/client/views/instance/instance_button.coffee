@@ -562,7 +562,7 @@ Template.instance_button.events
 		instance = WorkflowManager.getInstance()
 		if not InstanceManager.isCC(instance)
 			nextStepOptions = InstanceManager.getNextStepOptions()
-			if nextStepOptions.length > 1
+			if nextStepOptions.length > 1 && $(".instance-wrapper .instance-view.suggestion-active").length == 0
 				$(".instance-wrapper .instance-view").addClass("suggestion-active")
 				# toastr.error TAPi18n.__("instance_multi_next_step_tips")
 				return
