@@ -41,6 +41,9 @@ Meteor.methods
 				new_inbox_users.push(a.user)
 
 		traces = ins.traces
+
+		approve_values = uuflowManager.getApproveValues(approve.values || {}, current_step.permissions, ins.form, ins.form_version)
+
 		setObj = new Object
 		now = new Date
 		_.each traces, (t)->
@@ -49,7 +52,6 @@ Meteor.methods
 					t.approves = new Array
 				_.each t.approves, (a)->
 					if !a.type and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
-						a.start_date = now
 						a.finish_date = now
 						a.read_date = now
 						a.is_error = false
@@ -58,10 +60,13 @@ Meteor.methods
 						a.judge = "returned"
 						a.cost_time = a.finish_date - a.start_date
 						a.description = reason
+						a.values = approve_values
 				# 更新当前trace记录
 				t.is_finished = true
 				t.finish_date = now
 				t.judge = "returned"
+
+		_.extend((ins.values || {}), approve_values)
 
 		# 插入下一步trace记录
 		newTrace = new Object
@@ -113,6 +118,7 @@ Meteor.methods
 		setObj.modified_by = current_user
 		traces.push(newTrace)
 		setObj.traces = traces
+		setObj.values = ins.values
 
 		r = db.instances.update({_id: instance_id}, {$set: setObj})
 		if r
