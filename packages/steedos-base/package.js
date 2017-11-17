@@ -140,6 +140,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png', 'client');
+	api.addFiles('client/views/workbench.less', 'client');
+	api.addFiles('client/views/workbench.html', 'client');
+	api.addFiles('client/views/workbench.coffee', 'client');
+	api.addFiles('client/views/manage_business.less', 'client');
+	api.addFiles('client/views/manage_business.html', 'client');
+	api.addFiles('client/views/manage_business.coffee', 'client');
 
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');
