@@ -220,6 +220,7 @@ FlowversionAPI =
 
 					else
 						counterContent = if isExpandApprove then null else counter2.findPropertyByPK("is_total", true)
+						# counterContent = counter2.findPropertyByPK("is_total", true)
 						# 如果强制要求展开所有节点，则不做汇总处理
 						if counterContent
 							counterContent.count++
@@ -431,6 +432,7 @@ FlowversionAPI =
 
 		error_msg = ""
 		graphSyntax = ""
+		FlowversionAPI.isExpandApprove = false
 		if type == "traces_expand"
 			type = "traces"
 			FlowversionAPI.isExpandApprove = true
