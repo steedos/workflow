@@ -66,7 +66,7 @@ Meteor.methods
 				t.finish_date = now
 				t.judge = "returned"
 
-		_.extend((ins.values || {}), approve_values)
+		ins.values = _.extend((ins.values || {}), approve_values)
 
 		# 插入下一步trace记录
 		newTrace = new Object
