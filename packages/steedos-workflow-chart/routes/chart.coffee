@@ -163,8 +163,16 @@ FlowversionAPI =
 		return traceCounters
 	
 	getTraceFromApproveCountersWithType: (trace)->
+		# 该函数生成json结构，表现出所有传阅、分发、转发节点有有后续子节点的计数情况，其结构为：
+		# counters = {
+		# 	[fromApproveId(来源节点ID)]:{
+		# 		[toApproveType(目标结点类型)]:目标节点在指定类型下的后续节点个数
+		# 	}
+		# }
 		counters = {}
 		approves = trace.approves
+		unless approves
+			return null
 		approves.forEach (approve)->
 			if approve.from_approve_id
 				unless counters[approve.from_approve_id]
@@ -176,7 +184,7 @@ FlowversionAPI =
 		return counters
 
 	getTraceCountersWithType: (trace)->
-		# 该函数生成json结构，表现出所有传阅、分发、转发的节点流向，其结构为
+		# 该函数生成json结构，表现出所有传阅、分发、转发的节点流向，其结构为：
 		# counters = {
 		# 	[fromApproveId(来源节点ID)]:{
 		# 		[toApproveType(目标结点类型)]:[{
@@ -192,6 +200,8 @@ FlowversionAPI =
 		# 但是本身有后续子节点的节点不参与汇总及计数。
 		counters = {}
 		approves = trace.approves
+		unless approves
+			return null
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
 		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
 		isExpandApprove = FlowversionAPI.isExpandApprove
@@ -294,6 +304,8 @@ FlowversionAPI =
 	pushApprovesWithTypeGraphSyntax: (nodes, trace)->
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
 		traceCounters = FlowversionAPI.getTraceCountersWithType trace
+		unless traceCounters
+			return
 		for fromApproveId,fromApprove of traceCounters
 			for toApproveType,toApproves of fromApprove
 				toApproves.forEach (toApprove)->
@@ -543,7 +555,8 @@ FlowversionAPI =
 									event.preventDefault();
 									var currentWidth = $("svg").width();
 									var zoom = event.originalEvent.wheelDelta > 0 ? 1.1 : 0.9;
-									$("svg").width(currentWidth * zoom);
+									var newWidth = currentWidth * zoom;
+									$("svg").css("maxWidth",newWidth + "px").width(newWidth);
 								}
 							});
 						});
