@@ -224,8 +224,11 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.main_attachment = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
 		var attachment = cfs.instances.findOne({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': true
 		});
@@ -236,8 +239,11 @@ if (Meteor.isServer) {
 	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
 		var steedosData = Template.instance().view.template.steedosData
 		var instance = steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
 		var attachments = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
@@ -257,8 +263,12 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.showAttachments = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
+
 		var attachments = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance':  {
+				$in: instanceIds
+			},
 			'metadata.current': true
 		}).fetch();
 
@@ -270,8 +280,11 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.showMainTitle = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
 		var main_attach_count = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': true
 		}).count();
