@@ -341,7 +341,6 @@ FlowversionAPI =
 		# 		[toApproveType(目标结点类型)]:目标结点ID
 		# 	}
 		# }
-		console.log JSON.stringify(extraHandlerNamesCounter)
 		unless _.isEmpty(extraHandlerNamesCounter)
 			for fromApproveId,fromApprove of extraHandlerNamesCounter
 				for toApproveType,toApproveId of fromApprove
@@ -551,6 +550,13 @@ FlowversionAPI =
 						}
 						#flow-steps-svg .node .trace-handler-name{
 							color: #777;
+						}
+						div.mermaidTooltip{
+							position: fixed!important;
+							text-align: left!important;
+							padding: 4px!important;
+							font-size: 14px!important;
+							max-width: 500px!important;
 						}
 					</style>
 				</head>
