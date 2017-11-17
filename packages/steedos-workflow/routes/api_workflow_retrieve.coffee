@@ -70,7 +70,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 								appr.is_error = false
 								appr.is_read = true
 								appr.is_finished = true
-								appr.judge = ""
+								appr.judge = "terminated"
 								appr.cost_time = appr.finish_date - appr.start_date
 						# 在同一trace下插入取回操作者的approve记录
 						current_space_user = uuflowManager.getSpaceUser(space_id, current_user)

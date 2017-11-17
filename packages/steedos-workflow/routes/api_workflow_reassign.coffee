@@ -39,7 +39,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc" and last_trace.approves[i].type isnt "distribute"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
-						last_trace.approves[i].judge = ""
+						last_trace.approves[i].judge = "terminated"
 						last_trace.approves[i].description = ""
 						last_trace.approves[i].cost_time = last_trace.approves[i].finish_date - last_trace.approves[i].start_date
 				i++
