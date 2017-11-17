@@ -536,6 +536,15 @@ FlowversionAPI =
 							$(".loading").remove();
 							var svgs = mermaidAPI.render('flow-steps-svg', graphSyntax);
 							$('.mermaid').html(svgs);
+							//支持鼠标滚轮缩放画布
+							$(window).on("mousewheel",function(event){
+								if(event.ctrlKey){
+									event.preventDefault();
+									var currentWidth = $("svg").width();
+									var zoom = event.originalEvent.wheelDelta > 0 ? 1.1 : 0.9;
+									$("svg").width(currentWidth * zoom);
+								}
+							});
 						});
 					</script>
 				</body>
