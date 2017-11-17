@@ -29,6 +29,9 @@ var designer = {
 			case "traces":
 				$("#ifrChart").attr("src", "/api/workflow/chart/traces?instance_id=" + instance_id);
 				break;
+			case "traces_expand":
+				$("#ifrChart").attr("src", "/api/workflow/chart/traces_expand?instance_id=" + instance_id);
+				break;
 			default:
 				$("#ifrChart").attr("src", "/api/workflow/chart?instance_id=" + instance_id);
 				break;

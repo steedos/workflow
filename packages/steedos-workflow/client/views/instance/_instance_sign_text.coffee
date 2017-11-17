@@ -51,7 +51,7 @@ InstanceSignText.helpers =
 			return approves_sorted || []
 
 		approves = _.filter approves, (a)->
-			return a.type isnt "forward" and a.type isnt "distribute"
+			return a.type isnt "forward" and a.type isnt "distribute" and a.type isnt "terminated"
 
 		if only_cc_opinion
 			approves = approves?.filterProperty("type", "cc")

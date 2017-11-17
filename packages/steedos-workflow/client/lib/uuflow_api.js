@@ -93,8 +93,8 @@ UUflow_api.delete_draft = function(instanceId) {
 // instance（申请单）的第一次提交
 UUflow_api.post_submit = function(instance) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
@@ -157,8 +157,8 @@ UUflow_api.post_submit = function(instance) {
 // 待审核提交
 UUflow_api.post_engine = function(approve) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
@@ -207,8 +207,8 @@ UUflow_api.post_engine = function(approve) {
 // 取消申请
 UUflow_api.post_terminate = function(instance) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
@@ -260,8 +260,8 @@ UUflow_api.post_terminate = function(instance) {
 // 转签核
 UUflow_api.put_reassign = function(instance) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
@@ -296,7 +296,6 @@ UUflow_api.put_reassign = function(instance) {
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Reasigned successfully'));
 
 			Session.set("instance_submitting", false);
@@ -313,8 +312,8 @@ UUflow_api.put_reassign = function(instance) {
 // 重定位
 UUflow_api.put_relocate = function(instance) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);
@@ -349,7 +348,6 @@ UUflow_api.put_relocate = function(instance) {
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Relocated successfully'));
 
@@ -454,7 +452,8 @@ UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
 	q.deal_type = deal_type;
 	q.spaceId = spaceId;
 
-	var nextStepUsers = [],error="";
+	var nextStepUsers = [],
+		error = "";
 	var data = JSON.stringify(body);
 	$.ajax({
 		url: Steedos.absoluteUrl('api/workflow/nextStepUsers') + '?' + $.param(q),
@@ -478,7 +477,10 @@ UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
 		}
 	});
 
-	return {nextStepUsers: nextStepUsers, error: error};
+	return {
+		nextStepUsers: nextStepUsers,
+		error: error
+	};
 };
 
 // 获取space_users
@@ -517,8 +519,8 @@ UUflow_api.getSpaceUsers = function(spaceId, userIds) {
 // 取回
 UUflow_api.post_retrieve = function(instance) {
 
-	if(Session.get("instance_submitting")){
-		return ;
+	if (Session.get("instance_submitting")) {
+		return;
 	}
 
 	Session.set("instance_submitting", true);

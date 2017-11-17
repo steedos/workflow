@@ -4,6 +4,8 @@ FlowversionAPI =
 
 	traceMaxApproveCount: 3
 
+	isExpandApprove: false
+
 	writeResponse: (res, httpCode, body)->
 		res.statusCode = httpCode;
 		res.end(body);
@@ -158,8 +160,6 @@ FlowversionAPI =
 						counter.to_approve_handler_names.push toApprove.handler_name
 				if isEmpty
 					traceCounters.push counter
-		console.log traceCounters
-		console.log "traceCounters.length:#{traceCounters.length}"
 		return traceCounters
 	
 	getTraceFromApproveCountersWithType: (trace)->
@@ -194,6 +194,7 @@ FlowversionAPI =
 		approves = trace.approves
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
 		traceFromApproveCounters = FlowversionAPI.getTraceFromApproveCountersWithType trace
+		isExpandApprove = FlowversionAPI.isExpandApprove
 
 		approves.forEach (toApprove)->
 			toApproveType = toApprove.type
@@ -218,7 +219,9 @@ FlowversionAPI =
 							to_approve_handler_name: toApprove.handler_name
 
 					else
-						counterContent = counter2.findPropertyByPK("is_total", true)
+						counterContent = if isExpandApprove then null else counter2.findPropertyByPK("is_total", true)
+						# counterContent = counter2.findPropertyByPK("is_total", true)
+						# 如果强制要求展开所有节点，则不做汇总处理
 						if counterContent
 							counterContent.count++
 							unless counterContent.count > traceMaxApproveCount
@@ -242,7 +245,6 @@ FlowversionAPI =
 							# unless counter2.count > traceMaxApproveCount
 							# 	counter2.to_approve_handler_names.push toApprove.handler_name
 
-		console.log JSON.stringify(counters)
 		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
 		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
 		# for fromApproveId,fromApprove of counters
@@ -283,7 +285,6 @@ FlowversionAPI =
 						counter2.to_approve_handler_names = []
 					unless counter2.count > traceMaxApproveCount
 						counter2.to_approve_handler_names.push toApprove.handler_name
-		console.log JSON.stringify(counters)
 		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
 		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
 		# for fromApproveId,fromApprove of counters
@@ -328,7 +329,6 @@ FlowversionAPI =
 		# 		when 'distribute'
 		# 			typeName = "分发"
 		# 	traceName = FlowversionAPI.getTraceName2 trace.name, counter.from_approve_handler_name
-		# 	console.log "from_approve_handler_name:#{counter.from_approve_handler_name}"
 		# 	toHandlerNames = counter.to_approve_handler_names.join(",")
 		# 	extraCount = counter.count - traceMaxApproveCount
 		# 	if extraCount > 0
@@ -351,7 +351,6 @@ FlowversionAPI =
 				when 'distribute'
 					typeName = "分发"
 			traceName = FlowversionAPI.getTraceName2 trace.name, counter.from_approve_handler_name
-			console.log "from_approve_handler_name:#{counter.from_approve_handler_name}"
 			toHandlerNames = counter.to_approve_handler_names.join(",")
 			extraCount = counter.count - traceMaxApproveCount
 			if extraCount > 0
@@ -433,12 +432,14 @@ FlowversionAPI =
 
 		error_msg = ""
 		graphSyntax = ""
+		FlowversionAPI.isExpandApprove = false
+		if type == "traces_expand"
+			type = "traces"
+			FlowversionAPI.isExpandApprove = true
 		switch type
 			when 'traces'
 				instance = db.instances.findOne instance_id,{fields:{traces: 1}}
 				if instance
-					# currentStepId = instance.traces?[0]?.step
-					# flowversion = WorkflowManager.getInstanceFlowVersion(instance)
 					traces = instance.traces
 					if traces?.length
 						graphSyntax = this.generateTracesGraphSyntax traces
@@ -552,8 +553,14 @@ FlowversionAPI =
 		"""
 
 JsonRoutes.add 'get', '/api/workflow/chart?instance_id=:instance_id', (req, res, next) ->
+	# 流程图
 	FlowversionAPI.sendHtmlResponse req, res
 
 JsonRoutes.add 'get', '/api/workflow/chart/traces?instance_id=:instance_id', (req, res, next) ->
+	# 汇总签批历程图
 	FlowversionAPI.sendHtmlResponse req, res, "traces"
+
+JsonRoutes.add 'get', '/api/workflow/chart/traces_expand?instance_id=:instance_id', (req, res, next) ->
+	# 展开所有节点的签批历程图
+	FlowversionAPI.sendHtmlResponse req, res, "traces_expand"
 

@@ -52,7 +52,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 							traces[i].approves[h].is_error = false
 							traces[i].approves[h].is_read = true
 							traces[i].approves[h].is_finished = true
-							traces[i].approves[h].judge = ""
+							traces[i].approves[h].judge = "terminated"
 							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
 
 						h++
