@@ -557,6 +557,9 @@ FlowversionAPI =
 							padding: 4px!important;
 							font-size: 14px!important;
 							max-width: 500px!important;
+							left: auto!important;
+							top: 15px!important;
+							right: 15px;
 						}
 					</style>
 				</head>
