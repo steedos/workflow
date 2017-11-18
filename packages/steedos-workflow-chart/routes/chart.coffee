@@ -404,6 +404,11 @@ FlowversionAPI =
 							user-select: none;
 							line-height: 1.2;
 						}
+						@media (max-width: 768px) {
+							.btn-zoom{
+								display:none;
+							}
+						}
 						.btn-zoom:hover{
 							background: rgba(0, 0, 0, 0.2);
 						}
