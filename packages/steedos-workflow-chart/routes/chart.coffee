@@ -185,6 +185,7 @@ FlowversionAPI =
 			return
 		extraHandlerNamesCounter = {} #记录需要额外生成所有处理人姓名的被传阅、分发、转发节点
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		currentTraceName = trace.name
 		for fromApproveId,fromApprove of traceCounters
 			for toApproveType,toApproves of fromApprove
 				toApproves.forEach (toApprove)->
@@ -196,7 +197,7 @@ FlowversionAPI =
 							typeName = "转发"
 						when 'distribute'
 							typeName = "分发"
-					traceName = FlowversionAPI.getTraceName trace.name, toApprove.from_approve_handler_name
+					traceName = FlowversionAPI.getTraceName currentTraceName, toApprove.from_approve_handler_name
 					if toApprove.is_total
 						toHandlerNames = toApprove.to_approve_handler_names.join(",")
 						extraCount = toApprove.count - traceMaxApproveCount
@@ -245,9 +246,11 @@ FlowversionAPI =
 		lastApproves = []
 		traces.forEach (trace)->
 			lines = trace.previous_trace_ids
+			currentTraceName = trace.name
 			if lines?.length
 				lines.forEach (line)->
 					fromTrace = traces.findPropertyByPK("_id",line)
+					currentFromTraceName = fromTrace.name
 					fromApproves = fromTrace.approves
 					toApproves = trace.approves
 					lastTrace = trace
@@ -258,21 +261,21 @@ FlowversionAPI =
 							toApproves.forEach (toApprove)->
 								if ["cc","forward","distribute"].indexOf(toApprove.type) < 0
 									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
-										fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApproveHandlerName
-										toTraceName = FlowversionAPI.getTraceName trace, toApprove.handler_name
+										fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
+										toTraceName = FlowversionAPI.getTraceName currentTraceName, toApprove.handler_name
 										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
 
 						else
 							# 结束步骤的trace
 							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
-								fromTraceName = FlowversionAPI.getTraceName fromTrace, fromApproveHandlerName
-								toTraceName = FlowversionAPI.replaceErrorSymbol(trace.name)
+								fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
+								toTraceName = FlowversionAPI.replaceErrorSymbol(currentTraceName)
 								# 不是传阅、分发、转发，则连接到下一个trace
 								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
-					traceName = FlowversionAPI.getTraceName trace, approve.handler_name
+					traceName = FlowversionAPI.getTraceName currentTraceName, approve.handler_name
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
 
 			# FlowversionAPI.traceCounter = {}
