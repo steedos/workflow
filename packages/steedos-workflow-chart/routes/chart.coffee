@@ -183,7 +183,11 @@ FlowversionAPI =
 							typeName = "转发"
 						when 'distribute'
 							typeName = "分发"
-					traceName = FlowversionAPI.getTraceName currentTraceName, toApprove.from_approve_handler_name
+					isTypeNode = ["cc","forward","distribute"].indexOf(toApprove.from_type) >= 0
+					if isTypeNode
+						traceName = toApprove.from_approve_handler_name
+					else
+						traceName = FlowversionAPI.getTraceName currentTraceName, toApprove.from_approve_handler_name
 					if toApprove.is_total
 						toHandlerNames = toApprove.to_approve_handler_names.join(",")
 						extraCount = toApprove.count - traceMaxApproveCount
@@ -194,7 +198,7 @@ FlowversionAPI =
 							extraHandlerNamesCounter[fromApproveId][toApproveType] = toApprove.to_approve_id
 					else
 						toHandlerNames = toApprove.to_approve_handler_name
-					if ["cc","forward","distribute"].indexOf(toApprove.from_type) >= 0
+					if isTypeNode
 						nodes.push "	#{fromApproveId}>\"#{traceName}\"]--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
 					else
 						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
