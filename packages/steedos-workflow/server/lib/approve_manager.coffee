@@ -12,9 +12,9 @@ approveManager.getChangeValues = (last_values,approve_values) ->
 
 	approve_values_keys = _.keys(approve_values)
 
-	console.log("last_values_keys", last_values_keys)
-
-	console.log("approve_values_keys", approve_values_keys)
+#	console.log("last_values_keys", last_values_keys)
+#
+#	console.log("approve_values_keys", approve_values_keys)
 
 	approve_values_keys.forEach (key)->
 		if _.contains(last_values_keys, key)
@@ -22,7 +22,7 @@ approveManager.getChangeValues = (last_values,approve_values) ->
 				changeValues[key] = approve_values[key]
 		else
 			if approve_values[key] != ''
-				console.log(key,approve_values[key])
+#				console.log(key,approve_values[key])
 				changeValues[key] = approve_values[key]
 
 	return changeValues

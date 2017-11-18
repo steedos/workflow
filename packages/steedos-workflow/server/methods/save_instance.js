@@ -231,9 +231,7 @@ Meteor.methods({
 
 		var change_values = approveManager.getChangeValues(instance.values, permissions_values);
 
-		setObj.values = _.extend((instance.values || {}), permissions_values)
-
-		console.log("change_values", change_values);
+		setObj.values = _.extend((instance.values || {}), permissions_values);
 
 		if(!_.isEmpty(change_values)){
 
