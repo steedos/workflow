@@ -567,7 +567,7 @@ FlowversionAPI =
 							display: inline-block;
 							padding: 2px 10px;
 							font-size: 26px;
-							border-radius: 8px;
+							border-radius: 20px;
 							background: #eee;
 							color: #777;
 							position: fixed;
@@ -575,6 +575,11 @@ FlowversionAPI =
 							outline: none;
 							cursor: pointer;
 							z-index: 99999;
+							-webkit-user-select: none;
+							-moz-user-select: none;
+							-ms-user-select: none;
+							user-select: none;
+							line-height: 1.2;
 						}
 						.btn-zoom:hover{
 							background: rgba(0, 0, 0, 0.2);
@@ -583,8 +588,8 @@ FlowversionAPI =
 							left: 15px;
 						}
 						.btn-zoom-down{
-							left: 55px;
-							padding: 1px 12px 3px 12px;
+							left: 60px;
+							padding: 1px 13px 3px 13px;
 						}
 					</style>
 				</head>
