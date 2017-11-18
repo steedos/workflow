@@ -75,6 +75,10 @@ Template.relocate_modal.events({
             } else {
                 delete relocate_users.dataset.userOptions;
                 relocate_users.dataset.showOrg = true;
+                if (s.deal_type == 'pickupAtRuntime') {
+                    var ref, ref1, ref2;
+                    relocate_users.dataset.is_within_user_organizations = ((ref = Meteor.settings) != null ? (ref1 = ref["public"]) != null ? (ref2 = ref1.workflow) != null ? ref2.user_selection_within_user_organizations : void 0 : void 0 : void 0) || false;
+                }
             }
         } else {
             $("#relocate_users_p").css("display", "");
