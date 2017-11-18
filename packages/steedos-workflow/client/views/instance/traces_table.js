@@ -15,7 +15,7 @@ Template.instance_traces_table.onRendered(function() {
 		})
 	})
 	if (!_.isEmpty(instance_ids)) {
-		Steedos.subs["distributed_instances"].subscribe('instances_by_ids', instance_ids)
+		Steedos.subs["distributed_instances"].subscribe('distributed_instances_state_by_ids', instance_ids)
 	}
 })
 

@@ -183,11 +183,11 @@ TemplateHelpers =
 		else
 			if Meteor.isClient
 				try
-					root_url = new URL(Meteor.absoluteUrl())
+					root_url = new URI(Meteor.absoluteUrl());
 					if url
-						return root_url.pathname + url
+						return root_url._parts.path + url
 					else
-						return root_url.pathname
+						return root_url._parts.path
 				catch e
 					return Meteor.absoluteUrl(url)
 			else
