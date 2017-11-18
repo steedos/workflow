@@ -2,7 +2,7 @@ FlowversionAPI =
 
 	traceCounter: {}
 
-	traceMaxApproveCount: 3
+	traceMaxApproveCount: 10
 
 	isExpandApprove: false
 
