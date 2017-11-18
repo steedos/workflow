@@ -1,7 +1,5 @@
 FlowversionAPI =
 
-	traceCounter: {}
-
 	traceMaxApproveCount: 10
 
 	isExpandApprove: false
@@ -67,18 +65,6 @@ FlowversionAPI =
 		else
 			traceName = ""
 		return traceName
-
-	getToApproveCount: (trace, approve_id, type)->
-		# 查找approve_id对应的二次传阅、分发、转发数量
-		if type
-			toApproves = trace.approves.filter (item,index)->
-				return item.from_approve_id == approve_id and item.type == type
-		else
-			toApproves = trace.approves.filter (item,index)->
-				return item.from_approve_id == approve_id
-		return toApproves.length
-
-	getApproveHandlerNamesWithType: (counter)->
 	
 	getTraceFromApproveCountersWithType: (trace)->
 		# 该函数生成json结构，表现出所有传阅、分发、转发节点有有后续子节点的计数情况，其结构为：
@@ -213,13 +199,14 @@ FlowversionAPI =
 					else
 						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
 
-		approves = trace.approves
+		# 为需要额外生成所有处理人姓名的被传阅、分发、转发节点，增加鼠标弹出详细层事件
 		# extraHandlerNamesCounter的结构为：
 		# counters = {
 		# 	[fromApproveId(来源节点ID)]:{
 		# 		[toApproveType(目标结点类型)]:目标结点ID
 		# 	}
 		# }
+		approves = trace.approves
 		unless _.isEmpty(extraHandlerNamesCounter)
 			for fromApproveId,fromApprove of extraHandlerNamesCounter
 				for toApproveType,toApproveId of fromApprove
@@ -278,7 +265,6 @@ FlowversionAPI =
 					traceName = FlowversionAPI.getTraceName currentTraceName, approve.handler_name
 					nodes.push "	#{approve._id}(\"#{traceName}\")"
 
-			# FlowversionAPI.traceCounter = {}
 			FlowversionAPI.pushApprovesWithTypeGraphSyntax nodes, trace
 
 		# 签批历程中最后的approves高亮显示，结束步骤的trace中是没有approves的，所以结束步骤不高亮显示
