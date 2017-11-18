@@ -2,7 +2,7 @@ FlowversionAPI =
 
 	traceCounter: {}
 
-	traceMaxApproveCount: 3
+	traceMaxApproveCount: 10
 
 	isExpandApprove: false
 
@@ -561,6 +561,36 @@ FlowversionAPI =
 							top: 15px!important;
 							right: 15px;
 						}
+						.btn-zoom{
+							background: rgba(0, 0, 0, 0.1);
+							border-color: transparent;
+							display: inline-block;
+							padding: 2px 10px;
+							font-size: 26px;
+							border-radius: 20px;
+							background: #eee;
+							color: #777;
+							position: fixed;
+							bottom: 15px;
+							outline: none;
+							cursor: pointer;
+							z-index: 99999;
+							-webkit-user-select: none;
+							-moz-user-select: none;
+							-ms-user-select: none;
+							user-select: none;
+							line-height: 1.2;
+						}
+						.btn-zoom:hover{
+							background: rgba(0, 0, 0, 0.2);
+						}
+						.btn-zoom-up{
+							left: 15px;
+						}
+						.btn-zoom-down{
+							left: 60px;
+							padding: 1px 13px 3px 13px;
+						}
 					</style>
 				</head>
 				<body>
@@ -592,18 +622,27 @@ FlowversionAPI =
 							};
 							mermaid.render(id, graphSyntax, insertSvg, element[0]);
 
+							var zoomSVG = function(zoom){
+								var currentWidth = $("svg").width();
+								var newWidth = currentWidth * zoom;
+								$("svg").css("maxWidth",newWidth + "px").width(newWidth);
+							}
+
 							//支持鼠标滚轮缩放画布
 							$(window).on("mousewheel",function(event){
 								if(event.ctrlKey){
 									event.preventDefault();
-									var currentWidth = $("svg").width();
 									var zoom = event.originalEvent.wheelDelta > 0 ? 1.1 : 0.9;
-									var newWidth = currentWidth * zoom;
-									$("svg").css("maxWidth",newWidth + "px").width(newWidth);
+									zoomSVG(zoom);
 								}
+							});
+							$(".btn-zoom").on("click",function(){
+								zoomSVG($(this).attr("zoom"));
 							});
 						});
 					</script>
+					<a class="btn-zoom btn-zoom-up" zoom=1.1 title="点击放大">+</a>
+					<a class="btn-zoom btn-zoom-down" zoom=0.9 title="点击缩小">-</a>
 				</body>
 			</html>
 		"""
