@@ -600,17 +600,17 @@ uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_ver
 				_.each(field.fields, (tableField)->
 					if approve_values[field.code] isnt null
 						_.each(approve_values[field.code], (tableValue)->
-							if permissions[tableField.code] is null or permissions[tableField.code] isnt "editable"
+							if !tableField.formula && (permissions[tableField.code] is null or permissions[tableField.code] isnt "editable")
 								delete tableValue[tableField.code]
 						)
 				)
 			else if field.type is "section"
 				_.each(field.fields, (sectionField)->
-					if permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable"
+					if !sectionField.formula && (permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable")
 						delete approve_values[sectionField.code]
 				)
 			else
-				if permissions[field.code] is null or permissions[field.code] isnt "editable"
+				if !field.formula && (permissions[field.code] is null or permissions[field.code] isnt "editable")
 					delete approve_values[field.code]
 		)
 	return approve_values

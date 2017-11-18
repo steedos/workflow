@@ -32,7 +32,8 @@ Meteor.publish 'instance_data', (instanceId)->
 		"traces.approves.modified": 0,
 		"traces.approves.geolocation": 0,
 		"traces.approves.cc_users": 0,
-		"traces.approves.from_approve_id": 0
+		"traces.approves.from_approve_id": 0,
+		"traces.approves.values_history": 0
 	}
 
 	getMyapproveModified = (traces)->
