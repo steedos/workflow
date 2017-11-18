@@ -191,7 +191,7 @@ TracesTemplate.helpers =
 		return !InstanceformTemplate.helpers.includesOpinionField(form, form_version)
 
 	getInstanceStateText: (instance_id)->
-		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1}})
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
 		if not ins 
 			return ''
 
@@ -207,6 +207,9 @@ TracesTemplate.helpers =
 			text = TAPi18n.__('completed', {}, locale)
 		else if ins.state is 'pending'
 			text = TAPi18n.__('pending', {}, locale)
+		else if ins.state is 'draft'
+			if ins.is_read
+				text = TAPi18n.__('instance_approve_read', {}, locale)
 
 		return text
 
