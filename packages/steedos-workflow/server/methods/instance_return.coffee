@@ -37,8 +37,12 @@ Meteor.methods
 
 		new_inbox_users = new Array
 		_.each pre_trace.approves, (a)->
-			if (!a.type or a.type is "draft") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
+			if (!a.type or a.type is "draft" or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 				new_inbox_users.push(a.user)
+
+		if _.isEmpty(new_inbox_users)
+			throw new Meteor.Error('error!', "未找到下一步处理人，退回失败")
+		
 
 		traces = ins.traces
 
@@ -51,7 +55,7 @@ Meteor.methods
 				if not t.approves
 					t.approves = new Array
 				_.each t.approves, (a)->
-					if !a.type and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
+					if (!a.type or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 						a.finish_date = now
 						a.read_date = now
 						a.is_error = false
