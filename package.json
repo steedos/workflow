@@ -1,0 +1,13 @@
+{
+  "name": "steedos-apps",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.20.0",
+    "bcrypt": "^1.0.2",
+    "jquery": "^2.2.4",
+    "meteor-node-stubs": "~0.2.4"
+  }
+}
