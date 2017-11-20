@@ -261,7 +261,7 @@ Meteor.methods({
 		var form_v = uuflowManager.getFormVersion(form, instance.form_version);
 		var name_forumla = form_v.name_forumla;
 		if (name_forumla) {
-			setObj.name = uuflowManager.getInstanceName(instance, values);
+			setObj.name = uuflowManager.getInstanceName(instance, setObj.values);
 		}
 
 		db.instances.update({
