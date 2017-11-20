@@ -1,7 +1,7 @@
 FlowversionAPI =
 
 	traceMaxApproveCount: 10
-
+	traceSplitApprovesIndex: 5
 	isExpandApprove: false
 
 	writeResponse: (res, httpCode, body)->
@@ -171,6 +171,7 @@ FlowversionAPI =
 			return
 		extraHandlerNamesCounter = {} #记录需要额外生成所有处理人姓名的被传阅、分发、转发节点
 		traceMaxApproveCount = FlowversionAPI.traceMaxApproveCount
+		splitIndex = FlowversionAPI.traceSplitApprovesIndex
 		currentTraceName = trace.name
 		for fromApproveId,fromApprove of traceCounters
 			for toApproveType,toApproves of fromApprove
@@ -189,19 +190,23 @@ FlowversionAPI =
 					else
 						traceName = FlowversionAPI.getTraceName currentTraceName, toApprove.from_approve_handler_name
 					if toApprove.is_total
-						toHandlerNames = toApprove.to_approve_handler_names.join(",")
+						toHandlerNames = toApprove.to_approve_handler_names
+						if splitIndex and toApprove.count > splitIndex
+							# 在姓名集合中插入回车符号换行
+							toHandlerNames.splice(splitIndex,0,"<br/>,")
+						strToHandlerNames = toHandlerNames.join(",").replace(",,","")
 						extraCount = toApprove.count - traceMaxApproveCount
 						if extraCount > 0
-							toHandlerNames += "等#{toApprove.count}人"
+							strToHandlerNames += "等#{toApprove.count}人"
 							unless extraHandlerNamesCounter[fromApproveId]
 								extraHandlerNamesCounter[fromApproveId] = {}
 							extraHandlerNamesCounter[fromApproveId][toApproveType] = toApprove.to_approve_id
 					else
-						toHandlerNames = toApprove.to_approve_handler_name
+						strToHandlerNames = toApprove.to_approve_handler_name
 					if isTypeNode
-						nodes.push "	#{fromApproveId}>\"#{traceName}\"]--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
+						nodes.push "	#{fromApproveId}>\"#{traceName}\"]--#{typeName}-->#{toApprove.to_approve_id}>\"#{strToHandlerNames}\"]"
 					else
-						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{toHandlerNames}\"]"
+						nodes.push "	#{fromApproveId}(\"#{traceName}\")--#{typeName}-->#{toApprove.to_approve_id}>\"#{strToHandlerNames}\"]"
 
 		# 为需要额外生成所有处理人姓名的被传阅、分发、转发节点，增加鼠标弹出详细层事件
 		# extraHandlerNamesCounter的结构为：
@@ -403,6 +408,11 @@ FlowversionAPI =
 							-ms-user-select: none;
 							user-select: none;
 							line-height: 1.2;
+						}
+						@media (max-width: 768px) {
+							.btn-zoom{
+								display:none;
+							}
 						}
 						.btn-zoom:hover{
 							background: rgba(0, 0, 0, 0.2);
