@@ -170,6 +170,9 @@ Template.instance_view.onRendered ->
 
 	$("body").removeClass("loading")
 
+Template.instance_view.onDestroyed ->
+	Session.set("instance_next_user_recalculate", null)
+
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
 		Session.set("instance_change", true);

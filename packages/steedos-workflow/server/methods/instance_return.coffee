@@ -42,7 +42,6 @@ Meteor.methods
 
 		if _.isEmpty(new_inbox_users)
 			throw new Meteor.Error('error!', "未找到下一步处理人，退回失败")
-		
 
 		traces = ins.traces
 
