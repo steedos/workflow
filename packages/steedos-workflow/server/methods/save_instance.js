@@ -159,7 +159,8 @@ Meteor.methods({
 				flow: 1,
 				state: 1,
 				form: 1,
-				form_version: 1
+				form_version: 1,
+				values: 1
 			}
 		});
 
@@ -226,9 +227,24 @@ Meteor.methods({
 
 		var key_str = 'traces.$.approves.' + index + '.';
 
+		var permissions_values = uuflowManager.getApproveValues(approve.values, step.permissions, instance.form, instance.form_version);
+
+		var change_values = approveManager.getChangeValues(instance.values, permissions_values);
+
+		setObj.values = _.extend((instance.values || {}), permissions_values);
+
+		if(!_.isEmpty(change_values)){
+
+			values_history = current_approve.values_history || []
+
+			values_history.push({values: change_values, create: new Date()})
+
+			setObj[key_str + 'values_history'] = values_history
+		}
+
 		setObj[key_str + 'is_read'] = true;
 		setObj[key_str + 'read_date'] = new Date();
-		setObj[key_str + 'values'] = values;
+		setObj[key_str + 'values'] = setObj.values;
 		setObj[key_str + 'description'] = description;
 		setObj[key_str + 'next_steps'] = next_steps;
 		if (step_type == "submit" || step_type == "start") {

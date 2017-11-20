@@ -377,6 +377,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/uuflow_manager.coffee', 'server');
 	api.addFiles('server/lib/push_manager.coffee', 'server');
 	api.addFiles('server/lib/permission_manager.coffee', 'server');
+	api.addFiles('server/lib/approve_manager.coffee', 'server');
 
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
@@ -425,7 +426,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager'], ['server']);
 
 });
 
