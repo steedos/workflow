@@ -499,5 +499,14 @@
 	"nw_menu_copy": "Copy",
 	"nw_menu_paste": "Paste",
 	"nw_menu_selectall": "SelectAll",
-	"nw_menu_reload": "Reload"
+	"nw_menu_reload": "Reload",
+
+	"space_viewing_limits": "View limit for contacts",
+	"space_viewing_limits_name": "Name",
+	"space_viewing_limits_members": "The limit members",
+	"space_viewing_limits_members_users": "The limit users",
+	"space_viewing_limits_members_organizations": "The limit organizations",
+	"space_viewing_limits_limits": "The view range",
+	"space_viewing_limits_limits_users": "The view range for users",
+	"space_viewing_limits_limits_organizations": "The view range for organizations"
 }
