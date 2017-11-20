@@ -55,7 +55,7 @@ Meteor.methods
 				if not t.approves
 					t.approves = new Array
 				_.each t.approves, (a, idx)->
-					if !a.type and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
+					if (!a.type or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 						setObj['traces.$.approves.' + idx + '.finish_date'] = now
 						setObj['traces.$.approves.' + idx + '.read_date'] = now
 						setObj['traces.$.approves.' + idx + '.is_error'] = false
