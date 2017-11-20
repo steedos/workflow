@@ -1,5 +1,5 @@
 editMenu = (admins, userId, organizationId) ->
-	if Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
+	if Steedos.isSpaceAdmin() or _.indexOf(admins, userId) > -1
 		html = """
 			<div class="pull-right edit-menu">
 				<div class="btn-group">
@@ -60,8 +60,6 @@ Template.steedos_contacts_org_tree.onRendered ->
 			Session.set("contacts_orgId", data.selected[0]);
 			ContactsManager.checkOrgAdmin();
 
-		# console.log "changed.jstree"
-		addEditMenu()
 		return
 	).on('ready.jstree',(e, data) ->
 		ins = data.instance
@@ -98,20 +96,32 @@ Template.steedos_contacts_org_tree.onRendered ->
 Template.steedos_contacts_org_tree.events
 	'mouseenter .jstree-anchor': (event, template) ->
 		wholerow = $(event.currentTarget).prevAll(".jstree-wholerow")
+		organizationId = wholerow.closest("li").attr("id")
+		admins =  wholerow.closest("li").data("admins").split(",")
+		userId = Meteor.userId()
+		# 给子部门添加编辑按钮
+		wholerow.closest("li").find(".jstree-node").each ->
+			inheritAdmins = $(this).data("admins").split(",").concat(admins)
+			inheritAdmins = _.uniq(inheritAdmins).join(",")
+			$(this).data("admins", inheritAdmins)
 		unless wholerow.hasClass("added-edit-menu")
 			wholerow.addClass("added-edit-menu")
-			organizationId = wholerow.closest("li").attr("id")
-			admins =  wholerow.closest("li").data("admins")?.split(",")
-			userId = Meteor.userId()
 			html = editMenu(admins, userId, organizationId)
 			wholerow.after(html)
 
+
+
 	'mouseenter .jstree-wholerow': (event, template) ->
+		organizationId = $(event.currentTarget).closest("li").attr("id")
+		admins = $(event.currentTarget).closest("li").data("admins").split(",")
+		userId = Meteor.userId()
+		# 给子部门添加编辑按钮
+		$(event.currentTarget).closest("li").find(".jstree-node").each ->
+			inheritAdmins = $(this).data("admins").split(",").concat(admins)
+			inheritAdmins = _.uniq(inheritAdmins).join(",")
+			$(this).data("admins", inheritAdmins)
 		unless $(event.target).hasClass("added-edit-menu")
 			$(event.target).addClass("added-edit-menu")
-			organizationId = $(event.currentTarget).closest("li").attr("id")
-			admins = $(event.currentTarget).closest("li").data("admins")?.split(",")
-			userId = Meteor.userId()
 			html = editMenu(admins, userId, organizationId)
 			$(event.target).after(html)
 
