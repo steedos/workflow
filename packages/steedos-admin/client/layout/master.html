@@ -13,9 +13,15 @@
 								  <i class="ion ion-chevron-left"></i><span></span>
 								</button>
 							{{else}}
+								{{#if isMobile}}
+								<a class="btn btn-default" href="/admin">
+									<i class="ion ion-android-arrow-back"></i>
+								</a>
+								{{else}}
 								<button type="button" class="btn btn-default" data-toggle="offcanvas">
 									<i class="fa fa-bars"></i>
 								</button>
+								{{/if}}
 							{{/if}}
 							<span class="navigation-title">
 									<a href="{{urlPrefix}}/admin/view/{{$.Session.get 'admin_collection_name'}}/">{{admin_collection_title}}</a>

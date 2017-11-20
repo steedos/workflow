@@ -87,25 +87,6 @@ if Meteor.isClient
 		sort: 60
 		parent: "account"
 
-	# API
-	Admin.addMenu
-		_id: "api"
-		title: "Developer"
-		mobile: false
-		icon:"ion ion-ios-loop"
-		sort: 3000
-
-	# 密钥
-	Admin.addMenu
-		_id: "secrets"
-		title: "API Token"
-		icon:"ion ion-ios-unlocked-outline"
-		url: "/admin/api/secrets"
-		sort: 10
-		parent: "api"
-
-
-
 	# 工作区
 	Admin.addMenu
 		_id: "spaces"
@@ -154,3 +135,117 @@ if Meteor.isClient
 		roles:["space_admin"]
 		sort: 50
 		parent: "spaces"
+
+		# 高级设置
+	Admin.addMenu
+		_id: "advanced_setting"
+		title: "advanced_setting"
+		app: "workflow"
+		icon: "ion ion-ios-gear-outline"
+		roles: ["space_admin"]
+		sort: 40
+
+	# 通讯录权限
+	Admin.addMenu
+		_id: "steedos_contacts_settings"
+		title: "steedos_contacts_settings"
+		mobile: false
+		icon: "ion ion-ios-people-outline"
+		sort: 10
+		roles: ["space_admin"]
+		url: "/admin/contacts/settings"
+		parent: "advanced_setting"
+
+	# 岗位成员
+	Admin.addMenu
+		_id: "flow_positions"
+		title: "flow_positions"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-at-outline"
+		url: "/admin/workflow/flow_positions"
+		sort: 15
+		parent: "advanced_setting"
+
+	# 流程分类
+	Admin.addMenu
+		_id: "categories"
+		mobile: false
+		title: "categories"
+		app: "workflow"
+		icon: "ion ion-ios-folder-outline"
+		url: "/admin/categories"
+		sort: 20
+		parent: "advanced_setting"
+
+	# 流程脚本
+	Admin.addMenu
+		_id: "workflow_form_edit"
+		title: "workflow_form_edit"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-paper-outline"
+		url: "/admin/flows"
+		paid: "true"
+		appversion:"workflow_pro"
+		sort: 30
+		parent: "advanced_setting"
+
+	# 流程导入导出
+	Admin.addMenu
+		_id: "workflow_import_export_flows"
+		title: "workflow_import_export_flows"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-cloud-download-outline"
+		url: "/admin/importorexport/flows"
+		paid: "true"
+		appversion:"workflow_pro"
+		sort: 40
+		parent: "advanced_setting"
+
+	# 流程编号规则
+	Admin.addMenu
+		_id: "instance_number_rules"
+		title: "instance_number_rules"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-refresh-outline"
+		url: "/admin/instance_number_rules"
+		paid: "true"
+		sort: 50
+		parent: "advanced_setting"
+
+	# 图片签名
+	Admin.addMenu
+		_id: "space_user_signs"
+		title: "space_user_signs"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-pulse"
+		url: "/admin/view/space_user_signs"
+		paid: "true"
+		appversion:"workflow_pro"
+		sort: 60
+		parent: "advanced_setting"
+
+	Admin.addMenu
+		_id: "secrets"
+		title: "API Token"
+		icon:"ion ion-ios-unlocked-outline"
+		url: "/admin/api/secrets"
+		sort: 70
+		parent: "advanced_setting"
+
+	# webhook
+	Admin.addMenu
+		_id: "webhooks"
+		title: "webhooks"
+		mobile: false
+		app: "workflow"
+		icon: "ion ion-ios-paperplane-outline"
+		url: "/admin/view/webhooks"
+		paid: "true"
+		appversion:"workflow_pro"
+		sort: 80
+		parent: "advanced_setting"
