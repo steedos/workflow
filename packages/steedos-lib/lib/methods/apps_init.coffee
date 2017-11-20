@@ -19,11 +19,11 @@ if Meteor.isServer
 			mobile: true
 			internal: true
 			sort: 200
-		chat:
-			_id: "chat"
-			url: "/chat/channel/support"
-			name: "Steedos Chat"
-			icon: "ion-ios-chatboxes-outline"
+		calendar:
+			_id: "calendar"
+			url: "/calendar"
+			name: "Steedos Calendar"
+			icon: "ion-ios-calendar-outline"
 			menu: true
 			mobile: true
 			sort: 300
