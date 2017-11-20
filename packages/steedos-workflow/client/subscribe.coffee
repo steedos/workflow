@@ -74,3 +74,7 @@ Tracker.autorun (c) ->
 #Tracker.autorun (c)->
 #	spaceId = Session.get("spaceId")
 #	Session.set("flowId", undefined);
+
+Steedos.instanceDataReload = (instanceId)->
+	Steedos.subs["instance_data"].clear()
+	# Steedos.subs["instance_data"].subscribe("instance_data", instanceId)
