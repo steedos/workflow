@@ -7,6 +7,20 @@
 		border-right: none;
 	}
 
+	.dataTables_paginate{
+		float: right;
+		width: 65%;
+	}
+	.dataTables_length{
+		float: left;
+		width: 35%;
+	}
+	@media (max-width: 768px){
+		.dataTables_paginate{
+			width: 100%;
+		}
+	}
+
 	& > div:nth-child(3) {
 		overflow-x: auto;
 	}
