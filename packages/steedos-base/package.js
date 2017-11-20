@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.61',
+	version: '0.0.62',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -124,7 +124,8 @@ Package.onUse(function(api) {
 		'client/views/space_switcher_modal.coffee',
 		'client/views/sidebar_user_panel.html',
 		'client/views/sidebar_user_panel.coffee',
-		'client/views/sidebar_user_panel.less'
+		'client/views/sidebar_user_panel.less',
+		'client/dataTables_bootstrap.less'
 	], "client");
 
 
