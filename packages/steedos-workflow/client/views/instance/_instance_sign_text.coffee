@@ -25,6 +25,9 @@ InstanceSignText.helpers =
 
 		completed_date = if is_completed then _.last(instance.traces)?.finish_date?.getTime() else 0
 
+		if is_completed && instance.finish_date
+			completed_date = instance.finish_date?.getTime()
+
 		traces = InstanceformTemplate.helpers.traces()
 
 		approves = _.clone(traces[stepName])
