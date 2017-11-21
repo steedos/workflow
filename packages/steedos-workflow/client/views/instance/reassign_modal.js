@@ -37,15 +37,19 @@ Template.reassign_modal.helpers({
 			showOrg = false
 		}
 
-		console.log("userOptions", userOptions)
-		console.log("showOrg", showOrg)
+		var multi = false;
+		var c = InstanceManager.getCurrentStep();
+		if (c && c.step_type == "counterSign") {
+			multi = true;
+		}
 
 		return new SimpleSchema({
 			reassign_users: {
 				autoform: {
 					type: "selectuser",
 					userOptions: userOptions,
-					showOrg: showOrg
+					showOrg: showOrg,
+					multiple: multi
 				},
 				optional: true,
 				type: String,
@@ -56,7 +60,20 @@ Template.reassign_modal.helpers({
 
 	values: function() {
 		return {};
+	},
+
+	current_step_name: function() {
+		var s = InstanceManager.getCurrentStep();
+		var name;
+		if (s) {
+			name = s.name;
+		}
+		return name || '';
 	}
+})
+
+Template.reassign_modal.onCreated(function() {
+	Steedos.instanceDataReload(Session.get("instanceId"))
 })
 
 
@@ -68,18 +85,6 @@ Template.reassign_modal.events({
 
 		reassign_users.value = "";
 		reassign_users.dataset.values = '';
-
-		$("#reassign_modal_text").val(null);
-
-		var s = InstanceManager.getCurrentStep();
-
-		$("#reassign_currentStepName").html(s.name);
-
-		if (s.step_type == "counterSign") {
-			reassign_users.dataset.multiple = true;
-		} else {
-			reassign_users.dataset.multiple = false;
-		}
 	},
 
 	'click #reassign_help': function(event, template) {
