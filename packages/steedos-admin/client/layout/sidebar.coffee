@@ -243,7 +243,7 @@ Admin.menuTemplate =
 				else
 					targetStr = ""
 				return """
-					<div class="weui-panel">
+					<div class="weui-panel weui-panel-#{rootMenu._id}">
 						<div class="weui-panel__bd">
 							<div class="weui-media-box weui-media-box_small-appmsg">
 								<div class="weui-cells">
@@ -281,7 +281,7 @@ Admin.menuTemplate =
 
 		extraTemplates = extraFields.map (menu, index) ->
 			return """
-				<div class="weui-panel">
+				<div class="weui-panel weui-panel-#{menu._id}">
 					<div class="weui-panel__bd">
 						<div class="weui-media-box weui-media-box_small-appmsg">
 							<div class="weui-cells">

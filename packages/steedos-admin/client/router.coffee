@@ -16,9 +16,9 @@ adminRoutes.route '/',
 
 		console.log "/admin"
 		# 移除选中状态并将展开的二级菜单收起来
-		# $(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
-		# $(".treeview.active > a").trigger("click")
-		# $(".treeview").removeClass("active")
+		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
+		$(".treeview.active > a").trigger("click")
+		$(".treeview").removeClass("active")
 
 FlowRouter.route '/admin/home',
 	action: (params, queryParams)->
