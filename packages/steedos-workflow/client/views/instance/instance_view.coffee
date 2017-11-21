@@ -172,6 +172,7 @@ Template.instance_view.onRendered ->
 
 Template.instance_view.onDestroyed ->
 	Session.set("instance_next_user_recalculate", null)
+	Steedos.subs["instance_data"].clear()
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
