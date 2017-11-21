@@ -81,6 +81,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
+	api.addFiles('server/methods/my_limit_organizations.coffee', 'server');
 
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
@@ -126,7 +127,8 @@ Package.onUse(function(api) {
 		'client/views/sidebar_user_panel.html',
 		'client/views/sidebar_user_panel.coffee',
 		'client/views/sidebar_user_panel.less',
-		'client/dataTables_bootstrap.less'
+		'client/dataTables_bootstrap.less',
+		'client/my_limit_organizations.coffee'
 	], "client");
 
 
