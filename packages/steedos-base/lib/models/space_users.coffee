@@ -169,11 +169,18 @@ Meteor.startup ()->
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
-			if doc.email and doc.mobile
+			selector = []
+			if doc.email
+				selector.push("emails.address": doc.email)
+			if doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				userExist = db.users.find({$or: ["emails.address": doc.email, "phone.number": phoneNumber]})
-				if userExist.count() > 1
-					throw new Meteor.Error(400, "邮箱和手机号不匹配")
+				selector.push("phone.number": phoneNumber)
+
+			userExist = db.users.find({$or: selector})
+			if userExist.count() > 1
+				throw new Meteor.Error(400, "邮箱和手机号不匹配")
+			else if userExist.count() == 1
+				user = userExist.fetch()[0]._id
 
 			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
 			if doc.email and doc.mobile
@@ -188,6 +195,11 @@ Meteor.startup ()->
 				spaceUserExisted = db.space_users.find({space: doc.space, mobile: doc.mobile})
 				if spaceUserExisted.count() > 0
 					throw new Meteor.Error(400, "该手机号已存在")
+
+			if user
+				spaceUserExisted = db.space_users.find({space: doc.space, user: user})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该用户已在此工作区")
 
 		db.space_users.updatevaildate = (userId, doc, modifier) ->
 			if doc.invite_state == "refused" or doc.invite_state == "pending"
