@@ -347,6 +347,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/getSpaceUsers.js', 'server');
 	api.addFiles('routes/getFormulaUserObjects.js', 'server');
 	api.addFiles('routes/init_formula_values.js', 'server');
+	api.addFiles('routes/getNameForUser.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_engine.coffee', 'server');
 	api.addFiles('routes/api_workflow_drafts.coffee', 'server');

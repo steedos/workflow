@@ -614,3 +614,14 @@ WorkflowManager.hasInstancePermissions = function(user, instance) {
 	return false;
 
 }
+
+WorkflowManager.getNameForUser = function(userId) {
+	check(userId, String);
+	return db.users.findOne({
+		_id: userId
+	}, {
+		fields: {
+			name: 1
+		}
+	});
+}

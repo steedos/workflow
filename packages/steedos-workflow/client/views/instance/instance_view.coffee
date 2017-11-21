@@ -103,6 +103,13 @@ Template.instance_view.helpers
 	tracesListData: (instance)->
 		return instance.traces
 
+	notDistributeAndDraft: (state)->
+		ins = WorkflowManager.getInstance()
+		if ins 
+			if state is 'draft' and !ins.distribute_from_instance
+				return false
+
+		return true
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()

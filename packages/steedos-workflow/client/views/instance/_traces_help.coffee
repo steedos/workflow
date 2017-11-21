@@ -213,6 +213,26 @@ TracesTemplate.helpers =
 
 		return text
 
+	firstTrace: (index)->
+		return index is 0
+
+	last_distribute_from: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id},{fields:{created: 1, created_by: 1}})
+		if ins
+			dis_info = {}
+			user = {}
+			if Meteor.isClient
+				user = UUflow_api.getNameForUser(ins.created_by)
+			else if Meteor.isServer
+				user = db.users.findOne({_id: ins.created_by}, {fields: {name: 1}})
+
+			if user.name
+				dis_info.from_user_name = user.name
+				dis_info.created = ins.created
+
+			if not _.isEmpty(dis_info)
+				return dis_info
+		return
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
