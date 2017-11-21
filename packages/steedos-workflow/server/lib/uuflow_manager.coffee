@@ -693,6 +693,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		instance_traces.push(newTrace)
 		setObj.traces = instance_traces
 		setObj.inbox_users = []
+		setObj.finish_date = new Date
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -879,6 +880,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				instance_traces.push(newTrace)
 				setObj.traces = instance_traces
 				setObj.inbox_users = []
+				setObj.finish_date = new Date
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1056,6 +1058,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					instance_traces.push(newTrace)
 					setObj.traces = instance_traces
 					setObj.inbox_users = []
+					setObj.finish_date = new Date
 				else
 					# 若不是结束结点
 					# 先判断nextsteps.step.users是否为空
@@ -1246,6 +1249,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				setObj.inbox_users = new Array
 				instance_traces.push(newTrace)
 				setObj.traces = instance_traces
+				setObj.finish_date = new Date
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1791,6 +1795,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
 		traces.push(newTrace)
 		upObj.traces = traces
+		upObj.finish_date = new Date
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
