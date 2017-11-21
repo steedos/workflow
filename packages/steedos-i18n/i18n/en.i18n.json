@@ -508,5 +508,8 @@
 	"space_viewing_limits_members_organizations": "The limit organizations",
 	"space_viewing_limits_limits": "The view range",
 	"space_viewing_limits_limits_users": "The view range for users",
-	"space_viewing_limits_limits_organizations": "The view range for organizations"
+	"space_viewing_limits_limits_organizations": "The view range for organizations",
+
+	"pay_records": "Pay Records",
+	"workflow_designer_use_pc": "Please user this function on pc"
 }

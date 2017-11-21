@@ -151,6 +151,13 @@ Template.org_main_mobile.helpers
 	showAddContactUserBtn: ()->
 		return Steedos.isSpaceAdmin()
 
+	isBackToAdmin: ()->
+		currentRoute = FlowRouter.current().path
+		if Steedos.isMobile() and /\/admin/.test(currentRoute)
+			return true
+		else
+			return false
+
 
 Template.org_main_mobile.onCreated ->
 	Session.set 'contacts_is_org_admin', false

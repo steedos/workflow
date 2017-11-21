@@ -526,5 +526,8 @@
 	"space_viewing_limits_members_organizations": "限制部门",
 	"space_viewing_limits_limits": "查看范围",
 	"space_viewing_limits_limits_users": "人员范围",
-	"space_viewing_limits_limits_organizations": "部门范围"
+	"space_viewing_limits_limits_organizations": "部门范围",
+
+	"pay_records": "购买记录",
+	"workflow_designer_use_pc": "请在PC端打开"
 }

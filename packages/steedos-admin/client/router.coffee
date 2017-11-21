@@ -14,6 +14,12 @@ adminRoutes.route '/',
 		# 因其他模块（比如portal）可能默认会折叠左侧菜单，这里强行展开，每次进入设置模块就默认展开菜单了
 		$("body").removeClass("sidebar-collapse")
 
+		console.log "/admin"
+		# 移除选中状态并将展开的二级菜单收起来
+		# $(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
+		# $(".treeview.active > a").trigger("click")
+		# $(".treeview").removeClass("active")
+
 FlowRouter.route '/admin/home',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
@@ -22,5 +28,9 @@ FlowRouter.route '/admin/home',
 FlowRouter.route '/admin/organizations',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
-		BlazeLayout.render 'adminLayout',
-			main: "admin_org_main"
+		if Steedos.isMobile()
+			BlazeLayout.render 'adminLayout',
+				main: "org_main_mobile"
+		else
+			BlazeLayout.render 'adminLayout',
+				main: "admin_org_main"

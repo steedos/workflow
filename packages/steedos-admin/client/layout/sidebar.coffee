@@ -65,6 +65,7 @@ Admin.menuTemplate =
 					unless Admin.menuTemplate.checkMenu(menu)
 						return ""
 					# 二级菜单才有url及onclick函数
+					$("body").off "click", ".admin-menu-#{menu._id}"
 
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
 
@@ -72,7 +73,6 @@ Admin.menuTemplate =
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;
-
 
 						if typeof menu.onclick == "function"
 							menu.onclick()
@@ -194,6 +194,15 @@ Admin.menuTemplate =
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkMenu(menu)
 						return ""
+
+					$("body").off "click", ".weui-cell-#{menu._id}"
+					$("body").on "click", ".weui-cell-#{menu._id}", (e)->
+						if typeof menu.onclick == "function"
+							menu.onclick()
+
+					if menu.url == "/workflow/designer" and Steedos.isMobile()
+						menu.url = "#"
+
 					if menu.target
 						targetStr = "target=#{menu.target}"
 					else

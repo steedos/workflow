@@ -7,12 +7,17 @@
 						{{#if isBackButtonNeeded}}
 							<button type="button" class="btn btn-default btn-back">
 								<i class="ion ion-android-arrow-back"></i>
-								<!-- span>{{_ "btn_back_title"}}</span> -->
 							</button>
 						{{else}}
+							{{#if isBackToAdmin}}
+							<a class="btn btn-default" href="/admin">
+								<i class="ion ion-android-arrow-back"></i>
+							</a>
+							{{else}}
 							<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
 								<i class="fa fa-bars"></i>
 							</button>
+							{{/if}}
 						{{/if}}
 						<span class="navigation-title">
 							<span class="top-title text-overflow">{{title}}</span>
