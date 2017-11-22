@@ -32,7 +32,7 @@ Meteor.methods
 				isLimit = false
 				organizations = []
 			else
-				organizations = _.uniq _.flatten.organizations
+				organizations = _.uniq _.flatten organizations
 		return {
 			isLimit: isLimit
 			organizations:organizations
