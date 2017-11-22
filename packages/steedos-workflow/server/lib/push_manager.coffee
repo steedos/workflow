@@ -259,7 +259,7 @@ pushManager.get_badge = (send_from, user_id)->
 	badge = 0
 	user_spaces = db.space_users.find(
 		user: user_id
-		user_accepted: true).fetch()
+		user_accepted: true, {fields: {space: 1}})
 	user_spaces.forEach (user_space) ->
 		c = db.instances.find(
 			space: user_space.space
@@ -271,14 +271,13 @@ pushManager.get_badge = (send_from, user_id)->
 			$or: [
 				{ inbox_users: user_id }
 				{ cc_users: user_id }
-			]).count()
+			], {fields: {_id: 1}}).count()
 		badge += c
-
 		sk = db.steedos_keyvalues.findOne(
 			user: user_id
 			space: user_space.space
-			key: 'badge')
-		if sk
+			key: 'badge', {fields: {_id: 1, value: 1}})
+		if sk && sk.value?.workflow != c
 			db.steedos_keyvalues.update { _id: sk._id }, $set: 'value.workflow': c
 		else
 			sk_new = {}
@@ -287,11 +286,10 @@ pushManager.get_badge = (send_from, user_id)->
 			sk_new.key = 'badge'
 			sk_new.value = 'workflow': c
 			db.steedos_keyvalues.insert sk_new
-
 	sk_all = db.steedos_keyvalues.findOne(
 		user: user_id
 		space: null
-		key: 'badge')
+		key: 'badge', {fields: {_id: 1}})
 	if sk_all
 		db.steedos_keyvalues.update { _id: sk_all._id }, $set: 'value.workflow': badge
 	else
@@ -301,7 +299,6 @@ pushManager.get_badge = (send_from, user_id)->
 		sk_all_new.key = 'badge'
 		sk_all_new.value = 'workflow': badge
 		db.steedos_keyvalues.insert sk_all_new
-
 	return badge
 
 # 发送消息和badge到imo客户端
