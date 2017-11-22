@@ -16,36 +16,49 @@ Meteor.methods
 		limits = setting?.values || [];
 
 		if limits.length
-			myOrgs = db.organizations.find({space: space, users: this.userId}, {fields:{_id: 1}}).map (n) ->
+			myOrgs = db.organizations.find({space: space, users: this.userId}, {fields:{_id: 1}})
+			myOrgIds = myOrgs.map (n) ->
 				return n._id
-			unless myOrgs.length
+			unless myOrgIds.length
 				return reValue
 			
-			myLitmitOrgs = []
+			myLitmitOrgIds = []
 			for limit in limits
 				froms = limit.froms
 				tos = limit.tos
-				fromsChildren = db.organizations.find({space: space, parents: {$in: froms}}, {fields:{_id: 1}})?.map (n) ->
+				fromsChildren = db.organizations.find({space: space, parents: {$in: froms}}, {fields:{_id: 1}})
+				fromsChildrenIds = fromsChildren?.map (n) ->
 					return n._id
-				for myOrg in myOrgs
+				for myOrgId in myOrgIds
 					tempIsLimit = false
-					if froms.indexOf(myOrg) > -1
+					if froms.indexOf(myOrgId) > -1
 						tempIsLimit = true
 					else
-						if fromsChildren.indexOf(myOrg) > -1
+						if fromsChildrenIds.indexOf(myOrgId) > -1
 							tempIsLimit = true
 					if tempIsLimit
 						isLimit = true
 						organizations.push tos
-						myLitmitOrgs.push myOrg
+						myLitmitOrgIds.push myOrgId
 
-			myLitmitOrgs = _.uniq myLitmitOrgs
-			if myLitmitOrgs.length > myOrgs.length
-				# 如果受限的组织个数小于传入的组织个数，则说明当前用户至少有一个组织是不受限的
+			myLitmitOrgIds = _.uniq myLitmitOrgIds
+			if myLitmitOrgIds.length < myOrgIds.length
+				# 如果受限的组织个数小于用户所属组织的个数，则说明当前用户至少有一个组织是不受限的
 				isLimit = false
 				organizations = []
 			else
 				organizations = _.uniq _.flatten organizations
+
+		if isLimit
+			toOrgs = db.organizations.find({space: space, _id: {$in: organizations}}, {fields:{_id: 1, parents: 1}}).fetch()
+			# 把organizations中有父子节点关系的节点筛选出来并取出最外层节点
+			# 把organizations中有属于用户所属组织的子孙节点的节点删除
+			orgs = _.filter toOrgs, (org) ->
+				parents = org.parents or []
+				return _.intersection(parents, organizations).length < 1 and _.intersection(parents, myOrgIds).length < 1
+			organizations = orgs.map (n) ->
+				return n._id
+
 		reValue.isLimit = isLimit
 		reValue.organizations = organizations
 		return reValue
