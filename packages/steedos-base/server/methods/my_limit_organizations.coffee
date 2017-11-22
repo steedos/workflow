@@ -3,19 +3,24 @@ Meteor.methods
 		# 根据当前用户所属组织，查询出当前用户限定的组织查看范围
 		# 返回的isLimit为true表示限定在当前用户所在组织范围，organizations值记录额外的组织范围
 		# 返回的isLimit为false表示不限定组织范围，即表示能看整个工作区的组织
+		# 默认返回限定在当前用户所属组织
 		check space, String
+		reValue =
+			isLimit: true
+			organizations: []
 		unless this.userId
-			return
-		myOrgs = db.organizations.find({space: space, users: this.userId}, {fields:{_id: 1}}).map (n) ->
-			return n._id
-		unless myOrgs.length
-			return
+			return reValue
 		isLimit = false
 		organizations = []
 		setting = db.space_settings.findOne({space: space, key: "contacts_view_limits"})
 		limits = setting?.values || [];
 
 		if limits.length
+			myOrgs = db.organizations.find({space: space, users: this.userId}, {fields:{_id: 1}}).map (n) ->
+				return n._id
+			unless myOrgs.length
+				return reValue
+			
 			myLitmitOrgs = []
 			for limit in limits
 				froms = limit.froms
@@ -41,7 +46,6 @@ Meteor.methods
 				organizations = []
 			else
 				organizations = _.uniq _.flatten organizations
-		return {
-			isLimit: isLimit
-			organizations:organizations
-		}
+		reValue.isLimit = isLimit
+		reValue.organizations = organizations
+		return reValue
