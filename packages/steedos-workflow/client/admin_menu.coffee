@@ -1,7 +1,6 @@
 if Meteor.isClient
 
 	onclick = (parent, _id) ->
-		console.log "onclick"
 		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
 		$(".treeview-menu a.admin-menu-#{_id}").addClass("selected")
 		unless $(".admin-menu-#{parent}").closest("li").hasClass("active")
@@ -36,7 +35,6 @@ if Meteor.isClient
 	Admin.addMenu
 		_id: "workflow_designer"
 		title: "Workflow Designer"
-		# mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-shuffle"
 		url: "/workflow/designer"
@@ -58,7 +56,6 @@ if Meteor.isClient
 		_id: "steedos_tableau"
 		title: "steedos_tableau"
 		icon: "ion ion-ios-pie-outline"
-		mobile: false
 		sort: 2500
 		roles: []
 		url: "/tableau/info"
@@ -67,3 +64,8 @@ if Meteor.isClient
 			parent = this.parent
 			id = this._id
 			onclick(parent, id)
+			if Steedos.isMobile()
+				swal({
+					title: t("workflow_designer_use_pc"),
+					confirmButtonText: t("OK")
+				})

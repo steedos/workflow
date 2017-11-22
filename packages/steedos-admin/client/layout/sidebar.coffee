@@ -200,8 +200,11 @@ Admin.menuTemplate =
 						if typeof menu.onclick == "function"
 							menu.onclick()
 
-					if menu.url == "/workflow/designer" and Steedos.isMobile()
-						menu.url = "#"
+					if menu._id == "steedos_tableau" and Steedos.isMobile()
+						menu.url = "javascript:void(0)"
+
+					if menu._id == "workflow_designer" and Steedos.isMobile()
+						menu.url = "javascript:void(0)"
 
 					if menu.target
 						targetStr = "target=#{menu.target}"

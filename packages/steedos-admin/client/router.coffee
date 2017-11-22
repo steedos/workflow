@@ -14,7 +14,6 @@ adminRoutes.route '/',
 		# 因其他模块（比如portal）可能默认会折叠左侧菜单，这里强行展开，每次进入设置模块就默认展开菜单了
 		$("body").removeClass("sidebar-collapse")
 
-		console.log "/admin"
 		# 移除选中状态并将展开的二级菜单收起来
 		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
 		$(".treeview.active > a").trigger("click")

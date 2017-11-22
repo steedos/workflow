@@ -181,7 +181,7 @@ if Meteor.isClient
 			id = this._id
 			onclick(parent, id)
 
-		# 高级设置
+	# 高级设置
 	Admin.addMenu
 		_id: "advanced_setting"
 		title: "advanced_setting"
