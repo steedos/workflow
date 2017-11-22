@@ -370,6 +370,7 @@ Meteor.startup ()->
 				user_count: db.space_users.find({space: doc.space, user_accepted: true}).count()
 
 		db.space_users.before.update (userId, doc, fieldNames, modifier, options) ->
+			console.log "space_users.before.update"
 			modifier.$set = modifier.$set || {};
 
 			db.space_users.updatevaildate(userId, doc, modifier)
@@ -444,9 +445,12 @@ Meteor.startup ()->
 						})
 
 			newEmail = modifier.$set.email
+
 			# 当把邮箱设置为空值时，newEmail为undefined，modifier.$unset.email为空字符串
 			isEmailCleared = modifier.$unset?.email != undefined
-			if newEmail != doc.email
+
+			if newEmail and newEmail != doc.email
+
 				emails = []
 				email_val = {
 					address: newEmail
@@ -456,6 +460,7 @@ Meteor.startup ()->
 				db.users.update({_id: doc.user}, {$set: {emails: emails}})
 				db.space_users.direct.update({user: doc.user}, {$set: {email: newEmail}}, {multi: true})
 			else if isEmailCleared
+
 				emails = []
 				emails_val = {
 					address: ""
