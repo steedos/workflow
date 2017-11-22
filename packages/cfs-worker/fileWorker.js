@@ -61,7 +61,11 @@ FS.FileWorker.observe = function(fsCollection) {
       FS.TempStore.removeFile(fsFile);
       //delete from all stores
       FS.Utility.each(fsCollection.options.stores, function(storage) {
-        storage.adapter.remove(fsFile);
+        try {
+          storage.adapter.remove(fsFile);
+        } catch (e) {
+          return
+        }
       });
     }
   });
