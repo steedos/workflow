@@ -370,7 +370,6 @@ Meteor.startup ()->
 				user_count: db.space_users.find({space: doc.space, user_accepted: true}).count()
 
 		db.space_users.before.update (userId, doc, fieldNames, modifier, options) ->
-			console.log "space_users.before.update"
 			modifier.$set = modifier.$set || {};
 
 			db.space_users.updatevaildate(userId, doc, modifier)
@@ -457,7 +456,8 @@ Meteor.startup ()->
 					verified: false
 				}
 				emails.push(email_val)
-				db.users.update({_id: doc.user}, {$set: {emails: emails}})
+				steedos_id = newEmail
+				db.users.update({_id: doc.user}, {$set: {emails: emails, steedos_id: steedos_id}})
 				db.space_users.direct.update({user: doc.user}, {$set: {email: newEmail}}, {multi: true})
 			else if isEmailCleared
 
@@ -466,7 +466,7 @@ Meteor.startup ()->
 					address: ""
 					verified: ""
 				}
-				db.users.update({_id: doc.user}, {$unset: {emails: emails}})
+				db.users.update({_id: doc.user}, {$unset: {emails: emails}, $set: {steedos_id: doc.user}})
 				db.space_users.direct.update({user: doc.user}, {$unset: {email: ""}}, {multi: true})
 
 

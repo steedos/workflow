@@ -256,9 +256,9 @@ if Meteor.isServer
 		if modifier.$set.username
 			db.users.validateUsername(modifier.$set.username, doc._id)
 
-		if doc.steedos_id && modifier.$set.steedos_id
-			if modifier.$set.steedos_id != doc.steedos_id
-				throw new Meteor.Error(400, "users_error_steedos_id_readonly");
+		# if doc.steedos_id && modifier.$set.steedos_id
+		# 	if modifier.$set.steedos_id != doc.steedos_id
+		# 		throw new Meteor.Error(400, "users_error_steedos_id_readonly");
 
 		if userId
 			modifier.$set.modified_by = userId;
