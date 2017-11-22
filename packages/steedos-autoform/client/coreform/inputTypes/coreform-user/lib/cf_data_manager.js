@@ -166,11 +166,18 @@ CFDataManager.handerContactModalValueLabel = function () {
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
 		valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
-		if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
-			valueLabel_ui.css("white-space", "nowrap");
-		} else {
-			valueLabel_ui.css("white-space", "initial");
-		}
+
+		change_valueLabel_ui = function(){
+			if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
+				valueLabel_ui.css("white-space", "nowrap");
+			} else {
+				valueLabel_ui.css("white-space", "initial");
+			}
+		};
+
+		change_valueLabel_ui()
+
+		setTimeout(change_valueLabel_ui, 30);
 
 		var selectUsersList = Sortable.create(valueLabel[0], {
 			group: 'words',
