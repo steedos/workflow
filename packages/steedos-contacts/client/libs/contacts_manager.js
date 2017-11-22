@@ -17,10 +17,10 @@ ContactsManager.is_within_user_organizations = function () {
 ContactsManager.getOrgNode = function(node, showHiddenOrg) {
     var orgs;
 
-	var is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
+	// var is_within_user_organizations = ContactsManager.is_within_user_organizations();
+    myLimit = Steedos.my_limit_organizations
     if (node.id == '#')
-        if(is_within_user_organizations){
+        if(myLimit && myLimit.isLimit){
 			uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
 
 			_ids = uOrgs.getProperty("_id")
@@ -32,6 +32,12 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 
 				return _.intersection(parents, _ids).length < 1
 			})
+
+            if(myLimit.organizations.length){
+                limitIds = _.difference(myLimit.organizations, orgs.getProperty("_id"));
+                limitOrgs = ContactsManager.getOrganizationsByIds(limitIds, showHiddenOrg);
+                orgs = _.union(orgs,limitOrgs)
+            }
 
 			if (orgs.length > 0) {
 				orgs[0].open = true
@@ -133,6 +139,32 @@ ContactsManager.getRoot = function() {
     });
 };
 
+ContactsManager.getOrganizationsByIds = function(ids,showHiddenOrg) {
+    var query = {
+        _id: {$in: ids},
+        hidden: {$ne: true}
+    };
+    if(showHiddenOrg)
+        delete query.hidden
+    var childs = SteedosDataManager.organizationRemote.find(query, {
+        fields: {
+            _id: 1,
+            name: 1,
+            fullname: 1,
+            parent: 1,
+            children: 1,
+            childrens: 1,
+            hidden: 1,
+            sort_no: 1,
+            admins: 1
+        },
+        sort: {
+            sort_no: -1,
+            name: 1
+        }
+    });
+    return childs;
+}
 
 ContactsManager.getChild = function(parentId,showHiddenOrg) {
     var query = {
