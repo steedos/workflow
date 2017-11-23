@@ -217,7 +217,7 @@ TracesTemplate.helpers =
 		return index is 0
 
 	last_distribute_from: (instance_id)->
-		ins = db.instances.findOne({_id: instance_id},{fields:{created: 1, created_by: 1}})
+		ins = db.instances.findOne({_id: instance_id, distribute_from_instance: {$exists: true}},{fields:{created: 1, created_by: 1}})
 		if ins
 			dis_info = {}
 			user = {}
