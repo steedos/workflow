@@ -18,8 +18,8 @@ Template.contacts_settings.helpers
 		return db.space_settings.find(space: spaceId, key: "contacts_view_limits")
 
 	limit_from_names: (froms)->
-		orgs = SteedosDataManager.organizationRemote.find _id: {$in: froms}, {fields:{name:1}}
-		return orgs.getProperty("name")
+		orgs = SteedosDataManager.organizationRemote.find _id: {$in: froms}, {fields:{fullname:1}}
+		return orgs.getProperty("fullname")
 
 
 Template.contacts_settings.events
