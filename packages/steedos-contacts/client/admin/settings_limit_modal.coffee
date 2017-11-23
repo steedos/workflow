@@ -1,6 +1,5 @@
 Template.contacts_settings_limit_modal.helpers
 	limits_schema: ()->
-		debugger
 		index = Template.instance().data
 		if index
 			index = parseInt index
@@ -54,11 +53,10 @@ Template.contacts_settings_limit_modal.events
 		unless currentLimit.froms?.length
 			toastr.error t "space_viewing_limits_froms_required"
 			return
-
-		console.log "saveing,currentLimit:"
-		console.log currentLimit
-		console.log limits.values
-		Meteor.call("set_space_settings", spaceId, "contacts_view_limits", limits.values, false, ()->
-			Modal.hide(template);
-			toastr.success(t("saved_successfully"))
+		Meteor.call("set_space_settings", spaceId, "contacts_view_limits", limits.values, false, (error, result)->
+			if error
+				toastr.error error.reason
+			else
+				Modal.hide(template)
+				toastr.success(t("saved_successfully"))
 		)

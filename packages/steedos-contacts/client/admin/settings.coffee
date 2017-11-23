@@ -34,7 +34,32 @@ Template.contacts_settings.events
 		Modal.show("contacts_settings_limit_modal", index)
 
 	'click .view-limit-block .btn-delete': (event, template)->
-		Modal.show("contacts_settings_limit_modal")
+		index = event.currentTarget.dataset.index
+		spaceId = Steedos.spaceId()
+		swal {
+			title: t('flow_db_admin_confirm_delete')
+			text: t('flow_db_admin_confirm_delete_document')
+			type: 'warning'
+			showCancelButton: true
+			closeOnConfirm: true
+			confirmButtonColor: '#DD6B55'
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+		}, ->
+			limits = db.space_settings.findOne(space: spaceId, key: "contacts_view_limits")
+			unless limits?.values?.length
+				Modal.hide(template)
+				return
+			if index
+				index = parseInt index
+				limits.values.splice(index,1)
+				Meteor.call("set_space_settings", spaceId, "contacts_view_limits", limits.values, false, (error, result)->
+					if error
+						toastr.error error.reason
+					else
+						Modal.hide(template)
+						toastr.success(t("saved_successfully"))
+				)
 
 Template.contacts_settings.onCreated ->
 	spaceId = Steedos.spaceId()
