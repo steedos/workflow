@@ -672,7 +672,7 @@
 		}
 	}
 
-	.settings-hidden{
+	.box{
 		padding-left: 20px;
 		padding-right: 20px;
 		.box-body {
@@ -693,6 +693,46 @@
 		.ion{
 			position: relative;
 			top: 1px;
+		}
+	}
+
+	.view-limit-list{
+		list-style: none;
+		padding: 0 15px;
+		li{
+			padding: 0 10px;
+			border: 1px solid #E4E6E9;
+			border-radius: 2px;
+			list-style: none;
+			margin-bottom: 10px;
+			display: table;
+			table-layout: fixed;
+		}
+		.left-names{
+			margin-top: 7px;
+			.limit-froms-item{
+				margin-right: 6px;
+				position: relative;
+				float: left;
+				padding-right: 6px;
+				&:before{
+					content: " ";
+					position: absolute;
+					top: 0;
+					right: 1px;
+					left: 0;
+					bottom: 0;
+					border: 1px solid #E4E6E9;
+					z-index: 0;
+				}
+				.ion{
+					font-size: 17px;
+					color: rgba(63, 135, 217, 0.55);
+					margin-left: 5px;
+					margin-right: 5px;
+					vertical-align: -2px;
+				}
+			}
 		}
 	}
 }
