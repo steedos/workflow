@@ -40,7 +40,8 @@ Template.steedos_contacts_add_user_modal.helpers
 					type: "selectorg"
 					multiple: true
 					defaultValue: ->
-						return []
+						currentOrg = Session.get("contacts_orgId")
+						return [currentOrg]
 
 			manager:
 				type: String,
