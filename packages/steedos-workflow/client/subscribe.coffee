@@ -32,7 +32,7 @@ Steedos.subscribeFormVersion = (space, formId, form_version)->
 Steedos.subscribeInstance = (instance)->
 	Steedos.subscribeFlowVersion(instance.space, instance.flow, instance.flow_version)
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
-	Steedos.subs["instance_data"].subscribe("instance_data", instance._id)
+	Steedos.subs["instance_data"].subscribe("instance_data", instance._id, Session.get("box"))
 	Steedos.subs["Instance"].subscribe("flow", instance.space, instance.flow)
 	if instance.distribute_from_instance
 		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instance)
@@ -52,7 +52,7 @@ Tracker.autorun (c)->
 		if instance
 			Steedos.subscribeInstance(instance);
 		else
-			Steedos.subs["instance_data"].subscribe("instance_data", instanceId)
+			Steedos.subs["instance_data"].subscribe("instance_data", instanceId, Session.get("box"))
 
 Tracker.autorun (c) ->
 	if Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()
