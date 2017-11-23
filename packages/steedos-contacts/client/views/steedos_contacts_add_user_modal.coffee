@@ -43,13 +43,6 @@ Template.steedos_contacts_add_user_modal.helpers
 						currentOrg = Session.get("contacts_orgId")
 						return [currentOrg]
 
-			manager:
-				type: String,
-				label: t("space_users_manager")
-				optional: true,
-				autoform:
-					type: "selectuser"
-
 			user_accepted:
 				type: Boolean,
 				optional: true,
@@ -59,11 +52,6 @@ Template.steedos_contacts_add_user_modal.helpers
 			position:
 				type: String,
 				label: t("space_users_position")
-				optional: true
-
-			company:
-				type: String,
-				label: t("space_users_company")
 				optional: true
 
 			invite_state:
@@ -105,8 +93,11 @@ Template.steedos_contacts_add_user_modal.events
 	"click .contacts-add-user-save": (event,template)->
 		unless AutoForm.validateForm("addContactsUser")
 			return
-		unless AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
-			$('input[data-schema-key="mobile"]').after("""<span class="help-block">#{t("contact_need_phone_or_email")}</span>""")
+		if AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
+			$('input[data-schema-key="mobile"] + .need-phone-email').remove()
+			$('input[data-schema-key="mobile"]').closest(".form-group").removeClass("has-error")
+		else
+			$('input[data-schema-key="mobile"]').after("""<span class="help-block need-phone-email">#{t("contact_need_phone_or_email")}</span>""")
 			$('input[data-schema-key="mobile"]').closest(".form-group").addClass("has-error")
 			return
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc
