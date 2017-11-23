@@ -176,6 +176,9 @@ Template.instance_list.helpers
 	tableauUrl: ()->
 		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
 
+	showBatchBtn: ()->
+		return Session.get("workflow_batch_instances_count") > 0
+
 Template.instance_list._changeOrder = ()->
 
 	table = $(".datatable-instances")?.DataTable();
@@ -270,6 +273,26 @@ Template.instance_list.onCreated ->
 			Template.instance_list._tableColumns();
 			if !Steedos.isMobile() and !Steedos.isPad()
 				$(".instance-list").perfectScrollbar("update");
+
+	self.autorun ()->
+		if Session.get("box") == 'inbox' && Session.get("flowId")
+
+			Session.get("workflow_batch_instances_reload")
+
+			categoryId = Session.get("workflowCategory")
+
+			if Session.get("flowId")
+				flows = [Session.get("flowId")]
+
+			Meteor.call 'get_batch_instances_count', Session.get("spaceId"), categoryId, flows, (error, result)->
+				if error
+					console.error 'error',error
+				else
+					console.log(result)
+
+					Session.set("workflow_batch_instances_count", result)
+		else
+			Session.set("workflow_batch_instances_count", 0)
 
 Template.instance_list.onRendered ->
 	self = this;
@@ -387,3 +410,6 @@ Template.instance_list.events
 
 	'click .tabular-introduction': ()->
 		Modal.show("tableau_introduction_modal")
+
+	'click .batch_instances_view > button': ()->
+		Modal.show("batch_instances_modal")

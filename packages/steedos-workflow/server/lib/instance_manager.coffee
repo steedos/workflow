@@ -55,3 +55,45 @@ InstanceManager.getCurrentApprove = (instance, handler)->
 
 InstanceManager.getCurrentTrace = (instance, traceId)->
 	return instance.traces.findPropertyByPK("_id", traceId)
+
+InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
+	_batch_instances = new Array()
+
+	query = {space: space, inbox_users: inbox_user}
+
+	FIELDS = {name: 1, applicant_name: 1, submit_date: 1, flow_version: 1, "traces.step": 1, flow: 1}
+
+	if categoryId
+
+		if categoryId == '-1'
+			unCategoryFlows = flowManager.getUnCategoriesFlows(space, {_id: 1}).fetch().getProperty("_id")
+			query.flow = {$in: unCategoryFlows}
+		else
+			categoryFlows = flowManager.getCategoriesFlows(space, categoryId, {_id: 1}).fetch().getProperty("_id")
+			query.flow = {$in: categoryFlows}
+
+	if flowIds
+		query.flow = {$in: flowIds}
+
+#	console.log("query", JSON.stringify(query))
+
+	inbox_instances = db.instances.find(query, {fields: FIELDS, skip: 0, limit: 101})
+
+	inbox_instances.forEach (ins)->
+		currentStepId = _.last(ins.traces).step #TODO 此代码不适用传阅批处理
+
+		flow = db.flows.findOne({_id: ins.flow})
+
+		currentStep = stepManager.getStep(ins, flow, currentStepId)
+
+		if stepManager.allowBatch(currentStep)
+
+			delete ins.flow_version
+
+			delete ins.traces
+
+			delete ins.flow
+
+			_batch_instances.push(ins)
+
+	return _batch_instances;

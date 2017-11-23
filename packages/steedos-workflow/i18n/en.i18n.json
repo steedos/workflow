@@ -612,5 +612,9 @@
 	"start_flows": "Start flows",
 
 	"chart_traces": "Chart Traces",
-	"cc_tag": "(Carbon Copying)"
+	"cc_tag": "(Carbon Copying)",
+	"workflow_batch_approval": "Batch approval",
+	"workflow_batch_approval_btn": "Batch<br/>approval",
+	"workflow_batch_approval_processing": "Processing",
+	"workflow_batch_approval_message": "This processing file %s"
 }

@@ -6,46 +6,20 @@ Meteor.methods
 		if !space
 			return
 
-		_batch_instances = new Array()
-
-		query = {space: space, inbox_users: this.userId}
-
-		FIELDS = {name: 1, applicant_name: 1, submit_date: 1, flow_version: 1, "traces.step": 1, flow: 1}
-
-		if categoryId
-
-			if categoryId == '-1'
-				unCategoryFlows = flowManager.getUnCategoriesFlows(space, {_id: 1}).fetch().getProperty("_id")
-				query.flow = {$in: unCategoryFlows}
-			else
-				categoryFlows = flowManager.getCategoriesFlows(space, categoryId, {_id: 1}).fetch().getProperty("_id")
-				query.flow = {$in: categoryFlows}
-
-		if flowIds
-			query.flow = {$in: flowIds}
-
-		console.log("query", query)
-
-		inbox_instances = db.instances.find(query, {fields: FIELDS, skip: 0, limit: 20000})
-
-		inbox_instances.forEach (ins)->
-			currentStepId = _.last(ins.traces).step #TODO 此代码不适用传阅批处理
-
-			flow = db.flows.findOne({_id: ins.flow})
-
-			currentStep = stepManager.getStep(ins, flow, currentStepId)
-
-			if stepManager.allowBatch(currentStep)
-
-				delete ins.flow_version
-
-				delete ins.traces
-
-				delete ins.flow
-
-				_batch_instances.push(ins)
+		_batch_instances = InstanceManager.getBatchInstances(space, categoryId, flowIds, this.userId)
 
 		return _batch_instances
+
+	'get_batch_instances_count': (space, categoryId, flowIds)->
+		if !this.userId
+			return
+
+		if !space
+			return
+
+		_batch_instances = InstanceManager.getBatchInstances(space, categoryId, flowIds, this.userId)
+
+		return _batch_instances?.length || 0
 
 	'get_my_approves': (instanceIds)->
 

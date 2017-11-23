@@ -15,11 +15,19 @@
     display: block;
 }
 
+.keep-loading .loadingOverlay {
+	display: block;
+}
+
 .loading-box {
     display: none;
     flex-direction: column;
     justify-content: center;
     height: 100%;
+}
+
+.keep-loading .loading-box {
+	display: flex;
 }
 
 .loading .loading-box {
@@ -32,6 +40,11 @@
     text-align: center;
     font-weight: bold;
     margin-bottom: 70px;
+	.btn-default{
+		background-color: #f4f4f4;
+		color: #444;
+		border-color: #ddd;
+	}
 }
 
 .spinner {

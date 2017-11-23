@@ -1,4 +1,7 @@
 Template.batch_instances_modal.onCreated ()->
+
+	$("body").addClass("loading")
+
 	that = this
 
 	that.batch_instances = new ReactiveVar()
@@ -16,9 +19,11 @@ Template.batch_instances_modal.onCreated ()->
 			toastr.error 'error'
 		else
 
-			console.log(result)
+#			console.log(result)
 
 			that.batch_instances.set(result)
+
+		$("body").removeClass("loading")
 
 Template.batch_instances_modal.helpers
 	batch_instances: ()->
@@ -37,7 +42,14 @@ Template.batch_instances_modal.helpers
 Template.batch_instances_modal.events
 
 	'click .confirm': (event, template)->
-		console.log("template.batch_instances.get()", template.batch_instances.get())
+
+		$("body").addClass('keep-loading')
+
+		$(".batch-instances-modal-progress").show()
+
+		Steedos.setModalMaxHeight()
+
+#		console.log("template.batch_instances.get()", template.batch_instances.get())
 
 		description = $("#batch_instances_description").val() || ''
 
@@ -51,11 +63,21 @@ Template.batch_instances_modal.events
 			else
 				console.log("result", result)
 #				instanceBatch.submit result
-				result.forEach (approve)->
-					approve.description = description
-					instanceBatch.submit [approve], ()->
-						submitted = template.submitted.get()
-						submitted.push(approve.instance)
-						template.submitted.set(submitted)
-						time3 = new Date().getTime()
-						console.log("instanceBatch", time3 - time1)
+				if result.length > 0
+					result.forEach (approve)->
+						approve.description = description
+						instanceBatch.submit [approve], ()->
+							submitted = template.submitted.get()
+							submitted.push(approve.instance)
+							template.submitted.set(submitted)
+
+							if template.submitted.get()?.length == result.length
+								Session.set("workflow_batch_instances_reload", Random.id())
+								$("body").removeClass('keep-loading')
+								toastr.info TAPi18n.__("workflow_batch_approval_message", template.submitted.get()?.length)
+								Modal.hide(template)
+
+							time3 = new Date().getTime()
+							console.log("instanceBatch", time3 - time1)
+				else
+					$("body").removeClass('keep-loading')
