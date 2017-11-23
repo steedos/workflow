@@ -30,6 +30,8 @@ Meteor.methods
 
 		myApproves = new Array()
 
+		lang = Steedos.locale(that.userId, true)
+
 		instanceIds.forEach (insId)->
 			instance = db.instances.findOne({_id: insId})
 
@@ -45,16 +47,15 @@ Meteor.methods
 
 				nextSteps = uuflowManager.getNextSteps(instance, flow, step, "")
 
-				console.log("nextSteps length", instance._id, nextSteps.length)
-
 				if nextSteps.length == 1
 					next_user_ids = getHandlersManager.getHandlers(instance._id , nextSteps[0])
-					console.log("next_user_ids length", instance._id, next_user_ids.length)
 					if next_user_ids.length == 1
-
 						my_approves.next_steps = [{step: nextSteps[0], users: next_user_ids}]
-
 						myApproves.push(my_approves)
+					else
+						throw new Meteor.Error('error!', TAPi18n.__('workflow_error_multiple_next_step_users', {insname: instance.name}, lang))
+				else
+					throw new Meteor.Error('error!', TAPi18n.__('workflow_error_multiple_next_step', {insname: instance.name}, lang))
 
 		return myApproves
 
