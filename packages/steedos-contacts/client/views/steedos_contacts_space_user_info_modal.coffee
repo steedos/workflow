@@ -41,6 +41,9 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 	isEditable: ->
+		spaceUser = db.space_users.findOne this.targetId
+		if spaceUser.invite_state == "pending" or spaceUser.invite_state == "refused"
+			return false
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			return true
 		else

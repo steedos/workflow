@@ -210,10 +210,11 @@ Template.steedos_contacts_org_user_list.events
 				return false
 			
 			result = Steedos.validatePassword inputValue
+			space_id = Steedos.spaceId()
 			if result.error
 				return toastr.error result.error.reason
 
-			Meteor.call "setUserPassword", user_id, inputValue, (error, result) ->
+			Meteor.call "setUserPassword", user_id, space_id, inputValue, (error, result) ->
 				if error
 					toastr.error error.reason
 				else
