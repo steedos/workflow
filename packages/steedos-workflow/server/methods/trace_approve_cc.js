@@ -148,9 +148,6 @@ Meteor.methods({
             }
         });
         var traces = instance.traces;
-        var ins_cc_users = instance.cc_users;
-        var outbox_users = instance.outbox_users ? instance.outbox_users : [];
-        var new_cc_users = [];
         var current_user_id = this.userId;
         var current_approve;
 
@@ -192,26 +189,21 @@ Meteor.methods({
             }
         });
 
-        ins_cc_users.forEach(function(u) {
-            if (current_user_id != u) {
-                new_cc_users.push(u);
-            }
-        });
-
-        setObj.cc_users = new_cc_users;
-
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
         setObj['traces.$.approves.' + index + '.description'] = description;
-
-        outbox_users.push(current_user_id);
-        setObj.outbox_users = _.uniq(outbox_users);
 
         db.instances.update({
             _id: ins_id,
             'traces._id': current_approve.trace
         }, {
-            $set: setObj
+            $set: setObj,
+            $pull: {
+                cc_users: current_user_id
+            },
+            $addToSet: {
+                outbox_users: current_user_id
+            }
         });
 
         pushManager.send_message_to_specifyUser("current_user", current_user_id);
