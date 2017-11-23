@@ -277,8 +277,9 @@ pushManager.get_badge = (send_from, user_id)->
 			user: user_id
 			space: user_space.space
 			key: 'badge', {fields: {_id: 1, value: 1}})
-		if sk && sk.value?.workflow != c
-			db.steedos_keyvalues.update { _id: sk._id }, $set: 'value.workflow': c
+		if sk
+			if sk.value?.workflow != c
+				db.steedos_keyvalues.update { _id: sk._id }, $set: 'value.workflow': c
 		else
 			sk_new = {}
 			sk_new.user = user_id
