@@ -26,7 +26,7 @@ Template.cf_space_user_list.onDestroyed ->
 Template.cf_space_user_list.helpers
 	selector: (userOptions)->
 		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
-		is_within_user_organizations = Template.instance().data.is_within_user_organizations
+		myLimit = Steedos.my_limit_organizations
 
 		query = {space: spaceId, user_accepted: true};
 
@@ -45,8 +45,10 @@ Template.cf_space_user_list.helpers
 				orgAndChild = Session.get("cf_orgAndChild");
 				query.organizations = {$in: orgAndChild};
 			else
-				if is_within_user_organizations
+				if myLimit?.isLimit
 					orgs = db.organizations.find().fetch().getProperty("_id")
+					if myLimit.organizations.length
+						orgs = _.union(orgs, myLimit.organizations)
 					orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 						fields: {
 							_id: 1

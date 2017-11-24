@@ -3,12 +3,13 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
+CFDataManager.getNode = function (spaceId, node) {
 
 	var orgs;
 
+	myLimit = Steedos.my_limit_organizations
 	if (node.id == '#') {
-		if (is_within_user_organizations) {
+		if (myLimit && myLimit.isLimit) {
 			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
 
 			_ids = uOrgs.getProperty("_id")
@@ -20,6 +21,12 @@ CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
 
 				return _.intersection(parents, _ids).length < 1
 			})
+
+			if(myLimit.organizations.length){
+				limitIds = _.difference(myLimit.organizations, orgs.getProperty("_id"));
+				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
+				orgs = _.union(orgs,limitOrgs)
+			}
 
 			if (orgs.length > 0) {
 				orgs[0].open = true
@@ -61,7 +68,7 @@ function handerOrg(orgs, parentId) {
 		}
 
 		if (org.children && org.children.length > 0) {
-		    node.children = true;
+			node.children = true;
 		}else{
 			node.children = false;
 		}
@@ -335,6 +342,36 @@ CFDataManager.getRoot = function (spaceId) {
 	});
 };
 
+CFDataManager.getOrganizationsByIds = function(ids) {
+	var query = {
+		_id: {$in: ids},
+		hidden: {$ne: true}
+	};
+	var showHiddenOrg = false;
+	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+		showHiddenOrg = true;
+	}
+	if(showHiddenOrg)
+		delete query.hidden
+	var childs = SteedosDataManager.organizationRemote.find(query, {
+		fields: {
+			_id: 1,
+			name: 1,
+			fullname: 1,
+			parent: 1,
+			children: 1,
+			childrens: 1,
+			hidden: 1,
+			sort_no: 1,
+			admins: 1
+		},
+		sort: {
+			sort_no: -1,
+			name: 1
+		}
+	});
+	return childs;
+}
 
 CFDataManager.getChild = function (spaceId, parentId) {
 

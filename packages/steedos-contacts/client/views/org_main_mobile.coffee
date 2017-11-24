@@ -14,7 +14,6 @@ isOrgAdmin = ->
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
 
-	# is_within_user_organizations = ContactsManager.is_within_user_organizations();
 	myLimit = Steedos.my_limit_organizations
 	query = {space: spaceId}
 	isSearching = Session.get "contact_list_search"
@@ -51,7 +50,6 @@ organizationsSelector = ->
 			parent: currentOrgId
 			hidden: { $ne: true }
 	else
-		# isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 		myLimit = Steedos.my_limit_organizations
 		if myLimit?.isLimit
 			userId = Meteor.userId()
@@ -163,7 +161,6 @@ Template.org_main_mobile.onCreated ->
 	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
-		# isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 		if Steedos.my_limit_organizations?.isLimit
 			orgs = db.organizations.find(organizationsSelector())
 			organizationsCount = orgs.count()
@@ -227,7 +224,6 @@ Template.org_main_mobile.events
 		currentOrg = if currentOrgId then db.organizations.findOne(currentOrgId) else null
 		if currentOrg and currentOrg.parent
 			# 判断currentOrg.parent是否在当前用户可查看权限范围，如果是则直接返回，反之则返回null
-			# isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
 			myLimit = Steedos.my_limit_organizations
 			if myLimit?.isLimit
 				spaceId = Steedos.spaceId()
