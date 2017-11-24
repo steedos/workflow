@@ -154,7 +154,7 @@ Template.org_main_mobile.helpers
 			return false
 
 	lastUrl: ()->
-		return FlowRouter.current().oldRoute.path
+		return FlowRouter.current()?.oldRoute?.path
 
 Template.org_main_mobile.onCreated ->
 	Session.set 'contacts_is_org_admin', false
