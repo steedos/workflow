@@ -40,11 +40,6 @@ Meteor.startup ()->
 				multiple: true
 				defaultValue: ->
 					return []
-				is_within_user_organizations: ()->
-					if Steedos.isSpaceAdmin()
-						return false
-					else
-						return true
 
 		manager:
 			type: String,

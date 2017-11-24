@@ -131,12 +131,10 @@ Template.org_main_mobile.helpers
 		return className
 
 	orgFields: ()->
-		is_with = ContactsManager.is_within_user_organizations()
 		fields =
 			contacts_org_mobile_sel:
 				autoform:
 					type: 'selectorg'
-					is_within_user_organizations: !!is_with
 				optional: false
 				type: String
 				label: ''
