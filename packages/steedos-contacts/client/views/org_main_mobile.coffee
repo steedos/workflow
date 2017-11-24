@@ -13,9 +13,9 @@ isOrgAdmin = ->
 
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
-
 	myLimit = Steedos.my_limit_organizations
-	query = {space: spaceId}
+	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+	query = {space: spaceId, user: {$nin: hidden_users}}
 	isSearching = Session.get "contact_list_search"
 	if isSearching
 		searchingKey = Session.get('contacts_searching_key_mobile')
