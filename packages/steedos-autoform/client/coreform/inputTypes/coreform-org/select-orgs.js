@@ -80,16 +80,6 @@ Template.afSelectOrg.events({
 			options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
 		}
 
-		options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
-
-		if(!_.isBoolean(options.is_within_user_organizations)){
-			if(options.is_within_user_organizations.toLocaleUpperCase() == "TRUE"){
-				options.is_within_user_organizations = true
-			}else{
-				options.is_within_user_organizations = false
-			}
-		}
-
 		options.title = this.atts.title?  this.atts.title: t('coreform_select_org_title'); //t('coreform_select') +
 
 		Modal.allowMultiple = true;

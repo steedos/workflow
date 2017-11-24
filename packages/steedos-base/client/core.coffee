@@ -33,7 +33,7 @@ Meteor.startup ->
 			Steedos.loadingTimeCount++
 		else
 			Steedos.loadingTimeCount = 0
-		if Steedos.loadingTimeCount > 5
+		if Steedos.loadingTimeCount > 12
 			$(".loading-text a").removeClass("hide")
 		else
 			$(".loading-text a").addClass("hide")

@@ -44,8 +44,7 @@ Template.instance_cc_modal.helpers
 				cc_users:
 					autoform:
 						type: 'selectuser'
-						multiple: true,
-						is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
+						multiple: true
 					optional: false
 					type: [ String ]
 					label: TAPi18n.__('instance_cc_user')

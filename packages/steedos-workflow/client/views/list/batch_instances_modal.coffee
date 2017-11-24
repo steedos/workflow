@@ -1,4 +1,7 @@
 Template.batch_instances_modal.onCreated ()->
+
+	$("body").addClass("loading")
+
 	that = this
 
 	that.batch_instances = new ReactiveVar()
@@ -16,9 +19,14 @@ Template.batch_instances_modal.onCreated ()->
 			toastr.error 'error'
 		else
 
-			console.log(result)
+			if result.length < 1
+				toastr.info t('workflow_batch_instances_empty')
+
+#			console.log(result)
 
 			that.batch_instances.set(result)
+
+		$("body").removeClass("loading")
 
 Template.batch_instances_modal.helpers
 	batch_instances: ()->
@@ -37,7 +45,10 @@ Template.batch_instances_modal.helpers
 Template.batch_instances_modal.events
 
 	'click .confirm': (event, template)->
-		console.log("template.batch_instances.get()", template.batch_instances.get())
+
+		$("body").addClass('keep-loading')
+
+#		console.log("template.batch_instances.get()", template.batch_instances.get())
 
 		description = $("#batch_instances_description").val() || ''
 
@@ -47,15 +58,29 @@ Template.batch_instances_modal.events
 			time2 = new Date().getTime()
 			console.log("get_my_approves", time2 - time1)
 			if error
-				toastr.error 'error'
+				toastr.error error.reason
+				$("body").removeClass('keep-loading')
 			else
-				console.log("result", result)
+				$(".batch-instances-modal-progress").show()
+
+				Steedos.setModalMaxHeight()
 #				instanceBatch.submit result
-				result.forEach (approve)->
-					approve.description = description
-					instanceBatch.submit [approve], ()->
-						submitted = template.submitted.get()
-						submitted.push(approve.instance)
-						template.submitted.set(submitted)
-						time3 = new Date().getTime()
-						console.log("instanceBatch", time3 - time1)
+				if result.length > 0
+					result.forEach (approve)->
+						approve.description = description
+						instanceBatch.submit [approve], ()->
+							# 此处采用积极策略，无论接口返回成功还是失败，都认为是成功的
+							submitted = template.submitted.get()
+							submitted.push(approve.instance)
+							template.submitted.set(submitted)
+
+							if template.submitted.get()?.length == result.length
+								Session.set("workflow_batch_instances_reload", Random.id())
+								$("body").removeClass('keep-loading')
+								toastr.info TAPi18n.__("workflow_batch_approval_message", template.submitted.get()?.length)
+								Modal.hide(template)
+
+							time3 = new Date().getTime()
+							console.log("instanceBatch", time3 - time1)
+				else
+					$("body").removeClass('keep-loading')
