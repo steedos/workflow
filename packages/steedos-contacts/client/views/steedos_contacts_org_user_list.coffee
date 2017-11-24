@@ -4,33 +4,25 @@ Template.steedos_contacts_org_user_list.helpers
 			return true
 		return false;
 	selector: ->
-
-		is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
-		query = {space: Session.get("spaceId")}
+		spaceId = Steedos.spaceId()
+		myLimit = Steedos.my_limit_organizations
+		query = {space: spaceId}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
-			isAdminOrgRoute = /\/admin\/organizations/.test(FlowRouter.current().path)
-			if is_within_user_organizations and !isAdminOrgRoute and db.organizations.findOne({ _id: orgId })?.is_company
-				# 当不在系统设置的组织架构路由中且在根组织时，不显示人员
-				query._id = -1
-			else
-				query.organizations = {$in: [orgId]};
+			query.organizations = {$in: [orgId]};
 		else
-			if is_within_user_organizations
-				orgs = db.organizations.find().fetch().getProperty("_id")
-
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-
+			else if myLimit?.isLimit
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				if myLimit.organizations?.length
+					orgs = _.union(orgs, myLimit.organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-
 			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
 			query.organizations = {$in: orgs};
 
 		if !Session.get('contacts_is_org_admin')

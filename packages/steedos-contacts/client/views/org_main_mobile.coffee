@@ -23,7 +23,7 @@ spaceUsersSelector = ->
 			return { _id : -1}
 		if myLimit?.isLimit
 			orgs = db.organizations.find().fetch().getProperty("_id")
-			if myLimit.organizations.length
+			if myLimit.organizations?.length
 				orgs = _.union(orgs, myLimit.organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
@@ -34,7 +34,6 @@ spaceUsersSelector = ->
 			query.organizations = {$in: orgs}
 	else
 		orgId = Session.get("contacts_org_mobile")
-		rootOrg = Session.get("contacts_org_mobile_root")
 		query.organizations = {$in: [orgId]};
 
 	query.user_accepted = true

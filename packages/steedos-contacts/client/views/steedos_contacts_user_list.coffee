@@ -4,31 +4,26 @@ Template.steedos_contacts_user_list.helpers
 			return true
 		return false;
 	selector: ->
-
-		is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
+		spaceId = Steedos.spaceId()
+		myLimit = Steedos.my_limit_organizations
 		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
-
-		query = {space: Session.get("spaceId"), user: {$nin: hidden_users}}
-
+		query = {space: spaceId, user: {$nin: hidden_users}}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
 		else
-			if is_within_user_organizations
-				orgs = db.organizations.find().fetch().getProperty("_id")
-
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-
+			else if myLimit?.isLimit
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				if myLimit.organizations?.length
+					orgs = _.union(orgs, myLimit.organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-
 			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
 			query.organizations = {$in: orgs};
 
 		query.user_accepted = true
