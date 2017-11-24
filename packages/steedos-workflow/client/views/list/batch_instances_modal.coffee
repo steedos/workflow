@@ -52,11 +52,11 @@ Template.batch_instances_modal.events
 
 		description = $("#batch_instances_description").val() || ''
 
-		time1 = new Date().getTime()
+#		time1 = new Date().getTime()
 
 		Meteor.call 'get_my_approves', template.batch_instances.get().getProperty("_id"), (error, result)->
-			time2 = new Date().getTime()
-			console.log("get_my_approves", time2 - time1)
+#			time2 = new Date().getTime()
+#			console.log("get_my_approves", time2 - time1)
 			if error
 				toastr.error error.reason
 				$("body").removeClass('keep-loading')
@@ -64,9 +64,14 @@ Template.batch_instances_modal.events
 				$(".batch-instances-modal-progress").show()
 
 				Steedos.setModalMaxHeight()
+
 #				instanceBatch.submit result
 				if result.length > 0
+
 					result.forEach (approve)->
+
+						console.log("approve", approve._id)
+
 						approve.description = description
 						instanceBatch.submit [approve], ()->
 							# 此处采用积极策略，无论接口返回成功还是失败，都认为是成功的
@@ -81,6 +86,6 @@ Template.batch_instances_modal.events
 								Modal.hide(template)
 
 							time3 = new Date().getTime()
-							console.log("instanceBatch", time3 - time1)
+#							console.log("instanceBatch", time3 - time1)
 				else
 					$("body").removeClass('keep-loading')

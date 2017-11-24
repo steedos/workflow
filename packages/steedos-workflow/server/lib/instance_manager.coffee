@@ -56,6 +56,36 @@ InstanceManager.getCurrentApprove = (instance, handler)->
 InstanceManager.getCurrentTrace = (instance, traceId)->
 	return instance.traces.findPropertyByPK("_id", traceId)
 
+InstanceManager.getMyApprove = (instanceId, userId)->
+	instance = db.instances.findOne({_id: instanceId})
+
+	flow = uuflowManager.getFlow(instance.flow)
+
+	my_approve = InstanceManager.getCurrentApprove(instance, userId)
+
+	if my_approve
+
+#		lang = Steedos.locale(that.userId, true)
+
+		trace = InstanceManager.getCurrentTrace(instance, my_approve.trace)
+
+		step = uuflowManager.getStep(instance, flow, trace.step)
+
+		nextSteps = uuflowManager.getNextSteps(instance, flow, step, "")
+
+		if nextSteps.length == 1
+			next_user_ids = getHandlersManager.getHandlers(instance._id , nextSteps[0])
+			if next_user_ids.length == 1
+				my_approve.next_steps = [{step: nextSteps[0], users: next_user_ids}]
+				return my_approve
+#			else
+#				throw new Meteor.Error('error!', TAPi18n.__('workflow_error_multiple_next_step_users', {insname: instance.name}, lang))
+#		else
+#			throw new Meteor.Error('error!', TAPi18n.__('workflow_error_multiple_next_step', {insname: instance.name}, lang))
+
+	return
+
+
 InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 	_batch_instances = new Array()
 
@@ -77,7 +107,7 @@ InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 
 #	console.log("query", JSON.stringify(query))
 
-	inbox_instances = db.instances.find(query, {fields: FIELDS, skip: 0, limit: 101})
+	inbox_instances = db.instances.find(query, {fields: FIELDS, skip: 0, limit: 100})
 
 	inbox_instances.forEach (ins)->
 		currentStepId = _.last(ins.traces).step #TODO 此代码不适用传阅批处理
@@ -86,7 +116,7 @@ InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 
 		currentStep = stepManager.getStep(ins, flow, currentStepId)
 
-		if stepManager.allowBatch(currentStep)
+		if stepManager.allowBatch(currentStep) && InstanceManager.getMyApprove(ins._id, inbox_user)
 
 			delete ins.flow_version
 
@@ -95,5 +125,7 @@ InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 			delete ins.flow
 
 			_batch_instances.push(ins)
+		else
+			console.log("批量审批-异常数据", ins._id)
 
 	return _batch_instances;
