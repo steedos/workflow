@@ -1,7 +1,7 @@
 Template.steedos_contacts_import_modal.helpers
 	contactsFields: ->
 
-		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		# hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 
 		data = {
 			name: 'books_contacts',
@@ -11,7 +11,7 @@ Template.steedos_contacts_import_modal.helpers
 				class: 'selectUser form-control',
 				# style: 'padding:6px 12px;width:140px;display:inline',
 				multiple: true
-				unselectable_users: hidden_users
+				# unselectable_users: hidden_users
 			}
 		}
 		return data;

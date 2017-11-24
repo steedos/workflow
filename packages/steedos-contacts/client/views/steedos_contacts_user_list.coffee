@@ -6,8 +6,9 @@ Template.steedos_contacts_user_list.helpers
 	selector: ->
 		spaceId = Steedos.spaceId()
 		myLimit = Steedos.my_limit_organizations
-		hidden_users = SteedosContacts.getHiddenUsers(spaceId)
-		query = {space: spaceId, user: {$nin: hidden_users}}
+		# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+		# query = {space: spaceId, user: {$nin: hidden_users}}
+		query = {space: spaceId}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
