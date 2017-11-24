@@ -197,7 +197,7 @@ function saveCopy(fsFile, storeName, options) {
     var temp_chunk = FS.TempStore.Tracker.findOne({
       fileId: fsFile._id
     });
-    if (temp_chunk.is_saveCopy) {
+    if (!temp_chunk || temp_chunk.is_saveCopy) {
       return;
     }
     var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
