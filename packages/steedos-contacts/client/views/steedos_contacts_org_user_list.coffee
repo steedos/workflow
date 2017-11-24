@@ -6,8 +6,11 @@ Template.steedos_contacts_org_user_list.helpers
 	selector: ->
 		spaceId = Steedos.spaceId()
 		myLimit = Steedos.my_limit_organizations
-		hidden_users = SteedosContacts.getHiddenUsers(spaceId)
-		query = {space: spaceId, user: {$nin: hidden_users}}
+		query = {space: spaceId}
+		if FlowRouter.current().path != "/admin/organizations"
+			# 系统设置中组织架构以外的通讯录都需要限制隐藏用户显示
+			hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+			query.user = {$nin: hidden_users}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
