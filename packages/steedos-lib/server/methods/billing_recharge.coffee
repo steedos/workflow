@@ -22,8 +22,6 @@ Meteor.methods
 			if total_fee < one_month_yuan*100
 				throw new Meteor.Error 'error!', "充值金额应不少于一个月所需费用：￥#{one_month_yuan}"
 
-		total_fee = 1 #测试用记得删掉
-
 		result_obj = {}
 
 		attach = {}
