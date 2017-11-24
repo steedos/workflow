@@ -44,6 +44,13 @@ Template.steedos_contacts_org_tree.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
+	isFromAdmin: ()->
+		currentRoute = FlowRouter.current().path
+		if /\/admin/.test(currentRoute)
+			return true
+		else
+			return false
+
 Template.steedos_contacts_org_tree.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	$(document.body).addClass('loading')
