@@ -141,15 +141,19 @@ Template.org_main_mobile.helpers
 		return new SimpleSchema(fields)
 
 	showAddContactUserBtn: ()->
+		# currentRoute = FlowRouter.current().path
+		# return Steedos.isSpaceAdmin() and /\/contacts/.test(currentRoute)
 		return Steedos.isSpaceAdmin()
 
-	isBackToAdmin: ()->
+	isFromAdmin: ()->
 		currentRoute = FlowRouter.current().path
 		if Steedos.isMobile() and /\/admin/.test(currentRoute)
 			return true
 		else
 			return false
 
+	lastUrl: ()->
+		return FlowRouter.current().oldRoute.path
 
 Template.org_main_mobile.onCreated ->
 	Session.set 'contacts_is_org_admin', false
@@ -285,4 +289,18 @@ Template.org_main_mobile.events
 
 	'click .add-contact-user': (event,template) ->
 		Modal.show("steedos_contacts_add_user_modal")
+
+	'click .org-tabbar .add-users': (event, template) ->
+		Modal.show("steedos_contacts_add_user_modal")
+
+	'click .org-tabbar .add-organization': (event, template) ->
+		orgId = Session.get('contacts_org_mobile')
+		doc = { parent: orgId }
+		AdminDashboard.modalNew 'organizations', doc
+		# AdminDashboard.modalNew 'organizations', doc, ()->
+		# 	$.jstree.reference('#steedos_contacts_org_tree').refresh()
+
+	'click .org-tabbar .edit-organization': (event, template) ->
+		orgId = Session.get('contacts_org_mobile')
+		AdminDashboard.modalEdit 'organizations', orgId
 
