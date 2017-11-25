@@ -3,10 +3,10 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return Steedos.isMobile()
 
 	spaceUser: ->
-		return db.space_users.findOne this.targetId;
+		return db.space_users.findOne Template.instance().data.targetId;
 	
 	spaceUserOrganizations: ->
-		spaceUser = db.space_users.findOne this.targetId;
+		spaceUser = db.space_users.findOne Template.instance().data.targetId;
 		if spaceUser
 			if Steedos.isMobile()
 				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {name: 1}})
@@ -20,7 +20,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	spaceUserInfo: ->
 		info = ""
-		spaceUser = db.space_users.findOne this.targetId, {fields: {name: 1, email: 1, position: 1, mobile: 1, work_phone: 1, organizations: 1}};
+		spaceUser = db.space_users.findOne Template.instance().data.targetId, {fields: {name: 1, email: 1, position: 1, mobile: 1, work_phone: 1, organizations: 1}};
 		if spaceUser
 			orgArray = SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 			if orgArray
@@ -41,7 +41,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 	isEditable: ->
-		spaceUser = db.space_users.findOne this.targetId
+		spaceUser = db.space_users.findOne Template.instance().data.targetId
 		if spaceUser.invite_state == "pending" or spaceUser.invite_state == "refused"
 			return false
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
@@ -78,7 +78,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		# if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 		# 	return false
 		# else
-		# 	su = db.space_users.findOne this.targetId;
+		# 	su = db.space_users.findOne Template.instance().data.targetId;
 		# 	hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 		# 	if hidden_users.indexOf(su.user) > -1
 		# 		return true

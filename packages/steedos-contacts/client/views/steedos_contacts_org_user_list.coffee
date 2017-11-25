@@ -156,7 +156,6 @@ Template.steedos_contacts_org_user_list.events
 			window.open(url, '_parent', 'EnableViewPortScale=yes')
 
 	'click .edit-person .contacts-tableau-modify-username': (event, template) ->
-		# debugger
 		space_id = Session.get("spaceId")
 		username = ""
 		user_id = event.currentTarget.dataset.user
