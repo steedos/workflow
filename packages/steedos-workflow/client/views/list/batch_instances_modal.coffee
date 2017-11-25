@@ -74,7 +74,7 @@ Template.batch_instances_modal.events
 
 						approve.description = description
 						instanceBatch.submit [approve], ()->
-							# 此处采用积极策略，无论接口返回成功还是失败，都认为是成功的
+							# 此处采用积极策略，无论接口返回成功还是失败，都认为是成功的，因为此处的数据已经校验过下一步处理人、下一步步骤的唯一性及有效性，可能报错的原因只有文件被删除、取回、重定位、已处理
 							submitted = template.submitted.get()
 							submitted.push(approve.instance)
 							template.submitted.set(submitted)
