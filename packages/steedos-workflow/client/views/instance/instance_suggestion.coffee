@@ -56,9 +56,20 @@ Template.instance_suggestion.helpers
 
 	next_user_context: ->
 
-		console.log('Calculate the next step to process the person')
+		data = {
+			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
+			name: 'nextStepUsers',
+			atts: {
+				name: 'nextStepUsers',
+				id: 'nextStepUsers',
+				class: 'selectUser nextStepUsers form-control',
+				placeholder: t("instance_next_step_users_placeholder"),
+				title: t("instance_next_step_users_placeholder")
+			}
+		};
 
-		Session.get("instance_next_user_recalculate")
+		if !Session.get("instance_next_user_recalculate")
+			return data
 
 #		instance_form_values = Session.get("instance_form_values")
 #		if instance_form_values?.instanceId != Session.get("instanceId")
@@ -69,7 +80,6 @@ Template.instance_suggestion.helpers
 		next_step_id = Session.get("next_step_id");
 
 		$("#nextStepUsers_div").show();
-
 
 		_getNextStep = ()->
 			return WorkflowManager.getInstanceStep(Session.get("next_step_id"))
@@ -83,18 +93,7 @@ Template.instance_suggestion.helpers
 
 #		form_values = instance_form_values.values
 		users = Tracker.nonreactive(InstanceManager.getNextUserOptions)
-		data = {
-			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
-			name: 'nextStepUsers',
-			atts: {
-				name: 'nextStepUsers',
-				id: 'nextStepUsers',
-				class: 'selectUser nextStepUsers form-control',
-#				style: 'padding:6px 12px;',
-				placeholder: t("instance_next_step_users_placeholder"),
-				title: t("instance_next_step_users_placeholder")
-			}
-		};
+
 
 		unless nextStep
 			data.atts.disabled = true

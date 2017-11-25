@@ -14,8 +14,13 @@
 
         <div class="modal-body modal-zoom">
           {{#autoForm id='relocate' schema=fields doc=values }}
-            <p><span>{{_ "Instance Relocate CurStep"}}</span><label id="relocate_currentStepName"></label></p>
-            <p><span>{{_ "Inbox Suggestion NextSteps Label"}}</span><select class="suggestion-control" id="relocate_steps"></select></p>
+            <p><span>{{_ "Instance Relocate CurStep"}}</span><label id="relocate_currentStepName">{{current_step_name}}</label></p>
+            <p><span>{{_ "Inbox Suggestion NextSteps Label"}}</span><select class="suggestion-control" id="relocate_steps">
+              <option></option>
+              {{#each relocate_steps}}
+                <option value="{{this._id}}" >{{this.name}}</option>
+              {{/each}}
+            </select></p>
             <p id="relocate_users_p">
             {{> afFormGroup name="relocate_users"}}
             </p>

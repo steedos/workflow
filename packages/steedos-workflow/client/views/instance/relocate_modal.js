@@ -15,35 +15,49 @@ Template.relocate_modal.helpers({
 
     values: function() {
         return {};
+    },
+
+    current_step_name: function() {
+        var s = InstanceManager.getCurrentStep();
+        var name;
+        if (s) {
+            name = s.name;
+        }
+        return name || '';
+    },
+
+    relocate_steps: function() {
+        var c = InstanceManager.getCurrentStep();
+        if (!c) {
+            return;
+        }
+        var ins_steps = WorkflowManager.getInstanceSteps();
+
+        var steps = [];
+        if (ins_steps) {
+            ins_steps.forEach(function(s) {
+                if (s.id != c.id && s.step_type != "condition") {
+                    steps.push(s);
+                }
+            })
+        }
+        return steps;
     }
 
+})
+
+Template.relocate_modal.onCreated(function() {
+    Steedos.instanceDataReload(Session.get("instanceId"))
 })
 
 
 Template.relocate_modal.events({
 
     'show.bs.modal #relocate_modal': function(event) {
-        // $("#relocate_steps").select2();
-        $("#relocate_steps").empty();
-
-
         var relocate_users = $("input[name='relocate_users']")[0];
 
         relocate_users.value = "";
         relocate_users.dataset.values = '';
-
-        var c = InstanceManager.getCurrentStep();
-
-        $("#relocate_currentStepName").html(c.name);
-
-        var ins_steps = WorkflowManager.getInstanceSteps();
-        if (ins_steps) {
-            ins_steps.forEach(function(s) {
-                if (s.id != c.id && s.step_type != "condition") {
-                    $("#relocate_steps").append("<option value= '" + s.id + "'> " + s.name + " </option>");
-                }
-            })
-        }
 
         $("#relocate_steps").val(null);
         $("#relocate_modal_text").val(null);
