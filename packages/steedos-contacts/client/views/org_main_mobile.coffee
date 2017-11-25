@@ -24,14 +24,15 @@ spaceUsersSelector = ->
 			return { _id : -1}
 		if myContactsLimit?.isLimit
 			orgs = db.organizations.find().fetch().getProperty("_id")
-			if myContactsLimit.outside_organizations?.length
-				orgs = _.union(orgs, myContactsLimit.outside_organizations)
+			outsideOrganizations = myContactsLimit.outside_organizations
+			if outsideOrganizations?.length
+				orgs = _.union(orgs, outsideOrganizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
 			query.organizations = {$in: orgs}
 	else
 		orgId = Session.get("contacts_org_mobile")
@@ -55,12 +56,15 @@ organizationsSelector = ->
 			userId = Meteor.userId()
 			uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
 			_ids = uOrgs.getProperty('_id')
+			outsideOrganizations = myContactsLimit.outside_organizations
+			#当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			_ids = _.union(_ids, outsideOrganizations)
 			orgs = _.filter uOrgs, (org) ->
 				parents = org.parents or []
 				return _.intersection(parents, _ids).length < 1
 			orgIds = orgs.getProperty('_id')
-			if myContactsLimit.outside_organizations.length
-				orgIds = _.union(orgIds, myContactsLimit.outside_organizations)
+			if outsideOrganizations?.length
+				orgIds = _.union(orgIds, outsideOrganizations)
 			selector = { space: spaceId, _id: { $in: orgIds } }
 		else
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
