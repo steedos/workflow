@@ -1,9 +1,9 @@
 Meteor.startup ->
 	if Meteor.isClient
 		# 默认配置为限制在本单位范围
-		Steedos.my_limit_organizations = 
+		Steedos.my_contacts_limit = 
 			isLimit: true
-			organizations: []
+			outside_organizations: []
 		Tracker.autorun (c)->
 			if Steedos.subsBootstrap.ready("my_spaces")
 				spaceId = Steedos.spaceId()
@@ -11,12 +11,12 @@ Meteor.startup ->
 					return
 				if Steedos.isSpaceAdmin()
 					# 工作区管理员肯定不会有任何限制
-					Steedos.my_limit_organizations.isLimit = false
-					Session.set("is_my_limits_loaded", true);
+					Steedos.my_contacts_limit.isLimit = false
+					Session.set("is_my_contacts_limit_loaded", true);
 					return
-				Meteor.call "get_limit_organizations", spaceId, (error, results)->
-					Session.set("is_my_limits_loaded", true);
+				Meteor.call "get_contacts_limit", spaceId, (error, results)->
+					Session.set("is_my_contacts_limit_loaded", true);
 					if results
-						Steedos.my_limit_organizations = results
+						Steedos.my_contacts_limit = results
 					if error
 						toastr.error(t(error.reason))

@@ -7,9 +7,9 @@ CFDataManager.getNode = function (spaceId, node) {
 
 	var orgs;
 
-	myLimit = Steedos.my_limit_organizations
+	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
-		if (myLimit && myLimit.isLimit) {
+		if (myContactsLimit && myContactsLimit.isLimit) {
 			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
 
 			_ids = uOrgs.getProperty("_id")
@@ -22,8 +22,8 @@ CFDataManager.getNode = function (spaceId, node) {
 				return _.intersection(parents, _ids).length < 1
 			})
 
-			if(myLimit.organizations.length){
-				limitIds = _.difference(myLimit.organizations, orgs.getProperty("_id"));
+			if(myContactsLimit.outside_organizations.length){
+				limitIds = _.difference(myContactsLimit.outside_organizations, orgs.getProperty("_id"));
 				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
 				orgs = _.union(orgs,limitOrgs)
 			}

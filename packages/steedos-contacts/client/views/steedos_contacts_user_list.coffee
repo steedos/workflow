@@ -5,7 +5,7 @@ Template.steedos_contacts_user_list.helpers
 		return false;
 	selector: ->
 		spaceId = Steedos.spaceId()
-		myLimit = Steedos.my_limit_organizations
+		myContactsLimit = Steedos.my_contacts_limit
 		# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
 		# query = {space: spaceId, user: {$nin: hidden_users}}
 		query = {space: spaceId}
@@ -15,10 +15,10 @@ Template.steedos_contacts_user_list.helpers
 		else
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-			else if myLimit?.isLimit
+			else if myContactsLimit?.isLimit
 				orgs = db.organizations.find().fetch().getProperty("_id")
-				if myLimit.organizations?.length
-					orgs = _.union(orgs, myLimit.organizations)
+				if myContactsLimit.outside_organizations?.length
+					orgs = _.union(orgs, myContactsLimit.outside_organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1

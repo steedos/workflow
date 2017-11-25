@@ -5,7 +5,7 @@ Template.steedos_contacts_org_user_list.helpers
 		return false;
 	selector: ->
 		spaceId = Steedos.spaceId()
-		myLimit = Steedos.my_limit_organizations
+		myContactsLimit = Steedos.my_contacts_limit
 		query = {space: spaceId}
 		# if FlowRouter.current().path != "/admin/organizations"
 		# 	# 系统设置中组织架构以外的通讯录都需要限制隐藏用户显示
@@ -17,10 +17,10 @@ Template.steedos_contacts_org_user_list.helpers
 		else
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-			else if myLimit?.isLimit
+			else if myContactsLimit?.isLimit
 				orgs = db.organizations.find().fetch().getProperty("_id")
-				if myLimit.organizations?.length
-					orgs = _.union(orgs, myLimit.organizations)
+				if myContactsLimit.outside_organizations?.length
+					orgs = _.union(orgs, myContactsLimit.outside_organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1

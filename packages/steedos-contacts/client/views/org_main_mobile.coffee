@@ -13,7 +13,7 @@ isOrgAdmin = ->
 
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
-	myLimit = Steedos.my_limit_organizations
+	myContactsLimit = Steedos.my_contacts_limit
 	# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
 	# query = {space: spaceId, user: {$nin: hidden_users}}
 	query = {space: spaceId}
@@ -22,10 +22,10 @@ spaceUsersSelector = ->
 		searchingKey = Session.get('contacts_searching_key_mobile')
 		unless searchingKey
 			return { _id : -1}
-		if myLimit?.isLimit
+		if myContactsLimit?.isLimit
 			orgs = db.organizations.find().fetch().getProperty("_id")
-			if myLimit.organizations?.length
-				orgs = _.union(orgs, myLimit.organizations)
+			if myContactsLimit.outside_organizations?.length
+				orgs = _.union(orgs, myContactsLimit.outside_organizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
@@ -50,8 +50,8 @@ organizationsSelector = ->
 			parent: currentOrgId
 			hidden: { $ne: true }
 	else
-		myLimit = Steedos.my_limit_organizations
-		if myLimit?.isLimit
+		myContactsLimit = Steedos.my_contacts_limit
+		if myContactsLimit?.isLimit
 			userId = Meteor.userId()
 			uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
 			_ids = uOrgs.getProperty('_id')
@@ -59,8 +59,8 @@ organizationsSelector = ->
 				parents = org.parents or []
 				return _.intersection(parents, _ids).length < 1
 			orgIds = orgs.getProperty('_id')
-			if myLimit.organizations.length
-				orgIds = _.union(orgIds, myLimit.organizations)
+			if myContactsLimit.outside_organizations.length
+				orgIds = _.union(orgIds, myContactsLimit.outside_organizations)
 			selector = { space: spaceId, _id: { $in: orgIds } }
 		else
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
@@ -163,7 +163,7 @@ Template.org_main_mobile.onCreated ->
 	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
-		if Steedos.my_limit_organizations?.isLimit
+		if Steedos.my_contacts_limit?.isLimit
 			orgs = db.organizations.find(organizationsSelector())
 			organizationsCount = orgs.count()
 			if organizationsCount == 1
@@ -226,8 +226,8 @@ Template.org_main_mobile.events
 		currentOrg = if currentOrgId then db.organizations.findOne(currentOrgId) else null
 		if currentOrg and currentOrg.parent
 			# 判断currentOrg.parent是否在当前用户可查看权限范围，如果是则直接返回，反之则返回null
-			myLimit = Steedos.my_limit_organizations
-			if myLimit?.isLimit
+			myContactsLimit = Steedos.my_contacts_limit
+			if myContactsLimit?.isLimit
 				spaceId = Steedos.spaceId()
 				userId = Meteor.userId()
 				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
@@ -236,9 +236,9 @@ Template.org_main_mobile.events
 					newOrgId = currentOrg.parent
 				else if _.intersection(currentOrg.parents, _ids).length > 0
 					newOrgId = currentOrg.parent
-				if myLimit.organizations.length
+				if myContactsLimit.outside_organizations.length
 					# 额外有权限查看的组织也要确认下是否在范围内
-					if _.intersection(currentOrg.parents, myLimit.organizations).length > 0
+					if _.intersection(currentOrg.parents, myContactsLimit.outside_organizations).length > 0
 						newOrgId = currentOrg.parent
 			else
 				newOrgId = currentOrg.parent

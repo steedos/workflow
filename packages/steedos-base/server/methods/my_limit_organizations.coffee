@@ -1,5 +1,5 @@
 Meteor.methods
-	get_limit_organizations: (space)->
+	get_contacts_limit: (space)->
 		# 根据当前用户所属组织，查询出当前用户限定的组织查看范围
 		# 返回的isLimit为true表示限定在当前用户所在组织范围，organizations值记录额外的组织范围
 		# 返回的isLimit为false表示不限定组织范围，即表示能看整个工作区的组织
@@ -7,11 +7,11 @@ Meteor.methods
 		check space, String
 		reValue =
 			isLimit: true
-			organizations: []
+			outside_organizations: []
 		unless this.userId
 			return reValue
 		isLimit = false
-		organizations = []
+		outside_organizations = []
 		setting = db.space_settings.findOne({space: space, key: "contacts_view_limits"})
 		limits = setting?.values || [];
 
@@ -38,27 +38,27 @@ Meteor.methods
 							tempIsLimit = true
 					if tempIsLimit
 						isLimit = true
-						organizations.push tos
+						outside_organizations.push tos
 						myLitmitOrgIds.push myOrgId
 
 			myLitmitOrgIds = _.uniq myLitmitOrgIds
 			if myLitmitOrgIds.length < myOrgIds.length
 				# 如果受限的组织个数小于用户所属组织的个数，则说明当前用户至少有一个组织是不受限的
 				isLimit = false
-				organizations = []
+				outside_organizations = []
 			else
-				organizations = _.uniq _.flatten organizations
+				outside_organizations = _.uniq _.flatten outside_organizations
 
 		if isLimit
-			toOrgs = db.organizations.find({space: space, _id: {$in: organizations}}, {fields:{_id: 1, parents: 1}}).fetch()
-			# 把organizations中有父子节点关系的节点筛选出来并取出最外层节点
-			# 把organizations中有属于用户所属组织的子孙节点的节点删除
+			toOrgs = db.organizations.find({space: space, _id: {$in: outside_organizations}}, {fields:{_id: 1, parents: 1}}).fetch()
+			# 把outside_organizations中有父子节点关系的节点筛选出来并取出最外层节点
+			# 把outside_organizations中有属于用户所属组织的子孙节点的节点删除
 			orgs = _.filter toOrgs, (org) ->
 				parents = org.parents or []
-				return _.intersection(parents, organizations).length < 1 and _.intersection(parents, myOrgIds).length < 1
-			organizations = orgs.map (n) ->
+				return _.intersection(parents, outside_organizations).length < 1 and _.intersection(parents, myOrgIds).length < 1
+			outside_organizations = orgs.map (n) ->
 				return n._id
 
 		reValue.isLimit = isLimit
-		reValue.organizations = organizations
+		reValue.outside_organizations = outside_organizations
 		return reValue
