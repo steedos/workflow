@@ -233,59 +233,56 @@ Meteor.methods({
 
         traces.forEach(function(t) {
             if (t.approves) {
-                t.approves.forEach(function(a) {
+                t.approves.forEach(function(a, idx) {
                     if (a._id == approveId) {
                         trace_id = a.trace;
                         remove_user_id = a.user;
+                        setObj['traces.$.approves.' + idx + '.judge'] = 'terminated';
+                        setObj['traces.$.approves.' + idx + '.is_finished'] = true;
+                        setObj['traces.$.approves.' + idx + '.finish_date'] = new Date();
+                        setObj['traces.$.approves.' + idx + '.is_read'] = true;
+                        setObj['traces.$.approves.' + idx + '.read_date'] = new Date();
                     }
                 });
             }
         })
 
+        if (!trace_id || !remove_user_id)
+            return;
+
+        var multi = 0;
         traces.forEach(function(t) {
-            if (t._id == trace_id) {
-                if (t.approves) {
-                    t.approves.forEach(function(a) {
-                        if (!(a._id == approveId && a.type == 'cc' && a.is_finished == false)) {
-                            new_approves.push(a);
-                        }
-                    });
-                }
-            }
-
-        })
-
-        new_approves.forEach(function(a) {
-            if (a.user == remove_user_id && a.type == 'cc' && a.is_finished == false) {
-                multi = true;
+            if (t.approves) {
+                t.approves.forEach(function(a) {
+                    if (a.user == remove_user_id && a.type == 'cc' && a.is_finished == false) {
+                        multi++;
+                    }
+                });
             }
         })
-
-
-        if (!multi) {
-            ins_cc_users.forEach(function(u) {
-                if (remove_user_id != u) {
-                    new_cc_users.push(u);
-                }
-            });
-
-            setObj.cc_users = new_cc_users;
-        }
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
 
-        db.instances.update({
-            _id: instanceId,
-            'traces._id': trace_id
-        }, {
-            $set: setObj,
-            $pull: {
-                'traces.$.approves': {
-                    _id: approveId
+        if (multi > 1) {
+            db.instances.update({
+                _id: instanceId,
+                'traces._id': trace_id
+            }, {
+                $set: setObj
+            });
+        } else {
+            db.instances.update({
+                _id: instanceId,
+                'traces._id': trace_id
+            }, {
+                $set: setObj,
+                $pull: {
+                    cc_users: remove_user_id
                 }
-            }
-        });
+            });
+        }
+
 
         pushManager.send_message_to_specifyUser("current_user", remove_user_id);
         return true;

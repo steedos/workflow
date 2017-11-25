@@ -26,61 +26,63 @@
                         <td colspan='3' class = "trace-step-name">{{getStepName this.step}}</td>
                     </tr>
                     {{#each this.approves}}
-                        <tr class="approve-item">
-                            <td class="name">{{this.handler_name}}
-                                {{#if isCC this}}
-                                    <label class='cc-label'>
-                                        <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
-                                    </label>
-                                {{/if}}
-                                {{#if isForward this}}
-                                    <label class='cc-label'>
-                                        <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
-                                    </label>
-                                {{/if}}
-                                {{#if isDistribute this}}
-                                    <label class='cc-label'>
-                                        <span class="forward-label-title">({{_t "instance_distribute_title"}})</span>
-                                    </label>
-                                {{/if}}
-                            </td>
-                            {{#if unempty this.finish_date}}
-                                <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                                {{#if isDistribute this}}
-                                    <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
-                                {{else}}
-                                    <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
-                                {{/if}}
-                            {{else}}
-                                <td class="finish-date">
-                                    {{#if this.is_read}}
-                                        {{_t "instance_approve_read"}}
+                        {{#unless isCCOrDistributeOrForwardTerminated this}}
+                            <tr class="approve-item">
+                                <td class="name">{{this.handler_name}}
+                                    {{#if isCC this}}
+                                        <label class='cc-label'>
+                                            <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
+                                        </label>
+                                    {{/if}}
+                                    {{#if isForward this}}
+                                        <label class='cc-label'>
+                                            <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
+                                        </label>
+                                    {{/if}}
+                                    {{#if isDistribute this}}
+                                        <label class='cc-label'>
+                                            <span class="forward-label-title">({{_t "instance_distribute_title"}})</span>
+                                        </label>
                                     {{/if}}
                                 </td>
-								{{#if isCC this}}
-									<td class="status pending"></td>
-								{{else}}
-									{{#if isForward this}}
-										<td class="status pending"></td>
-									{{else}}
-										<td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
-									{{/if}}
-								{{/if}}
+                                {{#if unempty this.finish_date}}
+                                    <td class="finish-date">{{dateFormat this.finish_date}}</td>
+                                    {{#if isDistribute this}}
+                                        <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
+                                    {{else}}
+                                        <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
+                                    {{/if}}
+                                {{else}}
+                                    <td class="finish-date">
+                                        {{#if this.is_read}}
+                                            {{_t "instance_approve_read"}}
+                                        {{/if}}
+                                    </td>
+                                    {{#if isCC this}}
+                                        <td class="status pending"></td>
+                                    {{else}}
+                                        {{#if isForward this}}
+                                            <td class="status pending"></td>
+                                        {{else}}
+                                            <td class="status pending"><span class='ion ion-ios-loop'></span><span class="hidden-xs">&nbsp;&nbsp;{{_t "instance_in_progress"}}</span></td>
+                                        {{/if}}
+                                    {{/if}}
+                                {{/if}}
+                            </tr>
+                            {{#if this.is_finished}}
+                                {{#if unempty this.description}}
+                                    <tr class="approve-description">
+                                        <td class="description" colspan="3">{{{markDownToHtml this.description}}}</td>
+                                    </tr>
+                                {{/if}}
+                            {{else}}
+                                {{#if (unempty (myApproveDescription this._id))}}
+                                    <tr class="approve-description">
+                                        <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
+                                    </tr>
+                                {{/if}}
                             {{/if}}
-                        </tr>
-                        {{#if this.is_finished}}
-                            {{#if unempty this.description}}
-                                <tr class="approve-description">
-                                    <td class="description" colspan="3">{{{markDownToHtml this.description}}}</td>
-                                </tr>
-                            {{/if}}
-                        {{else}}
-                            {{#if (unempty (myApproveDescription this._id))}}
-                                <tr class="approve-description">
-                                    <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
-                                </tr>
-                            {{/if}}
-                        {{/if}}
+                        {{/unless}}
                     {{/each}}
                 {{/each}}
                 </tbody>

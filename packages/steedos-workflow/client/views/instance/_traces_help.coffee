@@ -234,6 +234,11 @@ TracesTemplate.helpers =
 				return dis_info
 		return
 
+	isCCOrDistributeOrForwardTerminated: (approve)->
+		if (approve.type is 'cc' or approve.type is 'distribute' or approve.type is 'forward') and approve.judge is 'terminated'
+			return true
+		return false
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date

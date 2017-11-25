@@ -34,57 +34,57 @@
                         <td class="td-approve">
                             <table class="trace-approve-talbe">
                                 {{#each this.approves}}
-
-                                    {{#if this.is_finished}}
-                                        {{#if unempty this.description}}
-                                        <tr class="approve-description">
-                                            <td class="description" colspan="3">{{{markDownToHtml this.description}}}</td>
-                                        </tr>
-                                        {{/if}}
-                                    {{else}}
-                                        {{#if (unempty (myApproveDescription this._id))}}
+                                    {{#unless isCCOrDistributeOrForwardTerminated this}}
+                                        {{#if this.is_finished}}
+                                            {{#if unempty this.description}}
                                             <tr class="approve-description">
-                                                <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
+                                                <td class="description" colspan="3">{{{markDownToHtml this.description}}}</td>
                                             </tr>
-                                        {{/if}}
-                                    {{/if}}
-
-                                    <tr class="approve-item">
-                                        <td class="name">
-                                            {{this.handler_name}}
-                                            {{#if isCC this}}
-                                                <label class='cc-label'>
-                                                    <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
-                                                </label>
-                                            {{/if}}
-                                            {{#if isForward this}}
-                                                <label class='cc-label'>
-                                                    <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
-                                                </label>
-                                            {{/if}}
-                                            {{#if isDistribute this}}
-                                                <label class='cc-label'>
-                                                    <span class="forward-label-title">({{_t "instance_distribute_title"}})</span>
-                                                </label>
-                                            {{/if}}
-                                        </td>
-                                        {{#if unempty this.finish_date}}
-                                            <td class="finish-date">{{dateFormat this.finish_date}}</td>
-                                            {{#if isDistribute this}}
-                                                <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
-                                            {{else}}
-                                                <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
                                             {{/if}}
                                         {{else}}
-                                            <td class="finish-date">
-                                                {{#if this.is_read}}
-                                                    {{_t "instance_approve_read"}}
+                                            {{#if (unempty (myApproveDescription this._id))}}
+                                                <tr class="approve-description">
+                                                    <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
+                                                </tr>
+                                            {{/if}}
+                                        {{/if}}
+
+                                        <tr class="approve-item">
+                                            <td class="name">
+                                                {{this.handler_name}}
+                                                {{#if isCC this}}
+                                                    <label class='cc-label'>
+                                                        <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
+                                                    </label>
+                                                {{/if}}
+                                                {{#if isForward this}}
+                                                    <label class='cc-label'>
+                                                        <span class="forward-label-title">({{_t "instance_forward_title"}})</span>
+                                                    </label>
+                                                {{/if}}
+                                                {{#if isDistribute this}}
+                                                    <label class='cc-label'>
+                                                        <span class="forward-label-title">({{_t "instance_distribute_title"}})</span>
+                                                    </label>
                                                 {{/if}}
                                             </td>
-                                            <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
-                                        {{/if}}
-                                    </tr>
-                                   
+                                            {{#if unempty this.finish_date}}
+                                                <td class="finish-date">{{dateFormat this.finish_date}}</td>
+                                                {{#if isDistribute this}}
+                                                    <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
+                                                {{else}}
+                                                    <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
+                                                {{/if}}
+                                            {{else}}
+                                                <td class="finish-date">
+                                                    {{#if this.is_read}}
+                                                        {{_t "instance_approve_read"}}
+                                                    {{/if}}
+                                                </td>
+                                                <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
+                                            {{/if}}
+                                        </tr>
+                                    {{/unless}}
                                 {{/each}}
                             </table>
                         </td>
