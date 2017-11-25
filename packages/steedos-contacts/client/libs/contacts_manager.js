@@ -20,7 +20,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#')
 		if(myContactsLimit && myContactsLimit.isLimit){
-			uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
+			var uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
 			var _ids = uOrgs.getProperty("_id");
 			var outsideOrganizations = myContactsLimit.outside_organizations;
 			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉

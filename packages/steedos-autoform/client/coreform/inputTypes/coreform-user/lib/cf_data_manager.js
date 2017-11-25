@@ -10,28 +10,24 @@ CFDataManager.getNode = function (spaceId, node) {
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
 		if (myContactsLimit && myContactsLimit.isLimit) {
-			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
-
-			_ids = uOrgs.getProperty("_id")
-
+			var uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
+			var _ids = uOrgs.getProperty("_id");
+			var outsideOrganizations = myContactsLimit.outside_organizations;
+			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			_ids = _.union(_ids, outsideOrganizations);
 			orgs = _.filter(uOrgs, function (org) {
-				// var children = org.children || []
-
-				var parents = org.parents || []
-
-				return _.intersection(parents, _ids).length < 1
-			})
-
-			if(myContactsLimit.outside_organizations.length){
-				limitIds = _.difference(myContactsLimit.outside_organizations, orgs.getProperty("_id"));
+				var parents = org.parents || [];
+				return _.intersection(parents, _ids).length < 1;
+			});
+			if(outsideOrganizations.length){
+				// 找出outsideOrganizations中不在orgs中的记录，并额外从服务器把其组织信息抓取到前端
+				limitIds = _.difference(outsideOrganizations, orgs.getProperty("_id"));
 				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
 				orgs = _.union(orgs,limitOrgs)
 			}
-
 			if (orgs.length > 0) {
 				orgs[0].open = true
 			}
-
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
 		}
