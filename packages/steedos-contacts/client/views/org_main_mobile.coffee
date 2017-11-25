@@ -240,9 +240,10 @@ Template.org_main_mobile.events
 					newOrgId = currentOrg.parent
 				else if _.intersection(currentOrg.parents, _ids).length > 0
 					newOrgId = currentOrg.parent
-				if myContactsLimit.outside_organizations.length
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations.length
 					# 额外有权限查看的组织也要确认下是否在范围内
-					if _.intersection(currentOrg.parents, myContactsLimit.outside_organizations).length > 0
+					if _.intersection(currentOrg.parents, outsideOrganizations).length > 0
 						newOrgId = currentOrg.parent
 			else
 				newOrgId = currentOrg.parent

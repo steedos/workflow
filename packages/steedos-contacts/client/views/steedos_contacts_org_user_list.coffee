@@ -19,14 +19,15 @@ Template.steedos_contacts_org_user_list.helpers
 				orgs = [Session.get("contacts_orgId")]
 			else if myContactsLimit?.isLimit
 				orgs = db.organizations.find().fetch().getProperty("_id")
-				if myContactsLimit.outside_organizations?.length
-					orgs = _.union(orgs, myContactsLimit.outside_organizations)
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations?.length
+					orgs = _.union(orgs, outsideOrganizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
 			query.organizations = {$in: orgs};
 
 		if !Session.get('contacts_is_org_admin')
