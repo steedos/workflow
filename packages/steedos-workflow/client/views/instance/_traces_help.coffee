@@ -166,6 +166,7 @@ TracesTemplate.helpers =
 						dateTimePickerOptions:{
 							format: "YYYY-MM-DD HH:mm",
 							ignoreReadonly:true,
+							locale: Session.get("TAPi18n::loaded_lang"),
 							widgetPositioning:{
 								horizontal: 'right'
 							}
