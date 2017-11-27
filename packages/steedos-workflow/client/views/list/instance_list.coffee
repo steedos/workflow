@@ -351,11 +351,16 @@ Template.instance_list.events
 		InstanceManager.exportIns(event.target.type);
 
 	'keyup #instance_search': (event) ->
-		dataTable = $(".datatable-instances").DataTable();
-		dataTable.search(
-			$('#instance_search').val(),
-		).draw();
-		Session.set('instance_search_val', $('#instance_search').val())
+		if arguments.callee.timer
+			clearTimeout arguments.callee.timer
+
+		arguments.callee.timer = setTimeout ()->
+			dataTable = $(".datatable-instances").DataTable();
+			dataTable.search(
+				$('#instance_search').val(),
+			).draw();
+			Session.set('instance_search_val', $('#instance_search').val())
+		, 800
 
 	'click [name="show_all_ins"]': (event) ->
 		Session.set("flowId", undefined);
