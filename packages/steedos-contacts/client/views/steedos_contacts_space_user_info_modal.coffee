@@ -42,8 +42,6 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	isEditable: ->
 		spaceUser = db.space_users.findOne Template.instance().data.targetId
-		if spaceUser.invite_state == "pending" or spaceUser.invite_state == "refused"
-			return false
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			return true
 		else
@@ -120,7 +118,7 @@ Template.steedos_contacts_space_user_info_modal.events
 					toastr.success t('Change username successfully')
 					swal.close()
 				if error
-					toastr.error(TAPi18n.__(error.error))
+					toastr.error(TAPi18n.__(error.reason))
 
 	'click .steedos-contact-reinvite': (event, template) ->
 		id = event.currentTarget.dataset.id
