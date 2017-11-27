@@ -240,6 +240,9 @@ TracesTemplate.helpers =
 			return true
 		return false
 
+	judgeTerminated: (judge)->
+		return judge is 'terminated'
+
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
 		if date

@@ -48,7 +48,11 @@
                                 {{#if unempty this.finish_date}}
                                     <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                     {{#if isDistribute this}}
-                                        <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
+                                        {{#if judgeTerminated this.judge}}
+                                            <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
+                                        {{else}}
+                                            <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
+                                        {{/if}}
                                     {{else}}
                                         <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
                                     {{/if}}
