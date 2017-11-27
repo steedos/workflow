@@ -121,6 +121,8 @@ Meteor.methods
 					if approve._id == obj._id
 						setObj["traces.$.approves.#{idx}.sign_show"] = obj.sign_show
 						setObj["traces.$.approves.#{idx}.custom_sign_show"] = obj.sign_show
+						setObj["traces.$.approves.#{idx}.read_date"] = new Date()
+						
 					if approve._id == myApprove_id
 						setObj["traces.$.approves.#{idx}.read_date"] = new Date()
 
