@@ -125,7 +125,7 @@ InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 			delete ins.flow
 
 			_batch_instances.push(ins)
-		else
-			console.log("批量审批-异常数据", ins._id)
+#		else
+#			console.log("批量审批-异常数据", ins._id)
 
 	return _batch_instances;
