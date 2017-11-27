@@ -89,6 +89,7 @@ Meteor.startup ()->
 			autoform:
 				type: ->
 					return "text"
+		work_phone:
 			type: String,
 			optional: true
 		position:
