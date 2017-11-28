@@ -20,15 +20,14 @@ editMenu = (admins, userId, organizationId) ->
 
 
 addEditMenu = ->
-	# console.log "class is #{$(".jstree-wholerow-clicked").hasClass("added-edit-menu")}"
-	# console.log "length is #{$(".jstree-wholerow-clicked").length}"
 	unless $(".jstree-wholerow-clicked").hasClass("added-edit-menu") and $(".jstree-wholerow-clicked").length
 		$(".jstree-wholerow-clicked").addClass("added-edit-menu")
-		admins = $(".jstree-wholerow-clicked").closest("li").data("admins")?.split(",")
+		admins = []
 		organizationId = $(".jstree-wholerow-clicked").closest("li").attr("id")
 		userId = Meteor.userId()
+		$(".jstree-wholerow-clicked").parents("li").each ->
+			admins = $(this).data("admins")?.split(",").concat(admins)
 
-		# console.log Steedos.isSpaceAdmin() or _.indexOf(admins, userId)
 		html = editMenu(admins, userId, organizationId)
 
 		$(".jstree-wholerow-clicked").after(html)
@@ -101,36 +100,19 @@ Template.steedos_contacts_org_tree.onRendered ->
 
 
 Template.steedos_contacts_org_tree.events
-	'mouseenter .jstree-anchor': (event, template) ->
-		wholerow = $(event.currentTarget).prevAll(".jstree-wholerow")
-		organizationId = wholerow.closest("li").attr("id")
-		admins =  wholerow.closest("li").data("admins")?.split(",")
+	'mouseenter .jstree-node': (event, template) ->
+		attr = $(event.currentTarget).attr("aria-labelledby") 
+		organizationId = $(event.currentTarget).attr("id") 
+		admins = $(event.currentTarget).data("admins").split(",")
 		userId = Meteor.userId()
-		# 给子部门添加编辑按钮
-		wholerow.closest("li").find(".jstree-node").each ->
-			inheritAdmins = $(this).data("admins")?.split(",").concat(admins)
-			inheritAdmins = _.uniq(inheritAdmins).join(",")
-			$(this).data("admins", inheritAdmins)
+		wholerow = $("> .jstree-wholerow", event.currentTarget)
+		$(event.currentTarget).parents("li").each ->
+			admins = $(this).data("admins").split(",").concat(admins)
+		
 		unless wholerow.hasClass("added-edit-menu")
 			wholerow.addClass("added-edit-menu")
 			html = editMenu(admins, userId, organizationId)
 			wholerow.after(html)
-
-
-
-	'mouseenter .jstree-wholerow': (event, template) ->
-		organizationId = $(event.currentTarget).closest("li").attr("id")
-		admins = $(event.currentTarget).closest("li").data("admins").split(",")
-		userId = Meteor.userId()
-		# 给子部门添加编辑按钮
-		$(event.currentTarget).closest("li").find(".jstree-node").each ->
-			inheritAdmins = $(this).data("admins").split(",").concat(admins)
-			inheritAdmins = _.uniq(inheritAdmins).join(",")
-			$(this).data("admins", inheritAdmins)
-		unless $(event.target).hasClass("added-edit-menu")
-			$(event.target).addClass("added-edit-menu")
-			html = editMenu(admins, userId, organizationId)
-			$(event.target).after(html)
 
 	'click #search-btn': (event, template) ->
 		$('#steedos_contacts_org_tree').jstree(true).search($("#search-key").val())
