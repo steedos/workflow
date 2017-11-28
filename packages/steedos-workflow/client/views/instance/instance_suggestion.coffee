@@ -57,7 +57,7 @@ Template.instance_suggestion.helpers
 	next_user_context: ->
 
 		data = {
-			dataset: {is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false},
+			dataset: {},
 			name: 'nextStepUsers',
 			atts: {
 				name: 'nextStepUsers',

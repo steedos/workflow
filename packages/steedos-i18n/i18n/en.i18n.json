@@ -501,12 +501,12 @@
 	"nw_menu_selectall": "SelectAll",
 	"nw_menu_reload": "Reload",
 
-	"space_viewing_limits": "View limit for contacts",
-	"space_viewing_limits_name": "Name",
-	"space_viewing_limits_members": "The limit members",
-	"space_viewing_limits_members_users": "The limit users",
-	"space_viewing_limits_members_organizations": "The limit organizations",
-	"space_viewing_limits_limits": "The view range",
-	"space_viewing_limits_limits_users": "The view range for users",
-	"space_viewing_limits_limits_organizations": "The view range for organizations"
+	"space_viewing_limits": "Limit viewing outside door",
+	"space_viewing_limits_tips": "Limited organizations, only to see the organization's contacts",
+	"space_viewing_limits_froms_label": "Limited organizations",
+	"space_viewing_limits_tos_label": "Only allowed to view the organization's contacts, and the following additional organizations",
+	"space_viewing_limits_froms_required": "Limited organizations is required",
+
+	"pay_records": "Pay Records",
+	"workflow_designer_use_pc": "Please user this function on pc"
 }

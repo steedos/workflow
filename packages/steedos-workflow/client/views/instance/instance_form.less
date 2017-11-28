@@ -70,11 +70,21 @@
     color:rgb(64,64,64);
 }
 
-.approve-item{
+.approve-item,.approve-item-distribute{
     height: 30px;
     font-size: 13px;
     cursor:pointer;
+
+    .name{
+      font-weight: bold;
+    }
 }
+
+.approve-item-distribute{
+  cursor:auto !important;
+}
+
+
 .approve-description{
   border: none;
   height: auto;
@@ -508,7 +518,7 @@ textarea {
   padding: 5px 10px;
   color: black;
   .instance-sign-content{
-    min-height: 38px;
+    min-height: 20px;
     .not-finished{
       color: #888;
     }

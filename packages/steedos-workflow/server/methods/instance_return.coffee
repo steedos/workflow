@@ -64,7 +64,6 @@ Meteor.methods
 						setObj['traces.$.approves.' + idx + '.cost_time'] = a.finish_date - a.start_date
 						setObj['traces.$.approves.' + idx + '.description'] = reason
 						setObj['traces.$.approves.' + idx + '.values'] = approve_values
-
 				# 更新当前trace记录
 				setObj['traces.$.is_finished'] = true
 				setObj['traces.$.finish_date'] = true

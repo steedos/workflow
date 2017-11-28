@@ -3,7 +3,6 @@
 @spaces = db.spaces
 @space_users = db.space_users
 @organizations = db.organizations
-@space_viewing_limits = db.space_viewing_limits
 
 db.apps.adminConfig = 
 	icon: "globe"
@@ -62,17 +61,6 @@ db.space_users.adminConfig =
 	selector: Admin.selectorCheckSpaceAdmin
 	pageLength: 100
 
-db.space_viewing_limits.adminConfig = 
-	icon: "globe"
-	color: "blue"
-	label: ->
-		return t("space_viewing_limits")
-	tableColumns: [
-		{name: "name"},
-	]
-	selector:  Admin.selectorCheckSpaceAdmin
-
-
 @AdminConfig = 
 	name: "Steedos Admin"
 	skin: "green"
@@ -86,7 +74,6 @@ db.space_viewing_limits.adminConfig =
 		organizations: db.organizations.adminConfig
 		space_users: db.space_users.adminConfig
 		apps: db.apps.adminConfig
-		space_viewing_limits: db.space_viewing_limits.adminConfig
 
 # set first user as admin
 # if Meteor.isServer

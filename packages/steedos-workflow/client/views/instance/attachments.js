@@ -249,6 +249,9 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_isNode']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -665,6 +668,9 @@ Template.ins_attach_version_modal.events({
 		Modal.hide('ins_attach_version_modal');
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -693,7 +699,10 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
-
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
+		
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);
 

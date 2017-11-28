@@ -1,14 +1,8 @@
 <template name="profile">
 	<div class="navigation-bar">
-		{{#if isMobile}}
 		<a class="btn btn-default" href="/admin">
 			<i class="ion ion-android-arrow-back"></i>
 		</a>
-		{{else}}
-		<button class="btn btn-default" data-toggle="offcanvas" type="button">
-			<i class="fa fa-bars"></i>
-		</button>
-		{{/if}}
 		<span class="navigation-title dropdown">
 			{{navigationTitle}}
 		</span>

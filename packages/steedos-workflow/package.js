@@ -114,6 +114,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/template_manager.coffee', ['client', 'server']);
 	api.addFiles('client/lib/office_online.js', 'client');
 	api.addFiles('client/lib/instance_number_rules.coffee', 'client');
+	api.addFiles('client/lib/instance_batch.coffee', 'client');
 
 	api.addFiles('client/lib/instance_macro.coffee', 'client');
 
@@ -319,6 +320,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/tableau_introduction_modal.less', 'client');
 	api.addFiles('client/views/list/tableau_introduction_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/batch_instances.html', 'client');
+	api.addFiles('client/views/list/batch_instances.coffee', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.html', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.less', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.coffee', 'client');
+
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -336,6 +343,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/edit_flow_positions.coffee', 'server');
 	api.addFiles('server/methods/start_flow.coffee', 'server');
 	api.addFiles('server/methods/instance_traces.coffee', 'server');
+	api.addFiles('server/methods/instance_batch.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
@@ -347,6 +355,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/getSpaceUsers.js', 'server');
 	api.addFiles('routes/getFormulaUserObjects.js', 'server');
 	api.addFiles('routes/init_formula_values.js', 'server');
+	api.addFiles('routes/getNameForUser.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_engine.coffee', 'server');
 	api.addFiles('routes/api_workflow_drafts.coffee', 'server');
@@ -378,6 +387,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/push_manager.coffee', 'server');
 	api.addFiles('server/lib/permission_manager.coffee', 'server');
 	api.addFiles('server/lib/approve_manager.coffee', 'server');
+	api.addFiles('server/lib/flow_manager.coffee', 'server');
+	api.addFiles('server/lib/form_manager.coffee', 'server');
+	api.addFiles('server/lib/step_manager.coffee', 'server');
 
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
@@ -426,7 +438,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 
 });
 

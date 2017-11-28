@@ -103,6 +103,13 @@ Template.instance_view.helpers
 	tracesListData: (instance)->
 		return instance.traces
 
+	notDistributeAndDraft: (state)->
+		ins = WorkflowManager.getInstance()
+		if ins 
+			if state is 'draft' and !ins.distribute_from_instance
+				return false
+
+		return true
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
@@ -172,6 +179,7 @@ Template.instance_view.onRendered ->
 
 Template.instance_view.onDestroyed ->
 	Session.set("instance_next_user_recalculate", null)
+	Steedos.subs["instance_data"].clear()
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
@@ -219,9 +227,12 @@ Template.instance_view.events
 
 	'click #ins_new_main_file': (event, template)->
 		Session.set('attach_parent_id', "")
+		Session.set('attach_instance_id', Session.get("instanceId"))
+		Session.set('attach_space_id', Session.get("spaceId"))
+		Session.set('attach_box', Session.get("box"))
 		# 正文最多只有一个
 		main_attach_count = cfs.instances.find({
-			'metadata.instance': Session.get("instanceId"),
+			'metadata.instance': Session.get('attach_instance_id'),
 			'metadata.current': true,
 			'metadata.main': true
 		}).count()

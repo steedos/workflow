@@ -44,6 +44,13 @@ Template.steedos_contacts_org_tree.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
+	isFromAdmin: ()->
+		currentRoute = FlowRouter.current().path
+		if /\/admin/.test(currentRoute)
+			return true
+		else
+			return false
+
 Template.steedos_contacts_org_tree.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	$(document.body).addClass('loading')
@@ -97,11 +104,11 @@ Template.steedos_contacts_org_tree.events
 	'mouseenter .jstree-anchor': (event, template) ->
 		wholerow = $(event.currentTarget).prevAll(".jstree-wholerow")
 		organizationId = wholerow.closest("li").attr("id")
-		admins =  wholerow.closest("li").data("admins").split(",")
+		admins =  wholerow.closest("li").data("admins")?.split(",")
 		userId = Meteor.userId()
 		# 给子部门添加编辑按钮
 		wholerow.closest("li").find(".jstree-node").each ->
-			inheritAdmins = $(this).data("admins").split(",").concat(admins)
+			inheritAdmins = $(this).data("admins")?.split(",").concat(admins)
 			inheritAdmins = _.uniq(inheritAdmins).join(",")
 			$(this).data("admins", inheritAdmins)
 		unless wholerow.hasClass("added-edit-menu")

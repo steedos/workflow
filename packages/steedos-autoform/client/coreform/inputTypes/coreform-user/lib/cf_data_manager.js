@@ -3,28 +3,31 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
+CFDataManager.getNode = function (spaceId, node) {
 
 	var orgs;
 
+	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
-		if (is_within_user_organizations) {
-			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
-
-			_ids = uOrgs.getProperty("_id")
-
+		if (myContactsLimit && myContactsLimit.isLimit) {
+			var uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
+			var _ids = uOrgs.getProperty("_id");
+			var outsideOrganizations = myContactsLimit.outside_organizations;
+			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			_ids = _.union(_ids, outsideOrganizations);
 			orgs = _.filter(uOrgs, function (org) {
-				// var children = org.children || []
-
-				var parents = org.parents || []
-
-				return _.intersection(parents, _ids).length < 1
-			})
-
+				var parents = org.parents || [];
+				return _.intersection(parents, _ids).length < 1;
+			});
+			if(outsideOrganizations.length){
+				// 找出outsideOrganizations中不在orgs中的记录，并额外从服务器把其组织信息抓取到前端
+				limitIds = _.difference(outsideOrganizations, orgs.getProperty("_id"));
+				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
+				orgs = _.union(orgs,limitOrgs)
+			}
 			if (orgs.length > 0) {
 				orgs[0].open = true
 			}
-
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
 		}
@@ -61,7 +64,7 @@ function handerOrg(orgs, parentId) {
 		}
 
 		if (org.children && org.children.length > 0) {
-		    node.children = true;
+			node.children = true;
 		}else{
 			node.children = false;
 		}
@@ -166,11 +169,18 @@ CFDataManager.handerContactModalValueLabel = function () {
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
 		valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
-		if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
-			valueLabel_ui.css("white-space", "nowrap");
-		} else {
-			valueLabel_ui.css("white-space", "initial");
-		}
+
+		change_valueLabel_ui = function(){
+			if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
+				valueLabel_ui.css("white-space", "nowrap");
+			} else {
+				valueLabel_ui.css("white-space", "initial");
+			}
+		};
+
+		change_valueLabel_ui()
+
+		setTimeout(change_valueLabel_ui, 30);
 
 		var selectUsersList = Sortable.create(valueLabel[0], {
 			group: 'words',
@@ -328,6 +338,36 @@ CFDataManager.getRoot = function (spaceId) {
 	});
 };
 
+CFDataManager.getOrganizationsByIds = function(ids) {
+	var query = {
+		_id: {$in: ids},
+		hidden: {$ne: true}
+	};
+	var showHiddenOrg = false;
+	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+		showHiddenOrg = true;
+	}
+	if(showHiddenOrg)
+		delete query.hidden
+	var childs = SteedosDataManager.organizationRemote.find(query, {
+		fields: {
+			_id: 1,
+			name: 1,
+			fullname: 1,
+			parent: 1,
+			children: 1,
+			childrens: 1,
+			hidden: 1,
+			sort_no: 1,
+			admins: 1
+		},
+		sort: {
+			sort_no: -1,
+			name: 1
+		}
+	});
+	return childs;
+}
 
 CFDataManager.getChild = function (spaceId, parentId) {
 

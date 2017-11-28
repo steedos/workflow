@@ -25,6 +25,9 @@ InstanceSignText.helpers =
 
 		completed_date = if is_completed then _.last(instance.traces)?.finish_date?.getTime() else 0
 
+		if is_completed && instance.finish_date
+			completed_date = instance.finish_date?.getTime()
+
 		traces = InstanceformTemplate.helpers.traces()
 
 		approves = _.clone(traces[stepName])
@@ -83,7 +86,8 @@ InstanceSignText.helpers =
 #			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 #			if !hasNext(approve, approvesGroup)
 			if approve.sign_show != false && (approve.description || (!approve.description && !hasNext(approve, approvesGroup)) )
-				approve._display = true
+				if approve.judge isnt 'terminated'
+					approve._display = true
 
 		approves_sorted = _.filter approves_sorted, (a) ->
 			if is_completed

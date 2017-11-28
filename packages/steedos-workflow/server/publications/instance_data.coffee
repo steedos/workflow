@@ -1,4 +1,4 @@
-Meteor.publish 'instance_data', (instanceId)->
+Meteor.publish 'instance_data', (instanceId, box)->
 	unless this.userId
 		return this.ready()
 
@@ -41,8 +41,8 @@ Meteor.publish 'instance_data', (instanceId)->
 
 		traces?.forEach (trace)->
 			trace?.approves?.forEach (approve)->
-				if (approve.user == self.userId || approve.handler == self.userId) && !approve.is_finished
-
+				if (approve.user == self.userId || approve.handler == self.userId)
+				# && !approve.is_finished
 #					console.log("approve", approve._id, approve.read_date)
 
 					myApproveModifieds.push(approve.read_date)
@@ -120,7 +120,7 @@ Meteor.publish 'instance_data', (instanceId)->
 	handle = db.instances.find({_id: instanceId}).observeChanges {
 		changed: (id, fields)->
 #			console.log("changed.................")
-			if(needChange(fields))
+			if(box != 'inbox' || needChange(fields))
 #				console.log("instances changed...")
 				self.changed("instances", id, getMiniInstance(id));
 		removed: (id)->

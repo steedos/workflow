@@ -13,37 +13,30 @@ isOrgAdmin = ->
 
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
-
-	is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
+	myContactsLimit = Steedos.my_contacts_limit
+	# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+	# query = {space: spaceId, user: {$nin: hidden_users}}
 	query = {space: spaceId}
-
 	isSearching = Session.get "contact_list_search"
-
 	if isSearching
 		searchingKey = Session.get('contacts_searching_key_mobile')
 		unless searchingKey
 			return { _id : -1}
-		if is_within_user_organizations
+		if myContactsLimit?.isLimit
 			orgs = db.organizations.find().fetch().getProperty("_id")
-
+			outsideOrganizations = myContactsLimit.outside_organizations
+			if outsideOrganizations?.length
+				orgs = _.union(orgs, outsideOrganizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
 			query.organizations = {$in: orgs}
 	else
 		orgId = Session.get("contacts_org_mobile")
-		rootOrg = Session.get("contacts_org_mobile_root")
-		if is_within_user_organizations and rootOrg and rootOrg == orgId
-			# 当在根组织时，不显示人员
-			query._id = -1
-		else
-			query.organizations = {$in: [orgId]};
+		query.organizations = {$in: [orgId]};
 
 	query.user_accepted = true
 	return query;
@@ -58,15 +51,21 @@ organizationsSelector = ->
 			parent: currentOrgId
 			hidden: { $ne: true }
 	else
-		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-		if isWithinUserOrganizations
+		myContactsLimit = Steedos.my_contacts_limit
+		if myContactsLimit?.isLimit
 			userId = Meteor.userId()
 			uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
 			_ids = uOrgs.getProperty('_id')
+			outsideOrganizations = myContactsLimit.outside_organizations
+			#当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			_ids = _.union(_ids, outsideOrganizations)
 			orgs = _.filter uOrgs, (org) ->
 				parents = org.parents or []
 				return _.intersection(parents, _ids).length < 1
-			selector = { space: spaceId, _id: { $in: orgs.getProperty('_id') } }
+			orgIds = orgs.getProperty('_id')
+			if outsideOrganizations?.length
+				orgIds = _.union(orgIds, outsideOrganizations)
+			selector = { space: spaceId, _id: { $in: orgIds } }
 		else
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			selector = {
@@ -136,12 +135,10 @@ Template.org_main_mobile.helpers
 		return className
 
 	orgFields: ()->
-		is_with = ContactsManager.is_within_user_organizations()
 		fields =
 			contacts_org_mobile_sel:
 				autoform:
 					type: 'selectorg'
-					is_within_user_organizations: !!is_with
 				optional: false
 				type: String
 				label: ''
@@ -149,8 +146,19 @@ Template.org_main_mobile.helpers
 		return new SimpleSchema(fields)
 
 	showAddContactUserBtn: ()->
+		# currentRoute = FlowRouter.current().path
+		# return Steedos.isSpaceAdmin() and /\/contacts/.test(currentRoute)
 		return Steedos.isSpaceAdmin()
 
+	isFromAdmin: ()->
+		currentRoute = FlowRouter.current().path
+		if Steedos.isMobile() and /\/admin/.test(currentRoute)
+			return true
+		else
+			return false
+
+	lastUrl: ()->
+		return FlowRouter.current()?.oldRoute?.path
 
 Template.org_main_mobile.onCreated ->
 	Session.set 'contacts_is_org_admin', false
@@ -159,8 +167,7 @@ Template.org_main_mobile.onCreated ->
 	Session.set('contacts_org_mobile_root', null)
 	this.autorun ->
 		spaceId = Steedos.spaceId()
-		isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-		if isWithinUserOrganizations
+		if Steedos.my_contacts_limit?.isLimit
 			orgs = db.organizations.find(organizationsSelector())
 			organizationsCount = orgs.count()
 			if organizationsCount == 1
@@ -222,8 +229,9 @@ Template.org_main_mobile.events
 		newOrgId = null
 		currentOrg = if currentOrgId then db.organizations.findOne(currentOrgId) else null
 		if currentOrg and currentOrg.parent
-			isWithinUserOrganizations = ContactsManager.is_within_user_organizations()
-			if isWithinUserOrganizations
+			# 判断currentOrg.parent是否在当前用户可查看权限范围，如果是则直接返回，反之则返回null
+			myContactsLimit = Steedos.my_contacts_limit
+			if myContactsLimit?.isLimit
 				spaceId = Steedos.spaceId()
 				userId = Meteor.userId()
 				uOrgs = db.organizations.find({ space: spaceId, users: userId },fields: {parents: 1}).fetch()
@@ -232,6 +240,11 @@ Template.org_main_mobile.events
 					newOrgId = currentOrg.parent
 				else if _.intersection(currentOrg.parents, _ids).length > 0
 					newOrgId = currentOrg.parent
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations.length
+					# 额外有权限查看的组织也要确认下是否在范围内
+					if _.intersection(currentOrg.parents, outsideOrganizations).length > 0
+						newOrgId = currentOrg.parent
 			else
 				newOrgId = currentOrg.parent
 
@@ -282,4 +295,18 @@ Template.org_main_mobile.events
 
 	'click .add-contact-user': (event,template) ->
 		Modal.show("steedos_contacts_add_user_modal")
+
+	'click .org-tabbar .add-users': (event, template) ->
+		Modal.show("steedos_contacts_add_user_modal")
+
+	'click .org-tabbar .add-organization': (event, template) ->
+		orgId = Session.get('contacts_org_mobile')
+		doc = { parent: orgId }
+		AdminDashboard.modalNew 'organizations', doc
+		# AdminDashboard.modalNew 'organizations', doc, ()->
+		# 	$.jstree.reference('#steedos_contacts_org_tree').refresh()
+
+	'click .org-tabbar .edit-organization': (event, template) ->
+		orgId = Session.get('contacts_org_mobile')
+		AdminDashboard.modalEdit 'organizations', orgId
 

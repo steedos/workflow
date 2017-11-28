@@ -3,7 +3,6 @@ Template.cf_organization_list.helpers
 
 Template.cf_organization_list.onRendered ->
 	spaceId = Template.instance().data.spaceId
-	is_within_user_organizations = Template.instance().data.is_within_user_organizations
 	$("#cf_organizations_tree").on('changed.jstree', (e, data) ->
 		if data.selected.length
 			Session.set("cf_selectOrgId", data.selected[0]);
@@ -26,7 +25,7 @@ Template.cf_organization_list.onRendered ->
 			themes: {"stripes": true, "variant": "large"},
 			three_state: false,
 			data: (node, cb) ->
-				cb(CFDataManager.getNode(spaceId, node, is_within_user_organizations));
+				cb(CFDataManager.getNode(spaceId, node));
 
 				if node.id != '#'
 					Session.set("cf_selectOrgId", node.id);

@@ -90,6 +90,19 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================
 			instance = uuflowManager.getInstance(instance_id)
+			# 防止此时的instance已经被处理
+			# 获取一个trace
+			trace = uuflowManager.getTrace(instance, trace_id)
+			# 获取一个approve
+			approve = uuflowManager.getApprove(trace, approve_id)
+			# 判断一个trace是否为未完成状态
+			uuflowManager.isTraceNotFinished(trace)
+			# 判断一个approve是否为未完成状态
+			uuflowManager.isApproveNotFinished(approve)
+			# 判断一个instance是否为审核中状态
+			uuflowManager.isInstancePending(instance)
+			# 判断当前用户是否approve 对应的处理人或代理人
+			uuflowManager.isHandlerOrAgent(approve, current_user)
 			updateObj = new Object
 
 			if next_steps is null or next_steps.length is 0

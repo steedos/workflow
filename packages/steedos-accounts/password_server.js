@@ -124,6 +124,8 @@ Accounts._findUserByQueryForSteedos = function (query) {
       else{
         fieldValue = "+86" + query.phone;
       }
+      fieldName = "$or"
+      fieldValue = [{'phone.number':fieldValue},{username:query.phone}]
     } else {
       throw new Error("shouldn't happen (validation missed something)");
     }
@@ -131,7 +133,7 @@ Accounts._findUserByQueryForSteedos = function (query) {
     selector[fieldName] = fieldValue;
     user = Meteor.users.findOne(selector);
     // If user is not found, try a case insensitive lookup
-    if (!user) {
+    if (!user && fieldName != "$or") {
       selector = selectorForFastCaseInsensitiveLookup(fieldName, fieldValue);
       var candidateUsers = Meteor.users.find(selector).fetch();
       // No match if multiple candidates are found

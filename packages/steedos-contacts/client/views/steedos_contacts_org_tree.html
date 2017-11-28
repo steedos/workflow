@@ -2,20 +2,16 @@
     <div class="navigation-bar">
         <button type="button" class="btn btn-default contacts_back" id="contacts_back" title="返回"><i class="ion ion-android-arrow-back"></i></button>
 
-        <button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
-            <i class="fa fa-bars"></i>
-        </button>
+        {{#if isFromAdmin}}
+            <a class="btn btn-default" href="/admin">
+                <i class="ion ion-android-arrow-back"></i>
+            </a>
+        {{else}}
+            <button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
+                <i class="fa fa-bars"></i>
+            </button>
+        {{/if}}
         <span class="navigation-title">{{_ "contacts_organizations"}}</span>
-        <!-- {{#if isEditable}}
-        <div class="pull-right">
-            <div class="btn-group" >
-                <button type="button" data-toggle="tooltip" data-placement="left" title="{{_ 'contacts_add'}}" class="btn btn-default btn-flat" id="steedos_contacts_org_tree_add_btn"><i class="ion ion-plus-round"></i></button>
-                <button type="button" data-toggle="tooltip" data-placement="bottom" title="{{_ 'contacts_edit'}}" class="btn btn-default btn-flat" id="steedos_contacts_org_tree_edit_btn"><i class="ion ion-edit"></i></button>
-                <button type="button" data-toggle="tooltip" data-placement="bottom" title="{{_ 'contacts_delete'}}" class="btn btn-default btn-flat" id="steedos_contacts_org_tree_remove_btn"><i class="ion ion-minus-round"></i></button>
-            </div>
-        </div>
-        {{/if}} -->
-
     </div>
     <div class="contacts-tree">
         <div id="steedos_contacts_org_tree"></div>

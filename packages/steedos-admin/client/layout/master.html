@@ -4,7 +4,9 @@
 		<div class="steedos app-wrapper steedos-admin">
 			{{# AdminLTE skin=skinName sidebarMini="true" }}
 				{{> steedosHeader}}
-				{{> adminSidebar}}
+				{{#unless isMobile}}
+					{{> adminSidebar}}
+				{{/unless}}
 				<div class="content-wrapper">
 					{{#if isAdminRoute}}
 						<div class="navigation-bar">
@@ -13,14 +15,14 @@
 								  <i class="ion ion-chevron-left"></i><span></span>
 								</button>
 							{{else}}
-								{{#if isMobile}}
-								<a class="btn btn-default" href="/admin">
-									<i class="ion ion-android-arrow-back"></i>
-								</a>
+								{{#if isPayRecords}}
+									<a class="btn btn-default" href="/admin/space/info">
+										<i class="ion ion-android-arrow-back"></i>
+									</a>
 								{{else}}
-								<button type="button" class="btn btn-default" data-toggle="offcanvas">
-									<i class="fa fa-bars"></i>
-								</button>
+									<a class="btn btn-default" href="/admin">
+										<i class="ion ion-android-arrow-back"></i>
+									</a>
 								{{/if}}
 							{{/if}}
 							<span class="navigation-title">

@@ -7,16 +7,16 @@
 		border-right: none;
 	}
 
-	.dataTables_paginate{
+	.dataTables_paginate {
 		float: right;
 		width: 65%;
 	}
-	.dataTables_length{
+	.dataTables_length {
 		float: left;
 		width: 35%;
 	}
-	@media (max-width: 768px){
-		.dataTables_paginate{
+	@media (max-width: 768px) {
+		.dataTables_paginate {
 			width: 100%;
 		}
 	}
@@ -184,19 +184,40 @@
 		padding: 10px 20px;
 	}
 
-	[aria-label='标题'],[aria-label='Title']{
+	[aria-label='标题'], [aria-label='Title'] {
 		min-width: 400px !important;
 	}
 }
 
+.batch_instances_view {
+	position: absolute;
+	width: 100%;
+	transform: translate(0, 0);
+	bottom: 120px;
+	right: 20px;
+
+	button {
+		z-index: 999;
+		position: fixed;
+		right: 20px;
+		box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+		border: solid 1px #08C;
+		outline: none!important;
+		width: 57px;
+		height: 57px;
+		border-radius: 57px;
+		font-size: 16px;
+	}
+}
+
 .instance-list-wrapper .search-tip-bar {
-	.label{
+	.label {
 		margin-right: 5px;
 		border-radius: 0px;
 		font-size: 12px;
 	}
 
-	.breadcrumb{
+	.breadcrumb {
 		display: inline-block;
 		margin-bottom: 0px;
 		padding: 0px;

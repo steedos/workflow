@@ -1,48 +1,31 @@
 <template name="contacts_settings">
 	<div class="contacts-settings">
 		<div class="navigation-bar">
-			<button type="button" class="btn btn-default" data-toggle="offcanvas">
-				<i class="fa fa-bars"></i>
-			</button>
-
+			<a class="btn btn-default" href="/admin">
+				<i class="ion ion-android-arrow-back"></i>
+			</a>
 			<span class="navigation-title">
 				{{_ "steedos_contacts_settings"}}
 			</span>
-
-
 		</div>
 		<div class="admin-content">
-
-			<div class="box box-success settings-hidden">
-
+			<div class="box box-success hidden-users-block hidden">
 				<div class="weui-panel__bd">
-	                <div class="weui-media-box weui-media-box_text">
-	                    <h4 class="weui-media-box__title contacts-setting-title">
-	                    	{{_ "steedos_contacts_settings_hidden_users"}}
-	                    </h4>
-	                    <div class="pull-right box-tools">
+					<div class="weui-media-box weui-media-box_text">
+						<h4 class="weui-media-box__title contacts-setting-title">
+							{{_ "steedos_contacts_settings_hidden_users"}}
+						</h4>
+						<div class="pull-right box-tools">
 							<a href="javascript:void(0)" class="btn btn-sm btn-primary pull-left set_settings">
 								{{_ "Edit"}}
 							</a>
 						</div>
-	                    <p class="weui-media-box__desc profile_item_left_btnTips">
-	                    	<i class="ion ion-ios-information-outline"></i>
+						<p class="weui-media-box__desc profile_item_left_btnTips">
+							<i class="ion ion-ios-information-outline"></i>
 							{{_ "steedos_contacts_settings_hidden_users_tips"}}
-	                    </p>
-	                </div>
-	            </div>
-
-				<!-- <div class="box-header">
-					<h3 class="box-title">{{_ "steedos_contacts_settings_hidden_users"}}</h3>
-					<div class="profile_item_right_btnTips">
-						<i class="ion ion-ios-information-outline"></i>
-						{{_ "steedos_contacts_settings_hidden_users_tips"}}
+						</p>
 					</div>
-					<div class="pull-right box-tools">
-						<a href="javascript:void(0)" class="btn btn-sm btn-primary btn-flat pull-left set_settings">{{_ "Edit"}}</a>
-					</div>
-				</div> -->
-
+				</div>
 				<div class="box-body">
 					<ul class="hidden-users-list clearfix">
 						{{#each hidden_users}}
@@ -51,6 +34,47 @@
 							<a class="users-list-name" href="#">{{this.name}}</a>
 							<span class="users-list-date">{{this.email}}</span>
 						</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+
+			<div class="box box-success view-limit-block">
+				<div class="weui-panel__bd">
+					<div class="weui-media-box weui-media-box_text">
+						<h4 class="weui-media-box__title contacts-setting-title">
+							{{_ "space_viewing_limits"}}
+						</h4>
+						<div class="pull-right box-tools">
+							<a href="javascript:void(0)" class="btn btn-sm btn-primary pull-left btn-add">
+								{{_ "Add"}}
+							</a>
+						</div>
+						<p class="weui-media-box__desc profile_item_left_btnTips">
+							<i class="ion ion-ios-information-outline"></i>
+							{{_ "space_viewing_limits_tips"}}
+						</p>
+					</div>
+				</div>
+				<div class="box-body">
+					<ul class="view-limit-list clearfix">
+						{{#each view_limits}}
+							{{#each this.values}}
+								<li class="col-md-12 clearfix">
+									<div class="pull-left left-names">
+										{{#each limit_from_names this.froms}}
+											<div class="limit-froms-item">
+												<i class="ion ion-android-folder"></i>
+												{{this}}
+											</div>
+										{{/each}}
+									</div>
+									<div class="pull-right">
+										<a class="btn btn-edit" data-index={{@index}}>{{_ "Edit"}}</a>
+										<a class="btn btn-delete" data-index={{@index}}>{{_ "Delete"}}</a>
+									</div>
+								</li>
+							{{/each}}
 						{{/each}}
 					</ul>
 				</div>

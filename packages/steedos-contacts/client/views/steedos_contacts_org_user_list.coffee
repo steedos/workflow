@@ -4,33 +4,30 @@ Template.steedos_contacts_org_user_list.helpers
 			return true
 		return false;
 	selector: ->
-
-		is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
-		query = {space: Session.get("spaceId")}
+		spaceId = Steedos.spaceId()
+		myContactsLimit = Steedos.my_contacts_limit
+		query = {space: spaceId}
+		# if FlowRouter.current().path != "/admin/organizations"
+		# 	# 系统设置中组织架构以外的通讯录都需要限制隐藏用户显示
+		# 	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+		# 	query.user = {$nin: hidden_users}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
-			isAdminOrgRoute = /\/admin\/organizations/.test(FlowRouter.current().path)
-			if is_within_user_organizations and !isAdminOrgRoute and db.organizations.findOne({ _id: orgId })?.is_company
-				# 当不在系统设置的组织架构路由中且在根组织时，不显示人员
-				query._id = -1
-			else
-				query.organizations = {$in: [orgId]};
+			query.organizations = {$in: [orgId]};
 		else
-			if is_within_user_organizations
-				orgs = db.organizations.find().fetch().getProperty("_id")
-
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-
+			else if myContactsLimit?.isLimit
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations?.length
+					orgs = _.union(orgs, outsideOrganizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
 			query.organizations = {$in: orgs};
 
 		if !Session.get('contacts_is_org_admin')
@@ -93,6 +90,17 @@ Template.steedos_contacts_org_user_list.events
 		dataTable.search(
 			$("#contact-list-search-key").val(),
 		).draw();
+
+	'keypress #contact-list-search-key': (event, template) ->
+		if event.keyCode == 13
+			if $("#contact-list-search-key").val()
+				Session.set("contact_list_search", true)
+			else
+				Session.set("contact_list_search", false)
+			dataTable = $(".datatable-steedos-contacts").DataTable();
+			dataTable.search(
+				$("#contact-list-search-key").val(),
+			).draw();
 
 	# 'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
 	# 	event.stopPropagation()
@@ -159,7 +167,6 @@ Template.steedos_contacts_org_user_list.events
 			window.open(url, '_parent', 'EnableViewPortScale=yes')
 
 	'click .edit-person .contacts-tableau-modify-username': (event, template) ->
-		# debugger
 		space_id = Session.get("spaceId")
 		username = ""
 		user_id = event.currentTarget.dataset.user
@@ -210,10 +217,11 @@ Template.steedos_contacts_org_user_list.events
 				return false
 			
 			result = Steedos.validatePassword inputValue
+			space_id = Steedos.spaceId()
 			if result.error
 				return toastr.error result.error.reason
 
-			Meteor.call "setUserPassword", user_id, inputValue, (error, result) ->
+			Meteor.call "setUserPassword", user_id, space_id, inputValue, (error, result) ->
 				if error
 					toastr.error error.reason
 				else

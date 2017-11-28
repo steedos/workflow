@@ -40,11 +40,6 @@ Meteor.startup ()->
 				multiple: true
 				defaultValue: ->
 					return []
-				is_within_user_organizations: ()->
-					if Steedos.isSpaceAdmin()
-						return false
-					else
-						return true
 
 		manager:
 			type: String,
@@ -94,11 +89,6 @@ Meteor.startup ()->
 			autoform:
 				type: ->
 					return "text"
-				readonly: ->
-					if Steedos.isPaidSpace()
-						return false
-					else
-						return true
 		work_phone:
 			type: String,
 			optional: true
@@ -169,11 +159,18 @@ Meteor.startup ()->
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
-			if doc.email and doc.mobile
+			selector = []
+			if doc.email
+				selector.push("emails.address": doc.email)
+			if doc.mobile
 				phoneNumber = "+86" + doc.mobile
-				userExist = db.users.find({$or: ["emails.address": doc.email, "phone.number": phoneNumber]})
-				if userExist.count() > 1
-					throw new Meteor.Error(400, "邮箱和手机号不匹配")
+				selector.push("phone.number": phoneNumber)
+
+			userExist = db.users.find({$or: selector})
+			if userExist.count() > 1
+				throw new Meteor.Error(400, "邮箱和手机号不匹配")
+			else if userExist.count() == 1
+				user = userExist.fetch()[0]._id
 
 			# 检验当前工作区下有没有邮件或手机号重复的成员，禁止重复添加
 			if doc.email and doc.mobile
@@ -189,16 +186,20 @@ Meteor.startup ()->
 				if spaceUserExisted.count() > 0
 					throw new Meteor.Error(400, "该手机号已存在")
 
+			if user
+				spaceUserExisted = db.space_users.find({space: doc.space, user: user})
+				if spaceUserExisted.count() > 0
+					throw new Meteor.Error(400, "该用户已在此工作区")
+
 		db.space_users.updatevaildate = (userId, doc, modifier) ->
 			if doc.invite_state == "refused" or doc.invite_state == "pending"
 				throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
-				
-			modifier.$set = modifier.$set || {}
+			
 			space = db.spaces.findOne(doc.space)
 			if !space
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
-			if modifier.$set.email
+			if modifier.$set?.email
 				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(modifier.$set.email)
 					throw new Meteor.Error(400, "email_format_error");
 
@@ -208,26 +209,34 @@ Meteor.startup ()->
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
-			if modifier.$set.user_accepted != undefined and !modifier.$set.user_accepted
+			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
 				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
 
-			if modifier.$set.space
+			if modifier.$set?.space
 				if modifier.$set.space != doc.space
 					throw new Meteor.Error(400, "space_users_error_space_readonly");
 
-			if modifier.$set.user
+			if modifier.$set?.user
 				if modifier.$set.user != doc.user
 					throw new Meteor.Error(400, "space_users_error_user_readonly");
 
-			if modifier.$set.email and modifier.$set.email != doc.email
+			if modifier.$unset?.email != undefined
+				if db.users.findOne({_id: doc.user, "emails.verified": true})
+					throw new Meteor.Error(400, "用户已验证邮箱，不能修改")
+
+			if modifier.$set?.email and modifier.$set.email != doc.email
 				if db.users.findOne({_id: doc.user, "emails.verified": true})
 					throw new Meteor.Error(400, "用户已验证邮箱，不能修改")
 				repeatEmailUser = db.users.findOne({"emails.address": modifier.$set.email})
 				if repeatEmailUser and repeatEmailUser._id != doc.user
 					throw new Meteor.Error(400, "该邮箱已被占用")
 
-			if modifier.$set.mobile and modifier.$set.mobile != doc.mobile
+			if modifier.$unset?.mobile != undefined
+				if db.users.findOne({_id: doc.user, "phone.verified": true})
+					throw new Meteor.Error(400, "用户已验证手机，不能修改")
+
+			if modifier.$set?.mobile and modifier.$set.mobile != doc.mobile
 				phoneNumber = "+86" + modifier.$set.mobile
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
@@ -432,16 +441,18 @@ Meteor.startup ()->
 						})
 
 			newEmail = modifier.$set.email
+
 			# 当把邮箱设置为空值时，newEmail为undefined，modifier.$unset.email为空字符串
-			isEmailCleared = modifier.$unset?.email != undefined
-			if newEmail != doc.email
+			isEmailCleared = modifier.$unset?.email != undefined	
+			if newEmail and newEmail != doc.email
 				emails = []
 				email_val = {
 					address: newEmail
 					verified: false
 				}
 				emails.push(email_val)
-				db.users.update({_id: doc.user}, {$set: {emails: emails}})
+				steedos_id = newEmail
+				db.users.update({_id: doc.user}, {$set: {emails: emails, steedos_id: steedos_id}})
 				db.space_users.direct.update({user: doc.user}, {$set: {email: newEmail}}, {multi: true})
 			else if isEmailCleared
 				emails = []
@@ -449,7 +460,7 @@ Meteor.startup ()->
 					address: ""
 					verified: ""
 				}
-				db.users.update({_id: doc.user}, {$unset: {emails: emails}})
+				db.users.update({_id: doc.user}, {$unset: {emails: emails}, $set: {steedos_id: doc.user}})
 				db.space_users.direct.update({user: doc.user}, {$unset: {email: ""}}, {multi: true})
 
 

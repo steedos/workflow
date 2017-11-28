@@ -1,10 +1,15 @@
 <template name="admin_home">
 
 	<div class="navigation-bar">
-
+		{{#if isMobile}}
+		<a class="btn btn-default" href="/springboard">
+			<i class="ion ion-android-arrow-back"></i>
+		</a>
+		{{else}}
 		<button type="button" class="btn btn-default" data-toggle="offcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
+		{{/if}}
 
 		<span class="navigation-title dropdown">
 			{{adminTitle}}

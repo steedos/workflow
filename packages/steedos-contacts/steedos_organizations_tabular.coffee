@@ -6,10 +6,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 		row.dataset.user = data.user
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$(row).addClass("drag-source").attr "draggable",true
-		else
-			hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
-			if hidden_users.indexOf(data.user) > -1
-				$(row).addClass("hidden-user")
+		# else
+		# 	hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		# 	if hidden_users.indexOf(data.user) > -1
+		# 		$(row).addClass("hidden-user")
 
 	drawCallback:()->
 		unless Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
@@ -101,34 +101,54 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 				else
 					modifyPassword = ""
 
+
 				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-					html = """
-						<div class="edit-person">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-									<span class="ion ion-android-more-vertical"></span>
-								</button>
-								<ul class="dropdown-menu dropdown-menu-right" role="menu">
-									<li>
-										<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-edit-user">
-											#{t("contacts_edit")}
-										</a>
-									</li>
-									<li>
-										<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-modify-username">
-											#{t("contacts_tableau_modify_username")}
-										</a>
-									</li>
-									#{modifyPassword}
-									<li>
-										<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-delete-user">
-											#{t("contacts_delete")}
-										</a>
-									</li>
-								</ul>
+					if doc.invite_state == "pending" or doc.invite_state == "refused"
+						html = """
+							<div class="edit-person">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<span class="ion ion-android-more-vertical"></span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-delete-user">
+												#{t("contacts_delete")}
+											</a>
+										</li>
+									</ul>
+								</div>
 							</div>
-						</div>
-					"""
+
+						"""
+					else
+						html = """
+							<div class="edit-person">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<span class="ion ion-android-more-vertical"></span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-edit-user">
+												#{t("contacts_edit")}
+											</a>
+										</li>
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-modify-username">
+												#{t("contacts_tableau_modify_username")}
+											</a>
+										</li>
+										#{modifyPassword}
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-delete-user">
+												#{t("contacts_delete")}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						"""
 				else
 					html = """
 						<div class="edit-person"></div>

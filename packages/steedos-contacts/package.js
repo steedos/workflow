@@ -69,6 +69,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
 	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
+	api.addFiles('server/publications/contacts_view_limits.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
@@ -154,6 +155,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/admin/settings_hidden_modal.html', 'client');
 	api.addFiles('client/admin/settings_hidden_modal.coffee', 'client');
+
+	api.addFiles('client/admin/settings_limit_modal.html', 'client');
+	api.addFiles('client/admin/settings_limit_modal.coffee', 'client');
 
 	api.addFiles('client/admin-menu.coffee', 'client');
 

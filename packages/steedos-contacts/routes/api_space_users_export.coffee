@@ -12,8 +12,7 @@ Meteor.startup ->
 			users_to_xls = new Array
 			now = new Date 
 			users_to_xls = db.space_users.find({
-				space: space_id,
-				organizations:{$in:[org_id]}
+				space: space_id
 			}, {
 				sort: {name: 1}
 			}).fetch()
