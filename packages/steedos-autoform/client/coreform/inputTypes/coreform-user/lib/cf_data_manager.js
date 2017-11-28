@@ -4,9 +4,7 @@ CFDataManager = {};
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
 CFDataManager.getNode = function (spaceId, node, selfOrganization) {
-
 	var orgs;
-
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
 		if(selfOrganization){
@@ -49,9 +47,8 @@ CFDataManager.getNode = function (spaceId, node, selfOrganization) {
 
 
 function handerOrg(orgs, parentId) {
-
+	var selfOrganization = Steedos.selfOrganization();
 	var nodes = new Array();
-
 	orgs.forEach(function (org) {
 
 		var node = new Object();
@@ -80,7 +77,7 @@ function handerOrg(orgs, parentId) {
 
 		// node.children = true;
 
-		if (org.is_company == true || org.open == true) {
+		if ((org.is_company == true && !selfOrganization) || org.open == true) {
 			node.state.opened = true;
 			if(CFDataManager.getOrganizationModalValue().length === 0){
 				node.state.selected = true;
