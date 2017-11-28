@@ -9,7 +9,7 @@ Template.instancePrint.helpers
 	instance: ()->
 		return WorkflowManager.getInstance();
 
-# 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
+	# 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
 	isTableView: (formId)->
 		form = WorkflowManager.getForm(formId);
 
@@ -34,6 +34,12 @@ Template.instancePrint.helpers
 			return WorkflowManager.getForm(ins.form)?.description?.replace(/\n/g,"<br/>")
 	printButton:->		 
 		 return t('instance_print')
+
+	isShowAttachments: ->
+		return Template.instance().isShowAttachments?.get()
+
+	isShowTraces: ->
+		return Template.instance().isShowTraces?.get()
 
 Template.instancePrint.step = 1;
 
@@ -96,8 +102,16 @@ Template.instancePrint.events
 	"click #font-minus": (event, template) ->
 		Template.instancePrint.minusFontSize $(".instance")
 
+	"click .cbx-print-attachments": (event, template) ->
+		template.isShowAttachments.set($(event.currentTarget).is(':checked'))
+
+	"click .cbx-print-traces": (event, template) ->
+		template.isShowTraces.set($(event.currentTarget).is(':checked'))
+
 Template.instancePrint.onCreated ->
 	Form_formula.initFormScripts()
+	this.isShowAttachments = new ReactiveVar(false)
+	this.isShowTraces = new ReactiveVar(false)
 
 Template.instancePrint.onRendered ->
 
