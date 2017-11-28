@@ -103,10 +103,20 @@ Template.instancePrint.events
 		Template.instancePrint.minusFontSize $(".instance")
 
 	"click .cbx-print-attachments": (event, template) ->
-		template.isShowAttachments.set($(event.currentTarget).is(':checked'))
+		isChecked = $(event.currentTarget).is(':checked')
+		template.isShowAttachments.set(isChecked)
+		if isChecked
+			localStorage.setItem "print_is_show_attachments", isChecked
+		else
+			localStorage.removeItem "print_is_show_attachments"
 
 	"click .cbx-print-traces": (event, template) ->
-		template.isShowTraces.set($(event.currentTarget).is(':checked'))
+		isChecked = $(event.currentTarget).is(':checked')
+		template.isShowTraces.set(isChecked)
+		if isChecked
+			localStorage.setItem "print_is_show_traces", isChecked
+		else
+			localStorage.removeItem "print_is_show_traces"
 
 Template.instancePrint.onCreated ->
 	Form_formula.initFormScripts()
@@ -122,3 +132,10 @@ Template.instancePrint.onRendered ->
 	Form_formula.runFormScripts("instanceform", "onload");
 	# if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 	# 	toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
+
+	if localStorage.getItem "print_is_show_attachments"
+		Template.instance().isShowAttachments.set(true)
+		$(".instance-print .cbx-print-attachments").attr("checked",true)
+	if localStorage.getItem "print_is_show_traces"
+		Template.instance().isShowTraces.set(true)
+		$(".instance-print .cbx-print-traces").attr("checked",true)
