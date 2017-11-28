@@ -15,7 +15,7 @@ ContactsManager.is_within_user_organizations = function () {
 }
 
 ContactsManager.getOrgNode = function(node, showHiddenOrg) {
-	var orgs;
+	var orgs, org_ids;
 
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#')
