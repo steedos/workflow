@@ -32,8 +32,13 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 			if(outsideOrganizations.length){
 				// 找出outsideOrganizations中不在orgs中的记录，并额外从服务器把其组织信息抓取到前端
 				limitIds = _.difference(outsideOrganizations, orgs.getProperty("_id"));
-				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds, showHiddenOrg);
-				orgs = _.union(orgs,limitOrgs)
+
+				org_ids = orgs.getProperty("_id") ||[]
+				
+				org_ids = org_ids.concat(limitIds)
+
+				orgs = ContactsManager.getOrganizationsByIds(org_ids, showHiddenOrg);
+				// orgs = _.union(orgs,limitOrgs)
 			}
 			if (orgs.length > 0) {
 				orgs[0].open = true
