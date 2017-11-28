@@ -91,6 +91,17 @@ Template.steedos_contacts_org_user_list.events
 			$("#contact-list-search-key").val(),
 		).draw();
 
+	'keypress #contact-list-search-key': (event, template) ->
+		if event.keyCode == 13
+			if $("#contact-list-search-key").val()
+				Session.set("contact_list_search", true)
+			else
+				Session.set("contact_list_search", false)
+			dataTable = $(".datatable-steedos-contacts").DataTable();
+			dataTable.search(
+				$("#contact-list-search-key").val(),
+			).draw();
+
 	# 'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
 	# 	event.stopPropagation()
 	# 	AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
