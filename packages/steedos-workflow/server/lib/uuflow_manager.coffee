@@ -694,6 +694,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.traces = instance_traces
 		setObj.inbox_users = []
 		setObj.finish_date = new Date
+		setObj.current_step_name = next_step_name
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -795,6 +796,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 
 					instance_traces.push(newTrace)
 					setObj.traces = instance_traces
+					setObj.current_step_name = next_step_name
 
 	return setObj
 
@@ -885,6 +887,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.state = instance.state
 				if instance.cc_users
 					setObj.cc_users = instance.cc_users
+
+				setObj.current_step_name = next_step_name
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -991,6 +995,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							setObj.state = instance.state
 							if instance.cc_users
 								setObj.cc_users = instance.cc_users
+
+							setObj.current_step_name = next_step_name
 		else if judge is "rejected"
 			if not description
 				throw new Meteor.Error('error!', "请填写驳回理由")
@@ -1070,6 +1076,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 
 					if instance.cc_users
 						setObj.cc_users = instance.cc_users
+
+					setObj.current_step_name = next_step_name
 				else
 					# 若不是结束结点
 					# 先判断nextsteps.step.users是否为空
@@ -1177,6 +1185,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								if instance.cc_users
 									setObj.cc_users = instance.cc_users
 
+								setObj.current_step_name = next_step_name
+
 
 	return setObj
 
@@ -1270,6 +1280,8 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				setObj.values = instance.values
 				if instance.cc_users
 					setObj.cc_users = instance.cc_users
+
+				setObj.current_step_name = next_step_name
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1346,6 +1358,8 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							setObj.values = instance.values
 							if instance.cc_users
 								setObj.cc_users = instance.cc_users
+
+							setObj.current_step_name = next_step_name
 		else
 			# 当前trace未结束
 			instance_trace = _.find(instance_traces, (trace)->
@@ -1626,6 +1640,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
+	ins_obj.current_step_name = start_step.name
+
 	new_ins_id = db.instances.insert(ins_obj)
 
 	return new_ins_id
@@ -1826,6 +1842,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		traces.push(newTrace)
 		upObj.traces = traces
 		upObj.finish_date = new Date
+		upObj.current_step_name = next_step.name
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
@@ -1910,6 +1927,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					traces.push(nextTrace)
 					upObj.traces = traces
 					upObj.outbox_users = []
+					upObj.current_step_name = next_step.name
 
 	upObj.keywords = uuflowManager.caculateKeywords(upObj.values, form, instance.form_version)
 	db.instances.update({_id: instance_id}, {$set: upObj})

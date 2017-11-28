@@ -154,6 +154,8 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				setObj.state = "pending"
 				setObj.is_archived = false
 
+				setObj.current_step_name = previous_trace_name
+
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 				if r
 					# 给被删除的inbox_users 和 当前用户 发送push
