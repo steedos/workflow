@@ -24,9 +24,15 @@
 							<span class="top-ion"><i class="ion ion-android-arrow-dropdown"></i></span>
 						</span>
 						{{#if showAddContactUserBtn}}
+							{{#if isMobile}}
+							<button type="button" class="btn btn-default manage-contacts pull-right">
+								<i class="ion ion-gear-a"></i>
+							</button>
+							{{else}}
 							<button type="button" class="btn btn-default add-contact-user pull-right">
 								<i class="ion ion-plus"></i>
 							</button>
+							{{/if}}
 						{{/if}}
 						<!-- {{#if showAddContactUserBtn}}
 							<a href="/admin/organizations" class="btn btn-default manage-contacts pull-right">
@@ -61,6 +67,23 @@
 					</div>
 				</div>
 				{{> baseTabbar}}
+				{{#if showAddContactUserBtn}}
+					{{#if isMobile}}
+					<div>
+						<div class="weui-mask contacts-option-mask" style="display: none;opacity: 0"></div>
+						<div class="weui-actionsheet contacts-option-actionsheet" >
+							<div class="weui-actionsheet__menu">
+								<div class="weui-actionsheet__cell add-users">{{_ "cantact_add_space_user"}}</div>
+								<div class="weui-actionsheet__cell add-organization">{{_ "add_sub_department"}}</div>
+								<div class="weui-actionsheet__cell edit-organization">{{_ "edit_current_department"}}</div>
+							</div>
+							<div class="weui-actionsheet__action">
+								<div class="weui-actionsheet__cell actionsheet-cancel">{{_ "Cancel"}}</div>
+							</div>
+						</div>
+					</div>
+					{{/if}}
+				{{/if}}
 			{{/if}}
 		{{else}}
 			<div class="loading">
