@@ -126,8 +126,8 @@ Meteor.methods
 			try 
 				selector = []
 				operating = ""
-				if item.username
-					selector.push {username: item.username}
+				# if item.username
+				# 	selector.push {username: item.username}
 				if item.email
 					selector.push {"emails.address": item.email}
 				if item.phone

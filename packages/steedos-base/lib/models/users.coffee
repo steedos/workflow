@@ -124,7 +124,7 @@ if Meteor.isServer
 	db.users.validateUsername = (username, userId) ->
 		user = db.users.findOne({username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") }, _id: { $ne: userId }})
 		if user
-			throw new Meteor.Error 'username-unavailable', "<strong>" + username + "</strong> is already in use.", { method: 'setUsername', field: username }
+			throw new Meteor.Error 'username-unavailable', 'username-unavailable'
 		if !Meteor.settings.public?.accounts?.is_username_skip_minrequiredlength
 			if username.length < 6
 				throw new Meteor.Error 'username-minrequiredlength', "username-minrequiredlength"

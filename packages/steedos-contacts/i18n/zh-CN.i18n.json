@@ -132,6 +132,7 @@
 	"add_sub_department": "添加子部门",
 	"edit_department": "编辑",
 	"delete_department": "删除",
+	"edit_current_department": "编辑当前部门",
 
 	"contacts_tableau_modify_username": "更改用户名",
 	"contacts_tableau_modify_password": "更改密码",

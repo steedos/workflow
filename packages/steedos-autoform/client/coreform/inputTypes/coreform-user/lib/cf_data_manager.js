@@ -3,13 +3,16 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node) {
-
+CFDataManager.getNode = function (spaceId, node, selfOrganization) {
 	var orgs;
-
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
-		if (myContactsLimit && myContactsLimit.isLimit) {
+		if(selfOrganization){
+			orgs = [selfOrganization]
+			orgs[0].open = true
+		}
+		else if (myContactsLimit && myContactsLimit.isLimit) {
+			selfOrganization = Steedos.selfOrganization();
 			var uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
 			var _ids = uOrgs.getProperty("_id");
 			var outsideOrganizations = myContactsLimit.outside_organizations;
@@ -25,8 +28,12 @@ CFDataManager.getNode = function (spaceId, node) {
 				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
 				orgs = _.union(orgs,limitOrgs)
 			}
-			if (orgs.length > 0) {
-				orgs[0].open = true
+			var selfIndex = orgs.getProperty("_id").indexOf(selfOrganization._id);
+			if(selfIndex > -1){
+				orgs.splice(selfIndex, 1);
+			}
+			if (orgs.length > 0 && !selfOrganization) {
+				orgs[0].open = true;
 			}
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
@@ -40,9 +47,8 @@ CFDataManager.getNode = function (spaceId, node) {
 
 
 function handerOrg(orgs, parentId) {
-
+	var selfOrganization = Steedos.selfOrganization();
 	var nodes = new Array();
-
 	orgs.forEach(function (org) {
 
 		var node = new Object();
@@ -71,7 +77,7 @@ function handerOrg(orgs, parentId) {
 
 		// node.children = true;
 
-		if (org.is_company == true || org.open == true) {
+		if ((org.is_company == true && !selfOrganization) || org.open == true) {
 			node.state.opened = true;
 			if(CFDataManager.getOrganizationModalValue().length === 0){
 				node.state.selected = true;

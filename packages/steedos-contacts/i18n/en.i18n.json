@@ -134,6 +134,7 @@
 	"add_sub_department": "Add sub department",
 	"edit_department": "Edit",
 	"delete_department": "Delete",
+	"edit_current_department": "Edit current department",
 
 	"contacts_tableau_modify_username": "Change username",
 	"contacts_tableau_modify_password": "Change password",

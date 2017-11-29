@@ -296,17 +296,35 @@ Template.org_main_mobile.events
 	'click .add-contact-user': (event,template) ->
 		Modal.show("steedos_contacts_add_user_modal")
 
-	'click .org-tabbar .add-users': (event, template) ->
+	'click .manage-contacts': (event,template) ->
+		$(".contacts-option-mask").css({"opacity": "1", "display": "block"})
+		$(".contacts-option-actionsheet").addClass("weui-actionsheet_toggle")
+
+	'click .contacts-option-mask': (event, template)->
+		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")
+
+	'click .contacts-option-actionsheet .add-users': (event, template) ->
+		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")
 		Modal.show("steedos_contacts_add_user_modal")
 
-	'click .org-tabbar .add-organization': (event, template) ->
+	'click .contacts-option-actionsheet .add-organization': (event, template) ->
+		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")
 		orgId = Session.get('contacts_org_mobile')
 		doc = { parent: orgId }
 		AdminDashboard.modalNew 'organizations', doc
 		# AdminDashboard.modalNew 'organizations', doc, ()->
 		# 	$.jstree.reference('#steedos_contacts_org_tree').refresh()
 
-	'click .org-tabbar .edit-organization': (event, template) ->
+	'click .contacts-option-actionsheet .edit-organization': (event, template) ->
+		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")
 		orgId = Session.get('contacts_org_mobile')
 		AdminDashboard.modalEdit 'organizations', orgId
+
+	'click .contacts-option-actionsheet .actionsheet-cancel': (event, template)->
+		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")		
 
