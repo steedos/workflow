@@ -34,9 +34,9 @@ InstancesToArchive::getContractInstances = ()->
 	}
 
 	if @ins_ids
-		query._id = {$in : @ins_ids}
+		query._id = {$in: @ins_ids}
 
-	return db.instances.find(query);
+	return db.instances.find(query).fetch()
 
 InstancesToArchive::getNonContractInstances = ()->
 	query = {
@@ -50,7 +50,7 @@ InstancesToArchive::getNonContractInstances = ()->
 	}
 
 	if @ins_ids
-		query._id = {$in : @ins_ids}
+		query._id = {$in: @ins_ids}
 
 	return db.instances.find(query);
 
@@ -84,9 +84,16 @@ getFileHistoryName = (fileName, historyName, stuff) ->
 
 _minxiAttachmentInfo = (formData, instance, attach) ->
 	user = db.users.findOne({_id: attach.metadata.owner})
-	formData.attachInfo.push {instance: instance._id, attach_name: encodeURI(attach.name()), owner: attach.metadata.owner, owner_username: encodeURI(user.username || user.steedos_id), is_private: attach.metadata.is_private || false}
+	formData.attachInfo.push {
+		instance: instance._id,
+		attach_name: encodeURI(attach.name()),
+		owner: attach.metadata.owner,
+		owner_username: encodeURI(user.username || user.steedos_id),
+		is_private: attach.metadata.is_private || false
+	}
 
 _minxiInstanceData = (formData, instance) ->
+	console.log("_minxiInstanceData", instance._id)
 
 	fs = Npm.require('fs');
 
@@ -133,12 +140,17 @@ _minxiInstanceData = (formData, instance) ->
 	mainFilesHandle = (f)->
 		try
 			filepath = path.join(absolutePath, f.copies.instances.key);
-			formData.attach.push {
-				value:  fs.createReadStream(filepath),
-				options: {filename: f.name()}
-			}
 
-			_minxiAttachmentInfo formData, instance, f
+			if fs.existsSync(filepath)
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+
+				_minxiAttachmentInfo formData, instance, f
+			else
+				logger.error "附件不存在：#{filepath}"
+
 		catch e
 			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
@@ -155,11 +167,14 @@ _minxiInstanceData = (formData, instance) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
 			try
 				filepath = path.join(absolutePath, f.copies.instances.key);
-				formData.attach.push {
-					value:  fs.createReadStream(filepath),
-					options: {filename: fName}
-				}
-				_minxiAttachmentInfo formData, instance, f
+				if fs.existsSync(filepath)
+					formData.attach.push {
+						value: fs.createReadStream(filepath),
+						options: {filename: fName}
+					}
+					_minxiAttachmentInfo formData, instance, f
+				else
+					logger.error "附件不存在：#{filepath}"
 			catch e
 				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
@@ -167,11 +182,14 @@ _minxiInstanceData = (formData, instance) ->
 	nonMainFileHandle = (f)->
 		try
 			filepath = path.join(absolutePath, f.copies.instances.key);
-			formData.attach.push {
-				value:  fs.createReadStream(filepath),
-				options: {filename: f.name()}
-			}
-			_minxiAttachmentInfo formData, instance, f
+			if fs.existsSync(filepath)
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+				_minxiAttachmentInfo formData, instance, f
+			else
+				logger.error "附件不存在：#{filepath}"
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
@@ -188,11 +206,14 @@ _minxiInstanceData = (formData, instance) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
 			try
 				filepath = path.join(absolutePath, f.copies.instances.key);
-				formData.attach.push {
-					value:  fs.createReadStream(filepath),
-					options: {filename: fName}
-				}
-				_minxiAttachmentInfo formData, instance, f
+				if fs.existsSync(filepath)
+					formData.attach.push {
+						value: fs.createReadStream(filepath),
+						options: {filename: fName}
+					}
+					_minxiAttachmentInfo formData, instance, f
+				else
+					logger.error "附件不存在：#{filepath}"
 			catch e
 				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
@@ -205,18 +226,22 @@ _minxiInstanceData = (formData, instance) ->
 
 	mainFile.forEach mainFilesHandle
 
+	console.log("正文附件读取完成")
+
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
 		'metadata.instance': instance._id,
 		'metadata.current': true,
 		"metadata.main": {$ne: true}
-	})
+	}).fetch()
 
 	nonMainFile.forEach nonMainFileHandle
 
+	console.log("非正文附件读取完成")
+
 	#分发
 	if instance.distribute_from_instance
-		#	正文附件
+#	正文附件
 		mainFile = cfs.instances.find({
 			'metadata.instance': instance.distribute_from_instance,
 			'metadata.current': true,
@@ -227,6 +252,8 @@ _minxiInstanceData = (formData, instance) ->
 		}).fetch()
 
 		mainFile.forEach mainFilesHandle
+
+		console.log("分发-正文附件读取完成")
 
 		#	非正文附件
 		nonMainFile = cfs.instances.find({
@@ -240,6 +267,8 @@ _minxiInstanceData = (formData, instance) ->
 
 		nonMainFile.forEach nonMainFileHandle
 
+		console.log("分发-非正文附件读取完成")
+
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
@@ -247,10 +276,14 @@ _minxiInstanceData = (formData, instance) ->
 
 	try
 		formData.attach.push request(attachInfoUrl)
+
+		console.log("原文读取完成")
 	catch e
 		logger.error "原文下载失败：#{f._id},#{f.name()}. error: " + e
 
 	formData.attachInfo = JSON.stringify(formData.attachInfo)
+
+	console.log("_minxiInstanceData end", instance._id)
 
 	return formData;
 
@@ -284,9 +317,12 @@ InstancesToArchive::sendContractInstances = (to_archive_api) ->
 	instances = @getContractInstances()
 
 	that = @
-	console.log "instances.length is #{instances.count()}"
+	console.log "instances.length is #{instances.length}"
 	instances.forEach (instance, i)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
+
+		console.log("InstancesToArchive.sendContractInstances url", url)
+
 		InstancesToArchive._sendContractInstance url, instance
 
 	console.timeEnd("sendContractInstances")
@@ -296,10 +332,10 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	console.time("sendNonContractInstances")
 	instances = @getNonContractInstances()
 	that = @
-	logger.info "instances.length is #{instances.count()}"
+	console.log "instances.length is #{instances.length}"
 	instances.forEach (instance)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
-		logger.debug "url is #{url}"
+		console.log("InstancesToArchive.sendNonContractInstances url", url)
 		InstancesToArchive.sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
