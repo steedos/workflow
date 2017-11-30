@@ -244,7 +244,7 @@ Template.instance_view.events
 		arg = "Steedos.User.isNewFile"
 		
 		# 默认文件名为文件标题
-		newFileName = WorkflowManager.getInstance().name + '.doc'
+		newFileName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"") + '.doc'
 		
 		downloadUrl = window.location.origin + "/word/demo.doc"
 

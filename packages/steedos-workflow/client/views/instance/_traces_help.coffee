@@ -295,8 +295,7 @@ TracesTemplate.events =
 		return
 
 	'click .approve-item,.approve-description': (event, template) ->
-		unless Steedos.isAndroidApp() and Steedos.isiOS()
-			Modal.show "instance_trace_detail_modal", this
+		Modal.show "instance_trace_detail_modal", this
 
 	'taphold .approve-item,.approve-description': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this

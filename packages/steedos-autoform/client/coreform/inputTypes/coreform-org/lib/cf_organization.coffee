@@ -8,7 +8,25 @@ renderTree = (container,isSelf)->
   Template.cf_organization.multiple = templateData.multiple;
   if templateData.multiple
     plugins.push("checkbox");
-  $(container).on('changed.jstree', (e, data) ->
+  $(container).on('select_node.jstree', (e, data) ->
+    # 选中组织时把另一个组织的同一节点也选中
+    if(container == "#cf_organizations_tree_self")
+      targetTree = $("#cf_organizations_tree").jstree()
+    else
+      targetTree = $("#cf_organizations_tree_self").jstree()
+    currentNode = targetTree.get_node(data.node.id);
+    if currentNode
+      targetTree.select_node currentNode
+  ).on('deselect_node.jstree', (e, data) ->
+    # 删除选中组织时把另一个组织的同一节点也删除
+    if(container == "#cf_organizations_tree_self")
+      targetTree = $("#cf_organizations_tree").jstree()
+    else
+      targetTree = $("#cf_organizations_tree_self").jstree()
+    currentNode = targetTree.get_node(data.node.id);
+    if currentNode
+      targetTree.deselect_node currentNode
+  ).on('changed.jstree', (e, data) ->
     if data.selected.length
       Session.set("cf_selectOrgId", data.selected[0]);
       if data?.node?.parent=="#" && data?.node?.state?.opened

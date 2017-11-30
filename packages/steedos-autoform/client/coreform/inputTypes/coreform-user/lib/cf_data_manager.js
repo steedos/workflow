@@ -3,7 +3,7 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node, selfOrganization) {
+CFDataManager.getNode = function (spaceId, node, selfOrganization, isNeedtoSelDefault) {
 	var orgs;
 	myContactsLimit = Steedos.my_contacts_limit
 	if (node.id == '#') {
@@ -28,6 +28,7 @@ CFDataManager.getNode = function (spaceId, node, selfOrganization) {
 				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
 				orgs = _.union(orgs,limitOrgs)
 			}
+			//主部门在第一个jstree(即selfOrganization)中已有显示，第二个jstree就应该过滤掉不显示
 			var selfIndex = orgs.getProperty("_id").indexOf(selfOrganization._id);
 			if(selfIndex > -1){
 				orgs.splice(selfIndex, 1);
@@ -37,16 +38,17 @@ CFDataManager.getNode = function (spaceId, node, selfOrganization) {
 			}
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
+			orgs[0].open = true;
 		}
 	}
 	else{
 		orgs = CFDataManager.getChild(spaceId || node.data.spaceId, node.id);
 	}
-	return handerOrg(orgs, node.id);
+	return handerOrg(orgs, node.id, isNeedtoSelDefault);
 }
 
 
-function handerOrg(orgs, parentId) {
+function handerOrg(orgs, parentId, isNeedtoSelDefault) {
 	var selfOrganization = Steedos.selfOrganization();
 	var nodes = new Array();
 	orgs.forEach(function (org) {
@@ -77,9 +79,9 @@ function handerOrg(orgs, parentId) {
 
 		// node.children = true;
 
-		if ((org.is_company == true && !selfOrganization) || org.open == true) {
+		if (org.open == true) {
 			node.state.opened = true;
-			if(CFDataManager.getOrganizationModalValue().length === 0){
+			if(isNeedtoSelDefault && CFDataManager.getOrganizationModalValue().length === 0){
 				node.state.selected = true;
 			}
 		} else {
@@ -130,6 +132,19 @@ CFDataManager.getSelectedModalValue = function () {
 			id: id,
 			name: node.text
 		});
+	});
+
+	instance = $('#cf_organizations_tree_self').jstree(true);
+	checked = instance.get_selected();
+
+	checked.forEach(function (id) {
+		if(!_.findWhere(val, {id: id})){
+			var node = instance.get_node(id);
+			val.push({
+				id: id,
+				name: node.text
+			});
+		}
 	});
 
 	return val;
@@ -278,19 +293,25 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 				var index = val.getProperty("id").indexOf(el.dataset.value)
 
 				if (index >= 0) {
-
 					var cf_org_jstree = $("#cf_organizations_tree").jstree();
+					var cf_org_jstree_self = $("#cf_organizations_tree_self").jstree();
 
-					var org_node = cf_org_jstree.get_node(el.dataset.value)
-
-					if(org_node){
-						Template.cf_organization.conditionalselect(org_node)
-						$("#cf_organizations_tree").jstree("uncheck_node", org_node.id)
-					}else{
-						val.remove(index)
-
+					var org_node = cf_org_jstree.get_node(el.dataset.value);
+					var org_node_self = cf_org_jstree_self.get_node(el.dataset.value);
+					
+					if(org_node || org_node_self){
+						if(org_node && org_node.state.selected){
+							Template.cf_organization.conditionalselect(org_node);
+							$("#cf_organizations_tree").jstree("uncheck_node", org_node.id);
+						}
+						if(org_node_self && org_node_self.state.selected){
+							Template.cf_organization.conditionalselect(org_node_self);
+							$("#cf_organizations_tree_self").jstree("uncheck_node", org_node_self.id);
+						}
+					}
+					else{
+						val.remove(index);
 						CFDataManager.setOrganizationModalValue(val);
-
 						CFDataManager.handerOrganizationModalValueLabel();
 					}
 				}
