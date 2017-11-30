@@ -4,12 +4,13 @@ isOrgAdmin = ->
 	if Steedos.isSpaceAdmin()
 		Session.set 'contacts_is_org_admin', true
 	else
-		Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
-			if error
-				console.log(error)
-			else
-				if is_suc
-					Session.set 'contacts_is_org_admin', true
+		if currentOrg
+			Meteor.call 'check_org_admin', currentOrg, (error,is_suc) ->
+				if error
+					console.log(error)
+				else
+					if is_suc
+						Session.set 'contacts_is_org_admin', true
 
 spaceUsersSelector = ->
 	spaceId = Steedos.spaceId()
@@ -146,9 +147,7 @@ Template.org_main_mobile.helpers
 		return new SimpleSchema(fields)
 
 	showAddContactUserBtn: ()->
-		# currentRoute = FlowRouter.current().path
-		# return Steedos.isSpaceAdmin() and /\/contacts/.test(currentRoute)
-		return Steedos.isSpaceAdmin()
+		return Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
 
 	isFromAdmin: ()->
 		currentRoute = FlowRouter.current().path
@@ -198,6 +197,7 @@ Template.org_main_mobile.onRendered ->
 		toastr.error(t("contacts_organization_permission_alert"));
 
 	this.autorun ->
+		isOrgAdmin()
 		searchingKey = Session.get('contacts_searching_key_mobile')
 		if searchingKey || searchingKey == ""
 			dataTable = $(".datatable-mobile-users").DataTable()
@@ -221,7 +221,6 @@ Template.org_main_mobile.events
 		Session.set('contacts_org_mobile', event.currentTarget.dataset.id)
 
 	'click .datatable-mobile-users tbody tr[data-id]': (event, template)->
-		isOrgAdmin()
 		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
 
 	'click .btn-back': (event, template)->
