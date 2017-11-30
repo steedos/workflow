@@ -64,7 +64,6 @@ Template.steedos_contacts_org_tree.onRendered ->
 			Session.set("contact_showBooks", false)
 			Session.set("contact_list_search", false);
 			Session.set("contacts_orgId", data.selected[0]);
-			ContactsManager.checkOrgAdmin();
 
 		return
 	).on('ready.jstree',(e, data) ->
@@ -82,10 +81,7 @@ Template.steedos_contacts_org_tree.onRendered ->
 			multiple:false,
 			themes: { "stripes" : true, "variant" : "large" },
 			data:  (node, cb) ->
-				# this.select_node(node)
-				unless showHiddenOrg == false
-					showHiddenOrg = Session.get('contacts_is_org_admin')
-				cb(ContactsManager.getOrgNode(node, showHiddenOrg)) # 普通用户只显示非隐藏的组织
+				cb(ContactsManager.getOrgNode(node, false));
 
 		plugins: ["wholerow", "search"]
 
@@ -96,6 +92,9 @@ Template.steedos_contacts_org_tree.onRendered ->
 			$('#contact-list-search-btn').trigger('click')
 	)
 	$(document.body).removeClass('loading')
+
+	this.autorun ->
+		ContactsManager.checkOrgAdmin();
 
 
 

@@ -37,7 +37,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 				
 				org_ids = org_ids.concat(limitIds)
 
-				orgs = ContactsManager.getOrganizationsByIds(org_ids, showHiddenOrg);
+				orgs = ContactsManager.getOrganizationsByIds(org_ids);
 				// orgs = _.union(orgs,limitOrgs)
 			}
 			if (orgs.length > 0) {
@@ -47,8 +47,8 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 			orgs = ContactsManager.getRoot();
 		}
 	else
-		orgs = ContactsManager.getChild(node.id, showHiddenOrg);
-	return handerOrg(orgs, node.id);
+		orgs = ContactsManager.getChild(node.id);
+	return handerOrg(orgs, node.id, showHiddenOrg);
 }
 
 ContactsManager.getBookNode = function(node) {
@@ -77,7 +77,7 @@ ContactsManager.getBookNode = function(node) {
 	return nodes;
 }
 
-function handerOrg(orgs, parentId) {
+function handerOrg(orgs, parentId, showHiddenOrg) {
 
 	var nodes = new Array();
 
@@ -114,7 +114,33 @@ function handerOrg(orgs, parentId) {
 
 		node.parent = parentId;
 
-		nodes.push(node);
+
+		var is_parent_admin = function(node_id){
+			var node_tree = $("#steedos_contacts_org_tree").jstree();
+
+			var t_node = _.find(node_tree.get_node(node_id).parents, function (parentId) {
+				var parent_node = node_tree.get_node(node_id);
+
+				var parent_node_admin = parent_node.li_attr["data-admins"] || []
+
+				return parent_node_admin.includes(Steedos.userId());
+			});
+
+			if(t_node){
+				return true;
+			}else{
+				return false;
+			}
+		};
+
+		if(showHiddenOrg || !org.hidden){
+			nodes.push(node);
+		}else{
+			node_admin = org.admins || []
+			if(Steedos.isSpaceAdmin() || node_admin.includes(Steedos.userId()) || is_parent_admin(org._id)){
+				nodes.push(node);
+			}
+		}
 	});
 
 	return nodes;
@@ -138,13 +164,11 @@ ContactsManager.getRoot = function() {
 	});
 };
 
-ContactsManager.getOrganizationsByIds = function(ids,showHiddenOrg) {
+ContactsManager.getOrganizationsByIds = function(ids) {
 	var query = {
 		_id: {$in: ids},
-		hidden: {$ne: true}
 	};
-	if(showHiddenOrg)
-		delete query.hidden
+
 	var childs = SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1,
@@ -165,14 +189,10 @@ ContactsManager.getOrganizationsByIds = function(ids,showHiddenOrg) {
 	return childs;
 }
 
-ContactsManager.getChild = function(parentId,showHiddenOrg) {
+ContactsManager.getChild = function(parentId) {
 	var query = {
-		parent: parentId,
-		hidden: {$ne: true}
+		parent: parentId
 	}
-
-	if(showHiddenOrg)
-		query = {parent: parentId}
 
 	var childs = SteedosDataManager.organizationRemote.find(query, {
 		fields: {
@@ -328,21 +348,30 @@ ContactsManager.handerContactModalValueLabel = function() {
 }
 
 //注意该函数不能在autorun中调用，因为会引起切换工作区时调用两次autorun，从而造成右侧组织构架树可能（即概率性的bug）不同步刷新。
-ContactsManager.checkOrgAdmin = function(){
+ContactsManager.checkOrgAdmin = function(cb){
 	var currentOrg, orgId, ref, userId;
 	Session.set('contacts_is_org_admin', false);
 	orgId = Session.get('contacts_orgId');
 	if (!orgId) {
+		if(cb){
+			cb()
+		}
 		return;
 	}
 	if (Steedos.isSpaceAdmin()) {
 		Session.set('contacts_is_org_admin', true);
+		if(cb){
+			cb()
+		}
 		return;
 	}
 	currentOrg = db.organizations.findOne(orgId);
 	userId = Steedos.userId();
 	if (currentOrg != null ? (ref = currentOrg.admins) != null ? ref.includes(userId) : void 0 : void 0) {
 		Session.set('contacts_is_org_admin', true);
+		if(cb){
+			cb()
+		}
 		return;
 	}
 	Meteor.call('check_org_admin', orgId, function(error, is_suc) {
@@ -351,6 +380,9 @@ ContactsManager.checkOrgAdmin = function(){
 		} else if (error) {
 			console.error(error);
 			return toastr.error(t(error.reason));
+		}
+		if(cb){
+			cb()
 		}
 	});
 }
