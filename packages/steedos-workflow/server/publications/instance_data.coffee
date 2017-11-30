@@ -16,7 +16,6 @@ Meteor.publish 'instance_data', (instanceId, box)->
 
 	instance_fields_0 = {
 		"record_synced": 0,
-		"distribute_from_instances": 0,
 
 		"traces.approves.handler_organization_fullname": 0,
 		"traces.approves.handler_organization_name": 0,

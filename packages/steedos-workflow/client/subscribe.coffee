@@ -34,8 +34,8 @@ Steedos.subscribeInstance = (instance)->
 	Steedos.subscribeFormVersion(instance.space, instance.form, instance.form_version)
 	Steedos.subs["instance_data"].subscribe("instance_data", instance._id, Session.get("box"))
 	Steedos.subs["Instance"].subscribe("flow", instance.space, instance.flow)
-	if instance.distribute_from_instance
-		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instance)
+	if instance.distribute_from_instances
+		Steedos.subs["Instance"].subscribe("cfs_instances", instance.distribute_from_instances)
 
 Tracker.autorun (c) ->
 	if Meteor.userId() and Steedos.spaceId()
@@ -46,7 +46,7 @@ Tracker.autorun (c)->
 	instanceId = Session.get("instanceId")
 	#	Steedos.instanceSpace.clear(); # 清理已订阅数据
 	if instanceId
-		Steedos.subs["Instance"].subscribe("cfs_instances", instanceId)
+		Steedos.subs["Instance"].subscribe("cfs_instances", [instanceId])
 
 		instance = db.instances.findOne({_id: instanceId});
 		if instance
