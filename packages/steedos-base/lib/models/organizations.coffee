@@ -275,7 +275,7 @@ if (Meteor.isServer)
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
-			if modifier.$set?.parent
+			if modifier.$set?.parent and modifier.$set?.parent != doc.parent
 				isParentOrgAdmin = Steedos.isOrgAdminByAllOrgIds [modifier.$set.parent], userId
 				unless isParentOrgAdmin
 					throw new Meteor.Error(400, "您没有该上级部门的权限")
