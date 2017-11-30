@@ -134,6 +134,19 @@ CFDataManager.getSelectedModalValue = function () {
 		});
 	});
 
+	instance = $('#cf_organizations_tree_self').jstree(true);
+	checked = instance.get_selected();
+
+	checked.forEach(function (id) {
+		if(!_.findWhere(val, {id: id})){
+			var node = instance.get_node(id);
+			val.push({
+				id: id,
+				name: node.text
+			});
+		}
+	});
+
 	return val;
 }
 
@@ -280,27 +293,25 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 				var index = val.getProperty("id").indexOf(el.dataset.value)
 
 				if (index >= 0) {
-
 					var cf_org_jstree = $("#cf_organizations_tree").jstree();
 					var cf_org_jstree_self = $("#cf_organizations_tree_self").jstree();
 
 					var org_node = cf_org_jstree.get_node(el.dataset.value);
 					var org_node_self = cf_org_jstree_self.get_node(el.dataset.value);
-
+					
 					if(org_node || org_node_self){
-						if(org_node){
+						if(org_node && org_node.state.selected){
 							Template.cf_organization.conditionalselect(org_node);
 							$("#cf_organizations_tree").jstree("uncheck_node", org_node.id);
 						}
-						if(org_node_self){
+						if(org_node_self && org_node_self.state.selected){
 							Template.cf_organization.conditionalselect(org_node_self);
 							$("#cf_organizations_tree_self").jstree("uncheck_node", org_node_self.id);
 						}
-					}else{
-						val.remove(index)
-
+					}
+					else{
+						val.remove(index);
 						CFDataManager.setOrganizationModalValue(val);
-
 						CFDataManager.handerOrganizationModalValueLabel();
 					}
 				}
