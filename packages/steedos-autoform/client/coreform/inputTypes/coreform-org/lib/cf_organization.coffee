@@ -14,7 +14,7 @@ renderTree = (container,isSelf)->
       targetTree = $("#cf_organizations_tree").jstree()
     else
       targetTree = $("#cf_organizations_tree_self").jstree()
-    currentNode = targetTree.get_node(data.node.id);
+    currentNode = targetTree.get_node?(data.node.id);
     if currentNode
       targetTree.select_node currentNode
   ).on('deselect_node.jstree', (e, data) ->
@@ -23,7 +23,7 @@ renderTree = (container,isSelf)->
       targetTree = $("#cf_organizations_tree").jstree()
     else
       targetTree = $("#cf_organizations_tree_self").jstree()
-    currentNode = targetTree.get_node(data.node.id);
+    currentNode = targetTree.get_node?(data.node.id);
     if currentNode
       targetTree.deselect_node currentNode
   ).on('changed.jstree', (e, data) ->
