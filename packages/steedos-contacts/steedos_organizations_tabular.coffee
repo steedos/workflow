@@ -11,12 +11,6 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 		# 	if hidden_users.indexOf(data.user) > -1
 		# 		$(row).addClass("hidden-user")
 
-	drawCallback:()->
-		unless Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
-			$("th[aria-label='']",this).css("display","none")
-			$(".edit-person",this).each ->
-				$(this).closest("td").css("display","none")
-
 	columns: [
 		{
 			data: "name",

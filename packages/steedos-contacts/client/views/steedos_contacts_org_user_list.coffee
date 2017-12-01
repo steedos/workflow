@@ -32,6 +32,8 @@ Template.steedos_contacts_org_user_list.helpers
 
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
+
+		# console.log query
 		return query;
 
 	books_selector: ->
@@ -87,8 +89,9 @@ Template.steedos_contacts_org_user_list.events
 		else
 			Session.set("contact_list_search", false)
 		dataTable = $(".datatable-steedos-contacts").DataTable();
+		selector = $("#contact-list-search-key").val()
 		dataTable.search(
-			$("#contact-list-search-key").val(),
+			selector
 		).draw();
 
 	'keypress #contact-list-search-key': (event, template) ->
