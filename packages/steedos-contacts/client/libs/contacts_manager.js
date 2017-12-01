@@ -15,30 +15,24 @@ ContactsManager.is_within_user_organizations = function () {
 }
 
 ContactsManager.getOrgNode = function(node, showHiddenOrg) {
-	var orgs, org_ids;
-
-	myContactsLimit = Steedos.my_contacts_limit
+	var orgs,
+		myContactsLimit = Steedos.my_contacts_limit;
 	if (node.id == '#')
 		if(myContactsLimit && myContactsLimit.isLimit){
 			var uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
 			var _ids = uOrgs.getProperty("_id");
 			var outsideOrganizations = myContactsLimit.outside_organizations;
 			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			//当前用户所属组织自身的排序在前端是可信的，因为后台相关发布publish做了排序
 			_ids = _.union(_ids, outsideOrganizations);
 			orgs = _.filter(uOrgs, function (org) {
 				var parents = org.parents || [];
 				return _.intersection(parents, _ids).length < 1;
 			});
 			if(outsideOrganizations.length){
-				// 找出outsideOrganizations中不在orgs中的记录，并额外从服务器把其组织信息抓取到前端
-				limitIds = _.difference(outsideOrganizations, orgs.getProperty("_id"));
-
-				org_ids = orgs.getProperty("_id") ||[]
-				
-				org_ids = org_ids.concat(limitIds)
-
-				orgs = ContactsManager.getOrganizationsByIds(org_ids);
-				// orgs = _.union(orgs,limitOrgs)
+				_ids = _.union(outsideOrganizations, orgs.getProperty("_id"));
+				// 这里故意重新抓取后台数据，因为前台无法正确排序
+				orgs = ContactsManager.getOrganizationsByIds(_ids);
 			}
 			if (orgs.length > 0) {
 				orgs[0].open = true
