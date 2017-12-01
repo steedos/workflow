@@ -158,6 +158,13 @@ Steedos.Helpers =
 	coreformNumberToString: (number, locale)->
 		return Steedos.numberToString number, locale
 
+	selfOrganization: ()->
+		selfOrgId = db.space_users.findOne({user:Meteor.userId()}).organization
+		if selfOrgId
+			return db.organizations.findOne(selfOrgId)
+		else
+			return null
+
 _.extend Steedos, Steedos.Helpers
 
 Template.registerHelpers = (dict) ->

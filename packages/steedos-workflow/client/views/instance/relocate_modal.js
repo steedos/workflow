@@ -86,6 +86,11 @@ Template.relocate_modal.events({
             if (!_.isEmpty(next_step_users)) {
                 relocate_users.dataset.userOptions = _.pluck(next_step_users, "id");
                 relocate_users.dataset.showOrg = false;
+
+                if (next_step_users.length == 1) {
+                    relocate_users.value = next_step_users[0].name;
+                    relocate_users.dataset.values = next_step_users[0].id;
+                }
             } else {
                 delete relocate_users.dataset.userOptions;
                 relocate_users.dataset.showOrg = true;

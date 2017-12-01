@@ -25,6 +25,20 @@
 			background-color: #fff;
 			height: calc(~"100% - 43px");
 			overflow-y: auto;
+			width: 100%;
+			overflow-x: hidden;
+			#steedos_contacts_org_tree {
+				ul.jstree-container-ul {
+					width: 100%;
+					a.jstree-anchor {
+						width: calc(~"100% - 65px");
+						display: inline-block;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
 			.box-solid{
 				margin-bottom: 0px;
 			}
@@ -98,8 +112,11 @@
 			position: relative;
 			top: -1px;
 			width: 200px;
-			&.add-contact-user {
+			&.manage-contacts,&.add-contact-user {
 				width: auto;
+			}
+			&.manage-contacts{
+				margin-top: 2px;
 			}
 		}
 
@@ -169,6 +186,11 @@
 
 		.navigation-bar{
 			height: 51px;
+			#navigation-bar, #steedos_contacts_import_users_btn, #steedos_contacts_export_users_btn{
+				.fa{
+					margin-right: 2px;
+				}
+			}
 		}
 
 		.contacts-mobile{
@@ -491,6 +513,36 @@
 	.contacts_orgs_list_table{
 		.datatable-steedos-contacts{
 			tr{
+				th:first-child{
+					padding-left: 22px;
+				}
+				td:first-child{
+					padding-left: 22px;
+				}
+				td:last-child{
+					.edit-person{
+						float: right;
+						width: 30px;
+						height: 20px;
+						position: relative;
+						visibility: hidden;
+						.btn-group{
+							position: absolute;
+							margin-top: -5px;
+							.dropdown-toggle{
+								padding: 4px 12px;
+								float: right;
+								span{
+									position: relative;
+									top: 2px;
+								}
+							}
+						}
+					}
+				}
+				&:hover td .edit-person{
+					visibility: visible;
+				}
 				th{
 					min-width: 80px;
 					&:nth-last-child(1){
@@ -623,7 +675,7 @@
 		}
 	}
 
-	.settings-hidden{
+	.box{
 		padding-left: 20px;
 		padding-right: 20px;
 		.box-body {
@@ -644,6 +696,46 @@
 		.ion{
 			position: relative;
 			top: 1px;
+		}
+	}
+
+	.view-limit-list{
+		list-style: none;
+		padding: 0 15px;
+		li{
+			padding: 0 10px;
+			border: 1px solid #E4E6E9;
+			border-radius: 2px;
+			list-style: none;
+			margin-bottom: 10px;
+			display: table;
+			table-layout: fixed;
+		}
+		.left-names{
+			margin-top: 7px;
+			.limit-froms-item{
+				margin-right: 6px;
+				position: relative;
+				float: left;
+				padding-right: 6px;
+				&:before{
+					content: " ";
+					position: absolute;
+					top: 0;
+					right: 1px;
+					left: 0;
+					bottom: 0;
+					border: 1px solid #E4E6E9;
+					z-index: 0;
+				}
+				.ion{
+					font-size: 17px;
+					color: rgba(63, 135, 217, 0.55);
+					margin-left: 5px;
+					margin-right: 5px;
+					vertical-align: -2px;
+				}
+			}
 		}
 	}
 }

@@ -7,10 +7,12 @@ Template.steedos_contacts_add_user_modal.helpers
 					type: "hidden",
 					defaultValue: ->
 						return Session.get("spaceId");
+
 			name:
 				type: String,
 				max: 50,
 				label: t("space_users_name")
+
 			mobile: 
 				type: String,
 				optional: true,
@@ -18,16 +20,19 @@ Template.steedos_contacts_add_user_modal.helpers
 				autoform:
 					type: ->
 						return "text"
+
 			email:
 				type: String,
 				label: t("space_users_email")
 				optional: true
 				autoform:
 					type: "text"
+
 			work_phone:
 				type: String,
 				label: t("space_users_work_phone")
 				optional: true
+
 			organizations:
 				type: [String],
 				label: t("space_users_organizations")
@@ -35,47 +40,47 @@ Template.steedos_contacts_add_user_modal.helpers
 					type: "selectorg"
 					multiple: true
 					defaultValue: ->
-						return []
-			manager:
-				type: String,
-				label: t("space_users_manager")
-				optional: true,
-				autoform:
-					type: "selectuser"
+						if Steedos.isMobile()
+							currentOrg = Session.get('contacts_org_mobile')
+						else
+							currentOrg = Session.get("contacts_orgId")
+						return [currentOrg]
+
 			user_accepted:
 				type: Boolean,
 				optional: true,
 				autoform:
-					type: "hidden"
-					defaultValue: true
+					omit: true
+
 			position:
 				type: String,
 				label: t("space_users_position")
 				optional: true
-			company:
-				type: String,
-				label: t("space_users_company")
-				optional: true
+
 			invite_state:
 				type: String
+				optional: true,
 				autoform:
-					type: "hidden"
-					defaultValue: "pending"
+					omit: true
+
 			created:
 				type: Date,
 				optional: true
 				autoform:
 					omit: true
+
 			created_by:
 				type: String,
 				optional: true
 				autoform:
 					omit: true
+
 			modified:
 				type: Date,
 				optional: true
 				autoform:
 					omit: true
+					
 			modified_by:
 				type: String,
 				optional: true
@@ -91,8 +96,11 @@ Template.steedos_contacts_add_user_modal.events
 	"click .contacts-add-user-save": (event,template)->
 		unless AutoForm.validateForm("addContactsUser")
 			return
-		unless AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
-			$('input[data-schema-key="mobile"]').after('<span class="help-block">手机和邮箱不能同时为空</span>')
+		if AutoForm.getFieldValue("mobile","addContactsUser") or AutoForm.getFieldValue("email","addContactsUser")
+			$('input[data-schema-key="mobile"] + .need-phone-email').remove()
+			$('input[data-schema-key="mobile"]').closest(".form-group").removeClass("has-error")
+		else
+			$('input[data-schema-key="mobile"]').after("""<span class="help-block need-phone-email">#{t("contact_need_phone_or_email")}</span>""")
 			$('input[data-schema-key="mobile"]').closest(".form-group").addClass("has-error")
 			return
 		doc = AutoForm.getFormValues("addContactsUser")?.insertDoc

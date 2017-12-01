@@ -59,8 +59,6 @@ Meteor.methods({
 				su_obj.name = email.split("@")[0];
 				su_obj.organizations = org_ids;
 				su_obj.space = space_id;
-				su_obj.user_accepted = true;
-				su_obj.invite_state = "pending";
 
 				db.space_users.insert(su_obj);
 			}

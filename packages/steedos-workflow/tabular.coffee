@@ -374,7 +374,6 @@ Tracker.autorun (c) ->
 	if Meteor.isClient && !Steedos.isMobile()
 		if Session.get("flowId")
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
-				console.log 'result', result
 				newInstancesListTabular Session.get("box"), Session.get("flowId"), result
 
 

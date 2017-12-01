@@ -2,7 +2,8 @@
 Content-Type：application/json
 body格式:
 {
-	"stepname": xxx 
+	"stepname": xxx,
+	"flow": xxx
 }
 返回数据格式
 {
@@ -39,12 +40,17 @@ JsonRoutes.add 'post', '/api/workflow/open/getbystepname', (req, res, next) ->
 
 		hashData = req.body
 		stepname = hashData["stepname"]
+		flow = hashData["flow"]
 
 		if not stepname
 			throw new Meteor.Error('error', 'need stepname')
 
+		if not flow
+			throw new Meteor.Error('error', 'need flow')
+
 		# 去掉{fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}
-		instances = db.instances.find({space: space_id, "traces.name": stepname}, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, traces: 0, attachments: 0}}).fetch()
+		instances = db.instances.find({space: space_id, flow: flow, state:'pending', traces:{$elemMatch: {is_finished: false, name: stepname}}}, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, attachments: 0, traces: 0}}).fetch()
+
 		instances.forEach (instance)->
 
 			attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()

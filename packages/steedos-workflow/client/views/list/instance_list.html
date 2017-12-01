@@ -37,6 +37,7 @@
 			</button>
 		</div>
 	</div>
+
 	<div class="toolbar">
 		{{#if hasFlowId}}
 			<div class="btn-group hidden-xs" role="group">
@@ -81,7 +82,8 @@
 	<div class="search-tip-bar" style="{{is_display_search_tip}}">
 		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}:
 			<ol class="breadcrumb">
-				{{#each filterFlowName}}<li>{{this}}</li>{{/each}}
+				{{#each filterFlowName}}
+					<li>{{this}}</li>{{/each}}
 			</ol>
 
 		</span>
@@ -96,8 +98,11 @@
 			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
 		{{/if}}
 
-
 	</div>
-
-{{> baseTabbar}}
+	{{#if showBatchBtn}}
+		<div class="batch_instances_view">
+			<button type="button" class="btn btn-primary animated bounceInUp">{{{_ "workflow_batch_approval_btn"}}}</button>
+		</div>
+	{{/if}}
+	{{> baseTabbar}}
 </template>

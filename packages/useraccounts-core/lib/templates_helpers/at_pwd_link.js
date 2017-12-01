@@ -19,9 +19,7 @@ AT.prototype.atPwdLinkHelpers = {
     },
     showPhoneLink: function(){
         if (Steedos) {
-            if (typeof Steedos.isPhoneEnabled === "function") {
-                return Steedos.isPhoneEnabled();
-            }
+            return true;
         }
     }
 };

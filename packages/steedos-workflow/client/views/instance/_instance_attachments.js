@@ -142,15 +142,19 @@ InstanceAttachmentTemplate.helpers = {
 
 		if (ins.distribute_from_instance) {
 			// 如果是被分发的申请单，则显示原申请单文件, 如果选择了将原表单存储为附件也要显示, 同时也要显示新上传的附件
+			var dfis = _.clone(ins.distribute_from_instances) || [];
+			dfis.push(ins._id);
 			selector['metadata.instance'] = {
-				$in: [ins.distribute_from_instance, ins._id]
+				$in: dfis
 			};
 
 
 			selector["$or"] = [{
 				"metadata.instance": ins._id
 			}, {
-				"metadata.instance": ins.distribute_from_instance,
+				"metadata.instance": {
+					$in: ins.distribute_from_instances
+				},
 				"metadata.is_private": {
 					$ne: true
 				}
@@ -160,7 +164,9 @@ InstanceAttachmentTemplate.helpers = {
 			var start_step = InstanceManager.getStartStep();
 			if (start_step && start_step.can_edit_main_attach != true) {
 				var distribute_main = cfs.instances.findOne({
-					'metadata.instance': ins.distribute_from_instance,
+					'metadata.instance': {
+						$in: ins.distribute_from_instances
+					},
 					'metadata.current': true,
 					'metadata.main': true,
 				});
@@ -186,8 +192,8 @@ InstanceAttachmentTemplate.helpers = {
 			return false;
 
 		// 如果是被分发的申请单，则显示原申请单文件 和分发后申请单文件
-		var instanceIds = _.compact([ins.distribute_from_instance, ins._id]);
-
+		var instanceIds = _.clone(ins.distribute_from_instances) || [];
+		instanceIds.push(ins._id);
 		var attachments_count = cfs.instances.find({
 			'metadata.instance': {
 				$in: instanceIds
@@ -239,7 +245,8 @@ if (Meteor.isServer) {
 	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
 		var steedosData = Template.instance().view.template.steedosData
 		var instance = steedosData.instance;
-		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
+		var instanceIds = _.clone(instance.distribute_from_instances) || [];
+		instanceIds.push(instance._id);
 		var attachments = cfs.instances.find({
 			'metadata.instance': {
 				$in: instanceIds
@@ -263,10 +270,11 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.showAttachments = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
-		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
+		var instanceIds = _.clone(instance.distribute_from_instances) || [];
+		instanceIds.push(instance._id);
 
 		var attachments = cfs.instances.find({
-			'metadata.instance':  {
+			'metadata.instance': {
 				$in: instanceIds
 			},
 			'metadata.current': true
