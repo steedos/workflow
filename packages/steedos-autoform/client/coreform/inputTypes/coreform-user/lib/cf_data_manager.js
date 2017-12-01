@@ -30,8 +30,9 @@ CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
 				var parents = org.parents || [];
 				return _.intersection(parents, _ids).length < 1;
 			});
+			_ids = orgs.getProperty("_id");
 			if(outsideOrganizations.length){
-				_ids = _.union(outsideOrganizations, orgs.getProperty("_id"));
+				_ids = _.union(outsideOrganizations, _ids);
 			}
 			//主部门在第一个jstree(即selfOrganization)中已有显示，第二个jstree就应该过滤掉不显示
 			var selfIndex = selfOrganization ? _ids.indexOf(selfOrganization._id) : -1;
