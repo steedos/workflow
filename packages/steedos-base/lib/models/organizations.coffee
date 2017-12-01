@@ -496,8 +496,11 @@ if (Meteor.isServer)
 		unless spaceId
 			return this.ready()
 
-
-		return db.organizations.find({space: spaceId, users: this.userId})
+		return db.organizations.find({space: spaceId, users: this.userId},{
+			sort: {
+				sort_no: -1,
+				name: 1
+			}})
 
 if Meteor.isServer
 	db.organizations._ensureIndex({
