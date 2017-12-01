@@ -496,7 +496,6 @@ if (Meteor.isServer)
 		unless spaceId
 			return this.ready()
 
-
 		return db.organizations.find({space: spaceId, users: this.userId})
 
 if Meteor.isServer
