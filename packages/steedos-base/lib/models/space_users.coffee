@@ -153,10 +153,16 @@ Meteor.startup ()->
 				throw new Meteor.Error(400, "space_users_error_space_not_found");
 
 			# 要添加用户，需要至少有一个组织权限
+			# if space.admins.indexOf(userId) < 0
+			# 	isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+			# 	unless isOrgAdmin
+			# 		throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			# 将用户添加到相应组织，需要组织的权限
 			if space.admins.indexOf(userId) < 0
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-				unless isOrgAdmin
-					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+				isAllOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations, userId
+				unless isAllOrgAdmin
+					throw new Meteor.Error(400, "您没有该组织的权限，不能添加成员到该组织")
 
 			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
 			selector = []
@@ -203,11 +209,32 @@ Meteor.startup ()->
 				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(modifier.$set.email)
 					throw new Meteor.Error(400, "email_format_error");
 
+			###
+				1.原组织至少需要一个组织的权限
+				2.对于移出的组织需要有权限
+				3.对于添加的组织需要有权限
+			###
+
 			if space.admins.indexOf(userId) < 0
-				# 要修改用户，需要至少有一个组织权限
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId 
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+				oldOrgs = doc.organizations
+				newOrgs = modifier.$set?.organizations
+
+				subOrgs = _.difference(oldOrgs, newOrgs)
+				addOrgs = _.difference(newOrgs, oldOrgs)
+
+				isAllSubOrgsAdmin = Steedos.isOrgAdminByAllOrgIds subOrgs, userId
+				isAllAddOrgsAdmin = Steedos.isOrgAdminByAllOrgIds addOrgs, userId
+
+				unless isAllSubOrgsAdmin
+					throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员移出该组织")
+
+				unless isAllAddOrgsAdmin
+					throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员添加到该组织")
+
 
 			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
 				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner

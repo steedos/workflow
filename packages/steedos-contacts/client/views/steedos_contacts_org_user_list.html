@@ -3,11 +3,13 @@
 		<button type="button" class="btn btn-default offcanvas" data-toggle="offcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
+		{{#if is_admin}}
+		<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_add_users_btn">
+			<i class="fa fa-user-plus" aria-hidden="true"></i>
+			{{_ "cantact_add_space_user"}}
+		</button>
+		{{/if}}
 		{{#if isSpaceAdmin}}
-			<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_add_users_btn">
-				<i class="fa fa-user-plus" aria-hidden="true"></i>
-				{{_ "cantact_add_space_user"}}
-			</button>
 			{{#if canImportUsers}}
 				{{#unless is_nwjs}}
 				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_import_users_btn">

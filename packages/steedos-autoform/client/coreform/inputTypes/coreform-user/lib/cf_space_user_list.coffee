@@ -3,7 +3,7 @@ Template.cf_space_user_list.onCreated ->
 
 	orgs = []
 
-	if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+	if !Steedos.isSpaceAdmin()
 
 		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
 
@@ -63,7 +63,7 @@ Template.cf_space_user_list.helpers
 					else
 						spaceIds = db.spaces.find().fetch().getProperty("_id")
 
-					if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+					if !Steedos.isSpaceAdmin()
 						query.organizations = {$in: Template.instance().unhidden_orgs.get()}
 
 					query.space = {$in: spaceIds}

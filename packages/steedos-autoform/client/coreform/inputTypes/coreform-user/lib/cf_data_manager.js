@@ -370,12 +370,9 @@ CFDataManager.getOrganizationsByIds = function(ids) {
 		_id: {$in: ids},
 		hidden: {$ne: true}
 	};
-	var showHiddenOrg = false;
-	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
-		showHiddenOrg = true;
+	if(!Steedos.isSpaceAdmin()){
+		query.hidden = {$ne: true}
 	}
-	if(showHiddenOrg)
-		delete query.hidden
 	var childs = SteedosDataManager.organizationRemote.find(query, {
 		fields: {
 			_id: 1,
@@ -403,7 +400,7 @@ CFDataManager.getChild = function (spaceId, parentId) {
 		space: spaceId
 	}
 
-	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
 	}
 
@@ -512,7 +509,7 @@ CFDataManager.getOrgAndChild = function (node, orgId) {
 		parent: orgId
 	}
 
-	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
 	}
 
