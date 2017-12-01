@@ -32,14 +32,14 @@ CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
 			});
 			if(outsideOrganizations.length){
 				_ids = _.union(outsideOrganizations, orgs.getProperty("_id"));
-				// 这里故意重新抓取后台数据，因为前台无法正确排序
-				orgs = CFDataManager.getOrganizationsByIds(_ids);
 			}
 			//主部门在第一个jstree(即selfOrganization)中已有显示，第二个jstree就应该过滤掉不显示
-			var selfIndex = selfOrganization ? orgs.getProperty("_id").indexOf(selfOrganization._id) : -1;
+			var selfIndex = selfOrganization ? _ids.indexOf(selfOrganization._id) : -1;
 			if(selfIndex > -1){
-				orgs.splice(selfIndex, 1);
+				_ids.splice(selfIndex, 1);
 			}
+			// 这里故意重新抓取后台数据，因为前台无法正确排序
+			orgs = CFDataManager.getOrganizationsByIds(_ids);
 			if (orgs.length > 0 && !selfOrganization) {
 				orgs[0].open = true;
 			}
