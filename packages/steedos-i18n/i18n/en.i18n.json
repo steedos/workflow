@@ -499,5 +499,14 @@
 	"nw_menu_copy": "Copy",
 	"nw_menu_paste": "Paste",
 	"nw_menu_selectall": "SelectAll",
-	"nw_menu_reload": "Reload"
+	"nw_menu_reload": "Reload",
+
+	"space_viewing_limits": "Limit viewing outside door",
+	"space_viewing_limits_tips": "Limited organizations, only to see the organization's contacts",
+	"space_viewing_limits_froms_label": "Limited organizations",
+	"space_viewing_limits_tos_label": "Only allowed to view the organization's contacts, and the following additional organizations",
+	"space_viewing_limits_froms_required": "Limited organizations is required",
+
+	"pay_records": "Pay Records",
+	"workflow_designer_use_pc": "Please user this function on pc"
 }

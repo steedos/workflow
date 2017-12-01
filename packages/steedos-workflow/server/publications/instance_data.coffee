@@ -16,7 +16,6 @@ Meteor.publish 'instance_data', (instanceId, box)->
 
 	instance_fields_0 = {
 		"record_synced": 0,
-		"distribute_from_instances": 0,
 
 		"traces.approves.handler_organization_fullname": 0,
 		"traces.approves.handler_organization_name": 0,
@@ -41,8 +40,8 @@ Meteor.publish 'instance_data', (instanceId, box)->
 
 		traces?.forEach (trace)->
 			trace?.approves?.forEach (approve)->
-				if (approve.user == self.userId || approve.handler == self.userId) && !approve.is_finished
-
+				if (approve.user == self.userId || approve.handler == self.userId)
+				# && !approve.is_finished
 #					console.log("approve", approve._id, approve.read_date)
 
 					myApproveModifieds.push(approve.read_date)

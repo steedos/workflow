@@ -27,6 +27,12 @@ Template.adminLayout.helpers
 		regNew = /^\/admin\/new\/(\b)+/
 		return regEdit.test(path) || regNew.test(path)
 
+	isPayRecords: () ->
+		if Session.get('admin_collection_name') == "billing_pay_records"
+			return true
+		else
+			return false
+
 Template.adminLayout.events
 	"click #admin-back": (e, t) ->
 		c = Session.get('admin_collection_name')

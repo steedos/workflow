@@ -250,6 +250,7 @@ if Meteor.isServer
 					space: spaceId,
 					user: userObj._id,
 					user_accepted: user_accepted
+					invite_state: "accepted"
 		else 
 			root_org = db.organizations.findOne({space: spaceId, is_company:true})
 			db.space_users.direct.insert
@@ -260,6 +261,7 @@ if Meteor.isServer
 				organizations: [root_org._id],
 				user: userObj._id,
 				user_accepted: user_accepted
+				invite_state: "accepted"
 			root_org.updateUsers()
 		
 	db.spaces.createTemplateOrganizations = (space_id)->

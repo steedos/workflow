@@ -780,3 +780,24 @@ if Meteor.isServer
 				if locale == "zh-cn"
 					locale = "zh-CN"
 			return locale
+
+		checkUsernameAvailability: (username) ->
+			return not Meteor.users.findOne({ username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") } })
+
+
+		validatePassword: (pwd)->
+			reason = t "password_invalid"
+			valid = true
+			unless pwd
+				valid = false
+			unless /\d+/.test(pwd)
+				valid = false
+			unless /[a-zA-Z]+/.test(pwd)
+				valid = false
+			if pwd.length < 8
+				valid = false
+			if valid
+				return true
+			else
+				return error:
+					reason: reason

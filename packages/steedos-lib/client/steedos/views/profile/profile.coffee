@@ -433,7 +433,7 @@ Template.profile.events
 					swal.close()
 
 				if error
-					toastr.error(TAPi18n.__(error.error))
+					toastr.error(TAPi18n.__(error.reason))
 
 	'click .btn-change-phone': (event, template) ->
 		if Steedos.isAndroidOrIOS()
@@ -442,12 +442,10 @@ Template.profile.events
 			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click [name=mobile]': (event, template) ->
-		if Steedos.isPhoneEnabled()
-			if Steedos.isAndroidOrIOS()
-				FlowRouter.go("/accounts/setup/phone")
-			else
-				Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
-		return
+		if Steedos.isAndroidOrIOS()
+			FlowRouter.go("/accounts/setup/phone")
+		else
+			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
 
 	'click .btn-set-password-by-phone': (event, template) ->
 		if Accounts.isPhoneVerified()
@@ -458,55 +456,23 @@ Template.profile.events
 		else
 			toastr.error t("account_phone_invalid")
 
-	# 'click .btn-get-secrets': ()->
-	# 	swal {
-	# 		title: t('description')
-	# 		type: "input"
-	# 		inputValue: ""
-	# 		showCancelButton: true
-	# 		closeOnConfirm: false
-	# 		confirmButtonText: t('OK')
-	# 		cancelButtonText: t('Cancel')
-	# 		showLoaderOnConfirm: false
-	# 	}, (inputValue)->
+	'click a[data-toggle="tab"]': (event, template) ->
+		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
+		href = $(event.currentTarget).attr("href")
+		if href == "#profile"
+			id = "profile"
+		else if href == "#avatar"
+			id = "avatar"
+		else if href == "#account"
+			id = "account_info"
+		else if href == "#password"
+			id = "password"
+		else if href == "#accountZoom"
+			id = "accountZoom"
+		else if href == "#backgroundImage"
+			id = "backgroundImage"
 
-	# 		if inputValue is false
-	# 			return false
-
-	# 		if !inputValue?.trim()
-	# 			toastr.warning t('warning_description')
-	# 			return false
-	# 		Meteor.call "create_secret", inputValue.trim(), (error, results)->
-	# 			if results
-	# 				toastr.success t('get_secret_successfully')
-	# 				swal.close()
-
-	# 			if error
-	# 				toastr.error(TAPi18n.__(error.error))
-
-	# 'click .remove-secret': ()->
-
-	# 	token = this.token
-
-	# 	swal({
-	# 			title: t('delete_confirm'),
-	# 			type: "warning",
-	# 			showCancelButton: true,
-	# 			confirmButtonColor: "#DD6B55",
-	# 			confirmButtonText: t('OK'),
-	# 			cancelButtonText: t('Cancel'),
-	# 			closeOnConfirm: false
-	# 		},
-	# 		()->
-	# 			Meteor.call "remove_secret", token, (error, results)->
-	# 				if results
-	# 					toastr.success t('afModal_remove_suc')
-	# 					swal.close()
-
-	# 				if error
-	# 					toastr.error(TAPi18n.__(error.error))
-
-	# 	);
+		$(".treeview-menu a.admin-menu-#{id}").addClass("selected")		
 
 
 Meteor.startup ->

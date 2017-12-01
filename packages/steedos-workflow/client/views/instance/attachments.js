@@ -51,7 +51,7 @@ Template.instance_attachment.helpers({
 			return false;
 
 		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
-		if (ins.distribute_from_instance == this.metadata.instance) {
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance)) {
 			return false
 		}
 
@@ -150,7 +150,7 @@ Template.instance_attachment.helpers({
 			return false;
 
 		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
-		if (ins.distribute_from_instance == this.metadata.instance) {
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance)) {
 			return false
 		}
 
@@ -249,6 +249,9 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_isNode']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -336,7 +339,7 @@ Template.ins_attach_version_modal.helpers({
 				'metadata.parent': parent,
 				'metadata.current': true
 			})
-			if (ins.distribute_from_instance == current.metadata.instance)
+			if (ins.distribute_from_instances.includes(current.metadata.instance))
 				selector['metadata.current'] = true;
 		}
 
@@ -384,7 +387,7 @@ Template.ins_attach_version_modal.helpers({
 			return false
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
-		if (ins.distribute_from_instance == current.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(current.metadata.instance))
 			return false
 
 		if (current && current.metadata && current.metadata.locked_by)
@@ -431,7 +434,7 @@ Template.ins_attach_version_modal.helpers({
 		}
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var isDraftOrInbox = false;
@@ -516,7 +519,7 @@ Template.ins_attach_version_modal.helpers({
 		}
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var locked = false;
@@ -560,7 +563,7 @@ Template.ins_attach_version_modal.helpers({
 		}
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var locked = false;
@@ -665,6 +668,9 @@ Template.ins_attach_version_modal.events({
 		Modal.hide('ins_attach_version_modal');
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -693,6 +699,9 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);

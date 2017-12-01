@@ -1,6 +1,7 @@
 Steedos.subsAddressBook = new SubsManager();
 Steedos.subs["Organization"] = new SubsManager();
 Steedos.subs["user_space"] = new SubsManager();
+Steedos.subs["contacts_settings"] = new SubsManager();
 
 Tracker.autorun (c)->
 	if Meteor.userId()

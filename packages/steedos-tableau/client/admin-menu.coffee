@@ -1,12 +1,12 @@
 Meteor.startup ()->
-	Admin.addMenu
-		_id: "steedos_tableau"
-		title: "steedos_tableau"
-		icon: "ion ion-ios-pie-outline"
-		mobile: false
-		sort: 2500
-		roles: []
-		url: "/tableau/info"
+	# Admin.addMenu
+	# 	_id: "steedos_tableau"
+	# 	title: "steedos_tableau"
+	# 	icon: "ion ion-ios-pie-outline"
+	# 	mobile: false
+	# 	sort: 2500
+	# 	roles: []
+	# 	url: "/tableau/info"
 #		parent: "tableau"
 
 #	Admin.addMenu

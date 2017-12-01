@@ -497,16 +497,22 @@ Meteor.methods({
 		var set_obj = new Object;
 		set_obj.modified = new Date();
 		set_obj.modified_by = this.userId;
+
+		_.each(trace.approves, function(appr, idx) {
+			if (appr._id == approve_id) {
+				set_obj['traces.$.approves.' + idx + '.judge'] = 'terminated';
+				set_obj['traces.$.approves.' + idx + '.is_finished'] = true;
+				set_obj['traces.$.approves.' + idx + '.finish_date'] = new Date();
+				set_obj['traces.$.approves.' + idx + '.is_read'] = true;
+				set_obj['traces.$.approves.' + idx + '.read_date'] = new Date();
+			}
+		})
+
 		db.instances.update({
 			_id: instance_id,
 			"traces._id": trace_id
 		}, {
-			$set: set_obj,
-			$pull: {
-				'traces.$.approves': {
-					_id: approve_id
-				}
-			}
+			$set: set_obj
 		})
 
 		return true;

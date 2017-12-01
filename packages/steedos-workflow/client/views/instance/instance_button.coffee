@@ -234,7 +234,9 @@ Template.instance_button.helpers
 		if Session.get("box") == "draft"
 			return false
 		else
-			return true
+			ins = WorkflowManager.getInstance();
+			if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
+				return true
 
 	enabled_copy: ->
 		if Session.get("box") == "draft"

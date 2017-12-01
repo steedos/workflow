@@ -517,5 +517,14 @@
 	"nw_menu_copy": "复制",
 	"nw_menu_paste": "粘贴",
 	"nw_menu_selectall": "全选",
-	"nw_menu_reload": "刷新"
+	"nw_menu_reload": "刷新",
+
+	"space_viewing_limits": "限制查看外部门",
+	"space_viewing_limits_tips": "被限制的部门，只能看到本部门的通讯录",
+	"space_viewing_limits_froms_label": "限制部门",
+	"space_viewing_limits_tos_label": "只允许查看本部门通讯录，并额外可见以下部门",
+	"space_viewing_limits_froms_required": "限制部门不能为空",
+
+	"pay_records": "购买记录",
+	"workflow_designer_use_pc": "请在PC端打开"
 }

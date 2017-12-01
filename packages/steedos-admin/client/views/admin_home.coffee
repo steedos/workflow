@@ -8,3 +8,5 @@ Template.admin_home.helpers
 			return t "Steedos Admin"
 
 Template.admin_home.events
+	'click .weui-cell-help':() ->
+		Steedos.showHelp();

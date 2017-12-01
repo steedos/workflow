@@ -63,11 +63,27 @@
             margin: 0px;
             .modal-content {
                 border-radius: 0;
-                .modal-header {
+                .modal-header:first-of-type {
                     height: 51px;
+                    // box-shadow: rgba(0, 0, 0, 0.3) 0 1px 9px, rgba(255, 255, 255, 0.2) 0 -1px 0 inset;
+                    -webkit-transition: all 1s ease-in-out 0.5s;
+                    transition: all 1s ease-in-out 0.5s;
+                    border-bottom: 1px solid #000;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                    background: rgba(22, 84, 150, 0.92);
+                    color: #fff !important;
+                    a {
+                        color: #fff;
+                    }
+                    button.close {
+                        opacity: 1;
+                        color: #fff;
+                    }
                 }
                 .modal-footer {
                     padding: 8px 15px;
+                    background: #F7F7FA;
+                    border-top: 1px solid #C0BFC4;
                 }
             }
         }

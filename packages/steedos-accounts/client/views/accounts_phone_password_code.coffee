@@ -43,8 +43,11 @@ Template.accounts_phone_password_code.events
 			if window.name == "setup_phone"
 				toastr.success t "accounts_phone_password_suc_wait"
 				setTimeout ->
+					# 如果在修改密码后不把路由重新定位，则当前主界面会跳转并保持在登录界面（而且是假的登录界面）
+					# 这里要加到延时之后，否则不能跳转成功
+					window.opener.FlowRouter.go "/admin/profile/password"
 					window.close()
-				,5000
+				,4200
 			else
 				toastr.success t "accounts_phone_password_suc"
 				FlowRouter.go "/admin"

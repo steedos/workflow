@@ -45,7 +45,6 @@ InstancesToContracts.failed = (instance, error)->
 	logger.error error
 
 InstancesToContracts::getContractInstances = ()->
-
 	query = {
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
@@ -60,10 +59,11 @@ InstancesToContracts::getContractInstances = ()->
 	else
 		query.is_contract_archived = {$ne: true}
 
-	return db.instances.find(query);
-
+	return db.instances.find(query).fetch()
 
 _minxiInstanceData = (formData, instance) ->
+
+	console.log("_minxiInstanceData", instance._id)
 
 	fs = Npm.require('fs');
 
@@ -110,10 +110,14 @@ _minxiInstanceData = (formData, instance) ->
 	fileHandle = (f)->
 		try
 			filepath = path.join(absolutePath, f.copies.instances.key);
-			formData.attach.push {
-				value:  fs.createReadStream(filepath),
-				options: {filename: f.name()}
-			}
+
+			if(fs.existsSync(filepath))
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+			else
+				logger.error "附件不存在：#{filepath}"
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
@@ -132,13 +136,13 @@ _minxiInstanceData = (formData, instance) ->
 		'metadata.instance': instance._id,
 		'metadata.current': true,
 		"metadata.main": {$ne: true}
-	})
+	}).fetch()
 
 	nonMainFile.forEach fileHandle
 
 	#分发
 	if instance.distribute_from_instance
-		#	正文附件
+#	正文附件
 		mainFile = cfs.instances.find({
 			'metadata.instance': instance.distribute_from_instance,
 			'metadata.current': true,
@@ -158,7 +162,7 @@ _minxiInstanceData = (formData, instance) ->
 			"metadata.is_private": {
 				$ne: true
 			}
-		})
+		}).fetch()
 
 		nonMainFile.forEach fileHandle
 
@@ -171,12 +175,13 @@ _minxiInstanceData = (formData, instance) ->
 	catch e
 		logger.error "原文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
+	console.log("_minxiInstanceData end", instance._id)
+
 	return formData;
 
 
 InstancesToContracts::sendContractInstances = (api, callback)->
-
-	ret = {count:0, successCount: 0, instances: []}
+	ret = {count: 0, successCount: 0, instances: []}
 
 	that = @
 
@@ -184,12 +189,22 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 	successCount = 0
 
+	console.log("InstancesToContracts.sendContractInstances", instances.length)
+
 	instances.forEach (instance)->
 		url = that.contracts_server + api + '?externalId=' + instance._id
 
+		console.log("InstancesToContracts.sendContractInstances url", url)
+
 		success = InstancesToContracts.sendContractInstance url, instance
 
-		r = {_id: instance._id, name: instance.name, applicant_name: instance.applicant_name, submit_date: instance.submit_date, is_contract_archived: true}
+		r = {
+			_id: instance._id,
+			name: instance.name,
+			applicant_name: instance.applicant_name,
+			submit_date: instance.submit_date,
+			is_contract_archived: true
+		}
 
 		if success
 			successCount++
@@ -198,7 +213,7 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 		ret.instances.push r
 
-	ret.count = instances.count()
+	ret.count = instances.length
 
 	ret.successCount = successCount
 

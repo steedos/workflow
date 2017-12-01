@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.61',
+	version: '0.0.62',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -80,6 +80,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
+	api.addFiles('server/methods/my_contacts_limit.coffee', 'server');
 
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
@@ -124,7 +125,9 @@ Package.onUse(function(api) {
 		'client/views/space_switcher_modal.coffee',
 		'client/views/sidebar_user_panel.html',
 		'client/views/sidebar_user_panel.coffee',
-		'client/views/sidebar_user_panel.less'
+		'client/views/sidebar_user_panel.less',
+		'client/dataTables_bootstrap.less',
+		'client/my_contacts_limit.coffee'
 	], "client");
 
 
@@ -140,6 +143,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/springboard.html', 'client');
 	api.addFiles('client/views/springboard.coffee', 'client');
 	api.addAssets('client/images/default-avatar.png', 'client');
+	api.addFiles('client/views/workbench.less', 'client');
+	api.addFiles('client/views/workbench.html', 'client');
+	api.addFiles('client/views/workbench.coffee', 'client');
+	api.addFiles('client/views/manage_business.less', 'client');
+	api.addFiles('client/views/manage_business.html', 'client');
+	api.addFiles('client/views/manage_business.coffee', 'client');
 
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');
