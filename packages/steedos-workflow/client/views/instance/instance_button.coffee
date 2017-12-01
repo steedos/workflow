@@ -341,6 +341,9 @@ Template.instance_button.helpers
 	isMobile: ()->
 		return Steedos.isMobile()
 
+	enabled_cancel_distribute: ()->
+		return true
+
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
 	copyUrlClipboard = new Clipboard('.btn-instance-readonly-view-url-copy');
@@ -577,3 +580,6 @@ Template.instance_button.events
 					return
 
 		$('#instance_submit').trigger('click')
+
+	'click .btn-instance-distribute': (event, template) ->
+		Modal.show 'cancel_distribute_modal'
