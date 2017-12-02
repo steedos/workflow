@@ -29,11 +29,12 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 				var parents = org.parents || [];
 				return _.intersection(parents, _ids).length < 1;
 			});
+			_ids = orgs.getProperty("_id");
 			if(outsideOrganizations.length){
-				_ids = _.union(outsideOrganizations, orgs.getProperty("_id"));
-				// 这里故意重新抓取后台数据，因为前台无法正确排序
-				orgs = ContactsManager.getOrganizationsByIds(_ids);
+				_ids = _.union(outsideOrganizations, _ids);
 			}
+			// 这里故意重新抓取后台数据，因为前台无法正确排序
+			orgs = ContactsManager.getOrganizationsByIds(_ids);
 			if (orgs.length > 0) {
 				orgs[0].open = true
 			}

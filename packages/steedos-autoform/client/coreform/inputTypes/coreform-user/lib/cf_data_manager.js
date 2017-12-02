@@ -3,36 +3,44 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node, selfOrganization, isNeedtoSelDefault) {
-	var orgs;
-	myContactsLimit = Steedos.my_contacts_limit
+CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
+	var orgs,
+		myContactsLimit = Steedos.my_contacts_limit;
 	if (node.id == '#') {
-		if(selfOrganization){
-			orgs = [selfOrganization]
-			orgs[0].open = true
+		if(isSelf){
+			selfOrganization = Steedos.selfOrganization();
+			if(selfOrganization){
+				orgs = [selfOrganization];
+				orgs[0].open = true;
+			}
 		}
 		else if (myContactsLimit && myContactsLimit.isLimit) {
 			selfOrganization = Steedos.selfOrganization();
-			var uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
+			var query = {space: spaceId, users: Meteor.userId()};
+			if(!Steedos.isSpaceAdmin()){
+				query.hidden = {$ne: true}
+			}
+			var uOrgs = db.organizations.find(query).fetch();
 			var _ids = uOrgs.getProperty("_id");
 			var outsideOrganizations = myContactsLimit.outside_organizations;
 			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			//当前用户所属组织自身的排序在前端是可信的，因为后台相关发布publish做了排序
 			_ids = _.union(_ids, outsideOrganizations);
 			orgs = _.filter(uOrgs, function (org) {
 				var parents = org.parents || [];
 				return _.intersection(parents, _ids).length < 1;
 			});
+			_ids = orgs.getProperty("_id");
 			if(outsideOrganizations.length){
-				// 找出outsideOrganizations中不在orgs中的记录，并额外从服务器把其组织信息抓取到前端
-				limitIds = _.difference(outsideOrganizations, orgs.getProperty("_id"));
-				limitOrgs = ContactsManager.getOrganizationsByIds(limitIds);
-				orgs = _.union(orgs,limitOrgs)
+				_ids = _.union(outsideOrganizations, _ids);
 			}
 			//主部门在第一个jstree(即selfOrganization)中已有显示，第二个jstree就应该过滤掉不显示
-			var selfIndex = orgs.getProperty("_id").indexOf(selfOrganization._id);
+			var selfIndex = selfOrganization ? _ids.indexOf(selfOrganization._id) : -1;
 			if(selfIndex > -1){
-				orgs.splice(selfIndex, 1);
+				_ids.splice(selfIndex, 1);
 			}
+			// 这里故意重新抓取后台数据，因为前台无法正确排序
+			orgs = CFDataManager.getOrganizationsByIds(_ids);
 			if (orgs.length > 0 && !selfOrganization) {
 				orgs[0].open = true;
 			}
@@ -367,8 +375,7 @@ CFDataManager.getRoot = function (spaceId) {
 
 CFDataManager.getOrganizationsByIds = function(ids) {
 	var query = {
-		_id: {$in: ids},
-		hidden: {$ne: true}
+		_id: {$in: ids}
 	};
 	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
@@ -395,10 +402,10 @@ CFDataManager.getOrganizationsByIds = function(ids) {
 
 CFDataManager.getChild = function (spaceId, parentId) {
 
-	var query ={
+	var query = {
 		parent: parentId,
 		space: spaceId
-	}
+	};
 
 	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
