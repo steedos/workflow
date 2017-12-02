@@ -1,7 +1,6 @@
 renderTree = (container,isSelf)->
   templateData = Template.instance().data
   spaceId = templateData.spaceId
-  selfOrganization = if isSelf then Steedos.selfOrganization() else null
   CFDataManager.setOrganizationModalValue(CFDataManager.getFormulaOrganizations(templateData.defaultValues, spaceId));
   $.jstree.defaults.checkbox.three_state = false;
   plugins = ["wholerow", "conditionalselect"];
@@ -38,7 +37,7 @@ renderTree = (container,isSelf)->
         themes: { "stripes" : true },
         data:  (node, cb) ->
           Session.set("cf_selectOrgId", node.id);
-          cb(CFDataManager.getNode(spaceId, node, selfOrganization));
+          cb(CFDataManager.getNode(spaceId, node, isSelf));
         three_state: false
       conditionalselect: (node) ->
         return Template.cf_organization.conditionalselect(node);

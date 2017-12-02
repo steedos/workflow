@@ -161,7 +161,10 @@ Steedos.Helpers =
 	selfOrganization: ()->
 		selfOrgId = db.space_users.findOne({user:Meteor.userId()}).organization
 		if selfOrgId
-			return db.organizations.findOne(selfOrgId)
+			query = {_id: selfOrgId}
+			if !Steedos.isSpaceAdmin()
+				query.hidden = $ne: true
+			return db.organizations.findOne(query)
 		else
 			return null
 
