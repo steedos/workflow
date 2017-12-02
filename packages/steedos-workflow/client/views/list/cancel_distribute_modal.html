@@ -17,7 +17,7 @@
 							<tbody>
 								{{#each this.distribute_approves}}
 									<tr>
-										<td><input type="checkbox" id="{{this._id}}" name="{{../_id}}"></td>
+										<td><input type="checkbox" id="{{this._id}}" name="{{../_id}}" class="for-cancel-checkbox"></td>
 										<td data-approveid="{{this._id}}" class="for-input">{{handler_name}}</td>
 									</tr>
 								{{/each}}
@@ -26,6 +26,7 @@
 					{{/each}}
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" >{{_ "OK"}}</button>
 					<button type="button" class="btn btn-default btn-data-dismiss" data-dismiss="modal">{{_ "close"}}</button>
 				</div>
 			</div>

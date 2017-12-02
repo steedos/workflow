@@ -581,5 +581,5 @@ Template.instance_button.events
 
 		$('#instance_submit').trigger('click')
 
-	'click .btn-instance-distribute': (event, template) ->
+	'click .btn-instance-cancel-distribute': (event, template) ->
 		Modal.show 'cancel_distribute_modal'
