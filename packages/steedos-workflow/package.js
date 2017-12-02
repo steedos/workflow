@@ -347,6 +347,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/start_flow.coffee', 'server');
 	api.addFiles('server/methods/instance_traces.coffee', 'server');
 	api.addFiles('server/methods/instance_batch.coffee', 'server');
+	api.addFiles('server/methods/flow_copy.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
