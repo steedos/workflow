@@ -19,11 +19,17 @@ Template.cancel_distribute_modal.helpers
 
 		return traces
 
+	dateFormat: (date) ->
+		if Steedos.isMobile() && date?.getFullYear() == (new Date).getFullYear()
+			return $.format.date new Date(date), "MM-dd HH:mm"
+		else
+			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
 
 
 
 Template.cancel_distribute_modal.events
-	'click .for-input': (event, template) ->
+	'click .handler-name': (event, template) ->
 		approveid = event.currentTarget.dataset.approveid
 		if $("#"+approveid)
 			$("#"+approveid).click()
