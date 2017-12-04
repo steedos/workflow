@@ -595,6 +595,7 @@
 	"flow_roles_delete_success": "Delete successfully",
 	"add_positions": "Add",
 	"save_role": "Save",
+	"delete_role": "Delete",
 	"flow_roles_update_success": "Update successfully",
 	"flow_roles_necessary": "Please fill in role's name",
 	"flow_positions_add_suceess": "Add successfully",

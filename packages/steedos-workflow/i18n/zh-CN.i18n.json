@@ -614,6 +614,7 @@
 	"flow_roles_delete_success": "删除成功",
 	"add_positions": "新增",
 	"save_role": "保存",
+	"delete_role": "删除",
 	"flow_roles_update_success": "更新成功",
 	"flow_roles_necessary": "请填写岗位名称",
 	"flow_positions_add_suceess": "添加成功",
