@@ -52,9 +52,6 @@ if Meteor.isClient
 				# 没有验证手机时，提醒手机号未绑定
 				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
 					c.stop()
-					ignoredUsers = Meteor.settings?.public?.phone?.ignoredUsers
-					if ignoredUsers and ignoredUsers.contains Meteor.userId()
-						return
 					routerPath = FlowRouter.current()?.path
 					# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
 					if /^\/accounts\/setup\/phone\b/.test routerPath
