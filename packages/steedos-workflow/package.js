@@ -326,6 +326,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/batch_instances_modal.less', 'client');
 	api.addFiles('client/views/list/batch_instances_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/cancel_distribute_modal.less', 'client');
 	api.addFiles('client/views/list/cancel_distribute_modal.html', 'client');
 	api.addFiles('client/views/list/cancel_distribute_modal.coffee', 'client');
 
