@@ -50,7 +50,7 @@ Template.instance_list.helpers
 				query.state = "none"
 
 			if !space.admins.contains(uid)
-				flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()
+				flow_ids = Tracker.nonreactive(WorkflowManager.getMyAdminOrMonitorFlows)
 				# if query.flow
 				# 	if !flow_ids.includes(query.flow)
 				# 		query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}]
