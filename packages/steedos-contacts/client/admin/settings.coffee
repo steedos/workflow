@@ -30,6 +30,9 @@ Template.contacts_settings.helpers
 		else
 			return []
 
+	isForceAccountBindPhone: ()->
+		return Meteor.settings?.public?.phone?.forceAccountBindPhone
+
 
 Template.contacts_settings.events
 	'click .set_settings': (event, template)->
