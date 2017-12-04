@@ -194,11 +194,12 @@
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
-	"workflow_form_edit": "流程脚本",
+	"workflow_form_edit": "流程列表",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
 	"flows_print_template": "打印模板",
 	"flows_instance_template": "表单模板&nbsp; <a class='export-table-template'>下载默认模板</a>",
+	"flows_description": "流程描述",
 
 	"workflow_attach_unlock": "解锁",
 	"workflow_attach_locked_by": "%s 正在编辑",

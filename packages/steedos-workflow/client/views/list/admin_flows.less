@@ -3,3 +3,35 @@
 		cursor: pointer;
 	}
 }
+
+.admin_flows{
+	.flow-list{
+		tr{
+			td:last-child{
+				.flow-edit{
+					float: right;
+					width: 30px;
+					height: 20px;
+					position: relative;
+					visibility: hidden;
+					.btn-group{
+						position: absolute;
+						margin-top: -5px;
+						.dropdown-toggle{
+							padding: 4px 12px;
+							float: right;
+							span{
+								position: relative;
+								top: 2px;
+							}
+						}
+					}
+				}
+			}
+
+			&:hover td .flow-edit{
+				visibility: visible;
+			}
+		}
+	}
+}

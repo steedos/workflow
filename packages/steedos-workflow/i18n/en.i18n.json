@@ -192,11 +192,12 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Workflow Script",
+	"workflow_form_edit": "Workflow List",
 	"flows_template": "Request Template",
 	"flows_name": "Workflow Name",
 	"flows_print_template": "Print Template",
 	"flows_instance_template": "Form Template&nbsp; <a class='export-table-template'>Download the default template</a>",
+	"flows_description": "Flow Description",
 
 
 	"workflow_attach_unlock": "Unlock",

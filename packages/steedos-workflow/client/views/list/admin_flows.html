@@ -1,6 +1,6 @@
 <template name="admin_flows">
 
-    <section class="admin flows">
+    <section class="admin_flows">
         <div class="navigation-bar">
 
             <a class="btn btn-default" href="/admin">
@@ -11,14 +11,18 @@
                     {{_ "workflow_form_edit"}}
             </span>
 
+			<div class="pull-right">
+				<button type="button" class="btn btn-primary" id="importFlow">{{_ "workflow_import_flow"}}</button>
+			</div>
+
         </div>
         <div class="admin-content">
             <div class="box-body" style="display: block;">
-                {{> tabular table=TabularTables.Flows  selector=selector class="table dataTable no-footer"}}
+                {{> tabular table=TabularTables.Flows  selector=selector class="table dataTable no-footer flow-list"}}
 
-                <!--{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flows"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}-->
-                    <!--{{_ "Edit"}}-->
-                <!--{{/afModal}}-->
+                {{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flows" fields=fields operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}
+                    {{_ "Edit"}}
+                {{/afModal}}
 
             </div>
         </div>

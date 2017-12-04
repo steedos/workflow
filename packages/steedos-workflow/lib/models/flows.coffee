@@ -44,8 +44,6 @@ db.flows._simpleSchema = new SimpleSchema
 				return Session.get("spaceId");
 	name: 
 		type: String
-		autoform:
-			readonly: true
 
 	print_template:
 		type: String,
@@ -75,7 +73,7 @@ db.flows._simpleSchema = new SimpleSchema
 		type: String
 		optional: true
 		autoform:
-			omit: true
+			rows: 5
 
 	is_valid:
 		type: Boolean
@@ -170,13 +168,13 @@ db.flows._simpleSchema = new SimpleSchema
 		type: String
 		optional: true
 		autoform: 
-			rows: 10
+			rows: 20
 
 	field_map:
 		type: String
 		optional: true
 		autoform:
-			rows: 10
+			rows: 20
 
 	distribute_optional_users:
 		type: [Object]
@@ -245,17 +243,42 @@ new Tabular.Table
 	collection: db.flows,
 	columns: [
 		{data: "name", title: "name"},
-#		{data: "state", title: "state"},
+		{
+			data: "created",
+			title: "created",
+			render: (val, type, doc)->
+				return moment(doc.created).format('YYYY-MM-DD HH:mm')
+		},
+		{data: "state", title: "state"},
 		{
 			data: "",
 			title: "",
 			orderable: false,
 			width: '1px',
 			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="editFlow"><i class="fa fa-pencil"></i></button>'
-		},
+
+				return """
+						<div class="flow-edit">
+							<div class="btn-group">
+							  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<span class="ion ion-android-more-vertical"></span>
+							  </button>
+							  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+								<li><a href="#" id="editFlow" data-id="#{doc._id}">#{t("Edit")}</a></li>
+								<li class="divider"></li>
+								<li><a href="#" id="editFlow_template" data-id="#{doc._id}">设置模版</a></li>
+								<li><a href="#" id="editFlow_events" data-id="#{doc._id}">设置脚本</a></li>
+								<li><a href="#" id="editFlow_fieldsMap" data-id="#{doc._id}">设置字段关系</a></li>
+								<li class="divider"></li>
+								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
+								<li><a href="#">#{t("复制流程")}</a></li>
+							  </ul>
+							</div>
+						</div>
+					"""
+		}
 	]
-	extraFields: ["form","print_template","instance_template","events","field_map","space"]
+	extraFields: ["form","print_template","instance_template","events","field_map","space", "description"]
 	lengthChange: false
 	pageLength: 10
 	info: false

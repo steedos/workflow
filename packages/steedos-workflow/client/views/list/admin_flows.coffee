@@ -1,3 +1,17 @@
+
+_editFlow = (template, _id, fields)->
+
+	template.edit_fields.set(fields)
+
+	Session.set 'cmDoc', db.flows.findOne(_id)
+
+	setTimeout ()->
+		$('.btn.record-types-edit').click();
+	, 1
+
+Template.admin_flows.onCreated ()->
+	this.edit_fields = new ReactiveVar()
+
 Template.admin_flows.onRendered ()->
 	if !Steedos.isPaidSpace()
 		Steedos.spaceUpgradedModal()
@@ -9,12 +23,33 @@ Template.admin_flows.helpers
 	updateButtonContent: ->
 		return t("Update");
 
-Template.admin_flows.events
-	'click #editFlow': (event) ->
-		dataTable = $(event.target).closest('table').DataTable();
-		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
-		if (rowData)
-			Modal.show("admin_flow_modal", rowData)
+	fields: ->
+		return Template.instance()?.edit_fields.get()
 
-#			Session.set 'cmDoc', rowData
-#			$('.btn.record-types-edit').click();
+
+Template.admin_flows.events
+	'click #editFlow': (event, template) ->
+		_id = event.currentTarget.dataset.id
+
+		if _id
+			_editFlow(template, _id, 'name, description')
+
+	'click #editFlow_template': (event, template)->
+		_id = event.currentTarget.dataset.id
+
+		if _id
+			_editFlow(template, _id, 'print_template, instance_template')
+
+	'click #editFlow_events': (event, template)->
+		_id = event.currentTarget.dataset.id
+
+		if _id
+			_editFlow(template, _id, 'events')
+
+	'click #editFlow_fieldsMap': (event, template)->
+		_id = event.currentTarget.dataset.id
+		if _id
+			_editFlow(template, _id, 'field_map')
+
+	'click #importFlow': (event)->
+		Modal.show("admin_import_flow_modal");
