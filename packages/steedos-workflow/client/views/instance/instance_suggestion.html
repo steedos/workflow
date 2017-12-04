@@ -105,7 +105,7 @@
 										{{#each next_step_options }}
 											{{#if gt next_step_options.length 1}}
 												<label {{disabled}} class="radio">
-													<input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
+													<input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}{{#if is_approved id}}<i class="ion ion-ios-paperplane-outline"></i>{{/if}}
 												</label>
 											{{else}}
 											   <label class="only-one-next-step">

@@ -111,6 +111,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				setObj.inbox_users = []
 				setObj.final_decision = ""
 				setObj.finish_date = new Date
+				setObj.current_step_name = next_step_name
 			else
 				# 插入下一步trace记录
 				newTrace = new Object
@@ -155,6 +156,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				)
 				setObj.inbox_users = relocate_inbox_users
 				setObj.state = "pending"
+				setObj.current_step_name = next_step_name
 
 			instance.outbox_users.push(current_user)
 			instance.outbox_users = instance.outbox_users.concat(inbox_users)

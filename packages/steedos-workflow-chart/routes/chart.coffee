@@ -53,6 +53,37 @@ FlowversionAPI =
 		else
 			return nodes
 
+	getApproveJudgeText: (judge)->
+		locale = "zh-CN"
+		switch judge
+			when 'approved'
+				# 已核准
+				judgeText = TAPi18n.__('Instance State approved', {}, locale)
+			when 'rejected'
+				# 已驳回
+				judgeText = TAPi18n.__('Instance State rejected', {}, locale)
+			when 'terminated'
+				# 已取消
+				judgeText = TAPi18n.__('Instance State terminated', {}, locale)
+			when 'reassigned'
+				# 转签核
+				judgeText = TAPi18n.__('Instance State reassigned', {}, locale)
+			when 'relocated'
+				# 重定位
+				judgeText = TAPi18n.__('Instance State relocated', {}, locale)
+			when 'retrieved'
+				# 已取回
+				judgeText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				judgeText = TAPi18n.__('Instance State returned', {}, locale)
+			when 'readed'
+				# 已阅
+				judgeText = TAPi18n.__('Instance State readed', {}, locale)
+			else
+				judgeText = ''
+				break
+
 	getTraceName: (traceName, approveHandlerName)->
 		# 返回trace节点名称
 		if traceName
@@ -147,20 +178,6 @@ FlowversionAPI =
 								count: 1
 								to_approve_handler_names: [toApprove.handler_name]
 								is_total: true
-
-
-							# if counter2.count
-							# 	counter2.count++
-							# else
-							# 	counter2.count = 1
-							# unless counter2.to_approve_handler_names
-							# 	counter2.to_approve_handler_names = []
-							# unless counter2.count > traceMaxApproveCount
-							# 	counter2.to_approve_handler_names.push toApprove.handler_name
-
-		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
-		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
-		# for fromApproveId,fromApprove of counters
 
 		return counters
 
@@ -259,15 +276,23 @@ FlowversionAPI =
 									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
 										fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
 										toTraceName = FlowversionAPI.getTraceName currentTraceName, toApprove.handler_name
-										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
-
+										# 不是传阅、分发、转发，则连接到下一个trace
+										judgeText = FlowversionAPI.getApproveJudgeText fromApprove.judge
+										if judgeText
+											nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")--#{judgeText}-->#{toApprove._id}(\"#{toTraceName}\")"
+										else
+											nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
 						else
-							# 结束步骤的trace
+							# 最后一个步骤的trace
 							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
 								fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
 								toTraceName = FlowversionAPI.replaceErrorSymbol(currentTraceName)
 								# 不是传阅、分发、转发，则连接到下一个trace
-								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
+								judgeText = FlowversionAPI.getApproveJudgeText fromApprove.judge
+								if judgeText
+									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")--#{judgeText}-->#{trace._id}(\"#{toTraceName}\")"
+								else
+									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->

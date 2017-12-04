@@ -638,5 +638,6 @@
 	"workflow_batch_approval_message": "本次处理文件%s份",
 	"workflow_error_multiple_next_step_users": "「__insname__」的下一步处理人有多个",
 	"workflow_error_multiple_next_step": "「__insname__」的下一步步骤有多个",
-	"workflow_batch_instances_empty": "没有可批量审批的数据"
+	"workflow_batch_instances_empty": "没有可批量审批的数据",
+	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上"
 }

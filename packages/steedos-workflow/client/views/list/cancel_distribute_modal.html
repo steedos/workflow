@@ -1,0 +1,35 @@
+<template name="cancel_distribute_modal">
+	<div class="modal fade cancel_distribute_modal" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content flow-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">{{_ "instance_distribute_approve_remove"}}</h4>
+				</div>
+
+				<div class="modal-body">
+					{{#each traces}}
+						<table class="table" >
+							<thead>
+								<th class="th-width" ><input type="checkbox" id="{{this._id}}" class="cancel_distribute_modal_all_approve_toggle"></th>
+								<th>{{this.name}}</th>
+							</thead>
+							<tbody>
+								{{#each this.distribute_approves}}
+									<tr>
+										<td><input type="checkbox" id="{{this._id}}" name="{{../_id}}" class="for-cancel-checkbox"></td>
+										<td data-approveid="{{this._id}}" class="for-input">{{handler_name}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{/each}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" >{{_ "OK"}}</button>
+					<button type="button" class="btn btn-default btn-data-dismiss" data-dismiss="modal">{{_ "close"}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

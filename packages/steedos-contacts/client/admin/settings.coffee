@@ -21,6 +21,15 @@ Template.contacts_settings.helpers
 		orgs = SteedosDataManager.organizationRemote.find _id: {$in: froms}, {fields:{fullname:1}}
 		return orgs.getProperty("fullname")
 
+	no_force_phone_users: ()->
+		spaceId = Session.get("spaceId");
+		setting = db.space_settings.findOne({space: spaceId, key: "contacts_no_force_phone_users"})
+		values = setting?.values || []
+		if setting
+			return SteedosDataManager.spaceUserRemote.find({space: spaceId, user: {$in: values}}, {fields: {_id: 1, name: 1, user: 1, email: 1}})
+		else
+			return []
+
 
 Template.contacts_settings.events
 	'click .set_settings': (event, template)->
@@ -60,6 +69,9 @@ Template.contacts_settings.events
 						Modal.hide(template)
 						toastr.success(t("saved_successfully"))
 				)
+
+	'click .no-force-phone-block .btn-edit': (event, template)->
+		Modal.show("contacts_settings_no_force_phone_modal")
 
 Template.contacts_settings.onCreated ->
 	spaceId = Steedos.spaceId()

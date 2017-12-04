@@ -619,5 +619,6 @@
 	"workflow_batch_approval_message": "This processing file %s",
 	"workflow_error_multiple_next_step_users": "'__insname__' the next person can not handle more than one",
 	"workflow_error_multiple_next_step": "'__insname__' can not have more than one next step",
-	"workflow_batch_instances_empty": "There is no data for batch approval"
+	"workflow_batch_instances_empty": "There is no data for batch approval",
+	"workflow_sign_opinion_to_completed_instance": "This document is over and the signed opinion will not be displayed on the application"
 }

@@ -336,7 +336,10 @@ _get_inbox_instances_tabular_options = (box, flowId, fields)->
 
 					findOptions.sort = [['modified', s1_1]]
 
-					ag_sort = '_approve.start_date': if s1_1 == 'asc' then 1 else -1
+					aggregate_operation.push $group: {_id: "$_id", "approve_start_date": {$first: "$_approve.start_date"}}
+
+					ag_sort = 'approve_start_date': if s1_1 == 'asc' then 1 else -1
+
 					aggregate_operation.push $sort: ag_sort
 					aggregate_operation.push $skip: skip
 					aggregate_operation.push $limit: limit
@@ -355,6 +358,7 @@ _get_inbox_instances_tabular_options = (box, flowId, fields)->
 						return
 
 					async_aggregate = Meteor.wrapAsync(aggregate)
+
 					async_aggregate table, aggregate_operation, filteredRecordIds
 
 					return filteredRecordIds.uniq()
