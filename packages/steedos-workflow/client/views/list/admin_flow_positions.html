@@ -17,7 +17,18 @@
 		</div>
 		<div class="admin-content">
 			<div class="box-body" style="display: block;">
-				{{> tabular table=TabularTables.flow_positions  selector=selector class="table dataTable no-footer"}}
+				<div class="search-toolbar">
+					<div class="pull-right">
+						<div class="input-group">
+							<input type="text" name="flow-position-search-key" id="flow-position-search-key" class="form-control contact-list-search-key" placeholder="{{_ 'Search'}}...">
+							<span class="input-group-btn">
+								<button type="submit" name="flow-position-search-btn" id="flow-position-search-btn" class="btn btn-default"><i class="fa fa-search"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				{{> tabular table=TabularTables.flow_positions  selector=selector class="table dataTable no-footer" class="table datatable-flow-positions"}}
 
 				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flow_positions"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}
 					{{_ "Edit"}}

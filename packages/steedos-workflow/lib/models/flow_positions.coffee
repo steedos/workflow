@@ -197,6 +197,7 @@ Meteor.startup ()->
 					return '<button type="button" class="btn btn-xs btn-default" id="remove"><i class="fa fa-times"></i></button>'
 			}
 		]
+		dom: "tp"
 		extraFields: ["space", "role", "org", "users"]
 		lengthChange: false
 		ordering: false

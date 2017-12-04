@@ -39,5 +39,21 @@ Template.admin_flow_positions.events
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-remove').click();
 
+	'click #flow-position-search-btn': (event) ->
+		dataTable = $(".datatable-flow-positions").DataTable()
+		selector = $("input[name='flow-position-search-key']").val()
+		dataTable.search(
+			selector
+		).draw();
+
+	'keypress #flow-position-search-key': (event, template) ->
+		if event.keyCode == 13
+			dataTable = $(".datatable-flow-positions").DataTable()
+			selector = $("input[name='flow-position-search-key']").val()
+			dataTable.search(
+				selector
+			).draw();
+
+
 Template.admin_flow_positions.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
