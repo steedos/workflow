@@ -136,28 +136,32 @@
 						
 					{{/unless}}
 					{{#if isForward this}}
-						<div class="weui-cell">
-							<div class="weui-cell__hd">
-								<span class="weui-label"></span>
+						{{#unless judgeTerminated this.judge}}
+							<div class="weui-cell">
+								<div class="weui-cell__hd">
+									<span class="weui-label"></span>
+								</div>
+								<div class="weui-cell__bd weui-cell_primary text-muted">
+									<span class="weui-input">
+										<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_forward_instance_look"}}</button>
+									</span>
+								</div>
 							</div>
-							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui-input">
-									<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_forward_instance_look"}}</button>
-								</span>
-							</div>
-						</div>
+						{{/unless}}
 					{{/if}}
 					{{#if isDistribute this}}
-						<div class="weui-cell">
-							<div class="weui-cell__hd">
-								<span class="weui-label"></span>
+						{{#unless judgeTerminated this.judge}}
+							<div class="weui-cell">
+								<div class="weui-cell__hd">
+									<span class="weui-label"></span>
+								</div>
+								<div class="weui-cell__bd weui-cell_primary text-muted">
+									<span class="weui-input">
+										<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_distribute_instance_look"}}</button>
+									</span>
+								</div>
 							</div>
-							<div class="weui-cell__bd weui-cell_primary text-muted">
-								<span class="weui-input">
-									<button type="button" class="btn btn-default btn-forward-instance-look pull-left" data-forwardspace="{{forward_space}}" data-forwardinstance="{{forward_instance}}">{{_t "instance_distribute_instance_look"}}</button>
-								</span>
-							</div>
-						</div>
+						{{/unless}}
 					{{/if}}
 				</div>
 				<div class="modal-footer">

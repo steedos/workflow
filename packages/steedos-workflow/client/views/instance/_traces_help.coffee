@@ -128,7 +128,7 @@ TracesTemplate.helpers =
 			return true
 		false
 	showForwardDeleteButton: (approve) ->
-		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
 			return true
 		false
 	markDownToHtml: (markDownString)->
@@ -142,7 +142,7 @@ TracesTemplate.helpers =
 			return true
 		false
 	showDistributeDeleteButton: (approve) ->
-		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
 			return true
 		false
 
@@ -327,12 +327,9 @@ TracesTemplate.events =
 		return
 
 	'click .instance-trace-detail-modal .btn-forward-instance-look': (event, template) ->
-		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
-				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
-		else
-			forward_space = event.target.dataset.forwardspace
-			forward_instance = event.target.dataset.forwardinstance
-			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/view/readonly/" + forward_instance))
+		forward_space = event.target.dataset.forwardspace
+		forward_instance = event.target.dataset.forwardinstance
+		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/view/readonly/" + forward_instance))
 
 	'click .btn-modification'	: (event, template) ->
 		template.is_editing.set(!template.is_editing.get());
