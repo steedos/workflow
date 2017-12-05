@@ -169,7 +169,7 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 
 					result = new Object
 					result =
-						version_id: fileObj._id,
+						attach_id: fileObj._id,
 						size: size
 
 					res.setHeader("x-amz-version-id",fileObj._id);
