@@ -15,11 +15,13 @@
 					</li>
 					{{eachEnd @index}}
 				{{/each}}
-				<li>
-					<a class="menu-apps-link">
-						<i class="ion ion-grid"></i>
-					</a>
-				</li>
+				{{#if isShowMenuAppsLink}}
+					<li>
+						<a class="menu-apps-link">
+							<i class="ion ion-grid"></i>
+						</a>
+					</li>
+				{{/if}}
 			</ul>
 			<!-- Navbar Right Menu -->
 			<div class="navbar-custom-menu">

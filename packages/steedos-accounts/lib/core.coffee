@@ -44,9 +44,10 @@ if Meteor.isClient
 			Meteor.autorun (c)->
 				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
 					if Accounts.isPhoneVerified()
+						Session.set("apps",null)
 						c.stop()
-						# 关闭sweetAlert弹出框
-						$(".accounts-phone-swal-alert .cancel").trigger("click")
+					else
+						Session.set("apps",[])
 
 			Meteor.autorun (c)->
 				# 没有验证手机时，提醒手机号未绑定
@@ -67,20 +68,7 @@ if Meteor.isClient
 					else
 						setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 						if Steedos.isForceBindPhone
-							swal {
-								customClass : "accounts-phone-swal-alert"
-								title: t("accounts_phone_swal_alert"),
-								type: "warning",
-								confirmButtonText: t('accounts_phone_swal_alert_ok'),
-								# cancelButtonText: t('Cancel'),
-								showCancelButton: false,
-								closeOnConfirm: false
-							}, (reason) ->
-								# 用户选择取消
-								if (reason == false)
-									return false;
-
-								Steedos.openWindow(setupUrl,'setup_phone')
+							FlowRouter.go setupUrl
 						else
 							toastr.error(null,t("accounts_phone_toastr_alert"),{
 								closeButton: true,

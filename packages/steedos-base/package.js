@@ -85,6 +85,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
 
 	api.addFiles([
+		'client/base.less',
 		'client/core.coffee',
 		'client/swipe.coffee',
 		'client/swipe.less',

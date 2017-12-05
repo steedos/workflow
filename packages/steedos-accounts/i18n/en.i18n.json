@@ -12,7 +12,7 @@
 	"accounts_phone_verify_suc_wait_mobile": "Phone number verified success, you can close the window.",
 	"accounts_phone_swal_unreceived_title": "Fetch you phone number again",
 	"accounts_phone_swal_unreceived_text": "We will send a verification code SMS to:\r\n %s",
-	"accounts_phone_title": "Bind the phone number",
+	"accounts_phone_title": "Please bind the phone number",
 	"accounts_phone_country_label": "country",
 	"accounts_phone_country_cn": "China",
 	"accounts_phone_placeholder": "Enter your phone",

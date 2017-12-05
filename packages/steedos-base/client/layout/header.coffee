@@ -19,6 +19,9 @@ Template.steedosHeader.helpers
 		if index == appCount - 1
 			Session.set("base_each_apps_end", (new Date()).getTime())
 
+	isShowMenuAppsLink: ->
+		return !Session.get("apps")
+
 
 Template.steedosHeader.events
 	'click .menu-app-link': (event) ->

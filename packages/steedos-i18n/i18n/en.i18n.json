@@ -466,6 +466,7 @@
 	"steedos_desktop_zone_info": "Does the current service for the US zone, whether to jump to the Chinese zone?",
 	"steedos_desktop_confirm": "Confirm",
 	"steedos_desktop_cancel": "Cancel",
+	"steedos_desktop_update_info": "The current client version is too old, please download and install the latest client!",
 
 	"billing": {
 		"upgrade": "Upgrade",

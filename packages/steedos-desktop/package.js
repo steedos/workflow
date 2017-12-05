@@ -47,11 +47,9 @@ Package.onUse(function(api) {
 	api.use('templating', 'client');
 
 	api.use('tap:i18n', ['client', 'server']);
-	// //api.add_files("package-tap.i18n", ["client", "server"]);
-	// tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
-	// api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	// COMMON
 	api.addFiles('desktop_manager.js', 'client');
+	api.export('Desktop');
 
 })

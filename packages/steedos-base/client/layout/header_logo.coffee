@@ -22,10 +22,12 @@ Template.steedosHeaderLogo.helpers
 
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
-
 		if db.spaces.find().count() > 1
 			Modal.show "space_switcher_modal"
 		else
+			if Session.get("apps")
+				# 如果有限制显示apps列表则不弹出apps切换窗口
+				return
 			Modal.show "app_list_box_modal"
 
 	'click .edit-space': (event)->
