@@ -44,9 +44,10 @@ if Meteor.isClient
 			Meteor.autorun (c)->
 				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
 					if Accounts.isPhoneVerified()
+						Session.set("apps",null)
 						c.stop()
-						# 关闭sweetAlert弹出框
-						$(".accounts-phone-swal-alert .cancel").trigger("click")
+					else
+						Session.set("apps",[])
 
 			Meteor.autorun (c)->
 				# 没有验证手机时，提醒手机号未绑定

@@ -12,7 +12,7 @@
 	"accounts_phone_verify_suc_wait_mobile": "手机号验证通过，请关闭窗口！",
 	"accounts_phone_swal_unreceived_title": "重新获取验证码",
 	"accounts_phone_swal_unreceived_text": "我们将发送验证码短信到这个号码：\r\n %s",
-	"accounts_phone_title": "绑定手机号",
+	"accounts_phone_title": "请绑定手机号",
 	"accounts_phone_country_label": "国家/地区",
 	"accounts_phone_country_cn": "中国",
 	"accounts_phone_placeholder": "请输入手机号",

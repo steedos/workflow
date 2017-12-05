@@ -19,11 +19,13 @@
 						<a class="weui-btn btn-primary btn-send-code" href="javascript:">{{_ "accounts_phone_btn_send_title"}}</a>
 					</div>
 					{{#unless isSetupPassword}}
-						<div class="weui-footer weui-btn-area">
-							<p class="weui-footer__links">
-								<a class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
-							</p>
-						</div>
+						{{#if isBackButtonNeeded}}
+							<div class="weui-footer weui-btn-area">
+								<p class="weui-footer__links">
+									<a class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
+								</p>
+							</div>
+						{{/if}}
 					{{else}}
 						<div class="weui-footer weui-btn-area">
 							<p class="weui-footer__links">
