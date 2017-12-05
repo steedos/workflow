@@ -14,6 +14,9 @@ Template.steedosHeaderAccount.helpers
 	signOutUrl: ()->
 		return "/steedos/logout"
 
+	isAppsLimited: ()->
+		return !!Session.get("apps")
+
 Template.steedosHeaderAccount.events
 	'click .btn-logout': (event,template) ->
 		$("body").addClass("loading")
