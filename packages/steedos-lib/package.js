@@ -133,6 +133,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/profile/profile.html', 'client');
 	api.addFiles('client/steedos/views/profile/profile.coffee', 'client');
 
+	api.addFiles('client/steedos/views/space/customize_apps.html', 'client');
+	api.addFiles('client/steedos/views/space/customize_apps.coffee', 'client');
+
 	api.addFiles('client/steedos/views/space/space_info.html', 'client');
 	api.addFiles('client/steedos/views/space/space_info.coffee', 'client');
 
@@ -194,6 +197,9 @@ Package.onUse(function(api) {
 
 	// routes
 	api.addFiles('server/routes/api_billing_recharge_notify.coffee', 'server');
+
+	// tabular
+	api.addFiles('tabular.coffee');
 
 	// EXPORT
 	api.export('Steedos');

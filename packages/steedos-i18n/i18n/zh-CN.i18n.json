@@ -441,6 +441,7 @@
 	"afModal_update": "保存",
 	"afModal_remove": "删除",
 	"afModal_remove_suc": "删除成功",
+	"afModal_update_suc": "更新成功",
 	"afModal_cancel": "取消",
 
 	"change_phone": "绑定手机号",
@@ -526,5 +527,7 @@
 	"space_viewing_limits_froms_required": "限制部门不能为空",
 
 	"pay_records": "购买记录",
-	"workflow_designer_use_pc": "请在PC端打开"
+	"workflow_designer_use_pc": "请在PC端打开",
+
+	"customize_apps": "企业应用"
 }

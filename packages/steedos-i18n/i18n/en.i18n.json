@@ -423,6 +423,7 @@
 	"afModal_update": "Save",
 	"afModal_remove": "Delete",
 	"afModal_remove_suc": "Successfully deleted",
+	"afModal_update_suc": "Successfully updated",
 	"afModal_cancel": "Cancel",
 
 	"change_phone": "Bind Phone Number",
@@ -508,5 +509,7 @@
 	"space_viewing_limits_froms_required": "Limited organizations is required",
 
 	"pay_records": "Pay Records",
-	"workflow_designer_use_pc": "Please user this function on pc"
+	"workflow_designer_use_pc": "Please user this function on pc",
+
+	"customize_apps": "Apps"
 }

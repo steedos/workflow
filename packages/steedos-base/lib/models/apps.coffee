@@ -104,7 +104,25 @@ db.apps.isInternalApp = (url) ->
 				return true
 	return false
 
+if Meteor.isServer
+	db.apps.allow 
+		insert: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
 
+		update: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
 
 if Meteor.isServer
 

@@ -95,9 +95,15 @@ FlowRouter.route '/admin/space/info',
 FlowRouter.route '/admin/customize_apps',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
-		spaceId = Steedos.getSpaceId()
-		if spaceId
-			FlowRouter.go("/admin/view/apps")
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+		
+		BlazeLayout.render 'adminLayout',
+			main: "customize_apps"
+		# spaceId = Steedos.getSpaceId()
+		# if spaceId
+		# 	FlowRouter.go("/admin/view/apps")
 
 FlowRouter.route '/designer', 
 	triggersEnter: [ checkUserSigned ],
