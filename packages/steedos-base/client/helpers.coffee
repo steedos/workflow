@@ -337,6 +337,10 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
+
+		apps = Session.get("apps")
+		if apps and apps instanceof Array
+			selector["_id"] = {$in:apps};
 		return db.apps.find(selector, {sort: {sort: 1}});
 
 	getSpaceFirstApp: ()->
