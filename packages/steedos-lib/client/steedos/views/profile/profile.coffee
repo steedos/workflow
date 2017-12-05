@@ -436,10 +436,7 @@ Template.profile.events
 					toastr.error(TAPi18n.__(error.reason))
 
 	'click .btn-change-phone': (event, template) ->
-		if Steedos.isAndroidOrIOS()
-			FlowRouter.go("/accounts/setup/phone")
-		else
-			Steedos.openWindow(Steedos.absoluteUrl("accounts/setup/phone"),'setup_phone')
+		FlowRouter.go("/accounts/setup/phone")
 
 	'click [name=mobile]': (event, template) ->
 		if Steedos.isAndroidOrIOS()

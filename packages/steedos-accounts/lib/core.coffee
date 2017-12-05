@@ -67,20 +67,7 @@ if Meteor.isClient
 					else
 						setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 						if Steedos.isForceBindPhone
-							swal {
-								customClass : "accounts-phone-swal-alert"
-								title: t("accounts_phone_swal_alert"),
-								type: "warning",
-								confirmButtonText: t('accounts_phone_swal_alert_ok'),
-								# cancelButtonText: t('Cancel'),
-								showCancelButton: false,
-								closeOnConfirm: false
-							}, (reason) ->
-								# 用户选择取消
-								if (reason == false)
-									return false;
-
-								Steedos.openWindow(setupUrl,'setup_phone')
+							FlowRouter.go setupUrl
 						else
 							toastr.error(null,t("accounts_phone_toastr_alert"),{
 								closeButton: true,

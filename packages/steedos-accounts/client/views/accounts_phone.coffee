@@ -18,6 +18,14 @@ Template.accounts_phone.helpers
 		
 
 Template.accounts_phone.onRendered ->
+	$("body").addClass("no-sidebar")
+	$(".wrapper .content-wrapper").addClass("flex-center")
+	$(".wrapper .content-wrapper").addClass("bg-shadow")
+
+Template.accounts_phone.onDestroyed ->
+	$("body").removeClass("no-sidebar")
+	$(".wrapper .content-wrapper").removeClass("flex-center")
+	$(".wrapper .content-wrapper").removeClass("bg-shadow")
 
 Template.accounts_phone.events
 	'click .btn-send-code': (event,template) ->
@@ -84,5 +92,3 @@ Template.accounts_phone.events
 
 	'click .btn-close': (event,template) ->
 		window.close()
-
-
