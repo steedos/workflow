@@ -42,14 +42,6 @@ if Meteor.isClient
 						Steedos.isForceBindPhone = if noForceUsers.indexOf(Meteor.userId()) > -1 then false else true
 
 			Meteor.autorun (c)->
-				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
-					if Accounts.isPhoneVerified()
-						Session.set("apps",null)
-						c.stop()
-					else
-						Session.set("apps",[])
-
-			Meteor.autorun (c)->
 				# 没有验证手机时，提醒手机号未绑定
 				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
 					c.stop()

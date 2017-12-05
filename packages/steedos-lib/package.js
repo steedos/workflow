@@ -108,9 +108,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/layouts/header_cms_badge.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_cms_badge.coffee', 'client');
 
-	api.addFiles('client/steedos/views/layouts/header_account.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header_account.coffee', 'client');
-
 	api.addFiles('client/steedos/views/layouts/header.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header.coffee', 'client');
 	api.addFiles('client/steedos/views/layouts/header.less', 'client');

@@ -109,6 +109,8 @@ Package.onUse(function(api) {
 		'client/layout/header.less',
 		'client/layout/content_wrapper_shadow.html',
 		'client/layout/sidebar.html',
+		'client/layout/header_account.html',
+		'client/layout/header_account.coffee',
 		'client/layout/steedosheader-account.html',
 		'client/layout/steedosheader-account.coffee',
 		'client/layout/steedosheader-account.less',
@@ -130,7 +132,6 @@ Package.onUse(function(api) {
 		'client/dataTables_bootstrap.less',
 		'client/my_contacts_limit.coffee'
 	], "client");
-
 
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
