@@ -4,7 +4,10 @@ if Meteor.isClient
 		Theme.logo_en = Theme.logo
 		Theme.icon = "/packages/steedos_theme-qhd/client/images/icon.png"
 		Theme.icon_en = Theme.icon
-
+		
+		# 重置客户端版本号和下载网址
+		Desktop.version = "3.1.8"
+		Desktop.url = "http://192.1.1.238/digi/show.asp?infoid=42054"
 	# qhd密码规则为至少6位
 	Steedos.validatePassword = (pwd)->
 		reason = t "password_invalid"

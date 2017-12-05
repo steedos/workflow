@@ -483,6 +483,7 @@
 	"steedos_desktop_zone_info": "当前服务为美国区域，是否跳转到中国区域？",
 	"steedos_desktop_confirm": "确定",
 	"steedos_desktop_cancel": "取消",
+	"steedos_desktop_update_info": "当前客户端版本过旧，请下载安装最新客户端！",
 
 	"billing": {
 		"upgrade": "升级",
