@@ -238,18 +238,76 @@ if Meteor.isServer
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
 
+db.flows.helpers
+	modified_by_name: () ->
+		spaceUser = db.space_users.findOne({user: this.current?.modified_by}, {fields: {name: 1}});
+		return spaceUser?.name;
+
 new Tabular.Table
 	name: "Flows",
 	collection: db.flows,
+	pub :"flows_tabular",
 	columns: [
-		{data: "name", title: "name"},
 		{
-			data: "created",
-			title: "created",
-			render: (val, type, doc)->
-				return moment(doc.created).format('YYYY-MM-DD HH:mm')
+			data: "name",
+			orderable: false
 		},
-		{data: "state", title: "state"},
+		{
+			data: "current.modified",
+			width: "150px",
+			render: (val, type, doc)->
+				return moment(doc.current?.modified).format('YYYY-MM-DD HH:mm')
+		},
+		{
+			data: "modified_by_name()",
+			width: "150px",
+			orderable: false
+		},
+		{
+#			title: ()->
+#				"""
+#					<span class="filter-span">#{t('flows_state')}</span>
+#					<div class="tabular-filter col-state">
+#						<div class="btn-group">
+#						  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+#							<span class="ion ion-funnel"></span></a>
+#						  <ul class="dropdown-menu">
+#							<li><a href="#">
+#									<label>
+#										<input type="checkbox" name='filter_state' value='enabled' data-col='col-state'>启用
+#									</label>
+#								</a>
+#							</li>
+#							<li><a href="#">
+#									<label>
+#										<input type="checkbox" name='filter_state' value='disabled' data-col='col-state'>停用
+#									</label>
+#								</a>
+#							</li>
+#						  </ul>
+#						</div>
+#					</div>
+#				"""
+#			,
+			data: "state",
+			width: "150px",
+			orderable: false,
+			render: (val, type, doc)->
+
+				checked = "";
+
+				if doc.state == 'enabled'
+					checked = "checked"
+
+				return """
+							<div class="flow-list-switch">
+								<label for="switch_#{doc._id}" class="weui-switch-cp">
+									<input id="switch_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input" type="checkbox" #{checked}>
+									<div class="weui-switch-cp__box"></div>
+								</label>
+							</div>
+						"""
+		},
 		{
 			data: "",
 			title: "",
@@ -271,14 +329,14 @@ new Tabular.Table
 								<li><a href="#" id="editFlow_fieldsMap" data-id="#{doc._id}">设置字段关系</a></li>
 								<li class="divider"></li>
 								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
-								<li><a href="#">#{t("复制流程")}</a></li>
+								<li><a href="#" id="copyFlow" data-id="#{doc._id}">#{t("workflow_copy_flow")}</a></li>
 							  </ul>
 							</div>
 						</div>
 					"""
 		}
 	]
-	extraFields: ["form","print_template","instance_template","events","field_map","space", "description"]
+	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state"]
 	lengthChange: false
 	pageLength: 10
 	info: false
@@ -300,7 +358,7 @@ new Tabular.Table
 				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '">' + t("flows_btn_export_title") + '</a>'
 		}
 	]
-	extraFields: ["form","print_template","instance_template","events","field_map","space"]
+	extraFields: ["form","print_template","instance_template","events","field_map","space", "current"]
 	lengthChange: false
 	pageLength: 10
 	info: false

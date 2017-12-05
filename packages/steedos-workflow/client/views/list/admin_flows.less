@@ -33,5 +33,69 @@
 				visibility: visible;
 			}
 		}
+
+		.flow-list-switch{
+			position: relative;
+			cursor: pointer;
+			label{
+				position: absolute;
+			}
+		}
+
+		.weui-switch-cp__box{
+			zoom: 0.60;
+		}
+
+		.filter-span{
+			display: inline-block;
+		}
+
+		.tabular-filter{
+			position: relative;
+			display: inline-block;
+			.btn-group{
+				position: absolute;
+				top: -18px;
+
+				.dropdown-toggle{
+					display: inline-block;
+					padding: 4px 8px;
+				}
+
+				.dropdown-menu{
+					a{
+						padding-top: 0px;
+						padding-bottom: 0px;
+						line-height: 1;
+
+						label{
+							font-weight: 400;
+							cursor: pointer;
+						}
+					}
+
+					input{
+						position: relative;
+						top: 3px;
+						margin-right: 6px;
+					}
+				}
+			}
+			.ion{
+				font-size: 100%;
+				color: lightgrey;
+			}
+
+			.btn-group.open .dropdown-toggle{
+				box-shadow: none;
+				-webkit-box-shadow: none;
+			}
+		}
+
+		.tabular-filter.enabled{
+			.ion{
+				color: #04be02
+			}
+		}
 	}
 }

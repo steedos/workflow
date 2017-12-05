@@ -574,7 +574,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "流程编号规则不存在: ",
 	"ConfirmDeletion?": "确认删除?",
 	"instance_number_rules_name_only": "名称已存在",
-	"flows_btn_export_title": "导出",
+	"flows_btn_export_title": "导出流程",
 	"flows_btn_copylink_title": "复制链接",
 	"instance_distribute_related_instances_title": "自动创建关联文件",
 	"instance_next_step_users_placeholder": "请选择下一步处理人",
@@ -641,5 +641,14 @@
 	"workflow_error_multiple_next_step_users": "「__insname__」的下一步处理人有多个",
 	"workflow_error_multiple_next_step": "「__insname__」的下一步步骤有多个",
 	"workflow_batch_instances_empty": "没有可批量审批的数据",
-	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上"
+	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上",
+	"workflow_copy_flow": "复制流程",
+	"workflow_copy_flow_text": "请填写新流程名称",
+	"workflow_copy_flow_success": "复制流程成功",
+	"workflow_copy_flow_error_reason_required": "请填写新流程名称",
+	"workflow_enabled": "启用",
+	"workflow_disabled": "停用",
+	"flows_state": "状态",
+	"flows_current_modified": "修改时间",
+	"flows_modified_by_name()": "修改者"
 }

@@ -98,3 +98,32 @@ Meteor.publish 'flow', (spaceId, flowId)->
 			distribute_to_self: 1
 		}
 	})
+
+Meteor.publishComposite 'flows_tabular', (tableName, ids, fields)->
+	check(tableName, String);
+	check(ids, Array);
+	check(fields, Match.Optional(Object));
+
+	unless this.userId
+		return this.ready()
+
+	this.unblock()
+
+	find: ->
+		this.unblock()
+		db.flows.find {_id: {$in: ids}}, fields: fields
+
+	children: [
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.space_users.find {
+					space: flow.space,
+					user: flow.current.modified_by
+				}, fields:
+					space: 1
+					user: 1
+					name: 1
+		}
+	]

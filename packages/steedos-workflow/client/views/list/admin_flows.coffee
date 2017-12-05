@@ -19,7 +19,14 @@ Template.admin_flows.onRendered ()->
 
 Template.admin_flows.helpers
 	selector: ->
-		return {space: Session.get("spaceId"), is_deleted: false};
+
+		query = {space: Session.get("spaceId"), is_deleted: false}
+
+		if !_.isEmpty(Session.get("filter_state"))
+			query.state = {$in: Session.get("filter_state")}
+
+		return query;
+
 	updateButtonContent: ->
 		return t("Update");
 
@@ -53,3 +60,67 @@ Template.admin_flows.events
 
 	'click #importFlow': (event)->
 		Modal.show("admin_import_flow_modal");
+
+	'click #copyFlow': (event)->
+
+		_id = event.currentTarget.dataset.id
+
+		swal {
+			title: t("workflow_copy_flow"),
+			text: t("workflow_copy_flow_text"),
+			type: "input",
+			confirmButtonText: t('OK'),
+			cancelButtonText: t('Cancel'),
+			showCancelButton: true,
+			closeOnConfirm: false
+		}, (reason) ->
+			if (reason == false)
+				return false;
+
+			if (reason == "")
+				swal.showInputError(t("workflow_copy_flow_error_reason_required"));
+				return false;
+
+			Meteor.call "flow_copy", Steedos.spaceId(), _id, reason, (error, result)->
+				if error
+					toastr.error 'error'
+				else
+					toastr.success t('workflow_copy_flow_success')
+					sweetAlert.close();
+
+	'click .flow-switch-input': (event)->
+		_id = event.currentTarget.dataset.id
+
+		FLOW_STATE_API = "/am/flows/state"
+
+		flow = db.flows.findOne(_id)
+
+		if flow
+
+			state = if flow.state == 'enabled' then 'disabled' else 'enabled'
+
+			data = [{id: flow._id , form: flow.form, space: flow.space, state: state}]
+
+			Meteor.call "change_flow_state", data, (error, result)->
+				if error
+					toastr.error 'error'
+
+#	'click input[name="filter_state"]': (event)->
+#
+#		filter = $("." + event.currentTarget.dataset.col)
+#
+#		filter_state = []
+#
+#		$('input[name="filter_state"]').each ()->
+#			if $(this).is(":checked")
+#				filter_state.push($(this).val())
+#
+#		Session.set("filter_state", filter_state)
+#
+#		if filter_state.length > 0
+#			filter.addClass("enabled")
+#		else
+#			filter.removeClass("enabled")
+
+Template.admin_flows.onDestroyed ->
+	Session.set("filter_state", null)

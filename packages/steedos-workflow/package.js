@@ -350,6 +350,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_traces.coffee', 'server');
 	api.addFiles('server/methods/instance_batch.coffee', 'server');
 	api.addFiles('server/methods/flow_copy.coffee', 'server');
+	api.addFiles('server/methods/flow.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
@@ -409,6 +410,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
 	api.addFiles('server/publications/distributed_instances_state_by_ids.coffee', 'server');
+	api.addFiles('server/publications/flows.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');

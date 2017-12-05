@@ -556,7 +556,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "The number rule does not exist: ",
 	"ConfirmDeletion?": "Are you sure?",
 	"instance_number_rules_name_only": "The name can not be repeated",
-	"flows_btn_export_title": "Export",
+	"flows_btn_export_title": "Export Flow",
 	"flows_btn_copylink_title": "Copy Link",
 	"instance_distribute_related_instances_title": "Automatically create associated requests",
 	"instance_next_step_users_placeholder": "Please select the approver",
@@ -622,5 +622,14 @@
 	"workflow_error_multiple_next_step_users": "'__insname__' the next person can not handle more than one",
 	"workflow_error_multiple_next_step": "'__insname__' can not have more than one next step",
 	"workflow_batch_instances_empty": "There is no data for batch approval",
-	"workflow_sign_opinion_to_completed_instance": "This document is over and the signed opinion will not be displayed on the application"
+	"workflow_sign_opinion_to_completed_instance": "This document is over and the signed opinion will not be displayed on the application",
+	"workflow_copy_flow": "Copy flow",
+	"workflow_copy_flow_text": "Please fill in the new flow name",
+	"workflow_copy_flow_success": "The copy flow is successful",
+	"workflow_copy_flow_error_reason_required": "Comments are required.",
+	"workflow_enabled": "Enabled",
+	"workflow_disabled": "Disabled",
+	"flows_state": "State",
+	"flows_current_modified": "Modified",
+	"flows_modified_by_name()": "Editor"
 }
