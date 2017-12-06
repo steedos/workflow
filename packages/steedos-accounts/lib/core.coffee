@@ -35,7 +35,7 @@ if Meteor.isClient
 			# 只有非手机上才需要提醒手机号未绑定
 			Steedos.isForceBindPhone = true
 			Meteor.autorun (c)->
-				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
+				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready() and Steedos.subsSpaceBase.ready()
 					c.stop()
 					noForceUsers = db.space_settings.findOne({key:"contacts_no_force_phone_users"})?.values
 					if noForceUsers and noForceUsers.length
@@ -43,7 +43,7 @@ if Meteor.isClient
 
 			# 未验证手机号时，强行跳转到手机号绑定界面
 			FlowRouter.triggers.enter [()->
-				if Steedos.subsBootstrap.ready()
+				if Steedos.subsBootstrap.ready() and Steedos.subsSpaceBase.ready()
 					routerPath = FlowRouter.current()?.path
 					# 当前路由本身就在手机验证路由中则不需要强行跳转到手机号绑定界面
 					if /^\/accounts\/setup\/phone\b/.test routerPath
@@ -54,14 +54,13 @@ if Meteor.isClient
 					unless Accounts.isPhoneVerified()
 						setupUrl = "/accounts/setup/phone"
 						if Steedos.isForceBindPhone
-							AccountsTemplates.avoidRedirect = true
 							FlowRouter.go setupUrl
 			]
 
 			Meteor.autorun (c)->
 				# 没有验证手机时，提醒手机号未绑定
 				# 因为有c.stop()所以每次刷新或进入系统只会提示一次
-				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
+				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready() and Steedos.subsSpaceBase.ready()
 					c.stop()
 					routerPath = FlowRouter.current()?.path
 					# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
