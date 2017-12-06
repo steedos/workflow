@@ -45,7 +45,7 @@ Template.admin_flows.events
 		_id = event.currentTarget.dataset.id
 
 		if _id
-			_editFlow(template, _id, 'print_template, instance_template')
+			_editFlow(template, _id, 'instance_template, print_template')
 
 	'click #editFlow_events': (event, template)->
 		_id = event.currentTarget.dataset.id

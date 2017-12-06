@@ -511,7 +511,7 @@
 
 	"instance_main_attachment": "正文",
 
-	"flows_field_map": "字段关系",
+	"flows_field_map": "归档关系",
 
 	"Instance State readed": "已阅",
 	"instance_distribute_title": "分发",
@@ -651,5 +651,8 @@
 	"flows_state": "状态",
 	"flows_current_modified": "修改时间",
 	"flows_modified_by_name()": "修改者",
-	"flows_category_name()": "流程分类"
+	"flows_category_name()": "流程分类",
+	"flow_list_title_set_template": "设置模版",
+	"flow_list_title_set_script": "设置脚本",
+	"flow_list_title_set_fieldsMap": "设置归档关系"
 }
