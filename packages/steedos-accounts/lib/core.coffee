@@ -54,6 +54,7 @@ if Meteor.isClient
 					unless Accounts.isPhoneVerified()
 						setupUrl = "/accounts/setup/phone"
 						if Steedos.isForceBindPhone
+							AccountsTemplates.avoidRedirect = true
 							FlowRouter.go setupUrl
 			]
 
