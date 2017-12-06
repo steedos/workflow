@@ -631,5 +631,6 @@
 	"workflow_disabled": "Disabled",
 	"flows_state": "State",
 	"flows_current_modified": "Modified",
-	"flows_modified_by_name()": "Editor"
+	"flows_modified_by_name()": "Editor",
+	"flows_category_name()": "Categories"
 }

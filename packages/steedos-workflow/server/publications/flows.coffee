@@ -125,5 +125,29 @@ Meteor.publishComposite 'flows_tabular', (tableName, ids, fields)->
 					space: 1
 					user: 1
 					name: 1
+		},
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.forms.find {
+					space: flow.space,
+					_id: flow.form
+				}, fields:
+					space: 1
+					_id: 1
+					name: 1,
+					category: 1
+		},
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.categories.find {
+					space: flow.space
+				}, fields:
+					space: 1
+					_id: 1
+					name: 1
 		}
 	]

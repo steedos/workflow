@@ -650,5 +650,6 @@
 	"workflow_disabled": "停用",
 	"flows_state": "状态",
 	"flows_current_modified": "修改时间",
-	"flows_modified_by_name()": "修改者"
+	"flows_modified_by_name()": "修改者",
+	"flows_category_name()": "流程分类"
 }

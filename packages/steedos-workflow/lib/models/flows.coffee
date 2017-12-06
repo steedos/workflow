@@ -245,6 +245,13 @@ db.flows.helpers
 		spaceUser = db.space_users.findOne({user: this.current?.modified_by}, {fields: {name: 1}});
 		return spaceUser?.name;
 
+	category_name: ()->
+		form = db.forms.findOne({_id: this.form, space: this.space});
+
+		if form && form.category
+			category = db.categories.findOne({_id: form.category})
+			return category?.name
+
 new Tabular.Table
 	name: "Flows",
 	collection: db.flows,
@@ -252,6 +259,11 @@ new Tabular.Table
 	columns: [
 		{
 			data: "name",
+			orderable: false
+		},
+		{
+			data: "category_name()",
+			width: "150px",
 			orderable: false
 		},
 		{
