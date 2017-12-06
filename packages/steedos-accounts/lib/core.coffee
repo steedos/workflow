@@ -43,17 +43,18 @@ if Meteor.isClient
 
 			# 未验证手机号时，强行跳转到手机号绑定界面
 			FlowRouter.triggers.enter [()->
-				routerPath = FlowRouter.current()?.path
-				# 当前路由本身就在手机验证路由中则不需要强行跳转到手机号绑定界面
-				if /^\/accounts\/setup\/phone\b/.test routerPath
-					return
-				# 登录相关路由不需要强行跳转到手机号绑定界面
-				if /^\/steedos\//.test routerPath
-					return
-				unless Accounts.isPhoneVerified()
-					setupUrl = "/accounts/setup/phone"
-					if Steedos.isForceBindPhone
-						FlowRouter.go setupUrl
+				if Steedos.subsBootstrap.ready()
+					routerPath = FlowRouter.current()?.path
+					# 当前路由本身就在手机验证路由中则不需要强行跳转到手机号绑定界面
+					if /^\/accounts\/setup\/phone\b/.test routerPath
+						return
+					# 登录相关路由不需要强行跳转到手机号绑定界面
+					if /^\/steedos\//.test routerPath
+						return
+					unless Accounts.isPhoneVerified()
+						setupUrl = "/accounts/setup/phone"
+						if Steedos.isForceBindPhone
+							FlowRouter.go setupUrl
 			]
 
 			Meteor.autorun (c)->
