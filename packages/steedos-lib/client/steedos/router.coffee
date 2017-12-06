@@ -115,6 +115,16 @@ FlowRouter.route '/admin/space_user_signs',
 		BlazeLayout.render 'adminLayout',
 			main: "space_user_signs"
 
+FlowRouter.route '/admin/webhooks',
+	triggersEnter: [ checkUserSigned ],
+	action: (params, queryParams)->
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+
+		BlazeLayout.render 'adminLayout',
+			main: "webhooks"
+
 FlowRouter.route '/designer', 
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
