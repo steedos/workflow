@@ -350,6 +350,7 @@ new Tabular.Table
 					"""
 		}
 	]
+	order: [[2, "desc"]]
 	dom: "tp"
 	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state"]
 	lengthChange: false
