@@ -105,6 +105,21 @@ Template.admin_flows.events
 				if error
 					toastr.error 'error'
 
+	'click #flow-list-search-btn': (event) ->
+		dataTable = $(".flow-list").DataTable()
+		selector = $("input[name='flow-list-search-key']").val()
+		dataTable.search(
+			selector
+		).draw();
+
+	'keypress #flow-list-search-key': (event, template) ->
+		if event.keyCode == 13
+			dataTable = $(".flow-list").DataTable()
+			selector = $("input[name='flow-list-search-key']").val()
+			dataTable.search(
+				selector
+			).draw();
+
 #	'click input[name="filter_state"]': (event)->
 #
 #		filter = $("." + event.currentTarget.dataset.col)

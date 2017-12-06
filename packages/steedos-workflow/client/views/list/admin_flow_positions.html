@@ -28,9 +28,9 @@
 						</div>
 					</div>
 				</div>
-				{{> tabular table=TabularTables.flow_positions  selector=selector class="table dataTable no-footer" class="table datatable-flow-positions"}}
+				{{> tabular table=TabularTables.flow_positions selector=selector class="table table-hover dataTable no-footer datatable-flow-positions"}}
 
-				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flow_positions"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}
+				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.flow_positions"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent showRemoveButton=true}}
 					{{_ "Edit"}}
 				{{/afModal}}
 

@@ -25,19 +25,12 @@ Template.admin_flow_positions.events
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-copy').click();
 
-	'click #edit': (event) ->
-		dataTable = $(event.target).closest('table').DataTable();
-		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
-		if (rowData)
+	'click .datatable-flow-positions tr': (event) ->
+		dataTable = $(".datatable-flow-positions").DataTable()
+		rowData = dataTable.row(event.currentTarget).data()
+		if rowData
 			Session.set 'cmDoc', rowData
 			$('.btn.record-types-edit').click();
-
-	'click #remove': (event) ->
-		dataTable = $(event.target).closest('table').DataTable();
-		rowData = dataTable.row(event.currentTarget.parentNode.parentNode).data();
-		if (rowData)
-			Session.set 'cmDoc', rowData
-			$('.btn.record-types-remove').click();
 
 	'click #flow-position-search-btn': (event) ->
 		dataTable = $(".datatable-flow-positions").DataTable()

@@ -338,6 +338,7 @@ new Tabular.Table
 					"""
 		}
 	]
+	dom: "tp"
 	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state"]
 	lengthChange: false
 	pageLength: 10
@@ -360,6 +361,7 @@ new Tabular.Table
 				return '<a target="_blank" class="btn btn-xs btn-default" id="exportFlow" href="/api/workflow/export/form?form=' + doc.form + '">' + t("flows_btn_export_title") + '</a>'
 		}
 	]
+	dom: "tp"
 	extraFields: ["form","print_template","instance_template","events","field_map","space", "current"]
 	lengthChange: false
 	pageLength: 10
