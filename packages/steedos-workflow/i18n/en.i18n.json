@@ -632,5 +632,8 @@
 	"flows_state": "State",
 	"flows_current_modified": "Modified",
 	"flows_modified_by_name()": "Editor",
-	"flows_category_name()": "Categories"
+	"flows_category_name()": "Categories",
+	"flow_list_title_set_template": "Set Template",
+	"flow_list_title_set_script": "Set Script",
+	"flow_list_title_set_fieldsMap": "Set Archive relationship"
 }

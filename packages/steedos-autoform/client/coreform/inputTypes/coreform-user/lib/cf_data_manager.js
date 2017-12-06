@@ -7,15 +7,14 @@ CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
 	var orgs,
 		myContactsLimit = Steedos.my_contacts_limit;
 	if (node.id == '#') {
+		selfOrganization = Steedos.selfOrganization();
 		if(isSelf){
-			selfOrganization = Steedos.selfOrganization();
 			if(selfOrganization){
 				orgs = [selfOrganization];
 				orgs[0].open = true;
 			}
 		}
 		else if (myContactsLimit && myContactsLimit.isLimit) {
-			selfOrganization = Steedos.selfOrganization();
 			var query = {space: spaceId, users: Meteor.userId()};
 			if(!Steedos.isSpaceAdmin()){
 				query.hidden = {$ne: true}
@@ -46,7 +45,13 @@ CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
 			}
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
-			orgs[0].open = true;
+			// 当没有限制查看本部门的时候，主部门与根节点相同时只显示主部门而不显示根组织
+			if(selfOrganization && selfOrganization._id == orgs[0]._id){
+				orgs = []
+			}
+			else{
+				orgs[0].open = true;
+			}
 		}
 	}
 	else{
