@@ -226,8 +226,10 @@ if Meteor.isServer
 	
 		modifier.$set = modifier.$set || {};
 
-		modifier.$set.modified_by = userId;
-		modifier.$set.modified = new Date();
+		modifier.$set['current.modified_by'] = userId;
+
+		modifier.$set['current.modified'] = new Date();
+
 		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
 			throw new Meteor.Error(400, "space_paid_info_title");
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
