@@ -152,6 +152,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/manage_business.html', 'client');
 	api.addFiles('client/views/manage_business.coffee', 'client');
 
+	api.addFiles('client/views/space_user_signs.html', 'client');
+	api.addFiles('client/views/space_user_signs.coffee', 'client');
+
 	api.addFiles('client/layout/top_sidebar.html', 'client');
 	api.addFiles('client/layout/top_sidebar.coffee', 'client');
 	api.addFiles('client/layout/top_sidebar.less', 'client');

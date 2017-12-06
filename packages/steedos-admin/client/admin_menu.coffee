@@ -293,7 +293,7 @@ if Meteor.isClient
 		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-pulse"
-		url: "/admin/view/space_user_signs"
+		url: "/admin/space_user_signs"
 		paid: "true"
 		appversion:"workflow_pro"
 		sort: 60
