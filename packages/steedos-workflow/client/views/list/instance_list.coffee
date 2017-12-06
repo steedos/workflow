@@ -418,3 +418,6 @@ Template.instance_list.events
 
 	'click .batch_instances_view > button': ()->
 		Modal.show("batch_instances_modal")
+
+	'click th.flow-filter,.tabular-filter-by-flow': ()->
+		Modal.show('flow_list_modal')

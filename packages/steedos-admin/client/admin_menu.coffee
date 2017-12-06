@@ -323,7 +323,7 @@ if Meteor.isClient
 		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-paperplane-outline"
-		url: "/admin/view/webhooks"
+		url: "/admin/webhooks"
 		paid: "true"
 		appversion:"workflow_pro"
 		sort: 80

@@ -331,6 +331,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/cancel_distribute_modal.html', 'client');
 	api.addFiles('client/views/list/cancel_distribute_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/webhooks.html', 'client');
+	api.addFiles('client/views/list/webhooks.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
