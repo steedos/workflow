@@ -41,8 +41,24 @@ if Meteor.isClient
 					if noForceUsers and noForceUsers.length
 						Steedos.isForceBindPhone = if noForceUsers.indexOf(Meteor.userId()) > -1 then false else true
 
+			# 未验证手机号时，强行跳转到手机号绑定界面
+			FlowRouter.triggers.enter [()->
+				routerPath = FlowRouter.current()?.path
+				# 当前路由本身就在手机验证路由中则不需要强行跳转到手机号绑定界面
+				if /^\/accounts\/setup\/phone\b/.test routerPath
+					return
+				# 登录相关路由不需要强行跳转到手机号绑定界面
+				if /^\/steedos\//.test routerPath
+					return
+				unless Accounts.isPhoneVerified()
+					setupUrl = "/accounts/setup/phone"
+					if Steedos.isForceBindPhone
+						FlowRouter.go setupUrl
+			]
+
 			Meteor.autorun (c)->
 				# 没有验证手机时，提醒手机号未绑定
+				# 因为有c.stop()所以每次刷新或进入系统只会提示一次
 				if Meteor.userId() and !Meteor.loggingIn() and Steedos.subsBootstrap.ready()
 					c.stop()
 					routerPath = FlowRouter.current()?.path
@@ -59,9 +75,7 @@ if Meteor.isClient
 							Accounts.disablePhoneWithoutExpiredDays(expiredDays)
 					else
 						setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
-						if Steedos.isForceBindPhone
-							FlowRouter.go setupUrl
-						else
+						unless Steedos.isForceBindPhone
 							toastr.error(null,t("accounts_phone_toastr_alert"),{
 								closeButton: true,
 								timeOut: 0,
