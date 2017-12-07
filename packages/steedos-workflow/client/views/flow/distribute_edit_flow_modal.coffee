@@ -31,8 +31,6 @@ Template.distribute_edit_flow_modal.helpers
 		}
 
 	schema: ->
-		console.log "111111111"
-		console.log Session.get('spaceId')
 		s = new SimpleSchema({
 			distribute_flows: {
 				type: [String],
@@ -56,10 +54,12 @@ Template.distribute_edit_flow_modal.events
 	'click #distribute_edit_flow_modal_ok': (event, template)->
 		selected_values = $("#distribute_edit_flow_select_users")[0].dataset.values
 		selected_users_id = if selected_values then selected_values.split(",") else []
-
+		debugger;
 		flow_id = template.data.flow._id
 		allow_distribute_steps = _.where template.data.flow.current.steps, {allowDistribute: true}
 		step_flows = new Array
+
+		console.log("allow_distribute_steps", allow_distribute_steps)
 
 		_.each allow_distribute_steps, (s)->
 			step_flows.push({_id: s._id, distribute_optional_flows: AutoForm.getFieldValue("distribute_flows", s._id)})

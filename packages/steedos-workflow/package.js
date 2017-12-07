@@ -269,6 +269,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.html', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.coffee', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.less', 'client');
+
 	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
 
@@ -353,6 +357,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_batch.coffee', 'server');
 	api.addFiles('server/methods/flow_copy.coffee', 'server');
 	api.addFiles('server/methods/flow.coffee', 'server');
+	api.addFiles('server/methods/distribute.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
