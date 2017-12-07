@@ -23,14 +23,11 @@ if Meteor.isClient
 				reason: reason
 
 	# qhd首页定制
-	Steedos.goHome = ()->
-		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+	Steedos.getHomeUrl = ()->
+		if Steedos.isMobile()
+			return "/springboard"
 		else
-			if (Steedos.isMobile())
-				FlowRouter.go "/springboard"
-			else
-				FlowRouter.go "/dashboard"
+			return "/dashboard"
 
 	Template.atTitle.onRendered ->
 		this.autorun ->

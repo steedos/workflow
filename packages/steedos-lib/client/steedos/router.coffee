@@ -32,7 +32,11 @@ FlowRouter.triggers.enter [
 
 FlowRouter.route '/', 
 	action: (params, queryParams)->
-		Steedos.goHome()
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+		else
+			homeUrl = Steedos.getHomeUrl()
+			FlowRouter.go homeUrl
 
 
 # FlowRouter.route '/steedos', 

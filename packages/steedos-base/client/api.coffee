@@ -37,6 +37,9 @@ _.extend Steedos,
 				$(".sidebar").perfectScrollbar()
 				$(".sidebar-menu").css("width", "100%");
 
+	getHomeUrl: ()->
+		return "/workflow"
+
 	goHome: ()->
 		if !Meteor.userId()
 			FlowRouter.go "/steedos/sign-in";
