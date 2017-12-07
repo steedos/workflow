@@ -338,12 +338,13 @@ new Tabular.Table
 							  <ul class="dropdown-menu dropdown-menu-right" role="menu">
 								<li><a href="#" id="editFlow" data-id="#{doc._id}">#{t("Edit")}</a></li>
 								<li class="divider"></li>
+								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
+								<li><a href="#" id="copyFlow" data-id="#{doc._id}">#{t("workflow_copy_flow")}</a></li>
+								<li class="divider"></li>
 								<li><a href="#" id="editFlow_template" data-id="#{doc._id}">#{t('flow_list_title_set_template')}</a></li>
 								<li><a href="#" id="editFlow_events" data-id="#{doc._id}">#{t('flow_list_title_set_script')}</a></li>
 								<li><a href="#" id="editFlow_fieldsMap" data-id="#{doc._id}">#{t('flow_list_title_set_fieldsMap')}</a></li>
-								<li class="divider"></li>
-								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
-								<li><a href="#" id="copyFlow" data-id="#{doc._id}">#{t("workflow_copy_flow")}</a></li>
+								<li><a href="#" id="editFlow_distribute" data-id="#{doc._id}">#{t('flow_list_title_set_distribute')}</a></li>
 							  </ul>
 							</div>
 						</div>
@@ -352,7 +353,7 @@ new Tabular.Table
 	]
 	order: [[2, "desc"]]
 	dom: "tp"
-	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state"]
+	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state", "distribute_optional_users"]
 	lengthChange: false
 	pageLength: 10
 	info: false
