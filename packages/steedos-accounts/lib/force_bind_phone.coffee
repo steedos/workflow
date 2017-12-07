@@ -5,7 +5,7 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 				noForceUsers = db.space_settings.findOne({key:"contacts_no_force_phone_users",space: spaceId})?.values
 				if noForceUsers and noForceUsers.length
 					return if noForceUsers.indexOf(Meteor.userId()) > -1 then false else true
-				return false
+				return true
 
 	if Meteor.isClient
 		Steedos.isForceBindPhone = false

@@ -18,10 +18,10 @@ Template.accounts_phone.helpers
 		else
 			return Accounts.isPhoneVerified() || Steedos.isMobile() || !Meteor.userId()
 	isCloseButtonNeeded: ->
-		if !Accounts.isPhoneVerified()
-			return false
-		else
+		if window.name == "setup_phone"
 			return true
+		else
+			return false
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
 		
