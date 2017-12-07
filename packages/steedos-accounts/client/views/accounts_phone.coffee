@@ -14,11 +14,11 @@ Template.accounts_phone.helpers
 	isBackButtonNeeded: ->
 		isSetupPassword = /\/setup\/password\b/.test(FlowRouter.current().path)
 		if isSetupPassword
-			return false
+			return Steedos.isMobile()
 		else
-			return Accounts.isPhoneVerified() || !Steedos.isForceBindPhone || Steedos.isAndroidOrIOS() || !Meteor.userId()
+			return Accounts.isPhoneVerified() || Steedos.isMobile() || !Meteor.userId()
 	isCloseButtonNeeded: ->
-		if !Accounts.isPhoneVerified() && Steedos.isForceBindPhone
+		if !Accounts.isPhoneVerified()
 			return false
 		else
 			return true
