@@ -39,28 +39,3 @@ _.extend Steedos,
 
 	getHomeUrl: ()->
 		return "/workflow"
-
-	goHome: ()->
-		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
-		else
-			if Steedos.isMobile()
-				FlowRouter.go "/workflow"
-			else
-				Tracker.autorun (c)->
-					if Steedos.subsBootstrap.ready() and Steedos.subsSpaceBase.ready()
-						c.stop()
-						forceAccountBindPhone = Meteor.settings?.public?.phone?.forceAccountBindPhone
-						if forceAccountBindPhone and Steedos.isForceBindPhone and !Accounts.isPhoneVerified()
-							# 未验证手机号时，强行跳转到手机号绑定界面
-							setupUrl = "/accounts/setup/phone"
-							FlowRouter.go setupUrl
-						else
-							firstApp = Steedos.getSpaceFirstApp()
-							currentPath = FlowRouter.current().path
-							if currentPath == "/"
-								Steedos.openApp firstApp._id
-					else if !Meteor.loggingIn()
-						# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
-						BlazeLayout.render 'steedosLoading'
-						$("body").addClass('loading')
