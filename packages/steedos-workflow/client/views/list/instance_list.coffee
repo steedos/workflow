@@ -350,17 +350,20 @@ Template.instance_list.events
 			return;
 		InstanceManager.exportIns(event.target.type);
 
-	'keyup #instance_search': (event) ->
-		if arguments.callee.timer
-			clearTimeout arguments.callee.timer
+	'click #instance_search_button': (event) ->
+		dataTable = $(".datatable-instances").DataTable();
+		dataTable.search(
+			$('#instance_search').val(),
+		).draw();
+		Session.set('instance_search_val', $('#instance_search').val())
 
-		arguments.callee.timer = setTimeout ()->
+	'keypress #instance_search': (event, template) ->
+		if event.keyCode == 13
 			dataTable = $(".datatable-instances").DataTable();
 			dataTable.search(
 				$('#instance_search').val(),
 			).draw();
 			Session.set('instance_search_val', $('#instance_search').val())
-		, 800
 
 	'click [name="show_all_ins"]': (event) ->
 		Session.set("flowId", undefined);
@@ -390,7 +393,8 @@ Template.instance_list.events
 		Session.set("submit-date-end", undefined);
 		Session.set("workflowCategory", undefined);
 		#清空搜索框
-		$('#instance_search').val("").trigger('keyup')
+		$('#instance_search').val('')
+		$('#instance_search_button').click()
 
 	'click #sidebarOffcanvas': ()->
 		if !Steedos.isMobile() && !Steedos.isPad()
