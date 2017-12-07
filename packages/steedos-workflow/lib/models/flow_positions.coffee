@@ -169,16 +169,30 @@ Meteor.startup ()->
 		pub: "flow_positions_tabular",
 		columns: [
 			{
-				data: "role_name()",
+				data: "role",
 				width: "20%"
+				render: (val, type, doc) ->
+					role = db.flow_roles.findOne({_id: doc.role}, {fields: {name: 1}});
+					return role && role.name;
 			},
 			{
-				data: "users_name()"
+				data: "users"
 				width: "auto"
+				render: (val, type, doc) ->
+					if (!doc.users instanceof Array)
+						return ""
+					users = db.space_users.find({space: doc.space, user: {$in: doc.users}}, {fields: {name:1}});
+					names = []
+					users.forEach (user) ->
+						names.push(user.name)
+					return names.toString();
 			},
 			{
-				data: "org_name()",
+				data: "org",
 				width: "20%"
+				render: (val, type, doc) ->
+					org = db.organizations.findOne({_id: doc.org}, {fields: {fullname: 1}});
+					return org && org.fullname;
 			}
 		]
 		dom: "tp"
