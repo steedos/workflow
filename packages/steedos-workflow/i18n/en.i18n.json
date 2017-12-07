@@ -635,5 +635,9 @@
 	"flows_category_name()": "Categories",
 	"flow_list_title_set_template": "Set Template",
 	"flow_list_title_set_script": "Set Script",
-	"flow_list_title_set_fieldsMap": "Set Archive relationship"
+	"flow_list_title_set_fieldsMap": "Set Archive relationship",
+	"distribute_edit_flow_select_users": "users options",
+	"distribute_edit_flow_select_flows": "flows options",
+	"flow_list_title_set_distribute": "Set Distribute",
+	"distribute_to_self": "can distribute to self"
 }

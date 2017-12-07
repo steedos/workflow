@@ -654,5 +654,9 @@
 	"flows_category_name()": "流程分类",
 	"flow_list_title_set_template": "设置模版",
 	"flow_list_title_set_script": "设置脚本",
-	"flow_list_title_set_fieldsMap": "设置归档关系"
+	"flow_list_title_set_fieldsMap": "设置归档关系",
+	"distribute_edit_flow_select_users": "流程被分发时分发对象选择范围",
+	"distribute_edit_flow_select_flows": "搜索此步骤可分发流程",
+	"flow_list_title_set_distribute": "设置分发",
+	"distribute_to_self": "分发时可分发给自己"
 }

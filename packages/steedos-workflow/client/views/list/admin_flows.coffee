@@ -58,6 +58,10 @@ Template.admin_flows.events
 		if _id
 			_editFlow(template, _id, 'field_map')
 
+	'click #editFlow_distribute': (event, template)->
+		_id = event.currentTarget.dataset.id
+		Modal.show("distribute_edit_flow_modal", {flow: db.flows.findOne(_id)})
+
 	'click #importFlow': (event)->
 		Modal.show("admin_import_flow_modal");
 
