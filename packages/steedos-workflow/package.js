@@ -273,15 +273,18 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/flow/distribute_edit_flow_modal.coffee', 'client');
 	api.addFiles('client/views/flow/distribute_edit_flow_modal.less', 'client');
 
+	api.addFiles('client/views/flow/admin_flows.less', 'client');
+	api.addFiles('client/views/flow/admin_flows.html', 'client');
+	api.addFiles('client/views/flow/admin_flows.coffee', 'client');
+
+	api.addFiles('client/views/flow/admin_categories.html', 'client');
+	api.addFiles('client/views/flow/admin_categories.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
 
-	api.addFiles('client/views/list/admin_flows.less', 'client');
 	api.addFiles('client/views/list/admin_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_flow_modal.coffee', 'client');
-
-	api.addFiles('client/views/list/admin_flows.html', 'client');
-	api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
 	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
 	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
@@ -297,9 +300,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.html', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
-
-	api.addFiles('client/views/list/admin_categories.html', 'client');
-	api.addFiles('client/views/list/admin_categories.coffee', 'client');
 
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
