@@ -49,6 +49,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/URI.js');
 	api.addFiles('lib/core.coffee');
+	api.addFiles('lib/force_bind_phone.coffee');
 	api.addFiles('lib/accounts.coffee');
 
 	api.addFiles('routes/setup.coffee', 'server');
