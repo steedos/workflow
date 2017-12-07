@@ -31,6 +31,8 @@ Template.distribute_edit_flow_modal.helpers
 		}
 
 	schema: ->
+		console.log "111111111"
+		console.log Session.get('spaceId')
 		s = new SimpleSchema({
 			distribute_flows: {
 				type: [String],
@@ -39,7 +41,8 @@ Template.distribute_edit_flow_modal.helpers
 					type: "universe-select",
 					afFieldInput: {
 						multiple: true,
-						optionsMethod: "get_distribute_flows"
+						optionsMethod: "get_distribute_flows",
+						optionsMethodParams: JSON.stringify({spaceId: Session.get('spaceId')})
 					}
 				}
 			}

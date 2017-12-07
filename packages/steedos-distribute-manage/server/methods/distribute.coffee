@@ -4,6 +4,7 @@ Meteor.methods
 		uid = this.userId
 		searchText = options.searchText
 		values = options.values
+		spaceId = JSON.parse(options.params).spaceId
 
 		# Meteor.wrapAsync((callback) ->
 		# 	Meteor.setTimeout (->
@@ -20,7 +21,7 @@ Meteor.methods
 		if searchText
 			pinyin = /^[a-zA-Z\']*$/.test(searchText)
 			if (pinyin && searchText.length > 8) || (!pinyin && searchText.length > 1)
-				query = {state: 'enabled', name: {$regex: searchText}}
+				query = {space: spaceId, state: 'enabled', name: {$regex: searchText}}
 				flows = db.flows.find(query, {limit: 10, fields: {name: 1, space: 1}}).fetch()
 		else if values.length
 			flows = db.flows.find({_id: {$in: values}}, {fields: {name: 1, space: 1}}).fetch()

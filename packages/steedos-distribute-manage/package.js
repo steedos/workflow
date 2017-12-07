@@ -1,5 +1,5 @@
 Package.describe({
-	name: 'steedos:distribute-qhd',
+	name: 'steedos:distribute-manage',
 	version: '0.0.1',
 	summary: 'Steedos libraries',
 	git: ''
