@@ -70,6 +70,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_books.coffee', 'server');
 	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
 	api.addFiles('server/publications/contacts_view_limits.coffee', 'server');
+	api.addFiles('server/publications/contacts_no_force_phone_users.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
