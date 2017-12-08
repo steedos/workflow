@@ -12,7 +12,7 @@ Template.steedosHeaderAccount.helpers
 		return Steedos.absoluteUrl("avatar/#{Meteor.userId()}?w=#{w}&h=#{h}&fs=#{fs}&avatar=#{avatar}");
 
 	signOutUrl: ()->
-		return "/steedos/logout"
+		return Steedos.absoluteUrl("/steedos/logout")
 
 	isAppsLimited: ()->
 		return !!Session.get("apps")
