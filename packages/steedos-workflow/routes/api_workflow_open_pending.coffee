@@ -8,6 +8,9 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 
 		user_id = req.userId
 
+		if !user_id
+			throw new Meteor.Error('error', 'Not logged in')
+
 		user = db.users.findOne({_id: user_id})
 
 		state = req.params.state
@@ -31,15 +34,6 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 					space: space_id,
 					$or:[{inbox_users: user_id}, {cc_users: user_id}]
 				},{sort:{modified:-1}, limit: limit}).fetch()
-			else
-				# 校验当前登录用户是否是space的管理员
-				uuflowManager.isSpaceAdmin(space_id,user_id)
-				find_instances = db.instances.find({
-					space: space_id,
-					$or:[
-						{inbox_users: Meteor.userId()}, {cc_users: Meteor.userId()}
-					]
-				}, {limit: limit}).fetch()
 			_.each find_instances, (i)->
 				flow = db.flows.findOne(i["flow"], {fields: {name: 1}})
 				space = db.spaces.findOne(i["space"], {fields: {name: 1}})
