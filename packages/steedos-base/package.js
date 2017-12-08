@@ -180,23 +180,8 @@ Package.onUse(function(api) {
 		'client/layout/main.coffee',
 		'client/layout/layout.html',
 		'client/layout/layout.less',
-		'client/layout/header_logo.html',
-		'client/layout/header_logo.coffee',
-		'client/layout/header_account.html',
-		'client/layout/header_account.coffee',
-		'client/layout/header_space.html',
-		'client/layout/header_space.coffee',
-		'client/layout/header_refresh.html',
-		'client/layout/header_refresh.coffee',
-		'client/layout/header_loading.html',
-		'client/layout/header.html',
-		'client/layout/header.coffee',
-		'client/layout/header.less',
 		'client/layout/content_wrapper_shadow.html',
 		'client/layout/sidebar.html',
-		'client/layout/steedosheader-account.html',
-		'client/layout/steedosheader-account.coffee',
-		'client/layout/steedosheader-account.less',
 		'client/views/app_list_box_modal.html',
 		'client/views/app_list_box_modal.coffee',
 		'client/views/app_list_box_modal.less',
@@ -216,6 +201,28 @@ Package.onUse(function(api) {
 		'client/my_contacts_limit.coffee'
 	], "client");
 
+	api.addFiles([
+		'client/layout/header/header_logo.html',
+		'client/layout/header/header_logo.coffee',
+		'client/layout/header/header_account.html',
+		'client/layout/header/header_account.coffee',
+		'client/layout/header/header_space.html',
+		'client/layout/header/header_space.coffee',
+		'client/layout/header/header_refresh.html',
+		'client/layout/header/header_refresh.coffee',
+		'client/layout/header/header_loading.html',
+		'client/layout/header/header.html',
+		'client/layout/header/header.coffee',
+		'client/layout/header/header.less',
+		'client/layout/header/steedosheader-account.html',
+		'client/layout/header/steedosheader-account.coffee',
+		'client/layout/header/steedosheader-account.less',
+		'client/layout/header/header_workflow_badge.html',
+		'client/layout/header/header_workflow_badge.coffee',
+		'client/layout/header/header_cms_badge.html',
+		'client/layout/header/header_cms_badge.coffee',
+	], "client");
+
 	api.addFiles('client/lib/jquery-touch-events/jquery.mobile-events.js', 'client');
 
 	api.addFiles('client/momentjs/zh-cn.js', 'client');
@@ -230,12 +237,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/404.less', 'client');
 	api.addFiles('client/steedos/views/404.html', 'client');
 	api.addFiles('client/steedos/views/404.coffee', 'client');
-
-	api.addFiles('client/steedos/views/layouts/header_workflow_badge.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header_workflow_badge.coffee', 'client');
-
-	api.addFiles('client/steedos/views/layouts/header_cms_badge.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header_cms_badge.coffee', 'client');
 
 	api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
 	api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
