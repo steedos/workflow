@@ -30,14 +30,6 @@ FlowRouter.triggers.enter [
 					localStorage.setItem('Steedos.lastURL:' + Meteor.userId(), lastUrl)
 ]
 
-FlowRouter.route '/', 
-	action: (params, queryParams)->
-		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
-		else
-			homeUrl = Steedos.getHomeUrl()
-			FlowRouter.go homeUrl
-
 
 # FlowRouter.route '/steedos', 
 #   action: (params, queryParams)->

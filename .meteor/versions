@@ -189,6 +189,7 @@ steedos:fullcalendar@3.4.0_1
 steedos:i18n@0.0.11
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
+steedos:lib@0.0.3
 steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
@@ -205,7 +206,7 @@ steedos:ui@0.0.1
 steedos:useraccounts-bootstrap@1.14.2_3
 steedos:useraccounts-core@1.14.2_3
 steedos:useraccounts-flow-routing@1.14.2
-steedos:version@1.0.4
+steedos:version@1.0.5
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
