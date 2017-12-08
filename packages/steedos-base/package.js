@@ -231,18 +231,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/404.html', 'client');
 	api.addFiles('client/steedos/views/404.coffee', 'client');
 
-	api.addFiles('client/steedos/views/layouts/header_logo.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header_logo.coffee', 'client');
-
 	api.addFiles('client/steedos/views/layouts/header_workflow_badge.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_workflow_badge.coffee', 'client');
 
 	api.addFiles('client/steedos/views/layouts/header_cms_badge.html', 'client');
 	api.addFiles('client/steedos/views/layouts/header_cms_badge.coffee', 'client');
-
-	api.addFiles('client/steedos/views/layouts/header.html', 'client');
-	api.addFiles('client/steedos/views/layouts/header.coffee', 'client');
-	api.addFiles('client/steedos/views/layouts/header.less', 'client');
 
 	api.addFiles('client/steedos/views/layouts/sidebar.html', 'client');
 	api.addFiles('client/steedos/views/layouts/sidebar.coffee', 'client');
