@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.62',
+	version: '0.0.63',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -42,7 +42,7 @@ Package.onUse(function(api) {
 	api.use('cfs:s3@0.1.3');
 
 
-	api.use('steedos:version');
+	api.use('steedos:version@1.0.5');
 
 	api.use(['webapp'], 'server');
 
