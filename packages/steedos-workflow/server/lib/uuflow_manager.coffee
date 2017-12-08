@@ -884,7 +884,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.inbox_users = []
 				setObj.finish_date = new Date
 
-				setObj.state = instance.state
 				if instance.cc_users
 					setObj.cc_users = instance.cc_users
 
