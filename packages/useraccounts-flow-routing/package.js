@@ -9,7 +9,7 @@
 Package.describe({
   name: 'steedos:useraccounts-flow-routing',
   summary: 'UserAccounts package providing routes configuration capability via kadira:flow-router.',
-  version: '1.14.2',
+  version: '1.14.2_4',
   git: 'https://github.com/meteor-useraccounts/flow-routing.git',
 });
 

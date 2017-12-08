@@ -1,6 +1,6 @@
 Package.describe({
   summary: 'Accounts Templates styled for Twitter Bootstrap.',
-  version: '1.14.2_3',
+  version: '1.14.2_4',
   name: 'steedos:useraccounts-bootstrap',
   git: 'https://github.com/meteor-useraccounts/bootstrap.git',
 });

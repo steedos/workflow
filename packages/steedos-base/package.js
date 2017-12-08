@@ -28,7 +28,7 @@ Package.onUse(function(api) {
 	api.use('ddp');
 	api.use('check');
 	api.use('ddp-rate-limiter@1.0.5');
-	api.use('steedos:useraccounts-bootstrap@1.14.2');
+	api.use('steedos:useraccounts-bootstrap@1.14.2_4');
 	api.use('tracker');
 	api.use('reywood:publish-composite@1.4.2');
 	api.use('cfs:filesystem@0.1.2');
