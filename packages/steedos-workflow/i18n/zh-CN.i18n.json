@@ -660,5 +660,7 @@
 	"distribute_edit_flow_select_users": "流程被分发时分发对象选择范围",
 	"distribute_edit_flow_select_flows": "搜索此步骤可分发流程",
 	"flow_list_title_set_distribute": "设置分发",
-	"distribute_to_self": "分发时可分发给自己"
+	"distribute_to_self": "分发时可分发给自己",
+
+	"instance_deleted": "已删除"
 }

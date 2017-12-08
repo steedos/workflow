@@ -641,5 +641,7 @@
 	"distribute_edit_flow_select_users": "users options",
 	"distribute_edit_flow_select_flows": "flows options",
 	"flow_list_title_set_distribute": "Set Distribute",
-	"distribute_to_self": "can distribute to self"
+	"distribute_to_self": "can distribute to self",
+
+	"instance_deleted": "Deleted"
 }

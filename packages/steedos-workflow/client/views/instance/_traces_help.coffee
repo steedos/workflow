@@ -128,6 +128,8 @@ TracesTemplate.helpers =
 			return true
 		false
 	showForwardDeleteButton: (approve) ->
+		if db.instances.find(approve.forward_instance).count() is 0
+			return false
 		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
 			return true
 		false
@@ -142,6 +144,8 @@ TracesTemplate.helpers =
 			return true
 		false
 	showDistributeDeleteButton: (approve) ->
+		if db.instances.find(approve.forward_instance).count() is 0
+			return false
 		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
 			return true
 		false
@@ -192,16 +196,16 @@ TracesTemplate.helpers =
 		return !InstanceformTemplate.helpers.includesOpinionField(form, form_version)
 
 	getInstanceStateText: (instance_id)->
-		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
-		if not ins 
-			return ''
-
 		if Meteor.isServer
 			locale = Template.instance().view.template.steedosData.locale
 			if locale.toLocaleLowerCase() == 'zh-cn'
 				locale = "zh-CN"
 		else
 			locale = Session.get("TAPi18n::loaded_lang")
+
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
+		if not ins 
+			return TAPi18n.__('instance_deleted', {}, locale)
 
 		text = ''
 		if ins.state is 'completed'
@@ -242,6 +246,9 @@ TracesTemplate.helpers =
 
 	judgeTerminated: (judge)->
 		return judge is 'terminated'
+
+	instanceExists: (instance_id)->
+		return !!db.instances.find(instance_id).count()
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->

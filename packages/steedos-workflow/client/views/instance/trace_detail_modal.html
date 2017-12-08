@@ -137,6 +137,7 @@
 					{{/unless}}
 					{{#if isForward this}}
 						{{#unless judgeTerminated this.judge}}
+							{{#if instanceExists this.forward_instance}}
 							<div class="weui-cell">
 								<div class="weui-cell__hd">
 									<span class="weui-label"></span>
@@ -147,10 +148,12 @@
 									</span>
 								</div>
 							</div>
+							{{/if}}
 						{{/unless}}
 					{{/if}}
 					{{#if isDistribute this}}
 						{{#unless judgeTerminated this.judge}}
+							{{#if instanceExists this.forward_instance}}
 							<div class="weui-cell">
 								<div class="weui-cell__hd">
 									<span class="weui-label"></span>
@@ -161,6 +164,7 @@
 									</span>
 								</div>
 							</div>
+							{{/if}}
 						{{/unless}}
 					{{/if}}
 				</div>
