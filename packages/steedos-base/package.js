@@ -182,6 +182,8 @@ Package.onUse(function(api) {
 		'client/layout/layout.less',
 		'client/layout/header_logo.html',
 		'client/layout/header_logo.coffee',
+		'client/layout/header_account.html',
+		'client/layout/header_account.coffee',
 		'client/layout/header_space.html',
 		'client/layout/header_space.coffee',
 		'client/layout/header_refresh.html',
