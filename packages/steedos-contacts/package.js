@@ -28,7 +28,7 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:api');
 	api.use('steedos:ui');
 	api.use('flemay:less-autoprefixer@1.2.0');

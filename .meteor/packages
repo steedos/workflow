@@ -98,7 +98,6 @@ steedos:connect-bqq
 steedos:connect-dingtalk
 # steedos:connect-qiyeweixin
 steedos:version
-steedos:lib
 steedos:workflow
 steedos:api
 steedos:cms

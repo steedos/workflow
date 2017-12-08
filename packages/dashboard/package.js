@@ -48,7 +48,7 @@ Package.onUse(function(api) {
 	api.use('meteorhacks:subs-manager');
 
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:admin');
 
 	//api.add_files("package-tap.i18n", ["client", "server"]);

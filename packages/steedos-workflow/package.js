@@ -31,7 +31,6 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
 	api.use('steedos:api');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
@@ -61,7 +60,6 @@ Package.onUse(function(api) {
 
 	api.use('steedos:autoform')
 	api.use('steedos:base');
-	api.use('steedos:lib');
 	api.use('steedos:admin');
 
 	api.use('steedos:mailqueue');
