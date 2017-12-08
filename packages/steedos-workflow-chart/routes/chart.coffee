@@ -43,11 +43,11 @@ FlowversionAPI =
 	getStepName: (stepName, stepHandlerName)->
 		# 返回step节点名称
 		if stepName
-			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
 			stepName = "<div class='graph-node'>
 				<div class='step-name'>#{stepName}</div>
 				<div class='step-handler-name'>#{stepHandlerName}</div>
 			</div>"
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
 			stepName = FlowversionAPI.replaceErrorSymbol(stepName)
 		else
 			stepName = ""
@@ -72,8 +72,6 @@ FlowversionAPI =
 						# 标记条件节点
 						if step.step_type == "condition"
 							nodes.push "	class #{step._id} condition;"
-						# # 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						# stepName = "<div class='graph-node'><div class='step-name'>#{step.name}</div></div>"
 						stepHandlerName = FlowversionAPI.getStepHandlerName(step)
 						stepName = FlowversionAPI.getStepName(step.name, stepHandlerName)
 					else
