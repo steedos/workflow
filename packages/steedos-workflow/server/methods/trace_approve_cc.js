@@ -207,12 +207,19 @@ Meteor.methods({
                 }
             });
 
+			instance = db.instances.findOne(ins_id);
+
+			current_user_info = db.users.findOne(current_user_id);
+
+            if(description && current_approve && current_approve.from_user){
+				pushManager.send_instance_notification("trace_approve_cc_submit", instance, "", current_user_info, [current_approve.from_user]);
+			}
+
             pushManager.send_message_to_specifyUser("current_user", current_user_id);
 
-            instance = db.instances.findOne(ins_id);
             flow_id = instance.flow;
             // 如果已经配置webhook并已激活则触发
-            pushManager.triggerWebhook(flow_id, instance, current_approve)
+            pushManager.triggerWebhook(flow_id, instance, current_approve);
         }
 
         return true;

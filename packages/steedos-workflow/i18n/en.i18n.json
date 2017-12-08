@@ -281,7 +281,8 @@
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "input",
@@ -304,7 +305,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
-				"remind": "Remind：__instance_name__, Deadline：__deadline__"
+				"remind": "Remind：__instance_name__, Deadline：__deadline__",
+				"trace_approve_cc_submit": "I have submitted a cc __instance_name__"
 			}
 		},
 		"email": {

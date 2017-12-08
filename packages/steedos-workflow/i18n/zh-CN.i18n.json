@@ -283,7 +283,8 @@
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "确认",
@@ -306,7 +307,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "__instance_name__",
 				"trace_approve_cc": "__instance_name__",
-				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
+				"remind": "催办通知：__instance_name__，办结时限：__deadline__。",
+				"trace_approve_cc_submit": "我已提交了传阅的申请单__instance_name__"
 			}
 		},
 		"email": {
