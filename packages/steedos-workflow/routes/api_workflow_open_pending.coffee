@@ -1,3 +1,56 @@
+###
+@api {get} /api/workflow/open/pending 取用户的待办事项列表
+
+@apiName 查看待办文件
+
+@apiGroup Workflow
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+    {
+		"X-Space-Id": "wsw1re12TdeP223sC"
+	}
+
+@apiSuccessExample {json} Success-Response:
+    {
+		"status": "success",
+		"data": [
+			{
+				"id": "g7wokXNkR9yxHvA4D",
+				"start_date": "2017-11-23T02:28:53.164Z",
+				"flow_name": "正文流程",
+				"space_name": "审批王",
+				"name": "正文流程 1",
+				"applicant_name": null,
+				"applicant_organization_name": "审批王",
+				"submit_date": "2017-07-25T06:36:48.492Z",
+				"step_name": "开始",
+				"space_id": "kfDsMv7gBewmGXGEL",
+				"modified": "2017-11-23T02:28:53.164Z",
+				"is_read": false,
+				"values": {}
+			},
+			{
+				"id": "WqKSrWQoywgJaMp9k",
+				"start_date": "2017-08-17T07:38:35.420Z",
+				"flow_name": "正文\n",
+				"space_name": "审批王",
+				"name": "正文\n 1",
+				"applicant_name": "殷亮辉",
+				"applicant_organization_name": "审批王",
+				"submit_date": "2017-06-27T10:26:19.468Z",
+				"step_name": "开始",
+				"space_id": "kfDsMv7gBewmGXGEL",
+				"modified": "2017-08-17T07:38:35.421Z",
+				"is_read": true,
+				"values": {}
+			}
+		]
+	}
+###
 JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 	try
 
