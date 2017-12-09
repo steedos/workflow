@@ -65,3 +65,7 @@ TracesManager.getHandlerSignShowApproves = (ins, handler, check_sign_show)->
 
 
 	return signShowApproves
+
+
+TracesManager.getTracesListData = (instance)->
+	return db.instance_traces.findOne({_id:instance._id})?.traces || instance.traces
