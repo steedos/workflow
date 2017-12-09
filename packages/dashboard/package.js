@@ -70,8 +70,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/dashboard.html', 'client');
 	api.addFiles('client/views/dashboard.coffee', 'client');
 	api.addFiles('client/views/dashboard.less', 'client');
-	api.addFiles('client/views/header.html', 'client');
-	api.addFiles('client/views/header.coffee', 'client');
 
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
