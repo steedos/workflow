@@ -315,8 +315,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 
-	api.addAssets('steedos.info', ['client', 'server']);
-
 	api.export('Steedos');
 	api.export('db');
 
@@ -326,6 +324,7 @@ Package.onUse(function(api) {
 	api.export('SteedosOffice');
 
 	api.export(['billingManager'], ['server']);
+
 });
 
 Package.onTest(function(api) {
