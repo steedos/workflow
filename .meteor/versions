@@ -130,7 +130,6 @@ oauth1@1.1.10
 oauth2@1.1.10
 observe-sequence@1.0.12
 ordered-dict@1.0.8
-peppelg:bootstrap-3-modal@1.0.4
 perak:markdown@1.0.5
 percolate:migrations@0.9.8
 promise@0.8.8
