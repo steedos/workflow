@@ -84,30 +84,12 @@ Template.afSelectUser.helpers({
 
     disabled: function () {
 		return "disabled" in this.atts;
-	},
+	}
 
-    user: function() {
-        return Template.instance().reactiveUser.get();
-    },
-
-    chooseAtts: function(atts) {
-        if(!atts) return;
-        delete(atts.class);
-        return atts;
-    }
 });
 
 
 Template.afSelectUser.events({
-    'click .selectUser-box': function(event,template){
-        $("+ .selectUser", $(event.currentTarget)).click();
-    },
-
-    'change .selectUser': function(event, template) {
-        var selectUser = $(event.currentTarget).val();
-        template.reactiveUser.set([selectUser]);
-    },
-
     'click .selectUser': function(event, template) {
         if (Modal.allowMultiple) {
             return;
@@ -194,8 +176,3 @@ Template.afSelectUser.rendered = function() {
     }
 
 }
-
-Template.afSelectUser.onCreated(function() {
-    var val = this.data.value
-    this.reactiveUser = new ReactiveVar([val]);
-});
