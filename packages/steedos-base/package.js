@@ -42,7 +42,6 @@ Package.onUse(function(api) {
 	api.use('cfs:s3@0.1.3');
 
 
-	api.use('steedos:version@1.0.5');
 
 	api.use(['webapp'], 'server');
 
@@ -315,8 +314,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 
-	api.addAssets('steedos.info', ['client', 'server']);
-
 	api.export('Steedos');
 	api.export('db');
 
@@ -326,6 +323,7 @@ Package.onUse(function(api) {
 	api.export('SteedosOffice');
 
 	api.export(['billingManager'], ['server']);
+
 });
 
 Package.onTest(function(api) {
