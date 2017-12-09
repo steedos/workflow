@@ -235,8 +235,9 @@ Template.instance_button.helpers
 			return false
 		else
 			ins = WorkflowManager.getInstance();
-			if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
-				return true
+			if ins
+				if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
+					return true
 
 	enabled_copy: ->
 		if Session.get("box") == "draft"
@@ -340,6 +341,9 @@ Template.instance_button.helpers
 
 	isMobile: ()->
 		return Steedos.isMobile()
+
+	enabled_cancel_distribute: ()->
+		return true
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
@@ -577,3 +581,6 @@ Template.instance_button.events
 					return
 
 		$('#instance_submit').trigger('click')
+
+	'click .btn-instance-cancel-distribute': (event, template) ->
+		Modal.show 'cancel_distribute_modal'

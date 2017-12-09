@@ -27,7 +27,7 @@ Package.onUse(function(api) {
 
 	api.use('tap:i18n@1.7.0');
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:emailjs');
 	api.use('steedos:portal');

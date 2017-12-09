@@ -173,45 +173,54 @@ Meteor.methods({
             }
         });
 
-        var index = 0;
+        if (current_approve) {
+            var index = 0;
 
-        //设置意见，意见只添加到最后一条approve中
-        traces.forEach(function(t) {
-            if (current_approve && t._id === current_approve.trace) {
-                if (t.approves) {
-                    t.approves.forEach(function(a, idx) {
-                        if (a._id === current_approve._id) {
-                            a.description = description;
-                            index = idx;
-                        }
-                    });
+            //设置意见，意见只添加到最后一条approve中
+            traces.forEach(function(t) {
+                if (current_approve && t._id === current_approve.trace) {
+                    if (t.approves) {
+                        t.approves.forEach(function(a, idx) {
+                            if (a._id === current_approve._id) {
+                                a.description = description;
+                                index = idx;
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
 
-        setObj.modified = new Date();
-        setObj.modified_by = this.userId;
-        setObj['traces.$.approves.' + index + '.description'] = description;
+            setObj.modified = new Date();
+            setObj.modified_by = this.userId;
+            setObj['traces.$.approves.' + index + '.description'] = description;
 
-        db.instances.update({
-            _id: ins_id,
-            'traces._id': current_approve.trace
-        }, {
-            $set: setObj,
-            $pull: {
-                cc_users: current_user_id
-            },
-            $addToSet: {
-                outbox_users: current_user_id
-            }
-        });
+            db.instances.update({
+                _id: ins_id,
+                'traces._id': current_approve.trace
+            }, {
+                $set: setObj,
+                $pull: {
+                    cc_users: current_user_id
+                },
+                $addToSet: {
+                    outbox_users: current_user_id
+                }
+            });
 
-        pushManager.send_message_to_specifyUser("current_user", current_user_id);
+			instance = db.instances.findOne(ins_id);
 
-        instance = db.instances.findOne(ins_id);
-        flow_id = instance.flow;
-        // 如果已经配置webhook并已激活则触发
-        pushManager.triggerWebhook(flow_id, instance, current_approve)
+			current_user_info = db.users.findOne(current_user_id);
+
+            if(description && current_approve && current_approve.from_user){
+				pushManager.send_instance_notification("trace_approve_cc_submit", instance, "", current_user_info, [current_approve.from_user]);
+			}
+
+            pushManager.send_message_to_specifyUser("current_user", current_user_id);
+
+            flow_id = instance.flow;
+            // 如果已经配置webhook并已激活则触发
+            pushManager.triggerWebhook(flow_id, instance, current_approve);
+        }
 
         return true;
     },

@@ -9,7 +9,7 @@
 					</h4>
 				</div>
 				<div class="modal-body modal-zoom">
-					{{#autoForm id="admin_flow" collection="db.flows" type="update" doc=doc disabled=false}}
+					{{#autoForm id="admin_flow" collection="db.flows" type="update" schema=flow_schema doc=doc disabled=false}}
 						{{> afQuickFields template="bootstrap3"}}
 					{{/autoForm}}
 				</div>

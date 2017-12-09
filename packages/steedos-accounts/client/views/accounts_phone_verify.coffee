@@ -9,6 +9,14 @@ Template.accounts_phone_verify.helpers
 			return t "steedos_phone_title"
 
 Template.accounts_phone_verify.onRendered ->
+	$("body").addClass("no-sidebar")
+	$(".wrapper .content-wrapper").addClass("flex-center")
+	$(".wrapper .content-wrapper").addClass("bg-shadow")
+
+Template.accounts_phone_verify.onDestroyed ->
+	$("body").removeClass("no-sidebar")
+	$(".wrapper .content-wrapper").removeClass("flex-center")
+	$(".wrapper .content-wrapper").removeClass("bg-shadow")
 
 Template.accounts_phone_verify.events
 	'click .btn-verify-code': (event,template) ->

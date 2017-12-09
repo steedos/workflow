@@ -25,11 +25,13 @@
 							</p>
 						</div>
 					{{else}}
-						<div class="weui-footer weui-btn-area">
-							<p class="weui-footer__links">
-								<a class="weui-footer__link btn-close">{{_ "accounts_phone_close"}}</a>
-							</p>
-						</div>
+						{{#if isCloseButtonNeeded}}
+							<div class="weui-footer weui-btn-area">
+								<p class="weui-footer__links">
+									<a class="weui-footer__link btn-close">{{_ "accounts_phone_close"}}</a>
+								</p>
+							</div>
+						{{/if}}
 					{{/if}}
 				</div>
 			</div>

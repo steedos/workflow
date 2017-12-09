@@ -1,12 +1,26 @@
+Desktop = {
+	"version": "4.0.1",
+	"url": "https://www.steedos.com/cn/workflow/downloads/"
+}
+
 if (Steedos.isNode()){
 
 	var globalWin = nw.Window.get();
+	var path = nw.require("path");
+	
+	var jsonPath = path.join(process.cwd(),"package.json");
+	
+	// 获取package.json
+	var package = require(jsonPath);
+
+	// 获取当前已安装客户端版本
+	var currentVersion = package.version;
 
 	globalWin.maximize();
 
 	var zoneArray = ["cn", "us", "beta"];
 	var currentZone = window.location.host.split(".", 1);
-	
+
 	// 只在cn、us和beta域下存入cookie
 	if (_.indexOf(zoneArray, currentZone[0]) > -1){
 		// 首次登录客户端会在cookie中记录当前域名
@@ -30,10 +44,26 @@ if (Steedos.isNode()){
 					closeOnCancel: true
 				}, function() {
 					window.location = zone;
-				})
+				});
 			}
 		}
 	}
+
+	// 判断客户端是否需要更新
+	Meteor.startup(function(){
+		if (currentVersion != Desktop.version){
+			swal({
+				title: t("steedos_desktop_update_info"),
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonText: t("steedos_desktop_confirm"),
+				cancelButtonText: t("steedos_desktop_cancel"),
+				closeOnCancel: true
+			}, function() {
+				Steedos.openWindow(Desktop.url);
+			})
+		}
+	});
 
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {

@@ -22,7 +22,7 @@ Package.onUse(function(api) {
 	api.use('mongo', 'server');
 
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:smsqueue');
 
 	// Common api

@@ -265,6 +265,13 @@ Template.instance_suggestion.helpers
 	ccFromUserName: ->
 		return InstanceManager.getCurrentApprove()?.from_user_name
 
+	is_approved: (stepId)->
+		ins = WorkflowManager.getInstance()
+
+		return _.find(ins.traces, (t)->
+			return t.step == stepId && t.is_finished
+		)
+
 
 Template.instance_suggestion.events
 

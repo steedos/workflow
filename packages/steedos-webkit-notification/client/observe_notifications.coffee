@@ -48,12 +48,20 @@ Meteor.startup ->
 
                         instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
                     
-                        if Steedos.isNode() 
+                        if Steedos.isNode()
                             win = nw.Window.get();
                             if win
                                 win.restore();
                                 win.focus();
-                            FlowRouter.go(instance_url);    
+                            
+                            # 正在编辑时点击推送提示
+                            if InstanceManager.isAttachLocked Session.get("instanceId"), Meteor.userId()
+                                swal({
+                                    title: t("steedos_desktop_edit_office_info"),
+                                    confirmButtonText: t("node_office_confirm")
+                                })
+                            else
+                                FlowRouter.go(instance_url);  
                         else
                             FlowRouter.go(instance_url); 
                             # window.open(instance_url);
