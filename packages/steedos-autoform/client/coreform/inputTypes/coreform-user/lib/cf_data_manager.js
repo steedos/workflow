@@ -49,7 +49,8 @@ CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
 			if(selfOrganization && selfOrganization._id == orgs[0]._id){
 				orgs = []
 			}
-			else{
+			else if(!selfOrganization){
+				// 有主要部门的时候不应该再选中展开根节点
 				orgs[0].open = true;
 			}
 		}
