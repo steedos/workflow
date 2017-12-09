@@ -206,8 +206,6 @@ Package.onUse(function(api) {
 		'client/layout/header/header_logo.coffee',
 		'client/layout/header/header_account.html',
 		'client/layout/header/header_account.coffee',
-		'client/layout/header/header_space.html',
-		'client/layout/header/header_space.coffee',
 		'client/layout/header/header_refresh.html',
 		'client/layout/header/header_refresh.coffee',
 		'client/layout/header/header_loading.html',

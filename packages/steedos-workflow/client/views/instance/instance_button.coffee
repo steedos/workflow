@@ -210,9 +210,8 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending')
-			if ins.state is 'pending' or (ins.state is 'completed' and ins.distribute_from_instance)
-				return true
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
+			return true
 			# last_trace = _.last(ins.traces)
 			# previous_trace_id = last_trace.previous_trace_ids[0]
 			# previous_trace = _.find(ins.traces, (t)->
