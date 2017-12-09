@@ -57,7 +57,6 @@ Package.onUse(function(api) {
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('meteorhacks:subs-manager@1.6.4');
 	api.use('dburles:collection-helpers@1.0.4');
-	api.use('peppelg:bootstrap-3-modal@1.0.4');
 
 	api.use('momentjs:moment@2.14.1');
 
@@ -224,6 +223,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/momentjs/zh-cn.js', 'client');
 
+	api.addFiles('client/bootstrap_3_modal.js', 'client');
+
 	api.addFiles('client/steedos/router.coffee', 'client');
 	api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
 	api.addFiles('client/steedos/subscribe.coffee', 'client');
@@ -313,6 +314,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/layout/notFound_layout.less', 'client');
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
+	
 
 	api.export('Steedos');
 	api.export('db');
@@ -324,6 +326,7 @@ Package.onUse(function(api) {
 
 	api.export(['billingManager'], ['server']);
 
+	api.export('Modal', 'client');
 });
 
 Package.onTest(function(api) {

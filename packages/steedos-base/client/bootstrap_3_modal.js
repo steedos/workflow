@@ -1,3 +1,7 @@
+// A Meteor package making it easy to use bootstrap 3 modals in Meteor.
+// peppelg:bootstrap-3-modal
+// https://github.com/PeppeL-G/bootstrap-3-modal.git
+
 var $soloModal = null // Used when allowMultiple = false.
 
 // The public API.
