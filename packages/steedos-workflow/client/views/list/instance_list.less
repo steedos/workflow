@@ -187,6 +187,25 @@
 	[aria-label='标题'], [aria-label='Title'] {
 		min-width: 400px !important;
 	}
+
+
+	th.flow-filter{
+		position: relative;
+		padding-right: 30px;
+		cursor: pointer;
+	}
+
+	th.flow-filter:after{
+		font-family: "Ionicons";
+		content: "\f31b";
+		position: absolute;
+		right: 0px;
+		position: absolute;
+		bottom: 8px;
+		right: 8px;
+		display: block;
+		opacity: 0.5;
+	}
 }
 
 .batch_instances_view {
@@ -207,6 +226,15 @@
 		height: 57px;
 		border-radius: 57px;
 		font-size: 16px;
+	}
+}
+
+.instance-list-wrapper{
+	.tabular-filter-by-flow{
+		margin-right: 5px;
+		.caret{
+			margin-left: 5px;
+		}
 	}
 }
 

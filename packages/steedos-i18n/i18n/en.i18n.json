@@ -423,6 +423,7 @@
 	"afModal_update": "Save",
 	"afModal_remove": "Delete",
 	"afModal_remove_suc": "Successfully deleted",
+	"afModal_update_suc": "Successfully updated",
 	"afModal_cancel": "Cancel",
 
 	"change_phone": "Bind Phone Number",
@@ -465,7 +466,9 @@
 	"steedos_desktop_zone_info": "Does the current service for the US zone, whether to jump to the Chinese zone?",
 	"steedos_desktop_confirm": "Confirm",
 	"steedos_desktop_cancel": "Cancel",
-
+	"steedos_desktop_update_info": "The current client version is too old, please download and install the latest client!",
+	"steedos_desktop_edit_office_info":"You are editing office document, please close and then open the other instance!",
+	
 	"billing": {
 		"upgrade": "Upgrade",
 		"total_user_count": "Tolal user count",
@@ -508,5 +511,7 @@
 	"space_viewing_limits_froms_required": "Limited organizations is required",
 
 	"pay_records": "Pay Records",
-	"workflow_designer_use_pc": "Please user this function on pc"
+	"workflow_designer_use_pc": "Please user this function on pc",
+
+	"customize_apps": "Apps"
 }

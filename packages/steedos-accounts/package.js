@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.23',
+	version: '0.0.24',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -33,7 +33,7 @@ Package.onUse(function(api) {
 
 	api.use('accounts-password@1.3.0');
 
-	api.use('steedos:accounts-t9n@1.14.2_3');
+	api.use('steedos:accounts-t9n@1.14.2_4');
 	api.use('steedos:useraccounts-bootstrap@1.14.2_3');
 	api.use('steedos:useraccounts-core@1.14.2_3');
 	api.use('steedos:useraccounts-flow-routing@1.14.2');
@@ -49,6 +49,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/URI.js');
 	api.addFiles('lib/core.coffee');
+	api.addFiles('lib/force_bind_phone.coffee');
 	api.addFiles('lib/accounts.coffee');
 
 	api.addFiles('routes/setup.coffee', 'server');

@@ -43,7 +43,7 @@ Package.onUse(function(api) {
 	api.use('raix:push');
 	api.use('simple:json-routes@2.1.0');
 	api.use('aldeed:tabular@1.6.1');
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:authenticate-user-by-access-token');
 	api.use('steedos:authenticate-user-by-auth-token');
 

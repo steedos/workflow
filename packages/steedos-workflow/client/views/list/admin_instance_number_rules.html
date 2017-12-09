@@ -17,9 +17,20 @@
 		</div>
 		<div class="admin-content">
 			<div class="box-body" style="display: block;">
-				{{> tabular table=TabularTables.instance_number_rules  selector=selector class="table dataTable no-footer"}}
+				<div class="search-toolbar">
+                    <div class="pull-right">
+                        <div class="input-group">
+                            <input type="text" name="instance-number-rules-search-key" id="instance-number-rules-search-key" class="form-control instance-number-rules-search-key" placeholder="{{_ 'Search'}}...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="instance-number-rules-search-btn" id="instance-number-rules-search-btn" class="btn btn-default"><i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+				{{> tabular table=TabularTables.instance_number_rules  selector=selector class="table dataTable no-footer table-hover datatable-instance-number-rules"}}
 
-				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.instance_number_rules"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent}}
+				{{#afModal class="btn btn-primary record-types-edit hidden" collection="db.instance_number_rules"  operation="update" dialogClass="modal-lg modal-body-zoom" buttonContent=updateButtonContent showRemoveButton=true}}
 					{{_ "Edit"}}
 				{{/afModal}}
 

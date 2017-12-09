@@ -44,7 +44,7 @@ Package.onUse(function(api) {
     api.use('momentjs:moment', 'client');
     api.use('mrt:moment-timezone', 'client');
 
-    api.use('steedos:lib');
+    api.use('steedos:base');
     api.use('steedos:api');
     api.use('steedos:contacts');
 

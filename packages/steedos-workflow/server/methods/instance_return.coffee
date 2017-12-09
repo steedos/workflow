@@ -121,6 +121,8 @@ Meteor.methods
 		setObj.modified_by = current_user
 		setObj.values = ins.values
 
+		setObj.current_step_name = pre_trace.name
+
 		r = db.instances.update({_id: instance_id, 'traces._id': last_trace._id}, {$set: setObj})
 		b = db.instances.update({_id: instance_id}, {$push: {traces: newTrace}})
 		if r && b

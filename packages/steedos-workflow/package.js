@@ -31,7 +31,6 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
 	api.use('steedos:api');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
@@ -61,7 +60,6 @@ Package.onUse(function(api) {
 
 	api.use('steedos:autoform')
 	api.use('steedos:base');
-	api.use('steedos:lib');
 	api.use('steedos:admin');
 
 	api.use('steedos:mailqueue');
@@ -269,15 +267,22 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.html', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.coffee', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.less', 'client');
+
+	api.addFiles('client/views/flow/admin_flows.less', 'client');
+	api.addFiles('client/views/flow/admin_flows.html', 'client');
+	api.addFiles('client/views/flow/admin_flows.coffee', 'client');
+
+	api.addFiles('client/views/flow/admin_categories.html', 'client');
+	api.addFiles('client/views/flow/admin_categories.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
 
-	api.addFiles('client/views/list/admin_flows.less', 'client');
 	api.addFiles('client/views/list/admin_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_flow_modal.coffee', 'client');
-
-	api.addFiles('client/views/list/admin_flows.html', 'client');
-	api.addFiles('client/views/list/admin_flows.coffee', 'client');
 
 	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
 	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
@@ -293,9 +298,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.html', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
-
-	api.addFiles('client/views/list/admin_categories.html', 'client');
-	api.addFiles('client/views/list/admin_categories.coffee', 'client');
 
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
@@ -315,6 +317,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/list/admin_flow_positions.html', 'client');
 	api.addFiles('client/views/list/admin_flow_positions.coffee', 'client');
+	api.addFiles('client/views/list/admin_flow_positions.less', 'client');
 
 	api.addFiles('client/views/list/tableau_introduction_modal.html', 'client');
 	api.addFiles('client/views/list/tableau_introduction_modal.less', 'client');
@@ -326,6 +329,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/batch_instances_modal.less', 'client');
 	api.addFiles('client/views/list/batch_instances_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/cancel_distribute_modal.less', 'client');
+	api.addFiles('client/views/list/cancel_distribute_modal.html', 'client');
+	api.addFiles('client/views/list/cancel_distribute_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/webhooks.html', 'client');
+	api.addFiles('client/views/list/webhooks.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -344,6 +353,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/start_flow.coffee', 'server');
 	api.addFiles('server/methods/instance_traces.coffee', 'server');
 	api.addFiles('server/methods/instance_batch.coffee', 'server');
+	api.addFiles('server/methods/flow_copy.coffee', 'server');
+	api.addFiles('server/methods/flow.coffee', 'server');
+	api.addFiles('server/methods/distribute.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');

@@ -253,22 +253,22 @@ if Meteor.isClient
 			id = this._id
 			onclick(parent, id)
 
-	# 流程导入导出
-	Admin.addMenu
-		_id: "workflow_import_export_flows"
-		title: "workflow_import_export_flows"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-cloud-download-outline"
-		url: "/admin/importorexport/flows"
-		paid: "true"
-		appversion:"workflow_pro"
-		sort: 40
-		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
+#	# 流程导入导出
+#	Admin.addMenu
+#		_id: "workflow_import_export_flows"
+#		title: "workflow_import_export_flows"
+#		mobile: false
+#		app: "workflow"
+#		icon: "ion ion-ios-cloud-download-outline"
+#		url: "/admin/importorexport/flows"
+#		paid: "true"
+#		appversion:"workflow_pro"
+#		sort: 40
+#		parent: "advanced_setting"
+#		onclick: ->
+#			parent = this.parent
+#			id = this._id
+#			onclick(parent, id)
 
 	# 流程编号规则
 	Admin.addMenu
@@ -293,7 +293,7 @@ if Meteor.isClient
 		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-pulse"
-		url: "/admin/view/space_user_signs"
+		url: "/admin/space_user_signs"
 		paid: "true"
 		appversion:"workflow_pro"
 		sort: 60
@@ -323,7 +323,7 @@ if Meteor.isClient
 		mobile: false
 		app: "workflow"
 		icon: "ion ion-ios-paperplane-outline"
-		url: "/admin/view/webhooks"
+		url: "/admin/webhooks"
 		paid: "true"
 		appversion:"workflow_pro"
 		sort: 80

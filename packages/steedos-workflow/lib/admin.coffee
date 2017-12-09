@@ -74,6 +74,7 @@ db.webhooks.adminConfig =
 		{name: "active"},
 		{name: "description"}
 	]
+	dom: "tp"
 	extraFields: ["space", "flow", "payload_url", "content_type", "active", "description"]
 	newFormFields: "space,flow,payload_url,content_type,active,description"
 	selector: Admin.selectorCheckSpaceAdmin

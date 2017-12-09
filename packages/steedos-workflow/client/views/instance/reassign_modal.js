@@ -72,9 +72,6 @@ Template.reassign_modal.helpers({
 	}
 })
 
-Template.reassign_modal.onCreated(function() {
-	Steedos.instanceDataReload(Session.get("instanceId"))
-})
 
 
 Template.reassign_modal.events({

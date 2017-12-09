@@ -26,7 +26,6 @@
                         <td colspan='3' class = "trace-step-name">{{getStepName this.step}}</td>
                     </tr>
                     {{#each this.approves}}
-                        <!-- {{#unless isCCOrDistributeOrForwardTerminated this}} -->
                             <tr class="approve-item">
                                 <td class="name">{{this.handler_name}}
                                     {{#if isCC this}}
@@ -86,7 +85,6 @@
                                     </tr>
                                 {{/if}}
                             {{/if}}
-                        <!-- {{/unless}} -->
                     {{/each}}
                 {{/each}}
                 </tbody>

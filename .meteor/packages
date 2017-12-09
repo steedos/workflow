@@ -96,8 +96,8 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
+# steedos:connect-qiyeweixin
 steedos:version
-steedos:lib
 steedos:workflow
 steedos:api
 steedos:cms
@@ -167,9 +167,6 @@ steedos:calendar-i18n
 
 steedos:freeboard
 steedos:dashboard
-
-
-# steedos:distribute-qhd
 
 steedos:tableau
 

@@ -28,7 +28,7 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:api');
 	api.use('steedos:ui');
 	api.use('flemay:less-autoprefixer@1.2.0');
@@ -70,6 +70,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/address_books.coffee', 'server');
 	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
 	api.addFiles('server/publications/contacts_view_limits.coffee', 'server');
+	api.addFiles('server/publications/contacts_no_force_phone_users.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
@@ -158,6 +159,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/admin/settings_limit_modal.html', 'client');
 	api.addFiles('client/admin/settings_limit_modal.coffee', 'client');
+
+	api.addFiles('client/admin/settings_no_force_phone_modal.html', 'client');
+	api.addFiles('client/admin/settings_no_force_phone_modal.coffee', 'client');
 
 	api.addFiles('client/admin-menu.coffee', 'client');
 

@@ -31,6 +31,9 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 		to_users.push(applicant)
 	else if ['trace_approve_cc'].includes(send_from) && cc_user_ids
 		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+	else if ['trace_approve_cc_submit'].includes(send_from) && cc_user_ids
+		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+
 	return to_users
 
 pushManager.get_body = (parameters, lang="zh-CN")->
@@ -175,7 +178,8 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 	else if "trace_approve_cc" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type}, lang
 		body["email"] = TAPi18n.__ 'instance.email.body.trace_approve_cc', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type}, lang
-
+	else if "trace_approve_cc_submit" is send_from
+		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc_submit', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type, current_user_name: current_user_name}, lang
 	return body
 
 pushManager.get_title = (parameters, lang="zh-CN")->
@@ -249,11 +253,12 @@ pushManager.get_title = (parameters, lang="zh-CN")->
 	else if "trace_approve_cc" is send_from
 		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
 		title["email"] = TAPi18n.__ 'instance.email.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
-
+	else if "trace_approve_cc_submit" is send_from
+		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc_submit', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
 	return title
 
 pushManager.get_badge = (send_from, user_id)->
-	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
+	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc', 'trace_approve_cc_submit'].includes(send_from)
 		return null
 
 	badge = 0

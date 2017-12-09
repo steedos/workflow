@@ -17,6 +17,42 @@ FlowversionAPI =
 	replaceErrorSymbol: (str)->
 		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
+	getStepHandlerName: (step)->
+		switch step.deal_type
+			when 'specifyUser'
+				approverNames = step.approver_users.map (userId)->
+					user = db.users.findOne(userId)
+					if user
+						return user.name
+					else
+						return ""
+				stepHandlerName = approverNames.join(",")
+			when 'applicantRole'
+				approverNames = step.approver_roles.map (roleId)->
+					role = db.flow_roles.findOne(roleId)
+					if role
+						return role.name
+					else
+						return ""
+				stepHandlerName = approverNames.join(",")
+			else
+				stepHandlerName = ''
+				break
+		return stepHandlerName
+
+	getStepName: (stepName, stepHandlerName)->
+		# 返回step节点名称
+		if stepName
+			stepName = "<div class='graph-node'>
+				<div class='step-name'>#{stepName}</div>
+				<div class='step-handler-name'>#{stepHandlerName}</div>
+			</div>"
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+			stepName = FlowversionAPI.replaceErrorSymbol(stepName)
+		else
+			stepName = ""
+		return stepName
+
 	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
@@ -36,13 +72,12 @@ FlowversionAPI =
 						# 标记条件节点
 						if step.step_type == "condition"
 							nodes.push "	class #{step._id} condition;"
-						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						stepName = "<div class='graph-node'><div class='step-name'>#{step.name}</div></div>"
-						stepName = FlowversionAPI.replaceErrorSymbol(stepName)
+						stepHandlerName = FlowversionAPI.getStepHandlerName(step)
+						stepName = FlowversionAPI.getStepName(step.name, stepHandlerName)
 					else
 						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					toStepName = FlowversionAPI.replaceErrorSymbol(toStepName)
+					toStepName = FlowversionAPI.getStepName(toStepName, "")
 					nodes.push "	#{step._id}(\"#{stepName}\")-->#{line.to_step}(\"#{toStepName}\")"
 
 		if currentStepId
@@ -52,6 +87,38 @@ FlowversionAPI =
 			return graphSyntax
 		else
 			return nodes
+
+	getApproveJudgeText: (judge)->
+		locale = "zh-CN"
+		switch judge
+			when 'approved'
+				# 已核准
+				judgeText = TAPi18n.__('Instance State approved', {}, locale)
+			when 'rejected'
+				# 已驳回
+				judgeText = TAPi18n.__('Instance State rejected', {}, locale)
+			when 'terminated'
+				# 已取消
+				judgeText = TAPi18n.__('Instance State terminated', {}, locale)
+			when 'reassigned'
+				# 转签核
+				judgeText = TAPi18n.__('Instance State reassigned', {}, locale)
+			when 'relocated'
+				# 重定位
+				judgeText = TAPi18n.__('Instance State relocated', {}, locale)
+			when 'retrieved'
+				# 已取回
+				judgeText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				judgeText = TAPi18n.__('Instance State returned', {}, locale)
+			when 'readed'
+				# 已阅
+				judgeText = TAPi18n.__('Instance State readed', {}, locale)
+			else
+				judgeText = ''
+				break
+		return judgeText
 
 	getTraceName: (traceName, approveHandlerName)->
 		# 返回trace节点名称
@@ -147,20 +214,6 @@ FlowversionAPI =
 								count: 1
 								to_approve_handler_names: [toApprove.handler_name]
 								is_total: true
-
-
-							# if counter2.count
-							# 	counter2.count++
-							# else
-							# 	counter2.count = 1
-							# unless counter2.to_approve_handler_names
-							# 	counter2.to_approve_handler_names = []
-							# unless counter2.count > traceMaxApproveCount
-							# 	counter2.to_approve_handler_names.push toApprove.handler_name
-
-		# 上面traceMaxApproveCount逻辑结果规则是每个fromApprove的每个type分支只有一个节点
-		# 这会造成部分后面有二次传阅、分发、转发的节点游离在其来源节点之外，需要单独处理
-		# for fromApproveId,fromApprove of counters
 
 		return counters
 
@@ -259,15 +312,23 @@ FlowversionAPI =
 									if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
 										fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
 										toTraceName = FlowversionAPI.getTraceName currentTraceName, toApprove.handler_name
-										nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
-
+										# 不是传阅、分发、转发，则连接到下一个trace
+										judgeText = FlowversionAPI.getApproveJudgeText fromApprove.judge
+										if judgeText
+											nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")--#{judgeText}-->#{toApprove._id}(\"#{toTraceName}\")"
+										else
+											nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{toApprove._id}(\"#{toTraceName}\")"
 						else
-							# 结束步骤的trace
+							# 最后一个步骤的trace
 							if ["cc","forward","distribute"].indexOf(fromApprove.type) < 0
 								fromTraceName = FlowversionAPI.getTraceName currentFromTraceName, fromApproveHandlerName
 								toTraceName = FlowversionAPI.replaceErrorSymbol(currentTraceName)
 								# 不是传阅、分发、转发，则连接到下一个trace
-								nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
+								judgeText = FlowversionAPI.getApproveJudgeText fromApprove.judge
+								if judgeText
+									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")--#{judgeText}-->#{trace._id}(\"#{toTraceName}\")"
+								else
+									nodes.push "	#{fromApprove._id}(\"#{fromTraceName}\")-->#{trace._id}(\"#{toTraceName}\")"
 			else
 				# 第一个trace，因traces可能只有一个，这时需要单独显示出来
 				trace.approves.forEach (approve)->
@@ -377,6 +438,9 @@ FlowversionAPI =
     						stroke-width: 1px;
 						}
 						#flow-steps-svg .node .trace-handler-name{
+							color: #777;
+						}
+						#flow-steps-svg .node .step-handler-name{
 							color: #777;
 						}
 						div.mermaidTooltip{

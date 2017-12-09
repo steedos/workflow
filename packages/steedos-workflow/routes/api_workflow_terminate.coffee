@@ -122,6 +122,8 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 				traces.push(newTrace)
 				setObj.traces = traces
 
+				setObj.current_step_name = flow_ver_end_step.name
+
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 				if r
 					ins = uuflowManager.getInstance(instance_id)

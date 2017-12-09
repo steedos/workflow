@@ -76,7 +76,7 @@
 	        </div>
 	        <div class="modal-body admin-dashboard-body modal-zoom" style='overflow-y:auto'>
 	        	{{#if fadmin_doc}}
-				{{> quickForm id="admin_modal_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n }}
+				{{> quickForm id="admin_modal_update" collection=admin_collection_name doc=fadmin_doc fields=admin_fields omitFields=admin_omit_fields buttonContent=btn_update_i18n template="bootstrap3-horizontal" label-class="col-sm-2" input-col-class="col-sm-10"}}
 				{{else}}
 					can't find current doc
 				{{/if}}

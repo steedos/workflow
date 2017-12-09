@@ -95,8 +95,6 @@ if Meteor.isClient
 
 db.apps.attachSchema db.apps._simpleSchema;
 
-db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/calendar", "/emailjs", "/admin", "/portal", "/contacts", "/dashboard", "/records_search"]
-
 db.apps.isInternalApp = (url) ->
 	if url
 		for app_url in db.apps.INTERNAL_APPS
@@ -104,7 +102,25 @@ db.apps.isInternalApp = (url) ->
 				return true
 	return false
 
+if Meteor.isServer
+	db.apps.allow 
+		insert: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
 
+		update: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
 
 if Meteor.isServer
 

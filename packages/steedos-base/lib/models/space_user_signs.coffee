@@ -44,14 +44,34 @@ db.space_user_signs.helpers
 
 	userName:()->
 		user =  SteedosDataManager.spaceUserRemote.findOne({
-		            space: this.space,
-		            user: this.user
-		        }, {
-		            fields: {
-		              name: 1
-		            }
-		        });
+					space: this.space,
+					user: this.user
+				}, {
+					fields: {
+					  name: 1
+					}
+				});
 		return user?.name;
+
+if Meteor.isServer
+	db.space_user_signs.allow 
+		insert: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		update: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
 
 if (Meteor.isServer) 
 
@@ -89,3 +109,40 @@ if Meteor.isServer
 		"space": 1,
 		"user": 1
 	},{background: true})
+
+
+new Tabular.Table
+	name: "SpaceUserSigns",
+	collection: db.space_user_signs,
+	columns: [
+		{
+			data: "user"
+			render: (val, type, doc) ->
+				user =  SteedosDataManager.spaceUserRemote.findOne({
+					space: doc.space,
+					user: doc.user
+				}, {
+					fields: {
+					  name: 1
+					}
+				});
+				return user?.name;
+		}
+		{
+			data: "sign"
+			render: (val, type, doc) ->
+				return "<img style='max-width: 120px;max-height: 80px;' src='" + Steedos.absoluteUrl("api/files/avatars/" + doc.sign) + "' />"
+		}
+	]
+	dom: "tp"
+	lengthChange: false
+	ordering: false
+	pageLength: 10
+	info: false
+	extraFields: ["space", "user", 'sign']
+	searching: true
+	autoWidth: false
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {_id: -1}
+		return selector
