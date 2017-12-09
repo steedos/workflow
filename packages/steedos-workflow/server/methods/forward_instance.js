@@ -432,7 +432,7 @@ Meteor.methods({
 
 		set_obj.modified = new Date();
 		set_obj.modified_by = current_user_id;
-		var r = db.instances.update({
+		db.instances.update({
 			_id: instance_id,
 			"traces._id": current_trace_id
 		}, {
@@ -443,22 +443,6 @@ Meteor.methods({
 				}
 			}
 		});
-
-		if (r) {
-			_.each(current_trace.approves, function(a, idx) {
-				if (a._id == from_approve_id) {
-					var update_read = {};
-					update_read["traces.$.approves." + idx + ".read_date"] = new Date();
-					db.instances.update({
-						_id: instance_id,
-						"traces._id": current_trace_id
-					}, {
-						$set: update_read
-					});
-				}
-			})
-
-		}
 
 		return new_ins_ids;
 	},
