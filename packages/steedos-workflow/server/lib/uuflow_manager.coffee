@@ -575,6 +575,9 @@ uuflowManager.getInstanceName = (instance, vals) ->
 
 			rev = eval(iscript) || default_value
 
+			#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+			rev = rev.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g,"")
+
 		catch e
 			console.log e
 
@@ -2156,6 +2159,9 @@ uuflowManager.checkMainAttach = (instance_id, name)->
 		new_ins_name = name || ins.name
 
 		new_ins_name = new_ins_name.replace(/\r/g,"").replace(/\n/g,"")
+
+		#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+		new_ins_name = new_ins_name.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g,"")
 
 		main_name_split = main.name().split('.')
 		main_name_split.pop()
