@@ -51,4 +51,4 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 									onclick: ->
 										Steedos.openWindow(setupUrl,'setup_phone')
 								})
-				, 5000
+				, 200
