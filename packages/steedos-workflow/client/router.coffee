@@ -69,7 +69,9 @@ workflowSpaceRoutes.route '/:box/',
 			Session.set("workflowCategory", undefined);
 
 		if last_box != Session.get("box")
-			Template.instance_list._changeOrder()
+			setTimeout ()->
+				Template.instance_list._changeOrder()
+			, 100
 
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
