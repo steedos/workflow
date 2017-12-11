@@ -8,7 +8,7 @@ if Meteor.isClient
 
 
 	#审批王
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "workflow"
 		title: "Steedos Workflow"
 		app: "workflow"
@@ -17,7 +17,7 @@ if Meteor.isClient
 		sort: 30
 
 	# 岗位
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "flow_roles"
 		title: "flow_roles"
 		app: "workflow"
@@ -28,7 +28,7 @@ if Meteor.isClient
 
 
 	# 流程设计器
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "workflow_designer"
 		title: "Workflow Designer"
 		app: "workflow"
@@ -45,7 +45,7 @@ if Meteor.isClient
 
 
 	# 统计分析
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "steedos_tableau"
 		title: "steedos_tableau"
 		icon: "ion ion-ios-pie-outline"

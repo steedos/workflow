@@ -1,5 +1,5 @@
 Meteor.startup ()->
-	# Admin.addMenu
+	# Steedos.addAdminMenu
 	# 	_id: "steedos_tableau"
 	# 	title: "steedos_tableau"
 	# 	icon: "ion ion-ios-pie-outline"
@@ -9,7 +9,7 @@ Meteor.startup ()->
 	# 	url: "/tableau/info"
 #		parent: "tableau"
 
-#	Admin.addMenu
+#	Steedos.addAdminMenu
 #		_id: "steedos_tableau_workflow"
 #		title: t("steedos_tableau_workflow")
 #		icon: "ion ion-ios-paper-outline"

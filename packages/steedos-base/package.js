@@ -169,6 +169,7 @@ Package.onUse(function(api) {
 		'client/core.coffee',
 		'client/swipe.coffee',
 		'client/swipe.less',
+		'client/admin_menu.coffee',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/language.coffee',

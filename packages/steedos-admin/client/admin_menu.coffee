@@ -1,42 +1,14 @@
 if Meteor.isClient
-	###
-	admin_menus：
-	{
-		_id: xxx
-		title: "Steedos Workflow"
-		icon:""
-		url: ""
-		target: "xx"
-		onclick: ->
-		app: "workflow"
-		paid : true
-		mobile: true
-		roles:["space_admin", "space_owner", "cloud_admin"]
-		sort: 30
-		parent: parentId
-	}
-	### 
-
-
-	db.admin_menus = new Meteor.Collection()
-
-	Admin.addMenu = (menu)->
-		unless menu
-			return false
-		unless typeof menu._id == "string"
-			return false
-		return db.admin_menus.insert menu
-
 
 	# 账户设置
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "account"	
 		title: "Account Settings"
 		icon: "ion ion-ios-person-outline"
 		sort: 10
 
 	# 个人信息
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "profile"
 		title: "Profile"
 		icon:"ion ion-ios-person-outline"
@@ -45,7 +17,7 @@ if Meteor.isClient
 		parent: "account"
 
 	# 头像
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "avatar"
 		title: "Avatar"
 		icon:"ion ion-ios-camera-outline"
@@ -54,7 +26,7 @@ if Meteor.isClient
 		parent: "account"
 
 	# 账户
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "account_info"
 		title: "Account"
 		icon:"ion ion-ios-lightbulb-outline"
@@ -63,7 +35,7 @@ if Meteor.isClient
 		parent: "account"
 
 	# 密码
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "password"
 		title: "Password"
 		icon:"ion ion-ios-locked-outline"
@@ -72,7 +44,7 @@ if Meteor.isClient
 		parent: "account"
 
 	#设置字体
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "accountZoom"
 		title: "Accountzoom"
 		icon:"ion ion-ios-glasses-outline"
@@ -81,7 +53,7 @@ if Meteor.isClient
 		parent: "account"
 
 	#设置背景
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "backgroundImage"
 		title: "Backgroundimage"
 		icon:"ion ion-ios-color-wand-outline"
@@ -90,7 +62,7 @@ if Meteor.isClient
 		parent: "account"
 
 	# 企业设置
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "spaces"
 		title: "business_settings"
 		icon: "ion ion-ios-cloud-outline"
@@ -98,7 +70,7 @@ if Meteor.isClient
 		sort: 20
 
 	# 组织架构
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "contacts_organizations"
 		title: "contacts_organizations"
 		# mobile: false
@@ -110,7 +82,7 @@ if Meteor.isClient
 
 
 	# 企业信息
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "space_info"
 		title: "business_info"
 		icon: "ion ion-ios-world-outline"
@@ -120,7 +92,7 @@ if Meteor.isClient
 		parent: "spaces"
 
 	# 订单
-	# Admin.addMenu
+	# Steedos.addAdminMenu
 	# 	_id: "billing_pay_records"
 	# 	title: "billing_pay_records"
 	# 	icon: "ion ion-social-usd-outline"
@@ -130,7 +102,7 @@ if Meteor.isClient
 	# 	parent: "spaces"
 
 	# 自定义应用
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "steedos_customize_apps"
 		title: "business_applications"
 		icon: "ion ion-ios-keypad-outline"
@@ -140,7 +112,7 @@ if Meteor.isClient
 		parent: "spaces"
 
 	# 高级设置
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "advanced_setting"
 		title: "advanced_setting"
 		mobile: false
@@ -150,7 +122,7 @@ if Meteor.isClient
 		sort: 40
 
 	# 通讯录权限
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "steedos_contacts_settings"
 		title: "steedos_contacts_settings"
 		mobile: false
@@ -161,7 +133,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 	# 岗位成员
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "flow_positions"
 		title: "flow_positions"
 		mobile: false
@@ -172,7 +144,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 	# 流程分类
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "categories"
 		mobile: false
 		title: "categories"
@@ -183,7 +155,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 	# 流程脚本
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "workflow_form_edit"
 		title: "workflow_form_edit"
 		mobile: false
@@ -196,7 +168,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 #	# 流程导入导出
-#	Admin.addMenu
+#	Steedos.addAdminMenu
 #		_id: "workflow_import_export_flows"
 #		title: "workflow_import_export_flows"
 #		mobile: false
@@ -209,7 +181,7 @@ if Meteor.isClient
 #		parent: "advanced_setting"
 
 	# 流程编号规则
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "instance_number_rules"
 		title: "instance_number_rules"
 		mobile: false
@@ -221,7 +193,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 	# 图片签名
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "space_user_signs"
 		title: "space_user_signs"
 		mobile: false
@@ -233,7 +205,7 @@ if Meteor.isClient
 		sort: 60
 		parent: "advanced_setting"
 
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "secrets"
 		title: "API Token"
 		mobile: false
@@ -243,7 +215,7 @@ if Meteor.isClient
 		parent: "advanced_setting"
 
 	# webhook
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "webhooks"
 		title: "webhooks"
 		mobile: false

@@ -1,7 +1,7 @@
 Meteor.startup ()->
 
 	# 同步合同台账
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "records_qhd_sync_contracts"
 		title: "records_qhd_sync_contracts_title"
 		mobile: false
@@ -13,7 +13,7 @@ Meteor.startup ()->
 		parent: "advanced_setting"
 
 	# 申请单重归档
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "records_qhd_sync_archive"
 		title: "records_qhd_sync_archive_title"
 		mobile: false
