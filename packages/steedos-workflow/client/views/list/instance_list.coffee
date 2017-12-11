@@ -310,7 +310,11 @@ Template.instance_list.onRendered ->
 	unless $("body").hasClass("three-columns")
 		$(".btn-toogle-columns").find("i").toggleClass("fa-expand").toggleClass("fa-compress")
 
-	Template.instance_list._changeOrder()
+#	Template.instance_list._changeOrder()
+
+	self.autorun ()->
+		if Session.get("box")
+			Meteor.setTimeout(Template.instance_list._changeOrder, 300)
 
 Template.instance_list.events
 
