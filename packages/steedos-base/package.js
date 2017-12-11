@@ -147,6 +147,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 	api.addFiles('lib/array_includes.js');
+	api.addFiles('lib/cfs.coffee', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 	api.addFiles('lib/settings.coffee', ['client', 'server']);
 
@@ -316,6 +317,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 	
 
+	api.export('Selector');
 	api.export('Steedos');
 	api.export('db');
 

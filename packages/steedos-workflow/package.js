@@ -93,7 +93,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/webhooks.coffee');
 	api.addFiles('lib/models/instance_number_rules.coffee');
 
-	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
 
 	api.addFiles('client/api.js', 'client');
