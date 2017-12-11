@@ -193,7 +193,10 @@ TracesTemplate.helpers =
 	###
 	showTracesView: (form, form_version)->
 #		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
-		return !InstanceformTemplate.helpers.includesOpinionField(form, form_version)
+
+		show_modal_traces_list = db.space_settings.findOne({space: Session.get("spaceId"), key: "show_modal_traces_list"})?.values || false
+
+		return !show_modal_traces_list
 
 	getInstanceStateText: (instance_id)->
 		if Meteor.isServer
