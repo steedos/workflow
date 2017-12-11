@@ -16,12 +16,6 @@ if Meteor.isClient
 		parent: parentId
 	}
 	### 
-	# 添加左侧菜单的选中效果
-	onclick = (parent, _id) ->
-		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
-		$(".treeview-menu a.admin-menu-#{_id}").addClass("selected")
-		unless $(".admin-menu-#{parent}").closest("li").hasClass("active")
-				$(".admin-menu-#{parent}").trigger("click")
 
 
 	db.admin_menus = new Meteor.Collection()
@@ -49,10 +43,6 @@ if Meteor.isClient
 		url: "/admin/profile/profile"
 		sort: 10
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 头像
 	Admin.addMenu
@@ -62,10 +52,6 @@ if Meteor.isClient
 		url: "/admin/profile/avatar"
 		sort: 20
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 账户
 	Admin.addMenu
@@ -75,10 +61,6 @@ if Meteor.isClient
 		url: "/admin/profile/account"
 		sort: 30
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 密码
 	Admin.addMenu
@@ -88,10 +70,6 @@ if Meteor.isClient
 		url: "/admin/profile/password"
 		sort: 40
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	#设置字体
 	Admin.addMenu
@@ -101,10 +79,6 @@ if Meteor.isClient
 		url: "/admin/profile/accountZoom"
 		sort: 50
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	#设置背景
 	Admin.addMenu
@@ -114,10 +88,6 @@ if Meteor.isClient
 		url: "/admin/profile/backgroundImage"
 		sort: 60
 		parent: "account"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 企业设置
 	Admin.addMenu
@@ -137,10 +107,6 @@ if Meteor.isClient
 		roles:["space_admin"]
 		sort: 10
 		parent: "spaces"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 
 	# 企业信息
@@ -152,10 +118,6 @@ if Meteor.isClient
 		roles:["space_admin"]
 		sort: 20
 		parent: "spaces"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 订单
 	# Admin.addMenu
@@ -176,10 +138,6 @@ if Meteor.isClient
 		roles:["space_admin"]
 		sort: 40
 		parent: "spaces"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 高级设置
 	Admin.addMenu
@@ -201,10 +159,6 @@ if Meteor.isClient
 		roles: ["space_admin"]
 		url: "/admin/contacts/settings"
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 岗位成员
 	Admin.addMenu
@@ -216,10 +170,6 @@ if Meteor.isClient
 		url: "/admin/workflow/flow_positions"
 		sort: 15
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 流程分类
 	Admin.addMenu
@@ -231,10 +181,6 @@ if Meteor.isClient
 		url: "/admin/categories"
 		sort: 20
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 流程脚本
 	Admin.addMenu
@@ -248,10 +194,6 @@ if Meteor.isClient
 		appversion:"workflow_pro"
 		sort: 30
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 #	# 流程导入导出
 #	Admin.addMenu
@@ -265,10 +207,6 @@ if Meteor.isClient
 #		appversion:"workflow_pro"
 #		sort: 40
 #		parent: "advanced_setting"
-#		onclick: ->
-#			parent = this.parent
-#			id = this._id
-#			onclick(parent, id)
 
 	# 流程编号规则
 	Admin.addMenu
@@ -281,10 +219,6 @@ if Meteor.isClient
 		paid: "true"
 		sort: 50
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# 图片签名
 	Admin.addMenu
@@ -298,10 +232,6 @@ if Meteor.isClient
 		appversion:"workflow_pro"
 		sort: 60
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	Admin.addMenu
 		_id: "secrets"
@@ -311,10 +241,6 @@ if Meteor.isClient
 		url: "/admin/api/secrets"
 		sort: 70
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 	# webhook
 	Admin.addMenu
@@ -328,7 +254,3 @@ if Meteor.isClient
 		appversion:"workflow_pro"
 		sort: 80
 		parent: "advanced_setting"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)

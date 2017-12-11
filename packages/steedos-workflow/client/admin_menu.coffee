@@ -25,10 +25,6 @@ if Meteor.isClient
 		url: "/admin/workflow/flow_roles"
 		sort: 20
 		parent: "workflow"
-		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 
 
 	# 流程设计器
@@ -41,9 +37,6 @@ if Meteor.isClient
 		sort: 40
 		parent: "workflow"
 		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 			if Steedos.isMobile()
 				swal({
 					title: t("workflow_designer_use_pc"),
@@ -61,9 +54,6 @@ if Meteor.isClient
 		url: "/tableau/info"
 		parent: "workflow"
 		onclick: ->
-			parent = this.parent
-			id = this._id
-			onclick(parent, id)
 			if Steedos.isMobile()
 				swal({
 					title: t("workflow_designer_use_pc"),
