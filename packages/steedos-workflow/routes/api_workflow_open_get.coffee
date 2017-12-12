@@ -5,7 +5,7 @@
 
 @apiGroup Workflow
 
-@apiPermission 仅以下人员可以查看申请单详情：提交者、申请者、经手者、本流程的管理员、本流程的观察员、工作区的管理员
+@apiPermission 工作区的管理员
 
 @apiParam {String} ins_id 申请单Id
 @apiParam {String} access_token User API Token
@@ -39,6 +39,8 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
+		# 校验当前登录用户是否是space的管理员
+		uuflowManager.isSpaceAdmin(space_id, current_user)
 
 		instance = db.instances.findOne(ins_id)
 		if not instance
