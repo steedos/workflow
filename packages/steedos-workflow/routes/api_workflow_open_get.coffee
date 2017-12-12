@@ -39,12 +39,10 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
-		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(space_id, current_user)
 
 		instance = db.instances.findOne(ins_id)
 		if not instance
-			throw new Meteor.Error('error', 'can not find user')
+			throw new Meteor.Error('error', 'can not find instance')
 
 		if db.space_users.find({space: instance.space, user: current_user}).count() is 0
 			throw new Meteor.Error('error', 'auth_token is wrong')
