@@ -107,7 +107,7 @@ steedos:admin
 
 perak:markdown
 q42:autoform-markdown
-yogiben:autoform-file
+steedos:autoform-file
 yogiben:autoform-tags
 
 simple:json-routes
