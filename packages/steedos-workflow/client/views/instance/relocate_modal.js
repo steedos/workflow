@@ -86,6 +86,7 @@ Template.relocate_modal.events({
                 if (next_step_users.length == 1) {
                     relocate_users.value = next_step_users[0].name;
                     relocate_users.dataset.values = next_step_users[0].id;
+                    $(relocate_users).change();
                 }
             } else {
                 delete relocate_users.dataset.userOptions;

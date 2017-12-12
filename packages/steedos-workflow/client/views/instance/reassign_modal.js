@@ -82,6 +82,8 @@ Template.reassign_modal.events({
 
 		reassign_users.value = "";
 		reassign_users.dataset.values = '';
+
+		$(reassign_users)
 	},
 
 	'click #reassign_help': function(event, template) {
