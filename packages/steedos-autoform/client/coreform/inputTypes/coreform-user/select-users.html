@@ -5,7 +5,11 @@
 		</div>
 	{{else}}
 		<div class='{{chooseAttr this.atts.class}} selectUser-box'>
-			{{{val this.value}}}
+			{{#if val this.value}}
+				{{val this.value}}
+			{{else}}
+				{{{placeholder}}}
+			{{/if}}
 		</div>
 	{{/if}}
 	<input type='text' value="{{val this.value}}" readonly {{this.atts}} style="display: none">

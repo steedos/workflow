@@ -85,10 +85,12 @@ Template.afSelectUser.helpers({
                 this.atts["data-values"] = this.dataset.values;
             }
         }
-        if(!val) {
-            placeholder = this.atts.placeholder || "";
-            val = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
-        }
+        return val;
+    },
+
+    placeholder: function() {
+        placeholder = this.atts.placeholder || "";
+        val = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
         return val;
     },
 
