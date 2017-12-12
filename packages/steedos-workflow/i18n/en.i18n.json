@@ -233,6 +233,7 @@
 	"instance_search_advanced_search": "Advanced search",
 	"instance_search_flow": "Workflow",
 	"instance_search_name": "Request Title",
+	"instance_search_file": "Request Title",
 	"instance_search_applicant_name": "Applicant Name",
 	"instance_search_applicant_organization_name": "Applicant Organization",
 	"instance_search_submit_date": "Submit Date",

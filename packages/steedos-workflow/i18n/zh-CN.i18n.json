@@ -235,6 +235,7 @@
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
 	"instance_search_name": "申请单标题",
+	"instance_search_file": "文件标题",
 	"instance_search_applicant_name": "提交人姓名",
 	"instance_search_applicant_organization_name": "提交人所属部门名称",
 	"instance_search_submit_date": "提交日期",
