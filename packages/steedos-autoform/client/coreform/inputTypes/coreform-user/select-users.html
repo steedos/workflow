@@ -3,6 +3,10 @@
 		<div class='form-control' readonly disabled>
 			{{val this.value}}
 		</div>
+	{{else}}
+		<div class='{{chooseAttr this.atts.class}} selectUser-box'>
+			{{{val this.value}}}
+		</div>
 	{{/if}}
-  <input type='text' value="{{val this.value}}" readonly {{this.atts}} style="{{#if disabled}}display: none{{/if}}">
+	<input type='text' value="{{val this.value}}" readonly {{this.atts}} style="display: none">
 </template>

@@ -56,8 +56,15 @@ AutoForm.addInputType("selectuser", {
 
 Template.afSelectUser.helpers({
     val: function(value) {
+        var changeUser = Template.instance().changeUser.get();
+
+        if(Template.instance().isChange){
+            value = changeUser.users;
+        };
+
+        Template.instance().isChange = false;
+        var val = '';
         if (value) {
-            var val = '';
             if (value instanceof Array) { //this.data.atts.multiple && (value instanceof Array)
                 if (value.length > 0 && typeof(value[0]) == 'object') {
                     val = value ? value.getProperty("name").toString() : ''
@@ -77,19 +84,43 @@ Template.afSelectUser.helpers({
             if (this.dataset && "values" in this.dataset) {
                 this.atts["data-values"] = this.dataset.values;
             }
-
-            return val;
         }
+        if(!val) {
+            placeholder = this.atts.placeholder || "";
+            val = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
+        }
+        return val;
     },
 
     disabled: function () {
 		return "disabled" in this.atts;
-	}
+	},
 
+    changeUser: function() {
+        if(Template.instance().changeUser){
+            return Template.instance().changeUser.get();
+        };
+        return {};
+    },
+
+    chooseAttr: function(attr) {
+        var attr = attr.replace(/selectUser/ig, "");
+        return attr;
+    }
 });
 
 
 Template.afSelectUser.events({
+    'click .selectUser-box': function(event,template) {
+        $("+ .selectUser", $(event.currentTarget)).click();
+    },
+
+    'change .selectUser': function(event, template) {
+        var users = $(event.currentTarget).val();
+        template.isChange = true
+        template.changeUser.set({users: users});
+    },
+
     'click .selectUser': function(event, template) {
         if (Modal.allowMultiple) {
             return;
@@ -174,5 +205,8 @@ Template.afSelectUser.rendered = function() {
             $("input[name='" + name + "']")[0].dataset[dk] = dataset[dk]
         }
     }
+};
 
-}
+Template.afSelectUser.onCreated(function() {
+    this.changeUser = new ReactiveVar({users: ""});
+});
