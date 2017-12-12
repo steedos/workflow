@@ -1,3 +1,59 @@
+###
+@api {get} /api/workflow/open/get/:ins_id 查看申请单详情
+
+@apiName getInstance
+
+@apiGroup Workflow
+
+@apiPermission 仅以下人员可以查看申请单详情：提交者、申请者、经手者、本流程的管理员、本流程的观察员、工作区的管理员
+
+@apiParam {String} ins_id 申请单Id
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+{
+	"X-Space-Id": "wsw1re12TdeP223sC"
+}
+
+@apiSuccessExample {json} Success-Response:
+{
+    "status": "success",
+    "data": [
+        {
+            "id": "g7wokXNkR9yxHvA4D",
+            "start_date": "2017-11-23T02:28:53.164Z",
+            "flow_name": "正文流程",
+            "space_name": "审批王",
+            "name": "正文流程 1",
+            "applicant_name": null,
+            "applicant_organization_name": "审批王",
+            "submit_date": "2017-07-25T06:36:48.492Z",
+            "step_name": "开始",
+            "space_id": "kfDsMv7gBewmGXGEL",
+            "modified": "2017-11-23T02:28:53.164Z",
+            "is_read": false,
+            "values": {...}
+        },
+        {
+            "id": "WqKSrWQoywgJaMp9k",
+            "start_date": "2017-08-17T07:38:35.420Z",
+            "flow_name": "正文\n",
+            "space_name": "审批王",
+            "name": "正文\n 1",
+            "applicant_name": "殷亮辉",
+            "applicant_organization_name": "审批王",
+            "submit_date": "2017-06-27T10:26:19.468Z",
+            "step_name": "开始",
+            "space_id": "kfDsMv7gBewmGXGEL",
+            "modified": "2017-08-17T07:38:35.421Z",
+            "is_read": true,
+            "values": {...}
+        }
+    ]
+}
+###
 JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 	try
 		ins_id = req.params.ins_id

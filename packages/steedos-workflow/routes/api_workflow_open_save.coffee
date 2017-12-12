@@ -1,12 +1,57 @@
 ###
-描述：修改当前申请单未结束的trace中未结束的approve的values（非传阅 非会签）
-Content-Type：application/json
-body 格式:
-{
-	"values": {
-		...
+@api {put} /api/workflow/open/save/:ins_id 暂存申请单
+
+@apiName saveInstances
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+    {
+		"X-Space-Id": "wsw1re12TdeP223sC"
 	}
-}
+
+@apiSuccessExample {json} Success-Response:
+    {
+		"status": "success",
+		"data": [
+			{
+				"id": "g7wokXNkR9yxHvA4D",
+				"start_date": "2017-11-23T02:28:53.164Z",
+				"flow_name": "正文流程",
+				"space_name": "审批王",
+				"name": "正文流程 1",
+				"applicant_name": null,
+				"applicant_organization_name": "审批王",
+				"submit_date": "2017-07-25T06:36:48.492Z",
+				"step_name": "开始",
+				"space_id": "kfDsMv7gBewmGXGEL",
+				"modified": "2017-11-23T02:28:53.164Z",
+				"is_read": false,
+				"values": {}
+			},
+			{
+				"id": "WqKSrWQoywgJaMp9k",
+				"start_date": "2017-08-17T07:38:35.420Z",
+				"flow_name": "正文\n",
+				"space_name": "审批王",
+				"name": "正文\n 1",
+				"applicant_name": "殷亮辉",
+				"applicant_organization_name": "审批王",
+				"submit_date": "2017-06-27T10:26:19.468Z",
+				"step_name": "开始",
+				"space_id": "kfDsMv7gBewmGXGEL",
+				"modified": "2017-08-17T07:38:35.421Z",
+				"is_read": true,
+				"values": {}
+			}
+		]
+	}
 ###
 JsonRoutes.add 'put', '/api/workflow/open/save/:ins_id', (req, res, next) ->
 	try
