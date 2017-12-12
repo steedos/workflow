@@ -360,6 +360,18 @@ Template.instance_button.onDestroyed ->
 
 Template.instance_button.events
 
+	'click .instance-dropdown-menu': (event)->
+		signTop = $(".instance-left-buttons .btn-instance-back").offset().top
+		$(".instance-left-buttons .btn:not('.btn-instance-back')").each ->
+			offsetTop = $(this).offset().top
+			cls = $(this).data("for")
+			# 此处+37是因为不显示的按钮会排到第二行，一个按钮的高度为37
+			if offsetTop > signTop + 37
+				$(".#{cls}", ".instance-dropdown-menu").show()
+			else
+				$(".#{cls}", ".instance-dropdown-menu").hide()
+
+
 	'click .btn-instance-to-print': (event)->
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
