@@ -55,16 +55,31 @@ AutoForm.addInputType("selectuser", {
 });
 
 Template.afSelectUser.helpers({
+    val2: function(isNeedPlaceholder){
+        var val2 = Template.instance().val2.get();
+        if (!val2 && isNeedPlaceholder){
+            var placeholder = this.atts.placeholder || "";
+            val2 = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
+        }
+        return val2;
+    },
+
     val: function(value) {
         var changeUser = Template.instance().changeUser.get();
 
+        // console.log("value", value)
+
         if(Template.instance().isChange){
             value = changeUser.users;
+            // console.log("value2", changeUser.users)
         };
 
         Template.instance().isChange = false;
+
         var val = '';
+        
         if (value) {
+            
             if (value instanceof Array) { //this.data.atts.multiple && (value instanceof Array)
                 if (value.length > 0 && typeof(value[0]) == 'object') {
                     val = value ? value.getProperty("name").toString() : ''
@@ -81,29 +96,19 @@ Template.afSelectUser.helpers({
                 }
             }
 
-            if (this.dataset && "values" in this.dataset) {
+            if (this.dataset && "values" in this.dataset && this.dataset.values) {
                 this.atts["data-values"] = this.dataset.values;
             }
         }
-        return val;
-    },
 
-    placeholder: function() {
-        placeholder = this.atts.placeholder || "";
-        val = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
+        Template.instance().val2.set(val);
+
         return val;
     },
 
     disabled: function () {
 		return "disabled" in this.atts;
 	},
-
-    changeUser: function() {
-        if(Template.instance().changeUser){
-            return Template.instance().changeUser.get();
-        };
-        return {};
-    },
 
     chooseAttr: function(attr) {
         var attr = attr.replace(/selectUser/ig, "");
@@ -211,4 +216,6 @@ Template.afSelectUser.rendered = function() {
 
 Template.afSelectUser.onCreated(function() {
     this.changeUser = new ReactiveVar({users: ""});
+
+    this.val2 = new ReactiveVar();
 });
