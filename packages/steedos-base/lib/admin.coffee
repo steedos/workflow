@@ -53,18 +53,6 @@ Selector.selectorCheckSpace = (userId) ->
 		selector.space = {$in: spaces}
 		return selector
 
-
-db.space_user_signs.adminConfig =
-	icon: "globe"
-	color: "blue"
-	tableColumns: [
-		{name: "userName()"},
-		{name: "signImage()"}
-	]
-	extraFields: ["space", "user", 'sign']
-	routerAdmin: "/admin"
-	selector: Selector.selectorCheckSpaceAdmin
-
 db.billing_pay_records.adminConfig =
 	icon: "globe"
 	color: "blue"

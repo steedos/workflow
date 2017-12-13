@@ -92,6 +92,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/auth_tokens.coffee');
 	api.addFiles('lib/models/webhooks.coffee');
 	api.addFiles('lib/models/instance_number_rules.coffee');
+	api.addFiles('lib/models/space_user_signs.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
@@ -414,6 +415,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
 	api.addFiles('server/publications/distributed_instances_state_by_ids.coffee', 'server');
+
+	api.addFiles('server/publications/space_user_signs.coffee', 'server');
+	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');

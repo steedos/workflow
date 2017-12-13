@@ -88,7 +88,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
 	api.addFiles('lib/models/steedos_statistics.coffee');
-	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/audit_logs.coffee');
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
@@ -111,8 +110,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
-	api.addFiles('server/publications/space_user_signs.coffee', 'server');
-	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 	api.addFiles('server/publications/modules.coffee', 'server');
 	api.addFiles('server/publications/weixin_pay_code_url.coffee', 'server');
 
@@ -229,7 +226,6 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/steedos/router.coffee', 'client');
 	api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
-	api.addFiles('client/steedos/subscribe.coffee', 'client');
 
 	api.addFiles('client/steedos/css/adminlte.less', 'client');
 
