@@ -73,7 +73,6 @@ Meteor.methods({
             new_approves.push(appr);
         })
 
-        setObj.cc_users = ins_cc_users.concat(cc_user_ids);
 
         setObj.modified = new Date();
         setObj.modified_by = this.userId;
@@ -86,6 +85,11 @@ Meteor.methods({
             $addToSet: {
                 'traces.$.approves': {
                     $each: new_approves
+                }
+            },
+            $push: {
+                cc_users: {
+                    $each: cc_user_ids
                 }
             }
         });
@@ -161,7 +165,7 @@ Meteor.methods({
                         upobj['traces.$.approves.' + idx + '.is_read'] = true;
                         upobj['traces.$.approves.' + idx + '.finish_date'] = new Date();
                         upobj['traces.$.approves.' + idx + '.judge'] = "submitted";
-                        upobj['traces.$.approves.' + idx + '.cost_time'] = a.finish_date - a.start_date;
+                        upobj['traces.$.approves.' + idx + '.cost_time'] = new Date() - a.start_date;
                         db.instances.update({
                             _id: ins_id,
                             'traces._id': t._id
@@ -207,13 +211,13 @@ Meteor.methods({
                 }
             });
 
-			instance = db.instances.findOne(ins_id);
+            instance = db.instances.findOne(ins_id);
 
-			current_user_info = db.users.findOne(current_user_id);
+            current_user_info = db.users.findOne(current_user_id);
 
-            if(description && current_approve && current_approve.from_user){
-				pushManager.send_instance_notification("trace_approve_cc_submit", instance, "", current_user_info, [current_approve.from_user]);
-			}
+            if (description && current_approve && current_approve.from_user) {
+                pushManager.send_instance_notification("trace_approve_cc_submit", instance, "", current_user_info, [current_approve.from_user]);
+            }
 
             pushManager.send_message_to_specifyUser("current_user", current_user_id);
 
