@@ -24,7 +24,7 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('session');
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:workflow');
 
 	api.addFiles('server/ensureIndexes.coffee', 'server');

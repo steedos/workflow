@@ -575,6 +575,9 @@ uuflowManager.getInstanceName = (instance, vals) ->
 
 			rev = eval(iscript) || default_value
 
+			#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+			rev = rev.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g,"")
+
 		catch e
 			console.log e
 
@@ -776,6 +779,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newTrace.approves.push(newApprove)
 
 					# 更新instance记录
+					setObj.state = "pending"
 					setObj.modified = new Date
 					setObj.modified_by = current_user
 					setObj.values = updated_values
@@ -884,7 +888,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.inbox_users = []
 				setObj.finish_date = new Date
 
-				setObj.state = instance.state
 				if instance.cc_users
 					setObj.cc_users = instance.cc_users
 
@@ -992,7 +995,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							instance_traces.push(newTrace)
 							setObj.traces = instance_traces
 
-							setObj.state = instance.state
+							setObj.state = "pending"
 							if instance.cc_users
 								setObj.cc_users = instance.cc_users
 
@@ -1181,7 +1184,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								instance_traces.push(newTrace)
 								setObj.traces = instance_traces
 
-								setObj.state = instance.state
+								setObj.state = "pending"
 								if instance.cc_users
 									setObj.cc_users = instance.cc_users
 
@@ -1354,7 +1357,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							instance_traces.push(newTrace)
 							setObj.traces = instance_traces
 
-							setObj.state = instance.state
+							setObj.state = "pending"
 							setObj.values = instance.values
 							if instance.cc_users
 								setObj.cc_users = instance.cc_users
@@ -1383,7 +1386,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 
 			setObj.traces = instance_traces
 
-			setObj.state = instance.state
+			setObj.state = "pending"
 			setObj.values = instance.values
 			if instance.cc_users
 				setObj.cc_users = instance.cc_users
@@ -2156,6 +2159,9 @@ uuflowManager.checkMainAttach = (instance_id, name)->
 		new_ins_name = name || ins.name
 
 		new_ins_name = new_ins_name.replace(/\r/g,"").replace(/\n/g,"")
+
+		#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+		new_ins_name = new_ins_name.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g,"")
 
 		main_name_split = main.name().split('.')
 		main_name_split.pop()

@@ -17,6 +17,42 @@ FlowversionAPI =
 	replaceErrorSymbol: (str)->
 		return str.replace(/\"/g,"&quot;").replace(/\n/g,"<br/>")
 
+	getStepHandlerName: (step)->
+		switch step.deal_type
+			when 'specifyUser'
+				approverNames = step.approver_users.map (userId)->
+					user = db.users.findOne(userId)
+					if user
+						return user.name
+					else
+						return ""
+				stepHandlerName = approverNames.join(",")
+			when 'applicantRole'
+				approverNames = step.approver_roles.map (roleId)->
+					role = db.flow_roles.findOne(roleId)
+					if role
+						return role.name
+					else
+						return ""
+				stepHandlerName = approverNames.join(",")
+			else
+				stepHandlerName = ''
+				break
+		return stepHandlerName
+
+	getStepName: (stepName, stepHandlerName)->
+		# 返回step节点名称
+		if stepName
+			stepName = "<div class='graph-node'>
+				<div class='step-name'>#{stepName}</div>
+				<div class='step-handler-name'>#{stepHandlerName}</div>
+			</div>"
+			# 把特殊字符清空或替换，以避免mermaidAPI出现异常
+			stepName = FlowversionAPI.replaceErrorSymbol(stepName)
+		else
+			stepName = ""
+		return stepName
+
 	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString)->
 		# 该函数返回以下格式的graph脚本
 		# graphSyntax = '''
@@ -36,13 +72,12 @@ FlowversionAPI =
 						# 标记条件节点
 						if step.step_type == "condition"
 							nodes.push "	class #{step._id} condition;"
-						# 把特殊字符清空或替换，以避免mermaidAPI出现异常
-						stepName = "<div class='graph-node'><div class='step-name'>#{step.name}</div></div>"
-						stepName = FlowversionAPI.replaceErrorSymbol(stepName)
+						stepHandlerName = FlowversionAPI.getStepHandlerName(step)
+						stepName = FlowversionAPI.getStepName(step.name, stepHandlerName)
 					else
 						stepName = ""
 					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					toStepName = FlowversionAPI.replaceErrorSymbol(toStepName)
+					toStepName = FlowversionAPI.getStepName(toStepName, "")
 					nodes.push "	#{step._id}(\"#{stepName}\")-->#{line.to_step}(\"#{toStepName}\")"
 
 		if currentStepId
@@ -83,6 +118,7 @@ FlowversionAPI =
 			else
 				judgeText = ''
 				break
+		return judgeText
 
 	getTraceName: (traceName, approveHandlerName)->
 		# 返回trace节点名称
@@ -402,6 +438,9 @@ FlowversionAPI =
     						stroke-width: 1px;
 						}
 						#flow-steps-svg .node .trace-handler-name{
+							color: #777;
+						}
+						#flow-steps-svg .node .step-handler-name{
 							color: #777;
 						}
 						div.mermaidTooltip{

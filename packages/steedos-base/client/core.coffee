@@ -1,4 +1,3 @@
-
 # 实现定时更新变量
 # 在函数中执行Steedos.deps?.miniute?.depend()即可让函数定时执行并更新template
 Steedos.deps = {
@@ -38,3 +37,5 @@ Meteor.startup ->
 		else
 			$(".loading-text a").addClass("hide")
 	, 5 * 1000
+
+	$.jstree.defaults.core.themes.variant = "large"

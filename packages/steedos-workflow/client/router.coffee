@@ -68,9 +68,6 @@ workflowSpaceRoutes.route '/:box/',
 		if params.box != 'inbox'
 			Session.set("workflowCategory", undefined);
 
-		if last_box != Session.get("box")
-			Template.instance_list._changeOrder()
-
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 

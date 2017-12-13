@@ -1,3 +1,44 @@
+###
+@api {post} /api/workflow/open/drafts 新建申请单
+
+@apiName createInstance
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+{
+	"X-Space-Id": "wsw1re12TdeP223sC"
+}
+
+@apiParamExample {json} Request Payload:
+{
+    "flow": 流程Id,
+    "applicant": 申请人Id,
+    "values": {
+        "fields1" : 字段值,
+        "fields2" : 字段值,
+        ...
+    }
+}
+
+@apiSuccessExample {json} Success-Response:
+{
+    "status": "success",
+    "data": {instance}
+}
+
+@apiErrorExample {json} error-Response:
+{
+    "status": "error",
+    "data": {...}
+}
+###
 JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 	try
 

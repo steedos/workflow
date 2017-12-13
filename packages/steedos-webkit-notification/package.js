@@ -13,9 +13,11 @@ Package.onUse(function(api) {
     api.use('tracker');
     api.use('meteorhacks:subs-manager');
 
-    api.use('steedos:lib');
+    api.use('steedos:base');
 
     api.addFiles('server/models/raix_push_notifications.coffee');
+
+    api.addFiles('server/methods/calculate_box.coffee');
 
     api.addFiles('lib/jquery.notification.js', 'client');
     api.addFiles('client/observe_notifications.coffee', 'client');

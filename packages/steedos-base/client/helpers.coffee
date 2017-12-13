@@ -337,6 +337,10 @@ TemplateHelpers =
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
+
+		apps = Session.get("apps")
+		if apps and apps instanceof Array
+			selector["_id"] = {$in:apps};
 		return db.apps.find(selector, {sort: {sort: 1}});
 
 	getSpaceFirstApp: ()->
@@ -427,7 +431,7 @@ TemplateHelpers =
 						}
 					}
 				}
-			badge = Events.find(selector).count()
+			badge = Events?.find(selector).count()
 		else
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}

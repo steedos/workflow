@@ -17,7 +17,8 @@ Template.contacts_settings_no_force_phone_modal.helpers
 
 Template.contacts_settings_no_force_phone_modal.events
 	'click .btn-save': (event, template)->
-		Meteor.call("set_space_settings", Session.get("spaceId"), "contacts_no_force_phone_users", AutoForm.getFieldValue("users","contacts_settings_no_force_phone_users"), true, ()->
+		values = AutoForm.getFieldValue("users","contacts_settings_no_force_phone_users") || []
+		Meteor.call("set_space_settings", Session.get("spaceId"), "contacts_no_force_phone_users", values, false, ()->
 			Modal.hide(template);
 			toastr.success(t("saved_successfully"))
 		)

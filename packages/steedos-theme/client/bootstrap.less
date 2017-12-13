@@ -108,3 +108,45 @@
         }
     }
 }
+
+
+.steedos {
+    .form-horizontal {
+        .form-group {
+            margin-bottom: 5px;
+            .checkbox {
+                padding-top: 4px;
+                & + .help-block {
+                    margin-bottom: 5px;
+                }   
+            }
+            .autoform-padding-fix {
+                .autoform-array-item {
+                    .form-group {
+                        .control-label:empty {
+                            display: none;
+                        }
+                    }
+                }
+                .panel-body {
+                    .form-group {
+                        .control-label {
+                            padding-top: 0px;
+                            padding-bottom: 7px;
+                        }
+                    }
+                }
+            }
+            .col-sm-10 {
+                button[type='submit'] {
+                    float: right;
+                }
+            }
+            @media(max-width: 767px) {
+                .control-label:empty {
+                    display: none;
+                }
+            }
+        }
+    }
+}

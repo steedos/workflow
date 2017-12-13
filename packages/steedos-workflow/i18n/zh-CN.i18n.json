@@ -194,11 +194,12 @@
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
-	"workflow_form_edit": "流程脚本",
+	"workflow_form_edit": "流程列表",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
 	"flows_print_template": "打印模板",
 	"flows_instance_template": "表单模板&nbsp; <a class='export-table-template'>下载默认模板</a>",
+	"flows_description": "流程描述",
 
 	"workflow_attach_unlock": "解锁",
 	"workflow_attach_locked_by": "%s 正在编辑",
@@ -234,6 +235,7 @@
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
 	"instance_search_name": "申请单标题",
+	"instance_search_file": "文件标题",
 	"instance_search_applicant_name": "提交人姓名",
 	"instance_search_applicant_organization_name": "提交人所属部门名称",
 	"instance_search_submit_date": "提交日期",
@@ -282,7 +284,8 @@
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "确认",
@@ -305,7 +308,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "__instance_name__",
 				"trace_approve_cc": "__instance_name__",
-				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
+				"remind": "催办通知：__instance_name__，办结时限：__deadline__。",
+				"trace_approve_cc_submit": "我已提交了传阅的申请单__instance_name__"
 			}
 		},
 		"email": {
@@ -510,7 +514,7 @@
 
 	"instance_main_attachment": "正文",
 
-	"flows_field_map": "字段关系",
+	"flows_field_map": "归档关系",
 
 	"Instance State readed": "已阅",
 	"instance_distribute_title": "分发",
@@ -573,7 +577,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "流程编号规则不存在: ",
 	"ConfirmDeletion?": "确认删除?",
 	"instance_number_rules_name_only": "名称已存在",
-	"flows_btn_export_title": "导出",
+	"flows_btn_export_title": "导出流程",
 	"flows_btn_copylink_title": "复制链接",
 	"instance_distribute_related_instances_title": "自动创建关联文件",
 	"instance_next_step_users_placeholder": "请选择下一步处理人",
@@ -614,6 +618,7 @@
 	"flow_roles_delete_success": "删除成功",
 	"add_positions": "新增",
 	"save_role": "保存",
+	"delete_role": "删除",
 	"flow_roles_update_success": "更新成功",
 	"flow_roles_necessary": "请填写岗位名称",
 	"flow_positions_add_suceess": "添加成功",
@@ -639,5 +644,24 @@
 	"workflow_error_multiple_next_step_users": "「__insname__」的下一步处理人有多个",
 	"workflow_error_multiple_next_step": "「__insname__」的下一步步骤有多个",
 	"workflow_batch_instances_empty": "没有可批量审批的数据",
-	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上"
+	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上",
+	"workflow_copy_flow": "复制流程",
+	"workflow_copy_flow_text": "请填写新流程名称",
+	"workflow_copy_flow_success": "复制流程成功",
+	"workflow_copy_flow_error_reason_required": "请填写新流程名称",
+	"workflow_enabled": "启用",
+	"workflow_disabled": "停用",
+	"flows_state": "状态",
+	"flows_current_modified": "修改时间",
+	"flows_modified_by_name()": "修改者",
+	"flows_category_name()": "流程分类",
+	"flow_list_title_set_template": "设置模版",
+	"flow_list_title_set_script": "设置脚本",
+	"flow_list_title_set_fieldsMap": "设置归档关系",
+	"distribute_edit_flow_select_users": "流程被分发时分发对象选择范围",
+	"distribute_edit_flow_select_flows": "搜索此步骤可分发流程",
+	"flow_list_title_set_distribute": "设置分发",
+	"distribute_to_self": "分发时可分发给自己",
+
+	"instance_deleted": "已删除"
 }

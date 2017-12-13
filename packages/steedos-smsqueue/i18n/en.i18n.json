@@ -23,6 +23,10 @@
 		"calendar_event": {
 			"code": "SMS_67200967",
 			"template": "会议通知：__event_action__,标题：__event_title__,时间：__event_time__,地点：__event_location__"
+		},
+		"change_password": {
+			"code": "SMS_67200967",
+			"template": "系统通知：__name__修改了您的登录密码"
 		}
 	}
 }

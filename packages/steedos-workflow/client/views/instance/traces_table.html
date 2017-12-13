@@ -30,7 +30,6 @@
                         <td class="td-approve">
                             <table class="trace-approve-talbe">
                                 {{#each this.approves}}
-                                    <!-- {{#unless isCCOrDistributeOrForwardTerminated this}} -->
                                         {{#if this.is_finished}}
                                             {{#if unempty this.description}}
                                             <tr class="approve-description">
@@ -84,7 +83,6 @@
                                                 <td class="status {{this.judge}}"><!-- {{_t "instance_in_progress"}} --></td>
                                             {{/if}}
                                         </tr>
-                                    <!-- {{/unless}} -->
                                 {{/each}}
                             </table>
                         </td>

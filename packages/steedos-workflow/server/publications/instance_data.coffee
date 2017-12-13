@@ -60,9 +60,11 @@ Meteor.publish 'instance_data', (instanceId, box)->
 				else
 					triggerChangeFieldsValues[key] = instance[key]
 
-			hasOpinionField = InstanceSignText.includesOpinionField(instance.form, instance.form_version)
+#			hasOpinionField = InstanceSignText.includesOpinionField(instance.form, instance.form_version)
 
-			if hasOpinionField
+			show_modal_traces_list = db.space_settings.findOne({space: instance.space, key: "show_modal_traces_list"})?.values || false
+
+			if show_modal_traces_list
 
 				traces = new Array();
 

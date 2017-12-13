@@ -25,7 +25,9 @@ Template.workflowSidebar.helpers
 
 		return inboxInstances.length > 0
 
-	inboxInstancesFlow: (category_id)->
+	inboxCategory: (category_id)->
+
+		inboxCategory = {}
 
 		inboxInstancesFlow = []
 
@@ -37,6 +39,8 @@ Template.workflowSidebar.helpers
 		}]
 
 		query.space = Session.get("spaceId")
+
+		category = db.categories.findOne({_id: category_id})
 
 		if category_id
 			category_forms = db.forms.find({category: category_id}, {fields: {_id:1}}).fetch();
@@ -55,12 +59,15 @@ Template.workflowSidebar.helpers
 
 		flowIds = _.keys(inboxInstancesGroupByFlow);
 
+		category_inbox_count = 0
+
 		flowIds.forEach (flowId)->
 			flow = db.flows.findOne(flowId, {fields:{name:1, space: 1}}) || {name: flowId};
 			flow.inbox_count = inboxInstancesGroupByFlow[flowId]?.length;
+			category_inbox_count = category_inbox_count + flow.inbox_count
 			inboxInstancesFlow.push(flow)
 
-		return inboxInstancesFlow
+		return {_id: category_id, name: category?.name, inbox_count: category_inbox_count, inboxInstancesFlow: inboxInstancesFlow}
 
 	isShowMonitorBox: ()->
 		if Meteor.settings.public?.workflow?.onlyFlowAdminsShowMonitorBox
@@ -102,8 +109,8 @@ Template.workflowSidebar.helpers
 	categorys: ()->
 		return WorkflowManager.getSpaceCategories(Session.get("spaceId"))
 
-	hasInstances: (instances)->
-		return instances?.length > 0
+	hasInstances: (inbox_count)->
+		return inbox_count > 0
 
 	Session_category: ()->
 		return Session.get("workflowCategory")

@@ -187,7 +187,7 @@ Meteor.startup ->
 				console.log 'aliyunTokens is ', aliyunTokens.toString()
 
 			gcmTokens = userTokens.filter((item) ->
-								item.indexOf("aliyun:") < 0 or item.indexOf("xinge:") < 0 or item.indexOf("huawei:") < 0 or item.indexOf("mi:") < 0
+								item.indexOf("aliyun:") < 0 and item.indexOf("xinge:") < 0 and item.indexOf("huawei:") < 0 and item.indexOf("mi:") < 0
 							)
 			if Push.debug
 				console.log 'gcmTokens is ' , gcmTokens.toString();

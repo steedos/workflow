@@ -72,9 +72,6 @@ Template.reassign_modal.helpers({
 	}
 })
 
-Template.reassign_modal.onCreated(function() {
-	Steedos.instanceDataReload(Session.get("instanceId"))
-})
 
 
 Template.reassign_modal.events({
@@ -85,6 +82,8 @@ Template.reassign_modal.events({
 
 		reassign_users.value = "";
 		reassign_users.dataset.values = '';
+
+		$(reassign_users).change();
 	},
 
 	'click #reassign_help': function(event, template) {

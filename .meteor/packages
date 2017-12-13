@@ -98,7 +98,6 @@ steedos:connect-bqq
 steedos:connect-dingtalk
 # steedos:connect-qiyeweixin
 steedos:version
-steedos:lib
 steedos:workflow
 steedos:api
 steedos:cms
@@ -106,11 +105,9 @@ steedos:chat
 steedos:webkit-notification
 steedos:admin
 
-peppelg:bootstrap-3-modal
-
 perak:markdown
 q42:autoform-markdown
-yogiben:autoform-file
+steedos:autoform-file
 yogiben:autoform-tags
 
 simple:json-routes
@@ -168,9 +165,6 @@ steedos:calendar-i18n
 
 steedos:freeboard
 steedos:dashboard
-
-
-# steedos:distribute-qhd
 
 steedos:tableau
 

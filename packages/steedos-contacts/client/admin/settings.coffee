@@ -30,6 +30,9 @@ Template.contacts_settings.helpers
 		else
 			return []
 
+	isForceAccountBindPhone: ()->
+		return Meteor.settings?.public?.phone?.forceAccountBindPhone
+
 
 Template.contacts_settings.events
 	'click .set_settings': (event, template)->
@@ -76,6 +79,7 @@ Template.contacts_settings.events
 Template.contacts_settings.onCreated ->
 	spaceId = Steedos.spaceId()
 	Steedos.subs["contacts_settings"].subscribe("contacts_view_limits", spaceId)
+	Steedos.subs["contacts_settings"].subscribe("contacts_no_force_phone_users", spaceId)
 
 Template.contacts_settings.onDestroyed ->
 	Steedos.subs["contacts_settings"].clear()

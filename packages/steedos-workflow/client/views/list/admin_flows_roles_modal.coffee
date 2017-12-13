@@ -18,14 +18,14 @@ Template.admin_flows_roles_modal.events
 		dataTable = $(event.currentTarget).closest('table').DataTable()
 		rowData = dataTable.row(event.currentTarget).data()
 		if rowData
-			Modal.allowMultiple =true
+			Modal.allowMultiple = true
 			Modal.show("admin_flows_roles_detail_modal",rowData)
 
 	'click .add-positions': (event,template) ->
 		Session.set "position-action","add"
 		data = 
 			role: Template.instance()?.data?._id
-		Modal.allowMultiple =true
+		Modal.allowMultiple = true
 		Modal.show("admin_flows_roles_detail_modal",data)
 	
 	'click .save-role': (event,template) ->
@@ -44,4 +44,24 @@ Template.admin_flows_roles_modal.events
 							toastr.success t("flow_roles_update_success")	
 							Modal.hide(template)	
 		else
-			toastr.error t("flow_roles_necessary")	
+			toastr.error t("flow_roles_necessary")
+
+	'click .delete-role': (event,template) ->
+		roleId = Template.instance().data?._id
+		Modal.allowMultiple = true
+		swal {
+			title: t("Are you sure?"),
+			type: "warning",
+			showCancelButton: true,
+			cancelButtonText: t('Cancel'),
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: t('OK'),
+			closeOnConfirm: true
+		}, () ->
+			db.flow_roles.remove {_id:roleId} , (error,result)->
+				if result
+					Modal.hide(template)
+					toastr.success t("flow_roles_delete_success")
+				else
+					toastr.error t(error.reason) 
+

@@ -1,4 +1,4 @@
-Template.app_list_box_modal.events
+Template.steedosLoading.events
 
 	'click .loading-text .btn-reload': (event)->
 		window.location.reload(true)

@@ -19,18 +19,23 @@ Template.cancel_distribute_modal.helpers
 
 		return traces
 
+	dateFormat: (date) ->
+		if Steedos.isMobile() && date?.getFullYear() == (new Date).getFullYear()
+			return $.format.date new Date(date), "MM-dd HH:mm"
+		else
+			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
+
 
 
 
 Template.cancel_distribute_modal.events
-	'click .for-input': (event, template) ->
+	'click .handler-name': (event, template) ->
 		approveid = event.currentTarget.dataset.approveid
 		if $("#"+approveid)
 			$("#"+approveid).click()
 
 	'click .cancel_distribute_modal_all_approve_toggle': (event, template) ->
-		trace_id = event.currentTarget.id 
-		$("[name='#{trace_id}']").prop('checked', event.currentTarget.checked)
+		$("[name='#{event.currentTarget.id}']").prop('checked', event.currentTarget.checked)
 
 	'click .btn-primary': (event, template) ->
 		checked_ids = []
@@ -45,7 +50,8 @@ Template.cancel_distribute_modal.events
 				if error
 					toastr.error TAPi18n.__(error.reason)
 				if result == true
-					toastr.success(TAPi18n.__("instance_approve_forward_remove_success"));
+					toastr.success(TAPi18n.__("instance_approve_forward_remove_success"))
+					Modal.hide(template)
 
 
 
