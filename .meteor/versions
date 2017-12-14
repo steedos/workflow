@@ -171,12 +171,13 @@ steedos:authenticate-user-by-auth-token@1.0.0
 steedos:autoform@0.0.7
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
+steedos:autoform-file@0.4.2
 steedos:autoform-modals@0.3.9_9
-steedos:base@0.0.65
+steedos:base@0.0.68
 steedos:calendar@0.1.19
 steedos:calendar-i18n@0.0.15
 steedos:chat@0.0.1
-steedos:cms@0.0.2
+steedos:cms@0.0.4
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
