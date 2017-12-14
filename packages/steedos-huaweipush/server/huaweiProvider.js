@@ -95,7 +95,7 @@ HuaweiPush.getPostData = function(notification, package_name, tokens, timeToLive
 				}
 			},
 			ext: {
-				customize: [notification.payload]
+				customize: this.extras(notification.extras)
 			}
 		}
 	};
@@ -155,3 +155,24 @@ HuaweiPush.checkToken = function(package_name, callback) {
 HuaweiPush.formatHuaweiDate = function(date) {
 	return moment(date).format("YYYY-MM-DDTHH:mm");
 }
+
+/*
+ * 用户自定义 dict
+ * "extras":{"season":"Spring", "weather":"raining"}]
+ */
+HuaweiPush.extras = function(extras) {
+	if (Array.isArray(extras))
+		return extras;
+
+	var extraArray = [];
+	if (extras) {
+		var keys = Object.keys(extras);
+		keys.forEach(function(key) {
+			var v = {};
+			v[key] = extras[key];
+			extraArray.push(v)
+		})
+		extras = extraArray
+	}
+	return extraArray;
+};

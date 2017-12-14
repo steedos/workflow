@@ -77,7 +77,7 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 			tokenDataList = []
 			_.each huaweiTokens, (t)->
 				tokenDataList.push({'package_name': package_name, 'token': t})
-			noti = {'android': {'title': notification.title, 'message': notification.text, 'payload': notification.payload}}
+			noti = {'android': {'title': notification.title, 'message': notification.text}, 'extras': notification.payload}
 
 			HuaweiPush.config [{'package_name': package_name, 'client_id': Meteor.settings.push.huawei.appId, 'client_secret': Meteor.settings.push.huawei.appSecret}]
 			
