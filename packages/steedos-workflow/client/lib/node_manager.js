@@ -261,7 +261,11 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 								// 正文上传
 								NodeManager.setUploadRequests(filePath, filename, true, true);
 							}else{
-								NodeManager.setUploadRequests(filePath, filename, false, true);
+								if (InstanceManager.isAttachLocked(Session.get("attach_instance_id"), Meteor.userId())){
+									NodeManager.setUploadRequests(filePath, filename, false, true);
+								}else{
+									toastr.warning(t("steedos_desktop_edit_warning"));
+								}
 							}
 						}
 					} else {
