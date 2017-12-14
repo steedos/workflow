@@ -62,15 +62,27 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 		if !_.isEmpty(huaweiTokens) and Meteor.settings.push?.huawei
 			if Push.debug
 				console.log "huaweiTokens: #{huaweiTokens}"
-			msg = new HwPush.Message
-			msg.title(notification.title).content(notification.text)
-			msg.extras(notification.payload)
-			notification = new HwPush.Notification(
-				appId: Meteor.settings.push.huawei.appId
-				appSecret: Meteor.settings.push.huawei.appSecret
-			)
+			# msg = new HwPush.Message
+			# msg.title(notification.title).content(notification.text)
+			# msg.extras(notification.payload)
+			# notification = new HwPush.Notification(
+			# 	appId: Meteor.settings.push.huawei.appId
+			# 	appSecret: Meteor.settings.push.huawei.appSecret
+			# )
+			# _.each huaweiTokens, (t)->
+			# 	notification.send t, msg, callback
+
+
+			package_name = Meteor.settings.push.huawei.appPkgName
+			tokenDataList = []
 			_.each huaweiTokens, (t)->
-				notification.send t, msg, callback
+				tokenDataList.push({'package_name': package_name, 'token': t})
+			noti = {'android': {'title': notification.title, 'message': notification.text, 'payload': notification.payload}}
+
+			HuaweiPush.config [{'package_name': package_name, 'client_id': Meteor.settings.push.huawei.appId, 'client_secret': Meteor.settings.push.huawei.appSecret}]
+			
+			HuaweiPush.sendMany noti, tokenDataList
+
 
 		if !_.isEmpty(miTokens) and Meteor.settings.push?.mi
 			if Push.debug
@@ -92,7 +104,7 @@ Meteor.startup ->
 
 	config = {
 		debug: true
-		keepNotifications: false
+		keepNotifications: true
 		sendInterval: Meteor.settings.cron.push_interval
 		sendBatchSize: 10
 		production: true
