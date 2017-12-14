@@ -90,7 +90,8 @@
     },
     "huawei": {
       "appId": 123456,
-      "appSecret": "xxxxxx"
+      "appSecret": "xxxxxx",
+      "appPkgName": "xxxx"
     },
     "mi": {
       "appSecret": "xxxxx",
