@@ -161,6 +161,9 @@ if (Steedos.isNode()){
 	globalWin.on("close",function(){
 		if(globalWin.disableClose == false){
 			if(globalWin.window && globalWin.window.name){
+				// 通过给主窗口打日志的方式达到访问主窗口的目的，
+				// 这样就可以避免多次打开同一个子窗口的时候，关闭子窗口时会把主窗口一起关掉了
+				window.opener ? window.opener.console.log("globalWin.close(true);") : null;
 				globalWin.close(true);
 			}
 			else{
