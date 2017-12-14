@@ -159,8 +159,8 @@ spacebars-compiler@1.0.13
 srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.3
-steedos:accounts@0.0.25
-steedos:accounts-phone@0.0.2
+steedos:accounts@0.0.26
+steedos:accounts-phone@0.0.3
 steedos:accounts-t9n@1.14.2_4
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
@@ -172,7 +172,7 @@ steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2
 steedos:autoform-modals@0.3.9_9
-steedos:base@0.0.68
+steedos:base@0.0.69
 steedos:calendar@0.1.16
 steedos:calendar-i18n@0.0.15
 steedos:chat@0.0.1
