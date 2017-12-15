@@ -176,7 +176,7 @@ steedos:base@0.0.70
 steedos:calendar@0.1.16
 steedos:calendar-i18n@0.0.15
 steedos:chat@0.0.1
-steedos:cms@0.0.4
+steedos:cms@0.0.5
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
