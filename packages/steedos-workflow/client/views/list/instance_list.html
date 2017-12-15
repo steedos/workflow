@@ -80,7 +80,11 @@
 						<i class="fa fa-search"></i>
 					</button>
 					<button class="btn btn-default" type="button" id="instance_more_search">
-						<span class="caret"></span>
+						{{#if isMobile}}
+							<span class="caret"></span>
+						{{else}}
+							{{_ "instance_search_advanced_search"}}
+						{{/if}}
 					</button>
 				</span>
 			</div>

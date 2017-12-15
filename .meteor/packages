@@ -105,11 +105,9 @@ steedos:chat
 steedos:webkit-notification
 steedos:admin
 
-peppelg:bootstrap-3-modal
-
 perak:markdown
 q42:autoform-markdown
-yogiben:autoform-file
+steedos:autoform-file
 yogiben:autoform-tags
 
 simple:json-routes
@@ -180,3 +178,5 @@ chuangbo:cookie
 
 steedos:authenticate-user-by-access-token
 steedos:authenticate-user-by-auth-token
+
+steedos:huaweipush

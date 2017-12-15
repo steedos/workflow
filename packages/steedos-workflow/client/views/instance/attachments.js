@@ -252,6 +252,7 @@ Template.instance_attachment.events({
 		Session.set('attach_instance_id', Session.get("instanceId"));
 		Session.set('attach_space_id', Session.get("spaceId"));
 		Session.set('attach_box', Session.get("box"));
+		// Session.set('attach_edit_time', $.format.date(new Date(), "yyyy-MM-dd HH:mm"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -597,12 +598,16 @@ Template.ins_attach_version_modal.helpers({
 		return url;
 	},
 
-	locked_info: function(locked_by_name) {
-		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
+	locked_info: function(locked_by_name, locked_time) {
+		if (locked_time)
+			return TAPi18n.__('workflow_attach_locked_by', locked_by_name) + " , " + moment(locked_time).format("YYYY-MM-DD HH:mm");
+		else
+			return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
 	},
 
 	can_unlock: function(locked_by) {
-		return locked_by == Meteor.userId();
+		if (locked_by)
+			return Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()) || (locked_by == Meteor.userId());
 	},
 
 	IsImageAttachment: function(attachment) {

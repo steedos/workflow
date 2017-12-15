@@ -10,11 +10,21 @@ if (Steedos.isNode()){
 	
 	var jsonPath = path.join(process.cwd(),"package.json");
 	
+	try{
+		var package = require(jsonPath);
+	}catch(err){
+		if (err)
+			toastr.error(err);
+	}
+
 	// 获取package.json
 	var package = require(jsonPath);
 
+	var currentVersion = Desktop.version;
+	
 	// 获取当前已安装客户端版本
-	var currentVersion = package.version;
+	if (package)
+		currentVersion = package.version;
 
 	globalWin.maximize();
 
@@ -50,26 +60,26 @@ if (Steedos.isNode()){
 	}
 
 	// 判断客户端是否需要更新
-	Meteor.startup(function(){
-		if (currentVersion != Desktop.version){
-			swal({
-				title: t("steedos_desktop_update_info"),
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonText: t("steedos_desktop_confirm"),
-				cancelButtonText: t("steedos_desktop_cancel"),
-				closeOnCancel: true
-			}, function() {
-				Steedos.openWindow(Desktop.url);
-			})
-		}
-	});
+	// Meteor.startup(function(){
+	// 	if (currentVersion != Desktop.version){
+	// 		swal({
+	// 			title: t("steedos_desktop_update_info"),
+	// 			type: "warning",
+	// 			showCancelButton: true,
+	// 			confirmButtonText: t("steedos_desktop_confirm"),
+	// 			cancelButtonText: t("steedos_desktop_cancel"),
+	// 			closeOnCancel: true
+	// 		}, function() {
+	// 			Steedos.openWindow(Desktop.url);
+	// 		})
+	// 	}
+	// });
 
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
-		if(window.name){
+		if(window.opener.opener){
 			// 在新打开的窗口中执行window.close会造成右下角托盘消失问题。
-			// 所有Steedos.openWindow打开的窗口一定会带name属性
+			// window.opener.opener不为空说明是新窗口，用两层opener是因为主窗口本来就有一层opener
 			return;
 		}
 		if (tray){
@@ -161,6 +171,9 @@ if (Steedos.isNode()){
 	globalWin.on("close",function(){
 		if(globalWin.disableClose == false){
 			if(globalWin.window && globalWin.window.name){
+				// 通过给主窗口打日志的方式达到访问主窗口的目的，
+				// 这样就可以避免多次打开同一个子窗口的时候，关闭子窗口时会把主窗口一起关掉了
+				window.opener ? window.opener.console.log("globalWin.close(true);") : null;
 				globalWin.close(true);
 			}
 			else{
