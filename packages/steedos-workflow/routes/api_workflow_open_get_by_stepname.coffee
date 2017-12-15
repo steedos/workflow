@@ -1,18 +1,38 @@
 ###
-Content-Type：application/json
-body格式:
+@api {post} /api/workflow/open/getbystepname 根据步骤名称获取申请单
+
+@apiName getInstanceByStepName
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
 {
-	"stepname": xxx,
-	"flow": xxx
+	"X-Space-Id": "wsw1re12TdeP223sC"
 }
-返回数据格式
+
+@apiParamExample {json} Request Payload:
 {
-	status: "success",
-	data: {
-		"instances": [
-			...
-		]
-	}
+    "flow": 流程Id,
+    "stepname": 步骤名称
+}
+
+@apiSuccessExample {json} Success-Response:
+{
+	"status": "success",
+	"data": [
+		{
+			instance
+		},
+		{
+			instance
+		}
+	]
 }
 ###
 JsonRoutes.add 'post', '/api/workflow/open/getbystepname', (req, res, next) ->

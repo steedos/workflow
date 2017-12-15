@@ -4,7 +4,7 @@
 #	tableColumns: [
 #		{name: "name"},
 #	]
-#	selector: Admin.selectorCheckSpaceAdmin
+#	selector: Selector.selectorCheckSpaceAdmin
 #	showDelColumn: false
 #	routerAdmin: "/admin"
 
@@ -19,7 +19,7 @@
 # 	]
 # 	extraFields: []
 # 	newFormFields: "space,name"
-# 	selector: Admin.selectorCheckSpaceAdmin
+# 	selector: Selector.selectorCheckSpaceAdmin
 # 	pageLength: 100
 
 
@@ -37,7 +37,7 @@
 # 	extraFields: ["space", "role", "org", "users"]
 # 	newFormFields: "space,role,org,users"
 # 	pageLength: 100
-# 	selector: Admin.selectorCheckSpaceAdmin 
+# 	selector: Selector.selectorCheckSpaceAdmin 
 # 	children: [
 # 		{ 
 # 			find: (position) ->
@@ -77,7 +77,7 @@ db.webhooks.adminConfig =
 	dom: "tp"
 	extraFields: ["space", "flow", "payload_url", "content_type", "active", "description"]
 	newFormFields: "space,flow,payload_url,content_type,active,description"
-	selector: Admin.selectorCheckSpaceAdmin
+	selector: Selector.selectorCheckSpaceAdmin
 	pageLength: 100
 
 Meteor.startup ->

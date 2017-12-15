@@ -1,12 +1,26 @@
 ###
-描述：修改当前申请单未结束的trace中未结束的approve的values（非传阅 非会签）
-Content-Type：application/json
-body 格式:
-{
-	"values": {
-		...
+@api {put} /api/workflow/open/save/:ins_id 暂存申请单
+
+@apiName saveInstances
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+    {
+		"X-Space-Id": "wsw1re12TdeP223sC"
 	}
-}
+
+@apiSuccessExample {json} Success-Response:
+    {
+		"status": "success",
+		"data": {instance}
+	}
 ###
 JsonRoutes.add 'put', '/api/workflow/open/save/:ins_id', (req, res, next) ->
 	try

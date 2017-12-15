@@ -431,7 +431,7 @@ TemplateHelpers =
 						}
 					}
 				}
-			badge = Events.find(selector).count()
+			badge = Events?.find(selector).count()
 		else
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}

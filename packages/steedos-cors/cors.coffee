@@ -29,12 +29,21 @@ WebApp.rawConnectHandlers.use (req, res, next) ->
 
 WebApp.rawConnectHandlers.use (req, res, next) ->
 	#if /^\/(api|_timesync|sockjs|tap-i18n)(\/|$)/.test req.url
+	method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+
 	if req.headers.origin
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 		res.setHeader("Access-Control-Allow-Origin", req.headers.origin)
 	else
 		res.setHeader("Access-Control-Allow-Origin", "*")
+
+	if method == 'OPTIONS'
+		res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
+		res.statusCode = 204;
+		res.setHeader('Content-Length', '0');
+		res.end();
+		return ;
 
 	# Block next handlers to override CORS with value http://meteor.local
 	setHeader = res.setHeader

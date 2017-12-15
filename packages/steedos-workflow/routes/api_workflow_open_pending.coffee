@@ -1,7 +1,9 @@
 ###
-@api {get} /api/workflow/open/pending 取用户的待办事项列表
+@api {get} /api/workflow/open/pending 获取待办文件
 
-@apiName 查看待办文件
+@apiDescription 获取当前用户的待办事项列表
+
+@apiName getInbox
 
 @apiGroup Workflow
 

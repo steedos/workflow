@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.65',
+	version: '0.0.70',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -57,7 +57,6 @@ Package.onUse(function(api) {
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('meteorhacks:subs-manager@1.6.4');
 	api.use('dburles:collection-helpers@1.0.4');
-	api.use('peppelg:bootstrap-3-modal@1.0.4');
 
 	api.use('momentjs:moment@2.14.1');
 
@@ -89,7 +88,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/users_changelogs.coffee');
 	api.addFiles('lib/models/steedos_keyvalue.coffee');
 	api.addFiles('lib/models/steedos_statistics.coffee');
-	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/audit_logs.coffee');
 	api.addFiles('lib/models/billings.coffee');
 	api.addFiles('lib/models/modules.coffee');
@@ -112,8 +110,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
 
-	api.addFiles('server/publications/space_user_signs.coffee', 'server');
-	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 	api.addFiles('server/publications/modules.coffee', 'server');
 	api.addFiles('server/publications/weixin_pay_code_url.coffee', 'server');
 
@@ -127,6 +123,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/billing_recharge.coffee', 'server');
 	api.addFiles('server/methods/get_space_user_count.coffee', 'server');
 	api.addFiles('server/methods/user_secret.coffee', 'server');
+
+	api.addFiles('server/methods/update_server_session.coffee', 'server');
 
 	api.addFiles('server/lib/billing_manager.coffee', 'server');
 
@@ -148,8 +146,12 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 	api.addFiles('lib/array_includes.js');
+	api.addFiles('lib/cfs.coffee', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 	api.addFiles('lib/settings.coffee', ['client', 'server']);
+
+	api.addFiles('lib/server_session.js');
+	api.export('ServerSession');
 
 	api.addFiles('server/schedule/statistics.js', 'server');
 	api.addFiles('server/schedule/billing.coffee', 'server');
@@ -169,6 +171,7 @@ Package.onUse(function(api) {
 		'client/core.coffee',
 		'client/swipe.coffee',
 		'client/swipe.less',
+		'client/admin_menu.coffee',
 		'client/api.coffee',
 		'client/helpers.coffee',
 		'client/language.coffee',
@@ -224,9 +227,10 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/momentjs/zh-cn.js', 'client');
 
+	api.addFiles('client/bootstrap_3_modal.js', 'client');
+
 	api.addFiles('client/steedos/router.coffee', 'client');
 	api.addFiles('client/steedos/tap-i18n-fix.js', 'client');
-	api.addFiles('client/steedos/subscribe.coffee', 'client');
 
 	api.addFiles('client/steedos/css/adminlte.less', 'client');
 
@@ -313,7 +317,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/layout/notFound_layout.less', 'client');
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
+	
 
+	api.export('Selector');
 	api.export('Steedos');
 	api.export('db');
 
@@ -324,6 +330,7 @@ Package.onUse(function(api) {
 
 	api.export(['billingManager'], ['server']);
 
+	api.export('Modal', 'client');
 });
 
 Package.onTest(function(api) {

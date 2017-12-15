@@ -39,11 +39,11 @@ db.apps._simpleSchema = new SimpleSchema
 		max: 16
 		min: 16
 		optional: true
-	internal:
-		type: Boolean
-		optional: true
-		autoform: 
-			omit: true
+	# internal:
+	# 	type: Boolean
+	# 	optional: true
+	# 	autoform: 
+	# 		omit: true
 	mobile:
 		type: Boolean
 		optional: true
@@ -96,7 +96,7 @@ if Meteor.isClient
 db.apps.attachSchema db.apps._simpleSchema;
 
 db.apps.isInternalApp = (url) ->
-	if url
+	if url and db.apps.INTERNAL_APPS
 		for app_url in db.apps.INTERNAL_APPS
 			if url.startsWith(app_url)
 				return true
@@ -124,15 +124,15 @@ if Meteor.isServer
 
 if Meteor.isServer
 
-	db.apps.before.insert (userId, doc) ->
-		doc.internal = db.apps.isInternalApp(doc.url)
-		return
+	# db.apps.before.insert (userId, doc) ->
+	# 	doc.internal = db.apps.isInternalApp(doc.url)
+	# 	return
 
 	db.apps.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
 		modifier.$unset = modifier.$unset || {};
 
-		if modifier.$set.url
-			modifier.$set.internal = db.apps.isInternalApp(modifier.$set.url)
-			delete modifier.$unset.internal
+		# if modifier.$set.url
+		# 	modifier.$set.internal = db.apps.isInternalApp(modifier.$set.url)
+		# 	delete modifier.$unset.internal
 

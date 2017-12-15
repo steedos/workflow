@@ -130,7 +130,6 @@ oauth1@1.1.10
 oauth2@1.1.10
 observe-sequence@1.0.12
 ordered-dict@1.0.8
-peppelg:bootstrap-3-modal@1.0.4
 perak:markdown@1.0.5
 percolate:migrations@0.9.8
 promise@0.8.8
@@ -160,8 +159,8 @@ spacebars-compiler@1.0.13
 srp@1.0.9
 standard-minifier-css@1.2.1
 standard-minifier-js@1.2.3
-steedos:accounts@0.0.24
-steedos:accounts-phone@0.0.2
+steedos:accounts@0.0.26
+steedos:accounts-phone@0.0.3
 steedos:accounts-t9n@1.14.2_4
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
@@ -171,12 +170,13 @@ steedos:authenticate-user-by-auth-token@1.0.0
 steedos:autoform@0.0.7
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
+steedos:autoform-file@0.4.2
 steedos:autoform-modals@0.3.9_9
-steedos:base@0.0.65
-steedos:calendar@0.1.19
+steedos:base@0.0.70
+steedos:calendar@0.1.16
 steedos:calendar-i18n@0.0.15
 steedos:chat@0.0.1
-steedos:cms@0.0.2
+steedos:cms@0.0.5
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
@@ -186,6 +186,7 @@ steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
 steedos:freeboard@1.1.3_28
 steedos:fullcalendar@3.4.0_1
+steedos:huaweipush@0.0.1
 steedos:i18n@0.0.11
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
@@ -215,6 +216,7 @@ steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
 steedos:workflow-chart@0.0.1
+summernote:standalone@0.7.3
 summernote:summernote@0.8.2
 tap:i18n@1.8.2
 templating@1.2.15
@@ -233,6 +235,5 @@ vazco:universe-autoform-select@0.2.1
 vazco:universe-selectize@0.1.22
 webapp@1.3.11
 webapp-hashing@1.0.9
-yogiben:autoform-file@0.4.2
 yogiben:autoform-tags@0.2.0
 zimme:active-route@2.3.2

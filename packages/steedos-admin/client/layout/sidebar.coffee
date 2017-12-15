@@ -64,15 +64,14 @@ Admin.menuTemplate =
 				items = children.map (menu, index) ->
 					unless Admin.menuTemplate.checkMenu(menu)
 						return ""
-					# 二级菜单才有url及onclick函数
 					$("body").off "click", ".admin-menu-#{menu._id}"
-
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
-
 						if menu.paid && !Steedos.isPaidSpace() 
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;
+
+						Admin.menuTemplate.addSelectedStyle menu.parent, menu._id
 
 						if typeof menu.onclick == "function"
 							menu.onclick()
@@ -197,6 +196,7 @@ Admin.menuTemplate =
 
 					$("body").off "click", ".weui-cell-#{menu._id}"
 					$("body").on "click", ".weui-cell-#{menu._id}", (e)->
+						Admin.menuTemplate.addSelectedStyle menu.parent, menu._id
 						if typeof menu.onclick == "function"
 							menu.onclick()
 
@@ -344,4 +344,11 @@ Admin.menuTemplate =
 			return false
 
 		return true
+
+	addSelectedStyle: (parent, _id)->
+		# 添加左侧菜单的选中效果
+		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
+		$(".treeview-menu a.admin-menu-#{_id}").addClass("selected")
+		unless $(".admin-menu-#{parent}").closest("li").hasClass("active")
+			$(".admin-menu-#{parent}").trigger("click")
 

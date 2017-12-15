@@ -451,7 +451,13 @@ InstanceManager.checkFormFieldValue = function(field) {
 
 	var jquery_f = $("[name='" + field.dataset.schemaKey + "']");
 
-	if (jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true")) {
+	var _form_group_div = jquery_f.closest(".form-group")
+
+	if(parent_group.hasClass("twitter-typeahead")){
+		parent_group = parent_group.parent().parent()
+	}
+
+	if (jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true") || (_form_group_div.length == 1 && _form_group_div[0].dataset.required == "true")) {
 		var fileValue = "";
 		if (field.type == "checkbox" || field.type == "radio") {
 			fileValue = $("[name='" + field.name + "']:checked").val();

@@ -17,6 +17,8 @@ Package.onUse(function(api) {
 
     api.addFiles('server/models/raix_push_notifications.coffee');
 
+    api.addFiles('server/methods/calculate_box.coffee');
+
     api.addFiles('lib/jquery.notification.js', 'client');
     api.addFiles('client/observe_notifications.coffee', 'client');
 });
