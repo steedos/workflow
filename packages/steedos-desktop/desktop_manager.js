@@ -10,11 +10,21 @@ if (Steedos.isNode()){
 	
 	var jsonPath = path.join(process.cwd(),"package.json");
 	
+	try{
+		var package = require(jsonPath);
+	}catch(err){
+		if (err)
+			toastr.error(err);
+	}
+
 	// 获取package.json
 	var package = require(jsonPath);
 
+	var currentVersion = Desktop.version;
+	
 	// 获取当前已安装客户端版本
-	var currentVersion = package.version;
+	if (package)
+		currentVersion = package.version;
 
 	globalWin.maximize();
 
@@ -50,20 +60,20 @@ if (Steedos.isNode()){
 	}
 
 	// 判断客户端是否需要更新
-	Meteor.startup(function(){
-		if (currentVersion != Desktop.version){
-			swal({
-				title: t("steedos_desktop_update_info"),
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonText: t("steedos_desktop_confirm"),
-				cancelButtonText: t("steedos_desktop_cancel"),
-				closeOnCancel: true
-			}, function() {
-				Steedos.openWindow(Desktop.url);
-			})
-		}
-	});
+	// Meteor.startup(function(){
+	// 	if (currentVersion != Desktop.version){
+	// 		swal({
+	// 			title: t("steedos_desktop_update_info"),
+	// 			type: "warning",
+	// 			showCancelButton: true,
+	// 			confirmButtonText: t("steedos_desktop_confirm"),
+	// 			cancelButtonText: t("steedos_desktop_cancel"),
+	// 			closeOnCancel: true
+	// 		}, function() {
+	// 			Steedos.openWindow(Desktop.url);
+	// 		})
+	// 	}
+	// });
 
 	// 刷新浏览器时，删除tray
 	window.addEventListener('beforeunload', function() {
