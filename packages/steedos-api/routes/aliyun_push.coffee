@@ -104,7 +104,7 @@ Meteor.startup ->
 
 	config = {
 		debug: true
-		keepNotifications: true
+		keepNotifications: false
 		sendInterval: Meteor.settings.cron.push_interval
 		sendBatchSize: 10
 		production: true
