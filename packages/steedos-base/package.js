@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.69',
+	version: '0.0.70',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -124,6 +124,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/get_space_user_count.coffee', 'server');
 	api.addFiles('server/methods/user_secret.coffee', 'server');
 
+	api.addFiles('server/methods/update_server_session.coffee', 'server');
+
 	api.addFiles('server/lib/billing_manager.coffee', 'server');
 
 	api.addFiles('client/lib/printThis/printThis.js', 'client');
@@ -147,6 +149,9 @@ Package.onUse(function(api) {
 	api.addFiles('lib/cfs.coffee', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 	api.addFiles('lib/settings.coffee', ['client', 'server']);
+
+	api.addFiles('lib/server_session.js');
+	api.export('ServerSession');
 
 	api.addFiles('server/schedule/statistics.js', 'server');
 	api.addFiles('server/schedule/billing.coffee', 'server');
