@@ -1,8 +1,13 @@
 if Meteor.settings?.public?.phone?.forceAccountBindPhone
 	if Meteor.isServer
 		Meteor.methods
-			checkForceBindPhone: (spaceId) ->
-				noForceUsers = db.space_settings.findOne({key:"contacts_no_force_phone_users",space: spaceId})?.values
+			checkForceBindPhone: (spaces) ->
+				check spaces, Array
+				space_settings = db.space_settings.find({key:"contacts_no_force_phone_users",space: {$in: spaces}})
+				noForceUsers = []
+				space_settings.forEach (n,i)->
+					if n.values?.length
+						noForceUsers = _.union noForceUsers, n.values
 				if noForceUsers and noForceUsers.length
 					return if noForceUsers.indexOf(Meteor.userId()) > -1 then false else true
 				return true
@@ -16,10 +21,10 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 				Meteor.setTimeout ()->
 					if Accounts.isPhoneVerified()
 						return
-					spaceId = Steedos.spaceId()
-					unless spaceId
+					spaces = db.spaces.find().fetch().getProperty("_id")
+					unless spaces.length
 						return
-					Meteor.call "checkForceBindPhone", spaceId, (error, results)->
+					Meteor.call "checkForceBindPhone", spaces, (error, results)->
 						if error
 							toastr.error(t(error.reason))
 						else
@@ -28,6 +33,7 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 							# 未验证手机号时，强行跳转到手机号绑定界面
 							setupUrl = "/accounts/setup/phone"
 							FlowRouter.go setupUrl
+							return
 
 						routerPath = FlowRouter.current()?.path
 						# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
