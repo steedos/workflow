@@ -1,6 +1,15 @@
 Template.phonePrefixesSelect.helpers({
 	prefixes: function(){
 		var selectedCode = this.selected;
+		if(!selectedCode){
+			var tags = navigator.language.match(/-([^-]+)/g);
+			if(tags && tags.length){
+				selectedCode = tags[tags.length - 1].replace("-","");
+			}
+			else{
+				selectedCode = navigator.language ? navigator.language : "CN";
+			}
+		}
 		var locale = this.locale;
 		if(!locale){
 			locale = "zh-cn";
