@@ -342,16 +342,6 @@ Template.instance_button.helpers
 	isMobile: ()->
 		return Steedos.isMobile()
 
-	enabled_cancel_distribute: ()->
-		ins = WorkflowManager.getInstance();
-		if !ins
-			return false
-
-		if Steedos.isLegalVersion('',"workflow.enterprise") and ins.state isnt 'draft'
-			return true
-
-		return false
-
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
 	copyUrlClipboard = new Clipboard('.btn-instance-readonly-view-url-copy');
@@ -373,7 +363,7 @@ Template.instance_button.events
 			offsetTop = $(this).offset().top
 			cls = $(this).data("for")
 			# 此处+37是因为不显示的按钮会排到第二行，一个按钮的高度为37
-			if offsetTop > signTop + 37
+			if offsetTop > signTop + 30
 				$(".#{cls}", ".instance-dropdown-menu").show()
 			else
 				$(".#{cls}", ".instance-dropdown-menu").hide()
@@ -601,5 +591,3 @@ Template.instance_button.events
 
 		$('#instance_submit').trigger('click')
 
-	'click .btn-instance-cancel-distribute': (event, template) ->
-		Modal.show 'cancel_distribute_modal'

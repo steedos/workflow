@@ -147,7 +147,7 @@ TracesTemplate.helpers =
 		if db.instances.find(approve.forward_instance).count() is 0
 			return false
 
-		if approve and approve.type == 'distribute' and !Session.get("instancePrint") and approve.judge isnt 'terminated'
+		if approve and approve.type == 'distribute' and !Session.get("instancePrint") and approve.judge isnt 'terminated' and Steedos.isLegalVersion('',"workflow.enterprise")
 			# 流程管理员和系统管理员，可以执行任何情况下的文件取消分发
 			ins = db.instances.findOne({_id: approve.instance}, {fields: {flow: 1, space: 1}})
 			if ins and ins.flow and ins.space
@@ -156,6 +156,7 @@ TracesTemplate.helpers =
 			
 			if approve.from_user == Meteor.userId()
 				return true
+
 		false
 
 	finishDateSchema: () ->
@@ -325,9 +326,6 @@ TracesTemplate.events =
 		event.preventDefault()
 		return false
 
-	'click .instance-trace-detail-modal .btn-close': (event, template) ->
-		Modal.hide "instance_trace_detail_modal"
-
 	'click .instance-trace-detail-modal .btn-forward-approve-remove': (event, template) ->
 		instanceId = Session.get('instanceId')
 		approveId = event.target.dataset.approve
@@ -379,3 +377,7 @@ TracesTemplate.events =
 				toastr.success(t("instance_approve_modal_modificationsave"))
 				Modal.hide "instance_trace_detail_modal"
 			return
+
+	'click .instance-trace-detail-modal .btn-distribute-approve-remove': (event, template) ->
+		Modal.allowMultiple = true
+		Modal.show 'cancel_distribute_modal'
