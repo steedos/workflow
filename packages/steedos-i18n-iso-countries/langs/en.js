@@ -1,5 +1,5 @@
 export default {
-  "locale": "en",
+  "locale": "en-us",
   "countries": {
     "AF": "Afghanistan",
     "AL": "Albania",

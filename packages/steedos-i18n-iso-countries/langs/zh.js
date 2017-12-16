@@ -1,5 +1,5 @@
 export default {
-  "locale": "zh-CN",
+  "locale": "zh-cn",
   "countries": {
     "AD": "安道尔",
     "AE": "阿联酋",

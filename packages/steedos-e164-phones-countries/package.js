@@ -7,9 +7,18 @@ Package.describe({
 
 Package.onUse(function(api) {
 	api.versionsFrom('METEOR@1.3');
+
+	api.use('blaze');
+	api.use('templating');
+
 	api.addFiles([
 		'e164-phones-countries.js'
 	]);
+	api.addFiles([
+		'phone-prefixes-ui.html',
+		'phone-prefixes-ui.js'
+	], 'client');
+
 	api.export('E164');
 });
 
