@@ -368,6 +368,10 @@ Template.instance_button.events
 			else
 				$(".#{cls}", ".instance-dropdown-menu").hide()
 
+			# 始终显示打印按钮
+			if cls = "btn-instance-to-print"
+				$(".#{cls}", ".instance-dropdown-menu").show()
+
 
 	'click .btn-instance-to-print': (event)->
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
