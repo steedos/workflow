@@ -343,7 +343,14 @@ Template.instance_button.helpers
 		return Steedos.isMobile()
 
 	enabled_cancel_distribute: ()->
-		return true
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+
+		if Steedos.isLegalVersion('',"workflow.enterprise") and ins.state isnt 'draft'
+			return true
+
+		return false
 
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
