@@ -366,7 +366,7 @@ Template.instance_button.events
 			offsetTop = $(this).offset().top
 			cls = $(this).data("for")
 			# 此处+37是因为不显示的按钮会排到第二行，一个按钮的高度为37
-			if offsetTop > signTop + 37
+			if offsetTop > signTop + 30
 				$(".#{cls}", ".instance-dropdown-menu").show()
 			else
 				$(".#{cls}", ".instance-dropdown-menu").hide()
