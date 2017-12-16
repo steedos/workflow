@@ -146,8 +146,16 @@ TracesTemplate.helpers =
 	showDistributeDeleteButton: (approve) ->
 		if db.instances.find(approve.forward_instance).count() is 0
 			return false
-		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
-			return true
+
+		if approve and approve.type == 'distribute' and !Session.get("instancePrint") and approve.judge isnt 'terminated'
+			# 流程管理员和系统管理员，可以执行任何情况下的文件取消分发
+			ins = db.instances.findOne({_id: approve.instance}, {fields: {flow: 1, space: 1}})
+			if ins and ins.flow and ins.space
+				if WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, Meteor.userId())
+					return true
+			
+			if approve.from_user == Meteor.userId()
+				return true
 		false
 
 	finishDateSchema: () ->
