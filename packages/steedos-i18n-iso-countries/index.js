@@ -1,5 +1,5 @@
 import codes from './codes';
-var IsoCountries = {};
+IsoCountries = {};
 IsoCountries.registeredLocales = {};
 
 /*
@@ -224,3 +224,5 @@ IsoCountries.getNumericCodes = function() {
 IsoCountries.langs = function() {
   return Object.keys(IsoCountries.registeredLocales);
 };
+
+export default registerLocale;

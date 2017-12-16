@@ -10,7 +10,8 @@ Package.onUse(function(api) {
 	api.use('ecmascript');
 	
 	api.addFiles([
-		'index.js'
+		'index.js',
+		'entry-node.js'
 	]);
 	api.export('IsoCountries');
 });

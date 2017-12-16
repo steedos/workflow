@@ -1,13 +1,12 @@
-import library from './index';
+import registerLocale from './index';
 
-import en from './langs/en.json';
-import zh from './langs/zh.json';
+import en from './langs/en.js';
+import zh from './langs/zh.js';
 
 
 var locales = [en,zh];
 
 for (var i = 0; i < locales.length; i++) {
-  library.registerLocale(locales[i]);
+  registerLocale(locales[i]);
 }
 
-module.exports = library;

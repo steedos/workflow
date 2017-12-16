@@ -1,4 +1,4 @@
-{
+export default {
   "locale": "en",
   "countries": {
     "AF": "Afghanistan",
