@@ -273,7 +273,11 @@ Template.instance_suggestion.helpers
 		)
 
 	approve_suggestion: ()->
-		return Session.get("instance_my_approve_description") || InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+
+		if Session.get("instance_my_approve_description") != null && Session.get("instance_my_approve_description") != undefined
+			return Session.get("instance_my_approve_description")
+		else
+			return InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
 
 
 Template.instance_suggestion.events
