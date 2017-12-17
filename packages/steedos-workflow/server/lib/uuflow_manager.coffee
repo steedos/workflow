@@ -36,7 +36,7 @@ uuflowManager.getSpaceUser = (space_id, user_id) ->
 uuflowManager.getFlow = (flow_id) ->
 	flow = db.flows.findOne(flow_id)
 	if not flow
-		throw new Meteor.Error('error!', "flow_id有误或此flow已经被删除")
+		throw new Meteor.Error('error!', "id有误或此流程已经被删除")
 	return flow
 
 uuflowManager.getSpaceUserOrgInfo = (space_user) ->
@@ -2256,3 +2256,36 @@ uuflowManager.caculateKeywords = (values, form, form_version)->
 								keywords.push values[s_field.code]['name']
 
 	return keywords.join(" ")
+
+uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
+	values = values || {}
+
+	require_but_empty_fields = []
+
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h)->
+			return form_version is form_h._id
+		)
+
+	_.each form_v.fields, (field)->
+		if field.type != 'table'
+			if field.is_required and _.isEmpty(values[field.code])
+				require_but_empty_fields.push field.name || field.code
+		
+		# 子表
+		else if field.type == 'table'
+			if _.isEmpty(values[field.code])
+				_.each field.fields, (s_field)->
+					if s_field.is_required
+						require_but_empty_fields.push s_field.name || s_field.code
+			else
+				_.each values[field.code], (s_value)->
+					_.each field.fields, (s_field)->
+						if s_field.is_required and _.isEmpty(s_value[s_field.code])
+							require_but_empty_fields.push s_field.name || s_field.code
+
+	return require_but_empty_fields
+
