@@ -24,11 +24,13 @@ Template.phonePrefixesSelect.helpers({
 			code = key;
 			name = countries[key]
 			prefixe = E164.findPhoneCountryCode(code);
-			title = "+" + prefixe + " " + name;
-			if (code === selectedCode){
-				props = {selected: true};
+			if(prefixe){
+				title = "+" + prefixe + " " + name;
+				if (code === selectedCode){
+					props = {selected: true};
+				}
+				options.push({prefixe: prefixe, code: code, name: name, title: title, props: props});
 			}
-			options.push({prefixe: prefixe, code: code, name: name, title: title, props: props});
 		}
 		// 按name排序
 		options.sort(function (p1, p2) {
