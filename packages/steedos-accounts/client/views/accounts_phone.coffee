@@ -47,7 +47,8 @@ Template.accounts_phone.events
 			toastr.error t "accounts_phone_enter_phone_number"
 			return
 
-		number = "+86 #{number}"
+		phonePrefix = $('.accounts-wrapper .phone-prefixes-select').val()
+		number = "+#{phonePrefix} #{number}"
 
 		swal {
 			title: t("accounts_phone_swal_confirm_title"),

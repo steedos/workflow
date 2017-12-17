@@ -17,7 +17,7 @@ _.extend Accounts,
 		if isIncludePrefix
 			return number
 		else
-			number?.replace(/^\+86/,"")
+			return E164.getPhoneNumberWithoutPrefix number
 
 if Meteor.isClient
 	Meteor.startup ->

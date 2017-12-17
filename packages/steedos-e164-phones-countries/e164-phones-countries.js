@@ -865,6 +865,7 @@ var ISO_3166 = {
 
 E164 = {}
 
+// 原包自带函数，通过完整手机号找到对应的国家代码，比如传入+8613701914323，返回CN
 E164.findIso3166 = function(phone) {
 	if (typeof phone !== 'string' || phone.length < 10) {
 		return;
@@ -884,9 +885,20 @@ E164.findIso3166 = function(phone) {
 	}
 };
 
+// 原包自带函数，通过国家代码找到对应的手机号前缀，比如传入CN，返回86(不是+86)
 E164.findPhoneCountryCode = function(code) {
 	if (typeof code !== 'string' && code.length !== 2) {
 		return;
 	}
 	return ISO_3166[code];
+};
+
+// 增加的功能函数，利用上面两个函数，通过完整手机号找到对应去除手机号前缀的手机号，比如传入+8613701914323或8613701914323，返回13701914323
+E164.getPhoneNumberWithoutPrefix = function(phone) {
+	var code = E164.findIso3166(phone);
+	if (typeof code !== 'string') {
+		return;
+	}
+	var prefix = E164.findPhoneCountryCode(code);
+	return phone.replace(prefix,"").replace("+","");
 };
