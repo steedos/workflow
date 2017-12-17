@@ -12,7 +12,8 @@ Meteor.methods({
 		check(selectedUsers, Array);
 		check(action_type, Match.OneOf('forward', 'distribute'));
 
-		check(from_approve_id, String);
+		if (action_type == "distribute")
+			check(from_approve_id, String);
 
 		var ins = db.instances.findOne(instance_id);
 		var old_space_id = ins.space;
