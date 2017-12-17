@@ -2,14 +2,16 @@ Template.phonePrefixesSelect.helpers({
 	prefixes: function(){
 		var selectedCode = this.selected;
 		if(!selectedCode){
-			var tags = navigator.language.match(/-([^-]+)/g);
+			var language = (navigator.language || navigator.browserLanguage).toLowerCase();
+			var tags = language.match(/-([^-]+)/g);
 			if(tags && tags.length){
 				selectedCode = tags[tags.length - 1].replace("-","");
 			}
 			else{
-				selectedCode = navigator.language ? navigator.language : "CN";
+				selectedCode = language ? language : "CN";
 			}
 		}
+		selectedCode = selectedCode.toUpperCase();
 		var locale = this.locale;
 		if(!locale){
 			locale = "zh-cn";
