@@ -32,8 +32,9 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 						if Steedos.isForceBindPhone and !Accounts.isPhoneVerified()
 							# 未验证手机号时，强行跳转到手机号绑定界面
 							setupUrl = "/accounts/setup/phone"
-							FlowRouter.go setupUrl
-							return
+							# 暂时先停掉手机号强制绑定功能，等国际化相关功能完成后再放开
+							# FlowRouter.go setupUrl
+							# return
 
 						routerPath = FlowRouter.current()?.path
 						# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
