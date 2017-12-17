@@ -53,6 +53,9 @@ instancesListTableTabular = (flowId, fields)->
 					if Session.get("box") == 'inbox' && doc.state != 'draft'
 						modified = doc.start_date || doc.modified
 
+					if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
+						modified = doc.submit_date || doc.submit_date
+
 					modifiedFromNow = Steedos.momentReactiveFromNow(modified);
 					flow_name = WorkflowManager.getFlow(doc.flow)?.name
 					cc_view = "";
