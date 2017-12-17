@@ -13,11 +13,11 @@ _.extend Accounts,
 		if Meteor.isClient
 			Meteor.call 'disablePhoneWithoutExpiredDays', expiredDays, callback
 	getPhoneNumber: (isIncludePrefix) ->
-		number = Accounts.user()?.phone?.number
+		phone = Accounts.user()?.phone
 		if isIncludePrefix
-			return number
+			return phone.number
 		else
-			return E164.getPhoneNumberWithoutPrefix number
+			return phone.mobile
 
 if Meteor.isClient
 	Meteor.startup ->

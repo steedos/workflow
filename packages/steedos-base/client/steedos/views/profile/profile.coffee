@@ -120,7 +120,7 @@ Template.profile.helpers
 	accountPhoneNumber: ()->
 		user = Meteor.user()
 		if user.phone
-			return E164.getPhoneNumberWithoutPrefix user.phone.number
+			return user.phone.number
 
 	navigationTitle: ()->
 		if Steedos.isMobile()
