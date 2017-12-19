@@ -902,3 +902,12 @@ E164.getPhoneNumberWithoutPrefix = function(phone) {
 	var prefix = E164.findPhoneCountryCode(code);
 	return phone.replace(prefix,"").replace("+","");
 };
+
+// 增加的功能函数，利用上面两个函数，通过完整手机号找到对应手机号前缀，比如传入+8613701914323或8613701914323，返回86(不是+86)
+E164.getPhonePrefix = function(phone) {
+	var code = E164.findIso3166(phone);
+	if (typeof code !== 'string') {
+		return;
+	}
+	return E164.findPhoneCountryCode(code);
+};
