@@ -169,7 +169,8 @@ Meteor.startup ()->
 			if doc.email
 				selector.push("emails.address": doc.email)
 			if doc.mobile
-				phoneNumber = "+86" + doc.mobile
+				currentUserMobile = Accounts.getPhonePrefix userId
+				phoneNumber = currentUserMobile + doc.mobile
 				selector.push("phone.number": phoneNumber)
 
 			userExist = db.users.find({$or: selector})
@@ -263,8 +264,9 @@ Meteor.startup ()->
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 
+			currentUserMobile = Accounts.getPhonePrefix userId
 			if modifier.$set?.mobile and modifier.$set.mobile != doc.mobile
-				phoneNumber = "+86" + modifier.$set.mobile
+				phoneNumber = currentUserMobile + modifier.$set.mobile
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 				repeatNumberUser = db.users.findOne({"phone.number": phoneNumber})
@@ -288,8 +290,9 @@ Meteor.startup ()->
 			# console.log JSON.stringify(userObj)
 
 			if (!doc.user) && (doc.email || doc.mobile)
+				currentUserMobile = Accounts.getPhonePrefix userId
 				if doc.email && doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserMobile + doc.mobile
 					userObjs = db.users.find({
 						$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 					}).fetch()
@@ -301,7 +304,7 @@ Meteor.startup ()->
 				else if doc.email
 					userObj = db.users.findOne({"emails.address": doc.email})
 				else if doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserMobile + doc.mobile
 					userObj = db.users.findOne({"phone.number": phoneNumber})
 
 				if (userObj)
@@ -334,7 +337,7 @@ Meteor.startup ()->
 						steedos_id: doc.email || id
 
 					if doc.mobile
-						phoneNumber = "+86" + doc.mobile
+						phoneNumber = currentUserMobile + doc.mobile
 						phone = 
 							number: phoneNumber
 							verified: false
@@ -410,7 +413,8 @@ Meteor.startup ()->
 					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
 					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
 					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
-					number = "+86" + newMobile
+					currentUserMobile = Accounts.getPhonePrefix userId
+					number = currentUserMobile + newMobile
 					user_set = {}
 					user_set.phone = {}
 					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段

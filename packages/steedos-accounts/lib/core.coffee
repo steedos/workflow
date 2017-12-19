@@ -12,12 +12,34 @@ _.extend Accounts,
 			Meteor.call 'disablePhoneWithoutExpiredDays', expiredDays
 		if Meteor.isClient
 			Meteor.call 'disablePhoneWithoutExpiredDays', expiredDays, callback
-	getPhoneNumber: (isIncludePrefix) ->
-		phone = Accounts.user()?.phone
+	getPhoneNumber: (isIncludePrefix, userId) ->
+		if Meteor.isClient
+			phone = Accounts.user()?.phone
+		else
+			phone = db.user.findOne(userId)?.phone
+		unless phone
+			return ""
 		if isIncludePrefix
 			return phone.number
 		else
+			unless phone.mobile
+				# 如果数据库中不存在mobile值，则用算法计算出不带前缀的手机号
+				return E164.getPhoneNumberWithoutPrefix phone.number
 			return phone.mobile
+	getPhonePrefix: (userId) ->
+		# 返回当前用户手机号前缀，如果找不到则返回默认的"+86"
+		if Meteor.isClient
+			phone = Accounts.user()?.phone
+		else
+			phone = db.user.findOne(userId)?.phone
+		unless phone
+			return "+86"
+		if phone.mobile
+			prefix = phone.number.replace phone.mobile, ""
+		else
+			# 如果数据库中不存在mobile值，则用算法计算出手机号前缀
+			prefix = "+#{E164.findPhoneCountryCode(phone.number)}"
+		return if prefix then prefix else "+86"
 
 if Meteor.isClient
 	Meteor.startup ->
