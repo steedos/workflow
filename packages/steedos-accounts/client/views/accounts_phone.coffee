@@ -24,7 +24,8 @@ Template.accounts_phone.helpers
 			return false
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
-		
+	prefix: ->
+		return Accounts.getPhonePrefix()?.replace("+","")
 
 Template.accounts_phone.onRendered ->
 	$("body").addClass("no-sidebar")

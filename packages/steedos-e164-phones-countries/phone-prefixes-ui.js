@@ -1,5 +1,6 @@
 Template.phonePrefixesSelect.helpers({
 	prefixes: function(){
+		var value = this.value;
 		var selectedCode = this.selected;
 		if(!selectedCode){
 			var language = (navigator.language || navigator.browserLanguage).toLowerCase();
@@ -26,7 +27,7 @@ Template.phonePrefixesSelect.helpers({
 			prefixe = E164.findPhoneCountryCode(code);
 			if(prefixe){
 				title = "+" + prefixe + " " + name;
-				if (code === selectedCode){
+				if (value ? (prefixe == value) : (code === selectedCode)){
 					props = {selected: true};
 				}
 				options.push({prefixe: prefixe, code: code, name: name, title: title, props: props});
