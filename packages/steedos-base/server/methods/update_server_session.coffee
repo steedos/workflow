@@ -1,9 +1,9 @@
 Meteor.methods
 	updateServerSession: (spaceId) ->
 		check spaceId, String
-		spaceName = db.spaces.findOne({_id: spaceId}, {fields: {name: 1}}).name
+		spaceName = db.spaces.findOne({_id: spaceId}, {fields: {name: 1}})?.name
 		userId = this.userId
-		userFullname = db.users.findOne({_id: userId}, {fields: {name: 1}}).name
+		userFullname = db.users.findOne({_id: userId}, {fields: {name: 1}})?.name
 
 
 		ServerSession.set("space_id", spaceId)
