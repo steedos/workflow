@@ -53,7 +53,7 @@ Meteor.startup ->
 
 	Tracker.autorun (c)->
 		spaceId = Session.get("spaceId")
-		if spaceId
+		if spaceId and Meteor.userId()
 			Meteor.call "updateServerSession", spaceId,
 				(error, result) ->
 					if error
