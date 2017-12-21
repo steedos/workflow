@@ -134,6 +134,9 @@ addOrganization = (organization)->
 	if organization.is_company
 		doc.is_company = true
 	doc.parent = organization.parent
+	parents = []
+	parents.push organization.parent
+	doc.parents = parents
 	doc.children = organization.children
 	doc.users = organization.users
 	doc.sort_no = organization.order
@@ -155,6 +158,7 @@ addSpaceUser = (user,orgIds)->
 	doc.user_accepted = true
 	doc.created = new Date
 	doc.modified = new Date
+	doc.position = user.position
 	doc.sort_no = user.order[0]
 	db.space_users.direct.insert doc
 addUser = (user)->
@@ -180,16 +184,22 @@ updateOrganization = (old_org,new_org)->
 		doc.sort_no = new_org.order
 	if old_org.parent != new_org.parent
 		doc.parent = new_org.parent
+	parents = []
+	parents.push new_org.parent
+	doc.parents = parents
 	if old_org.users.sort().toString() != new_org.users.sort().toString()
 		doc.users = new_org.users
 	if old_org.children.sort().toString() != new_org.children.sort().toString()
 		doc.children = new_org.children
 	if doc.hasOwnProperty('name') || doc.hasOwnProperty('fullname') || doc.hasOwnProperty('sort_no') || doc.hasOwnProperty('parent') || doc.hasOwnProperty('users') || doc.hasOwnProperty('children')
+		doc.modified = new Date
 		db.organizations.direct.update(old_org._id, {$set: doc})
 updateSpaceUser = (old_su,new_su,orgIds)->
 	doc = {}
 	if old_su.name != new_su.name
 		doc.name = new_su.name
+	if old_su.position != new_su.position || !old_su.position
+		doc.position = new_su.position
 	if old_su.sort_no != new_su.order[0]
 		doc.sort_no = new_su.order[0]
 	organizations = new_su.department.filter((m)-> return m==1||orgIds.indexOf(m)>-1).map((m)-> return new_su.space+"-"+m)
@@ -197,6 +207,7 @@ updateSpaceUser = (old_su,new_su,orgIds)->
 		doc.organizations = organizations
 		doc.organization = organizations[0]
 	if doc.hasOwnProperty('name') || doc.hasOwnProperty('sort_no') || doc.hasOwnProperty('organization')
+		doc.modified = new Date
 		db.space_users.direct.update(old_su._id, {$set: doc})
 updateUser = (old_user,new_user)->
 	doc = {}
