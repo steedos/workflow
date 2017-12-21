@@ -153,7 +153,7 @@ steedos:workflow-chart
 steedos:accounts-phone
 steedos:accounts
 
-steedos:remind
+# steedos:remind
 
 
 steedos:calendar
@@ -178,3 +178,5 @@ chuangbo:cookie
 
 steedos:authenticate-user-by-access-token
 steedos:authenticate-user-by-auth-token
+
+steedos:huaweipush

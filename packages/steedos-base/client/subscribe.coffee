@@ -49,3 +49,12 @@ Meteor.startup ->
 	Tracker.autorun (c)->
 		locale = Steedos.locale()
 		$("body").addClass("locale-#{locale}")
+
+
+	Tracker.autorun (c)->
+		spaceId = Session.get("spaceId")
+		if spaceId and Meteor.userId()
+			Meteor.call "updateServerSession", spaceId,
+				(error, result) ->
+					if error
+						console.log error

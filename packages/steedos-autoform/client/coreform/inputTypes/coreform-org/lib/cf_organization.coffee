@@ -15,7 +15,7 @@ renderTree = (container,isSelf)->
       targetTree = $("#cf_organizations_tree_self").jstree()
     currentNode = targetTree.get_node?(data.node.id);
     if currentNode
-      targetTree.select_node currentNode
+      targetTree.select_node? currentNode
   ).on('deselect_node.jstree', (e, data) ->
     # 删除选中组织时把另一个组织的同一节点也删除
     if(container == "#cf_organizations_tree_self")
@@ -24,7 +24,7 @@ renderTree = (container,isSelf)->
       targetTree = $("#cf_organizations_tree_self").jstree()
     currentNode = targetTree.get_node?(data.node.id);
     if currentNode
-      targetTree.deselect_node currentNode
+      targetTree.deselect_node? currentNode
   ).on('changed.jstree', (e, data) ->
     if data.selected.length
       Session.set("cf_selectOrgId", data.selected[0]);

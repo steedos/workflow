@@ -342,9 +342,6 @@ Template.instance_button.helpers
 	isMobile: ()->
 		return Steedos.isMobile()
 
-	enabled_cancel_distribute: ()->
-		return true
-
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
 	copyUrlClipboard = new Clipboard('.btn-instance-readonly-view-url-copy');
@@ -366,10 +363,14 @@ Template.instance_button.events
 			offsetTop = $(this).offset().top
 			cls = $(this).data("for")
 			# 此处+37是因为不显示的按钮会排到第二行，一个按钮的高度为37
-			if offsetTop > signTop + 37
+			if offsetTop > signTop + 30
 				$(".#{cls}", ".instance-dropdown-menu").show()
 			else
 				$(".#{cls}", ".instance-dropdown-menu").hide()
+
+			# 始终显示打印按钮
+			if cls = "btn-instance-to-print"
+				$(".#{cls}", ".instance-dropdown-menu").show()
 
 
 	'click .btn-instance-to-print': (event)->
@@ -594,5 +595,3 @@ Template.instance_button.events
 
 		$('#instance_submit').trigger('click')
 
-	'click .btn-instance-cancel-distribute': (event, template) ->
-		Modal.show 'cancel_distribute_modal'

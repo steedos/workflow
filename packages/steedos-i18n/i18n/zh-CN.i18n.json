@@ -485,7 +485,8 @@
 	"steedos_desktop_confirm": "确定",
 	"steedos_desktop_cancel": "取消",
 	"steedos_desktop_update_info": "当前客户端版本过旧，请下载安装最新客户端！",
-	"steedos_desktop_edit_office_info":"您正在编辑文档，请关闭后再打开新公文！",
+	"steedos_desktop_edit_office_info": "您正在编辑文档，请关闭后再打开新公文！",
+	"steedos_desktop_edit_warning": "当前文档已被管理员解锁，请重新编辑后上传！",
 
 	"billing": {
 		"upgrade": "升级",
