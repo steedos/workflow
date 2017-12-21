@@ -28,7 +28,7 @@ Meteor.methods
 		# - 当前步骤为填写或者审批
 		last_trace = _.last(ins.traces)
 		current_step = uuflowManager.getStep(ins, flow, last_trace.step)
-		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign"
+		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign" and current_step.step_type isnt "counterSign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
 		# - 参数approve中trace与当前获取的trace是否匹配
@@ -49,21 +49,26 @@ Meteor.methods
 
 		setObj = new Object
 		now = new Date
+		rest_counter_users = new Array
 		_.each traces, (t)->
 			if t._id is last_trace._id
 				if not t.approves
 					t.approves = new Array
 				_.each t.approves, (a, idx)->
-					if (!a.type or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
+					if (!a.type or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected" or a.judge is "readed") and a.is_finished isnt true
 						setObj['traces.$.approves.' + idx + '.finish_date'] = now
 						setObj['traces.$.approves.' + idx + '.read_date'] = now
 						setObj['traces.$.approves.' + idx + '.is_error'] = false
 						setObj['traces.$.approves.' + idx + '.is_read'] = true
 						setObj['traces.$.approves.' + idx + '.is_finished'] = true
-						setObj['traces.$.approves.' + idx + '.judge'] = "returned"
-						setObj['traces.$.approves.' + idx + '.cost_time'] = a.finish_date - a.start_date
-						setObj['traces.$.approves.' + idx + '.description'] = reason
+						setObj['traces.$.approves.' + idx + '.cost_time'] = now - a.start_date
 						setObj['traces.$.approves.' + idx + '.values'] = approve_values
+						if a.handler is current_user
+							setObj['traces.$.approves.' + idx + '.judge'] = "returned"
+							setObj['traces.$.approves.' + idx + '.description'] = reason
+						else
+							rest_counter_users.push a.handler
+
 				# 更新当前trace记录
 				setObj['traces.$.is_finished'] = true
 				setObj['traces.$.finish_date'] = true
@@ -131,5 +136,7 @@ Meteor.methods
 			_.each new_inbox_users, (user_id)->
 				if user_id isnt current_user
 					pushManager.send_message_to_specifyUser("current_user", user_id)
-			
+			# 如果是会签则给会签未提交的人发送push
+			_.each rest_counter_users, (user_id)->
+				pushManager.send_message_to_specifyUser("current_user", user_id)
 		return true
