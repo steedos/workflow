@@ -52,6 +52,7 @@ Template.cancel_distribute_modal.events
 				if result == true
 					toastr.success(TAPi18n.__("instance_approve_forward_remove_success"))
 					Modal.hide(template)
+					Modal.allowMultiple = false
 
 
 
@@ -76,8 +77,3 @@ Template.cancel_distribute_modal.onCreated ->
 					Steedos.subs["distributed_instances"].subscribe('distributed_instances_state_by_ids', instance_ids)
 
 			$("body").removeClass("loading")
-
-
-Template.cancel_distribute_modal.onDestroyed ->
-	console.log("Template.cancel_distribute_modal.onDestroyed...")
-	Steedos.subs["instance_traces"].clear()

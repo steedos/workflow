@@ -1,10 +1,6 @@
 Cookies = Npm.require("cookies")
 
 getInstanceReadOnly = (req, res, next, options) ->
-#	获取客户端请求IP
-	clientIp = req.headers['x-forwarded-for'] or req.connection.remoteAddress or req.socket.remoteAddress or req.connection.socket.remoteAddress
-#	获取白名单
-	whitelist = Meteor.settings.whitelist
 
 	user = Steedos.getAPILoginUser(req, res)
 
@@ -49,16 +45,12 @@ getInstanceReadOnly = (req, res, next, options) ->
 		return;
 
 	if !user
-		if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
-			user = db.users.findOne({_id: space.owner})
-		else
-			if !user
-				JsonRoutes.sendResult res,
-					code: 401,
-					data:
-						"error": "Validate Request[clientIp: #{clientIp}] -- Missing X-Auth-Token,X-User-Id",
-						"success": false
-				return;
+		JsonRoutes.sendResult res,
+			code: 401,
+			data:
+				"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+				"success": false
+		return;
 
 	if instance.space != spaceId
 		JsonRoutes.sendResult res,

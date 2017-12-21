@@ -55,12 +55,12 @@ InstancesToArchive::getNonContractInstances = ()->
 	return db.instances.find(query);
 
 InstancesToArchive.success = (instance)->
-	logger.info("success, name is #{instance.name}, id is #{instance._id}")
+	console.log("success, name is #{instance.name}, id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
-	logger.error error
+	console.log("failed, name is #{instance.name}, id is #{instance._id}. error: ")
+	console.log error
 
 #	校验必填
 _checkParameter = (formData) ->
@@ -271,15 +271,28 @@ _minxiInstanceData = (formData, instance) ->
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
+
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
-	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
+
+	space = db.spaces.findOne({_id: instance.space});
+
+	user = db.users.findOne({_id: space.owner})
+
+	options = {showTrace: true, showAttachments: true, absolute: true}
+
+	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
+
+	dataBuf = new Buffer(html);
 
 	try
-		formData.attach.push request(attachInfoUrl)
+		formData.attach.push {
+			value: dataBuf,
+			options: {filename: attachInfoName}
+		}
 
 		console.log("原文读取完成")
 	catch e
-		logger.error "原文下载失败：#{f._id},#{f.name()}. error: " + e
+		logger.error "原文读取失败#{instance._id}. error: " + e
 
 	formData.attachInfo = JSON.stringify(formData.attachInfo)
 

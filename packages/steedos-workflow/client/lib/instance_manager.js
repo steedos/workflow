@@ -728,6 +728,10 @@ InstanceManager.saveIns = function() {
 	$('body').addClass("loading");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
+		if(instance.state != 'draft'){
+			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+		}
+
 		if (InstanceManager.isCC(instance)) {
 			var description = $("#suggestion").val();
 			Meteor.call('cc_save', instance._id, description, function(error, result) {
@@ -845,6 +849,11 @@ InstanceManager.submitIns = function() {
 	var instance = WorkflowManager.getInstance();
 
 	if (instance) {
+
+		if(instance.state != 'draft'){
+			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+		}
+
 		if (InstanceManager.isCC(instance)) {
 
 			if (Session.get("instance_submitting")) {
@@ -1575,4 +1584,11 @@ InstanceManager.getCCStep = function() {
 		step = WorkflowManager.getInstanceStep(trace.step);
 	}
 	return step;
+}
+
+InstanceManager.updateApproveSign = function (sign_field_code, description, sign_type, lastSignApprove) {
+	myApprove = InstanceManager.getCurrentApprove()
+	if(myApprove && myApprove.sign_show != true){
+		Meteor.call('update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, sign_field_code, description, sign_type || "update", lastSignApprove)
+	}
 }
