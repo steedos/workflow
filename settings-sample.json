@@ -66,6 +66,10 @@
     // 门户
     "dashboard": {
       "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
+    },
+    //企业微信前端授权登录
+    "qiyeweixin":{
+      "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize"
     }
   },
   "push": {
@@ -224,5 +228,22 @@
     "appid": "xxx",
     "mch_id": "xxx",
     "partner_key": "xxx"
+  },
+  //企业微信API
+  "qiyeweixin":{
+    "sync_interval":600000,
+    "api":{
+      "getLoginInfo":"https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info",
+      "getProviderToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token",
+      "getSuiteAccessToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token",
+      "getPreAuthCode":"https://qyapi.weixin.qq.com/cgi-bin/service/get_pre_auth_code",
+      "getPermanentCode":"https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code",
+      "getCorpToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token",
+      "getDepartmentList":"https://qyapi.weixin.qq.com/cgi-bin/department/list",
+      "getUserList":"https://qyapi.weixin.qq.com/cgi-bin/user/list",
+      "getAllUserList":"https://qyapi.weixin.qq.com/cgi-bin/user/list",
+      "getAdminList":"https://qyapi.weixin.qq.com/cgi-bin/service/get_admin_list",
+      "getUserInfo3rd":"https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd"
+    }
   }
 }
