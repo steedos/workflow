@@ -161,7 +161,7 @@ Template.instance_button.helpers
 		cs = InstanceManager.getCurrentStep()
 		if _.isEmpty(cs)
 			return false
-		if cs.step_type is "submit" or cs.step_type is "sign"
+		if cs.step_type is "submit" or cs.step_type is "sign" or cs.step_type is "counterSign"
 			return true
 
 		return false
