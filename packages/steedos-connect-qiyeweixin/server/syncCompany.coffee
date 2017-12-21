@@ -1,6 +1,7 @@
 # 定时器
 Meteor.startup ()->
-	Meteor.setInterval(Qiyeweixin.startSyncCompany,600000)
+	if Meteor.settings.qiyeweixin?.sync_interval>0
+		Meteor.setInterval(Qiyeweixin.startSyncCompany,Meteor.settings.qiyeweixin.sync_interval)
 
 # Qiyeweixin.startSyncCompany()
 Qiyeweixin.startSyncCompany = ()->
