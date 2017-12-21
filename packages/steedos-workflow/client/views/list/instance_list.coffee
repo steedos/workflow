@@ -274,25 +274,27 @@ Template.instance_list.onCreated ->
 			if !Steedos.isMobile() and !Steedos.isPad()
 				$(".instance-list").perfectScrollbar("update");
 
-	self.autorun ()->
-		if Session.get("box") == 'inbox' && Session.get("flowId")
+	# 只有是企业版时，才支持批量审批
+	if Steedos.isLegalVersion('',"workflow.enterprise")
+		self.autorun ()->
+			if Session.get("box") == 'inbox' && Session.get("flowId")
 
-			Session.get("workflow_batch_instances_reload")
+				Session.get("workflow_batch_instances_reload")
 
-			categoryId = Session.get("workflowCategory")
+				categoryId = Session.get("workflowCategory")
 
-			if Session.get("flowId")
-				flows = [Session.get("flowId")]
+				if Session.get("flowId")
+					flows = [Session.get("flowId")]
 
-			Meteor.call 'get_batch_instances_count', Session.get("spaceId"), categoryId, flows, (error, result)->
-				if error
-					console.error 'error',error
-				else
-					console.log(result)
+				Meteor.call 'get_batch_instances_count', Session.get("spaceId"), categoryId, flows, (error, result)->
+					if error
+						console.error 'error',error
+					else
+						console.log(result)
 
-					Session.set("workflow_batch_instances_count", result)
-		else
-			Session.set("workflow_batch_instances_count", 0)
+						Session.set("workflow_batch_instances_count", result)
+			else
+				Session.set("workflow_batch_instances_count", 0)
 
 Template.instance_list.onRendered ->
 	self = this;

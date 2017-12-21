@@ -2,9 +2,9 @@ renderTree = (container,isSelf)->
 	spaceId = Template.instance().data.spaceId
 	$(container).on('select_node.jstree', (e, data) ->
 		if(container == "#cf_organizations_tree_self")
-			$("#cf_organizations_tree").jstree().deselect_all()
+			$("#cf_organizations_tree").jstree().deselect_all?()
 		else
-			$("#cf_organizations_tree_self").jstree().deselect_all()
+			$("#cf_organizations_tree_self").jstree().deselect_all?()
 	).on('changed.jstree', (e, data) ->
 		if data.selected.length
 			Session.set("cf_selectOrgId", data.selected[0]);

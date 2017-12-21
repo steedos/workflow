@@ -176,7 +176,7 @@
 						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_forward_remove"}}</button>
 					{{/if}}
 					{{#if showDistributeDeleteButton this}}
-						<button type="button" class="btn btn-default btn-forward-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_distribute_approve_remove"}}</button>
+						<button type="button" class="btn btn-default btn-distribute-approve-remove pull-left" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_distribute_approve_remove"}}</button>
 					{{/if}}
 					{{#if isEditing this}}
 						<button type="button" class="btn btn-default  btn-saveBut" data-approve="{{_id}}" data-trace="{{trace}}">{{_t "instance_approve_modal_save"}}</button>
@@ -187,7 +187,7 @@
 								<button type="button" class="btn btn-default  btn-modification pull-left">{{_t "instance_approve_modal_modification"}}</button>
 							{{/if}}
 						{{/if}}
-						<button type="button" class="btn btn-primary  btn-close">{{_t "instance_approve_close_modal"}}</button>
+						<button type="button" class="btn btn-primary btn-data-dismiss" data-dismiss="modal">{{_t "instance_approve_close_modal"}}</button>
 					{{/if}}
 				</div>
 			</div>

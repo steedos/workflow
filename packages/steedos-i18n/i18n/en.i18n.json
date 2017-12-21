@@ -468,7 +468,8 @@
 	"steedos_desktop_cancel": "Cancel",
 	"steedos_desktop_update_info": "The current client version is too old, please download and install the latest client!",
 	"steedos_desktop_edit_office_info":"You are editing office document, please close and then open the other instance!",
-	
+	"steedos_desktop_edit_warning": "The current document has been unlocked by the administrator, please edit and upload again!",
+
 	"billing": {
 		"upgrade": "Upgrade",
 		"total_user_count": "Tolal user count",

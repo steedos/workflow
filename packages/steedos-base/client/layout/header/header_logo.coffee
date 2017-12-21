@@ -22,12 +22,12 @@ Template.steedosHeaderLogo.helpers
 
 Template.steedosHeaderLogo.events
 	'click .logo': (event) ->
-		if Steedos.isForceBindPhone and !Accounts.isPhoneVerified()
-			# 强制绑定手机号时，如果当前用户没有绑定手机号，则禁用切换工作区及跳转到首页功能
-			return
 		if db.spaces.find().count() > 1
 			Modal.show "space_switcher_modal"
 		else
+			if Steedos.isForceBindPhone and !Accounts.isPhoneVerified()
+				# 强制绑定手机号时，如果当前用户没有绑定手机号，则禁用跳转到首页功能
+				return
 			FlowRouter.go("/")
 
 	'click .edit-space': (event)->

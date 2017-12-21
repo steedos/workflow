@@ -272,6 +272,13 @@ Template.instance_suggestion.helpers
 			return t.step == stepId && t.is_finished
 		)
 
+	approve_suggestion: ()->
+
+		if Session.get("instance_my_approve_description") != null && Session.get("instance_my_approve_description") != undefined
+			return Session.get("instance_my_approve_description")
+		else
+			return InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+
 
 Template.instance_suggestion.events
 
@@ -307,6 +314,9 @@ Template.instance_suggestion.events
 	'input #suggestion': (event, template) ->
 		Session.set("instance_change", true);
 		InstanceManager.checkSuggestion();
+
+		InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 
 	'click #instance_submit': (event)->

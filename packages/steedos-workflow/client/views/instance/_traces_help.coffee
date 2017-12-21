@@ -146,7 +146,7 @@ TracesTemplate.helpers =
 	showDistributeDeleteButton: (approve) ->
 		if db.instances.find(approve.forward_instance).count() is 0
 			return false
-		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
+		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated' and Steedos.isLegalVersion('',"workflow.enterprise")
 			return true
 		false
 
@@ -317,9 +317,6 @@ TracesTemplate.events =
 		event.preventDefault()
 		return false
 
-	'click .instance-trace-detail-modal .btn-close': (event, template) ->
-		Modal.hide "instance_trace_detail_modal"
-
 	'click .instance-trace-detail-modal .btn-forward-approve-remove': (event, template) ->
 		instanceId = Session.get('instanceId')
 		approveId = event.target.dataset.approve
@@ -371,3 +368,7 @@ TracesTemplate.events =
 				toastr.success(t("instance_approve_modal_modificationsave"))
 				Modal.hide "instance_trace_detail_modal"
 			return
+
+	'click .instance-trace-detail-modal .btn-distribute-approve-remove': (event, template) ->
+		Modal.allowMultiple = true
+		Modal.show 'cancel_distribute_modal'
