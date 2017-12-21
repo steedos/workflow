@@ -130,5 +130,5 @@ RecordsQHD.startScheduleJob = (name, recurrenceRule, fun) ->
 		logger.info "Add scheduleJobMaps: #{name}"
 		RecordsQHD.scheduleJobMaps[name] = schedule.scheduleJob recurrenceRule, fun
 
-if RecordsQHD.settings_records_qhd?.recurrenceRule
-	RecordsQHD.startScheduleJob "RecordsQHD.instanceToArchive", RecordsQHD.settings_records_qhd?.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.run)
+#if RecordsQHD.settings_records_qhd?.recurrenceRule
+#	RecordsQHD.startScheduleJob "RecordsQHD.instanceToArchive", RecordsQHD.settings_records_qhd?.recurrenceRule, Meteor.bindEnvironment(RecordsQHD.run)
