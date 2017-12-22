@@ -538,6 +538,9 @@ uuflowManager.getFormVersion = (form, form_version) ->
 
 	return form_v
 
+uuflowManager.getCategory = (category_id) ->
+	return db.categories.findOne(category_id)
+
 uuflowManager.getInstanceName = (instance, vals) ->
 	values = _.clone(vals || instance.values) || {}
 
@@ -1569,6 +1572,10 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	# 判断一个flow和space_id是否匹配 
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
+	form = uuflowManager.getForm(flow.form)
+
+	
+
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
@@ -1644,6 +1651,13 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
 	ins_obj.current_step_name = start_step.name
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name 
 
 	new_ins_id = db.instances.insert(ins_obj)
 
