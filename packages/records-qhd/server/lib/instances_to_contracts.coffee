@@ -169,11 +169,24 @@ _minxiInstanceData = (formData, instance) ->
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
-	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
+
+	space = db.spaces.findOne({_id: instance.space});
+
+	user = db.users.findOne({_id: space.owner})
+
+	options = {showTrace: true, showAttachments: true, absolute: true}
+
+	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
+
+	dataBuf = new Buffer(html);
+
 	try
-		formData.originalAttach.push request(attachInfoUrl)
+		formData.originalAttach.push {
+			value: dataBuf,
+			options: {filename: attachInfoName}
+		}
 	catch e
-		logger.error "原文附件下载失败：#{f._id},#{f.name()}. error: " + e
+		logger.error "原文读取失败#{instance._id}. error: " + e
 
 	console.log("_minxiInstanceData end", instance._id)
 
