@@ -24,7 +24,8 @@ Template.accounts_phone.helpers
 			return false
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
-		
+	prefix: ->
+		return Accounts.getPhonePrefix()?.replace("+","")
 
 Template.accounts_phone.onRendered ->
 	$("body").addClass("no-sidebar")
@@ -47,7 +48,8 @@ Template.accounts_phone.events
 			toastr.error t "accounts_phone_enter_phone_number"
 			return
 
-		number = "+86 #{number}"
+		phonePrefix = $('.accounts-wrapper .phone-prefixes-select').val()
+		number = "+#{phonePrefix} #{number}"
 
 		swal {
 			title: t("accounts_phone_swal_confirm_title"),

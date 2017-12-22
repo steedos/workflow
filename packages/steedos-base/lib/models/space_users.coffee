@@ -169,7 +169,9 @@ Meteor.startup ()->
 			if doc.email
 				selector.push("emails.address": doc.email)
 			if doc.mobile
-				phoneNumber = "+86" + doc.mobile
+				# 新建用户时，用当前创建人的手机号前缀去搜索查找是否手机号重复
+				currentUserPhonePrefix = Accounts.getPhonePrefix userId
+				phoneNumber = currentUserPhonePrefix + doc.mobile
 				selector.push("phone.number": phoneNumber)
 
 			userExist = db.users.find({$or: selector})
@@ -263,8 +265,10 @@ Meteor.startup ()->
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 
+			# 修改用户时，用被修改人之前的手机号前缀去搜索查找是否手机号重复
+			currentUserPhonePrefix = Accounts.getPhonePrefix doc.user
 			if modifier.$set?.mobile and modifier.$set.mobile != doc.mobile
-				phoneNumber = "+86" + modifier.$set.mobile
+				phoneNumber = currentUserPhonePrefix + modifier.$set.mobile
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 				repeatNumberUser = db.users.findOne({"phone.number": phoneNumber})
@@ -288,8 +292,10 @@ Meteor.startup ()->
 			# console.log JSON.stringify(userObj)
 
 			if (!doc.user) && (doc.email || doc.mobile)
+				# 新建用户时，用户的手机号前缀用当前创建人的手机号前缀
+				currentUserPhonePrefix = Accounts.getPhonePrefix userId
 				if doc.email && doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
 					userObjs = db.users.find({
 						$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 					}).fetch()
@@ -301,7 +307,7 @@ Meteor.startup ()->
 				else if doc.email
 					userObj = db.users.findOne({"emails.address": doc.email})
 				else if doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
 					userObj = db.users.findOne({"phone.number": phoneNumber})
 
 				if (userObj)
@@ -334,9 +340,10 @@ Meteor.startup ()->
 						steedos_id: doc.email || id
 
 					if doc.mobile
-						phoneNumber = "+86" + doc.mobile
+						phoneNumber = currentUserPhonePrefix + doc.mobile
 						phone = 
 							number: phoneNumber
+							mobile: doc.mobile
 							verified: false
 							modified: new Date()
 						options.phone = phone
@@ -372,7 +379,7 @@ Meteor.startup ()->
 			unless user.phone
 				unset.mobile = ""
 			if !user.mobile and user.phone
-				user.mobile = user.phone.number?.substring(3)
+				user.mobile = user.phone.mobile
 
 			unless user.emails
 				unset.email = ""
@@ -410,13 +417,15 @@ Meteor.startup ()->
 					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
 					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
 					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
-					number = "+86" + newMobile
+					# 修改用户时，保留用户被修改人之前的手机号前缀
+					currentUserPhonePrefix = Accounts.getPhonePrefix doc.user
+					number = currentUserPhonePrefix + newMobile
 					user_set = {}
 					user_set.phone = {}
 					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
 					# user_set.mobile = newMobile
-					# 目前只考虑国内手机
 					user_set.phone.number = number
+					user_set.phone.mobile = newMobile
 					# 变更手机号设置verified为false，以让用户重新验证手机号
 					user_set.phone.verified = false
 					user_set.phone.modified = new Date()
