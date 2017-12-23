@@ -17,7 +17,7 @@
 }
 ```
 
-- 当用户提交申请单时触发webhook，给payload_url发送request请求
+- 当用户提交申请单时触发webhook，给payload_url发送POST request请求
 - 请求的body数据为：
 ```javascript
 {
