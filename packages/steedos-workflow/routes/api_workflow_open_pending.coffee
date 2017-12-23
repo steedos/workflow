@@ -93,11 +93,16 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 		# 如果当前用户是工作区管理员，则通过查看url上是否有username\userid ， 如果有，则返回username\userid对应的用户，否则返回当前用户待办。 username\userid都存在时，userid优先
 		if space.admins.includes(user_id)
 			if userid
+				if db.users.find({_id: userid}).count() < 1
+					throw new Meteor.Error('error', "can not find user by userid: #{userid}")
+
 				user_id = userid
 			else if username
 				u = db.users.findOne({username: username})
-				if not _.isEmpty(u)
-					user_id = u._id
+				if _.isEmpty(u)
+					throw new Meteor.Error('error', "can not find user by username: #{username}")
+
+				user_id = u._id
 
 		find_instances = new Array
 		result_instances = new Array
@@ -153,6 +158,6 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 		console.error e.stack
 		JsonRoutes.sendResult res,
 			code: 200
-			data: { errors: [{errorMessage: e.message}]}
+			data: { errors: [{errorMessage: e.reason}]}
 	
 		
