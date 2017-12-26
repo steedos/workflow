@@ -65,6 +65,8 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 		if (not perm_users.includes(current_user)) and (not permissions.includes("monitor")) and (not permissions.includes("admin"))
 			throw new Meteor.Error('error', 'no permission')
 
+		instance.attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { status: "success", data: instance}

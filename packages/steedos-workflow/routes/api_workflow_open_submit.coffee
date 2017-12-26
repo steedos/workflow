@@ -104,6 +104,8 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 			result = r
 		else
 			result = db.instances.findOne(ins_id)
+			if result
+				result.attachments = cfs.instances.find({'metadata.instance': ins_id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
 
 		JsonRoutes.sendResult res,
 			code: 200
