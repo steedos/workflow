@@ -95,6 +95,12 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 			collection = cfs.instances
 
 			if req.files and req.files[0]
+				# 附件上传接口，限制附件大小，最大为100M
+				if req.files[0].data.length > (100*1024*1024)
+					JsonRoutes.sendResult res,
+						code: 200
+						data: { errors: [{errorMessage: "超过上传附件大小限制(100M)"}]}
+					return
 
 				newFile = new FS.File();
 				newFile.attachData req.files[0].data, {type: req.files[0].mimeType}, (err) ->
@@ -178,7 +184,10 @@ JsonRoutes.add 'post', '/api/workflow/open/cfs/:ins_id', (req, res, next) ->
 						code: 200
 						data: { status: "success", data: result}
 			else
-				throw new Meteor.Error('error', 'no file')
+				JsonRoutes.sendResult res,
+					code: 200
+					data: { errors: [{errorMessage: "need file"}]}
+				return
 
 	catch e
 		console.error e.stack
