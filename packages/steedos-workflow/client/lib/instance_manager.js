@@ -169,7 +169,7 @@ InstanceManager.nextStepUsersWillUpdate = function(changeField, nextStep) {
 	} else {
 		if (changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')) {
 			return true;
-		} else if (changeField.type === 'org' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')) {
+		} else if (changeField.type === 'group' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')) {
 			return true;
 		} else {
 			return false;
