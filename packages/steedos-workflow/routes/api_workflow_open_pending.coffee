@@ -149,6 +149,9 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 				h["modified"] = i["modified"]
 				h["is_read"] = is_read
 				h["values"] = i["values"]
+
+				h.attachments = cfs.instances.find({'metadata.instance': i._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+
 				result_instances.push(h)
 
 		JsonRoutes.sendResult res,
