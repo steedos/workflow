@@ -4,6 +4,8 @@ Template.steedos_contacts_user_list.helpers
 			return true
 		return false;
 	selector: ->
+		unless Meteor.userId()
+			return {_id:-1}
 		spaceId = Steedos.spaceId()
 		myContactsLimit = Steedos.my_contacts_limit
 		# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
