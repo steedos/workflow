@@ -420,16 +420,16 @@ var tabularOnRendered = function () {
 			template.$('.dataTables_paginate').show();
 
 			if (tableInfo.recordsTotal < 10) {
-				$('div.dataTables_length').css('visibility', 'hidden');
+				$('div.dataTables_length').hide();
 			} else {
-				$('div.dataTables_length').css('visibility', '');
+				$('div.dataTables_length').show();
 			}
 
 			// console.log("tableInfo.recordsTotal / tableLength", tableInfo.recordsTotal / tableLength)
 			if ((tableInfo.recordsTotal / tableLength) < 1) {
-				$('div.dataTables_paginate', $(".instance-list")).css('visibility', 'hidden');
+				$('div.dataTables_paginate', $(".instance-list")).hide();
 			} else {
-				$('div.dataTables_paginate', $(".instance-list")).css('visibility', '');
+				$('div.dataTables_paginate', $(".instance-list")).show();
 				if (table) {
 					table.ajax.reload(null, false);
 				}
