@@ -13,6 +13,8 @@ isOrgAdmin = ->
 						Session.set 'contacts_is_org_admin', true
 
 spaceUsersSelector = ->
+	unless Meteor.userId()
+		return {_id:-1}
 	spaceId = Steedos.spaceId()
 	myContactsLimit = Steedos.my_contacts_limit
 	# hidden_users = SteedosContacts.getHiddenUsers(spaceId)
