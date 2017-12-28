@@ -55,9 +55,31 @@ AutoForm.addInputType("selectuser", {
 });
 
 Template.afSelectUser.helpers({
+    val2: function(isNeedPlaceholder){
+        var val2 = Template.instance().val2.get();
+        if (!val2 && isNeedPlaceholder){
+            var placeholder = this.atts.placeholder || "";
+            val2 = "<span class='selectUser-placeholder'>" + placeholder + "</span>";
+        }
+        return val2;
+    },
+
     val: function(value) {
+        var changeUser = Template.instance().changeUser.get();
+
+        // console.log("value", value)
+
+        if(Template.instance().isChange){
+            value = changeUser.users;
+            // console.log("value2", changeUser.users)
+        };
+
+        Template.instance().isChange = false;
+
+        var val = '';
+        
         if (value) {
-            var val = '';
+            
             if (value instanceof Array) { //this.data.atts.multiple && (value instanceof Array)
                 if (value.length > 0 && typeof(value[0]) == 'object') {
                     val = value ? value.getProperty("name").toString() : ''
@@ -74,17 +96,38 @@ Template.afSelectUser.helpers({
                 }
             }
 
-            if (this.dataset && "values" in this.dataset) {
+            if (this.dataset && "values" in this.dataset && this.dataset.values) {
                 this.atts["data-values"] = this.dataset.values;
             }
-
-            return val;
         }
+
+        Template.instance().val2.set(val);
+
+        return val;
+    },
+
+    disabled: function () {
+		return "disabled" in this.atts;
+	},
+
+    chooseAttr: function(attr) {
+        var attr = attr.replace(/selectUser/ig, "");
+        return attr;
     }
 });
 
 
 Template.afSelectUser.events({
+    'click .selectUser-box': function(event,template) {
+        $("+ .selectUser", $(event.currentTarget)).click();
+    },
+
+    'change .selectUser': function(event, template) {
+        var users = $(event.currentTarget).val();
+        template.isChange = true
+        template.changeUser.set({users: users});
+    },
+
     'click .selectUser': function(event, template) {
         if (Modal.allowMultiple) {
             return;
@@ -97,7 +140,7 @@ Template.afSelectUser.events({
         var dataset = $("input[name='" + template.data.name + "']")[0].dataset;
 
         if(dataset.error){
-			swal({title: dataset.error,confirmButtonText: t("OK")})
+			// swal({title: dataset.error,confirmButtonText: t("OK")})
         	return ;
 		}
 
@@ -131,17 +174,7 @@ Template.afSelectUser.events({
 
         var values = $("input[name='" + template.data.name + "']")[0].dataset.values;
 
-        options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
-
 		options.unselectable_users = template.data.atts.unselectable_users
-
-        if (!_.isBoolean(options.is_within_user_organizations)) {
-            if (options.is_within_user_organizations.toLocaleUpperCase() == "TRUE") {
-                options.is_within_user_organizations = true
-            } else {
-                options.is_within_user_organizations = false
-            }
-        }
 
         //options.data = data;
         options.multiple = multiple;
@@ -159,13 +192,15 @@ Template.afSelectUser.events({
             options.defaultValues = values.split(",");
         }
 
-        options.targetId = template.data.atts.id;
+        options.title = this.atts.title?  this.atts.title: t('coreform_select_user_title'); //t('coreform_select') +
+
+        // options.targetId = template.data.atts.id;
+
+		options.target = event.target
+
         Modal.allowMultiple = true;
         Modal.show("cf_contact_modal", options);
-        cssHeightKey = "max-height"
-        if (Steedos.isMobile())
-            cssHeightKey = "height"
-        $(".contacts-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+        
     }
 });
 
@@ -177,5 +212,10 @@ Template.afSelectUser.rendered = function() {
             $("input[name='" + name + "']")[0].dataset[dk] = dataset[dk]
         }
     }
+};
 
-}
+Template.afSelectUser.onCreated(function() {
+    this.changeUser = new ReactiveVar({users: ""});
+
+    this.val2 = new ReactiveVar();
+});

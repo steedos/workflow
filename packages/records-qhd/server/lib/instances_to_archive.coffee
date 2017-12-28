@@ -1,6 +1,11 @@
 request = Npm.require('request')
+path = Npm.require('path');
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
+
+pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
+
+absolutePath = path.resolve(pathname);
 
 #logger = console
 #
@@ -29,9 +34,9 @@ InstancesToArchive::getContractInstances = ()->
 	}
 
 	if @ins_ids
-		query._id = {$in : @ins_ids}
+		query._id = {$in: @ins_ids}
 
-	return db.instances.find(query);
+	return db.instances.find(query).fetch()
 
 InstancesToArchive::getNonContractInstances = ()->
 	query = {
@@ -45,17 +50,17 @@ InstancesToArchive::getNonContractInstances = ()->
 	}
 
 	if @ins_ids
-		query._id = {$in : @ins_ids}
+		query._id = {$in: @ins_ids}
 
 	return db.instances.find(query);
 
 InstancesToArchive.success = (instance)->
-	logger.info("success, name is #{instance.name}, id is #{instance._id}")
+	console.log("success, name is #{instance.name}, id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_archived: true}})
 
 InstancesToArchive.failed = (instance, error)->
-	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
-	logger.error error
+	console.log("failed, name is #{instance.name}, id is #{instance._id}. error: ")
+	console.log error
 
 #	校验必填
 _checkParameter = (formData) ->
@@ -79,9 +84,19 @@ getFileHistoryName = (fileName, historyName, stuff) ->
 
 _minxiAttachmentInfo = (formData, instance, attach) ->
 	user = db.users.findOne({_id: attach.metadata.owner})
-	formData.attachInfo.push {instance: instance._id, attach_name: encodeURI(attach.name()), owner: attach.metadata.owner, owner_username: encodeURI(user.username || user.steedos_id), is_private: attach.metadata.is_private || false}
+	formData.attachInfo.push {
+		instance: instance._id,
+		attach_name: encodeURI(attach.name()),
+		owner: attach.metadata.owner,
+		owner_username: encodeURI(user.username || user.steedos_id),
+		is_private: attach.metadata.is_private || false
+	}
 
 _minxiInstanceData = (formData, instance) ->
+	console.log("_minxiInstanceData", instance._id)
+
+	fs = Npm.require('fs');
+
 	if !formData || !instance
 		return
 
@@ -122,23 +137,25 @@ _minxiInstanceData = (formData, instance) ->
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
-	#	正文附件
-	mainFile = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true,
-		"metadata.main": true
-	}).fetch()
-
-	mainFile.forEach (f) ->
+	mainFilesHandle = (f)->
 		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
+			filepath = path.join(absolutePath, f.copies.instances.key);
 
-			_minxiAttachmentInfo formData, instance, f
+			if fs.existsSync(filepath)
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+
+				_minxiAttachmentInfo formData, instance, f
+			else
+				logger.error "附件不存在：#{filepath}"
+
 		catch e
 			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
 		mainFileHistory = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': f.metadata.instance,
 			'metadata.current': {$ne: true},
 			"metadata.main": true,
 			"metadata.parent": f.metadata.parent
@@ -149,27 +166,35 @@ _minxiInstanceData = (formData, instance) ->
 		mainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
 			try
-				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
-				_minxiAttachmentInfo formData, instance, f
+				filepath = path.join(absolutePath, f.copies.instances.key);
+				if fs.existsSync(filepath)
+					formData.attach.push {
+						value: fs.createReadStream(filepath),
+						options: {filename: fName}
+					}
+					_minxiAttachmentInfo formData, instance, f
+				else
+					logger.error "附件不存在：#{filepath}"
 			catch e
 				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
-	#	非正文附件
-	nonMainFile = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true,
-		"metadata.main": {$ne: true}
-	})
 
-	nonMainFile.forEach (f)->
+	nonMainFileHandle = (f)->
 		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-			_minxiAttachmentInfo formData, instance, f
+			filepath = path.join(absolutePath, f.copies.instances.key);
+			if fs.existsSync(filepath)
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+				_minxiAttachmentInfo formData, instance, f
+			else
+				logger.error "附件不存在：#{filepath}"
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
 		nonMainFileHistory = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': f.metadata.instance,
 			'metadata.current': {$ne: true},
 			"metadata.main": {$ne: true},
 			"metadata.parent": f.metadata.parent
@@ -180,23 +205,98 @@ _minxiInstanceData = (formData, instance) ->
 		nonMainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
 			try
-				formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + fh._id + "/" + encodeURI(fName))
-				_minxiAttachmentInfo formData, instance, f
+				filepath = path.join(absolutePath, f.copies.instances.key);
+				if fs.existsSync(filepath)
+					formData.attach.push {
+						value: fs.createReadStream(filepath),
+						options: {filename: fName}
+					}
+					_minxiAttachmentInfo formData, instance, f
+				else
+					logger.error "附件不存在：#{filepath}"
 			catch e
 				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
+	#	正文附件
+	mainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": true
+	}).fetch()
+
+	mainFile.forEach mainFilesHandle
+
+	console.log("正文附件读取完成")
+
+	#	非正文附件
+	nonMainFile = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true,
+		"metadata.main": {$ne: true}
+	}).fetch()
+
+	nonMainFile.forEach nonMainFileHandle
+
+	console.log("非正文附件读取完成")
+
+	#分发
+	if instance.distribute_from_instance
+#	正文附件
+		mainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": true,
+			"metadata.is_private": {
+				$ne: true
+			}
+		}).fetch()
+
+		mainFile.forEach mainFilesHandle
+
+		console.log("分发-正文附件读取完成")
+
+		#	非正文附件
+		nonMainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": {$ne: true},
+			"metadata.is_private": {
+				$ne: true
+			}
+		})
+
+		nonMainFile.forEach nonMainFileHandle
+
+		console.log("分发-非正文附件读取完成")
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
+
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
-	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
+
+	space = db.spaces.findOne({_id: instance.space});
+
+	user = db.users.findOne({_id: space.owner})
+
+	options = {showTrace: true, showAttachments: true, absolute: true}
+
+	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
+
+	dataBuf = new Buffer(html);
 
 	try
-		formData.attach.push request(attachInfoUrl)
+		formData.attach.push {
+			value: dataBuf,
+			options: {filename: attachInfoName}
+		}
+
+		console.log("原文读取完成")
 	catch e
-		logger.error "原文下载失败：#{f._id},#{f.name()}. error: " + e
+		logger.error "原文读取失败#{instance._id}. error: " + e
 
 	formData.attachInfo = JSON.stringify(formData.attachInfo)
+
+	console.log("_minxiInstanceData end", instance._id)
 
 	return formData;
 
@@ -215,10 +315,12 @@ InstancesToArchive._sendContractInstance = (url, instance, callback) ->
 		#	发送数据
 		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
-		if httpResponse.statusCode == 200
+		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
 			InstancesToArchive.failed instance, httpResponse?.body
+
+		httpResponse = null
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
@@ -228,9 +330,12 @@ InstancesToArchive::sendContractInstances = (to_archive_api) ->
 	instances = @getContractInstances()
 
 	that = @
-	console.log "instances.length is #{instances.count()}"
+	console.log "instances.length is #{instances.length}"
 	instances.forEach (instance, i)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
+
+		console.log("InstancesToArchive.sendContractInstances url", url)
+
 		InstancesToArchive._sendContractInstance url, instance
 
 	console.timeEnd("sendContractInstances")
@@ -240,10 +345,10 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	console.time("sendNonContractInstances")
 	instances = @getNonContractInstances()
 	that = @
-	logger.info "instances.length is #{instances.count()}"
+	console.log "instances.length is #{instances.length}"
 	instances.forEach (instance)->
 		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
-		logger.debug "url is #{url}"
+		console.log("InstancesToArchive.sendNonContractInstances url", url)
 		InstancesToArchive.sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
@@ -277,9 +382,11 @@ InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 		#	发送数据
 		httpResponse = steedosRequest.postFormDataAsync url, formData, callback
 
-		if httpResponse.statusCode == 200
+		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
 			InstancesToArchive.failed instance, httpResponse
+
+		httpResponse = null
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"

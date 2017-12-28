@@ -14,23 +14,25 @@
 					<div class="instance-suggestion">
 						{{#unless sign_type_add}}
 						<div class="form-group">
-							<label class="radio-inline">
-								<input type="radio" name="sign_type" id="sign_type" value="add" class="suggestion" checked="{{#if sign_type_add}}true{{/if}}">新增
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="sign_type" id="sign_type" value="update" class="suggestion" checked="{{#unless sign_type_add}}true{{/unless}}">修改
-							</label>
 							<label class="radio-inline" style="padding-left: 0px">
-								<a class="instance-sign-history">{{_ "workflow_history_approve_description"}}</a>
+								<a class="instance-sign-history">
+									{{_ "workflow_history_approve_counts" show_suggestion_counts}}
+								</a>
 							</label>
 						</div>
 						{{/unless}}
 
 						<textarea name="modal_suggestion" class="suggestion-control" id="modal_suggestion">{{modal_suggestion}}</textarea>
 						<span class="help-block"></span>
-						<a class="instance-sign-opinion-btn">{{_ "instance_sign_read"}}</a>
-						<a class="instance-sign-opinion-btn">{{_ "instance_sign_done"}}</a>
-						<a class="instance-sign-opinion-btn">{{_ "instance_sign_agree"}}</a>
+						{{#if opinions.length}}
+							{{#each opinions}}
+								<a class="instance-sign-opinion-btn text-overflow">{{this}}</a>
+							{{/each}}
+						{{else}}
+							<a class="instance-sign-opinion-btn">{{_ "instance_sign_read"}}</a>
+							<a class="instance-sign-opinion-btn">{{_ "instance_sign_done"}}</a>
+							<a class="instance-sign-opinion-btn">{{_ "instance_sign_agree"}}</a>
+						{{/if}}
 						<a id="instance_flow_opinions">{{_ 'instance_opinion_title_select'}}</a>
 					</div>
 

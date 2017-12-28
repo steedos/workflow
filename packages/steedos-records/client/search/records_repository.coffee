@@ -4,6 +4,8 @@ Template.search_records_repository.events
 	'click .records-searched-instace': (event,template)->
 		event.preventDefault()
 		instance_detail_url = $(event.target).attr("url-data")
+		if !instance_detail_url
+			instance_detail_url = $(event.target).parent().attr("url-data")
 		Steedos.openWindow Steedos.absoluteUrl(instance_detail_url)
 
 	'keyup [name=input_search]':(event)->
@@ -19,7 +21,7 @@ Template.search_records_repository.events
 
 		$('.table-responsive').css 'display', 'initial'
 
-		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + '&q=' + seatch_txt
+		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + "&isSpaceAdmin=" + Steedos.isSpaceAdmin() + '&q=' + seatch_txt
 
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 

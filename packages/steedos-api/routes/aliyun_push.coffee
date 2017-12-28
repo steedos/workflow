@@ -62,15 +62,27 @@ Aliyun_push.sendMessage = (userTokens, notification, callback) ->
 		if !_.isEmpty(huaweiTokens) and Meteor.settings.push?.huawei
 			if Push.debug
 				console.log "huaweiTokens: #{huaweiTokens}"
-			msg = new HwPush.Message
-			msg.title(notification.title).content(notification.text)
-			msg.extras(notification.payload)
-			notification = new HwPush.Notification(
-				appId: Meteor.settings.push.huawei.appId
-				appSecret: Meteor.settings.push.huawei.appSecret
-			)
+			# msg = new HwPush.Message
+			# msg.title(notification.title).content(notification.text)
+			# msg.extras(notification.payload)
+			# notification = new HwPush.Notification(
+			# 	appId: Meteor.settings.push.huawei.appId
+			# 	appSecret: Meteor.settings.push.huawei.appSecret
+			# )
+			# _.each huaweiTokens, (t)->
+			# 	notification.send t, msg, callback
+
+
+			package_name = Meteor.settings.push.huawei.appPkgName
+			tokenDataList = []
 			_.each huaweiTokens, (t)->
-				notification.send t, msg, callback
+				tokenDataList.push({'package_name': package_name, 'token': t})
+			noti = {'android': {'title': notification.title, 'message': notification.text}, 'extras': notification.payload}
+
+			HuaweiPush.config [{'package_name': package_name, 'client_id': Meteor.settings.push.huawei.appId, 'client_secret': Meteor.settings.push.huawei.appSecret}]
+			
+			HuaweiPush.sendMany noti, tokenDataList
+
 
 		if !_.isEmpty(miTokens) and Meteor.settings.push?.mi
 			if Push.debug
@@ -187,7 +199,7 @@ Meteor.startup ->
 				console.log 'aliyunTokens is ', aliyunTokens.toString()
 
 			gcmTokens = userTokens.filter((item) ->
-								item.indexOf("aliyun:") < 0 or item.indexOf("xinge:") < 0 or item.indexOf("huawei:") < 0 or item.indexOf("mi:") < 0
+								item.indexOf("aliyun:") < 0 and item.indexOf("xinge:") < 0 and item.indexOf("huawei:") < 0 and item.indexOf("mi:") < 0
 							)
 			if Push.debug
 				console.log 'gcmTokens is ' , gcmTokens.toString();
@@ -195,3 +207,13 @@ Meteor.startup ->
 			Push.sendAliyun(aliyunTokens, notification);
 
 			Push.old_sendGCM(gcmTokens, notification);
+
+		Push.old_sendAPN = Push.sendAPN
+		Push.sendAPN = (userToken, notification) ->
+			if notification.title and notification.text
+				noti = _.clone(notification)
+				noti.text = noti.title + " " + noti.text
+				noti.title = ""
+				Push.old_sendAPN(userToken, noti)
+			else
+				Push.old_sendAPN(userToken, notification)

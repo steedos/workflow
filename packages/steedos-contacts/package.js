@@ -28,7 +28,7 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:api');
 	api.use('steedos:ui');
 	api.use('flemay:less-autoprefixer@1.2.0');
@@ -68,6 +68,9 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/contact_cards.coffee', 'server');
 	api.addFiles('server/publications/address_groups.coffee', 'server');
 	api.addFiles('server/publications/address_books.coffee', 'server');
+	api.addFiles('server/publications/space_need_to_confirm.coffee', 'server');
+	api.addFiles('server/publications/contacts_view_limits.coffee', 'server');
+	api.addFiles('server/publications/contacts_no_force_phone_users.coffee', 'server');
 
 	api.addFiles('server/methods/invite_users_by_email.js', 'server');
 	api.addFiles('server/methods/move_space_users.coffee', 'server');
@@ -76,6 +79,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/import_users.coffee', 'server');
 	api.addFiles('server/methods/fetch_username.coffee', 'server');
 	api.addFiles('server/methods/set_primary_org.coffee', 'server');
+	api.addFiles('server/methods/get_space_users_info.coffee', 'server');
+	api.addFiles('server/methods/set_user_password.coffee', 'server');
+
+	api.addFiles('server/methods/add_contacts_user.coffee', 'server');
 
 	api.addFiles('server/routes/contacts.coffee', 'server');
 
@@ -116,6 +123,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/steedos_contacts_org_tree.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_tree.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_org_tree.less', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.html', 'client');
 	api.addFiles('client/views/steedos_contacts_org_user_list.coffee', 'client');
 
@@ -135,6 +143,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/steedos_contacts_address_book_info_modal.html', 'client');
 	api.addFiles('client/views/steedos_contacts_address_book_info_modal.coffee', 'client');
 
+	api.addFiles('client/views/steedos_contacts_add_user_modal.html', 'client');
+	api.addFiles('client/views/steedos_contacts_add_user_modal.coffee', 'client');
+	api.addFiles('client/views/steedos_contacts_add_user_modal.less', 'client');
+
 	api.addFiles('client/views/import_users_modal.less', 'client');
 	api.addFiles('client/views/import_users_modal.html', 'client');
 	api.addFiles('client/views/import_users_modal.coffee', 'client');
@@ -144,6 +156,12 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/admin/settings_hidden_modal.html', 'client');
 	api.addFiles('client/admin/settings_hidden_modal.coffee', 'client');
+
+	api.addFiles('client/admin/settings_limit_modal.html', 'client');
+	api.addFiles('client/admin/settings_limit_modal.coffee', 'client');
+
+	api.addFiles('client/admin/settings_no_force_phone_modal.html', 'client');
+	api.addFiles('client/admin/settings_no_force_phone_modal.coffee', 'client');
 
 	api.addFiles('client/admin-menu.coffee', 'client');
 

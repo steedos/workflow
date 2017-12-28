@@ -12,12 +12,29 @@ Template.accounts_phone.helpers
 		else
 			return t "steedos_phone_title"
 	isBackButtonNeeded: ->
-		return Steedos.isAndroidOrIOS() || !Meteor.userId()
+		isSetupPassword = /\/setup\/password\b/.test(FlowRouter.current().path)
+		if isSetupPassword
+			return Steedos.isMobile()
+		else
+			return Accounts.isPhoneVerified() || Steedos.isMobile() || !Meteor.userId()
+	isCloseButtonNeeded: ->
+		if window.name == "setup_phone"
+			return true
+		else
+			return false
 	isSetupPassword: ->
 		return /\/setup\/password\b/.test(FlowRouter.current().path)
 		
 
 Template.accounts_phone.onRendered ->
+	$("body").addClass("no-sidebar")
+	$(".wrapper .content-wrapper").addClass("flex-center")
+	$(".wrapper .content-wrapper").addClass("bg-shadow")
+
+Template.accounts_phone.onDestroyed ->
+	$("body").removeClass("no-sidebar")
+	$(".wrapper .content-wrapper").removeClass("flex-center")
+	$(".wrapper .content-wrapper").removeClass("bg-shadow")
 
 Template.accounts_phone.events
 	'click .btn-send-code': (event,template) ->
@@ -45,8 +62,9 @@ Template.accounts_phone.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			unless Meteor.userId()
-				checkVerified = true
+			# 如果是重置密码，则发验证码前要求手机号验证通过
+			# 反之，修改/绑定手机号或手机号登录界面不要求手机号验证通过
+			checkVerified = isSetupPassword
 			Accounts.requestPhoneVerification number, checkVerified, (error)->
 				$(document.body).removeClass('loading')
 				if error
@@ -72,6 +90,10 @@ Template.accounts_phone.events
 			# 手机上绑定手机号界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
 			# 所以这里不可以直接FlowRouter.go oldPath或history.back()
 			FlowRouter.go "/admin/profile/account"
+		else if /accounts\/setup\/password/.test(currentPath) and Meteor.userId()
+			# 手机上设置密码界面可能会从验证码输入界面返回过来，即oldRoute可能是验证码输入界面
+			# 所以这里不可以直接FlowRouter.go oldPath或history.back()
+			FlowRouter.go "/admin/profile/password"
 		else
 			history.back()
 
@@ -83,5 +105,3 @@ Template.accounts_phone.events
 
 	'click .btn-close': (event,template) ->
 		window.close()
-
-

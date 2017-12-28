@@ -3,43 +3,68 @@ CFDataManager = {};
 // DataManager.organizationRemote = new AjaxCollection("organizations");
 // DataManager.spaceUserRemote = new AjaxCollection("space_users");
 // DataManager.flowRoleRemote = new AjaxCollection("flow_roles");
-CFDataManager.getNode = function (spaceId, node, is_within_user_organizations) {
-
-	var orgs;
-
+CFDataManager.getNode = function (spaceId, node, isSelf, isNeedtoSelDefault) {
+	var orgs,
+		myContactsLimit = Steedos.my_contacts_limit;
 	if (node.id == '#') {
-		if (is_within_user_organizations) {
-			uOrgs = db.organizations.find({space: spaceId, users: Meteor.userId()}).fetch();
-
-			_ids = uOrgs.getProperty("_id")
-
-			orgs = _.filter(uOrgs, function (org) {
-				// var children = org.children || []
-
-				var parents = org.parents || []
-
-				return _.intersection(parents, _ids).length < 1
-			})
-
-			if (orgs.length > 0) {
-				orgs[0].open = true
+		selfOrganization = Steedos.selfOrganization();
+		if(isSelf){
+			if(selfOrganization){
+				orgs = [selfOrganization];
+				orgs[0].open = true;
 			}
-
+		}
+		else if (myContactsLimit && myContactsLimit.isLimit) {
+			var query = {space: spaceId, users: Meteor.userId()};
+			if(!Steedos.isSpaceAdmin()){
+				query.hidden = {$ne: true}
+			}
+			var uOrgs = db.organizations.find(query).fetch();
+			var _ids = uOrgs.getProperty("_id");
+			var outsideOrganizations = myContactsLimit.outside_organizations;
+			//当前用户所属组织自身存在的父子包含关系，及其与额外外部组织之间父子包含关系都要过滤掉
+			//当前用户所属组织自身的排序在前端是可信的，因为后台相关发布publish做了排序
+			_ids = _.union(_ids, outsideOrganizations);
+			orgs = _.filter(uOrgs, function (org) {
+				var parents = org.parents || [];
+				return _.intersection(parents, _ids).length < 1;
+			});
+			_ids = orgs.getProperty("_id");
+			if(outsideOrganizations.length){
+				_ids = _.union(outsideOrganizations, _ids);
+			}
+			//主部门在第一个jstree(即selfOrganization)中已有显示，第二个jstree就应该过滤掉不显示
+			var selfIndex = selfOrganization ? _ids.indexOf(selfOrganization._id) : -1;
+			if(selfIndex > -1){
+				_ids.splice(selfIndex, 1);
+			}
+			// 这里故意重新抓取后台数据，因为前台无法正确排序
+			orgs = CFDataManager.getOrganizationsByIds(_ids);
+			if (orgs.length > 0 && !selfOrganization) {
+				orgs[0].open = true;
+			}
 		} else {
 			orgs = CFDataManager.getRoot(spaceId);
+			// 当没有限制查看本部门的时候，主部门与根节点相同时只显示主部门而不显示根组织
+			if(selfOrganization && selfOrganization._id == orgs[0]._id){
+				orgs = []
+			}
+			else if(!selfOrganization){
+				// 有主要部门的时候不应该再选中展开根节点
+				orgs[0].open = true;
+			}
 		}
 	}
 	else{
 		orgs = CFDataManager.getChild(spaceId || node.data.spaceId, node.id);
 	}
-	return handerOrg(orgs, node.id);
+	return handerOrg(orgs, node.id, isNeedtoSelDefault);
 }
 
 
-function handerOrg(orgs, parentId) {
-
+function handerOrg(orgs, parentId, isNeedtoSelDefault) {
+	var selfOrganization = Steedos.selfOrganization();
 	var nodes = new Array();
-
 	orgs.forEach(function (org) {
 
 		var node = new Object();
@@ -60,15 +85,19 @@ function handerOrg(orgs, parentId) {
 			node.state.selected = true;
 		}
 
-		// if (org.children && org.children.length > 0) {
-		//     node.children = true;
-		// }
+		if (org.children && org.children.length > 0) {
+			node.children = true;
+		}else{
+			node.children = false;
+		}
 
-		node.children = true;
+		// node.children = true;
 
-		if (org.is_company == true || org.open == true) {
+		if (org.open == true) {
 			node.state.opened = true;
-			// node.state.selected = true;
+			if(isNeedtoSelDefault && CFDataManager.getOrganizationModalValue().length === 0){
+				node.state.selected = true;
+			}
 		} else {
 			// node.parent = parentId;
 			// node.icon = false;
@@ -119,6 +148,19 @@ CFDataManager.getSelectedModalValue = function () {
 		});
 	});
 
+	instance = $('#cf_organizations_tree_self').jstree(true);
+	checked = instance.get_selected();
+
+	checked.forEach(function (id) {
+		if(!_.findWhere(val, {id: id})){
+			var node = instance.get_node(id);
+			val.push({
+				id: id,
+				name: node.text
+			});
+		}
+	});
+
 	return val;
 }
 
@@ -162,11 +204,18 @@ CFDataManager.handerContactModalValueLabel = function () {
 		valueLabel.html(html);
 		valueLabel_ui.css("white-space", "initial");
 		valueLabel_ui = $('#valueLabel_ui', $(".cf_contact_modal"));
-		if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
-			valueLabel_ui.css("white-space", "nowrap");
-		} else {
-			valueLabel_ui.css("white-space", "initial");
-		}
+
+		change_valueLabel_ui = function(){
+			if (valueLabel_ui.height() > 46 || valueLabel_ui.height() < 0) {
+				valueLabel_ui.css("white-space", "nowrap");
+			} else {
+				valueLabel_ui.css("white-space", "initial");
+			}
+		};
+
+		change_valueLabel_ui()
+
+		setTimeout(change_valueLabel_ui, 30);
 
 		var selectUsersList = Sortable.create(valueLabel[0], {
 			group: 'words',
@@ -258,19 +307,25 @@ CFDataManager.handerOrganizationModalValueLabel = function () {
 				var index = val.getProperty("id").indexOf(el.dataset.value)
 
 				if (index >= 0) {
-
 					var cf_org_jstree = $("#cf_organizations_tree").jstree();
+					var cf_org_jstree_self = $("#cf_organizations_tree_self").jstree();
 
-					var org_node = cf_org_jstree.get_node(el.dataset.value)
-
-					if(org_node){
-						Template.cf_organization.conditionalselect(org_node)
-						$("#cf_organizations_tree").jstree("uncheck_node", org_node.id)
-					}else{
-						val.remove(index)
-
+					var org_node = cf_org_jstree.get_node(el.dataset.value);
+					var org_node_self = cf_org_jstree_self.get_node(el.dataset.value);
+					
+					if(org_node || org_node_self){
+						if(org_node && org_node.state.selected){
+							Template.cf_organization.conditionalselect(org_node);
+							$("#cf_organizations_tree").jstree("uncheck_node", org_node.id);
+						}
+						if(org_node_self && org_node_self.state.selected){
+							Template.cf_organization.conditionalselect(org_node_self);
+							$("#cf_organizations_tree_self").jstree("uncheck_node", org_node_self.id);
+						}
+					}
+					else{
+						val.remove(index);
 						CFDataManager.setOrganizationModalValue(val);
-
 						CFDataManager.handerOrganizationModalValueLabel();
 					}
 				}
@@ -324,15 +379,41 @@ CFDataManager.getRoot = function (spaceId) {
 	});
 };
 
+CFDataManager.getOrganizationsByIds = function(ids) {
+	var query = {
+		_id: {$in: ids}
+	};
+	if(!Steedos.isSpaceAdmin()){
+		query.hidden = {$ne: true}
+	}
+	var childs = SteedosDataManager.organizationRemote.find(query, {
+		fields: {
+			_id: 1,
+			name: 1,
+			fullname: 1,
+			parent: 1,
+			children: 1,
+			childrens: 1,
+			hidden: 1,
+			sort_no: 1,
+			admins: 1
+		},
+		sort: {
+			sort_no: -1,
+			name: 1
+		}
+	});
+	return childs;
+}
 
 CFDataManager.getChild = function (spaceId, parentId) {
 
-	var query ={
+	var query = {
 		parent: parentId,
 		space: spaceId
-	}
+	};
 
-	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
 	}
 
@@ -441,7 +522,7 @@ CFDataManager.getOrgAndChild = function (node, orgId) {
 		parent: orgId
 	}
 
-	if(!Meteor.settings.public || !Meteor.settings.public.coreform|| !Meteor.settings.public.coreform.show_hidden_organizations){
+	if(!Steedos.isSpaceAdmin()){
 		query.hidden = {$ne: true}
 	}
 

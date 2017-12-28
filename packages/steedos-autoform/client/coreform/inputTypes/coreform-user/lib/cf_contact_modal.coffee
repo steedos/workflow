@@ -29,21 +29,24 @@ Template.cf_contact_modal.helpers
 
 Template.cf_contact_modal.events
 	'click #confirm': (event, template) ->
-		target = $("#" + template.data.targetId)
+		target = template.data.target
+
+#		target = $("#" + template.data.targetId)
 		values = CFDataManager.getContactModalValue();
 
-		target[0].dataset.values = values.getProperty("id").toString();
+		target.dataset.values = values.getProperty("id").toString();
 
-		target.val(values.getProperty("name").toString()).trigger('change');
+		$(target).val(values.getProperty("name").toString()).trigger('change');
 
 		Modal.hide("cf_contact_modal");
 
 		Modal.allowMultiple = false;
 
 	'click #remove': (event, template) ->
-		target = $("#" + template.data.targetId)
-		target[0].dataset.values = "";
-		target.val("").trigger('change');
+		target = template.data.target
+#		target = $("#" + template.data.targetId)
+		target.dataset.values = "";
+		$(target).val("").trigger('change');
 		Modal.hide("cf_contact_modal");
 		Modal.allowMultiple = false;
 
@@ -53,7 +56,9 @@ Template.cf_contact_modal.events
 		cssHeightKey = "max-height"
 		if Steedos.isMobile()
 			cssHeightKey = "height"
-		$(".cf-users-organization-modal-body").css(cssHeightKey, Steedos.getModalMaxHeight(20));
+
+		Steedos.setModalMaxHeight()
+
 
 	'hide.bs.modal #cf_contact_modal': (event, template) ->
 		Modal.allowMultiple = false;
@@ -65,9 +70,4 @@ Template.cf_contact_modal.events
 Template.cf_contact_modal.onRendered ->
 	CFDataManager.setContactModalValue(CFDataManager.getFormulaSpaceUsers(@data.defaultValues, @data.spaceId));
 	CFDataManager.handerContactModalValueLabel();
-	cssHeightKey = "max-height"
-	if Steedos.isMobile()
-		cssHeightKey = "height"
-	$(".cf-organization-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
-	$(".cf-spaceusers-list").css(cssHeightKey, Steedos.getModalMaxHeight(20));
 

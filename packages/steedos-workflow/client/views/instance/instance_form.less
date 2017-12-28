@@ -70,17 +70,30 @@
     color:rgb(64,64,64);
 }
 
-.approve-item{
+.approve-item,.approve-item-distribute{
     height: 30px;
     font-size: 13px;
     cursor:pointer;
+
+    .name{
+      font-weight: bold;
+    }
 }
+
+.approve-item-distribute{
+  cursor:auto !important;
+}
+
+
 .approve-description{
   border: none;
   height: auto;
   .description{
     padding-top:0px;
     border: none;
+    p{
+      margin:0px;
+    }
   }
 }
 
@@ -100,21 +113,25 @@
     color: red;
 }
 
-.approve-item > .terminated, .instance-trace-detail-modal .terminated{
-    color: black;
-}
+// .approve-item > .terminated, .instance-trace-detail-modal .terminated{
+//     color: black;
+// }
 
-.approve-item > .reassigned, .instance-trace-detail-modal .reassigned{
-    color: black;
-}
+// .approve-item > .reassigned, .instance-trace-detail-modal .reassigned{
+//     color: black;
+// }
 
-.approve-item > .retrieved, .instance-trace-detail-modal .retrieved{
-  color: black;
-}
+// .approve-item > .retrieved, .instance-trace-detail-modal .retrieved{
+//   color: black;
+// }
 
-.approve-item > .pending, .instance-trace-detail-modal .pending{
-  color: #777;
-}
+// .approve-item > .pending, .instance-trace-detail-modal .pending{
+//   color: #777;
+// }
+// .approve-item > .relocated, .instance-trace-detail-modal .relocated{
+//   color: #777;
+// }
+
 
 .approve-item > .description{
     border-top:0px;
@@ -333,11 +350,20 @@ textarea {
 }
 
 .selectUser[readonly],.selectOrg[readonly]{
-  background-color: #FFFFFF !important;
+	background-color: #FFFFFF !important;
 }
 
+.inbox,.draft{
+	.selectUser[readonly],.selectOrg[readonly]{
+	  background-color: rgba(255, 255, 0, 0.03) !important;
+	}
+
+	.selectUser[disabled],.selectOrg[disabled]{
+		background-color: #FFFFFF !important;
+	}
+}
 .selectUser[disabled],.selectOrg[disabled]{
-  background-color: #F9F9F9 !important;
+  background-color: #FFFFFF !important;
 }
 
 .cfTextarea[disabled],.cfTextarea[readonly]{
@@ -345,6 +371,62 @@ textarea {
   min-height:60px;
   word-wrap:break-word;
   word-break:keep-all;
+}
+
+.steedos-table-modal-body{
+	.form-control{
+		background-color: rgba(255, 255, 0, 0.03);
+	}
+
+	.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+		background-color: #FFFFFF;
+		opacity: 1;
+		color: black;
+	}
+}
+
+.instance-default{
+	.instance-form{
+		.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+			background-color: #FFFFFF !important;
+			opacity: 1;
+			color: black;
+		}
+
+		.selectUser[readonly],.selectOrg[readonly]{
+			background-color: rgba(255, 255, 0, 0.03) !important;
+		}
+
+		.selectUser[disabled],.selectOrg[disabled]{
+			background-color: #FFFFFF !important;
+		}
+
+		&.inbox,&.draft{
+			.form-control{
+				background-color: rgba(255, 255, 0, 0.03);
+			}
+		}
+
+		.field-editable{
+			background-color: rgba(255, 255, 0, 0.03) !important;
+		}
+    .readonly-table {
+      border: solid 1px #d2d6de;
+      table {
+        border: none;
+        tr {
+          td:first-of-type {
+            // border-left-color: transparent;
+            border-left: none;
+          }
+          td:last-of-type {
+            // border-right-color: transparent;
+            border-right: none;
+          }
+        }
+      }
+    }
+	}
 }
 
 .instance{
@@ -361,7 +443,9 @@ textarea {
       font-weight: 400;
     }
   }
+
   .instance-form{
+
     .box-body{
       &>.col-md-12{
         padding-right: 0px;
@@ -404,7 +488,7 @@ textarea {
 		width: 100%;
       display:  inline-block;
       //border: none;
-      background-color: #fff!important;
+      //background-color: #fff!important;
       //@media (max-width: 768px){
       //  &{
       //    width: 200px;
@@ -434,7 +518,7 @@ textarea {
   padding: 5px 10px;
   color: black;
   .instance-sign-content{
-    min-height: 38px;
+    min-height: 20px;
     .not-finished{
       color: #888;
     }
@@ -604,7 +688,7 @@ textarea {
         background:#FFFFFF;
       }
 		&.field-readonly{
-			background:#FFFFFF;
+			//background:#FFFFFF;
 		}
       .form-control{
         padding:0;
@@ -803,12 +887,12 @@ textarea {
               &.name{
                 /*padding-left:48px;*/
                 width:40%;
-                color:#888;
+                color:#333;
               }
               &.finish-date{
                 width:35%;
                 min-width: 140px;
-                color:#888;
+                color:#333;
               }
               &.description{
                 padding-top: 6px;
@@ -835,7 +919,7 @@ textarea {
 		.inbox,.draft{
 			.form-table{
 				.td-title{
-					&.is-required{
+					&.title-editable.is-required{
 						&:after{
 							content:"*";
 							color:red;
@@ -863,9 +947,20 @@ textarea {
   .instance-table{
     .instance-traces{
       .box-header{
+        font-size: 15px;
         padding-left: 0;
+        border-bottom: 0;
         .box-tools{
           top: 10px;
+          .btn-box-tool{
+            padding: 2px 5px 1px 5px;
+          }
+        }
+      }
+      .box-body{
+        padding-top: 0;
+        table.traces{
+          margin-top: 5px;
         }
       }
     }
@@ -906,7 +1001,7 @@ textarea {
   }
 
   .cc-label{
-    color: #999;
+    color: #333;
     font-weight: 400;
     display: initial;
     border-radius: 12px;
@@ -1059,12 +1154,27 @@ _:-ms-fullscreen,
     cursor:pointer;
     user-select: none;
   }
+	#instance_next{
+		.instance-suggestion-next-steps{
+			min-height: 36px;
+
+			.ion-ios-paperplane-outline{
+				padding-left: 5px;
+			}
+		}
+	}
 }
 
-.instance-view .instance-name{
-  text-align: center;
-  .box-title{
-    font-size: 20px;
+.instance-view{
+  .instance-name{
+    text-align: center;
+    margin-bottom: 15px;
+    .box-title{
+      font-size: 20px;
+    }
+  }
+  .instance-table-name-td{
+    padding-bottom: 10px;
   }
 }
 

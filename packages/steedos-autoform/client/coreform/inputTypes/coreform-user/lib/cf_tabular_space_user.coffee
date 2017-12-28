@@ -1,6 +1,8 @@
 TabularTables.cf_tabular_space_user = new Tabular.Table({
 	name: "cf_tabular_space_user",
 	collection: db.space_users,
+	drawCallback: (settings)->
+		$("#cf_reverse").attr("checked", false)
 	columns: [
 		{
 			data: "_id",

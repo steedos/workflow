@@ -8,14 +8,13 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 		_.each hashData['Approvals'], (approve_from_client) ->
 			instance_id = approve_from_client["instance"]
 			trace_id = approve_from_client["trace"]
-			approve_id = approve_from_client["id"]
+			approve_id = approve_from_client["_id"]
 			values = approve_from_client["values"]
 			if not values then values = new Object
 			next_steps = approve_from_client["next_steps"]
 			judge = approve_from_client["judge"]
 			description = approve_from_client["description"]
 			geolocation = approve_from_client["geolocation"]
-			attachments = approve_from_client["attachments"]
 
 			setObj = new Object
 
@@ -78,7 +77,8 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					trace_approves[i].is_read = true
 					if trace_approves[i].read_date is null
 						trace_approves[i].read_date = new Date
-					trace_approves[i].values = values
+					# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
+					trace_approves[i].values = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
 
 				i++
 
@@ -86,11 +86,23 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			# 更新instance记录
 			setObj.modified = new Date
 			setObj.modified_by = current_user
-			setObj.attachments = if attachments then attachments
 
 			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================
 			instance = uuflowManager.getInstance(instance_id)
+			# 防止此时的instance已经被处理
+			# 获取一个trace
+			trace = uuflowManager.getTrace(instance, trace_id)
+			# 获取一个approve
+			approve = uuflowManager.getApprove(trace, approve_id)
+			# 判断一个trace是否为未完成状态
+			uuflowManager.isTraceNotFinished(trace)
+			# 判断一个approve是否为未完成状态
+			uuflowManager.isApproveNotFinished(approve)
+			# 判断一个instance是否为审核中状态
+			uuflowManager.isInstancePending(instance)
+			# 判断当前用户是否approve 对应的处理人或代理人
+			uuflowManager.isHandlerOrAgent(approve, current_user)
 			updateObj = new Object
 
 			if next_steps is null or next_steps.length is 0

@@ -112,10 +112,10 @@ NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWr
 		urlValue: cfs.getContentType(filename)
 	}, {
 		urlKey: "instance",
-		urlValue: Session.get('instanceId')
+		urlValue: Session.get('attach_instance_id')
 	}, {
 		urlKey: "space",
-		urlValue: Session.get('spaceId')
+		urlValue: Session.get('attach_space_id')
 	}, {
 		urlKey: "approve",
 		urlValue: InstanceManager.getMyApprove().id
@@ -222,6 +222,11 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 		// 修改后附件大小
 		var states = fs.statSync(filePath);
 
+		// 上传前切换到当前编辑的申请单
+		var instance_url = "/workflow/space/" + Session.get('attach_space_id') + "/" + Session.get('attach_box') + "/" + Session.get('attach_instance_id');
+
+		FlowRouter.go(instance_url);
+
 		globalWin.disableClose = false;
 
 		// 判断编辑后的文件hash值是否变化
@@ -256,7 +261,11 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 								// 正文上传
 								NodeManager.setUploadRequests(filePath, filename, true, true);
 							}else{
-								NodeManager.setUploadRequests(filePath, filename, false, true);
+								if (InstanceManager.isAttachLocked(Session.get("attach_instance_id"), Meteor.userId())){
+									NodeManager.setUploadRequests(filePath, filename, false, true);
+								}else{
+									toastr.warning(t("steedos_desktop_edit_warning"));
+								}
 							}
 						}
 					} else {

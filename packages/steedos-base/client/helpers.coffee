@@ -155,6 +155,18 @@ Steedos.Helpers =
 		if matchs and matchs.index == 0
 			return true
 
+	coreformNumberToString: (number, locale)->
+		return Steedos.numberToString number, locale
+
+	selfOrganization: ()->
+		selfOrgId = db.space_users.findOne({user:Meteor.userId()}).organization
+		if selfOrgId
+			query = {_id: selfOrgId}
+			if !Steedos.isSpaceAdmin()
+				query.hidden = $ne: true
+			return db.organizations.findOne(query)
+		else
+			return null
 
 _.extend Steedos, Steedos.Helpers
 
@@ -181,11 +193,11 @@ TemplateHelpers =
 		else
 			if Meteor.isClient
 				try
-					root_url = new URL(Meteor.absoluteUrl())
+					root_url = new URI(Meteor.absoluteUrl());
 					if url
-						return root_url.pathname + url
+						return root_url._parts.path + url
 					else
-						return root_url.pathname
+						return root_url._parts.path
 				catch e
 					return Meteor.absoluteUrl(url)
 			else
@@ -282,7 +294,15 @@ TemplateHelpers =
 			if space
 				return space.is_paid
 
-
+	isLegalVersion: (spaceId,app_version)->
+		if !spaceId
+			spaceId = Steedos.getSpaceId()
+		check = false
+		modules = db.spaces.findOne(spaceId)?.modules
+		if modules and modules.includes(app_version)
+			check = true
+		return check
+	
 	isCloudAdmin: ->
 		return Meteor.user()?.is_cloudadmin
 
@@ -304,13 +324,23 @@ TemplateHelpers =
 				return false
 
 	getSpaceApps: ()->
-		selector = {}
-		if Steedos.getSpaceId()
-			space = db.spaces.findOne(Steedos.getSpaceId())
+		organizations = Steedos.getUserOrganizations(true)
+		userId = Meteor.userId()
+		selector = $or: [
+			{ space:{ $exists: false } }
+			{ 'members.organizations': $in: organizations }
+			{ 'members.users': $in: [ userId ] }
+		]
+		# if Steedos.getSpaceId()
+		# 	space = db.spaces.findOne(Steedos.getSpaceId())
 			# if space?.apps_enabled?.length>0
 			# 	selector._id = {$in: space.apps_enabled}
 		if Steedos.isMobile()
 			selector.mobile = true
+
+		apps = Session.get("apps")
+		if apps and apps instanceof Array
+			selector["_id"] = {$in:apps};
 		return db.apps.find(selector, {sort: {sort: 1}});
 
 	getSpaceFirstApp: ()->
@@ -384,12 +414,31 @@ TemplateHelpers =
 			else
 				if db.cms_unreads
 					badge = db.cms_unreads.find({user: Meteor.userId()}).count()
+		else if appId == "calendar"
+			calendarid = Session.get("defaultcalendarid")
+			userId = Meteor.userId()
+			today = moment(moment().format("YYYY-MM-DD 00:00")).toDate()
+			endLine = moment().toDate()
+			selector = 
+				{
+					calendarid: calendarid,
+					start: {$gte:today},
+					end: {$gte: endLine},
+					"attendees": {
+						$elemMatch: {
+							id: userId,
+							partstat: "NEEDS-ACTION"
+						}
+					}
+				}
+			badge = Events?.find(selector).count()
 		else
 			# spaceId为空时统计所有space计数值
 			spaceSelector = if spaceId then {user: Meteor.userId(), space: spaceId, key: "badge"} else {user: Meteor.userId(), space: null, key: "badge"}
 			b = db.steedos_keyvalues.findOne(spaceSelector)
 			if b
 				badge = b.value?[appId]
+
 		if badge
 			return badge
 

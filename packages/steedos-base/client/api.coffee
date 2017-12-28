@@ -1,8 +1,6 @@
 _.extend Steedos,
 
 	openWindow: (url, target, options)->
-		unless target
-			target = "new_blank"
 		unless options
 			options = 'scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  '
 
@@ -36,3 +34,6 @@ _.extend Steedos,
 			unless $(".sidebar").hasClass("ps-container")
 				$(".sidebar").perfectScrollbar()
 				$(".sidebar-menu").css("width", "100%");
+
+	getHomeUrl: ()->
+		return "/workflow"

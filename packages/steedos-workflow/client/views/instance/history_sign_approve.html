@@ -9,17 +9,24 @@
 				</div>
 
 				<div class="modal-body modal-zoom">
-					<div class="sign-approves">
-						<table class="table table-striped">
-							<tbody>
-								{{#each sign_approves}}
-									<tr data-id="{{_id}}">
-										<td><a class="instance-sign-opinion-btn">{{description}}</a></td>
-									</tr>
-								{{/each}}
-							</tbody>
-						</table>
+					<div class="weui-cells weui-cells_form sign-approves">
+						{{#each sign_approves}}
+							<div class="weui-cell weui-cell_switch" data-id="{{_id}}">
+								<div class="weui-cell__bd use-suggestion">
+									<h4 class="weui-media-box__title">{{description}}</h4>
+									<p class="weui-media-box__desc">{{format finish_date}}</p>
+								</div>
+								<div class="weui-cell__ft select-suggestion">
+									<input id="switchCP-{{_id}}" class="weui-switch is-{{sign_show}}" type="checkbox" checked="{{sign_show}}" value="{{_id}}">
+								</div>
+							</div>
+						{{/each}}
 					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary confirm-select-suggestion">确认</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>

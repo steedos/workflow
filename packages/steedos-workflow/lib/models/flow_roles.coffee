@@ -21,6 +21,18 @@ db.flow_roles.attachSchema(db.flow_roles._simpleSchema)
 
 
 if Meteor.isServer
+	db.flow_roles.allow
+		insert: (userId, event) ->
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, event) ->
+			if (!Steedos.isSpaceAdmin(event.space, userId))
+				return false
+			else
+				return true
 
 	db.flow_roles.before.insert (userId, doc) ->
 
@@ -75,3 +87,25 @@ if Meteor.isServer
 		"created": 1,
 		"modified": 1
 	},{background: true})
+
+
+new Tabular.Table
+	name: "flow_roles",
+	collection: db.flow_roles,
+	columns: [
+		{
+			data: "name"
+		}
+	]
+	dom: "tp"
+	lengthChange: false
+	ordering: false
+	pageLength: 10
+	info: false
+	extraFields: ["space","_id"]
+	searching: true
+	autoWidth: false
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {_id: -1}
+		return selector

@@ -10,8 +10,9 @@ Template.workflow_main.helpers
 		return Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready();
 
 	isNeedToShowInstance: ->
-		if Steedos.subs["Instance"].ready()
+		if Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()
 			Session.set("instance_loading", false);
+			$("body").removeClass("loading")
 			instance = WorkflowManager.getInstance()
 
 			if !instance || !instance.traces

@@ -1,6 +1,6 @@
 Template.steedos_contacts_address_book_info_modal.helpers
 	addressBook: ->
-		return db.address_books.findOne this.targetId
+		return db.address_books.findOne Template.instance().data.targetId
 
 	addressGroupName: (id)->
 		address_group = db.address_groups.findOne id
@@ -23,7 +23,7 @@ Template.steedos_contacts_address_book_info_modal.events
 
 
 Template.steedos_contacts_address_book_info_modal.onRendered ()->
-	$("#steedos_contacts_address_book_info_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
+
 
 Template.steedos_contacts_address_book_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

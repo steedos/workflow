@@ -16,13 +16,13 @@ db.instances._simpleSchema = new SimpleSchema({
 
 #db.instances.attachSchema db.instances._simpleSchema
 
-db.instances.helpers
-	applicant_name: ->
-		applicant = db.space_users.findOne({user: this.applicant});
-		if applicant
-			return applicant.name;
-		else
-			return ""
+#db.instances.helpers
+#	applicant_name: ->
+#		applicant = db.space_users.findOne({user: this.applicant});
+#		if applicant
+#			return applicant.name;
+#		else
+#			return ""
 
 if Meteor.isServer
 	db.instances.allow
@@ -68,7 +68,7 @@ if Meteor.isServer
 			if searchText
 				pinyin = /^[a-zA-Z\']*$/.test(searchText)
 				if (pinyin && searchText.length > 8) || (!pinyin && searchText.length > 1)
-					console.log "searchText is #{searchText}"
+#					console.log "searchText is #{searchText}"
 					query = {state: {$in: ["pending", "completed"]}, name: {$regex: searchText},$or: [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}, {cc_users: uid}]}
 
 					if selectedOPtions && _.isArray(selectedOPtions)
@@ -261,7 +261,7 @@ if Meteor.isServer
 	},{background: true})
 
 	db.instances._ensureIndex({
-		"keywords": 1,
+		"keywords": "hashed",
 	},{background: true})
 
 	db.instances._ensureIndex({

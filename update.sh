@@ -1,11 +1,8 @@
 git pull
 git submodule update --init --recursive
 
-cd packages/steedos-cms
-git checkout master
-git pull
+rm -rf packages/steedos-cms
 
-cd ../../
 cd packages/steedos-emailjs
 git checkout master
 git pull

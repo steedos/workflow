@@ -2,7 +2,6 @@
 }
 
 .workflow-main {
-	background: rgba(255, 255, 255, 0.6);
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -11,7 +10,7 @@
 }
 
 .instance-list-wrapper {
-	right: 0;
+	right: -1px;
 	left: 0;
 	float: left;
 	padding-left: 0px;
@@ -22,18 +21,62 @@
 	bottom: 0px;
 	background: #fff;
 
+	.navigation-bar{
+		.btn-offcanvas{
+			max-width: 38px;
+			.inbox-pending-icon{
+				font-size: 75%;
+				position: relative;
+				left: -8px;
+				top: -6px;
+			}
+		}
+		@media (max-width: 767px) {
+			.btn-offcanvas {
+				max-width: 42px;
+				position: relative;
+				left: -9px;
+				padding: 14px;
+				top: -9px;
+			}
+			.pull-right {
+				.instance_new {
+					position: relative;
+					right: -9px;
+					padding: 14px;
+					top: -9px;
+					.ion-plus {
+						position: relative;
+						top: 1px;
+					}
+				}
+			}
+		}
+	}
+
 	.toolbar{
 		height: 51px;
 		background: #f3f3f3;
 		.instance-search-box{
 			margin-right:5px;
 			.input-group{
-				width:200px;
+				width:235px;
+				#instance_search{
+					padding-right: 35px;
+				}
+				#instance_search_button{
+					padding: 6px 10px;
+					margin-left: -35px;
+					border-top-right-radius: 6px;
+					border-bottom-right-radius: 6px;
+					height: 34px;
+					z-index: 4;
+				}
+				#instance_more_search{
+					margin: 0;
+				}
 				.form-control{
 					border-radius: 6px;
-				}
-				.btn{
-					margin-left: -34px;
 				}
 			}
 		}
@@ -54,12 +97,15 @@
 	}
 
 	.search-tip-bar{
-	    background: #FFF;
+		background: #FFF;
 		border-bottom: 1px solid #eee;
 		padding: 10px 20px;
 		height: 40px;
 		.result-container {
-			width: calc(~"100% - 22px");
+			width: calc(~"100% - 30px");
+		}
+		#instance_search_tip_close_btn {
+			width: 30px;
 		}
 	}
 
@@ -85,8 +131,10 @@
 		//  overflow-x: auto;
 		//}
 		.instance-name {
-				padding-left: 15px;
-				font-weight: bold;
+			padding-left: 15px;
+			font-weight: bold;
+			word-break: break-all;
+			width: 100%;
 		}
 		.flow-name{
 			float: left;
@@ -118,8 +166,9 @@
 			 }
 
 		}
-		.dataTables_paginate {
-			padding-right: 10px;
+
+		.table-bordered {
+			border-left: none;
 		}
 		.table > tbody > tr > td {
 			border-bottom: 1px solid #E8E8E8;
@@ -167,6 +216,34 @@
 				padding-left: 8px;
 				margin-top: 2px;
 			}
+			@media (max-width: 767px) {
+				.btn-instance-submit {
+					background-color: rgba(0, 0, 0, 0.2);
+					border-color: rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+		@media (max-width: 767px) {
+			.instance-left-buttons {
+				height: 50px;
+				top: -9px;
+				left: -9px;
+				.btn {
+					padding: 8px 8px;
+					margin-top: 1px;
+				}
+				.btn-instance-back {
+					padding: 14px;
+				}
+			}
+			.pull-right {
+				.btn {
+					position: relative;
+					top: -9px;
+					padding: 14px;
+					right: -9px;
+				}
+			}
 		}
 	}
 
@@ -188,10 +265,31 @@
 			}
 		}
 
+		@media (max-width: 767px) {
+			.instance-suggestion-close {
+				display: none;
+			}
+		}
+
+		.instance-suggestion-next-steps{
+			.only-one-next-step{
+				padding: 3px 0 3px 12px;
+				margin-bottom: 0;
+				font-weight: normal;
+				input {
+					display: none;
+				}
+			}
+		}
+
 		.suggestion-radio-box{
 			label{
 				height: 22px;
 				line-height: 22px;
+				margin-right: 10px;
+			}
+			.radio-inline + .radio-inline {
+				margin-left: 0px;
 			}
 		}
 
@@ -253,7 +351,16 @@
 				margin-bottom:8px;
 				.cc-description-box{
 					word-wrap: break-word;
-    				width: 92%;
+					width: calc(~"100% - 20px");
+					label {
+						margin-right: 3px;
+						margin-bottom: 0px;
+					}
+				}
+				@media (max-width: 767px) {
+					.cc-description-box {
+						width: 100%;
+					}
 				}
 			}
 			.input-group-addon{
@@ -305,6 +412,11 @@
 					}
 				}
 			}
+
+			.nextStepUsers{
+				background: #fff !important;
+			}
+
 			.has-error{
 				.instance-suggestion-next-steps{
 					border-color: #dd4b39;
@@ -337,6 +449,15 @@
 				margin-left: 0px;
 			}
 
+			&.instance-default{
+				.form-group{
+					margin-bottom: 5px;
+					.control-label{
+						margin-bottom: 3px;
+					}
+				}
+			}
+
 			.box-body {
 				padding-left: 15px;
 				padding-right: 15px;
@@ -351,6 +472,8 @@
 				position: relative;
 				box-shadow: none;
 				z-index: auto;
+				/*草稿箱审批栏离底部不应该有20px的空隙*/
+				margin-bottom: -20px;
 				.btn-remove{
 					display:none;
 				}
@@ -368,7 +491,8 @@
 _:-ms-fullscreen,
 :root .instance-wrapper .instance-view .instance-suggestion{
 	#instance_flow_opinions{
-		margin: -36px 4px;
+		top: -2px;
+		right: 15px;
 	}
 }
 
@@ -415,6 +539,9 @@ _:-ms-fullscreen,
 		right: 0px;
 		border-right: 0px;
 		transition: 0.3s ease-in-out;
+		.instance-list {
+			overflow: auto;
+		}
 	}
 	.instance-wrapper {
 		display: none;
@@ -504,6 +631,7 @@ _:-ms-fullscreen,
 			.instance-list-wrapper {
 				margin: 0px 0px 0px 0px;
 				border-radius: 0px;
+				background-color: transparent;
 				.instance-list{
 					/*border-top纯粹是因为在手机模式下，底部有翻页按钮时会出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
 					border-top:solid 1px #ffffff;

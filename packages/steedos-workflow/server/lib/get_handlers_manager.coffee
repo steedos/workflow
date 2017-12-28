@@ -128,7 +128,7 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 		if applicant
 			space_user_count = db.space_users.find({space: space_id, user: applicant}).count()
 			if space_user_count is 0
-				throw new Meteor.Error('error!', "申请人已经被删除或不属于当前space")
+				throw new Meteor.Error('error!', "提交人已经被删除或不属于当前space")
 
 			if current_step.approver_roles and current_step.approver_roles.length > 0
 				_.each(current_step.approver_roles, (approver_role)->
@@ -142,13 +142,13 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 				throw new Meteor.Error('error!', "审批岗位未指定")
 
 		else
-			throw new Meteor.Error('error!', "Instance的申请人为空")
+			throw new Meteor.Error('error!', "Instance的提交人为空")
 	else if deal_type is "applicant"
 		# 2.***********申请人***********
 		applicant = instance.applicant
 		space_user_count = db.space_users.find({space: space_id, user: applicant}).count()
 		if space_user_count is 0
-			throw new Meteor.Error('error!', "申请人已经被删除或不属于当前space")
+			throw new Meteor.Error('error!', "提交人已经被删除或不属于当前space")
 		else
 			return new Array(applicant)
 	else if deal_type is "orgFieldRole"

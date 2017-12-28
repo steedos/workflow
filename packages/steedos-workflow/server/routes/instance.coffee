@@ -1,10 +1,6 @@
 Cookies = Npm.require("cookies")
 
 getInstanceReadOnly = (req, res, next, options) ->
-#	获取客户端请求IP
-	clientIp = req.headers['x-forwarded-for'] or req.connection.remoteAddress or req.socket.remoteAddress or req.connection.socket.remoteAddress
-#	获取白名单
-	whitelist = Meteor.settings.whitelist
 
 	user = Steedos.getAPILoginUser(req, res)
 
@@ -49,16 +45,12 @@ getInstanceReadOnly = (req, res, next, options) ->
 		return;
 
 	if !user
-		if clientIp && whitelist && _.isArray(whitelist) && _.indexOf(whitelist, clientIp) > -1
-			user = db.users.findOne({_id: space.owner})
-		else
-			if !user
-				JsonRoutes.sendResult res,
-					code: 401,
-					data:
-						"error": "Validate Request[clientIp: #{clientIp}] -- Missing X-Auth-Token,X-User-Id",
-						"success": false
-				return;
+		JsonRoutes.sendResult res,
+			code: 401,
+			data:
+				"error": "Validate Request -- Missing X-Auth-Token,X-User-Id",
+				"success": false
+		return;
 
 	if instance.space != spaceId
 		JsonRoutes.sendResult res,
@@ -80,12 +72,26 @@ getInstanceReadOnly = (req, res, next, options) ->
 					"error": "Validate Request -- Missing sapceUser",
 					"success": false
 			return;
+
 	#校验user是否对instance有查看权限
-	if !WorkflowManager.hasInstancePermissions(user, instance)
+	_hasPermission = WorkflowManager.hasInstancePermissions(user, instance)
+
+	if !_hasPermission  && instance.distribute_from_instance
+		_parent_instances = _.union([instance.distribute_from_instance], instance.distribute_from_instances || [])
+
+		_hasPermission = _.find _parent_instances, (_parent_id)->
+			_parent_ins = db.instances.findOne({_id:_parent_id}, {fields: {traces: 0}})
+
+			return WorkflowManager.hasInstancePermissions(user, _parent_ins)
+
+	if !_hasPermission
+		_locale = Steedos.locale(user._id, true)
+		error = TAPi18n.__("instance_permissions_error", {}, _locale)
+		res.charset = "utf-8"
 		JsonRoutes.sendResult res,
 			code: 401,
 			data:
-				"error": "Validate Request -- Not Instance Permissions",
+				"error": error,
 				"success": false
 		return;
 

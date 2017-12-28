@@ -164,7 +164,7 @@ WorkflowManager.getInstanceFields = function() {
 }
 
 WorkflowManager.getInstanceStep = function(stepId) {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -185,7 +185,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 };
 
 WorkflowManager.getInstanceSteps = function() {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -203,9 +203,13 @@ WorkflowManager.getInstanceSteps = function() {
 };
 
 WorkflowManager.getInstanceFieldPermission = function() {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 
 	if (!instance) {
+		return {};
+	}
+
+	if (InstanceManager.isCC(instance)) {
 		return {};
 	}
 
@@ -221,7 +225,7 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		);
 	}
 
-	step = WorkflowManager.getInstanceStep(current_stepId);
+	var step = WorkflowManager.getInstanceStep(current_stepId);
 	if (!step) {
 		return {}
 	}
@@ -324,18 +328,18 @@ WorkflowManager.getRole = function(roleId) {
 	return role;
 };
 
-WorkflowManager.getUser = function(userId) {
+WorkflowManager.getUser = function(userId, spaceId) {
 	if (!userId) {
 		return;
 	}
 
 	if (typeof userId != "string") {
 
-		return WorkflowManager.getUsers(userId);
+		return WorkflowManager.getUsers(userId, spaceId);
 
 	}
 
-	var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+	var spaceUsers = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userId);
 	if (!spaceUsers) {
 		return
 	};
@@ -348,15 +352,15 @@ WorkflowManager.getUser = function(userId) {
 	return spaceUser;
 };
 
-WorkflowManager.getUsers = function(userIds) {
+WorkflowManager.getUsers = function(userIds, spaceId) {
 
 	if ("string" == typeof(userIds)) {
-		return [WorkflowManager.getUser(userIds)]
+		return [WorkflowManager.getUser(userIds, spaceId)]
 	}
 
 	var users = new Array();
 	if (userIds) {
-		users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
+		users = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userIds);
 	}
 
 	return users;
@@ -814,7 +818,7 @@ WorkflowManager.isArrearageSpace = function() {
 	if (space) {
 		if (space.is_paid) {
 
-			return space.balance <= 0.00 ? true : false;
+			return space.end_date <= new Date ? true : false;
 
 		} else {
 			return false;
@@ -836,10 +840,10 @@ if (Meteor.isClient) {
 				reName = '指定审批岗位';
 				break;
 			case 'applicantSuperior':
-				reName = '申请人上级';
+				reName = '提交人上级';
 				break;
 			case 'applicant':
-				reName = '申请人';
+				reName = '提交人';
 				break;
 			case 'orgField':
 				reName = '指定部门';

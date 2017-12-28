@@ -4,9 +4,7 @@
         {{> instance_button}}
     </div>
     <div class="instance-view {{get_priority_class}}">
-        {{#if unequals 'draft' instance.state}}
-            {{> instance_suggestion}}
-        {{/if}}
+        {{> instance_suggestion}}
         <div class="instance {{instanceStyle instance.form}}">
             <div class="instance-form {{instance_box_style }} {{box}}">
                 {{#if formDescription}}
@@ -18,7 +16,7 @@
                 {{/if}}
                 <div class="box-body">
                     <div class="col-md-12">
-                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" }}
                         {{> related_instances}}
                         {{#if isIReadable}}
                             {{{readOnlyView}}}
@@ -33,12 +31,10 @@
                     </div>
                 </div>
             </div>
-            {{#if unequals 'draft' instance.state}}
+            {{#if notDistributeAndDraft instance.state}}
 				{{#if (showTracesView instance.form instance.form_version)}}
-                	{{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
+                	{{> Template.dynamic template=(tracesTemplateName instance.form) data=(tracesListData instance)}}
 				{{/if}}
-            {{else}}
-                {{> instance_suggestion}}
             {{/if}}
         </div>
     </div>

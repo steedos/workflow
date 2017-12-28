@@ -28,7 +28,7 @@ TemplateManager.instance_title = ()->
 
 	return val
 
-TemplateManager.handleTableTemplate = (instance) ->
+TemplateManager.handleTableTemplate = (instance, _export) ->
 
 	template = """
 	<div class='instance-template'>
@@ -58,6 +58,9 @@ TemplateManager.handleTableTemplate = (instance) ->
 			if table_field.is_required
 				required = "is-required"
 
+			if _export
+				required = "";
+
 			if InstanceformTemplate.helpers.isOpinionField(table_field)
 				template += table_field.tr_start
 				template += """
@@ -80,11 +83,19 @@ TemplateManager.handleTableTemplate = (instance) ->
 					template += table_field.tr_end
 				else
 					template += table_field.tr_start
+
+					if _export
+						title_permission = ""
+						field_permission = ""
+					else
+						title_permission = "title-" + table_field.permission
+						field_permission = "field-" + table_field.permission
+
 					template += """
-						<td class="td-title td-title-#{table_field.code} #{required}">
+						<td class="td-title td-title-#{table_field.code} #{title_permission} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
-						<td class="td-field td-field-#{table_field.code} field-#{table_field.permission}" colspan = "#{table_field.td_colspan}">
+						<td class="td-field td-field-#{table_field.code} #{field_permission}" colspan = "#{table_field.td_colspan}">
 							{{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
@@ -137,7 +148,7 @@ TemplateManager._template =
 			{{#each steedos_form.fields}}
 				{{#if isOpinionField this}}
 					<div class="{{#if this.is_wide}}col-md-12{{else}}col-md-6{{/if}}">
-						<div class="form-group opinion-field">
+						<div class="form-group automatic opinion-field-{{this.code}}">
 							<label class="control-label">{{afFieldLabelText name=this.code}}</label>
 
 							{{> instanceSignText name=this.code}}

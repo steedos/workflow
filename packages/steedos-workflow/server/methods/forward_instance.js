@@ -1,5 +1,5 @@
 Meteor.methods({
-	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, from_approve_id) {
 		if (!this.userId)
 			return;
 
@@ -11,6 +11,8 @@ Meteor.methods({
 		check(isForwardAttachments, Boolean);
 		check(selectedUsers, Array);
 		check(action_type, Match.OneOf('forward', 'distribute'));
+
+		check(from_approve_id, String);
 
 		var ins = db.instances.findOne(instance_id);
 		var old_space_id = ins.space;
@@ -52,7 +54,7 @@ Meteor.methods({
 			}).forEach(function(u) {
 				no_permission_users_name.push(u.name);
 			});
-			throw new Meteor.Error('no_permission', "该申请人没有提交此申请单的权限。", no_permission_users_name.join(','))
+			throw new Meteor.Error('no_permission', "该提交人没有提交此申请单的权限。", no_permission_users_name.join(','))
 		}
 
 		var new_ins_ids = new Array;
@@ -79,6 +81,8 @@ Meteor.methods({
 			old_fields = [],
 			common_fields = [];
 
+		var select_to_input_fields = [];
+
 		if (old_form.current._id == old_form_version) {
 			old_fields = old_form.current.fields;
 		} else {
@@ -96,6 +100,17 @@ Meteor.methods({
 			})
 			if (exists_field)
 				common_fields.push(field);
+			var select_input_field = _.find(old_fields, function(f) {
+				return f.type == 'select' && field.type == 'input' && f.code == field.code;
+			})
+			if (select_input_field)
+				select_to_input_fields.push(select_input_field);
+		})
+
+		select_to_input_fields.forEach(function(field) {
+			if (old_values[field.code]) {
+				new_values[field.code] = old_values[field.code];
+			}
 		})
 
 		common_fields.forEach(function(field) {
@@ -198,7 +213,7 @@ Meteor.methods({
 		var instance_name = "";
 		var name_forumla = form.current.name_forumla;
 		if (name_forumla) {
-			var iscript = name_forumla.replace(/\{/g, "new_values['").replace(/\}/g, "']");
+			var iscript = name_forumla.replace(/\{/g, "(new_values['").replace(/\}/g, "'] || '')");
 			var rev = eval(iscript);
 			instance_name = rev || flow.name;
 		} else {
@@ -241,8 +256,16 @@ Meteor.methods({
 			ins_obj.modified = now;
 			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
+			ins_obj.values = new_values;
 			if (action_type == 'distribute') {
-				ins_obj.distribute_from_instance = instance_id
+				// 解决多次分发看不到正文、附件问题
+				if (ins.distribute_from_instance) {
+					ins_obj.distribute_from_instance = ins.distribute_from_instance;
+				} else {
+					ins_obj.distribute_from_instance = instance_id;
+				}
+				ins_obj.distribute_from_instances = _.clone(ins.distribute_from_instances) || [];
+				ins_obj.distribute_from_instances.push(instance_id);
 
 				if (related) {
 					ins_obj.related_instances = [instance_id]
@@ -410,7 +433,8 @@ Meteor.methods({
 				'from_user_name': from_user_name,
 				'forward_space': space_id,
 				'forward_instance': new_ins_id,
-				'description': description
+				'description': description,
+				'from_approve_id': from_approve_id
 			};
 
 			forward_approves.push(appr);
@@ -419,19 +443,35 @@ Meteor.methods({
 			pushManager.send_message_to_specifyUser("current_user", user_id);
 		})
 
-		if (_.isEmpty(current_trace.approves)) {
-			current_trace.approves = new Array;
-		}
-		current_trace.approves = current_trace.approves.concat(forward_approves);
 		set_obj.modified = new Date();
 		set_obj.modified_by = current_user_id;
-		set_obj["traces.$.approves"] = current_trace.approves;
-		db.instances.update({
+		var r = db.instances.update({
 			_id: instance_id,
 			"traces._id": current_trace_id
 		}, {
-			$set: set_obj
+			$set: set_obj,
+			$addToSet: {
+				'traces.$.approves': {
+					$each: forward_approves
+				}
+			}
 		});
+
+		if (r) {
+			_.each(current_trace.approves, function(a, idx) {
+				if (a._id == from_approve_id) {
+					var update_read = {};
+					update_read["traces.$.approves." + idx + ".read_date"] = new Date();
+					db.instances.update({
+						_id: instance_id,
+						"traces._id": current_trace_id
+					}, {
+						$set: update_read
+					});
+				}
+			})
+
+		}
 
 		return new_ins_ids;
 	},
@@ -456,7 +496,7 @@ Meteor.methods({
 			return appr._id == approve_id;
 		})
 
-		if (approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
+		if (!approve || approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
 			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
 		}
 
@@ -484,15 +524,19 @@ Meteor.methods({
 		}
 
 		var set_obj = new Object;
-		var new_approves = new Array;
-		_.each(trace.approves, function(appr) {
-			if (appr._id != approve_id) {
-				new_approves.push(appr);
-			}
-		});
 		set_obj.modified = new Date();
 		set_obj.modified_by = this.userId;
-		set_obj["traces.$.approves"] = new_approves;
+
+		_.each(trace.approves, function(appr, idx) {
+			if (appr._id == approve_id) {
+				set_obj['traces.$.approves.' + idx + '.judge'] = 'terminated';
+				set_obj['traces.$.approves.' + idx + '.is_finished'] = true;
+				set_obj['traces.$.approves.' + idx + '.finish_date'] = new Date();
+				set_obj['traces.$.approves.' + idx + '.is_read'] = true;
+				set_obj['traces.$.approves.' + idx + '.read_date'] = new Date();
+			}
+		})
+
 		db.instances.update({
 			_id: instance_id,
 			"traces._id": trace_id
@@ -501,6 +545,75 @@ Meteor.methods({
 		})
 
 		return true;
+	},
+
+	cancelDistribute: function(instance_id, approve_ids) {
+		check(instance_id, String)
+		check(approve_ids, Array)
+
+		var ins = db.instances.findOne(instance_id)
+
+		if (!ins) {
+			throw new Meteor.Error('params error!', 'record not exists!')
+		}
+
+		userId = this.userId
+
+		_.each(ins.traces, function(t) {
+			if (t.approves) {
+				var exists = false
+				var set_obj = new Object
+				_.each(t.approves, function(a, idx) {
+					if (approve_ids.includes(a._id) && a.from_user == userId && 'distribute' == a.type && a.forward_instance) {
+						var forward_instance_id = a.forward_instance
+						var forward_instance = db.instances.findOne(forward_instance_id)
+						if (forward_instance) {
+							if (forward_instance.state != "draft") {
+								return
+							}
+							var inbox_users = forward_instance.inbox_users || []
+
+							forward_instance.deleted = new Date()
+							forward_instance.deleted_by = userId
+							var deleted_forward_instance_id = db.deleted_instances.insert(forward_instance)
+							if (deleted_forward_instance_id) {
+								db.instances.remove({
+									_id: forward_instance_id
+								})
+
+								// 删除申请单后重新计算inbox_users的badge
+								_.each(inbox_users, function(u_id) {
+									pushManager.send_message_to_specifyUser("current_user", u_id)
+								})
+							}
+
+							set_obj['traces.$.approves.' + idx + '.judge'] = 'terminated'
+							set_obj['traces.$.approves.' + idx + '.is_finished'] = true
+							set_obj['traces.$.approves.' + idx + '.finish_date'] = new Date()
+							set_obj['traces.$.approves.' + idx + '.is_read'] = true
+							set_obj['traces.$.approves.' + idx + '.read_date'] = new Date()
+						}
+
+						exists = true
+					}
+				})
+
+				if (!exists)
+					return
+
+				set_obj.modified = new Date()
+				set_obj.modified_by = userId
+
+				db.instances.update({
+					_id: instance_id,
+					"traces._id": t._id
+				}, {
+					$set: set_obj
+				})
+			}
+		})
+
+		return true
 	}
 
 

@@ -28,6 +28,7 @@ Meteor.startup ()->
 							label: obj.name,
 							value: obj._id
 					return options
+
 		users:
 			type: [String],
 			foreign_key: true,
@@ -47,6 +48,14 @@ Meteor.startup ()->
 				search_keys: ['name', 'fullname']
 			autoform:
 				type: "selectorg"
+				defaultValue: ()->
+					return SteedosDataManager.organizationRemote.findOne({
+						is_company: true
+					}, {
+						fields: {
+							_id: 1,
+						}
+					})?._id;
 
 
 	if Meteor.isClient
@@ -160,41 +169,92 @@ Meteor.startup ()->
 		pub: "flow_positions_tabular",
 		columns: [
 			{
-				data: "role_name()",
+				data: "role",
 				width: "20%"
+				render: (val, type, doc) ->
+					role = db.flow_roles.findOne({_id: doc.role}, {fields: {name: 1}});
+					return role && role.name;
 			},
 			{
-				data: "org_name()",
-				width: "20%"
+				data: "users"
+				width: "auto"
+				render: (val, type, doc) ->
+					if (!doc.users instanceof Array)
+						return ""
+					users = db.space_users.find({space: doc.space, user: {$in: doc.users}}, {fields: {name:1}});
+					names = []
+					users.forEach (user) ->
+						names.push(user.name)
+					return names.toString();
 			},
+			{
+				data: "org",
+				width: "20%"
+				render: (val, type, doc) ->
+					org = db.organizations.findOne({_id: doc.org}, {fields: {fullname: 1}});
+					return org && org.fullname;
+			}
+		]
+		dom: "tp"
+		extraFields: ["space", "role", "org", "users"]
+		lengthChange: false
+		ordering: false
+		pageLength: 10
+		info: false
+		searching: true
+		autoWidth: false
+		changeSelector: (selector, userId) ->
+			unless userId
+				return {_id: -1}
+			space = selector.space
+			unless space
+				if selector?.$and?.length > 0
+					space = selector.$and.getProperty('space')[0]
+			unless space
+				return {_id: -1}
+			space_user = db.space_users.findOne({user: userId, space: space}, {fields: {_id: 1}})
+			unless space_user
+				return {_id: -1}
+			return selector
+
+	new Tabular.Table
+		name: "admin_flow_positions",
+		collection: db.flow_positions,
+		pub: "flow_positions_tabular",
+		drawCallback:(settings)->
+			if $(this).hasClass("datatable-flows-roles") and !$(".datatable-flows-roles tfoot").length
+				action = t("add_positions")
+				tfoot = """
+					<tfoot>
+						<tr>
+							<td colspan='2'>
+								<div class="add-positions">
+									<i class="ion ion-plus-round"></i>#{action}
+								</div>
+							</td>
+						<tr>
+					</tfoot>
+				"""	
+				$(".datatable-flows-roles tbody").after(tfoot)
+
+		columns: [
 			{
 				data: "users_name()"
-			},
-			{
-				data: "",
-				title: "",
-				orderable: false,
-				width: '1px',
 				render: (val, type, doc) ->
-					return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
-			},
-			{
-				data: "",
-				title: "",
-				orderable: false,
-				width: '1px',
-				render: (val, type, doc) ->
-					return '<button type="button" class="btn btn-xs btn-default" id="remove"><i class="fa fa-times"></i></button>'
+					org = db.organizations.findOne({_id: doc.org}, {fields: {fullname: 1}});
+					return """
+						<div class="users-name">#{val}</div>
+						<div class="org-fullname">#{org?.fullname}</div>	
+					"""
 			}
 		]
 		extraFields: ["space", "role", "org", "users"]
 		lengthChange: false
 		ordering: false
-		# 临时把pageLength改为1000【去掉翻页】，解决搜索不能正常工作时，QHD现场同事不方便查找数据的问题
 		pageLength: 10
 		info: false
 		searching: true
-		autoWidth: false
+		autoWidth: true
 		changeSelector: (selector, userId) ->
 			unless userId
 				return {_id: -1}

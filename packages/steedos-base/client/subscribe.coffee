@@ -10,8 +10,8 @@ Tracker.autorun (c)->
 			spaceId = Steedos.getSpaceId()
 			if spaceId
 				Steedos.setSpaceId(spaceId)
-			else
-				FlowRouter.go("/accounts/setup/space")
+			# else
+			# 	FlowRouter.go("/accounts/setup/space")
 
 Steedos.subsSpaceBase = new SubsManager();
 
@@ -19,8 +19,8 @@ Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
 
 	Steedos.subsSpaceBase.clear();
-	Steedos.subsSpaceBase.subscribe("apps", spaceId)
 	if spaceId
+		Steedos.subsSpaceBase.subscribe("apps", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_space_user", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_organizations", spaceId)
 		Steedos.subsSpaceBase.subscribe("space_settings", spaceId)
@@ -45,3 +45,16 @@ Meteor.startup ->
 
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
+
+	Tracker.autorun (c)->
+		locale = Steedos.locale()
+		$("body").addClass("locale-#{locale}")
+
+
+	Tracker.autorun (c)->
+		spaceId = Session.get("spaceId")
+		if spaceId and Meteor.userId()
+			Meteor.call "updateServerSession", spaceId,
+				(error, result) ->
+					if error
+						console.log error

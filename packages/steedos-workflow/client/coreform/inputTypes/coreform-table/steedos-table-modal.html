@@ -9,8 +9,8 @@
                         <h4 class="modal-title" id="selectTagModalTitle">{{afFieldLabelText name=this.field.code}}</h4> 
                     </div>
 
-                    <div class="modal-body steedos-table-modal-body">
-                        <div class="modal-zoom">
+                    <div class="modal-body steedos-table-modal-body modal-zoom">
+                        <div class="">
                             {{> afObjectField name=this.field.code}}
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                         </div>
                     {{/if}} -->
                     {{#if equals this.method 'edit'}}
-                        <button type="button" class="btn btn-default steedos-table-delete-button pull-left">{{_ "workflow_table_delete"}}</button>
+                        <button type="button" class="btn btn-danger steedos-table-delete-button pull-left">{{_ "workflow_table_delete"}}</button>
                     {{/if}}
 					{{#if equals this.method 'read'}}
 						<button type="button" class="btn btn-default pull-right" data-dismiss="modal">{{_ "close"}}</button>

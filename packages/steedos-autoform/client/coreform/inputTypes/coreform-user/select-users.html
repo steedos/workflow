@@ -1,3 +1,12 @@
 <template name="afSelectUser">
-  <input type='text' value="{{val this.value}}" readonly {{this.atts}}>
+	{{#if disabled}}
+		<div class='form-control' readonly disabled>
+			{{{val2 false}}}
+		</div>
+	{{else}}
+		<div class='{{chooseAttr this.atts.class}} selectUser-box'>
+			{{{val2 true}}}
+		</div>
+	{{/if}}
+	<input type='text' value="{{val this.value}}" readonly {{this.atts}} style="display: none;">
 </template>

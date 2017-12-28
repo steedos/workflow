@@ -3,7 +3,7 @@ Template.cf_space_user_list.onCreated ->
 
 	orgs = []
 
-	if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+	if !Steedos.isSpaceAdmin()
 
 		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
 
@@ -26,7 +26,7 @@ Template.cf_space_user_list.onDestroyed ->
 Template.cf_space_user_list.helpers
 	selector: (userOptions)->
 		spaceId = Template.instance().data.spaceId || Session.get("cf_space")
-		is_within_user_organizations = Template.instance().data.is_within_user_organizations
+		myContactsLimit = Steedos.my_contacts_limit
 
 		query = {space: spaceId, user_accepted: true};
 
@@ -45,16 +45,17 @@ Template.cf_space_user_list.helpers
 				orgAndChild = Session.get("cf_orgAndChild");
 				query.organizations = {$in: orgAndChild};
 			else
-				if is_within_user_organizations
+				if myContactsLimit?.isLimit
 					orgs = db.organizations.find().fetch().getProperty("_id")
+					outsideOrganizations = myContactsLimit.outside_organizations
+					if outsideOrganizations.length
+						orgs = _.union(orgs, outsideOrganizations)
 					orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 						fields: {
 							_id: 1
 						}
 					});
-
 					orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
 					query.organizations = {$in: orgs};
 				else
 					if Template.instance().data.spaceId != false && Session.get("spaceId")
@@ -62,7 +63,7 @@ Template.cf_space_user_list.helpers
 					else
 						spaceIds = db.spaces.find().fetch().getProperty("_id")
 
-					if !Meteor.settings?.public?.coreform?.show_hidden_organizations
+					if !Steedos.isSpaceAdmin()
 						query.organizations = {$in: Template.instance().unhidden_orgs.get()}
 
 					query.space = {$in: spaceIds}

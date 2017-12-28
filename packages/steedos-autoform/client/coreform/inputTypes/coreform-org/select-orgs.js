@@ -70,7 +70,9 @@ Template.afSelectOrg.events({
 
 		options.showUser = false;
 
-		options.targetId = template.data.atts.id;
+		// options.targetId = template.data.atts.id;
+
+		options.target = event.target
 
 		if(template.data.atts.spaceId === false){
 			options.spaceId = false
@@ -78,19 +80,11 @@ Template.afSelectOrg.events({
 			options.spaceId = dataset.spaceId || template.data.atts.spaceId || Session.get("spaceId")
 		}
 
-		options.is_within_user_organizations = dataset.is_within_user_organizations || template.data.atts.is_within_user_organizations || false
-
-		if(!_.isBoolean(options.is_within_user_organizations)){
-			if(options.is_within_user_organizations.toLocaleUpperCase() == "TRUE"){
-				options.is_within_user_organizations = true
-			}else{
-				options.is_within_user_organizations = false
-			}
-		}
+		options.title = this.atts.title?  this.atts.title: t('coreform_select_org_title'); //t('coreform_select') +
 
 		Modal.allowMultiple = true;
 		Modal.show("cf_organization_modal", options);
-		$(".contacts-modal-body").css("max-height", Steedos.getModalMaxHeight(20));
+		
 	}
 });
 
@@ -120,6 +114,9 @@ Template.afSelectOrg.helpers({
 
 			return val;
 		}
+	},
+	disabled: function () {
+		return "disabled" in this.atts;
 	}
 });
 

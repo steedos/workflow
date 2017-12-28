@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.23',
+	version: '0.0.26',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -33,13 +33,13 @@ Package.onUse(function(api) {
 
 	api.use('accounts-password@1.3.0');
 
-	api.use('steedos:accounts-t9n@1.14.2_3');
-	api.use('steedos:useraccounts-bootstrap@1.14.2_3');
-	api.use('steedos:useraccounts-core@1.14.2_3');
-	api.use('steedos:useraccounts-flow-routing@1.14.2');
-	api.use('steedos:accounts-phone@0.0.2');
+	api.use('steedos:accounts-t9n@1.14.2_6');
+	api.use('steedos:useraccounts-bootstrap@1.14.2_5');
+	api.use('steedos:useraccounts-core@1.14.2_4');
+	api.use('steedos:useraccounts-flow-routing@1.14.2_4');
+	api.use('steedos:accounts-phone@0.0.3');
 
-	api.use('steedos:base@0.0.60');
+	api.use('steedos:base@0.0.69');
 
 
 
@@ -49,12 +49,17 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/URI.js');
 	api.addFiles('lib/core.coffee');
+	api.addFiles('lib/force_bind_phone.coffee');
 	api.addFiles('lib/accounts.coffee');
 
 	api.addFiles('routes/setup.coffee', 'server');
+	
+    api.addFiles('password_server.js', 'server');
+    api.addFiles('password_client.js', 'client');
 
 	api.addFiles('server/methods/update_phone.coffee', 'server');
 	api.addFiles('server/methods/disable_phone.coffee', 'server');
+	api.addFiles('server/methods/check_user.coffee', 'server');
 
 	api.addFiles('client/views/accounts_phone.html', 'client');
 	api.addFiles('client/views/accounts_phone.coffee', 'client');
@@ -70,6 +75,10 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/forgot_password_token.html', 'client');
 	api.addFiles('client/views/forgot_password_token.coffee', 'client');
+
+	api.addFiles('client/views/accounts_admin_register.html', 'client');
+	api.addFiles('client/views/accounts_admin_register.coffee', 'client');
+	api.addFiles('client/views/accounts_admin_register.less', 'client');
 
 	api.addFiles('client/views/at_form.coffee', "client");
 	api.addFiles('client/views/at_form.less', "client");

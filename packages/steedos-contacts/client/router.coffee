@@ -21,6 +21,12 @@ contactsRoutes.route '/orgs',
 			BlazeLayout.render 'contactsLayout',
 				main: "admin_org_main"
 
+contactsRoutes.route '/banch',
+	action: (params, queryParams)->
+		Session.set('contact_showBooks', false)
+		BlazeLayout.render 'contactsLayout',
+			main: "org_main_mobile"
+
 contactsRoutes.route '/books', 
 	action: (params, queryParams)->
 		Session.set('contact_showBooks', true)

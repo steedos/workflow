@@ -1,11 +1,17 @@
 Template.steedos_contacts_space_user_info_modal.helpers
+	isMobile: ->
+		return Steedos.isMobile()
+
 	spaceUser: ->
-		return db.space_users.findOne this.targetId;
+		return db.space_users.findOne Template.instance().data.targetId;
 	
 	spaceUserOrganizations: ->
-		spaceUser = db.space_users.findOne this.targetId;
+		spaceUser = db.space_users.findOne Template.instance().data.targetId;
 		if spaceUser
-			return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
+			if Steedos.isMobile()
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {name: 1}})
+			else
+				return SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 		return []
 
 	isPrimaryOrg: (id)->
@@ -14,7 +20,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	spaceUserInfo: ->
 		info = ""
-		spaceUser = db.space_users.findOne this.targetId, {fields: {name: 1, email: 1, position: 1, mobile: 1, work_phone: 1, organizations: 1}};
+		spaceUser = db.space_users.findOne Template.instance().data.targetId, {fields: {name: 1, email: 1, position: 1, mobile: 1, work_phone: 1, organizations: 1}};
 		if spaceUser
 			orgArray = SteedosDataManager.organizationRemote.find({_id: {$in: spaceUser.organizations}},{fields: {fullname: 1}})
 			if orgArray
@@ -35,16 +41,46 @@ Template.steedos_contacts_space_user_info_modal.helpers
 		return info
 
 	isEditable: ->
-		if Template.instance().data.isEditable == false
-			return false;
-
+		spaceUser = db.space_users.findOne Template.instance().data.targetId
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			return true
 		else
 			return false
 
 	username: () ->
-		 return Template.instance().username?.get()
+		return Template.instance().username?.get()
+
+	isModifiable: (id)->
+		userObj = db.space_users.findOne(id)
+		if userObj?.invite_state == "pending" || userObj?.invite_state == "refused"
+			return false
+		
+		return true
+
+	isShowInviteState: (state) ->
+		if state == 'pending'
+			return t('contact_invite_pending')
+		else if state == 'refused'
+			return t('contact_invite_refused') 
+
+		return false
+
+	isShowReinvite: (state) ->
+		if state == 'refused'
+			return true
+
+		return false
+
+	isHiddenUser: () ->
+		return false
+		# if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+		# 	return false
+		# else
+		# 	su = db.space_users.findOne Template.instance().data.targetId;
+		# 	hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		# 	if hidden_users.indexOf(su.user) > -1
+		# 		return true
+		# return false
 
 
 Template.steedos_contacts_space_user_info_modal.events
@@ -52,14 +88,11 @@ Template.steedos_contacts_space_user_info_modal.events
 		$("#steedos_contacts_space_user_info_modal .close").trigger("click")
 
 	'click .steedos-info-edit': (event, template) ->
-		unless Steedos.isPaidSpace()
-			$("body").on("click",".admin-dashboard-body input[name=mobile]",()->
-				swal({title: t("steedos_contacts_mobile_edit_power")})
-			)
 		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id, ->
 			$("body").off("click",".admin-dashboard-body input[name=mobile]")
 
 	'click .btn-edit-username': (event, template) ->
+		space_id = Session.get("spaceId")
 		username = template.username?.get()
 		user_id = event.currentTarget.dataset.id
 		unless user_id
@@ -79,13 +112,20 @@ Template.steedos_contacts_space_user_info_modal.events
 			if inputValue?.trim() == username?.trim()
 				swal.close()
 				return false;
-			Meteor.call "setUsername", inputValue?.trim(), user_id, (error, results)->
+			Meteor.call "setUsername", space_id, inputValue?.trim(), user_id, (error, results)->
 				if results
 					template.username.set(results);
 					toastr.success t('Change username successfully')
 					swal.close()
 				if error
-					toastr.error(TAPi18n.__(error.error))
+					toastr.error(TAPi18n.__(error.reason))
+
+	'click .steedos-contact-reinvite': (event, template) ->
+		id = event.currentTarget.dataset.id
+		Meteor.call 'reInviteUser', id, (error, result) ->
+			if error
+				console.log error
+			
 
 	'click .steedos-info-delete': (event, template) ->
 		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id, ->
@@ -116,7 +156,6 @@ Template.steedos_contacts_space_user_info_modal.onRendered ()->
 	copyInfoClipboard.on 'error', (e) ->
 		toastr.error t("steedos_contacts_copy_failed")
 		return
-	$("#steedos_contacts_space_user_info_modal .weui-modal-content").css("max-height", Steedos.getModalMaxHeight(30));
 
 Template.steedos_contacts_space_user_info_modal.onDestroyed ->
 	Modal.allowMultiple = false

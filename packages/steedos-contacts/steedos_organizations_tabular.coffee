@@ -3,14 +3,24 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 	collection: db.space_users,
 	createdRow:(row,data,index)->
 		row.dataset.id = data._id
+		row.dataset.user = data.user
 		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
 			$(row).addClass("drag-source").attr "draggable",true
+		# else
+		# 	hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		# 	if hidden_users.indexOf(data.user) > -1
+		# 		$(row).addClass("hidden-user")
+
 	columns: [
 		{
 			data: "name",
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-name #{colorClass} nowrap'>" + doc.name + "</div>"
 		},
 		{
@@ -18,6 +28,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-mobile #{colorClass} nowrap'>" + (doc.mobile || "") + "</div>"
 		},
 		{
@@ -25,6 +39,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-work_phone #{colorClass} nowrap'>" + (doc.work_phone || "") + "</div>"
 		},
 		{
@@ -32,6 +50,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.company || "") + "</div>"
 		},
 		{
@@ -39,6 +61,10 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-position #{colorClass} nowrap'>" + (doc.position || "") + "</div>"
 		},
 		{
@@ -46,7 +72,82 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 			orderable: false,
 			render: (val, type, doc) ->
 				colorClass = if !doc.user_accepted then 'text-muted' else ''
+				if doc.invite_state == 'pending'
+					colorClass = 'invite-pending'
+				else if doc.invite_state == 'refused'
+					colorClass = 'invite-refused'
 				return "<div class='contacts-email #{colorClass} nowrap'>" + (doc.email || "") + "</div>"
+		},
+		{
+			title: "",
+			orderable: false,
+			width: "20px",
+			render: (val, type, doc) ->
+				# debugger
+				if Steedos.isSpaceAdmin()
+					modifyPassword = """
+						<li>
+							<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-modify-password">
+								#{t("contacts_tableau_modify_password")}
+							</a>
+						</li>
+					"""
+				else
+					modifyPassword = ""
+
+
+				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+					if doc.invite_state == "pending" or doc.invite_state == "refused"
+						html = """
+							<div class="edit-person">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<span class="ion ion-android-more-vertical"></span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-delete-user">
+												#{t("contacts_delete")}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+						"""
+					else
+						html = """
+							<div class="edit-person">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+										<span class="ion ion-android-more-vertical"></span>
+									</button>
+									<ul class="dropdown-menu dropdown-menu-right" role="menu">
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-edit-user">
+												#{t("contacts_edit")}
+											</a>
+										</li>
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-modify-username">
+												#{t("contacts_tableau_modify_username")}
+											</a>
+										</li>
+										#{modifyPassword}
+										<li>
+											<a data-id="#{doc._id}" data-user="#{doc.user}" class="contacts-tableau-delete-user">
+												#{t("contacts_delete")}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						"""
+				else
+					html = """
+						<div class="edit-person"></div>
+					"""
+				return html
 		},
 		{
 			data: "sort_no",
@@ -66,8 +167,8 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 #select:
 #  style: 'single'
 	dom: "tp",
-	order:[[6,"desc"],[7,"asc"]],
-	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization"],
+	order:[[7,"desc"],[8,"asc"]],
+	extraFields: ["_id", "name", "email", "organizations", "sort_no", "user_accepted", "user", "organization", "invite_state"],
 	lengthChange: false,
 	pageLength: 15,
 	info: false,

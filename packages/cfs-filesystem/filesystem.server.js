@@ -9,7 +9,9 @@ FS.Store.FileSystem = function(name, options) {
     throw new Error('FS.Store.FileSystem missing keyword "new"');
 
   // We allow options to be string/path empty or options.path
-  options = (options !== ''+options) ? options || {} : { path: options };
+  options = (options !== '' + options) ? options || {} : {
+    path: options
+  };
 
   // Provide a default FS directory one level up from the build/bundle directory
   var pathname = options.path;
@@ -46,7 +48,9 @@ FS.Store.FileSystem = function(name, options) {
       if (store && store.key) return store.key;
 
       var filename = fileObj.name();
-      var filenameInStore = fileObj.name({store: name});
+      var filenameInStore = fileObj.name({
+        store: name
+      });
 
       // If no store key found we resolve / generate a key
       return fileObj.collectionName + '-' + fileObj._id + '-' + (filenameInStore || filename);
@@ -58,7 +62,7 @@ FS.Store.FileSystem = function(name, options) {
       exists = fs.existsSync(filepath);
       if (!exists)
         throw new Meteor.Error(404, "Not Found", 'No file found');
-      
+
       // return the read stream - Options allow { start, end }
       return fs.createReadStream(filepath, options);
     },
@@ -90,7 +94,7 @@ FS.Store.FileSystem = function(name, options) {
             storedAt: stats.mtime
           });
 
-        } catch(err) {
+        } catch (err) {
           // On error we emit the error on
           writeStream.emit('error', err);
         }
@@ -101,31 +105,35 @@ FS.Store.FileSystem = function(name, options) {
     remove: function(fileKey, callback) {
       // this is the Storage adapter scope
       var filepath = path.join(absolutePath, fileKey);
-
-      // Call node unlink file
-      fs.unlink(filepath, function (error, result) {
-        if (error && error.errno === 34) {
-          console.warn("SA FileSystem: Could not delete " + filepath + " because the file was not found.");
-          callback && callback(null);
-        } else {
-          callback && callback(error, result);
-        }
-      });
+      var is_exists = fs.existsSync(filepath);
+      if (is_exists) {
+        // Call node unlink file
+        fs.unlink(filepath, function(error, result) {
+          if (error && error.errno === 34) {
+            console.warn("SA FileSystem: Could not delete " + filepath + " because the file was not found.");
+            callback && callback(null);
+          } else {
+            callback && callback(error, result);
+          }
+        });
+      } else {
+        callback && callback(null);
+      }
     },
     stats: function(fileKey, callback) {
-      // this is the Storage adapter scope
-      var filepath = path.join(absolutePath, fileKey);
-      if (typeof callback === 'function') {
-        fs.stat(filepath, callback);
-      } else {
-        return fs.statSync(filepath);
+        // this is the Storage adapter scope
+        var filepath = path.join(absolutePath, fileKey);
+        if (typeof callback === 'function') {
+          fs.stat(filepath, callback);
+        } else {
+          return fs.statSync(filepath);
+        }
       }
-    }
-    // Add this back and add the chokidar dependency back when we make this work eventually
-    // watch: function(callback) {
-    //   function fileKey(filePath) {
-    //     return filePath.replace(absolutePath, "");
-    //   }
+      // Add this back and add the chokidar dependency back when we make this work eventually
+      // watch: function(callback) {
+      //   function fileKey(filePath) {
+      //     return filePath.replace(absolutePath, "");
+      //   }
 
     //   FS.debug && console.log('Watching ' + absolutePath);
 

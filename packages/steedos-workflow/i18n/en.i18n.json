@@ -90,6 +90,7 @@
 	"workflow_attachment_convert_to_pdf": "Converting '%s' to pdf format...",
 	"workflow_attachment_wordToPdf": "Convert To Pdf",
 	"workflow_attachment_wordToPdf_failed": "Convert to PDF failed!",
+	"workflow_attachment_locked_tip": "Unlock the file, then submit",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
@@ -154,7 +155,7 @@
 	"relocate_help": "https://www.steedos.com/us/help/workflow/instance_relocate.html",
 	"reassign_help": "https://www.steedos.com/us/help/workflow/instance_reassign.html",
 	"forward_help": "https://www.steedos.com/us/help/workflow/instance_forward.html",
-	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_monitor.html",
+	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_search.html",
 	"new_help": "https://www.steedos.com/us/help/workflow/instance_add.html",
 
 	// inbox
@@ -191,11 +192,12 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Workflow Script",
+	"workflow_form_edit": "Workflow List",
 	"flows_template": "Request Template",
 	"flows_name": "Workflow Name",
 	"flows_print_template": "Print Template",
-	"flows_instance_template": "Form Template",
+	"flows_instance_template": "Form Template&nbsp; <a class='export-table-template'>Download the default template</a>",
+	"flows_description": "Flow Description",
 
 
 	"workflow_attach_unlock": "Unlock",
@@ -231,6 +233,7 @@
 	"instance_search_advanced_search": "Advanced search",
 	"instance_search_flow": "Workflow",
 	"instance_search_name": "Request Title",
+	"instance_search_file": "Request Title",
 	"instance_search_applicant_name": "Applicant Name",
 	"instance_search_applicant_organization_name": "Applicant Organization",
 	"instance_search_submit_date": "Submit Date",
@@ -279,7 +282,8 @@
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "input",
@@ -302,7 +306,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
-				"remind": "Remind：__instance_name__, Deadline：__deadline__"
+				"remind": "Remind：__instance_name__, Deadline：__deadline__",
+				"trace_approve_cc_submit": "I have submitted a cc __instance_name__"
 			}
 		},
 		"email": {
@@ -426,8 +431,7 @@
 	"instance_retrieve": "Retrieve",
 	"instance_retrieve_reason": "Remarks",
 	"instance_retrieve_rules_title": "Retrieve failed",
-	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.
-",
+	"instance_retrieve_rules_content": "You can not retrive a request if user in next step has read the request, or you are in a concurrent signed step.",
 	"Retrieved successfully": "Retrieved successfully!",
 	"Instance State retrieved": "Retrieved",
 	"instance_chrome_print_warning": "Please use the Chrome browser to print.",
@@ -482,7 +486,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web Data Connector copy successful",
 	"instance_related_instances": "Related requests",
 	"instance_related_instances_title": "Linked requests",
-	"instance_related_instances_placeholder": "Please enter request name",
+	"instance_related_instances_placeholder": "Please enter the file name to search for the associated file",
 
 	"workflow_install_desktop": "Install Desktop",
 
@@ -490,7 +494,7 @@
 
 	"instance_return": "Return",
 	"instance_return_success": "Return successfully",
-	"instance_return_confirm": "Are you sure to return the request to the previous step?",
+	"instance_return_confirm": "Return the request to __step_name__(__handlers_name__)?",
 	"Instance State returned": "Returned",
 
 	"instance_main_attachment": "Main attach",
@@ -527,10 +531,17 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-
+	"not_found_user": "Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "Step <__step_name__> to locate a role <__role_name__> without finding a handler. Please contact your system administrator"
+		"aplicant_superior": "The applicant's superior is not configured, please contact the Administrator.",
+		"applicant_role": "The <__role_name__> you are looking for have not configured,Please contact the administrator.",
+		"field_value_empty": "Please enter the value of the <__field_name__>field",
+		"org_no_members": "The next step need <__org_name__> processing,Please contact the administrator."
 	},
+	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
+
+	"instanc_user_role_text": " configuration in position",
+	"instanc_set_applicant_role_text": "set positions users",
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
@@ -548,7 +559,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "The number rule does not exist: ",
 	"ConfirmDeletion?": "Are you sure?",
 	"instance_number_rules_name_only": "The name can not be repeated",
-	"flows_btn_export_title": "Export",
+	"flows_btn_export_title": "Export Flow",
 	"flows_btn_copylink_title": "Copy Link",
 	"instance_distribute_related_instances_title": "Automatically create associated requests",
 	"instance_next_step_users_placeholder": "Please select the approver",
@@ -556,6 +567,7 @@
 
 	"my_instances": "My Requests",
 	"workflow_import_export_flows": "Workflow import or export",
+	"workflow_history_approve_counts": "Show %s history descriptions",
 	"workflow_history_approve_description": "History description",
 	"instances_start_date": "Receiving time",
 	"instances_is_archived": "Archived",
@@ -571,5 +583,66 @@
 	"tableau_introduction_modal_close": "Close",
 	"ERROR": "Error",
 
-	"steedos_table_add_item": "Add item"
+	"steedos_table_add_item": "Add item",
+
+	"approved_description": "Approved",
+	"rejected_description": "Rejected",
+
+	"copy": "Copy and Create",
+
+
+	"from": "From",
+
+
+	"admin_flow_roles_create": "Create",
+
+	"flow_roles_delete_success": "Delete successfully",
+	"add_positions": "Add",
+	"save_role": "Save",
+	"delete_role": "Delete",
+	"flow_roles_update_success": "Update successfully",
+	"flow_roles_necessary": "Please fill in role's name",
+	"flow_positions_add_suceess": "Add successfully",
+	"flow_positions_add_failed": "Be failed to add",
+	"flow_positions_update_suceess": "Update successfully",
+	"flow_positions_update_failed": "Be failed to update",
+	"flow_positions_delete_suceess": "Delete successfully",
+	"instance_role_set_is_complete": "Role set up?",
+	"instance_set_is_complete": "set up?",
+
+	"flow_roles_help": "Help",
+	"set_org_members": "Set department members",
+	"set_applicant_manager": "Set the applicant supervisor",
+	"instance_permissions_error": "You do not have permission to view this request",
+	"start_flows": "Start flows",
+
+	"chart_traces": "Chart Traces",
+	"cc_tag": "(Carbon Copying)",
+	"workflow_batch_approval": "Batch approval",
+	"workflow_batch_approval_btn": "Batch<br/>approval",
+	"workflow_batch_approval_processing": "Processing",
+	"workflow_batch_approval_message": "This processing file %s",
+	"workflow_error_multiple_next_step_users": "'__insname__' the next person can not handle more than one",
+	"workflow_error_multiple_next_step": "'__insname__' can not have more than one next step",
+	"workflow_batch_instances_empty": "There is no data for batch approval",
+	"workflow_sign_opinion_to_completed_instance": "This document is over and the signed opinion will not be displayed on the application",
+	"workflow_copy_flow": "Copy flow",
+	"workflow_copy_flow_text": "Please fill in the new flow name",
+	"workflow_copy_flow_success": "The copy flow is successful",
+	"workflow_copy_flow_error_reason_required": "Comments are required.",
+	"workflow_enabled": "Enabled",
+	"workflow_disabled": "Disabled",
+	"flows_state": "State",
+	"flows_current_modified": "Modified",
+	"flows_modified_by_name()": "Editor",
+	"flows_category_name()": "Categories",
+	"flow_list_title_set_template": "Set Template",
+	"flow_list_title_set_script": "Set Script",
+	"flow_list_title_set_fieldsMap": "Set Archive relationship",
+	"distribute_edit_flow_select_users": "users options",
+	"distribute_edit_flow_select_flows": "flows options",
+	"flow_list_title_set_distribute": "Set Distribute",
+	"distribute_to_self": "can distribute to self",
+
+	"instance_deleted": "Deleted"
 }

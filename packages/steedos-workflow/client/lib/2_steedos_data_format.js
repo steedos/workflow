@@ -116,7 +116,7 @@ var s_autoform = function (schema, field) {
         case 'date' :
             schema.type = String;
             autoform.disabled = (permission == 'readonly');
-            if (Steedos.isMobile())
+            if (Steedos.isMobile() || Steedos.isPad())
                 autoform.type = 'date';
             else {
                 autoform.type = 'coreform-datepicker';
@@ -134,7 +134,7 @@ var s_autoform = function (schema, field) {
         case 'dateTime' :
             schema.type = Date;
             autoform.disabled = (permission == 'readonly');
-            if (Steedos.isMobile())
+            if (Steedos.isMobile() || Steedos.isPad())
                 autoform.type = 'datetime-local';
             else {
                 autoform.type = 'bootstrap-datetimepicker';
@@ -279,6 +279,8 @@ var s_schema = function (label, field) {
         schema.autoform.description = field.description;
 		schema.autoform.label = field.name;
     }
+
+	schema.autoform.title = schema.label;
 
     return schema;
 };

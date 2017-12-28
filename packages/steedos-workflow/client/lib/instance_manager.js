@@ -156,6 +156,29 @@ InstanceManager.getNextStepOptions = function() {
 //   });
 // }
 
+InstanceManager.nextStepUsersWillUpdate = function(changeField, nextStep) {
+
+	'use strict';
+
+	if (!changeField || !nextStep) {
+		return false;
+	}
+
+	if (changeField.name === 'applicant' && (nextStep.deal_type === 'applicant' || nextStep.deal_type === 'applicantRole' || nextStep.deal_type === 'applicantSuperior')) {
+		return true;
+	} else {
+		if (changeField.type === 'user' && changeField._id === nextStep.approver_user_field && (nextStep.deal_type === 'userField' || nextStep.deal_type === 'userFieldRole')) {
+			return true;
+		} else if (changeField.type === 'group' && changeField._id === nextStep.approver_org_field && (nextStep.deal_type === 'orgField' || nextStep.deal_type === 'orgFieldRole')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	return false;
+};
+
 InstanceManager.getNextUserOptions = function() {
 
 	var next_user_options = []
@@ -177,13 +200,14 @@ InstanceManager.getNextUserOptions = function() {
 		var lastStepHandlers = TracesManager.getStepLastHandlers(next_step_id, instance)
 
 		if (nextStepUsers) {
-
+			var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 			if (nextStepUsers.length == 0) { //为指定处理人并且没有暂存处理人时
-				var nextStep = WorkflowManager.getInstanceStep(next_step_id);
 
 				if (nextStep.deal_type == "pickupAtRuntime") {
+					if (nextStep.step_type != 'counterSign') { // 会签节点不默认选择处理人。 #1350
+						nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
+					}
 
-					nextStepUsers = WorkflowManager.getUsers(lastStepHandlers);
 				}
 
 			}
@@ -204,11 +228,14 @@ InstanceManager.getNextUserOptions = function() {
 
 					// 如果有处理人
 					if (nextStepUsers.length > 1) {
-						// 设置下一步处理人默认值为最近一次处理人
-
-						if (lastStepHandlers.includes(user.id)) {
-							option.selected = true;
+						// 会签节点不默认选择处理人。 #1350
+						if (nextStep.step_type != 'counterSign') {
+							// 设置下一步处理人默认值为最近一次处理人
+							if (lastStepHandlers.includes(user.id)) {
+								option.selected = true;
+							}
 						}
+
 					}
 				}
 
@@ -261,6 +288,11 @@ InstanceManager.getApplicantUserId = function() {
 }
 
 function showMessage(parent_group, message) {
+
+	// if (parent_group.hasClass("has-error")) {
+	// 	return;
+	// }
+
 	parent_group.addClass("has-error");
 	$(".help-block", parent_group).html(message);
 	if (message && message.length > 0) {
@@ -268,7 +300,13 @@ function showMessage(parent_group, message) {
 	}
 }
 
+function showMessageInblock(parent_group, message) {
+	parent_group.addClass("has-error");
+	$(".help-block", parent_group).html(message);
+}
+
 function removeMessage(parent_group) {
+	// toastr.remove()
 	parent_group.removeClass("has-error");
 	$(".help-block", parent_group).html('');
 }
@@ -307,34 +345,51 @@ InstanceManager.checkNextStep = function() {
 		showMessage(nextSteps_parent_group, TAPi18n.__("instance_select_next_step"));
 }
 
-InstanceManager._setError_next_step_users = function (error, error_type) {
+InstanceManager._setError_next_step_users = function(error, error_type, error_cdoe) {
 	var next_user = $("input[name='nextStepUsers']");
 
-	if(next_user.length > 0){
+	if (next_user.length > 0) {
 		next_user[0].dataset["error"] = error;
 		next_user[0].dataset["error_type"] = error_type;
+		next_user[0].dataset["error_code"] = error_cdoe;
+	}
+}
+
+//下一步处理人校验
+InstanceManager.handleErrorMessage = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	InstanceManager._setError_next_step_users("", "", "")
+
+	if (ApproveManager.error.nextStepUsers != '') {
+		// showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
+		nextStepUsers_parent_group.addClass("has-error");
+
+		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type, ApproveManager.error.code)
+
+		ApproveManager.error.nextStepUsers = '';
+		return;
 	}
 }
 
 //下一步处理人校验
 InstanceManager.checkNextStepUser = function() {
 
-	if($("input[name='nextStepUsers']").length < 1){
-		return ;
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
 	}
 
 	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
 
-	InstanceManager._setError_next_step_users("")
-
-	if (ApproveManager.error.nextStepUsers != '') {
-		showMessage(nextStepUsers_parent_group, ApproveManager.error.nextStepUsers);
-
-		InstanceManager._setError_next_step_users(ApproveManager.error.nextStepUsers, ApproveManager.error.type)
-
-		ApproveManager.error.nextStepUsers = '';
+	if (nextStepUsers_parent_group.length < 1) {
 		return;
 	}
+
 	var value = ApproveManager.getNextStepUsersSelectValue();
 	var nextStepId = ApproveManager.getNextStepsSelectValue();
 	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
@@ -345,15 +400,41 @@ InstanceManager.checkNextStepUser = function() {
 		showMessage(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
 }
 
+InstanceManager.nextStepUserErrorClass = function() {
+
+	if ($("input[name='nextStepUsers']").length < 1) {
+		return;
+	}
+
+	var nextStepUsers_parent_group = $("#nextStepUsers").closest(".form-group");
+
+	if (nextStepUsers_parent_group.length < 1) {
+		return;
+	}
+
+	var value = ApproveManager.getNextStepUsersSelectValue();
+	var nextStepId = ApproveManager.getNextStepsSelectValue();
+	var nextStep = WorkflowManager.getInstanceStep(nextStepId);
+
+	if (value.length > 0 || (nextStep && nextStep.step_type == 'end'))
+		removeMessage(nextStepUsers_parent_group);
+	else
+		showMessageInblock(nextStepUsers_parent_group, TAPi18n.__("instance_next_step_user"));
+}
+
 //如果是驳回必须填写意见
-InstanceManager.checkSuggestion = function() {
+InstanceManager.checkSuggestion = function(alter) {
 	var judge = $("[name='judge']").filter(':checked').val();
 	var suggestion_parent_group = $("#suggestion").parent();
 	if (judge && judge == 'rejected') {
 		if ($("#suggestion").val())
 			removeMessage(suggestion_parent_group);
 		else
+		if (alter == 0)
+			showMessageInblock(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+		else {
 			showMessage(suggestion_parent_group, TAPi18n.__("instance_reasons_reject"));
+		}
 	} else {
 		removeMessage(suggestion_parent_group);
 	}
@@ -370,7 +451,13 @@ InstanceManager.checkFormFieldValue = function(field) {
 
 	var jquery_f = $("[name='" + field.dataset.schemaKey + "']");
 
-	if (jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true")) {
+	var _form_group_div = jquery_f.closest(".form-group")
+
+	if(parent_group.hasClass("twitter-typeahead")){
+		parent_group = parent_group.parent().parent()
+	}
+
+	if (jquery_f.attr("type") != 'table' && field.parentNode.dataset.required == "true" || ((field.type == "checkbox" || field.type == "radio") && field.parentNode.parentNode.parentNode.dataset.required == "true") || (_form_group_div.length == 1 && _form_group_div[0].dataset.required == "true")) {
 		var fileValue = "";
 		if (field.type == "checkbox" || field.type == "radio") {
 			fileValue = $("[name='" + field.name + "']:checked").val();
@@ -464,7 +551,8 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	var fields = WorkflowManager.getInstanceFields();
 
 	var instanceValue = InstanceManager.getCurrentValues();
-	var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	// var autoFormValue = AutoForm.getFormValues("instanceform").insertDoc;
+	var autoFormValue = _.extend(AutoForm.getFormValues("instanceform").insertDoc, AutoForm.getFormValues("instanceform").updateDoc.$unset);
 
 	var values = {};
 
@@ -494,27 +582,6 @@ InstanceManager.getInstanceValuesByAutoForm = function() {
 	return values;
 }
 
-InstanceManager.resetId = function(instance) {
-	if (instance._id) {
-		instance.id = instance._id;
-		delete instance._id;
-	}
-	instance.traces.forEach(function(t) {
-		if (t._id) {
-			t.id = t._id;
-			delete t._id;
-		}
-		if (t.approves) {
-			t.approves.forEach(function(a) {
-				if (a._id) {
-					a.id = a._id;
-					delete a._id;
-				}
-			})
-		}
-	})
-}
-
 InstanceManager.getCurrentStep = function() {
 
 	var instance = WorkflowManager.getInstance();
@@ -541,6 +608,7 @@ InstanceManager.getStartStep = function() {
 
 InstanceManager.getCurrentValues = function() {
 	var box = Session.get("box"),
+		approve,
 		instanceValue;
 
 	var instance = WorkflowManager.getInstance();
@@ -597,7 +665,8 @@ InstanceManager.getCurrentApprove = function() {
 		var currentApprove = currentApproves.length > 0 ? currentApproves[0] : null;
 	}
 
-	if (!currentApprove) {
+	//传阅的approve返回最新一条
+	if (!currentApprove || currentApprove.type == 'cc') {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
@@ -659,6 +728,10 @@ InstanceManager.saveIns = function() {
 	$('body').addClass("loading");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
+		if(instance.state != 'draft'){
+			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+		}
+
 		if (InstanceManager.isCC(instance)) {
 			var description = $("#suggestion").val();
 			Meteor.call('cc_save', instance._id, description, function(error, result) {
@@ -718,7 +791,8 @@ InstanceManager.saveIns = function() {
 					toastr.success(TAPi18n.__('Saved successfully'));
 				} else if (result == "upgraded") {
 					toastr.info(TAPi18n.__('Flow upgraded'));
-					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/" + instance._id);
+					console.log("upgraded")
 				} else {
 					toastr.error(error.reason);
 					FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
@@ -728,9 +802,6 @@ InstanceManager.saveIns = function() {
 		} else if (state == "pending") {
 			var myApprove = InstanceManager.getMyApprove();
 			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			if (instance.attachments && myApprove) {
-				myApprove.attachments = instance.attachments;
-			}
 
 			if (!_.isEmpty(myApprove) && !_.isEmpty(myApprove._id)) {
 				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
@@ -778,21 +849,34 @@ InstanceManager.submitIns = function() {
 	var instance = WorkflowManager.getInstance();
 
 	if (instance) {
+
+		if(instance.state != 'draft'){
+			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+		}
+
 		if (InstanceManager.isCC(instance)) {
+
+			if (Session.get("instance_submitting")) {
+				return;
+			}
+
+			Session.set("instance_submitting", true);
+
 			var description = $("#suggestion").val();
 			Meteor.call('cc_submit', instance._id, description, function(error, result) {
 				if (error) {
 					toastr.error(error);
+					Session.set("instance_submitting", false);
 				};
 
 				if (result == true) {
 					WorkflowManager.instanceModified.set(false);
 					toastr.success(TAPi18n.__('Submitted successfully'));
+					Session.set("instance_submitting", false);
 					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 				};
 			});
 		} else {
-			InstanceManager.resetId(instance);
 			var state = instance.state;
 			if (state == "draft") {
 
@@ -827,9 +911,7 @@ InstanceManager.submitIns = function() {
 				UUflow_api.post_submit(instance);
 			} else if (state == "pending") {
 				var myApprove = InstanceManager.getMyApprove();
-				if (instance.attachments && myApprove) {
-					myApprove.attachments = instance.attachments;
-				}
+
 				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
 				UUflow_api.post_engine(myApprove);
 			}
@@ -841,7 +923,6 @@ InstanceManager.submitIns = function() {
 InstanceManager.terminateIns = function(reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.terminate_reason = reason;
 		UUflow_api.post_terminate(instance);
 	}
@@ -859,7 +940,6 @@ InstanceManager.exportIns = function(type) {
 InstanceManager.reassignIns = function(user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.inbox_users = user_ids;
 		instance.reassign_reason = reason;
 		UUflow_api.put_reassign(instance);
@@ -870,7 +950,6 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		InstanceManager.resetId(instance);
 		instance.relocate_next_step = step_id;
 		instance.relocate_inbox_users = user_ids;
 		instance.relocate_comment = reason;
@@ -973,20 +1052,24 @@ InstanceManager.addAttach = function(fileObj, isAddVersion) {
 				}
 			});
 		} else if (state == "pending") {
-			var myApprove = {};
-			$.extend(myApprove, InstanceManager.getMyApprove());
-			myApprove.attachments = attachs;
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
-				Session.set('change_date', new Date());
-				WorkflowManager.instanceModified.set(false);
-				if (result == true) {
+			if (InstanceManager.isCC(instance)) {
+				toastr.success(TAPi18n.__('Attachment was added successfully'));
+			} else {
+				var myApprove = {};
+				$.extend(myApprove, InstanceManager.getMyApprove());
+				myApprove.attachments = attachs;
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+					Session.set('change_date', new Date());
+					WorkflowManager.instanceModified.set(false);
+					if (result == true) {
 
-					toastr.success(TAPi18n.__('Attachment was added successfully'));
-				} else {
-					toastr.error(error);
-				}
-			});
+						toastr.success(TAPi18n.__('Attachment was added successfully'));
+					} else {
+						toastr.error(error);
+					}
+				});
+			}
 		}
 	}
 }
@@ -1026,21 +1109,26 @@ InstanceManager.removeAttach = function() {
 				}
 			});
 		} else if (state == "pending") {
-			instance.attachments = newAttachs;
-			var myApprove = {};
-			$.extend(myApprove, InstanceManager.getMyApprove());
-			myApprove.attachments = newAttachs;
-			myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
-			Meteor.call("inbox_save_instance", myApprove, function(error, result) {
-				Session.set('change_date', new Date());
-				WorkflowManager.instanceModified.set(false);
-				if (result == true) {
+			if (InstanceManager.isCC(instance)) {
+				toastr.success(TAPi18n.__('Attachment deleted successfully'));
+			} else {
+				instance.attachments = newAttachs;
+				var myApprove = {};
+				$.extend(myApprove, InstanceManager.getMyApprove());
+				myApprove.attachments = newAttachs;
+				myApprove.values = InstanceManager.getInstanceValuesByAutoForm();
+				Meteor.call("inbox_save_instance", myApprove, function(error, result) {
+					Session.set('change_date', new Date());
+					WorkflowManager.instanceModified.set(false);
+					if (result == true) {
 
-					toastr.success(TAPi18n.__('Attachment deleted successfully'));
-				} else {
-					toastr.error(error);
-				}
-			});
+						toastr.success(TAPi18n.__('Attachment deleted successfully'));
+					} else {
+						toastr.error(error);
+					}
+				});
+			}
+
 		}
 	}
 }
@@ -1139,12 +1227,13 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 					});
 					return;
 				}
-				fileObj = {};
-				fileObj._id = responseText.version_id;
-				fileObj.name = Session.get('filename');
-				fileObj.type = cfs.getContentType(Session.get('filename'));
-				fileObj.size = responseText.size;
-				InstanceManager.addAttach(fileObj, isAddVersion);
+				// fileObj = {};
+				// fileObj._id = responseText.version_id;
+				// fileObj.name = Session.get('filename');
+				// fileObj.type = cfs.getContentType(Session.get('filename'));
+				// fileObj.size = responseText.size;
+				// InstanceManager.addAttach(fileObj, isAddVersion);
+				toastr.success(TAPi18n.__('Attachment was added successfully'));
 			},
 			error: function(xhr, msg, ex) {
 				$(document.body).removeClass('loading');
@@ -1223,9 +1312,19 @@ InstanceManager.unlockAttach = function(file_id) {
 
 // 申请单转发/分发
 InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+
+	if (Session.get("instance_submitting")) {
+		return;
+	}
+
+	Session.set("instance_submitting", true);
+
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, function(error, result) {
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, InstanceManager.getMyApprove()._id, function(error, result) {
 		$('body').removeClass("loading");
+
+		Session.set("instance_submitting", false);
+
 		if (error) {
 			if (error.error == 'no_permission') {
 				if (action_type == 'forward') {
@@ -1351,6 +1450,22 @@ InstanceManager.instanceformChangeEvent = function(event) {
 
 	if (code === 'ins_applicant') {
 		Session.set("ins_applicant", InstanceManager.getApplicantUserId());
+
+		if (InstanceManager.nextStepUsersWillUpdate({
+				name: 'applicant'
+			}, WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
+			Session.set("instance_next_user_recalculate", Random.id())
+		}
+
+	} else {
+		var instanceFields = WorkflowManager.getInstanceFields();
+		var field = instanceFields.filterProperty("code", code);
+		if (field.length > 0) {
+			if (InstanceManager.nextStepUsersWillUpdate(field[0], WorkflowManager.getInstanceStep(Session.get("next_step_id")))) {
+				Session.set("instance_next_user_recalculate", Random.id())
+			}
+		}
+
 	}
 }
 
@@ -1364,11 +1479,19 @@ InstanceManager.isCCMustFinished = function() {
 			});
 			var not_finished_users_name = new Array(),
 				user_id = Meteor.userId();
-			_.each(trace.approves, function(a) {
-				if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
-					not_finished_users_name.push(a.user_name);
-				}
-			})
+			if (InstanceManager.isCC(ins)) {
+				_.each(trace.approves, function(a) {
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true && a.handler != user_id) {
+						not_finished_users_name.push(a.handler_name);
+					}
+				})
+			} else {
+				_.each(trace.approves, function(a) {
+					if (a.type == 'cc' && a.from_user == user_id && a.is_finished != true) {
+						not_finished_users_name.push(a.handler_name);
+					}
+				})
+			}
 			if (!_.isEmpty(not_finished_users_name)) {
 				toastr.error(TAPi18n.__('instance_cc_must_finished', {
 					not_finished_users_name: not_finished_users_name.toString()
@@ -1436,4 +1559,36 @@ InstanceManager.getLastTraceStepId = function(traces) {
 	}
 
 	return step_id;
+}
+
+InstanceManager.isAttachLocked = function(instance_id, user_id) {
+	return !!cfs.instances.find({
+		'metadata.instance': instance_id,
+		'metadata.current': true,
+		'metadata.locked_by': user_id
+	}).count()
+}
+
+InstanceManager.getCCStep = function() {
+	var currentApprove = InstanceManager.getCurrentApprove();
+	if (!currentApprove)
+		return false;
+	var ins = WorkflowManager.getInstance();
+	if (!ins)
+		return false;
+	var step;
+	var trace = _.find(ins.traces, function(t) {
+		return t._id == currentApprove.trace;
+	})
+	if (trace) {
+		step = WorkflowManager.getInstanceStep(trace.step);
+	}
+	return step;
+}
+
+InstanceManager.updateApproveSign = function (sign_field_code, description, sign_type, lastSignApprove) {
+	myApprove = InstanceManager.getCurrentApprove()
+	if(myApprove && myApprove.sign_show != true){
+		Meteor.call('update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, sign_field_code, description, sign_type || "update", lastSignApprove)
+	}
 }

@@ -100,8 +100,16 @@ Template.forward_select_flow_modal.events({
 		var related = false;
 
 		if (action_type == 'forward') {
+			if (!Steedos.isLegalVersion('', "workflow.professional")) {
+				Steedos.spaceUpgradedModal()
+				return;
+			}
 			selectedUsers = [Meteor.userId()];
 		} else if (action_type == 'distribute') {
+			if (!Steedos.isLegalVersion('', "workflow.enterprise")) {
+				Steedos.spaceUpgradedModal()
+				return;
+			}
 			var values = $("#forward_select_user")[0].dataset.values;
 			selectedUsers = values ? values.split(",") : [];
 			if ($("#instance_distribute_to_self")[0] && $("#instance_distribute_to_self")[0].checked) {
@@ -147,7 +155,7 @@ Template.forward_select_flow_modal.events({
 							forward_select_user.dataset.userOptions = user_options;
 							forward_select_user.dataset.showOrg = false;
 							if (user_options.length == 1) {
-								var u = WorkflowManager.getUser(user_options[0]);
+								var u = WorkflowManager.getUser(user_options[0], flow.space);
 								forward_select_user.value = u.name;
 								forward_select_user.dataset.values = user_options[0];
 							}
@@ -175,9 +183,64 @@ Template.forward_select_flow_modal.events({
 
 Template.forward_select_flow_modal.onRendered(function() {
 
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 
 	InstanceEvent.initEvents(instance.flow);
 
 	InstanceEvent.run($(".instance-" + this.data.action_type + "-modal"), "onload")
+
+	var curret_step = InstanceManager.getCurrentStep();
+	if (curret_step && curret_step.allowDistribute == true && !_.isEmpty(curret_step.distribute_optional_flows)) {
+		var dof = curret_step.distribute_optional_flows;
+		if (dof.length == 1) {
+			Meteor.subscribe('distribute_optional_flows', dof, {
+				onReady: function() {
+					var flow = db.flows.findOne({
+						_id: dof[0]
+					}, {
+						fields: {
+							_id: 1,
+							name: 1,
+							space: 1,
+							distribute_optional_users: 1,
+							distribute_to_self: 1
+						}
+					})
+					if (!flow)
+						return;
+
+					var forward_select_user = $("#forward_select_user")[0];
+
+					Session.set('forward_space_id', flow.space);
+					if (forward_select_user)
+						forward_select_user.dataset.spaceId = flow.space;
+
+					$("#forward_flow")[0].dataset.flow = flow._id;
+					$("#forward_flow").val(flow.name);
+					if (forward_select_user) {
+						var users = flow.distribute_optional_users || [];
+						if (!_.isEmpty(users)) {
+							user_options = _.pluck(users, "id");
+							forward_select_user.dataset.userOptions = user_options;
+							forward_select_user.dataset.showOrg = false;
+							if (user_options.length == 1) {
+								var u = WorkflowManager.getUser(user_options[0], flow.space);
+								forward_select_user.value = u.name;
+								forward_select_user.dataset.values = user_options[0];
+							}
+						}
+					}
+
+					// 是否可分发给自己
+					if (flow.distribute_to_self) {
+						Session.set('distribute_to_self', true);
+					} else {
+						Session.set('distribute_to_self', false);
+					}
+				}
+			});
+		}
+
+	}
+
 })

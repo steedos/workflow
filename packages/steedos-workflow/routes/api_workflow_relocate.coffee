@@ -5,7 +5,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-			instance = uuflowManager.getInstance(instance_from_client["id"])
+			instance = uuflowManager.getInstance(instance_from_client["_id"])
 			
 			last_trace = _.last(instance.traces)
 
@@ -34,6 +34,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 			traces = instance.traces
 			setObj = new Object
+			# 重定位的时候使用approve.values合并 instance.values生成新的instance.values #1328
+			setObj.values = uuflowManager.getUpdatedValues(instance)
 			now = new Date
 			i = 0
 			while i < traces.length
@@ -50,7 +52,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 							traces[i].approves[h].is_error = false
 							traces[i].approves[h].is_read = true
 							traces[i].approves[h].is_finished = true
-							traces[i].approves[h].judge = ""
+							traces[i].approves[h].judge = "terminated"
 							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
 
 						h++
@@ -108,6 +110,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				setObj.state = "completed"
 				setObj.inbox_users = []
 				setObj.final_decision = ""
+				setObj.finish_date = new Date
+				setObj.current_step_name = next_step_name
 			else
 				# 插入下一步trace记录
 				newTrace = new Object
@@ -152,6 +156,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				)
 				setObj.inbox_users = relocate_inbox_users
 				setObj.state = "pending"
+				setObj.current_step_name = next_step_name
 
 			instance.outbox_users.push(current_user)
 			instance.outbox_users = instance.outbox_users.concat(inbox_users)
@@ -162,7 +167,11 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 			traces.push(newTrace)
 			setObj.traces = traces
 
-			r = db.instances.update({_id: instance_id}, {$set: setObj})
+			if setObj.state == 'completed'
+				r = db.instances.update({_id: instance_id}, {$set: setObj})
+			else
+				r = db.instances.update({_id: instance_id}, {$set: setObj, $unset: {finish_date: 1}})
+			
 			if r
 				ins = uuflowManager.getInstance(instance_id)
 				# 给被删除的inbox_users 和 当前用户 发送push

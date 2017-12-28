@@ -10,7 +10,9 @@ Npm.depends({
 	ejs: "2.5.5",
 	"ejs-lint": "0.2.0",
 	"eval": "0.1.2",
-	mkdirp: "0.3.5"
+	mkdirp: "0.3.5",
+	mime: "2.0.2",
+	busboy: "0.2.13"
 });
 
 Package.onUse(function(api) {
@@ -29,7 +31,6 @@ Package.onUse(function(api) {
 	api.use('session');
 	api.use('blaze');
 	api.use('templating');
-	api.use('steedos:lib');
 	api.use('steedos:api');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('simple:json-routes@2.1.0');
@@ -55,11 +56,10 @@ Package.onUse(function(api) {
 	api.use('mrt:moment-timezone', ['client', 'server']);
 
 	api.use('steedos:autoform-modals');
-	api.use('steedos:universe-autoform-select');
+	api.use('vazco:universe-autoform-select');
 
 	api.use('steedos:autoform')
 	api.use('steedos:base');
-	api.use('steedos:lib');
 	api.use('steedos:admin');
 
 	api.use('steedos:mailqueue');
@@ -92,8 +92,8 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/auth_tokens.coffee');
 	api.addFiles('lib/models/webhooks.coffee');
 	api.addFiles('lib/models/instance_number_rules.coffee');
+	api.addFiles('lib/models/space_user_signs.coffee');
 
-	api.addFiles('lib/cfs/core.coffee');
 	api.addFiles('lib/cfs/instances.coffee');
 
 	api.addFiles('client/api.js', 'client');
@@ -112,8 +112,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/template_manager.coffee', ['client', 'server']);
 	api.addFiles('client/lib/office_online.js', 'client');
 	api.addFiles('client/lib/instance_number_rules.coffee', 'client');
+	api.addFiles('client/lib/instance_batch.coffee', 'client');
 
 	api.addFiles('client/lib/instance_macro.coffee', 'client');
+
+	api.addFiles('client/lib/next_step_user.coffee', 'client');
 
 
 	//add client file
@@ -128,6 +131,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-datepicker/coreform-datepicker.js', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-multiSelect/select-checkbox-inline.js', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-number/coreform-number.js', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-radio/select-radio-inline.js', 'client');
@@ -213,6 +217,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/instance/history_sign_approve.html', 'client');
 	api.addFiles('client/views/instance/history_sign_approve.coffee', 'client');
+	api.addFiles('client/views/instance/history_sign_approve.less', 'client');
 
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
@@ -262,15 +267,37 @@ Package.onUse(function(api) {
 	api.addFiles('client/router.coffee', 'client');
 	api.addFiles('client/subscribe.coffee', 'client');
 
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.html', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.coffee', 'client');
+	api.addFiles('client/views/flow/distribute_edit_flow_modal.less', 'client');
+
+	api.addFiles('client/views/flow/admin_flows.less', 'client');
+	api.addFiles('client/views/flow/admin_flows.html', 'client');
+	api.addFiles('client/views/flow/admin_flows.coffee', 'client');
+
+	api.addFiles('client/views/flow/admin_categories.html', 'client');
+	api.addFiles('client/views/flow/admin_categories.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
-	api.addFiles('client/views/list/admin_flows.html', 'client');
-	api.addFiles('client/views/list/admin_flows.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flow_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flow_modal.coffee', 'client');
+
 	api.addFiles('client/views/list/admin_import_export_flows.html', 'client');
 	api.addFiles('client/views/list/admin_import_export_flows.coffee', 'client');
 
-	api.addFiles('client/views/list/admin_categories.html', 'client');
-	api.addFiles('client/views/list/admin_categories.coffee', 'client');
+	api.addFiles('client/views/list/admin_flows_roles.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flows_roles_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_modal.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.html', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
+	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
 
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
@@ -290,11 +317,24 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/list/admin_flow_positions.html', 'client');
 	api.addFiles('client/views/list/admin_flow_positions.coffee', 'client');
+	api.addFiles('client/views/list/admin_flow_positions.less', 'client');
 
 	api.addFiles('client/views/list/tableau_introduction_modal.html', 'client');
 	api.addFiles('client/views/list/tableau_introduction_modal.less', 'client');
 	api.addFiles('client/views/list/tableau_introduction_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/batch_instances.html', 'client');
+	api.addFiles('client/views/list/batch_instances.coffee', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.html', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.less', 'client');
+	api.addFiles('client/views/list/batch_instances_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/cancel_distribute_modal.less', 'client');
+	api.addFiles('client/views/list/cancel_distribute_modal.html', 'client');
+	api.addFiles('client/views/list/cancel_distribute_modal.coffee', 'client');
+
+	api.addFiles('client/views/list/webhooks.html', 'client');
+	api.addFiles('client/views/list/webhooks.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
@@ -309,15 +349,25 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/instance_number_rules.coffee', 'server');
 	api.addFiles('server/methods/check_main_attach.coffee', 'server');
 	api.addFiles('server/methods/related_instances.coffee', 'server');
+	api.addFiles('server/methods/edit_flow_positions.coffee', 'server');
+	api.addFiles('server/methods/start_flow.coffee', 'server');
+	api.addFiles('server/methods/instance_traces.coffee', 'server');
+	api.addFiles('server/methods/instance_batch.coffee', 'server');
+	api.addFiles('server/methods/flow_copy.coffee', 'server');
+	api.addFiles('server/methods/flow.coffee', 'server');
+	api.addFiles('server/methods/distribute.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
+
+	api.addFiles('server/routes/instance_draft_view.coffee', 'server');
 
 	// routes
 	api.addFiles('routes/nextStepUsers.js', 'server');
 	api.addFiles('routes/getSpaceUsers.js', 'server');
 	api.addFiles('routes/getFormulaUserObjects.js', 'server');
 	api.addFiles('routes/init_formula_values.js', 'server');
+	api.addFiles('routes/getNameForUser.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_engine.coffee', 'server');
 	api.addFiles('routes/api_workflow_drafts.coffee', 'server');
@@ -332,9 +382,15 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
 
+	api.addFiles('routes/export_table_template.coffee', 'server');
+
 	api.addFiles('routes/api_workflow_open_drafts.coffee', 'server');
 
 	api.addFiles('routes/api_workflow_open_get.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_submit.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_save.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
+	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
 
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
@@ -342,6 +398,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/uuflow_manager.coffee', 'server');
 	api.addFiles('server/lib/push_manager.coffee', 'server');
 	api.addFiles('server/lib/permission_manager.coffee', 'server');
+	api.addFiles('server/lib/approve_manager.coffee', 'server');
+	api.addFiles('server/lib/flow_manager.coffee', 'server');
+	api.addFiles('server/lib/form_manager.coffee', 'server');
+	api.addFiles('server/lib/step_manager.coffee', 'server');
 
 	api.addFiles('server/publications/categories.coffee', 'server');
 	api.addFiles('server/publications/cfs_instances.coffee', 'server');
@@ -354,6 +414,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_list.coffee', 'server');
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
+	api.addFiles('server/publications/distributed_instances_state_by_ids.coffee', 'server');
+
+	api.addFiles('server/publications/space_user_signs.coffee', 'server');
+	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');
@@ -385,35 +449,11 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/flow-template/workflow_template.coffee', 'server');
 
-	// workflow_template（zh-CN）
-	api.addFiles('server/flow-template/zh-CN/payment_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/travel_expenses.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/car_rental_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/outgoing_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/invoice_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/daily_expenses.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/leave_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/request_report.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/purchase_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/purchase_contract.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/issued_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/metting_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/income_document.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/seal_request.coffee', 'server');
-	api.addFiles('server/flow-template/zh-CN/sale_contract.coffee', 'server');
-	// workflow_template（en）
-	api.addFiles('server/flow-template/en/capex.coffee', 'server');
-	api.addFiles('server/flow-template/en/leave_request.coffee', 'server');
-	api.addFiles('server/flow-template/en/loan_request.coffee', 'server');
-	api.addFiles('server/flow-template/en/pay_my_invoice.coffee', 'server');
-	api.addFiles('server/flow-template/en/salary_advance.coffee', 'server');
-	api.addFiles('server/flow-template/en/travel_expenses.coffee', 'server');
-
 	api.addFiles('server/startup.coffee', 'server');
 
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 
 });
 

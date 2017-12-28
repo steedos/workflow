@@ -83,6 +83,8 @@ if Meteor.isClient
 			return -1
 		else
 			return 1
+	db.organizations.getRoot = (fields)->
+		return SteedosDataManager.organizationRemote.findOne { is_company: true }, fields: fields
 
 db.organizations.attachSchema db.organizations._simpleSchema;
 
@@ -263,17 +265,20 @@ if (Meteor.isServer)
 		if !space
 			throw new Meteor.Error(400, "organizations_error_space_not_found");
 
-		# only space admin or org admin can update organizations
+		###
+			非工作区管理员修改部门，需要以下权限：
+			1.需要有原组织或原组织的父组织的管理员权限
+			2.需要有改动后的父组织的权限
+		###
 		if space.admins.indexOf(userId) < 0
-			isOrgAdmin = false
-			if doc.admins?.includes userId
-				isOrgAdmin = true
-			else if doc.parent
-				parents = doc.parents
-				if db.organizations.findOne({_id:{$in:parents}, admins:userId})
-					isOrgAdmin = true
+			isOrgAdmin = Steedos.isOrgAdminByAllOrgIds [doc._id], userId 
 			unless isOrgAdmin
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
+
+			if modifier.$set?.parent and modifier.$set?.parent != doc.parent
+				isParentOrgAdmin = Steedos.isOrgAdminByAllOrgIds [modifier.$set.parent], userId
+				unless isParentOrgAdmin
+					throw new Meteor.Error(400, "您没有该上级部门的权限")
 
 		if (modifier.$set.space and doc.space!=modifier.$set.space)
 			throw new Meteor.Error(400, "organizations_error_space_readonly");
@@ -490,7 +495,6 @@ if (Meteor.isServer)
 		
 		unless spaceId
 			return this.ready()
-
 
 		return db.organizations.find({space: spaceId, users: this.userId})
 

@@ -4,38 +4,38 @@ Template.steedos_contacts_org_user_list.helpers
 			return true
 		return false;
 	selector: ->
-
-		is_within_user_organizations = ContactsManager.is_within_user_organizations();
-
-		if Meteor.settings.public?.contacts?.hidden_users
-			if Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId())
-				query = {space: Session.get("spaceId")}
-			else
-				query = {space: Session.get("spaceId"), user: {$nin: Meteor.settings.public?.contacts?.hidden_users}}
-		else
-			query = {space: Session.get("spaceId")}
+		unless Meteor.userId()
+			return {_id:-1}
+		spaceId = Steedos.spaceId()
+		myContactsLimit = Steedos.my_contacts_limit
+		query = {space: spaceId}
+		# if FlowRouter.current().path != "/admin/organizations"
+		# 	# 系统设置中组织架构以外的通讯录都需要限制隐藏用户显示
+		# 	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+		# 	query.user = {$nin: hidden_users}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
 		else
-			if is_within_user_organizations
-				orgs = db.organizations.find().fetch().getProperty("_id")
-
 			if Session.get("contacts_orgId")
 				orgs = [Session.get("contacts_orgId")]
-
+			else if myContactsLimit?.isLimit
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations?.length
+					orgs = _.union(orgs, outsideOrganizations)
 			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
 				fields: {
 					_id: 1
 				}
 			});
-
-			orgs = orgs.concat(orgs_childs.getProperty("_id"))
-
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
 			query.organizations = {$in: orgs};
 
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
+
+		# console.log query
 		return query;
 
 	books_selector: ->
@@ -91,9 +91,21 @@ Template.steedos_contacts_org_user_list.events
 		else
 			Session.set("contact_list_search", false)
 		dataTable = $(".datatable-steedos-contacts").DataTable();
+		selector = $("#contact-list-search-key").val()
 		dataTable.search(
-			$("#contact-list-search-key").val(),
+			selector
 		).draw();
+
+	'keypress #contact-list-search-key': (event, template) ->
+		if event.keyCode == 13
+			if $("#contact-list-search-key").val()
+				Session.set("contact_list_search", true)
+			else
+				Session.set("contact_list_search", false)
+			dataTable = $(".datatable-steedos-contacts").DataTable();
+			dataTable.search(
+				$("#contact-list-search-key").val(),
+			).draw();
 
 	# 'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
 	# 	event.stopPropagation()
@@ -102,6 +114,9 @@ Template.steedos_contacts_org_user_list.events
 	# 'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
 	# 	event.stopPropagation()
 	# 	AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
+
+	'click #steedos_contacts_add_users_btn': (event,template) ->
+		Modal.show('steedos_contacts_add_user_modal')
 
 	'click #steedos_contacts_invite_users_btn': (event, template) ->
 		Modal.show('steedos_contacts_invite_users_modal')
@@ -113,8 +128,9 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
-		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
+	'click .datatable-steedos-contacts tbody tr[data-id] td:not(:last-of-type)': (event, template)->
+		targetId = $(event.currentTarget).closest("tr").data("id")
+		Modal.show('steedos_contacts_space_user_info_modal', {targetId: targetId})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
 		return false
@@ -154,6 +170,80 @@ Template.steedos_contacts_org_user_list.events
 			uobj.org_id = orgId
 			url = Steedos.absoluteUrl() + "api/contacts/export/space_users?" + $.param(uobj)
 			window.open(url, '_parent', 'EnableViewPortScale=yes')
+
+	'click .edit-person .contacts-tableau-modify-username': (event, template) ->
+		space_id = Session.get("spaceId")
+		username = ""
+		user_id = event.currentTarget.dataset.user
+		unless user_id
+			return;
+		Meteor.call 'fetchUsername', user_id, (error, result) ->
+			if error
+				toastr.error TAPi18n.__(error.reason)
+			else
+				username = result
+				swal {
+					title: t('contacts_tableau_modify_username')
+					type: "input"
+					inputValue: username || ""
+					showCancelButton: true
+					closeOnConfirm: false
+					confirmButtonText: t('OK')
+					cancelButtonText: t('Cancel')
+					showLoaderOnConfirm: false
+				}, (inputValue)->
+					if inputValue is false
+						return false
+					if inputValue?.trim() == username?.trim()
+						swal.close()
+						return false;
+					Meteor.call "setUsername", space_id, inputValue?.trim(), user_id, (error, results)->
+						if results
+							toastr.success t('Change username successfully')
+							swal.close()
+						if error
+							toastr.error(TAPi18n.__(error.error))
+
+
+	'click .edit-person .contacts-tableau-modify-password': (event, template) ->
+		user_id = event.currentTarget.dataset.user
+		swal {
+			title: t('contacts_tableau_modify_password')
+			type: "input"
+			inputType: "password"
+			inputValue: ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			
+			result = Steedos.validatePassword inputValue
+			space_id = Steedos.spaceId()
+			if result.error
+				return toastr.error result.error.reason
+
+			Meteor.call "setUserPassword", user_id, space_id, inputValue, (error, result) ->
+				if error
+					toastr.error error.reason
+				else
+					swal.close()
+					toastr.success t("Change password successfully")
+
+	'click .edit-person .contacts-tableau-edit-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalEdit 'space_users', id, ->
+			$("body").off("click",".admin-dashboard-body input[name=mobile]")
+
+
+	'click .edit-person .contacts-tableau-delete-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalDelete 'space_users', id, ->
+				$("#steedos_contacts_space_user_info_modal .close").trigger("click")
+
 
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()

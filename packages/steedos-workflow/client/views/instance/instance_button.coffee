@@ -112,14 +112,14 @@ Template.instance_button.helpers
 				return true
 			else
 				cs = InstanceManager.getCurrentStep()
-				if cs && (cs.disableCC is true)
+				if cs && (cs.disableCC is true or cs.step_type is "start")
 					return false
 				return true
 		else if Session.get("box") is 'outbox' and ins.state is "pending"
 			step_id = InstanceManager.getLastTraceStepId(ins.traces)
 			if step_id
 				step = WorkflowManager.getInstanceStep(step_id)
-				if step and (step.disableCC is true)
+				if step and (step.disableCC is true or step.step_type is "start")
 					return false
 				return true
 			else
@@ -147,11 +147,11 @@ Template.instance_button.helpers
 
 		pre_trace = ins.traces[ins.traces.length - 2]
 
-		is_relocated = false
+		is_not_return = false
 		_.each pre_trace.approves, (ap)->
-			if ap.judge is 'relocated'
-				is_relocated = true
-		if is_relocated
+			if ap.judge is 'relocated' or ap.judge is 'returned'
+				is_not_return = true
+		if is_not_return
 			return false
 
 		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
@@ -161,7 +161,7 @@ Template.instance_button.helpers
 		cs = InstanceManager.getCurrentStep()
 		if _.isEmpty(cs)
 			return false
-		if cs.step_type is "submit"
+		if cs.step_type is "submit" or cs.step_type is "sign"
 			return true
 
 		return false
@@ -210,7 +210,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state isnt 'draft'
+		if (Session.get('box') is 'outbox' or Session.get('box') is 'pending') and ins.state is 'pending'
 			return true
 			# last_trace = _.last(ins.traces)
 			# previous_trace_id = last_trace.previous_trace_ids[0]
@@ -234,7 +234,10 @@ Template.instance_button.helpers
 		if Session.get("box") == "draft"
 			return false
 		else
-			return true
+			ins = WorkflowManager.getInstance();
+			if ins
+				if !TracesTemplate.helpers.showTracesView(ins.form, ins.form_version)
+					return true
 
 	enabled_copy: ->
 		if Session.get("box") == "draft"
@@ -331,7 +334,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
-		if InstanceManager.isInbox()
+		if InstanceManager.isInbox() || Session.get('box') is "draft"
 			return true
 
 		return false
@@ -350,19 +353,39 @@ Template.instance_button.onRendered ->
 		e.clearSelection()
 
 Template.instance_button.onDestroyed ->
-	Template.instance_button.copyUrlClipboard.destroy();
+	Template.instance_button.copyUrlClipboard?.destroy();
 
 Template.instance_button.events
+
+	'click .instance-dropdown-menu': (event)->
+		signTop = $(".instance-left-buttons .btn-instance-back").offset().top
+		$(".instance-left-buttons .btn:not('.btn-instance-back')").each ->
+			offsetTop = $(this).offset().top
+			cls = $(this).data("for")
+			# 此处+37是因为不显示的按钮会排到第二行，一个按钮的高度为37
+			if offsetTop > signTop + 30
+				$(".#{cls}", ".instance-dropdown-menu").show()
+			else
+				$(".#{cls}", ".instance-dropdown-menu").hide()
+
+			# 始终显示打印按钮
+			if cls = "btn-instance-to-print"
+				$(".#{cls}", ".instance-dropdown-menu").show()
+
 
 	'click .btn-instance-to-print': (event)->
 		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
 		else
-				uobj = {}
-				uobj["box"] = Session.get("box")
-				uobj["X-User-Id"] = Meteor.userId()
-				uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-				Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
+			btn_instance_update = $('.btn-instance-update')[0]
+			if btn_instance_update
+				btn_instance_update.click()
+
+			uobj = {}
+			uobj["box"] = Session.get("box")
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + Session.get("spaceId") + "/print/" + Session.get("instanceId") + "?" + $.param(uobj)), "",'width=900,height=750,scrollbars=yes,EnableViewPortScale=yes,toolbarposition=top,transitionstyle=fliphorizontal,menubar=yes,closebuttoncaption=  x  ')
 
 	'click .btn-instance-update': (event)->
 
@@ -409,6 +432,7 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-instance-reassign': (event, template) ->
+		
 		Modal.show('reassign_modal')
 
 	'click .btn-instance-relocate': (event, template) ->
@@ -419,17 +443,26 @@ Template.instance_button.events
 		Modal.show('instance_cc_modal');
 
 	'click .btn-instance-return': (event, template) ->
+		ins = WorkflowManager.getInstance()
+		pre_trace = ins.traces[ins.traces.length - 2]
+		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
+		pre_handlers = _.pluck pre_trace.approves, "handler_name"
+
 		swal {
-			title: TAPi18n.__("instance_return_confirm"),
-			type: "warning",
-			showCancelButton: true,
-			cancelButtonText: t('Cancel'),
-			confirmButtonColor: "#DD6B55",
+			title: t("instance_return"),
+			text: TAPi18n.__("instance_return_confirm", {step_name: pre_step.name, handlers_name: pre_handlers.join(",")}),
+			type: "input",
 			confirmButtonText: t('OK'),
+			cancelButtonText: t('Cancel'),
+			showCancelButton: true,
 			closeOnConfirm: true
-		}, () ->
+		}, (reason) ->
+			# 用户选择取消
+			if (reason == false)
+				return false;
+
 			$("body").addClass("loading")
-			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
+			Meteor.call "instance_return", InstanceManager.getMyApprove(), reason, (err, result)->
 				$("body").removeClass("loading")
 				if err
 					toastr.error TAPi18n.__(err.reason)
@@ -439,17 +472,11 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
+		
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
@@ -540,17 +567,13 @@ Template.instance_button.events
 			return
 		ins = WorkflowManager.getInstance()
 		flow = db.flows.findOne(ins.flow)
-		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&flow_name=#{encodeURIComponent(encodeURIComponent(flow.name))}"),'workflow_chart')
+		Steedos.openWindow(Steedos.absoluteUrl("/packages/steedos_workflow-chart/assets/index.html?instance_id=#{ins._id}&title=#{encodeURIComponent(encodeURIComponent(flow.name))}"),'workflow_chart')
 
 	'click .btn-suggestion-toggle': (event, template)->
 		$(".instance-wrapper .instance-view").addClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		if !Steedos.isPaidSpace()
-			Steedos.spaceUpgradedModal()
-			return;
-
 		param = {action_types: template.data.remind_action_types || []}
 		Modal.show 'remind_modal', param
 
@@ -558,7 +581,7 @@ Template.instance_button.events
 		instance = WorkflowManager.getInstance()
 		if not InstanceManager.isCC(instance)
 			nextStepOptions = InstanceManager.getNextStepOptions()
-			if nextStepOptions.length > 1
+			if nextStepOptions.length > 1 && $(".instance-wrapper .instance-view.suggestion-active").length == 0
 				$(".instance-wrapper .instance-view").addClass("suggestion-active")
 				toastr.error TAPi18n.__("instance_multi_next_step_tips")
 				return
@@ -571,3 +594,4 @@ Template.instance_button.events
 					return
 
 		$('#instance_submit').trigger('click')
+

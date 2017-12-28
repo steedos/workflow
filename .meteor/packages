@@ -96,8 +96,8 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
+steedos:connect-qiyeweixin
 steedos:version
-steedos:lib
 steedos:workflow
 steedos:api
 steedos:cms
@@ -105,11 +105,9 @@ steedos:chat
 steedos:webkit-notification
 steedos:admin
 
-peppelg:bootstrap-3-modal
-
 perak:markdown
 q42:autoform-markdown
-yogiben:autoform-file
+steedos:autoform-file
 yogiben:autoform-tags
 
 simple:json-routes
@@ -147,7 +145,7 @@ steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
-steedos:universe-autoform-select
+vazco:universe-autoform-select
 
 steedos:workflow-chart
 # steedos:records-qhd
@@ -155,7 +153,7 @@ steedos:workflow-chart
 steedos:accounts-phone
 steedos:accounts
 
-steedos:remind
+# steedos:remind
 
 
 steedos:calendar
@@ -163,11 +161,10 @@ steedos:calendar-i18n
 
 # steedos:records
 
+# steedos:cas
+
 steedos:freeboard
 steedos:dashboard
-
-
-# steedos:distribute-qhd
 
 steedos:tableau
 
@@ -181,3 +178,5 @@ chuangbo:cookie
 
 steedos:authenticate-user-by-access-token
 steedos:authenticate-user-by-auth-token
+
+steedos:huaweipush

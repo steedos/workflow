@@ -1,5 +1,11 @@
 request = Npm.require('request')
 
+path = Npm.require('path');
+
+pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
+
+absolutePath = path.resolve(pathname);
+
 logger = new Logger 'Records_QHD -> InstancesToContracts'
 
 _fieldMap = """
@@ -39,7 +45,6 @@ InstancesToContracts.failed = (instance, error)->
 	logger.error error
 
 InstancesToContracts::getContractInstances = ()->
-
 	query = {
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
@@ -54,10 +59,14 @@ InstancesToContracts::getContractInstances = ()->
 	else
 		query.is_contract_archived = {$ne: true}
 
-	return db.instances.find(query);
-
+	return db.instances.find(query).fetch()
 
 _minxiInstanceData = (formData, instance) ->
+
+	console.log("_minxiInstanceData", instance._id)
+
+	fs = Npm.require('fs');
+
 	if !formData || !instance
 		return
 
@@ -98,6 +107,21 @@ _minxiInstanceData = (formData, instance) ->
 	#	提交人信息
 	user_info = db.users.findOne({_id: instance.applicant})
 
+	fileHandle = (f)->
+		try
+			filepath = path.join(absolutePath, f.copies.instances.key);
+
+			if(fs.existsSync(filepath))
+				formData.attach.push {
+					value: fs.createReadStream(filepath),
+					options: {filename: f.name()}
+				}
+			else
+				logger.error "附件不存在：#{filepath}"
+		catch e
+			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
+
+
 	#	正文附件
 	mainFile = cfs.instances.find({
 		'metadata.instance': instance._id,
@@ -105,41 +129,72 @@ _minxiInstanceData = (formData, instance) ->
 		"metadata.main": true
 	}).fetch()
 
-	mainFile.forEach (f) ->
-		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-		catch e
-			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
+	mainFile.forEach fileHandle
 
 	#	非正文附件
 	nonMainFile = cfs.instances.find({
 		'metadata.instance': instance._id,
 		'metadata.current': true,
 		"metadata.main": {$ne: true}
-	})
+	}).fetch()
 
-	nonMainFile.forEach (f)->
-		try
-			formData.attach.push request(Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.name()))
-		catch e
-			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
+	nonMainFile.forEach fileHandle
 
+	#分发
+	if instance.distribute_from_instance
+#	正文附件
+		mainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": true,
+			"metadata.is_private": {
+				$ne: true
+			}
+		}).fetch()
+
+		mainFile.forEach fileHandle
+
+		#	非正文附件
+		nonMainFile = cfs.instances.find({
+			'metadata.instance': instance.distribute_from_instance,
+			'metadata.current': true,
+			"metadata.main": {$ne: true},
+			"metadata.is_private": {
+				$ne: true
+			}
+		}).fetch()
+
+		nonMainFile.forEach fileHandle
 
 	#	原文
 	form = db.forms.findOne({_id: instance.form})
 	attachInfoName = "F_#{form?.name}_#{instance._id}_1.html";
-	attachInfoUrl = Meteor.absoluteUrl("workflow/space/") + instance.space + "/view/readonly/" + instance._id + "/" + encodeURI(attachInfoName)
+
+	space = db.spaces.findOne({_id: instance.space});
+
+	user = db.users.findOne({_id: space.owner})
+
+	options = {showTrace: true, showAttachments: true, absolute: true}
+
+	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
+
+	dataBuf = new Buffer(html);
+
 	try
-		formData.originalAttach.push request(attachInfoUrl)
+		formData.originalAttach.push {
+			value: dataBuf,
+			options: {filename: attachInfoName}
+		}
 	catch e
-		logger.error "原文附件下载失败：#{f._id},#{f.name()}. error: " + e
+		logger.error "原文读取失败#{instance._id}. error: " + e
+
+	console.log("_minxiInstanceData end", instance._id)
 
 	return formData;
 
 
 InstancesToContracts::sendContractInstances = (api, callback)->
-
-	ret = {count:0, successCount: 0, instances: []}
+	ret = {count: 0, successCount: 0, instances: []}
 
 	that = @
 
@@ -147,12 +202,22 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 	successCount = 0
 
+	console.log("InstancesToContracts.sendContractInstances", instances.length)
+
 	instances.forEach (instance)->
 		url = that.contracts_server + api + '?externalId=' + instance._id
 
+		console.log("InstancesToContracts.sendContractInstances url", url)
+
 		success = InstancesToContracts.sendContractInstance url, instance
 
-		r = {_id: instance._id, name: instance.name, applicant_name: instance.applicant_name, submit_date: instance.submit_date, is_contract_archived: true}
+		r = {
+			_id: instance._id,
+			name: instance.name,
+			applicant_name: instance.applicant_name,
+			submit_date: instance.submit_date,
+			is_contract_archived: true
+		}
 
 		if success
 			successCount++
@@ -161,7 +226,7 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 		ret.instances.push r
 
-	ret.count = instances.count()
+	ret.count = instances.length
 
 	ret.successCount = successCount
 

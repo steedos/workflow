@@ -1,7 +1,7 @@
 Template.adminLayout.helpers 
 	
 	subsReady: ->
-		return Steedos.subsBootstrap.ready()
+		return Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready()
 		
 	admin_collection_title: ->
 		if Session.get('admin_collection_name')
@@ -26,6 +26,12 @@ Template.adminLayout.helpers
 		#正则匹配"/admin/new/model-name","/admin/new/modelname/model-id"
 		regNew = /^\/admin\/new\/(\b)+/
 		return regEdit.test(path) || regNew.test(path)
+
+	isPayRecords: () ->
+		if Session.get('admin_collection_name') == "billing_pay_records"
+			return true
+		else
+			return false
 
 Template.adminLayout.events
 	"click #admin-back": (e, t) ->

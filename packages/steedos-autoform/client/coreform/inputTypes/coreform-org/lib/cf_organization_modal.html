@@ -6,9 +6,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{_ "coreform_select_org_title"}}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{title}}</h4>
                 </div>
-                <div class="modal-body contacts-modal-body">
+                <div class="modal-body contacts-modal-body modal-zoom">
                     <div class="row">
                         <div class="col-md-12">
                             {{> cf_organization data}}
@@ -31,11 +31,11 @@
 
                     {{else}}
                         <div class="row">
-                            <div class="col-md-2 pull-left" style="">
+                            <div class="col-md-3 pull-left" style="">
                                 <button type="button" class="btn btn-default" id='remove' title='{{_ "remove"}}'
                                         style="width:100%">{{_ "remove"}}</button>
                             </div>
-                            <div class="col-md-2 pull-right" style="">
+                            <div class="col-md-3 pull-right" style="">
                                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" title='{{_ "close"}}'
                                         style="width:100%">{{_ "close"}}</button>
                             </div>

@@ -1,3 +1,28 @@
+###
+@api {get} /api/workflow/open/get/:ins_id 查看申请单详情
+
+@apiName getInstance
+
+@apiGroup Workflow
+
+@apiPermission 工作区的管理员
+
+@apiParam {String} ins_id 申请单Id
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+{
+	"X-Space-Id": "wsw1re12TdeP223sC"
+}
+
+@apiSuccessExample {json} Success-Response:
+{
+    "status": "success",
+    "data": {instance}
+}
+###
 JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 	try
 		ins_id = req.params.ins_id
@@ -19,7 +44,7 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 
 		instance = db.instances.findOne(ins_id)
 		if not instance
-			throw new Meteor.Error('error', 'can not find user')
+			throw new Meteor.Error('error', 'can not find instance')
 
 		if db.space_users.find({space: instance.space, user: current_user}).count() is 0
 			throw new Meteor.Error('error', 'auth_token is wrong')
@@ -39,6 +64,8 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 
 		if (not perm_users.includes(current_user)) and (not permissions.includes("monitor")) and (not permissions.includes("admin"))
 			throw new Meteor.Error('error', 'no permission')
+
+		instance.attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
 
 		JsonRoutes.sendResult res,
 			code: 200

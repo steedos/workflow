@@ -38,9 +38,10 @@ AT.prototype._init = function() {
     throw Error("At least one field out of username and email is strictly required!");
   }
 
-  if (username && !username.required) {
-    throw Error("The username field should be required!");
-  }
+  // 企业注册界面没有该字段，所以改为非必填
+  // if (username && !username.required) {
+  //   throw Error("The username field should be required!");
+  // }
 
   if (email) {
     if (email.type !== "email") {

@@ -21,7 +21,7 @@
 
 	"instances": "申请单",
 	"instances_name": "标题",
-	"instances_applicant_name": "申请人",
+	"instances_applicant_name": "提交人",
 	"instances_modified": "处理时间",
 	"instances_applicant_organization_name": "部门",
 	"instances_submit_date": "提交时间",
@@ -46,15 +46,15 @@
 	"instance_relocate": "重定位",
 	"instance_print": "打印",
 
-	"flow_roles": "岗位",
+	"flow_roles": "审批岗位",
 	"flow_roles_name": "岗位名称",
 
 	"flow_positions": "岗位成员",
 	"flow_positions_role": "岗位",
-	"flow_positions_org": "管辖范围",
+	"flow_positions_org": "审批范围",
 	"flow_positions_users": "岗位成员",
 	"flow_positions_role_name()": "岗位",
-	"flow_positions_org_name()": "管辖范围",
+	"flow_positions_org_name()": "审批范围",
 	"flow_positions_users_name()": "岗位成员",
 
 	"workflow_table_confirm": "确认",
@@ -91,10 +91,11 @@
 	"workflow_attachment_convert_to_pdf": "正在将 '%s' 转换为pdf格式文件...",
 	"workflow_attachment_wordToPdf": "转为pdf",
 	"workflow_attachment_wordToPdf_failed": "未转换成功，请重新尝试！",
+	"workflow_attachment_locked_tip": "您有文件正在编辑，请解锁后提交",
 
 	"Instance State approved": "已核准",
 	"Instance State rejected": "已驳回",
-	"Instance State terminated": "已取消",
+	"Instance State terminated": "被取回",
 	"Instance State finished": "已完成",
 	"Instance State pending": "审核中",
 	"Instance State reassigned": "转签核",
@@ -111,7 +112,7 @@
 	"instance_reassign_curstep": "当前步骤: ",
 	"instance_reassign_reason": "请填写转签核的理由。",
 	"instance_reassign_ok": "转签核提交成功。",
-	"instance_reassign_user": "处理人",
+	"instance_reassign_user": "变更处理人",
 
 	"instance_cancel_title": "取消申请",
 	"instance_cancel_reason": "请填写取消申请的理由",
@@ -156,7 +157,7 @@
 	"relocate_help": "https://www.steedos.com/cn/help/workflow/instance_relocate.html",
 	"reassign_help": "https://www.steedos.com/cn/help/workflow/instance_reassign.html",
 	"forward_help": "https://www.steedos.com/cn/help/workflow/instance_forward.html",
-	"export_filter_help": "https://www.steedos.com/cn/help/workflow/instance_monitor.html",
+	"export_filter_help": "https://www.steedos.com/cn/help/workflow/instance_search.html",
 	"new_help": "https://www.steedos.com/cn/help/workflow/instance_add.html",
 
 	// inbox
@@ -167,7 +168,7 @@
 	"User Management": "用户管理",
 
 	"All flows": "所有流程",
-	"Select a flow": "请选择流程",
+	"Select a flow": "请点击流程分类选择相应流程",
 	"Fill in form": "填写表单",
 
 	"Flow upgraded": "流程已升级，请检查您填写的内容是否符合修改后的要求。",
@@ -193,11 +194,12 @@
 	"instance_curstep": "当前步骤: ",
 	"instance_cc_user": "传阅对象",
 	"instance_cc_error_users_required": "请选择传阅对象。",
-	"workflow_form_edit": "流程脚本",
+	"workflow_form_edit": "流程列表",
 	"flows_template": "申请单模板",
 	"flows_name": "流程名称",
 	"flows_print_template": "打印模板",
-	"flows_instance_template": "表单模板",
+	"flows_instance_template": "表单模板&nbsp; <a class='export-table-template'>下载默认模板</a>",
+	"flows_description": "流程描述",
 
 	"workflow_attach_unlock": "解锁",
 	"workflow_attach_locked_by": "%s 正在编辑",
@@ -233,8 +235,9 @@
 	"instance_search_advanced_search": "高级搜索",
 	"instance_search_flow": "流程",
 	"instance_search_name": "申请单标题",
-	"instance_search_applicant_name": "申请人姓名",
-	"instance_search_applicant_organization_name": "申请人所属部门名称",
+	"instance_search_file": "文件标题",
+	"instance_search_applicant_name": "提交人姓名",
+	"instance_search_applicant_organization_name": "提交人所属部门名称",
 	"instance_search_submit_date": "提交日期",
 	"instance_search_start": "起",
 	"instance_search_end": "至",
@@ -281,18 +284,19 @@
 				"rejected_completed_applicant": "__from_username__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "确认",
 				"approval": "审批",
 				"first_submit_applicant": "请确认:我已代您提交了__instance_name__",
-				"first_submit_inbox": "您有新的待办文件:__instance_name__",
+				"first_submit_inbox": "__instance_name__",
 				"submit_pending_rejected_applicant_inbox": "请修改:__instance_name__",
 				"submit_pending_rejected_applicant": "您的__instance_name__已驳回给__nextApprove_usersname__",
 				"submit_pending_rejected_approve": "",
-				"submit_pending_rejected_inbox": "您有新的待办文件:__instance_name__",
-				"submit_pending_inbox": "您有新的待办文件:__instance_name__",
+				"submit_pending_rejected_inbox": "__instance_name__",
+				"submit_pending_inbox": "__instance_name__",
 				"submit_terminate_applicant": "__instance_name__被我取消申请了",
 				"submit_terminate_approve": "",
 				"monitor_delete_applicant": "您的__instance_name__已被删除",
@@ -302,9 +306,10 @@
 				"approved_completed_approve": "",
 				"rejected_completed_applicant": "您的__instance_name__已被驳回",
 				"rejected_completed_approve": "",
-				"reassign_new_inbox_users": "您有新的待办文件:__instance_name__",
-				"trace_approve_cc": "您有新的待办文件:__instance_name__",
-				"remind": "催办通知：__instance_name__，办结时限：__deadline__。"
+				"reassign_new_inbox_users": "__instance_name__",
+				"trace_approve_cc": "__instance_name__",
+				"remind": "催办通知：__instance_name__，办结时限：__deadline__。",
+				"trace_approve_cc_submit": "我已提交了传阅的申请单__instance_name__"
 			}
 		},
 		"email": {
@@ -407,7 +412,7 @@
 			"pending": "审核中",
 			"approved": "已核准",
 			"rejected": "已驳回",
-			"terminated": "已取消",
+			"terminated": "被取回",
 			"finished": "已完成",
 			"reassigned": "转签核",
 			"inhand": "处理中",
@@ -431,7 +436,7 @@
 	"instance_retrieve_rules_title": "无法取回",
 	"instance_retrieve_rules_content": "下一步处理人已读无法取回；会签节点无法取回。",
 	"Retrieved successfully": "取回成功!",
-	"Instance State retrieved": "已取回",
+	"Instance State retrieved": "取回",
 	"instance_chrome_print_warning": "请使用Chrome浏览器进行打印",
 	"instance_sign": "签批",
 	"instance_default_opinion": "已阅",
@@ -496,7 +501,7 @@
 	"instance_readonly_view_url_copy_success": "Tableau Web 数据连接器已复制",
 	"instance_related_instances": "相关文件",
 	"instance_related_instances_title": "关联文件",
-	"instance_related_instances_placeholder": "请输入文件名称",
+	"instance_related_instances_placeholder": "请输入文件名称搜索关联文件",
 
 	"workflow_install_desktop": "安装客户端",
 
@@ -504,12 +509,12 @@
 
 	"instance_return": "退回",
 	"instance_return_success": "退回成功",
-	"instance_return_confirm": "确认退回申请单至前一步骤吗？",
+	"instance_return_confirm": "确认退回至__step_name__(__handlers_name__)?",
 	"Instance State returned": "已退回",
 
 	"instance_main_attachment": "正文",
 
-	"flows_field_map": "字段关系",
+	"flows_field_map": "归档关系",
 
 	"Instance State readed": "已阅",
 	"instance_distribute_title": "分发",
@@ -537,14 +542,24 @@
 		"single": "单次提醒",
 		"multi": "多次提醒"
 	},
-	"instance_opinion_title_select": "选择常用意见",
+	"instance_opinion_title_select": "其他常用意见",
 	"categories": "流程分类",
 	"categories_name": "名称",
 	"categories_sort_no": "排序号",
-
+	"not_found_user": "未找到处理人",
 	"next_step_users_not_found": {
-		"applicant_role": "步骤「__step_name__」指定岗位「__role_name__」未找到处理人员，需要系统管理员在岗位成员中进行配置。"
+		"aplicant_superior": "申请人上级未配置，请联系管理员。",
+		"applicant_role": "您要找的「__role_name__」还未配置，请联系管理员。",
+		"field_value_empty": "获取处理人，请先填写「__field_name__」。",
+		"org_no_members": "下一步需「__org_name__」处理，请联系管理员。"
 	},
+
+	"instanc_admin_role_text": "<a href='%s' target='_blank'>岗位中进行配置。</a>",
+
+	"instanc_user_role_text": "岗位中进行配置",
+
+	"instanc_set_applicant_role_text": "设置",
+
 	"instance_sign_read": "已阅",
 	"instance_sign_done": "已办",
 	"instance_sign_agree": "同意",
@@ -562,7 +577,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "流程编号规则不存在: ",
 	"ConfirmDeletion?": "确认删除?",
 	"instance_number_rules_name_only": "名称已存在",
-	"flows_btn_export_title": "导出",
+	"flows_btn_export_title": "导出流程",
 	"flows_btn_copylink_title": "复制链接",
 	"instance_distribute_related_instances_title": "自动创建关联文件",
 	"instance_next_step_users_placeholder": "请选择下一步处理人",
@@ -570,6 +585,7 @@
 
 	"my_instances": "我的文件",
 	"workflow_import_export_flows": "流程导入导出",
+	"workflow_history_approve_counts": "已显示%s条历史意见",
 	"workflow_history_approve_description": "历史意见",
 	"instances_start_date": "接收时间",
 	"instances_is_archived": "已归档",
@@ -582,9 +598,70 @@
 
 	"steedos_tableau_statistical_analysis": "统计分析",
 
-	"steedos_tableau_copy_link":"复制链接",
-	"tableau_introduction_modal_close":"关闭",
+	"steedos_tableau_copy_link": "复制链接",
+	"tableau_introduction_modal_close": "关闭",
 	"ERROR": "错误",
 
-	"steedos_table_add_item": "新增一行"
+	"steedos_table_add_item": "新增一行",
+
+
+	"approved_description": "同意",
+	"rejected_description": "不同意",
+
+	"copy": "复制并新建",
+
+
+	"from": "来自",
+
+	"admin_flow_roles_create": "新建",
+
+	"flow_roles_delete_success": "删除成功",
+	"add_positions": "新增",
+	"save_role": "保存",
+	"delete_role": "删除",
+	"flow_roles_update_success": "更新成功",
+	"flow_roles_necessary": "请填写岗位名称",
+	"flow_positions_add_suceess": "添加成功",
+	"flow_positions_add_failed": "添加失败",
+	"flow_positions_update_suceess": "更新成功",
+	"flow_positions_update_failed": "更新失败",
+	"flow_positions_delete_suceess": "删除成功",
+	"instance_role_set_is_complete": "岗位设置完成？",
+	"instance_set_is_complete": "设置完成？",
+
+	"flow_roles_help": "帮助",
+	"set_org_members": "设置部门成员",
+	"set_applicant_manager": "设置申请人上级主管",
+	"instance_permissions_error": "您没有权限查看此申请单",
+	"start_flows": "星标流程",
+
+	"chart_traces": "图形化历程",
+	"cc_tag": "（传阅中）",
+	"workflow_batch_approval": "批量审批",
+	"workflow_batch_approval_btn": "批量<br/>审批",
+	"workflow_batch_approval_processing": "处理中",
+	"workflow_batch_approval_message": "本次处理文件%s份",
+	"workflow_error_multiple_next_step_users": "「__insname__」的下一步处理人有多个",
+	"workflow_error_multiple_next_step": "「__insname__」的下一步步骤有多个",
+	"workflow_batch_instances_empty": "没有可批量审批的数据",
+	"workflow_sign_opinion_to_completed_instance": "此文件已结束，签署的意见不会显示在申请单上",
+	"workflow_copy_flow": "复制流程",
+	"workflow_copy_flow_text": "请填写新流程名称",
+	"workflow_copy_flow_success": "复制流程成功",
+	"workflow_copy_flow_error_reason_required": "请填写新流程名称",
+	"workflow_enabled": "启用",
+	"workflow_disabled": "停用",
+	"flows_state": "状态",
+	"flows_current_modified": "修改时间",
+	"flows_modified_by_name()": "修改者",
+	"flows_category_name()": "流程分类",
+	"flow_list_title_set_template": "设置模版",
+	"flow_list_title_set_script": "设置脚本",
+	"flow_list_title_set_fieldsMap": "设置归档关系",
+	"distribute_edit_flow_select_users": "流程被分发时分发对象选择范围",
+	"distribute_edit_flow_select_flows": "搜索此步骤可分发流程",
+	"flow_list_title_set_distribute": "设置分发",
+	"distribute_to_self": "分发时可分发给自己",
+
+	"instance_deleted": "已删除"
 }

@@ -146,7 +146,7 @@
     }
 
     .cf-organization-list, .cf-spaceusers-list{
-        //height: calc(~"100% - 5px");
+        height: 100%;
         padding: 0px;
         overflow-y: auto;
         overflow-x: auto;
@@ -306,6 +306,30 @@
         overflow-y: auto;
         .box-body{
             overflow-x: auto;
+        }
+    }
+}
+
+.steedos {
+    @media(max-width: 767px) {
+        #cf_contact_modal {
+            .navigation-bar .navigation-title > a {
+                color: black !important;
+            }
+        }
+    }
+}
+
+.steedos {
+    .selectUser-box {
+        min-height: 34px;
+        height: auto;
+        max-height: 100px;
+        color: black;
+        overflow: auto;
+        word-break: break-all;
+        .selectUser-placeholder {
+            color: #999;
         }
     }
 }

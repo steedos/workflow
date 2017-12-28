@@ -9,6 +9,14 @@ Template.accounts_phone_verify.helpers
 			return t "steedos_phone_title"
 
 Template.accounts_phone_verify.onRendered ->
+	$("body").addClass("no-sidebar")
+	$(".wrapper .content-wrapper").addClass("flex-center")
+	$(".wrapper .content-wrapper").addClass("bg-shadow")
+
+Template.accounts_phone_verify.onDestroyed ->
+	$("body").removeClass("no-sidebar")
+	$(".wrapper .content-wrapper").removeClass("flex-center")
+	$(".wrapper .content-wrapper").removeClass("bg-shadow")
 
 Template.accounts_phone_verify.events
 	'click .btn-verify-code': (event,template) ->
@@ -21,28 +29,30 @@ Template.accounts_phone_verify.events
 			toastr.error t "accounts_phone_enter_phone_code"
 			return
 
+		userId = Meteor.userId()
 		$(document.body).addClass('loading')
-		Accounts.updatePhone number, (error, is_suc) ->
-			if is_suc
-				Accounts.verifyPhone number, code, (error) ->
-					$(document.body).removeClass('loading')
-					if error
-						toastr.error t error.reason
-						console.error error
-						return
-					if window.name == "setup_phone"
-						toastr.success t "accounts_phone_verify_suc_wait"
-						setTimeout ->
-							window.close()
-						,5000
-					else
-						toastr.success t "accounts_phone_verify_suc"
-						FlowRouter.go "/"
-			else
+		Accounts.verifyPhone number, code, (error) ->
+			if error
 				$(document.body).removeClass('loading')
 				toastr.error t error.reason
 				console.error error
-
+				return
+			$(document.body).removeClass('loading')
+			if userId
+				# 绑定手机号
+				if window.name == "setup_phone"
+					# 是从新窗口打开绑定手机号界面
+					toastr.success t "accounts_phone_verify_suc_wait"
+					setTimeout ->
+						window.close()
+					,5000
+				else
+					# 是从跳转路由进入绑定手机号界面
+					toastr.success t "accounts_phone_verify_suc"
+					FlowRouter.go "/"
+			else
+				# 手机号登录
+				FlowRouter.go "/"
 
 	'click .btn-code-unreceived': (event,template) ->
 		number = $(".accounts-phone-number").text()

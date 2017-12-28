@@ -62,22 +62,22 @@
                                 $paging.css('visibility', '');
                             }
                         }
-                        if (recordsTotal <= 10) {
-                            if (config.style === 'fade') {
-                                $lengthing.stop().fadeTo(speed, 0);
-                            }
-                            else {
-                                $lengthing.css('visibility', 'hidden');
-                            }
-                        }
-                        else {
-                            if (config.style === 'fade') {
-                                $lengthing.stop().fadeTo(speed, 1);
-                            }
-                            else {
-                                $lengthing.css('visibility', '');
-                            }
-                        }
+                        // if (recordsTotal <= 10) {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.stop().fadeTo(speed, 0);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', 'hidden');
+                        //     }
+                        // }
+                        // else {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.stop().fadeTo(speed, 1);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', '');
+                        //     }
+                        // }
                     }
                     else if (pages <= 1) {
                         if (config.style === 'fade') {
@@ -86,14 +86,14 @@
                         else {
                             $paging.css('visibility', 'hidden');
                         }
-                        if (recordsTotal <= 10) {
-                            if (config.style === 'fade') {
-                                $lengthing.css('opacity', 0);
-                            }
-                            else {
-                                $lengthing.css('visibility', 'hidden');
-                            }
-                        }
+                        // if (recordsTotal <= 10) {
+                        //     if (config.style === 'fade') {
+                        //         $lengthing.css('opacity', 0);
+                        //     }
+                        //     else {
+                        //         $lengthing.css('visibility', 'hidden');
+                        //     }
+                        // }
                     }
                 };
 

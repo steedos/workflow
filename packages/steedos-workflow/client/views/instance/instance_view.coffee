@@ -36,11 +36,11 @@ Template.instance_view.helpers
 		form = WorkflowManager.getForm(formId);
 
 		if Steedos.isMobile()
-			return ""
+			return "instance-default"
 
 		if form?.instance_style == 'table'
 			return "instance-table"
-		return "";
+		return "instance-default";
 
 	showTracesView: (form, form_version)->
 		return TracesTemplate.helpers.showTracesView(form, form_version)
@@ -97,11 +97,34 @@ Template.instance_view.helpers
 	box: ()->
 		return Session.get("box");
 
+	isInbox: ()->
+		return InstanceManager.isInbox()
+
+	tracesListData: (instance)->
+		return instance.traces
+
+	notDistributeAndDraft: (state)->
+		ins = WorkflowManager.getInstance()
+		if ins 
+			if state is 'draft' and !ins.distribute_from_instance
+				return false
+
+		return true
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
+	Session.set("instance_submitting", false);
 
 Template.instance_view.onRendered ->
+
+	ins = WorkflowManager.getInstance();
+
+	form_version = db.form_versions.findOne({_id: ins.form_version})
+
+	flow_version = db.flow_versions.findOne({_id: ins.flow_version})
+
+	if Session.get("box") == 'draft' && (form_version.latest != true || flow_version.latest != true)
+		InstanceManager.saveIns();
 
 	Form_formula.runFormScripts("instanceform", "onload");
 
@@ -110,7 +133,8 @@ Template.instance_view.onRendered ->
 
 	$(".workflow-main").addClass("instance-show")
 
-	isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
+	# isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
+	isNeedActiveSuggestion = true
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
 		$('.instance').perfectScrollbar().css("right","-1px")
@@ -138,9 +162,7 @@ Template.instance_view.onRendered ->
 					if scrollTop >= preScrollTop
 						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
 							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
-							setTimeout ->
-								InstanceManager.fixInstancePosition(true)
-							,100
+							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
 
@@ -149,7 +171,15 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	if Session.get("box") == "inbox" || Session.get("box") == "draft"
+		console.log("onRendered 160...")
+		Session.set("instance_next_user_recalculate", Random.id())
+
 	$("body").removeClass("loading")
+
+Template.instance_view.onDestroyed ->
+	Session.set("instance_next_user_recalculate", null)
+	Steedos.subs["instance_data"].clear()
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
@@ -197,9 +227,12 @@ Template.instance_view.events
 
 	'click #ins_new_main_file': (event, template)->
 		Session.set('attach_parent_id', "")
+		Session.set('attach_instance_id', Session.get("instanceId"))
+		Session.set('attach_space_id', Session.get("spaceId"))
+		Session.set('attach_box', Session.get("box"))
 		# 正文最多只有一个
 		main_attach_count = cfs.instances.find({
-			'metadata.instance': Session.get("instanceId"),
+			'metadata.instance': Session.get('attach_instance_id'),
 			'metadata.current': true,
 			'metadata.main': true
 		}).count()
@@ -211,7 +244,7 @@ Template.instance_view.events
 		arg = "Steedos.User.isNewFile"
 		
 		# 默认文件名为文件标题
-		newFileName = WorkflowManager.getInstance().name + '.doc'
+		newFileName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"") + '.doc'
 		
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
@@ -221,26 +254,26 @@ Template.instance_view.events
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
+		error_code = event.target.dataset.error_code
 
-		if error && error_type == 'applicantRole'
-			swal({
-				title: t('instance_next_step_users') + t('ERROR'),
-				text: error
-				showCancelButton: true,
-				closeOnConfirm: false,
-				confirmButtonText: t('Help'),
-				cancelButtonText: t('Cancel'),
-				showLoaderOnConfirm: false
-			}, (inputValue) ->
-				if inputValue == false
-					swal.close();
-				else
+#		console.log("error", error)
+#
+#		console.log("error_type", error_type)
+#
+#		console.log("error_code", error_code)
 
-					helpUrl = Steedos.getHelpUrl(Steedos.getLocale())
+		if error && error_type
 
-					Steedos.showHelp(helpUrl + "workflow/admin_positions.html");
+			console.log(ApproveManager.isReadOnly());
 
-					swal.close();
-			);
-			event.preventDefault()
+			NextStepUser.handleException({error: error_type, reason: error, error_code: error_code})
+
+#			event.preventDefault()
+#
+#			event.stopPropagation()
+
+			return false;
+
+	'change #nextStepUsers': (event, template)->
+		InstanceManager.checkNextStepUser()
 		

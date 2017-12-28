@@ -13,9 +13,16 @@ class @Restivus
         user: ->
           if @request.headers['x-auth-token']
             token = Accounts._hashLoginToken @request.headers['x-auth-token']
-          userId: @request.headers['x-user-id']
-          spaceId: @request.headers['x-space-id']
-          token: token
+          if @request.userId
+            _user = db.users.findOne({_id: @request.userId})
+            user: _user
+            userId: @request.headers['x-user-id']
+            spaceId: @request.headers['x-space-id']
+            token: token
+          else
+            userId: @request.headers['x-user-id']
+            spaceId: @request.headers['x-space-id']
+            token: token
       defaultHeaders:
         'Content-Type': 'application/json'
       enableCors: true

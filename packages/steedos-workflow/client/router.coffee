@@ -60,9 +60,14 @@ workflowSpaceRoutes.route '/:box/',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
 
+		last_box = Session.get("box")
+
 		Session.set("box", params.box);
 #		Session.set("flowId", undefined);
 		Session.set("instanceId", null);
+		if params.box != 'inbox'
+			Session.set("workflowCategory", undefined);
+
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 
@@ -103,7 +108,7 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 FlowRouter.route '/workflow/designer',
 	triggersEnter: [checkUserSigned],
 	action: (params, queryParams)->
-		Steedos.openWindow Steedos.absoluteUrl("/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}"),"workflow_designer"
+		Steedos.openWindow Steedos.absoluteUrl("/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}")
 		Meteor.setTimeout ->
 			FlowRouter.go "/admin/home/"
 
@@ -137,3 +142,9 @@ FlowRouter.route '/admin/workflow/flow_positions',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_flow_positions"
+
+FlowRouter.route '/admin/workflow/flow_roles',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_flow_roles"

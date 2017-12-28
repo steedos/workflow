@@ -108,24 +108,9 @@ new Tabular.Table
 		{data: "year", title: "year"},
 		{data: "first_number", title: "first_number"},
 		{data: "number", title: "number"},
-		{data: "rules", title: "rules"},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="edit"><i class="fa fa-pencil"></i></button>'
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="remove"><i class="fa fa-times"></i></button>'
-		}
+		{data: "rules", title: "rules"}
 	]
+	dom: "tp"
 	extraFields: ["space"]
 	lengthChange: false
 	ordering: false
