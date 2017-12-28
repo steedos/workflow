@@ -195,3 +195,4 @@ process.on('message', Meteor.bindEnvironment(function (m) {
 process.on('SIGHUP', Meteor.bindEnvironment(function () {
   enqueueVersionsRefresh();
 }, "handling SIGHUP signal for refresh"));
+
