@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.70',
+	version: '0.0.71',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -70,6 +70,8 @@ Package.onUse(function(api) {
 	api.use('steedos:i18n@0.0.10');
 	api.use('steedos:ui@0.0.1');
 	api.use('steedos:theme@0.0.29');
+	api.use('steedos:e164-phones-countries@1.0.3');
+	api.use('steedos:i18n-iso-countries@3.3.0');
 
 	api.addFiles('lib/steedos_util.js', ['client', 'server']);
 

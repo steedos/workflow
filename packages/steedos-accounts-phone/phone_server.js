@@ -475,7 +475,7 @@ Meteor.methods({
 // Change password if needed
 // and log them in.
 Meteor.methods({
-    verifyPhone: function(phone, code, newPassword) {
+    verifyPhone: function(phone, mobile, code, newPassword) {
         var self = this;
         // Check if needs to change password
         var userId = this.userId;
@@ -487,6 +487,7 @@ Meteor.methods({
             "phone",
             function() {
                 check(code, String);
+                check(mobile, String);
                 check(phone, String);
 
                 if (!code) {
@@ -534,6 +535,7 @@ Meteor.methods({
                 if(userId){
                     // 当用户验证绑定自己的手机号时，把手机号一起改掉，就不用再单独调用修改手机号的接口了
                     setOptions['phone.number'] = phone;
+                    setOptions['phone.mobile'] = mobile;
                 }
                 var resetToOldToken;
                 // If needs to update password

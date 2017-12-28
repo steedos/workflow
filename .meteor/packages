@@ -96,7 +96,7 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
-steedos:connect-qiyeweixin
+# steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api
@@ -180,3 +180,6 @@ steedos:authenticate-user-by-access-token
 steedos:authenticate-user-by-auth-token
 
 steedos:huaweipush
+
+steedos:e164-phones-countries
+steedos:i18n-iso-countries
