@@ -52,7 +52,7 @@ InstancesToArchive::getNonContractInstances = ()->
 	if @ins_ids
 		query._id = {$in: @ins_ids}
 
-	return db.instances.find(query);
+	return db.instances.find(query).fetch()
 
 InstancesToArchive.success = (instance)->
 	console.log("success, name is #{instance.name}, id is #{instance._id}")
