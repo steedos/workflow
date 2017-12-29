@@ -36,7 +36,7 @@ InstancesToArchive::getContractInstances = ()->
 	if @ins_ids
 		query._id = {$in: @ins_ids}
 
-	return db.instances.find(query).fetch()
+	return db.instances.find(query, {fields: {_id: 1}}).fetch()
 
 InstancesToArchive::getNonContractInstances = ()->
 	query = {
@@ -52,7 +52,7 @@ InstancesToArchive::getNonContractInstances = ()->
 	if @ins_ids
 		query._id = {$in: @ins_ids}
 
-	return db.instances.find(query).fetch()
+	return db.instances.find(query, {fields: {_id: 1}}).fetch()
 
 InstancesToArchive.success = (instance)->
 	console.log("success, name is #{instance.name}, id is #{instance._id}")
@@ -331,12 +331,15 @@ InstancesToArchive::sendContractInstances = (to_archive_api) ->
 
 	that = @
 	console.log "instances.length is #{instances.length}"
-	instances.forEach (instance, i)->
-		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
+	instances.forEach (mini_ins, i)->
+		instance = db.instances.findOne({_id: mini_ins._id})
 
-		console.log("InstancesToArchive.sendContractInstances url", url)
+		if instance
+			url = that.archive_server + to_archive_api + '?externalId=' + instance._id
 
-		InstancesToArchive._sendContractInstance url, instance
+			console.log("InstancesToArchive.sendContractInstances url", url)
+
+			InstancesToArchive._sendContractInstance url, instance
 
 	console.timeEnd("sendContractInstances")
 
@@ -346,10 +349,12 @@ InstancesToArchive::sendNonContractInstances = (to_archive_api) ->
 	instances = @getNonContractInstances()
 	that = @
 	console.log "instances.length is #{instances.length}"
-	instances.forEach (instance)->
-		url = that.archive_server + to_archive_api + '?externalId=' + instance._id
-		console.log("InstancesToArchive.sendNonContractInstances url", url)
-		InstancesToArchive.sendNonContractInstance url, instance
+	instances.forEach (mini_ins)->
+		instance = db.instances.findOne({_id: mini_ins._id})
+		if instance
+			url = that.archive_server + to_archive_api + '?externalId=' + instance._id
+			console.log("InstancesToArchive.sendNonContractInstances url", url)
+			InstancesToArchive.sendNonContractInstance url, instance
 
 	console.timeEnd("sendNonContractInstances")
 
