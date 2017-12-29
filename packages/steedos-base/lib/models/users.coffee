@@ -234,7 +234,7 @@ if Meteor.isServer
 					enrollAccountUrl = Accounts.urls.enrollAccount(token);
 					url =  Accounts.urls.enrollAccount(token);
 					locale = Steedos.locale(doc._id, true)
-					subject = Accounts.emailTemplates.enrollAccount.subject(doc._id)
+					subject = TAPi18n.__("users_email_create_account",{},locale)
 					greeting = TAPi18n.__('users_email_hello', {}, locale) + "&nbsp;" + doc.name + ","
 					content = greeting + "</br>" + TAPi18n.__('users_email_start_service', {} ,locale) + "</br>" + url + "</br>" + TAPi18n.__("users_email_thanks", {}, locale) + "</br>"
 					MailQueue.send

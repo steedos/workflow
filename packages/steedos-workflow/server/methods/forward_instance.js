@@ -256,7 +256,7 @@ Meteor.methods({
 			ins_obj.modified = now;
 			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
-			ins_obj.values = {};
+			ins_obj.values = new_values;
 			if (action_type == 'distribute') {
 				// 解决多次分发看不到正文、附件问题
 				if (ins.distribute_from_instance) {
