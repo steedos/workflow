@@ -644,5 +644,7 @@
 	"flow_list_title_set_distribute": "Set Distribute",
 	"distribute_to_self": "can distribute to self",
 
-	"instance_deleted": "Deleted"
+	"instance_deleted": "Deleted",
+
+	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow."
 }

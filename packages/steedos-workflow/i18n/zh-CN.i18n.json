@@ -663,5 +663,7 @@
 	"flow_list_title_set_distribute": "设置分发",
 	"distribute_to_self": "分发时可分发给自己",
 
-	"instance_deleted": "已删除"
+	"instance_deleted": "已删除",
+
+	"workflow_flow_state_disabled": "此申请单对应流程\"__name__\"已被禁用，如想正常修改及提交请联系管理员启用流程"
 }
