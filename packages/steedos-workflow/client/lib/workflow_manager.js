@@ -117,12 +117,16 @@ WorkflowManager.getInstanceFormVersion = function() {
 				field['permission'] = field_permission[field.code] == 'editable' ? 'editable' : 'readonly';
 				if (field.type == 'table') {
 					field['sfields'] = field['fields']
-					field['sfields'].forEach(function(sf) {
-						sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
-						if (sf["permission"] == 'editable') {
-							field['permission'] = 'editable';
-						}
-					});
+					if(field['sfields']){
+						field['sfields'].forEach(function(sf) {
+							sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
+							if (sf["permission"] == 'editable') {
+								field['permission'] = 'editable';
+							}
+						});
+					}else{
+						console.error("子表：" + field.code + " 没有字段");
+					}
 					// 因为这个程序会傻傻的执行很多遍，所以不能删除
 					delete field['fields']
 				}
