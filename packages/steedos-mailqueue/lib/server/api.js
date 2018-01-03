@@ -183,6 +183,12 @@ MailQueue.Configure = function(options) {
 						sending: {
 							$lt: now
 						}
+					},
+					// And no error
+					{
+						errMsg: {
+							$exists: false
+						}
 					}
 				]
 			}, {
@@ -198,6 +204,14 @@ MailQueue.Configure = function(options) {
 					sendMail(mail);
 				} catch (error) {
 					console.log('MailQueue: Could not send mail id: "' + mail._id + '", Error: ' + error.message);
+					MailQueue.collection.update({
+						_id: mail._id
+					}, {
+						$set: {
+							// error message
+							errMsg: error.message
+						}
+					});
 				}
 			}); // EO forEach
 
