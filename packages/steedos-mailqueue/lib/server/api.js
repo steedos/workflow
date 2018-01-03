@@ -9,9 +9,7 @@ var sendWorker = function(task, interval) {
 		try {
 			task();
 		} catch (error) {
-			if (MailQueue.debug) {
-				console.log('MailQueue: Error while sending: ' + error.message);
-			}
+			console.log('MailQueue: Error while sending: ' + error.message);
 		}
 	}, interval);
 };
@@ -199,10 +197,7 @@ MailQueue.Configure = function(options) {
 				try {
 					sendMail(mail);
 				} catch (error) {
-
-					if (MailQueue.debug) {
-						console.log('MailQueue: Could not send mail id: "' + mail._id + '", Error: ' + error.message);
-					}
+					console.log('MailQueue: Could not send mail id: "' + mail._id + '", Error: ' + error.message);
 				}
 			}); // EO forEach
 
