@@ -166,6 +166,42 @@ NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWr
 	Modal.hide("attachments_upload_modal");
 }
 
+// 签章后作为新附件上传
+NodeManager.signPdf = function(filePath, filename){
+	$(document.body).addClass("loading");
+	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
+	var fileDataInfo = [{
+		urlKey: "Content-Type",
+		urlValue: cfs.getContentType(filename)
+	}, {
+		urlKey: "instance",
+		urlValue: Session.get('attach_instance_id')
+	}, {
+		urlKey: "space",
+		urlValue: Session.get('attach_space_id')
+	}, {
+		urlKey: "approve",
+		urlValue: InstanceManager.getMyApprove().id
+	}, {
+		urlKey: "owner",
+		urlValue: Meteor.userId()
+	}, {
+		urlKey: "owner_name",
+		urlValue: Meteor.user().name
+	}, {
+		urlKey: "upload_from",
+		urlValue: "node"
+	}]
+	var files = [{
+			urlKey: "file",
+			urlValue: filePath
+		}]
+		// 上传接口
+	OfficeOnline.uploadFile(fileDataInfo, files);
+
+	Modal.hide("attachments_upload_modal");
+}
+
 // 获取文件hash值
 NodeManager.getFileSHA1 = function(filePath, filename, callback) {
 	var fd = fs.createReadStream(filePath);
@@ -190,6 +226,10 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 	Modal.show("attachments_upload_modal", {
 		filePath: filePath
 	});
+
+	if (arg == "Steedos.User.isSignature"){
+		cmd = 'start "" /wait ' + '\"' + filePath + '\"';
+	}
 
 	// 专业版文件大小不能超过100M
 	var maximumFileSize = 100 * 1024 * 1024;
@@ -216,6 +256,17 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 		toastr.error(error);
 	});
 	child.on('close', function() {
+		if (arg == "Steedos.User.isSignature"){
+			filePath = download_dir + "签章：" + filename;
+			fs.exists(filePath, function(exists) {
+				if (exists == false){
+					Modal.hide("attachments_upload_modal");
+					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+					toastr.warning(t("node_pdf_error"));
+				}
+			})
+		}
+
 		// 完成编辑
 		Modal.hide("attachments_upload_modal");
 
@@ -262,7 +313,20 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 								NodeManager.setUploadRequests(filePath, filename, true, true);
 							}else{
 								if (InstanceManager.isAttachLocked(Session.get("attach_instance_id"), Meteor.userId())){
-									NodeManager.setUploadRequests(filePath, filename, false, true);
+									if (arg == "Steedos.User.isSignature"){
+										fs.exists(filePath, function(exists) {
+											if (exists == true){
+												NodeManager.signPdf(filePath, filename);
+											}else{
+												Modal.hide("attachments_upload_modal");
+												// 解锁 
+												InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+												toastr.error(t("node_pdf_error"));
+											}
+										})
+									}else{
+										NodeManager.setUploadRequests(filePath, filename, false, true);
+									}
 								}else{
 									toastr.warning(t("steedos_desktop_edit_warning"));
 								}

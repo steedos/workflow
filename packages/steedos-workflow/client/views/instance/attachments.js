@@ -585,6 +585,41 @@ Template.ins_attach_version_modal.helpers({
 		return false;
 	},
 
+	canSign: function(mainFile, filename, locked_by){
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+		
+		// pdf文件可以签章
+		if (!Steedos.isPdfFile(filename))
+			return false;
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed")
+			return false;
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
+			return false
+
+		var locked = false;
+		if (locked_by) locked = true;
+		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isPdfFile(filename) && !locked) {
+			if (InstanceManager.isCC(ins)) {
+				var step = InstanceManager.getCCStep();
+				if (step && step.can_edit_main_attach == true)
+					return true
+			} else {
+				var current_step = InstanceManager.getCurrentStep();
+				if (current_step) {
+					if (mainFile)
+						return current_step.can_edit_main_attach
+				}
+			}
+		}
+		return false;
+	},
+
 	getUrl: function(_rev, isPreview) {
 		// url = Meteor.absoluteUrl("api/files/instances/") + attachVersion._rev + "/" + attachVersion.filename;
 		if (Steedos.isNode())
@@ -732,6 +767,25 @@ Template.ins_attach_version_modal.events({
 			}
 		})
 	},
+
+	"click [name ='ins_attach_signature']": function(event, template){
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
+
+		//签章时锁定
+		InstanceManager.lockAttach(event.target.id);
+		
+		var arg = "Steedos.User.isSignature";
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		
+		Modal.hide('ins_attach_version_modal');
+		NodeManager.downloadFile(url, filename, arg);
+	},
+
 	"click .ins-attach-version-delete": function(event, template) {
 		var file_id = event.target.id;
 		var file_name = event.target.dataset.name;
