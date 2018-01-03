@@ -10,7 +10,7 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 	to_users = new Array
 	if ['first_submit_applicant'].includes(send_from)
 		# 申请人
-		if instance.applicant isnt instance.submitter 
+		if instance.applicant isnt instance.submitter
 			applicant = db.users.findOne(instance.applicant)
 			to_users.push(applicant)
 
@@ -55,7 +55,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 	current_user_name = parameters["current_user_name"]
 	currentStep_type = parameters["currentStep_type"]
 
-	push_final_decision = "" 
+	push_final_decision = ""
 	email_final_decision = ""
 	email_description = ""
 
@@ -137,7 +137,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 		body["email"] = TAPi18n.__ 'instance.email.body.submit_pending_rejected_inbox', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type,lastApprove_usersname: lastApprove_usersname}, lang
 	else if "submit_pending_inbox" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.submit_pending_inbox', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type}, lang
-		
+
 		if not approves_description
 			body["email"] = TAPi18n.__ 'instance.email.body.submit_pending_inbox', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type,lastApprove_usersname: lastApprove_usersname, last_approve_judge: last_approve_judge}, lang
 		else
@@ -157,7 +157,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 		body["email"] = TAPi18n.__ 'instance.email.body.monitor_delete_applicant', {instance_name: instance_name,to_username: to_username, current_username: current_user_name, href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description}, lang
 	else if "approved_completed_applicant" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.approved_completed_applicant', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision}, lang
-		
+
 		if not approves_description
 			body["email"] = TAPi18n.__ 'instance.email.body.approved_completed_applicant', {instance_name: instance_name,to_username: to_username, current_username: current_user_name, href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,lastApprove_usersname: lastApprove_usersname}, lang
 		else
@@ -340,9 +340,9 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 			con["count"] = body["badge"].to_s
 			appmsg["contents"] = [con]
 			res_b = HTTP.post(
-				'http://open.imoffice.com:8000/', 
+				'http://open.imoffice.com:8000/',
 				{
-					params: 
+					params:
 						app: "appnoticeopen",
 						pushtype: "2",
 						fromcid: fromcid,
@@ -416,7 +416,7 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 
 		response = HTTP.post(bqq_uri)
 
-		if response.data.ret > 0 
+		if response.data.ret > 0
 			console.error response.data.msg
 
 		return
@@ -427,15 +427,16 @@ pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
 	if not to_user.email or not to_user.email_notification
 		return
 	try
-		from_displayName = reply_user.name
-
 		MailQueue.send
 			to: to_user.email
-			from: from_displayName + ' on ' + Meteor.settings.email.from
+			from: pushManager.checkMailFromNameLength(reply_user.name) + ' on ' + Meteor.settings.email.from
 			subject: subject
 			html: content
 	catch e
 		console.error e.stack
+
+pushManager.checkMailFromNameLength = (name)->
+	return if name.length <= 18 then name else name.substr(0, 18) + '...'
 
 pushManager.send_message_by_raix_push = (data)->
 	if not data["data"]

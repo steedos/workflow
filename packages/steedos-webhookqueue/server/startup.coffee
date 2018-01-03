@@ -3,4 +3,4 @@ Meteor.startup ->
 		WebhookQueue.Configure
 			sendInterval: Meteor.settings.cron.webhookqueue_interval
 			sendBatchSize: 10
-			keepWebhooks: true
+			keepWebhooks: false
