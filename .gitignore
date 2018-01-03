@@ -6,6 +6,8 @@
 
 .build
 
+.idea
+
 .meteor/local
 .meteor/meteorite
 
