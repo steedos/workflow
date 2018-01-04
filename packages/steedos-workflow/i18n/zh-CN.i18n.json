@@ -141,6 +141,9 @@
 	"node_office_exists_message": "文件已存在，是否替换？",
 	"node_office_workflow": "审批王",
 	"node_pdf_error": "pdf签章失败，请重新进行签章！",
+	"node_pdf_sign_online": "在线签章",
+	"node_pdf_message": "您正在使用在线签章功能。",
+	"node_pdf_filePath": "文件：",
 
 	"workflow_export_thismonth": "导出当月申请单",
 	"workflow_export_lastmonth": "导出上月申请单",

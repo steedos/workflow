@@ -223,12 +223,11 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 
 	var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + Meteor.users.findOne().name;
 
-	Modal.show("attachments_upload_modal", {
-		filePath: filePath
-	});
-
 	if (arg == "Steedos.User.isSignature"){
 		cmd = 'start "" /wait ' + '\"' + filePath + '\"';
+		Modal.show("attachments_sign_modal", { filePath: filePath });
+	}else{
+		Modal.show("attachments_upload_modal", { filePath: filePath });
 	}
 
 	// 专业版文件大小不能超过100M
@@ -260,7 +259,7 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 			filePath = download_dir + "签章：" + filename;
 			fs.exists(filePath, function(exists) {
 				if (exists == false){
-					Modal.hide("attachments_upload_modal");
+					Modal.hide("attachments_sign_modal");
 					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 					toastr.warning(t("node_pdf_error"));
 				}
@@ -318,7 +317,7 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 											if (exists == true){
 												NodeManager.signPdf(filePath, filename);
 											}else{
-												Modal.hide("attachments_upload_modal");
+												Modal.hide("attachments_sign_modal");
 												// 解锁 
 												InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 												toastr.error(t("node_pdf_error"));

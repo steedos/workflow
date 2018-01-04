@@ -140,6 +140,9 @@
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
 	"node_pdf_error": "Pdf signature failed, please re-sign!",
+	"node_pdf_sign_online": "Sign Online",
+	"node_pdf_message": "You are signing pdf file.",
+	"node_pdf_filePath": "File: ",
 
 	"workflow_export_thismonth": "Export requests this month",
 	"workflow_export_lastmonth": "Export requests last month",
