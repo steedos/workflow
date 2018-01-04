@@ -260,7 +260,9 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 	});
 	child.on('close', function() {
 		if (arg == "Steedos.User.isSignature"){
-			filePath = download_dir + "签章：" + filename;
+			filename = "签章：" + filename;
+			filePath = download_dir + filename;
+			
 			fs.exists(filePath, function(exists) {
 				if (exists == false){
 					Modal.hide("attachments_sign_modal");

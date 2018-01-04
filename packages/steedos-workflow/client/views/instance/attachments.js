@@ -589,10 +589,6 @@ Template.ins_attach_version_modal.helpers({
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
-		
-		// pdf文件可以签章
-		if (!Steedos.isPdfFile(filename))
-			return false;
 
 		// 已经结束的单子不能改附件
 		if (ins.state == "completed")
