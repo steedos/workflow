@@ -191,7 +191,11 @@ NodeManager.signPdf = function(filePath, filename){
 	}, {
 		urlKey: "upload_from",
 		urlValue: "node"
+	}, {
+		urlKey: "is_private",
+		urlValue: true
 	}]
+
 	var files = [{
 			urlKey: "file",
 			urlValue: filePath
