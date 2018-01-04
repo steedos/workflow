@@ -651,5 +651,6 @@
 
 	"instance_deleted": "Deleted",
 
-	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow."
+	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow.",
+	"flow_roles_error_flows_used": "Role has been used by flows: __names__"
 }
