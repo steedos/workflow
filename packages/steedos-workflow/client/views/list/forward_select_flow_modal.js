@@ -163,6 +163,7 @@ Template.forward_select_flow_modal.events({
 							delete forward_select_user.dataset.userOptions;
 							delete forward_select_user.dataset.showOrg;
 						}
+						$("#forward_select_user").trigger('change')
 					}
 				}
 
