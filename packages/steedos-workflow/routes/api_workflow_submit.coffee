@@ -18,7 +18,7 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 				flow_id = instance.flow
 				current_approve = instance_from_client.traces[0].approves[0]
 				# 如果已经配置webhook并已激活则触发
-				pushManager.triggerWebhook(flow_id, instance, current_approve)
+				pushManager.triggerWebhook(flow_id, instance, current_approve, 'draft_submit')
 
 		JsonRoutes.sendResult res,
 				code: 200
@@ -28,5 +28,3 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}] }
-	
-		
