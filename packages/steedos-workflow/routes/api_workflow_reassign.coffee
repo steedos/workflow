@@ -125,6 +125,9 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				# 给新加入的inbox_users发送push message
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, reassign_reason, current_user_info)
 
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'reassign')
+
 		JsonRoutes.sendResult res,
 				code: 200
 				data: {}
@@ -133,5 +136,3 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

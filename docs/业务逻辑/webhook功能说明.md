@@ -17,10 +17,19 @@
 }
 ```
 
-- 当用户提交申请单时触发webhook，给payload_url发送POST request请求
+- 当用户操作申请单时触发webhook，给payload_url发送POST request请求
 - 请求的body数据为：
 ```javascript
 {
+	action: "draft_submit", // 触发此hook时的操作，可能值为：
+	// draft_submit(草稿箱提交),
+	// engine_submit(待审核提交),
+	// reassign(转签核),
+	// relocate(重定位),
+	// retrieve(取回),
+	// terminate(取消申请),
+	// cc_do(传阅给他人),
+	// cc_submit(被传阅提交)
     current_approve: {
         "_id": "8ecbd6be43193e650e8d913f",
         "instance": "HjHvRxp5vFL5fn7uK",
@@ -139,4 +148,4 @@
         "keywords": ""
     } // 提交申请单操作完成后最新的完整的实例数据
 }
-``` 
+```

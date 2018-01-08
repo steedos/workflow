@@ -116,7 +116,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					_.each next_steps[0]["users"], (next_step_user) ->
 						checkSpaceUser = uuflowManager.getSpaceUser(space_id, next_step_user)
 
-				if step_type is "start" or step_type is "submit" or step_type is "condition" 
+				if step_type is "start" or step_type is "submit" or step_type is "condition"
 					updateObj = uuflowManager.engine_step_type_is_start_or_submit_or_condition(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info)
 				else if step_type is "sign"
 					updateObj = uuflowManager.engine_step_type_is_sign(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info, description)
@@ -147,7 +147,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 				else
 					#通知填单人、申请人
 					pushManager.send_instance_notification("submit_completed_applicant", instance, description, current_user_info)
-			
+
 			else if "pending" is instance.state
 				if "rejected" is instance_trace.judge and instance_trace.is_finished is true
 					if 'start' is next_step_type
@@ -169,7 +169,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			pushManager.send_message_current_user(current_user_info)
 
 			# 如果已经配置webhook并已激活则触发
-			pushManager.triggerWebhook(flow_id, instance, approve_from_client)
+			pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit')
 
 		JsonRoutes.sendResult res,
 			code: 200
@@ -179,5 +179,3 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}]}
-	
-		
