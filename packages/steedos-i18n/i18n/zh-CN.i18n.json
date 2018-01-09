@@ -502,7 +502,11 @@
 		"amount": "付款金额 ￥",
 		"has_paid": "支付成功",
 		"not_paid": "未支付",
-		"price": "单价"
+		"price": "单价",
+		"order_amount": "订单金额",
+		"order_detail": "订单详情",
+		"pay_method": "支付方式",
+		"pay_immediate": "立即支付"
 	},
 
 	"billing_pay_records": "订单",

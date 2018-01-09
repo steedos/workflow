@@ -11,18 +11,18 @@
 				</div>
 				<div class="modal-body modal-zoom" style='overflow-y:auto'>
 					<div>
-						<div>订单详情：{{detail}}</div>
-						<div style="margin-top: 10px;">订单金额：{{fee_value}}</div>
+						<div>{{_ "billing.order_detail"}}：{{detail}}</div>
+						<div style="margin-top: 10px;">{{_ "billing.order_amount"}}：￥{{fee_value}}</div>
 					</div>
 					<div>
-						<div style="background-color: whitesmoke;padding: 10px;margin-top: 10px;">支付方式</div>
+						<div style="background-color: whitesmoke;padding: 10px;margin-top: 10px;">{{_ "billing.pay_method"}}</div>
 						<div>
 							<img src="/packages/steedos_base/client/images/WePayLogo.png" style="width: 180px;margin-top: 10px;"/>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-group btn-group-justified" id="space_recharge_app_pay_btn">立即支付</button>
+					<button type="button" class="btn btn-primary btn-group btn-group-justified" id="space_recharge_app_pay_btn">{{_ "billing.pay_immediate"}}</button>
 				</div>
 			</div>
 		</div>

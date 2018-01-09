@@ -484,7 +484,11 @@
 		"amount": "Amount ￥",
 		"had_paid": "Finished",
 		"not_paid": "Not finished",
-		"price": "Price"
+		"price": "Price",
+		"order_amount": "Order amount",
+		"order_detail": "Order detail",
+		"pay_method": "Payment method",
+		"pay_immediate": "Pay"
 	},
 
 	"billing_pay_records": "Orders",
