@@ -322,6 +322,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
 
+	api.addAssets('client/images/WePayLogo.png', 'client');
+	api.addAssets('client/images/WePayDescription.png', 'client');
+
 
 	api.export('Selector');
 	api.export('Steedos');
