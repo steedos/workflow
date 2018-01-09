@@ -1,0 +1,32 @@
+<template name="space_recharge_app_pay_modal">
+	<div class="modal fade" id="space_recharge_app_pay_modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" >
+						{{_ "billings"}}
+					</h4>
+				</div>
+				<div class="modal-body modal-zoom" style='overflow-y:auto'>
+					<div>
+						<div>订单详情：{{detail}}</div>
+						<div style="margin-top: 10px;">订单金额：{{fee_value}}</div>
+					</div>
+					<div>
+						<div style="background-color: whitesmoke;padding: 10px;margin-top: 10px;">
+							支付方式
+						</div>
+						<div>
+							<img src="/images/billing/WePayLogo.png" style="width: 180px;margin-top: 10px;"/>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-group btn-group-justified" id="space_recharge_app_pay_btn">立即支付</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

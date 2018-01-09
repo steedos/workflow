@@ -255,21 +255,18 @@ billingManager.caculate_by_accounting_month = (accounting_month, space_id)->
 
 billingManager.special_pay = (space_id, module_names, total_fee, operator_id, end_date, user_count)->
 	space = db.spaces.findOne(space_id)
-	user_limit = 0
-	if space.is_paid
-		user_limit = space.user_limit + user_count
-	else
-		user_limit = user_count
+
+	user_limit = user_count
 
 	modules = space.modules || new Array
-	
+
 	new_modules = _.difference(module_names, modules)
 
 	m = moment()
 	now = m._d
 
 	space_update_obj = new Object
-	
+
 	# 更新space是否专业版的标记
 	if space.is_paid isnt true
 		space_update_obj.is_paid = true

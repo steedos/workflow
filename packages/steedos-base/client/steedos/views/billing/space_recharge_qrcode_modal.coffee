@@ -15,7 +15,8 @@ Template.space_recharge_qrcode_modal.onRendered ()->
 		changed: (newDoc, oldDoc)->
 			if oldDoc.paid is false and newDoc.paid is true
 				Modal.hide()
-				toastr.success("充值成功！","",{closeButton:true,timeOut:0})
+				$('#space_recharge_modal')?.modal('hide')
+				swal({title:'充值成功！', confirmButtonText: t("OK"), type: 'success'})
 
 	})
 	Meteor.subscribe 'billing_weixin_pay_code_url', code_url_id

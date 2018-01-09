@@ -72,7 +72,7 @@ Template.space_recharge_modal.events
 
 		if space.is_paid
 
-			balance = 0 
+			balance = 0
 			old_listprices = 0
 			remain_months = 0
 			old_end_date = space.end_date
@@ -121,7 +121,7 @@ Template.space_recharge_modal.events
 			if not user_count
 				toastr.warning "请填写用户数"
 				return
-		
+
 			if space_modules.length > 0 and listprices > 0 and user_count > 0 and months > 0
 				fee_value = listprices * user_count * months
 			else
@@ -133,11 +133,11 @@ Template.space_recharge_modal.events
 
 		total_fee = 100 * parseFloat(fee_value.toFixed(2))
 
-		new_id = db.billing_pay_records._makeNewID() 
+		new_id = db.billing_pay_records._makeNewID()
 
 		$("body").addClass("loading")
-
-		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), new_id, space_modules, end_date_str, user_count, (err, result)->
+		trade_type = if Meteor.isCordova then "APP" else "NATIVE"
+		Meteor.call 'billing_recharge', total_fee, Session.get('spaceId'), new_id, space_modules, end_date_str, user_count, trade_type, (err, result)->
 			if err
 				$("body").removeClass("loading")
 				console.log err
@@ -146,7 +146,12 @@ Template.space_recharge_modal.events
 				data = new Object
 				data._id = new_id
 				Modal.allowMultiple = true
-				Modal.show('space_recharge_qrcode_modal', data)
+				if Meteor.isCordova
+					data.detail = (_.pluck(db.modules.find({name:{$in:space_modules}}).fetch(), "name_zh")).join(',')
+					data.fee_value = fee_value.toFixed(2)
+					Modal.show('space_recharge_app_pay_modal', data)
+				else
+					Modal.show('space_recharge_qrcode_modal', data)
 
 	'change #space_recharge_modules input,#space_recharge_end_date': (event, template)->
 		console.log "1"
@@ -170,7 +175,7 @@ Template.space_recharge_modal.events
 			if checked
 				document.getElementById('workflow.standard').checked = true
 				document.getElementById('workflow.standard').disabled = "disabled"
-			else 
+			else
 				if modules and !modules.includes("workflow.standard")
 					document.getElementById('workflow.standard').disabled = ""
 				else if !modules
@@ -210,7 +215,7 @@ Template.space_recharge_modal.events
 
 		if space.is_paid
 			console.log "is_paid"
-			balance = 0 
+			balance = 0
 			old_listprices = 0
 			remain_months = 0
 			old_end_date = space.end_date

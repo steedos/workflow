@@ -279,6 +279,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/steedos/views/billing/space_recharge_modal.coffee', 'client');
 	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.html', 'client');
 	api.addFiles('client/steedos/views/billing/space_recharge_qrcode_modal.coffee', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_app_pay_modal.html', 'client');
+	api.addFiles('client/steedos/views/billing/space_recharge_app_pay_modal.coffee', 'client');
 
 	api.addFiles('client/layout/login_layout.html', "client");
 	api.addFiles('client/layout/login_layout.coffee', "client");
@@ -319,7 +321,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/layout/notFound_layout.less', 'client');
 
 	api.addFiles('client/autoupdate_cordova.coffee', 'web.cordova');
-	
+
 
 	api.export('Selector');
 	api.export('Steedos');
