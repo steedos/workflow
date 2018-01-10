@@ -47,7 +47,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 
 				i--
 
-			
+
 			if retrieve_type is 'normal'
 				# 获取一个flow
 				flow = uuflowManager.getFlow(instance.flow)
@@ -164,6 +164,11 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 						if user_id isnt current_user
 							pushManager.send_message_to_specifyUser("current_user", user_id)
 					)
+
+					ins = uuflowManager.getInstance(instance_id)
+					# 如果已经配置webhook并已激活则触发
+					pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
+
 			else if retrieve_type is 'cc'
 				setObj = new Object
 				now = new Date
@@ -191,6 +196,10 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				r = db.instances.update({_id: instance_id, 'traces._id': retrieve_approve.trace}, {$set: setObj})
 				if r
 					pushManager.send_message_current_user(current_user_info)
+
+				ins = uuflowManager.getInstance(instance_id)
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
 
 		JsonRoutes.sendResult res,
 			code: 200

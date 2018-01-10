@@ -270,6 +270,10 @@ SteedosTable.getThead = function(field, editable) {
 
     var sfields = fieldObj.sfields;
 
+    if(!sfields){
+    	return thead;
+	}
+
     var sf_length = sfields.length;
 
     if (sf_length > 0) {

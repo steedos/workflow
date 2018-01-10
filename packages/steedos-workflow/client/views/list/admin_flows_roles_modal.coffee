@@ -3,7 +3,7 @@ Template.admin_flows_roles_modal.onRendered ->
 Template.admin_flows_roles_modal.helpers
 	selector: ->
 		data = Template.instance().data
-		selector = 
+		selector =
 			space: data.space
 			role: data._id
 		return selector
@@ -23,11 +23,11 @@ Template.admin_flows_roles_modal.events
 
 	'click .add-positions': (event,template) ->
 		Session.set "position-action","add"
-		data = 
+		data =
 			role: Template.instance()?.data?._id
 		Modal.allowMultiple = true
 		Modal.show("admin_flows_roles_detail_modal",data)
-	
+
 	'click .save-role': (event,template) ->
 		roleName = AutoForm.getFieldValue("name","flowRoles")
 		if roleName
@@ -41,8 +41,8 @@ Template.admin_flows_roles_modal.events
 						if error
 							console.log error
 						else
-							toastr.success t("flow_roles_update_success")	
-							Modal.hide(template)	
+							toastr.success t("flow_roles_update_success")
+							Modal.hide(template)
 		else
 			toastr.error t("flow_roles_necessary")
 
@@ -63,5 +63,7 @@ Template.admin_flows_roles_modal.events
 					Modal.hide(template)
 					toastr.success t("flow_roles_delete_success")
 				else
-					toastr.error t(error.reason) 
-
+					if error.details and _.isObject error.details
+						toastr.error t(error.reason, error.details)
+					else
+						toastr.error t(error.reason)

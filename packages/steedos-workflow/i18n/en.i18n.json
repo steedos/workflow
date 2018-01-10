@@ -139,6 +139,10 @@
 	"node_office_filePath": "File: ",
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
+	"node_pdf_error": "Pdf signature failed, please re-sign!",
+	"node_pdf_sign_online": "Sign Online",
+	"node_pdf_message": "You are signing pdf file.",
+	"node_pdf_filePath": "File: ",
 
 	"workflow_export_thismonth": "Export requests this month",
 	"workflow_export_lastmonth": "Export requests last month",
@@ -210,6 +214,7 @@
 	"workflow_attach_to_pdf_message": "Convert '%s' to pdf format?",
 	"workflow_attach_upload": "Upload",
 	"workflow_attach_new": "New",
+	"workflow_attachment_signature": "Signature",
 
 	"workflow_select_an_app": "Steedos Apps",
 	"workflow_suggestion_placeholder": "Please fill in comments.",
@@ -644,5 +649,8 @@
 	"flow_list_title_set_distribute": "Set Distribute",
 	"distribute_to_self": "can distribute to self",
 
-	"instance_deleted": "Deleted"
+	"instance_deleted": "Deleted",
+
+	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow.",
+	"flow_roles_error_flows_used": "Role has been used by flows: __names__"
 }

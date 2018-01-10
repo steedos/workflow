@@ -83,7 +83,7 @@ Meteor.startup ()->
 			optional: true
 			autoform:
 				omit: true
-		mobile: 
+		mobile:
 			type: String,
 			optional: true,
 			autoform:
@@ -202,7 +202,7 @@ Meteor.startup ()->
 		db.space_users.updatevaildate = (userId, doc, modifier) ->
 			if doc.invite_state == "refused" or doc.invite_state == "pending"
 				throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
-			
+
 			space = db.spaces.findOne(doc.space)
 			if !space
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
@@ -218,7 +218,7 @@ Meteor.startup ()->
 			###
 
 			if space.admins.indexOf(userId) < 0
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId 
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -241,6 +241,8 @@ Meteor.startup ()->
 			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
 				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
+				# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
+				db.space_users.vaildateUserUsedByOther(doc)
 
 			if modifier.$set?.space
 				if modifier.$set.space != doc.space
@@ -275,6 +277,23 @@ Meteor.startup ()->
 				if repeatNumberUser and repeatNumberUser._id != doc.user
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 
+		db.space_users.vaildateUserUsedByOther = (doc)->
+			roleNames = []
+			_.each db.flow_positions.find({space: doc.space, users: doc.user},{fields: {users: 1, role: 1}}).fetch(), (p)->
+				if p.users.includes(doc.user)
+					role = db.flow_roles.findOne({_id: p.role},{fields: {name: 1}})
+					if role
+						roleNames.push role.name
+			if not _.isEmpty(roleNames)
+				throw new Meteor.Error 400, "space_users_error_roles_used", {names: roleNames.join(',')}
+
+			flowNames = []
+			_.each db.flows.find({space: doc.space}, {fields: {name: 1, 'current.steps': 1}}).fetch(), (f)->
+				_.each f.current.steps, (s)->
+					if s.deal_type is 'specifyUser' and s.approver_users.includes(doc.user)
+						flowNames.push f.name
+			if not _.isEmpty(flowNames)
+				throw new Meteor.Error 400, "space_users_error_flows_used", {names: _.uniq(flowNames).join(',')}
 
 		db.space_users.before.insert (userId, doc) ->
 			doc.created_by = userId;
@@ -332,7 +351,7 @@ Meteor.startup ()->
 
 					id = db.users._makeNewID()
 
-					options = 
+					options =
 						name: doc.name
 						locale: creator.locale
 						spaces_invited: [space._id]
@@ -341,7 +360,7 @@ Meteor.startup ()->
 
 					if doc.mobile
 						phoneNumber = currentUserPhonePrefix + doc.mobile
-						phone = 
+						phone =
 							number: phoneNumber
 							mobile: doc.mobile
 							verified: false
@@ -385,7 +404,7 @@ Meteor.startup ()->
 				unset.email = ""
 			if !user.email and user.emails
 				user.email = user.emails[0].address
-			
+
 			delete user._id
 			delete user.emails
 			if _.isEmpty unset
@@ -479,7 +498,7 @@ Meteor.startup ()->
 			newEmail = modifier.$set.email
 
 			# 当把邮箱设置为空值时，newEmail为undefined，modifier.$unset.email为空字符串
-			isEmailCleared = modifier.$unset?.email != undefined	
+			isEmailCleared = modifier.$unset?.email != undefined
 			if newEmail and newEmail != doc.email
 				emails = []
 				email_val = {
@@ -563,6 +582,9 @@ Meteor.startup ()->
 
 			if space.admins.indexOf(doc.user) > 0
 				throw new Meteor.Error(400,"space_users_error_remove_space_admins");
+
+			# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
+			db.space_users.vaildateUserUsedByOther(doc)
 
 
 		db.space_users.after.remove (userId, doc) ->

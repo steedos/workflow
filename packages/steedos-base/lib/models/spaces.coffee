@@ -270,7 +270,7 @@ if Meteor.isServer
 			return false;
 		user = db.users.findOne(space.owner)
 		if !user
-			reurn false
+			return false
 
 		if db.organizations.find({space: space_id}).count()>0
 			return;

@@ -47,7 +47,7 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg)
 			file.end();
 			
 			if (arg){
-				if (arg == "Steedos.User.isNewFile"){
+				if ((arg == "Steedos.User.isNewFile") || (arg == "Steedos.User.isSignature")){
 					// 正文上传
 					setTimeout(function() {
 						// NodeManager.setUploadRequests(filePath, filename, true);
@@ -180,7 +180,7 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg
 			file.end();
 			
 			if (arg){
-				if (arg == "Steedos.User.isNewFile"){
+				if ((arg == "Steedos.User.isNewFile") || (arg == "Steedos.User.isSignature")){
 					// 正文上传
 					setTimeout(function() {
 						$(document.body).removeClass('loading');

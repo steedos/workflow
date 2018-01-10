@@ -346,17 +346,19 @@ WorkflowManager_format.getAutoformSchema = function (steedosForm) {
 
             fieldSchema[field.code + ".$"] = {type: Object, label: label}
 
-            for (var si = 0; si < field.sfields.length; si++) {
+            if(field.sfields){
+				for (var si = 0; si < field.sfields.length; si++) {
 
-                var tableField = field.sfields[si];
+					var tableField = field.sfields[si];
 
-                label = (tableField.name != null && tableField.name.length > 0) ? tableField.name : tableField.code;
+					label = (tableField.name != null && tableField.name.length > 0) ? tableField.name : tableField.code;
 
-                tableField_schema = new s_schema(label, tableField);
+					tableField_schema = new s_schema(label, tableField);
 
-                fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
+					fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
 
-            }
+				}
+			}
 
         } else {
 

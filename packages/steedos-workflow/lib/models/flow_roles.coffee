@@ -2,14 +2,14 @@ db.flow_roles = new Meteor.Collection('flow_roles')
 
 
 db.flow_roles._simpleSchema = new SimpleSchema
-	space: 
+	space:
 		type: String,
 		optional: true,
-		autoform: 
+		autoform:
 			type: "hidden",
 			defaultValue: ->
 				return Session.get("spaceId");
-	name: 
+	name:
 		type: String,
 		max: 200
 
@@ -57,20 +57,31 @@ if Meteor.isServer
 
 		if (!Steedos.isSpaceAdmin(doc.space, userId))
 			throw new Meteor.Error(400, "error_space_admins_only");
-			
+
 		if db.flow_positions.find({role: doc._id}).count()>0
 			throw new Meteor.Error(400, "flow_roles_error_positions_exists");
+
+		# 如果岗位被流程引用，应该禁止删除 #1289
+		flowNames = []
+		roleId = doc._id
+		_.each db.flows.find({space: doc.space}, {fields: {name: 1, 'current.steps': 1}}).fetch(), (f)->
+			_.each f.current.steps, (s)->
+				if s.deal_type is 'applicantRole' and s.approver_roles.includes(roleId)
+					flowNames.push f.name
+
+		if not _.isEmpty(flowNames)
+			throw new Meteor.Error 400, "flow_roles_error_flows_used", {names: _.uniq(flowNames).join(',')}
 
 
 if Meteor.isClient
 
 	db.flow_roles._sortFunction = (doc1, doc2) ->
-		return doc1.name?.localeCompare(doc2.name); 
+		return doc1.name?.localeCompare(doc2.name);
 
 	db.flow_roles.before.find (userId, selector, options) ->
 		if !options
 			options = {}
-		options.sort = db.flow_roles._sortFunction 
+		options.sort = db.flow_roles._sortFunction
 
 if Meteor.isServer
 	db.flow_roles._ensureIndex({
