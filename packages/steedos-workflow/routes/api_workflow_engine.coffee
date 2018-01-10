@@ -59,35 +59,36 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			i = 0
 			while i < trace_approves.length
 				if trace_approves[i]._id is approve_id
-					trace_approves[i].geolocation = geolocation
+					key_str = "traces.$.approves." + i + "."
+					setObj[key_str + "geolocation"] = geolocation
 					if step_type is "condition"
 					else if step_type is "start" or step_type is "submit"
-						trace_approves[i].judge = "submitted"
-						trace_approves[i].description = description
+						setObj[key_str + "judge"] = "submitted"
+						setObj[key_str + "description"] = description
 					else if step_type is "sign" or step_type is "counterSign"
 						# 如果是会签并且前台没有显示核准驳回已阅的radio则给judge默认submitted
 						if step_type is "counterSign" and not judge
 							judge = 'submitted'
 						# 判断前台传的judge是否合法
 						uuflowManager.isJudgeLegal(judge)
-						trace_approves[i].judge = judge
-						trace_approves[i].description = description
+						setObj[key_str + "judge"] = judge
+						setObj[key_str + "description"] = description
 
-					trace_approves[i].next_steps = next_steps
-					trace_approves[i].is_read = true
-					if trace_approves[i].read_date is null
-						trace_approves[i].read_date = new Date
+					setObj[key_str + "next_steps"] = next_steps
+					setObj[key_str + "is_read"] = true
+					if not trace_approves[i].read_date
+						setObj[key_str + "read_date"] = new Date
 					# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
-					trace_approves[i].values = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
+					setObj[key_str + "values"] = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
 
+					# 更新instance记录
+					setObj.modified = new Date
+					setObj.modified_by = current_user
+					console.log setObj
+					db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 				i++
 
-			setObj["traces.$.approves"] = trace_approves
-			# 更新instance记录
-			setObj.modified = new Date
-			setObj.modified_by = current_user
 
-			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================
 			instance = uuflowManager.getInstance(instance_id)
 			# 防止此时的instance已经被处理
