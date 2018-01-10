@@ -1,9 +1,10 @@
 {
+  "lockfileVersion": 1,
   "dependencies": {
     "mkdirp": {
       "version": "0.3.5",
       "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz",
-      "from": "mkdirp@0.3.5"
+      "integrity": "sha1-3j5fiWHIjHh+4TaN+EmsRBPsqNc="
     }
   }
 }

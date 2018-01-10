@@ -1,19 +1,20 @@
 {
+  "lockfileVersion": 1,
   "dependencies": {
     "cookies": {
       "version": "0.6.1",
       "resolved": "https://registry.npmjs.org/cookies/-/cookies-0.6.1.tgz",
-      "from": "cookies@0.6.1"
+      "integrity": "sha1-72k7G8bwH1Z9RuL1BOnBX7cMupA="
     },
     "depd": {
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/depd/-/depd-1.1.0.tgz",
-      "from": "depd@>=1.1.0 <1.2.0"
+      "integrity": "sha1-4b2Cxqq2ztlluXuIsX7T5SjKGMM="
     },
     "keygrip": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/keygrip/-/keygrip-1.0.1.tgz",
-      "from": "keygrip@>=1.0.0 <1.1.0"
+      "integrity": "sha1-sC+kgW7vIajEs1yp5Skh/8iaMOk="
     }
   }
 }
