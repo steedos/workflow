@@ -671,5 +671,7 @@
 	"instance_deleted": "已删除",
 
 	"workflow_flow_state_disabled": "此申请单对应流程\"__name__\"已被禁用，如想正常修改及提交请联系管理员启用流程",
-	"flow_roles_error_flows_used": "已有以下流程使用此角色：__names__"
+	"flow_roles_error_flows_used": "已有以下流程使用此角色：__names__",
+	"instance_approve_not_yet_handled": "未处理",
+	"instance_approve_distribute_date_label": "分发时间"
 }

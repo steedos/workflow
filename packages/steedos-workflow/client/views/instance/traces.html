@@ -8,7 +8,7 @@
 
             <table class='table table-condensed traces'>
                 <tbody>
-                
+
                 {{#each this}}
                     {{#if firstTrace @index}}
                         {{#with last_distribute_from this.instance}}
@@ -45,20 +45,23 @@
                                     {{/if}}
                                 </td>
                                 {{#if unempty this.finish_date}}
-                                    <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                     {{#if isDistribute this}}
                                         {{#if judgeTerminated this.judge}}
-                                            <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span class="hidden-xs">{{getApproveStatusText this.judge}}</span></td>
+                                            <td class="finish-date"><span class='{{getApproveStatusIcon this.judge}}'></span>&nbsp;&nbsp;<span>{{getApproveStatusText this.judge}}</span></td>
                                         {{else}}
-                                            <td class="status {{this.judge}}"><span class="hidden-xs">{{getInstanceStateText this.forward_instance}}</span></td>
+                                            <td class="finish-date"><span class="{{getInstanceStateColor this.forward_instance}}">{{getInstanceStateText this.forward_instance}}</span></td>
                                         {{/if}}
+                                        <td class="status {{this.judge}}"></td>
                                     {{else}}
+                                        <td class="finish-date">{{dateFormat this.finish_date}}</td>
                                         <td class="status {{this.judge}}"><span class='{{getApproveStatusIcon this.judge}}'></span><span class="hidden-xs">&nbsp;&nbsp;{{getApproveStatusText this.judge}}</span></td>
                                     {{/if}}
                                 {{else}}
                                     <td class="finish-date">
                                         {{#if this.is_read}}
-                                            {{_t "instance_approve_read"}}
+                                            <span class='blue'>{{_t "instance_approve_read"}}</span>
+                                        {{else}}
+                                            <span class='red'>{{_t "instance_approve_not_yet_handled"}}</span>
                                         {{/if}}
                                     </td>
                                     {{#if isCC this}}
