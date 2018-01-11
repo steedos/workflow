@@ -644,5 +644,8 @@
 	"flow_list_title_set_distribute": "Set Distribute",
 	"distribute_to_self": "can distribute to self",
 
-	"instance_deleted": "Deleted"
+	"instance_deleted": "Deleted",
+
+	"instance_approve_not_yet_handled": "Not yet handled",
+	"instance_approve_distribute_date_label": "Distribute date"
 }

@@ -663,5 +663,8 @@
 	"flow_list_title_set_distribute": "设置分发",
 	"distribute_to_self": "分发时可分发给自己",
 
-	"instance_deleted": "已删除"
+	"instance_deleted": "已删除",
+
+	"instance_approve_not_yet_handled": "未处理",
+	"instance_approve_distribute_date_label": "分发时间"
 }

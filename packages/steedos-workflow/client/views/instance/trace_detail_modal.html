@@ -80,7 +80,7 @@
 										<span class="weui-input ">{{markDownToHtml this.description}}</span>
 									{{/if}}
 								</div>
-							</div>  
+							</div>
 						{{/if}}
 					{{else}}
 						{{#if (unempty (myApproveDescription this._id))}}
@@ -94,30 +94,42 @@
 							</div>
 						{{/if}}
 					{{/if}}
-					<div class="weui-cell">
-						<div class="weui-cell__hd">
-							<span class="weui-label">{{_t "instance_approve_start_date_label"}}</span>
-						</div>
-						<div class="weui-cell__bd weui-cell_primary text-muted">
-							<span class="weui-input">{{dateFormat this.start_date}}</span>
-						</div>
-					</div>
-					{{#if unempty this.finish_date}}
+					{{#if isDistribute this}}
 						<div class="weui-cell">
 							<div class="weui-cell__hd">
-								<span class="weui-label">{{_t "instance_approve_finish_date_label"}}</span>
+								<span class="weui-label">{{_t "instance_approve_distribute_date_label"}}</span>
 							</div>
 							<div class="weui-cell__bd weui-cell_primary text-muted">
-								{{#if isEditing this}}
-									{{#autoForm id='finishDateAutoForm' schema=finishDateSchema doc=finishDateValues }}
-										{{> afFieldInput id="finish_input" name="finish_date"}}
-									{{/autoForm}}
-								{{else}}
-									<span class="weui-input">{{dateFormat this.finish_date}}</span>
-								{{/if}}
+								<span class="weui-input">{{dateFormat this.start_date}}</span>
 							</div>
 						</div>
+					{{else}}
+						<div class="weui-cell">
+							<div class="weui-cell__hd">
+								<span class="weui-label">{{_t "instance_approve_start_date_label"}}</span>
+							</div>
+							<div class="weui-cell__bd weui-cell_primary text-muted">
+								<span class="weui-input">{{dateFormat this.start_date}}</span>
+							</div>
+						</div>
+						{{#if unempty this.finish_date}}
+							<div class="weui-cell">
+								<div class="weui-cell__hd">
+									<span class="weui-label">{{_t "instance_approve_finish_date_label"}}</span>
+								</div>
+								<div class="weui-cell__bd weui-cell_primary text-muted">
+									{{#if isEditing this}}
+										{{#autoForm id='finishDateAutoForm' schema=finishDateSchema doc=finishDateValues }}
+											{{> afFieldInput id="finish_input" name="finish_date"}}
+										{{/autoForm}}
+									{{else}}
+										<span class="weui-input">{{dateFormat this.finish_date}}</span>
+									{{/if}}
+								</div>
+							</div>
+						{{/if}}
 					{{/if}}
+
 					{{#unless this.is_finished}}
 						<div class="weui-cell">
 							<div class="weui-cell__hd">
@@ -133,7 +145,7 @@
 								</span>
 							</div>
 						</div>
-						
+
 					{{/unless}}
 					{{#if isForward this}}
 						{{#unless judgeTerminated this.judge}}
