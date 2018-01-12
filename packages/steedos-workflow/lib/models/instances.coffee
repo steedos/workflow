@@ -276,7 +276,3 @@ if Meteor.isServer
 		"traces.approves.type": 1,
 		"traces.approves.handler": 1
 	},{background: true})
-
-	db.instances._ensureIndex({
-		"auto_remind": 1
-	},{background: true})
