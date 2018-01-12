@@ -6,7 +6,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
 			instance = uuflowManager.getInstance(instance_from_client["_id"])
-			
+
 			last_trace = _.last(instance.traces)
 
 			# 验证login user_id对该流程有管理申请单的权限
@@ -171,7 +171,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 			else
 				r = db.instances.update({_id: instance_id}, {$set: setObj, $unset: {finish_date: 1}})
-			
+
 			if r
 				ins = uuflowManager.getInstance(instance_id)
 				# 给被删除的inbox_users 和 当前用户 发送push
@@ -192,6 +192,9 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				# 给新加入的inbox_users发送push message
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, relocate_comment, current_user_info)
 
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'relocate')
+
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {}
@@ -200,5 +203,3 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {errors: [{errorMessage: e.message}]}
-	
-		

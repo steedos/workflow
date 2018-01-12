@@ -36,7 +36,7 @@ uuflowManager.getSpaceUser = (space_id, user_id) ->
 uuflowManager.getFlow = (flow_id) ->
 	flow = db.flows.findOne(flow_id)
 	if not flow
-		throw new Meteor.Error('error!', "flow_id有误或此flow已经被删除")
+		throw new Meteor.Error('error!', "id有误或此流程已经被删除")
 	return flow
 
 uuflowManager.getSpaceUserOrgInfo = (space_user) ->
@@ -2288,3 +2288,4 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
 							require_but_empty_fields.push s_field.name || s_field.code
 
 	return require_but_empty_fields
+

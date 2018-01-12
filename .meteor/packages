@@ -13,7 +13,7 @@ blaze-html-templates@1.0.4
 check@1.2.3
 coffeescript@1.11.1_4
 ddp-rate-limiter@1.0.5
-ecmascript@0.6.3 
+ecmascript@0.6.3
 ejson@1.0.12
 email@1.1.17
 fastclick@1.0.12
@@ -72,7 +72,7 @@ steedos:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform
-steedos:autoform-bs-datetimepicker 
+steedos:autoform-bs-datetimepicker
 
 gwendall:simple-schema-i18n
 
@@ -179,3 +179,6 @@ steedos:authenticate-user-by-access-token
 steedos:authenticate-user-by-auth-token
 
 steedos:huaweipush
+
+steedos:e164-phones-countries
+steedos:i18n-iso-countries

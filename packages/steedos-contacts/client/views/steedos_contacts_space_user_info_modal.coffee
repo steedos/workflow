@@ -46,6 +46,12 @@ Template.steedos_contacts_space_user_info_modal.helpers
 			return true
 		else
 			return false
+	
+	isDeletable: ->
+		if Steedos.isSpaceAdmin()
+			return true
+		else
+			return false
 
 	username: () ->
 		return Template.instance().username?.get()

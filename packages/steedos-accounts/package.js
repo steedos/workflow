@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:accounts',
-	version: '0.0.26',
+	version: '0.0.27',
 	summary: 'Steedos Accounts',
 	git: '',
 	documentation: null
@@ -33,13 +33,15 @@ Package.onUse(function(api) {
 
 	api.use('accounts-password@1.3.0');
 
+	api.use('steedos:e164-phones-countries@1.0.3');
+	api.use('steedos:i18n-iso-countries@3.3.0');
 	api.use('steedos:accounts-t9n@1.14.2_6');
 	api.use('steedos:useraccounts-bootstrap@1.14.2_5');
 	api.use('steedos:useraccounts-core@1.14.2_4');
 	api.use('steedos:useraccounts-flow-routing@1.14.2_4');
 	api.use('steedos:accounts-phone@0.0.3');
 
-	api.use('steedos:base@0.0.69');
+	api.use('steedos:base@0.0.71');
 
 
 

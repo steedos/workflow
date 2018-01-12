@@ -35,7 +35,7 @@ Meteor.methods
 				if approve._id == approveId
 					setObj["traces.$.approves.#{idx}.description"] = description
 					setObj["traces.$.approves.#{idx}.finish_date"] = finish_date
-					setObj["traces.$.approves.#{idx}.cost_time"] = approve.finish_date - approve.start_date
+					setObj["traces.$.approves.#{idx}.cost_time"] = new Date() - approve.start_date
 					setObj["traces.$.approves.#{idx}.read_date"] = new Date()
 
 			if not _.isEmpty(setObj)

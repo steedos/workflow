@@ -4,7 +4,13 @@
 JsonRoutes.add 'post', '/api/webhook/notification/wenshu', (req, res, next) ->
 	try
 		hashData = req.body
-		
+
+		if hashData.action isnt 'engine_submit'
+			JsonRoutes.sendResult res,
+					code: 200
+					data: {}
+			return
+
 		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
 			throw new Meteor.Error('error', '不具备hook执行条件')
 
@@ -57,5 +63,3 @@ JsonRoutes.add 'post', '/api/webhook/notification/wenshu', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 500
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

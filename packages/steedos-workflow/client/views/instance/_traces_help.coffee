@@ -146,8 +146,17 @@ TracesTemplate.helpers =
 	showDistributeDeleteButton: (approve) ->
 		if db.instances.find(approve.forward_instance).count() is 0
 			return false
-		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated' and Steedos.isLegalVersion('',"workflow.enterprise")
-			return true
+
+		if approve and approve.type == 'distribute' and !Session.get("instancePrint") and approve.judge isnt 'terminated' and Steedos.isLegalVersion('',"workflow.enterprise")
+			# 流程管理员和系统管理员，可以执行任何情况下的文件取消分发
+			ins = db.instances.findOne({_id: approve.instance}, {fields: {flow: 1, space: 1}})
+			if ins and ins.flow and ins.space
+				if WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, Meteor.userId())
+					return true
+			
+			if approve.from_user == Meteor.userId()
+				return true
+
 		false
 
 	finishDateSchema: () ->
@@ -207,7 +216,7 @@ TracesTemplate.helpers =
 			locale = Session.get("TAPi18n::loaded_lang")
 
 		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
-		if not ins 
+		if not ins
 			return TAPi18n.__('instance_deleted', {}, locale)
 
 		text = ''
@@ -218,8 +227,23 @@ TracesTemplate.helpers =
 		else if ins.state is 'draft'
 			if ins.is_read
 				text = TAPi18n.__('instance_approve_read', {}, locale)
+			else
+				text = TAPi18n.__('instance_approve_not_yet_handled', {}, locale)
 
 		return text
+
+	getInstanceStateColor: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
+		if not ins
+			return ""
+
+		cla = ''
+		if ins.state is 'draft'
+			if ins.is_read
+				cla = 'blue'
+			else
+				cla = 'red'
+		return cla
 
 	firstTrace: (index)->
 		return index is 0
@@ -345,9 +369,9 @@ TracesTemplate.events =
 				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
 				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
 					$(".modal-body").scrollTop(100)
-	
+
 	'click .btn-cancelBut' : (event, template) ->
-		
+
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->

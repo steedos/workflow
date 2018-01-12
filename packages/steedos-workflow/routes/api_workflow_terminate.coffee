@@ -43,7 +43,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 			if permissions.includes("admin") or space.admins.includes(current_user) or instance.submitter is current_user or instance.applicant is current_user
 				if not terminate_reason
 					throw new Meteor.Error('error!',"还未填写强制结束申请单的理由，操作失败")
-				
+
 				instance_trace = _.find(instance.traces, (trace)->
 					return trace.is_finished is false
 				)
@@ -76,7 +76,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 						newApprove.handler_name = current_user_info.name
 						newApprove.handler_organization = space_user_org_info["organization"]
 						newApprove.handler_organization_name = space_user_org_info["organization_name"]
-						newApprove.handler_organization_fullname = space_user_org_info["organization_fullname"] 
+						newApprove.handler_organization_fullname = space_user_org_info["organization_fullname"]
 						newApprove.start_date = now
 						newApprove.finish_date = now
 						newApprove.due_date = instance_trace.due_date
@@ -89,7 +89,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 						newApprove.cost_time = newApprove.finish_date - newApprove.start_date
 						traces[i].approves.push(newApprove)
 					i++
-	
+
 				# 插入下一步trace记录
 				newTrace = new Object
 				newTrace._id = new Mongo.ObjectID()._str
@@ -136,6 +136,9 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 							pushManager.send_message_to_specifyUser("terminate_approval", user_id)
 						)
 
+					# 如果已经配置webhook并已激活则触发
+					pushManager.triggerWebhook(ins.flow, ins, {}, 'terminate')
+
 		#发送消息给当前用户
 		pushManager.send_message_current_user(current_user_info)
 		JsonRoutes.sendResult res,
@@ -146,5 +149,3 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

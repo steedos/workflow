@@ -33,6 +33,10 @@ Meteor.methods
 
 		errorList = []
 
+		currentUser = db.users.findOne({_id: _self.userId},{fields:{locale:1,phone:1}})
+		currentUserLocale = currentUser.locale
+		currentUserPhonePrefix = Accounts.getPhonePrefix currentUser
+
 		# 数据统一校验
 
 		data.forEach (item, i)->
@@ -73,7 +77,7 @@ Meteor.methods
 			if item.email
 				selector.push {"emails.address": item.email}
 			if item.phone
-				phoneNumber = "+86" + item.phone
+				phoneNumber = currentUserPhonePrefix + item.phone
 				selector.push {"phone.number": phoneNumber}
 
 			userExist = db.users.find({$or: selector})
@@ -131,7 +135,7 @@ Meteor.methods
 				if item.email
 					selector.push {"emails.address": item.email}
 				if item.phone
-					phoneNumber = "+86" + item.phone
+					phoneNumber = currentUserPhonePrefix + item.phone
 					selector.push {"phone.number": phoneNumber}
 				userExist = db.users.find({$or: selector})
 				if userExist.count() > 1
@@ -186,7 +190,7 @@ Meteor.methods
 					udoc = {}
 					udoc._id = db.users._makeNewID()
 					udoc.steedos_id = item.email || udoc._id
-					udoc.locale = db.users.findOne({_id: _self.userId}).locale
+					udoc.locale = currentUserLocale
 					udoc.spaces_invited = [space_id]
 					if item.name
 						udoc.name = item.name
@@ -199,7 +203,8 @@ Meteor.methods
 
 					if item.phone
 						udoc.phone = {
-							number: "+86" + item.phone
+							number: currentUserPhonePrefix + item.phone
+							mobile: item.phone
 							verified: false
 							modified: now
 						}

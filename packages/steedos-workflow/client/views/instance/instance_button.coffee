@@ -107,7 +107,7 @@ Template.instance_button.helpers
 		if !ins
 			return false
 		# 文件结束后，不可以再传阅，也不用再催办。
-		if InstanceManager.isInbox() && ins.state is "pending" 
+		if InstanceManager.isInbox() && ins.state is "pending"
 			if InstanceManager.isCC(ins)
 				return true
 			else
@@ -161,7 +161,7 @@ Template.instance_button.helpers
 		cs = InstanceManager.getCurrentStep()
 		if _.isEmpty(cs)
 			return false
-		if cs.step_type is "submit" or cs.step_type is "sign"
+		if cs.step_type is "submit" or cs.step_type is "sign" or cs.step_type is "counterSign"
 			return true
 
 		return false
@@ -202,7 +202,7 @@ Template.instance_button.helpers
 			cs = InstanceManager.getCurrentStep()
 			if cs && (cs.allowDistribute is true)
 				return true
-		
+
 		return false
 
 	enabled_retrieve: ->
@@ -334,6 +334,10 @@ Template.instance_button.helpers
 		if !ins
 			return false
 
+		flow = db.flows.findOne({_id: ins.flow}, {fields: {state: 1}})
+		if flow and flow.state is 'disabled'
+			return false
+
 		if InstanceManager.isInbox() || Session.get('box') is "draft"
 			return true
 
@@ -432,7 +436,7 @@ Template.instance_button.events
 			sweetAlert.close();
 
 	'click .btn-instance-reassign': (event, template) ->
-		
+
 		Modal.show('reassign_modal')
 
 	'click .btn-instance-relocate': (event, template) ->
@@ -472,11 +476,11 @@ Template.instance_button.events
 				return
 
 	'click .btn-instance-forward': (event, template) ->
-		
+
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
 
 	'click .btn-instance-distribute': (event, template) ->
-		
+
 		Modal.show("forward_select_flow_modal", {action_type:"distribute"})
 
 	'click .btn-instance-retrieve': (event, template) ->
@@ -594,4 +598,3 @@ Template.instance_button.events
 					return
 
 		$('#instance_submit').trigger('click')
-

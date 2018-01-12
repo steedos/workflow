@@ -117,12 +117,16 @@ WorkflowManager.getInstanceFormVersion = function() {
 				field['permission'] = field_permission[field.code] == 'editable' ? 'editable' : 'readonly';
 				if (field.type == 'table') {
 					field['sfields'] = field['fields']
-					field['sfields'].forEach(function(sf) {
-						sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
-						if (sf["permission"] == 'editable') {
-							field['permission'] = 'editable';
-						}
-					});
+					if(field['sfields']){
+						field['sfields'].forEach(function(sf) {
+							sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
+							if (sf["permission"] == 'editable') {
+								field['permission'] = 'editable';
+							}
+						});
+					}else{
+						console.error("子表：" + field.code + " 没有字段");
+					}
 					// 因为这个程序会傻傻的执行很多遍，所以不能删除
 					delete field['fields']
 				}
@@ -851,4 +855,53 @@ if (Meteor.isClient) {
 		}
 		return reName;
 	}
+}
+
+// 工作区管理员和流程管理员拥有流程的管理权限
+WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
+	var space = db.spaces.findOne(space_id);
+
+	if (!space)
+		return false;
+
+	if (space.admins && space.admins.includes(user_id))
+		return true;
+
+	var hasPermission = false;
+
+	var space_user = db.space_users.findOne({
+		space: space_id,
+		user: user_id
+	}, {
+		fields: {
+			organizations: 1,
+			user: 1
+		}
+	})
+	if (space_user) {
+		var organizations = db.organizations.find({
+			_id: {
+				$in: space_user.organizations
+			}
+		}, {
+			fields: {
+				parents: 1
+			}
+		}).fetch()
+
+		var fl = db.flows.findOne({
+			_id: flow_id
+		}, {
+			fields: {
+				perms: 1
+			}
+		})
+
+		if (fl && organizations) {
+			hasPermission = WorkflowManager.canAdmin(fl, space_user, organizations);
+		}
+	}
+
+	return hasPermission;
+
 }
