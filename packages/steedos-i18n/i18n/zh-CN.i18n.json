@@ -532,5 +532,8 @@
 	"pay_records": "购买记录",
 	"workflow_designer_use_pc": "请在PC端打开",
 
-	"customize_apps": "企业应用"
+	"customize_apps": "企业应用",
+
+	"space_users_error_roles_used": "已有角色指定该用户：__names__",
+	"space_users_error_flows_used": "已有流程指定该用户为处理人：__names__"
 }

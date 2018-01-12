@@ -58,7 +58,7 @@ if Meteor.isClient
 		Session.set('admin_collection_page', 'new');
 		Session.set('admin_collection_name', collectionName);
 		Modal.show("AdminDashboardNewModal", doc)
-		
+
 		$('#admin_new').on('hidden.bs.modal', (e) ->
 			if callback
 				callback()
@@ -95,15 +95,17 @@ if Meteor.isClient
 			Meteor.call 'adminRemoveDoc', collectionName, id, (error, r)->
 				if error
 					if error.reason
-						toastr.error TAPi18n.__ error.reason
+						if _.isObject(error.details)
+							toastr.error TAPi18n.__(error.reason, error.details)
+						else
+							toastr.error TAPi18n.__ error.reason
 					else
 						toastr.error error
 				else
-					swal 
+					swal
 						title: TAPi18n.__("Delete"),
 						text: TAPi18n.__("flow_db_admin_successfully_deleted"),
 						type: "success",
 						confirmButtonText: TAPi18n.__("OK")
 					if callback
 						callback()
-

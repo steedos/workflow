@@ -83,7 +83,7 @@ Meteor.startup ()->
 			optional: true
 			autoform:
 				omit: true
-		mobile: 
+		mobile:
 			type: String,
 			optional: true,
 			autoform:
@@ -169,7 +169,9 @@ Meteor.startup ()->
 			if doc.email
 				selector.push("emails.address": doc.email)
 			if doc.mobile
-				phoneNumber = "+86" + doc.mobile
+				# 新建用户时，用当前创建人的手机号前缀去搜索查找是否手机号重复
+				currentUserPhonePrefix = Accounts.getPhonePrefix userId
+				phoneNumber = currentUserPhonePrefix + doc.mobile
 				selector.push("phone.number": phoneNumber)
 
 			userExist = db.users.find({$or: selector})
@@ -200,7 +202,7 @@ Meteor.startup ()->
 		db.space_users.updatevaildate = (userId, doc, modifier) ->
 			if doc.invite_state == "refused" or doc.invite_state == "pending"
 				throw new Meteor.Error(400, "该用户还未接受加入工作区，不能修改他的个人信息")
-			
+
 			space = db.spaces.findOne(doc.space)
 			if !space
 				throw new Meteor.Error(400, "organizations_error_org_admins_only")
@@ -216,7 +218,7 @@ Meteor.startup ()->
 			###
 
 			if space.admins.indexOf(userId) < 0
-				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId 
+				isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
 				unless isOrgAdmin
 					throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
@@ -239,6 +241,8 @@ Meteor.startup ()->
 			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
 				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
+				# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
+				db.space_users.vaildateUserUsedByOther(doc)
 
 			if modifier.$set?.space
 				if modifier.$set.space != doc.space
@@ -263,14 +267,33 @@ Meteor.startup ()->
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 
+			# 修改用户时，用被修改人之前的手机号前缀去搜索查找是否手机号重复
+			currentUserPhonePrefix = Accounts.getPhonePrefix doc.user
 			if modifier.$set?.mobile and modifier.$set.mobile != doc.mobile
-				phoneNumber = "+86" + modifier.$set.mobile
+				phoneNumber = currentUserPhonePrefix + modifier.$set.mobile
 				if db.users.findOne({_id: doc.user, "phone.verified": true})
 					throw new Meteor.Error(400, "用户已验证手机，不能修改")
 				repeatNumberUser = db.users.findOne({"phone.number": phoneNumber})
 				if repeatNumberUser and repeatNumberUser._id != doc.user
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 
+		db.space_users.vaildateUserUsedByOther = (doc)->
+			roleNames = []
+			_.each db.flow_positions.find({space: doc.space, users: doc.user},{fields: {users: 1, role: 1}}).fetch(), (p)->
+				if p.users.includes(doc.user)
+					role = db.flow_roles.findOne({_id: p.role},{fields: {name: 1}})
+					if role
+						roleNames.push role.name
+			if not _.isEmpty(roleNames)
+				throw new Meteor.Error 400, "space_users_error_roles_used", {names: roleNames.join(',')}
+
+			flowNames = []
+			_.each db.flows.find({space: doc.space}, {fields: {name: 1, 'current.steps': 1}}).fetch(), (f)->
+				_.each f.current.steps, (s)->
+					if s.deal_type is 'specifyUser' and s.approver_users.includes(doc.user)
+						flowNames.push f.name
+			if not _.isEmpty(flowNames)
+				throw new Meteor.Error 400, "space_users_error_flows_used", {names: _.uniq(flowNames).join(',')}
 
 		db.space_users.before.insert (userId, doc) ->
 			doc.created_by = userId;
@@ -288,8 +311,10 @@ Meteor.startup ()->
 			# console.log JSON.stringify(userObj)
 
 			if (!doc.user) && (doc.email || doc.mobile)
+				# 新建用户时，用户的手机号前缀用当前创建人的手机号前缀
+				currentUserPhonePrefix = Accounts.getPhonePrefix userId
 				if doc.email && doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
 					userObjs = db.users.find({
 						$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
 					}).fetch()
@@ -301,7 +326,7 @@ Meteor.startup ()->
 				else if doc.email
 					userObj = db.users.findOne({"emails.address": doc.email})
 				else if doc.mobile
-					phoneNumber = "+86" + doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
 					userObj = db.users.findOne({"phone.number": phoneNumber})
 
 				if (userObj)
@@ -326,7 +351,7 @@ Meteor.startup ()->
 
 					id = db.users._makeNewID()
 
-					options = 
+					options =
 						name: doc.name
 						locale: creator.locale
 						spaces_invited: [space._id]
@@ -334,9 +359,10 @@ Meteor.startup ()->
 						steedos_id: doc.email || id
 
 					if doc.mobile
-						phoneNumber = "+86" + doc.mobile
-						phone = 
+						phoneNumber = currentUserPhonePrefix + doc.mobile
+						phone =
 							number: phoneNumber
+							mobile: doc.mobile
 							verified: false
 							modified: new Date()
 						options.phone = phone
@@ -372,13 +398,13 @@ Meteor.startup ()->
 			unless user.phone
 				unset.mobile = ""
 			if !user.mobile and user.phone
-				user.mobile = user.phone.number?.substring(3)
+				user.mobile = user.phone.mobile
 
 			unless user.emails
 				unset.email = ""
 			if !user.email and user.emails
 				user.email = user.emails[0].address
-			
+
 			delete user._id
 			delete user.emails
 			if _.isEmpty unset
@@ -410,13 +436,15 @@ Meteor.startup ()->
 					# 支持手机号短信相关功能时，不可以直接修改user的mobile字段，因为只有验证通过的时候才能更新user的mobile字段
 					# 而用户手机号验证通过后会走db.users.before.update逻辑来把mobile字段同步为phone.number值
 					# 系统中除了验证验证码外，所有发送短信相关都是直接用的mobile字段，而不是phone.number字段
-					number = "+86" + newMobile
+					# 修改用户时，保留用户被修改人之前的手机号前缀
+					currentUserPhonePrefix = Accounts.getPhonePrefix doc.user
+					number = currentUserPhonePrefix + newMobile
 					user_set = {}
 					user_set.phone = {}
 					# 因为只有验证通过的时候才能更新user的mobile字段，所以这里不可以直接修改user的mobile字段
 					# user_set.mobile = newMobile
-					# 目前只考虑国内手机
 					user_set.phone.number = number
+					user_set.phone.mobile = newMobile
 					# 变更手机号设置verified为false，以让用户重新验证手机号
 					user_set.phone.verified = false
 					user_set.phone.modified = new Date()
@@ -470,7 +498,7 @@ Meteor.startup ()->
 			newEmail = modifier.$set.email
 
 			# 当把邮箱设置为空值时，newEmail为undefined，modifier.$unset.email为空字符串
-			isEmailCleared = modifier.$unset?.email != undefined	
+			isEmailCleared = modifier.$unset?.email != undefined
 			if newEmail and newEmail != doc.email
 				emails = []
 				email_val = {
@@ -554,6 +582,9 @@ Meteor.startup ()->
 
 			if space.admins.indexOf(doc.user) > 0
 				throw new Meteor.Error(400,"space_users_error_remove_space_admins");
+
+			# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
+			db.space_users.vaildateUserUsedByOther(doc)
 
 
 		db.space_users.after.remove (userId, doc) ->

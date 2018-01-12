@@ -467,7 +467,7 @@
 	"steedos_desktop_confirm": "Confirm",
 	"steedos_desktop_cancel": "Cancel",
 	"steedos_desktop_update_info": "The current client version is too old, please download and install the latest client!",
-	"steedos_desktop_edit_office_info":"You are editing office document, please close and then open the other instance!",
+	"steedos_desktop_edit_office_info": "You are editing office document, please close and then open the other instance!",
 	"steedos_desktop_edit_warning": "The current document has been unlocked by the administrator, please edit and upload again!",
 
 	"billing": {
@@ -514,5 +514,8 @@
 	"pay_records": "Pay Records",
 	"workflow_designer_use_pc": "Please user this function on pc",
 
-	"customize_apps": "Apps"
+	"customize_apps": "Apps",
+
+	"space_users_error_roles_used": "User has been used by roles：__names__",
+	"space_users_error_flows_used": "User has been used by flows：__names__"
 }

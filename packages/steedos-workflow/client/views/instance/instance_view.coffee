@@ -105,7 +105,7 @@ Template.instance_view.helpers
 
 	notDistributeAndDraft: (state)->
 		ins = WorkflowManager.getInstance()
-		if ins 
+		if ins
 			if state is 'draft' and !ins.distribute_from_instance
 				return false
 
@@ -177,6 +177,15 @@ Template.instance_view.onRendered ->
 
 	$("body").removeClass("loading")
 
+    # 如果申请单对应的流程已被禁用则提示用户
+	flow = db.flows.findOne(ins.flow)
+	if flow and flow.state is 'disabled'
+		swal({
+			title: t('workflow_flow_state_disabled', {name: flow.name}),
+			confirmButtonText: t("OK"),
+			type: 'warning'
+		})
+
 Template.instance_view.onDestroyed ->
 	Session.set("instance_next_user_recalculate", null)
 	Steedos.subs["instance_data"].clear()
@@ -240,12 +249,12 @@ Template.instance_view.events
 		if main_attach_count >= 1
 			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
 			return
-		
+
 		arg = "Steedos.User.isNewFile"
-		
+
 		# 默认文件名为文件标题
 		newFileName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"") + '.doc'
-		
+
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
@@ -276,4 +285,3 @@ Template.instance_view.events
 
 	'change #nextStepUsers': (event, template)->
 		InstanceManager.checkNextStepUser()
-		

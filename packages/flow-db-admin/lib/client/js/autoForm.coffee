@@ -88,6 +88,9 @@ AutoForm.hooks
 		onError: (formType, error)->
 			# 判断错误类型
 			if error.error
-				toastr.error TAPi18n.__ error.reason
+				if _.isObject(error.details)
+					toastr.error TAPi18n.__(error.reason, error.details)
+				else
+					toastr.error TAPi18n.__ error.reason
 			else
 				toastr.error TAPi18n.__ error.message
