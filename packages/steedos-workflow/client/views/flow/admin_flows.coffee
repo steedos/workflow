@@ -141,5 +141,10 @@ Template.admin_flows.events
 #		else
 #			filter.removeClass("enabled")
 
+	'click .flow-switch-input-enable-auto-remind': (event)->
+		# 自动催办是企业版功能
+		if Steedos.isLegalVersion('',"workflow.enterprise")
+			db.flows.update({_id:event.currentTarget.dataset.id},{$set:{auto_remind: event.currentTarget.checked}})
+
 Template.admin_flows.onDestroyed ->
 	Session.set("filter_state", null)

@@ -36,13 +36,13 @@ if Meteor.isServer
 
 
 db.flows._simpleSchema = new SimpleSchema
-	space: 
+	space:
 		type: String,
-		autoform: 
+		autoform:
 			type: "hidden",
 			defaultValue: ->
 				return Session.get("spaceId");
-	name: 
+	name:
 		type: String
 
 	print_template:
@@ -167,7 +167,7 @@ db.flows._simpleSchema = new SimpleSchema
 	events:
 		type: String
 		optional: true
-		autoform: 
+		autoform:
 			rows: 20
 
 	field_map:
@@ -195,6 +195,12 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	auto_remind:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
 
@@ -214,7 +220,7 @@ if Meteor.isServer
 
 		remove: (userId, event) ->
 			return false
-	
+
 	db.flows.before.insert (userId, doc) ->
 		doc.created_by = userId;
 		doc.created = new Date();
@@ -223,7 +229,7 @@ if Meteor.isServer
 			throw new Meteor.Error(400, "error_space_admins_only");
 
 	db.flows.before.update (userId, doc, fieldNames, modifier, options) ->
-	
+
 		modifier.$set = modifier.$set || {};
 
 		if !modifier.$set.current
@@ -317,6 +323,26 @@ new Tabular.Table
 							<div class="flow-list-switch">
 								<label for="switch_#{doc._id}" class="weui-switch-cp">
 									<input id="switch_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input" type="checkbox" #{checked}>
+									<div class="weui-switch-cp__box"></div>
+								</label>
+							</div>
+						"""
+		},
+		{
+			data: "auto_remind",
+			width: "150px",
+			orderable: false,
+			render: (val, type, doc)->
+
+				checked = "";
+
+				if doc.auto_remind is true
+					checked = "checked"
+
+				return """
+							<div class="flow-list-switch">
+								<label for="switch_auto_remind_#{doc._id}" class="weui-switch-cp">
+									<input id="switch_auto_remind_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input-enable-auto-remind" type="checkbox" #{checked}>
 									<div class="weui-switch-cp__box"></div>
 								</label>
 							</div>

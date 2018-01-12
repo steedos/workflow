@@ -320,6 +320,9 @@ Meteor.methods({
 			trace_obj.approves = [appr_obj];
 			ins_obj.traces = [trace_obj];
 
+			if (flow.auto_remind == true)
+				ins_obj.auto_remind = true;
+
 			new_ins_id = db.instances.insert(ins_obj);
 
 			// 复制附件
