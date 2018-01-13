@@ -4,7 +4,13 @@
 JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 	try
 		hashData = req.body
-		
+
+		if hashData.action isnt 'engine_submit' and hashData.action isnt 'cc_do'
+			JsonRoutes.sendResult res,
+					code: 200
+					data: {}
+			return
+
 		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
 			throw new Meteor.Error('error', '不具备hook执行条件')
 
@@ -36,7 +42,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 						lang = 'en'
 						if user.locale is 'zh-cn'
 							lang = 'zh-CN'
-						
+
 						# 发送手机短信
 						SMSQueue.send({
 								Format: 'JSON',
@@ -56,5 +62,3 @@ JsonRoutes.add 'post', '/api/webhook/notify/cc/steps', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 500
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

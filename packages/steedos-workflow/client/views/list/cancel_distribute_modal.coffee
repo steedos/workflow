@@ -3,13 +3,18 @@ Template.cancel_distribute_modal.helpers
 		instr = db.instance_traces.findOne(Session.get("instanceId"))
 		if not instr
 			return
+		ins = WorkflowManager.getInstance()
+		if not ins
+			return
+
 		traces = []
 		userId = Meteor.userId()
+		hasPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, userId)
 		_.each instr.traces, (t)->
 			newt = {_id: t._id, name:t.name, distribute_approves: []}
 			if t.approves
 				_.each t.approves, (a)->
-					if a.type is 'distribute' and a.from_user is userId and a.judge isnt 'terminated' and a.forward_instance
+					if a.type is 'distribute' and (a.from_user is userId or hasPermission) and a.judge isnt 'terminated' and a.forward_instance
 						f = db.instances.findOne(a.forward_instance)
 						if f and f.state is 'draft'
 							newt.distribute_approves.push(a)
@@ -68,7 +73,7 @@ Template.cancel_distribute_modal.onCreated ->
 			instr = db.instance_traces.findOne(Session.get("instanceId"))
 			if instr
 				instance_ids = []
-				_.each instr.traces, (t)-> 
+				_.each instr.traces, (t)->
 					_.each t.approves, (a)->
 						if a.type == 'distribute'
 							instance_ids.push(a.forward_instance)

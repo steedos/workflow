@@ -28,7 +28,7 @@ Template.instance_cc_modal.helpers
 				return _.find ins?.traces, (n)->
 					return n._id == trace_id
 
-			if InstanceManager.isInbox() && ins.state is "pending"
+			if (InstanceManager.isInbox() && ins.state is "pending") or (Session.get("box") is 'outbox' and ins.state is "pending")
 				opinionFields = _.filter(form_version.fields, (field) ->
 					if currentApprove.type == 'cc'
 
@@ -117,12 +117,12 @@ Template.instance_cc_modal.events
 			myApprove = InstanceManager.getCCApprove(Meteor.userId(), false)
 		else
 			ins = WorkflowManager.getInstance()
-			if InstanceManager.isInbox() && ins.state is "pending" 
+			if InstanceManager.isInbox() && ins.state is "pending"
 				myApprove = InstanceManager.getMyApprove()
 				myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
 			else
 				myApprove = InstanceManager.getLastApprove(ins.traces)
-				
+
 		myApprove.opinion_fields_code = opinion_fields_code
 
 		if Session.get("instance_submitting")
