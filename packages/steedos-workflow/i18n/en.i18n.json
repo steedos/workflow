@@ -654,5 +654,7 @@
 	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow.",
 	"flow_roles_error_flows_used": "Role has been used by flows: __names__",
 	"instance_approve_not_yet_handled": "Not yet handled",
-	"instance_approve_distribute_date_label": "Distribute date"
+	"instance_approve_distribute_date_label": "Distribute date",
+
+	"flows_auto_remind": "Auto remind"
 }
