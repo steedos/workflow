@@ -177,14 +177,15 @@ Template.instance_view.onRendered ->
 
 	$("body").removeClass("loading")
 
-    # 如果申请单对应的流程已被禁用则提示用户
-	flow = db.flows.findOne(ins.flow)
-	if flow and flow.state is 'disabled'
-		swal({
-			title: t('workflow_flow_state_disabled', {name: flow.name}),
-			confirmButtonText: t("OK"),
-			type: 'warning'
-		})
+	# 草稿状态申请单对应的流程已被禁用则提示用户
+	if ins.state is 'draft'
+		flow = db.flows.findOne({_id: ins.flow},{fields:{state: 1, name: 1}})
+		if flow and flow.state is 'disabled'
+			swal({
+				title: t('workflow_flow_state_disabled', {name: flow.name}),
+				confirmButtonText: t("OK"),
+				type: 'warning'
+			})
 
 Template.instance_view.onDestroyed ->
 	Session.set("instance_next_user_recalculate", null)
