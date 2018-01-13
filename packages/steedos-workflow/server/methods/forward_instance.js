@@ -569,12 +569,14 @@ Meteor.methods({
 
 		userId = this.userId
 
+		var hasAdminPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, userId)
+
 		_.each(ins.traces, function(t) {
 			if (t.approves) {
 				var exists = false
 				var set_obj = new Object
 				_.each(t.approves, function(a, idx) {
-					if (approve_ids.includes(a._id) && a.from_user == userId && 'distribute' == a.type && a.forward_instance) {
+					if (approve_ids.includes(a._id) && (a.from_user == userId || hasAdminPermission) && 'distribute' == a.type && a.forward_instance) {
 						var forward_instance_id = a.forward_instance
 						var forward_instance = db.instances.findOne(forward_instance_id)
 						if (forward_instance) {
