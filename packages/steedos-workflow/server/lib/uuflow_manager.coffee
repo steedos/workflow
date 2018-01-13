@@ -353,7 +353,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		submitter_organization_fullname = start_approve.handler_organization_fullname
 		# 填单人所在组织的名称
 		submitter_organization_name = start_approve.handler_organization_name
-		# 填单人的审批岗位 
+		# 填单人的审批岗位
 		submitter_roles = uuflowManager.getUserRoles(start_approve.handler, instance.space)
 		# 填单人的全名
 		submitter_name = start_approve.handler_name
@@ -1566,7 +1566,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
 	# 判断一个flow是否为启用状态
 	uuflowManager.isFlowEnabled(flow)
-	# 判断一个flow和space_id是否匹配 
+	# 判断一个flow和space_id是否匹配
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
@@ -1644,6 +1644,9 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
 	ins_obj.current_step_name = start_step.name
+
+	if flow.auto_remind is true
+		ins_obj.auto_remind = true
 
 	new_ins_id = db.instances.insert(ins_obj)
 
@@ -2032,14 +2035,14 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 }
 ###
 uuflowManager.setRemindInfo = (values, approve)->
-	check values, Object 
-	check approve, Object 
+	check values, Object
+	check approve, Object
 	check approve.start_date, Date
 
 	remind_date = null
 	deadline = null
 	start_date = approve.start_date
-	
+
 	if values.priority and values.deadline
 		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
 		# 由于values中的date字段的值为String，故作如下校验
@@ -2077,7 +2080,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
 					return
 				caculate_date(start_date)
-			else 
+			else
 				remind_date = Steedos.caculatePlusHalfWorkingDay start_date
 			ins = db.instances.findOne(approve.instance)
 			if ins.state is 'draft'
@@ -2086,7 +2089,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 			ins.values = values
 			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
 	else
-		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办 
+		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办
 		remind_date = Steedos.caculateWorkingTime(start_date, 3)
 
 	approve.deadline = deadline
@@ -2131,7 +2134,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 			TemplateCode: 'SMS_67200967',
 			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})
-		
+
 		# 发推送消息
 		notification = new Object
 		notification["createdAt"] = new Date
@@ -2149,7 +2152,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 		notification['query'] = {userId: user._id, appName: 'workflow'}
 
 		Push.send(notification)
-		
+
 
 # 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
 uuflowManager.checkMainAttach = (instance_id, name)->
@@ -2274,7 +2277,7 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
 		if field.type != 'table'
 			if field.is_required and _.isEmpty(values[field.code])
 				require_but_empty_fields.push field.name || field.code
-		
+
 		# 子表
 		else if field.type == 'table'
 			if _.isEmpty(values[field.code])
@@ -2288,4 +2291,3 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
 							require_but_empty_fields.push s_field.name || s_field.code
 
 	return require_but_empty_fields
-
