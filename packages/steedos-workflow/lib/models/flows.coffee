@@ -233,8 +233,9 @@ if Meteor.isServer
 		modifier.$set = modifier.$set || {};
 
 		if !modifier.$set.current
-			modifier.$set['current.modified_by'] = userId;
-			modifier.$set['current.modified'] = new Date();
+			if _.keys(modifier.$set).toString() isnt 'auto_remind' # 为了启用自动催办的时候流程在列表位置不变
+				modifier.$set['current.modified_by'] = userId;
+				modifier.$set['current.modified'] = new Date();
 
 		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
 			throw new Meteor.Error(400, "space_paid_info_title");
