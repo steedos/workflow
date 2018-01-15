@@ -23,9 +23,8 @@ Meteor.methods
 			throw new Meteor.Error(401, "标准版不支持此功能");
 
 		accepted_user_count = db.space_users.find({space: space._id, user_accepted: true}).count()
-		if (accepted_user_count + data.length) > space.user_limit 
-			c = (accepted_user_count + data.length) - space.user_limit 
-			throw new Meteor.Error(400, "需要额外购买" + c + "个用户名额")
+		if (accepted_user_count + data.length) > space.user_limit
+			throw new Meteor.Error(400, "需要提升已购买用户数至#{accepted_user_count + data.length}(当前#{space.user_limit})" +", 请在企业信息模块中点击升级按钮购买")
 
 		owner_id = space.owner
 
@@ -60,7 +59,7 @@ Meteor.methods
 			if item.email
 				if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(item.email)
 					throw new Meteor.Error(500, "第#{i + 1}行：邮件格式错误#{item.email}");
-				
+
 				testObj.email = item.email
 				if testData.filterProperty("email", item.email).length > 0
 					throw new Meteor.Error(500, "第#{i + 1}行：邮件重复");
@@ -127,7 +126,7 @@ Meteor.methods
 		# 数据导入
 		data.forEach (item, i)->
 			error = {}
-			try 
+			try
 				selector = []
 				operating = ""
 				# if item.username
