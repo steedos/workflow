@@ -50,6 +50,16 @@ Template.forward_select_flow_modal.helpers({
 				var cs = InstanceManager.getCurrentStep();
 				if (cs && (cs.allowDistribute == true))
 					return true;
+			} else if (Session.get("box") == 'outbox') {
+				var ins = WorkflowManager.getInstance();
+				if (ins && ins.state == "pending") {
+					var step_id = InstanceManager.getLastTraceStepId(ins.traces)
+					if (step_id) {
+						var step = WorkflowManager.getInstanceStep(step_id)
+						if (step && step.allowDistribute == true)
+							return true;
+					}
+				}
 			}
 		}
 
