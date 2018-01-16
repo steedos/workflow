@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'cfs:access-point',
+  name: 'steedos:cfs-access-point',
   version: '0.1.49',
   summary: 'CollectionFS, add ddp and http accesspoint capability',
   git: 'https://github.com/CollectionFS/Meteor-cfs-access-point.git'
@@ -10,19 +10,19 @@ Package.onUse(function(api) {
 
   // This imply is needed for tests, and is technically probably correct anyway.
   api.imply([
-    'cfs:base-package'
+    'steedos:cfs-base-package'
   ]);
 
   api.use([
     //CFS packages
-    'cfs:base-package@0.0.30',
-    'cfs:file@0.1.16',
+    'steedos:cfs-base-package',
+    'steedos:cfs-file',
     //Core packages
     'check',
     'ejson',
     //Other packages
-    'cfs:http-methods@0.0.29',
-    'cfs:http-publish@0.0.13'
+    'steedos:cfs-http-methods',
+    'steedos:cfs-http-publish'
   ]);
 
   api.addFiles([
@@ -42,9 +42,9 @@ Package.onTest(function (api) {
 
   api.use([
     //CFS packages
-    'cfs:access-point',
-    'cfs:standard-packages@0.0.2',
-    'cfs:gridfs@0.0.0',
+    'steedos:cfs-access-point',
+    'steedos:cfs-standard-packages',
+    'steedos:cfs-gridfs',
     //Core packages
     'test-helpers',
     'http',

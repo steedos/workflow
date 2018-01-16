@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'cfs:collection',
+  name: 'steedos:cfs-collection',
   version: '0.5.5',
   summary: 'CollectionFS, FS.Collection object',
   git: 'https://github.com/CollectionFS/Meteor-cfs-collection.git'
@@ -10,8 +10,8 @@ Package.onUse(function(api) {
 
   api.use([
     // CFS
-    'cfs:base-package@0.0.30',
-    'cfs:tempstore@0.1.4',
+    'steedos:cfs-base-package',
+    'steedos:cfs-tempstore',
     // Core
     'deps',
     'check',
@@ -22,7 +22,7 @@ Package.onUse(function(api) {
   ]);
 
   // Weak dependencies for uploaders
-  api.use(['cfs:upload-http@0.0.20', 'cfs:upload-ddp@0.0.17'], { weak: true });
+  api.use(['steedos:cfs-upload-http', 'steedos:cfs-upload-ddp'], { weak: true });
 
   api.addFiles([
     'common.js',
@@ -36,7 +36,7 @@ Package.onUse(function(api) {
 });
 
 Package.onTest(function (api) {
-  api.use(['cfs:standard-packages', 'cfs:gridfs', 'tinytest', 'underscore', 'test-helpers']);
+  api.use(['steedos:cfs-standard-packages', 'steedos:cfs-gridfs', 'tinytest', 'underscore', 'test-helpers']);
 
   api.addFiles('tests/server-tests.js', 'server');
   api.addFiles('tests/client-tests.js', 'client');

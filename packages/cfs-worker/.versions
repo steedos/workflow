@@ -1,14 +1,6 @@
 base64@1.0.3
 binary-heap@1.0.3
 callback-hook@1.0.3
-cfs:base-package@0.0.30
-cfs:data-man@0.0.6
-cfs:file@0.1.16
-cfs:power-queue@0.9.11
-cfs:reactive-property@0.0.4
-cfs:storage-adapter@0.2.1
-cfs:tempstore@0.1.4
-cfs:worker@0.1.4
 check@1.0.5
 ddp@1.1.0
 deps@1.0.7

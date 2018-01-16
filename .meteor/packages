@@ -65,9 +65,9 @@ kadira:blaze-layout
 kadira:flow-router
 raix:handlebar-helpers
 natestrauser:animate-css
-cfs:standard-packages
-cfs:filesystem
-cfs:ui
+steedos:cfs-standard-packages
+steedos:cfs-filesystem
+steedos:cfs-ui
 steedos:toastr
 percolate:migrations
 aldeed:tabular
@@ -100,7 +100,7 @@ steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api
-steedos:cms
+# steedos:cms
 steedos:chat
 steedos:webkit-notification
 steedos:admin
@@ -113,7 +113,7 @@ yogiben:autoform-tags
 simple:json-routes
 meteorhacks:subs-manager
 iyyang:cfs-aliyun
-cfs:s3
+steedos:cfs-s3
 
 jeremy:selectize
 comerc:autoform-selectize
