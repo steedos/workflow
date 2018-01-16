@@ -167,7 +167,7 @@ steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:authenticate-user-by-access-token@1.0.0
 steedos:authenticate-user-by-auth-token@1.0.0
-steedos:autoform@0.0.7
+steedos:autoform@0.0.8
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2
@@ -184,10 +184,12 @@ steedos:cors@0.0.1
 steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
+steedos:e164-phones-countries@1.0.3
 steedos:freeboard@1.1.3_28
 steedos:fullcalendar@3.4.0_1
 steedos:huaweipush@0.0.1
 steedos:i18n@0.0.11
+steedos:i18n-iso-countries@3.3.0
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:loaders-css@0.1.2

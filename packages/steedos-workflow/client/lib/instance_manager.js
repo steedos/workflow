@@ -453,7 +453,7 @@ InstanceManager.checkFormFieldValue = function(field) {
 
 	var _form_group_div = jquery_f.closest(".form-group")
 
-	if(parent_group.hasClass("twitter-typeahead")){
+	if (parent_group.hasClass("twitter-typeahead")) {
 		parent_group = parent_group.parent().parent()
 	}
 
@@ -728,7 +728,7 @@ InstanceManager.saveIns = function() {
 	$('body').addClass("loading");
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		if(instance.state != 'draft'){
+		if (instance.state != 'draft') {
 			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
 		}
 
@@ -850,7 +850,7 @@ InstanceManager.submitIns = function() {
 
 	if (instance) {
 
-		if(instance.state != 'draft'){
+		if (instance.state != 'draft') {
 			InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
 		}
 
@@ -1320,7 +1320,11 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 	Session.set("instance_submitting", true);
 
 	$('body').addClass("loading");
-	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, InstanceManager.getMyApprove()._id, function(error, result) {
+	var approve_id = null;
+	if (InstanceManager.getCurrentApprove()) {
+		approve_id = InstanceManager.getCurrentApprove()._id;
+	}
+	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, approve_id, function(error, result) {
 		$('body').removeClass("loading");
 
 		Session.set("instance_submitting", false);
@@ -1586,9 +1590,9 @@ InstanceManager.getCCStep = function() {
 	return step;
 }
 
-InstanceManager.updateApproveSign = function (sign_field_code, description, sign_type, lastSignApprove) {
+InstanceManager.updateApproveSign = function(sign_field_code, description, sign_type, lastSignApprove) {
 	myApprove = InstanceManager.getCurrentApprove()
-	if(myApprove && myApprove.sign_show != true){
+	if (myApprove && myApprove.sign_show != true) {
 		Meteor.call('update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, sign_field_code, description, sign_type || "update", lastSignApprove)
 	}
 }

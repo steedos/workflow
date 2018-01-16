@@ -12,7 +12,8 @@ Meteor.methods({
 		check(selectedUsers, Array);
 		check(action_type, Match.OneOf('forward', 'distribute'));
 
-		check(from_approve_id, String);
+		if (action_type == "distribute")
+			check(from_approve_id, String);
 
 		var ins = db.instances.findOne(instance_id);
 		var old_space_id = ins.space;
@@ -483,15 +484,21 @@ Meteor.methods({
 			return appr._id == approve_id;
 		})
 
-		if (!approve || approve.from_user != this.userId || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
-			throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
+		var hasAdminPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, this.userId)
+
+		if (!approve || !['forward', 'distribute'].includes(approve.type) || !approve.forward_instance) {
+			if (!hasAdminPermission) {
+				if (approve.from_user != this.userId)
+					throw new Meteor.Error('error!', 'instance_forward_cannot_cancel');
+			}
 		}
 
 		var forward_instance_id = approve.forward_instance;
 		var forward_instance = db.instances.findOne(forward_instance_id);
 		if (forward_instance) {
 			if (forward_instance.state != "draft") {
-				throw new Meteor.Error('error!', 'instance_forward_instance_state_changed');
+				if (!hasAdminPermission)
+					throw new Meteor.Error('error!', 'instance_forward_instance_state_changed');
 			}
 			var inbox_users = forward_instance.inbox_users || [];
 

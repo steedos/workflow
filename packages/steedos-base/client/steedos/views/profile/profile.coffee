@@ -120,7 +120,7 @@ Template.profile.helpers
 	accountPhoneNumber: ()->
 		user = Meteor.user()
 		if user.phone
-			return user.phone.number.replace(/^\+86/,"")
+			return user.phone.number
 
 	navigationTitle: ()->
 		if Steedos.isMobile()

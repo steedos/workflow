@@ -36,7 +36,7 @@ uuflowManager.getSpaceUser = (space_id, user_id) ->
 uuflowManager.getFlow = (flow_id) ->
 	flow = db.flows.findOne(flow_id)
 	if not flow
-		throw new Meteor.Error('error!', "flow_id有误或此flow已经被删除")
+		throw new Meteor.Error('error!', "id有误或此流程已经被删除")
 	return flow
 
 uuflowManager.getSpaceUserOrgInfo = (space_user) ->
@@ -537,6 +537,9 @@ uuflowManager.getFormVersion = (form, form_version) ->
 		throw new Meteor.Error('error!', '未找到表单对应的版本')
 
 	return form_v
+
+uuflowManager.getCategory = (category_id) ->
+	return db.categories.findOne(category_id)
 
 uuflowManager.getInstanceName = (instance, vals) ->
 	values = _.clone(vals || instance.values) || {}
@@ -1569,6 +1572,10 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	# 判断一个flow和space_id是否匹配 
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
+	form = uuflowManager.getForm(flow.form)
+
+	
+
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
@@ -1644,6 +1651,13 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
 	ins_obj.current_step_name = start_step.name
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name 
 
 	new_ins_id = db.instances.insert(ins_obj)
 
@@ -2256,3 +2270,36 @@ uuflowManager.caculateKeywords = (values, form, form_version)->
 								keywords.push values[s_field.code]['name']
 
 	return keywords.join(" ")
+
+uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
+	values = values || {}
+
+	require_but_empty_fields = []
+
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h)->
+			return form_version is form_h._id
+		)
+
+	_.each form_v.fields, (field)->
+		if field.type != 'table'
+			if field.is_required and _.isEmpty(values[field.code])
+				require_but_empty_fields.push field.name || field.code
+		
+		# 子表
+		else if field.type == 'table'
+			if _.isEmpty(values[field.code])
+				_.each field.fields, (s_field)->
+					if s_field.is_required
+						require_but_empty_fields.push s_field.name || s_field.code
+			else
+				_.each values[field.code], (s_value)->
+					_.each field.fields, (s_field)->
+						if s_field.is_required and _.isEmpty(s_value[s_field.code])
+							require_but_empty_fields.push s_field.name || s_field.code
+
+	return require_but_empty_fields
+

@@ -34,7 +34,8 @@ Template.accounts_phone_password_code.events
 			return
 
 		$(document.body).addClass('loading')
-		Accounts.verifyPhone number, code, password, (error) ->
+		mobile = Accounts.getPhoneNumber()
+		Accounts.verifyPhone number, mobile, code, password, (error) ->
 			$(document.body).removeClass('loading')
 			if error
 				toastr.error t error.reason

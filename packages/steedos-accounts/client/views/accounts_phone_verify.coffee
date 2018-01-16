@@ -20,7 +20,7 @@ Template.accounts_phone_verify.onDestroyed ->
 
 Template.accounts_phone_verify.events
 	'click .btn-verify-code': (event,template) ->
-		number = $(".accounts-phone-number").text()
+		number = $(".accounts-phone-number").text().trim()
 		unless number
 			toastr.error t "accounts_phone_invalid"
 			return
@@ -29,9 +29,14 @@ Template.accounts_phone_verify.events
 			toastr.error t "accounts_phone_enter_phone_code"
 			return
 
+		prefix = number.match(/\+\d+\s/)
+		unless prefix
+			toastr.error t "accounts_phone_invalid"
+			return
+		mobile = number.replace(prefix[0],"")
 		userId = Meteor.userId()
 		$(document.body).addClass('loading')
-		Accounts.verifyPhone number, code, (error) ->
+		Accounts.verifyPhone number, mobile, code, (error) ->
 			if error
 				$(document.body).removeClass('loading')
 				toastr.error t error.reason

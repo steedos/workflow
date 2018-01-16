@@ -34,7 +34,7 @@
       "loginExpirationInDays": 90,
       "is_username_skip_minrequiredlength": false // 个人设置中修改用户名时是否忽略用户名长度限制
     },
-    //手机号及其验证相关，该属性不存在时不显示任务手机号相关界面及功能
+    //手机号及其验证相关
     "phone": {
       "forceAccountBindPhone": false, //强行弹出手机号绑定窗口
       "expiredDays": 30 //失效时间，forceAccountBindPhone为true时失效后重新强行弹出手机号绑定窗口
