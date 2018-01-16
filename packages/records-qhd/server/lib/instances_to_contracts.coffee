@@ -59,7 +59,7 @@ InstancesToContracts::getContractInstances = ()->
 	else
 		query.is_contract_archived = {$ne: true}
 
-	return db.instances.find(query).fetch()
+	return db.instances.find(query, {fields: {_id: 1}}).fetch()
 
 _minxiInstanceData = (formData, instance) ->
 
@@ -204,27 +204,31 @@ InstancesToContracts::sendContractInstances = (api, callback)->
 
 	console.log("InstancesToContracts.sendContractInstances", instances.length)
 
-	instances.forEach (instance)->
-		url = that.contracts_server + api + '?externalId=' + instance._id
+	instances.forEach (mini_ins)->
 
-		console.log("InstancesToContracts.sendContractInstances url", url)
+		instance = db.instances.findOne({_id: mini_ins._id})
 
-		success = InstancesToContracts.sendContractInstance url, instance
+		if instance
+			url = that.contracts_server + api + '?externalId=' + instance._id
 
-		r = {
-			_id: instance._id,
-			name: instance.name,
-			applicant_name: instance.applicant_name,
-			submit_date: instance.submit_date,
-			is_contract_archived: true
-		}
+			console.log("InstancesToContracts.sendContractInstances url", url)
 
-		if success
-			successCount++
-		else
-			r.is_contract_archived = false
+			success = InstancesToContracts.sendContractInstance url, instance
 
-		ret.instances.push r
+			r = {
+				_id: instance._id,
+				name: instance.name,
+				applicant_name: instance.applicant_name,
+				submit_date: instance.submit_date,
+				is_contract_archived: true
+			}
+
+			if success
+				successCount++
+			else
+				r.is_contract_archived = false
+
+			ret.instances.push r
 
 	ret.count = instances.length
 

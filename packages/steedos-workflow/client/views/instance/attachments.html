@@ -199,6 +199,9 @@
 								{{#if canConvertToPdf this.metadata.main this.name this.metadata.locked_by}}
 									<button type="button" data-downloadurl="{{getUrl this._id}}" class="btn btn-default pull-left" name="ins_attach_convert_to_pdf" id="{{this._id}}" style="display: none" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_wordToPdf"}}</button>
 								{{/if}}
+								{{#if canSign this.metadata.main this.name this.metadata.locked_by}}
+									<button type="button" data-downloadurl="{{getUrl this._id}}" class="btn btn-default pull-left" name="ins_attach_signature" id="{{this._id}}" style="display: none" data-parent="{{this.metadata.parent}}" data-name="{{this.name}}">{{_ "workflow_attachment_signature"}}</button>
+								{{/if}}
 							{{/if}}
 						{{/if}}
 					{{/with}}

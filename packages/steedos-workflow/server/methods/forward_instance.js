@@ -82,6 +82,8 @@ Meteor.methods({
 			old_fields = [],
 			common_fields = [];
 
+		var select_to_input_fields = [];
+
 		if (old_form.current._id == old_form_version) {
 			old_fields = old_form.current.fields;
 		} else {
@@ -99,6 +101,17 @@ Meteor.methods({
 			})
 			if (exists_field)
 				common_fields.push(field);
+			var select_input_field = _.find(old_fields, function(f) {
+				return f.type == 'select' && field.type == 'input' && f.code == field.code;
+			})
+			if (select_input_field)
+				select_to_input_fields.push(select_input_field);
+		})
+
+		select_to_input_fields.forEach(function(field) {
+			if (old_values[field.code]) {
+				new_values[field.code] = old_values[field.code];
+			}
 		})
 
 		common_fields.forEach(function(field) {
@@ -244,7 +257,7 @@ Meteor.methods({
 			ins_obj.modified = now;
 			ins_obj.modified_by = current_user_id;
 			ins_obj.inbox_users = [user_id];
-			ins_obj.values = {};
+			ins_obj.values = new_values;
 			if (action_type == 'distribute') {
 				// 解决多次分发看不到正文、附件问题
 				if (ins.distribute_from_instance) {

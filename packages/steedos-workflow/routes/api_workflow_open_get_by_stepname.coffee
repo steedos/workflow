@@ -72,10 +72,7 @@ JsonRoutes.add 'post', '/api/workflow/open/getbystepname', (req, res, next) ->
 		instances = db.instances.find({space: space_id, flow: flow, state:'pending', traces:{$elemMatch: {is_finished: false, name: stepname}}}, {fields: {inbox_uers: 0, cc_users: 0, outbox_users: 0, attachments: 0, traces: 0}}).fetch()
 
 		instances.forEach (instance)->
-
-			attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
-
-			instance.attachments = attachments
+			instance.attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
 
 		JsonRoutes.sendResult res,
 			code: 200

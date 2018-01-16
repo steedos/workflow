@@ -229,9 +229,10 @@
     "mch_id": "xxx",
     "partner_key": "xxx"
   },
-  //企业微信API
+  //企业微信
   "qiyeweixin":{
-    "sync_interval":600000,
+    "sync_interval":60000,
+    "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize",
     "api":{
       "getLoginInfo":"https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info",
       "getProviderToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token",

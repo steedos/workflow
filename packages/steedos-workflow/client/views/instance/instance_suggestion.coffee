@@ -368,7 +368,8 @@ Template.instance_suggestion.events
 
 		myApprove = InstanceManager.getCurrentApprove()
 
-		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, event.target.value, $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove()
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, event.target.value, $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove(), ()->
+			Session.set("instance_my_approve_description", $("#suggestion").val())
 
 
 Template.instance_suggestion.onCreated ->

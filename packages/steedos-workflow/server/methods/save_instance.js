@@ -182,13 +182,19 @@ Meteor.methods({
 			}
 		});
 		var lang = current_user.locale == 'zh-cn' ? 'zh-CN' : 'en';
-		uuflowManager.isInstancePending(instance, lang);
-		// 判断一个trace是否为未完成状态
-		uuflowManager.isTraceNotFinished(current_trace);
-		// 判断一个approve是否为未完成状态
-		uuflowManager.isApproveNotFinished(current_approve);
-		// 判断当前用户是否approve 对应的处理人或代理人
-		uuflowManager.isHandlerOrAgent(current_approve, this.userId);
+		try {
+			uuflowManager.isInstancePending(instance, lang);
+			// 判断一个trace是否为未完成状态
+			uuflowManager.isTraceNotFinished(current_trace);
+			// 判断一个approve是否为未完成状态
+			uuflowManager.isApproveNotFinished(current_approve);
+			// 判断当前用户是否approve 对应的处理人或代理人
+			uuflowManager.isHandlerOrAgent(current_approve, this.userId);
+		} catch (e) {
+			console.log(e.stack)
+			return true
+		}
+
 
 		var flow_version = instance.flow_version;
 		var flow_id = instance.flow;
@@ -233,11 +239,14 @@ Meteor.methods({
 
 		setObj.values = _.extend((instance.values || {}), permissions_values);
 
-		if(!_.isEmpty(change_values)){
+		if (!_.isEmpty(change_values)) {
 
 			values_history = current_approve.values_history || []
 
-			values_history.push({values: change_values, create: new Date()})
+			values_history.push({
+				values: change_values,
+				create: new Date()
+			})
 
 			setObj[key_str + 'values_history'] = values_history
 		}
