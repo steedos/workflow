@@ -1,5 +1,5 @@
 Package.describe({
-	name: 'steedos:qhd-records',
+	name: 'steedos:qhd-archives',
 	version: '0.0.1',
 	summary: 'Steedos libraries',
 	git: ''
