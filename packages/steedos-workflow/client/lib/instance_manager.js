@@ -1539,7 +1539,7 @@ InstanceManager.getLastApprove = function(traces) {
 		i--;
 	}
 
-	return currentApprove || {};
+	return currentApprove;
 }
 
 InstanceManager.getLastTraceStepId = function(traces) {
@@ -1589,7 +1589,7 @@ InstanceManager.getLastCCTraceStepId = function(traces) {
 		if (!trace_id && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!trace_id) {
-					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc')) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						trace_id = ap.trace;
 					}
 					if (trace_id) {
@@ -1618,7 +1618,7 @@ InstanceManager.getLastCCApprove = function(traces) {
 		if (!currentApprove && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!currentApprove) {
-					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc')) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						currentApprove = ap;
 					}
 				}
@@ -1627,7 +1627,7 @@ InstanceManager.getLastCCApprove = function(traces) {
 		i--;
 	}
 
-	return currentApprove || {};
+	return currentApprove;
 }
 
 InstanceManager.isAttachLocked = function(instance_id, user_id) {

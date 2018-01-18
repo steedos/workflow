@@ -10,6 +10,9 @@ Template.instance_cc_modal.helpers
 				currentApprove = InstanceManager.getCurrentApprove()
 			else
 				currentApprove = InstanceManager.getLastCCApprove(ins.traces)
+				lastStepId = InstanceManager.getLastCCTraceStepId(ins.traces)
+				if lastStepId
+					currentStep = WorkflowManager.getInstanceStep(lastStepId)
 
 			if !currentApprove
 				return
