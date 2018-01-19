@@ -116,7 +116,7 @@ Template.instance_button.helpers
 					return false
 				return true
 		else if Session.get("box") is 'outbox' and ins.state is "pending"
-			step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			step_id = InstanceManager.getLastCCTraceStepId(ins.traces)
 			if step_id
 				step = WorkflowManager.getInstanceStep(step_id)
 				if step and (step.disableCC is true or step.step_type is "start")
@@ -202,6 +202,13 @@ Template.instance_button.helpers
 			cs = InstanceManager.getCurrentStep()
 			if cs && (cs.allowDistribute is true)
 				return true
+
+		if Session.get("box") is 'outbox' and ins.state is "pending"
+			step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			if step_id
+				step = WorkflowManager.getInstanceStep(step_id)
+				if step and (step.allowDistribute is true)
+					return true
 
 		return false
 

@@ -1320,10 +1320,18 @@ InstanceManager.forwardIns = function(instance_id, space_id, flow_id, hasSaveIns
 	Session.set("instance_submitting", true);
 
 	$('body').addClass("loading");
+	var ins = WorkflowManager.getInstance();
 	var approve_id = null;
-	if (InstanceManager.getCurrentApprove()) {
-		approve_id = InstanceManager.getCurrentApprove()._id;
+	if (InstanceManager.isInbox() && ins.state == "pending") {
+		if (InstanceManager.getCurrentApprove()) {
+			approve_id = InstanceManager.getCurrentApprove()._id;
+		}
+	} else if (Session.get("box") == 'outbox' && ins.state == "pending") {
+		if (InstanceManager.getLastCCApprove(ins.traces)) {
+			approve_id = InstanceManager.getLastCCApprove(ins.traces)._id;
+		}
 	}
+
 	Meteor.call('forward_instance', instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, approve_id, function(error, result) {
 		$('body').removeClass("loading");
 
@@ -1519,10 +1527,10 @@ InstanceManager.getLastApprove = function(traces) {
 	i = traces.length - 1;
 
 	while (i >= 0) {
-		if (!currentApprove) {
+		if (!currentApprove && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!currentApprove) {
-					if (ap.is_finished && ap.user === user_id) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'reassign') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						currentApprove = ap;
 					}
 				}
@@ -1531,7 +1539,7 @@ InstanceManager.getLastApprove = function(traces) {
 		i--;
 	}
 
-	return currentApprove || {};
+	return currentApprove;
 }
 
 InstanceManager.getLastTraceStepId = function(traces) {
@@ -1547,14 +1555,14 @@ InstanceManager.getLastTraceStepId = function(traces) {
 	i = traces.length - 1;
 
 	while (i >= 0) {
-		if (!trace_id) {
+		if (!trace_id && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!trace_id) {
-					if (ap.is_finished && ap.user === user_id) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'reassign') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						trace_id = ap.trace;
 					}
 					if (trace_id) {
-						return step_id = traces[i].step;
+						step_id = traces[i].step;
 					}
 				}
 			});
@@ -1563,6 +1571,63 @@ InstanceManager.getLastTraceStepId = function(traces) {
 	}
 
 	return step_id;
+}
+
+InstanceManager.getLastCCTraceStepId = function(traces) {
+
+	var i, step_id, trace_id, user_id;
+
+	user_id = Meteor.userId();
+
+	trace_id = null;
+
+	step_id = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!trace_id && traces[i].is_finished) {
+			_.each(traces[i].approves, function(ap) {
+				if (!trace_id) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
+						trace_id = ap.trace;
+					}
+					if (trace_id) {
+						step_id = traces[i].step;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return step_id;
+}
+
+InstanceManager.getLastCCApprove = function(traces) {
+
+	var currentApprove, i, user_id;
+
+	user_id = Meteor.userId();
+
+	currentApprove = null;
+
+	i = traces.length - 1;
+
+	while (i >= 0) {
+		if (!currentApprove && traces[i].is_finished) {
+			_.each(traces[i].approves, function(ap) {
+				if (!currentApprove) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
+						currentApprove = ap;
+					}
+				}
+			});
+		}
+		i--;
+	}
+
+	return currentApprove;
 }
 
 InstanceManager.isAttachLocked = function(instance_id, user_id) {

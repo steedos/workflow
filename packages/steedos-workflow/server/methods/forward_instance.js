@@ -60,7 +60,21 @@ Meteor.methods({
 
 		var new_ins_ids = new Array;
 
-		var current_trace = _.last(ins.traces);
+		var current_trace = null;
+		if (action_type == "distribute") {
+			_.each(ins.traces, function(t) {
+				if (!current_trace) {
+					_.each(t.approves, function(a) {
+						if (!current_trace) {
+							if (a._id == from_approve_id)
+								current_trace = t;
+						}
+					})
+				}
+			})
+		} else {
+			current_trace = _.last(ins.traces);
+		}
 		var current_trace_id = current_trace._id;
 		var forward_approves = [];
 		var current_user_id = this.userId;

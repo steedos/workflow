@@ -9,7 +9,10 @@ Template.instance_cc_modal.helpers
 			if InstanceManager.isInbox() && ins.state is "pending"
 				currentApprove = InstanceManager.getCurrentApprove()
 			else
-				currentApprove = InstanceManager.getLastApprove(ins.traces)
+				currentApprove = InstanceManager.getLastCCApprove(ins.traces)
+				lastStepId = InstanceManager.getLastCCTraceStepId(ins.traces)
+				if lastStepId
+					currentStep = WorkflowManager.getInstanceStep(lastStepId)
 
 			if !currentApprove
 				return
@@ -121,7 +124,7 @@ Template.instance_cc_modal.events
 				myApprove = InstanceManager.getMyApprove()
 				myApprove.values = InstanceManager.getInstanceValuesByAutoForm()
 			else
-				myApprove = InstanceManager.getLastApprove(ins.traces)
+				myApprove = InstanceManager.getLastCCApprove(ins.traces)
 
 		myApprove.opinion_fields_code = opinion_fields_code
 
