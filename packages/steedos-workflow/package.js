@@ -43,7 +43,7 @@ Package.onUse(function(api) {
 	api.use('steedos:cfs-standard-packages');
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
-	api.use('iyyang:cfs-aliyun');
+	api.use('steedos:cfs-aliyun');
 	api.use('steedos:cfs-s3');
 
 	api.use('meteorhacks:ssr@2.2.0');

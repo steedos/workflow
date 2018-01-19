@@ -1,4 +1,4 @@
-iyyang:cfs-aliyun
+steedos:cfs-aliyun
 =========================
 
 Meteor 包: Aliyun storage adaptor for [CollectionFS][collection-fs].
@@ -8,7 +8,7 @@ Meteor 包: Aliyun storage adaptor for [CollectionFS][collection-fs].
 ## 安装
 
 ```
-$ meteor add iyyang:cfs-aliyun
+$ meteor add steedos:cfs-aliyun
 ```
 
 ## 阿里云 OSS 配置

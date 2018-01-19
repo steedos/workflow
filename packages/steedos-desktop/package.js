@@ -31,7 +31,7 @@ Package.onUse(function(api) {
 	api.use('aldeed:autoform');
 	api.use('matb33:collection-hooks');
 	api.use('steedos:cfs-standard-packages');
-	api.use('iyyang:cfs-aliyun')
+	api.use('steedos:cfs-aliyun')
 	api.use('steedos:cfs-s3');
 
 	api.use('kadira:flow-router@2.10.1');

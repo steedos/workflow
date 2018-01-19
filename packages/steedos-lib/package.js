@@ -39,7 +39,7 @@ Package.onUse(function(api) {
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.4');
 	api.use('steedos:cfs-standard-packages');
-	api.use('iyyang:cfs-aliyun@0.1.0')
+	api.use('steedos:cfs-aliyun@0.1.0')
 	api.use('steedos:cfs-s3');
 
 	api.use('kadira:flow-router@2.10.1');

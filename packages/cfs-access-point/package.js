@@ -10,19 +10,19 @@ Package.onUse(function(api) {
 
   // This imply is needed for tests, and is technically probably correct anyway.
   api.imply([
-    'steedos:cfs-base-package'
+    'steedos:cfs-base-package@0.0.30'
   ]);
 
   api.use([
     //CFS packages
-    'steedos:cfs-base-package',
-    'steedos:cfs-file',
+    'steedos:cfs-base-package@0.0.30',
+    'steedos:cfs-file@0.1.17',
     //Core packages
     'check',
     'ejson',
     //Other packages
-    'steedos:cfs-http-methods',
-    'steedos:cfs-http-publish'
+    'steedos:cfs-http-methods@0.0.32',
+    'steedos:cfs-http-publish@0.0.13'
   ]);
 
   api.addFiles([

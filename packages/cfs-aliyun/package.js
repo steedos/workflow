@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'iyyang:cfs-aliyun',
+  name: 'steedos:cfs-aliyun',
   version: '0.1.0',
   summary: 'Aliyun OSS storage adaptger for CollectionFS',
   git: 'https://github.com/yyang/cfs-aliyun.git',
@@ -13,7 +13,7 @@ Npm.depends({
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
 
-  api.use(['steedos:cfs-base-package', 'steedos:cfs-storage-adapter']);
+  api.use(['steedos:cfs-base-package@0.0.30', 'steedos:cfs-storage-adapter@0.2.3']);
   api.addFiles([
     'aliyun.server.js',
     'aliyun.stream.js',
