@@ -86,6 +86,11 @@ if Meteor.isServer
 
 			return options;
 
+	# 全文检索同步字段置位unset
+	db.instances.before.update (userId, doc, fieldNames, modifier, options) ->
+		modifier.$unset = modifier.$unset || {};
+		modifier.$unset.is_recorded = 1;	
+
 if Meteor.isServer
 	db.instances._ensureIndex({
 		"space": 1
@@ -275,4 +280,9 @@ if Meteor.isServer
 	db.instances._ensureIndex({
 		"traces.approves.type": 1,
 		"traces.approves.handler": 1
+	},{background: true})
+
+	# 全文检索同步字段
+	db.instances._ensureIndex({
+		"is_recorded": 1
 	},{background: true})
