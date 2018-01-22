@@ -65,8 +65,9 @@
 
 	"contacts_organization_permission_alert": "Your account is automatically synchronized with a third-party system and can not maintain the organizational structure in Steedos",
 
-	"emailjs_mail_refresh":"Mail Server Interrupted, Please Refresh!",
-	"mail_server_interrupte":"Mail Server Interrupted",
+	"emailjs_mail_refresh": "Mail Server Interrupted, Please Refresh!",
+	"mail_server_interrupte": "Mail Server Interrupted",
 	"emailjs_mail_cancel": "Cancel",
+	"emailjs_email": "Email",
 	"invite_users_help": "https://www.steedos.com/us/help/workflow/admin_space_users.html"
 }

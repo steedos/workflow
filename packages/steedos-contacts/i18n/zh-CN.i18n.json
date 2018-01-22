@@ -63,8 +63,9 @@
 	"mail_subject_empty": "[无主题]",
 
 	"contacts_organization_permission_alert": "您的账户与第三方系统自动同步，无法在Steedos中维护组织结构",
-	"emailjs_mail_refresh":"邮件服务器中断，请重新刷新！",
-	"mail_server_interrupte":"邮件服务器中断",
+	"emailjs_mail_refresh": "请重试或者访问中油邮件网页邮箱",
+	"mail_server_interrupte": "总部中油邮件服务器故障!",
 	"emailjs_mail_cancel": "取消",
+	"emailjs_email": "中油邮箱",
 	"invite_users_help": "https://www.steedos.com/cn/help/workflow/admin_space_users.html"
 }
