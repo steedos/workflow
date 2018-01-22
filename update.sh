@@ -8,7 +8,7 @@ git pull
 
 cd ../../
 cd packages/steedos-emailjs
-git checkout master
+git checkout fssh
 git pull
 
 cd ../../
