@@ -112,8 +112,9 @@ yogiben:autoform-tags
 
 simple:json-routes
 meteorhacks:subs-manager
-iyyang:cfs-aliyun
+# iyyang:cfs-aliyun
 steedos:cfs-s3
+steedos:cfs-aliyun
 
 jeremy:selectize
 comerc:autoform-selectize
