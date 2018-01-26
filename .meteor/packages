@@ -100,7 +100,7 @@ steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api
-# steedos:cms
+steedos:cms
 steedos:chat
 steedos:webkit-notification
 steedos:admin
