@@ -95,8 +95,12 @@ Meteor.startup ->
             if Push.debug
                 console.log(options)
 
-            notification = $.notification(options)
+            # 客户端非主窗口不弹推送消息
+            if (Steedos.isNode() && window.opener.opener)
+                return;
             
+            notification = $.notification(options)
+
             # add sound
             msg = new Audio("/sound/notification.mp3")
             msg.play();

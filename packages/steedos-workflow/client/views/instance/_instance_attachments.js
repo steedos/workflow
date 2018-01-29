@@ -171,6 +171,8 @@ InstanceAttachmentTemplate.helpers = {
 					'metadata.main': true,
 				});
 				if (distribute_main) {
+					var firstVersionMain = cfs.instances.findOne(distribute_main.metadata.parent);
+					distribute_main.attachmentUploadedAt = firstVersionMain ? firstVersionMain.uploadedAt : distribute_main.uploadedAt;
 					atts.push(distribute_main);
 				}
 			}
@@ -178,12 +180,13 @@ InstanceAttachmentTemplate.helpers = {
 			selector['metadata.instance'] = ins._id;
 		}
 
-		atts = atts.concat(cfs.instances.find(selector, {
-			sort: {
-				'uploadedAt': 1
-			}
-		}).fetch())
-		return atts;
+		cfs.instances.find(selector).forEach(function(c) {
+			var firstVersion = cfs.instances.findOne(c.metadata.parent);
+			c.attachmentUploadedAt = firstVersion ? firstVersion.uploadedAt : c.uploadedAt;
+			atts.push(c);
+		})
+
+		return _.sortBy(atts, 'attachmentUploadedAt');
 	},
 
 	showAttachments: function() {

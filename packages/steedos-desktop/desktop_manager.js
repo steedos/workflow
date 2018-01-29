@@ -8,23 +8,15 @@ if (Steedos.isNode()){
 	var globalWin = nw.Window.get();
 	var path = nw.require("path");
 	
-	var jsonPath = path.join(process.cwd(),"package.json");
-	
-	try{
-		var package = require(jsonPath);
-	}catch(err){
-		if (err)
-			toastr.error(err);
-	}
 
-	// 获取package.json
-	var package = require(jsonPath);
+	// 获取package.json文件信息
+	var manifest = nw.App.manifest;
 
 	var currentVersion = Desktop.version;
 	
 	// 获取当前已安装客户端版本
-	if (package)
-		currentVersion = package.version;
+	if (manifest)
+		currentVersion = manifest.version;
 
 	globalWin.maximize();
 
