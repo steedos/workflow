@@ -1576,11 +1576,6 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	if not permissions.includes("add")
 		throw new Meteor.Error('error!', "当前用户没有此流程的新建权限")
 
-	space_user = db.space_users.findOne(
-		space: space_id
-		user: user_id
-	)
-	space_user_org_info = db.organizations.findOne(space_user.organization)
 	now = new Date
 	ins_obj = {}
 	ins_obj._id = db.instances._makeNewID()
@@ -1592,11 +1587,11 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.name = flow.name
 	ins_obj.submitter = user_id
 	ins_obj.submitter_name = user_info.name
-	ins_obj.applicant = user_id
-	ins_obj.applicant_name = user_info.name
-	ins_obj.applicant_organization = space_user.organization
-	ins_obj.applicant_organization_name = space_user_org_info.name
-	ins_obj.applicant_organization_fullname = space_user_org_info.fullname
+	ins_obj.applicant = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	ins_obj.applicant_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
+	ins_obj.applicant_organization = if instance_from_client["applicant_organization"] then instance_from_client["applicant_organization"] else space_user.organization
+	ins_obj.applicant_organization_name = if instance_from_client["applicant_organization_name"] then instance_from_client["applicant_organization_name"] else space_user_org_info.name
+	ins_obj.applicant_organization_fullname = if instance_from_client["applicant_organization_fullname"] then instance_from_client["applicant_organization_fullname"] else  space_user_org_info.fullname
 	ins_obj.state = 'draft'
 	ins_obj.code = ''
 	ins_obj.is_archived = false
@@ -1625,8 +1620,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	appr_obj.instance = ins_obj._id
 	appr_obj.trace = trace_obj._id
 	appr_obj.is_finished = false
-	appr_obj.user = user_id
-	appr_obj.user_name = user_info.name
+	appr_obj.user = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	appr_obj.user_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
 	appr_obj.handler = user_id
 	appr_obj.handler_name = user_info.name
 	appr_obj.handler_organization = space_user.organization
