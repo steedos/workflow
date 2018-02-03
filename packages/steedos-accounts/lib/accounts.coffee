@@ -49,6 +49,17 @@ AccountsTemplates.configureRoute 'signUp',
   path: '/steedos/sign-up'
 AccountsTemplates.configureRoute 'verifyEmail',
   path: '/steedos/verify-email'
+  redirect: ()->
+    # 当且仅当用户只有一个邮箱时,设置主要邮箱
+    emails = Meteor.user()?.emails
+    if emails and emails.length == 1
+      email = emails[0].address
+      $(document.body).addClass("loading")
+      Meteor.call "users_set_primary_email", email, (error, result)->
+        $(document.body).removeClass('loading')
+        if result?.error
+          toastr.error t(result.message)
+    FlowRouter.go "/"
 AccountsTemplates.configureRoute 'enrollAccount',
   path: '/steedos/enroll-account'
 
@@ -85,7 +96,7 @@ AccountsTemplates.addFields([
     _id: "username",
     type: "text",
     displayName: "username",
-    required: true,
+    required: false,#企业注册界面没有该字段，所以改为非必填
     minLength: 6
   },
   pwdField

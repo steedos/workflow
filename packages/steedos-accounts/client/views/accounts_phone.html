@@ -5,7 +5,10 @@
 				<div class="accounts-content">
 					<h3 class="accounts-title">{{title}}</h3>
 					<div class="weui-cells weui-cells_form">
-						<div class="weui-cell">
+						<div class="weui-cell weui-cell_select weui-cell_select-before">
+							<div class="weui-cell__hd">
+								{{> phonePrefixesSelect class="weui-select" locale=locale value=prefix}}
+							</div>
 							<div class="weui-cell__bd">
 								{{#unless isSetupPassword}}
 									<input class="weui-input accounts-phone-number" type="number" value="{{currentPhoneNumber}}" pattern="[0-9]*" placeholder="{{_ "accounts_phone_placeholder"}}">
@@ -25,11 +28,13 @@
 							</p>
 						</div>
 					{{else}}
-						<div class="weui-footer weui-btn-area">
-							<p class="weui-footer__links">
-								<a class="weui-footer__link btn-close">{{_ "accounts_phone_close"}}</a>
-							</p>
-						</div>
+						{{#if isCloseButtonNeeded}}
+							<div class="weui-footer weui-btn-area">
+								<p class="weui-footer__links">
+									<a class="weui-footer__link btn-close">{{_ "accounts_phone_close"}}</a>
+								</p>
+							</div>
+						{{/if}}
 					{{/if}}
 				</div>
 			</div>

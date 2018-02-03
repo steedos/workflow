@@ -15,12 +15,7 @@ Meteor.publish 'flows', (spaceId)->
 			form: 1,
 			state: 1,
 			perms: 1,
-			print_template: 1,
-			instance_template: 1,
-			events: 1,
-			space: 1,
-			distribute_optional_users: 1,
-			distribute_to_self: 1
+			space: 1
 		}
 	})
 
@@ -77,10 +72,82 @@ Meteor.publish 'distribute_optional_flows', (flow_ids)->
 			form: 1,
 			state: 1,
 			perms: 1,
+			space: 1,
+			distribute_optional_users: 1,
+			distribute_to_self: 1
+		}
+	})
+
+Meteor.publish 'flow', (spaceId, flowId)->
+	unless this.userId
+		return this.ready()
+
+	unless spaceId
+		return this.ready()
+
+	unless flowId
+		return this.ready()
+
+
+	return db.flows.find({_id: flowId, space: spaceId}, {
+		fields: {
 			print_template: 1,
 			instance_template: 1,
 			events: 1,
-			space: 1,
-			distribute_optional_users: 1
+			distribute_optional_users: 1,
+			distribute_to_self: 1
 		}
 	})
+
+Meteor.publishComposite 'flows_tabular', (tableName, ids, fields)->
+	check(tableName, String);
+	check(ids, Array);
+	check(fields, Match.Optional(Object));
+
+	unless this.userId
+		return this.ready()
+
+	this.unblock()
+
+	find: ->
+		this.unblock()
+		db.flows.find {_id: {$in: ids}}, fields: fields
+
+	children: [
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.space_users.find {
+					space: flow.space,
+					user: flow.current.modified_by
+				}, fields:
+					space: 1
+					user: 1
+					name: 1
+		},
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.forms.find {
+					space: flow.space,
+					_id: flow.form
+				}, fields:
+					space: 1
+					_id: 1
+					name: 1,
+					category: 1
+		},
+		{
+			find: (flow) ->
+				@unblock()
+				# Publish the related user
+				db.categories.find {
+					space: flow.space
+				}, fields:
+					space: 1
+					_id: 1
+					name: 1
+		}
+	]

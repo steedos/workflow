@@ -44,19 +44,37 @@ Meteor.startup ->
                         else
                             Steedos.openWindow(event_url,"_self"); 
                     else
-                        box = event.target.payload.box || "inbox" # inbox、outbox、draft、pending、completed、monitor
+                        # box = event.target.payload.box || "inbox"
+                        # inbox、outbox、draft、pending、completed、monitor
 
-                        instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
-                    
-                        if Steedos.isNode() 
-                            win = nw.Window.get();
-                            if win
-                                win.restore();
-                                win.focus();
-                            FlowRouter.go(instance_url);    
-                        else
-                            FlowRouter.go(instance_url); 
-                            # window.open(instance_url);
+                        instanceId = event.target.payload.instance
+
+                        Meteor.call "calculateBox", instanceId , 
+                            (error, result) ->
+                                if error
+                                    console.log error
+                                else
+                                    box = result
+
+                                    instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
+                                
+                                    if Steedos.isNode()
+                                        win = nw.Window.get();
+                                        if win
+                                            win.restore();
+                                            win.focus();
+                                        
+                                        # 正在编辑时点击推送提示
+                                        if InstanceManager.isAttachLocked Session.get("instanceId"), Meteor.userId()
+                                            swal({
+                                                title: t("steedos_desktop_edit_office_info"),
+                                                confirmButtonText: t("node_office_confirm")
+                                            })
+                                        else
+                                            FlowRouter.go(instance_url);  
+                                    else
+                                        FlowRouter.go(instance_url); 
+                                        # window.open(instance_url);
 
                     # if window.cos && typeof(window.cos) == 'object'
                     #     if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'
@@ -77,8 +95,12 @@ Meteor.startup ->
             if Push.debug
                 console.log(options)
 
-            notification = $.notification(options)
+            # 客户端非主窗口不弹推送消息
+            if (Steedos.isNode() && window.opener.opener)
+                return;
             
+            notification = $.notification(options)
+
             # add sound
             msg = new Audio("/sound/notification.mp3")
             msg.play();

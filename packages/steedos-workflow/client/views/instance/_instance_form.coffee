@@ -179,15 +179,6 @@ InstanceformTemplate.helpers =
 #        return "disabled";
 #    return;
 
-
-#attachments: ->
-#    # instance 修改时重算
-#    WorkflowManager.instanceModified.get();
-#
-#    instance = WorkflowManager.getInstance();
-#    return instance.attachments;
-
-
 	table_fields: (instance)->
 		if Meteor.isClient
 			form_version = WorkflowManager.getInstanceFormVersion();
@@ -332,7 +323,7 @@ InstanceformTemplate.helpers =
 
 		utcOffset = Template.instance().view.template.steedosData.utcOffset
 
-		values = instance.values
+		values = instance.values || {}
 
 		if Meteor.isClient
 			values = WorkflowManager_format.getAutoformSchemaValues()
@@ -354,7 +345,7 @@ InstanceformTemplate.helpers =
 
 		if Meteor.isServer
 			instance = Template.instance().view.template.steedosData.instance
-			values = instance.values
+			values = instance.values || {}
 		else
 			values = WorkflowManager_format.getAutoformSchemaValues()
 
@@ -378,7 +369,7 @@ InstanceformTemplate.helpers =
 		return InstanceformTemplate.helpers.isOpinionField_from_string(field.formula)
 
 	isOpinionField_from_string: (field_formula)->
-		return (field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1 || field_formula?.indexOf("{yijianlan:") > -1 || field_formula?.indexOf("{\"yijianlan\":") > -1 || field_formula?.indexOf("{'yijianlan':") > -1)
+		return InstanceSignText.isOpinionField_from_string(field_formula)
 
 	includesOpinionField: (form, form_version)->
 
@@ -520,6 +511,19 @@ if Meteor.isServer
 			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
 		else
 			return "/api/files/instances/#{_id}?download=true";
+
+	InstanceformTemplate.helpers.options = (field)->
+		options = field?.options?.split("\n")
+		rev = []
+		options?.forEach (item)->
+			rev.push({label: item, value: item})
+
+		return rev
+
+	InstanceformTemplate.helpers.getPermissions = (code)->
+		if !Template.instance().view.template.steedosData.startStepEditableFields?.includes(code)
+			return "readonly disabled"
+		return ""
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->

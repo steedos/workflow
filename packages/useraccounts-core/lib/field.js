@@ -262,14 +262,17 @@ Field.prototype.validate = function(value, strict) {
     }
   }
 
-  var valueLength = value.length;
-  var minLength = this.minLength;
-  if (minLength && valueLength < minLength) {
-    var reason = T9n.get("minRequiredLength") + minLength.toString();
-    this.setError(reason);
-    this.setValidating(false);
+  if(!Steedos || (this._id !== "password" && this._id !== "password_again")){
+    // Steedos系统中由Steedos.validatePassword函数验证密码，不需要额外验证minLength
+    var valueLength = value.length;
+    var minLength = this.minLength;
+    if (minLength && valueLength < minLength) {
+      var reason = T9n.get("minRequiredLength") + minLength.toString();
+      this.setError(reason);
+      this.setValidating(false);
 
-    return reason;
+      return reason;
+    }
   }
 
   var maxLength = this.maxLength;

@@ -88,17 +88,10 @@ new Tabular.Table
 	columns: [
 		{data: "name", title: "name", orderable: false},
 		{data: "sort_no", title: "sort_no",orderable: false},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-default" id="editFlow"><i class="fa fa-pencil"></i></button>'
-		}
 		{data: "sort_no", title: "sort_no", visible: false}
 	]
-	order: [3, "desc"]
+	dom: "tp"
+	order: [2, "desc"]
 	extraFields: []
 	lengthChange: false
 	pageLength: 10

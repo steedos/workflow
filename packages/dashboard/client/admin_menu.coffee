@@ -1,7 +1,7 @@
 if Meteor.isClient
 
 	# 门户
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "dashboard"
 		title: "Steedos Dashboard"
 		icon: "ion ion-ios-albums-outline"
@@ -9,7 +9,7 @@ if Meteor.isClient
 		sort: 40
 
 	# 面板
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "portal_dashboards"
 		title: "portal_dashboards"
 		icon:"ion ion-ios-photos"

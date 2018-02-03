@@ -229,8 +229,6 @@ SteedosTable.showModal = function(field, index, method) {
 
     Modal.show("steedosTableModal", modalData);
 
-    $(".steedos-table-modal-body").css("max-height", Steedos.getModalMaxHeight());
-
 }
 
 SteedosTable.getKeys = function(field) {
@@ -271,6 +269,10 @@ SteedosTable.getThead = function(field, editable) {
     }
 
     var sfields = fieldObj.sfields;
+
+    if(!sfields){
+    	return thead;
+	}
 
     var sf_length = sfields.length;
 

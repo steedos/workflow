@@ -30,7 +30,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 								<label class='control-label'>{{getLabel code}}</label>
 								<span class="description">{{{description}}}</span>
 							</div>
-							<div style="padding:0px;overflow-x:auto;">
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
 									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
 										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
 											{{{getTableThead this}}}
@@ -51,6 +51,137 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 			{{/if}}
 		{{/with}}
 	</div>
+"""
+
+InstanceReadOnlyTemplate.afFormGroup = """
+
+	{{#with getField this.name}}
+			{{#if equals type 'section'}}
+				<div class="form-group">
+					<div class='section callout callout-default'>
+						<label class="control-label">{{f_label this}}</label>
+						<p>{{{description}}}</p>
+					</div>
+  				</div>
+			{{else}}
+				{{#if equals type 'table'}}
+					<div class="panel panel-default steedos-table">
+						<div class="panel-body" style="padding:0px;">
+							<div class="panel-heading" >
+								<label class='control-label'>{{getLabel code}}</label>
+								<span class="description">{{{description}}}</span>
+							</div>
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
+										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
+											{{{getTableThead this}}}
+										</thead>
+										<tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
+											{{{getTableBody this}}}
+										</tbody>
+									</table>
+							</div>
+						</div>
+					</div>
+				{{else}}
+					{{#if equals type 'input'}}
+						<div class="form-group" data-required="{{#if is_required}}true{{/if}}">
+							<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+							<input type="text" title="{{getLabel code}}" name="{{code}}" {{getPermissions code}} data-schema-key="{{getLabel code}}" class="form-control">
+						</div>
+					{{else}}
+						{{#if equals type 'number'}}
+							<div class="form-group">
+								<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+								<input type="number" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+							</div>
+						{{else}}
+							{{#if equals type 'date'}}
+								<div class="form-group">
+									<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+									<input type="text" title="{{getLabel code}}" name="{{code}}" data-type="date" data-schema-key="{{getLabel code}}" class="form-control">
+								</div>
+							{{else}}
+								{{#if equals type 'dateTime'}}
+									<div class="form-group">
+										<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+										<input type="text" title="{{getLabel code}}" name="{{code}}" data-type='datetime' data-schema-key="{{getLabel code}}" class="form-control">
+									</div>
+								{{else}}
+									{{#if equals type 'password'}}
+										<div class="form-group">
+											<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+											<input type="password" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+										</div>
+									{{else}}
+										{{#if equals type 'select'}}
+											<div class="form-group">
+												<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+												<select name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+													{{#each options this}}
+														<option value="{{value}}">{{label}}</option>
+													{{/each}}
+												</select>
+											</div>
+										{{else}}
+											{{#if equals type 'radio'}}
+												<div class="form-group">
+													<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+													<div class="af-radio-group" data-schema-key="{{getLabel code}}">
+														{{#each options this}}
+        												<label class="radio-inline fix-indent"><input type="radio" value="{{value}}" name="{{../code}}" class="radio-inline fix-indent"> {{label}}</label>
+    													{{/each}}
+    												</div>
+												</div>
+											{{else}}
+												{{#if equals type 'multiSelect'}}
+													<div class="form-group">
+														<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+														<div class="af-checkbox-group" data-schema-key="{{getLabel code}}">
+															{{#each options this}}
+															<label class="checkbox-inline fix-indent"><input type="checkbox" value="{{value}}" name="{{../code}}" class="checkbox-inline fix-indent"> {{label}}</label>
+															{{/each}}
+														</div>
+													</div>
+												{{else}}
+													{{#if equals type 'url'}}
+														<div class="form-group">
+															<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+															<input type="url" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+														</div>
+													{{else}}
+														{{#if equals type 'email'}}
+															<div class="form-group">
+																<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																<input type="email" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+															</div>
+														{{else}}
+															{{#if equals type 'checkbox'}}
+																<div class="form-group">
+																	<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																	<div class="checkbox" data-schema-key="{{getLabel code}}">
+																		<label style="width: 100%;"><input type="checkbox" value="true" name="{{code}}" class="checkbox-inline fix-indent"></label>
+																	</div>
+																</div>
+															{{else}}
+																<div class="form-group">
+																	<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																	<div class='{{getCfClass this}} form-control' readonly disabled>{{{getValue code}}}</div>
+																</div>
+															{{/if}}
+														{{/if}}
+													{{/if}}
+												{{/if}}
+											{{/if}}
+										{{/if}}
+									{{/if}}
+								{{/if}}
+							{{/if}}
+						{{/if}}
+					{{/if}}
+				{{/if}}
+			{{/if}}
+		{{/with}}
 """
 
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
@@ -86,6 +217,10 @@ InstanceReadOnlyTemplate.createImageSign = (steedosData) ->
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
+
+	if Meteor.isServer
+		InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
+
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
 		InstanceReadOnlyTemplate.create("instance_attachment", {absolute: steedosData.absolute});
@@ -224,7 +359,40 @@ _getLocale = (user)->
 		locale = "zh-CN"
 	return locale
 
-_getTemplateData = (user, space, instance)->
+
+_getRequiredFields = (fields, rev)->
+	if !rev
+		rev = [];
+
+	fields.forEach (field)->
+		if field.type == 'section'
+			_getRequiredFields(field.fields, rev)
+		else if field.type == 'table'
+
+		else
+			if field.is_required
+				rev.push field.code
+	return rev;
+
+_getStartStepEditableFields = (fields, steps)->
+	startStep = steps.findPropertyByPK("step_type","start")
+
+	editableCode = []
+
+	_.keys(startStep.permissions).forEach (key)->
+		if startStep.permissions[key] == 'editable'
+			editableCode.push key
+
+	return editableCode
+
+_getStartStepRequiredFields = (fields, steps)->
+	requiredFields = _getRequiredFields(fields)
+
+	editableCode = _getStartStepEditableFields(fields, steps)
+
+	return _.intersection(requiredFields, editableCode)
+
+_getTemplateData = (user, space, instance, options)->
 	if Meteor.isServer
 		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
 	else
@@ -244,7 +412,6 @@ _getTemplateData = (user, space, instance)->
 		steedosData.ins_is_deleted = instance.ins_is_deleted
 		steedosData.applicant_name = instance.applicant_name
 		steedosData.applicantContext = instance.applicant_name
-		steedosData.attachments = instance.attachments
 
 	steedosData.instance = instance
 	steedosData.form_version = form_version
@@ -252,6 +419,14 @@ _getTemplateData = (user, space, instance)->
 	steedosData.utcOffset = user.utcOffset
 	steedosData.space = instance.space
 	steedosData.sessionUserId = user._id
+
+	if Meteor.isServer
+		if options?.editable
+			form = db.forms.findOne({_id: instance.form})
+
+			flow = db.flows.findOne({_id: instance.flow})
+
+			steedosData.startStepEditableFields = _getStartStepEditableFields(form.current.fields, flow.current.steps);
 
 	return steedosData;
 
@@ -268,7 +443,7 @@ InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
 
 InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
-	steedosData = _getTemplateData(user, space, instance)
+	steedosData = _getTemplateData(user, space, instance, options)
 
 	steedosData.absolute = false;
 
@@ -279,7 +454,8 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
 
-	instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
+	if !options?.editable
+		instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
 
@@ -341,7 +517,7 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	Template.attachments_readonly_view.helpers InstanceAttachmentTemplate.helpers
 
-	body = Blaze.toHTMLWithData(Template.attachments_readonly_view, instance.attachments)
+	body = Blaze.toHTMLWithData(Template.attachments_readonly_view)
 
 	return body;
 
@@ -405,6 +581,9 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				}
 			}
 
+			var flow = "#{instance.flow}";
+			var space = "#{instance.space}";
+
 	""";
 
 
@@ -415,6 +594,9 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	if options?.templateName == 'table'
 		instance_style = "instance-table"
+
+	if options?.instance_style
+		instance_style = options.instance_style
 
 	if !options || options.showTrace == true
 		trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
@@ -446,6 +628,11 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	allCssLink = """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
 
+	submit_btn = ""
+
+#	if options?.editable
+#		submit_btn = '<a class="btn btn-block btn-social btn-steedos-workflow" onclick="wc.submit()"><i class="fa fa-facebook"></i> 提交到审批王</a>'
+
 
 	if options?.styles
 		allCssLink = ""
@@ -472,6 +659,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				#{allCssLink}
 				<script src="https://www.steedos.com/website/libs/jquery.min.js" type="text/javascript"></script>
 				<script src="/js/nw_core.js" type="text/javascript"></script>
+				#{options.plugins || ""}
+
 				<style>
 					.steedos{
 						width: #{width};
@@ -498,23 +687,26 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 						padding-right: 15px;
 					}
 
-					#{options?.styles}
+					#{options?.styles || ""}
 				</style>
 			</head>
 			<body>
 				<div class="steedos">
+					#{submit_btn}
 					<div class="instance-view">
 						<div class="instance #{instance_style}">
-							<div class="instance-form box #{instanceBoxStyle}">
-								#{formDescriptionHtml}
-								<div class="box-body">
-									<div class="col-md-12">
-										#{body}
-										#{attachment}
-										#{related_instances}
+							<form name="instanceForm">
+								<div class="instance-form box #{instanceBoxStyle}">
+									#{formDescriptionHtml}
+									<div class="box-body">
+										<div class="col-md-12">
+											#{body}
+											#{attachment}
+											#{related_instances}
+										</div>
 									</div>
 								</div>
-							</div>
+							</form>
 							#{trace}
 						</div>
 					</div>

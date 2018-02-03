@@ -97,9 +97,23 @@ Template.instance_view.helpers
 	box: ()->
 		return Session.get("box");
 
+	isInbox: ()->
+		return InstanceManager.isInbox()
+
+	tracesListData: (instance)->
+		return instance.traces
+
+	notDistributeAndDraft: (state)->
+		ins = WorkflowManager.getInstance()
+		if ins
+			if state is 'draft' and !ins.distribute_from_instance
+				return false
+
+		return true
 
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
+	Session.set("instance_submitting", false);
 
 Template.instance_view.onRendered ->
 
@@ -119,7 +133,8 @@ Template.instance_view.onRendered ->
 
 	$(".workflow-main").addClass("instance-show")
 
-	isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
+	# isNeedActiveSuggestion = Session.get("box") == "inbox" and WorkflowManager.getInstance()?.state == "pending"
+	isNeedActiveSuggestion = true
 	if !Steedos.isMobile() && !Steedos.isPad()
 		# 增加.css("right","-1px")代码是为了fix掉perfectScrollbar会造成右侧多出空白的问题
 		$('.instance').perfectScrollbar().css("right","-1px")
@@ -156,7 +171,25 @@ Template.instance_view.onRendered ->
 			$(".btn-instance-back").trigger("click")
 		)
 
+	if Session.get("box") == "inbox" || Session.get("box") == "draft"
+		console.log("onRendered 160...")
+		Session.set("instance_next_user_recalculate", Random.id())
+
 	$("body").removeClass("loading")
+
+	# 草稿状态申请单对应的流程已被禁用则提示用户
+	if ins.state is 'draft'
+		flow = db.flows.findOne({_id: ins.flow},{fields:{state: 1, name: 1}})
+		if flow and flow.state is 'disabled'
+			swal({
+				title: t('workflow_flow_state_disabled', {name: flow.name}),
+				confirmButtonText: t("OK"),
+				type: 'warning'
+			})
+
+Template.instance_view.onDestroyed ->
+	Session.set("instance_next_user_recalculate", null)
+	Steedos.subs["instance_data"].clear()
 
 Template.instance_view.events
 	'change .instance-view .form-control,.instance-view .suggestion-control,.instance-view .checkbox input,.instance-view .af-radio-group input,.instance-view .af-checkbox-group input': (event, template) ->
@@ -204,9 +237,12 @@ Template.instance_view.events
 
 	'click #ins_new_main_file': (event, template)->
 		Session.set('attach_parent_id', "")
+		Session.set('attach_instance_id', Session.get("instanceId"))
+		Session.set('attach_space_id', Session.get("spaceId"))
+		Session.set('attach_box', Session.get("box"))
 		# 正文最多只有一个
 		main_attach_count = cfs.instances.find({
-			'metadata.instance': Session.get("instanceId"),
+			'metadata.instance': Session.get('attach_instance_id'),
 			'metadata.current': true,
 			'metadata.main': true
 		}).count()
@@ -214,12 +250,12 @@ Template.instance_view.events
 		if main_attach_count >= 1
 			toastr.warning  TAPi18n.__("instance_attach_main_only_one")
 			return
-		
+
 		arg = "Steedos.User.isNewFile"
-		
+
 		# 默认文件名为文件标题
-		newFileName = WorkflowManager.getInstance().name + '.doc'
-		
+		newFileName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"") + '.doc'
+
 		downloadUrl = window.location.origin + "/word/demo.doc"
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
@@ -228,47 +264,25 @@ Template.instance_view.events
 
 		error = event.target.dataset.error
 		error_type = event.target.dataset.error_type
+		error_code = event.target.dataset.error_code
 
-		if error && error_type == 'applicantRole'
+#		console.log("error", error)
+#
+#		console.log("error_type", error_type)
+#
+#		console.log("error_code", error_code)
 
-			if(Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()))
-				swal({
-					title: t('not_found_user'),
-					text: error,
-					html: true,
-					showCancelButton: true,
-					closeOnConfirm: false,
-					confirmButtonText: t('instanc_set_applicant_role_text'),
-					cancelButtonText: t('Cancel'),
-					showLoaderOnConfirm: false
-				}, (inputValue) ->
-					if inputValue == false
-						swal.close();
-					else
-						Steedos.openWindow(Steedos.absoluteUrl('admin/workflow/flow_roles'))
-						swal({
-							title: t('instance_role_set_is_complete'),
-							type: "warning",
-							confirmButtonText: t("OK"),
-							closeOnConfirm: true
-						}, ()->
-							Session.set("instance_next_user_recalculate", Random.id())
-							swal.close();
-						)
-				);
-			else
-				swal({
-					title: t('not_found_user'),
-					text: error,
-					html: true,
-					showCancelButton: false,
-					closeOnConfirm: false,
-					cancelButtonText: t('Cancel')
-					confirmButtonText: t('OK'),
-				});
+		if error && error_type
 
-			event.preventDefault()
+			console.log(ApproveManager.isReadOnly());
+
+			NextStepUser.handleException({error: error_type, reason: error, error_code: error_code})
+
+#			event.preventDefault()
+#
+#			event.stopPropagation()
 
 			return false;
 
-		
+	'change #nextStepUsers': (event, template)->
+		InstanceManager.checkNextStepUser()

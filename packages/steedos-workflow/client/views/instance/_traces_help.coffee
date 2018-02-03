@@ -120,7 +120,7 @@ TracesTemplate.helpers =
 			if Session.get("box") == 'inbox'
 				myApprove = Template.instance()?.myApprove?.get()
 				if myApprove && myApprove.id == approveId
-					if Session.get("instance_my_approve_description") == null
+					if !Session.get("instance_my_approve_description")
 						return myApprove?.description || ""
 					return Session.get("instance_my_approve_description")
 	isForward: (approved) ->
@@ -128,7 +128,9 @@ TracesTemplate.helpers =
 			return true
 		false
 	showForwardDeleteButton: (approve) ->
-		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
+		if db.instances.find(approve.forward_instance).count() is 0
+			return false
+		if approve and approve.type == 'forward' and approve.from_user == Meteor.userId() and !Session.get("instancePrint") and approve.judge isnt 'terminated'
 			return true
 		false
 	markDownToHtml: (markDownString)->
@@ -142,8 +144,19 @@ TracesTemplate.helpers =
 			return true
 		false
 	showDistributeDeleteButton: (approve) ->
-		if approve and approve.type == 'distribute' and approve.from_user == Meteor.userId() and !Session.get("instancePrint")
-			return true
+		if db.instances.find(approve.forward_instance).count() is 0
+			return false
+
+		if approve and approve.type == 'distribute' and !Session.get("instancePrint") and approve.judge isnt 'terminated' and Steedos.isLegalVersion('',"workflow.enterprise")
+			# 流程管理员和系统管理员，可以执行任何情况下的文件取消分发
+			ins = db.instances.findOne({_id: approve.instance}, {fields: {flow: 1, space: 1}})
+			if ins and ins.flow and ins.space
+				if WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, Meteor.userId())
+					return true
+			
+			if approve.from_user == Meteor.userId()
+				return true
+
 		false
 
 	finishDateSchema: () ->
@@ -166,6 +179,7 @@ TracesTemplate.helpers =
 						dateTimePickerOptions:{
 							format: "YYYY-MM-DD HH:mm",
 							ignoreReadonly:true,
+							locale: Session.get("TAPi18n::loaded_lang"),
 							widgetPositioning:{
 								horizontal: 'right'
 							}
@@ -187,8 +201,81 @@ TracesTemplate.helpers =
     	false: 不显示traces view，签核历程按钮点击后,以Modal 方式显示traces view
 	###
 	showTracesView: (form, form_version)->
-		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
+#		return !(InstanceManager.isTableStyle(form) && InstanceformTemplate.helpers.includesOpinionField(form, form_version))
 
+		show_modal_traces_list = db.space_settings.findOne({space: Session.get("spaceId"), key: "show_modal_traces_list"})?.values || false
+
+		return !show_modal_traces_list
+
+	getInstanceStateText: (instance_id)->
+		if Meteor.isServer
+			locale = Template.instance().view.template.steedosData.locale
+			if locale.toLocaleLowerCase() == 'zh-cn'
+				locale = "zh-CN"
+		else
+			locale = Session.get("TAPi18n::loaded_lang")
+
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
+		if not ins
+			return TAPi18n.__('instance_deleted', {}, locale)
+
+		text = ''
+		if ins.state is 'completed'
+			text = TAPi18n.__('completed', {}, locale)
+		else if ins.state is 'pending'
+			text = TAPi18n.__('pending', {}, locale)
+		else if ins.state is 'draft'
+			if ins.is_read
+				text = TAPi18n.__('instance_approve_read', {}, locale)
+			else
+				text = TAPi18n.__('instance_approve_not_yet_handled', {}, locale)
+
+		return text
+
+	getInstanceStateColor: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
+		if not ins
+			return ""
+
+		cla = ''
+		if ins.state is 'draft'
+			if ins.is_read
+				cla = 'blue'
+			else
+				cla = 'red'
+		return cla
+
+	firstTrace: (index)->
+		return index is 0
+
+	last_distribute_from: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id, distribute_from_instance: {$exists: true}},{fields:{created: 1, created_by: 1}})
+		if ins
+			dis_info = {}
+			user = {}
+			if Meteor.isClient
+				user = UUflow_api.getNameForUser(ins.created_by)
+			else if Meteor.isServer
+				user = db.users.findOne({_id: ins.created_by}, {fields: {name: 1}})
+
+			if user.name
+				dis_info.from_user_name = user.name
+				dis_info.created = ins.created
+
+			if not _.isEmpty(dis_info)
+				return dis_info
+		return
+
+	isCCOrDistributeOrForwardTerminated: (approve)->
+		if (approve.type is 'cc' or approve.type is 'distribute' or approve.type is 'forward') and approve.judge is 'terminated'
+			return true
+		return false
+
+	judgeTerminated: (judge)->
+		return judge is 'terminated'
+
+	instanceExists: (instance_id)->
+		return !!db.instances.find(instance_id).count()
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
@@ -242,8 +329,7 @@ TracesTemplate.events =
 		return
 
 	'click .approve-item,.approve-description': (event, template) ->
-		unless Steedos.isAndroidApp() and Steedos.isiOS()
-			Modal.show "instance_trace_detail_modal", this
+		Modal.show "instance_trace_detail_modal", this
 
 	'taphold .approve-item,.approve-description': (event, template) ->
 		Modal.show "instance_trace_detail_modal", this
@@ -254,9 +340,6 @@ TracesTemplate.events =
 		event.stopPropagation()
 		event.preventDefault()
 		return false
-
-	'click .instance-trace-detail-modal .btn-close': (event, template) ->
-		Modal.hide "instance_trace_detail_modal"
 
 	'click .instance-trace-detail-modal .btn-forward-approve-remove': (event, template) ->
 		instanceId = Session.get('instanceId')
@@ -275,12 +358,9 @@ TracesTemplate.events =
 		return
 
 	'click .instance-trace-detail-modal .btn-forward-instance-look': (event, template) ->
-		if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
-				toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
-		else
-			forward_space = event.target.dataset.forwardspace
-			forward_instance = event.target.dataset.forwardinstance
-			Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/view/readonly/" + forward_instance))
+		forward_space = event.target.dataset.forwardspace
+		forward_instance = event.target.dataset.forwardinstance
+		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/" + forward_space + "/view/readonly/" + forward_instance))
 
 	'click .btn-modification'	: (event, template) ->
 		template.is_editing.set(!template.is_editing.get());
@@ -289,9 +369,9 @@ TracesTemplate.events =
 				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
 				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
 					$(".modal-body").scrollTop(100)
-	
+
 	'click .btn-cancelBut' : (event, template) ->
-		
+
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->
@@ -312,3 +392,7 @@ TracesTemplate.events =
 				toastr.success(t("instance_approve_modal_modificationsave"))
 				Modal.hide "instance_trace_detail_modal"
 			return
+
+	'click .instance-trace-detail-modal .btn-distribute-approve-remove': (event, template) ->
+		Modal.allowMultiple = true
+		Modal.show 'cancel_distribute_modal'

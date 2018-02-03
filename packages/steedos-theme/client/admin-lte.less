@@ -139,7 +139,6 @@
 			margin-left: 0px!important;
 		}
 	}
-
 	&.no-sidebar{
 		.main-sidebar{
 			display:none;
@@ -161,6 +160,12 @@
 			width: 280px;
 			word-wrap: break-word;
 			white-space: normal;
+			@media(max-width: 767px) {
+				&{
+					min-width: 140px;
+					width: auto;
+				}
+			}
 		}
 	}
 }
@@ -184,6 +189,9 @@
 				}
 			}
 		} 
+		.content-wrapper {
+			background-color: transparent;
+		}
 		.content-wrapper, .right-side { 
 			padding-top: 0px;
 			top: 0px;

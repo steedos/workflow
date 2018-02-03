@@ -5,7 +5,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-			instance_id = instance_from_client['id']
+			instance_id = instance_from_client['_id']
 			instance = uuflowManager.getInstance(instance_id)
 			space_id = instance.space
 			# 验证instance为审核中状态
@@ -13,7 +13,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			# 验证当前执行转签核的trace未结束
 			last_trace_from_client = _.last(instance_from_client["traces"])
 			last_trace = _.find(instance.traces, (t)->
-				return t._id is last_trace_from_client["id"]
+				return t._id is last_trace_from_client["_id"]
 			)
 			if last_trace.is_finished is true
 				return
@@ -39,7 +39,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc" and last_trace.approves[i].type isnt "distribute"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
-						last_trace.approves[i].judge = ""
+						last_trace.approves[i].judge = "terminated"
 						last_trace.approves[i].description = ""
 						last_trace.approves[i].cost_time = last_trace.approves[i].finish_date - last_trace.approves[i].start_date
 				i++
@@ -125,6 +125,9 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				# 给新加入的inbox_users发送push message
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, reassign_reason, current_user_info)
 
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'reassign')
+
 		JsonRoutes.sendResult res,
 				code: 200
 				data: {}
@@ -133,5 +136,3 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

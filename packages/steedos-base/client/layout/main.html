@@ -259,7 +259,7 @@
 	</script>
 </head>
 
-<body class="skin-blue-light fixed steedos sidebar-mini three-columns">
+<body class="skin-blue-light fixed steedos sidebar-mini three-columns loading">
 	<script type="text/javascript">
 		$(function(){
 			$("body").addClass("loading");
@@ -276,7 +276,7 @@
 				<div class="rect5"></div>
 			</div>
 			<div class="loading-text">
-				
+				<a class="btn btn-default btn-reload hide" onclick="window.location.reload(true);">{{_ "loading_reload_button_title"}}</a>
 			</div>
 		</div>
 	</section>

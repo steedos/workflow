@@ -6,7 +6,7 @@ Template.instanceSignModal.helpers
 		if history_approve && history_approve?.description
 			return history_approve.description
 		else
-			description = Session.get("instance_my_approve_description") || approve?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+			description = Session.get("instance_my_approve_description") || InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
 			return description;
 
 	show_suggestion_counts: ()->
@@ -26,6 +26,13 @@ Template.instanceSignModal.helpers
 
 		if sign_approves.length == 0
 			return true
+
+	opinions: () ->
+		opinions = []
+		o = db.steedos_keyvalues.findOne({user: Meteor.userId(), key: 'flow_opinions', 'value.workflow': $exists: true})
+		if o
+			opinions = o.value.workflow
+		return opinions.slice(0,3)
 
 Template.instanceSignModal.events
 	'click #instance_flow_opinions': (event, template)->

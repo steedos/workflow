@@ -14,13 +14,13 @@ accountsRoutes.route '/',
 # 修改/绑定手机号
 accountsRoutes.route '/setup/phone',
 	action: (params, queryParams)->
-		BlazeLayout.render 'loginLayout',
+		BlazeLayout.render 'masterLayout',
 			main: "accounts_phone"
 
 # 修改/绑定手机号中发送验证码短信后，跳转到的验证码输入界面
 accountsRoutes.route '/setup/phone/:number',
 	action: (params, queryParams)->
-		BlazeLayout.render 'loginLayout',
+		BlazeLayout.render 'masterLayout',
 			main: "accounts_phone_verify"
 
 # 重置密码
@@ -60,3 +60,9 @@ accountsRoutes.route '/setup/space',
 	action: (params, queryParams)->
 		BlazeLayout.render 'loginLayout',
 			main: "accounts_space"
+
+# 手机号注册企业
+FlowRouter.route '/steedos/admin/register',
+	action: (params, queryParams)->
+		BlazeLayout.render 'loginLayout',
+			main: "accounts_admin_register"

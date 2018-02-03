@@ -1,3 +1,44 @@
+###
+@api {post} /api/workflow/open/drafts 新建申请单
+
+@apiName createInstance
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+{
+	"X-Space-Id": "wsw1re12TdeP223sC"
+}
+
+@apiParamExample {json} Request Payload:
+{
+    "flow": 流程Id,
+    "applicant": 申请人Id,
+    "values": {
+        "fields1" : 字段值,
+        "fields2" : 字段值,
+        ...
+    }
+}
+
+@apiSuccessExample {json} Success-Response:
+{
+    "status": "success",
+    "data": {instance}
+}
+
+@apiErrorExample {json} error-Response:
+{
+    "status": "error",
+    "data": {...}
+}
+###
 JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 	try
 
@@ -25,12 +66,13 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 
 		flow_id      = hashData["flow"]
 		applicant_id = hashData["applicant"]
+		applicant_username = hashData["applicant_username"]
 
 		instance_from_client = new Object
 
 		flow = db.flows.findOne(flow_id)
 		if not flow
-			throw new Meteor.Error('error', 'flow is null')
+			throw new Meteor.Error('error', 'flow is not exists')
 
 		if space_id isnt flow.space
 			throw new Meteor.Error('error', 'flow is not belong to this space')
@@ -42,12 +84,20 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		instance_from_client["flow"] = flow_id
 		instance_from_client["flow_version"] = flow.current._id
 
-		if applicant_id
-			applicant = db.users.findOne(applicant_id)
-			if not applicant
-				throw new Meteor.Error('error', 'applicant is wrong')
+		if applicant_id or applicant_username
+			applicant = null
 
-			space_user = uuflowManager.getSpaceUser(space_id, applicant_id)
+			if applicant_id
+				applicant = db.users.findOne(applicant_id)
+				if not applicant
+					throw new Meteor.Error('error', 'applicant is wrong')
+
+			else if applicant_username
+				applicant = db.users.findOne({username: applicant_username})
+				if not applicant
+					throw new Meteor.Error('error', 'applicant_username is wrong')
+
+			space_user = db.space_users.findOne({space: space_id, user: applicant._id})
 			if not space_user
 				throw new Meteor.Error('error', 'applicant is not a member of this space')
 
@@ -85,5 +135,3 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}]}
-	
-		

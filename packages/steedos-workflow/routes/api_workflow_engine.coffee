@@ -8,14 +8,13 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 		_.each hashData['Approvals'], (approve_from_client) ->
 			instance_id = approve_from_client["instance"]
 			trace_id = approve_from_client["trace"]
-			approve_id = approve_from_client["id"]
+			approve_id = approve_from_client["_id"]
 			values = approve_from_client["values"]
 			if not values then values = new Object
 			next_steps = approve_from_client["next_steps"]
 			judge = approve_from_client["judge"]
 			description = approve_from_client["description"]
 			geolocation = approve_from_client["geolocation"]
-			attachments = approve_from_client["attachments"]
 
 			setObj = new Object
 
@@ -60,37 +59,51 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			i = 0
 			while i < trace_approves.length
 				if trace_approves[i]._id is approve_id
-					trace_approves[i].geolocation = geolocation
+					key_str = "traces.$.approves." + i + "."
+					setObj[key_str + "geolocation"] = geolocation
 					if step_type is "condition"
 					else if step_type is "start" or step_type is "submit"
-						trace_approves[i].judge = "submitted"
-						trace_approves[i].description = description
+						setObj[key_str + "judge"] = "submitted"
+						setObj[key_str + "description"] = description
 					else if step_type is "sign" or step_type is "counterSign"
 						# 如果是会签并且前台没有显示核准驳回已阅的radio则给judge默认submitted
 						if step_type is "counterSign" and not judge
 							judge = 'submitted'
 						# 判断前台传的judge是否合法
 						uuflowManager.isJudgeLegal(judge)
-						trace_approves[i].judge = judge
-						trace_approves[i].description = description
+						setObj[key_str + "judge"] = judge
+						setObj[key_str + "description"] = description
 
-					trace_approves[i].next_steps = next_steps
-					trace_approves[i].is_read = true
-					if trace_approves[i].read_date is null
-						trace_approves[i].read_date = new Date
-					trace_approves[i].values = values
+					setObj[key_str + "next_steps"] = next_steps
+					setObj[key_str + "is_read"] = true
+					if not trace_approves[i].read_date
+						setObj[key_str + "read_date"] = new Date
+					# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
+					setObj[key_str + "values"] = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
 
+					# 更新instance记录
+					setObj.modified = new Date
+					setObj.modified_by = current_user
+
+					db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 				i++
 
-			setObj["traces.$.approves"] = trace_approves
-			# 更新instance记录
-			setObj.modified = new Date
-			setObj.modified_by = current_user
-			setObj.attachments = if attachments then attachments
 
-			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 			# ================end================
 			instance = uuflowManager.getInstance(instance_id)
+			# 防止此时的instance已经被处理
+			# 获取一个trace
+			trace = uuflowManager.getTrace(instance, trace_id)
+			# 获取一个approve
+			approve = uuflowManager.getApprove(trace, approve_id)
+			# 判断一个trace是否为未完成状态
+			uuflowManager.isTraceNotFinished(trace)
+			# 判断一个approve是否为未完成状态
+			uuflowManager.isApproveNotFinished(approve)
+			# 判断一个instance是否为审核中状态
+			uuflowManager.isInstancePending(instance)
+			# 判断当前用户是否approve 对应的处理人或代理人
+			uuflowManager.isHandlerOrAgent(approve, current_user)
 			updateObj = new Object
 
 			if next_steps is null or next_steps.length is 0
@@ -104,7 +117,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					_.each next_steps[0]["users"], (next_step_user) ->
 						checkSpaceUser = uuflowManager.getSpaceUser(space_id, next_step_user)
 
-				if step_type is "start" or step_type is "submit" or step_type is "condition" 
+				if step_type is "start" or step_type is "submit" or step_type is "condition"
 					updateObj = uuflowManager.engine_step_type_is_start_or_submit_or_condition(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info)
 				else if step_type is "sign"
 					updateObj = uuflowManager.engine_step_type_is_sign(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info, description)
@@ -135,7 +148,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 				else
 					#通知填单人、申请人
 					pushManager.send_instance_notification("submit_completed_applicant", instance, description, current_user_info)
-			
+
 			else if "pending" is instance.state
 				if "rejected" is instance_trace.judge and instance_trace.is_finished is true
 					if 'start' is next_step_type
@@ -157,7 +170,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			pushManager.send_message_current_user(current_user_info)
 
 			# 如果已经配置webhook并已激活则触发
-			pushManager.triggerWebhook(flow_id, instance, approve_from_client)
+			pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit')
 
 		JsonRoutes.sendResult res,
 			code: 200
@@ -167,5 +180,3 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}]}
-	
-		

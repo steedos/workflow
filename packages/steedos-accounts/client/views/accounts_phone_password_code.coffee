@@ -4,7 +4,7 @@ Template.accounts_phone_password_code.helpers
 		if isPhoneVerified
 			return Accounts.getPhoneNumber(true)
 		else
-			return ""
+			return t "accounts_phone_verify_fail"
 	title: ->
 		return t "accounts_phone_password_title"
 
@@ -34,7 +34,8 @@ Template.accounts_phone_password_code.events
 			return
 
 		$(document.body).addClass('loading')
-		Accounts.verifyPhone number, code, password, (error) ->
+		mobile = Accounts.getPhoneNumber()
+		Accounts.verifyPhone number, mobile, code, password, (error) ->
 			$(document.body).removeClass('loading')
 			if error
 				toastr.error t error.reason
@@ -43,8 +44,11 @@ Template.accounts_phone_password_code.events
 			if window.name == "setup_phone"
 				toastr.success t "accounts_phone_password_suc_wait"
 				setTimeout ->
+					# 如果在修改密码后不把路由重新定位，则当前主界面会跳转并保持在登录界面（而且是假的登录界面）
+					# 这里要加到延时之后，否则不能跳转成功
+					window.opener.FlowRouter.go "/admin/profile/password"
 					window.close()
-				,5000
+				,4200
 			else
 				toastr.success t "accounts_phone_password_suc"
 				FlowRouter.go "/admin"
@@ -66,7 +70,7 @@ Template.accounts_phone_password_code.events
 			if (reason == false)
 				return false;
 			$(document.body).addClass('loading')
-			Accounts.requestPhoneVerification number, (error)->
+			Accounts.requestPhoneVerification number, true, (error)->
 				$(document.body).removeClass('loading')
 				if error
 					toastr.error t error.reason

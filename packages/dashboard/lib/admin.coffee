@@ -5,7 +5,7 @@ db.portal_dashboards.adminConfig =
         {name: "name"}
         {name: "modified"}
     ]
-    selector: Admin.selectorCheckSpaceAdmin
+    selector: Selector.selectorCheckSpaceAdmin
 
 db.apps_auths.adminConfig = 
     icon: "globe"
@@ -15,7 +15,7 @@ db.apps_auths.adminConfig =
         {name: "title"}
         {name: "modified"}
     ]
-    selector: Admin.selectorCheckSpaceAdmin
+    selector: Selector.selectorCheckSpaceAdmin
 
 db.apps_auth_users.adminConfig = 
     icon: "globe"

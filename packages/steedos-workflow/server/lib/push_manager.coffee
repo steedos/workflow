@@ -10,7 +10,7 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 	to_users = new Array
 	if ['first_submit_applicant'].includes(send_from)
 		# 申请人
-		if instance.applicant isnt instance.submitter 
+		if instance.applicant isnt instance.submitter
 			applicant = db.users.findOne(instance.applicant)
 			to_users.push(applicant)
 
@@ -31,6 +31,9 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 		to_users.push(applicant)
 	else if ['trace_approve_cc'].includes(send_from) && cc_user_ids
 		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+	else if ['trace_approve_cc_submit'].includes(send_from) && cc_user_ids
+		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+
 	return to_users
 
 pushManager.get_body = (parameters, lang="zh-CN")->
@@ -52,7 +55,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 	current_user_name = parameters["current_user_name"]
 	currentStep_type = parameters["currentStep_type"]
 
-	push_final_decision = "" 
+	push_final_decision = ""
 	email_final_decision = ""
 	email_description = ""
 
@@ -134,7 +137,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 		body["email"] = TAPi18n.__ 'instance.email.body.submit_pending_rejected_inbox', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type,lastApprove_usersname: lastApprove_usersname}, lang
 	else if "submit_pending_inbox" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.submit_pending_inbox', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type}, lang
-		
+
 		if not approves_description
 			body["email"] = TAPi18n.__ 'instance.email.body.submit_pending_inbox', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type,lastApprove_usersname: lastApprove_usersname, last_approve_judge: last_approve_judge}, lang
 		else
@@ -154,7 +157,7 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 		body["email"] = TAPi18n.__ 'instance.email.body.monitor_delete_applicant', {instance_name: instance_name,to_username: to_username, current_username: current_user_name, href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description}, lang
 	else if "approved_completed_applicant" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.approved_completed_applicant', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision}, lang
-		
+
 		if not approves_description
 			body["email"] = TAPi18n.__ 'instance.email.body.approved_completed_applicant', {instance_name: instance_name,to_username: to_username, current_username: current_user_name, href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,lastApprove_usersname: lastApprove_usersname}, lang
 		else
@@ -175,7 +178,8 @@ pushManager.get_body = (parameters, lang="zh-CN")->
 	else if "trace_approve_cc" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type}, lang
 		body["email"] = TAPi18n.__ 'instance.email.body.trace_approve_cc', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type}, lang
-
+	else if "trace_approve_cc_submit" is send_from
+		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc_submit', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type, current_user_name: current_user_name}, lang
 	return body
 
 pushManager.get_title = (parameters, lang="zh-CN")->
@@ -249,17 +253,18 @@ pushManager.get_title = (parameters, lang="zh-CN")->
 	else if "trace_approve_cc" is send_from
 		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
 		title["email"] = TAPi18n.__ 'instance.email.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
-
+	else if "trace_approve_cc_submit" is send_from
+		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc_submit', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
 	return title
 
 pushManager.get_badge = (send_from, user_id)->
-	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
+	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc', 'trace_approve_cc_submit'].includes(send_from)
 		return null
 
 	badge = 0
 	user_spaces = db.space_users.find(
 		user: user_id
-		user_accepted: true).fetch()
+		user_accepted: true, {fields: {space: 1}})
 	user_spaces.forEach (user_space) ->
 		c = db.instances.find(
 			space: user_space.space
@@ -271,15 +276,15 @@ pushManager.get_badge = (send_from, user_id)->
 			$or: [
 				{ inbox_users: user_id }
 				{ cc_users: user_id }
-			]).count()
+			], {fields: {_id: 1}}).count()
 		badge += c
-
 		sk = db.steedos_keyvalues.findOne(
 			user: user_id
 			space: user_space.space
-			key: 'badge')
+			key: 'badge', {fields: {_id: 1, value: 1}})
 		if sk
-			db.steedos_keyvalues.update { _id: sk._id }, $set: 'value.workflow': c
+			if sk.value?.workflow != c
+				db.steedos_keyvalues.update { _id: sk._id }, $set: 'value.workflow': c
 		else
 			sk_new = {}
 			sk_new.user = user_id
@@ -287,11 +292,10 @@ pushManager.get_badge = (send_from, user_id)->
 			sk_new.key = 'badge'
 			sk_new.value = 'workflow': c
 			db.steedos_keyvalues.insert sk_new
-
 	sk_all = db.steedos_keyvalues.findOne(
 		user: user_id
 		space: null
-		key: 'badge')
+		key: 'badge', {fields: {_id: 1}})
 	if sk_all
 		db.steedos_keyvalues.update { _id: sk_all._id }, $set: 'value.workflow': badge
 	else
@@ -301,7 +305,6 @@ pushManager.get_badge = (send_from, user_id)->
 		sk_all_new.key = 'badge'
 		sk_all_new.value = 'workflow': badge
 		db.steedos_keyvalues.insert sk_all_new
-
 	return badge
 
 # 发送消息和badge到imo客户端
@@ -337,9 +340,9 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 			con["count"] = body["badge"].to_s
 			appmsg["contents"] = [con]
 			res_b = HTTP.post(
-				'http://open.imoffice.com:8000/', 
+				'http://open.imoffice.com:8000/',
 				{
-					params: 
+					params:
 						app: "appnoticeopen",
 						pushtype: "2",
 						fromcid: fromcid,
@@ -413,7 +416,7 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 
 		response = HTTP.post(bqq_uri)
 
-		if response.data.ret > 0 
+		if response.data.ret > 0
 			console.error response.data.msg
 
 		return
@@ -421,18 +424,19 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 		console.error e.stack
 
 pushManager.send_email_to_SMTP = (subject, content, to_user, reply_user)->
-	if not to_user.email or to_user.email_notification is false
+	if not to_user.email or not to_user.email_notification
 		return
 	try
-		from_displayName = reply_user.name
-
 		MailQueue.send
 			to: to_user.email
-			from: from_displayName + ' on ' + Meteor.settings.email.from
+			from: pushManager.checkMailFromNameLength(reply_user.name) + ' on ' + Meteor.settings.email.from
 			subject: subject
 			html: content
 	catch e
 		console.error e.stack
+
+pushManager.checkMailFromNameLength = (name)->
+	return if name.length <= 18 then name else name.substr(0, 18) + '...'
 
 pushManager.send_message_by_raix_push = (data)->
 	if not data["data"]
@@ -453,7 +457,7 @@ pushManager.send_message_by_raix_push = (data)->
 
 			notification["payload"] = payload
 
-		if data["data"]["badge"]
+		if data["data"]["badge"] > -1
 			notification['badge'] = data["data"]["badge"]
 
 		_.each data["toUsers"], (u)->
@@ -653,11 +657,13 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	catch e
 		console.error e.stack
 
-pushManager.triggerWebhook = (flow_id, instance, current_approve)->
+pushManager.triggerWebhook = (flow_id, instance, current_approve, action)->
+	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
 	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
 		WebhookQueue.send({
 				instance: instance,
 				current_approve: current_approve,
 				payload_url: w.payload_url,
-				content_type: w.content_type
+				content_type: w.content_type,
+				action: action
 			})

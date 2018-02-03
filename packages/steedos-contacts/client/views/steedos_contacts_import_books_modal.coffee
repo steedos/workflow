@@ -1,7 +1,7 @@
 Template.steedos_contacts_import_modal.helpers
 	contactsFields: ->
 
-		hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
+		# hidden_users = SteedosContacts.getHiddenUsers(Session.get("spaceId"))
 
 		data = {
 			name: 'books_contacts',
@@ -10,9 +10,8 @@ Template.steedos_contacts_import_modal.helpers
 				id: 'books_contacts',
 				class: 'selectUser form-control',
 				# style: 'padding:6px 12px;width:140px;display:inline',
-				is_within_user_organizations: Meteor.settings?.public?.workflow?.user_selection_within_user_organizations || false
 				multiple: true
-				unselectable_users: hidden_users
+				# unselectable_users: hidden_users
 			}
 		}
 		return data;

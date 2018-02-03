@@ -1,98 +1,111 @@
 Template.reassign_modal.helpers({
 
-    fields: function() {
+	fields: function() {
 
-        var userOptions = null;
+		var userOptions = null;
 
-        var showOrg = true;
+		var showOrg = true;
 
 		var instance = WorkflowManager.getInstance();
 
 		var space = db.spaces.findOne(instance.space);
 
-        var flow = db.flows.findOne({'_id': instance.flow});
+		var flow = db.flows.findOne({
+			'_id': instance.flow
+		});
 
-		var curSpaceUser = db.space_users.findOne({space: instance.space, 'user': Meteor.userId()});
+		var curSpaceUser = db.space_users.findOne({
+			space: instance.space,
+			'user': Meteor.userId()
+		});
 
-		var organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
-		if(space.admins.contains(Meteor.userId())){
+		var organizations = db.organizations.find({
+			_id: {
+				$in: curSpaceUser.organizations
+			}
+		}).fetch();
+		if (space.admins.contains(Meteor.userId())) {
 
-		}else if(WorkflowManager.canAdmin(flow, curSpaceUser, organizations)){
+		} else if (WorkflowManager.canAdmin(flow, curSpaceUser, organizations)) {
 			var currentStep = InstanceManager.getCurrentStep()
 
 			userOptions = ApproveManager.getNextStepUsers(instance, currentStep._id).getProperty("id").join(",")
 
 			showOrg = Session.get("next_step_users_showOrg")
-        }else{
+		} else {
 			userOptions = "0"
 			showOrg = false
-        }
+		}
 
-        console.log("userOptions", userOptions)
-		console.log("showOrg", showOrg)
+		var multi = false;
+		var c = InstanceManager.getCurrentStep();
+		if (c && c.step_type == "counterSign") {
+			multi = true;
+		}
 
-        return new SimpleSchema({
-            reassign_users: {
-                autoform: {
-                    type: "selectuser",
+		return new SimpleSchema({
+			reassign_users: {
+				autoform: {
+					type: "selectuser",
 					userOptions: userOptions,
-					showOrg: showOrg
-                },
-                optional: true,
-                type: String,
-                label: TAPi18n.__("instance_reassign_user")
-            }
-        });
-    },
+					showOrg: showOrg,
+					multiple: multi
+				},
+				optional: true,
+				type: String,
+				label: TAPi18n.__("instance_reassign_user")
+			}
+		});
+	},
 
-    values: function() {
-        return {};
-    }
+	values: function() {
+		return {};
+	},
+
+	current_step_name: function() {
+		var s = InstanceManager.getCurrentStep();
+		var name;
+		if (s) {
+			name = s.name;
+		}
+		return name || '';
+	}
 })
+
 
 
 Template.reassign_modal.events({
 
-    'show.bs.modal #reassign_modal': function(event) {
+	'show.bs.modal #reassign_modal': function(event) {
 
-        var reassign_users = $("input[name='reassign_users']")[0];
+		var reassign_users = $("input[name='reassign_users']")[0];
 
-        reassign_users.value = "";
-        reassign_users.dataset.values = '';
+		reassign_users.value = "";
+		reassign_users.dataset.values = '';
 
-        $("#reassign_modal_text").val(null);
+		$(reassign_users).change();
+	},
 
-        var s = InstanceManager.getCurrentStep();
+	'click #reassign_help': function(event, template) {
+		Steedos.openWindow(t("reassign_help"));
+	},
 
-        $("#reassign_currentStepName").html(s.name);
+	'click #reassign_modal_ok': function(event, template) {
+		var val = AutoForm.getFieldValue("reassign_users", "reassign");
+		if (!val) {
+			toastr.error(TAPi18n.__("instance_reassign_error_users_required"));
+			return;
+		}
 
-        if (s.step_type == "counterSign") {
-            reassign_users.dataset.multiple = true;
-        } else {
-            reassign_users.dataset.multiple = false;
-        }
-    },
+		var reason = $("#reassign_modal_text").val();
 
-    'click #reassign_help': function(event, template) {
-        Steedos.openWindow(t("reassign_help"));
-    },
 
-    'click #reassign_modal_ok': function(event, template) {
-        var val = AutoForm.getFieldValue("reassign_users", "reassign");
-        if (!val) {
-            toastr.error(TAPi18n.__("instance_reassign_error_users_required"));
-            return;
-        }
+		var user_ids = val.split(",");
 
-        var reason = $("#reassign_modal_text").val();
-        
+		InstanceManager.reassignIns(user_ids, reason);
 
-        var user_ids = val.split(",");
-
-        InstanceManager.reassignIns(user_ids, reason);
-
-        Modal.hide(template);
-    },
+		Modal.hide(template);
+	},
 
 
 })

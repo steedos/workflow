@@ -25,6 +25,9 @@ InstanceSignText.helpers =
 
 		completed_date = if is_completed then _.last(instance.traces)?.finish_date?.getTime() else 0
 
+		if is_completed && instance.finish_date
+			completed_date = instance.finish_date?.getTime()
+
 		traces = InstanceformTemplate.helpers.traces()
 
 		approves = _.clone(traces[stepName])
@@ -51,7 +54,7 @@ InstanceSignText.helpers =
 			return approves_sorted || []
 
 		approves = _.filter approves, (a)->
-			return a.type isnt "forward" and a.type isnt "distribute"
+			return a.type isnt "forward" and a.type isnt "distribute" and a.type isnt "terminated"
 
 		if only_cc_opinion
 			approves = approves?.filterProperty("type", "cc")
@@ -83,7 +86,8 @@ InstanceSignText.helpers =
 #			if !approve.is_finished || approve.description || (!hasNext(approve, approvesGroup) && !haveDescriptionApprove(approve, approvesGroup))
 #			if !hasNext(approve, approvesGroup)
 			if approve.sign_show != false && (approve.description || (!approve.description && !hasNext(approve, approvesGroup)) )
-				approve._display = true
+				if approve.judge isnt 'terminated'
+					approve._display = true
 
 		approves_sorted = _.filter approves_sorted, (a) ->
 			if is_completed
@@ -160,7 +164,7 @@ InstanceSignText.helpers =
 		if !step
 			if !field_formula
 				field_formula = WorkflowManager.getInstanceFormVersion()?.fields?.findPropertyByPK("code", this.name).formula
-			steps = InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula, Template.instance().data.top_keywords)
+			steps = InstanceformTemplate.helpers.getOpinionFieldStepsName(field_formula, Template.instance()?.data.top_keywords)
 		else
 			steps = [{stepName: step, only_cc_opinion: only_cc_opinion, image_sign: image_sign}]
 		return steps

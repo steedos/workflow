@@ -12,17 +12,12 @@
 					<div class="panel panel-default admin-role-table">
 						<div class="panel-body">
 							<div class="heading">
-								<!-- <label class="control-label">岗位名称&nbsp;</label>
-								<input class="form-control" type="text" name="role-name" value="{{name}}"> -->
 								{{#autoForm id="flowRoles" collection="db.flow_roles" type="normal" doc=doc disabled=false}}
 									{{> afQuickFields template="bootstrap3-horizontal" label-class="col-sm-2" input-col-class="col-sm-12"}}
 								{{/autoForm}}
 							</div>
 							<div class="panel-content">
 								{{> tabular table=TabularTables.admin_flow_positions selector=selector class="table dataTable table-bordered no-footer datatable-flows-roles"}}
-								<!-- <div class="add-positions">
-									<i class="ion ion-plus-round"></i>新增岗位成员
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -31,6 +26,14 @@
 					<div class="pull-right">
 						<button type="button" class="btn btn-primary save-role">
 							{{_ "save_role"}}
+						</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							{{_ "Cancel"}}
+						</button>
+					</div>
+					<div class="pull-left">
+						<button type="button" class="btn btn-danger delete-role">
+							{{_ "delete_role"}}
 						</button>
 					</div>
 				</div>

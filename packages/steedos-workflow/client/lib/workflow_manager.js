@@ -117,12 +117,16 @@ WorkflowManager.getInstanceFormVersion = function() {
 				field['permission'] = field_permission[field.code] == 'editable' ? 'editable' : 'readonly';
 				if (field.type == 'table') {
 					field['sfields'] = field['fields']
-					field['sfields'].forEach(function(sf) {
-						sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
-						if (sf["permission"] == 'editable') {
-							field['permission'] = 'editable';
-						}
-					});
+					if(field['sfields']){
+						field['sfields'].forEach(function(sf) {
+							sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
+							if (sf["permission"] == 'editable') {
+								field['permission'] = 'editable';
+							}
+						});
+					}else{
+						console.error("子表：" + field.code + " 没有字段");
+					}
 					// 因为这个程序会傻傻的执行很多遍，所以不能删除
 					delete field['fields']
 				}
@@ -164,7 +168,7 @@ WorkflowManager.getInstanceFields = function() {
 }
 
 WorkflowManager.getInstanceStep = function(stepId) {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -185,7 +189,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 };
 
 WorkflowManager.getInstanceSteps = function() {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -203,9 +207,13 @@ WorkflowManager.getInstanceSteps = function() {
 };
 
 WorkflowManager.getInstanceFieldPermission = function() {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 
 	if (!instance) {
+		return {};
+	}
+
+	if (InstanceManager.isCC(instance)) {
 		return {};
 	}
 
@@ -221,7 +229,7 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		);
 	}
 
-	step = WorkflowManager.getInstanceStep(current_stepId);
+	var step = WorkflowManager.getInstanceStep(current_stepId);
 	if (!step) {
 		return {}
 	}
@@ -324,18 +332,18 @@ WorkflowManager.getRole = function(roleId) {
 	return role;
 };
 
-WorkflowManager.getUser = function(userId) {
+WorkflowManager.getUser = function(userId, spaceId) {
 	if (!userId) {
 		return;
 	}
 
 	if (typeof userId != "string") {
 
-		return WorkflowManager.getUsers(userId);
+		return WorkflowManager.getUsers(userId, spaceId);
 
 	}
 
-	var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+	var spaceUsers = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userId);
 	if (!spaceUsers) {
 		return
 	};
@@ -348,15 +356,15 @@ WorkflowManager.getUser = function(userId) {
 	return spaceUser;
 };
 
-WorkflowManager.getUsers = function(userIds) {
+WorkflowManager.getUsers = function(userIds, spaceId) {
 
 	if ("string" == typeof(userIds)) {
-		return [WorkflowManager.getUser(userIds)]
+		return [WorkflowManager.getUser(userIds, spaceId)]
 	}
 
 	var users = new Array();
 	if (userIds) {
-		users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
+		users = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userIds);
 	}
 
 	return users;
@@ -814,7 +822,7 @@ WorkflowManager.isArrearageSpace = function() {
 	if (space) {
 		if (space.is_paid) {
 
-			return space.balance <= 0.00 ? true : false;
+			return space.end_date <= new Date ? true : false;
 
 		} else {
 			return false;
@@ -847,4 +855,53 @@ if (Meteor.isClient) {
 		}
 		return reName;
 	}
+}
+
+// 工作区管理员和流程管理员拥有流程的管理权限
+WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
+	var space = db.spaces.findOne(space_id);
+
+	if (!space)
+		return false;
+
+	if (space.admins && space.admins.includes(user_id))
+		return true;
+
+	var hasPermission = false;
+
+	var space_user = db.space_users.findOne({
+		space: space_id,
+		user: user_id
+	}, {
+		fields: {
+			organizations: 1,
+			user: 1
+		}
+	})
+	if (space_user) {
+		var organizations = db.organizations.find({
+			_id: {
+				$in: space_user.organizations
+			}
+		}, {
+			fields: {
+				parents: 1
+			}
+		}).fetch()
+
+		var fl = db.flows.findOne({
+			_id: flow_id
+		}, {
+			fields: {
+				perms: 1
+			}
+		})
+
+		if (fl && organizations) {
+			hasPermission = WorkflowManager.canAdmin(fl, space_user, organizations);
+		}
+	}
+
+	return hasPermission;
+
 }

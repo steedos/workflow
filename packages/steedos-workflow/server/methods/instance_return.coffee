@@ -28,7 +28,7 @@ Meteor.methods
 		# - 当前步骤为填写或者审批
 		last_trace = _.last(ins.traces)
 		current_step = uuflowManager.getStep(ins, flow, last_trace.step)
-		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign"
+		if current_step.step_type isnt "submit" and current_step.step_type isnt "sign" and current_step.step_type isnt "counterSign"
 			throw new Meteor.Error('error!', "不符合退回条件")
 
 		# - 参数approve中trace与当前获取的trace是否匹配
@@ -37,31 +37,44 @@ Meteor.methods
 
 		new_inbox_users = new Array
 		_.each pre_trace.approves, (a)->
-			if (!a.type or a.type is "draft") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
+			if (!a.type or a.type is "draft" or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected")
 				new_inbox_users.push(a.user)
 
+		if _.isEmpty(new_inbox_users)
+			throw new Meteor.Error('error!', "未找到下一步处理人，退回失败")
+
 		traces = ins.traces
+
+		approve_values = uuflowManager.getApproveValues(approve.values || {}, current_step.permissions, ins.form, ins.form_version)
+
 		setObj = new Object
 		now = new Date
+		rest_counter_users = new Array
 		_.each traces, (t)->
 			if t._id is last_trace._id
 				if not t.approves
 					t.approves = new Array
-				_.each t.approves, (a)->
-					if !a.type and !a.judge
-						a.start_date = now
-						a.finish_date = now
-						a.read_date = now
-						a.is_error = false
-						a.is_read = true
-						a.is_finished = true
-						a.judge = "returned"
-						a.cost_time = a.finish_date - a.start_date
-						a.description = reason
+				_.each t.approves, (a, idx)->
+					if (!a.type or a.type is "reassign") and (!a.judge or a.judge is "submitted" or a.judge is "approved" or a.judge is "rejected" or a.judge is "readed") and a.is_finished isnt true
+						setObj['traces.$.approves.' + idx + '.finish_date'] = now
+						setObj['traces.$.approves.' + idx + '.read_date'] = now
+						setObj['traces.$.approves.' + idx + '.is_error'] = false
+						setObj['traces.$.approves.' + idx + '.is_read'] = true
+						setObj['traces.$.approves.' + idx + '.is_finished'] = true
+						setObj['traces.$.approves.' + idx + '.cost_time'] = now - a.start_date
+						setObj['traces.$.approves.' + idx + '.values'] = approve_values
+						if a.handler is current_user
+							setObj['traces.$.approves.' + idx + '.judge'] = "returned"
+							setObj['traces.$.approves.' + idx + '.description'] = reason
+						else
+							rest_counter_users.push a.handler
+
 				# 更新当前trace记录
-				t.is_finished = true
-				t.finish_date = now
-				t.judge = "returned"
+				setObj['traces.$.is_finished'] = true
+				setObj['traces.$.finish_date'] = true
+				setObj['traces.$.judge'] = "returned"
+
+		ins.values = _.extend((ins.values || {}), approve_values)
 
 		# 插入下一步trace记录
 		newTrace = new Object
@@ -111,15 +124,19 @@ Meteor.methods
 		setObj.outbox_users = _.uniq(ins.outbox_users)
 		setObj.modified = now
 		setObj.modified_by = current_user
-		traces.push(newTrace)
-		setObj.traces = traces
+		setObj.values = ins.values
 
-		r = db.instances.update({_id: instance_id}, {$set: setObj})
-		if r
+		setObj.current_step_name = pre_trace.name
+
+		r = db.instances.update({_id: instance_id, 'traces._id': last_trace._id}, {$set: setObj})
+		b = db.instances.update({_id: instance_id}, {$push: {traces: newTrace}})
+		if r && b
 			# 新inbox_users 和 当前用户 发送push
 			pushManager.send_message_to_specifyUser("current_user", current_user)
 			_.each new_inbox_users, (user_id)->
 				if user_id isnt current_user
 					pushManager.send_message_to_specifyUser("current_user", user_id)
-			
+			# 如果是会签则给会签未提交的人发送push
+			_.each rest_counter_users, (user_id)->
+				pushManager.send_message_to_specifyUser("current_user", user_id)
 		return true

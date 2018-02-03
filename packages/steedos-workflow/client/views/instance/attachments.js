@@ -34,7 +34,7 @@ Template.instance_attachments.onRendered(function() {
 		}
 	}
 
-	if (current_step.can_edit_main_attach == true || main_attach_count > 0 || distribute_main_attach_count > 0) {
+	if ((current_step.can_edit_main_attach == true && (Session.get("box") == "draft" || Session.get("box") == "inbox")) || main_attach_count > 0 || distribute_main_attach_count > 0) {
 		self.workflowMainAttachTitle.set(true);
 	} else {
 		self.workflowMainAttachTitle.set(false);
@@ -51,7 +51,12 @@ Template.instance_attachment.helpers({
 			return false;
 
 		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
-		if (ins.distribute_from_instance == this.metadata.instance) {
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance)) {
+			return false
+		}
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
 			return false
 		}
 
@@ -145,7 +150,12 @@ Template.instance_attachment.helpers({
 			return false;
 
 		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
-		if (ins.distribute_from_instance == this.metadata.instance) {
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance)) {
+			return false
+		}
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
 			return false
 		}
 
@@ -153,7 +163,16 @@ Template.instance_attachment.helpers({
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step) {
+					if (mainFile) {
+						return step.can_edit_main_attach
+					} else {
+						if (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined) {
+							return true
+						}
+					}
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 
@@ -200,6 +219,10 @@ Template.instance_attachment.helpers({
 	locked_info: function(locked_by_name) {
 		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
 	},
+
+	can_unlock: function(locked_by) {
+		return locked_by == Meteor.userId();
+	}
 });
 
 Template.instance_attachment.events({
@@ -226,6 +249,10 @@ Template.instance_attachment.events({
 	"click [name='ins_attach_isNode']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
+		// Session.set('attach_edit_time', $.format.date(new Date(), "yyyy-MM-dd HH:mm"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -264,7 +291,6 @@ Template.instance_attachment.events({
 		if (!file_id) {
 			return false;
 		}
-		Session.set("file_id", file_id);
 
 		swal({
 			title: t('workflow_attach_confirm_delete'),
@@ -282,11 +308,15 @@ Template.instance_attachment.events({
 				}
 
 				if (result) {
-					InstanceManager.removeAttach();
+					toastr.success(TAPi18n.__('Attachment deleted successfully'));
 				}
 			})
 			return true;
 		});
+	},
+
+	"click .ins-attach-unlock": function(event, template) {
+		InstanceManager.unlockAttach(event.target.id);
 	}
 })
 
@@ -310,7 +340,7 @@ Template.ins_attach_version_modal.helpers({
 				'metadata.parent': parent,
 				'metadata.current': true
 			})
-			if (ins.distribute_from_instance == current.metadata.instance)
+			if (ins.distribute_from_instances.includes(current.metadata.instance))
 				selector['metadata.current'] = true;
 		}
 
@@ -341,6 +371,11 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		var parent = Session.get('attach_parent_id');
 		if (!parent) return false
 
@@ -353,7 +388,7 @@ Template.ins_attach_version_modal.helpers({
 			return false
 
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
-		if (ins.distribute_from_instance == current.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(current.metadata.instance))
 			return false
 
 		if (current && current.metadata && current.metadata.locked_by)
@@ -361,7 +396,16 @@ Template.ins_attach_version_modal.helpers({
 
 		if (Session.get("box") == "draft" || Session.get("box") == "inbox") {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				// 如果是正文 则判断是否有编辑权限
+				if (current.metadata.main == true) {
+					if (step && step.can_edit_main_attach == true)
+						return true
+				} else {
+					// 如果是附件 则判断是否有编辑权限
+					if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined))
+						return true
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				// 如果是正文 则判断是否有编辑权限
@@ -385,8 +429,13 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var isDraftOrInbox = false;
@@ -465,15 +514,29 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step) {
+					if (mainFile) {
+						return step.can_edit_main_attach
+					} else {
+						if (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined) {
+							return true
+						}
+					}
+				}
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				if (current_step) {
@@ -483,11 +546,9 @@ Template.ins_attach_version_modal.helpers({
 						if (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined) {
 							return true
 						}
-
 					}
 				}
 			}
-
 		}
 		return false;
 	},
@@ -497,26 +558,62 @@ Template.ins_attach_version_modal.helpers({
 		if (!ins)
 			return false;
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
-		if (ins.distribute_from_instance == this.metadata.instance)
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
 			return false
 
 		var locked = false;
 		if (locked_by) locked = true;
 		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isOfficeFile(filename) && !locked) {
 			if (InstanceManager.isCC(ins)) {
-				return true
+				var step = InstanceManager.getCCStep();
+				if (step && step.can_edit_main_attach == true)
+					return true
 			} else {
 				var current_step = InstanceManager.getCurrentStep();
 				if (current_step) {
 					if (mainFile)
 						return current_step.can_edit_main_attach
-					else
-						return false;
 				}
 			}
-
 		}
+		return false;
+	},
+
+	canSign: function(mainFile, filename, locked_by){
+		var ins = WorkflowManager.getInstance();
+		if (!ins)
+			return false;
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed")
+			return false;
+
+		// 分发后的 正文、附件，不可以编辑/删除，也不让上传新的正文/附件版本，也不允许转PDF
+		if (ins.distribute_from_instances && ins.distribute_from_instances.includes(this.metadata.instance))
+			return false
+
+		var locked = false;
+		if (locked_by) locked = true;
+		if ((Steedos.isIE() || Steedos.isNode()) && (Session.get('box') == 'inbox' || Session.get('box') == 'draft') && !Steedos.isMobile() && !Steedos.isMac() && Steedos.isPdfFile(filename) && !locked) {
+			if (InstanceManager.isCC(ins)) {
+				var step = InstanceManager.getCCStep();
+				if (step && step.can_edit_main_attach == true)
+					return true
+			} else {
+				var current_step = InstanceManager.getCurrentStep();
+				if (current_step) {
+					if (mainFile)
+						return current_step.can_edit_main_attach
+				}
+			}
+		}
+		return false;
 	},
 
 	getUrl: function(_rev, isPreview) {
@@ -532,12 +629,16 @@ Template.ins_attach_version_modal.helpers({
 		return url;
 	},
 
-	locked_info: function(locked_by_name) {
-		return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
+	locked_info: function(locked_by_name, locked_time) {
+		if (locked_time)
+			return TAPi18n.__('workflow_attach_locked_by', locked_by_name) + " , " + moment(locked_time).format("YYYY-MM-DD HH:mm");
+		else
+			return TAPi18n.__('workflow_attach_locked_by', locked_by_name);
 	},
 
 	can_unlock: function(locked_by) {
-		return locked_by == Meteor.userId();
+		if (locked_by)
+			return Steedos.isSpaceAdmin(Session.get("spaceId"), Meteor.userId()) || (locked_by == Meteor.userId());
 	},
 
 	IsImageAttachment: function(attachment) {
@@ -603,6 +704,9 @@ Template.ins_attach_version_modal.events({
 		Modal.hide('ins_attach_version_modal');
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 		// 编辑时锁定
 		InstanceManager.lockAttach(event.target.id);
 
@@ -631,6 +735,9 @@ Template.ins_attach_version_modal.events({
 	"click [name='ins_attach_convert_to_pdf']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
 
 		// 转换时锁定
 		InstanceManager.lockAttach(event.target.id);
@@ -656,14 +763,31 @@ Template.ins_attach_version_modal.events({
 			}
 		})
 	},
+
+	"click [name ='ins_attach_signature']": function(event, template){
+		Session.set('cfs_file_id', event.target.id);
+		Session.set('attach_parent_id', event.target.dataset.parent);
+		Session.set('attach_instance_id', Session.get("instanceId"));
+		Session.set('attach_space_id', Session.get("spaceId"));
+		Session.set('attach_box', Session.get("box"));
+
+		//签章时锁定
+		InstanceManager.lockAttach(event.target.id);
+		
+		var arg = "Steedos.User.isSignature";
+		var url = event.target.dataset.downloadurl;
+		var filename = event.target.dataset.name;
+		
+		Modal.hide('ins_attach_version_modal');
+		NodeManager.downloadFile(url, filename, arg);
+	},
+
 	"click .ins-attach-version-delete": function(event, template) {
 		var file_id = event.target.id;
 		var file_name = event.target.dataset.name;
 		if (!file_id) {
 			return false;
 		}
-
-		Session.set("file_id", file_id);
 
 		Modal.hide('ins_attach_version_modal');
 		swal({
@@ -696,7 +820,7 @@ Template.ins_attach_version_modal.events({
 							toastr.error(error.message);
 						}
 						if (result) {
-							InstanceManager.removeAttach();
+							toastr.success(TAPi18n.__('Attachment deleted successfully'));
 						}
 					})
 				}

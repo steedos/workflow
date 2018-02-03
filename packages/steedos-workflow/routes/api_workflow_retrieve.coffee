@@ -29,7 +29,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			previous_trace_name = previous_trace.name
 			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
 			previous_trace_approves = _.filter previous_trace.approves, (a)->
-				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
+				return a.type isnt 'cc' and a.type isnt 'distribute' and a.type isnt 'forward' and ['approved','submitted','rejected'].includes(a.judge)
 
 			if previous_trace_approves.length is 1 and (previous_trace_approves[0].user is current_user or previous_trace_approves[0].handler is current_user)
 				retrieve_type = 'normal' # 申请单正常流转的取回，即非传阅取回
@@ -47,7 +47,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 
 				i--
 
-			
+
 			if retrieve_type is 'normal'
 				# 获取一个flow
 				flow = uuflowManager.getFlow(instance.flow)
@@ -70,7 +70,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 								appr.is_error = false
 								appr.is_read = true
 								appr.is_finished = true
-								appr.judge = ""
+								appr.judge = "terminated"
 								appr.cost_time = appr.finish_date - appr.start_date
 						# 在同一trace下插入取回操作者的approve记录
 						current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
@@ -154,6 +154,8 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				setObj.state = "pending"
 				setObj.is_archived = false
 
+				setObj.current_step_name = previous_trace_name
+
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 				if r
 					# 给被删除的inbox_users 和 当前用户 发送push
@@ -162,6 +164,11 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 						if user_id isnt current_user
 							pushManager.send_message_to_specifyUser("current_user", user_id)
 					)
+
+					ins = uuflowManager.getInstance(instance_id)
+					# 如果已经配置webhook并已激活则触发
+					pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
+
 			else if retrieve_type is 'cc'
 				setObj = new Object
 				now = new Date
@@ -189,6 +196,10 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				r = db.instances.update({_id: instance_id, 'traces._id': retrieve_approve.trace}, {$set: setObj})
 				if r
 					pushManager.send_message_current_user(current_user_info)
+
+				ins = uuflowManager.getInstance(instance_id)
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
 
 		JsonRoutes.sendResult res,
 			code: 200

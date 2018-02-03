@@ -1,6 +1,6 @@
 Template.admin_org_main.helpers
 	subsReady: ->
-		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready();
+		return Steedos.subsAddressBook.ready() and Steedos.subsSpace.ready() and Session.get("is_my_contacts_limit_loaded");
 
 	isShowOrg: ->
 		unless Steedos.isNotSync()

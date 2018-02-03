@@ -44,3 +44,30 @@ FlowRouter.route '/springboard',
 
 		if Steedos.isMobile()
 			$("body").removeClass("sidebar-open")
+
+workbenchRoutes = FlowRouter.group
+	prefix: '/workbench',
+	name: 'workbenchRoutes',
+	triggersEnter: [ checkUserSigned ],
+
+workbenchRoutes.route '/', 
+	action: (params, queryParams)->
+		if !Meteor.userId()
+			FlowRouter.go "/steedos/sign-in";
+			return true
+
+		NavigationController.reset();
+		
+		BlazeLayout.render 'masterLayout',
+			main: "workbench"
+
+		if Steedos.isMobile()
+			$("body").removeClass("sidebar-open")
+
+workbenchRoutes.route '/manage', 
+	action: (params, queryParams)->
+		BlazeLayout.render 'masterLayout',
+			main: "manageBusiness"
+
+		if Steedos.isMobile()
+			$("body").removeClass("sidebar-open")

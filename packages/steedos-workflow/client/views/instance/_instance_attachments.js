@@ -11,7 +11,20 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
+		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {
+			return false
+		}
+
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		var current_step = InstanceManager.getCurrentStep();
+
+		if (!current_step)
+			return false;
+
 		// 分发的正文或者附件不显示转为pdf按钮
 		// 如果有正文权限则为正文，否则分发为附件
 		// 分发的附件不允许修改 删除 新增版本
@@ -67,8 +80,15 @@ InstanceAttachmentTemplate.helpers = {
 			return false
 		}
 
+		// 已经结束的单子不能改附件
+		if (ins.state == "completed") {
+			return false
+		}
+
 		if (InstanceManager.isCC(ins)) {
-			return true
+			var step = InstanceManager.getCCStep();
+			if (step && (step.can_edit_normal_attach == true || step.can_edit_normal_attach == undefined))
+				return true
 		} else {
 			var current_step = InstanceManager.getCurrentStep();
 			if (current_step && (current_step.can_edit_normal_attach == true || current_step.can_edit_normal_attach == undefined))
@@ -122,15 +142,19 @@ InstanceAttachmentTemplate.helpers = {
 
 		if (ins.distribute_from_instance) {
 			// 如果是被分发的申请单，则显示原申请单文件, 如果选择了将原表单存储为附件也要显示, 同时也要显示新上传的附件
+			var dfis = _.clone(ins.distribute_from_instances) || [];
+			dfis.push(ins._id);
 			selector['metadata.instance'] = {
-				$in: [ins.distribute_from_instance, ins._id]
+				$in: dfis
 			};
 
 
 			selector["$or"] = [{
 				"metadata.instance": ins._id
 			}, {
-				"metadata.instance": ins.distribute_from_instance,
+				"metadata.instance": {
+					$in: ins.distribute_from_instances
+				},
 				"metadata.is_private": {
 					$ne: true
 				}
@@ -140,11 +164,15 @@ InstanceAttachmentTemplate.helpers = {
 			var start_step = InstanceManager.getStartStep();
 			if (start_step && start_step.can_edit_main_attach != true) {
 				var distribute_main = cfs.instances.findOne({
-					'metadata.instance': ins.distribute_from_instance,
+					'metadata.instance': {
+						$in: ins.distribute_from_instances
+					},
 					'metadata.current': true,
 					'metadata.main': true,
 				});
 				if (distribute_main) {
+					var firstVersionMain = cfs.instances.findOne(distribute_main.metadata.parent);
+					distribute_main.attachmentUploadedAt = firstVersionMain ? firstVersionMain.uploadedAt : distribute_main.uploadedAt;
 					atts.push(distribute_main);
 				}
 			}
@@ -152,12 +180,13 @@ InstanceAttachmentTemplate.helpers = {
 			selector['metadata.instance'] = ins._id;
 		}
 
-		atts = atts.concat(cfs.instances.find(selector, {
-			sort: {
-				'uploadedAt': 1
-			}
-		}).fetch())
-		return atts;
+		cfs.instances.find(selector).forEach(function(c) {
+			var firstVersion = cfs.instances.findOne(c.metadata.parent);
+			c.attachmentUploadedAt = firstVersion ? firstVersion.uploadedAt : c.uploadedAt;
+			atts.push(c);
+		})
+
+		return _.sortBy(atts, 'attachmentUploadedAt');
 	},
 
 	showAttachments: function() {
@@ -166,8 +195,8 @@ InstanceAttachmentTemplate.helpers = {
 			return false;
 
 		// 如果是被分发的申请单，则显示原申请单文件 和分发后申请单文件
-		var instanceIds = _.compact([ins.distribute_from_instance, ins._id]);
-
+		var instanceIds = _.clone(ins.distribute_from_instances) || [];
+		instanceIds.push(ins._id);
 		var attachments_count = cfs.instances.find({
 			'metadata.instance': {
 				$in: instanceIds
@@ -204,8 +233,11 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.main_attachment = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
 		var attachment = cfs.instances.findOne({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': true
 		});
@@ -216,8 +248,12 @@ if (Meteor.isServer) {
 	InstanceAttachmentTemplate.helpers.normal_attachments = function() {
 		var steedosData = Template.instance().view.template.steedosData
 		var instance = steedosData.instance;
+		var instanceIds = _.clone(instance.distribute_from_instances) || [];
+		instanceIds.push(instance._id);
 		var attachments = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': {
 				$ne: true
@@ -237,8 +273,13 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.showAttachments = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.clone(instance.distribute_from_instances) || [];
+		instanceIds.push(instance._id);
+
 		var attachments = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true
 		}).fetch();
 
@@ -250,8 +291,11 @@ if (Meteor.isServer) {
 
 	InstanceAttachmentTemplate.helpers.showMainTitle = function() {
 		var instance = Template.instance().view.template.steedosData.instance;
+		var instanceIds = _.compact([instance.distribute_from_instance, instance._id]);
 		var main_attach_count = cfs.instances.find({
-			'metadata.instance': instance._id,
+			'metadata.instance': {
+				$in: instanceIds
+			},
 			'metadata.current': true,
 			'metadata.main': true
 		}).count();

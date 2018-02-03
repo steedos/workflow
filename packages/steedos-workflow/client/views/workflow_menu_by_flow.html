@@ -1,6 +1,7 @@
 <template name="workflowMenuByFlow">
 	<div class="workflow-menu-by-flow cell" style="max-height: {{maxHeight}}; {{#if showNavbar}}margin-bottom: 50px;{{/if}}">
 		<div class="bd inbox-cell">
+			{{!--
 			{{#each data}}
 				<a href="{{urlPrefix}}/workflow/space/{{this._id}}/inbox/">
 					<div class="weui_cells_title">{{this.name}}</div>
@@ -25,14 +26,24 @@
 					{{/each}}
 				</div>
 			{{/each}}
+			--}}
 			<div class="weui_cells weui_cells_access">
 				<a class="weui_cell" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
 					<div class="weui_cell_bd weui_cell_primary">{{_ "inbox"}}</div>
 				</a>
-			</div>
-			<div class="weui_cells weui_cells_access">
+				{{#each inboxInstancesByCategorys}}
+					<a class="weui_cell menu-inbox-category {{#if (equals Session_category _id)}}active{{/if}}" href="{{urlPrefix}}/workflow/space/{{spaceId}}/inbox/">
+						<div class="weui-cell__hd" style="padding-left: 10px;padding-right: 5px;"><i class="ion ion-ios-folder-outline"></i></div>
+						<div class="weui_cell_bd weui_cell_primary">{{this.name}}</div>
+						<span class="weui-badge" style="margin-left: 5px;">{{this.inbox_count}}</span>
+					</a>
+				{{/each}}
+
 				<a class="weui_cell"  href="{{urlPrefix}}/workflow/space/{{spaceId}}/outbox/">
 					<div class="weui_cell_bd weui_cell_primary">{{_ "outbox"}}</div>
+				</a>
+				<a class="weui_cell"  href="{{urlPrefix}}/workflow/space/{{spaceId}}/monitor/">
+					<div class="weui_cell_bd weui_cell_primary">{{_ "monitor"}}</div>
 				</a>
 			</div>
 		</div>

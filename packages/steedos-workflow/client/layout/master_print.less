@@ -8,6 +8,10 @@
 		color: black !important;
 	}
 
+	.instance-print .table-page-body .instance-sign,.instance-print .table-page-footer .instance-sign{
+		color: black !important;
+	}
+
 	.instance-print .instance-table .form-table .td-title.is-required:after {
 		color: red !important;
 	}
@@ -113,6 +117,17 @@
 		.print-tool{
 			padding: 6px 12px;
 			float: left;
+			.cbx-label{
+				cursor: pointer;
+				margin-right: 8px;
+				.cbx-print{
+					margin-right: 4px;
+				}
+				span{
+					position: relative;
+					top: -1px;
+				}
+			}
 		}
 	}
 
@@ -137,5 +152,4 @@
     .td-padding{
       padding: 5px 10px !important;
     }
-
 }

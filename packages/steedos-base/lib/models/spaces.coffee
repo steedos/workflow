@@ -109,6 +109,30 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	user_limit:
+		type: Number
+		optional: true
+		autoform:
+			omit: true
+
+	end_date:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	start_date:
+		type: Date
+		optional: true
+		autoform:
+			omit: true
+
+	modules:
+		type: [String]
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")
 
@@ -162,12 +186,11 @@ if Meteor.isServer
 			
 
 	db.spaces.before.update (userId, doc, fieldNames, modifier, options) ->
-		modifier.$set = modifier.$set || {};
-
-		# only space owner can modify space
+		modifier.$set = modifier.$set || {}; 
 		if doc.owner != userId
 			throw new Meteor.Error(400, "spaces_error_space_owner_only");
-
+		if (!Steedos.isLegalVersion(doc._id,"workflow.professional")) and modifier.$set.avatar
+			throw new Meteor.Error(400, "space_paid_info_title");	
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
@@ -227,6 +250,7 @@ if Meteor.isServer
 					space: spaceId,
 					user: userObj._id,
 					user_accepted: user_accepted
+					invite_state: "accepted"
 		else 
 			root_org = db.organizations.findOne({space: spaceId, is_company:true})
 			db.space_users.direct.insert
@@ -237,6 +261,7 @@ if Meteor.isServer
 				organizations: [root_org._id],
 				user: userObj._id,
 				user_accepted: user_accepted
+				invite_state: "accepted"
 			root_org.updateUsers()
 		
 	db.spaces.createTemplateOrganizations = (space_id)->
@@ -245,7 +270,7 @@ if Meteor.isServer
 			return false;
 		user = db.users.findOne(space.owner)
 		if !user
-			reurn false
+			return false
 
 		if db.organizations.find({space: space_id}).count()>0
 			return;

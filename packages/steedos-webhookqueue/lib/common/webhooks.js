@@ -20,7 +20,7 @@ WebhookQueue.send = function(options) {
 	});
 
 	if (Match.test(options, Object)) {
-		webhook.webhook = _.pick(options, 'instance', 'current_approve', 'payload_url', 'content_type');
+		webhook.webhook = _.pick(options, 'instance', 'current_approve', 'payload_url', 'content_type', 'action');
 	}
 
 	webhook.sent = false;

@@ -5,6 +5,7 @@ Meteor.methods({
 			return;
 		var result = true;
 		var setObj = {};
+		var index = 0;
 		var ins_id = ins._id;
 		var trace_id = ins.traces[0]._id;
 		var approve_id = ins.traces[0].approves[0]._id;
@@ -12,7 +13,6 @@ Meteor.methods({
 		var next_steps = ins.traces[0].approves[0].next_steps;
 		var values = ins.traces[0].approves[0].values || {};
 		var applicant_id = ins.applicant;
-		var attachments = ins.attachments;
 
 		var instance = db.instances.findOne(ins_id, {
 			fields: {
@@ -34,6 +34,12 @@ Meteor.methods({
 		var current_trace = _.find(traces, function(t) {
 			return t._id == trace_id;
 		});
+		current_trace.approves.forEach(function(a, idx) {
+			if (a._id == approve_id) {
+				index = idx;
+			}
+		})
+		var key_str = 'traces.$.approves.' + index + '.';
 
 		// 判断一个instance是否为拟稿状态
 		var current_user = db.users.findOne({
@@ -59,7 +65,6 @@ Meteor.methods({
 
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-		setObj.attachments = attachments;
 
 		if (flow.current._id != instance.flow_version) {
 			result = "upgraded";
@@ -103,27 +108,17 @@ Meteor.methods({
 			setObj.applicant_organization_name = organization.name;
 			setObj.applicant_organization_fullname = organization.fullname;
 
-			current_trace.approves.forEach(function(a) {
-				if (a._id == approve_id) {
-					a.user = applicant_id;
-					a.user_name = user.name;
-				}
-			})
-
+			setObj[key_str + 'user'] = applicant_id;
+			setObj[key_str + 'user_name'] = user.name;
 		}
 
-		current_trace.approves.forEach(function(a) {
-			if (a._id == approve_id) {
-				a.values = values;
-				a.description = description;
-				a.judge = "submitted";
-				if (result != "upgraded" && next_steps) {
-					a.next_steps = next_steps;
-				}
-			}
-		})
-
-		setObj["traces.$.approves"] = current_trace.approves;
+		setObj[key_str + 'values'] = values;
+		setObj[key_str + 'description'] = description;
+		setObj[key_str + 'judge'] = 'submitted';
+		setObj[key_str + 'read_date'] = new Date();
+		if (result != "upgraded" && next_steps) {
+			setObj[key_str + 'next_steps'] = next_steps;
+		}
 
 		// 计算申请单标题
 		var form = db.forms.findOne(form_id);
@@ -131,7 +126,7 @@ Meteor.methods({
 		if (name_forumla) {
 			// var iscript = name_forumla.replace(/\{/g, "(values['").replace(/\}/g, "'] || '')");
 			// var rev = eval(iscript);
-			setObj.name = uuflowManager.getInstanceName(ins);
+			setObj.name = uuflowManager.getInstanceName(ins, values);
 		}
 
 		db.instances.update({
@@ -148,6 +143,7 @@ Meteor.methods({
 			return;
 
 		var setObj = {};
+		var index = 0;
 		var ins_id = approve.instance;
 		var trace_id = approve.trace;
 		var approve_id = approve.id;
@@ -161,7 +157,10 @@ Meteor.methods({
 				traces: 1,
 				flow_version: 1,
 				flow: 1,
-				state: 1
+				state: 1,
+				form: 1,
+				form_version: 1,
+				values: 1
 			}
 		});
 
@@ -183,13 +182,19 @@ Meteor.methods({
 			}
 		});
 		var lang = current_user.locale == 'zh-cn' ? 'zh-CN' : 'en';
-		uuflowManager.isInstancePending(instance, lang);
-		// 判断一个trace是否为未完成状态
-		uuflowManager.isTraceNotFinished(current_trace);
-		// 判断一个approve是否为未完成状态
-		uuflowManager.isApproveNotFinished(current_approve);
-		// 判断当前用户是否approve 对应的处理人或代理人
-		uuflowManager.isHandlerOrAgent(current_approve, this.userId);
+		try {
+			uuflowManager.isInstancePending(instance, lang);
+			// 判断一个trace是否为未完成状态
+			uuflowManager.isTraceNotFinished(current_trace);
+			// 判断一个approve是否为未完成状态
+			uuflowManager.isApproveNotFinished(current_approve);
+			// 判断当前用户是否approve 对应的处理人或代理人
+			uuflowManager.isHandlerOrAgent(current_approve, this.userId);
+		} catch (e) {
+			console.log(e.stack)
+			return true
+		}
+
 
 		var flow_version = instance.flow_version;
 		var flow_id = instance.flow;
@@ -220,26 +225,53 @@ Meteor.methods({
 			return false;
 		var step_type = step.step_type;
 
-		current_trace.approves.forEach(function(a) {
+		current_trace.approves.forEach(function(a, idx) {
 			if (a._id == approve_id) {
-				a.is_read = true;
-				a.read_date = new Date();
-				a.values = values;
-				a.description = description;
-				a.next_steps = next_steps;
-				if (step_type == "submit" || step_type == "start") {
-					a.judge = "submitted";
-				} else {
-					a.judge = judge;
-				}
+				index = idx;
 			}
 		})
 
+		var key_str = 'traces.$.approves.' + index + '.';
+
+		var permissions_values = uuflowManager.getApproveValues(approve.values, step.permissions, instance.form, instance.form_version);
+
+		var change_values = approveManager.getChangeValues(instance.values, permissions_values);
+
+		setObj.values = _.extend((instance.values || {}), permissions_values);
+
+		if (!_.isEmpty(change_values)) {
+
+			values_history = current_approve.values_history || []
+
+			values_history.push({
+				values: change_values,
+				create: new Date()
+			})
+
+			setObj[key_str + 'values_history'] = values_history
+		}
+
+		setObj[key_str + 'is_read'] = true;
+		setObj[key_str + 'read_date'] = new Date();
+		setObj[key_str + 'values'] = setObj.values;
+		setObj[key_str + 'description'] = description;
+		setObj[key_str + 'next_steps'] = next_steps;
+		if (step_type == "submit" || step_type == "start") {
+			setObj[key_str + 'judge'] = "submitted";
+		} else {
+			setObj[key_str + 'judge'] = judge;
+		}
+
 		setObj.modified = new Date();
 		setObj.modified_by = this.userId;
-		setObj.attachments = approve.attachments;
 
-		setObj["traces.$.approves"] = current_trace.approves;
+		// 计算申请单标题
+		var form = db.forms.findOne(instance.form);
+		var form_v = uuflowManager.getFormVersion(form, instance.form_version);
+		var name_forumla = form_v.name_forumla;
+		if (name_forumla) {
+			setObj.name = uuflowManager.getInstanceName(instance, setObj.values);
+		}
 
 		db.instances.update({
 			_id: ins_id,

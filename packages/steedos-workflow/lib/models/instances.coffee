@@ -16,13 +16,13 @@ db.instances._simpleSchema = new SimpleSchema({
 
 #db.instances.attachSchema db.instances._simpleSchema
 
-db.instances.helpers
-	applicant_name: ->
-		applicant = db.space_users.findOne({user: this.applicant});
-		if applicant
-			return applicant.name;
-		else
-			return ""
+#db.instances.helpers
+#	applicant_name: ->
+#		applicant = db.space_users.findOne({user: this.applicant});
+#		if applicant
+#			return applicant.name;
+#		else
+#			return ""
 
 if Meteor.isServer
 	db.instances.allow
@@ -68,7 +68,7 @@ if Meteor.isServer
 			if searchText
 				pinyin = /^[a-zA-Z\']*$/.test(searchText)
 				if (pinyin && searchText.length > 8) || (!pinyin && searchText.length > 1)
-					console.log "searchText is #{searchText}"
+#					console.log "searchText is #{searchText}"
 					query = {state: {$in: ["pending", "completed"]}, name: {$regex: searchText},$or: [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}, {cc_users: uid}]}
 
 					if selectedOPtions && _.isArray(selectedOPtions)
@@ -85,6 +85,11 @@ if Meteor.isServer
 				options.push({label: "[" + flow?.name + "]" + instance.name + ", "+ instance.applicant_name, value: instance._id});
 
 			return options;
+
+	# 全文检索同步字段置位unset
+	db.instances.before.update (userId, doc, fieldNames, modifier, options) ->
+		modifier.$unset = modifier.$unset || {};
+		modifier.$unset.is_recorded = 1;	
 
 if Meteor.isServer
 	db.instances._ensureIndex({
@@ -275,4 +280,9 @@ if Meteor.isServer
 	db.instances._ensureIndex({
 		"traces.approves.type": 1,
 		"traces.approves.handler": 1
+	},{background: true})
+
+	# 全文检索同步字段
+	db.instances._ensureIndex({
+		"is_recorded": 1
 	},{background: true})

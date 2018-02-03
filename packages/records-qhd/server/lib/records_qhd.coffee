@@ -22,8 +22,15 @@ RecordsQHD.test = () ->
 RecordsQHD.scheduleJobMaps = {}
 
 RecordsQHD.run = ()->
-	RecordsQHD.instanceToArchive();
-	RecordsQHD.instanceToContracts();
+	try
+		RecordsQHD.instanceToArchive();
+	catch  e
+		console.error "RecordsQHD.instanceToArchive", e
+
+	try
+		RecordsQHD.instanceToContracts();
+	catch  e
+		console.error "RecordsQHD.instanceToContracts", e
 
 RecordsQHD.instanceToArchive = (ins_ids)->
 

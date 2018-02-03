@@ -13,11 +13,16 @@ Steedos =
 			unless locale
 				locale = Steedos.locale()
 			if locale == "zh-cn" || locale == "zh-CN"
-				return number.replace(/\B(?=(\d{4})+(?!\d))/g, ',')
+				# 中文万分位财务人员看不惯，所以改为国际一样的千分位
+				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 			else
 				return number.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		else
 			return ""
+	valiJquerySymbols: (str)->
+		# reg = /^[^!"#$%&'()*+,./:;<=>?@[\]^`{|}~]+$/g
+		reg = new RegExp("^[^!\"#$%&'()*\+,\.\/:;<=>?@[\\]^`{|}~]+$")
+		return reg.test(str)
 
 ###
 # Kick off the global namespace for Steedos.
@@ -51,18 +56,19 @@ if Meteor.isClient
 		avatar = accountBgBodyValue.avatar
 		if accountBgBodyValue.url
 			if url == avatar
-				$("body").css "backgroundImage","url(#{Steedos.absoluteUrl('api/files/avatars/' + avatar)})"
+				avatarUrl = 'api/files/avatars/' + avatar
+				$("body").css "backgroundImage","url(#{if Meteor.isCordova then avatarUrl else Meteor.absoluteUrl(avatarUrl)})"
 			else
 				# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
-				$("body").css "backgroundImage","url(#{url})"
+				$("body").css "backgroundImage","url(#{if Meteor.isCordova then url else Meteor.absoluteUrl(url)})"
 		else
 			# 这里不可以用Steedos.absoluteUrl，因为app中要从本地抓取资源可以加快速度并节约流量
 			background = Meteor.settings?.public?.admin?.background
 			if background
-				$("body").css "backgroundImage","url(#{background})"
+				$("body").css "backgroundImage","url(#{if Meteor.isCordova then background else Meteor.absoluteUrl(background)})"
 			else
 				background = "/packages/steedos_theme/client/background/sea.jpg"
-				$("body").css "backgroundImage","url(#{background})"
+				$("body").css "backgroundImage","url(#{if Meteor.isCordova then background else Meteor.absoluteUrl(background)})"
 
 		if isNeedToLocal
 			if Meteor.loggingIn()
@@ -204,10 +210,10 @@ if Meteor.isClient
 				exec = nw.require('child_process').exec
 				if on_click
 					path = "api/app/sso/#{app_id}?authToken=#{Accounts._storedLoginToken()}&userId=#{Meteor.userId()}"
-					open_url = Meteor.absoluteUrl(path)
+					open_url = window.location.origin + "/" + path
 				else
 					open_url = Steedos.getAppUrlWithToken app_id
-					open_url = Meteor.absoluteUrl open_url
+					open_url = window.location.origin + "/" + open_url
 				cmd = "start iexplore.exe \"#{open_url}\""
 				exec cmd, (error, stdout, stderr) ->
 					if error
@@ -248,10 +254,56 @@ if Meteor.isClient
 		if Steedos.isSpaceAdmin()
 			min_months = 3
 		space = db.spaces.findOne(spaceId)
-		remaining_months = space?.billing?.remaining_months
-		if space?.is_paid and remaining_months != undefined and remaining_months <= min_months
+		end_date = space?.end_date
+		if space?.is_paid and end_date != undefined and (end_date - new Date) <= (min_months*30*24*3600*1000)
 			# 提示用户余额不足
 			toastr.error t("space_balance_insufficient")
+
+	Steedos.setModalMaxHeight = ()->
+		accountZoomValue = Steedos.getAccountZoomValue()
+		unless accountZoomValue.name
+			accountZoomValue.name = 'large'
+		switch accountZoomValue.name
+			when 'normal'
+				if Steedos.isMobile()
+					offset = -12
+				else
+					offset = 75
+			when 'large'
+				if Steedos.isMobile()
+					offset = -6
+				else
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 199
+					else
+						offset = 9
+			when 'extra-large'
+				if Steedos.isMobile()
+					offset = -26
+				else 
+					# 区分IE浏览器
+					if Steedos.detectIE()
+						offset = 303
+					else
+						offset = 53
+
+		if $(".modal").length
+			$(".modal").each ->
+				headerHeight = 0
+				footerHeight = 0
+				totalHeight = 0
+				$(".modal-header", $(this)).each ->
+					headerHeight += $(this).outerHeight(false)
+				$(".modal-footer", $(this)).each ->
+					footerHeight += $(this).outerHeight(false)
+
+				totalHeight = headerHeight + footerHeight
+				height = $("body").innerHeight() - totalHeight - offset
+				if $(this).hasClass("cf_contact_modal")
+					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "#{height}px"})
+				else
+					$(".modal-body",$(this)).css({"max-height": "#{height}px", "height": "auto"})
 
 	Steedos.getModalMaxHeight = (offset)->
 		if Steedos.isMobile()
@@ -305,6 +357,22 @@ if Meteor.isClient
 		else
 			return organizations
 
+	Steedos.forbidNodeContextmenu = (target, ifr)->
+		unless Steedos.isNode()
+			return
+		target.document.body.addEventListener 'contextmenu', (ev) ->
+			ev.preventDefault()
+			return false
+		if ifr
+			if typeof ifr == 'string'
+				ifr = target.$(ifr)
+			ifr.load ->
+				ifrBody = ifr.contents().find('body')
+				if ifrBody
+					ifrBody[0].addEventListener 'contextmenu', (ev) ->
+						ev.preventDefault()
+						return false
+
 if Meteor.isServer
 	Steedos.getUserOrganizations = (spaceId,userId,isIncludeParents)->
 		space_user = db.space_users.findOne({user:userId,space:spaceId},fields:{organizations:1})
@@ -332,6 +400,15 @@ if Meteor.isServer
 		if !space || !space.admins
 			return false;
 		return space.admins.indexOf(userId)>=0
+
+	Steedos.isLegalVersion = (spaceId,app_version)->
+		if !spaceId
+			return false
+		check = false
+		modules = db.spaces.findOne(spaceId)?.modules
+		if modules and modules.includes(app_version)
+			check = true
+		return check
 
 	# 判断数组orgIds中的org id集合对于用户userId是否有组织管理员权限，只要数组orgIds中任何一个组织有权限就返回true，反之返回false
 	Steedos.isOrgAdminByOrgIds = (orgIds, userId)->
@@ -713,3 +790,24 @@ if Meteor.isServer
 				if locale == "zh-cn"
 					locale = "zh-CN"
 			return locale
+
+		checkUsernameAvailability: (username) ->
+			return not Meteor.users.findOne({ username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") } })
+
+
+		validatePassword: (pwd)->
+			reason = t "password_invalid"
+			valid = true
+			unless pwd
+				valid = false
+			unless /\d+/.test(pwd)
+				valid = false
+			unless /[a-zA-Z]+/.test(pwd)
+				valid = false
+			if pwd.length < 8
+				valid = false
+			if valid
+				return true
+			else
+				return error:
+					reason: reason

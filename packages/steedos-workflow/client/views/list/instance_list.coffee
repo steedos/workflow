@@ -50,7 +50,7 @@ Template.instance_list.helpers
 				query.state = "none"
 
 			if !space.admins.contains(uid)
-				flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()
+				flow_ids = Tracker.nonreactive(WorkflowManager.getMyAdminOrMonitorFlows)
 				# if query.flow
 				# 	if !flow_ids.includes(query.flow)
 				# 		query.$or = [{submitter: uid}, {applicant: uid}, {inbox_users: uid}, {outbox_users: uid}]
@@ -67,6 +67,22 @@ Template.instance_list.helpers
 			query.state = "none"
 
 		query.is_deleted = false
+
+		workflowCategory = Session.get("workflowCategory")
+
+		if workflowCategory
+			if workflowCategory == '-1'
+				category_forms = db.forms.find({category: {
+					$in: [null, ""]
+				}}, {fields: {_id:1}}).fetch();
+
+				query.form = {$in: category_forms.getProperty("_id")}
+			else
+				category_forms = db.forms.find({category: workflowCategory}, {fields: {_id:1}}).fetch();
+
+				query.form = {$in: category_forms.getProperty("_id")}
+
+
 
 		instance_more_search_selector = Session.get('instance_more_search_selector')
 		if (instance_more_search_selector)
@@ -96,12 +112,12 @@ Template.instance_list.helpers
 			return "display: none;";
 
 	is_display_search_tip: ->
-		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId") or Session.get("workflowCategory")
 			return ""
 		return "display: none;"
 
 	is_select_bar_show: ->
-		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId")
+		if Session.get('instance_more_search_selector') or Session.get('instance_search_val') or Session.get("flowId") or Session.get("workflowCategory")
 			return "selectbar-is-show"
 		else
 			return "selectbar-is-hide"
@@ -116,7 +132,7 @@ Template.instance_list.helpers
 		# 		return true
 
 		# return false;
-		return false
+		return true
 	
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0
@@ -124,7 +140,22 @@ Template.instance_list.helpers
 		return false
 
 	filterFlowName: ->
-		return db.flows.findOne(Session.get("flowId"))?.name
+		rev = new Array();
+
+		category = db.categories.findOne(Session.get("workflowCategory"))
+
+		if category
+			rev.push category.name
+
+		if Session.get("workflowCategory") == '-1'
+			rev.push TAPi18n.__("workflow_no_category")
+
+		flow = db.flows.findOne(Session.get("flowId"))
+
+		if flow
+			rev.push flow.name
+
+		return rev
 
 	getInstanceListTabular: ->
 		if Session.get("flowId")
@@ -144,6 +175,19 @@ Template.instance_list.helpers
 
 	tableauUrl: ()->
 		return SteedosTableau.get_workflow_instance_by_flow_connector(Session.get("spaceId"), Session.get("flowId"))
+
+	showBatchBtn: ()->
+		return Session.get("workflow_batch_instances_count") > 0
+
+Template.instance_list._changeOrder = ()->
+
+	table = $(".datatable-instances")?.DataTable();
+
+	if Session.get("box") == 'draft' || Session.get("box") == 'pending' || Session.get("box") == 'completed'
+		table?.order([7, 'desc']).draw();
+
+	if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
+		table?.order([4, 'desc']).draw();
 
 Template.instance_list._tableColumns = ()->
 
@@ -181,8 +225,9 @@ Template.instance_list._tableColumns = ()->
 			table.column(3).visible(false)
 			table.column(4).visible(false)
 			table.column(6).visible(false)
-			table.column(7).visible(false)
+			table.column(7).visible(show)
 			table.column(8).visible(false)
+
 			if columnCount > 11
 				_.range(12, columnCount + 1).forEach (index)->
 					table.column(index - 1)?.visible(false)
@@ -226,6 +271,30 @@ Template.instance_list.onCreated ->
 	self.autorun ()->
 		$(window).resize ->
 			Template.instance_list._tableColumns();
+			if !Steedos.isMobile() and !Steedos.isPad()
+				$(".instance-list").perfectScrollbar("update");
+
+	# 只有是企业版时，才支持批量审批
+	if Steedos.isLegalVersion('',"workflow.enterprise")
+		self.autorun ()->
+			if Session.get("box") == 'inbox' && Session.get("flowId")
+
+				Session.get("workflow_batch_instances_reload")
+
+				categoryId = Session.get("workflowCategory")
+
+				if Session.get("flowId")
+					flows = [Session.get("flowId")]
+
+				Meteor.call 'get_batch_instances_count', Session.get("spaceId"), categoryId, flows, (error, result)->
+					if error
+						console.error 'error',error
+					else
+						console.log(result)
+
+						Session.set("workflow_batch_instances_count", result)
+			else
+				Session.set("workflow_batch_instances_count", 0)
 
 Template.instance_list.onRendered ->
 	self = this;
@@ -242,6 +311,12 @@ Template.instance_list.onRendered ->
 
 	unless $("body").hasClass("three-columns")
 		$(".btn-toogle-columns").find("i").toggleClass("fa-expand").toggleClass("fa-compress")
+
+#	Template.instance_list._changeOrder()
+
+	self.autorun ()->
+		if Session.get("box")
+			Meteor.setTimeout(Template.instance_list._changeOrder, 300)
 
 Template.instance_list.events
 
@@ -272,16 +347,29 @@ Template.instance_list.events
 			FlowRouter.go("/workflow/space/" + spaceId + "/" + box + "/" + rowData._id);
 		, 1
 
-
-	'click .dropdown-menu li a': (event) ->
+	'click .dropdown-menu li a.export-thismonth': () ->
 		InstanceManager.exportIns(event.target.type);
 
-	'keyup #instance_search': (event) ->
+	'click .dropdown-menu li a.export-pro': () ->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
+		InstanceManager.exportIns(event.target.type);
+
+	'click #instance_search_button': (event) ->
 		dataTable = $(".datatable-instances").DataTable();
 		dataTable.search(
 			$('#instance_search').val(),
 		).draw();
 		Session.set('instance_search_val', $('#instance_search').val())
+
+	'keypress #instance_search': (event, template) ->
+		if event.keyCode == 13
+			dataTable = $(".datatable-instances").DataTable();
+			dataTable.search(
+				$('#instance_search').val(),
+			).draw();
+			Session.set('instance_search_val', $('#instance_search').val())
 
 	'click [name="show_all_ins"]': (event) ->
 		Session.set("flowId", undefined);
@@ -309,8 +397,10 @@ Template.instance_list.events
 		Session.set("instance-search-applicant-organization-name", undefined)
 		Session.set("submit-date-start", undefined);
 		Session.set("submit-date-end", undefined);
+		Session.set("workflowCategory", undefined);
 		#清空搜索框
-		$('#instance_search').val("").trigger('keyup')
+		$('#instance_search').val('')
+		$('#instance_search_button').click()
 
 	'click #sidebarOffcanvas': ()->
 		if !Steedos.isMobile() && !Steedos.isPad()
@@ -335,3 +425,9 @@ Template.instance_list.events
 
 	'click .tabular-introduction': ()->
 		Modal.show("tableau_introduction_modal")
+
+	'click .batch_instances_view > button': ()->
+		Modal.show("batch_instances_modal")
+
+	'click th.flow-filter,.tabular-filter-by-flow': ()->
+		Modal.show('flow_list_modal')

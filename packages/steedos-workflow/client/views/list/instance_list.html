@@ -14,8 +14,12 @@
 
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}
-					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}} <i class="caret"></i>
+
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}}
+					{{!--
+					{{#if hasApproves}}
+					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}}
+					--}}<i class="caret"></i>
 				</a>
 				<div class="dropdown-menu workflow-menu" style="max-height: {{maxHeight}}">
 					{{> workflowMenuByFlow}}
@@ -33,6 +37,7 @@
 			</button>
 		</div>
 	</div>
+
 	<div class="toolbar">
 		{{#if hasFlowId}}
 			<div class="btn-group hidden-xs" role="group">
@@ -42,10 +47,10 @@
 					<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><a href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
-					<li><a href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
-					<li><a href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
-					<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
+					<li><a class="export-thismonth" href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
+					<li><a class="export-pro" href="#" type="3">{{_ "workflow_export_all"}}</a></li>
 				</ul>
 			</div>
 
@@ -68,14 +73,38 @@
 			<div class="input-group">
 				<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
 				<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="instance_more_search"><span
-								class="caret"></span></button>
-					</span>
+					<!-- <button class="btn btn-default" type="button" id="instance_more_search">
+						<span class="caret"></span>
+					</button> -->
+					<button class="btn btn-default" type="button" id="instance_search_button">
+						<i class="fa fa-search"></i>
+					</button>
+					<button class="btn btn-default" type="button" id="instance_more_search">
+						{{#if isMobile}}
+							<span class="caret"></span>
+						{{else}}
+							{{_ "instance_search_advanced_search"}}
+						{{/if}}
+					</button>
+				</span>
 			</div>
 		</div>
+
+		<div class="pull-right hidden-xs" role="group">
+			<button type="button" class="btn btn-default tabular-filter-by-flow">
+				{{_ "instances_flow"}}<span class="caret"></span>
+			</button>
+		</div>
+
 	</div>
 	<div class="search-tip-bar" style="{{is_display_search_tip}}">
-		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}: <b>{{filterFlowName}}</b></span>
+		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}:
+			<ol class="breadcrumb">
+				{{#each filterFlowName}}
+					<li>{{this}}</li>{{/each}}
+			</ol>
+
+		</span>
 		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
 	</div>
 	<div class="instance-list {{is_select_bar_show}}">
@@ -87,8 +116,11 @@
 			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
 		{{/if}}
 
-
 	</div>
-
-{{> baseTabbar}}
+	{{#if showBatchBtn}}
+		<div class="batch_instances_view">
+			<button type="button" class="btn btn-primary animated bounceInUp">{{{_ "workflow_batch_approval_btn"}}}</button>
+		</div>
+	{{/if}}
+	{{> baseTabbar}}
 </template>

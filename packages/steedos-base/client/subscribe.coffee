@@ -19,8 +19,8 @@ Tracker.autorun (c)->
 	spaceId = Session.get("spaceId")
 
 	Steedos.subsSpaceBase.clear();
-	Steedos.subsSpaceBase.subscribe("apps", spaceId)
 	if spaceId
+		Steedos.subsSpaceBase.subscribe("apps", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_space_user", spaceId)
 		Steedos.subsSpaceBase.subscribe("my_organizations", spaceId)
 		Steedos.subsSpaceBase.subscribe("space_settings", spaceId)
@@ -46,6 +46,18 @@ Meteor.startup ->
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
 
-# 工作区登录注册界面需要订阅指定工作区的LOGO图片
-Steedos.subs["SpaceAvatar"] = new SubsManager();
+	# 工作区登录注册界面需要订阅指定工作区的LOGO图片
+	Steedos.subs["SpaceAvatar"] = new SubsManager();
 
+	Tracker.autorun (c)->
+		locale = Steedos.locale()
+		$("body").addClass("locale-#{locale}")
+
+
+	Tracker.autorun (c)->
+		spaceId = Session.get("spaceId")
+		if spaceId and Meteor.userId()
+			Meteor.call "updateServerSession", spaceId,
+				(error, result) ->
+					if error
+						console.log error

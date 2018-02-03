@@ -20,23 +20,11 @@ db.users._simpleSchema = new SimpleSchema
 		autoform: 
 			type: "text"
 			readonly: true
-	company: 
-		type: String,
-		optional: true,
 	mobile: 
 		type: String,
 		optional: true,
 		autoform:
-			if Steedos.isPhoneEnabled()
-				readonly: true
-			else
-				type: "hidden"
-	work_phone:
-		type: String,
-		optional: true
-	position:
-		type: String,
-		optional: true
+			readonly: true
 	locale: 
 		type: String,
 		optional: true,
@@ -133,13 +121,33 @@ if Meteor.isServer
 		if existed.count()>0
 			throw new Meteor.Error(400, "users_error_username_exists");
 
-	db.users.before.insert (userId, doc) ->
-		space_registered = doc.profile?.space_registered
-		# # 从工作区特定的注册界面注册的用户，需要先判断下工作区是否存在
-		space = db.spaces.findOne(space_registered)
-		if !space
-			throw new Meteor.Error(400, "space_users_error_space_not_found")
+	db.users.validateUsername = (username, userId) ->
+		user = db.users.findOne({username: { $regex : new RegExp("^" + s.trim(s.escapeRegExp(username)) + "$", "i") }, _id: { $ne: userId }})
+		if user
+			throw new Meteor.Error 'username-unavailable', 'username-unavailable'
+		if !Meteor.settings.public?.accounts?.is_username_skip_minrequiredlength
+			if username.length < 6
+				throw new Meteor.Error 'username-minrequiredlength', "username-minrequiredlength"
 
+		try
+			if Meteor.settings.public?.accounts?.UTF8_Names_Validation
+				nameValidation = new RegExp '^' + Meteor.settings.public.accounts.UTF8_Names_Validation + '$'
+			else
+				nameValidation = new RegExp '^[A-Za-z0-9-_.\u00C0-\u017F\u4e00-\u9fa5]+$'
+		catch
+			nameValidation = new RegExp '^[A-Za-z0-9-_.\u00C0-\u017F\u4e00-\u9fa5]+$'
+		if not nameValidation.test username
+			throw new Meteor.Error 'username-invalid', "username-invalid"
+
+	db.users.validatePhone = (userId, doc, modifier) ->
+		modifier.$set  = modifier.$set || {}
+		if doc._id != userId and modifier.$set["phone.number"]
+			if doc["phone.verified"] == true and doc["phone.number"] != modifier.$set["phone.number"]
+				throw new Meteor.Error(400, "用户已验证手机，不能修改")
+
+	db.users.before.insert (userId, doc) ->
+		if doc.username
+			db.users.validateUsername(doc.username, doc._id)
 		doc.created = new Date();
 		doc.is_deleted = false;
 		if userId
@@ -171,9 +179,6 @@ if Meteor.isServer
 		if (doc.profile?.locale && !doc.locale)
 			doc.locale = doc.profile.locale
 
-		if (doc.profile?.company && !doc.company)
-			doc.company = doc.profile.company
-
 		if (doc.profile?.mobile && !doc.mobile)
 			doc.mobile = doc.profile.mobile
 
@@ -202,52 +207,67 @@ if Meteor.isServer
 
 
 	db.users.after.insert (userId, doc) ->
-		space_registered = doc.profile?.space_registered
-		if space_registered
-			# 从工作区特定的注册界面注册的用户，需要自动加入到工作区中
-			user_email = doc.emails[0].address
-			rootOrg = db.organizations.findOne({space:space_registered, is_company:true},{fields: {_id:1}})
-			db.space_users.insert
-				email: user_email
-				user: doc._id
-				name: doc.name
-				organizations: [rootOrg._id]
-				space: space_registered
-				user_accepted: true
-				is_registered_from_space: true
-
-		if !space_registered and !(doc.spaces_invited?.length>0)
-			# 不是从工作区特定的注册界面注册的用户，也不是邀请的用户
-			# 即普通的注册用户，则为其新建一个自己的工作区
+		if !(doc.spaces_invited?.length>0)
+			space_name = doc.company || doc.profile?.company
+			unless space_name
+				space_name = doc.name + " " + trl("space")
 			db.spaces.insert
-				name: doc.name + " " + trl("space")
+				name: space_name
 				owner: doc._id
 				admins: [doc._id]
 
 		try
 			if !doc.services || !doc.services.password || !doc.services.password.bcrypt
 				# 发送让用户设置密码的邮件
-				Accounts.sendEnrollmentEmail(doc._id, doc.emails[0].address)
+				# Accounts.sendEnrollmentEmail(doc._id, doc.emails[0].address)
+				if doc.emails
+					token = Random.secret();
+					email = doc.emails[0].address
+					now = new Date();
+					tokenRecord = {
+						token: token,
+						email: email,
+						when: now        
+					};
+					db.users.update(doc._id, {$set: {"services.password.reset":tokenRecord}});
+					Meteor._ensure(doc, 'services', 'password').reset = tokenRecord;
+					enrollAccountUrl = Accounts.urls.enrollAccount(token);
+					url =  Accounts.urls.enrollAccount(token);
+					locale = Steedos.locale(doc._id, true)
+					subject = TAPi18n.__("users_email_create_account",{},locale)
+					greeting = TAPi18n.__('users_email_hello', {}, locale) + "&nbsp;" + doc.name + ","
+					content = greeting + "</br>" + TAPi18n.__('users_email_start_service', {} ,locale) + "</br>" + url + "</br>" + TAPi18n.__("users_email_thanks", {}, locale) + "</br>"
+					MailQueue.send
+						to: email
+						from: Meteor.settings.email.from
+						subject: subject
+						html: content
 		catch e
 			console.log "after insert user: sendEnrollmentEmail, id: " + doc._id + ", " + e
 
 
 	db.users.before.update  (userId, doc, fieldNames, modifier, options) ->
+		db.users.validatePhone(userId, doc, modifier)
 		if modifier.$unset && modifier.$unset.steedos_id == ""
 			throw new Meteor.Error(400, "users_error_steedos_id_required");
 
 		modifier.$set = modifier.$set || {};
 
-		if doc.steedos_id && modifier.$set.steedos_id
-			if modifier.$set.steedos_id != doc.steedos_id
-				throw new Meteor.Error(400, "users_error_steedos_id_readonly");
+		if modifier.$set.username
+			db.users.validateUsername(modifier.$set.username, doc._id)
+
+		# if doc.steedos_id && modifier.$set.steedos_id
+		# 	if modifier.$set.steedos_id != doc.steedos_id
+		# 		throw new Meteor.Error(400, "users_error_steedos_id_readonly");
 
 		if userId
 			modifier.$set.modified_by = userId;
 
 		if modifier.$set['phone.verified'] is true
-			# substring(3) 是为了去掉 "+86"
-			modifier.$set.mobile = doc.phone.number.substring(3)
+			newNumber = modifier.$set['phone.mobile']
+			unless newNumber
+				newNumber = doc.phone.mobile
+			modifier.$set.mobile = newNumber
 		modifier.$set.modified = new Date();
 
 	db.users.after.update (userId, doc, fieldNames, modifier, options) ->
@@ -256,26 +276,20 @@ if Meteor.isServer
 
 		if modifier.$set['phone.verified'] is true
 			# db.users.before.update中对modifier.$set.mobile的修改这里识别不到，所以只能重新设置其值
-			# substring(3) 是为了去掉 "+86"
-			modifier.$set.mobile = doc.phone.number.substring(3)
+			newNumber = modifier.$set['phone.mobile']
+			unless newNumber
+				newNumber = doc.phone.mobile
+			modifier.$set.mobile = newNumber
 
 		user_set = {}
 		user_unset = {}
 		if modifier.$set.name != undefined
 			user_set.name = modifier.$set.name
-		if modifier.$set.position != undefined
-			user_set.position = modifier.$set.position
-		if modifier.$set.work_phone != undefined
-			user_set.work_phone = modifier.$set.work_phone
 		if modifier.$set.mobile != undefined
 			user_set.mobile = modifier.$set.mobile
 
 		if modifier.$unset.name != undefined
 			user_unset.name = modifier.$unset.name
-		if modifier.$unset.position != undefined
-			user_unset.position = modifier.$unset.position
-		if modifier.$unset.work_phone != undefined
-			user_unset.work_phone = modifier.$unset.work_phone
 		if modifier.$unset.mobile != undefined
 			user_unset.mobile = modifier.$unset.mobile
 
@@ -300,9 +314,6 @@ if Meteor.isServer
 			fields:
 				steedos_id: 1
 				name: 1
-				company: 1
-				work_phone: 1
-				position: 1
 				mobile: 1
 				locale: 1
 				username: 1
@@ -345,7 +356,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1
 	},{background: true})
 
 	db.users._ensureIndex({
@@ -354,7 +364,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1,
 		"created": 1
 	},{background: true})
 
@@ -364,7 +373,6 @@ if Meteor.isServer
 		"name": 1,
 		"_id": 1,
 		"mobile": 1,
-		"company": 1,
 		"created": 1,
 		"last_logon": 1
 	},{background: true})

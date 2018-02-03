@@ -1,8 +1,8 @@
-Workflow.getInstance = function(){
+Workflow.getInstance = function() {
 	var instance = WorkflowManager.getInstance();
 
-	if(!instance)
-		return ;
+	if (!instance)
+		return;
 
 	if (instance.state == "draft") {
 		var selected_applicant = $("input[name='ins_applicant']")[0].dataset.values;
@@ -35,23 +35,21 @@ Workflow.getInstance = function(){
 
 	// instance = _.clone(instance)  //不允许调用方修改instance对象
 
-	// InstanceManager.resetId(instance);
-
 	return instance;
 }
 
-Workflow.getMyApprove = function(){
+Workflow.getMyApprove = function() {
 	return InstanceManager.getMyApprove();
 }
 
 
-Workflow.getInstanceAttachments = function(instanceId, approveId){
+Workflow.getInstanceAttachments = function(instanceId, approveId) {
 
-	if(approveId){
+	if (approveId) {
 		return cfs.instances.find({
 			"metadata.instance": instanceId
 		}).fetch()
-	}else{
+	} else {
 		return cfs.instances.find({
 			"metadata.approve": approveId
 		}).fetch()

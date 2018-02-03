@@ -90,6 +90,7 @@
 	"workflow_attachment_convert_to_pdf": "Converting '%s' to pdf format...",
 	"workflow_attachment_wordToPdf": "Convert To Pdf",
 	"workflow_attachment_wordToPdf_failed": "Convert to PDF failed!",
+	"workflow_attachment_locked_tip": "Unlock the file, then submit",
 
 	"Instance State approved": "Approved",
 	"Instance State rejected": "Rejected",
@@ -138,6 +139,10 @@
 	"node_office_filePath": "File: ",
 	"node_office_exists_message": "File already exists, replace it?",
 	"node_office_workflow": "Workflow",
+	"node_pdf_error": "Pdf signature failed, please re-sign!",
+	"node_pdf_sign_online": "Sign Online",
+	"node_pdf_message": "You are signing pdf file.",
+	"node_pdf_filePath": "File: ",
 
 	"workflow_export_thismonth": "Export requests this month",
 	"workflow_export_lastmonth": "Export requests last month",
@@ -154,7 +159,7 @@
 	"relocate_help": "https://www.steedos.com/us/help/workflow/instance_relocate.html",
 	"reassign_help": "https://www.steedos.com/us/help/workflow/instance_reassign.html",
 	"forward_help": "https://www.steedos.com/us/help/workflow/instance_forward.html",
-	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_monitor.html",
+	"export_filter_help": "https://www.steedos.com/us/help/workflow/instance_search.html",
 	"new_help": "https://www.steedos.com/us/help/workflow/instance_add.html",
 
 	// inbox
@@ -191,11 +196,12 @@
 	"instance_curstep": "Current Step: ",
 	"instance_cc_user": "Carbon Copy To",
 	"instance_cc_error_users_required": "Please select user.",
-	"workflow_form_edit": "Workflow Script",
+	"workflow_form_edit": "Workflow List",
 	"flows_template": "Request Template",
 	"flows_name": "Workflow Name",
 	"flows_print_template": "Print Template",
-	"flows_instance_template": "Form Template",
+	"flows_instance_template": "Form Template&nbsp; <a class='export-table-template'>Download the default template</a>",
+	"flows_description": "Flow Description",
 
 
 	"workflow_attach_unlock": "Unlock",
@@ -208,6 +214,7 @@
 	"workflow_attach_to_pdf_message": "Convert '%s' to pdf format?",
 	"workflow_attach_upload": "Upload",
 	"workflow_attach_new": "New",
+	"workflow_attachment_signature": "Signature",
 
 	"workflow_select_an_app": "Steedos Apps",
 	"workflow_suggestion_placeholder": "Please fill in comments.",
@@ -231,6 +238,7 @@
 	"instance_search_advanced_search": "Advanced search",
 	"instance_search_flow": "Workflow",
 	"instance_search_name": "Request Title",
+	"instance_search_file": "Request Title",
 	"instance_search_applicant_name": "Applicant Name",
 	"instance_search_applicant_organization_name": "Applicant Organization",
 	"instance_search_submit_date": "Submit Date",
@@ -271,15 +279,16 @@
 				"submit_pending_inbox": "__from_username__",
 				"submit_terminate_applicant": "__from_username__",
 				"submit_terminate_approve": "__from_username__",
-				"monitor_delete_applicant": "__from_username__",
-				"submit_completed_applicant": "__from_username__",
+				"monitor_delete_applicant": "__applicant_name__",
+				"submit_completed_applicant": "__applicant_name__",
 				"submit_completed_approve": "__from_username__",
-				"approved_completed_applicant": "__from_username__",
+				"approved_completed_applicant": "__applicant_name__",
 				"approved_completed_approve": "__from_username__",
-				"rejected_completed_applicant": "__from_username__",
+				"rejected_completed_applicant": "__applicant_name__",
 				"rejected_completed_approve": "__from_username__",
 				"reassign_new_inbox_users": "__from_username__",
-				"trace_approve_cc": "__from_username__"
+				"trace_approve_cc": "__from_username__",
+				"trace_approve_cc_submit": "__from_username__"
 			},
 			"body": {
 				"input": "input",
@@ -302,7 +311,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
-				"remind": "Remind：__instance_name__, Deadline：__deadline__"
+				"remind": "Remind：__instance_name__, Deadline：__deadline__",
+				"trace_approve_cc_submit": "I have submitted a cc __instance_name__"
 			}
 		},
 		"email": {
@@ -526,14 +536,17 @@
 	"categories": "Workflow categories",
 	"categories_name": "Name",
 	"categories_sort_no": "Sort no",
-	"not_found_user":"Not Found User",
+	"not_found_user": "Not Found User",
 	"next_step_users_not_found": {
-		"applicant_role": "The <__role_name__> you are looking for have not configured. Please contact your administrator."
+		"aplicant_superior": "The applicant's superior is not configured, please contact the Administrator.",
+		"applicant_role": "The <__role_name__> you are looking for have not configured,Please contact the administrator.",
+		"field_value_empty": "Please enter the value of the <__field_name__>field",
+		"org_no_members": "The next step need <__org_name__> processing,Please contact the administrator."
 	},
 	"instanc_admin_role_text": "<a href='%s' target='_blank'> configuration in position</a>",
 
 	"instanc_user_role_text": " configuration in position",
-	"instanc_set_applicant_role_text":"set positions users",
+	"instanc_set_applicant_role_text": "set positions users",
 	"instance_sign_read": "Read",
 	"instance_sign_done": "Done",
 	"instance_sign_agree": "Agree",
@@ -551,7 +564,7 @@
 	"instance_number_rules_number_builder_error_not_exist": "The number rule does not exist: ",
 	"ConfirmDeletion?": "Are you sure?",
 	"instance_number_rules_name_only": "The name can not be repeated",
-	"flows_btn_export_title": "Export",
+	"flows_btn_export_title": "Export Flow",
 	"flows_btn_copylink_title": "Copy Link",
 	"instance_distribute_related_instances_title": "Automatically create associated requests",
 	"instance_next_step_users_placeholder": "Please select the approver",
@@ -590,7 +603,8 @@
 
 	"flow_roles_delete_success": "Delete successfully",
 	"add_positions": "Add",
-	"save_role":"Save",
+	"save_role": "Save",
+	"delete_role": "Delete",
 	"flow_roles_update_success": "Update successfully",
 	"flow_roles_necessary": "Please fill in role's name",
 	"flow_positions_add_suceess": "Add successfully",
@@ -599,6 +613,48 @@
 	"flow_positions_update_failed": "Be failed to update",
 	"flow_positions_delete_suceess": "Delete successfully",
 	"instance_role_set_is_complete": "Role set up?",
+	"instance_set_is_complete": "set up?",
 
-	"flow_roles_help": "Help"
+	"flow_roles_help": "Help",
+	"set_org_members": "Set department members",
+	"set_applicant_manager": "Set the applicant supervisor",
+	"instance_permissions_error": "You do not have permission to view this request",
+	"start_flows": "Start flows",
+
+	"chart_traces": "Chart Traces",
+	"cc_tag": "(Carbon Copying)",
+	"workflow_batch_approval": "Batch approval",
+	"workflow_batch_approval_btn": "Batch<br/>approval",
+	"workflow_batch_approval_processing": "Processing",
+	"workflow_batch_approval_message": "This processing file %s",
+	"workflow_error_multiple_next_step_users": "'__insname__' the next person can not handle more than one",
+	"workflow_error_multiple_next_step": "'__insname__' can not have more than one next step",
+	"workflow_batch_instances_empty": "There is no data for batch approval",
+	"workflow_sign_opinion_to_completed_instance": "This document is over and the signed opinion will not be displayed on the application",
+	"workflow_copy_flow": "Copy flow",
+	"workflow_copy_flow_text": "Please fill in the new flow name",
+	"workflow_copy_flow_success": "The copy flow is successful",
+	"workflow_copy_flow_error_reason_required": "Comments are required.",
+	"workflow_enabled": "Enabled",
+	"workflow_disabled": "Disabled",
+	"flows_state": "State",
+	"flows_current_modified": "Modified",
+	"flows_modified_by_name()": "Editor",
+	"flows_category_name()": "Categories",
+	"flow_list_title_set_template": "Set Template",
+	"flow_list_title_set_script": "Set Script",
+	"flow_list_title_set_fieldsMap": "Set Archive relationship",
+	"distribute_edit_flow_select_users": "users options",
+	"distribute_edit_flow_select_flows": "flows options",
+	"flow_list_title_set_distribute": "Set Distribute",
+	"distribute_to_self": "can distribute to self",
+
+	"instance_deleted": "Deleted",
+
+	"workflow_flow_state_disabled": "The state of flow(__name__) is disabled, Administrator can enable flow.",
+	"flow_roles_error_flows_used": "Role has been used by flows: __names__",
+	"instance_approve_not_yet_handled": "Not yet handled",
+	"instance_approve_distribute_date_label": "Distribute date",
+
+	"flows_auto_remind": "Auto remind"
 }

@@ -25,6 +25,20 @@
 			background-color: #fff;
 			height: calc(~"100% - 43px");
 			overflow-y: auto;
+			width: 100%;
+			overflow-x: hidden;
+			#steedos_contacts_org_tree {
+				ul.jstree-container-ul {
+					width: 100%;
+					a.jstree-anchor {
+						width: calc(~"100% - 65px");
+						display: inline-block;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+			}
 			.box-solid{
 				margin-bottom: 0px;
 			}
@@ -98,6 +112,12 @@
 			position: relative;
 			top: -1px;
 			width: 200px;
+			&.manage-contacts,&.add-contact-user {
+				width: auto;
+			}
+			&.manage-contacts{
+				margin-top: 2px;
+			}
 		}
 
 		@media screen and (max-width: 1024px){
@@ -108,7 +128,13 @@
 
 		@media screen and (max-width: 767px){
 			.pull-right{
-				width: 150px;
+				width: 145px;
+				&.add-contact-user {
+					position: relative;
+					right: -9px;
+					padding: 15px;
+					top: -9px;
+				}
 			}
 		}
 
@@ -160,6 +186,11 @@
 
 		.navigation-bar{
 			height: 51px;
+			#navigation-bar, #steedos_contacts_import_users_btn, #steedos_contacts_export_users_btn{
+				.fa{
+					margin-right: 2px;
+				}
+			}
 		}
 
 		.contacts-mobile{
@@ -186,32 +217,33 @@
 							background: none;
 						}
 						td{
-							height: 28px;
-							line-height: 28px;
+							height: 24px;
+							line-height: 24px;
 							.contacts-users-mobile-avatar, .contacts-organizations-mobile-avatar{
 								position: absolute;
-								height: 28px;
-								line-height: 28px;
+								height: 24px;
+								line-height: 24px;
+								margin-top: 0;
 								img{
-									width: 25px;
-									height: 25px;
+									width: 24px;
+									height: 24px;
 									border-radius: 4px;
-									margin-top: -4px;
 								}
 							}
 							.contacts-users-mobile-name, .contacts-organizations-mobile-name{
 								position: absolute;
 								left: 42px;
 								right: 10px;
-								height: 28px;
-								line-height: 28px;
+								height: 24px;
+								line-height: 24px;
+								font-weight: bold;
 							}
 							.contacts-organizations-mobile-avatar{
 								background: rgba(228, 229, 230, 0.68);
 								padding: 4px;
 								border-radius: 4px;
 								.ion{
-									font-size: 22px;
+									font-size: 17px;
 									color: rgba(63, 135, 217, 0.55);
 								}
 							}
@@ -232,6 +264,11 @@
 			}
 		}
 
+		.hidden-user{
+			.contacts-mobile,.contacts-work_phone{
+				display: none;
+			}
+		}
 	}
 
 	.contacts-main{
@@ -339,7 +376,7 @@
 				left: 0;
 				width: 100%;
 				transition: 0.3s ease-in-out;
-				background: #fff;
+				background: transparent;
 				.contacts{
 					top: 102px;
 					bottom: 50px;
@@ -350,6 +387,12 @@
 				}
 				.offcanvas{
 					display: inline-block;
+				}
+				.btn-back {
+					position: relative;
+					left: -9px;
+					padding: 15px;
+					top: -9px;	
 				}
 				&.contacts-wrapper-mobile{
 					.contacts{
@@ -438,6 +481,14 @@
 	.datatable-steedos-contacts{
 		tr[data-id]{
 			cursor: pointer;
+			td {
+				.invite-refused {
+					color: #d33724;
+				}
+				.invite-pending {
+					color: #357ca5;
+				}
+			}
 		}
 		.drag-source{
 			cursor: pointer;
@@ -462,10 +513,43 @@
 	.contacts_orgs_list_table{
 		.datatable-steedos-contacts{
 			tr{
+				th:first-child{
+					padding-left: 22px;
+				}
+				td:first-child{
+					padding-left: 22px;
+				}
+				td:last-child{
+					.edit-person{
+						float: right;
+						width: 30px;
+						height: 20px;
+						position: relative;
+						visibility: hidden;
+						.btn-group{
+							position: absolute;
+							margin-top: -5px;
+							.dropdown-toggle{
+								padding: 4px 12px;
+								float: right;
+								span{
+									position: relative;
+									top: 2px;
+								}
+							}
+						}
+					}
+				}
+				&:hover td .edit-person{
+					visibility: visible;
+				}
 				th{
 					min-width: 80px;
-					&:nth-last-child(1),&:nth-last-child(2){
+					&:nth-last-child(1){
 						min-width: auto;
+					}
+					&:nth-last-child(2){
+						min-width: 30px;
 					}
 					@media (max-width: 420px){
 						display: none;
@@ -477,6 +561,25 @@
 						&:nth-child(1){
 							display: block;
 						}
+					}
+				}
+			}
+		}
+	}
+	.contacts-wrapper-mobile{
+		.navigation-bar{
+			.navigation-title{
+				cursor: pointer;
+				.top-title{
+					max-width: 85%;
+				}
+				.top-ion{
+					display: inline-block;
+					overflow: hidden;
+					line-height: 30px;
+					height: 30px;
+					.ion{
+						font-size: 100%;
 					}
 				}
 			}
@@ -539,6 +642,13 @@
 			}
 		}
 	}
+	.hidden-user{
+		.weui-cell-hidden-user-field{
+			.weui-input{
+				display: none;
+			}
+		}
+	}
 }
 
 .contacts-settings{
@@ -565,7 +675,7 @@
 		}
 	}
 
-	.settings-hidden{
+	.box{
 		padding-left: 20px;
 		padding-right: 20px;
 		.box-body {
@@ -588,6 +698,46 @@
 			top: 1px;
 		}
 	}
+
+	.view-limit-list{
+		list-style: none;
+		padding: 0 15px;
+		li{
+			padding: 0 10px;
+			border: 1px solid #E4E6E9;
+			border-radius: 2px;
+			list-style: none;
+			margin-bottom: 10px;
+			display: table;
+			table-layout: fixed;
+		}
+		.left-names{
+			margin-top: 7px;
+			.limit-froms-item{
+				margin-right: 6px;
+				position: relative;
+				float: left;
+				padding-right: 6px;
+				&:before{
+					content: " ";
+					position: absolute;
+					top: 0;
+					right: 1px;
+					left: 0;
+					bottom: 0;
+					border: 1px solid #E4E6E9;
+					z-index: 0;
+				}
+				.ion{
+					font-size: 17px;
+					color: rgba(63, 135, 217, 0.55);
+					margin-left: 5px;
+					margin-right: 5px;
+					vertical-align: -2px;
+				}
+			}
+		}
+	}
 }
 
 #steedos_contacts_space_user_info_modal {
@@ -596,6 +746,7 @@
 		display: none;
 	}
 	.space-user-info-container {
+		padding: 0;
 		overflow: auto;
 		margin-top: 0px;
 		.weui-panel__hd:after {

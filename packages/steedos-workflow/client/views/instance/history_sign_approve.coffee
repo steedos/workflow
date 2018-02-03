@@ -21,22 +21,27 @@ Template.history_sign_approve.events
 		template.data.parent.history_approve.set(this)
 		Modal.hide(template)
 
-	'click .select-suggestion input': (event, template) ->
-		targetObj = {}
-
-		sign_show = $(event.target).is(":checked")
-
+	'click .confirm-select-suggestion': (event, template) ->
+		$("body").addClass("loading")
+		targetObjs = []
 		ins = WorkflowManager.getInstance()
 		sign_approves = TracesManager.getHandlerSignShowApproves(ins, Meteor.userId()) || []
+		$('.select-suggestion input.weui-switch').each ->
+			currentApproveId = $(this).val()
+			sign_show = $(this).is(":checked")
+			sign_approves.forEach (approve) ->
+				if approve._id == currentApproveId
+					targetObj = approve
+					targetObj.sign_show = sign_show
+					targetObjs.push targetObj
 
-		currentApproveId = event.target.value
+		myApprove = InstanceManager.getCurrentApprove()
 
-		sign_approves.forEach (approve)->
-			if approve._id == currentApproveId
-				targetObj = approve
-
-		Meteor.call('update_sign_show', targetObj.instance, targetObj.trace, targetObj._id, sign_show)
-
-
-		event.stopPropagation()
-		
+		Meteor.call('update_sign_show', targetObjs, myApprove?._id
+			(error, result) ->
+				if error
+					console.log error
+				else
+					$("body").removeClass("loading")
+					Modal.hide(template)
+		)

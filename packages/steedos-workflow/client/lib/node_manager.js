@@ -112,10 +112,10 @@ NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWr
 		urlValue: cfs.getContentType(filename)
 	}, {
 		urlKey: "instance",
-		urlValue: Session.get('instanceId')
+		urlValue: Session.get('attach_instance_id')
 	}, {
 		urlKey: "space",
-		urlValue: Session.get('spaceId')
+		urlValue: Session.get('attach_space_id')
 	}, {
 		urlKey: "approve",
 		urlValue: InstanceManager.getMyApprove().id
@@ -166,6 +166,46 @@ NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWr
 	Modal.hide("attachments_upload_modal");
 }
 
+// 签章后作为新附件上传
+NodeManager.signPdf = function(filePath, filename){
+	$(document.body).addClass("loading");
+	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
+	var fileDataInfo = [{
+		urlKey: "Content-Type",
+		urlValue: cfs.getContentType(filename)
+	}, {
+		urlKey: "instance",
+		urlValue: Session.get('attach_instance_id')
+	}, {
+		urlKey: "space",
+		urlValue: Session.get('attach_space_id')
+	}, {
+		urlKey: "approve",
+		urlValue: InstanceManager.getMyApprove().id
+	}, {
+		urlKey: "owner",
+		urlValue: Meteor.userId()
+	}, {
+		urlKey: "owner_name",
+		urlValue: Meteor.user().name
+	}, {
+		urlKey: "upload_from",
+		urlValue: "node"
+	}, {
+		urlKey: "is_private",
+		urlValue: true
+	}]
+
+	var files = [{
+			urlKey: "file",
+			urlValue: filePath
+		}]
+		// 上传接口
+	OfficeOnline.uploadFile(fileDataInfo, files);
+
+	Modal.hide("attachments_upload_modal");
+}
+
 // 获取文件hash值
 NodeManager.getFileSHA1 = function(filePath, filename, callback) {
 	var fd = fs.createReadStream(filePath);
@@ -187,9 +227,12 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 
 	var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + Meteor.users.findOne().name;
 
-	Modal.show("attachments_upload_modal", {
-		filePath: filePath
-	});
+	if (arg == "Steedos.User.isSignature"){
+		cmd = 'start "" /wait ' + '\"' + filePath + '\"';
+		Modal.show("attachments_sign_modal", { filePath: filePath });
+	}else{
+		Modal.show("attachments_upload_modal", { filePath: filePath });
+	}
 
 	// 专业版文件大小不能超过100M
 	var maximumFileSize = 100 * 1024 * 1024;
@@ -216,11 +259,29 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 		toastr.error(error);
 	});
 	child.on('close', function() {
+		if (arg == "Steedos.User.isSignature"){
+			filename = "签章：" + filename;
+			filePath = download_dir + filename;
+			
+			fs.exists(filePath, function(exists) {
+				if (exists == false){
+					Modal.hide("attachments_sign_modal");
+					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+					toastr.warning(t("node_pdf_error"));
+				}
+			})
+		}
+
 		// 完成编辑
 		Modal.hide("attachments_upload_modal");
 
 		// 修改后附件大小
 		var states = fs.statSync(filePath);
+
+		// 上传前切换到当前编辑的申请单
+		var instance_url = "/workflow/space/" + Session.get('attach_space_id') + "/" + Session.get('attach_box') + "/" + Session.get('attach_instance_id');
+
+		FlowRouter.go(instance_url);
 
 		globalWin.disableClose = false;
 
@@ -256,7 +317,24 @@ NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 								// 正文上传
 								NodeManager.setUploadRequests(filePath, filename, true, true);
 							}else{
-								NodeManager.setUploadRequests(filePath, filename, false, true);
+								if (InstanceManager.isAttachLocked(Session.get("attach_instance_id"), Meteor.userId())){
+									if (arg == "Steedos.User.isSignature"){
+										fs.exists(filePath, function(exists) {
+											if (exists == true){
+												NodeManager.signPdf(filePath, filename);
+											}else{
+												Modal.hide("attachments_sign_modal");
+												// 解锁 
+												InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+												toastr.error(t("node_pdf_error"));
+											}
+										})
+									}else{
+										NodeManager.setUploadRequests(filePath, filename, false, true);
+									}
+								}else{
+									toastr.warning(t("steedos_desktop_edit_warning"));
+								}
 							}
 						}
 					} else {

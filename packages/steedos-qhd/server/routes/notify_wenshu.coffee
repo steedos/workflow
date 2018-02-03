@@ -4,11 +4,15 @@
 JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 	try
 		hashData = req.body
-		
-		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
+
+		if hashData.action isnt 'engine_submit'
 			JsonRoutes.sendResult res,
-				code: 500
-				data: { errors: "不具备hook执行条件"}
+					code: 200
+					data: {}
+			return
+
+		if _.isEmpty(hashData) or _.isEmpty(hashData.instance) or _.isEmpty(hashData.current_approve)
+			throw new Meteor.Error('error', '不具备hook执行条件')
 
 		current_approve = hashData.current_approve
 		if current_approve.handler_name is "曹子玉"
@@ -40,7 +44,7 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 							TemplateCode: 'SMS_61725087',
 							msg: TAPi18n.__('sms.notify_wenshu.template', {handler: params.handler, instance: ins_name, description: ins_description}, lang)
 						})
-					
+
 
 		JsonRoutes.sendResult res,
 				code: 200
@@ -50,5 +54,3 @@ JsonRoutes.add 'post', '/api/webhook/notify/wenshu', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 500
 			data: { errors: [{errorMessage: e.message}] }
-	
-		

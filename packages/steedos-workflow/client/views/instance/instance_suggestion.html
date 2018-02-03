@@ -1,10 +1,14 @@
 <template name="instance_suggestion">
 	{{#if show_toggle_button}}
+		{{!--
 		{{#if isMobile}}
 			<button type="utton" class="btn btn-primary btn-suggestion-toggle animated bounceInUp"><i class="ion ion-ios-compose-outline"></i></button>
 		{{else}}
 			<button type="utton" class="btn btn-primary btn-suggestion-toggle txt-suggestion-toggle animated bounceInUp">{{_ 'instance_sign'}}</button>
 		{{/if}}
+		--}}
+		<button type="utton" class="btn btn-primary btn-suggestion-toggle txt-suggestion-toggle animated bounceInUp">{{_ 'instance_sign'}}</button>
+
 	{{/if}}
 	{{#if show_suggestion}}
 		{{!-- chrome版本升级到 61.0.3163.79后fadeInUp等动画效果会造成一些样式BUG --}}
@@ -79,7 +83,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<textarea name="suggestion" class="suggestion-control" id="suggestion" placeholder='{{_ "workflow_suggestion_placeholder"}}'>{{currentApprove.description}}</textarea>
+							<textarea name="suggestion" class="suggestion-control" id="suggestion" placeholder='{{_ "workflow_suggestion_placeholder"}}'>{{approve_suggestion}}</textarea>
 							{{#if isMobile}}
 								<button type="button" class="btn btn-default btn-transparent pull-right btn-mobile" id="instance_flow_opinions" title="{{_ 'instance_opinion_title'}}"><i class="ion ion-ios-list-outline"></i></button>
 							{{else}}
@@ -101,7 +105,7 @@
 										{{#each next_step_options }}
 											{{#if gt next_step_options.length 1}}
 												<label {{disabled}} class="radio">
-													<input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}
+													<input type="radio" name="instance_suggestion_next_step" value="{{id}}" checked="{{selected}}" {{disabled}} steptype={{type}}>{{text}}{{#if is_approved id}}<i class="ion ion-ios-paperplane-outline"></i>{{/if}}
 												</label>
 											{{else}}
 											   <label class="only-one-next-step">
