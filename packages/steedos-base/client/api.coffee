@@ -38,4 +38,12 @@ _.extend Steedos,
 				$(".sidebar-menu").css("width", "100%");
 
 	getHomeUrl: ()->
-		return "/workflow"
+		firstApp = Steedos.getSpaceFirstApp()
+		if !firstApp
+			# 这里等待db.apps加载完成后，找到并进入第一个spaceApps的路由，在apps加载完成前显示loading界面
+			BlazeLayout.render 'steedosLoading'
+			$("body").addClass('loading')
+			return false
+		else
+			return firstApp.url
+		
