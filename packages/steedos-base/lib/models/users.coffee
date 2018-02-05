@@ -148,9 +148,10 @@ if Meteor.isServer
 	db.users.before.insert (userId, doc) ->
 		space_registered = doc.profile?.space_registered
 		# # 从工作区特定的注册界面注册的用户，需要先判断下工作区是否存在
-		space = db.spaces.findOne(space_registered)
-		if !space
-			throw new Meteor.Error(400, "space_users_error_space_not_found")
+		if space_registered
+			space = db.spaces.findOne(space_registered)
+			if !space
+				throw new Meteor.Error(400, "space_users_error_space_not_found")
 		if doc.username
 			db.users.validateUsername(doc.username, doc._id)
 		doc.created = new Date();
