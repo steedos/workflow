@@ -159,10 +159,11 @@ Meteor.startup ()->
 			# 		throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 			# 将用户添加到相应组织，需要组织的权限
-			if space.admins.indexOf(userId) < 0
-				isAllOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations, userId
-				unless isAllOrgAdmin
-					throw new Meteor.Error(400, "您没有该组织的权限，不能添加成员到该组织")
+			if !doc.is_registered_from_space
+				if space.admins.indexOf(userId) < 0
+					isAllOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations, userId
+					unless isAllOrgAdmin
+						throw new Meteor.Error(400, "您没有该组织的权限，不能添加成员到该组织")
 
 			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
 			selector = []
@@ -304,21 +305,6 @@ Meteor.startup ()->
 			db.space_users.insertVaildate(userId, doc)
 
 			creator = db.users.findOne(userId)
-
-			space = db.spaces.findOne(doc.space)
-			if !doc.space
-				throw new Meteor.Error(400, "space_users_error_space_required");
-
-			if !doc.email
-				throw new Meteor.Error(400, "email_required");
-
-			if not /^([A-Z0-9\.\-\_\+])*([A-Z0-9\+\-\_])+\@[A-Z0-9]+([\-][A-Z0-9]+)*([\.][A-Z0-9\-]+){1,8}$/i.test(doc.email)
-				throw new Meteor.Error(400, "email_format_error");
-
-			# check space exists
-			space = db.spaces.findOne(doc.space)
-			if !space
-				throw new Meteor.Error(400, "space_users_error_space_not_found");
 			
 			if !doc.is_registered_from_space and !doc.is_logined_from_space
 			# only space admin or org admin can insert space_users
