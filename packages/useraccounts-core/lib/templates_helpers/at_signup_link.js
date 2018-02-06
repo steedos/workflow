@@ -15,8 +15,6 @@ AT.prototype.atSignupLinkHelpers = {
             return T9n.get(AccountsTemplates.texts.signUpLink_link_user, markIfMissing=false);
         }
         else{
-            console.log(T9n.get(AccountsTemplates.texts.signUpLink_link_ent, markIfMissing=false));
-            
             return T9n.get(AccountsTemplates.texts.signUpLink_link_ent, markIfMissing=false);
         }
     },
