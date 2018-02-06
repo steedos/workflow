@@ -1656,3 +1656,19 @@ InstanceManager.updateApproveSign = function(sign_field_code, description, sign_
 		Meteor.call('update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, sign_field_code, description, sign_type || "update", lastSignApprove)
 	}
 }
+
+InstanceManager.getDistributeStep = function() {
+	var step;
+	if (InstanceManager.isInbox()) {
+		step = InstanceManager.getCurrentStep();
+	} else if (Session.get("box") == 'outbox') {
+		var ins = WorkflowManager.getInstance();
+		if (ins && ins.state == "pending") {
+			var step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			if (step_id) {
+				step = WorkflowManager.getInstanceStep(step_id)
+			}
+		}
+	}
+	return step;
+}

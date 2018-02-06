@@ -46,21 +46,9 @@ Template.forward_select_flow_modal.helpers({
 		if (this.action_type == "forward") {
 			return false;
 		} else if (this.action_type == "distribute") {
-			if (InstanceManager.isInbox()) {
-				var cs = InstanceManager.getCurrentStep();
-				if (cs && (cs.allowDistribute == true))
-					return true;
-			} else if (Session.get("box") == 'outbox') {
-				var ins = WorkflowManager.getInstance();
-				if (ins && ins.state == "pending") {
-					var step_id = InstanceManager.getLastTraceStepId(ins.traces)
-					if (step_id) {
-						var step = WorkflowManager.getInstanceStep(step_id)
-						if (step && step.allowDistribute == true)
-							return true;
-					}
-				}
-			}
+			var curret_step = InstanceManager.getDistributeStep();
+			if (curret_step && curret_step.allowDistribute == true)
+				return true;
 		}
 
 		return false;
@@ -200,7 +188,7 @@ Template.forward_select_flow_modal.onRendered(function() {
 
 	InstanceEvent.run($(".instance-" + this.data.action_type + "-modal"), "onload")
 
-	var curret_step = InstanceManager.getCurrentStep();
+	var curret_step = InstanceManager.getDistributeStep();
 	if (curret_step && curret_step.allowDistribute == true && !_.isEmpty(curret_step.distribute_optional_flows)) {
 		var dof = curret_step.distribute_optional_flows;
 		if (dof.length == 1) {
@@ -239,6 +227,7 @@ Template.forward_select_flow_modal.onRendered(function() {
 								forward_select_user.value = u.name;
 								forward_select_user.dataset.values = user_options[0];
 							}
+							$("#forward_select_user").trigger('change');
 						}
 					}
 

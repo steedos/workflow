@@ -117,14 +117,14 @@ WorkflowManager.getInstanceFormVersion = function() {
 				field['permission'] = field_permission[field.code] == 'editable' ? 'editable' : 'readonly';
 				if (field.type == 'table') {
 					field['sfields'] = field['fields']
-					if(field['sfields']){
+					if (field['sfields']) {
 						field['sfields'].forEach(function(sf) {
 							sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
 							if (sf["permission"] == 'editable') {
 								field['permission'] = 'editable';
 							}
 						});
-					}else{
+					} else {
 						console.error("子表：" + field.code + " 没有字段");
 					}
 					// 因为这个程序会傻傻的执行很多遍，所以不能删除
@@ -689,8 +689,8 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 	var distribute_optional_flows = [];
 	if (show_type == "distribute") {
 		// 如果设置了当前步骤可以分发的流程范围则使用此范围
-		var current_step = InstanceManager.getCurrentStep();
-		if (current_step.allowDistribute == true) {
+		var current_step = InstanceManager.getDistributeStep();
+		if (current_step && current_step.allowDistribute == true) {
 			distribute_optional_flows = current_step.distribute_optional_flows || [];
 		}
 	}
