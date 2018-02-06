@@ -246,6 +246,7 @@
 	"spaces_admins_name()": "管理员",
 	"spaces_apps_enabled": "启用应用",
 	"Spaces_isPaid": "已付费",
+	"spaces_enable_register":"是否允许注册",
 	"spaces_max_user_count": "最大用户数",
 	"spaces_is_deleted": "已删除",
 	"spaces_created": "创建时间",
