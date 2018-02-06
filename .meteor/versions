@@ -102,7 +102,8 @@ mdg:validation-error@0.2.0
 meteor@1.7.0
 meteor-base@1.1.0
 meteor-developer-oauth@1.2.0
-meteorhacks:meteorx@1.0.2
+meteorhacks:kadira@2.30.2
+meteorhacks:meteorx@1.4.1
 meteorhacks:ssr@2.2.0
 meteorhacks:subs-manager@1.6.4
 meteorhacks:unblock@1.1.0
