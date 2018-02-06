@@ -8,7 +8,7 @@ FlowRouter.route '/steedos/logout',
 		$("body").addClass('loading')
 		Meteor.logout ()->
 			Setup.logout();
-			Session.set("spaceId", null);
+			#Session.set("spaceId", null);
 			$("body").removeClass('loading')
 			FlowRouter.go("/");
 
