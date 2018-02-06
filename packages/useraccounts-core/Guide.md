@@ -495,7 +495,6 @@ AccountsTemplates.configure({
         signInLink_link: "signin",
         signInLink_suff: "",
         signUpLink_pre: "dontHaveAnAccount",
-        signUpLink_link: "signUp",
         signUpLink_suff: "",
         socialAdd: "add",
         socialConfigure: "configure",

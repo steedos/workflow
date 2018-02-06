@@ -37,15 +37,15 @@ Template.atTitle.onCreated(function(){
 	var route = FlowRouter.current();
 	if(/\/steedos\/sign-in\b|up\b/.test(route.path)){
 		// 只有登录和注册界面没有spaceId时才把localStorage中spaceId清空
-		AccountsTemplates.setSpaceId(null);
+		Steedos.setSpaceId(null);
 	}
 	var spaceId = Steedos.getSpaceId();
 	if(!spaceId){
-		spaceId = route.queryParams.s;
-	}
+		spaceId = route.queryParams.spaceId;
+	} 
 	if(!spaceId || !(Steedos && Steedos.subs && Steedos.subs["SpaceAvatar"])){
 		return;
 	}
-	AccountsTemplates.setSpaceId(spaceId);
+	Steedos.setSpaceId(spaceId);
 	Steedos.subs["SpaceAvatar"].subscribe("space_avatar", spaceId);
 });

@@ -290,7 +290,7 @@ AccountsTemplates.getRoutePath = function(route) {
     var path = this.routes[route].path;
     var spaceId = Steedos.getSpaceId ? Steedos.getSpaceId() : "";
     if(spaceId){
-      path += "?s=@%".replace("@%",spaceId);
+      path += "?spaceId=@%".replace("@%",spaceId);
     }
     return path;
   }
