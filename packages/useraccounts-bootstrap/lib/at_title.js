@@ -3,7 +3,7 @@ Template.atTitle.helpers(AccountsTemplates.atTitleHelpers);
 
 Template.atTitle.helpers({
 	subsReady: function(){
-		if(AccountsTemplates.getSpaceId()){
+		if(Steedos.getSpaceId()){
 			return Steedos.subs["SpaceAvatar"].ready();
 		}
 		else{
@@ -13,7 +13,7 @@ Template.atTitle.helpers({
 	logo: function() {
 		// LOGO文件地址在steedos-theme包中的core.coffee中定义
 		if(Steedos){
-			var spaceId = AccountsTemplates.getSpaceId();
+			var spaceId = Steedos.getSpaceId();
 			var space = db.spaces.findOne(spaceId);
 			if(space && space.avatar){
 				return Steedos.absoluteUrl("/api/files/avatars/@%".replace("@%",space.avatar))
@@ -39,7 +39,7 @@ Template.atTitle.onCreated(function(){
 		// 只有登录和注册界面没有spaceId时才把localStorage中spaceId清空
 		AccountsTemplates.setSpaceId(null);
 	}
-	var spaceId = AccountsTemplates.getSpaceId()
+	var spaceId = Steedos.getSpaceId();
 	if(!spaceId){
 		spaceId = route.queryParams.s;
 	}

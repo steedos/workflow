@@ -288,7 +288,7 @@ AccountsTemplates.getRouteName = function(route) {
 AccountsTemplates.getRoutePath = function(route) {
   if (route in this.routes) {
     var path = this.routes[route].path;
-    var spaceId = AccountsTemplates.getSpaceId ? AccountsTemplates.getSpaceId() : "";
+    var spaceId = Steedos.getSpaceId ? Steedos.getSpaceId() : "";
     if(spaceId){
       path += "?s=@%".replace("@%",spaceId);
     }
