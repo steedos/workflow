@@ -174,7 +174,6 @@ AT.prototype.atPwdFormEvents = {
 
             return Steedos.loginWithPassword(loginSelector, password, function(error) {
                 AccountsTemplates.submitCallback(error, state, function(){
-                    FlowRouter.go("/");
                 });
             });
         }
