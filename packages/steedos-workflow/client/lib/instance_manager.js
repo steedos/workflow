@@ -1153,11 +1153,9 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 	if (is_paid) {
 		limitSize = maximumFileSize;
 		warnStr = t("workflow_attachment_paid_size_limit");
-		$("body").removeClass("loading");
 	} else {
 		limitSize = freeMaximumFileSize;
 		warnStr = t("workflow_attachment_free_size_limit");
-		$("body").removeClass("loading");
 	}
 
 	var fd, file, fileName, i;
@@ -1168,6 +1166,8 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 		file = files[i];
 
 		if (file.size > limitSize) {
+			$("body").removeClass("loading");
+			$('.loading-text').text("");
 			swal({
 				title: warnStr,
 				type: "warning",
@@ -1227,12 +1227,7 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 					});
 					return;
 				}
-				// fileObj = {};
-				// fileObj._id = responseText.version_id;
-				// fileObj.name = Session.get('filename');
-				// fileObj.type = cfs.getContentType(Session.get('filename'));
-				// fileObj.size = responseText.size;
-				// InstanceManager.addAttach(fileObj, isAddVersion);
+
 				toastr.success(TAPi18n.__('Attachment was added successfully'));
 			},
 			error: function(xhr, msg, ex) {
@@ -1660,4 +1655,20 @@ InstanceManager.updateApproveSign = function(sign_field_code, description, sign_
 	if (myApprove && myApprove.sign_show != true) {
 		Meteor.call('update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, sign_field_code, description, sign_type || "update", lastSignApprove)
 	}
+}
+
+InstanceManager.getDistributeStep = function() {
+	var step;
+	if (InstanceManager.isInbox()) {
+		step = InstanceManager.getCurrentStep();
+	} else if (Session.get("box") == 'outbox') {
+		var ins = WorkflowManager.getInstance();
+		if (ins && ins.state == "pending") {
+			var step_id = InstanceManager.getLastTraceStepId(ins.traces)
+			if (step_id) {
+				step = WorkflowManager.getInstanceStep(step_id)
+			}
+		}
+	}
+	return step;
 }

@@ -61,7 +61,7 @@ instancesListTableTabular = (flowId, fields)->
 					cc_view = "";
 					step_current_name_view = "";
 					# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
-					if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
+					if doc.is_cc && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 						cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
 					else
@@ -110,7 +110,7 @@ instancesListTableTabular = (flowId, fields)->
 					cc_view = "";
 					step_current_name_view = "";
 					# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
-					if doc.cc_users?.includes(Meteor.userId()) && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
+					if doc.is_cc && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 						cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
 					unread = ''
@@ -171,7 +171,7 @@ instancesListTableTabular = (flowId, fields)->
 
 					cc_tag = ''
 
-					if doc.cc_users?.length > 0
+					if doc.is_cc
 						cc_tag = TAPi18n.__('cc_tag')
 
 					return """
@@ -225,8 +225,8 @@ instancesListTableTabular = (flowId, fields)->
 			else
 				'tpl'
 		order: [[4, "desc"]],
-		extraFields: ["form", "flow", "inbox_users", "outbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "cc_users", "is_read", "step_current_name", "values", "keywords", "final_decision"],
+		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
+			"flow_version", "is_cc", "is_read", "step_current_name", "values", "keywords", "final_decision"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
