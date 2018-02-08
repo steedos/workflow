@@ -62,20 +62,16 @@ Meteor.publish 'my_inbox_instances', ()->
 
 	handle = db.instances.find(query, {fields: {_id: 1}, sort: {modified: -1}, skip: 0, limit: 200}).observeChanges {
 		added: (id)->
-			console.log "added #{id}"
 			instance = db.instances.findOne({_id: id}, {fields: fields})
 			return if not instance
 			instance.is_cc = instance.cc_users?.includes(self.userId) || false
 			delete instance.cc_users
-			console.log "added instances #{id}"
 			self.added("instances", id, instance)
 		changed: (id)->
-			console.log "changed #{id}"
 			instance = db.instances.findOne({_id: id}, {fields: fields})
 			return if not instance
 			instance.is_cc = instance.cc_users?.includes(self.userId) || false
 			delete instance.cc_users
-			console.log "changed instances #{id}"
 			self.changed("instances", id, instance);
 		removed: (id)->
 			self.removed("instances", id);
