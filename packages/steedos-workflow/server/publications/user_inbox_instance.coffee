@@ -60,7 +60,7 @@ Meteor.publish 'my_inbox_instances', ()->
 		form: 1
 	}
 
-	handle = db.instances.find(query, {fields: {_id: 1}, sort: {modified: -1}, skip: 0, limit: 200}).observeChanges {
+	handle = db.instances.find(query, {sort: {modified: -1}, skip: 0, limit: 200}).observeChanges {
 		added: (id)->
 			instance = db.instances.findOne({_id: id}, {fields: fields})
 			return if not instance
