@@ -45,6 +45,12 @@ AccountsTemplates.configureRoute 'resetPwd',
   path: '/steedos/reset-password'
 AccountsTemplates.configureRoute 'signIn',
   path: '/steedos/sign-in'
+  redirect: ()->
+    path = FlowRouter.current().path
+    if /^\/oauth2\b/.test(path)
+      location.reload()
+    else
+       FlowRouter.go("/");
 AccountsTemplates.configureRoute 'signUp',
   path: '/steedos/sign-up'
 AccountsTemplates.configureRoute 'verifyEmail',

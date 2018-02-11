@@ -96,7 +96,7 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
-steedos:connect-qiyeweixin
+# steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api

@@ -1,6 +1,8 @@
 <template name="atTitle">
-  <a href="/"><img src="{{logo}}" class="img-circle logo" alt="logo" /></a>
-  <div class="at-title">
-    <h3>{{title}}</h3>
-  </div>
+	{{#if subsReady}}
+		<a href="/"><img src="{{logo}}" class="img-circle logo" alt="LOGO" /></a>
+		<div class="at-title">
+			<h3>{{title}}</h3>
+		</div>
+	{{/if}}
 </template>

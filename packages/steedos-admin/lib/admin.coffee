@@ -24,9 +24,9 @@ db.spaces.adminConfig =
 		{name: "owner_name()"},
 		{name: "is_paid"},
 	]
-	extraFields: ["name","owner","admins"]
-	newFormFields: "name,owner,admins,avatar"
-	editFormFields: "name,owner,admins,avatar"
+	extraFields: ["name","owner","admins","enable_register"]
+	newFormFields: "name,owner,admins,avatar,enable_register"
+	editFormFields: "name,owner,admins,avatar,enable_register"
 	selector: {_id: -1}
 
 db.organizations.adminConfig =

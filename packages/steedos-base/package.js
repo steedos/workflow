@@ -111,6 +111,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/publications/apps.coffee', 'server');
 	api.addFiles('server/publications/my_spaces.coffee', 'server');
+	api.addFiles('server/publications/space_avatar.coffee', 'server');
 
 	api.addFiles('server/publications/modules.coffee', 'server');
 	api.addFiles('server/publications/weixin_pay_code_url.coffee', 'server');
