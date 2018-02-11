@@ -41,7 +41,7 @@ Package.onUse(function(api) {
 	api.use('steedos:useraccounts-flow-routing@1.14.2_4');
 	api.use('steedos:accounts-phone@0.0.3');
 
-	api.use('steedos:base@0.0.71');
+	api.use('steedos:base');
 
 
 

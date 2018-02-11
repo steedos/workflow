@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.72',
+	version: '0.0.73',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -31,15 +31,15 @@ Package.onUse(function(api) {
 	api.use('steedos:useraccounts-bootstrap@1.14.2_4');
 	api.use('tracker');
 	api.use('reywood:publish-composite@1.4.2');
-	api.use('cfs:filesystem@0.1.2');
 	api.use('percolate:migrations@0.9.8');
 
 	api.use('aldeed:collection2@2.10.0');
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
-	api.use('cfs:standard-packages@0.5.9');
-	api.use('iyyang:cfs-aliyun@0.1.0')
-	api.use('cfs:s3@0.1.3');
+	api.use('steedos:cfs-filesystem@0.1.2');
+	api.use('steedos:cfs-standard-packages@0.5.10');
+	api.use('steedos:cfs-aliyun@0.1.0');
+	api.use('steedos:cfs-s3@0.1.4');
 
 
 

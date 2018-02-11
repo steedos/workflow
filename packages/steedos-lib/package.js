@@ -38,14 +38,14 @@ Package.onUse(function(api) {
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.4');
-	api.use('cfs:standard-packages@0.5.9');
-	api.use('iyyang:cfs-aliyun@0.1.0')
-	api.use('cfs:s3@0.1.3');
+	api.use('steedos:cfs-standard-packages');
+	api.use('steedos:cfs-aliyun@0.1.0')
+	api.use('steedos:cfs-s3');
 
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager@1.6.4');
 
-	api.use('steedos:base@0.0.17');
+	api.use('steedos:base');
 	api.use('steedos:version');
 	api.use('steedos:autoform@0.0.1');
 
