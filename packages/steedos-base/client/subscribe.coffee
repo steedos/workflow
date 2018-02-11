@@ -41,6 +41,9 @@ accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
 accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
 Steedos.applyAccountBgBodyValue accountBgBodyValue
 
+# 工作区登录注册界面需要订阅指定工作区的LOGO图片
+Steedos.subs["SpaceAvatar"] = new SubsManager();
+
 Meteor.startup ->
 	Tracker.autorun (c)->
 		if Steedos.subsBootstrap.ready("steedos_keyvalues")
@@ -49,9 +52,6 @@ Meteor.startup ->
 
 			accountBgBodyValue = Steedos.getAccountBgBodyValue()
 			Steedos.applyAccountBgBodyValue accountBgBodyValue,true
-
-	# 工作区登录注册界面需要订阅指定工作区的LOGO图片
-	Steedos.subs["SpaceAvatar"] = new SubsManager();
 
 	Tracker.autorun (c)->
 		locale = Steedos.locale()
