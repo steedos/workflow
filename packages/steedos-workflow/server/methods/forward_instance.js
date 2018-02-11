@@ -60,7 +60,21 @@ Meteor.methods({
 
 		var new_ins_ids = new Array;
 
-		var current_trace = _.last(ins.traces);
+		var current_trace = null;
+		if (action_type == "distribute") {
+			_.each(ins.traces, function(t) {
+				if (!current_trace) {
+					_.each(t.approves, function(a) {
+						if (!current_trace) {
+							if (a._id == from_approve_id)
+								current_trace = t;
+						}
+					})
+				}
+			})
+		} else {
+			current_trace = _.last(ins.traces);
+		}
 		var current_trace_id = current_trace._id;
 		var forward_approves = [];
 		var current_user_id = this.userId;
@@ -320,6 +334,9 @@ Meteor.methods({
 			trace_obj.approves = [appr_obj];
 			ins_obj.traces = [trace_obj];
 
+			if (flow.auto_remind == true)
+				ins_obj.auto_remind = true;
+
 			new_ins_id = db.instances.insert(ins_obj);
 
 			// 复制附件
@@ -566,12 +583,14 @@ Meteor.methods({
 
 		userId = this.userId
 
+		var hasAdminPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, userId)
+
 		_.each(ins.traces, function(t) {
 			if (t.approves) {
 				var exists = false
 				var set_obj = new Object
 				_.each(t.approves, function(a, idx) {
-					if (approve_ids.includes(a._id) && a.from_user == userId && 'distribute' == a.type && a.forward_instance) {
+					if (approve_ids.includes(a._id) && (a.from_user == userId || hasAdminPermission) && 'distribute' == a.type && a.forward_instance) {
 						var forward_instance_id = a.forward_instance
 						var forward_instance = db.instances.findOne(forward_instance_id)
 						if (forward_instance) {

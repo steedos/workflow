@@ -10,6 +10,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 	check(fields, Match.Optional(Object))
 
+	fields.cc_users = 1
+
 	self = this;
 
 	getMyApprove = (userId, instanceId)->
@@ -60,6 +62,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			else
 				instance.is_read = true
 			instance.step_current_name = getStepCurrentName(id);
+			instance.is_cc = instance.cc_users?.includes(self.userId) || false
+			delete instance.cc_users
 			self.changed("instances", id, instance);
 		removed: (id)->
 			self.removed("instances", id);
@@ -75,6 +79,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		else
 			instance.is_read = true
 		instance.step_current_name = getStepCurrentName(id);
+		instance.is_cc = instance.cc_users?.includes(self.userId) || false
+		delete instance.cc_users
 		self.added("instances", id, instance);
 
 	self.ready();

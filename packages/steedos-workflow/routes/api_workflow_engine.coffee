@@ -84,7 +84,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					# 更新instance记录
 					setObj.modified = new Date
 					setObj.modified_by = current_user
-					console.log setObj
+
 					db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
 				i++
 

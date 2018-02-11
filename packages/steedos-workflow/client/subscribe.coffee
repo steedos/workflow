@@ -1,5 +1,5 @@
 Steedos.subs["InstanceInbox"] = new SubsManager
-Steedos.subs["InstanceInbox"].subscribe("user_inbox_instance");
+Steedos.subs["InstanceInbox"].subscribe("my_inbox_instances");
 
 Steedos.subs["related_instances"] = new SubsManager
 

@@ -45,7 +45,15 @@ SteedosDataManager.getFormulaUserObjects = function (spaceId, userIds) {
   var data = 
   {
     'userIds' : userIds
-  }
+  };
+
+  if(userIds && _.isArray(userIds) && userIds.length > 0){
+  	if(_.isEmpty(userIds[0])){
+  		console.info("userIds is empty")
+  		return {spaceUsers: []}
+	}
+  };
+
   var spaceUsers;
   var data = JSON.stringify(data);
   $.ajax({

@@ -109,7 +109,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				# 更新instance记录
 				setObj.state = "completed"
 				setObj.inbox_users = []
-				setObj.final_decision = ""
+				setObj.final_decision = "terminated"
 				setObj.finish_date = new Date
 				setObj.current_step_name = next_step_name
 			else

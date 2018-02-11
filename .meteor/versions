@@ -184,6 +184,7 @@ steedos:chat@0.0.1
 steedos:cms@0.0.5
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
+steedos:connect-qiyeweixin@0.0.10
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
 steedos:dashboard@0.0.2
@@ -206,7 +207,7 @@ steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
 steedos:sso@0.0.4
 steedos:tableau@0.0.10
-steedos:theme@0.0.29
+steedos:theme@0.0.30
 steedos:toastr@2.1.3
 steedos:ui@0.0.1
 steedos:useraccounts-bootstrap@1.14.2_5

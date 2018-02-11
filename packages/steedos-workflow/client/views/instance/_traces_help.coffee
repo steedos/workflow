@@ -216,7 +216,7 @@ TracesTemplate.helpers =
 			locale = Session.get("TAPi18n::loaded_lang")
 
 		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
-		if not ins 
+		if not ins
 			return TAPi18n.__('instance_deleted', {}, locale)
 
 		text = ''
@@ -227,8 +227,23 @@ TracesTemplate.helpers =
 		else if ins.state is 'draft'
 			if ins.is_read
 				text = TAPi18n.__('instance_approve_read', {}, locale)
+			else
+				text = TAPi18n.__('instance_approve_not_yet_handled', {}, locale)
 
 		return text
+
+	getInstanceStateColor: (instance_id)->
+		ins = db.instances.findOne({_id: instance_id}, {fields: {state: 1, is_read: 1}})
+		if not ins
+			return ""
+
+		cla = ''
+		if ins.state is 'draft'
+			if ins.is_read
+				cla = 'blue'
+			else
+				cla = 'red'
+		return cla
 
 	firstTrace: (index)->
 		return index is 0
@@ -354,9 +369,9 @@ TracesTemplate.events =
 				# 显示日志的时候把滚动条往下移点，让日期控件显示出一部分，以避免用户看不到日期控件
 				$("#instance_trace_detail_modal #finish_input").on "dp.show", () ->
 					$(".modal-body").scrollTop(100)
-	
+
 	'click .btn-cancelBut' : (event, template) ->
-		
+
 		template.is_editing.set(!template.is_editing.get());
 
 	'click .btn-saveBut' : (event, template) ->

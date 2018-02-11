@@ -353,7 +353,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		submitter_organization_fullname = start_approve.handler_organization_fullname
 		# 填单人所在组织的名称
 		submitter_organization_name = start_approve.handler_organization_name
-		# 填单人的审批岗位 
+		# 填单人的审批岗位
 		submitter_roles = uuflowManager.getUserRoles(start_approve.handler, instance.space)
 		# 填单人的全名
 		submitter_name = start_approve.handler_name
@@ -701,6 +701,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.inbox_users = []
 		setObj.finish_date = new Date
 		setObj.current_step_name = next_step_name
+		setObj.final_decision = 'approved'
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -1288,6 +1289,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 					setObj.cc_users = instance.cc_users
 
 				setObj.current_step_name = next_step_name
+				setObj.final_decision = 'approved'
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1569,7 +1571,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
 	# 判断一个flow是否为启用状态
 	uuflowManager.isFlowEnabled(flow)
-	# 判断一个flow和space_id是否匹配 
+	# 判断一个flow和space_id是否匹配
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
 	form = uuflowManager.getForm(flow.form)
@@ -1581,11 +1583,6 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	if not permissions.includes("add")
 		throw new Meteor.Error('error!', "当前用户没有此流程的新建权限")
 
-	space_user = db.space_users.findOne(
-		space: space_id
-		user: user_id
-	)
-	space_user_org_info = db.organizations.findOne(space_user.organization)
 	now = new Date
 	ins_obj = {}
 	ins_obj._id = db.instances._makeNewID()
@@ -1597,11 +1594,11 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.name = flow.name
 	ins_obj.submitter = user_id
 	ins_obj.submitter_name = user_info.name
-	ins_obj.applicant = user_id
-	ins_obj.applicant_name = user_info.name
-	ins_obj.applicant_organization = space_user.organization
-	ins_obj.applicant_organization_name = space_user_org_info.name
-	ins_obj.applicant_organization_fullname = space_user_org_info.fullname
+	ins_obj.applicant = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	ins_obj.applicant_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
+	ins_obj.applicant_organization = if instance_from_client["applicant_organization"] then instance_from_client["applicant_organization"] else space_user.organization
+	ins_obj.applicant_organization_name = if instance_from_client["applicant_organization_name"] then instance_from_client["applicant_organization_name"] else space_user_org_info.name
+	ins_obj.applicant_organization_fullname = if instance_from_client["applicant_organization_fullname"] then instance_from_client["applicant_organization_fullname"] else  space_user_org_info.fullname
 	ins_obj.state = 'draft'
 	ins_obj.code = ''
 	ins_obj.is_archived = false
@@ -1630,8 +1627,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	appr_obj.instance = ins_obj._id
 	appr_obj.trace = trace_obj._id
 	appr_obj.is_finished = false
-	appr_obj.user = user_id
-	appr_obj.user_name = user_info.name
+	appr_obj.user = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	appr_obj.user_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
 	appr_obj.handler = user_id
 	appr_obj.handler_name = user_info.name
 	appr_obj.handler_organization = space_user.organization
@@ -1657,7 +1654,10 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	if form.category
 		category = uuflowManager.getCategory(form.category)
 		if category
-			ins_obj.category_name = category.name 
+			ins_obj.category_name = category.name
+
+	if flow.auto_remind is true
+		ins_obj.auto_remind = true
 
 	new_ins_id = db.instances.insert(ins_obj)
 
@@ -1860,6 +1860,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		upObj.traces = traces
 		upObj.finish_date = new Date
 		upObj.current_step_name = next_step.name
+		upObj.final_decision = "approved"
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
@@ -2046,14 +2047,14 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 }
 ###
 uuflowManager.setRemindInfo = (values, approve)->
-	check values, Object 
-	check approve, Object 
+	check values, Object
+	check approve, Object
 	check approve.start_date, Date
 
 	remind_date = null
 	deadline = null
 	start_date = approve.start_date
-	
+
 	if values.priority and values.deadline
 		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
 		# 由于values中的date字段的值为String，故作如下校验
@@ -2091,7 +2092,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
 					return
 				caculate_date(start_date)
-			else 
+			else
 				remind_date = Steedos.caculatePlusHalfWorkingDay start_date
 			ins = db.instances.findOne(approve.instance)
 			if ins.state is 'draft'
@@ -2100,7 +2101,7 @@ uuflowManager.setRemindInfo = (values, approve)->
 			ins.values = values
 			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
 	else
-		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办 
+		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办
 		remind_date = Steedos.caculateWorkingTime(start_date, 3)
 
 	approve.deadline = deadline
@@ -2145,7 +2146,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 			TemplateCode: 'SMS_67200967',
 			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
 		})
-		
+
 		# 发推送消息
 		notification = new Object
 		notification["createdAt"] = new Date
@@ -2163,7 +2164,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id)->
 		notification['query'] = {userId: user._id, appName: 'workflow'}
 
 		Push.send(notification)
-		
+
 
 # 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
 uuflowManager.checkMainAttach = (instance_id, name)->
@@ -2288,7 +2289,7 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
 		if field.type != 'table'
 			if field.is_required and _.isEmpty(values[field.code])
 				require_but_empty_fields.push field.name || field.code
-		
+
 		# 子表
 		else if field.type == 'table'
 			if _.isEmpty(values[field.code])
@@ -2302,4 +2303,3 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version)->
 							require_but_empty_fields.push s_field.name || s_field.code
 
 	return require_but_empty_fields
-

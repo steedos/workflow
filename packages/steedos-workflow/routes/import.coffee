@@ -44,22 +44,30 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 
 		return
 
-	JsonRoutes.parseFiles req, res, ()->
-		if req.files and req.files[0]
-
-			jsonData = req.files[0].data.toString("utf-8")
+	try
+		JsonRoutes.parseFiles req, res, ()->
 			try
-				form = JSON.parse(jsonData)
-				steedosImport.workflow(uid, spaceId, form, false);
-				res.statusCode = 200;
-			catch e
-				console.error e
-				msg = e
+				if req.files and req.files[0]
+
+					jsonData = req.files[0].data.toString("utf-8")
+					try
+						form = JSON.parse(jsonData)
+						steedosImport.workflow(uid, spaceId, form, false);
+						res.statusCode = 200;
+					catch e
+						console.error e
+						msg = e
+						res.statusCode = 500;
+					res.end(msg)
+					return
+				else
+					msg = "无效的附件"
+					res.statusCode = 500;
+					res.end(msg);
+			catch e1
+				msg = "无效的JSON文件"
 				res.statusCode = 500;
-			res.end(msg)
-			return
-		else
-			msg = "无效的附件"
-			res.statusCode = 500;
-			res.end(msg);
+				res.end(msg);
+	catch e
+		console.log(e)
 

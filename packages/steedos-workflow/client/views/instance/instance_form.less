@@ -84,6 +84,13 @@
   cursor:auto !important;
 }
 
+.approve-item .red {
+    color: red;
+}
+.approve-item .blue {
+    color: blue;
+}
+
 
 .approve-description{
   border: none;
@@ -350,17 +357,17 @@ textarea {
 }
 
 .selectUser[readonly],.selectOrg[readonly]{
-	background-color: #FFFFFF !important;
+    background-color: #FFFFFF !important;
 }
 
 .inbox,.draft{
-	.selectUser[readonly],.selectOrg[readonly]{
-	  background-color: rgba(255, 255, 0, 0.03) !important;
-	}
+    .selectUser[readonly],.selectOrg[readonly]{
+      background-color: rgba(255, 255, 0, 0.03) !important;
+    }
 
-	.selectUser[disabled],.selectOrg[disabled]{
-		background-color: #FFFFFF !important;
-	}
+    .selectUser[disabled],.selectOrg[disabled]{
+    background-color: #FFFFFF !important;
+    }
 }
 .selectUser[disabled],.selectOrg[disabled]{
   background-color: #FFFFFF !important;
@@ -374,42 +381,42 @@ textarea {
 }
 
 .steedos-table-modal-body{
-	.form-control{
-		background-color: rgba(255, 255, 0, 0.03);
-	}
+    .form-control{
+    background-color: rgba(255, 255, 0, 0.03);
+    }
 
-	.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-		background-color: #FFFFFF;
-		opacity: 1;
-		color: black;
-	}
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #FFFFFF;
+    opacity: 1;
+    color: black;
+    }
 }
 
 .instance-default{
-	.instance-form{
-		.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-			background-color: #FFFFFF !important;
-			opacity: 1;
-			color: black;
-		}
+    .instance-form{
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #FFFFFF !important;
+    opacity: 1;
+    color: black;
+    }
 
-		.selectUser[readonly],.selectOrg[readonly]{
-			background-color: rgba(255, 255, 0, 0.03) !important;
-		}
+    .selectUser[readonly],.selectOrg[readonly]{
+    background-color: rgba(255, 255, 0, 0.03) !important;
+    }
 
-		.selectUser[disabled],.selectOrg[disabled]{
-			background-color: #FFFFFF !important;
-		}
+    .selectUser[disabled],.selectOrg[disabled]{
+    background-color: #FFFFFF !important;
+    }
 
-		&.inbox,&.draft{
-			.form-control{
-				background-color: rgba(255, 255, 0, 0.03);
-			}
-		}
+    &.inbox,&.draft{
+    .form-control{
+    background-color: rgba(255, 255, 0, 0.03);
+    }
+    }
 
-		.field-editable{
-			background-color: rgba(255, 255, 0, 0.03) !important;
-		}
+    .field-editable{
+    background-color: rgba(255, 255, 0, 0.03) !important;
+    }
     .readonly-table {
       border: solid 1px #d2d6de;
       table {
@@ -426,7 +433,7 @@ textarea {
         }
       }
     }
-	}
+    }
 }
 
 .instance{
@@ -471,21 +478,21 @@ textarea {
       margin-right: 15px;
     }
 
-	  .applicant-wrapper{
-		  .input-group-addon{
-			  padding-left: 0px;
-			  border: none;
-		  }
+      .applicant-wrapper{
+      .input-group-addon{
+      padding-left: 0px;
+      border: none;
+      }
 
-		  input{
-			  cursor: pointer;
-		  }
-	  }
+      input{
+      cursor: pointer;
+      }
+      }
 
     .ins_applicant{
       padding: 6px 12px;
       //width: 250px;
-		width: 100%;
+    width: 100%;
       display:  inline-block;
       //border: none;
       //background-color: #fff!important;
@@ -687,9 +694,9 @@ textarea {
       &.readonly{
         background:#FFFFFF;
       }
-		&.field-readonly{
-			//background:#FFFFFF;
-		}
+    &.field-readonly{
+    //background:#FFFFFF;
+    }
       .form-control{
         padding:0;
       }
@@ -862,7 +869,7 @@ textarea {
         font-size:14px;
         &.td-stepname{
           width: 16%;
-		  text-align: center;
+          text-align: center;
         }
         &.td-approve{
           padding:0px;
@@ -915,32 +922,32 @@ textarea {
 //}
 
 .instance-view{
-	.instance-table{
-		.inbox,.draft{
-			.form-table{
-				.td-title{
-					&.title-editable.is-required{
-						&:after{
-							content:"*";
-							color:red;
-						}
-					}
-				}
+    .instance-table{
+    .inbox,.draft{
+    .form-table{
+    .td-title{
+    &.title-editable.is-required{
+    &:after{
+    content:"*";
+    color:red;
+    }
+    }
+    }
 
-				.td-field{
-					//&.readonly{
-					//	background-color: #F6F6F6 !important;
-					//}
-					//&.field-readonly{
-					//	background-color: #F6F6F6 !important;
-					//}
-					&.field-editable{
-						background-color: rgba(255, 255, 0, 0.03) !important;
-					}
-				}
-			}
-		}
-	}
+    .td-field{
+    //&.readonly{
+    //	background-color: #F6F6F6 !important;
+    //}
+    //&.field-readonly{
+    //	background-color: #F6F6F6 !important;
+    //}
+    &.field-editable{
+    background-color: rgba(255, 255, 0, 0.03) !important;
+    }
+    }
+    }
+    }
+    }
 }
 
 .instance-print{
@@ -1154,15 +1161,15 @@ _:-ms-fullscreen,
     cursor:pointer;
     user-select: none;
   }
-	#instance_next{
-		.instance-suggestion-next-steps{
-			min-height: 36px;
+    #instance_next{
+    .instance-suggestion-next-steps{
+    min-height: 36px;
 
-			.ion-ios-paperplane-outline{
-				padding-left: 5px;
-			}
-		}
-	}
+    .ion-ios-paperplane-outline{
+    padding-left: 5px;
+    }
+    }
+    }
 }
 
 .instance-view{
