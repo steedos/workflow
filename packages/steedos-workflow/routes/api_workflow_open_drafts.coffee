@@ -104,12 +104,12 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 			if space_user.user_accepted isnt true
 				throw new Meteor.Error('error', 'applicant is disabled in this space')
 
-#			space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
-#			instance_from_client["applicant"] = applicant._id
-#			instance_from_client["applicant_name"] = applicant.name
-#			instance_from_client["applicant_organization"] =  space_user_org_info["organization"]
-#			instance_from_client["applicant_organization_fullname"] = space_user_org_info["organization_fullname"]
-#			instance_from_client["applicant_organization_name"] = space_user_org_info["organization_name"]
+			space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
+			instance_from_client["applicant"] = applicant._id
+			instance_from_client["applicant_name"] = applicant.name
+			instance_from_client["applicant_organization"] =  space_user_org_info["organization"]
+			instance_from_client["applicant_organization_fullname"] = space_user_org_info["organization_fullname"]
+			instance_from_client["applicant_organization_name"] = space_user_org_info["organization_name"]
 
 		traces = []
 		trace = new Object
@@ -121,9 +121,9 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		traces.push(trace)
 		instance_from_client["traces"] = traces
 
-		instance_from_client["inbox_users"] = [applicant?._id || current_user_info._id]
+		instance_from_client["inbox_users"] = [current_user_info._id]
 
-		new_ins_id = uuflowManager.create_instance(instance_from_client, applicant || current_user_info)
+		new_ins_id = uuflowManager.create_instance(instance_from_client, current_user_info)
 
 		new_ins = db.instances.findOne(new_ins_id)
 
@@ -135,5 +135,3 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: { errors: [{errorMessage: e.message}]}
-	
-		

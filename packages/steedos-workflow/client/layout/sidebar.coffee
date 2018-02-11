@@ -36,6 +36,8 @@ Template.workflowSidebar.helpers
 			inbox_users: Meteor.userId()
 		}, {
 			cc_users: Meteor.userId()
+		}, {
+			is_cc: true
 		}]
 
 		query.space = Session.get("spaceId")
