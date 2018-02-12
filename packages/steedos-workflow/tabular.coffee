@@ -171,7 +171,7 @@ instancesListTableTabular = (flowId, fields)->
 
 					cc_tag = ''
 
-					if doc.is_cc
+					if doc.cc_count > 0
 						cc_tag = TAPi18n.__('cc_tag')
 
 					return """
@@ -226,7 +226,7 @@ instancesListTableTabular = (flowId, fields)->
 				'tpl'
 		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "is_cc", "is_read", "step_current_name", "values", "keywords", "final_decision"],
+			"flow_version", "is_cc", "cc_count", "is_read", "step_current_name", "values", "keywords", "final_decision"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,

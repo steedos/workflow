@@ -63,6 +63,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 				instance.is_read = true
 			instance.step_current_name = getStepCurrentName(id);
 			instance.is_cc = instance.cc_users?.includes(self.userId) || false
+			instance.cc_count = instance.cc_users?.length || 0
 			delete instance.cc_users
 			self.changed("instances", id, instance);
 		removed: (id)->
@@ -80,6 +81,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			instance.is_read = true
 		instance.step_current_name = getStepCurrentName(id);
 		instance.is_cc = instance.cc_users?.includes(self.userId) || false
+		instance.cc_count = instance.cc_users?.length || 0
 		delete instance.cc_users
 		self.added("instances", id, instance);
 
