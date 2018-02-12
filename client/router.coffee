@@ -1,11 +1,12 @@
 FlowRouter.route '/', 
 	action: (params, queryParams)->
-		Meteor.autorun ->
+		Meteor.autorun (c)->
 			if !Meteor.userId()
 				FlowRouter.go "/steedos/sign-in";
 			else
 				homeUrl = Steedos.getHomeUrl()
 				if homeUrl
+					c.stop()
 					FlowRouter.go homeUrl
 
 Meteor.startup ->
