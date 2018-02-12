@@ -37,8 +37,6 @@ Meteor.publish 'my_inbox_instances', ()->
 
 	self = this;
 
-	console.log "my_inbox_instances"
-
 	userSpaceIds = db.space_users.find({
 		user: this.userId,
 		user_accepted: true
