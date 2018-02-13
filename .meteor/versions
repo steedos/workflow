@@ -9,6 +9,7 @@ accounts-twitter@1.3.0
 ajduke:bootstrap-tagsinput@0.7.1
 alanning:roles@1.2.15
 aldeed:autoform@5.8.0
+aldeed:autoform-select2@1.0.5
 aldeed:collection2@2.10.0
 aldeed:collection2-core@1.2.0
 aldeed:schema-deny@1.1.0
@@ -108,6 +109,7 @@ mpowaga:string-template@0.1.0
 mrt:moment@2.14.1
 mrt:moment-timezone@0.2.1
 natestrauser:animate-css@3.5.1
+natestrauser:select2@4.0.3
 nimble:restivus@0.8.11
 npm-bcrypt@0.9.3
 npm-mongo@2.2.33
@@ -151,12 +153,15 @@ steedos:accounts-t9n@1.14.2_7
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
+steedos:app-crm@0.0.1
+steedos:app-workflow@0.0.1
 steedos:authenticate-user-by-access-token@1.0.0
 steedos:authenticate-user-by-auth-token@1.0.0
 steedos:autoform@0.0.10
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
+steedos:autoform-lookup@0.3.10
 steedos:autoform-modals@0.3.9_10
 steedos:base@0.0.73
 steedos:calendar@0.1.24
@@ -187,10 +192,12 @@ steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
+steedos:creator@0.0.5
 steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
 steedos:e164-phones-countries@1.0.3
+steedos:filesize@0.0.1
 steedos:freeboard@1.1.3_28
 steedos:fullcalendar@3.4.0_1
 steedos:huaweipush@0.0.1
@@ -198,6 +205,7 @@ steedos:i18n@0.0.11
 steedos:i18n-iso-countries@3.3.0
 steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
+steedos:lightning-design-system@0.0.1
 steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
@@ -227,6 +235,7 @@ templating-runtime@1.2.15
 templating-tools@1.1.1
 tomwasd:history-polyfill@0.0.1
 tracker@1.1.3
+tsega:bootstrap3-datetimepicker@3.1.3_3
 twbs:bootstrap@3.3.6
 twitter-oauth@1.2.0
 ui@1.0.13
