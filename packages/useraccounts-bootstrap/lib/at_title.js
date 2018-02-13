@@ -4,7 +4,7 @@ Template.atTitle.helpers(AccountsTemplates.atTitleHelpers);
 Template.atTitle.helpers({
 	subsReady: function(){
 		if(Steedos.getSpaceId()){
-			return Steedos.subs["SpaceAvatar"].ready();
+			return Steedos.subs["SpaceAvatar"] && Steedos.subs["SpaceAvatar"].ready();
 		}
 		else{
 			return true;
