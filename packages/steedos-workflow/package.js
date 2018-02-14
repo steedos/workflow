@@ -66,6 +66,7 @@ Package.onUse(function(api) {
 	api.use('steedos:webhookqueue');
 	api.use('steedos:authenticate-user-by-access-token');
 	api.use('steedos:authenticate-user-by-auth-token');
+	api.use('steedos:app-workflow');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
@@ -336,6 +337,14 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/list/webhooks.html', 'client');
 	api.addFiles('client/views/list/webhooks.coffee', 'client');
+
+	// app-workflow plugins
+	api.addFiles('plugins/flow_import_action.coffee', 'client');
+
+	api.addFiles('plugins/flow_state_action.coffee', 'client');
+	api.addFiles('plugins/flow_export_action.coffee', 'client');
+	api.addFiles('plugins/flow_copy_action.coffee', 'client');
+	api.addFiles('plugins/flow_export_template_action.coffee', 'client');
 
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
