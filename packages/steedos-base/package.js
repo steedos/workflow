@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:base',
-	version: '0.0.73',
+	version: '0.0.74',
 	summary: 'Steedos libraries',
 	git: 'https://github.com/steedos/apps/tree/master/packages/steedos-base'
 });
@@ -28,7 +28,7 @@ Package.onUse(function(api) {
 	api.use('ddp');
 	api.use('check');
 	api.use('ddp-rate-limiter@1.0.5');
-	api.use('steedos:useraccounts-bootstrap@1.14.2_4');
+	api.use('steedos:useraccounts-bootstrap@1.14.2_8');
 	api.use('tracker');
 	api.use('reywood:publish-composite@1.4.2');
 	api.use('percolate:migrations@0.9.8');
