@@ -1,6 +1,6 @@
 Package.describe({
   summary: "i18n, with standard translations for basic meteor packages.",
-  version: '1.14.2_6',
+  version: '1.14.2_7',
   name: "steedos:accounts-t9n",
   git: "https://github.com/steedos/useraccounts-i18n.git",
   documentation: null

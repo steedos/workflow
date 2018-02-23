@@ -1,5 +1,5 @@
 {
-  "atTitle": "审批王",
+  "atTitle": "Steedos",
 
   "add": "添加",
   "and": "和",
@@ -73,115 +73,69 @@
     "signupCodeIncorrect": "注册码错误",
     "signupCodeRequired": "必须有注册码",
     "usernameIsEmail": "是用户名而不是电子邮件地址",
-    "usernameRequired": "必须填写用户名。"
+    "usernameRequired": "必须填写用户名。",
+
+    "accounts": {
+
+        // accounts-base
+        //"@" + domain + " email required",
+        //"A login handler should return a result or undefined",
+        "Email already exists.": "该电子邮件地址已被使用。",
+        "Email doesn't match the criteria.": "错误的的电子邮件地址。",
+        "Invalid login token": "登录密匙错误",
+        "Login forbidden": "用户名或密码错误",
+        //"Service " + options.service + " already configured"
+        "Service unknown": "未知服务",
+        "Unrecognized options for login request": "登录请求存在无法识别的选项",
+        "User validation failed": "用户验证失败",
+        "Username already exists.": "用户名已被占用。",
+        "You are not logged in.": "您还没有登录。",
+        "You've been logged out by the server. Please log in again.": "您被服务器登出了。请重新登录。",
+        "Your session has expired. Please log in again.": "会话过期，请重新登录。",
+        "Invalid email or username": "不合法的电子邮件或用户名",
+        "Internal server error": "内部服务器错误",
+        "undefined": "未知错误",
+
+
+        //accounts-oauth
+        "No matching login attempt found": "未发现对应登录请求",
+
+
+        // accounts-password-client
+        "Password is old. Please reset your password.": "密码过于老了，请重置您的密码。",
+
+
+        // accounts-password 
+        "Incorrect password": "错误的密码",
+        "Invalid email": "不合法的电子邮件地址",
+        "Must be logged in": "必须先登录",
+        "Need to set a username or email": "必须设置用户名或电子邮件地址",
+        "old password format": "较老的密码格式",
+        "Password may not be empty": "密码不应该为空",
+        "Signups forbidden": "注册被禁止",
+        "Token expired": "密匙过期",
+        "Token has invalid email address": "密匙对应的电子邮箱地址不合法",
+        "User has no password set": "用户没有密码",
+        "User not found": "未找到该用户",
+        "Verify email link expired": "激活验证邮件的链接已过期",
+        "Verify email link is for unknown address": "验证邮件的链接去向未知地址",
+
+        // match
+        "Match failed": "匹配失败",
+
+        // Misc...
+        "Unknown error": "未知错误"
+    }
   },
 
-  //该accounts下带空格的key不被识别，所以只能把其内容转移到外面一层
-  "accounts": {
-
-      // accounts-base
-      //"@" + domain + " email required",
-      //"A login handler should return a result or undefined",
-      "Email already exists.": "该电子邮件地址已被使用。",
-      "Email doesn't match the criteria.": "错误的的电子邮件地址。",
-      "Invalid login token": "登录密匙错误",
-      "Login forbidden": "用户名或密码错误",
-      //"Service " + options.service + " already configured"
-      "Service unknown": "未知服务",
-      "Unrecognized options for login request": "登录请求存在无法识别的选项",
-      "User validation failed": "用户验证失败",
-      "Username already exists.": "用户名已被占用。",
-      "You are not logged in.": "您还没有登录。",
-      "You've been logged out by the server. Please log in again.": "您被服务器登出了。请重新登录。",
-      "Your session has expired. Please log in again.": "会话过期，请重新登录。",
-      "Invalid email or username": "不合法的电子邮件或用户名",
-      "Internal server error": "内部服务器错误",
-      "undefined": "未知错误",
-
-
-      //accounts-oauth
-      "No matching login attempt found": "未发现对应登录请求",
-
-
-      // accounts-password-client
-      "Password is old. Please reset your password.": "密码过于老了，请重置您的密码。",
-
-
-      // accounts-password 
-      "Incorrect password": "错误的密码",
-      "Invalid email": "不合法的电子邮件地址",
-      "Must be logged in": "必须先登录",
-      "Need to set a username or email": "必须设置用户名或电子邮件地址",
-      "old password format": "较老的密码格式",
-      "Password may not be empty": "密码不应该为空",
-      "Signups forbidden": "注册被禁止",
-      "Token expired": "密匙过期",
-      "Token has invalid email address": "密匙对应的电子邮箱地址不合法",
-      "User has no password set": "用户没有密码",
-      "User not found": "未找到该用户",
-      "Verify email link expired": "激活验证邮件的链接已过期",
-      "Verify email link is for unknown address": "验证邮件的链接去向未知地址",
-
-      // match
-      "Match failed": "匹配失败",
-
-      // Misc...
-      "Unknown error": "未知错误"
-  },
   "User has no password set": "该账户没有设置密码",
   "User not found": "未找到该用户",
-
-  // accounts-base
-  "Email already exists.": "该电子邮件地址已被使用。",
-  "Email doesn't match the criteria.": "错误的的电子邮件地址。",
-  "Invalid login token": "登录密匙错误",
-  "Login forbidden": "用户名或密码错误",
-  //"Service " + options.service + " already configured"
-  "Service unknown": "未知服务",
-  "Unrecognized options for login request": "登录请求存在无法识别的选项",
-  "User validation failed": "用户验证失败",
-  "Username already exists.": "用户名已被占用。",
-  "You are not logged in.": "您还没有登录。",
-  "You've been logged out by the server. Please log in again.": "您被服务器登出了。请重新登录。",
-  "Your session has expired. Please log in again.": "会话过期，请重新登录。",
-  "Invalid email or username": "不合法的电子邮件或用户名",
-  "Internal server error": "内部服务器错误",
-  "undefined": "未知错误",
-
-
-  //accounts-oauth
-  "No matching login attempt found": "未发现对应登录请求",
-
-
-  // accounts-password-client
-  "Password is old. Please reset your password.": "密码过于老了，请重置您的密码。",
-
-
-  // accounts-password 
-  "Incorrect password": "错误的密码",
-  "Invalid email": "不合法的电子邮件地址",
-  "Must be logged in": "必须先登录",
-  "Need to set a username or email": "必须设置用户名或电子邮件地址",
-  "old password format": "较老的密码格式",
-  "Password may not be empty": "密码不应该为空",
-  "Signups forbidden": "注册被禁止",
-  "Token expired": "密匙过期",
-  "Token has invalid email address": "密匙对应的电子邮箱地址不合法",
-  "User has no password set": "用户没有密码",
-  "User not found": "未找到该用户",
-  "Verify email link expired": "激活验证邮件的链接已过期",
-  "Verify email link is for unknown address": "验证邮件的链接去向未知地址",
-
-  // match
-  "Match failed": "匹配失败",
-
-  // Misc...
-  "Unknown error": "未知错误",
 
   "Username_and_email": "手机、邮件、用户名",
   "Username": "用户名",
 
   "loginWithPhone": "手机验证码登录",
   "email_input_placeholder": "请输入邮件地址",
-  "signUpFree": "企业注册"
+  "signUpFree": "企业注册",
+  "signUpEnt": "企业注册"
 }

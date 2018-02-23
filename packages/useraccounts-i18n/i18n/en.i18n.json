@@ -1,5 +1,5 @@
 {
-  "atTitle": "Steedos Workflow",
+  "atTitle": "Steedos",
   
   "add": "add",
   "and": "and",
@@ -83,123 +83,12 @@
     "usernameIsEmail": "Username cannot be an email address.",
     "usernameRequired": "Username is required."
   },
-
-  //该accounts下带空格的key不被识别，所以只能把其内容转移到外面一层
-  "accounts": {
-      //  accounts-base
-      //"@" + domain + " email required",
-      //"A login handler should return a result or undefined",
-      "Email already exists.": "Email already exists.",
-      "Email doesn't match the criteria.": "Email doesn't match the criteria.",
-      "Invalid login token": "Invalid login token",
-      "Login forbidden": "Username or password is wrong",
-      //"Service " + options.service + " already configured",
-      "Service unknown": "Service unknown",
-      "Unrecognized options for login request": "Unrecognized options for login request",
-      "User validation failed": "User validation failed",
-      "Username already exists.": "Username already exists.",
-      "You are not logged in.": "You are not logged in.",
-      "You've been logged out by the server. Please log in again.": "You've been logged out by the server. Please log in again.",
-      "Your session has expired. Please log in again.": "Your session has expired. Please log in again.",
-      "Already verified": "Already verified",
-      "Invalid email or username": "Invalid email or username",
-      "Internal server error": "Internal server error",
-      "undefined": "Somthing went wrong",
-
-
-      //  accounts-oauth
-      "No matching login attempt found": "No matching login attempt found",
-
-
-      //  accounts-password-client
-      "Password is old. Please reset your password.": "Password is old. Please reset your password.",
-
-
-      //  accounts-password
-      "Incorrect password": "Incorrect password",
-      "Invalid email": "Invalid email",
-      "Must be logged in": "Must be logged in",
-      "Need to set a username or email": "Need to set a username or email",
-      "old password format": "old password format",
-      "Password may not be empty": "Password may not be empty",
-      "Signups forbidden": "Signups forbidden",
-      "Token expired": "Token expired",
-      "Token has invalid email address": "Token has invalid email address",
-      "User has no password set": "User has no password set",
-      "User not found": "User not found",
-      "Verify email link expired": "Verify email link expired",
-      "Verify email link is for unknown address": "Verify email link is for unknown address",
-      "At least 1 digit, 1 lowercase and 1 uppercase": "At least 1 digit, 1 lowercase and 1 uppercase",
-      "Please verify your email first. Check the email and follow the link!": "Please verify your email first. Check the email and follow the link!",
-      "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.": "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.",
-
-      //  match
-      "Match failed": "Match failed",
-
-      //  Misc...
-      "Unknown error": "Unknown error",
-      "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 1 seconds before trying again."
-  },
-  "User has no password set": "User has no password set",
-  "User not found": "User not found",
-
   
-  //  accounts-base
-  "Email already exists.": "Email already exists.",
-  "Email doesn't match the criteria.": "Email doesn't match the criteria.",
-  "Invalid login token": "Invalid login token",
-  "Login forbidden": "Username or password is wrong",
-  //"Service " + options.service + " already configured",
-  "Service unknown": "Service unknown",
-  "Unrecognized options for login request": "Unrecognized options for login request",
-  "User validation failed": "User validation failed",
-  "Username already exists.": "Username already exists.",
-  "You are not logged in.": "You are not logged in.",
-  "You've been logged out by the server. Please log in again.": "You've been logged out by the server. Please log in again.",
-  "Your session has expired. Please log in again.": "Your session has expired. Please log in again.",
-  "Already verified": "Already verified",
-  "Invalid email or username": "Invalid email or username",
-  "Internal server error": "Internal server error",
-  "undefined": "Somthing went wrong",
-
-
-  //  accounts-oauth
-  "No matching login attempt found": "No matching login attempt found",
-
-
-  //  accounts-password-client
-  "Password is old. Please reset your password.": "Password is old. Please reset your password.",
-
-
-  //  accounts-password
-  "Incorrect password": "Incorrect password",
-  "Invalid email": "Invalid email",
-  "Must be logged in": "Must be logged in",
-  "Need to set a username or email": "Need to set a username or email",
-  "old password format": "old password format",
-  "Password may not be empty": "Password may not be empty",
-  "Signups forbidden": "Signups forbidden",
-  "Token expired": "Token expired",
-  "Token has invalid email address": "Token has invalid email address",
-  "User has no password set": "User has no password set",
-  "User not found": "User not found",
-  "Verify email link expired": "Verify email link expired",
-  "Verify email link is for unknown address": "Verify email link is for unknown address",
-  "At least 1 digit, 1 lowercase and 1 uppercase": "At least 1 digit, 1 lowercase and 1 uppercase",
-  "Please verify your email first. Check the email and follow the link!": "Please verify your email first. Check the email and follow the link!",
-  "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.": "A new email has been sent to you. If the email doesn't show up in your inbox, be sure to check your spam folder.",
-
-  //  match
-  "Match failed": "Match failed",
-
-  //  Misc...
-  "Unknown error": "Unknown error",
-  "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.": "Error, too many requests. Please slow down. You must wait 1 seconds before trying again.",
-
   "Username_and_email": "Phone, mail, username",
   "Username": "Username",
 
   "loginWithPhone": "Login with phone",
   "email_input_placeholder": "Please enter the email address",
-  "signUpFree": "Free trial"
+  "signUpFree": "Free trial",
+  "signUpEnt": "Free trial"
 }
