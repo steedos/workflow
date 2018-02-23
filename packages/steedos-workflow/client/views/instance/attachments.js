@@ -585,7 +585,7 @@ Template.ins_attach_version_modal.helpers({
 		return false;
 	},
 
-	canSign: function(mainFile, filename, locked_by){
+	canSign: function(mainFile, filename, locked_by) {
 		var ins = WorkflowManager.getInstance();
 		if (!ins)
 			return false;
@@ -758,13 +758,13 @@ Template.ins_attach_version_modal.events({
 			if (confirm) {
 				NodeManager.downloadFile(url, filename, arg);
 			} else {
-				// 解锁 
+				// 解锁
 				InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 			}
 		})
 	},
 
-	"click [name ='ins_attach_signature']": function(event, template){
+	"click [name ='ins_attach_signature']": function(event, template) {
 		Session.set('cfs_file_id', event.target.id);
 		Session.set('attach_parent_id', event.target.dataset.parent);
 		Session.set('attach_instance_id', Session.get("instanceId"));
@@ -773,11 +773,11 @@ Template.ins_attach_version_modal.events({
 
 		//签章时锁定
 		InstanceManager.lockAttach(event.target.id);
-		
+
 		var arg = "Steedos.User.isSignature";
 		var url = event.target.dataset.downloadurl;
 		var filename = event.target.dataset.name;
-		
+
 		Modal.hide('ins_attach_version_modal');
 		NodeManager.downloadFile(url, filename, arg);
 	},
@@ -938,12 +938,7 @@ Template.ins_attach_edit_modal.events({
 		// 编辑时锁定
 		Session.set('cfs_file_id', json_data['version_id']);
 
-		var fileObj = {};
-		fileObj._id = json_data["version_id"];
-		fileObj.name = filename;
-		fileObj.type = cfs.getContentType(filename);
-		fileObj.size = json_data["size"];
-		InstanceManager.addAttach(fileObj, true);
+		toastr.success(TAPi18n.__('Attachment was added successfully'));
 	},
 
 	// 关闭编辑页面
