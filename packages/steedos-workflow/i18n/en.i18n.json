@@ -27,6 +27,8 @@
 	"instances_submit_date": "Submit Date",
 	"instances_flow": "Workflow",
 	"instances_step_current_name": "Current step",
+	"instances_flow_name": "Workflow",
+	"instances_current_step_name": "Current step",
 
 	"instance_approve": "Approve",
 	"instance_reject": "Reject",

@@ -61,7 +61,6 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 				instance.start_date = myApprove.start_date
 			else
 				instance.is_read = true
-			instance.step_current_name = getStepCurrentName(id);
 			instance.is_cc = instance.cc_users?.includes(self.userId) || false
 			instance.cc_count = instance.cc_users?.length || 0
 			delete instance.cc_users
@@ -79,7 +78,6 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			instance.start_date = myApprove.start_date
 		else
 			instance.is_read = true
-		instance.step_current_name = getStepCurrentName(id);
 		instance.is_cc = instance.cc_users?.includes(self.userId) || false
 		instance.cc_count = instance.cc_users?.length || 0
 		delete instance.cc_users
