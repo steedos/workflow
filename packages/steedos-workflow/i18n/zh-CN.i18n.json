@@ -27,6 +27,8 @@
 	"instances_submit_date": "提交时间",
 	"instances_flow": "流程",
 	"instances_step_current_name": "当前步骤",
+	"instances_flow_name": "流程",
+	"instances_current_step_name": "当前步骤",
 
 	"instance_approve": "核准",
 	"instance_reject": "驳回",

@@ -30,7 +30,7 @@ InstancesToArchive::getContractInstances = ()->
 		is_deleted: false,
 		state: "completed",
 		"values.record_need": "true",
-		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
+#		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	}
 
 	if @ins_ids
@@ -46,7 +46,7 @@ InstancesToArchive::getNonContractInstances = ()->
 		is_deleted: false,
 		state: "completed",
 		"values.record_need": "true",
-		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
+#		$or: [{final_decision: "approved"}, {final_decision: {$exists: false}}, {final_decision: ""}]
 	}
 
 	if @ins_ids
