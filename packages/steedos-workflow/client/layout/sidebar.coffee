@@ -27,47 +27,36 @@ Template.workflowSidebar.helpers
 
 	inboxCategory: (category_id)->
 
-		inboxCategory = {}
 
 		inboxInstancesFlow = []
-
-		query = {}
-		query.$or = [{
-			inbox_users: Meteor.userId()
-		}, {
-			cc_users: Meteor.userId()
-		}, {
-			is_cc: true
-		}]
-
-		query.space = Session.get("spaceId")
 
 		category = db.categories.findOne({_id: category_id})
 
 		if category_id
 			category_forms = db.forms.find({category: category_id}, {fields: {_id:1}}).fetch();
-
-			query.form = {$in: category_forms.getProperty("_id")}
 		else
 			category_forms = db.forms.find({category: {
 				$in: [null, ""]
 			}}, {fields: {_id:1}}).fetch();
 
-			query.form = {$in: category_forms.getProperty("_id")}
-
-		inboxInstances = db.instances.find(query).fetch();
-
-		inboxInstancesGroupByFlow = _.groupBy(inboxInstances, "flow");
-
-		flowIds = _.keys(inboxInstancesGroupByFlow);
+		category_flows = db.flows.find({form: {$in: category_forms.getProperty("_id")}})
 
 		category_inbox_count = 0
 
-		flowIds.forEach (flowId)->
-			flow = db.flows.findOne(flowId, {fields:{name:1, space: 1}}) || {name: flowId};
-			flow.inbox_count = inboxInstancesGroupByFlow[flowId]?.length;
-			category_inbox_count = category_inbox_count + flow.inbox_count
-			inboxInstancesFlow.push(flow)
+		flow_instances = db.flow_instances.findOne(Steedos.getSpaceId())
+
+		category_flows.forEach (flow)->
+			flow_instance = _.find(flow_instances.flows, (_f)->
+				return _f._id == flow._id
+			)
+
+			flow.inbox_count = flow_instance?.count || 0
+
+			if flow.inbox_count > 0
+
+				category_inbox_count = category_inbox_count + flow.inbox_count
+
+				inboxInstancesFlow.push(flow)
 
 		return {_id: category_id, name: category?.name, inbox_count: category_inbox_count, inboxInstancesFlow: inboxInstancesFlow}
 
