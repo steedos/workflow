@@ -1,5 +1,4 @@
 Steedos.subs["InstanceInbox"] = new SubsManager
-Steedos.subs["InstanceInbox"].subscribe("my_inbox_instances");
 
 Steedos.subs["related_instances"] = new SubsManager
 
@@ -18,6 +17,7 @@ db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
 
 db.instance_traces = new Mongo.Collection("instance_traces");
+db.flow_instances = new Mongo.Collection("flow_instances");
 
 Steedos.subs["instance_traces"] = new SubsManager
 
@@ -90,6 +90,7 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("categories", spaceId)
 		Steedos.subsSpace.subscribe("forms", spaceId)
 		Steedos.subsSpace.subscribe("flows", spaceId)
+		Steedos.subs["InstanceInbox"].subscribe("my_inbox_flow_instances_count", Steedos.spaceId());
 
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
