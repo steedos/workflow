@@ -103,7 +103,8 @@ UUflow_api.post_submit = function(instance) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
-	var url = Steedos.absoluteUrl() + "api/workflow/submit?" + $.param(uobj);
+	uobj["insId"] = instance._id;
+	var url = Steedos.absoluteUrl() + "api/workflow/submit/?" + $.param(uobj);
 	var data = {
 		"Instances": [instance]
 	};
@@ -167,6 +168,7 @@ UUflow_api.post_engine = function(approve) {
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
+	uobj["insId"] = approve.instance;
 	var url = Steedos.absoluteUrl() + "api/workflow/engine?" + $.param(uobj);
 	var data = {
 		"Approvals": [approve]
