@@ -1805,6 +1805,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		return {alerts: TAPi18n.__('flow.point_upgraded', {}, lang)}
 	# ================end================
 	instance = db.instances.findOne(instance_id) #使用最新的instance
+	# 判断一个instance是否为拟稿状态
+	uuflowManager.isInstanceDraft(instance, lang)
 	traces = instance.traces
 	upObj = new Object
 

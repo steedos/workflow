@@ -235,6 +235,20 @@ Meteor.methods({
 			instance_name = flow.name;
 		}
 
+		// instance中记录当前步骤名称 #1314
+		var start_step = _.find(flow.current.steps, function (step){
+			return step.step_type == 'start';
+			}
+		)
+
+		// 新建申请单时，instances记录流程名称、流程分类名称 #1313
+		var category_name = "";
+		if (form.category) {
+			var category = uuflowManager.getCategory(form.category);
+			if (category)
+				category_name = category.name;
+		}
+
 		_.each(forward_users, function(user_id) {
 
 			var user_info = db.users.findOne(user_id);
@@ -336,6 +350,12 @@ Meteor.methods({
 
 			if (flow.auto_remind == true)
 				ins_obj.auto_remind = true;
+
+			ins_obj.current_step_name = start_step.name;
+
+			ins_obj.flow_name = flow.name;
+			if (category_name)
+				ins_obj.category_name = category.name;
 
 			new_ins_id = db.instances.insert(ins_obj);
 
