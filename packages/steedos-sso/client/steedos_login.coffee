@@ -22,7 +22,7 @@ loginWithToken = (userId, authToken, onSuccess)->
 
 					Cookie.remove('X-Auth-Token')
 
-					FlowRouter.go '/steedos/sign-in';
+					Steedos.redirectToSignIn()
 
 				else if onSuccess
 					onSuccess();

@@ -49,11 +49,11 @@ _.extend Accounts,
 				prefix = "+#{prefix}"
 		return if prefix then prefix else "+86"
 
-if Meteor.isClient
-	Meteor.startup ->
-		Tracker.autorun (c)->
-			if !Meteor.userId() and !Meteor.loggingIn()
-				currentPath = FlowRouter.current().path
-				if currentPath != undefined and !/^\/steedos\b/.test(currentPath)
-					# 没有登录且路由不以/steedos开头则跳转到登录界面
-					FlowRouter.go "/steedos/sign-in"
+# if Meteor.isClient
+# 	Meteor.startup ->
+# 		Tracker.autorun (c)->
+# 			if !Meteor.userId() and !Meteor.loggingIn()
+# 				currentPath = FlowRouter.current().path
+# 				if currentPath != undefined and !/^\/steedos\b/.test(currentPath)
+# 					# 没有登录且路由不以/steedos开头则跳转到登录界面
+# 					Steedos.redirectToSignIn()

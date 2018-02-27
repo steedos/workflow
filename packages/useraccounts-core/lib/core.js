@@ -71,7 +71,8 @@ TEXTS_PAT = {
   signInLink_link: Match.Optional(String),
   signInLink_pre: Match.Optional(String),
   signInLink_suff: Match.Optional(String),
-  signUpLink_link: Match.Optional(String),
+  signUpLink_link_ent: Match.Optional(String),
+  signUpLink_link_user:Match.Optional(String),
   signUpLink_pre: Match.Optional(String),
   signUpLink_suff: Match.Optional(String),
   socialAdd: Match.Optional(String),
@@ -325,7 +326,8 @@ AT.prototype.texts = {
   signInLink_link: "signin",
   signInLink_suff: "",
   signUpLink_pre: "dontHaveAnAccount",
-  signUpLink_link: "signUpFree",
+  signUpLink_link_user: "signUpFree",
+  signUpLink_link_ent:"signUpEnt",
   signUpLink_suff: "",
   socialAdd: "add",
   socialConfigure: "configure",
@@ -606,3 +608,16 @@ AT.prototype.removeField = function(fieldId) {
     throw new Error("A field called " + fieldId + " does not exist!");
   }
 };
+
+AT.prototype.getSpaceId = function(){
+  return localStorage.getItem("signSpaceId");
+}
+
+AT.prototype.setSpaceId = function(spaceId){
+  if(spaceId){
+    localStorage.setItem("signSpaceId", spaceId);
+  }
+  else{
+    localStorage.removeItem("signSpaceId");
+  }
+}

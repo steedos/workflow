@@ -23,7 +23,7 @@ Template.loginLayout.events
                 FlowRouter.go("/steedos/logout")
 
         'click #btnSignIn': (e, t) ->
-                FlowRouter.go("/steedos/sign-in")
+                Steedos.redirectToSignIn()
                 
         'click #btnSignUp': (e, t) ->
                 FlowRouter.go("/steedos/sign-up")

@@ -146,6 +146,12 @@ if Meteor.isServer
 				throw new Meteor.Error(400, "用户已验证手机，不能修改")
 
 	db.users.before.insert (userId, doc) ->
+		space_registered = doc.profile?.space_registered
+		# # 从工作区特定的注册界面注册的用户，需要先判断下工作区是否存在
+		if space_registered
+			space = db.spaces.findOne(space_registered)
+			if !space
+				throw new Meteor.Error(400, "space_users_error_space_not_found")
 		if doc.username
 			db.users.validateUsername(doc.username, doc._id)
 		doc.created = new Date();
@@ -204,10 +210,26 @@ if Meteor.isServer
 
 		_.each doc.emails, (obj)->
 			db.users.checkEmailValid(obj.address);
-		
+
 
 	db.users.after.insert (userId, doc) ->
-		if !(doc.spaces_invited?.length>0)
+		space_registered = doc.profile?.space_registered
+		if space_registered
+			# 从工作区特定的注册界面注册的用户，需要自动加入到工作区中
+			user_email = doc.emails[0].address
+			rootOrg = db.organizations.findOne({space:space_registered, is_company:true},{fields: {_id:1}})
+			db.space_users.insert
+				email: user_email
+				user: doc._id
+				name: doc.name
+				organizations: [rootOrg._id]
+				space: space_registered
+				user_accepted: true
+				is_registered_from_space: true
+
+		if !space_registered and !(doc.spaces_invited?.length>0)
+			# 不是从工作区特定的注册界面注册的用户，也不是邀请的用户
+			# 即普通的注册用户，则为其新建一个自己的工作区
 			space_name = doc.company || doc.profile?.company
 			unless space_name
 				space_name = doc.name + " " + trl("space")

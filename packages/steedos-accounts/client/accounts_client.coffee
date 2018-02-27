@@ -51,4 +51,10 @@ Meteor.startup ->
 				FlowRouter.go "/"
 
 	Accounts.onLogin ()->
-		Setup.validate();
+		Tracker.autorun (c)->
+			# 登录后需要清除登录前订阅的space数据，以防止默认选中登录前浏览器url参数中的的工作区ID所指向的工作区
+			if Steedos.subsSpaceBase.ready()
+				c.stop()
+				Steedos.subs["SpaceAvatar"]?.clear()
+
+		Setup.validate()

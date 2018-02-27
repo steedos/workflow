@@ -1,6 +1,6 @@
 checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
-		FlowRouter.go '/steedos/sign-in';
+		Steedos.redirectToSignIn()
 
 FlowRouter.route '/admin/view-logs',
 	triggersEnter: [ checkUserSigned ],

@@ -1,6 +1,6 @@
 checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
-		FlowRouter.go '/steedos/sign-in';
+		Steedos.redirectToSignIn()
 
 FlowRouter.route '/steedos/logout',
 	action: (params, queryParams)->
@@ -8,7 +8,7 @@ FlowRouter.route '/steedos/logout',
 		$("body").addClass('loading')
 		Meteor.logout ()->
 			Setup.logout();
-			Session.set("spaceId", null);
+			#Session.set("spaceId", null);
 			$("body").removeClass('loading')
 			FlowRouter.go("/");
 
@@ -34,7 +34,7 @@ FlowRouter.route '/springboard',
 	triggersEnter: [ checkUserSigned ],
 	action: (params, queryParams)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 		NavigationController.reset();

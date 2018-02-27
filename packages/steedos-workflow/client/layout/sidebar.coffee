@@ -66,7 +66,7 @@ Template.workflowSidebar.helpers
 			if !space
 				return false
 
-			if space.admins.includes(Meteor.userId())
+			if space.admins?.includes(Meteor.userId())
 				return true
 			else
 				flow_ids = WorkflowManager.getMyAdminOrMonitorFlows()

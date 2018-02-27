@@ -12,7 +12,8 @@ Template.steedosHeader.helpers
 		return ""
 
 	subsReady: ->
-		return Steedos.subsBootstrap.ready("steedos_keyvalues") && Steedos.subsSpaceBase.ready("apps")
+		# 增加Meteor.loggingIn()判断的原因是用户在登出系统的短短几秒内，顶部左侧图标有可能会从工作工特定LOGO变成默认的华炎LOGO造成视觉偏差
+		return Steedos.subsBootstrap.ready("steedos_keyvalues") && Steedos.subsSpaceBase.ready("apps") && !Meteor.loggingIn()
 
 	eachEnd: (index)->
 		appCount = Steedos.getSpaceApps().count()
