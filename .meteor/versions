@@ -179,7 +179,6 @@ steedos:chat@0.0.1
 steedos:cms@0.0.5
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
-steedos:connect-qiyeweixin@0.0.10
 steedos:contacts@0.0.1
 steedos:cors@0.0.1
 steedos:dashboard@0.0.2

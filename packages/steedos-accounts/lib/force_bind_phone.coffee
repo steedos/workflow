@@ -14,12 +14,20 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 
 	if Meteor.isClient
 		Steedos.isForceBindPhone = false
+		checkPhoneStateExpired = ->
+			# 过期后把绑定状态还原为未绑定
+			expiredDays = Meteor.settings?.public?.phone?.expiredDays
+			if expiredDays
+				Accounts.disablePhoneWithoutExpiredDays(expiredDays)
+		
 		unless Steedos.isMobile()
 			Accounts.onLogin ()->
 				if Accounts.isPhoneVerified()
+					checkPhoneStateExpired()
 					return
 				Meteor.setTimeout ()->
 					if Accounts.isPhoneVerified()
+						checkPhoneStateExpired()
 						return
 					spaces = db.spaces.find().fetch().getProperty("_id")
 					unless spaces.length
@@ -46,10 +54,7 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 						if /^\/steedos\//.test routerPath
 							return
 						if Accounts.isPhoneVerified()
-							# 过期后把绑定状态还原为未绑定
-							expiredDays = Meteor.settings?.public?.phone?.expiredDays
-							if expiredDays
-								Accounts.disablePhoneWithoutExpiredDays(expiredDays)
+							checkPhoneStateExpired()
 						else
 							setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 							unless Steedos.isForceBindPhone
