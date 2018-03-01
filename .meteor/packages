@@ -184,8 +184,8 @@ steedos:huaweipush
 
 steedos:e164-phones-countries
 steedos:i18n-iso-countries
-meteorhacks:kadira
-steedos:app-crm
-steedos:app-workflow
-meteorhacks:kadira-profiler
-kadira:debug
+# meteorhacks:kadira
+# steedos:app-crm
+# steedos:app-workflow
+# meteorhacks:kadira-profiler
+# kadira:debug
