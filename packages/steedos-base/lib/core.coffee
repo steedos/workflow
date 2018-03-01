@@ -812,5 +812,5 @@ if Meteor.isServer
 				return error:
 					reason: reason
 
-Steedos.convertSpecialChart = (str)->
+Steedos.convertSpecialCharacter = (str)->
 	return str.replace(/([\^\$\(\)\*\+\?\.\\\|\[\]\{\}])/g, "\\$1")

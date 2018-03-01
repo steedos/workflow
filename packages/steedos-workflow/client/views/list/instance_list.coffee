@@ -359,7 +359,7 @@ Template.instance_list.events
 	'click #instance_search_button': (event) ->
 		dataTable = $(".datatable-instances").DataTable();
 		dataTable.search(
-			Steedos.convertSpecialChart($('#instance_search').val()),
+			Steedos.convertSpecialCharacter($('#instance_search').val()),
 		).draw();
 		Session.set('instance_search_val', $('#instance_search').val())
 
