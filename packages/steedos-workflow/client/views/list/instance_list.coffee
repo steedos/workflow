@@ -133,7 +133,7 @@ Template.instance_list.helpers
 
 		# return false;
 		return true
-	
+
 	hasApproves: ->
 		if InstanceManager.getUserInboxInstances().length > 0
 			return true
@@ -359,7 +359,7 @@ Template.instance_list.events
 	'click #instance_search_button': (event) ->
 		dataTable = $(".datatable-instances").DataTable();
 		dataTable.search(
-			$('#instance_search').val(),
+			Steedos.convertSpecialChart($('#instance_search').val()),
 		).draw();
 		Session.set('instance_search_val', $('#instance_search').val())
 
