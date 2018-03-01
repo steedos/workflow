@@ -14,12 +14,20 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 
 	if Meteor.isClient
 		Steedos.isForceBindPhone = false
+		checkPhoneStateExpired = ->
+			# 过期后把绑定状态还原为未绑定
+			expiredDays = Meteor.settings?.public?.phone?.expiredDays
+			if expiredDays
+				Accounts.disablePhoneWithoutExpiredDays(expiredDays)
+		
 		unless Steedos.isMobile()
 			Accounts.onLogin ()->
 				if Accounts.isPhoneVerified()
+					checkPhoneStateExpired()
 					return
 				Meteor.setTimeout ()->
 					if Accounts.isPhoneVerified()
+						checkPhoneStateExpired()
 						return
 					spaces = db.spaces.find().fetch().getProperty("_id")
 					unless spaces.length
@@ -34,8 +42,9 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 							setupUrl = "/accounts/setup/phone"
 							Steedos.isForceBindPhone = false
 							# 暂时先停掉手机号强制绑定功能，等国际化相关功能完成后再放开
-							# FlowRouter.go setupUrl
-							# return
+							# qhd要求放开，CN发版本前要把国际化相关功能完成，否则CN发版本前还是要注释掉该功能
+							FlowRouter.go setupUrl
+							return
 
 						routerPath = FlowRouter.current()?.path
 						# 当前路由本身就在手机验证路由中则不需要提醒手机号未绑定
@@ -45,10 +54,7 @@ if Meteor.settings?.public?.phone?.forceAccountBindPhone
 						if /^\/steedos\//.test routerPath
 							return
 						if Accounts.isPhoneVerified()
-							# 过期后把绑定状态还原为未绑定
-							expiredDays = Meteor.settings?.public?.phone?.expiredDays
-							if expiredDays
-								Accounts.disablePhoneWithoutExpiredDays(expiredDays)
+							checkPhoneStateExpired()
 						else
 							setupUrl = Steedos.absoluteUrl("accounts/setup/phone")
 							unless Steedos.isForceBindPhone

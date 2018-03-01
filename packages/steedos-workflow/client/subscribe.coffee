@@ -90,7 +90,7 @@ Tracker.autorun (c)->
 		Steedos.subsSpace.subscribe("categories", spaceId)
 		Steedos.subsSpace.subscribe("forms", spaceId)
 		Steedos.subsSpace.subscribe("flows", spaceId)
-		Steedos.subs["InstanceInbox"].subscribe("my_inbox_flow_instances_count", Steedos.spaceId());
+		Steedos.subs["InstanceInbox"].subscribe("my_inbox_flow_instances_count", spaceId);
 
 		Steedos.subsSpace.subscribe("space_user_signs", spaceId);
 
