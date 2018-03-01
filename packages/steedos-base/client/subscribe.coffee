@@ -9,10 +9,14 @@ Tracker.autorun (c)->
 			# 只在已登录的情况下设置工作区ID
 			spaceId = Steedos.getSpaceId()
 			if spaceId
+				console.log (spaceId)
 				Steedos.setSpaceId(spaceId)
 			# else
 			# 	FlowRouter.go("/accounts/setup/space")
-
+Tracker.autorun (c)->
+	if Session.get("spaceId") and !Meteor.userId()
+		Steedos.subs["SpaceAvatar"].subscribe("space_avatar", Session.get("spaceId"));
+		
 Steedos.subsSpaceBase = new SubsManager();
 
 Tracker.autorun (c)->
@@ -36,6 +40,9 @@ accountBgBodyValue = {}
 accountBgBodyValue.url = localStorage.getItem("accountBgBodyValue.url")
 accountBgBodyValue.avatar = localStorage.getItem("accountBgBodyValue.avatar")
 Steedos.applyAccountBgBodyValue accountBgBodyValue
+
+# 工作区登录注册界面需要订阅指定工作区的LOGO图片
+Steedos.subs["SpaceAvatar"] = new SubsManager();
 
 Meteor.startup ->
 	Tracker.autorun (c)->

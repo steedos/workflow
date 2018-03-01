@@ -110,7 +110,7 @@ Template.instance_more_search_modal.events({
 			_.each(name_key_words, function(k) {
 				and.push({
 					name: {
-						$regex: k
+						$regex: Steedos.convertSpecialCharacter(k)
 					}
 				});
 			})
@@ -123,14 +123,14 @@ Template.instance_more_search_modal.events({
 
 		if ($('#instance_more_search_applicant_name').val()) {
 			selector.applicant_name = {
-				$regex: $('#instance_more_search_applicant_name').val()
+				$regex: Steedos.convertSpecialCharacter($('#instance_more_search_applicant_name').val())
 			};
 			Session.set("instance-search-appplicant-name", $('#instance_more_search_applicant_name').val())
 		}
 
 		if ($('#instance_more_search_applicant_organization_name').val()) {
 			selector.applicant_organization_name = {
-				$regex: $('#instance_more_search_applicant_organization_name').val()
+				$regex: Steedos.convertSpecialCharacter($('#instance_more_search_applicant_organization_name').val())
 			};
 			Session.set("instance-search-applicant-organization-name", $('#instance_more_search_applicant_organization_name').val())
 		}

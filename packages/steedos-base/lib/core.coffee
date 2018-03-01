@@ -1,6 +1,6 @@
 db = {}
 
-Steedos = 
+Steedos =
 	settings: {}
 	db: db
 	subs: {}
@@ -171,7 +171,7 @@ if Meteor.isClient
 			window.location = url
 		else
 			Steedos.openWindow(url);
-	
+
 	Steedos.openUrlWithIE = (url)->
 		if url
 			if Steedos.isNode()
@@ -185,9 +185,18 @@ if Meteor.isClient
 			else
 				Steedos.openWindow(url)
 
+	Steedos.redirectToSignIn = (redirect)->
+		signInUrl = AccountsTemplates.getRoutePath("signIn")
+		if redirect
+			if signInUrl.indexOf("?") > 0
+				signInUrl += "&redirect=#{redirect}"
+			else
+				signInUrl += "?redirect=#{redirect}"
+		FlowRouter.go signInUrl
+
 	Steedos.openApp = (app_id)->
 		if !Meteor.userId()
-			FlowRouter.go "/steedos/sign-in";
+			Steedos.redirectToSignIn()
 			return true
 
 		app = db.apps.findOne(app_id)
@@ -196,7 +205,7 @@ if Meteor.isClient
 			return
 
 		on_click = app.on_click
-		if app.is_use_ie 
+		if app.is_use_ie
 			if Steedos.isNode()
 				exec = nw.require('child_process').exec
 				if on_click
@@ -212,7 +221,7 @@ if Meteor.isClient
 					return
 			else
 				Steedos.openAppWithToken(app_id)
-		
+
 		else if db.apps.isInternalApp(app.url)
 			FlowRouter.go(app.url)
 
@@ -272,7 +281,7 @@ if Meteor.isClient
 			when 'extra-large'
 				if Steedos.isMobile()
 					offset = -26
-				else 
+				else
 					# 区分IE浏览器
 					if Steedos.detectIE()
 						offset = 303
@@ -300,7 +309,7 @@ if Meteor.isClient
 		if Steedos.isMobile()
 			reValue = window.screen.height - 126 - 180 - 25
 		else
-			reValue = $(window).height() - 180 - 25 
+			reValue = $(window).height() - 180 - 25
 		unless Steedos.isiOS() or Steedos.isMobile()
 			# ios及手机上不需要为zoom放大功能额外计算
 			accountZoomValue = Steedos.getAccountZoomValue()
@@ -738,7 +747,7 @@ if Meteor.isServer
 			app = db.apps.findOne(appId)
 			if app
 				secret = app.secret
-				
+
 			if userId and authToken
 				hashedToken = Accounts._hashLoginToken(authToken)
 				user = Meteor.users.findOne
@@ -769,7 +778,7 @@ if Meteor.isServer
 					cipheredMsg = Buffer.concat([cipher.update(new Buffer(now, 'utf8')), cipher.final()])
 
 					steedos_token = cipheredMsg.toString('base64')
-				
+
 			return steedos_token
 
 		locale: (userId, isI18n)->
@@ -802,3 +811,6 @@ if Meteor.isServer
 			else
 				return error:
 					reason: reason
+
+Steedos.convertSpecialCharacter = (str)->
+	return str.replace(/([\^\$\(\)\*\+\?\.\\\|\[\]\{\}])/g, "\\$1")

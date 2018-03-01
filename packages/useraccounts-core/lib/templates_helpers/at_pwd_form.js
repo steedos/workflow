@@ -174,7 +174,6 @@ AT.prototype.atPwdFormEvents = {
 
             return Steedos.loginWithPassword(loginSelector, password, function(error) {
                 AccountsTemplates.submitCallback(error, state, function(){
-                    FlowRouter.go("/");
                 });
             });
         }
@@ -209,7 +208,11 @@ AT.prototype.atPwdFormEvents = {
             if (preSignUpHook) {
               preSignUpHook(password, options);
             }
-
+            spaceId = Steedos.getSpaceId();
+            if(spaceId){
+                // 从工作区特定的注册界面注册时，把spaceId传入后台
+                options.profile.space_registered = spaceId;
+            }
             $("body").addClass("loading");
             return Meteor.call("ATCreateUserServer", options, function(error){
                 $("body").removeClass("loading");

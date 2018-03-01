@@ -1,6 +1,6 @@
 Template.steedosHeaderLogo.helpers
 	spaceAvatar: ->
-		avatar = db.spaces.findOne(Steedos.spaceId())?.avatar
+		avatar = db.spaces.findOne(Steedos.getSpaceId())?.avatar
 		if avatar
 			return Steedos.absoluteUrl("/api/files/avatars/#{avatar}")
 		else
@@ -11,7 +11,7 @@ Template.steedosHeaderLogo.helpers
 				return Steedos.absoluteUrl(Theme.space_logo_en)
 
 	isSpaceOwner: (event)->
-		return Steedos.isSpaceOwner(Steedos.spaceId())
+		return Steedos.isSpaceOwner(Steedos.getSpaceId())
 
 	logoMiniUrl: ()->
 		locale = Steedos.locale()

@@ -152,22 +152,18 @@ instancesListTableTabular = (flowId, fields)->
 				orderable: true
 			},
 			{
-				data: "flow",
+				data: "flow_name",
 				title: t("instances_flow"),
-				render: (val, type, doc) ->
-					flow_name = WorkflowManager.getFlow(doc.flow)?.name
-					return flow_name
-				,
 				visible: false,
 				orderable: false
 			}, {
-				data: "step_current_name",
+				data: "current_step_name",
 				title: t("instances_step_current_name"),
 				render: (val, type, doc) ->
 					if doc.state == "completed"
 						judge = doc.final_decision || "approved"
 
-					step_current_name = doc.step_current_name || ''
+					step_current_name = doc.current_step_name || ''
 
 					cc_tag = ''
 
@@ -226,7 +222,7 @@ instancesListTableTabular = (flowId, fields)->
 				'tpl'
 		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "is_cc", "cc_count", "is_read", "step_current_name", "values", "keywords", "final_decision"],
+			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,

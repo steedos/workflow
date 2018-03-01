@@ -132,7 +132,11 @@ db.spaces._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			omit: true
-
+	enable_register:
+		type: Boolean,
+		defaultValue:false,
+		optional: true
+	
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")
 

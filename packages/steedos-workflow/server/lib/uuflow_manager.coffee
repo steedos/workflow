@@ -538,6 +538,9 @@ uuflowManager.getFormVersion = (form, form_version) ->
 
 	return form_v
 
+uuflowManager.getCategory = (category_id) ->
+	return db.categories.findOne(category_id)
+
 uuflowManager.getInstanceName = (instance, vals) ->
 	values = _.clone(vals || instance.values) || {}
 
@@ -1571,6 +1574,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	# 判断一个flow和space_id是否匹配
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
+	form = uuflowManager.getForm(flow.form)
+
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
@@ -1644,6 +1649,13 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 
 	if flow.auto_remind is true
 		ins_obj.auto_remind = true
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name 
 
 	new_ins_id = db.instances.insert(ins_obj)
 
@@ -1786,6 +1798,8 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		return {alerts: TAPi18n.__('flow.point_upgraded', {}, lang)}
 	# ================end================
 	instance = db.instances.findOne(instance_id) #使用最新的instance
+	# 判断一个instance是否为拟稿状态
+	uuflowManager.isInstanceDraft(instance, lang)
 	traces = instance.traces
 	upObj = new Object
 

@@ -262,7 +262,7 @@ TemplateHelpers =
 		if spaceId
 			s = db.spaces.findOne(spaceId)
 			if s
-				return s.admins.includes(Meteor.userId())
+				return s.admins?.includes(Meteor.userId())
 
 	isSpaceOwner: (spaceId)->
 		if !spaceId
