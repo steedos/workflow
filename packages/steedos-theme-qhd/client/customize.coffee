@@ -4,6 +4,7 @@ if Meteor.isClient
 		Theme.logo_en = Theme.logo
 		Theme.icon = "/packages/steedos_theme-qhd/client/images/icon.png"
 		Theme.icon_en = Theme.icon
+		Theme.is_customized = true
 		
 		# 重置客户端版本号和下载网址
 		Desktop.version = "3.1.9"

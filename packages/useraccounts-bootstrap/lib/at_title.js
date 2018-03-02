@@ -15,7 +15,8 @@ Template.atTitle.helpers({
 		if(Steedos){
 			var spaceId = Steedos.getSpaceId();
 			var space = db.spaces.findOne(spaceId);
-			if(space && space.avatar){
+			// 如果是定制的Theme，则不使用上传的工作区LOOG图标
+			if (!Theme.is_customized && space && space.avatar){
 				return Steedos.absoluteUrl("/api/files/avatars/@%".replace("@%",space.avatar))
 			}
 			else{
