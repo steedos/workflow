@@ -57,16 +57,16 @@ instancesListTableTabular = (flowId, fields)->
 						modified = doc.submit_date || doc.submit_date
 
 					modifiedFromNow = Steedos.momentReactiveFromNow(modified);
-					flow_name = WorkflowManager.getFlow(doc.flow)?.name
+					flow_name = doc.flow_name
 					cc_view = "";
 					step_current_name_view = "";
 					# 当前用户在cc user中，但是不在inbox users时才显示'传阅'文字
 					if doc.is_cc && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 						cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
-						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
+						step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.current_step_name})</span></div>"
 					else
-						if Session.get("box") != 'draft' && doc.step_current_name
-							step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.step_current_name})</span></div>"
+						if Session.get("box") != 'draft' && doc.current_step_name
+							step_current_name_view = "<div class='flow-name'>#{flow_name}<span>(#{doc.current_step_name})</span></div>"
 						else
 							step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
 
@@ -250,7 +250,7 @@ instancesListTableTabular = (flowId, fields)->
 
 	if flowId
 		key = "instanceFlow" + flowId
-		
+
 		options.name = key
 
 		TabularTables.instances.fields = fields
@@ -403,5 +403,5 @@ if Meteor.isServer
 			flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
 			fields = db.forms.findOne({_id: flow?.form})?.current?.fields
 			return fields
-			
+
 
