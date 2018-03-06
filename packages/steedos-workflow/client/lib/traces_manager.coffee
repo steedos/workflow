@@ -33,6 +33,8 @@ TracesManager.getStepLastHandlers = (stepId, instance) ->
 TracesManager.getHandlerSignShowApproves = (ins, handler, check_sign_show)->
 
 	currentApprove = InstanceManager.getCurrentApprove();
+	if !currentApprove
+		return
 
 	traces = _.clone(ins.traces)
 
