@@ -52,6 +52,9 @@ Template.space_info.helpers
         if s.end_date
             return moment(s.end_date).format('YYYY-MM-DD')
         return ""
+    
+    updateButtonContent: ->
+        return t("Update")
 
 
 Template.space_info.events
@@ -60,7 +63,7 @@ Template.space_info.events
         FlowRouter.go("/accounts/setup/space")
 
     'click .btn-edit-space': (event)->
-        AdminDashboard.modalEdit 'spaces', Steedos.spaceId()
+        $(".btn-space-info-edit").click()
 
 
     'click .btn-exit-space': (event)->
@@ -70,24 +73,18 @@ Template.space_info.events
         Modal.show('space_recharge_modal')
 
 
-
-Meteor.startup ->
-
-    AutoForm.hooks
-
-        updateSpace:
-            
-            onSuccess: (formType, result) ->
-                toastr.success t('saved_successfully')
-
-            onError: (formType, error) ->
-                if error.reason
-                    toastr.error error.reason
-                else 
-                    toastr.error error
-
 Template.space_info.onCreated ()->
     this.data.user_count_info = new ReactiveVar({})
+    
+	AutoForm.hooks spaceInfoEditForm:
+		onSuccess: (formType,result)->
+            toastr.success t('saved_successfully')
+        onError: (formType, error) ->
+            if error.reason
+                if error.reason == "space_paid_info_title"
+                    Steedos.spaceUpgradedModal()
+            else 
+                toastr.error t(error)
 
 Template.space_info.onRendered ()->
     that = this
