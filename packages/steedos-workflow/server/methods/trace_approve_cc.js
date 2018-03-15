@@ -101,7 +101,7 @@ Meteor.methods({
 		flow_id = instance.flow;
 		approve.cc_user_ids = cc_user_ids; // 记录下本次传阅的人员ID作为hook接口中的参数
 		// 如果已经配置webhook并已激活则触发
-		pushManager.triggerWebhook(flow_id, instance, approve, 'cc_do')
+		pushManager.triggerWebhook(flow_id, instance, approve, 'cc_do', current_user_id, cc_user_ids)
 		return true;
 	},
 
@@ -223,7 +223,7 @@ Meteor.methods({
 
 			flow_id = instance.flow;
 			// 如果已经配置webhook并已激活则触发
-			pushManager.triggerWebhook(flow_id, instance, current_approve, 'cc_submit');
+			pushManager.triggerWebhook(flow_id, instance, current_approve, 'cc_submit', current_user_id, []);
 		}
 
 		return true;

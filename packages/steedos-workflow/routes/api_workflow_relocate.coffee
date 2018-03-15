@@ -193,7 +193,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, relocate_comment, current_user_info)
 
 				# 如果已经配置webhook并已激活则触发
-				pushManager.triggerWebhook(ins.flow, ins, {}, 'relocate')
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'relocate', current_user, ins.inbox_users)
 
 		JsonRoutes.sendResult res,
 			code: 200
