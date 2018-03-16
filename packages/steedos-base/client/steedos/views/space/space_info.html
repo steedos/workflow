@@ -133,5 +133,7 @@
       </div>
       
     </section>
-
+    {{#afModal formId="spaceInfoEditForm" doc=space._id class="btn btn-primary btn-space-info-edit hidden" collection="db.spaces" operation="update" dialogClass="modal-lg modal-body-zoom" fields="name,owner,admins,avatar,enable_register" buttonContent=updateButtonContent}}
+        {{_ "Edit"}}
+    {{/afModal}}
 </template>

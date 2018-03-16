@@ -53,6 +53,7 @@ Meteor.startup ->
 	Accounts.onLogin ()->
 		Tracker.autorun (c)->
 			# 登录后需要清除登录前订阅的space数据，以防止默认选中登录前浏览器url参数中的的工作区ID所指向的工作区
+			# 而且可能登录后的用户不属性该SpaceAvatar中订阅的工作区，所以需要清除订阅，由之前的订阅来决定当前用户可以选择哪些工作区
 			if Steedos.subsSpaceBase.ready()
 				c.stop()
 				Steedos.subs["SpaceAvatar"]?.clear()

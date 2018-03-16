@@ -13,9 +13,6 @@ Tracker.autorun (c)->
 				Steedos.setSpaceId(spaceId)
 			# else
 			# 	FlowRouter.go("/accounts/setup/space")
-Tracker.autorun (c)->
-	if Session.get("spaceId") and !Meteor.userId()
-		Steedos.subs["SpaceAvatar"].subscribe("space_avatar", Session.get("spaceId"));
 		
 Steedos.subsSpaceBase = new SubsManager();
 

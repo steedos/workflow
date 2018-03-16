@@ -167,7 +167,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 
 					ins = uuflowManager.getInstance(instance_id)
 					# 如果已经配置webhook并已激活则触发
-					pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
+					pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve', current_user, ins.inbox_users)
 
 			else if retrieve_type is 'cc'
 				setObj = new Object
@@ -199,7 +199,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 
 				ins = uuflowManager.getInstance(instance_id)
 				# 如果已经配置webhook并已激活则触发
-				pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve')
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'retrieve', current_user, [current_user])
 
 		JsonRoutes.sendResult res,
 			code: 200

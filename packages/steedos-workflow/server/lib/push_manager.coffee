@@ -657,7 +657,7 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	catch e
 		console.error e.stack
 
-pushManager.triggerWebhook = (flow_id, instance, current_approve, action)->
+pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user, to_users)->
 	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
 	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
 		WebhookQueue.send({
@@ -665,5 +665,7 @@ pushManager.triggerWebhook = (flow_id, instance, current_approve, action)->
 				current_approve: current_approve,
 				payload_url: w.payload_url,
 				content_type: w.content_type,
-				action: action
+				action: action,
+				from_user: from_user,
+				to_users: to_users || []
 			})

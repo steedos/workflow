@@ -170,7 +170,14 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			pushManager.send_message_current_user(current_user_info)
 
 			# 如果已经配置webhook并已激活则触发
-			pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit')
+			to_users = instance.inbox_users
+			last_trace = _.last(instance.traces)
+			last_step = uuflowManager.getStep(instance, flow, last_trace.step)
+			last_step_type = last_step.step_type
+			if last_step_type is "counterSign" and _.where(last_trace.approves, {is_finished: true}).length > 0
+				to_users = []
+
+			pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit', current_user, to_users)
 
 		JsonRoutes.sendResult res,
 			code: 200
