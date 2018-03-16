@@ -1,37 +1,36 @@
 Template.remind_modal.helpers
 	user_context: ()->
-		ins = WorkflowManager.getInstance();
-		if !ins
-			return false
+		ins = db.instance_traces.findOne(Session.get('instanceId'))
 
 		users_id = new Array
 		users = new Array
 
-		if this.action_types.includes('admin')
-			_.each ins.traces, (t)->
-				_.each t.approves, (ap)->
-					if ap.is_finished isnt true and ap.type isnt 'forward' and ap.type isnt 'distribute'
+		if ins
+			if this.action_types.includes('admin')
+				_.each ins.traces, (t)->
+					_.each t.approves, (ap)->
+						if ap.is_finished isnt true and ap.type isnt 'forward' and ap.type isnt 'distribute'
+							if not users_id.includes(ap.handler) # 去重
+								users_id.push(ap.handler)
+								users.push {id: ap.handler, name: ap.handler_name}
+
+			else if this.action_types.includes('applicant')
+				last_trace = _.last(ins.traces)
+				_.each last_trace.approves, (ap)->
+					if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'
 						if not users_id.includes(ap.handler) # 去重
-							users_id.push(ap.handler)
+							users_id.push ap.handler
 							users.push {id: ap.handler, name: ap.handler_name}
 
-		else if this.action_types.includes('applicant')
-			last_trace = _.last(ins.traces)
-			_.each last_trace.approves, (ap)->
-				if ap.is_finished isnt true and ap.type isnt 'cc' and ap.type isnt 'forward' and ap.type isnt 'distribute'
-					if not users_id.includes(ap.handler) # 去重
-						users_id.push ap.handler
-						users.push {id: ap.handler, name: ap.handler_name}
+				this.trace_id = last_trace._id
 
-			this.trace_id = last_trace._id
-
-		else if this.action_types.includes('cc')
-			_.each ins.traces, (t)->
-				_.each t.approves, (ap)->
-					if ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is Meteor.userId()
-						if not users_id.includes(ap.handler) # 去重
-							users_id.push(ap.handler)
-							users.push {id: ap.handler, name: ap.handler_name}
+			else if this.action_types.includes('cc')
+				_.each ins.traces, (t)->
+					_.each t.approves, (ap)->
+						if ap.is_finished isnt true and ap.type is 'cc' and ap.from_user is Meteor.userId()
+							if not users_id.includes(ap.handler) # 去重
+								users_id.push(ap.handler)
+								users.push {id: ap.handler, name: ap.handler_name}
 
 		data = {
 			value: users
@@ -105,14 +104,26 @@ Template.remind_modal.helpers
 
 		return false
 
+Template.remind_modal.onCreated ()->
 
-Template.remind_modal.onRendered ()->
-	
+	$("body").addClass("loading")
+
+	Steedos.subs["instance_traces"].subscribe("instance_traces", Session.get("instanceId"))
+
+	Tracker.autorun () ->
+		if Steedos.subs["instance_traces"].ready()
+			$("body").removeClass("loading")
+
+Template.remind_modal.onDestroyed ->
+	console.log("Template.remind_modal.onDestroyed...")
+
+	Steedos.subs["instance_traces"].clear()
+
 Template.remind_modal.events
 	'click #instance_remind_ok': (event, template)->
 		if !Steedos.isLegalVersion('',"workflow.professional")
 				Steedos.spaceUpgradedModal();
-				return	
+				return
 		values = $("#instance_remind_select_users")[0].dataset.values
 		remind_users = if values then values.split(",") else []
 		remind_count = ''
@@ -149,6 +160,3 @@ Template.remind_modal.events
 				Modal.hide template
 			return
 
-
-
-	
