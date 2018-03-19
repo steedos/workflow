@@ -99,7 +99,6 @@ mdg:validation-error@0.2.0
 meteor@1.6.1
 meteor-base@1.0.4
 meteor-developer@1.1.9
-meteorhacks:async@1.0.0
 meteorhacks:meteorx@1.0.2
 meteorhacks:ssr@2.2.0
 meteorhacks:subs-manager@1.6.4
@@ -197,7 +196,6 @@ steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
-steedos:oauth2-server@0.0.2
 steedos:qcloud-smsqueue@0.0.1
 steedos:qhd@0.0.1
 steedos:records@0.0.1
