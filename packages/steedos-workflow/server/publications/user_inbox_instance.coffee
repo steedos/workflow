@@ -138,12 +138,11 @@ Meteor.publish 'my_inbox_flow_instances_count', (spaceId)->
 		_async_get_flow_instances_aggregate(spaceId, self.userId, data)
 		self.changed("flow_instances", spaceId, {flows: data});
 
-	tid = 0
-
+	_init = true
 	handle = db.instances.find(query).observeChanges {
 		added: (id)->
-			Meteor.clearTimeout(tid)
-			tid = Meteor.setTimeout(_changeData, 10)
+			if !_init
+				_changeData()
 #		changed: (id)->
 #			data = []
 #			_async_get_flow_instances_aggregate(spaceId, self.userId, data)
@@ -153,6 +152,8 @@ Meteor.publish 'my_inbox_flow_instances_count', (spaceId)->
 			_async_get_flow_instances_aggregate(spaceId, self.userId, data)
 			self.changed("flow_instances", spaceId, {flows: data});
 	}
+
+	_init = false
 
 	self.ready();
 	self.onStop ()->
