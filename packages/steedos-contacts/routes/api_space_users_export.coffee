@@ -6,17 +6,24 @@ Meteor.startup ->
 			query = req.query
 			space_id = query.space_id
 			org_id = query.org_id
-
+			user_id = query['X-User-Id']
 			org = db.organizations.findOne({_id:org_id},{fields:{fullname:1}})
-
 			users_to_xls = new Array
 			now = new Date 
-			users_to_xls = db.space_users.find({
-				space: space_id
-			}, {
-				sort: {name: 1}
-			}).fetch()
-
+			if Steedos.isSpaceAdmin(space_id,user_id)
+				users_to_xls = db.space_users.find({
+					space: space_id
+				}, {
+					sort: {name: 1}
+				}).fetch()
+			else
+				org_ids = []
+				org_objs = db.organizations.find({space:space_id,admins:user_id,users:user_id},{fields:{_id:1,children:1}}).fetch()
+				org_ids = _.pluck(org_objs,'_id')
+				_.each org_objs,(org_obj)->
+					org_ids = _.union(org_ids,org_obj?.children)
+				 _.uniq(org_ids)
+				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {name: 1}}).fetch()
 			ejs = Npm.require('ejs')
 			str = Assets.getText('server/ejs/export_space_users.ejs')
 			
