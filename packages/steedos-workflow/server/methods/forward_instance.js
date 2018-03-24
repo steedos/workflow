@@ -224,6 +224,12 @@ Meteor.methods({
 
 		})
 
+		//如果是分发，则value中的record_need、FONDSID不需要分发到新申请单中
+		if(action_type === 'distribute'){
+			delete new_values.record_need;
+			delete new_values.FONDSID;
+		}
+
 		// 计算申请单标题
 		var instance_name = "";
 		var name_forumla = form.current.name_forumla;
