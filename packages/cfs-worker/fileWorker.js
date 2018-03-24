@@ -52,23 +52,23 @@ FS.FileWorker.observe = function(fsCollection) {
     }
   });
 
-  // Initiate observe for catching files that have been removed and
-  // removing the data from all stores as well
-  fsCollection.files.find().observe({
-    removed: function(fsFile) {
-      FS.debug && console.log('FileWorker REMOVED - removing all stored data for', fsFile._id);
-      //remove from temp store
-      FS.TempStore.removeFile(fsFile);
-      //delete from all stores
-      FS.Utility.each(fsCollection.options.stores, function(storage) {
-        try {
-          storage.adapter.remove(fsFile);
-        } catch (e) {
-          return
-        }
-      });
-    }
-  });
+  // // Initiate observe for catching files that have been removed and
+  // // removing the data from all stores as well
+  // fsCollection.files.find().observe({
+  //   removed: function(fsFile) {
+  //     FS.debug && console.log('FileWorker REMOVED - removing all stored data for', fsFile._id);
+  //     //remove from temp store
+  //     FS.TempStore.removeFile(fsFile);
+  //     //delete from all stores
+  //     FS.Utility.each(fsCollection.options.stores, function(storage) {
+  //       try {
+  //         storage.adapter.remove(fsFile);
+  //       } catch (e) {
+  //         return
+  //       }
+  //     });
+  //   }
+  // });
 };
 
 /**
