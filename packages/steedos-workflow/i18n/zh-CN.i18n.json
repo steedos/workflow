@@ -677,5 +677,7 @@
 	"instance_approve_not_yet_handled": "未处理",
 	"instance_approve_distribute_date_label": "分发时间",
 
-	"flows_auto_remind": "自动催办"
+	"flows_auto_remind": "自动催办",
+
+	"instances_my_finish_date": "处理时间"
 }

@@ -1,6 +1,28 @@
+lastFinishedApproveAggregate = (instanceid, userId, dataMap, callback)->
+	operation = [{
+		"$match": {
+			"_id": instanceid
+		}
+	}, {"$project": {"name": 1, "_approve": "$traces.approves"}}, {"$unwind": "$_approve"}, {"$unwind": "$_approve"},
+		{"$match": {"_approve.is_finished": true, "_approve.handler": userId}},
+		{"$group": {"_id": "$_id", "finish_date": {"$last": "$_approve.finish_date"}}}
+	]
+
+	db.instances.rawCollection().aggregate operation, (err, data)->
+		if err
+			throw new Error(err)
+
+		data.forEach (doc) ->
+			console.log "doc", doc
+			dataMap.push doc
+
+		if callback && _.isFunction(callback)
+			callback()
+		return
+
+asyncLastFinishedApprove = Meteor.wrapAsync(lastFinishedApproveAggregate)
 
 Meteor.publish "instance_tabular", (tableName, ids, fields)->
-
 	unless this.userId
 		return this.ready()
 
@@ -14,8 +36,16 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 	self = this;
 
+	getMyLastFinishedApprove = (userId, instanceId)->
+		data = []
+		asyncLastFinishedApprove(instanceId, userId, data)
+		console.log "data", userId, instanceId, JSON.stringify(data)
+		if data.length > 0
+			return data[0]
+
+
 	getMyApprove = (userId, instanceId)->
-		instance = db.instances.findOne({_id: instanceId})
+		instance = db.instances.findOne({_id: instanceId}, {fields: {traces: 1}})
 		myApprove = null
 
 		if !instance
@@ -31,7 +61,13 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 			if approves.length > 0
 				approve = approves[0]
-				myApprove = {id: approve._id, instance: approve.instance, trace: approve.trace, is_read: approve.is_read, start_date: approve.start_date}
+				myApprove = {
+					id: approve._id,
+					instance: approve.instance,
+					trace: approve.trace,
+					is_read: approve.is_read,
+					start_date: approve.start_date
+				}
 
 		if !myApprove
 			is_read = false
@@ -40,12 +76,12 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 					if approve.type == 'cc' and approve.user == userId and approve.is_finished == false
 						if approve.is_read
 							is_read = true
-						myApprove = {id: approve._id , is_read: is_read, start_date: approve.start_date}
+						myApprove = {id: approve._id, is_read: is_read, start_date: approve.start_date}
 
 		return myApprove
 
 	getStepCurrentName = (instanceId) ->
-		instance = db.instances.findOne({_id: instanceId}, {fields: {"traces.name":1, "traces": {$slice: -1}}})
+		instance = db.instances.findOne({_id: instanceId}, {fields: {"traces.name": 1, "traces": {$slice: -1}}})
 		if instance
 			stepCurrentName = instance.traces?[0]?.name
 
@@ -56,11 +92,16 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			instance = db.instances.findOne({_id: id}, {fields: fields})
 			return if not instance
 			myApprove = getMyApprove(self.userId, id)
+			myLastFinishedApprove = getMyLastFinishedApprove(self.userId, id)
 			if myApprove
 				instance.is_read = myApprove.is_read
 				instance.start_date = myApprove.start_date
 			else
 				instance.is_read = true
+
+			if myLastFinishedApprove
+				instance.my_finish_date = myLastFinishedApprove.finish_date
+
 			instance.is_cc = instance.cc_users?.includes(self.userId) || false
 			instance.cc_count = instance.cc_users?.length || 0
 			delete instance.cc_users
@@ -73,11 +114,16 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		instance = db.instances.findOne({_id: id}, {fields: fields})
 		return if not instance
 		myApprove = getMyApprove(self.userId, id)
+		myLastFinishedApprove = getMyLastFinishedApprove(self.userId, id)
 		if myApprove
 			instance.is_read = myApprove.is_read
 			instance.start_date = myApprove.start_date
 		else
 			instance.is_read = true
+
+		if myLastFinishedApprove
+			instance.my_finish_date = myLastFinishedApprove.finish_date
+
 		instance.is_cc = instance.cc_users?.includes(self.userId) || false
 		instance.cc_count = instance.cc_users?.length || 0
 		delete instance.cc_users
