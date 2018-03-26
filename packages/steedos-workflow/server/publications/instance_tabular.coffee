@@ -13,7 +13,6 @@ lastFinishedApproveAggregate = (instanceid, userId, dataMap, callback)->
 			throw new Error(err)
 
 		data.forEach (doc) ->
-			console.log "doc", doc
 			dataMap.push doc
 
 		if callback && _.isFunction(callback)
@@ -39,7 +38,6 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 	getMyLastFinishedApprove = (userId, instanceId)->
 		data = []
 		asyncLastFinishedApprove(instanceId, userId, data)
-		console.log "data", userId, instanceId, JSON.stringify(data)
 		if data.length > 0
 			return data[0]
 
