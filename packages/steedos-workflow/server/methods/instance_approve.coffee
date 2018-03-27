@@ -1,11 +1,11 @@
 Meteor.methods
-	set_approve_have_read: (instanceId, traceId, approveId)->
-		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
+	set_approve_have_read: (instanceId, traceId, approveId) ->
+		instance = db.instances.findOne({ _id: instanceId, "traces._id": traceId }, { fields: { "traces.$": 1 } })
 
 		if instance?.traces?.length > 0
 			trace = instance.traces[0]
 			setObj = {}
-			trace.approves.forEach (approve, idx)->
+			trace.approves.forEach (approve, idx) ->
 				if approve._id == approveId && !approve.is_read
 					setObj["traces.$.approves.#{idx}.is_read"] = true
 					setObj["traces.$.approves.#{idx}.read_date"] = new Date()
@@ -16,22 +16,22 @@ Meteor.methods
 					"traces._id": traceId
 				}, {
 					$set: setObj
-				});
-			return true;
+				})
+			return true
 
-	change_approve_info: (instanceId, traceId, approveId, description, finish_date)->
+	change_approve_info: (instanceId, traceId, approveId, description, finish_date) ->
 		check(instanceId, String)
 		check(traceId, String)
 		check(approveId, String)
 		check(description, String)
 		check(finish_date, Date)
 
-		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
+		instance = db.instances.findOne({ _id: instanceId, "traces._id": traceId }, { fields: { "traces.$": 1 } })
 
 		if instance?.traces?.length > 0
 			trace = instance.traces[0]
 			setObj = {}
-			trace.approves.forEach (approve, idx)->
+			trace.approves.forEach (approve, idx) ->
 				if approve._id == approveId
 					setObj["traces.$.approves.#{idx}.description"] = description
 					setObj["traces.$.approves.#{idx}.finish_date"] = finish_date
@@ -62,19 +62,19 @@ Meteor.methods
 		if lastSignApprove
 
 			if lastSignApprove.custom_sign_show
-				return;
+				return
 
 			instance = db.instances.findOne({
 				_id: instanceId,
 				"traces._id": lastSignApprove.trace
-			}, {fields: {"traces.$": 1}})
+			}, { fields: { "traces.$": 1 } })
 
-			lastTrace = _.find instance?.traces, (t)->
+			lastTrace = _.find instance?.traces, (t) ->
 				return t._id = lastSignApprove.trace
 
 			if lastTrace
 				setObj = {}
-				lastTrace?.approves.forEach (a, idx)->
+				lastTrace?.approves.forEach (a, idx) ->
 					if a._id == lastSignApprove._id
 						if sign_type == "update"
 							setObj["traces.$.approves.#{idx}.sign_show"] = false
@@ -89,13 +89,13 @@ Meteor.methods
 						$set: setObj
 					})
 
-		instance = db.instances.findOne({_id: instanceId, "traces._id": traceId}, {fields: {"traces.$": 1}})
+		instance = db.instances.findOne({ _id: instanceId, "traces._id": traceId }, { fields: { "traces.$": 1 } })
 
 		if instance?.traces?.length > 0
 
 			trace = instance.traces[0]
 			upObj = {}
-			trace.approves.forEach (approve, idx)->
+			trace.approves.forEach (approve, idx) ->
 				if approve._id == approveId
 					if sign_field_code
 						upObj["traces.$.approves.#{idx}.sign_field_code"] = sign_field_code
@@ -115,13 +115,13 @@ Meteor.methods
 			return true
 
 
-	update_sign_show: (objs, myApprove_id)->
+	update_sign_show: (objs, myApprove_id) ->
 		objs.forEach (obj, index) ->
-			instance = db.instances.findOne({_id: obj.instance, "traces._id": obj.trace}, {fields: {"traces.$": 1}})
+			instance = db.instances.findOne({ _id: obj.instance, "traces._id": obj.trace }, { fields: { "traces.$": 1 } })
 			if instance?.traces?.length > 0
 				trace = instance.traces[0]
 				setObj = {}
-				trace.approves.forEach (approve, idx)->
+				trace.approves.forEach (approve, idx) ->
 					if approve._id == obj._id
 						setObj["traces.$.approves.#{idx}.sign_show"] = obj.sign_show
 						setObj["traces.$.approves.#{idx}.custom_sign_show"] = obj.sign_show

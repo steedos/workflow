@@ -62,9 +62,9 @@ getInstanceReadOnly = (req, res, next, options) ->
 
 
 
-	spaceUser = db.space_users.findOne({user: user._id, space: spaceId});
+	spaceUserCount = db.space_users.findOne({ user: user._id, space: spaceId }).count()
 
-	if !spaceUser
+	if spaceUserCount is 0
 		if !space
 			JsonRoutes.sendResult res,
 				code: 401,
@@ -124,8 +124,6 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 
 	user_id = req.userId
 
-	user = db.users.findOne({_id: user_id})
-
 	spaceId = req.headers["x-space-id"]
 
 	if not spaceId
@@ -158,7 +156,7 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 	i = 0
 	while i < flows.length
 		f = flows[i]
-		spaceUser = db.space_users.findOne({space: f.space, user: user._id})
+		spaceUser = db.space_users.findOne({space: f.space, user: user_id})
 		if !spaceUser
 			JsonRoutes.sendResult res,
 				code: 401,
@@ -169,7 +167,7 @@ JsonRoutes.add "get", "/api/workflow/instances", (req, res, next) ->
 		else
 
 	#	是否工作区管理员
-		if !Steedos.isSpaceAdmin(spaceId, user._id)
+		if !Steedos.isSpaceAdmin(spaceId, user_id)
 			spaceUserOrganizations = db.organizations.find({
 				_id: {
 					$in: spaceUser.organizations

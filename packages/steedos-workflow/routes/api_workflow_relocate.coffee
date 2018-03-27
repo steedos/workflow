@@ -11,7 +11,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 			# 验证login user_id对该流程有管理申请单的权限
 			permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
-			space = db.spaces.findOne(instance.space)
+			space = db.spaces.findOne(instance.space, { fields: { admins: 1 } })
 			if (not permissions.includes("admin")) and (not space.admins.includes(current_user))
 				throw new Meteor.Error('error!', "用户没有对当前流程的管理权限")
 
@@ -59,7 +59,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 					# 在同一trace下插入重定位操作者的approve记录
 					current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
-					current_user_organization = db.organizations.findOne(current_space_user.organization)
+					current_user_organization = db.organizations.findOne(current_space_user.organization, { fields: { name: 1 , fullname: 1 } })
 					relocate_appr = new Object
 					relocate_appr._id = new Mongo.ObjectID()._str
 					relocate_appr.instance = instance_id
@@ -135,7 +135,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.is_finished = false
 					newApprove.user = next_step_user_id
 
-					handler_info = db.users.findOne(next_step_user_id)
+					handler_info = db.users.findOne(next_step_user_id, { fields: { name: 1 } })
 					newApprove.user_name = handler_info.name
 					newApprove.handler = next_step_user_id
 					newApprove.handler_name = handler_info.name

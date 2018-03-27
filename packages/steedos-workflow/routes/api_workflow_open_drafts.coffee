@@ -43,11 +43,11 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 	try
 
 		if !Steedos.APIAuthenticationCheck(req, res)
-			return ;
+			return
 
 		user_id = req.userId
 
-		current_user_info = db.users.findOne({_id: user_id})
+		current_user_info = db.users.findOne({ _id: user_id })
 
 		space_id = req.headers['x-space-id']
 
@@ -70,14 +70,14 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 
 		instance_from_client = new Object
 
-		flow = db.flows.findOne(flow_id)
+		flow = db.flows.findOne({ _id: flow_id }, { fields: { space: 1, 'current._id': 1 } })
 		if not flow
 			throw new Meteor.Error('error', 'flow is not exists')
 
 		if space_id isnt flow.space
 			throw new Meteor.Error('error', 'flow is not belong to this space')
 
-		if db.space_users.find({space: space_id, user: current_user_info._id}).count() is 0
+		if db.space_users.find({ space: space_id, user: current_user_info._id }).count() is 0
 			throw new Meteor.Error('error', 'auth_token is not a member of this space')
 
 		instance_from_client["space"] = space_id
@@ -88,16 +88,16 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 			applicant = null
 
 			if applicant_id
-				applicant = db.users.findOne(applicant_id)
+				applicant = db.users.findOne({ _id: applicant_id }, { fields: { name: 1 } })
 				if not applicant
 					throw new Meteor.Error('error', 'applicant is wrong')
 
 			else if applicant_username
-				applicant = db.users.findOne({username: applicant_username})
+				applicant = db.users.findOne({ username: applicant_username }, { fields: { name: 1 } })
 				if not applicant
 					throw new Meteor.Error('error', 'applicant_username is wrong')
 
-			space_user = db.space_users.findOne({space: space_id, user: applicant._id})
+			space_user = db.space_users.findOne({ space: space_id, user: applicant._id })
 			if not space_user
 				throw new Meteor.Error('error', 'applicant is not a member of this space')
 
@@ -127,11 +127,13 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 
 		new_ins = db.instances.findOne(new_ins_id)
 
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { status: "success", data: new_ins}
+			data: { status: "success", data: new_ins }
+		}
 	catch e
 		console.error e.stack
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { errors: [{errorMessage: e.message}]}
+			data: { errors: [{ errorMessage: e.message }] }
+		}

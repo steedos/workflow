@@ -57,7 +57,7 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 	try
 
 		if !Steedos.APIAuthenticationCheck(req, res)
-			return ;
+			return
 
 		space_id = req.headers['x-space-id'] || req.query?.spaceId
 
@@ -69,9 +69,7 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 		if !user_id
 			throw new Meteor.Error('error', 'Not logged in')
 
-		user = db.users.findOne({_id: user_id})
-
-		if not user
+		if db.users.findOne({ _id: user_id }).count() is 0
 			throw new Meteor.Error('error', 'can not find user')
 
 		state = req.params.state
@@ -89,16 +87,16 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 
 		# 校验space是否存在
 		space = uuflowManager.getSpace(space_id)
-		
+
 		# 如果当前用户是工作区管理员，则通过查看url上是否有username\userid ， 如果有，则返回username\userid对应的用户，否则返回当前用户待办。 username\userid都存在时，userid优先
 		if space.admins.includes(user_id)
 			if userid
-				if db.users.find({_id: userid}).count() < 1
+				if db.users.find({ _id: userid }).count() < 1
 					throw new Meteor.Error('error', "can not find user by userid: #{userid}")
 
 				user_id = userid
 			else if username
-				u = db.users.findOne({username: username})
+				u = db.users.findOne({ username: username }, { fields: { _id: 1 } })
 				if _.isEmpty(u)
 					throw new Meteor.Error('error', "can not find user by username: #{username}")
 
@@ -111,22 +109,22 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 			if user_id
 				find_instances = db.instances.find({
 					space: space_id,
-					$or:[{inbox_users: user_id}, {cc_users: user_id}]
-				},{sort:{modified:-1}, limit: limit}).fetch()
-			_.each find_instances, (i)->
-				flow = db.flows.findOne(i["flow"], {fields: {name: 1}})
-				space = db.spaces.findOne(i["space"], {fields: {name: 1}})
+					$or: [{ inbox_users: user_id }, { cc_users: user_id }]
+				}, { sort: { modified: -1 }, limit: limit }).fetch()
+			_.each find_instances, (i) ->
+				flow = db.flows.findOne(i["flow"], { fields: { name: 1 } })
+				space = db.spaces.findOne(i["space"], { fields: { name: 1 } })
 				return if not flow
-				current_trace;
+				current_trace
 				if i.inbox_users?.includes(user_id)
-					current_trace = _.find i["traces"], (t)->
+					current_trace = _.find i["traces"], (t) ->
 						return t["is_finished"] is false
 				else
-					i.traces.forEach (t)->
-						t?.approves?.forEach (approve)->
+					i.traces.forEach (t) ->
+						t?.approves?.forEach (approve) ->
 							if approve.user == user_id && approve.type == 'cc' && !approve.is_finished
 								current_trace = t
-				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id);
+				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id)
 
 				start_date = ''
 
@@ -154,13 +152,14 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 
 				result_instances.push(h)
 
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { status: "success", data: result_instances}
+			data: { status: "success", data: result_instances }
+		}
 	catch e
 		console.error e.stack
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { errors: [{errorMessage: e.reason}]}
-	
-		
+			data: { errors: [{ errorMessage: e.reason }] }
+		}
+
