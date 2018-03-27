@@ -69,7 +69,7 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 		if !user_id
 			throw new Meteor.Error('error', 'Not logged in')
 
-		if db.users.findOne({ _id: user_id }).count() is 0
+		if db.users.find({ _id: user_id }).count() is 0
 			throw new Meteor.Error('error', 'can not find user')
 
 		state = req.params.state

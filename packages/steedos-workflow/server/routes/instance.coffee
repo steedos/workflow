@@ -62,7 +62,7 @@ getInstanceReadOnly = (req, res, next, options) ->
 
 
 
-	spaceUserCount = db.space_users.findOne({ user: user._id, space: spaceId }).count()
+	spaceUserCount = db.space_users.find({ user: user._id, space: spaceId }).count()
 
 	if spaceUserCount is 0
 		if !space

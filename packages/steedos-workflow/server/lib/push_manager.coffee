@@ -590,9 +590,9 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 					inscribed = TAPi18n.__('instance.email.inscribed', {}, lang)
 					footnote = "<p style='text-align:left;color:#bbb;'>" + TAPi18n.__('instance.email.footnote', {}, lang) + "</p>"
 
-					if db.space_users.findOne({ space: space_id, user: to_user._id }).count() is 0
+					if db.space_users.find({ space: space_id, user: to_user._id }).count() is 0
 						return
-					if db.users.findOne(to_user._id).count() is 0
+					if db.users.find(to_user._id).count() is 0
 						return
 
 					parameters["to_username"] = to_user.name
