@@ -12,7 +12,7 @@ JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, 
 
 	space = db.spaces.findOne({ _id: spaceId })
 
-	flow = db.flows.findOne({ _id: flowId }, { fields: { name: 1, 'current._id': 1 } })
+	flow = db.flows.findOne({ _id: flowId }, { fields: { name: 1, 'current._id': 1, form: 1 } })
 
 	form = db.forms.findOne({ _id: flow.form }, { fields: { 'current._id': 1 } })
 
