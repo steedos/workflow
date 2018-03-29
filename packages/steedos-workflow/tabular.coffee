@@ -435,8 +435,6 @@ _get_outbox_instances_tabular_options = (flowId, fields)->
 				aggregate_operation.push $limit: limit
 				filteredRecordIds = new Array()
 
-				console.log "aggregate_operation", JSON.stringify(aggregate_operation)
-
 				aggregate = (table, aggregate_operation, filteredRecordIds, cb) ->
 					table.collection.rawCollection().aggregate aggregate_operation, (err, data) ->
 						if err

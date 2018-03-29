@@ -77,7 +77,7 @@ Steedos.Helpers =
 
 	# 10分钟更新一次moment结果
 	momentReactiveFromNow: (time)->
-		Steedos.deps?.miniute?.depend()
+		#Steedos.deps?.miniute?.depend()
 		return Steedos.momentFromNow(time)
 
 	afModalInsert: ->

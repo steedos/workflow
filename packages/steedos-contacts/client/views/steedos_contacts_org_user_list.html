@@ -9,13 +9,15 @@
 			{{_ "cantact_add_space_user"}}
 		</button>
 		{{/if}}
-		{{#if isSpaceAdmin}}
+		{{#if is_admin}}
 			{{#if canImportUsers}}
 				{{#unless is_nwjs}}
-				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_import_users_btn">
-					<i class="fa fa-cloud-upload"></i>
-					{{_ 'steedos_contacts_import'}}
-				</button>
+				{{#if isSpaceAdmin}}
+					<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_import_users_btn">
+						<i class="fa fa-cloud-upload"></i>
+						{{_ 'steedos_contacts_import'}}
+					</button>
+				{{/if}}
 				{{/unless}}
 				<button type="button" data-toggle="tooltip" data-placement="right" class="btn btn-default" id="steedos_contacts_export_users_btn">
 					<i class="fa fa-cloud-download"></i>

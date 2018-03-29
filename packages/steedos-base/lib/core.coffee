@@ -581,7 +581,13 @@ if Meteor.isServer
 
 		if user
 			return userId
-		return null;
+		else
+			# 如果user表未查到，则使用oauth2协议生成的token查找用户
+			collection = oAuth2Server.collections.accessToken
+			obj = collection.findOne({'accessToken': access_token})
+			if obj
+				return obj?.userId
+		return null
 
 	Steedos.getUserIdFromAuthToken = (req, res)->
 
