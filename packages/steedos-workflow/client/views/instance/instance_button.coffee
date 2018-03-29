@@ -277,7 +277,7 @@ Template.instance_button.helpers
 		return false
 
 	enabled_remind: ->
-		ins = WorkflowManager.getInstance();
+		ins = WorkflowManager.getInstance()
 		if !ins
 			return false
 
@@ -299,42 +299,7 @@ Template.instance_button.helpers
 		catch e
 			return false
 
-		space = db.spaces.findOne(ins.space);
-		if !space
-			return false
-		fl = db.flows.findOne({'_id': ins.flow});
-		if !fl
-			return false
-		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
-		if !curSpaceUser
-			return false
-		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
-		if !organizations
-			return false
-
-		this.remind_action_types = []
-
-		if Session.get("box") == "monitor" && ins.state == "pending" && (space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations))
-			this.remind_action_types.push 'admin'
-
-		if Session.get("box") == "pending" && ins.state == "pending" && ins.applicant is Meteor.userId()
-			this.remind_action_types.push 'applicant'
-
-
-		# 传阅出去的申请单如果有还未处理的也可催办
-		cc_approves_not_finished = new Array
-		_.each ins.traces, (t)->
-			_.each t.approves, (ap)->
-				if ap.type is 'cc' and ap.from_user is Meteor.userId() and ap.is_finished isnt true
-					cc_approves_not_finished.push(ap._id)
-
-		if (Session.get("box") == "inbox" or Session.get("box") == "outbox") and not _.isEmpty(cc_approves_not_finished)
-			this.remind_action_types.push 'cc'
-
-		if this.remind_action_types.includes('admin') || this.remind_action_types.includes('applicant') || this.remind_action_types.includes('cc')
-			return true
-
-		return false
+		return true
 
 	enabled_submit: ()->
 		ins = WorkflowManager.getInstance();
@@ -585,7 +550,7 @@ Template.instance_button.events
 		InstanceManager.fixInstancePosition()
 
 	'click .btn-instance-remind': (event, template) ->
-		param = {action_types: template.data.remind_action_types || []}
+		param = { action_types: new ReactiveVar([]) }
 		Modal.show 'remind_modal', param
 
 	'click .btn-instance-submit': (event, template) ->
