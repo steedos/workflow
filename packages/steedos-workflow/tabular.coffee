@@ -474,7 +474,7 @@ Tracker.autorun (c) ->
 newInstancesListTabular = (box, flowId, fields)->
 	if !fields
 		flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
-		fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+		fields = db.forms.findOne({ _id: flow?.form }, { fields: { 'current.fields': 1 } })?.current?.fields
 
 	fields = _handleListFields fields
 
@@ -492,7 +492,7 @@ if Meteor.isServer
 			newInstancesListTabular(box, flowId)
 
 			flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
-			fields = db.forms.findOne({_id: flow?.form})?.current?.fields
+			fields = db.forms.findOne({ _id: flow?.form }, { fields: { 'current.fields': 1 } })?.current?.fields
 			return fields
 
 

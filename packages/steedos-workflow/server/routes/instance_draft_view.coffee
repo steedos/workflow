@@ -1,20 +1,20 @@
-JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, next)->
+JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, next) ->
 	if !Steedos.APIAuthenticationCheck(req, res)
-		return;
+		return
 
 	user_id = req.userId
 
-	user = db.users.findOne({_id: user_id})
+	user = db.users.findOne({ _id: user_id })
 
 	spaceId = req.params.space
 
 	flowId = req.params.flow
 
-	space = db.spaces.findOne({_id: spaceId});
+	space = db.spaces.findOne({ _id: spaceId })
 
-	flow = db.flows.findOne({_id: flowId})
+	flow = db.flows.findOne({ _id: flowId }, { fields: { name: 1, 'current._id': 1, form: 1 } })
 
-	form = db.forms.findOne({_id: flow.form})
+	form = db.forms.findOne({ _id: flow.form }, { fields: { 'current._id': 1 } })
 
 	options = {
 		showTrace: false,
@@ -45,8 +45,6 @@ JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, 
 		"""
 	}
 
-	spaceUser = db.space_users.findOne({user: user._id, space: spaceId});
-
 	instance = {
 		flow: flow._id,
 		flow_version: flow.current._id,
@@ -59,7 +57,7 @@ JsonRoutes.add "get", "/api/workflow/space/:space/view/draft/:flow", (req, res, 
 
 	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
 
-	dataBuf = new Buffer(html);
+	dataBuf = new Buffer(html)
 
 	res.setHeader('content-length', dataBuf.length)
 

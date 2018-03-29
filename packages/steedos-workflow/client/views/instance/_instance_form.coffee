@@ -98,7 +98,7 @@ InstanceformTemplate.helpers =
 
 		traces = {};
 
-		instance.traces.forEach (trace)->
+		instance.traces?.forEach (trace)->
 			step = steps.findPropertyByPK("_id", trace.step)
 
 			approves = []

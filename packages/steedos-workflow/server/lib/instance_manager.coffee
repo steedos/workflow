@@ -9,7 +9,7 @@ InstanceManager.handlerInstanceByFieldMap = (ins, field_map) ->
 	if ins
 		if !field_map
 
-			flow = db.flows.findOne({_id: ins.flow});
+			flow = db.flows.findOne({ _id: ins.flow }, { fields: { field_map: 1 } })
 
 			if flow?.field_map
 				field_map = flow.field_map
@@ -19,11 +19,11 @@ InstanceManager.handlerInstanceByFieldMap = (ins, field_map) ->
 
 			context._ = _
 
-			script = "var instances = #{field_map}; exports.instances = instances";
+			script = "var instances = #{field_map}; exports.instances = instances"
 			try
 				res = _eval(script, "handlerInstanceByFieldMap", context, false).instances
 			catch e
-				res = {_error: e}
+				res = { _error: e }
 				logger.error e
 	return res
 
@@ -128,4 +128,4 @@ InstanceManager.getBatchInstances = (space, categoryId, flowIds, inbox_user)->
 #		else
 #			console.log("批量审批-异常数据", ins._id)
 
-	return _batch_instances;
+	return _batch_instances
