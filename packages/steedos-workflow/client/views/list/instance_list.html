@@ -3,12 +3,23 @@
 		<!-- <a href="/workflow/space/{{spaceId}}" class="btn btn-default" title='{{_ "Workflow"}}'>
 			<i class="ion ion-chevron-left"></i><span></span>
 		</a> -->
-		<button type="button" class="btn btn-default" data-toggle="offcanvas">
+		<button type="button" class="btn btn-default btn-offcanvas" data-toggle="offcanvas" id="sidebarOffcanvas">
 			<i class="fa fa-bars"></i>
+			{{#if isMobile}}
+				{{#if hasApproves}}
+					<i class="ion ion-record text-red inbox-pending-icon"></i>
+				{{/if}}
+			{{/if}}
 		</button>
+
 		{{#if isShowMenu}}
 			<span class="navigation-title dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}} {{#if hasApproves}}<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}} <i class="caret"></i>
+
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{boxName}}
+					{{!--
+					{{#if hasApproves}}
+					<i class="ion ion-record text-red" style="font-size: 60%;"></i>{{/if}}
+					--}}<i class="caret"></i>
 				</a>
 				<div class="dropdown-menu workflow-menu" style="max-height: {{maxHeight}}">
 					{{> workflowMenuByFlow}}
@@ -20,48 +31,96 @@
 			</span>
 		{{/if}}
 		<div class="pull-right">
-			<button type="button" data-toggle="tooltip" data-placement="left" class="btn btn-default instance_new" title="{{_ 'Fill in form'}}" name="create_ins_btn">
+			<button type="button" data-toggle="tooltip" data-placement="left" class="btn btn-default instance_new"
+					title="{{_ 'Fill in form'}}" name="create_ins_btn">
 				<i class="ion ion-plus"></i>
 			</button>
 		</div>
 	</div>
-	<div class="instance-list">
-		<div class="toolbar">
-			{{#if hasFlowId}}
-				<div class="btn-group hidden-xs" role="group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false" style="{{enabled_export}}" title={{_
-							"workflow_export_data"}}>
-						<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
-						<li><a href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
-						<li><a href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
-						<li><a href="#" type="3">{{_ "workflow_export_all"}}</a></li>
-					</ul>
-				</div>
-			{{/if}}
-			<div class="pull-right instance-search-box">
-				<!-- <div class="has-feedback">
+
+	<div class="toolbar">
+		{{#if hasFlowId}}
+			<div class="btn-group hidden-xs" role="group">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false" style="{{enabled_export}}" title={{_
+						"workflow_export_data"}}>
+					<i class="fa fa-download" aria-hidden="true"></i><span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a class="export-thismonth" href="#" type="0">{{_ "workflow_export_thismonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="1">{{_ "workflow_export_lastmonth"}}</a></li>
+					<li><a class="export-pro" href="#" type="2">{{_ "workflow_export_thisyear"}}</a></li>
+					<li><a class="export-pro" href="#" type="3">{{_ "workflow_export_all"}}</a></li>
+				</ul>
+			</div>
+
+			<div class="btn-group hidden-xs" role="group" style="{{enabled_export}}">
+				<button type="button" class="btn btn-default tabular-introduction">
+					<i class="ion ion-ios-pie-outline" aria-hidden="true"></i>&nbsp;
+					{{_ "steedos_tableau_statistical_analysis"}}
+				</button>
+			</div>
+
+		{{/if}}
+		<div class="pull-right toogle-columns-box">
+			<a class="btn btn-transparent btn-toogle-columns"><i class="fa fa-expand"></i></a>
+		</div>
+		<div class="pull-right instance-search-box">
+			<!-- <div class="has-feedback">
 					<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}} style="width:200px">
 					<span class="ion-ios-search-strong form-control-feedback"></span>
 				</div> -->
-				<div class="input-group">
-					<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="instance_more_search"><span class="caret"></span></button>
-					</span>
-				</div>
+			<div class="input-group">
+				<input type="text" id="instance_search" class="form-control" placeholder={{_ "Search"}}>
+				<span class="input-group-btn">
+					<!-- <button class="btn btn-default" type="button" id="instance_more_search">
+						<span class="caret"></span>
+					</button> -->
+					<button class="btn btn-default" type="button" id="instance_search_button">
+						<i class="fa fa-search"></i>
+					</button>
+					<button class="btn btn-default" type="button" id="instance_more_search">
+						{{#if isMobile}}
+							<span class="caret"></span>
+						{{else}}
+							{{_ "instance_search_advanced_search"}}
+						{{/if}}
+					</button>
+				</span>
 			</div>
 		</div>
-		<div class="search-tip-bar" style="{{is_display_search_tip}}">
-			<span>{{_ "instance_search_result_tip"}}</span>:
-			<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
+
+		<div class="pull-right hidden-xs" role="group">
+			<button type="button" class="btn btn-default tabular-filter-by-flow">
+				{{_ "instances_flow"}}<span class="caret"></span>
+			</button>
 		</div>
 
-		{{> tabular table=TabularTables.instances selector=selector class="table table-striped table-condensed datatable-instances"}}
 	</div>
-	
+	<div class="search-tip-bar" style="{{is_display_search_tip}}">
+		<span class="result-container text-overflow">{{_ "instance_search_result_tip"}}:
+			<ol class="breadcrumb">
+				{{#each filterFlowName}}
+					<li>{{this}}</li>{{/each}}
+			</ol>
+
+		</span>
+		<button type="button" class="close" id="instance_search_tip_close_btn"><span>&times;</span></button>
+	</div>
+	<div class="instance-list {{is_select_bar_show}}">
+
+		<!--此写法只为解决不同在待审核与其他箱切换时，分页错误的问题。此写法可以创建2个tabular view-->
+		{{#if is_inbox}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{else}}
+			{{> tabular table=getInstanceListTabular selector=selector class="table table-bordered table-striped dataTable datatable-instances"}}
+		{{/if}}
+
+	</div>
+	{{#if showBatchBtn}}
+		<div class="batch_instances_view">
+			<button type="button" class="btn btn-primary animated bounceInUp">{{{_ "workflow_batch_approval_btn"}}}</button>
+		</div>
+	{{/if}}
 	{{> baseTabbar}}
 </template>

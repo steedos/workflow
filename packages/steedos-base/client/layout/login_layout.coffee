@@ -1,4 +1,6 @@
 Template.loginLayout.helpers
+        isSteedosForCNUS: ->
+                return /^(cn|us)\.steedos.com/.test(location.host)
                 
 
 Template.loginLayout.onCreated ->
@@ -21,7 +23,7 @@ Template.loginLayout.events
                 FlowRouter.go("/steedos/logout")
 
         'click #btnSignIn': (e, t) ->
-                FlowRouter.go("/steedos/sign-in")
+                Steedos.redirectToSignIn()
                 
         'click #btnSignUp': (e, t) ->
                 FlowRouter.go("/steedos/sign-up")

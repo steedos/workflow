@@ -1,28 +1,41 @@
 <template name="accounts_phone">
-	<div class="container accounts-phone-wrapper">
+	<div class="container accounts-wrapper">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<h3 class="accounts-phone-title">请输入您的手机号</h3>
-				<div class="weui-cells weui-cells_form">
-					<div class="weui-cell weui-cell_select weui-cell_select-after">
-						<div class="weui-cell__hd">
-							<label for="" class="weui-label">国家/地区</label>
-						</div>
-						<div class="weui-cell__bd">
-							<select class="weui-select" name="select2">
-								<option value="1">中国</option>
-							</select>
-						</div>
-					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd"><label class="weui-label">+86</label></div>
-						<div class="weui-cell__bd">
-							<input class="weui-input accounts-phone" type="number" pattern="[0-9]*" placeholder="请输入手机号">
+				<div class="accounts-content">
+					<h3 class="accounts-title">{{title}}</h3>
+					<div class="weui-cells weui-cells_form">
+						<div class="weui-cell weui-cell_select weui-cell_select-before">
+							<div class="weui-cell__hd">
+								{{> phonePrefixesSelect class="weui-select" locale=locale value=prefix}}
+							</div>
+							<div class="weui-cell__bd">
+								{{#unless isSetupPassword}}
+									<input class="weui-input accounts-phone-number" type="number" value="{{currentPhoneNumber}}" pattern="[0-9]*" placeholder="{{_ "accounts_phone_placeholder"}}">
+								{{else}}
+									<span class="text-muted accounts-phone-number">{{currentPhoneNumber}}</span>
+								{{/unless}}
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="weui-btn-area">
-					<a class="weui-btn weui-btn_primary btn-send-code" href="javascript:">发送验证码</a>
+					<div class="weui-btn-area">
+						<a class="weui-btn btn-primary btn-send-code" href="javascript:">{{_ "accounts_phone_btn_send_title"}}</a>
+					</div>
+					{{#if isBackButtonNeeded}}
+						<div class="weui-footer weui-btn-area">
+							<p class="weui-footer__links">
+								<a class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
+							</p>
+						</div>
+					{{else}}
+						{{#if isCloseButtonNeeded}}
+							<div class="weui-footer weui-btn-area">
+								<p class="weui-footer__links">
+									<a class="weui-footer__link btn-close">{{_ "accounts_phone_close"}}</a>
+								</p>
+							</div>
+						{{/if}}
+					{{/if}}
 				</div>
 			</div>
 		</div>

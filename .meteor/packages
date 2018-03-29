@@ -13,7 +13,7 @@ blaze-html-templates@1.0.4
 check@1.2.3
 coffeescript@1.11.1_4
 ddp-rate-limiter@1.0.5
-ecmascript@0.8.0
+ecmascript@0.6.3
 ejson@1.0.12
 email@1.1.17
 fastclick@1.0.12
@@ -35,7 +35,7 @@ shell-server
 spacebars@1.0.12
 spacebars-compiler
 standard-minifier-css@1.2.0
-standard-minifier-js@2.1.0
+standard-minifier-js@1.2.3
 tracker@1.1.0
 
 # must place at first
@@ -43,7 +43,7 @@ dburles:collection-helpers
 aldeed:collection2
 
 
-loaders-css
+steedos:loaders-css
 
 steedos:logger
 
@@ -55,10 +55,9 @@ momentjs:moment
 fortawesome:fontawesome
 
 joshowens:timezone-picker
-useraccounts:core
-useraccounts:bootstrap
-useraccounts:flow-routing
-softwarerero:accounts-t9n
+steedos:useraccounts-core
+steedos:useraccounts-bootstrap
+steedos:useraccounts-flow-routing
 
 
 tap:i18n
@@ -73,7 +72,7 @@ steedos:toastr
 percolate:migrations
 aldeed:tabular
 aldeed:autoform
-aldeed:autoform-bs-datetimepicker 
+steedos:autoform-bs-datetimepicker
 
 gwendall:simple-schema-i18n
 
@@ -86,8 +85,7 @@ alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
 
-steedos:mermaid
-
+steedos:sso
 steedos:adminlte
 steedos:base
 steedos:slipjs
@@ -98,7 +96,8 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
-steedos:lib
+steedos:connect-qiyeweixin
+steedos:version
 steedos:workflow
 steedos:api
 steedos:cms
@@ -106,11 +105,9 @@ steedos:chat
 steedos:webkit-notification
 steedos:admin
 
-peppelg:bootstrap-3-modal
-
 perak:markdown
 q42:autoform-markdown
-yogiben:autoform-file
+steedos:autoform-file
 yogiben:autoform-tags
 
 simple:json-routes
@@ -120,7 +117,9 @@ cfs:s3
 
 jeremy:selectize
 comerc:autoform-selectize
+# hausor:autoform-bs-minicolors
 
+# steedos:qhd
 # steedos:theme-qhd
 steedos:theme
 steedos:emailjs
@@ -135,18 +134,54 @@ matb33:collection-hooks
 
 
 
-#fix bug for package 'kadira:flow-router' with ie8/9
+# fix bug for package 'kadira:flow-router' with ie8/9
 tomwasd:history-polyfill
 
 steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
+steedos:qcloud-smsqueue
 
 steedos:autoform-modals
 vazco:universe-selectize
 vazco:universe-autoform-select
 
 steedos:workflow-chart
+# steedos:records-qhd
 
-# steedos:accounts-phone
-# steedos:accounts
+steedos:accounts-phone
+steedos:accounts
+
+# steedos:remind
+
+
+steedos:calendar
+steedos:calendar-i18n
+
+# steedos:records
+
+# steedos:cas
+
+steedos:freeboard
+steedos:dashboard
+
+steedos:tableau
+
+rubaxa:sortable
+steedos:autoform
+keepnox:perfect-scrollbar
+
+steedos:datatables-extensions
+chuangbo:cookie
+# steedos:express-status-monitor
+
+steedos:authenticate-user-by-access-token
+steedos:authenticate-user-by-auth-token
+
+steedos:huaweipush
+
+steedos:e164-phones-countries
+steedos:i18n-iso-countries
+
+
+steedos:oauth2-server@0.0.2

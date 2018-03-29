@@ -2,7 +2,7 @@ Package.describe({
   name: 'steedos:ionicons',
   summary: "Ionic's Ionicons library bundled for Meteor.",
   version: '0.1.7',
-  git: 'https://github.com/steedos/meteor-ionicons'
+  git: 'https://github.com/steedos/apps/tree/master/packages/meteor-ionicons'
 });
 
 Package.onUse(function(api) {

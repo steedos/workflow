@@ -61,7 +61,7 @@ FS.Collection = function(name, options) {
     if (Meteor.isServer) {
 
       // Emit events based on store events
-      store.on('stored', function(storeName, fileObj) {
+      store.on('stored', Meteor.bindEnvironment(function(storeName, fileObj) {
         // This is weird, but currently there is a bug where each store will emit the
         // events for all other stores, too, so we need to make sure that this event
         // is truly for this store.
@@ -77,7 +77,10 @@ FS.Collection = function(name, options) {
           }
         }
         fileObj.emit('stored', store.name);
-      });
+        FS.debug && console.log('清除_tempstore中的chunk', name);
+        // 上传完成后清除_tempstore中的chunk
+        FS.TempStore.removeFile(fileObj);
+      }));
 
       store.on('error', function(storeName, error, fileObj) {
         // This is weird, but currently there is a bug where each store will emit the
@@ -138,11 +141,11 @@ FS.Collection = function(name, options) {
   Meteor.isServer && FS.FileWorker && FS.FileWorker.observe(this);
 
   // Emit "removed" event on collection
-  self.files.find().observe({
-    removed: function(fileObj) {
-      self.emit('removed', fileObj);
-    }
-  });
+  // self.files.find().observe({
+  //   removed: function(fileObj) {
+  //     self.emit('removed', fileObj);
+  //   }
+  // });
 
   // Emit events based on TempStore events
   if (FS.TempStore) {

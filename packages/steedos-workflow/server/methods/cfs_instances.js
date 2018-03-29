@@ -23,7 +23,8 @@ Meteor.methods({
         }, {
             $set: {
                 'metadata.locked_by': user_id,
-                'metadata.locked_by_name': user_name
+                'metadata.locked_by_name': user_name,
+                'metadata.locked_time': new Date()
             }
         });
         return true;
@@ -35,7 +36,8 @@ Meteor.methods({
         }, {
             $unset: {
                 'metadata.locked_by': '',
-                'metadata.locked_by_name': ''
+                'metadata.locked_by_name': '',
+                'metadata.locked_time': ''
             }
         });
         return true;

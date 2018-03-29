@@ -15,8 +15,10 @@
                                 {{#if userId}}
                                     <!-- <button type="button" id="btnLogout" class="btn btn-default">{{_ 'Sign out'}}</button> -->
                                 {{else}}
-                                    <!-- <button type="button" id="quickGuide" class="btn btn-default" >{{_ 'steedos_quick_guide'}}</button>&nbsp; -->
-                                    <button type="button" id="btnHelp" class="btn btn-default">{{_ 'steedos_help'}}</button>
+                                    {{#if isSteedosForCNUS}}
+                                        <button type="button" id="quickGuide" class="btn btn-default" >{{_ 'steedos_quick_guide'}}</button>&nbsp;
+                                        <button type="button" id="btnHelp" class="btn btn-default">{{_ 'steedos_help'}}</button>
+                                    {{/if}}
                                 {{/if}}
                               
                             </div>

@@ -1,18 +1,40 @@
+###
+@api {put} /api/workflow/open/submit/:ins_id 提交申请单
+
+@apiDescription 暂不支持开始节点下一节点为条件的情况
+
+@apiName submitInstance
+
+@apiGroup Workflow
+
+@apiPermission 工作区管理员
+
+@apiParam {String} access_token User API Token
+
+@apiHeader {String} X-Space-Id	工作区Id
+
+@apiHeaderExample {json} Header-Example:
+    {
+		"X-Space-Id": "wsw1re12TdeP223sC"
+	}
+
+@apiSuccessExample {json} Success-Response:
+    {
+		"status": "success",
+		"data": {instance}
+	}
+###
+
 JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 	try
 		ins_id = req.params.ins_id
 
-		current_user = req.headers['X-User-Id']
+		if !Steedos.APIAuthenticationCheck(req, res)
+			return ;
 
-		auth_token = req.headers['X-Auth-Token']
+		current_user = req.userId
 
-		space_id = req.headers['X_Space_Id']
-
-		if not current_user
-			throw new Meteor.Error('error', 'need header X-User-Id')
-
-		if not auth_token
-			throw new Meteor.Error('error', 'need header X-Auth-Token')
+		space_id = req.headers['x-space-id']
 
 		if not space_id
 			throw new Meteor.Error('error', 'need header X_Space_Id')
@@ -25,65 +47,65 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 		# 校验space是否存在
 		uuflowManager.getSpace(space_id)
 		# 校验当前登录用户是否是space的管理员
-		uuflowManager.isSpaceAdmin(current_user, space_id)
+		uuflowManager.isSpaceAdmin(space_id, current_user)
 
-		hashData = req.body
+		instance = uuflowManager.getInstance(ins_id)
 
-		if not hashData["nextstep_name"]
-			throw new Meteor.Error('error', 'nextstep_name is null')
-		if not hashData["nextstep_users"]
-			throw new Meteor.Error('error', 'nextstep_name is null')
+		# 校验申请单状态为草稿
+		uuflowManager.isInstanceDraft(instance)
 
-		submited_instances = new Array
-		updated_flows      = new Array
-		nextstep_name  = hashData["nextstep_name"]
-		nextstep_users = hashData["nextstep_users"]
-
-		instance = db.instances.findOne(ins_id)
 		if space_id isnt instance["space"]
 			throw new Meteor.Error('error', 'instance is not belong to this space')
 
-		flow_id = instance["flow"]
-		flow_version = instance["flow_version"]
-		flow = uuflowManager.getFlow(flow_id)
-		next_steps = new Array
-		next_step = new Object
-		next_users = new Array
+		# 校验申请单必填字段是否有值
+		values = instance["traces"][0]["approves"][0].values
 
-		cur = null
-		nextstep_id = null
-		if flow_version is flow.current._id
-			cur = flow.current
-		else
-			cur = _.find flow.historys, (h)->
-				return flow_version is h._id
+		form = uuflowManager.getForm(instance.form)
 
-		_.each cur.steps, (step)->
-			if step.name is nextstep_name
-				nextstep_id = step._id
+		require_but_empty_fields = uuflowManager.checkValueFieldsRequire(values, form, instance.form_version)
 
-		_.each nextstep_users, (e)->
-			u = db.users.find(e).count()
-			if u is 0
-				throw new Meteor.Error('error', '#{e} is not found')
-			uuflowManager.getSpaceUser(space_id, e)
-			next_users.push(e)
+		if require_but_empty_fields.length > 0
+			if require_but_empty_fields.length > 1
+				throw new Meteor.Error('error', 'fields <' + require_but_empty_fields.join(",") + '> are required')
+			else if require_but_empty_fields.length = 1
+				throw new Meteor.Error('error', 'field <' + require_but_empty_fields.join(",") + '> is required')
 
-		if not nextstep_id
-			throw new Meteor.Error('error', '#{nextstep_name} is not found')
+		flow = uuflowManager.getFlow(instance.flow)
 
-		if next_users.length is 0
-			throw new Meteor.Error('error', '#{nextstep_users} is wrong')
+		step = uuflowManager.getStep(instance, flow, instance["traces"][0].step)
 
-		next_step["step"]  = nextstep_id
-		next_step["users"] =  next_users
-		instance["traces"][0]["approves"][0]["next_steps"] = [next_step]
+		# 计算下一步骤选项
+		nextSteps = uuflowManager.getNextSteps(instance, flow, step, "submitted")
+
+		if nextSteps.length < 1
+			throw new Meteor.Error('error', 'can not find next steps')
+
+		if nextSteps.length > 1
+			throw new Meteor.Error('error', 'next step not uniq')
+
+		next_step_id = nextSteps[0]
+
+		# 计算下一步处理人选项
+		next_user_ids = getHandlersManager.getHandlers(ins_id, next_step_id)
+
+		if next_user_ids.length < 1
+			throw new Meteor.Error('error', 'can not find next step handler')
+
+		if next_user_ids.length > 1
+			throw new Meteor.Error('error', 'next step handler not uniq')
+
+		instance["traces"][0]["approves"][0]["next_steps"] = [{'step': next_step_id, 'users': next_user_ids}]
+
 		result = new Object
+
 		r = uuflowManager.submit_instance(instance, current_user_info)
+
 		if r.alerts
 			result = r
 		else
 			result = db.instances.findOne(ins_id)
+			if result
+				result.attachments = cfs.instances.find({'metadata.instance': ins_id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
 
 		JsonRoutes.sendResult res,
 			code: 200

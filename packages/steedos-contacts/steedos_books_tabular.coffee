@@ -1,6 +1,8 @@
 TabularTables.steedosContactsBooks = new Tabular.Table({
 	name: "steedosContactsBooks",
 	collection: db.address_books,
+	createdRow:(row,data,index)->
+		row.dataset.id = data._id
 	columns: [
 		{
 			data: "_id",
@@ -14,48 +16,34 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 		},
 		{
 			data: "name",
+			orderable: false,
 			render: (val, type, doc) ->
 				return "<div class='contacts-name'>" + doc.name + "</div>"
 		},
 		{
 			data: "email",
+			orderable: false,
 			render: (val, type, doc) ->
-				return "<div class='contacts-email'>" + doc.email + "</div>"
+				return "<div class='contacts-email'>" + (doc.email || "") + "</div>"
 		},
 		{
 			data: "mobile",
+			orderable: false,
 			render: (val, type, doc) ->
 				if doc.mobile
 					return "<div class='contacts-mobile'>" + doc.mobile + "</div>"
 		},
 		{
 			data: "company",
+			orderable: false,
 			render: (val, type, doc) ->
 				if doc.company
 					return "<div class='contacts-company'>" + doc.company + "</div>"
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_group_book_list_edit_btn" data-id="' + doc._id + '"><i class="fa fa-pencil"></i></button>'
-		},
-		{
-			data: "",
-			title: "",
-			orderable: false,
-			width: '1px',
-			render: (val, type, doc) ->
-				return '<button type="button" class="btn btn-xs btn-primary" id="steedos_contacts_group_book_list_remove_btn" data-id="' + doc._id + '"><i class="fa fa-times"></i></button>'
 		}
 	],
 
-#select:
-#  style: 'single'
 	dom: "tp",
-	order: [[1, "desc"]]
+	order: [],
 	extraFields: ["_id", "name", "email"],
 	lengthChange: false,
 	pageLength: 15,
@@ -66,19 +54,17 @@ TabularTables.steedosContactsBooks = new Tabular.Table({
 	autoWidth: false,
 	changeSelector: (selector, userId) ->
 		unless userId
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		owner = selector.owner
 		unless owner
 			if selector?.$and?.length > 0
 				owner = selector.$and.getProperty('owner')[0]
 		unless owner
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		unless owner.toString() == userId.toString()
-			return {make_a_bad_selector: 1}
+			return {_id: -1}
 		return selector
 
-#scrollY:        '400px',
-#scrollCollapse: true,
 	pagingType: "numbers"
 
 });

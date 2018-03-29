@@ -12,9 +12,9 @@
           </h4>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body modal-zoom">
           {{#autoForm id='reassign' schema=fields doc=values }}
-            <p><span>{{_ "instance_reassign_curstep"}}</span><label id="reassign_currentStepName"></label></p>
+            <p><span>{{_ "instance_reassign_curstep"}}</span><label id="reassign_currentStepName">{{current_step_name}}</label></p>
             <p data-required="true">
               {{> afFormGroup name="reassign_users"}}
             </p>
@@ -22,8 +22,8 @@
           {{/autoForm}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
           <button type="button" class="btn btn-primary" id="reassign_modal_ok">{{_ "OK"}}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
         </div>
       </div>
     </div>

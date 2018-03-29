@@ -14,21 +14,12 @@ JsonRoutes.add("post", "/api/workflow/getFormulaUserObjects", function (req, res
     });
   }
 
-  var users = WorkflowManager.getUsers(spaceId, userIds);
-
-  users.forEach(function (user) {
-    var userObject = {};
-    userObject['id'] = user.id;
-    userObject['name'] = user.name;
-    userObject['organization'] = {'name':user.organization.name,'fullname':user.organization.fullname};
-    userObject["roles"] = user.roles ? user.roles.getProperty('name'):[];
-    spaceUsers.push(userObject);
-  })
+  var users = WorkflowManager.getFormulaUserObject(spaceId, userIds);
 
   JsonRoutes.sendResult(res, {
     code: 200,
     data: {
-      'spaceUsers': spaceUsers
+      'spaceUsers': users
     }
   });
 })

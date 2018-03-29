@@ -1,76 +1,29 @@
 <template name="accounts_phone_verify">
-	<div class="container">
+	<div class="container accounts-wrapper">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<div class="at-form text-center">
-					<div class="at-title">
-						<h3>请输入您的手机号</h3>
+				<div class="accounts-content">
+					<h3 class="accounts-title">{{title}}</h3>
+					<div class="weui-cells weui-cells_form">
+						<div class="weui-cell">
+							<div class="weui-cell__bd">
+								<span class="text-muted accounts-phone-number">{{number}}</span>
+							</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd">
+								<input class="weui-input accounts-phone-code" type="number" pattern="[0-9]*" placeholder="{{_ "accounts_phone_code_placeholder"}}">
+							</div>
+						</div>
 					</div>
-					<div class="at-pwd-form">
-						<form id="at-pwd-form" role="form" action="#" method="POST" novalidate="">
-							<fieldset>
-								<div class="at-input form-group has-feedback">
-									<input name="at-field-phone" class="form-control" id="at-field-phone" type="text" placeholder="用户名或邮件" autocapitalize="none" autocorrect="off" autocomplete="off">
-									<span class="help-block hide"></span>
-								</div>
-								<div class="at-input form-group has-feedback">
-									<input name="at-field-phone" class="form-control" id="at-field-phone" type="text" placeholder="手机号" autocapitalize="none" autocorrect="off" >
-									<span class="help-block hide"></span>
-								</div>
-							</fieldset>
-							<button class="at-btn btn-phone-request btn btn-lg btn-block btn-primary" id="at-btn" type="button">
-								发送验证码
-							</button>
-						</form>
+					<div class="weui-btn-area">
+						<a class="weui-btn btn-primary btn-verify-code" href="javascript:">{{_ "accounts_phone_verify_btn_send_title"}}</a>
 					</div>
-					<div class="at-pwd-link">
-						<p>
-							<a class="at-link at-pwd" id="at-forgotPwd" href="/steedos/forgot-password">忘记密码？</a>
+					<div class="weui-footer weui-btn-area">
+						<p class="weui-footer__links">
+							<a class="weui-footer__link btn-code-unreceived">{{_ "accounts_phone_code_unreceived"}}</a>
+							<a class="weui-footer__link btn-back">{{_ "accounts_phone_back"}}</a>
 						</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-6 col-md-offset-3">
-				<h3 style="font-size: 26px;color: #fff;text-align: center;">请输入您的手机号</h3>
-				<div class="weui-cells weui-cells_form" style="border-radius: 8px;border: none;">
-					<div class="weui-cell weui-cell_select weui-cell_select-after">
-						<div class="weui-cell__hd">
-							<label for="" class="weui-label">国家/地区</label>
-						</div>
-						<div class="weui-cell__bd">
-							<select class="weui-select" name="select2">
-								<option value="1">中国</option>
-								<option value="2">美国</option>
-								<option value="3">英国</option>
-							</select>
-						</div>
-					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd"><label class="weui-label">+86</label></div>
-						<div class="weui-cell__bd">
-							<input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入手机号">
-						</div>
-					</div>
-					<div class="weui-cell weui-cell_vcode">
-						<div class="weui-cell__hd">
-							<label class="weui-label">手机号</label>
-						</div>
-						<div class="weui-cell__bd">
-							<input class="weui-input" type="tel" placeholder="请输入手机号">
-						</div>
-						<div class="weui-cell__ft">
-							<button class="weui-vcode-btn">获取验证码</button>
-						</div>
-					</div>
-					<div class="weui-cell weui-cell_vcode">
-						<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-						<div class="weui-cell__bd">
-							<input class="weui-input" type="number" placeholder="请输入验证码">
-						</div>
-						<div class="weui-cell__ft">
-							<img class="weui-vcode-img" src="./images/vcode.jpg">
-						</div>
 					</div>
 				</div>
 			</div>

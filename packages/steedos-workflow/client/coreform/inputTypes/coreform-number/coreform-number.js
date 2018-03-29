@@ -1,5 +1,5 @@
 AutoForm.addInputType("coreform-number", {
-  template: "afInputNumber",
+  template: "afInputNumberSteedos",
   valueIn: function(val, atts){
     if(val){
       if (typeof(val) == 'string'){
@@ -35,6 +35,14 @@ AutoForm.addInputType("coreform-number", {
     }
     if (typeof context.atts.step === "undefined" && context.decimal) {
       context.atts.step = '0.01';
+    }
+
+    if (typeof context.atts.disabled !== "undefined") {
+      context.isReadonly = true;
+      context.atts.class = "form-control hide";
+    }
+    else{
+      context.atts.class = "form-control";
     }
     return context;
   }

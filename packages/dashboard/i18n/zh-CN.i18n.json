@@ -1,0 +1,38 @@
+{
+    "Steedos Dashboard": "门户",
+
+    "portal_admin_home": "门户设置",
+    "portal_dashboard_settings": "面板设置", 
+    "apps_auths_settings": "验证域设置",
+    "apps_auth_users_settings": "域账户设置",
+
+    "portal_dashboards": "面板",
+    "portal_dashboards_name": "名称",
+    "portal_dashboards_description": "描述",
+    "portal_dashboards_freeboard": "排版设置",
+    "portal_dashboards_modified": "修改时间",
+    "apps_auths": "验证域",
+    "apps_auths_name": "域名称",
+    "apps_auths_title": "域标题",
+    "apps_auths_modified": "修改时间",
+    "apps_auth_users": "域账户",
+    "apps_auth_users_auth_name": "域名称",
+    "apps_auth_users_login_name": "登录名",
+    "apps_auth_users_login_password": "登录密码",
+    "apps_auth_users_modified": "修改时间",
+    "apps_auth_users_user": "关联用户",
+    "apps_auth_users_user_name": "用户名",
+    "apps_auth_users_error_self_edit_only": "只能修改自己的域账户",
+    "apps_auth_users_error_self_remove_only": "只能删除自己的域账户",
+
+    "portal_dashboards_error_login_required":"请先登录",
+    
+    "portal_freeboard_compiling_error":"在编译脚本时出错",
+    "portal_freeboard_compiling_ajax_content_error":"在编译请求内容脚本时出错",
+
+    "portal_dashboards_error_space_not_found": "未找到该工作区",
+    "portal_dashboards_error_space_admins_only": "您不是该工作区的管理员",
+    "add_new_dashboard": "新建面板",
+    "edit_dashboard": "编辑面板",
+    "delete_dashboard": "删除面板"
+}

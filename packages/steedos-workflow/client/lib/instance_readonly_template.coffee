@@ -4,7 +4,7 @@ InstanceReadOnlyTemplate = {};
 InstanceReadOnlyTemplate.instance_attachment = """
 	<tr>
 		<td class="ins-attach-view">
-			{{this.name}}
+			<a href="{{ins_attach_download_url _id absolute}}" class="ins_attach_href" target="_parent" data-name="{{this.name}}" data-type="{{this.original.type}}" data-id="{{_id}}">{{this.name}}</a>
 		</td>
 	</tr>
 """
@@ -19,7 +19,7 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 		{{#with getField this.name}}
 			{{#if equals type 'section'}}
 					<div class='section callout callout-default'>
-						<label class="control-label">{{code}}</label>
+						<label class="control-label">{{f_label this}}</label>
 						<p>{{{description}}}</p>
 					</div>
 			{{else}}
@@ -30,8 +30,8 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 								<label class='control-label'>{{getLabel code}}</label>
 								<span class="description">{{{description}}}</span>
 							</div>
-							<div style="padding:0px;overflow-x:auto;">
-									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" data-schema-key="{{this.name}}">
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
 										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
 											{{{getTableThead this}}}
 										</thead>
@@ -53,8 +53,135 @@ InstanceReadOnlyTemplate.afFormGroupRead = """
 	</div>
 """
 
-InstanceReadOnlyTemplate.imageSign = """
-	<img src="{{imageURL user}}" class="image-sign" />
+InstanceReadOnlyTemplate.afFormGroup = """
+
+	{{#with getField this.name}}
+			{{#if equals type 'section'}}
+				<div class="form-group">
+					<div class='section callout callout-default'>
+						<label class="control-label">{{f_label this}}</label>
+						<p>{{{description}}}</p>
+					</div>
+  				</div>
+			{{else}}
+				{{#if equals type 'table'}}
+					<div class="panel panel-default steedos-table">
+						<div class="panel-body" style="padding:0px;">
+							<div class="panel-heading" >
+								<label class='control-label'>{{getLabel code}}</label>
+								<span class="description">{{{description}}}</span>
+							</div>
+							<div class="readonly-table" style="padding:0px;overflow-x:auto;">
+									<table type='table' class="table table-bordered table-condensed autoform-table" style='margin-bottom:0px;' {{this.atts}} id="{{this.code}}Table" name="{{this.code}}" data-schema-key="{{this.name}}">
+										<thead id="{{this.name}}Thead" name="{{this.name}}Thead">
+											{{{getTableThead this}}}
+										</thead>
+										<tbody id="{{this.name}}Tbody" name="{{this.name}}Tbody">
+											{{{getTableBody this}}}
+										</tbody>
+									</table>
+							</div>
+						</div>
+					</div>
+				{{else}}
+					{{#if equals type 'input'}}
+						<div class="form-group" data-required="{{#if is_required}}true{{/if}}">
+							<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+							<input type="text" title="{{getLabel code}}" name="{{code}}" {{getPermissions code}} data-schema-key="{{getLabel code}}" class="form-control">
+						</div>
+					{{else}}
+						{{#if equals type 'number'}}
+							<div class="form-group">
+								<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+								<input type="number" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+							</div>
+						{{else}}
+							{{#if equals type 'date'}}
+								<div class="form-group">
+									<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+									<input type="text" title="{{getLabel code}}" name="{{code}}" data-type="date" data-schema-key="{{getLabel code}}" class="form-control">
+								</div>
+							{{else}}
+								{{#if equals type 'dateTime'}}
+									<div class="form-group">
+										<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+										<input type="text" title="{{getLabel code}}" name="{{code}}" data-type='datetime' data-schema-key="{{getLabel code}}" class="form-control">
+									</div>
+								{{else}}
+									{{#if equals type 'password'}}
+										<div class="form-group">
+											<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+											<input type="password" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+										</div>
+									{{else}}
+										{{#if equals type 'select'}}
+											<div class="form-group">
+												<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+												<select name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+													{{#each options this}}
+														<option value="{{value}}">{{label}}</option>
+													{{/each}}
+												</select>
+											</div>
+										{{else}}
+											{{#if equals type 'radio'}}
+												<div class="form-group">
+													<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+													<div class="af-radio-group" data-schema-key="{{getLabel code}}">
+														{{#each options this}}
+        												<label class="radio-inline fix-indent"><input type="radio" value="{{value}}" name="{{../code}}" class="radio-inline fix-indent"> {{label}}</label>
+    													{{/each}}
+    												</div>
+												</div>
+											{{else}}
+												{{#if equals type 'multiSelect'}}
+													<div class="form-group">
+														<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+														<div class="af-checkbox-group" data-schema-key="{{getLabel code}}">
+															{{#each options this}}
+															<label class="checkbox-inline fix-indent"><input type="checkbox" value="{{value}}" name="{{../code}}" class="checkbox-inline fix-indent"> {{label}}</label>
+															{{/each}}
+														</div>
+													</div>
+												{{else}}
+													{{#if equals type 'url'}}
+														<div class="form-group">
+															<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+															<input type="url" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+														</div>
+													{{else}}
+														{{#if equals type 'email'}}
+															<div class="form-group">
+																<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																<input type="email" title="{{getLabel code}}" name="{{code}}" data-schema-key="{{getLabel code}}" class="form-control">
+															</div>
+														{{else}}
+															{{#if equals type 'checkbox'}}
+																<div class="form-group">
+																	<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																	<div class="checkbox" data-schema-key="{{getLabel code}}">
+																		<label style="width: 100%;"><input type="checkbox" value="true" name="{{code}}" class="checkbox-inline fix-indent"></label>
+																	</div>
+																</div>
+															{{else}}
+																<div class="form-group">
+																	<label for="7ZQnDsXBGohZMetA5" class="control-label">{{getLabel code}}</label>
+																	<div class='{{getCfClass this}} form-control' readonly disabled>{{{getValue code}}}</div>
+																</div>
+															{{/if}}
+														{{/if}}
+													{{/if}}
+												{{/if}}
+											{{/if}}
+										{{/if}}
+									{{/if}}
+								{{/if}}
+							{{/if}}
+						{{/if}}
+					{{/if}}
+				{{/if}}
+			{{/if}}
+		{{/with}}
 """
 
 InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
@@ -79,13 +206,25 @@ InstanceReadOnlyTemplate.createInstanceSignText = (steedosData)->
 	Template.instanceSignText.steedosData = steedosData
 	Template.instanceSignText.helpers InstanceSignText.helpers
 
+InstanceReadOnlyTemplate.createImageSign = (steedosData) ->
+	imageSignHtml = _getViewHtml('client/views/instance/image_sign.html')
+	imageSignCompiled = SpacebarsCompiler.compile(imageSignHtml, {isBody: true});
+	imageSignRenderFunction = eval(imageSignCompiled);
+	Template.imageSign = new Blaze.Template("imageSign", imageSignRenderFunction);
+	Template.imageSign.steedosData = steedosData
+	Template.imageSign.helpers ImageSign.helpers
+
 
 InstanceReadOnlyTemplate.init = (steedosData) ->
 	InstanceReadOnlyTemplate.create("afSelectUserRead", steedosData);
+
+	if Meteor.isServer
+		InstanceReadOnlyTemplate.create("afFormGroup", steedosData);
+
 	InstanceReadOnlyTemplate.create("afFormGroupRead", steedosData);
 	if Meteor.isServer
-		InstanceReadOnlyTemplate.create("imageSign", steedosData);
-		InstanceReadOnlyTemplate.create("instance_attachment", {});
+		InstanceReadOnlyTemplate.create("instance_attachment", {absolute: steedosData.absolute});
+		InstanceReadOnlyTemplate.createImageSign(steedosData)
 		InstanceReadOnlyTemplate.createInstanceSignText(steedosData)
 
 
@@ -150,16 +289,17 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 				if typeof value == 'string'
 					value = parseFloat(value)
 				value = value.toFixed(field.digits)
+				value = Steedos.numberToString value, locale
 
 	return value;
 
 InstanceReadOnlyTemplate.getLabel = (fields, code) ->
 	field = fields.findPropertyByPK("code", code)
-
-	if field.name
-		return field.name
-	else
-		return field.code
+	if field
+		if field.name
+			return field.name
+		else
+			return field.code
 
 
 InstanceReadOnlyTemplate.getInstanceFormVersion = (instance)->
@@ -219,7 +359,40 @@ _getLocale = (user)->
 		locale = "zh-CN"
 	return locale
 
-_getTemplateData = (user, space, instance)->
+
+_getRequiredFields = (fields, rev)->
+	if !rev
+		rev = [];
+
+	fields.forEach (field)->
+		if field.type == 'section'
+			_getRequiredFields(field.fields, rev)
+		else if field.type == 'table'
+
+		else
+			if field.is_required
+				rev.push field.code
+	return rev;
+
+_getStartStepEditableFields = (fields, steps)->
+	startStep = steps.findPropertyByPK("step_type","start")
+
+	editableCode = []
+
+	_.keys(startStep.permissions).forEach (key)->
+		if startStep.permissions[key] == 'editable'
+			editableCode.push key
+
+	return editableCode
+
+_getStartStepRequiredFields = (fields, steps)->
+	requiredFields = _getRequiredFields(fields)
+
+	editableCode = _getStartStepEditableFields(fields, steps)
+
+	return _.intersection(requiredFields, editableCode)
+
+_getTemplateData = (user, space, instance, options)->
 	if Meteor.isServer
 		form_version = InstanceReadOnlyTemplate.getInstanceFormVersion(instance)
 	else
@@ -239,13 +412,21 @@ _getTemplateData = (user, space, instance)->
 		steedosData.ins_is_deleted = instance.ins_is_deleted
 		steedosData.applicant_name = instance.applicant_name
 		steedosData.applicantContext = instance.applicant_name
-		steedosData.attachments = instance.attachments
 
 	steedosData.instance = instance
 	steedosData.form_version = form_version
 	steedosData.locale = locale
 	steedosData.utcOffset = user.utcOffset
 	steedosData.space = instance.space
+	steedosData.sessionUserId = user._id
+
+	if Meteor.isServer
+		if options?.editable
+			form = db.forms.findOne({_id: instance.form})
+
+			flow = db.flows.findOne({_id: instance.flow})
+
+			steedosData.startStepEditableFields = _getStartStepEditableFields(form.current.fields, flow.current.steps);
 
 	return steedosData;
 
@@ -262,13 +443,19 @@ InstanceReadOnlyTemplate.formatDate = (date, utcOffset)->
 
 InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
-	steedosData = _getTemplateData(user, space, instance)
+	steedosData = _getTemplateData(user, space, instance, options)
+
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
 
 	instanceTemplate = TemplateManager.getTemplate(instance, options?.templateName);
 
 	instanceTemplate = instanceTemplate.replace(/afSelectUser/g,"afSelectUserRead")
 
-	instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
+	if !options?.editable
+		instanceTemplate = instanceTemplate.replace(/afFormGroup/g,"afFormGroupRead")
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
 
@@ -294,8 +481,8 @@ InstanceReadOnlyTemplate.getTracesView = (user, space, instance, options)->
 
 	steedosData = _getTemplateData(user, space, instance)
 
-	flow = db.flows.findOne(instance.flow);
-	if flow.instance_style == "table" || options?.templateName == "table"
+	form = db.forms.findOne(instance.form);
+	if form.instance_style == "table" || options?.templateName == "table"
 		tracesHtml = _getViewHtml('client/views/instance/traces_table.html')
 	else
 		tracesHtml = _getViewHtml('client/views/instance/traces.html')
@@ -330,12 +517,17 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	Template.attachments_readonly_view.helpers InstanceAttachmentTemplate.helpers
 
-	body = Blaze.toHTMLWithData(Template.attachments_readonly_view, instance.attachments)
+	body = Blaze.toHTMLWithData(Template.attachments_readonly_view)
 
 	return body;
 
-InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance)->
+InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance, options)->
 	steedosData = _getTemplateData(user, space, instance)
+
+	steedosData.absolute = false;
+
+	if options?.absolute
+		steedosData.absolute = true;
 
 	relatedInstancesHtml = _getViewHtml('client/views/instance/related_instances.html')
 
@@ -349,7 +541,7 @@ InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance)->
 
 	Template.related_instances_view.helpers RelatedInstances.helpers
 
-	body = Blaze.toHTMLWithData(Template.related_instances_view, {})
+	body = Blaze.toHTMLWithData(Template.related_instances_view, steedosData)
 
 	return body;
 
@@ -360,7 +552,7 @@ InstanceReadOnlyTemplate.getOnLoadScript = (instance)->
 
 	if form_script && form_script.replace(/\n/g,"").replace(/\s/g,"").length > 0
 		form_script = "CoreForm = {};CoreForm.instanceform = {};" + form_script
-		form_script += "window.onload = CoreForm.form_OnLoad();"
+		form_script += ";if(CoreForm.form_OnLoad){window.onload = CoreForm.form_OnLoad();}"
 	else
 		form_script = ""
 
@@ -370,7 +562,30 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	body = InstanceReadOnlyTemplate.getInstanceView(user, space, instance, options);
 
-	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance)
+	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance);
+
+	openFileScript = """
+			if(isNode()){
+				attachs = document.getElementsByClassName("ins_attach_href");
+				for(var i = 0; i < attachs.length; i++){
+					attach = attachs[i];
+					attach.addEventListener("click", function(e){
+						if(isImage(this.dataset.type) || isHtml(this.dataset.type)){
+							e.preventDefault();
+							openWindow("/api/files/instances/" + this.dataset.id);
+						}else if(nw_core.canOpenFile(this.dataset.name)){
+							e.preventDefault();
+							nw_core.openFile(this.href, this.dataset.name)
+						}
+					});
+				}
+			}
+
+			var flow = "#{instance.flow}";
+			var space = "#{instance.space}";
+
+	""";
+
 
 	if !Steedos.isMobile()
 		form = db.forms.findOne(instance.form);
@@ -379,6 +594,9 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	if options?.templateName == 'table'
 		instance_style = "instance-table"
+
+	if options?.instance_style
+		instance_style = options.instance_style
 
 	if !options || options.showTrace == true
 		trace = InstanceReadOnlyTemplate.getTracesView(user, space, instance)
@@ -397,22 +615,24 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	else
 		attachment = ""
 
-	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance)
+	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance, options)
 
-	absoluteUrl = Meteor.absoluteUrl();
+	absoluteUrl = Meteor.absoluteUrl()
 
 	width = "960px"
 #	如果给table的parent设置width，则会导致阿里云邮箱显示table 异常
 	if options?.width
 		width = ""
 
-	allCss = WebAppInternals.refreshableAssets.allCss
+	cssHref = Meteor.absoluteUrl("steedos-css")
 
-	allCssLink = ""
+	allCssLink = """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
 
-	allCss.forEach (css) ->
-		cssHref = absoluteUrl + css.url
-		allCssLink += """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
+	submit_btn = ""
+
+#	if options?.editable
+#		submit_btn = '<a class="btn btn-block btn-social btn-steedos-workflow" onclick="wc.submit()"><i class="fa fa-facebook"></i> 提交到审批王</a>'
+
 
 	if options?.styles
 		allCssLink = ""
@@ -438,6 +658,9 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				#{allCssLink}
 				<script src="https://www.steedos.com/website/libs/jquery.min.js" type="text/javascript"></script>
+				<script src="/js/nw_core.js" type="text/javascript"></script>
+				#{options.plugins || ""}
+
 				<style>
 					.steedos{
 						width: #{width};
@@ -459,29 +682,37 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 						background: azure !important;
 					}
 
-					#{options?.styles}
+					.instance-view .instance-traces{
+						padding-left: 15px;
+						padding-right: 15px;
+					}
+
+					#{options?.styles || ""}
 				</style>
 			</head>
 			<body>
 				<div class="steedos">
+					#{submit_btn}
 					<div class="instance-view">
 						<div class="instance #{instance_style}">
-							<div class="instance-form box #{instanceBoxStyle}">
-								#{formDescriptionHtml}
-								<div class="box-body">
-									<div class="col-md-12">
-										#{body}
-										#{attachment}
-										#{related_instances}
+							<form name="instanceForm">
+								<div class="instance-form box #{instanceBoxStyle}">
+									#{formDescriptionHtml}
+									<div class="box-body">
+										<div class="col-md-12">
+											#{body}
+											#{attachment}
+											#{related_instances}
+										</div>
 									</div>
 								</div>
-							</div>
+							</form>
 							#{trace}
 						</div>
 					</div>
 				</div>
 			</body>
-			<script>#{onLoadScript}</script>
+			<script>#{openFileScript};#{onLoadScript}</script>
 		</html>
 	"""
 

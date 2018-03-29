@@ -3,22 +3,27 @@
 	{{#if subsReady}}
 		<div class="steedos app-wrapper steedos-admin">
 			{{# AdminLTE skin=skinName sidebarMini="true" }}
-				{{> masterHeader}}
-				{{> adminSidebar}}
+				{{> steedosHeader}}
+				{{#unless isMobile}}
+					{{> adminSidebar}}
+				{{/unless}}
 				<div class="content-wrapper">
-					<div class="connection-status">
-						{{> status}}
-					</div>
 					{{#if isAdminRoute}}
 						<div class="navigation-bar">
 							{{#if isAdminDetailRoute}}
-					            <button id="admin-back" class="btn btn-default">
-					              <i class="ion ion-chevron-left"></i><span></span>
-					            </button>
-							{{else}}
-								<button type="button" class="btn btn-default" data-toggle="offcanvas">
-									<i class="fa fa-bars"></i>
+								<button id="admin-back" class="btn btn-default">
+								  <i class="ion ion-chevron-left"></i><span></span>
 								</button>
+							{{else}}
+								{{#if isPayRecords}}
+									<a class="btn btn-default" href="/admin/space/info">
+										<i class="ion ion-android-arrow-back"></i>
+									</a>
+								{{else}}
+									<a class="btn btn-default" href="/admin">
+										<i class="ion ion-android-arrow-back"></i>
+									</a>
+								{{/if}}
 							{{/if}}
 							<span class="navigation-title">
 									<a href="{{urlPrefix}}/admin/view/{{$.Session.get 'admin_collection_name'}}/">{{admin_collection_title}}</a>
@@ -36,15 +41,17 @@
 						<div class="admin-content">
 							{{> Template.dynamic template=main}}
 						</div>
-						
 					{{else}}
 						{{> Template.dynamic template=main}}
 					{{/if}}
 				</div>
 			{{/ AdminLTE}}
 		</div>
+		<div class="connection-status">
+			{{> status}}
+		</div>
 	{{/if}}
 
-    {{> autoformModals}}
+	{{> autoformModals}}
 </template>
 

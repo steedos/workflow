@@ -10,7 +10,18 @@ function getFlowEvent(flowId) {
 	}
 }
 
-InstanceEvent.attachEvents = function(flowId) {
+InstanceEvent.initEvents = function(flowId) {
+
+	//解除绑定
+	$(".instance-form").unbind('instance-before-submit')
+	$(".instance-form").unbind('instance-before-save')
+	$("#ins_upload_main_attach").unbind('instance-before-upload')
+	$("#ins_attach_version").unbind('instance-before-upload')
+	$("#ins_upload_normal_attach").unbind('instance-before-upload')
+	$("#ins_attach_version").unbind('instance-before-upload')
+	$(".instance-forward-modal").unbind('onload')
+	$(".instance-distribute-modal").unbind('onload')
+
 
 	var eventStr = getFlowEvent(flowId);
 	if(eventStr){
@@ -23,6 +34,30 @@ InstanceEvent.attachEvents = function(flowId) {
 			console.error('flow Event Error: ' + e);
 		}
 	}
+}
+
+/*
+ * return true：继续执行; false 中断后续操作
+ *  "instance-before-submit" / "instance-before-upload"
+ */
+InstanceEvent.run = function (element, eventName) {
+	var ins = WorkflowManager.getInstance();
+
+	if(!ins)
+		return true;
+
+	var eventStr = getFlowEvent(ins.flow);
+
+	if(!eventStr)
+		return true;
+
+	var event = jQuery.Event(eventName, {
+		// instance: instance
+	});
+
+	element.trigger(event);
+
+	return !event.isDefaultPrevented();
 }
 
 /*

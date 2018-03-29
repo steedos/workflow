@@ -1,3 +1,29 @@
+.form-group input[type=datetime-local].form-control,.form-group input[type=date].form-control{
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 32px!important;
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+span,a{
+    &.text-overflow{
+        display:inline-block;
+    }
+}
+
+.safari{
+    select{
+        appearance:none;
+        -webkit-appearance:none;
+        outline:none;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);
+    }
+}
+
 body{
     background-size: cover;
     font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, Microsoft Yahei, SimHei;
@@ -10,28 +36,32 @@ body{
     max-width: 200px;
 }
 
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: bold;
+    font-family: Helvetica, Arial, Microsoft Yahei, SimHei;
+}
+
+h1, .h1 {
+    font-size: 26px;
+}
+h2, .h2 {
+    font-size: 22px;
+}
+h3, .h3 {
+    font-size: 18px;
+}
+h4, .h4 {
+    font-size: 16px;
+}
+h5, .h5 {
+    font-size: 14px;
+}
+h6, .h6 {
+    font-size: 12px;
+}
+
 
 .steedos {
-
-
-    h1, .h1 {
-      font-size: 26px;
-    }
-    h2, .h2 {
-      font-size: 22px;
-    }
-    h3, .h3 {
-      font-size: 18px;
-    }
-    h4, .h4 {
-      font-size: 16px;
-    }
-    h5, .h5 {
-      font-size: 14px;
-    }
-    h6, .h6 {
-      font-size: 12px;
-    }
     
     .btn-default {
         background-color: transparent;

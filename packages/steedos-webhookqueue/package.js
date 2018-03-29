@@ -15,13 +15,14 @@ Package.onUse(function(api) {
 		'mongo',
 		'underscore',
 		'ejson',
-		'random'
+		'random',
+		'coffeescript'
 	]);
 
 	api.use('mongo', 'server');
 
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:smsqueue');
 
 	// Common api
@@ -37,6 +38,8 @@ Package.onUse(function(api) {
 	// API's
 	api.addFiles('lib/server/api.js', 'server');
 
+	// STARTUP
+	api.addFiles('server/startup.coffee', 'server');
 
 	api.export('WebhookQueue', ['server']);
 

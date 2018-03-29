@@ -7,6 +7,8 @@
  * @type Object
  */
 FS.FileWorker = {};
+var path = Npm.require('path');
+var fs = Npm.require('fs');
 
 /**
  * @method FS.FileWorker.observe
@@ -17,52 +19,60 @@ FS.FileWorker = {};
  * Sets up observes on the fsCollection to store file copies and delete
  * temp files at the appropriate times.
  */
-FS.FileWorker.observe = function(fsCollection) {
+FS.FileWorker.observe = function (fsCollection) {
 
-  // Initiate observe for finding newly uploaded/added files that need to be stored
-  // per store.
-  FS.Utility.each(fsCollection.options.stores, function(store) {
-    var storeName = store.name;
-    fsCollection.files.find(getReadyQuery(storeName), {
-      fields: {
-        copies: 0
-      }
-    }).observe({
-      added: function(fsFile) {
-        // added will catch fresh files
-        FS.debug && console.log("FileWorker ADDED - calling saveCopy", storeName, "for", fsFile._id);
-        saveCopy(fsFile, storeName);
-      },
-      changed: function(fsFile) {
-        // changed will catch failures and retry them
-        FS.debug && console.log("FileWorker CHANGED - calling saveCopy", storeName, "for", fsFile._id);
-        saveCopy(fsFile, storeName);
+  if (Meteor.settings.cfs && Meteor.settings.cfs.worker && Meteor.settings.cfs.worker.enabled) {
+    // Initiate observe for finding newly uploaded/added files that need to be stored
+    // per store.
+    FS.Utility.each(fsCollection.options.stores, function (store) {
+      var storeName = store.name;
+      fsCollection.files.find(getReadyQuery(storeName), {
+        fields: {
+          copies: 0
+        }
+      }).observe({
+        added: function (fsFile) {
+          // added will catch fresh files
+          FS.debug && console.log("FileWorker ADDED - calling saveCopy", storeName, "for", fsFile._id);
+          saveCopy(fsFile, storeName);
+        },
+        changed: function (fsFile) {
+          // changed will catch failures and retry them
+          FS.debug && console.log("FileWorker CHANGED - calling saveCopy", storeName, "for", fsFile._id);
+          saveCopy(fsFile, storeName);
+        }
+      });
+    });
+
+    // Initiate observe for finding files that have been stored so we can delete
+    // any temp files
+    fsCollection.files.find(getDoneQuery(fsCollection.options.stores)).observe({
+      added: function (fsFile) {
+        FS.debug && console.log("FileWorker ADDED - calling deleteChunks for", fsFile._id);
+        FS.TempStore.removeFile(fsFile);
       }
     });
-  });
+  }
 
-  // Initiate observe for finding files that have been stored so we can delete
-  // any temp files
-  fsCollection.files.find(getDoneQuery(fsCollection.options.stores)).observe({
-    added: function(fsFile) {
-      FS.debug && console.log("FileWorker ADDED - calling deleteChunks for", fsFile._id);
-      FS.TempStore.removeFile(fsFile);
-    }
-  });
 
-  // Initiate observe for catching files that have been removed and
-  // removing the data from all stores as well
-  fsCollection.files.find().observe({
-    removed: function(fsFile) {
-      FS.debug && console.log('FileWorker REMOVED - removing all stored data for', fsFile._id);
-      //remove from temp store
-      FS.TempStore.removeFile(fsFile);
-      //delete from all stores
-      FS.Utility.each(fsCollection.options.stores, function(storage) {
-        storage.adapter.remove(fsFile);
-      });
-    }
-  });
+
+  // // Initiate observe for catching files that have been removed and
+  // // removing the data from all stores as well
+  // fsCollection.files.find().observe({
+  //   removed: function(fsFile) {
+  //     FS.debug && console.log('FileWorker REMOVED - removing all stored data for', fsFile._id);
+  //     //remove from temp store
+  //     FS.TempStore.removeFile(fsFile);
+  //     //delete from all stores
+  //     FS.Utility.each(fsCollection.options.stores, function(storage) {
+  //       try {
+  //         storage.adapter.remove(fsFile);
+  //       } catch (e) {
+  //         return
+  //       }
+  //     });
+  //   }
+  // });
 };
 
 /**
@@ -81,9 +91,15 @@ FS.FileWorker.observe = function(fsCollection) {
  *  }
  */
 function getReadyQuery(storeName) {
-  var selector = {uploadedAt: {$exists: true}};
+  var selector = {
+    uploadedAt: {
+      $exists: true
+    }
+  };
   selector['copies.' + storeName] = null;
-  selector['failures.copies.' + storeName + '.doneTrying'] = {$ne: true};
+  selector['failures.copies.' + storeName + '.doneTrying'] = {
+    $ne: true
+  };
   return selector;
 }
 
@@ -124,18 +140,30 @@ function getReadyQuery(storeName) {
  */
 function getDoneQuery(stores) {
   var selector = {
-    $and: [{chunks: {$exists: true}}]
+    $and: [{
+      chunks: {
+        $exists: true
+      }
+    }]
   };
 
   // Add conditions for all defined stores
-  FS.Utility.each(stores, function(store) {
+  FS.Utility.each(stores, function (store) {
     var storeName = store.name;
-    var copyCond = {$or: [{$and: []}]};
+    var copyCond = {
+      $or: [{
+        $and: []
+      }]
+    };
     var tempCond = {};
-    tempCond["copies." + storeName] = {$ne: null};
+    tempCond["copies." + storeName] = {
+      $ne: null
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
-    tempCond["copies." + storeName] = {$ne: false};
+    tempCond["copies." + storeName] = {
+      $ne: false
+    };
     copyCond.$or[0].$and.push(tempCond);
     tempCond = {};
     tempCond['failures.copies.' + storeName + '.doneTrying'] = true;
@@ -169,9 +197,33 @@ function saveCopy(fsFile, storeName, options) {
 
   FS.debug && console.log('saving to store ' + storeName);
 
-  var writeStream = storage.adapter.createWriteStream(fsFile);
-  var readStream = FS.TempStore.createReadStream(fsFile);
+  if (FS.TempStore.exists(fsFile)) {
+    var temp_chunk = FS.TempStore.Tracker.findOne({
+      fileId: fsFile._id
+    });
+    if (!temp_chunk || temp_chunk.is_saveCopy) {
+      return;
+    }
+    var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
+    exists = fs.existsSync(filepath);
+    if (exists) {
+      var r = FS.TempStore.Tracker.update({
+        fileId: fsFile._id,
+        is_saveCopy: {
+          $exists: false
+        }
+      }, {
+        $set: {
+          is_saveCopy: true
+        }
+      });
+      if (r) {
+        var writeStream = storage.adapter.createWriteStream(fsFile);
+        var readStream = FS.TempStore.createReadStream(fsFile);
+        // Pipe the temp data into the storage adapter
+        readStream.pipe(writeStream);
+      }
+    }
 
-  // Pipe the temp data into the storage adapter
-  readStream.pipe(writeStream);
+  }
 }

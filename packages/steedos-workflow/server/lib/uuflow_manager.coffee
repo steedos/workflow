@@ -1,6 +1,6 @@
 uuflowManager = {}
 
-uuflowManager.check_authorization = (req)->
+uuflowManager.check_authorization = (req) ->
 	query = req.query
 	current_user = query["X-User-Id"]
 	auth_token = query["X-Auth-Token"]
@@ -18,7 +18,7 @@ uuflowManager.check_authorization = (req)->
 uuflowManager.getInstance = (instance_id) ->
 	ins = db.instances.findOne(instance_id)
 	if not ins
-		throw new Meteor.Error('error!', "instance_id有误或此instance已经被删除")
+		throw new Meteor.Error('error!', "申请单ID：#{instance_id}有误或此申请单已经被删除")
 	return ins
 
 uuflowManager.getSpace = (space_id) ->
@@ -28,7 +28,7 @@ uuflowManager.getSpace = (space_id) ->
 	return space
 
 uuflowManager.getSpaceUser = (space_id, user_id) ->
-	space_user = db.space_users.findOne({space: space_id, user: user_id})
+	space_user = db.space_users.findOne({ space: space_id, user: user_id })
 	if not space_user
 		throw new Meteor.Error('error!', "user_id对应的用户不属于当前space")
 	return space_user
@@ -36,7 +36,7 @@ uuflowManager.getSpaceUser = (space_id, user_id) ->
 uuflowManager.getFlow = (flow_id) ->
 	flow = db.flows.findOne(flow_id)
 	if not flow
-		throw new Meteor.Error('error!', "flow_id有误或此flow已经被删除")
+		throw new Meteor.Error('error!', "id有误或此流程已经被删除")
 	return flow
 
 uuflowManager.getSpaceUserOrgInfo = (space_user) ->
@@ -48,7 +48,7 @@ uuflowManager.getSpaceUserOrgInfo = (space_user) ->
 	return info
 
 uuflowManager.getTrace = (instance, trace_id) ->
-	trace = _.find(instance.traces, (t)->
+	trace = _.find(instance.traces, (t) ->
 		return t._id is trace_id
 	)
 	if not trace
@@ -56,7 +56,7 @@ uuflowManager.getTrace = (instance, trace_id) ->
 	return trace
 
 uuflowManager.getApprove = (trace, approve_id) ->
-	approve = _.find(trace.approves, (t)->
+	approve = _.find(trace.approves, (t) ->
 		return t._id is approve_id
 	)
 	if not approve
@@ -90,7 +90,7 @@ uuflowManager.isInstanceSubmitter = (instance, current_user_id) ->
 	if instance.submitter isnt current_user_id
 		throw new Meteor.Error('error!', '当前用户不是申请单对应的提交人,不能进行此操作')
 
-uuflowManager.isInstanceSubmitterOrApplicantOrSpaceAdmin = (instance, current_user_id, space)->
+uuflowManager.isInstanceSubmitterOrApplicantOrSpaceAdmin = (instance, current_user_id, space) ->
 	if instance.submitter isnt current_user_id and instance.applicant isnt current_user_id && not space.admins.includes(current_user_id)
 		throw new Meteor.Error('error!', "当前用户不是申请单对应的提交人或申请人或工作区管理员")
 
@@ -98,13 +98,13 @@ uuflowManager.getStep = (instance, flow, step_id) ->
 	flow_rev = instance.flow_version
 	isExistStep = null
 	if flow.current._id is flow_rev
-		isExistStep = _.find(flow.current.steps, (step)->
+		isExistStep = _.find(flow.current.steps, (step) ->
 			return step._id is step_id
 		)
 	else
-		_.each(flow.historys, (history)->
+		_.each(flow.historys, (history) ->
 			if history._id is flow_rev
-				isExistStep = _.find(history.steps, (step)->
+				isExistStep = _.find(history.steps, (step) ->
 					return step._id is step_id
 				)
 		)
@@ -115,12 +115,12 @@ uuflowManager.getStep = (instance, flow, step_id) ->
 	return isExistStep
 
 uuflowManager.isJudgeLegal = (judge) ->
-	if judge isnt "approved" and judge isnt "rejected"
+	if judge isnt "approved" and judge isnt "rejected" and judge isnt "readed" and judge isnt "submitted"
 		throw new Meteor.Error('error!', "judge有误")
 	return
 
 uuflowManager.isSpaceAdmin = (space_id, user_id) ->
-	space = db.spaces.findOne(space_id)
+	space = db.spaces.findOne({ _id: space_id }, { fields: { admins: 1 } })
 	if not space.admins.includes(user_id)
 		throw new Meteor.Error('error!', "当前用户不是工作区管理员,不能进行此操作")
 	return
@@ -132,24 +132,24 @@ uuflowManager.getUser = (user_id) ->
 	return user
 
 uuflowManager.getUserOrganization = (user_id, space_id) ->
-	org = db.organizations.findOne({space: space_id, users: user_id})
+	org = db.organizations.findOne({ space: space_id, users: user_id })
 	return org
 
 uuflowManager.getUserRoles = (user_id, space_id) ->
 	role_names = new Array
-	positions = db.flow_positions.find({space: space_id, users: user_id}).fetch()
-	_.each(positions, (position)->
-		role = db.flow_roles.findOne(position.role)
+	positions = db.flow_positions.find({ space: space_id, users: user_id }, { fields: { role: 1 } }).fetch()
+	_.each(positions, (position) ->
+		role = db.flow_roles.findOne({ _id: position.role }, { fields: { name: 1 } })
 		if role
 			role_names.push(role.name)
 	)
 	return role_names
 
-uuflowManager.isFlowEnabled = (flow)->
+uuflowManager.isFlowEnabled = (flow) ->
 	if flow.state isnt "enabled"
 		throw new Meteor.Error('error!', "流程未启用,操作失败")
 
-uuflowManager.isFlowSpaceMatched = (flow, space_id)->
+uuflowManager.isFlowSpaceMatched = (flow, space_id) ->
 	if flow.space isnt space_id
 		throw new Meteor.Error('error!', "流程和工作区ID不匹配")
 
@@ -164,7 +164,7 @@ uuflowManager.calculateCondition = (values, condition_str) ->
 			if not subform_field instanceof Array
 				throw new Meteor.Error('error!', "参数不是数组类型")
 			sum_field_value = 0
-			_.each(subform_field, (field_value)->
+			_.each(subform_field, (field_value) ->
 				field_value = Number(String(field_value))
 				sum_field_value += field_value
 			)
@@ -188,7 +188,7 @@ uuflowManager.calculateCondition = (values, condition_str) ->
 			if not subform_field instanceof Array
 				throw new Meteor.Error('error!', "参数不是数组类型")
 			sub_field = new Array
-			_.each(subform_field, (field_value)->
+			_.each(subform_field, (field_value) ->
 				sub_field.push(Number(String(field_value)))
 			)
 			return _.max(sub_field)
@@ -199,7 +199,7 @@ uuflowManager.calculateCondition = (values, condition_str) ->
 			if not subform_field instanceof Array
 				throw new Meteor.Error('error!', "参数不是数组类型")
 			sub_field = new Array
-			_.each(subform_field, (field_value)->
+			_.each(subform_field, (field_value) ->
 				sub_field.push(Number(String(field_value)))
 			)
 			return _.min(sub_field)
@@ -224,26 +224,26 @@ uuflowManager.calculateCondition = (values, condition_str) ->
 # 字符
 uuflowManager.setFormFieldVariable = (fields, __values, space_id) ->
 	try
-		_.each(fields, (field)->
+		_.each(fields, (field) ->
 			if field.type is "table" #子表
 				#得到已引用的子表字段
 				subform_fields_all = field.fields
 				_subform_values = new Object
-				_.each(subform_fields_all, (current_field)->
+				_.each(subform_fields_all, (current_field) ->
 					values_arr = new Array
 					if ["number", "percentage", "currency"].includes(current_field["type"])
-						_.each(__values[field.code], (sub_field)->
+						_.each(__values[field.code], (sub_field) ->
 							values_arr.push(sub_field[current_field["code"]])
 						)
 					else if current_field["type"] is "checkbox"
-						_.each(__values[field.code], (sub_field)->
+						_.each(__values[field.code], (sub_field) ->
 							if sub_field[current_field["code"]] is "true"
 								values_arr.push(true)
 							else if sub_field[current_field["code"]] is "false"
 								values_arr.push(false)
 						)
 					else
-						_.each(__values[field.code], (sub_field)->
+						_.each(__values[field.code], (sub_field) ->
 							if sub_field[current_field["code"]]
 								values_arr.push(sub_field[current_field["code"]])
 							else
@@ -258,7 +258,7 @@ uuflowManager.setFormFieldVariable = (fields, __values, space_id) ->
 						group_id = new Array
 						group_name = new Array
 						group_fullname = new Array
-						_.each(__values[field.code], (group)->
+						_.each(__values[field.code], (group) ->
 							group_id.push(group["id"])
 							group_name.push(group["name"])
 							group_fullname.push(group["fullname"])
@@ -277,7 +277,7 @@ uuflowManager.setFormFieldVariable = (fields, __values, space_id) ->
 						organization["user_organization_name"] = new Array
 						user_roles = new Array
 
-						_.each(__values[field.code], (select_user)->
+						_.each(__values[field.code], (select_user) ->
 							user_id.push(select_user["id"])
 							user_name.push(select_user["name"])
 							organization_selectuser = uuflowManager.getUserOrganization(select_user["id"], space_id)
@@ -329,14 +329,14 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		current_approve = null
 		# 获取当前Approve
 		traces = instance.traces
-		_.each(traces, (trace)->
+		_.each(traces, (trace) ->
 			if trace.step is step._id and trace.is_finished is false
 				current_approve = trace.approves[0]
 		)
 
 		start_approve = null
 		# 获取开始节点Approve
-		_.each(traces, (trace)->
+		_.each(traces, (trace) ->
 			if not trace.previous_trace_ids or trace.previous_trace_ids.length is 0
 				start_approve = trace.approves[0]
 		)
@@ -353,7 +353,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		submitter_organization_fullname = start_approve.handler_organization_fullname
 		# 填单人所在组织的名称
 		submitter_organization_name = start_approve.handler_organization_name
-		# 填单人的审批岗位 
+		# 填单人的审批岗位
 		submitter_roles = uuflowManager.getUserRoles(start_approve.handler, instance.space)
 		# 填单人的全名
 		submitter_name = start_approve.handler_name
@@ -394,7 +394,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		if instance.form_version is form.current._id
 			formVersion = form.current
 		else
-			formVersion = _.find(form.historys, (history)->
+			formVersion = _.find(form.historys, (history) ->
 				return instance.form_version is history._id
 			)
 
@@ -403,8 +403,8 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		# 匹配包括花括号自身在内的所有符号
 		reg = /(\{[^{}]*\})/
 		prefix = "__values"
-		_.each(step.lines, (step_line)->
-			step_line_condition = step_line.condition.replace(reg, (vowel)->
+		_.each(step.lines, (step_line) ->
+			step_line_condition = step_line.condition.replace(reg, (vowel) ->
 				return prefix + vowel.replace(/\{\s*/, "[\"").replace(/\s*\}/, "\"]").replace(/\s*\.\s*/g, "\"][\"")
 				if step_line.state is "submitted" and uuflowManager.calculateCondition(__values, step_line_condition)
 					if step_line.state is "submitted"
@@ -415,7 +415,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 	else if step_type is "end"
 		return new Array
 	else if step_type is "submit" or step_type is "start" or step_type is "counterSign"
-		lines = _.filter(step.lines, (line)->
+		lines = _.filter(step.lines, (line) ->
 			return line.state is "submitted"
 		)
 		if lines.length is 0
@@ -424,7 +424,7 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 			nextSteps = _.pluck(lines, 'to_step')
 	else if step_type is "sign"
 		if judge is "approved"
-			lines = _.filter(step.lines, (line)->
+			lines = _.filter(step.lines, (line) ->
 				return line.state is "approved"
 			)
 			if lines.length is 0
@@ -432,21 +432,21 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 			else
 				nextSteps = _.pluck(lines, 'to_step')
 		else if judge is "rejected"
-			lines = _.filter(step.lines, (line)->
+			lines = _.filter(step.lines, (line) ->
 				return line.state is "rejected"
 			)
 			rejectedSteps = _.pluck(lines, 'to_step')
 			# 取出instance的traces,取出所有历史trace中(is_finished=ture)的step_id
 			trace_steps = new Array
-			_.each(instance.traces, (trace)->
+			_.each(instance.traces, (trace) ->
 				if trace.is_finished is true
 					flowVersions = new Array
 					flowVersions.push(flow.current)
 					if flow.historys
 						flowVersions = flowVersions.concat(flow.historys)
-					_.each(flowVersions, (flowVer)->
+					_.each(flowVersions, (flowVer) ->
 						if flowVer._id is instance.flow_version
-							_.each(flowVer.steps, (flow_ver_step)->
+							_.each(flowVer.steps, (flow_ver_step) ->
 								if flow_ver_step._id is trace.step and flow_ver_step.step_type isnt "condition"
 									trace_steps.push(trace.step)
 							)
@@ -455,13 +455,13 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 			# 取出flow,取到instance对应的版本的开始结点和结束结点的step_id
 			flow_steps = new Array
 			if instance.flow_version is flow.current._id
-				_.each(flow.current.steps, (flow_step)->
+				_.each(flow.current.steps, (flow_step) ->
 					if flow_step.step_type is "start" or flow_step.step_type is "end"
 						flow_steps.push(flow_step._id)
 				)
 			else
-				_.each(flow.historys, (history)->
-					_.each(history.steps, (history_step)->
+				_.each(flow.historys, (history) ->
+					_.each(history.steps, (history_step) ->
 						if history_step.step_type is "start" or history_step.step_type is "end"
 							flow_steps.push(history_step._id)
 					)
@@ -476,19 +476,19 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 	if flow.historys
 		flowVersions = flowVersions.concat(flow.historys)
 
-	_.each(flowVersions, (flowVer)->
+	_.each(flowVersions, (flowVer) ->
 		if flowVer._id is instance.flow_version
-			_.each(flowVer.steps, (flow_ver_step)->
+			_.each(flowVer.steps, (flow_ver_step) ->
 				version_steps[flow_ver_step._id] = flow_ver_step
 			)
 	)
 
 	nextSteps = _.uniq(nextSteps)
-	_.each(nextSteps, (next_step_id)->
+	_.each(nextSteps, (next_step_id) ->
 		_next_step = version_steps[next_step_id]
 		if _next_step.step_type is "condition"
 			if _next_step.lines
-				_.each(_next_step.lines, (line)->
+				_.each(_next_step.lines, (line) ->
 					if line.to_step
 						nextSteps.push(line.to_step)
 				)
@@ -501,20 +501,20 @@ uuflowManager.getUpdatedValues = (instance) ->
 
 	# 取得最新的approve
 	trace_approve = null
-	_.each(instance.traces, (trace)->
+	_.each(instance.traces, (trace) ->
 		if trace.is_finished is false
-			trace_approve = _.find(trace.approves, (approve)->
-				return approve.is_finished is false
+			trace_approve = _.find(trace.approves, (approve) ->
+				return approve.is_finished is false and approve.type isnt 'cc' and approve.type isnt 'distribute'
 			)
 	)
 	# 取得最新的values
 	newest_values = null
 	if not instance.values
-		newest_values = trace_approve.values
-	else if not trace_approve.values
+		newest_values = trace_approve?.values
+	else if not trace_approve?.values
 		newest_values = instance.values
 	else
-		newest_values = _.extend(instance.values, trace_approve.values)
+		newest_values =  _.extend(_.clone(instance.values), trace_approve.values)
 	return newest_values
 
 uuflowManager.getForm = (form_id) ->
@@ -524,18 +524,65 @@ uuflowManager.getForm = (form_id) ->
 
 	return form
 
-uuflowManager.getInstanceName = (instance) ->
-	values = instance.values || {}
+uuflowManager.getFormVersion = (form, form_version) ->
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h) ->
+			return form_version is form_h._id
+		)
+
+	if not form_v
+		throw new Meteor.Error('error!', '未找到表单对应的版本')
+
+	return form_v
+
+uuflowManager.getCategory = (category_id) ->
+	return db.categories.findOne(category_id)
+
+uuflowManager.getInstanceName = (instance, vals) ->
+	values = _.clone(vals || instance.values) || {}
+
+	applicant = WorkflowManager.getFormulaUserObject(instance.space, instance.applicant)
+
+	values["applicant"] = applicant
+
+	values["applicant_name"] = instance.applicant_name
+	values["applicant_organization"] = instance.applicant_organization
+	values["applicant_organization_fullname"] = instance.applicant_organization_fullname
+	values["applicant_organization_name"] = instance.applicant_organization_name
+
+	values["submit_date"] = moment(instance.submit_date).utcOffset(0, false).format("YYYY-MM-DD")
+
 	form_id = instance.form
 	flow = uuflowManager.getFlow(instance.flow)
 
 	default_value = flow.name + ' ' + instance.code
-	name_forumla = uuflowManager.getForm(form_id).current.name_forumla
+	form_version = instance.form_version
+	form = uuflowManager.getForm(form_id)
+	form_v = uuflowManager.getFormVersion(form, form_version)
+	name_forumla = form_v.name_forumla
 	rev = default_value
 
 	if name_forumla
-		iscript = name_forumla.replace(/\{/g, "values['").replace(/\}/g, "']")
-		rev = eval(iscript) || default_value
+
+		if name_forumla.indexOf("{applicant.") > -1
+			iscript = name_forumla.replace(/\{applicant./g, "(applicant.").replace(/\}/g, " || '')")
+
+		iscript = name_forumla.replace(/\{/g, "(values.").replace(/\}/g, " || '')")
+
+#		console.log(iscript)
+
+		try
+
+			rev = eval(iscript) || default_value
+
+			#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+			rev = rev.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g, "")
+
+		catch e
+			console.log e
 
 	return rev.trim()
 
@@ -550,28 +597,29 @@ uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_ver
 		if form_version is instance_form.current._id
 			form_v = instance_form.current
 		else
-			form_v = _.find(instance_form.historys, (form_h)->
+			form_v = _.find(instance_form.historys, (form_h) ->
 				return form_version is form_h._id
 			)
 
-			_.each(form_v.fields, (field)->
-				if field.type is "table"
-					_.each(field.fields, (tableField)->
-						if approve_values[field.code] isnt null
-							_.each(approve_values[field.code], (tableValue)->
-								if permissions[tableField.code] is null or permissions[tableField.code] isnt "editable"
-									delete tableValue[tableField.code]
-							)
-					)
-				else if field.type is "section"
-					_.each(field.fields, (sectionField)->
-						if permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable"
-							delete approve_values[sectionField.code]
-					)
-				else
-					if permissions[field.code] is null or permissions[field.code] isnt "editable"
-						delete approve_values[field.code]
-			)
+		_.each(form_v.fields, (field) ->
+			if field.type is "table"
+#				_.each(field.fields, (tableField)->
+#					if approve_values[field.code] isnt null
+#						_.each(approve_values[field.code], (tableValue)->
+#							if !tableField.formula && (permissions[tableField.code] is null or permissions[tableField.code] isnt "editable")
+#								delete tableValue[tableField.code]
+#						)
+#				)
+				return
+			else if field.type is "section"
+				_.each(field.fields, (sectionField) ->
+					if !sectionField.formula && (permissions[sectionField.code] is null or permissions[sectionField.code] isnt "editable")
+						delete approve_values[sectionField.code]
+				)
+			else
+				if !field.formula && (permissions[field.code] is null or permissions[field.code] isnt "editable")
+					delete approve_values[field.code]
+		)
 	return approve_values
 
 uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info) ->
@@ -612,7 +660,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 						# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
-						instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+						# instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 					h++
 			i++
 
@@ -636,10 +685,10 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		instance.values = setObj.values
 		setObj.name = uuflowManager.getInstanceName(instance)
 
-		instance_trace = _.find(instance_traces, (trace)->
+		instance_trace = _.find(instance_traces, (trace) ->
 			return trace._id is trace_id
 		)
-		trace_approve = _.find(instance_trace.approves, (approve)->
+		trace_approve = _.find(instance_trace.approves, (approve) ->
 			return approve._id is approve_id
 		)
 		outbox_users = instance.outbox_users
@@ -650,6 +699,9 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		instance_traces.push(newTrace)
 		setObj.traces = instance_traces
 		setObj.inbox_users = []
+		setObj.finish_date = new Date
+		setObj.current_step_name = next_step_name
+		setObj.final_decision = 'approved'
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -686,7 +738,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 									instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 									instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 									# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
-									instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+									# instance_traces[i].approves[h].values = uuflowManager.getApproveValues(instance_traces[i].approves[h].values, step["permissions"], instance.form, instance.form_version)
+									instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -700,7 +753,9 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.name = next_step_name
 					newTrace.start_date = new Date
 					newTrace.approves = new Array
-					_.each next_step_users, (next_step_user_id)->
+
+					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					_.each next_step_users, (next_step_user_id) ->
 						# 插入下一步trace.approve记录
 						newApprove = new Object
 						newApprove._id = new Mongo.ObjectID()._str
@@ -709,12 +764,12 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newApprove.is_finished = false
 						newApprove.user = next_step_user_id
 
-						handler_info = db.users.findOne(next_step_user_id)
+						handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
 						newApprove.user_name = handler_info.name
 						newApprove.handler = next_step_user_id
 						newApprove.handler_name = handler_info.name
 
-						next_step_space_user = db.space_users.findOne({space: space_id, user: next_step_user_id})
+						next_step_space_user = db.space_users.findOne({ space: space_id, user: next_step_user_id })
 						# 获取next_step_user所在的部门信息
 						next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
 						newApprove.handler_organization = next_step_user_org_info["organization"]
@@ -724,19 +779,21 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newApprove.is_read = false
 						newApprove.is_error = false
 						newApprove.values = new Object
+						uuflowManager.setRemindInfo(updated_values, newApprove)
 						newTrace.approves.push(newApprove)
 
 					# 更新instance记录
+					setObj.state = "pending"
 					setObj.modified = new Date
 					setObj.modified_by = current_user
-					setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					setObj.values = updated_values
 					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
-					instance_trace = _.find(instance_traces, (trace)->
+					instance_trace = _.find(instance_traces, (trace) ->
 						return trace._id is trace_id
 					)
-					trace_approve = _.find(instance_trace.approves, (approve)->
+					trace_approve = _.find(instance_trace.approves, (approve) ->
 						return approve._id is approve_id
 					)
 					outbox_users = instance.outbox_users
@@ -747,6 +804,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 
 					instance_traces.push(newTrace)
 					setObj.traces = instance_traces
+					setObj.current_step_name = next_step_name
 
 	return setObj
 
@@ -763,7 +821,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 			nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
 
 			# 判断next_steps.step是否在nextSteps中,若不在则不合法
-			_.each(next_steps, (approve_next_step)->
+			_.each(next_steps, (approve_next_step) ->
 				if not nextSteps.includes(approve_next_step["step"])
 					throw new Meteor.Error('error!', "指定的下一步有误")
 			)
@@ -794,6 +852,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 								instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 								instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+								instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 							h++
 					i++
 
@@ -818,10 +877,10 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				instance.values = setObj.values
 				setObj.name = uuflowManager.getInstanceName(instance)
 
-				instance_trace = _.find(instance_traces, (trace)->
+				instance_trace = _.find(instance_traces, (trace) ->
 					return trace._id is trace_id
 				)
-				trace_approve = _.find(instance_trace.approves, (approve)->
+				trace_approve = _.find(instance_trace.approves, (approve) ->
 					return approve._id is approve_id
 				)
 				outbox_users = instance.outbox_users
@@ -831,6 +890,12 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				instance_traces.push(newTrace)
 				setObj.traces = instance_traces
 				setObj.inbox_users = []
+				setObj.finish_date = new Date
+
+				if instance.cc_users
+					setObj.cc_users = instance.cc_users
+
+				setObj.current_step_name = next_step_name
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -866,6 +931,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 											instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 											instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 											instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+											instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 										h++
 								i++
 
@@ -879,7 +945,9 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
-							_.each next_step_users, (next_step_user_id)->
+
+							updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+							_.each next_step_users, (next_step_user_id) ->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
@@ -888,7 +956,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newApprove.is_finished = false
 								newApprove.user = next_step_user_id
 
-								handler_info = db.users.findOne(next_step_user_id)
+								handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
 								newApprove.user_name = handler_info.name
 								newApprove.handler = next_step_user_id
 								newApprove.handler_name = handler_info.name
@@ -906,20 +974,21 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
+								uuflowManager.setRemindInfo(updated_values, newApprove)
 								newTrace.approves.push(newApprove)
 
 							# 更新instance记录
 							setObj.final_decision = judge
 							setObj.modified = new Date
 							setObj.modified_by = current_user
-							setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+							setObj.values = updated_values
 							instance.values = setObj.values
 							setObj.name = uuflowManager.getInstanceName(instance)
 
-							instance_trace = _.find(instance_traces, (trace)->
+							instance_trace = _.find(instance_traces, (trace) ->
 								return trace._id is trace_id
 							)
-							trace_approve = _.find(instance_trace.approves, (approve)->
+							trace_approve = _.find(instance_trace.approves, (approve) ->
 								return approve._id is approve_id
 							)
 							outbox_users = instance.outbox_users
@@ -929,6 +998,12 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							setObj.inbox_users = next_step_users
 							instance_traces.push(newTrace)
 							setObj.traces = instance_traces
+
+							setObj.state = "pending"
+							if instance.cc_users
+								setObj.cc_users = instance.cc_users
+
+							setObj.current_step_name = next_step_name
 		else if judge is "rejected"
 			if not description
 				throw new Meteor.Error('error!', "请填写驳回理由")
@@ -936,7 +1011,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				# 验证next_steps.step是否合法,判断next_steps.step是否在其中
 				nextSteps = uuflowManager.getNextSteps(instance, flow, step, "rejected")
 				# 判断next_steps.step是否在nextSteps中,若不在则不合法
-				_.each next_steps, (approve_next_step)->
+				_.each next_steps, (approve_next_step) ->
 					if not nextSteps.includes(approve_next_step["step"])
 						throw new Meteor.Error('error!', "指定的下一步有误")
 				# 若合法,执行流转
@@ -966,6 +1041,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 									instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 									instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+									instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -990,10 +1066,10 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
-					instance_trace = _.find(instance_traces, (trace)->
+					instance_trace = _.find(instance_traces, (trace) ->
 						return trace._id is trace_id
 					)
-					trace_approve = _.find(instance_trace.approves, (approve)->
+					trace_approve = _.find(instance_trace.approves, (approve) ->
 						return approve._id is approve_id
 					)
 					outbox_users = instance.outbox_users
@@ -1003,6 +1079,12 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					instance_traces.push(newTrace)
 					setObj.traces = instance_traces
 					setObj.inbox_users = []
+					setObj.finish_date = new Date
+
+					if instance.cc_users
+						setObj.cc_users = instance.cc_users
+
+					setObj.current_step_name = next_step_name
 				else
 					# 若不是结束结点
 					# 先判断nextsteps.step.users是否为空
@@ -1038,6 +1120,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 												instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 												instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 												instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+												instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 											h++
 									i++
 
@@ -1051,7 +1134,9 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.name = next_step_name
 								newTrace.start_date = new Date
 								newTrace.approves = new Array
-								_.each next_step_users, (next_step_user_id)->
+
+								updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+								_.each next_step_users, (next_step_user_id) ->
 									# 插入下一步trace.approve记录
 									newApprove = new Object
 									newApprove._id = new Mongo.ObjectID()._str
@@ -1060,7 +1145,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									newApprove.is_finished = false
 									newApprove.user = next_step_user_id
 
-									handler_info = db.users.findOne(next_step_user_id)
+									handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
 									newApprove.user_name = handler_info.name
 									newApprove.handler = next_step_user_id
 									newApprove.handler_name = handler_info.name
@@ -1078,20 +1163,21 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									newApprove.is_read = false
 									newApprove.is_error = false
 									newApprove.values = new Object
+									uuflowManager.setRemindInfo(updated_values, newApprove)
 									newTrace.approves.push(newApprove)
 
 								# 更新instance记录
 								setObj.final_decision = judge
 								setObj.modified = new Date
 								setObj.modified_by = current_user
-								setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+								setObj.values = updated_values
 								instance.values = setObj.values
 								setObj.name = uuflowManager.getInstanceName(instance)
 
-								instance_trace = _.find(instance_traces, (trace)->
+								instance_trace = _.find(instance_traces, (trace) ->
 									return trace._id is trace_id
 								)
-								trace_approve = _.find(instance_trace.approves, (approve)->
+								trace_approve = _.find(instance_trace.approves, (approve) ->
 									return approve._id is approve_id
 								)
 								outbox_users = instance.outbox_users
@@ -1101,6 +1187,13 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								setObj.inbox_users = next_step_users
 								instance_traces.push(newTrace)
 								setObj.traces = instance_traces
+
+								setObj.state = "pending"
+								if instance.cc_users
+									setObj.cc_users = instance.cc_users
+
+								setObj.current_step_name = next_step_name
+
 
 	return setObj
 
@@ -1114,7 +1207,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 		# 验证next_steps.step是否合法,判断next_steps.step是否在其中
 		nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
 		# 判断next_steps.step是否在nextSteps中,若不在则不合法
-		_.each next_steps, (approve_next_step)->
+		_.each next_steps, (approve_next_step) ->
 			if not nextSteps.includes(approve_next_step["step"])
 				throw new Meteor.Error('error!', "指定的下一步有误")
 
@@ -1140,8 +1233,9 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 						instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
 						instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
 						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
+						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 
-					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc'
+					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
 						isAllApproveFinished = false
 
 					h++
@@ -1175,12 +1269,12 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				setObj.modified = new Date
 				setObj.modified_by = current_user
 
-				instance_trace = _.find(instance_traces, (trace)->
+				instance_trace = _.find(instance_traces, (trace) ->
 					return trace._id is trace_id
 				)
 
 				outbox_users = instance.outbox_users
-				_.each instance_trace.approves, (appro)->
+				_.each instance_trace.approves, (appro) ->
 					outbox_users.push appro.user
 					outbox_users.push appro.handler
 
@@ -1188,6 +1282,14 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				setObj.inbox_users = new Array
 				instance_traces.push(newTrace)
 				setObj.traces = instance_traces
+				setObj.finish_date = new Date
+
+				setObj.values = instance.values
+				if instance.cc_users
+					setObj.cc_users = instance.cc_users
+
+				setObj.current_step_name = next_step_name
+				setObj.final_decision = 'approved'
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1213,7 +1315,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
-							_.each next_step_users, (next_step_user_id)->
+							_.each next_step_users, (next_step_user_id) ->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
@@ -1222,7 +1324,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								newApprove.is_finished = false
 								newApprove.user = next_step_user_id
 
-								handler_info = db.users.findOne(next_step_user_id)
+								handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
 								newApprove.user_name = handler_info.name
 								newApprove.handler = next_step_user_id
 								newApprove.handler_name = handler_info.name
@@ -1240,17 +1342,18 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
+								uuflowManager.setRemindInfo(instance.values, newApprove)
 								newTrace.approves.push(newApprove)
 
 							# 更新instance记录
 							setObj.modified = new Date
 							setObj.modified_by = current_user
 
-							instance_trace = _.find(instance_traces, (trace)->
+							instance_trace = _.find(instance_traces, (trace) ->
 								return trace._id is trace_id
 							)
 							outbox_users = instance.outbox_users
-							_.each instance_trace.approves, (appro)->
+							_.each instance_trace.approves, (appro) ->
 								outbox_users.push appro.user
 								outbox_users.push appro.handler
 
@@ -1258,12 +1361,19 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							setObj.inbox_users = next_step_users
 							instance_traces.push(newTrace)
 							setObj.traces = instance_traces
+
+							setObj.state = "pending"
+							setObj.values = instance.values
+							if instance.cc_users
+								setObj.cc_users = instance.cc_users
+
+							setObj.current_step_name = next_step_name
 		else
 			# 当前trace未结束
-			instance_trace = _.find(instance_traces, (trace)->
+			instance_trace = _.find(instance_traces, (trace) ->
 				return trace._id is trace_id
 			)
-			trace_approve = _.find(instance_trace.approves, (approve)->
+			trace_approve = _.find(instance_trace.approves, (approve) ->
 				return approve._id is approve_id
 			)
 			outbox_users = instance.outbox_users
@@ -1281,12 +1391,17 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 
 			setObj.traces = instance_traces
 
+			setObj.state = "pending"
+			setObj.values = instance.values
+			if instance.cc_users
+				setObj.cc_users = instance.cc_users
+
 	return setObj
 
 # 生成HTML格式只读表单和签核历程, 由于此方法生成的html数据会作为邮件内容发送，为了再邮件中样式显示正常，
 # 请不要写单独的css，所有样式请写在html标签的style属性中。
-uuflowManager.ins_html = (current_user_info, ins)->
-	options = {templateName: 'table', showTrace: true, showAttachments: false}
+uuflowManager.ins_html = (current_user_info, ins) ->
+	options = { templateName: 'table', showTrace: true, showAttachments: false }
 	options.width = "765px" #此处宽度不能设置为偶数，否则会引起子表与主表线条对不齐的bug
 	options.styles = "
 		body {
@@ -1432,7 +1547,7 @@ uuflowManager.ins_html = (current_user_info, ins)->
 
 	return instanceHtml
 
-uuflowManager.create_instance = (instance_from_client, user_info)->
+uuflowManager.create_instance = (instance_from_client, user_info) ->
 	space_id = instance_from_client["space"]
 	flow_id = instance_from_client["flow"]
 	instance_flow_version = instance_from_client["flow_version"]
@@ -1456,19 +1571,16 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
 	# 判断一个flow是否为启用状态
 	uuflowManager.isFlowEnabled(flow)
-	# 判断一个flow和space_id是否匹配 
+	# 判断一个flow和space_id是否匹配
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
+
+	form = uuflowManager.getForm(flow.form)
 
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
 		throw new Meteor.Error('error!', "当前用户没有此流程的新建权限")
 
-	space_user = db.space_users.findOne(
-		space: space_id
-		user: user_id
-	)
-	space_user_org_info = db.organizations.findOne(space_user.organization)
 	now = new Date
 	ins_obj = {}
 	ins_obj._id = db.instances._makeNewID()
@@ -1480,11 +1592,11 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	ins_obj.name = flow.name
 	ins_obj.submitter = user_id
 	ins_obj.submitter_name = user_info.name
-	ins_obj.applicant = user_id
-	ins_obj.applicant_name = user_info.name
-	ins_obj.applicant_organization = space_user.organization
-	ins_obj.applicant_organization_name = space_user_org_info.name
-	ins_obj.applicant_organization_fullname = space_user_org_info.fullname
+	ins_obj.applicant = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	ins_obj.applicant_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
+	ins_obj.applicant_organization = if instance_from_client["applicant_organization"] then instance_from_client["applicant_organization"] else space_user.organization
+	ins_obj.applicant_organization_name = if instance_from_client["applicant_organization_name"] then instance_from_client["applicant_organization_name"] else space_user_org_info.name
+	ins_obj.applicant_organization_fullname = if instance_from_client["applicant_organization_fullname"] then instance_from_client["applicant_organization_fullname"] else  space_user_org_info.fullname
 	ins_obj.state = 'draft'
 	ins_obj.code = ''
 	ins_obj.is_archived = false
@@ -1500,7 +1612,7 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	trace_obj.instance = ins_obj._id
 	trace_obj.is_finished = false
 	# 当前最新版flow中开始节点
-	start_step = _.find(flow.current.steps, (step)->
+	start_step = _.find(flow.current.steps, (step) ->
 		return step.step_type is 'start'
 	)
 	trace_obj.step = start_step._id
@@ -1513,8 +1625,8 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	appr_obj.instance = ins_obj._id
 	appr_obj.trace = trace_obj._id
 	appr_obj.is_finished = false
-	appr_obj.user = user_id
-	appr_obj.user_name = user_info.name
+	appr_obj.user = if instance_from_client["applicant"] then instance_from_client["applicant"] else user_id
+	appr_obj.user_name = if instance_from_client["applicant_name"] then instance_from_client["applicant_name"] else user_info.name
 	appr_obj.handler = user_id
 	appr_obj.handler_name = user_info.name
 	appr_obj.handler_organization = space_user.organization
@@ -1531,25 +1643,39 @@ uuflowManager.create_instance = (instance_from_client, user_info)->
 	trace_obj.approves = [appr_obj]
 	ins_obj.traces = [trace_obj]
 
+	ins_obj.inbox_users = instance_from_client.inbox_users || []
+
+	ins_obj.current_step_name = start_step.name
+
+	if flow.auto_remind is true
+		ins_obj.auto_remind = true
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name
+
 	new_ins_id = db.instances.insert(ins_obj)
 
 	return new_ins_id
 
-uuflowManager.submit_instance = (instance_from_client, user_info)->
+uuflowManager.submit_instance = (instance_from_client, user_info) ->
 	current_user = user_info._id
 	lang = "en"
 	if user_info.locale is 'zh-cn'
 		lang = 'zh-CN'
 
-	instance_id = instance_from_client["id"]
-	trace_id = instance_from_client["traces"][0]["id"]
-	approve_id = instance_from_client["traces"][0]["approves"][0]["id"]
+	instance_id = instance_from_client["_id"]
+	trace_id = instance_from_client["traces"][0]["_id"]
+	approve_id = instance_from_client["traces"][0]["approves"][0]["_id"]
 	values = instance_from_client["traces"][0]["approves"][0]["values"]
 	if not values
 		values = new Object
 	#　验证表单上的applicant已填写
 	if not instance_from_client["applicant"]
-		throw new Meteor.Error('error!', "请选择申请人")
+		throw new Meteor.Error('error!', "请选择提交人")
 
 	applicant_id = instance_from_client["applicant"]
 	submitter_id = instance_from_client["submitter"]
@@ -1581,7 +1707,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 验证该user_id或其所在的组有提交此申请单的权限
 	permissions = permissionManager.getFlowPermissions(flow_id, current_user)
 	if not permissions.includes("add")
-		throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
+		throw new Meteor.Error('error!', "该提交人没有提交此申请单的权限。")
 
 	trace = instance_from_client["traces"][0]
 	# 获取一个step
@@ -1591,7 +1717,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# ================begin================
 	form = db.forms.findOne(instance.form)
 	# 获取Flow当前版本开始节点
-	start_step = _.find(flow.current.steps, (step)->
+	start_step = _.find(flow.current.steps, (step) ->
 		return step.step_type is 'start'
 	)
 
@@ -1602,9 +1728,9 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 	# 判断:applicant和原instance的applicant是否相等
 	if applicant_id is instance.applicant
 		# applicant和原instance的applicant相等
-		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
+		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
 			# 判断next_steps是否为空,不为空则写入到当前approve的next_steps中
 			if next_steps
@@ -1623,7 +1749,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
 			instance_traces[0].step = start_step._id
 			instance_traces[0].name = start_step.name
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			instance_traces[0]["approves"][0].judge = "submitted"
 
 	else
@@ -1642,9 +1768,9 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		instance_traces[0]["approves"][0].user_name = user.name
 		instance_traces[0]["approves"][0].judge = "submitted"
 
-		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["id"]表示流程未升级
+		# 判断流程是否已升级，instance["flow_version"] == flow["current"]["_id"]表示流程未升级
 		if instance.flow_version is flow.current._id
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
 			# 判断next_steps是否为空,不为空则写入到当前approve的next_steps中
 			if next_steps
 				instance_traces[0]["approves"][0].next_steps = next_steps
@@ -1661,14 +1787,19 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			# 清空原来的值， 存入当前最新版flow中开始节点的step_id
 			instance_traces[0].step = start_step._id
 			instance_traces[0].name = start_step.name
-			instance_traces[0]["approves"][0].values = values
+			# instance_traces[0]["approves"][0].values = values
+
+	# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
+	instance_traces[0]["approves"][0].values = uuflowManager.getApproveValues(values, step.permissions, instance.form, instance.form_version)
 
 	setObj.traces = instance_traces
-	db.instances.update({_id: instance_id}, {$set: setObj})
+	db.instances.update({ _id: instance_id }, { $set: setObj })
 	if flow_has_upgrade
-		return {alerts: TAPi18n.__('flow.point_upgraded', {}, lang)}
+		return { alerts: TAPi18n.__('flow.point_upgraded', {}, lang) }
 	# ================end================
 	instance = db.instances.findOne(instance_id) #使用最新的instance
+	# 判断一个instance是否为拟稿状态
+	uuflowManager.isInstanceDraft(instance, lang)
 	traces = instance.traces
 	upObj = new Object
 
@@ -1680,12 +1811,12 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 			throw new Meteor.Error('error!', "不能指定多个后续步骤")
 		else
 			nextSteps = uuflowManager.getNextSteps(instance, flow, step, "")
-			_.each(approve["next_steps"], (approve_next_step)->
+			_.each(approve["next_steps"], (approve_next_step) ->
 				if not nextSteps.includes(approve_next_step["step"])
 					throw new Meteor.Error('error!', "下一步步骤不合法")
 			)
 	# 校验下一步处理人user_accepted = true
-	_.each(approve["next_steps"][0]["users"], (next_step_user)->
+	_.each(approve["next_steps"][0]["users"], (next_step_user) ->
 		uuflowManager.getSpaceUser(space_id, next_step_user)
 	)
 	next_step = uuflowManager.getStep(instance, flow, approve["next_steps"][0]["step"])
@@ -1695,6 +1826,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		# 更新approve
 		traces[0]["approves"][0].is_finished = true
 		traces[0]["approves"][0].finish_date = new Date
+		traces[0]["approves"][0].cost_time = traces[0]["approves"][0].finish_date - traces[0]["approves"][0].start_date
 		# 更新trace
 		traces[0].is_finished = true
 		traces[0].judge = "submitted"
@@ -1703,7 +1835,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		newTrace = new Object
 		newTrace._id = new Mongo.ObjectID()._str
 		newTrace.instance = instance_id
-		newTrace.previous_trace_ids = [trace["id"]]
+		newTrace.previous_trace_ids = [trace["_id"]]
 		newTrace.is_finished = true
 		newTrace.step = next_step._id
 		newTrace.name = next_step.name
@@ -1723,9 +1855,12 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		upObj.inbox_users = []
 		upObj.outbox_users = [current_user]
 		# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
-		traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
+		# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
 		traces.push(newTrace)
 		upObj.traces = traces
+		upObj.finish_date = new Date
+		upObj.current_step_name = next_step.name
+		upObj.final_decision = "approved"
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
@@ -1745,6 +1880,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					# 更新approve
 					traces[0]["approves"][0].is_finished = true
 					traces[0]["approves"][0].finish_date = new Date
+					traces[0]["approves"][0].cost_time = traces[0]["approves"][0].finish_date - traces[0]["approves"][0].start_date
 					# 更新trace
 					traces[0].is_finished = true
 					traces[0].finish_date = new Date
@@ -1753,7 +1889,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					nextTrace = new Object
 					nextTrace._id = new Mongo.ObjectID()._str
 					nextTrace.instance = instance_id
-					nextTrace.previous_trace_ids = [trace["id"]]
+					nextTrace.previous_trace_ids = [trace["_id"]]
 					nextTrace.is_finished = false
 					nextTrace.step = next_step._id
 					nextTrace.name = next_step.name
@@ -1762,8 +1898,10 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
 						nextTrace.due_date = new Date(due_time)
 					nextTrace.approves = new Array
+
+					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 					# 插入下一步trace.approve记录
-					_.each(next_step_users, (next_step_user_id)->
+					_.each(next_step_users, (next_step_user_id) ->
 						nextApprove = new Object
 						nextApprove._id = new Mongo.ObjectID()._str
 						nextApprove.instance = instance_id
@@ -1785,6 +1923,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 						nextApprove.is_read = false
 						nextApprove.is_error = false
 						nextApprove.values = new Object
+						uuflowManager.setRemindInfo(updated_values, nextApprove)
 						nextTrace.approves.push(nextApprove)
 					)
 					# 更新instance记录
@@ -1792,7 +1931,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					upObj.submit_date = new Date
 					upObj.state = "pending"
 					# 重新查找暂存之后的instance
-					upObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					upObj.values = updated_values
 					upObj.inbox_users = next_step_users
 					upObj.modified = new Date
 					upObj.modified_by = current_user
@@ -1802,13 +1941,15 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 					instance.values = upObj.values
 					upObj.name = uuflowManager.getInstanceName(instance)
 					# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
-					traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step["permissions"], instance.form, instance.form_version)
+					# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step["permissions"], instance.form, instance.form_version)
 					traces.push(nextTrace)
 					upObj.traces = traces
 					upObj.outbox_users = []
+					upObj.current_step_name = next_step.name
 
-	db.instances.update({_id: instance_id}, {$set: upObj})
-	db.flows.direct.update({_id: flow._id}, {$set: {current_no: flow.current_no + 1}})
+	upObj.keywords = uuflowManager.caculateKeywords(upObj.values, form, instance.form_version)
+	db.instances.update({ _id: instance_id }, { $set: upObj })
+	db.flows.direct.update({ _id: flow._id }, { $set: { current_no: flow.current_no + 1 } })
 	if next_step.step_type isnt "end"
 		instance = db.instances.findOne(instance_id)
 		#发送短消息给申请人
@@ -1817,7 +1958,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info)->
 		pushManager.send_instance_notification("first_submit_inbox", instance, "", user_info)
 	return {}
 
-uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
+uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token) ->
 	sync_token = new Date(Number(sync_token) * 1000)
 	changeSet = new Object
 	changeSet.sync_token = new Date().getTime() / 1000
@@ -1858,41 +1999,307 @@ uuflowManager.get_SpaceChangeSet = (formids, is_admin, sync_token)->
 	if formids and formids.trim()
 		formids_ary = formids.split(",")
 		changeSet.inserts.Instances = db.instances.find({
-			form: {$in: formids_ary},
-			created: {$gt: sync_token}
+			form: { $in: formids_ary },
+			created: { $gt: sync_token }
 		}).fetch()
 		changeSet.updates.Instances = db.instances.find({
-			form: {$in: formids_ary},
-			created: {$lte: sync_token},
-			modified: {$gt: sync_token}
+			form: { $in: formids_ary },
+			created: { $lte: sync_token },
+			modified: { $gt: sync_token }
 		}).fetch()
 		changeSet.deletes.Instances = db.deleted_instances.find({
-			form: {$in: formids_ary},
-			deleted: {$gt: sync_token}
-		}, {fields: {_id: 1}}).fetch()
+			form: { $in: formids_ary },
+			deleted: { $gt: sync_token }
+		}, { fields: { _id: 1 } }).fetch()
 
 	else if is_admin and is_admin.trim()
 		changeSet.inserts.Instances = db.instances.find({
-			created: {$gt: sync_token}
+			created: { $gt: sync_token }
 		}).fetch()
 		changeSet.updates.Instances = db.instances.find({
-			created: {$lte: sync_token},
-			modified: {$gt: sync_token}
+			created: { $lte: sync_token },
+			modified: { $gt: sync_token }
 		}).fetch()
 		changeSet.deletes.Instances = db.deleted_instances.find({
-			deleted: {$gt: sync_token}
-		}, {fields: {_id: 1}}).fetch()
+			deleted: { $gt: sync_token }
+		}, { fields: { _id: 1 } }).fetch()
 
 	# 查询提交人和申请人steedos_id
-	_.each changeSet.inserts.Instances, (ins)->
-		submitter = db.users.findOne({_id: ins.submitter}, {fields: {steedos_id: 1}})
-		applicant = db.users.findOne({_id: ins.applicant}, {fields: {steedos_id: 1}})
+	_.each changeSet.inserts.Instances, (ins) ->
+		submitter = db.users.findOne({ _id: ins.submitter }, { fields: { steedos_id: 1 } })
+		applicant = db.users.findOne({ _id: ins.applicant }, { fields: { steedos_id: 1 } })
 		ins.submitter_steedos_id = submitter.steedos_id if submitter
 		ins.applicant_steedos_id = applicant.steedos_id if applicant
-	_.each changeSet.updates.Instances, (ins)->
-		submitter = db.users.findOne({_id: ins.submitter}, {fields: {steedos_id: 1}})
-		applicant = db.users.findOne({_id: ins.applicant}, {fields: {steedos_id: 1}})
+	_.each changeSet.updates.Instances, (ins) ->
+		submitter = db.users.findOne({ _id: ins.submitter }, { fields: { steedos_id: 1 } })
+		applicant = db.users.findOne({ _id: ins.applicant }, { fields: { steedos_id: 1 } })
 		ins.submitter_steedos_id = submitter.steedos_id if submitter
 		ins.applicant_steedos_id = applicant.steedos_id if applicant
 
-	return {ChangeSet: changeSet}
+	return { ChangeSet: changeSet }
+
+### 文件催办
+根据instance.values.priority和instance.values.deadline给approve增加remind相关信息
+{
+	deadline: Date,
+	remind_date: Date,
+	reminded_count: Number
+}
+###
+uuflowManager.setRemindInfo = (values, approve) ->
+	check values, Object
+	check approve, Object
+	check approve.start_date, Date
+
+	remind_date = null
+	deadline = null
+	start_date = approve.start_date
+
+	if values.priority and values.deadline
+		check values.priority, Match.OneOf("普通", "办文", "紧急", "特急")
+		# 由于values中的date字段的值为String，故作如下校验
+		deadline = new Date(values.deadline)
+		if deadline.toString() is "Invalid Date"
+			return
+
+		priority = values.priority
+
+		if priority is "普通"
+			remind_date = Steedos.caculateWorkingTime(start_date, 3)
+		else if priority is "办文"
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else if Steedos.caculateWorkingTime(start_date, 1) > deadline
+				caculate_date = (base_date) ->
+					plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+					if plus_halfday_date > deadline
+						remind_date = base_date
+					else
+						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+					return
+				caculate_date(start_date)
+			else
+				remind_date = Steedos.caculateWorkingTime(start_date, 1)
+		else if priority is "紧急" or priority is "特急"
+			if Steedos.caculatePlusHalfWorkingDay(start_date) > deadline # 超过了办结时限或者距离办结时限半日内
+				remind_date = Steedos.caculatePlusHalfWorkingDay(start_date, true)
+			else if Steedos.caculateWorkingTime(start_date, 1) > deadline
+				caculate_date = (base_date) ->
+					plus_halfday_date = Steedos.caculatePlusHalfWorkingDay(base_date)
+					if plus_halfday_date > deadline
+						remind_date = base_date
+					else
+						caculate_date(Steedos.caculatePlusHalfWorkingDay(base_date, true))
+					return
+				caculate_date(start_date)
+			else
+				remind_date = Steedos.caculatePlusHalfWorkingDay start_date
+			ins = db.instances.findOne(approve.instance)
+			if ins.state is 'draft'
+				flow = db.flows.findOne({ _id: ins.flow }, { fields: { current_no: 1 } })
+				ins.code = flow.current_no + 1 + ''
+			ins.values = values
+			uuflowManager.sendRemindSMS uuflowManager.getInstanceName(ins), deadline, [approve.user], ins.space, ins._id
+	else
+		# 如果没有配置 紧急程度 和办结时限 则按照 '普通' 规则催办
+		remind_date = Steedos.caculateWorkingTime(start_date, 3)
+
+	approve.deadline = deadline
+	approve.remind_date = remind_date
+	approve.reminded_count = 0
+
+	return
+
+# 发送催办短信
+uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id) ->
+	check ins_name, String
+	check deadline, Date
+	check users_id, Array
+	check space_id, String
+	check ins_id, String
+
+	skip_users = Meteor.settings.remind?.skip_users || []
+	send_users = []
+	_.each users_id, (uid) ->
+		if not skip_users.includes(uid)
+			send_users.push(uid)
+
+	name = if ins_name.length > 15 then ins_name.substr(0,12) + '...' else ins_name
+
+	db.users.find({_id: {$in: _.uniq(send_users)}, mobile: {$exists: true}}, {fields: {mobile: 1, utcOffset: 1, locale: 1, name: 1}}).forEach (user)->
+		utcOffset = if user.hasOwnProperty('utcOffset') then user.utcOffset else 8
+		params = {
+			instance_name: name,
+			deadline: moment(deadline).utcOffset(utcOffset).format('MM-DD HH:mm')
+		}
+		#设置当前语言环境
+		lang = 'en'
+		if user.locale is 'zh-cn'
+			lang = 'zh-CN'
+		# 发送手机短信
+		SMSQueue.send({
+			Format: 'JSON',
+			Action: 'SingleSendSms',
+			ParamString: JSON.stringify(params),
+			RecNum: user.mobile,
+			SignName: 'OA系统',
+			TemplateCode: 'SMS_67200967',
+			msg: TAPi18n.__('sms.remind.template', {instance_name: ins_name, deadline: params.deadline, open_app_url: Meteor.absoluteUrl()+"workflow.html?space_id=#{space_id}&ins_id=#{ins_id}"}, lang)
+		})
+
+		# 发推送消息
+		notification = new Object
+		notification["createdAt"] = new Date
+		notification["createdBy"] = '<SERVER>'
+		notification["from"] = 'workflow'
+		notification['title'] = user.name
+		notification['text'] = TAPi18n.__('instance.push.body.remind', {instance_name: ins_name, deadline: params.deadline}, lang)
+
+		payload = new Object
+		payload["space"] = space_id
+		payload["instance"] = ins_id
+		payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length - 1)
+		payload["requireInteraction"] = true
+		notification["payload"] = payload
+		notification['query'] = { userId: user._id, appName: 'workflow' }
+
+		Push.send(notification)
+
+
+# 如果申请单的名字变了，正文的名字要跟申请单名字保持同步
+uuflowManager.checkMainAttach = (instance_id, name) ->
+	main = cfs.instances.findOne({ 'metadata.instance': instance_id, 'metadata.main': true, 'metadata.current': true })
+	if main
+		ins = db.instances.findOne({ _id: instance_id }, { fields: { name: 1 } })
+		new_ins_name = name || ins.name
+
+		new_ins_name = new_ins_name.replace(/\r/g, "").replace(/\n/g, "")
+
+		#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
+		new_ins_name = new_ins_name.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g, "")
+
+		main_name_split = main.name().split('.')
+		main_name_split.pop()
+		if new_ins_name isnt main_name_split.join("")
+			file_name = new_ins_name + "." + main.extension()
+			main.update({ $set: { 'original.name': file_name, 'copies.instances.name': file_name } })
+
+uuflowManager.caculateKeywords = (values, form, form_version) ->
+	if _.isEmpty(values)
+		return ""
+
+	keywords = []
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h) ->
+			return form_version is form_h._id
+		)
+
+	_.each form_v.fields, (field) ->
+		if field.is_searchable
+			if field.type == 'input' or field.type == 'email' or field.type == 'url' or field.type == 'number' or field.type == 'select' or field.type == 'radio'
+				if values[field.code]
+					keywords.push values[field.code]
+			# multiSelect
+			else if field.type == 'multiSelect'
+				if values[field.code]
+					keywords.push values[field.code]
+			# 选人选组控件 取name
+			else if field.type == 'user' or field.type == 'group'
+				# 多选
+				if field.is_multiselect == true
+					multiValue = values[field.code]
+					if _.isArray(multiValue)
+						_.each multiValue, (singleV) ->
+							if singleV and singleV['name']
+								keywords.push singleV['name']
+				# 单选
+				else
+					if values[field.code] and values[field.code]['name']
+						keywords.push values[field.code]['name']
+		# 子表
+		else if field.type == 'table'
+			if values[field.code]
+				_.each values[field.code], (s_value) ->
+					_.each field.fields, (s_field) ->
+						if s_field.is_searchable
+							if s_field.type == 'input' or s_field.type == 'email' or s_field.type == 'url' or s_field.type == 'number' or s_field.type == 'select' or s_field.type == 'radio'
+								if s_value[s_field.code]
+									keywords.push s_value[s_field.code]
+							# multiSelect
+							else if s_field.type == 'multiSelect'
+								if s_value[s_field.code]
+									keywords.push s_value[s_field.code]
+							# 选人选组控件 取name
+							else if s_field.type is 'user' or s_field.type is 'group'
+								# 多选
+								if s_field.is_multiselect == true
+									multiValue = s_value[s_field.code]
+									if _.isArray(multiValue)
+										_.each multiValue, (singleV) ->
+											if singleV and singleV['name']
+												keywords.push singleV['name']
+								# 单选
+								else
+									if s_value[s_field.code] and s_value[s_field.code]['name']
+										keywords.push s_value[s_field.code]['name']
+		# 分组
+		else if field.type == 'section'
+			_.each field.fields, (s_field) ->
+				if s_field.is_searchable
+					if s_field.type == 'input' or s_field.type == 'email' or s_field.type == 'url' or s_field.type == 'number' or s_field.type == 'select' or s_field.type == 'radio'
+						if values[s_field.code]
+							keywords.push values[s_field.code]
+					# multiSelect
+					else if s_field.type == 'multiSelect'
+						if values[s_field.code]
+							keywords.push values[s_field.code]
+					# 选人选组控件 取name
+					else if s_field.type is 'user' or s_field.type is 'group'
+						# 多选
+						if s_field.is_multiselect == true
+							multiValue = values[s_field.code]
+							if _.isArray(multiValue)
+								_.each multiValue, (singleV) ->
+									if singleV and singleV['name']
+										keywords.push singleV['name']
+						# 单选
+						else
+							if values[s_field.code] and values[s_field.code]['name']
+								keywords.push values[s_field.code]['name']
+
+	return keywords.join(" ")
+
+uuflowManager.checkValueFieldsRequire = (values, form, form_version) ->
+	values = values || {}
+
+	require_but_empty_fields = []
+
+	form_v = null
+	if form_version is form.current._id
+		form_v = form.current
+	else
+		form_v = _.find(form.historys, (form_h) ->
+			return form_version is form_h._id
+		)
+
+	_.each form_v.fields, (field) ->
+		if field.type != 'table'
+			if field.is_required and _.isEmpty(values[field.code])
+				require_but_empty_fields.push field.name || field.code
+
+		# 子表
+		else if field.type == 'table'
+			if _.isEmpty(values[field.code])
+				_.each field.fields, (s_field) ->
+					if s_field.is_required
+						require_but_empty_fields.push s_field.name || s_field.code
+			else
+				_.each values[field.code], (s_value) ->
+					_.each field.fields, (s_field) ->
+						if s_field.is_required and _.isEmpty(s_value[s_field.code])
+							require_but_empty_fields.push s_field.name || s_field.code
+
+	return require_but_empty_fields

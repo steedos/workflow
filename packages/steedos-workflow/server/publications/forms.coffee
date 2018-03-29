@@ -27,9 +27,13 @@ Meteor.publish 'form_version', (spaceId, formId, versionId) ->
 
 	getFormVersion = (id , versionId)->
 		form = db.forms.findOne({_id : id});
+		if !form
+			return {}
 		form_version = form.current
+		form_version.latest = true
 		if form_version._id != versionId
 			form_version = form.historys.findPropertyByPK("_id", versionId)
+			form_version.latest = false
 		return form_version
 
 	handle = db.forms.find({_id: formId}).observeChanges {

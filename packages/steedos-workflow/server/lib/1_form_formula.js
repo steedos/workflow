@@ -61,6 +61,17 @@ Form_formula.handerUserObject = function(u){
         user.organization = {};
         user.organization.name = u.getProperty("organization").getProperty("name");
         user.organization.fullname = u.getProperty("organization").getProperty("fullname");
+
+        user.hr = u.getProperty("hr")
+
+        user.sort_no = u.getProperty("sort_no")
+
+		user.mobile = u.getProperty("mobile")
+
+		user.work_phone = u.getProperty("work_phone")
+
+		user.position = u.getProperty("position")
+
         var userRoles = u.getProperty("roles");
         var roles = new Array();
         userRoles.forEach(function(i){
@@ -78,7 +89,7 @@ Form_formula.handerOrgObject = function(o){
 
     if(o instanceof Array){
         var org = {};
-
+		org.id = o.getProperty("_id");
         org.name = o.getProperty("name");
         org.fullname = o.getProperty("fullname");
 

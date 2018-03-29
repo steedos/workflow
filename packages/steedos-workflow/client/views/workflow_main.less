@@ -1,8 +1,16 @@
 .steedos {
 }
 
-.instance-list-wrapper {
+.workflow-main {
+	position: absolute;
+	top: 0;
+	left: 0;
 	right: 0;
+	bottom: 0;
+}
+
+.instance-list-wrapper {
+	right: -1px;
 	left: 0;
 	float: left;
 	padding-left: 0px;
@@ -11,60 +19,133 @@
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
+	background: #fff;
+
+	.navigation-bar{
+		.btn-offcanvas{
+			max-width: 38px;
+			.inbox-pending-icon{
+				font-size: 75%;
+				position: relative;
+				left: -8px;
+				top: -6px;
+			}
+		}
+		@media (max-width: 767px) {
+			.btn-offcanvas {
+				max-width: 42px;
+				position: relative;
+				left: -9px;
+				padding: 14px;
+				top: -9px;
+			}
+			.pull-right {
+				.instance_new {
+					position: relative;
+					right: -9px;
+					padding: 14px;
+					top: -9px;
+					.ion-plus {
+						position: relative;
+						top: 1px;
+					}
+				}
+			}
+		}
+	}
+
+	.toolbar{
+		height: 51px;
+		background: #f3f3f3;
+		.instance-search-box{
+			margin-right:5px;
+			.input-group{
+				width:235px;
+				#instance_search{
+					padding-right: 35px;
+				}
+				#instance_search_button{
+					padding: 6px 10px;
+					margin-left: -35px;
+					border-top-right-radius: 6px;
+					border-bottom-right-radius: 6px;
+					height: 34px;
+					z-index: 4;
+				}
+				#instance_more_search{
+					margin: 0;
+				}
+				.form-control{
+					border-radius: 6px;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 767px){
+		.toolbar{
+			.instance-search-box{
+				position: absolute;
+				left: 8px;
+				right: 8px;
+				margin-right: 0!important;
+				.input-group{
+					width:100%;
+				}
+			}
+		}
+	}
+
+	.search-tip-bar{
+		background: #FFF;
+		border-bottom: 1px solid #eee;
+		padding: 10px 20px;
+		height: 40px;
+		.result-container {
+			width: calc(~"100% - 30px");
+		}
+		#instance_search_tip_close_btn {
+			width: 30px;
+		}
+	}
 
 	.instance-list {
 		overflow-x: hidden;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
-		top: 51px;
 		bottom: 0px;
 		right: 0px;
 		left: 0px;
 		position: absolute;
 		background-color: white;
 
-		.dataTables_wrapper {
-			margin-right: -1px;
+		&.selectbar-is-show {
+			top: 142px;
 		}
+		&.selectbar-is-hide {
+			top: 102px;
+		}
+
+		//.dataTables_wrapper {
+		//  margin-right: -1px;
+		//  overflow-x: auto;
+		//}
 		.instance-name {
-				padding-left: 15px;
-				font-weight: bold
+			padding-left: 15px;
+			font-weight: bold;
+			word-break: break-all;
+			width: 100%;
+		}
+		.flow-name{
+			float: left;
 		}
 		.instance-modified {
 				padding-right: 10px;
+				display: inline-block;
 				float: right;
 		}
 		.instance-applicant {
 				padding-left: 15px;
-		}
-		.toolbar{
-			background: rgba(238, 238, 238, 0.72);
-			.instance-search-box{
-				margin-right:5px;
-				.input-group{
-					width:200px;
-					.form-control{
-						border-radius: 6px;
-					}
-					.btn{
-						margin-left: -34px;
-					}
-				}
-			}
-		}
-
-		@media screen and (max-width: 767px){
-			.toolbar{
-				.instance-search-box{
-					position: absolute;
-					left: 8px;
-					right: 8px;
-					margin-right: 0!important;
-					.input-group{
-						width:100%;
-					}
-				}
-			}
 		}
 	}
 
@@ -81,12 +162,13 @@
 			margin-top: 0px !important;
 
 			thead {
-				display: none
-			}
+				 display: none
+			 }
 
 		}
-		.dataTables_paginate {
-			padding-right: 10px;
+
+		.table-bordered {
+			border-left: none;
 		}
 		.table > tbody > tr > td {
 			border-bottom: 1px solid #E8E8E8;
@@ -123,13 +205,44 @@
 	.navigation-bar{
 		.instance-left-buttons{
 			overflow: hidden;
-			width: 83%;
+			width: 82%;
 			height: 38px;
+			position: relative;
+			top: -2px;
 
 			.btn{
 				margin-right: -6px;
 				padding-right: 8px;
 				padding-left: 8px;
+				margin-top: 2px;
+			}
+			@media (max-width: 767px) {
+				.btn-instance-submit {
+					background-color: rgba(0, 0, 0, 0.2);
+					border-color: rgba(0, 0, 0, 0.2);
+				}
+			}
+		}
+		@media (max-width: 767px) {
+			.instance-left-buttons {
+				height: 50px;
+				top: -9px;
+				left: -9px;
+				.btn {
+					padding: 8px 8px;
+					margin-top: 1px;
+				}
+				.btn-instance-back {
+					padding: 14px;
+				}
+			}
+			.pull-right {
+				.btn {
+					position: relative;
+					top: -9px;
+					padding: 14px;
+					right: -9px;
+				}
 			}
 		}
 	}
@@ -141,6 +254,45 @@
 		bottom: 0px;
 		left: 0px;
 		right: 0px;
+
+		.instance-suggestion-close{
+			position: absolute;
+			right: 5px;
+			z-index: 666;
+			.btn{
+				color: #999;
+				font-size: 21px;
+			}
+		}
+
+		@media (max-width: 767px) {
+			.instance-suggestion-close {
+				display: none;
+			}
+		}
+
+		.instance-suggestion-next-steps{
+			.only-one-next-step{
+				padding: 3px 0 3px 12px;
+				margin-bottom: 0;
+				font-weight: normal;
+				input {
+					display: none;
+				}
+			}
+		}
+
+		.suggestion-radio-box{
+			label{
+				height: 22px;
+				line-height: 22px;
+				margin-right: 10px;
+			}
+			.radio-inline + .radio-inline {
+				margin-left: 0px;
+			}
+		}
+
 		.btn-suggestion-toggle{
 			z-index: 999;
 			position: absolute;
@@ -148,21 +300,15 @@
 			right: 20px;
 			border-radius: 48px;
 			font-size: 24px;
-			padding-top: 8px;
-			width: 48px;
-			height: 48px;
 			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
 			border: solid 1px #08C;
 			outline: none!important;
-			width: auto;
-			line-height: 36px;
-			height: 36px;
-			padding: 0 8px;
+			width: 48px;
+			height: 48px;
 			i.ion{
 				float: left;
 				height: 36px;
 				line-height: 36px;
-				font-size: 100%;
 			}
 			span{
 				font-size: 16px;
@@ -176,6 +322,14 @@
 			-moz-animation: bs linear 2s 1.5s infinite;
 			animation: bs linear 3s 1.5s infinite;*/
 		}
+
+		.txt-suggestion-toggle{
+			width: 57px;
+			height: 57px;
+			border-radius: 57px;
+			font-size: 16px;
+		}
+
 		.instance-suggestion {
 			position:absolute;
 			right:0;
@@ -188,12 +342,31 @@
 			padding: 0 4px;
 			margin-bottom:0px;
 			/*box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.5);*/
-			box-shadow: 0 4px 4px -4px black inset;
+			/*box-shadow: 0 4px 4px -4px black inset;*/
+			box-shadow: 0 -5px 30px -12px rgba(0, 0, 0, 0.42), 0 -2px 25px 0px rgba(0, 0, 0, 0.12), 0 -4px 10px -5px rgba(0, 0, 0, 0.2);
+			overflow-y: auto;
+			overflow-x: hidden;
+			max-height: 100%;
 			.form-group{
 				margin-bottom:8px;
+				.cc-description-box{
+					word-wrap: break-word;
+					width: calc(~"100% - 20px");
+					label {
+						margin-right: 3px;
+						margin-bottom: 0px;
+					}
+				}
+				@media (max-width: 767px) {
+					.cc-description-box {
+						width: 100%;
+					}
+				}
 			}
 			.input-group-addon{
 				background-color: #f5f5f5;
+				min-width: 50px;
+				text-align: left;
 			}
 			.help-block{
 				margin:0;
@@ -201,13 +374,53 @@
 			#instance_flow_opinions{
 				border: none;
 				padding: 4px 8px;
-				margin: -40px 4px;
+				position: absolute;
+				top: 3px;
+				right: 25px;
 			}
-			.btn-remove {
-				color: #999;
+
+			.btn-mobile{
+				top: 15px !important;
 			}
-			.btn-remove:hover {
-				color: #666;
+			//.btn-remove {
+			//  color: #999;
+			//}
+			//.btn-remove:hover {
+			//  color: #666;
+			//}
+			.instance-suggestion-next-steps{
+				border: solid 1px #ccc;
+				background: #fff;
+				padding: 4px 0px;
+				.radio{
+					cursor: pointer;
+					padding: 2px 0px 2px 30px;
+					font-weight: normal;
+					margin: 0px 0px;
+					line-height: 20px;
+					&:hover{
+						background:#eee;
+					}
+					@media (max-width: 767px){
+						line-height: 25px;
+						.mobile-safari{
+							line-height: 24px;
+						}
+					}
+					.safari{
+						line-height: 24px;
+					}
+				}
+			}
+
+			.nextStepUsers{
+				background: #fff !important;
+			}
+
+			.has-error{
+				.instance-suggestion-next-steps{
+					border-color: #dd4b39;
+				}
 			}
 		}
 		&.suggestion-active{
@@ -219,6 +432,7 @@
 			}
 		}
 		.instance {
+			overflow-x: auto;
 			overflow-y: auto;
 			-webkit-overflow-scrolling: touch;
 			top: 0px;
@@ -227,12 +441,21 @@
 			left: 0px;
 			position: absolute;
 			padding: 0px;
-			background-color: #ecf0f5;
+			background-color: #fff;
 			padding-bottom: 20px;
 
 			.row {
 				margin-right: 0px;
 				margin-left: 0px;
+			}
+
+			&.instance-default{
+				.form-group{
+					margin-bottom: 5px;
+					.control-label{
+						margin-bottom: 3px;
+					}
+				}
 			}
 
 			.box-body {
@@ -249,6 +472,8 @@
 				position: relative;
 				box-shadow: none;
 				z-index: auto;
+				/*草稿箱审批栏离底部不应该有20px的空隙*/
+				margin-bottom: -20px;
 				.btn-remove{
 					display:none;
 				}
@@ -266,7 +491,8 @@
 _:-ms-fullscreen,
 :root .instance-wrapper .instance-view .instance-suggestion{
 	#instance_flow_opinions{
-		margin: -36px 4px;
+		top: -2px;
+		right: 15px;
 	}
 }
 
@@ -281,95 +507,119 @@ _:-ms-fullscreen,
 	}
 }
 
-@media (min-width: 1281px) {
-	.workflow-main {
-		.instance-list-wrapper {
-			display: block;
-			right: 60%;
-
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			background-color: #fff;
-			z-index: 2;
-		}
-		.instance-wrapper {
-			left: 100%;
-			width: 60%;
-			transform: translate(0, 0);
-
-			margin: 15px 10px 15px -10px;
-			border-radius: 0 5px 5px 0;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-			.navigation-bar{
-				.btn-instance-back{
-					display: inline-block!important;
-					&.visible-xs-inline-block{
-						display:none!important;
-					}
-				}
+.steedos{
+	.toogle-columns-box{
+		margin:0 -6px;
+		.btn-toogle-columns{
+			i{
+				margin-top: 6px;
 			}
 		}
 	}
-	.workflow-main.instance-show {
-		.instance-list-wrapper {
-			right: 60%;
-			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
-		}
-		.instance-wrapper {
-			width: 60%;
-			left: 40%;
-			background: white;
-			transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+	.toogle-columns-box{
+		display: none;
+	}
+	@media (min-width: 1441px) {
+		.toogle-columns-box{
+			display: block;
 		}
 	}
 }
 
-
-@media (max-width: 1280px) {
-	.workflow-main {
-		.instance-list-wrapper {
-			display: block;
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			width: auto;
-			left: 0;
-			right: 0px;
-			border-right: 0px;
-			transition: 0.3s ease-in-out;
+.workflow-main {
+	.instance-list-wrapper {
+		display: block;
+		// margin: 10px 10px 10px 10px;
+		// border-radius: 5px;
+		margin: 0;
+		border-radius: 0;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+		width: auto;
+		left: 0;
+		right: 0px;
+		border-right: 0px;
+		transition: 0.3s ease-in-out;
+		.instance-list {
+			overflow: auto;
 		}
-		.instance-wrapper {
-			display: none;
-			margin: 10px 10px 10px 10px;
-			border-radius: 5px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-			width: auto;
-			left: 0;
-			right: 0px;
-			transition: 0.3s ease-in-out;
-			.instance{
-				/*这里加margin-bottom: 1px;纯粹是因为在两栏的模式下，底部出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
-				margin-bottom: 1px;
+	}
+	.instance-wrapper {
+		display: none;
+		// margin: 10px 10px 10px 10px;
+		// border-radius: 5px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+		width: auto;
+		left: 0;
+		right: 0px;
+		transition: 0.3s ease-in-out;
+		.instance{
+			/*这里加margin-bottom: 1px;纯粹是因为在两栏的模式下，底部出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
+			margin-bottom: 1px;
+		}
+	}
+}
+.workflow-main.instance-show {
+	.instance-list-wrapper {
+		display: none;
+	}
+	.instance-wrapper {
+		display: block;
+		width: auto;
+		left: 0;
+		right: 0px;
+		.navigation-bar{
+			.btn-instance-back{
+				display: inline-block!important;
+				&.visible-xs-inline-block{
+					display:none!important;
+				}
 			}
 		}
 	}
-	.workflow-main.instance-show {
-		.instance-list-wrapper {
-			display: none;
-		}
-		.instance-wrapper {
-			display: block;
-			width: auto;
-			left: 0;
-			right: 0px;
-			.navigation-bar{
-				.btn-instance-back{
-					display: inline-block!important;
-					&.visible-xs-inline-block{
-						display:none!important;
+}
+
+@media (min-width: 1441px) {
+	.three-columns{
+		.workflow-main {
+			.instance-list-wrapper {
+				display: block;
+				right: 61%;
+
+				// margin: 10px 10px 10px 10px;
+				// border-radius: 5px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+				background-color: #fff;
+				z-index: 2;
+			}
+			.instance-wrapper {
+				left: 100%;
+				width: 61%;
+				transform: translate(0, 0);
+
+				margin: 0;
+				border-radius: 0 5px 5px 0;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+				.navigation-bar{
+					.btn-instance-back{
+						display: inline-block!important;
+						&.visible-xs-inline-block{
+							display:none!important;
+						}
 					}
 				}
+			}
+		}
+		.workflow-main.instance-show {
+			.instance-list-wrapper {
+				display: block;
+				right: 61%;
+				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+			}
+			.instance-wrapper {
+				width: 61%;
+				left: 39%;
+				background: white;
+				transition: 0.3s ease-in-out, width 0.3s ease-in-out;
 			}
 		}
 	}
@@ -381,6 +631,7 @@ _:-ms-fullscreen,
 			.instance-list-wrapper {
 				margin: 0px 0px 0px 0px;
 				border-radius: 0px;
+				background-color: transparent;
 				.instance-list{
 					/*border-top纯粹是因为在手机模式下，底部有翻页按钮时会出现透明背景色，而不是实际设置的背景色值的问题，应该是浏览器渲染的BUG*/
 					border-top:solid 1px #ffffff;

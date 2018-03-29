@@ -1,0 +1,36 @@
+{
+    "Steedos Dashboard": "Portal",
+
+    "portal_admin_home": "Portal Setting",
+    "portal_dashboard_settings": "Dashboard Setting", 
+    "apps_auths_settings": "Auths Group Settings",
+    "apps_auth_users_settings": "Auth Account Setting",
+
+    "portal_dashboards": "Dashboard",
+    "portal_dashboards_name": "Name",
+    "portal_dashboards_description": "Description",
+    "portal_dashboards_freeboard": "Layout Setting",
+    "portal_dashboards_modified": "Modified Time",
+    "apps_auths": "Auths Group",
+    "apps_auths_name": "Auth Name",
+    "apps_auths_title": "Auth Title",
+    "apps_auths_modified": "Modified Time",
+    "apps_auth_users": "Auth Account",
+    "apps_auth_users_auth_name": "Auth Name",
+    "apps_auth_users_login_name": "Login Name",
+    "apps_auth_users_login_password": "Login Password",
+    "apps_auth_users_modified": "Modified Time",
+    "apps_auth_users_user": "Associated User",
+    "apps_auth_users_user_name": "User Name",
+    "apps_auth_users_error_self_edit_only": "Auth account can be modified only by it's owner.",
+    "apps_auth_users_error_self_remove_only": "Auth account can be removed only by it's owner.",
+
+    "portal_dashboards_error_login_required":"Login Required",
+    
+    "portal_freeboard_compiling_error":"Throw some errors while compiling the freeboard.",
+    "portal_freeboard_compiling_ajax_content_error":"Throw some errors while compiling the ajax content.",
+
+    "portal_dashboards_error_space_not_found": "The space is't found.",
+    "portal_dashboards_error_space_admins_only": "You are't the admin of the space."
+
+}

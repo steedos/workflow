@@ -22,27 +22,59 @@ Meteor.startup ->
                 iconUrl: ''
                 title: notification.title
                 body: notification.text
-                timeout: 6 * 1000
+                timeout: 15 * 1000
 
             if notification.payload
 
                 options.payload = notification.payload
 
+                if options.payload.requireInteraction
+                    options.requireInteraction = options.payload.requireInteraction
+
                 options.onclick = (event) ->
 
-                    box = "inbox" # inbox、outbox、draft、pending、completed
-
-                    instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
-                    
-                    if Steedos.isNode() 
-                        win = nw.Window.get();
-                        if win
-                            win.restore();
-                            win.focus();
-                        FlowRouter.go(instance_url);    
+                    if event.target.payload.app == "calendar"
+                        event_url = "/calendar/inbox"
+                        if Steedos.isNode() 
+                            win = nw.Window.get();
+                            if win
+                                win.restore();
+                                win.focus();
+                            Steedos.openWindow(event_url,"_self");    
+                        else
+                            Steedos.openWindow(event_url,"_self"); 
                     else
-                        FlowRouter.go(instance_url); 
-                        # window.open(instance_url);
+                        # box = event.target.payload.box || "inbox"
+                        # inbox、outbox、draft、pending、completed、monitor
+
+                        instanceId = event.target.payload.instance
+
+                        Meteor.call "calculateBox", instanceId , 
+                            (error, result) ->
+                                if error
+                                    console.log error
+                                else
+                                    box = result
+
+                                    instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
+                                
+                                    if Steedos.isNode()
+                                        win = nw.Window.get();
+                                        if win
+                                            win.restore();
+                                            win.focus();
+                                        
+                                        # 正在编辑时点击推送提示
+                                        if InstanceManager.isAttachLocked Session.get("instanceId"), Meteor.userId()
+                                            swal({
+                                                title: t("steedos_desktop_edit_office_info"),
+                                                confirmButtonText: t("node_office_confirm")
+                                            })
+                                        else
+                                            FlowRouter.go(instance_url);  
+                                    else
+                                        FlowRouter.go(instance_url); 
+                                        # window.open(instance_url);
 
                     # if window.cos && typeof(window.cos) == 'object'
                     #     if window.cos.win_focus && typeof(window.cos.win_focus) == 'function'
@@ -55,17 +87,27 @@ Meteor.startup ->
 
             if notification.from == 'workflow'
                 appName = notification.from
+            if notification?.payload?.app == 'calendar'
+                appName = 'calendar'
 
             options.iconUrl = Meteor.absoluteUrl() + "images/apps/" + appName + "/AppIcon48x48.png"
             
             if Push.debug
                 console.log(options)
 
-            notification = $.notification(options)
+            # 客户端非主窗口不弹推送消息
+            if (Steedos.isNode() && window.opener.opener)
+                return;
             
+            notification = $.notification(options)
+
             # add sound
             msg = new Audio("/sound/notification.mp3")
             msg.play();
+
+            # 任务栏高亮显示
+            if Steedos.isNode()
+                nw.Window.get().requestAttention(3);
 
             return;
         )

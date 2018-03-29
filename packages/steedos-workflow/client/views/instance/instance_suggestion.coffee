@@ -15,10 +15,7 @@ Template.instance_suggestion.helpers
 				return "box-danger"
 
 	show_toggle_button: ->
-		isShow = !ApproveManager.isReadOnly() || InstanceManager.isInbox();
-		if isShow
-			isShow = WorkflowManager.getInstance().state != "draft"
-		return isShow
+		return InstanceManager.isInbox()
 
 	show_suggestion: ->
 		return !ApproveManager.isReadOnly() || InstanceManager.isInbox();
@@ -34,13 +31,14 @@ Template.instance_suggestion.helpers
 
 		instance = WorkflowManager.getInstance();
 
-		if InstanceManager.isCC(instance)
-			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
+#		if InstanceManager.isCC(instance)
+#			approve = InstanceManager.getCCApprove(Meteor.userId(), false);
 		approve = InstanceManager.getCurrentApprove();
 
-		if approve
-			Session.set("instance_my_approve_description", approve.description)
-			return approve
+#		if approve
+#			description = approve.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+#			Session.set("instance_my_approve_description", description)
+		return approve
 	next_step_multiple: ->
 		Session.get("next_step_multiple")
 
@@ -53,28 +51,11 @@ Template.instance_suggestion.helpers
 		if instance_form_values?.instanceId == Session.get("instanceId")
 			return InstanceManager.getNextStepOptions();
 
-#next_user_options: ->
-#    return InstanceManager.getNextUserOptions();
+	#next_user_options: ->
+	#    return InstanceManager.getNextUserOptions();
 
 	next_user_context: ->
-		instance_form_values = Session.get("instance_form_values")
-		if instance_form_values?.instanceId != Session.get("instanceId")
-			return {};
 
-		ins_applicant = Session.get("ins_applicant");
-
-		next_step_id = Session.get("next_step_id");
-
-		$("#nextStepUsers_div").show();
-
-		if next_step_id
-			nextStep = WorkflowManager.getInstanceStep(next_step_id)
-			if nextStep && nextStep.step_type == 'end'
-				$("#nextStepUsers_div").hide();
-
-
-		form_values = instance_form_values.values
-		users = InstanceManager.getNextUserOptions();
 		data = {
 			dataset: {},
 			name: 'nextStepUsers',
@@ -82,9 +63,37 @@ Template.instance_suggestion.helpers
 				name: 'nextStepUsers',
 				id: 'nextStepUsers',
 				class: 'selectUser nextStepUsers form-control',
-				style: 'padding:6px 12px;'
+				placeholder: t("instance_next_step_users_placeholder"),
+				title: t("instance_next_step_users_placeholder")
 			}
 		};
+
+		if !Session.get("instance_next_user_recalculate")
+			return data
+
+#		instance_form_values = Session.get("instance_form_values")
+#		if instance_form_values?.instanceId != Session.get("instanceId")
+#			return {};
+
+#		ins_applicant = Session.get("ins_applicant");
+
+		next_step_id = Session.get("next_step_id");
+
+		$("#nextStepUsers_div").show();
+
+		_getNextStep = ()->
+			return WorkflowManager.getInstanceStep(Session.get("next_step_id"))
+
+
+		if next_step_id
+			nextStep = Tracker.nonreactive(_getNextStep)
+			if nextStep && nextStep.step_type == 'end'
+				$("#nextStepUsers_div").hide();
+
+
+#		form_values = instance_form_values.values
+		users = Tracker.nonreactive(InstanceManager.getNextUserOptions)
+
 
 		unless nextStep
 			data.atts.disabled = true
@@ -105,7 +114,7 @@ Template.instance_suggestion.helpers
 
 		if next_user && next_user.length > 0
 
-#先清空下一步处理人
+			#先清空下一步处理人
 			next_user[0].value = ''
 			next_user[0].dataset.values = ''
 
@@ -135,6 +144,8 @@ Template.instance_suggestion.helpers
 				next_user[0].dataset.values = selectedUser.getProperty("id").toString()
 				data.value = next_user[0].value
 				data.dataset['values'] = selectedUser.getProperty("id").toString()
+
+			Tracker.nonreactive(InstanceManager.nextStepUserErrorClass)
 		else
 			if !Session.get("next_step_users_showOrg")
 				data.dataset['userOptions'] = users.getProperty("id")
@@ -212,6 +223,63 @@ Template.instance_suggestion.helpers
 
 		return false
 
+	hideCounterSignJudgeOptions: ->
+		return Meteor.settings.public?.workflow?.hideCounterSignJudgeOptions
+
+	cc_opinion_field_code: ->
+		cc_approve = InstanceManager.getCurrentApprove();
+
+		if cc_approve?.sign_field_code
+			form_version = WorkflowManager.getInstanceFormVersion();
+			fields = form_version?.fields
+
+			return fields?.findPropertyByPK("code", cc_approve.sign_field_code)?.name || cc_approve.sign_field_code
+
+		return t("instance_cc_title")
+
+	gt: (a, b)->
+		return a > b;
+
+	opinionFields: ->
+		currentApprove = InstanceManager.getCurrentApprove()
+
+		if(!currentApprove)
+			return ;
+
+		opinionFields = _.filter(form_version.fields, (field) ->
+			if currentApprove.type == 'cc'
+				return InstanceformTemplate.helpers.isOpinionField(field) and _.indexOf(currentApprove.opinion_fields_code, field.code) > -1
+			InstanceformTemplate.helpers.isOpinionField(field) and InstanceformTemplate.helpers.getOpinionFieldStepsName(field.formula).filterProperty('stepName', currentStep.name).length > 0
+		)
+
+		opinionFields.forEach (field) ->
+			field.name = field.name || field.code
+
+			field._checked = currentApprove?.sign_field_code == field.code
+
+		return opinionFields
+
+	ccDescription: ->
+		return InstanceManager.getCurrentApprove()?.cc_description
+
+	ccFromUserName: ->
+		return InstanceManager.getCurrentApprove()?.from_user_name
+
+	is_approved: (stepId)->
+		ins = WorkflowManager.getInstance()
+
+		return _.find(ins.traces, (t)->
+			return t.step == stepId && t.is_finished
+		)
+
+	approve_suggestion: ()->
+
+		if Session.get("instance_my_approve_description") != null && Session.get("instance_my_approve_description") != undefined
+			return Session.get("instance_my_approve_description")
+		else
+			return InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
+
+
 Template.instance_suggestion.events
 
 	'change .suggestion': (event) ->
@@ -221,22 +289,34 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
-	'change .nextSteps': (event) ->
-		if event.target.name == 'nextSteps'
-			if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
-				Session.set("next_user_multiple", true)
-			else
-				Session.set("next_user_multiple", false)
-			Session.set("next_step_id", $("#nextSteps").val())
+		InstanceManager.checkSuggestion(0);
+
+	# 'change .nextSteps': (event) ->
+	# 	if event.target.name == 'nextSteps'
+	# 		if $("#nextSteps").find("option:selected").attr("steptype") == 'counterSign'
+	# 			Session.set("next_user_multiple", true)
+	# 		else
+	# 			Session.set("next_user_multiple", false)
+	# 		Session.set("next_step_id", $("#nextSteps").val())
+
+	'change [name=instance_suggestion_next_step]': (event) ->
+		checkedNextStepRadio = $("[name=instance_suggestion_next_step]:checked")
+		if checkedNextStepRadio.attr("steptype") == 'counterSign'
+			Session.set("next_user_multiple", true)
+		else
+			Session.set("next_user_multiple", false)
+		Session.set("next_step_id", checkedNextStepRadio.val())
 
 	'click #instance_flow_opinions': (event, template)->
 		Session.set('flow_comment', $("#suggestion").val())
-		Modal.show 'opinion_modal'
+		Modal.show 'opinion_modal', {parentNode: $("#suggestion")}
 
 	'input #suggestion': (event, template) ->
-#		if ApproveManager.isReadOnly()
-#			return;
+		Session.set("instance_change", true);
 		InstanceManager.checkSuggestion();
+
+		InstanceManager.updateApproveSign('', $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove())
+
 		Session.set("instance_my_approve_description", $("#suggestion").val())
 
 	'click #instance_submit': (event)->
@@ -245,41 +325,51 @@ Template.instance_suggestion.events
 			if ins.state == "draft"
 				toastr.error(t("spaces_isarrearageSpace"));
 				return
+
+		if InstanceManager.isAttachLocked(Session.get('instanceId'), Meteor.userId())
+			toastr.warning(t("workflow_attachment_locked_tip"));
+			return
+
 		if !ApproveManager.isReadOnly()
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)
-			Session.set("instance_change", false);
-			InstanceManager.submitIns();
+			c = InstanceManager.getCurrentStep();
+			if c && c.cc_alert == true 
+				swal {
+					title: TAPi18n.__('instance_cc_alert'),
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: t('form_field_checkbox_no'),
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: t('form_field_checkbox_yes'),
+					closeOnConfirm: true
+				}, (isConfirm) ->
+					if (!isConfirm)
+						Session.set("instance_change", false);
+						InstanceManager.submitIns();
+			else 
+				Session.set("instance_change", false);
+				InstanceManager.submitIns();
 		InstanceManager.fixInstancePosition()
 
 	'change input[name=judge]': (event)->
 		if $('input[name=judge]:checked').val() == "approved"
 			InstanceManager.checkSuggestion()
-		InstanceManager.fixInstancePosition()
+		Meteor.setTimeout ->
+			InstanceManager.fixInstancePosition()
+		,1
 
 	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
 		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
 
-	'click #instance_return': (event, template)->
-		swal {
-			title: TAPi18n.__("instance_return_confirm"),
-			type: "warning",
-			showCancelButton: true,
-			cancelButtonText: t('Cancel'),
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: t('OK'),
-			closeOnConfirm: true
-		}, () ->
-			$("body").addClass("loading")
-			Meteor.call "instance_return", InstanceManager.getMyApprove(), (err, result)->
-				$("body").removeClass("loading")
-				if err
-					toastr.error TAPi18n.__(err.reason)
-				if result == true
-					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
-					toastr.success(TAPi18n.__('instance_return_success'));
-				return
+	'change #opinion_fields_code': (event, template)->
+		console.log("change opinion_fields_code")
+
+		myApprove = InstanceManager.getCurrentApprove()
+
+		Meteor.call 'update_approve_sign', myApprove.instance, myApprove.trace, myApprove._id, event.target.value, $("#suggestion").val(), "update", InstanceSignText.helpers.getLastSignApprove(), ()->
+			Session.set("instance_my_approve_description", $("#suggestion").val())
 
 
 Template.instance_suggestion.onCreated ->
@@ -304,3 +394,4 @@ Template.instance_suggestion.onRendered ->
 
 Template.instance_suggestion.onDestroyed ->
 	Session.set("instance_suggestion_ready", false)
+	Session.set("instance_my_approve_description", null)

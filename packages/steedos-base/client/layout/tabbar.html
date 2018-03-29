@@ -1,25 +1,32 @@
 <template name="baseTabbar">
-            <div class="weui-tabbar">
-                <a href="/workflow" class="weui-tabbar__item {{appActive 'workflow'}}">
-                    <span style="display: inline-block;position: relative;">
-                        <i class="weui-tabbar__icon ion ion-ios-list-outline"></i>
-                    </span>
-                    <p class="weui-tabbar__label">审批</p>
-                </a>
-                <a href="/cms" class="weui-tabbar__item {{appActive 'cms'}}">
-                   <i class="weui-tabbar__icon ion ion-ios-book-outline"></i>
-                    <p class="weui-tabbar__label">知识</p>
-                </a>
-                <a href="/springboard" class="weui-tabbar__item {{appActive 'springboard'}}">
-                    <span style="display: inline-block;position: relative;">
-                       <i class="weui-tabbar__icon ion ion-ios-keypad-outline"></i>
-                        <!-- <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span> -->
-                    </span>
-                    <p class="weui-tabbar__label">工作台</p>
-                </a>
-                <a href="/admin" class="weui-tabbar__item {{appActive 'admin'}}">
-                    <i class="weui-tabbar__icon ion ion-ios-gear-outline"></i>
-                    <p class="weui-tabbar__label">我</p>
-                </a>
-            </div>
+	<div class="weui-tabbar steedos-base-tabbar">
+		{{#each getSpaceTopApps 2}}
+			<a class="weui-tabbar__item {{#if isAppActive this}} weui-bar__item_on {{/if}} top-apps-item">
+				{{#if isAppActive this}}
+					<i class="weui-tabbar__icon ion {{toggleIcon this.icon}}"></i>
+				{{else}}
+					<i class="weui-tabbar__icon ion {{this.icon}}"></i>
+				{{/if}}
+				<p class="weui-tabbar__label">{{_ this.name}}</p>
+			</a>
+		{{/each}}
+		<a href="/springboard" class="weui-tabbar__item {{#if isAppActive '/springboard'}} weui-bar__item_on {{/if}}">
+			<span style="display: inline-block;position: relative;">
+				{{#if isAppActive '/springboard'}}
+					<i class="weui-tabbar__icon ion {{toggleIcon 'ion-ios-keypad-outline'}}"></i>
+				{{else}}
+					<i class="weui-tabbar__icon ion ion-ios-keypad-outline"></i>
+				{{/if}}
+			</span>
+			<p class="weui-tabbar__label">{{_ "tabbar_apps"}}</p>
+		</a>
+		<a href="/admin" class="weui-tabbar__item {{#if isAppActive '/admin'}} weui-bar__item_on {{/if}} weui-tabbar-admin">
+			{{#if isAppActive '/admin'}}
+				<i class="weui-tabbar__icon ion {{toggleIcon 'ion-ios-gear-outline'}}"></i>
+			{{else}}
+				<i class="weui-tabbar__icon ion ion-ios-gear-outline"></i>
+			{{/if}}
+			<p class="weui-tabbar__label">{{_ "tabbar_admin"}}</p>
+		</a>
+	</div>
 </template>

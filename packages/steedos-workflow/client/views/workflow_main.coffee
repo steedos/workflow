@@ -10,9 +10,22 @@ Template.workflow_main.helpers
 		return Steedos.subsBootstrap.ready() and Steedos.subsSpace.ready();
 
 	isNeedToShowInstance: ->
-		if Steedos.subs["Instance"].ready()
+		if Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()
 			Session.set("instance_loading", false);
+			$("body").removeClass("loading")
 			instance = WorkflowManager.getInstance()
+
+			if !instance || !instance.traces
+				return false;
+
+			if instance.flow_version && instance.form_version
+				flow_version = db.flow_versions.findOne({_id: instance.flow_version})
+
+				form_version = db.form_versions.findOne({_id: instance.form_version})
+
+				if !flow_version || !form_version
+					return false;
+
 			if instance
 				if Session.get("box") == "inbox"
 					if InstanceManager.isInbox()

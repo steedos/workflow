@@ -1,12 +1,13 @@
 Package.describe({
 	name: 'steedos:version',
-	summary: '',
-	version: '1.0.0'
+	version: '1.0.5',
+	summary: 'steedos version',
+	git: ''
 });
 
 Package.registerBuildPlugin({
 	name: 'compileVersion',
-	use: ['coffeescript'],
+	use: ['coffeescript@1.11.1_4'],
 	sources: ['plugin/compile-version.coffee']
 });
 

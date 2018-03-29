@@ -26,10 +26,17 @@ if (Steedos.isNode()) {
 
 
 // http请求
-OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, isView) {
+OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, arg) {
 	$(document.body).addClass("loading");
+	var loadingText = "";
+	if (arg == "Steedos.User.isDocToPdf")
+		loadingText = t("workflow_attachment_convert_to_pdf", filename);
+	else if (arg == "Steedos.User.isNewFile")
+		loadingText = t("workflow_attachment_creating", filename);
+	else
+		loadingText = t("workflow_attachment_downloading", filename);
 
-	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
+	$('.loading-text').text(loadingText);
 
 	var filePath = path.join(download_dir, filename);
 	var file = fs.createWriteStream(filePath);
@@ -38,14 +45,63 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, isVi
 			file.write(data);
 		}).on('end', function() {
 			file.end();
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-			if (isView){
-				// 获取华炎云安装路径
-				var homePath = process.cwd();
-				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + "Steedos.User.isView";
-				exec(cmd);
-			}else{
+
+			if (arg) {
+				if ((arg == "Steedos.User.isNewFile") || (arg == "Steedos.User.isSignature")) {
+					// 正文上传
+					setTimeout(function() {
+						// NodeManager.setUploadRequests(filePath, filename, true);
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
+					}, 1000);
+				} else {
+					if (arg == "Steedos.User.isView") {
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+					}
+					// 获取华炎云安装路径
+					var homePath = process.cwd();
+					var cmd = "";
+					if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
+						cmd = 'start "" ' + '\"' + filePath + '\"';
+					else
+						cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+
+					var child = exec(cmd);
+					child.on('close', function() {
+						// 转换为pdf后需上传
+						if (arg == "Steedos.User.isDocToPdf") {
+							var pdfName = path.basename(filename, path.extname(filename)) + ".pdf";
+							var pdfPath = path.join(download_dir, pdfName);
+							fs.exists(pdfPath, function(exists) {
+								if (exists == true) {
+									NodeManager.setUploadRequests(pdfPath, pdfName);
+								} else {
+									$(document.body).removeClass('loading');
+									$('.loading-text').text("");
+
+									toastr.error(TAPi18n.__('workflow_attachment_wordToPdf_failed'));
+
+									// 解锁
+									InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+								}
+							})
+						}
+					});
+					child.on('error', function(error) {
+						toastr.error(error);
+					});
+				}
+
+			} else {
+				$(document.body).removeClass('loading');
+				$('.loading-text').text("");
 				// 获取附件hash值
 				NodeManager.getFileSHA1(filePath, filename, function(sha1) {
 					NodeManager.fileSHA1 = sha1;
@@ -65,33 +121,33 @@ OfficeOnline.http.downloadFile = function(file_url, download_dir, filename, isVi
 OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
-		host: url.parse(Meteor.absoluteUrl()).hostname,
-		port: url.parse(Meteor.absoluteUrl()).port,
+		host: window.location.hostname,
+		port: window.location.port,
 		method: "POST",
 		path: "/s3/"
 	}
 	var req = http.request(options, function(res) {
-		var fileObj = {};
 		res.on('data', function(chunk) {
-			var chunkStr = JSON.parse(chunk.toString());
-			fileObj._id = chunkStr.version_id;
-			fileObj.name = filename;
-			fileObj.type = cfs.getContentType(filename);
-			fileObj.size = chunkStr.size;
+			var responseText = JSON.parse(chunk.toString());
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
+			if (responseText.errors) {
+				responseText.errors.forEach(function(e) {
+					toastr.error(e.errorMessage);
+				});
+				return;
+			}
+
+			toastr.success(TAPi18n.__('Attachment was added successfully'));
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
+
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
 
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
-			// 表单添加附件
-			InstanceManager.addAttach(fileObj, false);
-
 			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
+			fs.unlinkSync(files[0].urlValue); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 
@@ -106,10 +162,17 @@ OfficeOnline.http.uploadFile = function(fileDataInfo, files) {
 }
 
 // https请求
-OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, isView) {
+OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, arg) {
 	$(document.body).addClass("loading");
+	var loadingText = "";
+	if (arg == "Steedos.User.isDocToPdf")
+		loadingText = t("workflow_attachment_convert_to_pdf", filename);
+	else if (arg == "Steedos.User.isNewFile")
+		loadingText = t("workflow_attachment_creating", filename);
+	else
+		loadingText = t("workflow_attachment_downloading", filename);
 
-	$('.loading-text').text(TAPi18n.__("workflow_attachment_downloading") + filename + "...");
+	$('.loading-text').text(loadingText);
 
 	var filePath = path.join(download_dir, filename);
 	var file = fs.createWriteStream(filePath);
@@ -118,16 +181,62 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, isV
 			file.write(data);
 		}).on('end', function() {
 			file.end();
-			$(document.body).removeClass('loading');
-			$('.loading-text').text("");
-			if (isView){
-				// 获取华炎云安装路径
-				var homePath = process.cwd();
-				var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + "Steedos.User.isView";
-				console.log(cmd);
-				exec(cmd);
-			}else{
-			// 获取附件hash值
+
+			if (arg) {
+				if ((arg == "Steedos.User.isNewFile") || (arg == "Steedos.User.isSignature")) {
+					// 正文上传
+					setTimeout(function() {
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+						// 获取附件hash值
+						NodeManager.getFileSHA1(filePath, filename, function(sha1) {
+							NodeManager.fileSHA1 = sha1;
+						});
+						// 新建后直接打开word文档进行在线编辑
+						NodeManager.vbsEditFile(download_dir, filename, arg);
+					}, 1000);
+				} else {
+					if (arg == "Steedos.User.isView") {
+						$(document.body).removeClass('loading');
+						$('.loading-text').text("");
+					}
+					// 获取华炎云安装路径
+					var homePath = process.cwd();
+					var cmd = "";
+					if ((arg != "Steedos.User.isDocToPdf") && NodeManager.isViewType(filename))
+						cmd = 'start "" ' + '\"' + filePath + '\"';
+					else
+						cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + arg;
+
+					var child = exec(cmd);
+					child.on('close', function() {
+						// 转换为pdf后需上传
+						if (arg == "Steedos.User.isDocToPdf") {
+							var pdfName = path.basename(filename, path.extname(filename)) + ".pdf";
+							var pdfPath = path.join(download_dir, pdfName);
+							fs.exists(pdfPath, function(exists) {
+								if (exists == true) {
+									NodeManager.setUploadRequests(pdfPath, pdfName);
+								} else {
+									$(document.body).removeClass('loading');
+									$('.loading-text').text("");
+
+									toastr.error(TAPi18n.__('workflow_attachment_wordToPdf_failed'));
+
+									// 解锁
+									InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+								}
+							})
+						}
+					});
+					child.on('error', function(error) {
+						toastr.error(error);
+					});
+				}
+			} else {
+				$(document.body).removeClass('loading');
+				$('.loading-text').text("");
+				// 获取附件hash值
 				NodeManager.getFileSHA1(filePath, filename, function(sha1) {
 					NodeManager.fileSHA1 = sha1;
 				});
@@ -147,33 +256,33 @@ OfficeOnline.https.downloadFile = function(file_url, download_dir, filename, isV
 OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 	// 配置附件上传接口
 	var options = {
-		host: url.parse(Meteor.absoluteUrl()).hostname,
-		port: url.parse(Meteor.absoluteUrl()).port,
+		host: window.location.hostname,
+		port: window.location.port,
 		method: "POST",
 		path: "/s3/"
 	}
 	var req = https.request(options, function(res) {
-		var fileObj = {};
 		res.on('data', function(chunk) {
-			var chunkStr = JSON.parse(chunk.toString());
-			fileObj._id = chunkStr.version_id;
-			fileObj.name = filename;
-			fileObj.type = cfs.getContentType(filename);
-			fileObj.size = chunkStr.size;
+			var responseText = JSON.parse(chunk.toString());
+			$(document.body).removeClass('loading');
+			$('.loading-text').text("");
+			if (responseText.errors) {
+				responseText.errors.forEach(function(e) {
+					toastr.error(e.errorMessage);
+				});
+				return;
+			}
+
+			toastr.success(TAPi18n.__('Attachment was added successfully'));
 		});
 		// res.setEncoding("utf8");
 		res.on('end', function() {
+
 			$(document.body).removeClass('loading');
 			$('.loading-text').text("");
 
-			// 解锁 
-			InstanceManager.unlockAttach(Session.get('cfs_file_id'));
-
-			// 表单添加附件
-			InstanceManager.addAttach(fileObj, false);
-
 			// 成功上传后删除本地文件
-			fs.unlinkSync(filePath); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
+			fs.unlinkSync(files[0].urlValue); //由于unlinkSync方法执行后，后面的代码不执行所以将此行代码放至最后
 		});
 	})
 
@@ -183,7 +292,7 @@ OfficeOnline.https.uploadFile = function(fileDataInfo, files) {
 		toastr.error(e.message);
 	});
 
-	//上传附件 
+	//上传附件
 	NodeManager.uploadAttach(fileDataInfo, files, req);
 }
 
@@ -193,10 +302,13 @@ OfficeOnline.uploadFile = function(fileDataInfo, files) {
 }
 
 //下载附件
-OfficeOnline.downloadFile = function(file_url, download_dir, filename, isView) {
+OfficeOnline.downloadFile = function(file_url, download_dir, filename, arg) {
 	// 查看模式下文件名为“只读-文件名”
-	if (isView)
-		filename = t("workflow_attachment_isReadOnly") + filename;
-	
-	return OfficeOnline[window.location.protocol.replace(":", "")].downloadFile(file_url, download_dir, filename, isView);
+	if (arg) {
+		if (arg == "Steedos.User.isView") {
+			filename = t("workflow_attachment_isReadOnly") + filename;
+		}
+	}
+
+	return OfficeOnline[window.location.protocol.replace(":", "")].downloadFile(file_url, download_dir, filename, arg);
 }

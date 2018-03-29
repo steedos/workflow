@@ -40,8 +40,10 @@ Template.steedos_contacts_group_book_list.events
 		$('input[name="contacts_ids"]', $("#contacts_list")).each ->
 			$(this).prop('checked', event.target.checked).trigger('change')
 
+	'click .contacts-list-checkbox': (event, template) ->
+		event.stopPropagation()
+
 	'change .contacts-list-checkbox': (event, template) ->
-		console.log("change .contacts-list-checkbox");
 
 		target = event.target;
 
@@ -58,7 +60,6 @@ Template.steedos_contacts_group_book_list.events
 		ContactsManager.handerContactModalValueLabel();
 
 	'click #contact-list-search-btn': (event, template) ->
-		console.log("contact-list-search-btn click");
 		dataTable = $(".datatable-steedos-contacts").DataTable();
 		dataTable.search(
 			$("#contact-list-search-key").val(),
@@ -94,6 +95,9 @@ Template.steedos_contacts_group_book_list.events
 			event.preventDefault();
 
 		$("#steedos_contacts_group_book_list_export_btn").prop("href", Meteor.absoluteUrl() + "/contacts/books/export/cvf?ids=" + ids.toString())
+
+	'click .datatable-steedos-contacts tbody tr[data-id]': (event, template)->
+		Modal.show('steedos_contacts_address_book_info_modal', {targetId: event.currentTarget.dataset.id})
 
 Template.steedos_contacts_group_book_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()

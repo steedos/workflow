@@ -18,15 +18,18 @@
             <p data-required="true">
               {{> afFormGroup name="cc_users"}}
             </p>
+            <p>
+              {{> afFormGroup name="cc_description"}}
+            </p>
             {{#if showOpinionFields fields}}
-                {{> afFormGroup name="opinion_field"}}
+                {{> afFormGroup name="opinion_fields"}}
             {{/if}}
             <!-- <textarea class="form-control" id="cc_modal_text" placeholder=></textarea> -->
           {{/autoForm}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
           <button type="button" class="btn btn-primary" id="cc_modal_ok">{{_ "OK"}}</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "Cancel"}}</button>
         </div>
       </div>
     </div>

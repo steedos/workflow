@@ -3,12 +3,10 @@
         <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
         {{> instance_button}}
     </div>
-    <div class="instance-view">
-        {{#if unequals 'draft' instance.state}}
-            {{> instance_suggestion}}
-        {{/if}}
+    <div class="instance-view {{get_priority_class}}">
+        {{> instance_suggestion}}
         <div class="instance {{instanceStyle instance.form}}">
-            <div class="instance-form box {{instance_box_style }}">
+            <div class="instance-form {{instance_box_style }} {{box}}">
                 {{#if formDescription}}
                     <div class="box-header  with-border instance-header">
                         <div>
@@ -18,7 +16,7 @@
                 {{/if}}
                 <div class="box-body">
                     <div class="col-md-12">
-                        {{> Template.dynamic template="instance_attachments" data=instance.attachments}}
+                        {{> Template.dynamic template="instance_attachments" }}
                         {{> related_instances}}
                         {{#if isIReadable}}
                             {{{readOnlyView}}}
@@ -33,10 +31,10 @@
                     </div>
                 </div>
             </div>
-            {{#if unequals 'draft' instance.state}}
-                {{> Template.dynamic template=(tracesTemplateName instance.form) data=instance.traces}}
-            {{else}}
-                {{> instance_suggestion}}
+            {{#if notDistributeAndDraft instance.state}}
+				{{#if (showTracesView instance.form instance.form_version)}}
+                	{{> Template.dynamic template=(tracesTemplateName instance.form) data=(tracesListData instance)}}
+				{{/if}}
             {{/if}}
         </div>
     </div>

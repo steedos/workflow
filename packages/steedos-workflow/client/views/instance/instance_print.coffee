@@ -9,7 +9,7 @@ Template.instancePrint.helpers
 	instance: ()->
 		return WorkflowManager.getInstance();
 
-# 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
+	# 只有在流程属性上设置tableStype 为true 并且不是手机版才返回true.
 	isTableView: (formId)->
 		form = WorkflowManager.getForm(formId);
 
@@ -32,6 +32,14 @@ Template.instancePrint.helpers
 		ins = WorkflowManager.getInstance();
 		if ins
 			return WorkflowManager.getForm(ins.form)?.description?.replace(/\n/g,"<br/>")
+	printButton:->		 
+		 return t('instance_print')
+
+	isShowAttachments: ->
+		return Template.instance().isShowAttachments?.get()
+
+	isShowTraces: ->
+		return Template.instance().isShowTraces?.get()
 
 Template.instancePrint.step = 1;
 
@@ -80,6 +88,7 @@ Template.instancePrint.events
 			$(".instance_attachments").hide()
 
 	"click #instance_to_print": (event, template) ->
+		$(".toast").hide()
 		if $(".box-body", $(".instance-traces")).is(":hidden")
 			$(".instance-traces").addClass("no-print")
 		else
@@ -93,12 +102,40 @@ Template.instancePrint.events
 	"click #font-minus": (event, template) ->
 		Template.instancePrint.minusFontSize $(".instance")
 
+	"click .cbx-print-attachments": (event, template) ->
+		isChecked = $(event.currentTarget).is(':checked')
+		template.isShowAttachments.set(isChecked)
+		if isChecked
+			localStorage.setItem "print_is_show_attachments", isChecked
+		else
+			localStorage.removeItem "print_is_show_attachments"
+
+	"click .cbx-print-traces": (event, template) ->
+		isChecked = $(event.currentTarget).is(':checked')
+		template.isShowTraces.set(isChecked)
+		if isChecked
+			localStorage.setItem "print_is_show_traces", isChecked
+		else
+			localStorage.removeItem "print_is_show_traces"
+
 Template.instancePrint.onCreated ->
 	Form_formula.initFormScripts()
+	this.isShowAttachments = new ReactiveVar(false)
+	this.isShowTraces = new ReactiveVar(false)
 
 Template.instancePrint.onRendered ->
 
-	Form_formula.runFormScripts("instanceform", "onload");
+	$("body").css("background-image","");
+	$("body").css("background","silver");
+	$("#tracesCollapse")?.click()
 
+	Form_formula.runFormScripts("instanceform", "onload");
 	# if window.navigator.userAgent.toLocaleLowerCase().indexOf("chrome") < 0
 	# 	toastr.warning(TAPi18n.__("instance_chrome_print_warning"))
+
+	if localStorage.getItem "print_is_show_attachments"
+		Template.instance().isShowAttachments.set(true)
+		$(".instance-print .cbx-print-attachments").attr("checked",true)
+	if localStorage.getItem "print_is_show_traces"
+		Template.instance().isShowTraces.set(true)
+		$(".instance-print .cbx-print-traces").attr("checked",true)

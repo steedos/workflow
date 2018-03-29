@@ -1,6 +1,6 @@
 Package.describe({
     name         : 'steedos:accounts-phone',
-    version      : '0.0.1',
+    version      : '0.0.3',
     summary      : 'A login service based on mobile phone number, For Meteor.',
     git          : 'https://github.com/okland/accounts-phone'
 });
@@ -35,7 +35,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
-    api.use(['okland:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
+    api.use(['steedos:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
     api.addFiles('phone_tests_setup.js', 'server');

@@ -107,6 +107,41 @@ Template.registerHelper('afFieldValueContains', function autoFormFieldValueConta
 Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(options) {
   if(!Template.instance().view.template.steedosData){
     options = parseOptions(options, 'afFieldLabelText');
+
+    var fieldSchema = AutoForm.getSchemaForField(options.name);
+    if(fieldSchema){
+      try{
+        setTimeout(function () {
+          if(!fieldSchema.optional){
+            $(".td-title-" + options.name).addClass("is-required");
+          }
+        }, 1);
+      }catch (e){
+        console.error(e);
+      }
+    }
+
+    if(fieldSchema && fieldSchema.autoform){
+      if(fieldSchema.autoform.disabled === true){
+        try{
+          setTimeout(function () {
+           $(".td-title-" + options.name).removeClass("is-required");
+          }, 1);
+        }catch (e){
+          console.error(e);
+        }
+      }else{
+        try{
+          setTimeout(function () {
+            $(".td-title-" + options.name).addClass("title-editable");
+
+          }, 1);
+        }catch (e){
+          console.error(e);
+        }
+      }
+    }
+
     return AutoForm.getLabelForField(options.name);
   }else{
     form_version = Template.instance().view.template.steedosData.form_version

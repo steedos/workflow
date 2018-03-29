@@ -78,12 +78,10 @@ InstanceformTemplate.helpers =
 
 	traces: ->
 		if Meteor.isServer
-			instance = Template.instance().view.template.steedosData.instance
-
+			steedosData = Template.instance()?.view?.template?.steedosData
+			instance = steedosData?.instance
 			flow = InstanceReadOnlyTemplate.getFlowVersion(instance);
-
-			locale = Template.instance().view.template.steedosData.locale
-
+			locale = steedosData?.locale
 			if locale.toLocaleLowerCase() == 'zh-cn'
 				locale = "zh-CN"
 		else
@@ -100,7 +98,7 @@ InstanceformTemplate.helpers =
 
 		traces = {};
 
-		instance.traces.forEach (trace)->
+		instance.traces?.forEach (trace)->
 			step = steps.findPropertyByPK("_id", trace.step)
 
 			approves = []
@@ -138,7 +136,10 @@ InstanceformTemplate.helpers =
 					description: approve.description
 					is_finished: approve.is_finished
 					type: approve.type
-					opinion_field_code: approve.opinion_field_code
+					opinion_fields_code: approve.opinion_fields_code
+					sign_field_code: approve.sign_field_code
+					is_read: approve.is_read
+					sign_show: approve.sign_show
 
 
 			if step
@@ -178,15 +179,6 @@ InstanceformTemplate.helpers =
 #        return "disabled";
 #    return;
 
-
-#attachments: ->
-#    # instance 修改时重算
-#    WorkflowManager.instanceModified.get();
-#
-#    instance = WorkflowManager.getInstance();
-#    return instance.attachments;
-
-
 	table_fields: (instance)->
 		if Meteor.isClient
 			form_version = WorkflowManager.getInstanceFormVersion();
@@ -196,8 +188,12 @@ InstanceformTemplate.helpers =
 			fields = _.clone(form_version.fields);
 
 			fields.forEach (field, index) ->
-
+				field.tr_start = "";
+				field.tr_end = "";
 				td_colspan = 1;
+#				强制设置标头字段为宽字段
+				if CoreForm?.pageTitleFieldName == field.code
+					field.is_wide = true
 
 				if field.formula
 					field.permission = "readonly";
@@ -327,7 +323,7 @@ InstanceformTemplate.helpers =
 
 		utcOffset = Template.instance().view.template.steedosData.utcOffset
 
-		values = instance.values
+		values = instance.values || {}
 
 		if Meteor.isClient
 			values = WorkflowManager_format.getAutoformSchemaValues()
@@ -346,8 +342,13 @@ InstanceformTemplate.helpers =
 		return SteedosTable.getThead(field, false)
 
 	getTableBody: (field)->
-		instance = Template.instance().view.template.steedosData.instance
-		values = instance.values
+
+		if Meteor.isServer
+			instance = Template.instance().view.template.steedosData.instance
+			values = instance.values || {}
+		else
+			values = WorkflowManager_format.getAutoformSchemaValues()
+
 		tableValue = values[field.code];
 		return SteedosTable.getTbody(field.sfields.getProperty("code"), field, tableValue, false)
 
@@ -365,29 +366,91 @@ InstanceformTemplate.helpers =
 #			InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
 	isOpinionField: (field)->
-		return field.formula?.indexOf("{traces.") > -1
+		return InstanceformTemplate.helpers.isOpinionField_from_string(field.formula)
 
-	getOpinionFieldStepsName: (field_formula)->
+	isOpinionField_from_string: (field_formula)->
+		return InstanceSignText.isOpinionField_from_string(field_formula)
+
+	includesOpinionField: (form, form_version)->
+
+		field_formulas = new Array();
+
+		fields = db.form_versions.findOne({_id: form_version, form: form})?.fields || []
+
+		fields.forEach (f)->
+			if f.type == 'table'
+				console.log 'ignore opinion field in table'
+			else if f.type == 'section'
+				f?.fields?.forEach (f1)->
+					field_formulas.push f1.formula
+			else
+				field_formulas.push f.formula
+
+		_.some field_formulas, (field_formula)->
+			return InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
+
+	getOpinionFieldStepsName: (field_formula, top_keywords)->
+
 		opinionFields = new Array();
-		if field_formula && field_formula?.indexOf("{traces.") > -1
-			foo1 = field_formula.split(",")
-			foo1.forEach (foo)->
-				sf = {only_cc_opinion: false}
-				s1 = foo.replace("{","").replace("}","")
-				if s1.split(".").length > 1
-					sf.stepName = s1.split(".")[1]
-					if opinionFields.filterProperty("stepName",sf.stepName).length > 0
-						opinionFields.findPropertyByPK("stepName", sf.stepName)?.only_cc_opinion = true
-					else
-						if s1.split(".").length > 2
-							if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
-								sf.only_cc_opinion = true
-				opinionFields.push(sf);
+#		console.log("field_formula", field_formula)
+		if InstanceformTemplate.helpers.isOpinionField_from_string(field_formula)
+			if field_formula
+
+#				foo1 = field_formula.split(",")
+				foo1 = field_formula.split(";")
+
+#				if top_keywords
+#					foo1 = field_formula.split(";")
+
+				foo1.forEach (foo)->
+					json_formula = {}
+
+					try
+						json_formula = eval("(" + foo + ")")
+					catch
+						json_formula = {}
+
+					if json_formula?.yijianlan
+						sf = {}
+
+						sf.stepName = json_formula.yijianlan.step
+
+						sf.image_sign = json_formula.yijianlan.image_sign || false
+
+						sf.only_cc_opinion = json_formula.yijianlan.only_cc || false
+
+						sf.default_description = json_formula.yijianlan.default
+
+						sf.only_handler = json_formula.yijianlan.only_handler
+
+						sf.top_keywords = json_formula.yijianlan.top_keywords || top_keywords
+
+						opinionFields.push(sf);
+
+					else if(field_formula?.indexOf("{traces.") > -1 || field_formula?.indexOf("{signature.traces.") > -1)
+
+						sf = {only_cc_opinion: false, image_sign: false, top_keywords: top_keywords}
+
+						if foo.indexOf("{signature.") > -1
+							sf.image_sign = true
+							foo = foo.replace("{signature.","");
+
+						s1 = foo.replace("{","").replace("}","")
+						if s1.split(".").length > 1
+							sf.stepName = s1.split(".")[1]
+							if opinionFields.filterProperty("stepName",sf.stepName).length > 0
+								opinionFields.findPropertyByPK("stepName", sf.stepName)?.only_cc_opinion = true
+							else
+								if s1.split(".").length > 2
+									if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
+										sf.only_cc_opinion = true
+						opinionFields.push(sf);
+
 		return opinionFields
 
 	showCCOpinion: (field)->
-		if field.formula?.indexOf("{traces.") > -1
-			s1 = field.formula.replace("{","").replace("}","")
+		if field.formula?.indexOf("{traces.") > -1 || field.formula?.indexOf("{signature.traces.") > -1
+			s1 = field.formula.replace("{signature.","").replace("{","").replace("}","")
 			if s1.split(".").length > 2
 				if s1.split(".")[2]?.toLocaleLowerCase() == 'cc'
 					return true
@@ -400,20 +463,23 @@ InstanceformTemplate.helpers =
 				return "<a target='_blank' href='#{href}' title='#{title}'>#{text}</a>"
 			return Spacebars.SafeString(Markdown(markDownString, {renderer:renderer}))
 
+	f_label: (that)->
+		return that.name || that.code
+
 if Meteor.isServer
 	InstanceformTemplate.helpers.steedos_form = ->
-		return Template.instance().view.template.steedosData.form_version
+		return this.form_version
 
 	InstanceformTemplate.helpers.isSection = (code)->
-		form_version = Template.instance().view.template.steedosData.form_version
+		form_version = this.form_version
 		return form_version.fields.findPropertyByPK("code", code).type == 'section'
 
 	InstanceformTemplate.helpers.doc_values = ->
-		instance = Template.instance().view.template.steedosData.instance;
+		instance = this.instance;
 		return instance.values;
 
 	InstanceformTemplate.helpers.applicantContext = ->
-		instance = Template.instance().view.template.steedosData.instance;
+		instance = this.instance;
 		data = {
 			name: 'ins_applicant',
 			atts: {name: 'ins_applicant', id: 'ins_applicant', class: 'selectUser form-control ins_applicant'},
@@ -421,10 +487,10 @@ if Meteor.isServer
 		}
 
 	InstanceformTemplate.helpers.instance = ->
-		return Template.instance().view.template.steedosData.instance
+		return this.instance
 
 	InstanceformTemplate.helpers.fields = ->
-		form_version = Template.instance().view.template.steedosData.form_version
+		form_version = this.form_version
 		if form_version
 			return new SimpleSchema(WorkflowManager_format.getAutoformSchema(form_version));
 
@@ -435,19 +501,29 @@ if Meteor.isServer
 		form_version = Template.instance().view.template.steedosData.form_version
 		InstanceReadOnlyTemplate.getLabel form_version.fields, op?.hash?.name
 
-	Template.registerHelper "imageURL", (user)->
-		space = Template.instance().view.template.steedosData.space
-
-		spaceUserSign = db.space_user_signs.findOne({space: space, user: user});
-
-		if spaceUserSign?.sign
-			return Steedos.absoluteUrl() + "/api/files/avatars/" + spaceUserSign.sign;
-
 	InstanceformTemplate.helpers._t = (key)->
-		locale = Template.instance().view.template.steedosData.locale
+		locale = this.locale
 
 		return TAPi18n.__(key, {}, locale)
 
+	InstanceformTemplate.helpers.ins_attach_download_url = (_id, absolute)->
+		if absolute
+			return Meteor.absoluteUrl("/api/files/instances/#{_id}?download=true");
+		else
+			return "/api/files/instances/#{_id}?download=true";
+
+	InstanceformTemplate.helpers.options = (field)->
+		options = field?.options?.split("\n")
+		rev = []
+		options?.forEach (item)->
+			rev.push({label: item, value: item})
+
+		return rev
+
+	InstanceformTemplate.helpers.getPermissions = (code)->
+		if !Template.instance().view.template.steedosData.startStepEditableFields?.includes(code)
+			return "readonly disabled"
+		return ""
 
 InstanceformTemplate.events =
 	'change .form-control,.checkbox input,.af-radio-group input,.af-checkbox-group input': (event)->
@@ -468,7 +544,11 @@ InstanceformTemplate.onCreated = ()->
 
 	template = TemplateManager.getTemplate(instance);
 
-	compiled = SpacebarsCompiler.compile(template, {isBody: true});
+	try
+		compiled = SpacebarsCompiler.compile(template, {isBody: true});
+	catch e
+		console.log "Instance Template Error", e
+		compiled = SpacebarsCompiler.compile("", {isBody: true});
 
 
 	renderFunction = eval(compiled);
@@ -495,17 +575,35 @@ InstanceformTemplate.onRendered = ()->
 
 	#$("#ins_applicant").select2().val(instance.applicant).trigger('change');
 	#$("#ins_applicant").val(instance.applicant);
-	$("input[name='ins_applicant']")[0].dataset.values = instance.applicant;
+	$("input[name='ins_applicant']")[0]?.dataset.values = instance.applicant;
 	$("input[name='ins_applicant']").val(instance.applicant_name)
 
 
 	ApproveManager.error = {nextSteps: '', nextStepUsers: ''};
+
+	# instance from绑定事件
+	if Session.get("box") == 'inbox' || Session.get("box") == 'draft'
+		InstanceEvent.initEvents(instance.flow);
+
 	if !ApproveManager.isReadOnly()
 
-# instance from绑定事件
-		InstanceEvent.attachEvents(instance.flow);
-
 		currentApprove = InstanceManager.getCurrentApprove();
+
+
+		instanceNumberFields = $("[data-formula]", $("#instanceform"))
+
+		instanceNumberFields.each ()->
+			if !$(this).val()
+
+				key = $(this).data("formula")?.replace("auto_number(", "").replace(")", "")
+
+				key = key.replace(/\"/g, "").replace(/\'/g, "")
+
+				if key.indexOf("{") > -1
+					key = key.replace("{","").replace("}","")
+					key = key.trim()
+					key = AutoForm.getFieldValue(key, 'instanceform')
+				InstanceNumberRules.instanceNumberBuilder $(this), key
 
 		judge = currentApprove.judge
 		currentStep = InstanceManager.getCurrentStep();

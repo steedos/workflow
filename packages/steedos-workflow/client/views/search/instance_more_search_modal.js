@@ -1,19 +1,21 @@
 Template.instance_more_search_modal.onRendered(function() {
-	if(!Steedos.isMobile()){
+	if (!Steedos.isMobile()) {
 		$("#instance_more_search_submit_date_start").datetimepicker({
-			format: "YYYY-MM-DD"
+			format: "YYYY-MM-DD",
+			locale: Session.get("TAPi18n::loaded_lang")
 		});
 
 		$("#instance_more_search_submit_date_end").datetimepicker({
 			format: "YYYY-MM-DD",
-			widgetPositioning:{
+			locale: Session.get("TAPi18n::loaded_lang"),
+			widgetPositioning: {
 				horizontal: 'right'
 			}
 		});
 	}
 
-	$("#instance_more_search_modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
-	
+	$("[name='instance_is_archived']").val(Session.get("instance-earch-is-archived"));
+
 })
 
 Template.instance_more_search_modal.helpers({
@@ -27,6 +29,45 @@ Template.instance_more_search_modal.helpers({
 		}
 
 		return "";
+	},
+
+	selected_search_state: function(state) {
+		selectedState = Session.get("instance-search-state");
+		if (state == selectedState) {
+			return "checked";
+		} else {
+			return "";
+		}
+	},
+
+	selected_search_name: function() {
+		return Session.get("instance-search-name");
+	},
+
+	selected_search_appliacnt_name: function() {
+		return Session.get("instance-search-appplicant-name");
+	},
+
+	selected_search_applicant_organization_name: function() {
+		return Session.get("instance-search-applicant-organization-name");
+	},
+
+	selected_submit_start_date: function() {
+		return Session.get("submit-date-start");
+	},
+
+	selected_submit_end_date: function() {
+		return Session.get("submit-date-end");
+	},
+
+	state_options: function() {
+		return [{
+			value: "pending",
+			name: TAPi18n.__("instance_search_state_options.pending")
+		}, {
+			value: "completed",
+			name: TAPi18n.__("instance_search_state_options.completed")
+		}];
 	}
 })
 
@@ -59,16 +100,21 @@ Template.instance_more_search_modal.events({
 		// }
 
 		var and = [];
+		if ($("input[name='instance_more_search_state']:checked").val()) {
+			selector.state = $("input[name='instance_more_search_state']:checked").val();
+			Session.set("instance-search-state", selector.state)
+		}
 
 		if ($('#instance_more_search_name').val()) {
 			var name_key_words = $('#instance_more_search_name').val().split(" ");
 			_.each(name_key_words, function(k) {
 				and.push({
 					name: {
-						$regex: k
+						$regex: Steedos.convertSpecialCharacter(k)
 					}
 				});
 			})
+			Session.set("instance-search-name", $('#instance_more_search_name').val())
 		}
 
 		if (and.length > 0) {
@@ -77,18 +123,22 @@ Template.instance_more_search_modal.events({
 
 		if ($('#instance_more_search_applicant_name').val()) {
 			selector.applicant_name = {
-				$regex: $('#instance_more_search_applicant_name').val()
+				$regex: Steedos.convertSpecialCharacter($('#instance_more_search_applicant_name').val())
 			};
+			Session.set("instance-search-appplicant-name", $('#instance_more_search_applicant_name').val())
 		}
 
 		if ($('#instance_more_search_applicant_organization_name').val()) {
 			selector.applicant_organization_name = {
-				$regex: $('#instance_more_search_applicant_organization_name').val()
+				$regex: Steedos.convertSpecialCharacter($('#instance_more_search_applicant_organization_name').val())
 			};
+			Session.set("instance-search-applicant-organization-name", $('#instance_more_search_applicant_organization_name').val())
 		}
 
 		var submit_date_start = $('#instance_more_search_submit_date_start').val();
+		Session.set("submit-date-start", submit_date_start);
 		var submit_date_end = $('#instance_more_search_submit_date_end').val();
+		Session.set("submit-date-end", submit_date_end);
 		if (submit_date_start && submit_date_end) {
 			selector.submit_date = {
 				$gte: new Date(submit_date_start),
@@ -104,6 +154,22 @@ Template.instance_more_search_modal.events({
 				$gte: new Date(null),
 				$lte: new Date(submit_date_end)
 			};
+		}
+
+		var ins_is_archived = $("[name='instance_is_archived']").val();
+
+		Session.set("instance-earch-is-archived", ins_is_archived);
+
+		if (ins_is_archived) {
+			if (ins_is_archived === "0") {
+				selector["values.record_need"] = "true";
+				selector.is_archived = {
+					$ne: true
+				};
+			} else if (ins_is_archived === "1") {
+				selector["values.record_need"] = "true";
+				selector.is_archived = true;
+			}
 		}
 
 		Session.set('instance_more_search_selector', selector);

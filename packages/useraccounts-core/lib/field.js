@@ -105,8 +105,13 @@ if (Meteor.isClient) {
     if (this.type === "radio") {
       return templateInstance.$("[name=at-field-"+ this._id + "]:checked").val();
     }
-
-    return templateInstance.$("#at-field-" + this._id).val();
+    var val = templateInstance.$("#at-field-" + this._id).val();
+    if(val.trim){
+      return val.trim();
+    }
+    else{
+      return val;
+    }
   };
 }
 
@@ -247,21 +252,36 @@ Field.prototype.validate = function(value, strict) {
     }
   }
 
-  var valueLength = value.length;
-  var minLength = this.minLength;
-  if (minLength && valueLength < minLength) {
-    this.setError(T9n.get("minRequiredLength") + ": " + minLength);
-    this.setValidating(false);
+  if(this._id === "password"){
+    var result = Steedos ? Steedos.validatePassword(value) : "";
+    if (result.error){
+      this.setError(result.error.reason);
+      this.setValidating(false);
 
-    return T9n.get("minRequiredLength") + ": " + minLength;
+      return result.error.reason
+    }
+  }
+
+  if(!Steedos || (this._id !== "password" && this._id !== "password_again")){
+    // Steedos系统中由Steedos.validatePassword函数验证密码，不需要额外验证minLength
+    var valueLength = value.length;
+    var minLength = this.minLength;
+    if (minLength && valueLength < minLength) {
+      var reason = T9n.get("minRequiredLength") + minLength.toString();
+      this.setError(reason);
+      this.setValidating(false);
+
+      return reason;
+    }
   }
 
   var maxLength = this.maxLength;
   if (maxLength && valueLength > maxLength) {
-    this.setError(T9n.get("maxAllowedLength") + ": " + maxLength);
+    var reason = T9n.get("maxAllowedLength") + maxLength.toString();
+    this.setError(reason);
     this.setValidating(false);
 
-    return T9n.get("maxAllowedLength") + ": " + maxLength;
+    return reason;
   }
 
   if (this.re && valueLength && !value.match(this.re)) {

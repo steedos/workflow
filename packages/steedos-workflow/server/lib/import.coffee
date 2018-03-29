@@ -18,8 +18,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 					_id: category_id,
 					name: form.category_name,
 					space: spaceId,
-					create: new Date,
-					create_by: uid,
+					created: new Date,
+					created_by: uid,
 					modified: new Date,
 					modified_by: uid
 				});
@@ -28,6 +28,20 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 				form.category = category._id
 
 			delete form.category_name
+
+		if form?.instance_number_rules
+			form.instance_number_rules.forEach (nr)->
+				try
+					rules = db.instance_number_rules.findOne({space: spaceId, "name": nr.name})
+
+					if !rules
+						nr.space = spaceId
+						nr._id = new Mongo.ObjectID()._str
+						db.instance_number_rules.direct.insert(nr)
+				catch e
+					console.log "steedosImport.workflow", e
+
+			delete form.instance_number_rules
 
 		form_id = new Mongo.ObjectID()._str
 
@@ -69,6 +83,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 		db.forms.direct.insert(form)
 
+
+
 		new_form_ids.push(form_id)
 
 		flows.forEach (flow)->
@@ -93,21 +109,22 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			flow.created_by = uid
 
-			#		设置提交部门为：全公司
-			perms = {
-				_id: new Mongo.ObjectID()._str
-				users_can_add: []
-				orgs_can_add: db.organizations.find({
-					space: spaceId,
-					is_company: true
-				}, {fields: {_id: 1}}).fetch().getProperty("_id")
-				users_can_monitor: []
-				orgs_can_monitor: []
-				users_can_admin: []
-				orgs_can_admin: []
-			}
+			if !flow.perms
+				#设置提交部门为：全公司
+				perms = {
+					_id: new Mongo.ObjectID()._str
+					users_can_add: []
+					orgs_can_add: db.organizations.find({
+						space: spaceId,
+						is_company: true
+					}, {fields: {_id: 1}}).fetch().getProperty("_id")
+					users_can_monitor: []
+					orgs_can_monitor: []
+					users_can_admin: []
+					orgs_can_admin: []
+				}
 
-			flow.perms = perms
+				flow.perms = perms
 
 			flow.current._id = new Mongo.ObjectID()._str
 
@@ -128,7 +145,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 			flow.current?.steps.forEach (step)->
 				if _.isEmpty(step.approver_roles_name)
 					delete step.approver_roles_name
-					step.approver_roles = []
+					if _.isEmpty(step.approver_roles)
+						step.approver_roles = []
 				else
 					approve_roles = new Array()
 					step.approver_roles_name.forEach (role_name) ->
@@ -147,7 +165,7 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 							approve_roles.push(role_id)
 						else
-							approve_roles.push(role_id)
+							approve_roles.push(role._id)
 
 					step.approver_roles = approve_roles
 

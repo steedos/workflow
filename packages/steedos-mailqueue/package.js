@@ -17,7 +17,8 @@ Package.onUse(function(api) {
 		'mongo',
 		'underscore',
 		'ejson',
-		'random' // The push it is created with Random.id()
+		'random', // The push it is created with Random.id()
+		'coffeescript'
 	]);
 
 	api.use('mongo', 'server');
@@ -35,6 +36,8 @@ Package.onUse(function(api) {
 	// API's
 	api.addFiles('lib/server/api.js', 'server');
 
+	// STARTUP
+	api.addFiles('server/startup.coffee', 'server');
 
 	api.export('MailQueue', ['server']);
 

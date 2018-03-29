@@ -1,6 +1,7 @@
-.admin-home-content .admin-grids .admin-grid-item .admin-grid-icon i.ion, .admin-home-content .admin-grids .admin-grid-item .admin-grid-icon i.fa {
+.admin-home-content .admin-grids .admin-grid-item .admin-grid-icon i.ion, 
+.admin-home-content .admin-grids .admin-grid-item .admin-grid-icon i.fa {
     font-size: 36px;
-    color: #008d4c;
+    color: #00ACC1;
 }
 .admin-home-content{
     padding:0 15px;
@@ -20,6 +21,37 @@
                 color: #3e3e3e;
                 white-space: normal;
             }
+        }
+    }
+    .admin-account-panel{
+        @media (min-width: 767px){
+            display: none;
+        }
+        -webkit-box-shadow: 0 0 120px #d3d3d3;
+        -moz-box-shadow: 0 0 60px #d3d3d3;
+        box-shadow: 0 0 120px #d3d3d3;
+        padding: 10px 15px;
+        background: #FFF;
+        margin: 10px 0;
+        .admin-space-logo{
+            clear: both;
+            height: 50px;
+            position: relative;
+            .space-name{
+                position: absolute;
+                left: 0;
+                right: 70px;
+            }
+            .user-image{
+                width: 50px;
+                height: 50px;
+                border-radius: 4px;
+                float: right;
+            }
+        }
+        .admin-user-name{
+            font-size: 18px;
+            font-weight: bold;
         }
     }
 }

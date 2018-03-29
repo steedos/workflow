@@ -1,46 +1,173 @@
+.steedos.fixed{
+	.main-header{
+		background: rgba(22, 84, 150, 0.84)!important;
+	}
+	.instance-list-wrapper{
+		.navigation-bar{
+			.instance_new{
+				display: none !important;
+			}
+			//.navigation-title{
+			//	.dropdown-toggle{
+			//		i{
+			//			display: none !important;
+			//		}
+			//	}
+			//}
+		}
+	}
+	.steedos-help,.steedos-about{
+		display: none !important;
+	}
+	.steedos-download.qhd-hidden {
+		display: none;
+	}
+	@media (max-width: 767px) {
+		.workflow{
+			.main-sidebar{
+				.sidebar-menu{
+					.mybox{
+						display: none !important;
+					}
+				}
+			}
+		}
 
-@media (max-width: 767px) {
-    .instance-list-wrapper{
-        .navigation-bar{
-            .instance_new{
-                display: none !important;
-            }
-        }
-    }
-    .main-sidebar{
-        .sidebar-menu{
-            .instance_new, .draft, .pending, .completed, .monitor{
-                display: none !important;
-            }
-        }
-    }
+		.steedos-help,.steedos-about{
+			display: none !important;
+		}
 
-    .steedos-help{
-        display: none !important;
-    }
+		.steedos-logout{
+			display: block !important;
+		}
 
-    .steedos-logout{
-        display: block !important;
-    }
+		.steedos{
+			&.login{
+				.main-header {
+					display: none!important;
+				}
+			}
+		}
+	}
 
-    .steedos{
-        &.login{
-            .main-header {
-                display: none!important;
-            }
-        }
-    }
+
+	.cf_space_user_list_table{
+		.selectTag-profile{
+			display: none !important;
+		}
+	}
+	.login .main-header{
+		display:none;
+	}
+	.steedos.login{
+		.at-form{
+			.at-title h3{
+				font-size: 23px!important;
+				color: #fff;
+				text-shadow: 1px 1px 1px #333;
+				margin-bottom: 55px;
+				@media (max-width: 767px) {
+					margin-bottom: 0px;
+				}
+			}
+			img.logo{
+				border-radius: 50%;
+				width: auto;
+				height: 80px;
+				@media (max-width: 767px) {
+					width: auto;
+					height: 74px;
+				}
+				margin-bottom: 12px;
+				box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.35);
+			}
+			.at-title{
+				h3{
+					display: block;
+				}
+			}
+			.at-pwd-form{
+				.btn-primary{
+					padding: 8px!important;
+				}
+				.form-group input{
+					height: 42px;
+				}
+			}
+		}
+	}
+	.change-username-box{
+		display: none;
+	}
+	.admin-content{
+		.admin-menu-col-profile{
+			display: none;
+		}
+		.admin-grids-api{
+			display: none;
+		}
+		.weui-panel-help {
+			display: none;
+		}
+		.weui-panel-about {
+			display: none;
+		}
+	}
+	.sidebar{
+		.admin-menu-li-profile{
+			display: none;
+		}
+		.admin-menu-li-api {
+			display: none;
+		}
+	}
+	.weui-tabbar{
+		.weui-tabbar-admin{
+			display: none;
+		}
+	}
+
+	@media (max-width: 767px){
+		.btn[data-toggle='offcanvas']{
+			max-width: 58px;
+			.fa-bars{
+				display: none;
+			}
+		}
+		.btn[data-toggle='offcanvas']::before {
+			content: '菜单';
+		}
+
+		.instance-list-wrapper .navigation-bar .btn-offcanvas .inbox-pending-icon{
+			left: -5px;
+			top: -10px;
+		}
+	}
 }
 
 
-.cf_space_user_list_table{
-  .selectTag-profile{
-    display: none !important;
-  }
+
+.instance-table, .traces_table_modal{
+	.form-table{
+		.td-title{
+			text-align: left;
+		}
+	}
 }
-.login .main-header{
-    display:none;
+
+.steedos.steedos-calendar {
+	.main-sidebar {
+		padding-bottom: 0;
+		.mobile-sync {
+			display: none;
+		}
+	}
 }
-.steedos.login .at-form .at-title h3{
-    font-size: 25px!important;
+
+
+.steedos-base-tabbar{
+	.weui-tabbar__label{
+		font-size: 12px;
+		font-weight: bold;
+	}
 }

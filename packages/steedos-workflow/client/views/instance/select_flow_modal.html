@@ -13,18 +13,11 @@
                     <div class='box box-solid flow_list_box'>
                         {{#if showSpaces}}
                             <div class="form-group">
-                                <div class="dropdown" style="margin-bottom: 10px;">
-                                    <button class="btn btn-default dropdown-toggle select-flow-space-btn" type="button" id="dropdownMenu1"
-                                            data-toggle="dropdown">
-                                        {{spaceName}}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu select-flow-space-ul" role="menu" aria-labelledby="dropdownMenu1">
-                                        {{#each spaces}}
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{name}}</a></li>
-                                        {{/each}}
-                                    </ul>
-                                </div>
+                                <select class="form-control"  id="space_drop_down_box">
+                                    {{#each spaces }}
+                                        <option value="{{_id}}" selected="{{selected _id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
                             </div>
                         {{/if}}
                         <div class='box-group' id='flow_accordion'>
@@ -66,6 +59,11 @@
                                         {{/if}}
                                     </div>
                                 {{/if}}
+                            {{/each}}
+                            {{#each flow_list_data.distribute_optional_flows}}
+                                <a class='weui_cell' data-flow='{{_id}}'>
+                                    <i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+                                </a>
                             {{/each}}
                         </div>
                     </div>

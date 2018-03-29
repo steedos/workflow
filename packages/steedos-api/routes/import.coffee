@@ -93,6 +93,7 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 							udoc.services = {password: {bcrypt: "$2a$10$o2qrOKUtfICH/c3ATkxrwu11h5u5I.Mc4ANU6pMbBjUaNs6C3f2sG"}}
 							udoc.created = now
 							udoc.modified = now
+							udoc.utcOffset = 8
 							if row.length >= 7
 								udoc.username = row[6]
 							user_id = db.users.direct.insert(udoc)

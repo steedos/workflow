@@ -1,1 +1,0 @@
-db.box_counts = new Mongo.Collection("box_counts");

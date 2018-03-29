@@ -2,7 +2,8 @@ Package.describe({
   name: 'steedos:jstree',
   summary: 'jQuery tree plugin for MeteorJS.',
   version: '3.3.2',
-  git: 'https://github.com/vakata/jstree'
+  git: 'https://github.com/vakata/jstree',
+  documentation: null
 });
 
 Package.onUse(function(api) {

@@ -1,7 +1,7 @@
 Package.describe({
   summary: 'Accounts Templates styled for Twitter Bootstrap.',
-  version: '1.14.2',
-  name: 'useraccounts:bootstrap',
+  version: '1.14.2_7',
+  name: 'steedos:useraccounts-bootstrap',
   git: 'https://github.com/meteor-useraccounts/bootstrap.git',
 });
 
@@ -14,15 +14,15 @@ Package.on_use(function(api, where) {
   ], 'client');
 
   api.use([
-    'useraccounts:core',
+    'steedos:useraccounts-core@1.14.2_6',
   ], ['client', 'server']);
 
   // Requires all routing packages loads before this asking for weak dependencies.
-  api.use('useraccounts:flow-routing@1.14.2', ['client', 'server'], {weak: true});
-  api.use('useraccounts:iron-routing@1.14.2', ['client', 'server'], {weak: true});
+  api.use('steedos:useraccounts-flow-routing@1.14.2', ['client', 'server'], {weak: true});
+  // api.use('useraccounts:iron-routing@1.14.2', ['client', 'server'], {weak: true});
 
   api.imply([
-    'useraccounts:core@1.14.2',
+    'steedos:useraccounts-core@1.14.2_6',
   ], ['client', 'server']);
 
   api.add_files([
@@ -69,8 +69,8 @@ Package.on_use(function(api, where) {
 
 Package.on_test(function(api) {
   api.use([
-    'useraccounts:bootstrap',
-    'useraccounts:core@1.14.2',
+    'steedos:useraccounts-bootstrap@1.14.2',
+    'steedos:useraccounts-core@1.14.2_5',
   ]);
 
   api.use([

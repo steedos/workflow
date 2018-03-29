@@ -1,6 +1,6 @@
 checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
-		FlowRouter.go '/steedos/sign-in?redirect=' + context.path;
+		Steedos.redirectToSignIn(context.path)
 
 
 FlowRouter.route '/workflow',
@@ -60,9 +60,14 @@ workflowSpaceRoutes.route '/:box/',
 	action: (params, queryParams)->
 		Steedos.setSpaceId(params.spaceId)
 
+		last_box = Session.get("box")
+
 		Session.set("box", params.box);
 #		Session.set("flowId", undefined);
 		Session.set("instanceId", null);
+		if params.box != 'inbox'
+			Session.set("workflowCategory", undefined);
+
 		BlazeLayout.render 'workflowLayout',
 			main: "workflow_main"
 
@@ -103,11 +108,43 @@ workflowSpaceRoutes.route '/:box/:instanceId',
 FlowRouter.route '/workflow/designer',
 	triggersEnter: [checkUserSigned],
 	action: (params, queryParams)->
-		Steedos.openWindow "/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}"
-		FlowRouter.go "/admin/home/"
+		Steedos.openWindow Steedos.absoluteUrl("/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}")
+		Meteor.setTimeout ->
+			FlowRouter.go "/admin/home/"
 
 FlowRouter.route '/admin/flows',
 	triggersEnter: [checkUserSigned],
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_flows"
+
+FlowRouter.route '/admin/importorexport/flows',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_import_export_flows"
+
+FlowRouter.route '/admin/categories',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_categories"
+
+
+FlowRouter.route '/admin/instance_number_rules',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_instance_number_rules"
+
+FlowRouter.route '/admin/workflow/flow_positions',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_flow_positions"
+
+FlowRouter.route '/admin/workflow/flow_roles',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_flow_roles"

@@ -117,12 +117,16 @@ WorkflowManager.getInstanceFormVersion = function() {
 				field['permission'] = field_permission[field.code] == 'editable' ? 'editable' : 'readonly';
 				if (field.type == 'table') {
 					field['sfields'] = field['fields']
-					field['sfields'].forEach(function(sf) {
-						sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
-						if (sf["permission"] == 'editable') {
-							field['permission'] = 'editable';
-						}
-					});
+					if (field['sfields']) {
+						field['sfields'].forEach(function(sf) {
+							sf["permission"] = field_permission[sf.code] == 'editable' ? 'editable' : 'readonly';
+							if (sf["permission"] == 'editable') {
+								field['permission'] = 'editable';
+							}
+						});
+					} else {
+						console.error("子表：" + field.code + " 没有字段");
+					}
 					// 因为这个程序会傻傻的执行很多遍，所以不能删除
 					delete field['fields']
 				}
@@ -164,7 +168,7 @@ WorkflowManager.getInstanceFields = function() {
 }
 
 WorkflowManager.getInstanceStep = function(stepId) {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -185,7 +189,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 };
 
 WorkflowManager.getInstanceSteps = function() {
-	flow = WorkflowManager.getInstanceFlowVersion();
+	var flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
 		return null;
@@ -203,9 +207,13 @@ WorkflowManager.getInstanceSteps = function() {
 };
 
 WorkflowManager.getInstanceFieldPermission = function() {
-	instance = WorkflowManager.getInstance();
+	var instance = WorkflowManager.getInstance();
 
 	if (!instance) {
+		return {};
+	}
+
+	if (InstanceManager.isCC(instance)) {
 		return {};
 	}
 
@@ -221,7 +229,7 @@ WorkflowManager.getInstanceFieldPermission = function() {
 		);
 	}
 
-	step = WorkflowManager.getInstanceStep(current_stepId);
+	var step = WorkflowManager.getInstanceStep(current_stepId);
 	if (!step) {
 		return {}
 	}
@@ -324,18 +332,18 @@ WorkflowManager.getRole = function(roleId) {
 	return role;
 };
 
-WorkflowManager.getUser = function(userId) {
+WorkflowManager.getUser = function(userId, spaceId) {
 	if (!userId) {
 		return;
 	}
 
 	if (typeof userId != "string") {
 
-		return WorkflowManager.getUsers(userId);
+		return WorkflowManager.getUsers(userId, spaceId);
 
 	}
 
-	var spaceUsers = UUflow_api.getSpaceUsers(Session.get('spaceId'), userId);
+	var spaceUsers = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userId);
 	if (!spaceUsers) {
 		return
 	};
@@ -348,15 +356,15 @@ WorkflowManager.getUser = function(userId) {
 	return spaceUser;
 };
 
-WorkflowManager.getUsers = function(userIds) {
+WorkflowManager.getUsers = function(userIds, spaceId) {
 
 	if ("string" == typeof(userIds)) {
-		return [WorkflowManager.getUser(userIds)]
+		return [WorkflowManager.getUser(userIds, spaceId)]
 	}
 
 	var users = new Array();
 	if (userIds) {
-		users = UUflow_api.getSpaceUsers(Session.get('spaceId'), userIds);
+		users = UUflow_api.getSpaceUsers(spaceId || Session.get('spaceId'), userIds);
 	}
 
 	return users;
@@ -507,73 +515,48 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
 }
 
 WorkflowManager.getSpaceCategories = function(spaceId) {
-	var re = new Array();
 
-	var r = db.categories.find({
+	return db.categories.find({
 		space: spaceId
-	});
-
-	r.forEach(function(c) {
-		re.push(c);
-	});
-
-	return re;
+	}, {
+		sort: {
+			sort_no: -1
+		}
+	}).fetch();
 };
 
 
 WorkflowManager.getCategoriesForms = function(categorieId) {
-	var re = new Array();
 
-	var forms = db.forms.find({
+	return db.forms.find({
 		category: categorieId,
 		state: "enabled"
-	});
-	forms.forEach(function(f) {
-		re.push(f)
-	});
-
-	return re;
+	}).fetch();
 };
 
 WorkflowManager.getUnCategoriesForms = function() {
-	var re = new Array();
 
-	var forms = db.forms.find({
+	return forms = db.forms.find({
 		category: {
 			$in: [null, ""]
 		},
 		state: "enabled"
-	});
-	forms.forEach(function(f) {
-		re.push(f)
-	});
-
-	return re;
+	}).fetch();
 };
 
 WorkflowManager.getFormFlows = function(formId) {
-	var re = new Array();
-	var flows = db.flows.find({
+
+	return db.flows.find({
 		form: formId,
 		state: "enabled"
-	})
-	flows.forEach(function(f) {
-		re.push(f)
-	});
-
-	return re;
+	}).fetch();
 };
 
 WorkflowManager.getSpaceFlows = function(spaceId) {
-	var re = new Array();
 
-	var r = db.flows.find();
-
-	r.forEach(function(c) {
-		re.push(c);
-	});
-
-	return re;
+	return db.flows.find({
+		space: spaceId
+	}).fetch();
 };
 
 WorkflowManager.canAdd = function(fl, curSpaceUser, organizations) {
@@ -687,13 +670,9 @@ WorkflowManager.getMyCanAddFlows = function() {
 	return flow_ids;
 };
 
-WorkflowManager.getFlowListData = function(show_type) {
+WorkflowManager.getFlowListData = function(show_type, space_id) {
 	//{categories:[],uncategories:[]}
-	var spaceId = Session.get('spaceId');
-
-	if (show_type == 'forward' && Session.get('forward_space_id')) {
-		spaceId = Session.get('forward_space_id');
-	}
+	var spaceId = space_id ? space_id : Session.get('spaceId');
 
 	var curUserId = Meteor.userId();
 	var curSpaceUser = db.space_users.findOne({
@@ -707,20 +686,62 @@ WorkflowManager.getFlowListData = function(show_type) {
 	}).fetch();
 
 	var re = {};
+	var distribute_optional_flows = [];
+	if (show_type == "distribute") {
+		// 如果设置了当前步骤可以分发的流程范围则使用此范围
+		var current_step = InstanceManager.getDistributeStep();
+		if (current_step && current_step.allowDistribute == true) {
+			distribute_optional_flows = current_step.distribute_optional_flows || [];
+		}
+	}
 
-	re.categories = new Array();
+	if (distribute_optional_flows.length > 0) {
+		re.distribute_optional_flows = db.flows.find({
+			_id: {
+				$in: distribute_optional_flows
+			},
+			state: "enabled"
+		}).fetch();
+	} else {
+		re.categories = new Array();
 
-	var categories = WorkflowManager.getSpaceCategories(spaceId);
+		var categories = WorkflowManager.getSpaceCategories(spaceId);
 
-	categories.sortByName();
+		// categories.sortByName();
 
-	var isSpaceAdmin = Steedos.isSpaceAdmin();
+		var isSpaceAdmin = Steedos.isSpaceAdmin();
 
-	categories.forEach(function(c) {
-		var forms = WorkflowManager.getCategoriesForms(c._id);
-		forms.sortByName();
+		categories.forEach(function(c) {
+			var forms = WorkflowManager.getCategoriesForms(c._id);
+			forms.sortByName();
 
-		forms.forEach(function(f) {
+			forms.forEach(function(f) {
+				var flows = WorkflowManager.getFormFlows(f._id);
+				flows.sortByName();
+				f.flows = new Array();
+				flows.forEach(function(fl) {
+					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
+						f.flows.push(fl);
+					} else if (show_type == 'show') {
+						if (isSpaceAdmin) {
+							f.flows.push(fl);
+						} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+							f.flows.push(fl);
+						} else if (WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+							f.flows.push(fl);
+						}
+					}
+				});
+			});
+
+			c.forms = forms;
+		});
+
+		var unCategorieForms = WorkflowManager.getUnCategoriesForms();
+
+		unCategorieForms.sortByName();
+
+		unCategorieForms.forEach(function(f) {
 			var flows = WorkflowManager.getFormFlows(f._id);
 			flows.sortByName();
 			f.flows = new Array();
@@ -732,42 +753,39 @@ WorkflowManager.getFlowListData = function(show_type) {
 						f.flows.push(fl);
 					} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
+					} else if (WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+						f.flows.push(fl);
 					}
 				}
 			});
 		});
 
-		c.forms = forms;
-	});
+		categories = _.filter(categories, function(categorie) {
 
-	var unCategorieForms = WorkflowManager.getUnCategoriesForms();
+			var flows = 0;
 
-	unCategorieForms.sortByName();
+			categorie.forms.forEach(function(form) {
+				flows += form.flows.length
+			})
 
-	unCategorieForms.forEach(function(f) {
-		var flows = WorkflowManager.getFormFlows(f._id);
-		flows.sortByName();
-		f.flows = new Array();
-		flows.forEach(function(fl) {
-			if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
-				f.flows.push(fl);
-			} else if (show_type == 'show') {
-				if (isSpaceAdmin) {
-					f.flows.push(fl);
-				} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
-					f.flows.push(fl);
-				}
-			}
-		});
-	});
+			return flows > 0
+		})
 
-	re.categories = categories;
-	if (unCategorieForms.length > 0)
-		re.categories.push({
-			name: TAPi18n.__('workflow_no_category'),
-			_id: '',
-			forms: unCategorieForms
-		});
+		re.categories = categories;
+
+		var unCategorieFlows = 0
+
+		unCategorieForms.forEach(function(form) {
+			unCategorieFlows += form.flows.length
+		})
+
+		if (unCategorieFlows > 0)
+			re.categories.push({
+				name: TAPi18n.__('workflow_no_category'),
+				_id: '',
+				forms: unCategorieForms
+			});
+	}
 
 	return re;
 };
@@ -804,7 +822,7 @@ WorkflowManager.isArrearageSpace = function() {
 	if (space) {
 		if (space.is_paid) {
 
-			return space.balance <= 0.00 ? true : false;
+			return space.end_date <= new Date ? true : false;
 
 		} else {
 			return false;
@@ -813,10 +831,10 @@ WorkflowManager.isArrearageSpace = function() {
 	return true;
 }
 if (Meteor.isClient) {
-	WorkflowManager.getStepDealTypeName = function(step){
+	WorkflowManager.getStepDealTypeName = function(step) {
 		var reName = "";
-		switch(step.deal_type) {
-			case 'pickupAtRuntime': 
+		switch (step.deal_type) {
+			case 'pickupAtRuntime':
 				reName = '审批时指定人员';
 				break;
 			case 'specifyUser':
@@ -826,10 +844,10 @@ if (Meteor.isClient) {
 				reName = '指定审批岗位';
 				break;
 			case 'applicantSuperior':
-				reName = '申请人上级';
+				reName = '提交人上级';
 				break;
 			case 'applicant':
-				reName = '申请人';
+				reName = '提交人';
 				break;
 			case 'orgField':
 				reName = '指定部门';
@@ -837,4 +855,53 @@ if (Meteor.isClient) {
 		}
 		return reName;
 	}
+}
+
+// 工作区管理员和流程管理员拥有流程的管理权限
+WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
+	var space = db.spaces.findOne(space_id);
+
+	if (!space)
+		return false;
+
+	if (space.admins && space.admins.includes(user_id))
+		return true;
+
+	var hasPermission = false;
+
+	var space_user = db.space_users.findOne({
+		space: space_id,
+		user: user_id
+	}, {
+		fields: {
+			organizations: 1,
+			user: 1
+		}
+	})
+	if (space_user) {
+		var organizations = db.organizations.find({
+			_id: {
+				$in: space_user.organizations
+			}
+		}, {
+			fields: {
+				parents: 1
+			}
+		}).fetch()
+
+		var fl = db.flows.findOne({
+			_id: flow_id
+		}, {
+			fields: {
+				perms: 1
+			}
+		})
+
+		if (fl && organizations) {
+			hasPermission = WorkflowManager.canAdmin(fl, space_user, organizations);
+		}
+	}
+
+	return hasPermission;
+
 }

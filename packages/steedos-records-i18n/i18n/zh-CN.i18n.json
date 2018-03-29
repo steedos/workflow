@@ -1,0 +1,14 @@
+{
+	"records_app_title": "全文检索",
+	"records_app_version":"版本号",
+	"records_home_title":"首页",
+	"records_home_welcome":"欢迎进入审批王档案管理系统",
+	"records_info_records":"全文检索",
+	"records_records_repository": "档案检索",
+	"records_info_settings":"设置",
+	"records_records_types":"档案类型",
+	"records_add_types":"添加类型",
+	"records_edit_types":"修改类型",
+	"records_search_records":"搜索",
+	"records_info_search":""
+}

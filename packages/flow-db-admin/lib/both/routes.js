@@ -1,6 +1,6 @@
 var checkUserSigned = function (context, redirect) {
 	if (!Meteor.userId()) {
-		FlowRouter.go('/steedos/sign-in');
+		Steedos.redirectToSignIn();
 	}
 }
 

@@ -60,3 +60,64 @@ db.webhooks.helpers
 	flow_name: ()->
 		f = db.flows.findOne({_id: this.flow}, {fields: {name: 1}})
 		return f && f.name
+
+if Meteor.isServer
+	db.webhooks._ensureIndex({
+		"flow": 1
+	},{background: true})
+
+
+if Meteor.isServer
+	db.webhooks.allow 
+		insert: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		update: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+		remove: (userId, doc) ->
+			if (!Steedos.isSpaceAdmin(doc.space, userId))
+				return false
+			else
+				return true
+
+
+
+new Tabular.Table
+	name: "Webhooks",
+	collection: db.webhooks,
+	columns: [
+		{
+			data: "flow"
+			render: (val, type, doc) ->
+				f = db.flows.findOne({_id: doc.flow}, {fields: {name: 1}})
+				return f && f.name
+		}
+		{
+			data: "payload_url"
+		}
+		{
+			data: "active"
+		}
+		{
+			data: "description"
+		}
+	]
+	dom: "tp"
+	lengthChange: false
+	ordering: false
+	pageLength: 10
+	info: false
+	extraFields: ["space", "content_type"]
+	searching: true
+	autoWidth: false
+	changeSelector: (selector, userId) ->
+		unless userId
+			return {_id: -1}
+		return selector

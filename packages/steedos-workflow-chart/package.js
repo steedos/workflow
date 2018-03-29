@@ -22,8 +22,11 @@ Package.onUse(function(api) {
 	api.addAssets("assets/mermaid/dist/mermaid.css", "client");
 	api.addAssets("assets/mermaid/dist/mermaid.dark.css", "client");
 	api.addAssets("assets/mermaid/dist/mermaid.forest.css", "client");
-	api.addAssets("assets/jquery/jquery-1.11.2.min.js", "client");
 	api.addAssets("assets/mermaid/dist/mermaid.min.js", "client");
+
+	api.addAssets("assets/index.html", "client");
+    api.addAssets("assets/index.js", "client");
+    api.addAssets("assets/index.css", "client");
 });
 
 Package.onTest(function(api) {

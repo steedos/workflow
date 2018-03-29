@@ -59,18 +59,26 @@ var number_step = function (digits) {
 
 var s_autoform = function (schema, field) {
 
-    type = field.type;
+    var type = field.type;
 
-    options = field.options;
+    var options = field.options;
 
-    permission = field.permission == 'editable' ? 'editable' : 'readonly';
+    var optionsArr = []
 
-    is_multiselect = field.is_multiselect;
+	if(InstanceMacro.check(options)){
+		optionsArr = InstanceMacro.run(options);
+	}else if(options != null && options.length > 0){
+		optionsArr = options.split("\n");
+    }
+
+    var permission = field.permission == 'editable' ? 'editable' : 'readonly';
+
+    var is_multiselect = field.is_multiselect;
 
     if (field["formula"])
         permission = "readonly";
 
-    autoform = {};
+    var autoform = {};
 
     //字段类型转换
     switch (type) {
@@ -108,7 +116,7 @@ var s_autoform = function (schema, field) {
         case 'date' :
             schema.type = String;
             autoform.disabled = (permission == 'readonly');
-            if (Steedos.isMobile())
+            if (Steedos.isMobile() || Steedos.isPad())
                 autoform.type = 'date';
             else {
                 autoform.type = 'coreform-datepicker';
@@ -118,7 +126,7 @@ var s_autoform = function (schema, field) {
                     format: "YYYY-MM-DD",
                     locale: Session.get("TAPi18n::loaded_lang"),
                     widgetPositioning:{
-                        horizontal: 'right'
+                        // horizontal: 'right'
                     }
                 }
             }
@@ -126,7 +134,7 @@ var s_autoform = function (schema, field) {
         case 'dateTime' :
             schema.type = Date;
             autoform.disabled = (permission == 'readonly');
-            if (Steedos.isMobile())
+            if (Steedos.isMobile() || Steedos.isPad())
                 autoform.type = 'datetime-local';
             else {
                 autoform.type = 'bootstrap-datetimepicker';
@@ -135,7 +143,7 @@ var s_autoform = function (schema, field) {
                     format: "YYYY-MM-DD HH:mm",
                     locale: Session.get("TAPi18n::loaded_lang"),
                     widgetPositioning:{
-                        horizontal: 'right'
+                        // horizontal: 'right'
                     }
                 }
             }
@@ -209,10 +217,9 @@ var s_autoform = function (schema, field) {
             break; //地理位置
     }
 
-    if (options != null && options.length > 0) {
+    if (optionsArr != null && optionsArr.length > 0) {
 
         var afoptions = new Array();
-        var optionsArr = options.split("\n");
 
         for (var s = 0; s < optionsArr.length; s++) {
             afoptions.push({label: optionsArr[s], value: optionsArr[s]});
@@ -244,11 +251,36 @@ var s_schema = function (label, field) {
 
     schema.autoform = new s_autoform(schema, field);
 
-    schema.autoform.defaultValue = field.default_value;
 
-    if (fieldType == 'section') {
-        schema.autoform.description = field.description
+
+    if(schema.autoform.disabled == false){
+
+		if(!field.default_value || field.default_value.indexOf("auto_number(") < 0){
+			schema.autoform.defaultValue = field.default_value;
+		}
+
+		if(InstanceMacro.check(field.default_value)){
+			schema.autoform.defaultValue = InstanceMacro.run(field.default_value);
+		}
+
+		if(field.default_value && field.default_value.indexOf("auto_number(") > -1){
+
+			schema.autoform["data-new-number"] = true
+
+			schema.autoform["data-formula"] = field.default_value
+
+			schema.autoform.defaultValue = ""
+
+        }
+
     }
+
+    if (fieldType === 'section') {
+        schema.autoform.description = field.description;
+		schema.autoform.label = field.name;
+    }
+
+	schema.autoform.title = schema.label;
 
     return schema;
 };
@@ -314,17 +346,19 @@ WorkflowManager_format.getAutoformSchema = function (steedosForm) {
 
             fieldSchema[field.code + ".$"] = {type: Object, label: label}
 
-            for (var si = 0; si < field.sfields.length; si++) {
+            if(field.sfields){
+				for (var si = 0; si < field.sfields.length; si++) {
 
-                var tableField = field.sfields[si];
+					var tableField = field.sfields[si];
 
-                label = (tableField.name != null && tableField.name.length > 0) ? tableField.name : tableField.code;
+					label = (tableField.name != null && tableField.name.length > 0) ? tableField.name : tableField.code;
 
-                tableField_schema = new s_schema(label, tableField);
+					tableField_schema = new s_schema(label, tableField);
 
-                fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
+					fieldSchema[field.code + ".$." + tableField.code] = tableField_schema;
 
-            }
+				}
+			}
 
         } else {
 

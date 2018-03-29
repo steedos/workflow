@@ -12,7 +12,7 @@ db.apps.adminConfig =
 	tableColumns: [
 		{name: "name"},
 	]
-	selector:  Admin.selectorCheckSpaceAdmin
+	selector:  Selector.selectorCheckSpaceAdmin
 
 db.spaces.adminConfig = 
 	icon: "globe"
@@ -24,9 +24,9 @@ db.spaces.adminConfig =
 		{name: "owner_name()"},
 		{name: "is_paid"},
 	]
-	extraFields: ["name","owner","admins"]
-	newFormFields: "name,owner,admins"
-	editFormFields: "name,owner,admins"
+	extraFields: ["name","owner","admins","enable_register"]
+	newFormFields: "name,owner,admins,avatar,enable_register"
+	editFormFields: "name,owner,admins,avatar,enable_register"
 	selector: {_id: -1}
 
 db.organizations.adminConfig =
@@ -41,7 +41,7 @@ db.organizations.adminConfig =
 	extraFields: ["space", "name", "users"]
 	newFormFields: "space,name,parent,sort_no,hidden,users,admins,fullname"
 	editFormFields: "name,parent,sort_no,hidden,users,admins"
-	selector: Admin.selectorCheckSpaceAdmin
+	selector: Selector.selectorCheckSpaceAdmin
 	pageLength: 100
 
 db.space_users.adminConfig = 
@@ -55,12 +55,11 @@ db.space_users.adminConfig =
 		{name: "organization_name()"},
 		{name: "user_accepted"}
 	]
-	extraFields: ["space", "user", "organizations", "manager"]
-	newFormFields: "space,name,email,mobile,organizations,manager,sort_no,user_accepted"
-	editFormFields: "space,name,mobile,organizations,manager,sort_no,user_accepted"
-	selector: Admin.selectorCheckSpaceAdmin
+	extraFields: ["space", "user", "organizations", "organization", "manager"]
+	newFormFields: "space,name,email,company,position,mobile,work_phone,organizations,manager,sort_no,user_accepted"
+	editFormFields: "space,name,company,position,mobile,work_phone,organizations,manager,sort_no,user_accepted"
+	selector: Selector.selectorCheckSpaceAdmin
 	pageLength: 100
-
 
 @AdminConfig = 
 	name: "Steedos Admin"

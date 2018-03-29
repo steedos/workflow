@@ -14,6 +14,14 @@ AT.prototype.atPwdLinkHelpers = {
     suffText: function(){
         return T9n.get(AccountsTemplates.texts.pwdLink_suff, markIfMissing=false);
     },
+    phoneLinkText: function(){
+        return T9n.get("loginWithPhone", markIfMissing=false);
+    },
+    showPhoneLink: function(){
+        if (Steedos) {
+            return true;
+        }
+    }
 };
 
 AT.prototype.atPwdLinkEvents = {

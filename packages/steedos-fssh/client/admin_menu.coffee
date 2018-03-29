@@ -2,7 +2,7 @@ if Meteor.isClient
 
 	# Portal菜单暂时先放到FSSH中，以后需要公开再迁移到Portal中
 	# 门户
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "portal"
 		title: "Steedos Portal"
 		icon: "ion ion-ios-albums-outline"
@@ -10,7 +10,7 @@ if Meteor.isClient
 		sort: 40
 
 	# 面板
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "portal_dashboards"
 		title: "portal_dashboards"
 		icon:"ion ion-ios-photos"
@@ -21,7 +21,7 @@ if Meteor.isClient
 
 	# FSSH为Portal增加的菜单
 	# 验证域
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "apps_auths"
 		title: "apps_auths"
 		icon:"ion ion-aperture"
@@ -31,7 +31,7 @@ if Meteor.isClient
 		parent: "portal"
 
 	#域账户
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "apps_auth_users"
 		title: "apps_auth_users"
 		icon:"ion ion-ios-personadd"
@@ -43,7 +43,7 @@ if Meteor.isClient
 		parent: "portal"
 
 	#邮件域
-	Admin.addMenu 
+	Steedos.addAdminMenu 
 		_id: "mail_domains"
 		title: "mail_domains"
 		icon:"ion ion-ios-email"

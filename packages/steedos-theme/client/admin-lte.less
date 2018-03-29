@@ -1,5 +1,15 @@
 .steedos.fixed {
-	.main-header,  .main-sidebar,  .left-side {
+	&.sidebar-collapse{
+		.main-header{
+			.logo {
+				background: transparent!important;
+			}
+			.navbar{
+				margin-left: 50px;
+			}
+		}
+	}
+	.main-header, .main-sidebar, .left-side {
 		position: absolute;
 	}
 	.main-header {
@@ -7,14 +17,23 @@
 		transition: all 1s ease-in-out 0.5s;
 		border-bottom: 1px solid #000;
 		border-bottom: 1px solid rgba(0,0,0,0.2);
-		background: #000;
-		background: rgba(0, 0, 0, 0.8);
+		background: rgba(22, 84, 150, 0.84);
 
 		.logo {
+			background: transparent;
+			cursor:pointer;
+			&.logo-avatar{
+				background-size: contain!important;
+				.logo-lg{
+					display: none!important;
+				}
+			}
+		}
+
+		.logo-x {
 			width: 50px;
 			background-color: #0078D7;
 			transition: background-color .467s cubic-bezier(.1,.9,.2,1) 34ms;
-			box-shadow: rgba(0, 0, 0, 0.3) 0 1px 9px, rgba(255, 255, 255, 0.2) 0 -1px 0 inset;
 			&:hover, &:active {
 				background-color: #104A7D;
 			}
@@ -27,9 +46,8 @@
 			}
 		}
 		.navbar {
-			/*float: left;*/
 			margin: 0;
-			margin-left: 50px;
+			margin-left: 230px;
 			background-color: transparent;
 			.navbar-title {
 				
@@ -37,14 +55,30 @@
 			.navbar-nav {
 				float: left;
 				margin: 0;
+				font-size: 16px;
 				>li {
+					&.active{
+						a{
+							background: rgba(0, 0, 0, 0.2);
+							&:hover{
+								background: rgba(0, 0, 0, 0.3);
+							}
+						}
+					}
+					max-height: 50px;
 					>a {
 						padding-left: 10px;
 						padding-right: 10px;
 						padding-top: 15px;
 						padding-bottom: 15px;
+						text-shadow: #222 0 0 25px;
 						&:hover, &:active, &:focus{
 							background: transparent;
+						}
+						&.menu-apps-link{
+							.ion{
+								font-size: 20px;
+							}
 						}
 					}
 					.nav-brandingText {
@@ -57,7 +91,6 @@
 				}
 			}
 			.navbar-custom-menu {
-				padding-right: 10px;
 				>li {
 					a {
 						padding-left: 5px;
@@ -94,7 +127,7 @@
 		bottom: 0;
 	}
 	.content-wrapper {
-		background: transparent;
+		background: rgba(255, 255, 255, 0.6);
 		position: absolute;
 		left: 0;
 		right: 0;
@@ -106,7 +139,35 @@
 			margin-left: 0px!important;
 		}
 	}
+	&.no-sidebar{
+		.main-sidebar{
+			display:none;
+		}
+		.content-wrapper{
+			margin-left: 0px;
+		}
+	}
 
+	.dropdown-menu{
+		a:hover{
+			cursor: pointer;
+		}
+		.menu-item-help{
+			margin-top: 4px;
+			padding-top: 4px;
+			font-size: 0.9em;
+			color: #999;
+			width: 280px;
+			word-wrap: break-word;
+			white-space: normal;
+			@media(max-width: 767px) {
+				&{
+					min-width: 140px;
+					width: auto;
+				}
+			}
+		}
+	}
 }
 
 
@@ -128,6 +189,9 @@
 				}
 			}
 		} 
+		.content-wrapper {
+			background-color: transparent;
+		}
 		.content-wrapper, .right-side { 
 			padding-top: 0px;
 			top: 0px;

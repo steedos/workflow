@@ -6,9 +6,16 @@
         "status": "active",
         "url": "https://www.steedos.com:443"
       },
+      //全文检索
       "elasticsearch": {
         "status": "active",
-        "url": "https://127.0.0.1:9200"
+        //秦皇岛records项目的搜索引擎接口
+        "url": "http://192.1.1.153:9200"
+      },
+      //cas项目
+      "cas": {
+        "status": "active",
+        "url": "http://192.168.0.21:8086/cas"
       }
     },
     "cfs": {
@@ -17,17 +24,48 @@
     //系统设置相关
     "admin": {
       "disableAddSpace": false, //是否禁止创建新工作区,
-      "background": "/packages/steedos_theme-qhd/client/background/qhd.jpg" //增加默认背景图
+      "background": "/packages/steedos_theme-qhd/client/background/qhd.jpg", //增加默认背景图
+      "disableProfileInfo": true //禁用个人信息界面
     },
     //账户相关
     "accounts": {
       "disableAccountRegistration": false, //是否禁止注册新用户
       "UTF8_Names_Validation": "[A-Za-z0-9-_.\\u00C0-\\u017F\\u4e00-\\u9fa5]+",
-      "loginExpirationInDays": 90
+      "loginExpirationInDays": 90,
+      "is_username_skip_minrequiredlength": false // 个人设置中修改用户名时是否忽略用户名长度限制
+    },
+    //手机号及其验证相关
+    "phone": {
+      "forceAccountBindPhone": false, //强行弹出手机号绑定窗口
+      "expiredDays": 30 //失效时间，forceAccountBindPhone为true时失效后重新强行弹出手机号绑定窗口
     },
     //审批王相关
     "workflow": {
-      "approve_admins": [] //有修改审批意见权限的用户ID集合
+      "approve_admins": [], //有修改审批意见权限的用户ID集合
+      "hideCounterSignJudgeOptions": false, // 会签时是否隐藏 核准 驳回 已阅
+      "user_selection_within_user_organizations": false, //限制下一步处理人、可传阅人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
+      "onlyFlowAdminsShowMonitorBox": true, // 监控箱只有管理员（工作区管理员、流程管理员）才有
+      "hideTerminateButton": true, // 隐藏取消申请按钮
+      "disableInstanceForward": true //禁用转发按钮
+    },
+    //通讯录相关
+    "contacts": {
+      "hidden_users": [] //不显示人员的用户ID集合
+    },
+    //知识库相关
+    "cms": {
+      "is_needto_limit_unit": true //限制用户发布文章的范围，只能在自己部门及其下级部门
+    },
+    "coreform": {
+      "show_hidden_organizations": true // 选人、选组控件是否显示已隐藏的部门
+    },
+    // 日历相关
+    "calendar": {
+      "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
+    },
+    // 门户
+    "dashboard": {
+      "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
     }
   },
   "push": {
@@ -45,6 +83,19 @@
     "gcm": {
       "projectNumber": "xxxxxx",
       "apiKey": "xxxxxxx"
+    },
+    "xinge": {
+      "accessId": 123456,
+      "secretKey": "xxxxxx"
+    },
+    "huawei": {
+      "appId": 123456,
+      "appSecret": "xxxxxx",
+      "appPkgName": "xxxx"
+    },
+    "mi": {
+      "appSecret": "xxxxx",
+      "production": true
     }
 
   },
@@ -63,6 +114,9 @@
       "folder": "xxxxxx",
       "accessKeyId": "xxxxxx",
       "secretAccessKey": "xxxxxx"
+    },
+    "worker": {
+      "enabled": true
     }
   },
   "cron": {
@@ -72,21 +126,8 @@
     "billing": "0 * * * * *",
     "mailqueue_interval": 1000,
     "push_interval": 1000,
-    "sms": {
-      "smsqueue_interval": 1000,
-      "accessKeyId": "xxx",
-      "accessKeySecret": "xxx"
-    },
-    "webhookqueue_interval": 1000
-  },
-  //sms短信平台账户配置相关
-  "sms": {
-    //海外短信平台账户相关
-    "twilio": {
-       "FROM": "XXXXXXXXXXXX", 
-       "ACCOUNT_SID": "XXXXXXXXXXXX", 
-       "AUTH_TOKEN": "XXXXXXXXXXXX"
-    }
+    "webhookqueue_interval": 1000,
+    "calendar_remind":60000//控制按提醒时间发送推送，配置此参数的服务会发推送
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
@@ -97,11 +138,26 @@
     "sync_app_key": "xxx",
     "push_app_key": "xxx"
   },
+  //sms短信平台账户配置相关，优先识别海外平台，即twilio
   "sms": {
+    //海外短信平台账户相关
     "twilio": {
-       "FROM": "XXXXXXXXXXXX", 
-       "ACCOUNT_SID": "XXXXXXXXXXXX", 
-       "AUTH_TOKEN": "XXXXXXXXXXXX"
+      "FROM": "XXXXXXXXXXXX",
+      "ACCOUNT_SID": "XXXXXXXXXXXX",
+      "AUTH_TOKEN": "XXXXXXXXXXXX"
+    },
+    //国内短信平台账户相关
+    "aliyun": {
+      "smsqueue_interval": 1000,
+      "accessKeyId": "xxx",
+      "accessKeySecret": "xxx"
+    },
+    // 腾讯云短信服务
+    "qcloud": {
+      "smsqueue_interval": 1000,
+      "sdkappid": "xxx",
+      "appkey": "xxx",
+      "signname": "xxx" // 短信签名
     }
   },
   //日志相关
@@ -111,5 +167,83 @@
     "showFileAndLine": true, //是否显示文件及行号
     "logLevel": 2, //日志级别，0为只输出error日志，2为输出所有级别日志
     "viewLimit": 1000 //日志最大记录数
+  },
+  "remind": {
+    "cron": {
+      "second": 0,
+      "minute": null, // null表示每分钟
+      "hour": [9, 10, 11, 13, 14, 15]
+    }, // 自动催办定时器执行规则
+    "time_points": [{
+      "hour": 8,
+      "minute": 30
+    }, {
+      "hour": 9,
+      "minute": 30
+    }, {
+      "hour": 10,
+      "minute": 30
+    }, {
+      "hour": 11,
+      "minute": 30
+    }, {
+      "hour": 14,
+      "minute": 30
+    }, {
+      "hour": 15,
+      "minute": 30
+    }, {
+      "hour": 16,
+      "minute": 30
+    }, {
+      "hour": 17,
+      "minute": 30
+    }], // 提醒时间的时间点集合
+    "skip_users": [] // 不发送通知的用户ID集合
+  },
+
+  "import_user": {
+    "update_email": true, //Excel导入用户是支持修改邮件地址。默认为false 。 云平台不要开启此参数
+    "update_password": true //Excel导入用户是支持修改用户密码。默认为false 。 云平台不要开启此参数
+  },
+  //监控服务
+  "kadira": {
+    "appId": "tPsdNDPWWQZzFELco", //应用Id
+    "appSecret": "fec76d09-363c-45f3-8ba6-3c821c870f40", //应用Token
+    "options": {
+      "endpoint": "http://192.168.0.134:88" //监控服务engine URL
+    }
+  },
+  //全文检索服务
+  "records": {
+    "es_search_index": "steedos"
+  },
+  // 工作区流程模板
+  "workflowTemplates": {
+    "path_cn": "/srv/git/workflow-templates/zh-cn/default",
+    "path_us": "/srv/git/workflow-templates/en-us/default"
+  },
+  "billing": {
+    "appid": "xxx",
+    "mch_id": "xxx",
+    "partner_key": "xxx"
+  },
+  //企业微信
+  "qiyeweixin":{
+    "sync_interval":60000,
+    "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize",
+    "api":{
+      "getLoginInfo":"https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info",
+      "getProviderToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token",
+      "getSuiteAccessToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token",
+      "getPreAuthCode":"https://qyapi.weixin.qq.com/cgi-bin/service/get_pre_auth_code",
+      "getPermanentCode":"https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code",
+      "getCorpToken":"https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token",
+      "getDepartmentList":"https://qyapi.weixin.qq.com/cgi-bin/department/list",
+      "getUserList":"https://qyapi.weixin.qq.com/cgi-bin/user/list",
+      "getAllUserList":"https://qyapi.weixin.qq.com/cgi-bin/user/list",
+      "getAdminList":"https://qyapi.weixin.qq.com/cgi-bin/service/get_admin_list",
+      "getUserInfo3rd":"https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd"
+    }
   }
 }

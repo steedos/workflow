@@ -4,12 +4,38 @@ Template.steedos_contacts_org_user_list.helpers
 			return true
 		return false;
 	selector: ->
-		query = {space: Session.get("spaceId")};
+		unless Meteor.userId()
+			return {_id:-1}
+		spaceId = Steedos.spaceId()
+		myContactsLimit = Steedos.my_contacts_limit
+		query = {space: spaceId}
+		# if FlowRouter.current().path != "/admin/organizations"
+		# 	# 系统设置中组织架构以外的通讯录都需要限制隐藏用户显示
+		# 	hidden_users = SteedosContacts.getHiddenUsers(spaceId)
+		# 	query.user = {$nin: hidden_users}
 		if !Session.get("contact_list_search")
 			orgId = Session.get("contacts_orgId");
 			query.organizations = {$in: [orgId]};
+		else
+			if Session.get("contacts_orgId")
+				orgs = [Session.get("contacts_orgId")]
+			else if myContactsLimit?.isLimit
+				orgs = db.organizations.find().fetch().getProperty("_id")
+				outsideOrganizations = myContactsLimit.outside_organizations
+				if outsideOrganizations?.length
+					orgs = _.union(orgs, outsideOrganizations)
+			orgs_childs = SteedosDataManager.organizationRemote.find({parents: {$in: orgs}}, {
+				fields: {
+					_id: 1
+				}
+			});
+			orgs = _.union(orgs, orgs_childs.getProperty("_id"))
+			query.organizations = {$in: orgs};
+
 		if !Session.get('contacts_is_org_admin')
 			query.user_accepted = true
+
+		# console.log query
 		return query;
 
 	books_selector: ->
@@ -24,8 +50,19 @@ Template.steedos_contacts_org_user_list.helpers
 	isMobile: ()->
 		return Steedos.isMobile();
 
+	canImportUsers: ()->
+		if Steedos.isMobile()
+			return false
+		return true
+
+	is_nwjs: ()->
+		return Steedos.isNode();
+
 	getOrgName: ()->
 		return SteedosDataManager.organizationRemote.findOne({_id:Session.get("contacts_orgId")},{fields:{name: 1}})?.name;
+
+	isSpaceAdmin: ()->
+		return Steedos.isSpaceAdmin(Session.get("spaceId"));
 
 Template.steedos_contacts_org_user_list.events
 	'click #reverse': (event, template) ->
@@ -54,17 +91,32 @@ Template.steedos_contacts_org_user_list.events
 		else
 			Session.set("contact_list_search", false)
 		dataTable = $(".datatable-steedos-contacts").DataTable();
+		selector = $("#contact-list-search-key").val()
 		dataTable.search(
-			$("#contact-list-search-key").val(),
+			selector
 		).draw();
 
-	'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
-		event.stopPropagation()
-		AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+	'keypress #contact-list-search-key': (event, template) ->
+		if event.keyCode == 13
+			if $("#contact-list-search-key").val()
+				Session.set("contact_list_search", true)
+			else
+				Session.set("contact_list_search", false)
+			dataTable = $(".datatable-steedos-contacts").DataTable();
+			dataTable.search(
+				$("#contact-list-search-key").val(),
+			).draw();
 
-	'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
-		event.stopPropagation()
-		AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
+	# 'click #steedos_contacts_org_user_list_edit_btn': (event, template) ->
+	# 	event.stopPropagation()
+	# 	AdminDashboard.modalEdit 'space_users', event.currentTarget.dataset.id
+
+	# 'click #steedos_contacts_org_user_list_remove_btn': (event, template) ->
+	# 	event.stopPropagation()
+	# 	AdminDashboard.modalDelete 'space_users', event.currentTarget.dataset.id
+
+	'click #steedos_contacts_add_users_btn': (event,template) ->
+		Modal.show('steedos_contacts_add_user_modal')
 
 	'click #steedos_contacts_invite_users_btn': (event, template) ->
 		Modal.show('steedos_contacts_invite_users_modal')
@@ -76,15 +128,16 @@ Template.steedos_contacts_org_user_list.events
 		else
 			listWrapper.hide();
 
-	'click .datatable-steedos-contacts tbody tr': (event, template)->
-		Modal.show('steedos_contacts_space_user_info_modal', {targetId: event.currentTarget.dataset.id})
+	'click .datatable-steedos-contacts tbody tr[data-id] td:not(:last-of-type)': (event, template)->
+		targetId = $(event.currentTarget).closest("tr").data("id")
+		Modal.show('steedos_contacts_space_user_info_modal', {targetId: targetId})
 
 	'selectstart #contacts_list .drag-source': (event, template)->
 		return false
 
 	'dragstart #contacts_list .drag-source': (event, template)->
-		event.originalEvent.dataTransfer.setData("Text","");
-		draggingId = $(event.currentTarget).find("#steedos_contacts_org_user_list_edit_btn").data("id")
+		event.originalEvent.dataTransfer.setData("Text","")
+		draggingId = $(event.currentTarget).data("id")
 		Session.set("dragging_contacts_org_user_id",draggingId)
 		$(event.currentTarget).addClass("drag-source-moving")
 		orgTree = $("#steedos_contacts_org_tree")
@@ -97,6 +150,101 @@ Template.steedos_contacts_org_user_list.events
 		$(event.currentTarget).removeClass("drag-source-moving")
 		return false
 
+
+	'click #steedos_contacts_import_users_btn': (event, template)->
+		if !Steedos.isPaidSpace()
+			Steedos.spaceUpgradedModal()
+			return;
+
+		Modal.show("import_users_modal");
+
+	'click #steedos_contacts_export_users_btn': (event, template)->
+
+		spaceId = Session.get("spaceId")
+		orgId = Session.get("contacts_orgId")
+		if spaceId and orgId
+			uobj = {}
+			uobj["X-User-Id"] = Meteor.userId()
+			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
+			uobj.space_id = spaceId
+			uobj.org_id = orgId
+			url = Steedos.absoluteUrl() + "api/contacts/export/space_users?" + $.param(uobj)
+			window.open(url, '_parent', 'EnableViewPortScale=yes')
+
+	'click .edit-person .contacts-tableau-modify-username': (event, template) ->
+		space_id = Session.get("spaceId")
+		username = ""
+		user_id = event.currentTarget.dataset.user
+		unless user_id
+			return;
+		Meteor.call 'fetchUsername', user_id, (error, result) ->
+			if error
+				toastr.error TAPi18n.__(error.reason)
+			else
+				username = result
+				swal {
+					title: t('contacts_tableau_modify_username')
+					type: "input"
+					inputValue: username || ""
+					showCancelButton: true
+					closeOnConfirm: false
+					confirmButtonText: t('OK')
+					cancelButtonText: t('Cancel')
+					showLoaderOnConfirm: false
+				}, (inputValue)->
+					if inputValue is false
+						return false
+					if inputValue?.trim() == username?.trim()
+						swal.close()
+						return false;
+					Meteor.call "setUsername", space_id, inputValue?.trim(), user_id, (error, results)->
+						if results
+							toastr.success t('Change username successfully')
+							swal.close()
+						if error
+							toastr.error(TAPi18n.__(error.error))
+
+
+	'click .edit-person .contacts-tableau-modify-password': (event, template) ->
+		user_id = event.currentTarget.dataset.user
+		swal {
+			title: t('contacts_tableau_modify_password')
+			type: "input"
+			inputType: "password"
+			inputValue: ""
+			showCancelButton: true
+			closeOnConfirm: false
+			confirmButtonText: t('OK')
+			cancelButtonText: t('Cancel')
+			showLoaderOnConfirm: false
+		}, (inputValue)->
+			if inputValue is false
+				return false
+			
+			result = Steedos.validatePassword inputValue
+			space_id = Steedos.spaceId()
+			if result.error
+				return toastr.error result.error.reason
+
+			Meteor.call "setUserPassword", user_id, space_id, inputValue, (error, result) ->
+				if error
+					toastr.error error.reason
+				else
+					swal.close()
+					toastr.success t("Change password successfully")
+
+	'click .edit-person .contacts-tableau-edit-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalEdit 'space_users', id, ->
+			$("body").off("click",".admin-dashboard-body input[name=mobile]")
+
+
+	'click .edit-person .contacts-tableau-delete-user': (event, template) ->
+		id = event.currentTarget.dataset.id
+		AdminDashboard.modalDelete 'space_users', id, ->
+				$("#steedos_contacts_space_user_info_modal .close").trigger("click")
+
+
 Template.steedos_contacts_org_user_list.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip()
 	
@@ -107,5 +255,3 @@ Template.steedos_contacts_org_user_list.onRendered ->
 
 	ContactsManager.handerContactModalValueLabel();
 	$("#contact_list_load").hide();
-
-	# $(".datatable-steedos-contacts").wrap("<div class = 'table-responsive'></div>")

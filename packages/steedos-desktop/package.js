@@ -20,7 +20,7 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('session');
 	api.use('accounts-base');
-	api.use('useraccounts:bootstrap');
+	api.use('steedos:useraccounts-bootstrap@1.14.2');
 
 	api.use('dburles:collection-helpers');
 	api.use('flemay:less-autoprefixer@1.2.0');
@@ -37,7 +37,7 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager');
 	
-	api.use('steedos:lib');
+	api.use('steedos:base');
 
 	api.use(['webapp'], 'server');
 
@@ -47,11 +47,9 @@ Package.onUse(function(api) {
 	api.use('templating', 'client');
 
 	api.use('tap:i18n', ['client', 'server']);
-	// //api.add_files("package-tap.i18n", ["client", "server"]);
-	// tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
-	// api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	// COMMON
 	api.addFiles('desktop_manager.js', 'client');
+	api.export('Desktop');
 
 })

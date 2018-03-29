@@ -56,7 +56,10 @@ WebhookQueue.Configure = function(options) {
 			},
 			data: {
 				instance: webhook.webhook.instance,
-				current_approve: webhook.webhook.current_approve
+				current_approve: webhook.webhook.current_approve,
+				action: webhook.webhook.action,
+				from_user: webhook.webhook.from_user,
+				to_users: webhook.webhook.to_users
 			}
 		}, function(error, result) {
 			if (error) {

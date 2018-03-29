@@ -1,0 +1,11 @@
+<template name="recordsLayout">
+<div class="steedos app-wrapper steedos-records">
+	{{# AdminLTE}}
+		{{> steedosHeader}}
+		<div class="content-wrapper no-sidebar">
+			{{> Template.dynamic template=main}}
+		</div>
+		{{> autoformModals}}
+	{{/AdminLTE}}
+</div>
+</template>

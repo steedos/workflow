@@ -1,6 +1,6 @@
 Package.describe({
   name: 'steedos:theme',
-  version: '0.0.11',
+  version: '0.0.30',
   summary: 'Steedos Theme',
   git: 'https://github.com/steedos/apps/packages/steedos-theme'
 });
@@ -23,9 +23,15 @@ Package.onUse(function(api) {
     'client/core.less',
     'client/bootstrap.less',
     'client/weui.less' , 
+    'client/weui.css',
     'client/admin-lte.less',   
-    'client/sidebar.less' ,
-    'client/sidebar-black.less'
+    'client/sidebar.less',
+    'client/sidebar-light.less',
+    'client/style.less',
+    'client/zoom.less',
+    'client/sweetalert.less',
+    'client/status.less',
+    'client/jstree.less'
   ], "client");
 
   api.addAssets("client/background/beach.jpg", "client");
@@ -35,6 +41,12 @@ Package.onUse(function(api) {
   api.addAssets("client/background/sea.jpg", "client");
   api.addAssets("client/background/flower.jpg", "client");
   api.addAssets("client/background/fish.jpg", "client");
+
+  api.addAssets("client/images/icon.png", "client");
+  api.addAssets("client/images/icon_en.png", "client");
+  api.addAssets("client/images/icon_blue.png", "client");
+  api.addAssets("client/images/logo.png", "client");
+  api.addAssets("client/images/logo_en.png", "client");
 
   api.export('Theme');
 

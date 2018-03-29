@@ -1,0 +1,75 @@
+<template name="dashboardSidebar">
+
+	<!-- Left side column. contains the logo and sidebar -->
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<!-- <li class="header">Dashboards</li> -->
+				<!-- <li class="header header-admin header-space-switcher">
+					{{> space_switcher}}
+				</li> -->
+				<!-- {{#each dashboardList}}
+					<li class="{{liActive _id}}">
+						<a href="/dashboard/space/{{space}}/{{_id}}" calss="text-overflow">
+							<i class="fa fa-dashboard"></i> <span>{{name}}</span>
+						</a>
+					</li>
+				{{/each}} -->
+				<li class="btn-new-dashboard">
+					<a href="javascript:void(0);" calss="text-overflow">
+						<i class="ion ion-plus"></i> <span>{{_ "add_new_dashboard"}}</span>
+					</a>
+				</li>
+				<li class="btn-edit-dashboard">
+					<a href="javascript:void(0);" calss="text-overflow">
+						<i class="ion ion-ios-compose-outline"></i> <span>{{_ "edit_dashboard"}}</span>
+					</a>
+				</li>
+				<li class="btn-delete-dashboard">
+					<a href="javascript:void(0);" calss="text-overflow">
+						<i class="ion ion-ios-trash-outline"></i> <span>{{_ "delete_dashboard"}}</span>
+					</a>
+				</li>
+				<!-- <li class="header header-dashboard btn-new-dashboard">
+					<i class="ion ion-plus-round"></i>{{_ "add_new_dashboard"}}
+				</li> -->
+
+				{{#afModal class="btn btn-primary btn-add-dashboard hidden" collection="db.portal_dashboards" operation="insert" dialogClass="modal-lg modal-body-zoom" buttonContent=afModalInsert}}
+			    	{{_ "add_new_dashboard"}}
+			    {{/afModal}}
+			    {{#afModal class="btn btn-primary btn-dashboard-edit hidden" collection="db.portal_dashboards" operation="update" omitFields="modified_by,modified,freeboard" dialogClass="modal-lg modal-body-zoom" buttonContent=afModalUpdate}}
+					{{_ "edit_dashboard"}}
+				{{/afModal}}
+				<!-- <li>
+					<a href="/dashboard/b/default">
+						<i class="fa fa-dashboard"></i> <span>Dashboard Default</span>
+						<span class="pull-right-container">
+						</span>
+					</a>
+				</li>
+				<li>
+					<a href="/dashboard/b/xxx">
+						<i class="fa fa-dashboard"></i> <span>Dashboard xxx</span>
+						<span class="pull-right-container">
+						</span>
+					</a>
+				</li> -->
+				<!-- <li class="treeview">
+					<a href="#">
+						<i class="fa fa-dashboard"></i> <span>Settings</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="/admin/dashboards"><i class="fa fa-circle-o"></i> Dashboards</a></li>
+					</ul>
+				</li> -->
+			</ul>
+		</section>
+	</aside>
+	{{> contentWrapperShadow}}
+
+</template>

@@ -1,225 +1,35 @@
 <template name="admin_home">
 
 	<div class="navigation-bar">
-
+		{{#if isMobile}}
+		<a class="btn btn-default" href="/springboard">
+			<i class="ion ion-android-arrow-back"></i>
+		</a>
+		{{else}}
 		<button type="button" class="btn btn-default" data-toggle="offcanvas">
 			<i class="fa fa-bars"></i>
 		</button>
+		{{/if}}
 
 		<span class="navigation-title dropdown">
-			{{_ "Steedos Admin"}}
+			{{adminTitle}}
 		</span>
 		<div class="pull-right">
 		</div>
 	</div>
-	<div class="admin-content admin-home-content">
+	<div class="admin-content admin-home-content home-menu-wrapper">
+		<div class="admin-account-panel">
+			<div class="admin-space-logo">
+				<span class="space-name text-overflow text-muted">{{spaceName}}</span>
+				<img src="{{userAvatarURL}}" class="user-image">
+			</div>
+			<div class="admin-user-name">
+				{{userName}}
+			</div>
+		</div>
 		{{{homeMenu}}}
 	</div>
-	
+
 	{{> baseTabbar}}
-	<!-- <div class="admin-content admin-home-content">
-		<div class="row admin-grids">
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/profile/profile" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-android-person"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "Profile"}}
-					</div>
-				</a>
-			</div>
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/profile/avatar" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-image"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "Avatar"}}
-					</div>
-				</a>
-			</div>
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/profile/account" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-locked"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "Account"}}
-					</div>
-				</a>
-			</div>
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/profile/emails" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-at"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "email"}}
-					</div>
-				</a>
-			</div>
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/profile/personalization" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-wand"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "personalization"}}
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="row admin-grids dark-grids">
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-				<a href="/admin/space/info/" class="admin-grid-item btn btn-block">
-					<div class="admin-grid-icon">
-						<i class="ion ion-android-globe"></i>
-					</div>
-					<div class="admin-grid-label">
-						{{_ "space_info"}}
-					</div>
-				</a>
-			</div>
-			{{#if isSpaceAdmin}}
-				{{#if isNotSync}}
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/organizations/" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="fa fa-sitemap"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "contacts_organizations"}}
-							</div>
-						</a>
-					</div>
-				{{/if}}
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/customize_apps/" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-ios-keypad"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "steedos_customize_apps"}}
-						</div>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/view/billings" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-social-usd-outline"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "billings"}}
-						</div>
-					</a>
-				</div>
-			{{/if}}
-		</div>
-		{{#if isWorkflowAdmin}}
-			<div class="row admin-grids">
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/view/flow_roles" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-university"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "flow_roles"}}
-						</div>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/view/flow_positions" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-android-happy"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "flow_positions"}}
-						</div>
-					</a>
-				</div>
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/packages/steedos_admin/assets/designer/index.html?locale={{locale}}&space={{spaceId}}" target="_blank" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-shuffle"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "Workflow Designer"}}
-						</div>
-					</a>
-				</div>
-				{{#if isPaidSpace}}
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/view/flows_template" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="ion ion-ios-paper"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "workflow_form_edit"}}
-							</div>
-						</a>
-					</div>
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/view/space_user_signs" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="ion ion-images"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "space_user_signs"}}
-							</div>
-						</a>
-					</div>
-				{{/if}}
-			</div>
-		{{/if}}
-		{{#if isPortalAdmin}}
-			<div class="row admin-grids dark-grids">
-				{{#if isSpaceAdmin}}
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/view/portal_dashboards" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="ion ion-ios-photos"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "portal_dashboards"}}
-							</div>
-						</a>
-					</div>
-					<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-						<a href="/admin/view/apps_auths" class="admin-grid-item btn btn-block">
-							<div class="admin-grid-icon">
-								<i class="ion ion-aperture"></i>
-							</div>
-							<div class="admin-grid-label">
-								{{_ "apps_auths"}}
-							</div>
-						</a>
-					</div>
-				{{/if}}
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/view/apps_auth_users" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-ios-personadd"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "apps_auth_users"}}
-						</div>
-					</a>
-				</div>
-				{{#if isCloudAdmin}}
-				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-					<a href="/admin/view/mail_domains" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-ios-email"></i>
-						</div>
-						<div class="admin-grid-label">
-							{{_ "mail_domains"}}
-						</div>
-					</a>
-				</div>
-				{{/if}}
-			</div>
-		{{/if}}
-	</div> -->
 
 </template>

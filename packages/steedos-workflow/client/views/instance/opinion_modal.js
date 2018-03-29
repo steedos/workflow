@@ -22,10 +22,12 @@ Template.opinion_modal.events({
             // 触发slip:reorder事件，拖动到最顶部无效区域时会触发该事件，且zIndex属性为"99999"，默认为"auto"
             return;
         }
-        var oldVal = $("#suggestion").val();
+
+        var oldVal = Session.get("flow_comment");
         var selectedVal = event.currentTarget.dataset.opinion;
         selectedVal = selectedVal ? selectedVal : "";
-        $("#suggestion").val(oldVal + selectedVal).focus();
+        if(template.data.parentNode)
+			template.data.parentNode.val(oldVal + selectedVal).trigger("input").focus();
         Modal.hide(template);
     },
 
@@ -42,10 +44,10 @@ Template.opinion_modal.events({
             showLoaderOnConfirm: false
         }, function(inputValue) {
             if (inputValue === false){
-                Modal.show('opinion_modal');
+                Modal.show('opinion_modal', template.data);
                 return false;
             }
-            if (inputValue === "") {
+            if (inputValue.trim() === "") {
                 toastr.error(t('instance_opinion_input'));
                 return false
             }
@@ -83,7 +85,7 @@ Template.opinion_modal.events({
                 }
 
                 if (result == true) {
-                    Modal.show('opinion_modal');
+                    Modal.show('opinion_modal', template.data);
                     swal.close();
                     toastr.success(t('instance_opinion_add_success'));
                 }
@@ -119,10 +121,10 @@ Template.opinion_modal.events({
                     showLoaderOnConfirm: false
                 }, function(inputValue) {
                     if (inputValue === false){
-                        Modal.show('opinion_modal');
+                        Modal.show('opinion_modal', template.data);
                         return false;
                     }
-                    if (inputValue === "") {
+                    if (inputValue.trim() === "") {
                         toastr.error(t('instance_opinion_input'));
                         return false
                     }
@@ -160,7 +162,7 @@ Template.opinion_modal.events({
                         }
 
                         if (result == true) {
-                            Modal.show('opinion_modal');
+                            Modal.show('opinion_modal', template.data);
                             swal.close();
                             toastr.success(t('instance_opinion_edit_success'));
                         }
@@ -173,7 +175,7 @@ Template.opinion_modal.events({
     },
 
     'click .btn-remove-opinion': function(event, template) {
-        var opinions = [];
+        var opinions = [],targetOpinion;
         var o = db.steedos_keyvalues.findOne({
             user: Meteor.userId(),
             key: 'flow_opinions',
@@ -183,7 +185,12 @@ Template.opinion_modal.events({
         });
         if (o) {
             opinions = o.value.workflow;
-            var index = opinions.indexOf(event.currentTarget.dataset.opinion);
+            targetOpinion = event.currentTarget.dataset.opinion;
+            if(targetOpinion == undefined){
+                // 某些异常操作下会出现undefined的情况，这时其值为null
+                targetOpinion = null;
+            }
+            var index = opinions.indexOf(targetOpinion);
             if (index > -1) {
                 opinions.splice(index, 1);
 
@@ -278,7 +285,6 @@ Template.opinion_modal.events({
 })
 
 Template.opinion_modal.onRendered(function(){
-     $(".ins-opinion-modal .modal-body").css("max-height", Steedos.getModalMaxHeight());
 
     var list = $(".slippylist")[0];
     list.addEventListener('slip:beforereorder', function(event){

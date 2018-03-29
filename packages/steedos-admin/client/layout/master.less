@@ -1,17 +1,36 @@
 .steedos-admin{
-    .admin-content{
-        overflow-x: hidden;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        top: 51px;
-        bottom: 0px;
-        right: 0px;
-        left: 0px;
-        position: absolute;
-        background: #fff;
-        &>.box{
-            border-top:none;
-            box-shadow: none;
-        }
-    }
+	.admin-content{
+		overflow-x: hidden;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		top: 51px;
+		bottom: 0px;
+		right: 0px;
+		left: 0px;
+		position: absolute;
+		background: #fff;
+		&>.box{
+			border-top:none;
+			box-shadow: none;
+		}
+		.search-toolbar{
+			height: 40px;
+			.pull-right{
+				width: 200px;
+			}
+		}
+		.dataTables_wrapper{
+			table:not(.flow-list){
+				tr{
+					cursor: pointer;
+				}
+			}
+		}
+	}
+	@media(max-width: 767px){
+		.home-menu-wrapper{
+			background: #ecf0f5;
+			padding: 0;
+		}
+	}
 }

@@ -37,7 +37,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 
 	var files = new Array();
 	for (var i = 0; i < fileKeyValue.length; i++) {
-		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + path.basename(fileKeyValue[i].urlValue) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
+		var content = "\r\n----" + boundaryKey + "\r\n" + "Content-Disposition: form-data; name=\"" + fileKeyValue[i].urlKey + "\"; filename=\"" + encodeURIComponent(path.basename(fileKeyValue[i].urlValue)) + "\r\n" + "Content-Type: " + fileinfo[i].urlValue + "\r\n\r\n";
 		var contentBinary = new Buffer(content, 'utf-8'); //当编码为ascii时，中文会乱码。
 		files.push({
 			contentBinary: contentBinary,
@@ -80,6 +80,8 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 				fileindex++;
 				if (fileindex == files.length) {
 					req.end(enddata);
+					// 解锁 
+					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
 				} else {
 					doOneFile();
 				}
@@ -101,7 +103,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 	}
 }
 
-NodeManager.setUploadRequests = function(filePath, filename) {
+NodeManager.setUploadRequests = function(filePath, filename, isNewFile, isOverWrite) {
 
 	$(document.body).addClass("loading");
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
@@ -110,10 +112,10 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 		urlValue: cfs.getContentType(filename)
 	}, {
 		urlKey: "instance",
-		urlValue: Session.get('instanceId')
+		urlValue: Session.get('attach_instance_id')
 	}, {
 		urlKey: "space",
-		urlValue: Session.get('spaceId')
+		urlValue: Session.get('attach_space_id')
 	}, {
 		urlKey: "approve",
 		urlValue: InstanceManager.getMyApprove().id
@@ -124,24 +126,75 @@ NodeManager.setUploadRequests = function(filePath, filename) {
 		urlKey: "owner_name",
 		urlValue: Meteor.user().name
 	}, {
-		urlKey: "isAddVersion",
-		urlValue: true
-	}, {
-		urlKey: "parent",
-		urlValue: Session.get('attach_parent_id')
+		urlKey: "upload_from",
+		urlValue: "node"
 	}]
-
+	if (!isNewFile){
+		fileDataInfo.push({
+			urlKey: "isAddVersion",
+			urlValue: true
+		});
+		fileDataInfo.push({
+			urlKey: "parent",
+			urlValue: Session.get('attach_parent_id')
+		});
+	}
+	if (isOverWrite == true) {
+		fileDataInfo.push({
+			urlKey: "overwrite",
+			urlValue: true
+		});
+	}
 	var main_count = cfs.instances.find({
 		'metadata.parent': Session.get('attach_parent_id'),
 		'metadata.current': true,
 		'metadata.main': true
 	}).count();
-	if (main_count > 0) {
+	if (main_count > 0 || isNewFile == true) {
 		fileDataInfo.push({
 			urlKey: "main",
 			urlValue: true
 		});
 	}
+	var files = [{
+			urlKey: "file",
+			urlValue: filePath
+		}]
+		// 上传接口
+	OfficeOnline.uploadFile(fileDataInfo, files);
+
+	Modal.hide("attachments_upload_modal");
+}
+
+// 签章后作为新附件上传
+NodeManager.signPdf = function(filePath, filename){
+	$(document.body).addClass("loading");
+	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading") + filename + "...");
+	var fileDataInfo = [{
+		urlKey: "Content-Type",
+		urlValue: cfs.getContentType(filename)
+	}, {
+		urlKey: "instance",
+		urlValue: Session.get('attach_instance_id')
+	}, {
+		urlKey: "space",
+		urlValue: Session.get('attach_space_id')
+	}, {
+		urlKey: "approve",
+		urlValue: InstanceManager.getMyApprove().id
+	}, {
+		urlKey: "owner",
+		urlValue: Meteor.userId()
+	}, {
+		urlKey: "owner_name",
+		urlValue: Meteor.user().name
+	}, {
+		urlKey: "upload_from",
+		urlValue: "node"
+	}, {
+		urlKey: "is_private",
+		urlValue: true
+	}]
 
 	var files = [{
 			urlKey: "file",
@@ -167,16 +220,19 @@ NodeManager.getFileSHA1 = function(filePath, filename, callback) {
 }
 
 // 使用edit.vbs打开本地office
-NodeManager.vbsEditFile = function(download_dir, filename) {
+NodeManager.vbsEditFile = function(download_dir, filename, arg) {
 	var filePath = download_dir + filename;
 	// 获取华炎云安装路径
 	var homePath = process.cwd();
 
 	var cmd = '\"' + homePath + '\"' + '\\vbs\\edit.vbs ' + '\"' + filePath + '\" ' + Meteor.users.findOne().name;
 
-	Modal.show("attachments_upload_modal", {
-		filePath: filePath
-	});
+	if (arg == "Steedos.User.isSignature"){
+		cmd = 'start "" /wait ' + '\"' + filePath + '\"';
+		Modal.show("attachments_sign_modal", { filePath: filePath });
+	}else{
+		Modal.show("attachments_upload_modal", { filePath: filePath });
+	}
 
 	// 专业版文件大小不能超过100M
 	var maximumFileSize = 100 * 1024 * 1024;
@@ -203,11 +259,29 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 		toastr.error(error);
 	});
 	child.on('close', function() {
+		if (arg == "Steedos.User.isSignature"){
+			filename = "签章：" + filename;
+			filePath = download_dir + filename;
+			
+			fs.exists(filePath, function(exists) {
+				if (exists == false){
+					Modal.hide("attachments_sign_modal");
+					InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+					toastr.warning(t("node_pdf_error"));
+				}
+			})
+		}
+
 		// 完成编辑
 		Modal.hide("attachments_upload_modal");
 
 		// 修改后附件大小
 		var states = fs.statSync(filePath);
+
+		// 上传前切换到当前编辑的申请单
+		var instance_url = "/workflow/space/" + Session.get('attach_space_id') + "/" + Session.get('attach_box') + "/" + Session.get('attach_instance_id');
+
+		FlowRouter.go(instance_url);
 
 		globalWin.disableClose = false;
 
@@ -239,7 +313,29 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 								NodeManager.vbsEditFile(download_dir, filename);
 							});
 						} else {
-							NodeManager.setUploadRequests(filePath, filename);
+							if (arg == "Steedos.User.isNewFile"){
+								// 正文上传
+								NodeManager.setUploadRequests(filePath, filename, true, true);
+							}else{
+								if (InstanceManager.isAttachLocked(Session.get("attach_instance_id"), Meteor.userId())){
+									if (arg == "Steedos.User.isSignature"){
+										fs.exists(filePath, function(exists) {
+											if (exists == true){
+												NodeManager.signPdf(filePath, filename);
+											}else{
+												Modal.hide("attachments_sign_modal");
+												// 解锁 
+												InstanceManager.unlockAttach(Session.get('cfs_file_id'));
+												toastr.error(t("node_pdf_error"));
+											}
+										})
+									}else{
+										NodeManager.setUploadRequests(filePath, filename, false, true);
+									}
+								}else{
+									toastr.warning(t("steedos_desktop_edit_warning"));
+								}
+							}
 						}
 					} else {
 						// 解锁 
@@ -255,57 +351,30 @@ NodeManager.vbsEditFile = function(download_dir, filename) {
 }
 
 // 编辑文件
-NodeManager.editFile = function(file_url, filename, isView) {
-	var download_dir = "";
+NodeManager.downloadFile = function(file_url, filename, arg) {
 	//获取系统Documents路径
-	var userPath = process.env.USERPROFILE;
-	var docPath = userPath + "\\Documents\\Steedos\\";
-	fs.exists(docPath, function(exists) {
+	var download_dir = process.env.USERPROFILE + "\\Steedos\\";
+	fs.exists(download_dir, function(exists) {
 		if (exists == true) {
-			download_dir = docPath;
-		} else {
-			download_dir = userPath + "\\My Documents\\Steedos\\";
-		}
-		// 判断附件保存路径是否存在
-		fs.exists(download_dir, function(exists) {
-			if (exists == true) {
-				var fPath = download_dir + filename;
-				// 查看模式下直接下载到本地打开
-				if (isView) {
-					OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
+			// 直接下载到本地覆盖之前的同名版本
+			OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
+		}else {
+			// 新建路径并下载附件到本地
+			fs.mkdir(download_dir, function(err) {
+				if (err) {
+					toastr.error(err);
 				} else {
-					fs.exists(fPath, function(exists) {
-						if (exists == true) {
-							swal({
-								title: t("node_office_exists_message"),
-								text: fPath,
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonText: t("node_office_confirm"),
-								cancelButtonText: t("node_office_cancel")
-							}, function(isConfirm) {
-								if (isConfirm) {
-									// 下载附件到本地
-									OfficeOnline.downloadFile(file_url, download_dir, filename);
-								} else {
-									NodeManager.vbsEditFile(download_dir, filename);
-								}
-							})
-						} else {
-							OfficeOnline.downloadFile(file_url, download_dir, filename);
-						}
-					})
+					OfficeOnline.downloadFile(file_url, download_dir, filename, arg);
 				}
-			} else {
-				// 新建路径并下载附件到本地
-				fs.mkdir(download_dir, function(err) {
-					if (err) {
-						toastr.error(err);
-					} else {
-						OfficeOnline.downloadFile(file_url, download_dir, filename, isView);
-					}
-				})
-			}
-		})
+			})
+		}
 	})
+}
+
+// 可查看的文件
+NodeManager.isViewType = function(filename){
+	if (Steedos.isOfficeFile(filename) || Steedos.isPdfFile(filename) || Steedos.isExcelFile(filename) || Steedos.isTiffFile(filename) || Steedos.isPPTFile(filename) || Steedos.isTextFile(filename))
+		return true;
+	else
+		return false;
 }

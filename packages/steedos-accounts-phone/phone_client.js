@@ -133,10 +133,15 @@ Accounts.createUserWithPhone = function (options, callback) {
  * @param {String} phone -  The phone we send the verification code to.
  * @param {Function} [callback] Optional callback. Called with no arguments on success, or with a single `Error` argument on failure.
  */
-Accounts.requestPhoneVerification = function (phone, callback) {
+Accounts.requestPhoneVerification = function (phone, checkVerified, callback) {
     if (!phone)
         throw new Error("Must pass phone");
-    Accounts.connection.call("requestPhoneVerification", phone, callback);
+    if(callback === undefined){
+        callback = checkVerified;
+        checkVerified = false;
+    }
+    locale = Steedos.locale(true);
+    Accounts.connection.call("requestPhoneVerification", phone, locale, checkVerified, callback);
 };
 
 // Verify phone number -
@@ -155,7 +160,7 @@ Accounts.requestPhoneVerification = function (phone, callback) {
  * @param {String} newPassword, Optional, A new password for the user. This is __not__ sent in plain text over the wire.
  * @param {Function} [callback] Optional callback. Called with no arguments on success, or with a single `Error` argument on failure.
  */
-Accounts.verifyPhone = function (phone, code, newPassword, callback) {
+Accounts.verifyPhone = function (phone, mobile, code, newPassword, callback) {
     check(code, String);
     check(phone, String);
 
@@ -172,7 +177,7 @@ Accounts.verifyPhone = function (phone, code, newPassword, callback) {
     }
     Accounts.callLoginMethod({
         methodName     : 'verifyPhone',
-        methodArguments: [phone, code, hashedPassword],
+        methodArguments: [phone, mobile, code, hashedPassword],
         userCallback   : callback});
 };
 

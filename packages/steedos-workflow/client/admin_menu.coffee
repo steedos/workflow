@@ -1,7 +1,14 @@
 if Meteor.isClient
 
+	onclick = (parent, _id) ->
+		$(".treeview-menu a[class^='admin-menu-']").removeClass("selected")
+		$(".treeview-menu a.admin-menu-#{_id}").addClass("selected")
+		unless $(".admin-menu-#{parent}").closest("li").hasClass("active")
+				$(".admin-menu-#{parent}").trigger("click")
+
+
 	#审批王
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "workflow"
 		title: "Steedos Workflow"
 		app: "workflow"
@@ -10,64 +17,45 @@ if Meteor.isClient
 		sort: 30
 
 	# 岗位
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "flow_roles"
 		title: "flow_roles"
 		app: "workflow"
-		icon: "ion ion-university"
-		url: "/admin/view/flow_roles"
+		icon: "ion ion-ios-grid-view-outline"
+		url: "/admin/workflow/flow_roles"
 		sort: 20
 		parent: "workflow"
 
-	# 岗位成员
-	Admin.addMenu
-		_id: "flow_positions"
-		title: "flow_positions"
-		app: "workflow"
-		icon: "ion ion-android-happy"
-		url: "/admin/view/flow_positions"
-		sort: 30
-		parent: "workflow"
 
 	# 流程设计器
-	Admin.addMenu
+	Steedos.addAdminMenu
 		_id: "workflow_designer"
 		title: "Workflow Designer"
 		app: "workflow"
-		icon: "ion ion-shuffle"
+		icon: "ion ion-ios-shuffle"
 		url: "/workflow/designer"
 		sort: 40
 		parent: "workflow"
+		onclick: ->
+			if Steedos.isMobile()
+				swal({
+					title: t("workflow_designer_use_pc"),
+					confirmButtonText: t("OK")
+				})
 
-	# 流程脚本
-	Admin.addMenu
-		_id: "workflow_form_edit"
-		title: "workflow_form_edit"
-		app: "workflow"
-		icon: "ion ion-ios-paper"
-		url: "/admin/flows"
-		paid: "true"
-		sort: 50
-		parent: "workflow"
 
-	# 图片签名
-	Admin.addMenu
-		_id: "space_user_signs"
-		title: "space_user_signs"
-		app: "workflow"
-		icon: "ion ion-images"
-		url: "/admin/view/space_user_signs"
-		paid: "true"
-		sort: 60
+	# 统计分析
+	Steedos.addAdminMenu
+		_id: "steedos_tableau"
+		title: "steedos_tableau"
+		icon: "ion ion-ios-pie-outline"
+		sort: 2500
+		roles: []
+		url: "/tableau/info"
 		parent: "workflow"
-
-	# webhook
-	Admin.addMenu
-		_id: "webhooks"
-		title: "webhooks"
-		app: "workflow"
-		icon: "ion ion-link"
-		url: "/admin/view/webhooks"
-		paid: "true"
-		sort: 70
-		parent: "workflow"
+		onclick: ->
+			if Steedos.isMobile()
+				swal({
+					title: t("workflow_designer_use_pc"),
+					confirmButtonText: t("OK")
+				})

@@ -5,13 +5,13 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 		hashData = req.body
 		_.each hashData['Instances'], (instance_from_client) ->
-			instance = uuflowManager.getInstance(instance_from_client["id"])
-			
+			instance = uuflowManager.getInstance(instance_from_client["_id"])
+
 			last_trace = _.last(instance.traces)
 
 			# 验证login user_id对该流程有管理申请单的权限
 			permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
-			space = db.spaces.findOne(instance.space)
+			space = db.spaces.findOne(instance.space, { fields: { admins: 1 } })
 			if (not permissions.includes("admin")) and (not space.admins.includes(current_user))
 				throw new Meteor.Error('error!', "用户没有对当前流程的管理权限")
 
@@ -34,6 +34,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 
 			traces = instance.traces
 			setObj = new Object
+			# 重定位的时候使用approve.values合并 instance.values生成新的instance.values #1328
+			setObj.values = uuflowManager.getUpdatedValues(instance)
 			now = new Date
 			i = 0
 			while i < traces.length
@@ -43,20 +45,21 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					# 更新当前trace.approve记录
 					h = 0
 					while h < traces[i].approves.length
-						traces[i].approves[h].start_date = now
-						traces[i].approves[h].finish_date = now
-						traces[i].approves[h].read_date = now
-						traces[i].approves[h].is_error = false
-						traces[i].approves[h].is_read = true
-						traces[i].approves[h].is_finished = true
-						traces[i].approves[h].finish_date = now
-						traces[i].approves[h].judge = ""
+						if traces[i].approves[h].is_finished is false and traces[i].approves[h].type isnt "cc" and traces[i].approves[h].type isnt "distribute"
+							traces[i].approves[h].start_date = now
+							traces[i].approves[h].finish_date = now
+							traces[i].approves[h].read_date = now
+							traces[i].approves[h].is_error = false
+							traces[i].approves[h].is_read = true
+							traces[i].approves[h].is_finished = true
+							traces[i].approves[h].judge = "terminated"
+							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
 
 						h++
 
 					# 在同一trace下插入重定位操作者的approve记录
 					current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
-					current_user_organization = db.organizations.findOne(current_space_user.organization)
+					current_user_organization = db.organizations.findOne(current_space_user.organization, { fields: { name: 1 , fullname: 1 } })
 					relocate_appr = new Object
 					relocate_appr._id = new Mongo.ObjectID()._str
 					relocate_appr.instance = instance_id
@@ -78,6 +81,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					relocate_appr.description = relocate_comment
 					relocate_appr.is_error = false
 					relocate_appr.values = new Object
+					relocate_appr.cost_time = relocate_appr.finish_date - relocate_appr.start_date
 					traces[i].approves.push(relocate_appr)
 
 					# 更新当前trace记录
@@ -105,7 +109,9 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				# 更新instance记录
 				setObj.state = "completed"
 				setObj.inbox_users = []
-				setObj.final_decision = ""
+				setObj.final_decision = "terminated"
+				setObj.finish_date = new Date
+				setObj.current_step_name = next_step_name
 			else
 				# 插入下一步trace记录
 				newTrace = new Object
@@ -129,7 +135,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.is_finished = false
 					newApprove.user = next_step_user_id
 
-					handler_info = db.users.findOne(next_step_user_id)
+					handler_info = db.users.findOne(next_step_user_id, { fields: { name: 1 } })
 					newApprove.user_name = handler_info.name
 					newApprove.handler = next_step_user_id
 					newApprove.handler_name = handler_info.name
@@ -145,21 +151,27 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.is_read = false
 					newApprove.is_error = false
 					newApprove.values = new Object
-
+					uuflowManager.setRemindInfo(instance.values, newApprove)
 					newTrace.approves.push(newApprove)
 				)
 				setObj.inbox_users = relocate_inbox_users
 				setObj.state = "pending"
+				setObj.current_step_name = next_step_name
 
 			instance.outbox_users.push(current_user)
 			instance.outbox_users = instance.outbox_users.concat(inbox_users)
 			setObj.outbox_users = _.uniq(instance.outbox_users)
 			setObj.modified = now
 			setObj.modified_by = current_user
+			setObj.is_archived = false
 			traces.push(newTrace)
 			setObj.traces = traces
 
-			r = db.instances.update({_id: instance_id}, {$set: setObj})
+			if setObj.state == 'completed'
+				r = db.instances.update({_id: instance_id}, {$set: setObj})
+			else
+				r = db.instances.update({_id: instance_id}, {$set: setObj, $unset: {finish_date: 1}})
+
 			if r
 				ins = uuflowManager.getInstance(instance_id)
 				# 给被删除的inbox_users 和 当前用户 发送push
@@ -180,6 +192,9 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				# 给新加入的inbox_users发送push message
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, relocate_comment, current_user_info)
 
+				# 如果已经配置webhook并已激活则触发
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'relocate', current_user, ins.inbox_users)
+
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {}
@@ -188,5 +203,3 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {errors: [{errorMessage: e.message}]}
-	
-		

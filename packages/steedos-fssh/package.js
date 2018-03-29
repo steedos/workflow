@@ -16,7 +16,7 @@ Package.onUse(function(api) {
 	api.use('check');
 	api.use('tracker');
 	api.use('session');
-	api.use('useraccounts:bootstrap');
+	api.use('steedos:useraccounts-bootstrap@1.14.2');
 	api.use('blaze');
 	api.use('templating');
 
@@ -27,7 +27,7 @@ Package.onUse(function(api) {
 
 	api.use('tap:i18n@1.7.0');
 
-	api.use('steedos:lib');
+	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:emailjs');
 	api.use('steedos:portal');

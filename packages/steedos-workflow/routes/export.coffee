@@ -39,6 +39,16 @@ Meteor.startup ->
 					"error": "Validate Request -- No permission",
 					"success": false
 				})
+				return;
+
+			space = db.spaces.findOne(form.space, { fields: { is_paid: 1 } })
+			if !space?.is_paid
+				JsonRoutes.sendResult res,
+					code: 404,
+					data:
+						"error": "Validate Request -- Non-paid space.",
+						"success": false
+				return;
 
 		data = steedosExport.form(formId);
 

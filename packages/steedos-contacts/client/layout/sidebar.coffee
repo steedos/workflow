@@ -22,3 +22,9 @@ Template.contactsSidebar.events
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
+
+	'click .header-app': (event) ->
+		FlowRouter.go "/contacts/"
+		if Steedos.isMobile()
+			# 手机上可能菜单展开了，需要额外收起来
+			$("body").removeClass("sidebar-open")

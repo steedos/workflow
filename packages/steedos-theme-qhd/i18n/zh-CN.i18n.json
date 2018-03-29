@@ -1,5 +1,6 @@
 {
-	"Steedos Workflow": "公文管理",
+	"Steedos Workflow": "公文处理",
+	"Steedos Calendar": "本周安排",
 	"inbox": "待办文件",
 	"outbox": "已办文件",
 	"draft": "待发文件",
@@ -12,5 +13,20 @@
 	"instance_approval_history": "历史步骤",
 	"help": {
 		"approves": "历史步骤"
-	}
+	},
+
+	"tabbar_cms": "信息发布",
+	"Steedos CMS": "信息发布",
+
+	"instances_submit_date": "拟稿时间",
+	"instances_applicant_name": "拟稿人",
+	"instance_search_applicant_name": "拟稿人姓名",
+	"instance_search_applicant_organization_name": "拟稿人所属部门名称",
+	"login_title": "河北港口集团协同办公系统",
+	"login_title_mobile": "河港协同办公系统",
+	"Username_and_email": "用户名",
+	"steedos_apps": "河北港口集团协同办公系统",
+	"steedos_info": "集团版的协同办公系统，包括公文处理、本周安排、信息发布、通讯录等功能模块。",
+	"password_invalid": "密码不能少于6位",
+	"tabbar_admin": "设置"
 }
