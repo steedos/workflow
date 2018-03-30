@@ -162,8 +162,8 @@ steedos:calendar-i18n
 
 # steedos:cas
 
-steedos:freeboard
-steedos:dashboard
+# steedos:freeboard
+# steedos:dashboard
 
 steedos:tableau
 
