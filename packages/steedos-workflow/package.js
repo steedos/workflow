@@ -300,6 +300,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/related_instances_list.html', 'client');
+	api.addFiles('client/views/list/related_instances_list.coffee', 'client');
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
 	api.addFiles('client/views/list/related_instances_modal.coffee', 'client');
@@ -418,6 +420,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
 	api.addFiles('server/publications/distributed_instances_state_by_ids.coffee', 'server');
+	api.addFiles('server/publications/related_instaces.coffee', 'server');
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
@@ -432,6 +435,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 
+	api.addFiles('related_instances_tabular.coffee');
 	api.addFiles('tabular.coffee');
 
 	api.addFiles('client/views/instance/instance_sign_text.html', 'client');

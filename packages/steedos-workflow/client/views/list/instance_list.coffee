@@ -424,7 +424,8 @@ Template.instance_list.events
 	'click .btn-toogle-columns': (event)->
 		if Session.get("instanceId")
 			backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
-			FlowRouter.go(backURL)
+			FlowRouter.go(backURL)	'click th.flow-filter,.tabular-filter-by-flow': ()->
+		Modal.show('flow_list_modal')
 		currentTarget = $(event.currentTarget)
 		icon = currentTarget.find("i")
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")
@@ -441,5 +442,3 @@ Template.instance_list.events
 	'click .batch_instances_view > button': ()->
 		Modal.show("batch_instances_modal")
 
-	'click th.flow-filter,.tabular-filter-by-flow': ()->
-		Modal.show('flow_list_modal')
