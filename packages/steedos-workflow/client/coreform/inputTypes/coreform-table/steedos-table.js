@@ -156,18 +156,18 @@ SteedosTable.getItemModalValue = function(field, item_index) {
 }
 
 
-SteedosTable.addItem = function(field, index) {
+SteedosTable.addItem = function(field, index, _item_value) {
     var keys = SteedosTable.getKeys(field);
-    var item_value = SteedosTable.getItemModalValue(field, index);
+    var item_value = _item_value || SteedosTable.getItemModalValue(field, index);
     $("tbody[name='" + field + "Tbody']").append(SteedosTable.getTr(keys, item_value, index, field, true))
 
 }
 
-SteedosTable.updateItem = function(field, index) {
+SteedosTable.updateItem = function(field, index, _item_value) {
 
     var item = $("tr[name='" + field + "_item_" + index + "']");
 
-    var item_value = SteedosTable.getItemModalValue(field, index);
+    var item_value = _item_value || SteedosTable.getItemModalValue(field, index);
 
     if (item && item.length > 0) {
         var keys = SteedosTable.getKeys(field);
