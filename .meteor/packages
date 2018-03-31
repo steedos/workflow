@@ -13,7 +13,7 @@ blaze-html-templates@1.0.4
 check@1.2.3
 coffeescript@1.11.1_4
 ddp-rate-limiter@1.0.5
-ecmascript@0.6.3
+ecmascript@0.8.0
 ejson@1.0.12
 email@1.1.17
 fastclick@1.0.12
