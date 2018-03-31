@@ -108,7 +108,7 @@ meteorhacks:subs-manager@1.6.4
 meteorhacks:unblock@1.1.0
 meteorspark:util@0.2.0
 minifier-css@1.2.14
-minifier-js@1.2.18
+minifier-js@2.1.0
 minimongo@1.0.17
 mobile-experience@1.0.4
 mobile-status-bar@1.0.12
@@ -161,7 +161,7 @@ spacebars@1.0.13
 spacebars-compiler@1.1.2
 srp@1.0.9
 standard-minifier-css@1.2.1
-standard-minifier-js@1.2.3
+standard-minifier-js@2.1.0
 steedos:accounts@0.0.31
 steedos:accounts-phone@0.0.3
 steedos:accounts-t9n@1.14.2_7
