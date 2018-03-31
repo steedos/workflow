@@ -54,6 +54,7 @@ coffeescript@1.11.1_4
 comerc:autoform-selectize@2.3.2
 dburles:collection-helpers@1.0.4
 dburles:mongo-collection-instances@0.3.4
+dburles:spacebars-tohtml@1.0.1
 ddp@1.2.5
 ddp-client@1.2.9
 ddp-common@1.2.6
