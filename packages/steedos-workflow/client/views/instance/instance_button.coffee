@@ -149,7 +149,7 @@ Template.instance_button.helpers
 
 		is_not_return = false
 		_.each pre_trace.approves, (ap)->
-			if ap.judge is 'relocated' or ap.judge is 'returned'
+			if ap.judge is 'relocated' or ap.judge is 'returned' or ap.judge is 'retrieved'
 				is_not_return = true
 		if is_not_return
 			return false
