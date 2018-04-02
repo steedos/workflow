@@ -18,8 +18,11 @@ AT.prototype.atPwdLinkHelpers = {
         return T9n.get("loginWithPhone", markIfMissing=false);
     },
     showPhoneLink: function(){
-        if (Steedos) {
+        if (Meteor.settings && Meteor.settings.public && Meteor.settings.public.phone){
             return true;
+        }
+        else{
+            return false;
         }
     }
 };
