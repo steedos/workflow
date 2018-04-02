@@ -53,7 +53,7 @@
 		]
 	}
 ###
-JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
+JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 	try
 
 		if !Steedos.APIAuthenticationCheck(req, res)
@@ -72,8 +72,6 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 		if db.users.find({ _id: user_id }).count() is 0
 			throw new Meteor.Error('error', 'can not find user')
 
-		state = req.params.state
-
 		limit = req.query?.limit || 500
 
 		limit = parseInt(limit)
@@ -82,13 +80,14 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 
 		userid = req.query?.userid
 
-		if not state
-			throw new Meteor.Error('error', 'state is null')
+		attach = req.query?.attach
 
 		# 校验space是否存在
 		space = uuflowManager.getSpace(space_id)
 
-		# 如果当前用户是工作区管理员，则通过查看url上是否有username\userid ， 如果有，则返回username\userid对应的用户，否则返回当前用户待办。 username\userid都存在时，userid优先
+		# 如果当前用户是工作区管理员，则通过查看url上是否有username\userid ，
+		# 如果有，则返回username\userid对应的用户，否则返回当前用户待办。
+		# username\userid都存在时，userid优先
 		if space.admins.includes(user_id)
 			if userid
 				if db.users.find({ _id: userid }).count() < 1
@@ -102,53 +101,49 @@ JsonRoutes.add 'get', '/api/workflow/open/:state', (req, res, next) ->
 
 				user_id = u._id
 
-		find_instances = new Array
 		result_instances = new Array
 
-		if "pending" is state
-			if user_id
-				find_instances = db.instances.find({
-					space: space_id,
-					$or: [{ inbox_users: user_id }, { cc_users: user_id }]
-				}, { sort: { modified: -1 }, limit: limit }).fetch()
-			_.each find_instances, (i) ->
-				flow = db.flows.findOne(i["flow"], { fields: { name: 1 } })
-				space = db.spaces.findOne(i["space"], { fields: { name: 1 } })
-				return if not flow
-				current_trace
+		if user_id
+			is_read = false
+			start_date = ''
+
+			db.instances.find({
+				space: space_id,
+				$or: [{ inbox_users: user_id }, { cc_users: user_id }]
+			}, { sort: { modified: -1 }, limit: limit }).forEach (i) ->
+
 				if i.inbox_users?.includes(user_id)
-					current_trace = _.find i["traces"], (t) ->
-						return t["is_finished"] is false
+					_.each i.traces, (t) ->
+						if t.is_finished is false
+							_.each t.approves, (a) ->
+								if a.user is user_id and a.type isnt 'cc' and not a.is_finished
+									is_read = a.is_read
+									start_date = a.start_date
 				else
-					i.traces.forEach (t) ->
-						t?.approves?.forEach (approve) ->
-							if approve.user == user_id && approve.type == 'cc' && !approve.is_finished
-								current_trace = t
-				approves = current_trace?.approves.filterProperty("is_finished", false).filterProperty("handler", user_id)
-
-				start_date = ''
-
-				if approves?.length > 0
-					approve = approves[0]
-					is_read = approve.is_read
-					start_date = approve.start_date
+					_.each i.traces, (t) ->
+						if not start_date and t.approves
+							_.each t.approves, (a) ->
+								if not start_date and a.user is user_id and a.type is 'cc' and not a.is_finished
+									is_read = a.is_read
+									start_date = a.start_date
 
 				h = new Object
 				h["id"] = i["_id"]
 				h["start_date"] = start_date
-				h["flow_name"] = flow.name
+				h["flow_name"] = i.flow_name
 				h["space_name"] = space.name
 				h["name"] = i["name"]
 				h["applicant_name"] = i["applicant_name"]
 				h["applicant_organization_name"] = i["applicant_organization_name"]
 				h["submit_date"] = i["submit_date"]
-				h["step_name"] = current_trace?.name
+				h["step_name"] = i.current_step_name
 				h["space_id"] = space_id
 				h["modified"] = i["modified"]
 				h["is_read"] = is_read
 				h["values"] = i["values"]
 
-				h.attachments = cfs.instances.find({'metadata.instance': i._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
+				if attach
+					h.attachments = cfs.instances.find({ 'metadata.instance': i._id, 'metadata.current': true, "metadata.is_private": { $ne: true } }, { fields: { copies: 0 } }).fetch()
 
 				result_instances.push(h)
 
