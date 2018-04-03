@@ -11,7 +11,7 @@ Template.flow_list_modal.helpers
 		return a == b;
 
 	isChecked: (a)->
-		flowId = Template.instance().data.flowId
+		flowId = Template.instance().data?.flowId
 		if !flowId
 			flowId = Session.get("flowId")
 		return flowId == a;
