@@ -6,6 +6,11 @@
 		<nav class="navbar navbar-static-top">
 			<!-- Navbar Left Menu -->
 			<ul class="nav navbar-nav navbar-nav-apps">
+				<li class="fssh-show hide">
+					<a class="menu-apps-link">
+						<i class="ion ion-grid"></i>
+					</a>
+				</li>
 				{{#each getSpaceApps}}
 					<li class="{{#if isAppActive this}} active {{/if}}">
 						<a class="menu-app-link" data-appid="{{_id}}">
@@ -28,6 +33,7 @@
 				<ul class="nav navbar-nav">
 					{{> headerLoading}}
 					{{> headerRefresh}}
+					<li class="hide fssh-show"><a href="/admin/">设置</a></li>
 					{{> steedosHeaderAccount}}
 				</ul>
 			</div>
