@@ -1,8 +1,5 @@
 Template.cancel_distribute_modal.helpers
-	traces: ()->
-		instr = db.instance_traces.findOne(Session.get("instanceId"))
-		if not instr
-			return
+	traces: () ->
 		ins = WorkflowManager.getInstance()
 		if not ins
 			return
@@ -10,10 +7,10 @@ Template.cancel_distribute_modal.helpers
 		traces = []
 		userId = Meteor.userId()
 		hasPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, userId)
-		_.each instr.traces, (t)->
-			newt = {_id: t._id, name:t.name, distribute_approves: []}
+		_.each ins.traces, (t) ->
+			newt = { _id: t._id, name: t.name, distribute_approves: [] }
 			if t.approves
-				_.each t.approves, (a)->
+				_.each t.approves, (a) ->
 					if a.type is 'distribute' and (a.from_user is userId or hasPermission) and a.judge isnt 'terminated' and a.forward_instance
 						f = db.instances.findOne(a.forward_instance)
 						if f and f.state is 'draft'
@@ -31,13 +28,11 @@ Template.cancel_distribute_modal.helpers
 			return $.format.date new Date(date), "yyyy-MM-dd HH:mm"
 
 
-
-
 Template.cancel_distribute_modal.events
 	'click .handler-name': (event, template) ->
 		approveid = event.currentTarget.dataset.approveid
-		if $("#"+approveid)
-			$("#"+approveid).click()
+		if $("#" + approveid)
+			$("#" + approveid).click()
 
 	'click .cancel_distribute_modal_all_approve_toggle': (event, template) ->
 		$("[name='#{event.currentTarget.id}']").prop('checked', event.currentTarget.checked)
@@ -58,27 +53,3 @@ Template.cancel_distribute_modal.events
 					toastr.success(TAPi18n.__("instance_approve_forward_remove_success"))
 					Modal.hide(template)
 					Modal.allowMultiple = false
-
-
-
-
-Template.cancel_distribute_modal.onCreated ->
-
-	$("body").addClass("loading")
-
-	Steedos.subs["instance_traces"].subscribe("instance_traces", Session.get("instanceId"))
-
-	Tracker.autorun () ->
-		if Steedos.subs["instance_traces"].ready()
-			instr = db.instance_traces.findOne(Session.get("instanceId"))
-			if instr
-				instance_ids = []
-				_.each instr.traces, (t)->
-					_.each t.approves, (a)->
-						if a.type == 'distribute'
-							instance_ids.push(a.forward_instance)
-
-				if not _.isEmpty(instance_ids)
-					Steedos.subs["distributed_instances"].subscribe('distributed_instances_state_by_ids', instance_ids)
-
-			$("body").removeClass("loading")

@@ -54,6 +54,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/admin_menu.coffee','client');
 
+	api.addFiles('client/customize.coffee', 'client');
+	
 	api.addFiles('client/customize.less', 'client');
 
 	api.addFiles('client/subscribe.coffee', 'client');
