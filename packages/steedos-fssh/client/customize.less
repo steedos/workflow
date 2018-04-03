@@ -19,21 +19,21 @@
                     &:first-child {
                         display: inline-block!important;
                     }
-                    &:last-child {
+                    &:nth-child(2) {
                         display: inline-block!important;
                     }
                 }
             }
             .navbar-custom-menu {
                 .user-menu {
-                    .dropdown-menu{
-						li{
-							display: none;
-							&:last-child{
-								display: inline;
-							}
-						}
-					}
+                    .dropdown-menu {
+                        li {
+                            display: none;
+                            &:last-child {
+                                display: inline-block;
+                            }
+                        }
+                    }
                 }
             }
         }
