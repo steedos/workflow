@@ -1,7 +1,7 @@
 Meteor.methods
-	start_flow: (space, flowId, start)->
+	start_flow: (space, flowId, start) ->
 
-		keyValue = db.steedos_keyvalues.findOne({space: space, user: this.userId, key: 'start_flows'})
+		keyValue = db.steedos_keyvalues.findOne({ space: space, user: this.userId, key: 'start_flows' }, { fields: { value: 1 } })
 
 		start_flows = keyValue?.value || []
 
@@ -13,7 +13,7 @@ Meteor.methods
 			start_flows.remove(start_flows.indexOf(flowId))
 
 		if keyValue
-			db.steedos_keyvalues.update({_id: keyValue._id} , {space: space, user: this.userId, key: 'start_flows', value: start_flows})
+			db.steedos_keyvalues.update({ _id: keyValue._id }, { space: space, user: this.userId, key: 'start_flows', value: start_flows })
 		else
-			db.steedos_keyvalues.insert({space: space, user: this.userId, key: 'start_flows', value: start_flows})
+			db.steedos_keyvalues.insert({ space: space, user: this.userId, key: 'start_flows', value: start_flows })
 

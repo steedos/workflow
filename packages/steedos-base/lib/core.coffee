@@ -581,7 +581,20 @@ if Meteor.isServer
 
 		if user
 			return userId
-		return null;
+		else
+			# 如果user表未查到，则使用oauth2协议生成的token查找用户
+			collection = oAuth2Server.collections.accessToken
+
+			obj = collection.findOne({'accessToken': access_token})
+			if obj
+				# 判断token的有效期
+				if obj?.expires < new Date()
+					return "oauth2 access token:"+access_token+" is expired."
+				else
+					return obj?.userId
+			else
+				return "oauth2 access token:"+access_token+" is not found."
+		return null
 
 	Steedos.getUserIdFromAuthToken = (req, res)->
 

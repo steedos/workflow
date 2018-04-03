@@ -21,6 +21,7 @@ InstanceEvent.initEvents = function(flowId) {
 	$("#ins_attach_version").unbind('instance-before-upload')
 	$(".instance-forward-modal").unbind('onload')
 	$(".instance-distribute-modal").unbind('onload')
+	$("body").unbind('after-save')
 
 
 	var eventStr = getFlowEvent(flowId);
@@ -40,7 +41,7 @@ InstanceEvent.initEvents = function(flowId) {
  * return true：继续执行; false 中断后续操作
  *  "instance-before-submit" / "instance-before-upload"
  */
-InstanceEvent.run = function (element, eventName) {
+InstanceEvent.run = function (element, eventName, content) {
 	var ins = WorkflowManager.getInstance();
 
 	if(!ins)
@@ -51,9 +52,11 @@ InstanceEvent.run = function (element, eventName) {
 	if(!eventStr)
 		return true;
 
-	var event = jQuery.Event(eventName, {
-		// instance: instance
-	});
+	if(!content){
+		content = {};
+	}
+
+	var event = jQuery.Event(eventName, content);
 
 	element.trigger(event);
 

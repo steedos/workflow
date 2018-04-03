@@ -658,5 +658,6 @@
 	"instance_approve_not_yet_handled": "Not yet handled",
 	"instance_approve_distribute_date_label": "Distribute date",
 
-	"flows_auto_remind": "Auto remind"
+	"flows_auto_remind": "Auto remind",
+	"instances_my_finish_date": "Modified"
 }

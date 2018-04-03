@@ -49,6 +49,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/accounts_guide_modal.coffee', 'client');
 	api.addFiles('client/views/accounts_guide_modal.less', 'client');
 
+	api.addFiles('client/views/header_logo.html', 'client');
+	api.addFiles('client/views/header_logo.coffee', 'client');
+
 	api.addFiles('client/admin_menu.coffee','client');
 
 	api.addFiles('client/customize.less', 'client');

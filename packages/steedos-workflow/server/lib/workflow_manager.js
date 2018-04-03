@@ -1,6 +1,6 @@
 WorkflowManager = {}
 
-WorkflowManager.getPositionsFilterByUsers = function(spaceId, orgId, roleId) {
+WorkflowManager.getPositionsFilterByUsers = function (spaceId, orgId, roleId) {
 	if (!spaceId || !orgId || !roleId)
 		return []
 
@@ -15,19 +15,19 @@ WorkflowManager.getPositionsFilterByUsers = function(spaceId, orgId, roleId) {
 	}).fetch();
 }
 
-WorkflowManager.uniqUsers = function(users) {
+WorkflowManager.uniqUsers = function (users) {
 	if (_.isEmpty(users))
 		return []
 
 	var users_str = [],
 		users_obj = [];
-	_.each(users, function(u) {
+	_.each(users, function (u) {
 		users_str.push(JSON.stringify(u))
 	})
 
 	users_str = _.uniq(users_str);
 
-	_.each(users_str, function(us) {
+	_.each(users_str, function (us) {
 		users_obj.push(JSON.parse(us))
 	})
 
@@ -38,12 +38,12 @@ WorkflowManager.uniqUsers = function(users) {
  返回指定部门下的角色成员,如果指定部门没有找到对应的角色，则会继续找部门的上级部门直到找到为止。
  return [{spaceUser}]
  */
-WorkflowManager.getRoleUsersbyOrgAndRole = function(spaceId, orgId, roleId) {
+WorkflowManager.getRoleUsersbyOrgAndRole = function (spaceId, orgId, roleId) {
 	var roleUsers = new Array();
 
 	var orgPositions = WorkflowManager.getPositionsFilterByUsers(spaceId, orgId, roleId);
 
-	orgPositions.forEach(function(orgPosition) {
+	orgPositions.forEach(function (orgPosition) {
 		var roleUserIds = orgPosition.users;
 		roleUsers = roleUsers.concat(WorkflowManager.getUsers(spaceId, roleUserIds, true));
 	});
@@ -57,11 +57,11 @@ WorkflowManager.getRoleUsersbyOrgAndRole = function(spaceId, orgId, roleId) {
 	return roleUsers;
 };
 
-WorkflowManager.getRoleUsersByOrgAndRoles = function(spaceId, orgId, roleIds) {
+WorkflowManager.getRoleUsersByOrgAndRoles = function (spaceId, orgId, roleIds) {
 
 	var roleUsers = new Array();
 
-	roleIds.forEach(function(roleId) {
+	roleIds.forEach(function (roleId) {
 		roleUsers = roleUsers.concat(WorkflowManager.getRoleUsersbyOrgAndRole(spaceId, orgId, roleId));
 	});
 
@@ -69,13 +69,13 @@ WorkflowManager.getRoleUsersByOrgAndRoles = function(spaceId, orgId, roleIds) {
 
 };
 
-WorkflowManager.getRoleUsersByOrgsAndRoles = function(spaceId, orgIds, roleIds) {
+WorkflowManager.getRoleUsersByOrgsAndRoles = function (spaceId, orgIds, roleIds) {
 	var roleUsers = new Array();
 
 	if (!orgIds || !roleIds)
 		return roleUsers;
 
-	orgIds.forEach(function(orgId) {
+	orgIds.forEach(function (orgId) {
 		roleUsers = roleUsers.concat(WorkflowManager.getRoleUsersByOrgAndRoles(spaceId, orgId, roleIds));
 	});
 
@@ -86,7 +86,7 @@ WorkflowManager.getRoleUsersByOrgsAndRoles = function(spaceId, orgIds, roleIds) 
  返回用户所在部门下的角色成员.
  return [{spaceUser}]
  */
-WorkflowManager.getRoleUsersByUsersAndRoles = function(spaceId, userIds, roleIds) {
+WorkflowManager.getRoleUsersByUsersAndRoles = function (spaceId, userIds, roleIds) {
 
 	var roleUsers = new Array();
 
@@ -95,14 +95,14 @@ WorkflowManager.getRoleUsersByUsersAndRoles = function(spaceId, userIds, roleIds
 
 	var users = WorkflowManager.getUsers(spaceId, userIds, true);
 
-	users.forEach(function(user) {
+	users.forEach(function (user) {
 		roleUsers = roleUsers.concat(WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, user.organizations, roleIds));
 	});
 
 	return roleUsers;
 };
 
-WorkflowManager.getSpaceRoles = function(spaceId) {
+WorkflowManager.getSpaceRoles = function (spaceId) {
 	if (!spaceId) {
 		return;
 	}
@@ -112,7 +112,7 @@ WorkflowManager.getSpaceRoles = function(spaceId) {
 	}).fetch();
 };
 
-WorkflowManager.getRole = function(spaceId, roleId) {
+WorkflowManager.getRole = function (spaceId, roleId) {
 
 	if (!roleId || !spaceId) {
 		return;
@@ -124,14 +124,14 @@ WorkflowManager.getRole = function(spaceId, roleId) {
 	});
 };
 
-WorkflowManager.getSpacePositions = function(spaceId) {
+WorkflowManager.getSpacePositions = function (spaceId) {
 	return db.flow_positions.find({
 		space: spaceId
 	}).fetch();
 };
 
 //获取用户岗位
-WorkflowManager.getUserRoles = function(spaceId, orgId, userId) {
+WorkflowManager.getUserRoles = function (spaceId, orgId, userId) {
 
 	var userRoles = new Array();
 
@@ -149,18 +149,18 @@ WorkflowManager.getUserRoles = function(spaceId, orgId, userId) {
 		}
 	});
 
-	userPositions.forEach(function(userPosition) {
+	userPositions.forEach(function (userPosition) {
 		userRoles.push(WorkflowManager.getRole(spaceId, userPosition.role));
 	});
 
 	return userRoles;
 };
 
-WorkflowManager.getOrganizationsUsers = function(spaceId, orgs) {
+WorkflowManager.getOrganizationsUsers = function (spaceId, orgs) {
 
 	var orgUsers = new Array();
 
-	orgs.forEach(function(org) {
+	orgs.forEach(function (org) {
 		orgUsers = orgUsers.concat(WorkflowManager.getUsers(spaceId, org.users, true));
 	});
 
@@ -168,29 +168,29 @@ WorkflowManager.getOrganizationsUsers = function(spaceId, orgs) {
 }
 
 //获取space下的所有部门
-WorkflowManager.getSpaceOrganizations = function(spaceId) {
+WorkflowManager.getSpaceOrganizations = function (spaceId) {
 	return db.organizations.find({
 		space: spaceId
 	}).fetch();
 };
 
-WorkflowManager.getOrganizationChildrens = function(spaceId, orgId) {
+WorkflowManager.getOrganizationChildrens = function (spaceId, orgId) {
 	return db.organizations.find({
 		space: spaceId,
 		parents: orgId
 	}).fetch();
 };
 
-WorkflowManager.getOrganizationsChildrens = function(spaceId, orgIds) {
+WorkflowManager.getOrganizationsChildrens = function (spaceId, orgIds) {
 	var chidrenOrgs = new Array();
-	orgIds.forEach(function(orgId) {
+	orgIds.forEach(function (orgId) {
 		chidrenOrgs = chidrenOrgs.concat(WorkflowManager.getOrganizationChildrens(spaceId, orgId));
 	});
 
 	return chidrenOrgs;
 };
 
-WorkflowManager.getOrganization = function(orgId) {
+WorkflowManager.getOrganization = function (orgId) {
 	if (!orgId) {
 		return;
 	}
@@ -198,12 +198,12 @@ WorkflowManager.getOrganization = function(orgId) {
 	return db.organizations.findOne(orgId);
 };
 
-WorkflowManager.getOrganizations = function(orgIds) {
+WorkflowManager.getOrganizations = function (orgIds) {
 	if (!orgIds) {
 		return [];
 	}
 
-	if ("string" == typeof(orgIds)) {
+	if ("string" == typeof (orgIds)) {
 		return [WorkflowManager.getOrganization(orgIds)]
 	}
 
@@ -214,7 +214,7 @@ WorkflowManager.getOrganizations = function(orgIds) {
 	}).fetch();
 };
 
-WorkflowManager.getUser = function(spaceId, userId, notNeedDetails) {
+WorkflowManager.getUser = function (spaceId, userId, notNeedDetails) {
 	if (!userId || !spaceId) {
 		return;
 	}
@@ -246,9 +246,9 @@ WorkflowManager.getUser = function(spaceId, userId, notNeedDetails) {
 	return spaceUser;
 };
 
-WorkflowManager.getUsers = function(spaceId, userIds, notNeedDetails) {
+WorkflowManager.getUsers = function (spaceId, userIds, notNeedDetails) {
 
-	if ("string" == typeof(userIds)) {
+	if ("string" == typeof (userIds)) {
 		return [WorkflowManager.getUser(spaceId, userIds, notNeedDetails)]
 	}
 
@@ -262,12 +262,12 @@ WorkflowManager.getUsers = function(spaceId, userIds, notNeedDetails) {
 		});
 
 		if (notNeedDetails == true) {
-			spaceUsers.forEach(function(spaceUser) {
+			spaceUsers.forEach(function (spaceUser) {
 				spaceUser.id = spaceUser.user;
 				users.push(spaceUser);
 			})
 		} else {
-			spaceUsers.forEach(function(spaceUser) {
+			spaceUsers.forEach(function (spaceUser) {
 				spaceUser.id = spaceUser.user;
 
 				spaceUser.organization = WorkflowManager.getOrganization(spaceUser.organization);
@@ -286,10 +286,10 @@ WorkflowManager.getUsers = function(spaceId, userIds, notNeedDetails) {
 	return users;
 };
 
-WorkflowManager.getFormulaUsers = function(spaceId, userIds) {
+WorkflowManager.getFormulaUsers = function (spaceId, userIds) {
 	var spaceUsers = [];
 	var users = WorkflowManager.getUsers(spaceId, userIds);
-	users.forEach(function(user) {
+	users.forEach(function (user) {
 		var userObject = {};
 		userObject['id'] = user.id;
 		userObject['name'] = user.name;
@@ -326,7 +326,7 @@ WorkflowManager.getFormulaUsers = function(spaceId, userIds) {
 	return spaceUsers;
 }
 
-WorkflowManager.getFormulaUserObjects = function(spaceId, userIds) {
+WorkflowManager.getFormulaUserObjects = function (spaceId, userIds) {
 	if (!userIds)
 		return {
 			organization: {},
@@ -335,7 +335,7 @@ WorkflowManager.getFormulaUserObjects = function(spaceId, userIds) {
 	return WorkflowManager.getFormulaUserObject(spaceId, userIds);
 }
 
-WorkflowManager.getFormulaUserObject = function(spaceId, userId) {
+WorkflowManager.getFormulaUserObject = function (spaceId, userId) {
 
 	if (!userId)
 		return {
@@ -351,18 +351,18 @@ WorkflowManager.getFormulaUserObject = function(spaceId, userId) {
 };
 
 
-WorkflowManager.getFormulaOrgObjects = function(orgIds) {
+WorkflowManager.getFormulaOrgObjects = function (orgIds) {
 	if (!orgIds)
 		return;
 	return WorkflowManager.getFormulaOrgObject(orgIds);
 }
 
-WorkflowManager.getFormulaOrgObject = function(orgId) {
+WorkflowManager.getFormulaOrgObject = function (orgId) {
 
 	if (orgId instanceof Array) {
 		var orgArray = new Array();
 		var orgs = WorkflowManager.getOrganizations(orgId);
-		orgs.forEach(function(org) {
+		orgs.forEach(function (org) {
 			var orgObject = {};
 			orgObject['id'] = org._id;
 			orgObject['name'] = org.name;
@@ -386,7 +386,7 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
 
 }
 
-WorkflowManager.getInstanceFormVersion = function() {
+WorkflowManager.getInstanceFormVersion = function () {
 
 	var instance = Template.instance().view.template.steedosData.instance
 
@@ -401,11 +401,11 @@ WorkflowManager.getInstanceFormVersion = function() {
 			_id: instance.form_version
 		})[0];
 	}
-	form_version.fields.forEach(function(field) {
+	form_version.fields.forEach(function (field) {
 		if (field.type === 'section') {
 			form_fields.push(field);
 			if (field.fields) {
-				return field.fields.forEach(function(f) {
+				return field.fields.forEach(function (f) {
 					return form_fields.push(f);
 				});
 			}
@@ -421,7 +421,7 @@ WorkflowManager.getInstanceFormVersion = function() {
 	return form_version;
 };
 
-WorkflowManager.getFormVersion = function(id, versionId) {
+WorkflowManager.getFormVersion = function (id, versionId) {
 	var form = db.forms.findOne({
 		_id: id
 	});
@@ -434,11 +434,11 @@ WorkflowManager.getFormVersion = function(id, versionId) {
 
 	var form_fields = [];
 
-	form_version.fields.forEach(function(field) {
+	form_version.fields.forEach(function (field) {
 		if (field.type == 'section') {
 			form_fields.push(field);
 			if (field.fields) {
-				field.fields.forEach(function(f) {
+				field.fields.forEach(function (f) {
 					form_fields.push(f);
 				});
 			}
@@ -452,7 +452,7 @@ WorkflowManager.getFormVersion = function(id, versionId) {
 	return form_version;
 }
 
-WorkflowManager.getInstanceFlowVersion = function(instance) {
+WorkflowManager.getInstanceFlowVersion = function (instance) {
 
 	if (!instance) {
 		instance = Template.instance().view.template.steedosData.instance;
@@ -471,7 +471,7 @@ WorkflowManager.getInstanceFlowVersion = function(instance) {
 	return flow_version;
 };
 
-WorkflowManager.getInstanceStep = function(stepId) {
+WorkflowManager.getInstanceStep = function (stepId) {
 	flow = WorkflowManager.getInstanceFlowVersion();
 
 	if (!flow)
@@ -480,7 +480,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 	var g_step;
 
 	flow.steps.forEach(
-		function(step) {
+		function (step) {
 			if (step._id == stepId) {
 				g_step = step;
 				g_step.id = step._id;
@@ -493,7 +493,7 @@ WorkflowManager.getInstanceStep = function(stepId) {
 };
 
 
-WorkflowManager.canAdmin = function(fl, curSpaceUser, organizations) {
+WorkflowManager.canAdmin = function (fl, curSpaceUser, organizations) {
 	var perms = fl.perms;
 	var hasAdminRight = false;
 	if (perms) {
@@ -505,7 +505,7 @@ WorkflowManager.canAdmin = function(fl, curSpaceUser, organizations) {
 			} else {
 				if (organizations) {
 
-					hasAdminRight = _.some(organizations, function(org) {
+					hasAdminRight = _.some(organizations, function (org) {
 						return org.parents && _.intersection(org.parents, perms.orgs_can_admin).length > 0;
 					});
 				}
@@ -515,7 +515,7 @@ WorkflowManager.canAdmin = function(fl, curSpaceUser, organizations) {
 	return hasAdminRight;
 };
 
-WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
+WorkflowManager.canMonitor = function (fl, curSpaceUser, organizations) {
 	var perms = fl.perms;
 	var hasMonitorRight = false;
 	if (perms) {
@@ -527,7 +527,7 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 			} else {
 				if (organizations) {
 
-					hasMonitorRight = _.some(organizations, function(org) {
+					hasMonitorRight = _.some(organizations, function (org) {
 						return org.parents && _.intersection(org.parents, perms.orgs_can_monitor).length > 0;
 					});
 				}
@@ -542,11 +542,15 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 // 2 用户在submitter、applicant、outbox_users、inbox_users、cc_users、created_by、modified_by 中：return true;
 // 3 用户是流程管理员，监控员：return true;
 // 4 否则：return false;
-WorkflowManager.hasInstancePermissions = function(user, instance) {
+WorkflowManager.hasInstancePermissions = function (user, instance) {
 
 	if (user && instance) {
 		var space = db.spaces.findOne({
 			_id: instance.space
+		}, {
+			fields: {
+				admins: 1
+			}
 		});
 		if (space && space.admins && space.admins.includes(user._id)) {
 			return true;
@@ -576,7 +580,7 @@ WorkflowManager.hasInstancePermissions = function(user, instance) {
 	console.log("originalInstances size is " + originalInstances.count());
 	if (originalInstances.count() > 0) {
 		var hasPermission = false;
-		_.some(originalInstances.fetch(), function(ins) {
+		_.some(originalInstances.fetch(), function (ins) {
 			console.log(ins)
 			havePermissionUsers = _.union(ins.outbox_users, ins.inbox_users, ins.cc_users, [ins.submitter], [ins.applicant]);
 			console.log(havePermissionUsers)
@@ -615,7 +619,7 @@ WorkflowManager.hasInstancePermissions = function(user, instance) {
 
 }
 
-WorkflowManager.getNameForUser = function(userId) {
+WorkflowManager.getNameForUser = function (userId) {
 	check(userId, String);
 	return db.users.findOne({
 		_id: userId
@@ -627,8 +631,14 @@ WorkflowManager.getNameForUser = function(userId) {
 }
 
 // 工作区管理员和流程管理员拥有流程的管理权限
-WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
-	var space = db.spaces.findOne(space_id);
+WorkflowManager.hasFlowAdminPermission = function (flow_id, space_id, user_id) {
+	var space = db.spaces.findOne({
+		_id: space_id
+	}, {
+		fields: {
+			admins: 1
+		}
+	});
 
 	if (!space)
 		return false;

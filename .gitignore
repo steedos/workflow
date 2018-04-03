@@ -14,3 +14,9 @@ settings.json
 .idea/**
 start.bat
 start-qywx.bat
+.screenshots
+start.bat
+
+tests
+qywx.bat
+debug.log

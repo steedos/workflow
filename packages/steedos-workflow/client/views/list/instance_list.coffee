@@ -165,11 +165,15 @@ Template.instance_list.helpers
 			else
 				if Session.get("box") == "inbox"
 					return TabularTables.inbox_instances
+				else if Session.get("box") == "outbox"
+					return TabularTables.outbox_instances
 				else
 					return TabularTables.instances
 		else
 			if Session.get("box") == "inbox"
 				return TabularTables.inbox_instances
+			else if Session.get("box") == "outbox"
+				return TabularTables.outbox_instances
 			else
 				return TabularTables.instances
 
@@ -185,9 +189,10 @@ Template.instance_list._changeOrder = ()->
 
 	if Session.get("box") == 'draft' || Session.get("box") == 'pending' || Session.get("box") == 'completed'
 		table?.order([7, 'desc']).draw();
-
-	if Session.get("box") == 'outbox' || Session.get("box") == 'monitor'
+	else if Session.get("box") == 'monitor'
 		table?.order([4, 'desc']).draw();
+	else if Session.get("box") == 'outbox'
+		table?.order([9, 'desc']).draw();
 
 Template.instance_list._tableColumns = ()->
 
@@ -228,8 +233,8 @@ Template.instance_list._tableColumns = ()->
 			table.column(7).visible(show)
 			table.column(8).visible(false)
 
-			if columnCount > 11
-				_.range(12, columnCount + 1).forEach (index)->
+			if columnCount > 12
+				_.range(13, columnCount + 1).forEach (index)->
 					table.column(index - 1)?.visible(false)
 		else
 			table.column(3).visible(show)
@@ -243,14 +248,21 @@ Template.instance_list._tableColumns = ()->
 				table.column(8).visible(false)
 				table.column(7).visible(show)
 
-			if columnCount > 11
-				_.range(12, columnCount + 1).forEach (index)->
+			if columnCount > 12
+				_.range(13, columnCount + 1).forEach (index)->
 					table.column(index - 1)?.visible(show)
 
+			if Session.get("box") == "outbox"
+				table.column(7).visible(false)
+				table.column(9).visible(show)
+			else
+				table.column(9).visible(false)
+				table.column(7).visible(show)
+
 		if Session.get("box") == "monitor" && show
-			table.column(11).visible(true)
+			table.column(12).visible(true)
 		else
-			table.column(11).visible(false)
+			table.column(12).visible(false)
 
 		if show
 			thead.show()
@@ -412,7 +424,8 @@ Template.instance_list.events
 	'click .btn-toogle-columns': (event)->
 		if Session.get("instanceId")
 			backURL = "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
-			FlowRouter.go(backURL)
+			FlowRouter.go(backURL)	'click th.flow-filter,.tabular-filter-by-flow': ()->
+		Modal.show('flow_list_modal')
 		currentTarget = $(event.currentTarget)
 		icon = currentTarget.find("i")
 		icon.toggleClass("fa-expand").toggleClass("fa-compress")
@@ -429,5 +442,3 @@ Template.instance_list.events
 	'click .batch_instances_view > button': ()->
 		Modal.show("batch_instances_modal")
 
-	'click th.flow-filter,.tabular-filter-by-flow': ()->
-		Modal.show('flow_list_modal')

@@ -2,15 +2,15 @@ db.space_user_signs = new Meteor.Collection('space_user_signs')
 
 
 db.space_user_signs._simpleSchema = new SimpleSchema
-	space: 
+	space:
 		type: String,
-		autoform: 
+		autoform:
 			type: "hidden",
 			defaultValue: ->
 				return Session.get("spaceId");
 	user:
 		type: String,
-		autoform: 
+		autoform:
 			type: "selectuser"
 
 	sign:
@@ -59,13 +59,13 @@ db.space_user_signs.helpers
 					user: this.user
 				}, {
 					fields: {
-					  name: 1
+						name: 1
 					}
-				});
-		return user?.name;
+				})
+		return user?.name
 
 if Meteor.isServer
-	db.space_user_signs.allow 
+	db.space_user_signs.allow
 		insert: (userId, doc) ->
 			if (!Steedos.isSpaceAdmin(doc.space, userId))
 				return false
@@ -84,7 +84,7 @@ if Meteor.isServer
 			else
 				return true
 
-if (Meteor.isServer) 
+if (Meteor.isServer)
 
 	db.space_user_signs.before.insert (userId, doc) ->
 		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
@@ -100,7 +100,7 @@ if (Meteor.isServer)
 			throw new Meteor.Error(400, "spaceUserSigns_error_user_sign_exists");
 
 	db.space_user_signs.before.update (userId, doc, fieldNames, modifier, options) ->
-		
+
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 		if (!Steedos.isLegalVersion(doc.space,"workflow.professional"))
@@ -134,10 +134,10 @@ new Tabular.Table
 					user: doc.user
 				}, {
 					fields: {
-					  name: 1
+						name: 1
 					}
-				});
-				return user?.name;
+				})
+				return user?.name
 		}
 		{
 			data: "sign"

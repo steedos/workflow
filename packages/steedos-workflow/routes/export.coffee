@@ -41,7 +41,7 @@ Meteor.startup ->
 				})
 				return;
 
-			space = db.spaces.findOne({_id: form.space})
+			space = db.spaces.findOne(form.space, { fields: { is_paid: 1 } })
 			if !space?.is_paid
 				JsonRoutes.sendResult res,
 					code: 404,

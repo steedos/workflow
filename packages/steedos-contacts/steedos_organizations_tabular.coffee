@@ -96,7 +96,7 @@ TabularTables.steedosContactsOrganizations = new Tabular.Table({
 					modifyPassword = ""
 
 
-				if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+				if Steedos.isSpaceAdmin() || Session.get('contacts_is_org_admin')
 					if doc.invite_state == "pending" or doc.invite_state == "refused"
 						html = """
 							<div class="edit-person">

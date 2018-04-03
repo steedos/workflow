@@ -74,7 +74,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 								appr.cost_time = appr.finish_date - appr.start_date
 						# 在同一trace下插入取回操作者的approve记录
 						current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
-						current_user_organization = db.organizations.findOne(current_space_user.organization)
+						current_user_organization = db.organizations.findOne(current_space_user.organization, { fields: { name: 1, fullname: 1 } })
 						retrieve_appr = new Object
 						retrieve_appr._id = new Mongo.ObjectID()._str
 						retrieve_appr.instance = instance_id
@@ -125,7 +125,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				newApprove.is_finished = false
 				newApprove.user = current_user
 
-				handler_info = db.users.findOne(current_user)
+				handler_info = db.users.findOne(current_user, { fields: { name: 1 } })
 				newApprove.user_name = handler_info.name
 				newApprove.handler = current_user
 				newApprove.handler_name = handler_info.name

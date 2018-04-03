@@ -24,7 +24,7 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 
 	spaceId = req.query?.space;
 
-	space = db.spaces.findOne({_id: spaceId})
+	space = db.spaces.findOne(spaceId, { fields: { is_paid: 1 } })
 
 	if !space?.is_paid
 		JsonRoutes.sendResult res,

@@ -1,5 +1,5 @@
 Meteor.methods({
-	forward_instance: function(instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, from_approve_id) {
+	forward_instance: function (instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related, from_approve_id) {
 		if (!this.userId)
 			return;
 
@@ -35,7 +35,7 @@ Meteor.methods({
 
 		// 校验分发对象是否有分发流程的提交权限
 		var no_permission_user_ids = new Array();
-		_.each(forward_users, function(uid) {
+		_.each(forward_users, function (uid) {
 			var permissions = permissionManager.getFlowPermissions(flow_id, uid);
 			if (!permissions.includes("add")) {
 				// throw new Meteor.Error('error!', "该申请人没有提交此申请单的权限。")
@@ -52,7 +52,7 @@ Meteor.methods({
 				fields: {
 					name: 1
 				}
-			}).forEach(function(u) {
+			}).forEach(function (u) {
 				no_permission_users_name.push(u.name);
 			});
 			throw new Meteor.Error('no_permission', "该提交人没有提交此申请单的权限。", no_permission_users_name.join(','))
@@ -62,9 +62,9 @@ Meteor.methods({
 
 		var current_trace = null;
 		if (action_type == "distribute") {
-			_.each(ins.traces, function(t) {
+			_.each(ins.traces, function (t) {
 				if (!current_trace) {
-					_.each(t.approves, function(a) {
+					_.each(t.approves, function (a) {
 						if (!current_trace) {
 							if (a._id == from_approve_id)
 								current_trace = t;
@@ -102,36 +102,36 @@ Meteor.methods({
 			old_fields = old_form.current.fields;
 		} else {
 			if (old_form.historys) {
-				old_form.historys.forEach(function(h) {
+				old_form.historys.forEach(function (h) {
 					if (h._id == old_form_version)
 						old_fields = h.fields;
 				})
 			}
 		}
 
-		fields.forEach(function(field) {
-			var exists_field = _.find(old_fields, function(f) {
+		fields.forEach(function (field) {
+			var exists_field = _.find(old_fields, function (f) {
 				return f.type == field.type && f.code == field.code;
 			})
 			if (exists_field)
 				common_fields.push(field);
-			var select_input_field = _.find(old_fields, function(f) {
+			var select_input_field = _.find(old_fields, function (f) {
 				return f.type == 'select' && field.type == 'input' && f.code == field.code;
 			})
 			if (select_input_field)
 				select_to_input_fields.push(select_input_field);
 		})
 
-		select_to_input_fields.forEach(function(field) {
+		select_to_input_fields.forEach(function (field) {
 			if (old_values[field.code]) {
 				new_values[field.code] = old_values[field.code];
 			}
 		})
 
-		common_fields.forEach(function(field) {
+		common_fields.forEach(function (field) {
 			if (field.type == 'section') {
 				if (field.fields) {
-					field.fields.forEach(function(f) {
+					field.fields.forEach(function (f) {
 						// 跨工作区转发不复制选人选组
 						if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
 							return;
@@ -160,11 +160,11 @@ Meteor.methods({
 			} else if (field.type == 'table') {
 				if (!_.isEmpty(old_values[field.code])) {
 					new_values[field.code] = new Array;
-					old_values[field.code].forEach(function(old_table_row_values) {
+					old_values[field.code].forEach(function (old_table_row_values) {
 						var new_table_row_values = {};
 
 						if (!_.isEmpty(field.fields)) {
-							field.fields.forEach(function(f) {
+							field.fields.forEach(function (f) {
 								// 跨工作区转发不复制选人选组
 								if (['group', 'user'].includes(f.type) && old_space_id != space_id) {
 									return;
@@ -225,7 +225,7 @@ Meteor.methods({
 		})
 
 		//如果是分发，则value中的record_need、FONDSID不需要分发到新申请单中
-		if(action_type === 'distribute'){
+		if (action_type === 'distribute') {
 			delete new_values.record_need;
 			delete new_values.FONDSID;
 		}
@@ -242,10 +242,9 @@ Meteor.methods({
 		}
 
 		// instance中记录当前步骤名称 #1314
-		var start_step = _.find(flow.current.steps, function (step){
+		var start_step = _.find(flow.current.steps, function (step) {
 			return step.step_type == 'start';
-			}
-		)
+		})
 
 		// 新建申请单时，instances记录流程名称、流程分类名称 #1313
 		var category_name = "";
@@ -255,15 +254,26 @@ Meteor.methods({
 				category_name = category.name;
 		}
 
-		_.each(forward_users, function(user_id) {
+		_.each(forward_users, function (user_id) {
 
 			var user_info = db.users.findOne(user_id);
 
 			var space_user = db.space_users.findOne({
 				space: space_id,
 				user: user_id
+			}, {
+				fields: {
+					organization: 1
+				}
 			});
-			var space_user_org_info = db.organizations.findOne(space_user.organization);
+			var space_user_org_info = db.organizations.findOne({
+				_id: space_user.organization
+			}, {
+				fields: {
+					name: 1,
+					fullname: 1
+				}
+			});
 
 			var now = new Date();
 			var ins_obj = {};
@@ -318,7 +328,7 @@ Meteor.methods({
 
 			// 当前最新版flow中开始节点的step_id
 			var step_id, step_name, can_edit_main_attach, can_edit_normal_attach;
-			flow.current.steps.forEach(function(step) {
+			flow.current.steps.forEach(function (step) {
 				if (step.step_type == "start") {
 					step_id = step._id;
 					step_name = step.name;
@@ -378,7 +388,7 @@ Meteor.methods({
 				var instanceFile = new FS.File();
 				instanceFile.attachData(Buffer.from(instanceHtml, "utf-8"), {
 					type: "text/html"
-				}, function(error) {
+				}, function (error) {
 					if (error) {
 						throw new Meteor.Error(error.error, error.reason);
 					}
@@ -413,7 +423,7 @@ Meteor.methods({
 					'metadata.instance': instance_id,
 					'metadata.current': true
 				});
-				files.forEach(function(f) {
+				files.forEach(function (f) {
 					// 判断新的流程开始节点是否有编辑正文和编辑附件权限
 					if (f.metadata.main == true) {
 						if (can_edit_main_attach != true && can_edit_normal_attach != true)
@@ -426,7 +436,7 @@ Meteor.methods({
 					var newFile = new FS.File();
 					newFile.attachData(f.createReadStream('instances'), {
 						type: f.original.type
-					}, function(err) {
+					}, function (err) {
 						if (err) {
 							throw new Meteor.Error(err.error, err.reason);
 						}
@@ -502,7 +512,7 @@ Meteor.methods({
 		});
 
 		if (r) {
-			_.each(current_trace.approves, function(a, idx) {
+			_.each(current_trace.approves, function (a, idx) {
 				if (a._id == from_approve_id) {
 					var update_read = {};
 					update_read["traces.$.approves." + idx + ".read_date"] = new Date();
@@ -521,7 +531,7 @@ Meteor.methods({
 	},
 
 
-	forward_remove: function(instance_id, trace_id, approve_id) {
+	forward_remove: function (instance_id, trace_id, approve_id) {
 		check(instance_id, String);
 		check(trace_id, String);
 		check(approve_id, String);
@@ -532,11 +542,11 @@ Meteor.methods({
 			throw new Meteor.Error('params error!', 'record not exists!');
 		}
 
-		var trace = _.find(ins.traces, function(t) {
+		var trace = _.find(ins.traces, function (t) {
 			return t._id == trace_id;
 		});
 
-		var approve = _.find(trace.approves, function(appr) {
+		var approve = _.find(trace.approves, function (appr) {
 			return appr._id == approve_id;
 		})
 
@@ -567,7 +577,7 @@ Meteor.methods({
 				});
 
 				// 删除申请单后重新计算inbox_users的badge
-				_.each(inbox_users, function(u_id) {
+				_.each(inbox_users, function (u_id) {
 					pushManager.send_message_to_specifyUser("current_user", u_id);
 				})
 			}
@@ -577,7 +587,7 @@ Meteor.methods({
 		set_obj.modified = new Date();
 		set_obj.modified_by = this.userId;
 
-		_.each(trace.approves, function(appr, idx) {
+		_.each(trace.approves, function (appr, idx) {
 			if (appr._id == approve_id) {
 				set_obj['traces.$.approves.' + idx + '.judge'] = 'terminated';
 				set_obj['traces.$.approves.' + idx + '.is_finished'] = true;
@@ -597,7 +607,7 @@ Meteor.methods({
 		return true;
 	},
 
-	cancelDistribute: function(instance_id, approve_ids) {
+	cancelDistribute: function (instance_id, approve_ids) {
 		check(instance_id, String)
 		check(approve_ids, Array)
 
@@ -611,11 +621,11 @@ Meteor.methods({
 
 		var hasAdminPermission = WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, userId)
 
-		_.each(ins.traces, function(t) {
+		_.each(ins.traces, function (t) {
 			if (t.approves) {
 				var exists = false
 				var set_obj = new Object
-				_.each(t.approves, function(a, idx) {
+				_.each(t.approves, function (a, idx) {
 					if (approve_ids.includes(a._id) && (a.from_user == userId || hasAdminPermission) && 'distribute' == a.type && a.forward_instance) {
 						var forward_instance_id = a.forward_instance
 						var forward_instance = db.instances.findOne(forward_instance_id)
@@ -634,7 +644,7 @@ Meteor.methods({
 								})
 
 								// 删除申请单后重新计算inbox_users的badge
-								_.each(inbox_users, function(u_id) {
+								_.each(inbox_users, function (u_id) {
 									pushManager.send_message_to_specifyUser("current_user", u_id)
 								})
 							}
