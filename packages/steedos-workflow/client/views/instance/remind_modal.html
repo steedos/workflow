@@ -17,7 +17,9 @@
                         </div>
                         <div class="form-group">
                             <label for="instance_remind_select_users" class="control-label">{{_ 'instance_remind_select_users'}}</label>
-                            {{>afSelectUser user_context}}
+                            {{#with user_context action_types}}
+                                {{>afSelectUser user_context ../action_types}}
+                            {{/with}}
                         </div>
                         <div class="form-group">
                             <label for="instance_remind_count" class="control-label">{{_ 'instance_remind_count'}}</label>
