@@ -2,17 +2,21 @@
 	<div class="row">
 		<div class="col-md-12" style="margin-bottom: 5px">
 			<div class="box-tools pull-right">
-				<div class="has-feedback">
+				<div class="input-group">
 					<input type="text" name="related_instances_list_search_key" id="related_instances_list_search_key" class="form-control cf-contact-list-search-key" placeholder='{{_ "Search"}}...'>
-					<span class="glyphicon glyphicon-search form-control-feedback"></span>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="related_instances_list_search_btn">
+							<i class="fa fa-search"></i>
+						</button>
+					</span>
 				</div>
 			</div>
 			<div class="pull-right hidden-xs instance-state-group" role="group">
 				<label class="radio-inline" >
-					<input type="radio" name="instance_state" class="instance-state" value="pending">流转中
+					<input type="radio" name="instance_state" class="instance-state" value="pending">{{_ "instance_search_state_options.pending"}}
 				</label>
 				<label class="radio-inline" >
-					<input type="radio" name="instance_state" class="instance-state" value="completed">已结束
+					<input type="radio" name="instance_state" class="instance-state" value="completed">{{_ "instance_search_state_options.completed"}}
 				</label>
 			</div>
 			<div class="pull-right hidden-xs" role="group">
