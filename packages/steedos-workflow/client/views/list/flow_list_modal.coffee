@@ -47,5 +47,9 @@ Template.flow_list_modal.events
 			else
 				Session.set("categorie_id", categorie);
 
+	'hide.bs.modal #flow_list_box': (event, template) ->
+		Modal.allowMultiple = false;
+		return true;
+
 'click #export_filter_help': (event, template) ->
 	Steedos.openWindow(t("export_filter_help"));
