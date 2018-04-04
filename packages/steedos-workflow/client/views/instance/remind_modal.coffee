@@ -164,7 +164,7 @@ Template.remind_modal.events
 		if !Steedos.isLegalVersion('', "workflow.professional")
 				Steedos.spaceUpgradedModal()
 				return
-		values = $("#instance_remind_select_users")[0].dataset.values
+		values = $("#instance_remind_select_users")[0]?.dataset.values
 		remind_users = if values then values.split(",") else []
 		remind_count = ''
 		_.each $("[name='remind_count_options']"), (op) ->
