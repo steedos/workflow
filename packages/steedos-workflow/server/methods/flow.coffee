@@ -14,35 +14,35 @@ Meteor.methods
 			state = flow.state
 
 			if !Steedos.isSpaceAdmin(spaceId, _userId)
-				throw  Meteor.Error("No permission")
+				throw  Meteor.Error(401, "No permission")
 
 			form = db.forms.findOne({ _id: formId }, { fields: { historys: 0 } })
 
 			flow = db.flows.findOne({ _id: flowId }, { fields: { historys: 0 } })
 
 			if state != 'enabled' && state != 'disabled'
-				throw  Meteor.Error("state无效")
+				throw new Meteor.Error(500, "state无效")
 
 			if !form
-				throw  Meteor.Error("form无效")
+				throw new Meteor.Error(500, "form无效")
 
 			if !flow
-				throw  Meteor.Error("flow无效")
+				throw new Meteor.Error(500, "flow无效")
 
 			if !form.is_valid
-				throw  Meteor.Error("流程引用的表单[#{form.name}]不合法，请打开流程设计器检查表单设置")
+				throw new Meteor.Error(500, "流程引用的表单[#{form.name}]验证未通过，请打开流程设计器检查表单设置")
 
 			if !flow.is_valid
-				throw  Meteor.Error("流程不合法，请打开流程设计器检查流程设置")
+				throw new Meteor.Error(500, "流程验证未通过，请打开流程设计器检查流程设置")
 
 			if !['new', 'modify', 'delete'].includes(flow.flowtype)
-				throw  Meteor.Error("流程不合法，flowtype值必须是new、modify、delete其中之一")
+				throw new Meteor.Error(500, "流程验证未通过，flowtype值必须是new、modify、delete其中之一")
 
 			if !_.isArray(flow.current.steps)
-				throw  Meteor.Error("流程不合法，流程的步骤不能为空")
+				throw new Meteor.Error(500, "流程验证未通过，流程的步骤不能为空")
 
 			if _.uniq(flow.current.steps, 'name').length != flow.current.steps.length
-				throw  Meteor.Error("流程不合法，同一个流程下的步骤的名称不能重复")
+				throw new Meteor.Error(500, "流程验证未通过，同一个流程下的步骤的名称不能重复")
 
 			now = new Date
 
@@ -51,13 +51,13 @@ Meteor.methods
 				flow.current.steps.forEach (step) ->
 					if ['specifyStepUser', 'specifyStepRole'].includes(step.deal_type)
 						if !step.approver_step
-							throw  Meteor.Error("步骤[#{step.name}]中的指定历史步骤不存在。")
+							throw new Meteor.Error(500, "步骤[#{step.name}]中的指定历史步骤不存在。")
 						else
 							specifyStep = _.find flow.current.steps, (_step) ->
 								return step.approver_step == _step._id
 
 							if !specifyStep
-								throw  Meteor.Error("步骤[#{step.name}]中的指定历史步骤不存在。")
+								throw new Meteor.Error(500, "步骤[#{step.name}]中的指定历史步骤不存在。")
 
 				form_current_fields_code = form.current.fields.getProperty("code")
 

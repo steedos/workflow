@@ -1,10 +1,10 @@
 Template.remind_modal.helpers
-	user_context: () ->
+	user_context: (modal_action_types) ->
 		ins = db.instance_traces.findOne(Session.get('instanceId'))
 
 		users_id = new Array
 		users = new Array
-		action_types = this.action_types.get()
+		action_types = modal_action_types.get()
 
 		if ins and action_types
 			if action_types.includes('admin')
@@ -33,8 +33,11 @@ Template.remind_modal.helpers
 								users_id.push(ap.handler)
 								users.push { id: ap.handler, name: ap.handler_name }
 
+		if users.length is 0 or users_id.length is 0
+			return
+
 		data = {
-			value: users
+			value: users,
 			dataset: {
 				showOrg: false,
 				multiple: true,

@@ -107,7 +107,7 @@ Template.admin_flows.events
 
 			Meteor.call "change_flow_state", data, (error, result)->
 				if error
-					toastr.error 'error'
+					toastr.error error.reason
 
 	'click #flow-list-search-btn': (event) ->
 		dataTable = $(".flow-list").DataTable()

@@ -11,7 +11,7 @@ Template.flow_list_modal.helpers
 		return a == b;
 
 	isChecked: (a)->
-		flowId = Template.instance().data.flowId
+		flowId = Template.instance().data?.flowId
 		if !flowId
 			flowId = Session.get("flowId")
 		return flowId == a;
@@ -46,6 +46,10 @@ Template.flow_list_modal.events
 				Session.set("categorie_id", undefined);
 			else
 				Session.set("categorie_id", categorie);
+
+	'hide.bs.modal #flow_list_box': (event, template) ->
+		Modal.allowMultiple = false;
+		return true;
 
 'click #export_filter_help': (event, template) ->
 	Steedos.openWindow(t("export_filter_help"));
