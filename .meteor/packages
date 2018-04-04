@@ -186,3 +186,5 @@ steedos:i18n-iso-countries
 
 
 steedos:oauth2-server@0.0.4
+
+steedos:heapdump
