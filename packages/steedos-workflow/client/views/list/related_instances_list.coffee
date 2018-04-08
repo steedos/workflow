@@ -31,7 +31,7 @@ Template.related_instances_list.helpers
 
 
 Template.related_instances_list.events
-	'input #related_instances_list_search_key': (event, template) ->
+	'click #related_instances_list_search_btn': (event, template) ->
 		if $("#related_instances_list_search_key").val() && $("#related_instances_list_search_key").val().length > 1
 			dataTable = $(".related-instances-table").DataTable();
 			dataTable.search(
