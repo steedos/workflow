@@ -5,6 +5,14 @@
                 display: none;
             }
         }
+        .at-form {
+            img.logo{
+                display: none;
+            }
+            .at-title h3 {
+                display: block !important;
+            }
+        }
     }
     .main-header {
         .navbar {
@@ -12,15 +20,15 @@
                 //加上以下这段定制的css，目的是为fssh只显示顶部首页及active项
                 //加上后所有li会莫名的加上display: list-item的行样式，估计是编译器或浏览器的bug，不过不影响实际效果
                 li {
-                    display: none!important;
+                    display: none !important;
                     &.active {
-                        display: inline-block!important;
+                        display: inline-block !important;
                     }
                     &:first-child {
-                        display: inline-block!important;
+                        display: inline-block !important;
                     }
                     &:nth-child(2) {
-                        display: inline-block!important;
+                        display: inline-block !important;
                     }
                 }
             }
@@ -39,9 +47,9 @@
         }
     }
     .fssh-show {
-        display: inline!important;
+        display: inline !important;
         &.hide {
-            display: inline!important;
+            display: inline !important;
         }
     }
 }
