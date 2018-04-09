@@ -1,5 +1,5 @@
 Package.describe({
-	name: 'steedos:authenticate-user-by-auth-token',
+	name: 'steedos:api-authenticate-user',
 	version: '1.0.0',
 
 	// Brief, one-line summary of the package.
@@ -22,5 +22,7 @@ Package.onUse(function (api) {
 		'simple:json-routes@2.1.0',
 	], 'server');
 
-	api.addFiles('auth_by_auth_token.coffee', 'server');
+	api.addFiles('auth_user.coffee', 'server');
+	api.addFiles('routes_middleware_config.coffee', 'server');
+
 });

@@ -86,8 +86,8 @@ Template.relocate_modal.events({
                 if (next_step_users.length == 1) {
                     relocate_users.value = next_step_users[0].name;
                     relocate_users.dataset.values = next_step_users[0].id;
-                    $(relocate_users).change();
                 }
+                $(relocate_users).change();
             } else {
                 delete relocate_users.dataset.userOptions;
                 relocate_users.dataset.showOrg = true;
@@ -95,6 +95,7 @@ Template.relocate_modal.events({
                     var ref, ref1, ref2;
                     relocate_users.dataset.is_within_user_organizations = ((ref = Meteor.settings) != null ? (ref1 = ref["public"]) != null ? (ref2 = ref1.workflow) != null ? ref2.user_selection_within_user_organizations : void 0 : void 0 : void 0) || false;
                 }
+                $(relocate_users).change();
             }
         } else {
             $("#relocate_users_p").css("display", "");

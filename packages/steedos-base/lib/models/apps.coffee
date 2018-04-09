@@ -130,7 +130,7 @@ if Meteor.isServer
 
 	db.apps.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$set = modifier.$set || {};
-		modifier.$unset = modifier.$unset || {};
+		# modifier.$unset = modifier.$unset || {};
 
 		# if modifier.$set.url
 		# 	modifier.$set.internal = db.apps.isInternalApp(modifier.$set.url)

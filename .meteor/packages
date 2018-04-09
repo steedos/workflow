@@ -175,8 +175,10 @@ steedos:datatables-extensions
 chuangbo:cookie
 # steedos:express-status-monitor
 
-steedos:authenticate-user-by-access-token
-steedos:authenticate-user-by-auth-token
+# steedos:authenticate-user-by-access-token
+# steedos:authenticate-user-by-auth-token
+
+steedos:api-authenticate-user
 
 steedos:huaweipush
 
@@ -184,6 +186,6 @@ steedos:e164-phones-countries
 steedos:i18n-iso-countries
 
 
-#steedos:oauth2-server@0.0.4
+# steedos:oauth2-server
 
 #steedos:heapdump
