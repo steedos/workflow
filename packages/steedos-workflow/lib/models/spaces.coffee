@@ -2,24 +2,24 @@ if Meteor.isServer
 
 	db.spaces.createTemplateFormAndFlow = (space_id) ->
 
-		if db.forms.find({space: space_id}).count()>0
-			return false;
+		if db.forms.find({ space: space_id }).count() > 0
+			return false
 
-		space = db.spaces.findOne(space_id)
+		space = db.spaces.findOne(space_id, { fields: { owner: 1 } })
 		if !space
-			return false;
+			return false
 		owner_id = space.owner
 
-		user = db.users.findOne(space.owner)
+		user = db.users.findOne(space.owner, { fields: { locale: 1 } })
 		if !user
 			reurn false
 
-		root_org = db.organizations.findOne({space: space_id, is_company: true})
+		root_org = db.organizations.findOne({ space: space_id, is_company: true })
 		if !root_org
-			return false;
+			return false
 
-		if db.forms.find({space: space_id}).count()>0
-			return;
+		if db.forms.find({ space: space_id }).count() > 0
+			return
 
 		template_forms = []
 
@@ -29,8 +29,8 @@ if Meteor.isServer
 			template_forms = EJSON.clone(workflowTemplate["en"])
 
 		if template_forms && template_forms instanceof Array
-			template_forms.forEach (form)->
-				steedosImport.workflow(owner_id, space_id, form, true);
+			template_forms.forEach (form) ->
+				steedosImport.workflow(owner_id, space_id, form, true)
 
 		# 根据locale和模板创建表单流程
 #		template_space_id = null

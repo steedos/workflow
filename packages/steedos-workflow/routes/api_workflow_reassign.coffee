@@ -12,7 +12,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			uuflowManager.isInstancePending(instance)
 			# 验证当前执行转签核的trace未结束
 			last_trace_from_client = _.last(instance_from_client["traces"])
-			last_trace = _.find(instance.traces, (t)->
+			last_trace = _.find(instance.traces, (t) ->
 				return t._id is last_trace_from_client["_id"]
 			)
 			if last_trace.is_finished is true
@@ -20,7 +20,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 
 			# 验证login user_id对该流程有管理申请单的权限
 			permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
-			space = db.spaces.findOne(space_id)
+			space = db.spaces.findOne({ _id: space_id }, { fields: { admins: 1 } })
 			if (not permissions.includes("admin")) and (not space.admins.includes(current_user))
 				throw new Meteor.Error('error!', "用户没有对当前流程的管理权限")
 
@@ -45,7 +45,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				i++
 			# 在同一trace下插入转签核操作者的approve记录
 			current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
-			current_user_organization = db.organizations.findOne(current_space_user.organization)
+			current_user_organization = db.organizations.findOne({ _id: current_space_user.organization }, { fields: { name: 1, fullname: 1 } })
 			assignee_appr = new Object
 			assignee_appr._id = new Mongo.ObjectID()._str
 			assignee_appr.instance = last_trace.instance
@@ -70,10 +70,10 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			assignee_appr.cost_time = assignee_appr.finish_date - assignee_appr.start_date
 			last_trace.approves.push(assignee_appr)
 			# 对新增的每位待审核人，各增加一条新的approve
-			_.each(new_inbox_users, (user_id)->
-				new_user = db.users.findOne(user_id)
+			_.each(new_inbox_users, (user_id) ->
+				new_user = db.users.findOne(user_id, { fields: { name: 1 } })
 				space_user = uuflowManager.getSpaceUser(space_id, user_id)
-				user_organization = db.organizations.findOne(space_user.organization)
+				user_organization = db.organizations.findOne(space_user.organization, { fields: { name: 1, fullname: 1 } })
 				new_appr = new Object
 				new_appr._id = new Mongo.ObjectID()._str
 				new_appr.instance = last_trace.instance
@@ -104,12 +104,12 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			setObj.modified = now
 			setObj.modified_by = current_user
 			setObj["traces.$.approves"] = last_trace.approves
-			r = db.instances.update({_id: instance_id, "traces._id": last_trace._id}, {$set: setObj})
+			r = db.instances.update({ _id: instance_id, "traces._id": last_trace._id }, { $set: setObj })
 			if r
 				ins = uuflowManager.getInstance(instance_id)
 				# 给被删除的inbox_users 和 当前用户 发送push
 				pushManager.send_message_current_user(current_user_info)
-				_.each(not_in_inbox_users, (user_id)->
+				_.each(not_in_inbox_users, (user_id) ->
 					if user_id isnt current_user
 						pushManager.send_message_to_specifyUser("current_user", user_id)
 				)
@@ -118,7 +118,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				_users.push(ins.applicant)
 				_users.push(ins.submitter)
 				_users = _.uniq(_users.concat(ins.outbox_users))
-				_.each(_users, (user_id)->
+				_.each(_users, (user_id) ->
 					pushManager.send_message_to_specifyUser("current_user", user_id)
 				)
 
@@ -126,13 +126,15 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				pushManager.send_instance_notification("reassign_new_inbox_users", ins, reassign_reason, current_user_info)
 
 				# 如果已经配置webhook并已激活则触发
-				pushManager.triggerWebhook(ins.flow, ins, {}, 'reassign')
+				pushManager.triggerWebhook(ins.flow, ins, {}, 'reassign', current_user, ins.inbox_users)
 
-		JsonRoutes.sendResult res,
-				code: 200
-				data: {}
+		JsonRoutes.sendResult res, {
+			code: 200
+			data: {}
+		}
 	catch e
 		console.error e.stack
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { errors: [{errorMessage: e.message}] }
+			data: { errors: [{ errorMessage: e.message }] }
+		}

@@ -152,18 +152,13 @@ Meteor.startup ()->
 			if !space
 				throw new Meteor.Error(400, "space_users_error_space_not_found");
 
-			# 要添加用户，需要至少有一个组织权限
-			# if space.admins.indexOf(userId) < 0
-			# 	isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-			# 	unless isOrgAdmin
-			# 		throw new Meteor.Error(400, "organizations_error_org_admins_only")
-
 			# 将用户添加到相应组织，需要组织的权限
-			if !doc.is_registered_from_space
+			if !doc.is_registered_from_space and !doc.is_logined_from_space
 				if space.admins.indexOf(userId) < 0
+					# 要添加用户，需要至少有一个组织权限
 					isAllOrgAdmin = Steedos.isOrgAdminByAllOrgIds doc.organizations, userId
 					unless isAllOrgAdmin
-						throw new Meteor.Error(400, "您没有该组织的权限，不能添加成员到该组织")
+						throw new Meteor.Error(400, "organizations_error_org_admins_only")
 
 			# 检验手机号和邮箱是不是指向同一个用户(只有手机和邮箱都填写的时候才需要校验)
 			selector = []
@@ -305,80 +300,73 @@ Meteor.startup ()->
 			db.space_users.insertVaildate(userId, doc)
 
 			creator = db.users.findOne(userId)
-			
-			if !doc.is_registered_from_space and !doc.is_logined_from_space
-			# only space admin or org admin can insert space_users
-				if space.admins.indexOf(userId) < 0
-					# 要添加用户，需要至少有一个组织权限
-					isOrgAdmin = Steedos.isOrgAdminByOrgIds doc.organizations,userId
-					unless isOrgAdmin
-						throw new Meteor.Error(400, "organizations_error_org_admins_only")
-				creator = db.users.findOne(userId)
-			# console.log "doc"
-			# console.log JSON.stringify(userObj)
 
-				if (!doc.user) && (doc.email || doc.mobile)
-					# 新建用户时，用户的手机号前缀用当前创建人的手机号前缀
-					currentUserPhonePrefix = Accounts.getPhonePrefix userId
-					if doc.email && doc.mobile
-						phoneNumber = currentUserPhonePrefix + doc.mobile
-						userObjs = db.users.find({
-							$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
-						}).fetch()
-						if userObjs.length > 1
-							throw new Meteor.Error(400,"contact_mail_not_match_phine")
-						else
-							userObj = userObjs[0]
-
-					else if doc.email
-						userObj = db.users.findOne({"emails.address": doc.email})
-					else if doc.mobile
-						phoneNumber = currentUserPhonePrefix + doc.mobile
-						userObj = db.users.findOne({"phone.number": phoneNumber})
-
-					if (userObj)
-						# 设置spaceUser初始状态，同步name和user字段，默认状态待反馈
-						doc.user = userObj._id
-						doc.name = userObj.name
-						if !doc.invite_state
-							doc.invite_state = "pending"
-						if !doc.user_accepted
-							doc.user_accepted = false
+			if (!doc.user) && (doc.email || doc.mobile)
+				# 新建用户时，用户的手机号前缀用当前创建人的手机号前缀
+				currentUserPhonePrefix = Accounts.getPhonePrefix userId
+				if doc.email && doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
+					userObjs = db.users.find({
+						$or:[{"emails.address": doc.email}, {"phone.number": phoneNumber}]
+					}).fetch()
+					if userObjs.length > 1
+						throw new Meteor.Error(400,"contact_mail_not_match_phine")
 					else
-						# 设置设置spaceUser初始状态，默认状态接受邀请
-						if !doc.invite_state
-							doc.invite_state = "accepted"
-						if !doc.user_accepted
-							doc.user_accepted = true
-						if !doc.name
-							doc.name = doc.email.split('@')[0]
+						userObj = userObjs[0]
 
-						# 将用户插入到users表
-						user = {}
+				else if doc.email
+					userObj = db.users.findOne({"emails.address": doc.email})
+				else if doc.mobile
+					phoneNumber = currentUserPhonePrefix + doc.mobile
+					userObj = db.users.findOne({"phone.number": phoneNumber})
 
-						id = db.users._makeNewID()
+				if (doc.is_registered_from_space || doc.is_logined_from_space) || !userObj
+					# 如果是工作区特定url注册进来的或者管理员添加了一个全新的用户，直接设置为默认状态接受邀请
+					# 设置设置spaceUser初始状态，默认状态接受邀请
+					if !doc.invite_state
+						doc.invite_state = "accepted"
+					if !doc.user_accepted
+						doc.user_accepted = true
+				else
+					# 设置spaceUser初始状态，同步name和user字段，默认状态待反馈
+					if !doc.invite_state
+						doc.invite_state = "pending"
+					if !doc.user_accepted
+						doc.user_accepted = false
 
-						options =
-							name: doc.name
-							locale: creator.locale
-							spaces_invited: [space._id]
-							_id: id
-							steedos_id: doc.email || id
+				if (userObj)
+					doc.user = userObj._id
+					doc.name = userObj.name
+				else
+					if !doc.name
+						doc.name = doc.email.split('@')[0]
 
-						if doc.mobile
-							phoneNumber = currentUserPhonePrefix + doc.mobile
-							phone =
-								number: phoneNumber
-								mobile: doc.mobile
-								verified: false
-								modified: new Date()
-							options.phone = phone
+					# 将用户插入到users表
+					user = {}
 
-						if doc.email
-							email = [{address: doc.email, verified: false}]
-							options.emails = email
+					id = db.users._makeNewID()
 
-						doc.user = db.users.insert options
+					options =
+						name: doc.name
+						locale: creator.locale
+						spaces_invited: [doc.space]
+						_id: id
+						steedos_id: doc.email || id
+
+					if doc.mobile
+						phoneNumber = currentUserPhonePrefix + doc.mobile
+						phone =
+							number: phoneNumber
+							mobile: doc.mobile
+							verified: false
+							modified: new Date()
+						options.phone = phone
+
+					if doc.email
+						email = [{address: doc.email, verified: false}]
+						options.emails = email
+
+					doc.user = db.users.insert options
 
 			if !doc.user
 				throw new Meteor.Error(400, "space_users_error_user_required");

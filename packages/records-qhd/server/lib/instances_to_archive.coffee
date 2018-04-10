@@ -166,7 +166,7 @@ _minxiInstanceData = (formData, instance) ->
 		mainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
 			try
-				filepath = path.join(absolutePath, f.copies.instances.key);
+				filepath = path.join(absolutePath, fh.copies.instances.key);
 				if fs.existsSync(filepath)
 					formData.attach.push {
 						value: fs.createReadStream(filepath),
@@ -205,7 +205,7 @@ _minxiInstanceData = (formData, instance) ->
 		nonMainFileHistory.forEach (fh, i) ->
 			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
 			try
-				filepath = path.join(absolutePath, f.copies.instances.key);
+				filepath = path.join(absolutePath, fh.copies.instances.key);
 				if fs.existsSync(filepath)
 					formData.attach.push {
 						value: fs.createReadStream(filepath),
@@ -390,7 +390,7 @@ InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
-			InstancesToArchive.failed instance, httpResponse
+			InstancesToArchive.failed instance, httpResponse?.body
 
 		httpResponse = null
 	else

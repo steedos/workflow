@@ -61,7 +61,7 @@ if Meteor.isServer
 			instances = new Array();
 
 			if instanceId
-				instance = db.instances.findOne({_id: instanceId})
+				instance = db.instances.findOne(instanceId, { fields: { related_instances: 1 } })
 				if instance
 					selectedOPtions = instance.related_instances
 
@@ -89,7 +89,7 @@ if Meteor.isServer
 	# 全文检索同步字段置位unset
 	db.instances.before.update (userId, doc, fieldNames, modifier, options) ->
 		modifier.$unset = modifier.$unset || {};
-		modifier.$unset.is_recorded = 1;	
+		modifier.$unset.is_recorded = 1;
 
 if Meteor.isServer
 	db.instances._ensureIndex({

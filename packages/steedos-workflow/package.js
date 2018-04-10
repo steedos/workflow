@@ -64,16 +64,20 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
+<<<<<<< HEAD
 	api.use('steedos:authenticate-user-by-access-token');
 	api.use('steedos:authenticate-user-by-auth-token');
 	// api.use('steedos:app-workflow');
+=======
+	api.use('steedos:api-authenticate-user');
+>>>>>>> master
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.addFiles('server/routes_middleware_config.coffee', 'server');
+	// api.addFiles('server/routes_middleware_config.coffee', 'server');
 
 	// COMMON
 	api.addFiles('lib/collection_helpers.js');
@@ -301,6 +305,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.less', 'client');
 	api.addFiles('client/views/list/admin_flows_roles_detail_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/related_instances_list.html', 'client');
+	api.addFiles('client/views/list/related_instances_list.coffee', 'client');
 	api.addFiles('client/views/list/related_instances_modal.less', 'client');
 	api.addFiles('client/views/list/related_instances_modal.html', 'client');
 	api.addFiles('client/views/list/related_instances_modal.coffee', 'client');
@@ -401,6 +407,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
 
+	api.addFiles('routes/test_webhook.coffee', 'server');
+
 	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
 	api.addFiles('server/lib/get_handlers_manager.coffee', 'server');
@@ -424,9 +432,11 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/instance_tabular.coffee', 'server');
 	api.addFiles('server/publications/instance_draft.coffee', 'server');
 	api.addFiles('server/publications/distributed_instances_state_by_ids.coffee', 'server');
+	api.addFiles('server/publications/related_instaces.coffee', 'server');
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
+	// api.addFiles('server/err_stack.coffee', 'server');
 
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');
@@ -437,6 +447,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('lib/admin.coffee');
 
+	api.addFiles('related_instances_tabular.coffee');
 	api.addFiles('tabular.coffee');
 
 	api.addFiles('client/views/instance/instance_sign_text.html', 'client');

@@ -77,7 +77,7 @@ Steedos.Helpers =
 
 	# 10分钟更新一次moment结果
 	momentReactiveFromNow: (time)->
-		Steedos.deps?.miniute?.depend()
+		#Steedos.deps?.miniute?.depend()
 		return Steedos.momentFromNow(time)
 
 	afModalInsert: ->
@@ -226,17 +226,18 @@ TemplateHelpers =
 		if !spaceId
 			Session.set("spaceId", null)
 			localStorage.removeItem("spaceId:" + Meteor.userId())
+			localStorage.removeItem("spaceId")
 		else if spaceId != Session.get("spaceId")
 			Session.set("flowId", undefined);
 			Session.set("spaceId", spaceId)
-			localStorage.setItem("spaceId:" + Meteor.userId(), spaceId)
+			localStorage.setItem("spaceId", spaceId)
 			Steedos.checkSpaceBalance spaceId
 
 	getSpaceId: ()->
 		# find space from session and local storage
 		spaceId = Session.get("spaceId")
 		if !spaceId
-			spaceId = localStorage.getItem("spaceId:" + Meteor.userId())
+			spaceId = localStorage.getItem("spaceId")
 
 		# check space exists
 		if spaceId

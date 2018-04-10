@@ -118,6 +118,9 @@
       "folder": "xxxxxx",
       "accessKeyId": "xxxxxx",
       "secretAccessKey": "xxxxxx"
+    },
+    "worker": {
+      "enabled": true
     }
   },
   "cron": {

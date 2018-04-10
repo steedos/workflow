@@ -137,7 +137,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 						)
 
 					# 如果已经配置webhook并已激活则触发
-					pushManager.triggerWebhook(ins.flow, ins, {}, 'terminate')
+					pushManager.triggerWebhook(ins.flow, ins, {}, 'terminate', current_user, [])
 
 		#发送消息给当前用户
 		pushManager.send_message_current_user(current_user_info)

@@ -5,5 +5,7 @@
 	"users_error_steedos_id_readonly": "平台账户无法修改",
 	"users_error": {
 		"steedos_id_required": "平台账户不能为空"
-	}
+	},
+	"Username_and_email": "用户名或邮件",
+	"login_title": "登录"
 }

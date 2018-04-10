@@ -15,7 +15,8 @@ Template.atTitle.helpers({
 		if(Steedos){
 			var spaceId = Steedos.getSpaceId();
 			var space = db.spaces.findOne(spaceId);
-			if(space && space.avatar){
+			// 如果是定制的Theme，则不使用上传的工作区LOOG图标
+			if (!Theme.is_customized && space && space.avatar){
 				return Steedos.absoluteUrl("/api/files/avatars/@%".replace("@%",space.avatar))
 			}
 			else{
@@ -35,14 +36,15 @@ Template.atTitle.helpers({
 
 Template.atTitle.onCreated(function(){
 	var route = FlowRouter.current();
-	if(/\/steedos\/sign-in\b|up\b/.test(route.path)){
+	var paramSpaceId = route.queryParams.spaceId;
+	if (paramSpaceId){
+		paramSpaceId = paramSpaceId.trim ? paramSpaceId.trim() : paramSpaceId;
+	}
+	if (/\/steedos\/sign-in\b|up\b/.test(route.path) && paramSpaceId == ""){
 		// 只有登录和注册界面没有spaceId时才把localStorage中spaceId清空
 		Steedos.setSpaceId(null);
 	}
-	var spaceId = Steedos.getSpaceId();
-	if(!spaceId){
-		spaceId = route.queryParams.spaceId;
-	} 
+	var spaceId = paramSpaceId || localStorage.getItem("spaceId");
 	if(!spaceId || !(Steedos && Steedos.subs && Steedos.subs["SpaceAvatar"])){
 		return;
 	}

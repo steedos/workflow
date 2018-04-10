@@ -62,7 +62,7 @@ Meteor.publish 'instance_data', (instanceId, box)->
 
 #			hasOpinionField = InstanceSignText.includesOpinionField(instance.form, instance.form_version)
 
-			show_modal_traces_list = db.space_settings.findOne({space: instance.space, key: "show_modal_traces_list"})?.values || false
+			show_modal_traces_list = db.space_settings.findOne({ space: instance.space, key: "show_modal_traces_list" }, { fields: { values: 1 } })?.values || false
 
 			if show_modal_traces_list
 

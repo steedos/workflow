@@ -166,6 +166,23 @@ Admin.menuTemplate =
 						</div>
 					</div>
 				"""
+		
+		if !Steedos.isSpaceAdmin()
+			reTemplates.push """
+				<div class="row admin-grids admin-grids-workflow">
+					<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-logout">
+						<a href="/tableau/info" class="admin-grid-item btn btn-block admin-menu-steedos_tableau">
+							<div class="admin-grid-icon">
+								<i class="ion ion-ios-pie-outline"></i>
+							</div>
+							<div class="admin-grid-label">
+								#{t("steedos_tableau")}
+							</div>
+						</a>
+					</div>
+				</div>
+			"""
+
 		if Steedos.isMobile()
 			reTemplates.push """
 				<div class="row admin-grids admin-grids-logout">
@@ -282,7 +299,28 @@ Admin.menuTemplate =
 			title: "Sign out"
 		}]
 
+		if !Steedos.isSpaceAdmin()
+			extraFields.splice 0, 0, 
+				_id: "steedos_tableau"
+				url: "javascript:void(0)"
+				icon: "ion-ios-pie-outline"
+				title: "steedos_tableau"
+				onclick: ->
+					if Steedos.isMobile()
+						swal({
+							title: t("workflow_designer_use_pc"),
+							confirmButtonText: t("OK")
+						})
+		
+
 		extraTemplates = extraFields.map (menu, index) ->
+			if menu.onclick
+				$("body").off "click", ".weui-cell-#{menu._id}"
+				$("body").on "click", ".weui-cell-#{menu._id}", (e)->
+					Admin.menuTemplate.addSelectedStyle menu.parent, menu._id
+					if typeof menu.onclick == "function"
+						menu.onclick()
+
 			return """
 				<div class="weui-panel weui-panel-#{menu._id}">
 					<div class="weui-panel__bd">

@@ -6,7 +6,7 @@ pushManager = {
 	imo_push_app_key: Meteor.settings.imo?.push_app_key
 }
 
-pushManager.get_to_users = (send_from, instance, cc_user_ids)->
+pushManager.get_to_users = (send_from, instance, cc_user_ids) ->
 	to_users = new Array
 	if ['first_submit_applicant'].includes(send_from)
 		# 申请人
@@ -14,7 +14,7 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 			applicant = db.users.findOne(instance.applicant)
 			to_users.push(applicant)
 
-	else if ['submit_terminate_approve', 'submit_completed_approve', 'submit_pending_rejected_approve', 'approved_completed_approve', 'rejected_completed_approve'].includes(send_from)
+	else if ['submit_terminate_approve', 'submit_completed_approve', 'submit_pending_rejected_approve','approved_completed_approve', 'rejected_completed_approve'].includes(send_from)
 		# 已审批人
 		# 获得已审批的人(去掉重复及申请人、提交人)
 		remove_users = new Array
@@ -22,21 +22,21 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids)->
 		remove_users.push(instance.submitter)
 
 		approve_user_ids = _.difference(instance.outbox_users, remove_users)
-		to_users = db.users.find({_id: {$in: approve_user_ids}}).fetch()
+		to_users = db.users.find({ _id: { $in: approve_user_ids } }).fetch()
 	else if ['reassign_new_inbox_users', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'first_submit_inbox'].includes(send_from)
 		# 待审批人
-		to_users = db.users.find({_id: {$in: instance.inbox_users}}).fetch()
+		to_users = db.users.find({ _id: { $in: instance.inbox_users } }).fetch()
 	else if ['submit_completed_applicant', 'approved_completed_applicant', 'rejected_completed_applicant', 'monitor_delete_applicant', 'submit_terminate_applicant', 'submit_pending_rejected_applicant', 'submit_pending_rejected_applicant_inbox'].includes(send_from)
 		applicant = db.users.findOne(instance.applicant)
 		to_users.push(applicant)
 	else if ['trace_approve_cc'].includes(send_from) && cc_user_ids
-		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+		to_users = db.users.find({ _id: { $in: cc_user_ids } }).fetch()
 	else if ['trace_approve_cc_submit'].includes(send_from) && cc_user_ids
-		to_users = db.users.find({_id: {$in: cc_user_ids}}).fetch()
+		to_users = db.users.find({ _id: { $in: cc_user_ids } }).fetch()
 
 	return to_users
 
-pushManager.get_body = (parameters, lang="zh-CN")->
+pushManager.get_body = (parameters, lang = "zh-CN") ->
 	send_from = parameters["send_from"]
 	applicant_name = parameters["applicant_name"]
 	instance_name = parameters["instance_name"]
@@ -314,14 +314,14 @@ pushManager.send_to_imo = (steedos_ids, body, current_user_info)->
 			return
 
 		fromuid = current_user_info.imo_uid
-		space_u = db.space_users.findOne({user: current_user_info._id})
+		space_u = db.space_users.findOne({ user: current_user_info._id }, { fields: { space: 1 } })
 		space = db.spaces.findOne(space_u["space"])
 		fromcid = space["imo_cid"]
 		if not fromcid
 			return
 
 		users = new Array
-		db.users.find({steedos_id: {$in: steedos_ids}}).forEach (u)->
+		db.users.find({ steedos_id: { $in: steedos_ids } }, { fields: { imo_uid: 1 } }).forEach (u)->
 			h = new Object
 			h["cid"] = fromcid
 			h["uid"] = u["imo_uid"]
@@ -396,7 +396,7 @@ pushManager.send_to_qq = (to_user, from_user, space_id, instance_id, instance_st
 		if (not to_user.services) or (not to_user.services['bqq']) or (not to_user.services['bqq']['id'])
 			return
 
-		space = db.spaces.findOne({_id: space_id, "services.bqq.company_id": {$ne: null}})
+		space = db.spaces.findOne({ _id: space_id, "services.bqq.company_id": { $ne: null } }, { fields: { services: 1 } })
 		if not space
 			return
 
@@ -460,8 +460,8 @@ pushManager.send_message_by_raix_push = (data)->
 		if data["data"]["badge"] > -1
 			notification['badge'] = data["data"]["badge"]
 
-		_.each data["toUsers"], (u)->
-			user = db.users.findOne({steedos_id: u})
+		_.each data["toUsers"], (u) ->
+			user = db.users.findOne({ steedos_id: u }, { fields: { _id: 1 } })
 			if user
 				notification['query'] = {userId: user._id, appName: data["pushTopic"]}
 				Push.send(notification)
@@ -499,24 +499,24 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 				nextApprove_usersname = null
 
 				if ['submit_pending_rejected_approve', 'submit_pending_rejected_applicant'].includes(send_from)
-					trace = _.find(instance.traces, (t)->
+					trace = _.find(instance.traces, (t) ->
 						return t.is_finished is false
 					)
-					approve = _.find(trace.approves, (a)->
+					approve = _.find(trace.approves, (a) ->
 						return a.is_finished is false
 					)
 					current_step_name = null
 					nextApprove_usersname = approve.user_name
 					if flow.current._id is flow_version
-						current_step = _.find(flow.current.steps, (s)->
+						current_step = _.find(flow.current.steps, (s) ->
 							return s._id is trace.step
 						)
 						current_step_name = current_step.name
 					else
-						flow_history_version = _.find(flow.historys, (h)->
+						flow_history_version = _.find(flow.historys, (h) ->
 							return h._id is flow_version
 						)
-						current_step = _.find(flow_history_version.steps, (s)->
+						current_step = _.find(flow_history_version.steps, (s) ->
 							return s._id is trace.step
 						)
 						current_step_name = current_step.name
@@ -590,11 +590,9 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 					inscribed = TAPi18n.__('instance.email.inscribed', {}, lang)
 					footnote = "<p style='text-align:left;color:#bbb;'>" + TAPi18n.__('instance.email.footnote', {}, lang) + "</p>"
 
-					space_user = db.space_users.findOne({space: space_id, user: to_user._id})
-					user = db.users.findOne(to_user._id)
-					if not space_user
+					if db.space_users.find({ space: space_id, user: to_user._id }).count() is 0
 						return
-					if not user
+					if db.users.find(to_user._id).count() is 0
 						return
 
 					parameters["to_username"] = to_user.name
@@ -657,7 +655,7 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	catch e
 		console.error e.stack
 
-pushManager.triggerWebhook = (flow_id, instance, current_approve, action)->
+pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user, to_users)->
 	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
 	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
 		WebhookQueue.send({
@@ -665,5 +663,7 @@ pushManager.triggerWebhook = (flow_id, instance, current_approve, action)->
 				current_approve: current_approve,
 				payload_url: w.payload_url,
 				content_type: w.content_type,
-				action: action
+				action: action,
+				from_user: from_user,
+				to_users: to_users || []
 			})

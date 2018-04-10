@@ -65,10 +65,7 @@ Tracker.autorun (c) ->
 			else
 #				订阅相关文件
 				if instance.related_instances && _.isArray(instance.related_instances)
-					instance.related_instances.forEach (ins_id)->
-						instance = db.instances.findOne({_id: ins_id});
-						if !instance
-							Steedos.subs["related_instances"].subscribe("instance_data", ins_id)
+					Steedos.subs["related_instances"].subscribe("related_instaces", instance._id, instance.related_instances)
 
 #	切换工作区时，清空按流程过滤
 #Tracker.autorun (c)->

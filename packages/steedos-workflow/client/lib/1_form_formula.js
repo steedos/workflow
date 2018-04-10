@@ -36,7 +36,7 @@ Form_formula.runFormScripts = function(formKey, eventName){
                 eval("CoreForm.form_OnLoad();");
             }
 
-            if (CoreForm[formKey][eventName] instanceof Function){
+            if (CoreForm[formKey] && CoreForm[formKey][eventName] instanceof Function){
                 eval("CoreForm."+formKey+"."+eventName+"();");
             }
 

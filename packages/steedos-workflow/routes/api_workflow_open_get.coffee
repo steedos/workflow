@@ -28,7 +28,7 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 		ins_id = req.params.ins_id
 
 		if !Steedos.APIAuthenticationCheck(req, res)
-			return ;
+			return
 
 		current_user = req.userId
 
@@ -46,7 +46,7 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 		if not instance
 			throw new Meteor.Error('error', 'can not find instance')
 
-		if db.space_users.find({space: instance.space, user: current_user}).count() is 0
+		if db.space_users.find({ space: instance.space, user: current_user }).count() is 0
 			throw new Meteor.Error('error', 'auth_token is wrong')
 
 		# 权限：仅以下人员可以查看申请单详情：提交者、申请者、经手者、本流程的管理员、本流程的观察员、本工作区的管理员、本工作区的所有者。
@@ -57,7 +57,7 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 			perm_users = perm_users.concat(instance.outbox_users)
 		if instance.inbox_users
 			perm_users = perm_users.concat(instance.inbox_users)
-		space = db.spaces.findOne(instance.space)
+		space = db.spaces.findOne({ _id: instance.space }, { fields: { admins: 1 } })
 		perm_users = perm_users.concat(space.admins)
 
 		permissions = permissionManager.getFlowPermissions(instance.flow, current_user)
@@ -67,13 +67,14 @@ JsonRoutes.add 'get', '/api/workflow/open/get/:ins_id', (req, res, next) ->
 
 		instance.attachments = cfs.instances.find({'metadata.instance': instance._id,'metadata.current': true, "metadata.is_private": {$ne: true}}, {fields: {copies: 0}}).fetch()
 
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { status: "success", data: instance}
+			data: { status: "success", data: instance }
+		}
 	catch e
 		console.error e.stack
-		JsonRoutes.sendResult res,
+		JsonRoutes.sendResult res, {
 			code: 200
-			data: { errors: [{errorMessage: e.message}]}
-	
-		
+			data: { errors: [{ errorMessage: e.message }] }
+		}
+

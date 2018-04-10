@@ -42,7 +42,7 @@ Template.steedos_contacts_space_user_info_modal.helpers
 
 	isEditable: ->
 		spaceUser = db.space_users.findOne Template.instance().data.targetId
-		if Steedos.isSpaceAdmin() || (Session.get('contacts_is_org_admin') && !Session.get("contact_list_search"))
+		if Steedos.isSpaceAdmin() || Session.get('contacts_is_org_admin')
 			return true
 		else
 			return false

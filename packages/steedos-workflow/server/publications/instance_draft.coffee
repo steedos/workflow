@@ -1,4 +1,6 @@
-Meteor.publish 'instances_draft', (spaceId)->
+Meteor.publish 'instances_draft', (spaceId) ->
+	check spaceId, String
+
 	unless this.userId
 		return this.ready()
 

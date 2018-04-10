@@ -49,14 +49,14 @@ Package.onUse(function (api) {
 	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
-	api.use('steedos:authenticate-user-by-access-token');
+	api.use('steedos:api-authenticate-user');
 
 	api.use('tap:i18n', ['client', 'server']);
 
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.addFiles('server/routes_middleware_config.coffee', 'server');
+	// api.addFiles('server/routes_middleware_config.coffee', 'server');
 
 	api.addFiles('server/routes/search_flows.coffee', 'server');
 	api.addFiles('server/routes/search_organizations.coffee', 'server');

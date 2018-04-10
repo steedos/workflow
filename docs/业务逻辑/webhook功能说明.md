@@ -29,7 +29,9 @@
 	// retrieve(取回),
 	// terminate(取消申请),
 	// cc_do(传阅给他人),
-	// cc_submit(被传阅提交)
+    // cc_submit(被传阅提交)
+    from_user: "xxxxx", //值为当前操作者id, 如： A提交申请单给B 那么from_user值就是A的id
+    to_users: ["xx1","xx2"], //值为提交给哪些人的id集合， 如： A提交申请单给B， 那么to_users值就是B的id
     current_approve: {
         "_id": "8ecbd6be43193e650e8d913f",
         "instance": "HjHvRxp5vFL5fn7uK",

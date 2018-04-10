@@ -37,12 +37,17 @@ Template.steedosHeader.events
 Template.steedosHeader.displayControl = ()->
 	maxWidth = $(".navbar-nav-apps").width() - 90;
 	sumWidth = 33;
+	last = null
 	$(".navbar-nav-apps").children().each (index)->
 		sumWidth += $(this).width()
-		if sumWidth >= maxWidth && index < $(".navbar-nav-apps").children().length - 1 && (!$(this).attr("class") || $(this).attr("class").indexOf('active') < 0)
+		isActive = $(this).hasClass("active")
+		if sumWidth >= maxWidth && index < $(".navbar-nav-apps").children().length - 1 && !isActive
 			$(this).hide()
 		else
 			$(this).show()
+			if sumWidth >= maxWidth && !last.hasClass("active")
+				last?.hide()
+			last = $(this)
 
 Template.steedosHeader.onCreated ()->
 	$(window).resize ->
