@@ -221,17 +221,18 @@ Meteor.startup ()->
 				oldOrgs = doc.organizations
 				newOrgs = modifier.$set?.organizations
 
-				subOrgs = _.difference(oldOrgs, newOrgs)
-				addOrgs = _.difference(newOrgs, oldOrgs)
+				if newOrgs
+					subOrgs = _.difference(oldOrgs, newOrgs)
+					addOrgs = _.difference(newOrgs, oldOrgs)
 
-				isAllSubOrgsAdmin = Steedos.isOrgAdminByAllOrgIds subOrgs, userId
-				isAllAddOrgsAdmin = Steedos.isOrgAdminByAllOrgIds addOrgs, userId
+					isAllSubOrgsAdmin = Steedos.isOrgAdminByAllOrgIds subOrgs, userId
+					isAllAddOrgsAdmin = Steedos.isOrgAdminByAllOrgIds addOrgs, userId
 
-				unless isAllSubOrgsAdmin
-					throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员移出该组织")
+					unless isAllSubOrgsAdmin
+						throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员移出该组织")
 
-				unless isAllAddOrgsAdmin
-					throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员添加到该组织")
+					unless isAllAddOrgsAdmin
+						throw new Meteor.Error(400, "您没有该组织的权限，不能将此成员添加到该组织")
 
 
 			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
