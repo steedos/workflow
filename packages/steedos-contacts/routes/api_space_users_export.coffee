@@ -18,7 +18,7 @@ Meteor.startup ->
 				}).fetch()
 			else
 				org_ids = []
-				org_objs = db.organizations.find({_id:org_id,space:space_id,admins:user_id},{fields:{_id:1,children:1}}).fetch()
+				org_objs = db.organizations.find({_id:org_id,space:space_id},{fields:{_id:1,children:1}}).fetch()
 				org_ids = _.pluck(org_objs,'_id')
 				_.each org_objs,(org_obj)->
 					org_ids = _.union(org_ids,org_obj?.children)
@@ -69,7 +69,7 @@ Meteor.startup ->
 				},{
 					type: 'String',
 					name:'organizations',
-					width: 300,
+					width: 600,
 					title: TAPi18n.__('space_users_organizations',{},lang),
 					transform: (value)->
 						orgNames = db.organizations.find({_id: {$in: value}},{fields: {fullname: 1}}).map((item,index)->
