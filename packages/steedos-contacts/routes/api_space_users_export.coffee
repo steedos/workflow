@@ -18,7 +18,7 @@ Meteor.startup ->
 				}).fetch()
 			else
 				org_ids = []
-				org_objs = db.organizations.find({space:space_id,admins:user_id},{fields:{_id:1,children:1}}).fetch()
+				org_objs = db.organizations.find({_id:org_id,space:space_id,admins:user_id},{fields:{_id:1,children:1}}).fetch()
 				org_ids = _.pluck(org_objs,'_id')
 				_.each org_objs,(org_obj)->
 					org_ids = _.union(org_ids,org_obj?.children)
