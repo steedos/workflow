@@ -23,7 +23,7 @@ Meteor.startup ->
 				_.each org_objs,(org_obj)->
 					org_ids = _.union(org_ids,org_obj?.children)
 				_.uniq(org_ids)
-				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {name: 1}}).fetch()
+				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {sort_no: -1,name:1}}).fetch()
 			ejs = Npm.require('ejs')
 			str = Assets.getText('server/ejs/export_space_users.ejs')
 			
@@ -93,7 +93,7 @@ Meteor.startup ->
 						user = db.users.findOne({_id: value},{fields: {username: 1}})
 						return user?.username
 				},{
-					type: 'String',
+					type: 'Number',
 					name:'sort_no',
 					width: 35,
 					title: TAPi18n.__('space_users_sort_no',{},lang)
