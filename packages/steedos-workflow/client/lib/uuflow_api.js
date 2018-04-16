@@ -1,7 +1,7 @@
 UUflow_api = {};
 
 // 新建instance（申请单）
-UUflow_api.post_draft = function(flowId) {
+UUflow_api.post_draft = function (flowId) {
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -26,10 +26,10 @@ UUflow_api.post_draft = function(flowId) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -43,7 +43,7 @@ UUflow_api.post_draft = function(flowId) {
 
 			toastr.success(TAPi18n.__('Added successfully'));
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 		}
@@ -52,7 +52,7 @@ UUflow_api.post_draft = function(flowId) {
 
 
 // 拟稿状态下删除instance（申请单）
-UUflow_api.delete_draft = function(instanceId) {
+UUflow_api.delete_draft = function (instanceId) {
 	var uobj = {};
 	uobj.methodOverride = "DELETE";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -73,9 +73,9 @@ UUflow_api.delete_draft = function(instanceId) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -84,14 +84,14 @@ UUflow_api.delete_draft = function(instanceId) {
 			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Deleted successfully'));
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			toastr.error(msg);
 		}
 	})
 };
 
 // instance（申请单）的第一次提交
-UUflow_api.post_submit = function(instance) {
+UUflow_api.post_submit = function (instance) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -119,19 +119,19 @@ UUflow_api.post_submit = function(instance) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			Session.set("instance_change", false);
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
 			}
 
 			if (responseText.result && responseText.result.length > 0) {
-				_.each(responseText.result, function(r) {
+				_.each(responseText.result, function (r) {
 					if (r.alerts) {
 						toastr.info(r.alerts);
 					}
@@ -147,7 +147,7 @@ UUflow_api.post_submit = function(instance) {
 
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 			Session.set("instance_submitting", false);
@@ -156,7 +156,7 @@ UUflow_api.post_submit = function(instance) {
 };
 
 // 待审核提交
-UUflow_api.post_engine = function(approve) {
+UUflow_api.post_engine = function (approve) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -184,11 +184,11 @@ UUflow_api.post_engine = function(approve) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -198,7 +198,7 @@ UUflow_api.post_engine = function(approve) {
 			toastr.success(TAPi18n.__('Submitted successfully'));
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 			Session.set("instance_submitting", false);
@@ -207,7 +207,7 @@ UUflow_api.post_engine = function(approve) {
 };
 
 // 取消申请
-UUflow_api.post_terminate = function(instance) {
+UUflow_api.post_terminate = function (instance) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -235,11 +235,11 @@ UUflow_api.post_terminate = function(instance) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -251,7 +251,7 @@ UUflow_api.post_terminate = function(instance) {
 
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 			Session.set("instance_submitting", false);
@@ -260,7 +260,7 @@ UUflow_api.post_terminate = function(instance) {
 };
 
 // 转签核
-UUflow_api.put_reassign = function(instance) {
+UUflow_api.put_reassign = function (instance) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -288,11 +288,11 @@ UUflow_api.put_reassign = function(instance) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -302,7 +302,7 @@ UUflow_api.put_reassign = function(instance) {
 
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 
@@ -312,7 +312,7 @@ UUflow_api.put_reassign = function(instance) {
 };
 
 // 重定位
-UUflow_api.put_relocate = function(instance) {
+UUflow_api.put_relocate = function (instance) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -340,11 +340,11 @@ UUflow_api.put_relocate = function(instance) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -355,7 +355,7 @@ UUflow_api.put_relocate = function(instance) {
 
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 
@@ -365,7 +365,7 @@ UUflow_api.put_relocate = function(instance) {
 };
 
 // 归档
-UUflow_api.post_archive = function(insId) {
+UUflow_api.post_archive = function (insId) {
 	var uobj = {};
 	uobj.methodOverride = "POST";
 	uobj["X-User-Id"] = Meteor.userId();
@@ -387,16 +387,16 @@ UUflow_api.post_archive = function(insId) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 			}
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 		}
@@ -404,7 +404,7 @@ UUflow_api.post_archive = function(insId) {
 };
 
 // 导出报表
-UUflow_api.get_export = function(spaceId, flowId, type) {
+UUflow_api.get_export = function (spaceId, flowId, type) {
 	var uobj = {};
 	uobj["X-User-Id"] = Meteor.userId();
 	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
@@ -417,7 +417,7 @@ UUflow_api.get_export = function(spaceId, flowId, type) {
 };
 
 // 计算下一步处理人
-UUflow_api.caculate_nextstep_users = function(deal_type, spaceId, body) {
+UUflow_api.caculate_nextstep_users = function (deal_type, spaceId, body) {
 	var q = {};
 	q.deal_type = deal_type;
 	q.spaceId = spaceId;
@@ -432,7 +432,7 @@ UUflow_api.caculate_nextstep_users = function(deal_type, spaceId, body) {
 		dataType: 'json',
 		processData: false,
 		contentType: "application/json",
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			if (responseText.errors) {
 				toastr.error(responseText.errors);
 				return;
@@ -440,7 +440,7 @@ UUflow_api.caculate_nextstep_users = function(deal_type, spaceId, body) {
 
 			nextStepUsers = responseText.nextStepUsers;
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			toastr.error(msg);
 		}
 	});
@@ -449,7 +449,7 @@ UUflow_api.caculate_nextstep_users = function(deal_type, spaceId, body) {
 };
 
 // 计算下一步处理人
-UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
+UUflow_api.caculateNextstepUsers = function (deal_type, spaceId, body) {
 	var q = {};
 	q.deal_type = deal_type;
 	q.spaceId = spaceId;
@@ -465,7 +465,7 @@ UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
 		dataType: 'json',
 		processData: false,
 		contentType: "application/json",
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			if (responseText.errors) {
 				toastr.error(responseText.errors);
 				return;
@@ -474,7 +474,7 @@ UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
 			nextStepUsers = responseText.nextStepUsers;
 			error = responseText.error;
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			toastr.error(msg);
 		}
 	});
@@ -486,7 +486,7 @@ UUflow_api.caculateNextstepUsers = function(deal_type, spaceId, body) {
 };
 
 // 获取space_users
-UUflow_api.getSpaceUsers = function(spaceId, userIds) {
+UUflow_api.getSpaceUsers = function (spaceId, userIds) {
 	var q = {};
 	q.spaceId = spaceId;
 	var data = {
@@ -502,7 +502,7 @@ UUflow_api.getSpaceUsers = function(spaceId, userIds) {
 		dataType: 'json',
 		processData: false,
 		contentType: "application/json",
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			if (responseText.errors) {
 				toastr.error(responseText.errors);
 				return;
@@ -510,7 +510,7 @@ UUflow_api.getSpaceUsers = function(spaceId, userIds) {
 
 			spaceUsers = responseText.spaceUsers;
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			toastr.error(msg);
 		}
 	});
@@ -519,7 +519,7 @@ UUflow_api.getSpaceUsers = function(spaceId, userIds) {
 };
 
 // 取回
-UUflow_api.post_retrieve = function(instance) {
+UUflow_api.post_retrieve = function (instance) {
 
 	if (Session.get("instance_submitting")) {
 		return;
@@ -550,11 +550,11 @@ UUflow_api.post_retrieve = function(instance) {
 		processData: false,
 		contentType: "application/json",
 
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
-				responseText.errors.forEach(function(e) {
+				responseText.errors.forEach(function (e) {
 					toastr.error(e.errorMessage);
 				});
 				return;
@@ -566,7 +566,7 @@ UUflow_api.post_retrieve = function(instance) {
 
 			Session.set("instance_submitting", false);
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
 			Session.set("instance_submitting", false);
@@ -575,7 +575,7 @@ UUflow_api.post_retrieve = function(instance) {
 };
 
 // 获取user.name
-UUflow_api.getNameForUser = function(userId) {
+UUflow_api.getNameForUser = function (userId) {
 	var q = {};
 	var data = {
 		'userId': userId
@@ -590,7 +590,7 @@ UUflow_api.getNameForUser = function(userId) {
 		dataType: 'json',
 		processData: false,
 		contentType: "application/json",
-		success: function(responseText, status) {
+		success: function (responseText, status) {
 			if (responseText.errors) {
 				toastr.error(responseText.errors);
 				return;
@@ -598,10 +598,101 @@ UUflow_api.getNameForUser = function(userId) {
 
 			user = responseText.user;
 		},
-		error: function(xhr, msg, ex) {
+		error: function (xhr, msg, ex) {
 			toastr.error(msg);
 		}
 	});
 
 	return user;
+};
+
+// 转发/分发
+UUflow_api.post_forward = function (instance_id, space_id, flow_id, hasSaveInstanceToAttachment, description, isForwardAttachments, selectedUsers, action_type, related) {
+
+	if (Session.get("instance_submitting")) {
+		return;
+	}
+
+	Session.set("instance_submitting", true);
+
+	$('body').addClass("loading");
+	var ins = WorkflowManager.getInstance();
+	var approve_id = null;
+	if (InstanceManager.isInbox() && ins.state == "pending") {
+		if (InstanceManager.getCurrentApprove()) {
+			approve_id = InstanceManager.getCurrentApprove()._id;
+		}
+	} else if (Session.get("box") == 'outbox' && ins.state == "pending") {
+		if (InstanceManager.getLastCCApprove(ins.traces)) {
+			approve_id = InstanceManager.getLastCCApprove(ins.traces)._id;
+		}
+	}
+
+	var uobj = {};
+	uobj.methodOverride = "POST";
+	uobj["X-User-Id"] = Meteor.userId();
+	uobj["X-Auth-Token"] = Accounts._storedLoginToken();
+	var url = Steedos.absoluteUrl() + "api/workflow/forward?" + $.param(uobj);
+	var data = {
+		"instance_id": instance_id,
+		"space_id": space_id,
+		"flow_id": flow_id,
+		"hasSaveInstanceToAttachment": hasSaveInstanceToAttachment,
+		"description": description,
+		"isForwardAttachments": isForwardAttachments,
+		"selectedUsers": selectedUsers,
+		"action_type": action_type,
+		"related": related,
+		"from_approve_id": approve_id
+	};
+	data = JSON.stringify(data);
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		async: true,
+		data: data,
+		dataType: "json",
+		processData: false,
+		contentType: "application/json",
+
+		success: function (responseText, status) {
+			$(document.body).removeClass("loading");
+
+			if (responseText.errors) {
+				responseText.errors.forEach(function (e) {
+					if (e.error == 'no_permission') {
+						if (action_type == 'forward') {
+							toastr.error(TAPi18n.__('instance_no_add_permission', {
+								actiontype: TAPi18n.__("instance_forward_title"),
+								usernames: e.details
+							}));
+						} else if (action_type == 'distribute') {
+							toastr.error(TAPi18n.__('instance_no_add_permission', {
+								actiontype: TAPi18n.__("instance_distribute_title"),
+								usernames: e.details
+							}));
+						}
+
+					} else {
+						toastr.error(e.reason);
+					}
+				});
+				return;
+			}
+
+			if (action_type == "forward") {
+				toastr.success(TAPi18n.__("forward_instance_success"));
+			} else if (action_type == "distribute") {
+				toastr.success(TAPi18n.__("instance_distribute_success"));
+			}
+
+			Session.set("instance_submitting", false);
+		},
+		error: function (xhr, msg, ex) {
+			$(document.body).removeClass("loading");
+			toastr.error(msg);
+			Session.set("instance_submitting", false);
+		}
+	})
 };
