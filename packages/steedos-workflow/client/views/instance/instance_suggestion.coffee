@@ -1,5 +1,12 @@
 Template.instance_suggestion.helpers
 
+	step_selected: ()->
+		checked = Session.get("next_step_id") == this.id
+		if checked
+			return "checked"
+		else
+			return this.selected
+
 	equals: (a, b) ->
 		return (a == b)
 

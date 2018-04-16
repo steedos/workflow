@@ -18,12 +18,12 @@ Meteor.startup ->
 				}).fetch()
 			else
 				org_ids = []
-				org_objs = db.organizations.find({space:space_id,admins:user_id,users:user_id},{fields:{_id:1,children:1}}).fetch()
+				org_objs = db.organizations.find({_id:org_id,space:space_id},{fields:{_id:1,children:1}}).fetch()
 				org_ids = _.pluck(org_objs,'_id')
 				_.each org_objs,(org_obj)->
 					org_ids = _.union(org_ids,org_obj?.children)
-				 _.uniq(org_ids)
-				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {name: 1}}).fetch()
+				_.uniq(org_ids)
+				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {sort_no: -1,name:1}}).fetch()
 			ejs = Npm.require('ejs')
 			str = Assets.getText('server/ejs/export_space_users.ejs')
 			
@@ -69,7 +69,7 @@ Meteor.startup ->
 				},{
 					type: 'String',
 					name:'organizations',
-					width: 300,
+					width: 600,
 					title: TAPi18n.__('space_users_organizations',{},lang),
 					transform: (value)->
 						orgNames = db.organizations.find({_id: {$in: value}},{fields: {fullname: 1}}).map((item,index)->
@@ -93,7 +93,7 @@ Meteor.startup ->
 						user = db.users.findOne({_id: value},{fields: {username: 1}})
 						return user?.username
 				},{
-					type: 'String',
+					type: 'Number',
 					name:'sort_no',
 					width: 35,
 					title: TAPi18n.__('space_users_sort_no',{},lang)

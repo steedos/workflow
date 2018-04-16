@@ -122,7 +122,7 @@ Template.forward_select_flow_modal.events({
 			return;
 		}
 		// $("#isForwardAttachments")[0].checked 默认为true
-		InstanceManager.forwardIns(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), true, selectedUsers, action_type, related);
+		UUflow_api.post_forward(Session.get('instanceId'), Session.get('forward_space_id'), flow, $("#saveInstanceToAttachment")[0].checked, $("#forward_flow_text").val(), true, selectedUsers, action_type, related);
 		Modal.hide(template);
 	},
 

@@ -256,5 +256,5 @@ InstancesToContracts.sendContractInstance = (url, instance, callback) ->
 		InstancesToContracts.success instance
 		return true
 	else
-		InstancesToContracts.failed instance, httpResponse
+		InstancesToContracts.failed instance, httpResponse?.body
 		return false

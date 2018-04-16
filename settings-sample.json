@@ -50,6 +50,7 @@
     },
     //通讯录相关
     "contacts": {
+      "disableAddUserForSubAdmin": true, //禁止子管理员添加新用户
       "hidden_users": [] //不显示人员的用户ID集合
     },
     //知识库相关

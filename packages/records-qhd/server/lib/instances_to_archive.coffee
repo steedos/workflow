@@ -390,7 +390,7 @@ InstancesToArchive.sendNonContractInstance = (url, instance, callback) ->
 		if httpResponse?.statusCode == 200
 			InstancesToArchive.success instance
 		else
-			InstancesToArchive.failed instance, httpResponse
+			InstancesToArchive.failed instance, httpResponse?.body
 
 		httpResponse = null
 	else

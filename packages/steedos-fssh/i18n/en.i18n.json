@@ -5,5 +5,7 @@
 	"users_error_steedos_id_readonly": "Steedos ID can not be modified",
 	"users_error": {
 		"steedos_id_required": "Steedos ID 不能为空"
-	}
+	},
+	"Username_and_email": "Username or mail",
+	"login_title": "Login"
 }

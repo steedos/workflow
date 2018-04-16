@@ -68,7 +68,7 @@ organizationsSelector = ->
 			orgIds = orgs.getProperty('_id')
 			if outsideOrganizations?.length
 				orgIds = _.union(orgIds, outsideOrganizations)
-			selector = { space: spaceId, _id: { $in: orgIds } }
+			selector = { space: spaceId, _id: { $in: orgIds }, hidden: { $ne: true } }
 		else
 			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
 			selector = {
