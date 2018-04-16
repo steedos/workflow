@@ -92,6 +92,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/webhooks.coffee');
 	api.addFiles('lib/models/instance_number_rules.coffee');
 	api.addFiles('lib/models/space_user_signs.coffee');
+	api.addFiles('lib/models/_record_instance_queue.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 

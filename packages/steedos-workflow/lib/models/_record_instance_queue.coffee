@@ -1,0 +1,1 @@
+db._record_instance_queue = new Meteor.Collection('_record_instance_queue')
