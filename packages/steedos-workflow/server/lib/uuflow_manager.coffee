@@ -2323,4 +2323,4 @@ uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
 		instance_finish_date: new Date()
 	}
 
-	db._record_instance_queue.insert(newObj)
+	db.instance_record_queue.insert(newObj)
