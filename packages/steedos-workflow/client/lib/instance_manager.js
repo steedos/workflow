@@ -66,9 +66,15 @@ InstanceManager.getNextStepOptions = function() {
 
 	var nextSteps = ApproveManager.getNextSteps(instance, currentStep, judge, autoFormDoc, form_version.fields);
 
+	var getSessionStepId = function () {
+		return Session.get("next_step_id");
+	}
+
+	var current_session_step_id = Tracker.nonreactive(getSessionStepId);
+
 	var next_step_options = []
 	if (nextSteps && nextSteps.length > 0) {
-		var next_step_id = "";
+		var next_step_id = current_session_step_id;
 		var next_step_type = null;
 		nextSteps.forEach(function(step) {
 			var option = {
@@ -79,6 +85,11 @@ InstanceManager.getNextStepOptions = function() {
 			next_step_options.push(option)
 		});
 
+		var current_session_step = _.find(next_step_options, function (step_item) {
+			return step_item.id === current_session_step_id;
+		});
+
+		var isValidSessionStepId = _.isEmpty(current_session_step)? false: true;
 		// 默认选中第一个
 		if (next_step_options.length == 1) {
 			next_step_options[0].selected = 'selected'
@@ -86,27 +97,28 @@ InstanceManager.getNextStepOptions = function() {
 			Session.set("next_step_id", next_step_id);
 		} else {
 
-			if (Session.get("judge") == 'rejected') {
+			if (Session.get("judge") == 'rejected' && !isValidSessionStepId) {
 				start_option = next_step_options.findPropertyByPK("type", "start");
 				next_step_id = start_option.id
 				Session.set("next_step_id", next_step_id);
 			} else {
-
 				//Session存储的下一步步骤是否在计算结果中，如果在，则选中
 				var checkedNextStepRadio = $("[name=instance_suggestion_next_step]:checked");
+				var session_next_step;
 				if (checkedNextStepRadio && checkedNextStepRadio.val()) {
-					var session_next_step = next_step_options.findPropertyByPK("id", checkedNextStepRadio.val())
-					if (_.isObject(session_next_step)) {
-						next_step_id = checkedNextStepRadio.val()
-					}
-				} else if (current_next_steps && current_next_steps.length > 0) {
+					session_next_step = next_step_options.findPropertyByPK("id", checkedNextStepRadio.val())
+				}
+
+				if (_.isObject(session_next_step)) {
+					next_step_id = checkedNextStepRadio.val();
+				}else if (current_next_steps && current_next_steps.length > 0) {
 					//选中已暂存的值
 					var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
-					if (_.isObject(db_next_step)) {
+					if (_.isObject(db_next_step) && !isValidSessionStepId) {
 						next_step_id = db_next_step.id
 						Session.set("next_step_id", next_step_id);
 					}
-				} else if (Session.get("judge") != 'rejected') {
+				} else if (Session.get("judge") != 'rejected' && !isValidSessionStepId) {
 					// next_step_options.unshift({
 					// 	id: '',
 					// 	selected: 'selected',

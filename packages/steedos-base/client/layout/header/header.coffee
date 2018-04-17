@@ -45,7 +45,7 @@ Template.steedosHeader.displayControl = ()->
 			$(this).hide()
 		else
 			$(this).show()
-			if sumWidth >= maxWidth && !last.hasClass("active")
+			if sumWidth >= maxWidth && !last?.hasClass("active")
 				last?.hide()
 			last = $(this)
 
