@@ -46,6 +46,15 @@ Template.steedos_contacts_org_user_list.helpers
 
 	is_admin: ()->
 		return Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
+	
+	canAddUser: ()->
+		is_admin = Session.get('contacts_is_org_admin') && !Session.get("contact_list_search")
+		if is_admin and Steedos.isSpaceAdmin()
+			return true
+		if Meteor.settings.public?.contacts?.disableAddUserForSubAdmin
+			return false
+		else
+			return is_admin
 
 	isMobile: ()->
 		return Steedos.isMobile();

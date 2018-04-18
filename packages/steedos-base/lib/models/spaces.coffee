@@ -246,26 +246,31 @@ if Meteor.isServer
 		userObj = db.users.direct.findOne(userId);
 		if (!userObj)
 			return;
+		now = new Date
 		if (spaceUserObj)
 			db.space_users.direct.update spaceUserObj._id, 
 				$set:
-					name: userObj.name,
-					email: userObj.emails?[0]?.address,
-					space: spaceId,
-					user: userObj._id,
+					name: userObj.name
+					email: userObj.emails?[0]?.address
+					space: spaceId
+					user: userObj._id
 					user_accepted: user_accepted
 					invite_state: "accepted"
+					modified: now
+					modified_by: userId
 		else 
 			root_org = db.organizations.findOne({space: spaceId, is_company:true})
 			db.space_users.direct.insert
-				name: userObj.name,
-				email: userObj.emails?[0]?.address,
-				space: spaceId,
-				organization: root_org._id,
-				organizations: [root_org._id],
-				user: userObj._id,
+				name: userObj.name
+				email: userObj.emails?[0]?.address
+				space: spaceId
+				organization: root_org._id
+				organizations: [root_org._id]
+				user: userObj._id
 				user_accepted: user_accepted
 				invite_state: "accepted"
+				created: now
+				created_by: userId
 			root_org.updateUsers()
 		
 	db.spaces.createTemplateOrganizations = (space_id)->

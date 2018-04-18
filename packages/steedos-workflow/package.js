@@ -395,6 +395,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_export.coffee', 'server');
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
+	api.addFiles('routes/api_workflow_forward.js', 'server');
 	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
 
 	api.addFiles('routes/export_table_template.coffee', 'server');

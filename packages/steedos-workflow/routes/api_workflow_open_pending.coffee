@@ -12,12 +12,12 @@
 @apiHeader {String} X-Space-Id	工作区Id
 
 @apiHeaderExample {json} Header-Example:
-    {
+	{
 		"X-Space-Id": "wsw1re12TdeP223sC"
 	}
 
 @apiSuccessExample {json} Success-Response:
-    {
+	{
 		"status": "success",
 		"data": [
 			{
@@ -88,64 +88,78 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 		# 如果当前用户是工作区管理员，则通过查看url上是否有username\userid ，
 		# 如果有，则返回username\userid对应的用户，否则返回当前用户待办。
 		# username\userid都存在时，userid优先
+		special_user_id
 		if space.admins.includes(user_id)
 			if userid
 				if db.users.find({ _id: userid }).count() < 1
 					throw new Meteor.Error('error', "can not find user by userid: #{userid}")
 
-				user_id = userid
+				special_user_id = userid
 			else if username
 				u = db.users.findOne({ username: username }, { fields: { _id: 1 } })
 				if _.isEmpty(u)
 					throw new Meteor.Error('error', "can not find user by username: #{username}")
 
-				user_id = u._id
+				special_user_id = u._id
 
 		result_instances = new Array
 
-		if user_id
-			is_read = false
-			start_date = ''
+		is_read = false
+		start_date = ''
+		uid = user_id
+		query = {
+			$or: [{ inbox_users: user_id }, { cc_users: user_id }]
+		}
 
-			db.instances.find({
+		if special_user_id
+			uid = special_user_id
+			query = {
 				space: space_id,
-				$or: [{ inbox_users: user_id }, { cc_users: user_id }]
-			}, { sort: { modified: -1 }, limit: limit }).forEach (i) ->
+				$or: [{ inbox_users: special_user_id }, { cc_users: special_user_id }]
+			}
 
-				if i.inbox_users?.includes(user_id)
-					_.each i.traces, (t) ->
-						if t.is_finished is false
-							_.each t.approves, (a) ->
-								if a.user is user_id and a.type isnt 'cc' and not a.is_finished
-									is_read = a.is_read
-									start_date = a.start_date
-				else
-					_.each i.traces, (t) ->
-						if not start_date and t.approves
-							_.each t.approves, (a) ->
-								if not start_date and a.user is user_id and a.type is 'cc' and not a.is_finished
-									is_read = a.is_read
-									start_date = a.start_date
+		space_names = {}
+		space_names[space._id] = space.name
 
-				h = new Object
-				h["id"] = i["_id"]
-				h["start_date"] = start_date
-				h["flow_name"] = i.flow_name
-				h["space_name"] = space.name
-				h["name"] = i["name"]
-				h["applicant_name"] = i["applicant_name"]
-				h["applicant_organization_name"] = i["applicant_organization_name"]
-				h["submit_date"] = i["submit_date"]
-				h["step_name"] = i.current_step_name
-				h["space_id"] = space_id
-				h["modified"] = i["modified"]
-				h["is_read"] = is_read
-				h["values"] = i["values"]
+		db.instances.find(query, { sort: { modified: -1 }, limit: limit }).forEach (i) ->
 
-				if attach is 'true'
-					h.attachments = cfs.instances.find({ 'metadata.instance': i._id, 'metadata.current': true, "metadata.is_private": { $ne: true } }, { fields: { copies: 0 } }).fetch()
+			if i.inbox_users?.includes(uid)
+				_.each i.traces, (t) ->
+					if t.is_finished is false
+						_.each t.approves, (a) ->
+							if a.user is uid and a.type isnt 'cc' and not a.is_finished
+								is_read = a.is_read
+								start_date = a.start_date
+			else
+				_.each i.traces, (t) ->
+					if not start_date and t.approves
+						_.each t.approves, (a) ->
+							if not start_date and a.user is uid and a.type is 'cc' and not a.is_finished
+								is_read = a.is_read
+								start_date = a.start_date
 
-				result_instances.push(h)
+			if not space_names[i.space]
+				space_names[i.space] = db.spaces.findOne(i.space, { fields: { name: 1 } })?.name
+
+			h = new Object
+			h["id"] = i["_id"]
+			h["start_date"] = start_date
+			h["flow_name"] = i.flow_name
+			h["space_name"] = space_names[i.space]
+			h["name"] = i["name"]
+			h["applicant_name"] = i["applicant_name"]
+			h["applicant_organization_name"] = i["applicant_organization_name"]
+			h["submit_date"] = i["submit_date"]
+			h["step_name"] = i.current_step_name
+			h["space_id"] = i.space
+			h["modified"] = i["modified"]
+			h["is_read"] = is_read
+			h["values"] = i["values"]
+
+			if attach is 'true'
+				h.attachments = cfs.instances.find({ 'metadata.instance': i._id, 'metadata.current': true, "metadata.is_private": { $ne: true } }, { fields: { copies: 0 } }).fetch()
+
+			result_instances.push(h)
 
 		JsonRoutes.sendResult res, {
 			code: 200
