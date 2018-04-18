@@ -2317,10 +2317,16 @@ uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
 		return
 	# instance_id, records:{o:object_name,ids:[]}, sync_date, instance_finish_date, step_name
 	newObj = {
-		instance_id: ins_id
-		records: record_ids
-		step_name: step_name
-		instance_finish_date: new Date()
+		info: {
+			instance_id: ins_id
+			records: record_ids
+			step_name: step_name
+			instance_finish_date: new Date()
+		}
+		sent: false
+		sending: 0
+		createdAt: new Date()
+		createdBy: '<SERVER>'
 	}
 
 	db.instance_record_queue.insert(newObj)
