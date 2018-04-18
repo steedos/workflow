@@ -2313,8 +2313,7 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version) ->
 	return require_but_empty_fields
 
 uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
-	if not record_ids
-		return
+
 	# instance_id, records:{o:object_name,ids:[]}, sync_date, instance_finish_date, step_name
 	newObj = {
 		info: {
