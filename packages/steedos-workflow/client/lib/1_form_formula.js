@@ -310,40 +310,42 @@ Form_formula.init_formula_values = function(fields, autoFormDoc){
     }
 
 
-    var formula_values, q = {};
+    var formula_values;
+    // var q = {};
+    // q.spaceId = Session.get("spaceId");
 
-    q.spaceId = Session.get("spaceId");
+	formula_values = Formula_data.getInstanceValues(fields, autoFormDoc, approver, applicant, Session.get("spaceId"));
 
-    var data = 
-        {
-        'fields' : fields,
-        'autoFormDoc' : autoFormDoc,
-        'approver' : approver,
-        'applicant' : applicant,
-        }
-    
-    var data = JSON.stringify(data);
-
-    $.ajax({
-        url: Steedos.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
-        type: 'POST',
-        async: false,
-        data: data,
-        dataType: 'json',
-        processData: false,
-        contentType: "application/json",
-        success: function(responseText, status) {
-          if (responseText.errors) {
-            console.error(responseText.errors);
-            return;
-          }
-
-          formula_values = responseText.formula_values;
-        },
-        error: function(xhr, msg, ex) {
-          console.error(msg);
-        }
-    });
+    // var data =
+    //     {
+    //     'fields' : fields,
+    //     'autoFormDoc' : autoFormDoc,
+    //     'approver' : approver,
+    //     'applicant' : applicant,
+    //     }
+    //
+    // var data = JSON.stringify(data);
+	//
+    // $.ajax({
+    //     url: Steedos.absoluteUrl('api/workflow/init_formula_values') + '?' + $.param(q),
+    //     type: 'POST',
+    //     async: false,
+    //     data: data,
+    //     dataType: 'json',
+    //     processData: false,
+    //     contentType: "application/json",
+    //     success: function(responseText, status) {
+    //       if (responseText.errors) {
+    //         console.error(responseText.errors);
+    //         return;
+    //       }
+	//
+    //       formula_values = responseText.formula_values;
+    //     },
+    //     error: function(xhr, msg, ex) {
+    //       console.error(msg);
+    //     }
+    // });
 
     return formula_values;
 };
