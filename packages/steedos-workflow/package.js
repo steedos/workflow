@@ -443,6 +443,11 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/instance_sign_text.html', 'server');
 	api.addFiles('client/views/instance/instance_sign_text.coffee', 'client');
 
+	api.addFiles('client/lib/formula_data.coffee', 'client');
+
+	api.addFiles('routes/api_formula_users.coffee', 'server');
+	api.addFiles('routes/api_formula_organizations.coffee', 'server');
+
 	api.export("WorkflowManager");
 	api.export("InstanceManager");
 	api.export("WorkflowManager_format");
