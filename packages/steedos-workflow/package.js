@@ -64,13 +64,7 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
-<<<<<<< HEAD
-	api.use('steedos:authenticate-user-by-access-token');
-	api.use('steedos:authenticate-user-by-auth-token');
-	// api.use('steedos:app-workflow');
-=======
 	api.use('steedos:api-authenticate-user');
->>>>>>> master
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);

@@ -96,7 +96,7 @@ steedos:cors
 steedos:ui
 steedos:connect-bqq
 steedos:connect-dingtalk
-steedos:connect-qiyeweixin
+# steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api
@@ -177,8 +177,7 @@ steedos:datatables-extensions
 chuangbo:cookie
 # steedos:express-status-monitor
 
-steedos:authenticate-user-by-access-token
-steedos:authenticate-user-by-auth-token
+steedos:api-authenticate-user
 
 steedos:huaweipush
 

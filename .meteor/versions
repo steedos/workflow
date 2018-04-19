@@ -150,14 +150,13 @@ steedos:accounts-t9n@1.14.2_7
 steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
-steedos:authenticate-user-by-access-token@1.0.0
-steedos:authenticate-user-by-auth-token@1.0.0
+steedos:api-authenticate-user@1.0.0
 steedos:autoform@0.0.10
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
 steedos:autoform-modals@0.3.9_10
-steedos:base@0.0.76
+steedos:base@0.0.77
 steedos:calendar@0.1.24
 steedos:calendar-i18n@0.0.16
 steedos:cfs-access-point@0.1.50
