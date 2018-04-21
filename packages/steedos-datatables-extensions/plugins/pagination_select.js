@@ -33,6 +33,7 @@ $.fn.dataTableExt.oPagination.listbox = {
             nPaging.setAttribute('id', oSettings.sTableId + '_paginate');
         }
         nInput.style.display = "inline";
+        nInput.className = "form-control input-sm";
         nPage.innerHTML = "Page ";
         nPaging.appendChild(nPage);
         nPaging.appendChild(nInput);
