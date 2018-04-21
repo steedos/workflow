@@ -24,7 +24,6 @@ instancesListTableTabular = (flowId, fields)->
 		name: "instances",
 		collection: db.instances,
 		pub: "instance_tabular",
-		sub: Steedos.subs["InstanceTabular"],
 		onUnload: ()->
 			Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 
