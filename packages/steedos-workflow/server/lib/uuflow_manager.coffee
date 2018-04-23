@@ -1610,8 +1610,6 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
 	ins_obj.values = new Object
-	if instance_from_client["record_ids"]
-		ins_obj.record_ids = instance_from_client["record_ids"]
 
 	# 新建Trace
 	trace_obj = {}
