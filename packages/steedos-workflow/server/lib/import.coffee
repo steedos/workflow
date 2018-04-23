@@ -54,10 +54,10 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 		form.space = spaceId
 		if enabled
 			form.state = 'enabled'
+			form.is_valid = true #直接启用的表单设置is valid值为true
 		else
 			form.state = 'disabled' #设置状态为 未启用
-
-		form.is_valid = false #设置已验证为 false
+			form.is_valid = false #设置已验证为 false
 
 		form.created = new Date()
 
@@ -98,10 +98,10 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			if enabled
 				flow.state = 'enabled'
+				flow.is_valid = true #直接启用的流程设置is valid值为true
 			else
 				flow.state = 'disabled' #设置状态为 未启用
-
-			flow.is_valid = false
+				flow.is_valid = false
 
 			flow.current_no = 0 #重置编号起始为0
 
@@ -109,7 +109,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 			flow.created_by = uid
 
-			if !flow.perms
+			#跨工作区导入时，重置流程权限perms
+			if !flow.perms || flow.space !=  spaceId
 				#设置提交部门为：全公司
 				perms = {
 					_id: new Mongo.ObjectID()._str
