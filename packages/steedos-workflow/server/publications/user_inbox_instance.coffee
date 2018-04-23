@@ -1,3 +1,4 @@
+###
 Meteor.publishComposite "user_inbox_instance", ()->
 	unless this.userId
 		return this.ready()
@@ -30,7 +31,9 @@ Meteor.publishComposite "user_inbox_instance", ()->
 				db.flows.find({_id: instance.flow}, {fields: {name: 1, space: 1}});
 		}
 	]
+###
 
+###
 Meteor.publish 'my_inbox_instances', (spaceId)->
 	unless this.userId
 		return this.ready()
@@ -78,7 +81,7 @@ Meteor.publish 'my_inbox_instances', (spaceId)->
 	self.ready();
 	self.onStop ()->
 		handle.stop()
-
+###
 
 _get_flow_instances_aggregate = (spaceId, userId, _items, callback)->
 	db.instances.rawCollection().aggregate [
