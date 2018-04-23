@@ -71,7 +71,6 @@ _getUsersData = (spaceId, userIds)->
 
 _convertSpaceUser = (u)->
 	if u instanceof Array
-		console.log (JSON.stringify(u))
 		user = {}
 		user.name = u.getProperty('name')
 		user.organization = {}
