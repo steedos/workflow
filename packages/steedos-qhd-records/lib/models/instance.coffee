@@ -4,6 +4,7 @@ db.archive_classification = new Meteor.Collection('archive_classification')
 db.archive_fonds = new Meteor.Collection('archive_fonds')
 db.archive_retention = new Meteor.Collection('archive_retention')
 db.archive_wenshu = new Meteor.Collection('archive_wenshu')
+db.archive_audit = new Meteor.Collection('archive_audit')
 
 @InstanceManager = {}
 

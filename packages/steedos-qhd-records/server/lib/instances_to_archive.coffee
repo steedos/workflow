@@ -4,10 +4,6 @@ fs = Npm.require('fs')
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
 
-pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
-
-absolutePath = path.resolve(pathname);
-
 # spaces: Array 工作区ID
 # contract_flows： Array 合同类流程
 InstancesToArchive = (spaces, contract_flows, ins_ids) ->
@@ -28,7 +24,8 @@ InstancesToArchive.failed = (instance, error)->
 InstancesToArchive::getNonContractInstances = ()->
 	query = {
 		space: {$in: @spaces},
-		flow: {$in: ["1ff12bc17e235503aff2c4c9"]},
+		flow: {$nin: @contract_flows},
+		# is_archived字段被老归档接口占用，所以使用 is_recorded 字段判断是否归档
 		$or: [
 			{is_recorded: false},
 			{is_recorded: {$exists: false}}
@@ -46,6 +43,7 @@ InstancesToArchive::getNonContractInstances = ()->
 		query._id = {$in: @ins_ids}
 	return db.instances.find(query, {fields: {_id: 1}}).fetch()
 
+
 #	校验必填
 _checkParameter = (formData) ->
 	if !formData.fonds_name
@@ -61,16 +59,6 @@ buildElectronicRecordCode = (formData) ->
 								formData?.year + strCount
 	return strElectronicRecordCode
 
-# 整理附件数据
-# _minxiAttachmentInfo = (formData, instance, attach) ->
-# 	user = db.users.findOne({_id: attach.metadata.owner})
-# 	formData.attachInfo.push {
-# 		instance: instance._id,
-# 		attach_name: encodeURI(attach.name()),
-# 		owner: attach.metadata.owner,
-# 		owner_username: encodeURI(user.username || user.steedos_id),
-# 		is_private: attach.metadata.is_private || false
-# 	}
 
 # 整理档案表数据
 _minxiInstanceData = (formData, instance) ->
@@ -80,6 +68,12 @@ _minxiInstanceData = (formData, instance) ->
 
 	formData.space = instance.space
 
+	formData.owner = instance.submitter
+
+	formData.created_by = instance.created_by
+
+	formData.created = new Date()
+
 	# 字段映射
 	field_values = InstanceManager.handlerInstanceByFieldMap(instance)
 	formData = _.extend formData, field_values
@@ -87,27 +81,31 @@ _minxiInstanceData = (formData, instance) ->
 	# 根据FONDSID查找全宗号
 	fond = db.archive_fonds.findOne({'name':formData?.fonds_name})
 	formData.fonds_identifier = fond?._id
+
 	# 根据机构查找对应的类别号
 	classification = db.archive_classification.findOne({'dept':/{formData?.organizational_structure}/})
-	formData.fonds_identifier = classification?._id
-	# formData.category_code = "Fy9xCJxhCzBTggAbG"
+	formData.category_code = classification?._id
+
 	# 保管期限代码查找
 	retention = db.archive_retention.findOne({'code':formData?.archive_retention_code})
 	formData.retention_peroid = retention?._id
+
 	# 根据保管期限,处理标志
 	if retention?.years >= 10
 		formData.produce_flag = "在档"
 	else
 		formData.produce_flag = "暂存"
 
-	# 电子文件号
-	formData.electronic_record_code = buildElectronicRecordCode formData
+	# 电子文件号，不生成，点击接收的时候才生成
+	# formData.electronic_record_code = buildElectronicRecordCode formData
+	
 	# 归档日期
 	formData.archive_date = moment(new Date()).format(dateFormat)
 
+	# OA表单的ID，作为判断OA归档的标志
 	formData.external_id = instance._id
 
-	formData.is_receive = false
+	formData.is_received = false
 
 	fieldNames = _.keys(formData)
 
@@ -134,6 +132,18 @@ _minxiInstanceData = (formData, instance) ->
 	formData.attach = new Array()
 	formData.attachInfo = new Array()
 
+
+	# 整理附件数据
+	_minxiAttachmentInfo = (formData, instance, attach) ->
+		user = db.users.findOne({_id: attach.metadata.owner})
+		formData.attachInfo.push {
+			instance: instance._id,
+			attach_name: encodeURI(attach.name()),
+			owner: attach.metadata.owner,
+			owner_username: encodeURI(user.username || user.steedos_id),
+			is_private: attach.metadata.is_private || false
+		}
+
 	mainFilesHandle = (f)->
 		console.log "============正文附件流=============="
 		console.log f.createReadStream('instances')
@@ -143,7 +153,7 @@ _minxiInstanceData = (formData, instance) ->
 				formData.attach.push {
 					value: fileStream
 				}
-				# _minxiAttachmentInfo formData, instance, f
+				_minxiAttachmentInfo formData, instance, f
 			else
 				logger.error "附件不存在：#{f._id}"
 		catch e
@@ -155,38 +165,100 @@ _minxiInstanceData = (formData, instance) ->
 		"metadata.main": true
 	}).fetch()
 
-	# mainFile.forEach mainFilesHandle
+	mainFile.forEach mainFilesHandle
 
 	console.log("_minxiInstanceData end", instance._id)
 
 	return formData
 
+# 整理档案表数据
+_minxiInstanceTraces = (auditList, instance, record_id) ->
+	# 获取步骤状态文本
+	getApproveStatusText = (approveJudge) ->
+		locale = "zh-CN"
+		#已结束的显示为核准/驳回/取消申请，并显示处理状态图标
+		approveStatusText = undefined
+		switch approveJudge
+			when 'approved'
+				# 已核准
+				approveStatusText = TAPi18n.__('Instance State approved', {}, locale)
+			when 'rejected'
+				# 已驳回
+				approveStatusText = TAPi18n.__('Instance State rejected', {}, locale)
+			when 'terminated'
+				# 已取消
+				approveStatusText = TAPi18n.__('Instance State terminated', {}, locale)
+			when 'reassigned'
+				# 转签核
+				approveStatusText = TAPi18n.__('Instance State reassigned', {}, locale)
+			when 'relocated'
+				# 重定位
+				approveStatusText = TAPi18n.__('Instance State relocated', {}, locale)
+			when 'retrieved'
+				# 已取回
+				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
+			when 'returned'
+				# 已退回
+				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
+			when 'readed'
+				# 已阅
+				approveStatusText = TAPi18n.__('Instance State readed', {}, locale)
+			else
+				approveStatusText = ''
+				break
+		return approveStatusText
+
+	traces = instance?.traces
+
+	traces.forEach (trace)->
+		approves = trace?.approves
+		approves.forEach (approve)->
+			auditObj = {}
+			auditObj.business_status = "计划任务"
+			auditObj.business_activity = trace?.name
+			auditObj.action_time = approve?.start_date
+			auditObj.action_user = approve?.user
+			auditObj.action_description = getApproveStatusText approve?.judge
+			auditObj.action_administrative_records_id = record_id
+			auditObj.instace_id = instance._id
+			auditObj.space = instance.space
+			auditObj.owner = approve?.user
+			db.archive_audit.insert auditObj
+	return auditList
+
 InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 	#	表单数据
 	formData = {}
+
+	# 审计记录
+	auditList = []
 
 	_minxiInstanceData(formData, instance)
 
 	if _checkParameter(formData)
 		logger.debug("_sendContractInstance: #{instance._id}")
 		# 添加到相应的档案表
-		db.archive_wenshu.direct.insert(formData)
+		record_id = db.archive_wenshu.direct.insert(formData)
+
+		# 处理审计记录
+		_minxiInstanceTraces(auditList, instance, record_id)
+
 		# InstancesToArchive.success instance
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
 InstancesToArchive::syncNonContractInstances = () ->
-	# instance = db.instances.findOne({_id: 'hEKkSrLCoQ4Q2Y5z4'})
-	# if instance
-	# 	InstancesToArchive.syncNonContractInstance instance
+	instance = db.instances.findOne({_id: 'XZymgZ8qFoYGYJfQW'})
+	if instance
+		InstancesToArchive.syncNonContractInstance instance
 
-	console.time("syncNonContractInstances")
-	instances = @getNonContractInstances()
-	that = @
-	console.log "instances.length is #{instances.length}"
-	instances.forEach (mini_ins)->
-		instance = db.instances.findOne({_id: mini_ins._id})
-		if instance
-			console.log instance.name
-			InstancesToArchive.syncNonContractInstance instance
-	console.timeEnd("syncNonContractInstances")
+	# console.time("syncNonContractInstances")
+	# instances = @getNonContractInstances()
+	# that = @
+	# console.log "instances.length is #{instances.length}"
+	# instances.forEach (mini_ins)->
+	# 	instance = db.instances.findOne({_id: mini_ins._id})
+	# 	if instance
+	# 		console.log instance.name
+	# 		InstancesToArchive.syncNonContractInstance instance
+	# console.timeEnd("syncNonContractInstances")

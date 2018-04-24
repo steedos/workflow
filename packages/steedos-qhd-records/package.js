@@ -51,6 +51,8 @@ Package.onUse(function (api) {
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
 	api.use('steedos:base');
+	api.use('steedos:logger');
+
 
 	
 	api.addFiles('lib/models/instance.coffee', 'server');
