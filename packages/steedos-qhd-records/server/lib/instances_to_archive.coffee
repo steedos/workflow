@@ -78,6 +78,19 @@ _minxiInstanceData = (formData, instance) ->
 	field_values = InstanceManager.handlerInstanceByFieldMap(instance)
 
 	formData.applicant_name = field_values?.nigaorens
+	formData.document_status = field_values?.guidangzhuangtai
+	formData.archive_dept = field_values?.guidangbumen
+	formData.applicant_organization_name=field_values?.nigaodanwei || field_values?.FILE_CODE_fzr
+	formData.total_number_of_pages = field_values?.PAGE_COUNT
+	formData.fonds_name = field_values?.fonds_name || field_values?.FONDSID
+	formData.security_classification = field_values?.miji
+	formData.document_type = field_values?.wenjianleixing
+	formData.document_date = field_values?.wenjianriqi
+	formData.archival_code = field_values?.wenjianzihao
+	formData.author = field_values?.FILE_CODE_fzr
+	formData.title = instance.name
+#	formData.archive_retention_code
+
 	# ...
 
 	# 根据FONDSID查找全宗号
@@ -85,11 +98,11 @@ _minxiInstanceData = (formData, instance) ->
 	formData.fonds_identifier = fond?._id
 
 	# 根据机构查找对应的类别号
-	classification = db.archive_classification.findOne({'dept':/{formData?.organizational_structure}/})
+	classification = db.archive_classification.findOne({'dept':/{formData?.FILING_DEPT}/})
 	formData.category_code = classification?._id
 
 	# 保管期限代码查找
-	retention = db.archive_retention.findOne({'code':formData?.archive_retention_code})
+	retention = db.archive_retention.findOne({'name':field_values?.baocunqixian})
 	formData.retention_peroid = retention?._id
 
 	# 根据保管期限,处理标志
@@ -106,7 +119,13 @@ _minxiInstanceData = (formData, instance) ->
 
 	# OA表单的ID，作为判断OA归档的标志
 	formData.external_id = instance._id
-
+	if instance?.related_instances
+		related_archives = []
+		instance.related_instances.forEach (related_instance) ->
+			related_archive = db.archive_wenshu.findOne({'external_id':related_instance},{fields:{_id:1}})
+			if related_archive
+				related_archives.push related_archive?._id
+		formData.related_archives = related_archives
 	formData.is_received = false
 
 	fieldNames = _.keys(formData)
@@ -200,7 +219,12 @@ InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 		logger.debug("_sendContractInstance: #{instance._id}")
 		# 添加到相应的档案表
 		record_id = db.archive_wenshu.direct.insert(formData)
-
+		formData.related_archives.forEach (related_archive)->
+			related_records = db.archive_wenshu.findOne({_id:related_archive},{fields:{related_archives:1}})
+			console.log related_records
+			if related_records?.related_archives.indexOf(record_id)<0
+				related_records?.related_archives.push record_id
+				db.archive_wenshu.direct.update({_id:related_archive},{$set:{related_archives:related_records?.related_archives}})
 		# 处理审计记录
 		_minxiInstanceTraces(auditList, instance, record_id)
 
@@ -209,7 +233,7 @@ InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
 InstancesToArchive::syncNonContractInstances = () ->
-	instance = db.instances.findOne({_id: 'XZymgZ8qFoYGYJfQW'})
+	instance = db.instances.findOne({_id: 'YSPuWYg2DCa9puxq6'})
 	if instance
 		InstancesToArchive.syncNonContractInstance instance
 
