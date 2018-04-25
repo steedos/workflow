@@ -74,9 +74,12 @@ _minxiInstanceData = (formData, instance) ->
 
 	formData.created = new Date()
 
-	# 字段映射
+	# 字段映射:表单字段对应到formData
 	field_values = InstanceManager.handlerInstanceByFieldMap(instance)
-	formData = _.extend formData, field_values
+
+	formData.applicant_name = field_values?.nigaorens
+	# ...
+
 
 	# 根据FONDSID查找全宗号
 	fond = db.archive_fonds.findOne({'name':formData?.fonds_name})
@@ -125,47 +128,6 @@ _minxiInstanceData = (formData, instance) ->
 
 		if !fieldValue
 			fieldValue = ''
-
-
-
-	# ===============正文附件=======================
-	formData.attach = new Array()
-	formData.attachInfo = new Array()
-
-
-	# 整理附件数据
-	_minxiAttachmentInfo = (formData, instance, attach) ->
-		user = db.users.findOne({_id: attach.metadata.owner})
-		formData.attachInfo.push {
-			instance: instance._id,
-			attach_name: encodeURI(attach.name()),
-			owner: attach.metadata.owner,
-			owner_username: encodeURI(user.username || user.steedos_id),
-			is_private: attach.metadata.is_private || false
-		}
-
-	mainFilesHandle = (f)->
-		console.log "============正文附件流=============="
-		console.log f.createReadStream('instances')
-		try
-			fileStream = f.createReadStream('instances')
-			if fileStream
-				formData.attach.push {
-					value: fileStream
-				}
-				_minxiAttachmentInfo formData, instance, f
-			else
-				logger.error "附件不存在：#{f._id}"
-		catch e
-			logger.error "正文附件下载失败：#{f._id}. error: " + e
-
-	mainFile = cfs.instances.find({
-		'metadata.instance': instance._id,
-		'metadata.current': true,
-		"metadata.main": true
-	}).fetch()
-
-	mainFile.forEach mainFilesHandle
 
 	console.log("_minxiInstanceData end", instance._id)
 
