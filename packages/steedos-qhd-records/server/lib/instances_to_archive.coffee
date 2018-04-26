@@ -152,82 +152,78 @@ _minxiInstanceData = (formData, instance) ->
 	return formData
 
 
-
 # 整理文件数据
 _minxiAttachmentInfo = (instance, record_id) ->
 	# 对象名
 	object_name = RecordsQHD?.settings_records_qhd?.to_archive?.object_name
 	parents = []
 	spaceId = instance?.space
-	# 查找 文件->归档
-	files = cfs.instances.find({
-		'metadata.instance': instance._id
+
+	# 查找最新版本的文件(包括正文附件)
+	currentFiles = cfs.instances.find({
+		'metadata.instance': instance._id,
+		'metadata.current': true
 	}).fetch()
 
-	files.forEach (f)->
-		console.log "==== f ===="
-		console.log f?.copies?.instances?.name
+	currentFiles.forEach (cf)->
 		try
-			newFile = new FS.File()
+			versions = []
+			# 根据当前的文件,生成一个cms_files记录
 			cmsFileId = db.cms_files._makeNewID()
-			console.log "cmsFileId", cmsFileId
-			if !parents.includes(cmsFileId)
-				parents.push cmsFileId
-				db.cms_files.insert({
+			db.cms_files.insert({
 					_id: cmsFileId,
+					versions: [],
+					created_by: cf.metadata.owner,
+					size: cf.size(),
+					owner: cf.metadata.owner,
+					modified: cf.metadata.modified,
 					parent: {
 						o: object_name,
 						ids: [record_id]
 					},
+					modified_by: cf.metadata.modified_by,
+					created: cf.metadata.created,
+					name: cf.name(),
 					space: spaceId,
-					versions: [],
-					owner: f.metadata.owner,
-					created_by: f.metadata.owner,
-					modified_by: f.metadata.owner
+					extention: cf.extension()
 				})
 
-				# 未读到文件流？？？？？？
+			# 查找文件的历史版本
+			historyFiles = cfs.instances.find({
+				'metadata.instance': cf.metadata.instance,
+				'metadata.current': {$ne: true},
+				"metadata.main": {$ne: true},
+				"metadata.parent": cf.metadata.parent
+			}, {sort: {uploadedAt: -1}}).fetch()
+			# 把当前文件放在历史版本文件的最后
+			historyFiles.push(cf)
+			historyFiles.forEach (hf) ->
+				newFile = new FS.File()
 				newFile.attachData(
-					f.createReadStream('instances'),
-					{type: f.original.type},
+					hf.createReadStream('instances'),
+					{type: hf.original.type},
 					(err)->
 						if err
 							throw new Meteor.Error(err.error, err.reason)
-						newFile.name f.name()
-						newFile.size f.size()
+						newFile.name hf.name()
+						newFile.size hf.size()
 						metadata = {
-							owner: f.metadata.owner,
-							owner_name: f.metadata?.owner_name,
+							owner: hf.metadata.owner,
+							owner_name: hf.metadata?.owner_name,
 							space: spaceId,
 							record_id: record_id,
 							object_name: object_name,
 							parent: cmsFileId,
-							current: f.metadata?.current
+							current: hf.metadata?.current
 						}
 						newFile.metadata = metadata
 						fileObj = cfs.files.insert(newFile)
 						if fileObj
-							if f.metadata?.current == true
-								db.cms_files.update(cmsFileId, {
-									$set: {
-											size: fileObj.size(),
-											name: fileObj.name(),
-											extention: fileObj.extension(),
-										},
-									$addToSet: {
-											versions: fileObj._id
-										}
-									})
-							else
-								db.cms_files.update(cmsFileId, {
-									$addToSet: {
-											versions: fileObj._id
-										}
-									})
-						
+							versions.push(fileObj._id)
 					)
+			db.cms_files.update(cmsFileId, {$set: {versions: versions}})
 		catch e
-			logger.error "正文附件下载失败：#{f._id}. error: " + e
+			logger.error "正文附件下载失败：#{hf._id}. error: " + e
 
 
 # 整理档案表数据
