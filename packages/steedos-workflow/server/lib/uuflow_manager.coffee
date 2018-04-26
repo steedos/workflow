@@ -702,7 +702,6 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.finish_date = new Date
 		setObj.current_step_name = next_step_name
 		setObj.final_decision = 'approved'
-		uuflowManager.triggerRecordInstanceQueue(instance._id, instance.record_ids, next_step_name)
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -897,7 +896,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					setObj.cc_users = instance.cc_users
 
 				setObj.current_step_name = next_step_name
-				uuflowManager.triggerRecordInstanceQueue(instance._id, instance.record_ids, next_step_name)
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1087,7 +1085,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 						setObj.cc_users = instance.cc_users
 
 					setObj.current_step_name = next_step_name
-					uuflowManager.triggerRecordInstanceQueue(instance._id, instance.record_ids, next_step_name)
 				else
 					# 若不是结束结点
 					# 先判断nextsteps.step.users是否为空
@@ -1293,7 +1290,6 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 
 				setObj.current_step_name = next_step_name
 				setObj.final_decision = 'approved'
-				uuflowManager.triggerRecordInstanceQueue(instance._id, instance.record_ids, next_step_name)
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1866,7 +1862,6 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 		upObj.finish_date = new Date
 		upObj.current_step_name = next_step.name
 		upObj.final_decision = "approved"
-		uuflowManager.triggerRecordInstanceQueue(instance._id, instance.record_ids, next_step.name)
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
