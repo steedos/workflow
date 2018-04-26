@@ -221,6 +221,7 @@ _minxiAttachmentInfo = (instance, record_id) ->
 						if fileObj
 							versions.push(fileObj._id)
 					)
+			# 把 cms_files 记录的 versions 更新
 			db.cms_files.update(cmsFileId, {$set: {versions: versions}})
 		catch e
 			logger.error "正文附件下载失败：#{hf._id}. error: " + e
