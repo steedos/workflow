@@ -151,6 +151,85 @@ _minxiInstanceData = (formData, instance) ->
 
 	return formData
 
+
+
+# 整理文件数据
+_minxiAttachmentInfo = (instance, record_id) ->
+	# 对象名
+	object_name = RecordsQHD?.settings_records_qhd?.to_archive?.object_name
+	parents = []
+	spaceId = instance?.space
+	# 查找 文件->归档
+	files = cfs.instances.find({
+		'metadata.instance': instance._id
+	}).fetch()
+
+	files.forEach (f)->
+		console.log "==== f ===="
+		console.log f?.copies?.instances?.name
+		try
+			newFile = new FS.File()
+			cmsFileId = db.cms_files._makeNewID()
+			console.log "cmsFileId", cmsFileId
+			if !parents.includes(cmsFileId)
+				parents.push cmsFileId
+				db.cms_files.insert({
+					_id: cmsFileId,
+					parent: {
+						o: object_name,
+						ids: [record_id]
+					},
+					space: spaceId,
+					versions: [],
+					owner: f.metadata.owner,
+					created_by: f.metadata.owner,
+					modified_by: f.metadata.owner
+				})
+
+				# 未读到文件流？？？？？？
+				newFile.attachData(
+					f.createReadStream('instances'),
+					{type: f.original.type},
+					(err)->
+						if err
+							throw new Meteor.Error(err.error, err.reason)
+						newFile.name f.name()
+						newFile.size f.size()
+						metadata = {
+							owner: f.metadata.owner,
+							owner_name: f.metadata?.owner_name,
+							space: spaceId,
+							record_id: record_id,
+							object_name: object_name,
+							parent: cmsFileId,
+							current: f.metadata?.current
+						}
+						newFile.metadata = metadata
+						fileObj = cfs.files.insert(newFile)
+						if fileObj
+							if f.metadata?.current == true
+								db.cms_files.update(cmsFileId, {
+									$set: {
+											size: fileObj.size(),
+											name: fileObj.name(),
+											extention: fileObj.extension(),
+										},
+									$addToSet: {
+											versions: fileObj._id
+										}
+									})
+							else
+								db.cms_files.update(cmsFileId, {
+									$addToSet: {
+											versions: fileObj._id
+										}
+									})
+						
+					)
+		catch e
+			logger.error "正文附件下载失败：#{f._id}. error: " + e
+
+
 # 整理档案表数据
 _minxiInstanceTraces = (auditList, instance, record_id) ->
 	# 获取步骤状态文本
@@ -191,7 +270,7 @@ _minxiInstanceTraces = (auditList, instance, record_id) ->
 	traces = instance?.traces
 
 	traces.forEach (trace)->
-		approves = trace?.approves
+		approves = trace?.approves || []
 		approves.forEach (approve)->
 			auditObj = {}
 			auditObj.business_status = "计划任务"
@@ -219,12 +298,16 @@ InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 		logger.debug("_sendContractInstance: #{instance._id}")
 		# 添加到相应的档案表
 		record_id = db.archive_wenshu.direct.insert(formData)
-		formData.related_archives.forEach (related_archive)->
-			related_records = db.archive_wenshu.findOne({_id:related_archive},{fields:{related_archives:1}})
-			console.log related_records
-			if related_records?.related_archives.indexOf(record_id)<0
-				related_records?.related_archives.push record_id
-				db.archive_wenshu.direct.update({_id:related_archive},{$set:{related_archives:related_records?.related_archives}})
+		if formData?.related_archives
+			formData.related_archives.forEach (related_archive)->
+				related_records = db.archive_wenshu.findOne({_id:related_archive},{fields:{related_archives:1}})
+				console.log related_records
+				if related_records?.related_archives.indexOf(record_id)<0
+					related_records?.related_archives.push record_id
+					db.archive_wenshu.direct.update({_id:related_archive},{$set:{related_archives:related_records?.related_archives}})
+
+		_minxiAttachmentInfo(instance, record_id)
+
 		# 处理审计记录
 		_minxiInstanceTraces(auditList, instance, record_id)
 
@@ -232,18 +315,22 @@ InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
-InstancesToArchive::syncNonContractInstances = () ->
-	instance = db.instances.findOne({_id: 'YSPuWYg2DCa9puxq6'})
+
+@Test = {}
+# Test.run('WepcaSHkHrXXdEZ8D')
+Test.run = (ins_id)->
+	instance = db.instances.findOne({_id: ins_id})
 	if instance
 		InstancesToArchive.syncNonContractInstance instance
 
-	# console.time("syncNonContractInstances")
-	# instances = @getNonContractInstances()
-	# that = @
-	# console.log "instances.length is #{instances.length}"
-	# instances.forEach (mini_ins)->
-	# 	instance = db.instances.findOne({_id: mini_ins._id})
-	# 	if instance
-	# 		console.log instance.name
-	# 		InstancesToArchive.syncNonContractInstance instance
-	# console.timeEnd("syncNonContractInstances")
+InstancesToArchive::syncNonContractInstances = () ->
+	console.time("syncNonContractInstances")
+	instances = @getNonContractInstances()
+	that = @
+	console.log "instances.length is #{instances.length}"
+	instances.forEach (mini_ins)->
+		instance = db.instances.findOne({_id: mini_ins._id})
+		if instance
+			console.log instance.name
+			InstancesToArchive.syncNonContractInstance instance
+	console.timeEnd("syncNonContractInstances")

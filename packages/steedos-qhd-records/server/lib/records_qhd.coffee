@@ -38,7 +38,7 @@ RecordsQHD.instanceToArchive = (ins_ids)->
 		logger.error "缺少settings配置: records-qhd.spaces"
 		return
 
-	instancesToArchive = new InstancesToArchive(spaces,flows,ins_ids)
+	instancesToArchive = new InstancesToArchive(spaces, flows, ins_ids)
 
 	instancesToArchive.syncNonContractInstances()
 

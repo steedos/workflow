@@ -55,7 +55,8 @@ Package.onUse(function (api) {
 
 
 	
-	api.addFiles('lib/models/instance.coffee', 'server');
+	api.addFiles('lib/models/records.coffee', 'server');
+	api.addFiles('lib/models/cms_files_cfs.coffee', 'server');
 
 	api.addFiles('server/lib/instances_to_archive.coffee', 'server');
 
