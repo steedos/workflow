@@ -42,7 +42,17 @@ instancesListTableTabular = (flowId, fields)->
 			ellipsisLink = settings.oInstance.parent().find('.paging_numbers .pagination .disabled a')
 			ellipsisLink.attr("title", title).css("cursor", "pointer").click ->
 				if !$(this).find('input').length
-					input = $('<input class="paginate_input form-control input-sm" type="text" style="width: 40px;height: 18px;border: none; padding:0 2px;"/>')
+					input = $('<input class="paginate_input form-control input-sm" type="text" style="border: none; padding:0 2px;"/>')
+					if Steedos.isMobile()
+						input.css({
+							width:"52px"
+							height: "20px"
+						})
+					else
+						input.css({
+							width:"52px"
+							height: "16px"
+						})
 					input.attr("title", title).attr("placeholder", title)
 					$(this).empty().append input
 					goPage = (index)->
