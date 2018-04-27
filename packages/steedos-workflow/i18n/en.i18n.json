@@ -659,5 +659,6 @@
 	"instance_approve_distribute_date_label": "Distribute date",
 
 	"flows_auto_remind": "Auto remind",
-	"instances_my_finish_date": "Modified"
+	"instances_my_finish_date": "Modified",
+	"pager_input_hint": "Click and input page number, then press Enter to jump to the specified page"
 }

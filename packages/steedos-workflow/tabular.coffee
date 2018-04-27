@@ -37,6 +37,30 @@ instancesListTableTabular = (flowId, fields)->
 					$(".instance-list").perfectScrollbar("update")
 			else
 				$(".instance-list").scrollTop(0)
+			
+			title = t "pager_input_hint"
+			ellipsisLink = settings.oInstance.parent().find('.paging_numbers .pagination .disabled a')
+			ellipsisLink.attr("title", title).css("cursor", "pointer").click ->
+				if !$(this).find('input').length
+					input = $('<input class="paginate_input form-control input-sm" type="text" style="width: 40px;height: 18px;border: none; padding:0 2px;"/>')
+					input.attr("title", title).attr("placeholder", title)
+					$(this).empty().append input
+					goPage = (index)->
+						if index > 0
+							index--
+							pages = Math.ceil(settings.fnRecordsDisplay() / settings._iDisplayLength)
+							if index > pages
+								index = pages
+							settings.oInstance.DataTable().page(index).draw('page')
+					input.blur (e)->
+						currentPage = $(this).val()
+						goPage currentPage
+						$(this).parent().html '...'
+					input.keydown (e)->
+						if(e.keyCode.toString() == "13")
+							currentPage = $(this).val()
+							goPage currentPage
+
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
 				if data._id == FlowRouter.current().params.instanceId
