@@ -57,10 +57,11 @@ instancesListTableTabular = (flowId, fields)->
 					$(this).empty().append input
 					goPage = (index)->
 						if index > 0
-							index--
 							pages = Math.ceil(settings.fnRecordsDisplay() / settings._iDisplayLength)
 							if index > pages
+								# 页码超出索引时跳转到最后一页
 								index = pages
+							index--
 							settings.oInstance.DataTable().page(index).draw('page')
 					input.blur (e)->
 						currentPage = $(this).val()
