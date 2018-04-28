@@ -18,6 +18,7 @@ InstancesStat.rule = Meteor.settings?.instances_stat
 
 InstancesStat.costTime = (space)->
 	logger.info "[#{new Date()}] start run InstancesStat.costTime"
+	# console.log "[#{new Date()}] start run InstancesStat.costTime"
 	userCostTime = new UserCostTime(space)
 	userCostTime.startStat()
 	logger.info "[#{new Date()}] end run InstancesStat.costTime"
@@ -28,7 +29,7 @@ InstancesStat.run = ()->
 		space = InstancesStat.rule.space
 		InstancesStat.costTime space
 	catch  e
-		console.error "InstancesStat.costTime", e
+		logger.error "InstancesStat.costTime", e
 
 Meteor.startup ->
 	if InstancesStat.rule?.schedule

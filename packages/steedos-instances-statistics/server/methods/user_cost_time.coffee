@@ -18,6 +18,7 @@ UserCostTime::startStat = () ->
 
 	if @year and @month
 		logger.info "指定"+@year+"年"+@month+"月"
+		# console.log "指定"+@year+"年"+@month+"月"
 
 		def_date = new Date( @year + "-" + @month )
 
@@ -35,6 +36,7 @@ UserCostTime::startStat = () ->
 		now_day = now_date.getDate()
 
 		logger.info "不指定年月，默认是" + now_year+"年"+now_month+"月"
+		# console.log "不指定年月，默认是" + now_year+"年"+now_month+"月"
 
 		start_date = new Date( now_year + "-" + now_month )
 
@@ -48,6 +50,9 @@ UserCostTime::startStat = () ->
 
 	logger.info "start_date", start_date
 	logger.info "end_date", end_date
+
+	# console.log "start_date", start_date
+	# console.log "end_date", end_date
 
 	query = {}
 

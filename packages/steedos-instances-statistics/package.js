@@ -34,11 +34,14 @@ Package.onUse(function(api) {
 	api.use('http');
 
 	api.use('steedos:logger');
-	
+	api.use('steedos:base');
+
 	api.addFiles('server/lib/instances_stat.coffee', 'server');
 	api.addFiles('server/methods/user_cost_time.coffee', 'server');
 
-	api.addFiles('server/models/models.coffee');
+	// api.addFiles('server/models/models.coffee');
+	api.addFiles('server/models/instances_statistic.coffee');
+	
 
 	api.export('InstancesStat');
 	api.export('UserCostTime');

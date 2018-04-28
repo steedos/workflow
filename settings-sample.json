@@ -253,6 +253,7 @@
     "spaces": ["Af8eM6mAHo7wMDqD3"],
     "-recurrenceRule": "*/1 * * * *",
     "to_archive": {
+      "object_name":"archive_wenshu",
       "contract_instances": {
         "flows": [
           "49cd342e-76a3-41ed-bbd6-e0921be9f004",
@@ -263,5 +264,10 @@
         ]
       }
     }
+  },
+  // 效率统计
+  "instances_stat":{
+    "space":"Af8eM6mAHo7wMDqD3",
+    "schedule": "*/1 * * * *"
   }
 }

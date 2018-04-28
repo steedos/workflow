@@ -6,5 +6,3 @@ db.spaces = new Mongo.Collection("spaces")
 db.space_users = new Mongo.Collection("space_users")
 
 db.organizations = new Mongo.Collection("organizations")
-
-db.instances_statistic = new Mongo.Collection("instances_statistic")
