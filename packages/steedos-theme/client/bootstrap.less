@@ -1,5 +1,8 @@
 .steedos.fixed {
     .modal {
+        // bootstrap会给modal加touch样式，同时modal也加了position:fix样式固定了，
+        // 这在iphone中是不允许的，所以只能把touch功能放到下面的modal-body中。
+        -webkit-overflow-scrolling: auto;
         .modal-header {
             button.close {
                 padding: 2px 8px;
@@ -10,6 +13,7 @@
             border-color: #ddd;
         }
         .modal-body{
+            -webkit-overflow-scrolling: touch;
             form{
                 .form-group{
                     position: relative;/*为了解决Modal中日期时间控件定位问题*/

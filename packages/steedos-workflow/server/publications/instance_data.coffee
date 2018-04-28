@@ -117,20 +117,16 @@ Meteor.publish 'instance_data', (instanceId, box)->
 			return _change
 
 		return true
-
+	#此处不能添加fields限制，否则会导致数据不实时
 	handle = db.instances.find({_id: instanceId}).observeChanges {
 		changed: (id, fields)->
-#			console.log("changed.................")
 			if(box != 'inbox' || needChange(fields))
-#				console.log("instances changed...")
 				self.changed("instances", id, getMiniInstance(id));
 		removed: (id)->
 			self.removed("instances", id);
 	}
 
 	instance = getMiniInstance(instanceId)
-
-#	console.log("instances added...")
 
 	self.added("instances", instance?._id, instance);
 

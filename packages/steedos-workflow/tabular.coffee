@@ -24,7 +24,6 @@ instancesListTableTabular = (flowId, fields)->
 		name: "instances",
 		collection: db.instances,
 		pub: "instance_tabular",
-		sub: Steedos.subs["InstanceTabular"],
 		onUnload: ()->
 			Meteor.setTimeout(Template.instance_list._tableColumns, 150)
 
@@ -38,6 +37,41 @@ instancesListTableTabular = (flowId, fields)->
 					$(".instance-list").perfectScrollbar("update")
 			else
 				$(".instance-list").scrollTop(0)
+			
+			title = t "pager_input_hint"
+			ellipsisLink = settings.oInstance.parent().find('.paging_numbers .pagination .disabled a')
+			ellipsisLink.attr("title", title).css("cursor", "pointer").click ->
+				if !$(this).find('input').length
+					input = $('<input class="paginate_input form-control input-sm" type="text" style="border: none; padding:0 2px;"/>')
+					if Steedos.isMobile()
+						input.css({
+							width:"52px"
+							height: "20px"
+						})
+					else
+						input.css({
+							width:"52px"
+							height: "16px"
+						})
+					input.attr("title", title).attr("placeholder", title)
+					$(this).empty().append input
+					goPage = (index)->
+						if index > 0
+							pages = Math.ceil(settings.fnRecordsDisplay() / settings._iDisplayLength)
+							if index > pages
+								# 页码超出索引时跳转到最后一页
+								index = pages
+							index--
+							settings.oInstance.DataTable().page(index).draw('page')
+					input.blur (e)->
+						currentPage = $(this).val()
+						goPage currentPage
+						$(this).parent().html '...'
+					input.keydown (e)->
+						if(e.keyCode.toString() == "13")
+							currentPage = $(this).val()
+							goPage currentPage
+
 		createdRow: (row, data, dataIndex) ->
 			if Meteor.isClient
 				if data._id == FlowRouter.current().params.instanceId

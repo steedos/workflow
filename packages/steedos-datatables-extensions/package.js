@@ -13,6 +13,7 @@ Package.onUse(function(api) {
 		'extensions/dataTables.select.js',
 		'extensions/responsive.bootstrap.js',
 		'extensions/responsive.bootstrap.css',
-		'extensions/select.bootstrap.css'
+		'extensions/select.bootstrap.css',
+		'plugins/pagination_select.js'
 	], 'client');
 });

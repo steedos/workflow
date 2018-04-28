@@ -679,5 +679,6 @@
 
 	"flows_auto_remind": "自动催办",
 
-	"instances_my_finish_date": "处理时间"
+	"instances_my_finish_date": "处理时间",
+	"pager_input_hint": "点击输入页码，然后按回车可跳转到指定页"
 }

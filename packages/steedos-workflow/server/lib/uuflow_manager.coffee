@@ -1606,6 +1606,7 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
 	ins_obj.values = new Object
+
 	# 新建Trace
 	trace_obj = {}
 	trace_obj._id = new Mongo.ObjectID()._str
@@ -2303,3 +2304,24 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version) ->
 							require_but_empty_fields.push s_field.name || s_field.code
 
 	return require_but_empty_fields
+
+uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
+
+	if Meteor.settings.cron?.instancerecordqueue_interval
+
+		newObj = {
+			info: {
+				instance_id: ins_id
+				records: record_ids
+				step_name: step_name
+				instance_finish_date: new Date()
+			}
+			sent: false
+			sending: 0
+			createdAt: new Date()
+			createdBy: '<SERVER>'
+		}
+
+		db.instance_record_queue.insert(newObj)
+
+	return
