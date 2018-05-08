@@ -39,7 +39,7 @@ WebApp.rawConnectHandlers.use (req, res, next) ->
 		res.setHeader("Access-Control-Allow-Origin", "*")
 
 	if method == 'OPTIONS'
-		res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept");
+		res.setHeader("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,X-Auth-Token,X-User-Id");
 		res.statusCode = 204;
 		res.setHeader('Content-Length', '0');
 		res.end();

@@ -181,7 +181,7 @@ steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:connect-qiyeweixin@0.0.11
 steedos:contacts@0.0.1
-steedos:cors@0.0.1
+steedos:cors@0.0.2
 steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
