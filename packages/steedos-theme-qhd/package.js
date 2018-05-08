@@ -19,7 +19,7 @@ Package.onUse(function(api) {
     api.use('tap:i18n@1.7.0');
     api.use('tap:i18n', ['client', 'server']);
 
-    api.use('steedos:base@0.0.61');
+    api.use('steedos:base');
 
     tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
     api.addFiles(tapi18nFiles, ['client', 'server']);

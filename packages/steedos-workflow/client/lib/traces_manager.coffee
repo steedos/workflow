@@ -39,7 +39,7 @@ TracesManager.getHandlerSignShowApproves = (ins, handler, check_sign_show)->
 	traces = _.clone(ins.traces)
 
 	currentTrace = _.find traces, (t)->
-		return t._id == currentApprove.trace
+		return t._id == currentApprove?.trace
 
 
 	stepApproves = []
