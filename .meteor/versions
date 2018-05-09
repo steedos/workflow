@@ -83,6 +83,7 @@ mdg:validation-error@0.2.0
 meteor@1.7.2
 meteor-base@1.1.0
 meteor-developer-oauth@1.2.0
+meteorhacks:async@1.0.0
 meteorhacks:meteorx@1.4.1
 meteorhacks:ssr@2.2.0
 meteorhacks:subs-manager@1.6.4
@@ -184,7 +185,7 @@ steedos:cms@0.0.7
 steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
-steedos:cors@0.0.2
+steedos:cors@0.0.3
 steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
@@ -200,6 +201,7 @@ steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
+steedos:oauth2-server@0.0.6
 steedos:qcloud-smsqueue@0.0.1
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
