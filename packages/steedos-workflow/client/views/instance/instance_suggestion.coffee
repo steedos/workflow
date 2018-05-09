@@ -367,7 +367,8 @@ Template.instance_suggestion.events
 		,1
 
 	'click .btn-suggestion-toggle,.instance-suggestion .btn-remove': (event, template)->
-		$(".instance-wrapper .instance-view").toggleClass("suggestion-active")
+		console.log("click .btn-suggestion-toggle,.instance-suggestion .btn-remove")
+		$(".instance-view").toggleClass("suggestion-active")
 		InstanceManager.fixInstancePosition()
 
 	'change #opinion_fields_code': (event, template)->

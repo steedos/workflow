@@ -6,6 +6,10 @@
 			{{#if instanceId}}
 			<div class="instance-wrapper">
 				{{#if isNeedToShowInstance}}
+					<div class="navigation-bar">
+						<div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
+						{{> instance_button}}
+					</div>
 					{{> instance_view}}
 				{{/if}}
 			</div>

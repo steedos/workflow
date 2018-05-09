@@ -1,8 +1,4 @@
 <template name="instance_view">
-    <div class="navigation-bar">
-        <div style='display:none'><input id="instanceId" value="{{instance._id}}"/></div>
-        {{> instance_button}}
-    </div>
     <div class="instance-view {{get_priority_class}}">
         {{> instance_suggestion}}
         <div class="instance {{instanceStyle instance.form}}">

@@ -32,6 +32,7 @@ Package.onUse(function(api) {
 	api.use('tracker');
 	api.use('reywood:publish-composite@1.4.2');
 	api.use('percolate:migrations@0.9.8');
+	api.use('sach:flow-db-admin@1.1.5');
 
 	api.use('aldeed:collection2@2.10.0');
 	api.use('aldeed:tabular@1.6.1');
@@ -152,6 +153,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/cfs.coffee', ['client', 'server']);
 	api.addFiles('lib/cfs_fix.coffee', ['client', 'server']);
 	api.addFiles('lib/settings.coffee', ['client', 'server']);
+	api.addFiles('lib/eval.js', ['client', 'server']);
 
 	api.addFiles('lib/server_session.js');
 	api.export('ServerSession');

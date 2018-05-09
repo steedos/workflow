@@ -101,6 +101,7 @@ Template.instance_view.helpers
 		return InstanceManager.isInbox()
 
 	tracesListData: (instance)->
+		console.log("tracesListData...", WorkflowManager.getInstance())
 		return instance.traces
 
 	notDistributeAndDraft: (state)->

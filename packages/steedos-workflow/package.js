@@ -45,6 +45,9 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 	api.use('steedos:cfs-aliyun');
 	api.use('steedos:cfs-s3');
+	api.use('perak:markdown');
+	api.use('spacebars@1.0.15');
+	api.use('spacebars-compiler@1.1.3');
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('tap:i18n@1.7.0');

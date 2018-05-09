@@ -931,7 +931,7 @@ Template.ins_attach_edit_modal.events({
 
 		var data = TANGER_OCX_OBJ.SaveToURL(url, "file", params_str, encodeURIComponent(filename), 0);
 
-		var json_data = eval('(' + data + ')');
+		var json_data = Steedos.eval('(' + data + ')');
 
 		// 先解锁
 		InstanceManager.unlockAttach(Session.get('cfs_file_id'));

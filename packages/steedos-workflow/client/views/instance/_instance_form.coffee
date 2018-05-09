@@ -406,7 +406,7 @@ InstanceformTemplate.helpers =
 					json_formula = {}
 
 					try
-						json_formula = eval("(" + foo + ")")
+						json_formula = Steedos.eval("(" + foo + ")")
 					catch
 						json_formula = {}
 
@@ -551,7 +551,7 @@ InstanceformTemplate.onCreated = ()->
 		compiled = SpacebarsCompiler.compile("", {isBody: true});
 
 
-	renderFunction = eval(compiled);
+	renderFunction = Steedos.eval(compiled);
 
 	instanceView = new Blaze.View("custom_instance_template", renderFunction);
 

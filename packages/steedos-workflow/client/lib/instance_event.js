@@ -27,7 +27,7 @@ InstanceEvent.initEvents = function(flowId) {
 	var eventStr = getFlowEvent(flowId);
 	if(eventStr){
 		try {
-			eval(eventStr);
+			Steedos.eval(eventStr);
 		} catch (e) {
 
 			toastr.error(TAPi18n.__("flows_events_error") + e);

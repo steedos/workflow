@@ -26,7 +26,7 @@ InstanceMacro.run = (macro) ->
 
 			macro = Form_formula.prependPrefixForFormula("_context", macro)
 
-			return eval(macro)
+			return Steedos.eval(macro)
 	catch  e
 
 		console.log "InstanceMacro.run error." , e
