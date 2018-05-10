@@ -101,7 +101,6 @@ Template.instance_view.helpers
 		return InstanceManager.isInbox()
 
 	tracesListData: (instance)->
-		console.log("tracesListData...", WorkflowManager.getInstance())
 		return instance.traces
 
 	notDistributeAndDraft: (state)->
@@ -144,8 +143,8 @@ Template.instance_view.onRendered ->
 				# if this.scrollTop == 0
 				# 	# 内容高度不足于出现滚动条时也会触发该事件，需要排除掉。
 				# 	return
-				unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
-					$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
+				unless $('.instance-view').hasClass 'suggestion-active'
+					$('.instance-view').toggleClass 'suggestion-active'
 					InstanceManager.fixInstancePosition(true)
 	else if isNeedActiveSuggestion
 		preScrollTop = 0
@@ -161,8 +160,8 @@ Template.instance_view.onRendered ->
 				diffValue = (scrollH-viewH) - scrollTop
 				if diffValue < 20
 					if scrollTop >= preScrollTop
-						unless $('.instance-wrapper .instance-view').hasClass 'suggestion-active'
-							$('.instance-wrapper .instance-view').toggleClass 'suggestion-active'
+						unless $('.instance-view').hasClass 'suggestion-active'
+							$('.instance-view').toggleClass 'suggestion-active'
 							InstanceManager.fixInstancePosition(true)
 					preScrollTop = scrollTop
 			,100
