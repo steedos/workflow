@@ -39,7 +39,7 @@ UUflow_api.post_draft = function (flowId) {
 
 			Steedos.subscribeInstance(instance) //创建成功后，立即订阅新建的instance
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/draft/" + instance._id);
+			FlowRouter.go((Session.get("instance_draft_url") || "/workflow/space/" + Session.get("spaceId") + "/draft/") + instance._id);
 
 			toastr.success(TAPi18n.__('Added successfully'));
 		},
@@ -137,11 +137,11 @@ UUflow_api.post_submit = function (instance) {
 					}
 				});
 
-				FlowRouter.go("/workflow/space/" + Session.get('spaceId') + "/draft/");
+				FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get('spaceId') + "/draft/");
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+			FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Submitted successfully'));
 
@@ -194,7 +194,7 @@ UUflow_api.post_engine = function (approve) {
 				return;
 			}
 			Session.set("instance_change", false);
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+			FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Submitted successfully'));
 			Session.set("instance_submitting", false);
 		},

@@ -885,7 +885,10 @@ InstanceManager.submitIns = function() {
 					WorkflowManager.instanceModified.set(false);
 					toastr.success(TAPi18n.__('Submitted successfully'));
 					Session.set("instance_submitting", false);
-					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+
+					instance_list_url = Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box")
+
+					FlowRouter.go(instance_list_url);
 				};
 			});
 		} else {
@@ -1683,4 +1686,63 @@ InstanceManager.getDistributeStep = function() {
 		}
 	}
 	return step;
+}
+
+//退回申请单
+InstanceManager.returnIns = function () {
+	var ins, pre_handlers, pre_step, pre_trace;
+	ins = WorkflowManager.getInstance();
+	pre_trace = ins.traces[ins.traces.length - 2];
+	pre_step = WorkflowManager.getInstanceStep(pre_trace.step);
+	pre_handlers = _.pluck(pre_trace.approves, "handler_name");
+	return swal({
+		title: t("instance_return"),
+		text: TAPi18n.__("instance_return_confirm", {
+			step_name: pre_step.name,
+			handlers_name: pre_handlers.join(",")
+		}),
+		type: "input",
+		confirmButtonText: t('OK'),
+		cancelButtonText: t('Cancel'),
+		showCancelButton: true,
+		closeOnConfirm: true
+	}, function(reason) {
+		if (reason === false) {
+			return false;
+		}
+		$("body").addClass("loading");
+		return Meteor.call("instance_return", InstanceManager.getMyApprove(), reason, function(err, result) {
+			$("body").removeClass("loading");
+			if (err) {
+				toastr.error(TAPi18n.__(err.reason));
+			}
+			if (result === true) {
+				FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+				toastr.success(TAPi18n.__('instance_return_success'));
+			}
+		});
+	});
+};
+
+//click .btn-instance-submit
+InstanceManager.btnInstanceSubmit = function () {
+	var instance, nextStep, nextStepOptions;
+	instance = WorkflowManager.getInstance();
+	if (!InstanceManager.isCC(instance)) {
+		nextStepOptions = InstanceManager.getNextStepOptions();
+		if (nextStepOptions.length > 1 && $(".instance-view.suggestion-active").length === 0) {
+			$(".instance-view").addClass("suggestion-active");
+			toastr.error(TAPi18n.__("instance_multi_next_step_tips"));
+			return;
+		}
+		nextStep = nextStepOptions[0];
+		if (nextStep.type !== 'end') {
+			if (ApproveManager.getNextStepUsersSelectValue().length === 0) {
+				$(".instance-view").addClass("suggestion-active");
+				toastr.error(TAPi18n.__("instance_next_step_user"));
+				return;
+			}
+		}
+	}
+	return $('#instance_submit').trigger('click');
 }

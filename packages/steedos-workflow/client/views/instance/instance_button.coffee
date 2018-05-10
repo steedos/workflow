@@ -419,34 +419,7 @@ Template.instance_button.events
 		Modal.show('instance_cc_modal');
 
 	'click .btn-instance-return': (event, template) ->
-		ins = WorkflowManager.getInstance()
-		pre_trace = ins.traces[ins.traces.length - 2]
-		pre_step = WorkflowManager.getInstanceStep(pre_trace.step)
-		pre_handlers = _.pluck pre_trace.approves, "handler_name"
-
-		swal {
-			title: t("instance_return"),
-			text: TAPi18n.__("instance_return_confirm", {step_name: pre_step.name, handlers_name: pre_handlers.join(",")}),
-			type: "input",
-			confirmButtonText: t('OK'),
-			cancelButtonText: t('Cancel'),
-			showCancelButton: true,
-			closeOnConfirm: true
-		}, (reason) ->
-			# 用户选择取消
-			if (reason == false)
-				return false;
-
-			$("body").addClass("loading")
-			Meteor.call "instance_return", InstanceManager.getMyApprove(), reason, (err, result)->
-				$("body").removeClass("loading")
-				if err
-					toastr.error TAPi18n.__(err.reason)
-				if result == true
-					FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
-					toastr.success(TAPi18n.__('instance_return_success'));
-				return
-
+		InstanceManager.returnIns()
 	'click .btn-instance-forward': (event, template) ->
 
 		Modal.show("forward_select_flow_modal", {action_type:"forward"})
@@ -554,19 +527,4 @@ Template.instance_button.events
 		Modal.show 'remind_modal', param
 
 	'click .btn-instance-submit': (event, template) ->
-		instance = WorkflowManager.getInstance()
-		if not InstanceManager.isCC(instance)
-			nextStepOptions = InstanceManager.getNextStepOptions()
-			if nextStepOptions.length > 1 && $(".instance-wrapper .instance-view.suggestion-active").length == 0
-				$(".instance-wrapper .instance-view").addClass("suggestion-active")
-				toastr.error TAPi18n.__("instance_multi_next_step_tips")
-				return
-
-			nextStep = nextStepOptions[0]
-			if nextStep.type isnt 'end'
-				if ApproveManager.getNextStepUsersSelectValue().length == 0
-					$(".instance-wrapper .instance-view").addClass("suggestion-active")
-					toastr.error TAPi18n.__("instance_next_step_user")
-					return
-
-		$('#instance_submit').trigger('click')
+		InstanceManager.btnInstanceSubmit()
