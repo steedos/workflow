@@ -68,6 +68,7 @@ Package.onUse(function(api) {
 	api.use('steedos:mailqueue');
 	api.use('steedos:webhookqueue');
 	api.use('steedos:api-authenticate-user');
+	api.use('steedos:workflow-chart@0.0.1');
 
 	api.use('tap:i18n', ['client', 'server']);
 	//api.add_files("package-tap.i18n", ["client", "server"]);
@@ -466,6 +467,8 @@ Package.onUse(function(api) {
 	api.export('SteedosTable');
 	api.export('InstanceReadOnlyTemplate');
 	api.export('TemplateManager');
+	api.export('ApproveManager', 'client');
+	api.export('InstanceEvent', 'client');
 
 	api.export('CoreForm');
 

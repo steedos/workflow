@@ -12,7 +12,6 @@ Package.onUse(function(api) {
 	api.use('coffeescript');
 
 	api.use('simple:json-routes@2.1.0');
-	api.use('steedos:workflow');
 
 
 	api.addFiles('core.coffee');
