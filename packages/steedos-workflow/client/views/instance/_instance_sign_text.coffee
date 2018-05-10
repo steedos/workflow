@@ -216,7 +216,7 @@ InstanceSignText.helpers =
 		return "rejected" == judge
 
 	is_readed: (judge)->
-		return "submitted" == judge || "readed" == judge
+		return ["approved", "rejected", "submitted", "readed"].includes(judge)
 
 	addClass: ()->
 		name = Template.instance()?.data?.name
