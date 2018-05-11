@@ -277,6 +277,9 @@ Template.instance_button.helpers
 		return false
 
 	enabled_remind: ->
+		if not Meteor.public or not Meteor.public.phone
+			return false
+
 		ins = WorkflowManager.getInstance()
 		if !ins
 			return false
