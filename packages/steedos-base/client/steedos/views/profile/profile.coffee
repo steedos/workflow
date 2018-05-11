@@ -144,6 +144,10 @@ Template.profile.helpers
 					break
 		else
 			return t "Account"
+	
+	usePhone: ()->
+		if Meteor?.settings?.public?.phone
+			return true
 
 Template.profile.onRendered ->
 	profileName = FlowRouter.current()?.params?.profileName

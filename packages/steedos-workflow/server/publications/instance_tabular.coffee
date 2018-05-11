@@ -85,7 +85,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 
 		return stepCurrentName
 
-	handle = db.instances.find({_id: {$in: ids}}).observeChanges {
+	handle = db.instances.find({_id: {$in: ids}}, {fields: {traces: 0}}).observeChanges {
 		changed: (id)->
 			instance = db.instances.findOne({_id: id}, {fields: fields})
 			return if not instance

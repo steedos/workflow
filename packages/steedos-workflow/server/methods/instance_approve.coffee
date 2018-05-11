@@ -1,10 +1,18 @@
 Meteor.methods
 	set_approve_have_read: (instanceId, traceId, approveId) ->
+		if !this.userId
+			return
+
+		self = this
+
 		instance = db.instances.findOne({ _id: instanceId, "traces._id": traceId }, { fields: { "traces.$": 1 } })
 
 		if instance?.traces?.length > 0
 			trace = instance.traces[0]
-			setObj = {}
+			setObj = {
+				modified: new Date,
+				modified_by: self.userId
+			}
 			trace.approves.forEach (approve, idx) ->
 				if approve._id == approveId && !approve.is_read
 					setObj["traces.$.approves.#{idx}.is_read"] = true
@@ -20,6 +28,8 @@ Meteor.methods
 			return true
 
 	change_approve_info: (instanceId, traceId, approveId, description, finish_date) ->
+		if !this.userId
+			return
 		check(instanceId, String)
 		check(traceId, String)
 		check(approveId, String)

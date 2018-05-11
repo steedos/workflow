@@ -47,8 +47,7 @@ Meteor.publish 'flow_version', (spaceId, flowId, versionId) ->
 				flow_version.latest = false
 
 			return flow_version
-
-	handle = db.flows.find({_id: flowId}).observeChanges {
+	handle = db.flows.find({_id: flowId}, {fields: {_id: 1, "current.modified": 1}}).observeChanges {
 		changed: (id)->
 			self.changed("flow_versions", versionId, getFlowVersion(id, versionId));
 	}

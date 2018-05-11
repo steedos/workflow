@@ -2,18 +2,21 @@ uuflowManager = {}
 
 uuflowManager.check_authorization = (req) ->
 	query = req.query
-	current_user = query["X-User-Id"]
-	auth_token = query["X-Auth-Token"]
+	userId = query["X-User-Id"]
+	authToken = query["X-Auth-Token"]
 
-	if not current_user or not auth_token
+	if not userId or not authToken
 		throw new Meteor.Error 401, 'Unauthorized'
 
-	current_user_info = db.users.findOne(current_user)
+	hashedToken = Accounts._hashLoginToken(authToken)
+	user = Meteor.users.findOne
+		_id: userId,
+		"services.resume.loginTokens.hashedToken": hashedToken
 
-	if not current_user_info
+	if not user
 		throw new Meteor.Error 401, 'Unauthorized'
 
-	return current_user_info
+	return user
 
 uuflowManager.getInstance = (instance_id) ->
 	ins = db.instances.findOne(instance_id)
@@ -1575,7 +1578,7 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
 	form = uuflowManager.getForm(flow.form)
-
+	
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
@@ -1606,6 +1609,7 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
 	ins_obj.values = new Object
+
 	# 新建Trace
 	trace_obj = {}
 	trace_obj._id = new Mongo.ObjectID()._str
@@ -1646,6 +1650,13 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
 	ins_obj.current_step_name = start_step.name
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name
 
 	if flow.auto_remind is true
 		ins_obj.auto_remind = true
@@ -2303,3 +2314,24 @@ uuflowManager.checkValueFieldsRequire = (values, form, form_version) ->
 							require_but_empty_fields.push s_field.name || s_field.code
 
 	return require_but_empty_fields
+
+uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
+
+	if Meteor.settings.cron?.instancerecordqueue_interval
+
+		newObj = {
+			info: {
+				instance_id: ins_id
+				records: record_ids
+				step_name: step_name
+				instance_finish_date: new Date()
+			}
+			sent: false
+			sending: 0
+			createdAt: new Date()
+			createdBy: '<SERVER>'
+		}
+
+		db.instance_record_queue.insert(newObj)
+
+	return

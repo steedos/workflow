@@ -38,6 +38,13 @@
 	}
 	.page__hd{
 		padding: 0 15px;
+		h1{
+			font-weight: bold;
+			font-family: Helvetica, Arial, Microsoft Yahei, SimHei;
+			margin-top: 20px;
+			margin-bottom: 10px;
+			font-size: 26px;
+		}
 	}
 	.page__bd{
 		margin-bottom: 20px;
@@ -56,6 +63,13 @@
 	}
 	.weui-input{
 		font-size: 16px;
+		&:-ms-input-placeholder {
+			font-size: 16px;
+		}
+
+		&::placeholder {
+			font-size: 16px;
+		}
 	}
 	.weui-btn-area{
 		.signin-link{

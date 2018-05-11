@@ -113,11 +113,14 @@ db.organizations.helpers
 		parentId = this.parent;
 		while (parentId)
 			parentOrg = db.organizations.findOne({_id: parentId}, {parent: 1, name: 1});
-			fullname = parentOrg?.name + "/" + fullname;
 			if (parentOrg)
 				parentId = parentOrg.parent
 			else
 				parentId = null
+
+			if parentId
+				fullname = parentOrg?.name + "/" + fullname
+
 		return fullname
 
 

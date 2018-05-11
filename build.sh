@@ -1,5 +1,5 @@
 #!/bin/bash
-meteor build --server https://cn.steedos.com/workflow --directory /srv/workflow
+meteor build --server https://cn.steedos.com/workflow --directory /srv/workflow --allow-superuser
 cd /srv/workflow/bundle/programs/server
 rm -rf node_modules
 rm -f npm-shrinkwrap.json

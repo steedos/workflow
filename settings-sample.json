@@ -67,6 +67,10 @@
     // 门户
     "dashboard": {
       "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
+    },
+    //企业微信前端授权登录
+    "qiyeweixin":{
+      "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize"
     }
   },
   "push": {
@@ -115,9 +119,6 @@
       "folder": "xxxxxx",
       "accessKeyId": "xxxxxx",
       "secretAccessKey": "xxxxxx"
-    },
-    "worker": {
-      "enabled": true
     }
   },
   "cron": {
@@ -128,7 +129,8 @@
     "mailqueue_interval": 1000,
     "push_interval": 1000,
     "webhookqueue_interval": 1000,
-    "calendar_remind":60000//控制按提醒时间发送推送，配置此参数的服务会发推送
+    "calendar_remind":60000, //控制按提醒时间发送推送，配置此参数的服务会发推送
+    "instancerecordqueue_interval": 10000 //creator同步instance到record队列执行间隔
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"
@@ -246,5 +248,27 @@
       "getAdminList":"https://qyapi.weixin.qq.com/cgi-bin/service/get_admin_list",
       "getUserInfo3rd":"https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd"
     }
+  },
+  // 新档案系统归档
+  "records_qhd": {
+    "spaces": ["Af8eM6mAHo7wMDqD3"],
+    "-recurrenceRule": "*/1 * * * *",
+    "to_archive": {
+      "object_name":"archive_wenshu",
+      "contract_instances": {
+        "flows": [
+          "49cd342e-76a3-41ed-bbd6-e0921be9f004",
+          "2d6055de-53d2-4d65-8e56-0df9862b3226",
+          "25d7f36f-747d-4031-b767-e3023783846f",
+          "6a520bf56a83eac20a604bde",
+          "f0a3f03c7a64c6cc2cb2d40b"
+        ]
+      }
+    }
+  },
+  // 效率统计
+  "instances_stat":{
+    "space":"Af8eM6mAHo7wMDqD3",
+    "schedule": "*/1 * * * *"
   }
 }

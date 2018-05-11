@@ -75,11 +75,11 @@ FS.Collection = function(name, options) {
               store: store.name
             }) + ' was successfully saved to the ' + store.name + ' store. You are seeing this informational message because you enabled debugging and you have not defined any listeners for the "stored" event on the ' + name + ' collection.');
           }
+          FS.debug && console.log('清除_tempstore中的chunk', name);
+          // 上传完成后清除_tempstore中的chunk
+          FS.TempStore.removeFile(fileObj);
         }
         fileObj.emit('stored', store.name);
-        FS.debug && console.log('清除_tempstore中的chunk', name);
-        // 上传完成后清除_tempstore中的chunk
-        FS.TempStore.removeFile(fileObj);
       }));
 
       store.on('error', function(storeName, error, fileObj) {
@@ -156,7 +156,10 @@ FS.Collection = function(name, options) {
         if (FS.debug && !emitted) {
           console.log(fileObj.name() + ' was successfully uploaded. You are seeing this informational message because you enabled debugging and you have not defined any listeners for the "uploaded" event on the ' + name + ' collection.');
         }
+        FS.debug && console.log('保存文件', fileObj.getCollection().primaryStore.name);
+        FS.FileWorker.saveCopy(fileObj, fileObj.getCollection().primaryStore.name);
       }
+
     });
 
     FS.TempStore.on('error', function(error, fileObj) {

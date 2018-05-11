@@ -48,7 +48,7 @@ Template.workflowSidebar.helpers
 		flow_instances = db.flow_instances.findOne(Steedos.getSpaceId())
 
 		category_flows.forEach (flow)->
-			flow_instance = _.find(flow_instances.flows, (_f)->
+			flow_instance = _.find(flow_instances?.flows, (_f)->
 				return _f._id == flow._id
 			)
 

@@ -241,7 +241,7 @@ _minxiInstanceData = (formData, instance) ->
 
 	#分发
 	if instance.distribute_from_instance
-#	正文附件
+		#	正文附件
 		mainFile = cfs.instances.find({
 			'metadata.instance': instance.distribute_from_instance,
 			'metadata.current': true,
