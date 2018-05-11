@@ -49,12 +49,12 @@ steedos:logger
 
 
 underscorestring:underscore.string
-momentjs:moment
+steedos:momentjs-moment
 
 
 fortawesome:fontawesome
 
-joshowens:timezone-picker
+steedos:timezone-picker
 steedos:useraccounts-core
 steedos:useraccounts-bootstrap
 steedos:useraccounts-flow-routing
@@ -157,8 +157,8 @@ steedos:accounts
 # steedos:remind
 
 
-steedos:calendar
-steedos:calendar-i18n
+# steedos:calendar
+# steedos:calendar-i18n
 
 # steedos:records
 

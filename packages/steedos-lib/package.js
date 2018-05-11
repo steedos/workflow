@@ -51,7 +51,7 @@ Package.onUse(function(api) {
 
 	api.use(['webapp'], 'server');
 
-	api.use('momentjs:moment@2.14.1', 'client');
+	api.use('steedos:momentjs-moment@2.14.1', 'client');
 
 	// TAPi18n
 	api.use('templating@1.2.15', 'client');

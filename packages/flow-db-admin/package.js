@@ -30,7 +30,7 @@ Package.onUse(function(api) {
     'aldeed:template-extension@3.4.3',
     'alanning:roles@1.2.13',
     'raix:handlebar-helpers@0.2.5',
-    'momentjs:moment@2.10.6',
+    'steedos:momentjs-moment@2.10.6',
     'aldeed:tabular@1.6.1',
     'steedos:adminlte',
     'check'

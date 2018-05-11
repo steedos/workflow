@@ -58,12 +58,11 @@ Package.onUse(function(api) {
 	api.use('meteorhacks:subs-manager@1.6.4');
 	api.use('dburles:collection-helpers@1.0.4');
 
-	api.use('momentjs:moment@2.14.1');
+	api.use('steedos:momentjs-moment@2.14.1');
 
 	api.use('tap:i18n@1.8.2');
 	api.use('aldeed:simple-schema@1.5.3');
 	api.use('aldeed:tabular@1.6.1');
-	// api.use('momentjs:moment');
 	api.use('simple:json-routes@2.1.0');
 
 	api.use('steedos:ionicons@0.1.7');

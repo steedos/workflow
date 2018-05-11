@@ -31,7 +31,7 @@ logging@1.0.8
 meteor@1.1.10
 minifiers@1.1.7
 minimongo@1.0.10
-momentjs:moment@2.10.6
+steedos:momentjs-moment@2.10.6
 mongo@1.1.3
 mongo-id@1.0.1
 npm-mongo@1.4.39_1

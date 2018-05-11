@@ -127,7 +127,7 @@ Minor fixes
 ### 4.2.2
 
 * Fixed "Can't set timers inside simulations" error (Thanks @SachaG)
-* Switched Moment dependency to official `momentjs:moment` package
+* Switched Moment dependency to official `steedos:momentjs-moment` package
 
 ### 4.2.1
 
@@ -193,7 +193,7 @@ When AutoForm pre-validates, it now passes `docId` to autoValue and custom conte
 * Fixes to form preservation during hot code push.
 * You can now disable form preservation for a specific form by setting `preserveForm=false` attribute on the `autoForm` or `quickForm`.
 * Expose `formPreserve` object as `AutoForm.formPreserve`. Add `unregisterAllForms` method. You can now do `AutoForm.formPreserve.unregisterForm(formId)` or `AutoForm.formPreserve.unregisterAllForms()` to resolve strange issues due to faulty form preservation logic.
-* Support for `offset` attribute on `datetime-local` inputs is removed and replaced by a `timezoneId` attribute, which should be set to a timezone ID that `moment-timezone` understands. You'll also need to add the `moment-timezone` library to your app, for example, by adding the `mrt:moment-timezone` Meteor package.
+* Support for `offset` attribute on `datetime-local` inputs is removed and replaced by a `timezoneId` attribute, which should be set to a timezone ID that `moment-timezone` understands. You'll also need to add the `moment-timezone` library to your app, for example, by adding the `steedos:moment-timezone` Meteor package.
 * If a form has no `onError` or `after` hooks, insert, update, and method call errors are now thrown.
 * Other fixes
 

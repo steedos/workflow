@@ -18,8 +18,8 @@ Package.onUse(function(api) {
   api.use([
     'check',
     'underscore',
-    'momentjs:moment',
-    'mrt:moment-timezone'
+    'steedos:momentjs-moment',
+    'steedos:moment-timezone'
   ], ['client', 'server']);
 
   api.addFiles('server/huaweiProvider.js', 'server');

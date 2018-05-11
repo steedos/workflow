@@ -49,8 +49,8 @@ Package.onUse(function(api) {
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('meteorhacks:subs-manager');
 	api.use('tap:i18n@1.7.0');
-	api.use('momentjs:moment', 'client');
-	api.use('mrt:moment-timezone', 'client');
+	api.use('steedos:momentjs-moment', 'client');
+	api.use('steedos:moment-timezone', 'client');
 
 
 	api.use('tap:i18n', ['client', 'server']);

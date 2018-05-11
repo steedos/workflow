@@ -1,5 +1,5 @@
 Package.describe({
-  name: "mrt:moment-timezone",
+  name: "steedos:moment-timezone",
   summary: "Timezone support for moment.js, packaged for Meteor. See http://momentjs.com/timezone.",
   version: "0.2.1",
   git: "https://github.com/acreeger/meteor-moment-timezone.git"
@@ -8,7 +8,7 @@ Package.describe({
 Package.on_use(function (api, where) {
   where = where || ['client', 'server']
 
-  var momentPackageName = "momentjs:moment"
+  var momentPackageName = "steedos:momentjs-moment"
   api.use(momentPackageName, where);
   if (api.imply) {
     api.imply(momentPackageName, where);
@@ -22,7 +22,7 @@ Package.on_use(function (api, where) {
 if (Package.on_test) {
   Package.on_test(function (api) {
     if (Package.onTest) {
-      api.use(['mrt:moment-timezone@0.2.1', 'tinytest', 'test-helpers'], ['client', 'server']);
+      api.use(['steedos:moment-timezone@0.2.1', 'tinytest', 'test-helpers'], ['client', 'server']);
     } else {
       api.use(['moment-timezone', 'tinytest', 'test-helpers'], ['client', 'server']);
     }

@@ -46,8 +46,8 @@ Package.onUse(function (api) {
 
 	api.use(['webapp'], 'server');
 
-	api.use('momentjs:moment', 'client');
-	api.use('mrt:moment-timezone', 'client');
+	api.use('steedos:momentjs-moment', 'client');
+	api.use('steedos:moment-timezone', 'client');
 	api.use('steedos:admin');
 	api.use('steedos:workflow');
 

@@ -11,8 +11,8 @@ Package.onUse(function(api) {
   api.use('aldeed:autoform@4.0.0 || 5.0.0');
 
   // Ensure momentjs packages load before this one if used
-  api.use('momentjs:moment@2.8.4', 'client', {weak: true});
-  api.use('mrt:moment-timezone@0.2.1', 'client', {weak: true});
+  api.use('steedos:momentjs-moment@2.8.4', 'client', {weak: true});
+  api.use('steedos:moment-timezone@0.2.1', 'client', {weak: true});
 
   api.addFiles([
     'autoform-bs-datetimepicker.html',

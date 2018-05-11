@@ -1,7 +1,7 @@
 // package metadata file for Meteor.js
 'use strict';
 
-var packageName = 'momentjs:moment';  // https://atmospherejs.com/momentjs/moment
+var packageName = 'steedos:momentjs-moment';  // https://atmospherejs.com/momentjs/moment
 
 Package.describe({
   name: packageName,

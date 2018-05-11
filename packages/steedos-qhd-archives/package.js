@@ -50,8 +50,8 @@ Package.onUse(function (api) {
 
 	api.use('spacebars-compiler@1.0.6');
 
-	api.use('momentjs:moment');
-	api.use('mrt:moment-timezone');
+	api.use('steedos:momentjs-moment');
+	api.use('steedos:moment-timezone');
 	api.use('steedos:base@0.0.70');
 	api.use('steedos:accounts@0.0.23');
 	api.use('steedos:theme@0.0.29');

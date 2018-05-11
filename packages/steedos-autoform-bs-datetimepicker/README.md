@@ -18,7 +18,7 @@ $ meteor add aldeed:autoform
 If you need to use the `timezoneId` attribute to get the Date in some timezone other than the local client timezone, you must also add `moment-timezone`:
 
 ```bash
-$ meteor add mrt:moment-timezone
+$ meteor add steedos:moment-timezone
 ```
 
 ## Installation

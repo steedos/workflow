@@ -1,4 +1,4 @@
-import {moment} from 'meteor/momentjs:moment';
+import {moment} from 'meteor/steedos:momentjs-moment';
 
 Steedos.Helpers =
 
