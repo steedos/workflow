@@ -94,7 +94,6 @@ mobile-experience@1.0.5
 mobile-status-bar@1.0.14
 modules@0.10.0
 modules-runtime@0.8.0
-momentjs:moment@2.14.4
 mongo@1.2.3
 mongo-dev-server@1.0.1
 mongo-id@1.0.6
