@@ -8,7 +8,7 @@ Package.describe({
 Package.on_use(function (api, where) {
   where = where || ['client', 'server']
 
-  var momentPackageName = "steedos:momentjs-moment"
+  var momentPackageName = "steedos:momentjs-moment@2.14.1"
   api.use(momentPackageName, where);
   if (api.imply) {
     api.imply(momentPackageName, where);
@@ -26,6 +26,6 @@ if (Package.on_test) {
     } else {
       api.use(['moment-timezone', 'tinytest', 'test-helpers'], ['client', 'server']);
     }
-    api.add_files('test-mrt:moment-timezone.js', ['client', 'server']);
+    api.add_files('test-mrt_moment-timezone.js', ['client', 'server']);
   });
 }

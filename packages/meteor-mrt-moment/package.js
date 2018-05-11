@@ -5,6 +5,7 @@ Package.describe({
   name: "steedos:moment",
   summary: 'disable mrt:moment package for conflict with nw.js',
   version: "2.14.1",
+  documentation: null,
   git: ''
 });
 

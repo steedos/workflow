@@ -21,5 +21,5 @@ Package.onTest(function (api) {
   api.use(packageName);
   api.use('tinytest');
 
-  api.addFiles('meteor/test.js');
+  api.addFiles('test.js');
 });
