@@ -29,9 +29,7 @@ boilerplate-generator@1.2.0
 caching-compiler@1.1.9
 caching-html-compiler@1.0.7
 callback-hook@1.0.10
-cfs:base-package@0.0.30
 cfs:http-methods@0.0.32
-cfs:storage-adapter@0.2.4
 check@1.2.5
 chuangbo:cookie@1.1.0
 coffeescript@1.11.1_4
@@ -68,7 +66,6 @@ html-tools@1.0.11
 htmljs@1.0.11
 http@1.2.12
 id-map@1.0.9
-iyyang:cfs-aliyun@0.1.2
 jeremy:selectize@0.12.3
 joshowens:timezone-picker@0.1.2
 jquery@1.11.10
@@ -158,7 +155,7 @@ steedos:autoform@0.0.10
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
-steedos:autoform-modals@0.3.9_10
+steedos:autoform-modals@0.3.9_9
 steedos:base@0.0.77
 steedos:calendar@0.1.24
 steedos:calendar-i18n@0.0.16
