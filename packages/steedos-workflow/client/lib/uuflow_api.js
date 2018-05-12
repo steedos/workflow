@@ -38,7 +38,7 @@ UUflow_api.post_draft = function (flowId) {
 			var instance = responseText.inserts[0]
 
 			Steedos.subscribeInstance(instance) //创建成功后，立即订阅新建的instance
-			FlowRouter.go((Session.get("instance_draft_url") || "/workflow/space/" + Session.get("spaceId") + "/draft/") + instance._id);
+			FlowRouter.go((Session.get("instance_details_url") || "/workflow/space/" + Session.get("spaceId") + "/draft/") + instance._id);
 
 			toastr.success(TAPi18n.__('Added successfully'));
 

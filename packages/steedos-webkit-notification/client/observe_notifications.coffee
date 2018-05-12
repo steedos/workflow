@@ -56,7 +56,7 @@ Meteor.startup ->
                                 else
                                     box = result
 
-                                    instance_url = "/workflow/space/" + event.target.payload.space + "/" + box + "/" + event.target.payload.instance
+                                    instance_url = (Session.get("instance_details_url") || "/workflow/space/" + event.target.payload.space + "/" + box + "/") + event.target.payload.instance
                                 
                                     if Steedos.isNode()
                                         win = nw.Window.get();
