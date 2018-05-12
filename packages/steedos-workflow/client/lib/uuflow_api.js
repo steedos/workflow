@@ -81,7 +81,7 @@ UUflow_api.delete_draft = function (instanceId) {
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+			FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 			toastr.success(TAPi18n.__('Deleted successfully'));
 		},
 		error: function (xhr, msg, ex) {
