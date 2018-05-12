@@ -22,7 +22,7 @@ TemplateManager.instance_title = ()->
 		"""
 		pageTitleTrClass = ""
 
-	val = 
+	val =
 		pageTitle: pageTitle
 		pageTitleTrClass: pageTitleTrClass
 
@@ -61,13 +61,15 @@ TemplateManager.handleTableTemplate = (instance, _export) ->
 			if _export
 				required = "";
 
+			pureCode = Steedos.removeSpecialCharacter(table_field.code);
+
 			if InstanceformTemplate.helpers.isOpinionField(table_field)
 				template += table_field.tr_start
 				template += """
 					<td class="td-title #{required}">
 						{{afFieldLabelText name="#{table_field.code}"}}
 					</td>
-					<td class="td-field opinion-field opinion-field-#{table_field.code} automatic" colspan = "#{table_field.td_colspan}">
+					<td class="td-field opinion-field opinion-field-#{pureCode} automatic" colspan = "#{table_field.td_colspan}">
 						{{> instanceSignText name="#{table_field.code}"}}
 					</td>
 				"""
@@ -76,7 +78,7 @@ TemplateManager.handleTableTemplate = (instance, _export) ->
 				if InstanceformTemplate.helpers.includes(table_field.type, 'section,table')
 					template += table_field.tr_start
 					template += """
-						<td class="td-childfield td-childfield-#{table_field.code}" colspan = "#{table_field.td_colspan}">
+						<td class="td-childfield td-childfield-#{pureCode}" colspan = "#{table_field.td_colspan}">
 						   {{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
@@ -92,10 +94,10 @@ TemplateManager.handleTableTemplate = (instance, _export) ->
 						field_permission = "field-" + table_field.permission
 
 					template += """
-						<td class="td-title td-title-#{table_field.code} #{title_permission} #{required}">
+						<td class="td-title td-title-#{pureCode} #{title_permission} #{required}">
 							{{afFieldLabelText name="#{table_field.code}"}}
 						</td>
-						<td class="td-field td-field-#{table_field.code} #{field_permission}" colspan = "#{table_field.td_colspan}">
+						<td class="td-field td-field-#{pureCode} #{field_permission}" colspan = "#{table_field.td_colspan}">
 							{{> afFormGroup name="#{table_field.code}" label=false}}
 						</td>
 					"""
@@ -173,7 +175,7 @@ TemplateManager._template =
 					  {{_t "instance_initiator"}}&nbsp;:
 					</div>
 					{{>Template.dynamic  template="afSelectUser" data=applicantContext}}
-	              </div>
+				  </div>
 				</div>
 			</div>
 		"""

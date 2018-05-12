@@ -827,3 +827,6 @@ if Meteor.isServer
 
 Steedos.convertSpecialCharacter = (str)->
 	return str.replace(/([\^\$\(\)\*\+\?\.\\\|\[\]\{\}])/g, "\\$1")
+
+Steedos.removeSpecialCharacter = (str)->
+	return str.replace(/([\^\$\(\)\*\+\?\.\\\|\[\]\{\}\~\`\@\#\%\&\=\'\"\:\;\<\>\,\/])/g, "")
