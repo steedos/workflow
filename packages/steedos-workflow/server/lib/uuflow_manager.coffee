@@ -571,15 +571,15 @@ uuflowManager.getInstanceName = (instance, vals) ->
 	if name_forumla
 
 		if name_forumla.indexOf("{applicant.") > -1
-			iscript = name_forumla.replace(/\{applicant./g, "(applicant.").replace(/\}/g, " || '')")
+			iscript = name_forumla.replace(/\{applicant./g, "(this.applicant.").replace(/\}/g, " || '')")
 
-		iscript = name_forumla.replace(/\{/g, "(values.").replace(/\}/g, " || '')")
+		iscript = name_forumla.replace(/\{/g, "(this.values.").replace(/\}/g, " || '')")
 
 #		console.log(iscript)
 
 		try
 
-			rev = eval(iscript) || default_value
+			rev = Steedos.serverEval.bind({applicant: applicant, values: values})(iscript) || default_value
 
 			#文件名中不能包含特殊字符: '? * : " < > \ / |'， 直接替换为空
 			rev = rev.replace(/\?|\*|\:|\"|\<|\>|\\|\/|\|/g, "")
