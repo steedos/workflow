@@ -247,7 +247,7 @@ UUflow_api.post_terminate = function (instance) {
 				return;
 			}
 
-			FlowRouter.go("/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
+			FlowRouter.go(Session.get("instance_list_url") || "/workflow/space/" + Session.get("spaceId") + "/" + Session.get("box"));
 
 			toastr.success(TAPi18n.__('Canceled successfully'));
 

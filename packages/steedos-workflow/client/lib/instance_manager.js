@@ -938,8 +938,7 @@ InstanceManager.submitIns = function() {
 InstanceManager.terminateIns = function(reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		instance.terminate_reason = reason;
-		UUflow_api.post_terminate(instance);
+		UUflow_api.post_terminate({_id: instance._id, terminate_reason: reason});
 	}
 }
 
