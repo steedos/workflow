@@ -9,11 +9,21 @@ Steedos.evalInContext = function(js, context) {
 
 Steedos.eval = function(js){
 	try {
-		var Template;
-		if(this.Template){
-			Template = this.Template
-		}
 		return eval(js)
+
+	} catch (e) {
+		console.log(js ,"error:" + e.message)
+	}
+}
+
+Steedos.serverEval = function(js){
+	try {
+		if(this.Template){
+			var Template = this.Template;
+			return eval(js)
+		}else{
+			return eval(js)
+		}
 	} catch (e) {
 		console.log(js ,"error:" + e.message)
 	}

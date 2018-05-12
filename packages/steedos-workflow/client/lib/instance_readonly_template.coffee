@@ -1,5 +1,10 @@
 InstanceReadOnlyTemplate = {};
 
+buildTemplate = (Template, js) ->
+	if Meteor.isServer
+		return Steedos.serverEval.bind({Template: Template})(js);
+	else if Meteor.isClient
+		return Steedos.eval(js)
 
 InstanceReadOnlyTemplate.instance_attachment = """
 	<tr>
@@ -189,7 +194,7 @@ InstanceReadOnlyTemplate.create = (tempalteName, steedosData) ->
 
 	templateCompiled = SpacebarsCompiler.compile(template, {isBody: true});
 
-	templateRenderFunction = Steedos.eval.bind({Template: Template})(templateCompiled);
+	templateRenderFunction = buildTemplate(Template, templateCompiled)
 
 	Template[tempalteName] = new Blaze.Template(tempalteName, templateRenderFunction);
 	Template[tempalteName].steedosData = steedosData
@@ -200,7 +205,7 @@ InstanceReadOnlyTemplate.createInstanceSignText = (steedosData)->
 
 	instanceSignTextCompiled = SpacebarsCompiler.compile(instanceSignTextHtml, {isBody: true});
 
-	instanceSignTextRenderFunction = Steedos.eval.bind({Template: Template})(instanceSignTextCompiled);
+	instanceSignTextRenderFunction = buildTemplate(Template, instanceSignTextCompiled)
 	Template.instanceSignText = new Blaze.Template("instanceSignText", instanceSignTextRenderFunction);
 	Template.instanceSignText.steedosData = steedosData
 	Template.instanceSignText.helpers InstanceSignText.helpers
@@ -208,7 +213,7 @@ InstanceReadOnlyTemplate.createInstanceSignText = (steedosData)->
 InstanceReadOnlyTemplate.createImageSign = (steedosData) ->
 	imageSignHtml = _getViewHtml('client/views/instance/image_sign.html')
 	imageSignCompiled = SpacebarsCompiler.compile(imageSignHtml, {isBody: true});
-	imageSignRenderFunction = Steedos.eval.bind({Template: Template})(imageSignCompiled);
+	imageSignRenderFunction = buildTemplate(Template, imageSignCompiled)
 	Template.imageSign = new Blaze.Template("imageSign", imageSignRenderFunction);
 	Template.imageSign.steedosData = steedosData
 	Template.imageSign.helpers ImageSign.helpers
@@ -458,7 +463,7 @@ InstanceReadOnlyTemplate.getInstanceView = (user, space, instance, options)->
 
 	instanceCompiled = SpacebarsCompiler.compile(instanceTemplate, {isBody: true});
 
-	instanceRenderFunction = Steedos.eval.bind({Template: Template})(instanceCompiled);
+	instanceRenderFunction = buildTemplate(Template, instanceCompiled)
 	Template.instance_readonly_view = new Blaze.Template("instance_readonly_view", instanceRenderFunction);
 
 	Template.instance_readonly_view.steedosData = steedosData
@@ -487,7 +492,7 @@ InstanceReadOnlyTemplate.getTracesView = (user, space, instance, options)->
 
 	traceCompiled = SpacebarsCompiler.compile(tracesHtml, {isBody: true});
 
-	traceRenderFunction = Steedos.eval.bind({Template: Template})(traceCompiled);
+	traceRenderFunction = buildTemplate(Template, traceCompiled)
 	Template.trace_readonly_view = new Blaze.Template("trace_readonly_view", traceRenderFunction);
 
 	Template.trace_readonly_view.steedosData = steedosData
@@ -506,7 +511,7 @@ InstanceReadOnlyTemplate.getAttachmentView = (user, space, instance)->
 
 	attachmentCompiled = SpacebarsCompiler.compile(attachmentHtml, {isBody: true});
 
-	attachmentRenderFunction = Steedos.eval.bind({Template: Template})(attachmentCompiled);
+	attachmentRenderFunction = buildTemplate(Template, attachmentCompiled)
 	Template.attachments_readonly_view = new Blaze.Template("attachments_readonly_view", attachmentRenderFunction);
 
 	Template.attachments_readonly_view.steedosData = steedosData
@@ -529,7 +534,7 @@ InstanceReadOnlyTemplate.getRelatedInstancesView = (user, space, instance, optio
 
 	relatedInstancesCompiled = SpacebarsCompiler.compile(relatedInstancesHtml, {isBody: true});
 
-	relatedInstancesRenderFunction = Steedos.eval.bind({Template: Template})(relatedInstancesCompiled);
+	relatedInstancesRenderFunction = buildTemplate(Template, relatedInstancesCompiled)
 	Template.related_instances_view = new Blaze.Template("related_instances_view", relatedInstancesRenderFunction);
 
 	Template.related_instances_view.steedosData = steedosData
