@@ -961,10 +961,7 @@ InstanceManager.reassignIns = function(user_ids, reason) {
 InstanceManager.relocateIns = function(step_id, user_ids, reason) {
 	var instance = WorkflowManager.getInstance();
 	if (instance) {
-		instance.relocate_next_step = step_id;
-		instance.relocate_inbox_users = user_ids;
-		instance.relocate_comment = reason;
-		UUflow_api.put_relocate(instance);
+		UUflow_api.put_relocate({_id: instance._id, relocate_next_step: step_id, relocate_inbox_users: user_ids, relocate_comment: reason});
 	}
 }
 
