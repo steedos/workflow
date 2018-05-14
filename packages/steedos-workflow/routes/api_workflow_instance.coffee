@@ -5,12 +5,13 @@ JsonRoutes.add 'get', '/api/workflow/instance/:instanceId', (req, res, next) ->
 
 		insId = req.params.instanceId
 
-		ins = db.instances.findOne(insId, { fields: { space: 1, state: 1, inbox_users: 1, cc_users: 1, outbox_users: 1 } })
+		ins = db.instances.findOne(insId, { fields: { space: 1, flow: 1, state: 1, inbox_users: 1, cc_users: 1, outbox_users: 1 } })
 
 		if not ins
 			throw new Meteor.Error('error', 'instanceId is wrong or instance not exists.')
 
 		spaceId = ins.space
+		flowId = ins.flow
 
 		if db.space_users.find({ space: spaceId, user: current_user_id }).count() is 0
 			throw new Meteor.Error('error', 'user is not belong to this space.')
@@ -24,6 +25,11 @@ JsonRoutes.add 'get', '/api/workflow/instance/:instanceId', (req, res, next) ->
 		else if ins.state is 'draft'
 			box = 'draft'
 		else
+			# 验证login user_id对该流程有管理申请单的权限
+			permissions = permissionManager.getFlowPermissions(flowId, current_user_id)
+			space = db.spaces.findOne(spaceId, { fields: { admins: 1 } })
+			if (not permissions.includes("admin")) and (not space.admins.includes(current_user_id))
+				throw new Meteor.Error('error', "no permission.")
 			box = 'monitor'
 
 		redirectTo = Meteor.absoluteUrl "workflow/space/#{spaceId}/#{box}/#{insId}"
