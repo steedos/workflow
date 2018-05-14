@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:cors',
-	version: '0.0.1',
+	version: '0.0.2',
 	summary: 'Enable CORS',
 	git: ''
 });

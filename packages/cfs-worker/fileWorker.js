@@ -21,38 +21,38 @@ var fs = Npm.require('fs');
  */
 FS.FileWorker.observe = function (fsCollection) {
 
-  if (Meteor.settings.cfs && Meteor.settings.cfs.worker && Meteor.settings.cfs.worker.enabled) {
-    // Initiate observe for finding newly uploaded/added files that need to be stored
-    // per store.
-    FS.Utility.each(fsCollection.options.stores, function (store) {
-      var storeName = store.name;
-      fsCollection.files.find(getReadyQuery(storeName), {
-        fields: {
-          copies: 0
-        }
-      }).observe({
-        added: function (fsFile) {
-          // added will catch fresh files
-          FS.debug && console.log("FileWorker ADDED - calling saveCopy", storeName, "for", fsFile._id);
-          saveCopy(fsFile, storeName);
-        },
-        changed: function (fsFile) {
-          // changed will catch failures and retry them
-          FS.debug && console.log("FileWorker CHANGED - calling saveCopy", storeName, "for", fsFile._id);
-          saveCopy(fsFile, storeName);
-        }
-      });
-    });
+  // if (Meteor.settings.cfs && Meteor.settings.cfs.worker && Meteor.settings.cfs.worker.enabled) {
+  //   // Initiate observe for finding newly uploaded/added files that need to be stored
+  //   // per store.
+  //   FS.Utility.each(fsCollection.options.stores, function (store) {
+  //     var storeName = store.name;
+  //     fsCollection.files.find(getReadyQuery(storeName), {
+  //       fields: {
+  //         copies: 0
+  //       }
+  //     }).observe({
+  //       added: function (fsFile) {
+  //         // added will catch fresh files
+  //         FS.debug && console.log("FileWorker ADDED - calling saveCopy", storeName, "for", fsFile._id);
+  //         saveCopy(fsFile, storeName);
+  //       },
+  //       changed: function (fsFile) {
+  //         // changed will catch failures and retry them
+  //         FS.debug && console.log("FileWorker CHANGED - calling saveCopy", storeName, "for", fsFile._id);
+  //         saveCopy(fsFile, storeName);
+  //       }
+  //     });
+  //   });
 
-    // Initiate observe for finding files that have been stored so we can delete
-    // any temp files
-    fsCollection.files.find(getDoneQuery(fsCollection.options.stores)).observe({
-      added: function (fsFile) {
-        FS.debug && console.log("FileWorker ADDED - calling deleteChunks for", fsFile._id);
-        FS.TempStore.removeFile(fsFile);
-      }
-    });
-  }
+  //   // Initiate observe for finding files that have been stored so we can delete
+  //   // any temp files
+  //   fsCollection.files.find(getDoneQuery(fsCollection.options.stores)).observe({
+  //     added: function (fsFile) {
+  //       FS.debug && console.log("FileWorker ADDED - calling deleteChunks for", fsFile._id);
+  //       FS.TempStore.removeFile(fsFile);
+  //     }
+  //   });
+  // }
 
 
 
@@ -187,7 +187,7 @@ function getDoneQuery(stores) {
  * `overwrite` option is `true`, will save to the store even if we already
  * have, potentially overwriting any previously saved data. Synchronous.
  */
-function saveCopy(fsFile, storeName, options) {
+FS.FileWorker.saveCopy = function (fsFile, storeName, options) {
   options = options || {};
 
   var storage = FS.StorageAdapter(storeName);
@@ -205,8 +205,7 @@ function saveCopy(fsFile, storeName, options) {
       return;
     }
     var filepath = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/_tempstore/' + temp_chunk.keys["0"]);
-    exists = fs.existsSync(filepath);
-    if (exists) {
+    if (fs.existsSync(filepath)) {
       var r = FS.TempStore.Tracker.update({
         fileId: fsFile._id,
         is_saveCopy: {
