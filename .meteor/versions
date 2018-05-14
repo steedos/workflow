@@ -152,13 +152,13 @@ steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
-steedos:autoform@0.0.10
+steedos:autoform@0.0.12
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
 steedos:autoform-modals@0.3.9_10
-steedos:base@0.0.77
-steedos:calendar@0.1.24
+steedos:base@0.0.79
+steedos:calendar@0.1.26
 steedos:calendar-i18n@0.0.16
 steedos:cfs-access-point@0.1.50
 steedos:cfs-aliyun@0.1.0
@@ -191,7 +191,7 @@ steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
 steedos:e164-phones-countries@1.0.3
 steedos:freeboard@1.1.3_28
-steedos:fullcalendar@3.4.0_1
+steedos:fullcalendar@3.4.0_3
 steedos:huaweipush@0.0.1
 steedos:i18n@0.0.11
 steedos:i18n-iso-countries@3.3.0
