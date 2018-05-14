@@ -157,8 +157,8 @@ steedos:accounts
 # steedos:remind
 
 
-# steedos:calendar
-# steedos:calendar-i18n
+steedos:calendar
+steedos:calendar-i18n
 
 # steedos:records
 
