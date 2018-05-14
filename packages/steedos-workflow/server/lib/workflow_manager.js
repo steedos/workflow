@@ -195,7 +195,7 @@ WorkflowManager.getOrganization = function (orgId) {
 		return;
 	}
 
-	return db.organizations.findOne(orgId, {fields: {created: 0, created_by: 0, modified: 0, modified_by: 0, users: 0}});
+	return db.organizations.findOne(orgId, {fields: {created: 0, created_by: 0, modified: 0, modified_by: 0}});
 };
 
 WorkflowManager.getOrganizations = function (orgIds) {
@@ -211,7 +211,7 @@ WorkflowManager.getOrganizations = function (orgIds) {
 		_id: {
 			$in: orgIds
 		}
-	}, {fields: {created: 0, created_by: 0, modified: 0, modified_by: 0, users: 0}}).fetch();
+	}, {fields: {created: 0, created_by: 0, modified: 0, modified_by: 0}}).fetch();
 };
 
 WorkflowManager.getUser = function (spaceId, userId, notNeedDetails) {
