@@ -1,9 +1,17 @@
+Cookies = Npm.require("cookies")
+
 uuflowManager = {}
 
-uuflowManager.check_authorization = (req) ->
+uuflowManager.check_authorization = (req, res) ->
 	query = req.query
 	userId = query["X-User-Id"]
 	authToken = query["X-Auth-Token"]
+
+	# then check cookie
+	if !userId or !authToken
+		cookies = new Cookies( req, res )
+		userId = cookies.get("X-User-Id")
+		authToken = cookies.get("X-Auth-Token")
 
 	if not userId or not authToken
 		throw new Meteor.Error 401, 'Unauthorized'
@@ -1578,7 +1586,7 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	uuflowManager.isFlowSpaceMatched(flow, space_id)
 
 	form = uuflowManager.getForm(flow.form)
-	
+
 	permissions = permissionManager.getFlowPermissions(flow_id, user_id)
 
 	if not permissions.includes("add")
