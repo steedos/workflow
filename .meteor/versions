@@ -163,8 +163,8 @@ steedos:calendar-i18n@0.0.16
 steedos:cfs-access-point@0.1.50
 steedos:cfs-aliyun@0.1.0
 steedos:cfs-base-package@0.0.30
-steedos:cfs-collection@0.5.6
-steedos:cfs-collection-filters@0.2.5
+steedos:cfs-collection@0.5.6_2
+steedos:cfs-collection-filters@0.2.5_2
 steedos:cfs-data-man@0.0.8
 steedos:cfs-file@0.1.18
 steedos:cfs-filesystem@0.1.2
@@ -174,12 +174,12 @@ steedos:cfs-power-queue@0.9.11
 steedos:cfs-reactive-list@0.0.9
 steedos:cfs-reactive-property@0.0.4
 steedos:cfs-s3@0.1.4
-steedos:cfs-standard-packages@0.5.10
+steedos:cfs-standard-packages@0.5.10_2
 steedos:cfs-storage-adapter@0.2.3
 steedos:cfs-tempstore@0.1.6
 steedos:cfs-ui@0.1.4
 steedos:cfs-upload-http@0.0.22
-steedos:cfs-worker@0.1.5
+steedos:cfs-worker@0.1.5_2
 steedos:chat@0.0.1
 steedos:cms@0.0.7
 steedos:connect-bqq@0.0.1
