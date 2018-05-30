@@ -1,7 +1,8 @@
 Package.describe({
 	name: 'steedos:smsqueue',
 	version: '0.0.1',
-	summary: '',
+	summary: 'steedos smsqueue',
+	documentation: null,
 	git: ''
 });
 
