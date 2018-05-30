@@ -43,7 +43,7 @@ Package.onUse(function(api) {
 	// STARTUP
 	api.addFiles('server/startup.coffee', 'server');
 
-	// api.export('QcloudSMSQueue', ['server']);
+	api.export('QcloudSMSQueue', ['server']);
 
 });
 
