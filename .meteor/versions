@@ -202,7 +202,7 @@ steedos:logger@0.0.2
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:oauth2-server@0.0.6
-steedos:qcloud-smsqueue@0.0.1
+steedos:qcloud-smsqueue@0.0.2
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.1
 steedos:sso@0.0.4
