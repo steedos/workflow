@@ -2156,7 +2156,7 @@ uuflowManager.sendRemindSMS = (ins_name, deadline, users_id, space_id, ins_id) -
 		if user.locale is 'zh-cn'
 			lang = 'zh-CN'
 		# 发送手机短信
-		SMSQueue.send({
+		QcloudSMSQueue.send({
 			Format: 'JSON',
 			Action: 'SingleSendSms',
 			ParamString: JSON.stringify(params),
