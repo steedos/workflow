@@ -204,7 +204,7 @@ steedos:meteor-cookie-login@0.0.5
 steedos:oauth2-server@0.0.6
 steedos:qcloud-smsqueue@0.0.2
 steedos:slipjs@2.1.0
-steedos:smsqueue@0.0.1
+steedos:smsqueue@0.0.2
 steedos:sso@0.0.4
 steedos:tableau@0.0.10
 steedos:theme@0.0.30
