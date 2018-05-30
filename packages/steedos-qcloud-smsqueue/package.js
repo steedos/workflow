@@ -2,6 +2,7 @@ Package.describe({
 	name: 'steedos:qcloud-smsqueue',
 	version: '0.0.1',
 	summary: 'qcloud smsqueue',
+	documentation: null,
 	git: ''
 });
 
