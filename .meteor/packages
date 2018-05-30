@@ -94,9 +94,6 @@ steedos:meteor-cookie-login
 steedos:ionicons
 steedos:cors
 steedos:ui
-steedos:connect-bqq
-steedos:connect-dingtalk
-# steedos:connect-qiyeweixin
 steedos:version
 steedos:workflow
 steedos:api
@@ -112,16 +109,11 @@ yogiben:autoform-tags
 
 simple:json-routes
 meteorhacks:subs-manager
-# iyyang:cfs-aliyun
 steedos:cfs-s3
 steedos:cfs-aliyun
 
 jeremy:selectize
 comerc:autoform-selectize
-# hausor:autoform-bs-minicolors
-
-# steedos:qhd
-# steedos:theme-qhd
 steedos:theme
 steedos:emailjs
 steedos:contacts
@@ -148,23 +140,12 @@ vazco:universe-selectize
 vazco:universe-autoform-select
 
 steedos:workflow-chart
-# steedos:records-qhd
 
 steedos:accounts-phone
 steedos:accounts
 
-# steedos:remind
-
-
 steedos:calendar
 steedos:calendar-i18n
-
-# steedos:records
-
-# steedos:cas
-
-# steedos:freeboard
-# steedos:dashboard
 
 steedos:tableau
 
@@ -174,7 +155,6 @@ keepnox:perfect-scrollbar
 
 steedos:datatables-extensions
 chuangbo:cookie
-# steedos:express-status-monitor
 
 steedos:api-authenticate-user
 
@@ -183,15 +163,3 @@ steedos:huaweipush
 steedos:e164-phones-countries
 steedos:i18n-iso-countries
 
-# steedos:oauth2-server@0.0.6
-
-# steedos:heapdump
-
-# steedos:qhd-records
-
-# steedos:instances-statistics
-# meteorhacks:kadira
-# steedos:app-crm
-# steedos:app-workflow
-# meteorhacks:kadira-profiler
-# kadira:debug
