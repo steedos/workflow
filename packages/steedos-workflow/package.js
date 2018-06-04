@@ -93,6 +93,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/instance_number_rules.coffee');
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
+	api.addFiles('lib/models/space_users.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
