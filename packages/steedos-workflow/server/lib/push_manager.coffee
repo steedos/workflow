@@ -655,8 +655,15 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 	catch e
 		console.error e.stack
 
-pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user, to_users)->
+pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user_id, to_user_ids)->
+	
 	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
+
+	# 增加from_user和to_users的username和email
+	from_user = db.users.findOne({"_id": from_user_id},{fields: {_id:1, username:1, emails:1}})
+	if(to_user_ids.length>0)
+		to_users = db.users.find({"_id": {$in: to_user_ids}},{fields: {_id:1, username:1, emails:1}}).fetch()
+
 	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
 		WebhookQueue.send({
 				instance: instance,
