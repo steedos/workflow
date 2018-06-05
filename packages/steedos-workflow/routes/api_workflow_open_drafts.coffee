@@ -84,8 +84,8 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		instance_from_client["flow"] = flow_id
 		instance_from_client["flow_version"] = flow.current._id
 
+		applicant = null
 		if applicant_id or applicant_username
-			applicant = null
 
 			if applicant_id
 				applicant = db.users.findOne({ _id: applicant_id }, { fields: { name: 1 } })
@@ -111,6 +111,8 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 			instance_from_client["applicant_organization_fullname"] = space_user_org_info["organization_fullname"]
 			instance_from_client["applicant_organization_name"] = space_user_org_info["organization_name"]
 
+		applicantInfo = applicant || current_user_info
+
 		traces = []
 		trace = new Object
 		approves = []
@@ -121,9 +123,9 @@ JsonRoutes.add 'post', '/api/workflow/open/drafts', (req, res, next) ->
 		traces.push(trace)
 		instance_from_client["traces"] = traces
 
-		instance_from_client["inbox_users"] = [current_user_info._id]
+		instance_from_client["inbox_users"] = [applicantInfo._id]
 
-		new_ins_id = uuflowManager.create_instance(instance_from_client, current_user_info)
+		new_ins_id = uuflowManager.create_instance(instance_from_client, applicantInfo)
 
 		new_ins = db.instances.findOne(new_ins_id)
 
