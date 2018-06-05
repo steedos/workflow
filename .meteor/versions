@@ -155,7 +155,7 @@ steedos:autoform@0.0.12
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
-steedos:autoform-modals@0.3.9_10
+steedos:autoform-modals@0.3.9_9
 steedos:base@0.0.79
 steedos:calendar@0.1.26
 steedos:calendar-i18n@0.0.16
@@ -181,8 +181,6 @@ steedos:cfs-upload-http@0.0.22
 steedos:cfs-worker@0.1.5_2
 steedos:chat@0.0.1
 steedos:cms@0.0.7
-steedos:connect-bqq@0.0.1
-steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.3
 steedos:datatables-extensions@0.0.1
