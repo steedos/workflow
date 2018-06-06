@@ -18,21 +18,76 @@
 ```
 
 - 当用户操作申请单时触发webhook，给payload_url发送POST request请求
-- 请求的body数据为：
+- 请求发送的body数据有如下：
+  - action：触发此hook时的操作，值域：
+    draft_submit(草稿箱提交)，
+    engine_submit(待审核提交)，
+    reassign(转签核)，
+    relocate(重定位)，
+    retrieve(取回)，
+    terminate(取消申请)，
+    cc_do(传阅给他人)，
+    cc_submit(被传阅提交)
+
+  - from_user：值为当前操作者。如： A提交申请单给B 那么from_user值就是A的id\username\emails
+
+    - _id：用户在审批王的唯一标识符
+
+    - username：用户登录名
+
+    - emails：用户配置的邮箱列表
+
+      - address：邮箱地址
+
+      - verified：邮箱是否验证
+
+      - primary：邮箱是否主要邮箱
+
+  - to_users：值为发送者集合。
+
+  - current_approve：用户执行提交操作时的approve数据
+
+  - instance：提交申请单操作完成后最新的完整的实例数据
+
+body数据示例如下：
 ```javascript
 {
-	action: "draft_submit", // 触发此hook时的操作，可能值为：
-	// draft_submit(草稿箱提交),
-	// engine_submit(待审核提交),
-	// reassign(转签核),
-	// relocate(重定位),
-	// retrieve(取回),
-	// terminate(取消申请),
-	// cc_do(传阅给他人),
-    // cc_submit(被传阅提交)
-    from_user: "xxxxx", //值为当前操作者id, 如： A提交申请单给B 那么from_user值就是A的id
-    to_users: ["xx1","xx2"], //值为提交给哪些人的id集合， 如： A提交申请单给B， 那么to_users值就是B的id
-    current_approve: {
+	"action": "draft_submit",
+    "from_user": {
+        "_id":  "TPWYx597AuLSksSDH",
+        "username":  "AAA",
+        "emails":  [{
+                    address: "AAA@hotoa.com",
+                    verified: true,
+                    primary: true
+                },{
+                    address: "AAA1@hotoa.com",
+                    verified: true,
+                    primary: false
+                }]
+        },
+    "to_users": [{
+        "_id":  "snLab9tq6bHquJjof",
+        "username":  "BBB",
+        "emails":  [{
+                    address: "BBB@hotoa.com",
+                    verified: true,
+                    primary: true
+                },{
+                    address: "BBB1@hotoa.com",
+                    verified: false,
+                    primary: false
+                }]
+        },{
+        "_id":  "hJChDEqfCh5MQ2tGj",
+        "username":  "CCC",
+        "emails":  [{
+                    address: "CCC@hotoa.com",
+                    verified: true,
+                    primary: true
+                }]
+        }],
+    "current_approve": {
         "_id": "8ecbd6be43193e650e8d913f",
         "instance": "HjHvRxp5vFL5fn7uK",
         "trace": "b0f6eadb4b7909538778d766",
@@ -65,8 +120,8 @@
                 ]
             }
         ]
-    }, // 用户执行提交操作时的approve数据
-    instance: {
+    }, 
+    "instance": {
         "_id": "HjHvRxp5vFL5fn7uK",
         "space": "Af8eM6mAHo7wMDqD3",
         "flow": "0c09ae80-6e44-4d77-96f7-c1efa19e26ce",
@@ -148,6 +203,6 @@
         "submit_date": "2017-12-08T09:03:50.189Z",
         "outbox_users": [],
         "keywords": ""
-    } // 提交申请单操作完成后最新的完整的实例数据
+    }
 }
 ```
