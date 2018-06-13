@@ -67,7 +67,6 @@ db.apps._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			rows: 10
-			type: "hidden"
 		optional: true
 
 	members:
