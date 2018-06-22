@@ -1,92 +1,81 @@
-# webhook功能说明
-## 用途
-- 当用户提交申请单时触发配置好的webhook执行额外的操作
+## 1. webhook功能说明
+&#160; &#160; &#160; &#160;当用户提交提交某些申请单时，需要执行额外的操作，如发送短信、发送邮件等。关于此类额外操作，管理员可通过配置webhook来完成。
 
-## 规则
-- 管理员在webhook设置中配置webhook相关内容
-- webhook表结构
-```javascript
-{
-    _id: "", // 主键
-    space: "", // 工作区id
-    flow: "", // 流程id
-    payload_url: "", // 请求的url，即管理员设置的url
-    content_type: "application/json", // 请求时数据格式
-    active: "", // 是否激活
-    description: "" // 描述
-}
-```
+---
 
-- 当用户操作申请单时触发webhook，给payload_url发送POST request请求
-- 请求发送的body数据有如下：
-  - action：触发此hook时的操作，值域：
-    draft_submit(草稿箱提交)，
-    engine_submit(待审核提交)，
-    reassign(转签核)，
-    relocate(重定位)，
-    retrieve(取回)，
-    terminate(取消申请)，
-    cc_do(传阅给他人)，
-    cc_submit(被传阅提交)
+## 2. webhook流程说明
 
-  - from_user：值为当前操作者。如： A提交申请单给B 那么from_user值就是A的id\username\emails
+### Step 1. 管理员配置webhook
+
+&#160; &#160; &#160; &#160;在系统设置页面，管理员需要对相关参数进行配置。  
+
+ - 配置参数
+   - 流程：选择配置的流程，数据库中保存流程ID
+   - URL：触发的URL路径
+   - 激活：默认不激活，只有激活状态的webhook才会触发操作
+   - 描述：操作的文字描述内容
+
+### Step 2. 触发webhook
+
+&#160; &#160; &#160; &#160;当用户操作申请单时（包括发送、传阅、取回等），系统将查找当前申请单配置的webhook，如查到且是激活状态，则触发webhook。即向配置的URL发送POST请求。其中，请求的body数据主要有以下部分。  
+
+ - action：触发此hook时的操作，其值域如下：
+
+   draft_submit：草稿箱提交,
+
+   engine_submit：待审核提交,
+
+   reassign：转签核,
+
+   relocate：重定位,   
+
+   retrieve：取回,   
+
+   terminate：取消申请,  
+
+   cc_do：传阅给他人, 
+
+   cc_submit：被传阅提交  
+
+ - current_approve：当前步骤，即用户执行提交操作时的approve数据
+
+ - instance：提交申请单操作完成后最新的完整实例数据
+
+ - from_user：值为当前操作者。如： A提交申请单给B 那么from_user值就是A的相关信息
 
     - _id：用户在审批王的唯一标识符
 
-    - username：用户登录名
+    - email：用户在审批王的唯一主邮箱（space_users表字段）
 
-    - emails：用户配置的邮箱列表
+    - username：用户在审批王的登录名
 
-      - address：邮箱地址
+    - mobile：用户在审批王的手机号（space_users表字段）
 
-      - verified：邮箱是否验证
+ - to_users：值为当前下一步骤处理人集合,集合内对象的属性与from_user相同。
 
-      - primary：邮箱是否主要邮箱
-
-  - to_users：值为发送者集合。
-
-  - current_approve：用户执行提交操作时的approve数据
-
-  - instance：提交申请单操作完成后最新的完整的实例数据
-
-body数据示例如下：
-```javascript
+&#160; &#160; &#160; &#160;请求的body数据示例如下。
+```
 {
-	"action": "draft_submit",
+    "action": "draft_submit",
     "from_user": {
-        "_id":  "TPWYx597AuLSksSDH",
-        "username":  "AAA",
-        "emails":  [{
-                    address: "AAA@hotoa.com",
-                    verified: true,
-                    primary: true
-                },{
-                    address: "AAA1@hotoa.com",
-                    verified: true,
-                    primary: false
-                }]
-        },
-    "to_users": [{
+        "_id": "TPWYx597AuLSksSDH",
+        "email": "AAA@hotoa.com",
+        "username": "AAA",
+        "mobile": "171****6263"
+    },
+    "to_users": [
+    {
         "_id":  "snLab9tq6bHquJjof",
+        "email": "BBB@hotoa.com",
         "username":  "BBB",
-        "emails":  [{
-                    address: "BBB@hotoa.com",
-                    verified: true,
-                    primary: true
-                },{
-                    address: "BBB1@hotoa.com",
-                    verified: false,
-                    primary: false
-                }]
-        },{
+        "mobile": "171****6263"
+    },
+    {
         "_id":  "hJChDEqfCh5MQ2tGj",
+        "email": "CCC@hotoa.com",
         "username":  "CCC",
-        "emails":  [{
-                    address: "CCC@hotoa.com",
-                    verified: true,
-                    primary: true
-                }]
-        }],
+        "mobile": "171****6263"
+    }],
     "current_approve": {
         "_id": "8ecbd6be43193e650e8d913f",
         "instance": "HjHvRxp5vFL5fn7uK",
