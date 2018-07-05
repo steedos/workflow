@@ -377,7 +377,6 @@ Meteor.startup ()->
 					unset.mobile = ""
 				if !user.mobile and user.phone
 					user.mobile = user.phone.mobile
-
 				unless user.emails
 					unset.email = ""
 				if !user.email and user.emails
@@ -385,6 +384,7 @@ Meteor.startup ()->
 
 				delete user._id
 				delete user.emails
+				delete user.phone
 				if _.isEmpty unset
 					db.space_users.direct.update({_id: doc._id}, {$set: user})
 				else
