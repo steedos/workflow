@@ -343,7 +343,14 @@
 			if (Math.abs(offset) < 16) {
 				offset = offset / 60;
 			}
-			mom.zone(offset, keepTime);
+			// mom.zone(offset, keepTime);
+			// fix Deprecation warning: moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/
+			// 参考包risul:moment-timezone@0.5.7，兼容creator中时间控件版本
+			if (mom.utcOffset !== undefined) {
+				mom.utcOffset(-offset, keepTime);
+			} else {
+				mom.zone(offset, keepTime);
+			}
 		}
 	};
 

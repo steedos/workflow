@@ -202,7 +202,7 @@
 	"flows_template": "Request Template",
 	"flows_name": "Workflow Name",
 	"flows_print_template": "Print Template",
-	"flows_instance_template": "Form Template&nbsp; <a class='export-table-template'>Download the default template</a>",
+	"flows_instance_template": "Form Template",
 	"flows_description": "Flow Description",
 
 

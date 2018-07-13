@@ -1,9 +1,17 @@
+Cookies = Npm.require("cookies")
+
 uuflowManager = {}
 
-uuflowManager.check_authorization = (req) ->
+uuflowManager.check_authorization = (req, res) ->
 	query = req.query
 	userId = query["X-User-Id"]
 	authToken = query["X-Auth-Token"]
+
+	# then check cookie
+	if !userId or !authToken
+		cookies = new Cookies( req, res )
+		userId = cookies.get("X-User-Id")
+		authToken = cookies.get("X-Auth-Token")
 
 	if not userId or not authToken
 		throw new Meteor.Error 401, 'Unauthorized'
@@ -1650,6 +1658,13 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.inbox_users = instance_from_client.inbox_users || []
 
 	ins_obj.current_step_name = start_step.name
+
+	# 新建申请单时，instances记录流程名称、流程分类名称 #1313
+	ins_obj.flow_name = flow.name
+	if form.category
+		category = uuflowManager.getCategory(form.category)
+		if category
+			ins_obj.category_name = category.name
 
 	if flow.auto_remind is true
 		ins_obj.auto_remind = true

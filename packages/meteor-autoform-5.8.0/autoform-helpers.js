@@ -113,7 +113,7 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
       try{
         setTimeout(function () {
           if(!fieldSchema.optional){
-            $(".td-title-" + options.name).addClass("is-required");
+            $(".td-title-" + Steedos.removeSpecialCharacter(options.name)).addClass("is-required");
           }
         }, 1);
       }catch (e){
@@ -125,7 +125,7 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
       if(fieldSchema.autoform.disabled === true){
         try{
           setTimeout(function () {
-           $(".td-title-" + options.name).removeClass("is-required");
+           $(".td-title-" + Steedos.removeSpecialCharacter(options.name)).removeClass("is-required");
           }, 1);
         }catch (e){
           console.error(e);
@@ -133,7 +133,7 @@ Template.registerHelper('afFieldLabelText', function autoFormFieldLabelText(opti
       }else{
         try{
           setTimeout(function () {
-            $(".td-title-" + options.name).addClass("title-editable");
+            $(".td-title-" + Steedos.removeSpecialCharacter(options.name)).addClass("title-editable");
 
           }, 1);
         }catch (e){

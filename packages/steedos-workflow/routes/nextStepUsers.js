@@ -22,14 +22,16 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
 		case 'specifyUser':
 			var specifyUserIds = body.specifyUserIds;
 
-			var nextStepUsers = WorkflowManager.getUsers(spaceId, specifyUserIds);
+			nextStepUsers = WorkflowManager.getUsers(spaceId, specifyUserIds);
 			break;
 		case 'applicantRole':
 			var
 				applicantId = body.applicantId,
 				approveRoleIds = body.approveRoleIds;
 			var applicant = WorkflowManager.getUser(spaceId, applicantId);
-			nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, applicant.organizations, approveRoleIds);
+
+			if (applicant)
+				nextStepUsers = WorkflowManager.getRoleUsersByOrgsAndRoles(spaceId, applicant.organizations, approveRoleIds);
 			break;
 		case 'applicantSuperior':
 			var applicantId = body.applicantId;
@@ -56,7 +58,6 @@ JsonRoutes.add("post", "/api/workflow/nextStepUsers", function(req, res, next) {
 			var
 				orgs,
 				orgChildrens,
-				nextStepUsers,
 				orgField = body.orgField,
 				orgFieldValue = body.orgFieldValue;
 			if (orgFieldValue) {

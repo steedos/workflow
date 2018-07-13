@@ -67,6 +67,10 @@
     // 门户
     "dashboard": {
       "default": "Pub5E9NZsxyyeQPhr" // 默认首页的dashboard._id
+    },
+    //企业微信前端授权登录
+    "qiyeweixin":{
+      "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize"
     }
   },
   "push": {

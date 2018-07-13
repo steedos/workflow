@@ -40,11 +40,11 @@ Package.onUse(function(api) {
 	api.use('aldeed:tabular@1.6.1');
 	api.use('aldeed:autoform@5.8.0');
 	api.use('matb33:collection-hooks@0.8.1');
-	api.use('cfs:standard-packages@0.5.9');
+	api.use('steedos:cfs-standard-packages');
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
-	api.use('iyyang:cfs-aliyun')
-	api.use('cfs:s3');
+	api.use('steedos:cfs-aliyun');
+	api.use('steedos:cfs-s3');
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('tap:i18n@1.7.0');
@@ -93,6 +93,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/instance_number_rules.coffee');
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
+	api.addFiles('lib/models/space_users.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
@@ -339,6 +340,13 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/webhooks.html', 'client');
 	api.addFiles('client/views/list/webhooks.coffee', 'client');
 
+	// app-workflow plugins
+	// api.addFiles('plugins/flow_import_action.coffee', 'client');
+	// api.addFiles('plugins/flow_state_action.coffee', 'client');
+	// api.addFiles('plugins/flow_export_action.coffee', 'client');
+	// api.addFiles('plugins/flow_copy_action.coffee', 'client');
+	// api.addFiles('plugins/flow_export_template_action.coffee', 'client');
+
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
 	api.addFiles('server/methods/save_instance.js', 'server');
@@ -384,6 +392,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_space_changeset.coffee', 'server');
 	api.addFiles('routes/api_workflow_retrieve.coffee', 'server');
 	api.addFiles('routes/api_workflow_forward.js', 'server');
+	api.addFiles('routes/api_workflow_instance.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_pending.coffee', 'server');
 
 	api.addFiles('routes/export_table_template.coffee', 'server');

@@ -528,7 +528,7 @@ getHandlersManager.getHandlers = (instance_id, step_id) ->
 			return _tr.is_finished is false
 		)
 		_approve = _.find(_trace.approves, (_app) ->
-			return _app.is_finished is false
+			return _app.is_finished is false and _app.type isnt 'cc'
 		)
 
 		if _approve.next_steps
