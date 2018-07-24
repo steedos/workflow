@@ -342,9 +342,14 @@ TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
 GetBoxInstancesTabularOptions = (box, flowId, fields)->
 	if box == "inbox"
-		return _get_inbox_instances_tabular_options(box, flowId, fields)
+		return _get_inbox_instances_tabular_options(flowId, fields)
 	else if box == "outbox"
-		return _get_outbox_instances_tabular_options(box, flowId, fields)
+		return _get_outbox_instances_tabular_options(flowId, fields)
+	else
+		options = instancesListTableTabular(flowId, fields)
+		if !flowId
+			options.name = "inbox_instances"
+		return options
 
 
 
@@ -500,7 +505,7 @@ Tracker.autorun (c) ->
 	console.log "TabularTables autorun..."
 
 	if Meteor.isClient && !Steedos.isMobile()
-		if Session.get("flowId")
+		if Session.get("flowId") && Session.get("box") != 'draft'
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
 				newInstancesListTabular Session.get("box"), Session.get("flowId"), result
 
