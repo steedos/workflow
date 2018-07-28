@@ -94,7 +94,8 @@ Meteor.publish 'flow', (spaceId, flowId)->
 			instance_template: 1,
 			events: 1,
 			distribute_optional_users: 1,
-			distribute_to_self: 1
+			distribute_to_self: 1,
+			upload_after_being_distributed: 1
 		}
 	})
 

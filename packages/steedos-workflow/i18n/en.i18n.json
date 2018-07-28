@@ -659,6 +659,7 @@
 	"instance_approve_distribute_date_label": "Distribute date",
 
 	"flows_auto_remind": "Auto remind",
+	"flows_upload_after_being_distributed": "Allow upload after being distributed",
 	"instances_my_finish_date": "Modified",
 	"pager_input_hint": "Click and input page number, then press Enter to jump to the specified page"
 }

@@ -678,6 +678,7 @@
 	"instance_approve_distribute_date_label": "分发时间",
 
 	"flows_auto_remind": "自动催办",
+	"flows_upload_after_being_distributed": "被分发后是否允许上传附件",
 
 	"instances_my_finish_date": "处理时间",
 	"pager_input_hint": "点击输入页码，然后按回车可跳转到指定页"

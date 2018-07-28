@@ -201,6 +201,12 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	upload_after_being_distributed:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
 
@@ -233,7 +239,7 @@ if Meteor.isServer
 		modifier.$set = modifier.$set || {};
 
 		if !modifier.$set.current
-			if _.keys(modifier.$set).toString() isnt 'auto_remind' # 为了启用自动催办的时候流程在列表位置不变
+			if _.keys(modifier.$set).toString() isnt 'auto_remind' and _.keys(modifier.$set).toString() isnt 'upload_after_being_distributed' # 为了启用自动催办的时候流程在列表位置不变
 				modifier.$set['current.modified_by'] = userId;
 				modifier.$set['current.modified'] = new Date();
 
@@ -344,6 +350,26 @@ new Tabular.Table
 							<div class="flow-list-switch">
 								<label for="switch_auto_remind_#{doc._id}" class="weui-switch-cp">
 									<input id="switch_auto_remind_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input-enable-auto-remind" type="checkbox" #{checked}>
+									<div class="weui-switch-cp__box"></div>
+								</label>
+							</div>
+						"""
+		},
+		{
+			data: "upload_after_being_distributed",
+			width: "150px",
+			orderable: false,
+			render: (val, type, doc)->
+
+				checked = "";
+
+				if doc.upload_after_being_distributed is true
+					checked = "checked"
+
+				return """
+							<div class="flow-list-switch">
+								<label for="switch_upload_after_being_distributed_#{doc._id}" class="weui-switch-cp">
+									<input id="switch_upload_after_being_distributed_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input-upload-after-being-distributed" type="checkbox" #{checked}>
 									<div class="weui-switch-cp__box"></div>
 								</label>
 							</div>
