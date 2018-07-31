@@ -194,6 +194,12 @@ db.flows._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			omit: true
+	
+	distribute_end_notification:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
 
 	auto_remind:
 		type: Boolean
@@ -406,7 +412,10 @@ new Tabular.Table
 	]
 	order: [[2, "desc"]]
 	dom: "tp"
-	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state", "distribute_optional_users"]
+	extraFields: ["form","print_template","instance_template",
+				"events","field_map","space", "description", 
+				"current", "state", "distribute_optional_users",
+				"distribute_to_self","distribute_end_notification"]
 	lengthChange: false
 	pageLength: 10
 	info: false
