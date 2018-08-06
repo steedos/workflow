@@ -2345,10 +2345,9 @@ uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
 	return
 
 uuflowManager.distributedInstancesRemind = (instance) ->
-	console.log "============="
-	flow = db.flows.findOne( { _id: instance?.flow } )
 	# 确定是分发过来的 
 	if instance?.distribute_from_instances?.length>0
+		flow = db.flows.findOne( { _id: instance?.flow } )
 		current_trace = instance["traces"].pop()
 		if instance?.state == "draft"
 			next_approves = current_trace?.approves
@@ -2359,7 +2358,7 @@ uuflowManager.distributedInstancesRemind = (instance) ->
 			next_step_id = current_trace?.step
 		if next_step_id
 			next_step = uuflowManager.getStep(instance, flow, next_step_id)
-			console.log "next_step", next_step.step_type
+			console.log "下一步骤", next_step.step_type
 			if next_step?.step_type == "end"
 				# 查原申请单
 				original_instacne_id = instance?.distribute_from_instances?.pop()
