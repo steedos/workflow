@@ -20,6 +20,9 @@ JsonRoutes.add 'post', '/api/workflow/submit', (req, res, next) ->
 				# 如果已经配置webhook并已激活则触发
 				pushManager.triggerWebhook(flow_id, instance, current_approve, 'draft_submit', current_user, instance.inbox_users)
 
+			# 判断申请单是否分发，分发文件结束提醒发起人
+			uuflowManager.distributedInstancesRemind(instance_from_client)
+
 		JsonRoutes.sendResult res,
 				code: 200
 				data: { result: result }

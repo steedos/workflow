@@ -179,6 +179,9 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 
 			pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit', current_user, to_users)
 
+			# 判断申请单是否分发，分发文件结束提醒发起人
+			uuflowManager.distributedInstancesRemind(instance)
+			
 		JsonRoutes.sendResult res,
 			code: 200
 			data: {}

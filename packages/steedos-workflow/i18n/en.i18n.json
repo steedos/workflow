@@ -314,7 +314,8 @@
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
 				"remind": "Remind：__instance_name__, Deadline：__deadline__",
-				"trace_approve_cc_submit": "I have submitted a cc __instance_name__"
+				"trace_approve_cc_submit": "I have submitted a cc __instance_name__",
+				"distribute_remind": "My __instance_name__ has been end"
 			}
 		},
 		"email": {
