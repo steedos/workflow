@@ -404,6 +404,8 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_save.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
+	
+	api.addFiles('routes/api_workflow_forward_refill.coffee', 'server');
 
 	api.addFiles('routes/test_webhook.coffee', 'server');
 
