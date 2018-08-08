@@ -1,13 +1,13 @@
 JsonRoutes.add("post", "/api/workflow/forward_refill", (req, res, next) ->
 	console.log "=========分发回填=========="
-	console.log "req",req?.body
+	# console.log "req",req?.body?.instance
 
 	# 分发的申请单
 	forward_ins = req?.body?.instance
 
 	if forward_ins?.state == "completed" && forward_ins?.distribute_from_instances?.length>0
 		# 原申请单 
-		original_ins_id = forward_ins?.distribute_from_instances.pop()
+		original_ins_id = _.last forward_ins?.distribute_from_instances
 		original_ins = db.instances.findOne(original_ins_id)
 
 		# values
@@ -42,15 +42,42 @@ JsonRoutes.add("post", "/api/workflow/forward_refill", (req, res, next) ->
 		common_fields = []
 
 		forward_ins_fields.forEach (field)->
-			exists_field = original_ins_fields.filter((m)->return (m.type==field.type&&m.code==field.code)||(m.type=='input'&&field.type=='select'&&m.code==field.code))
-			if exists_field
+			exists_field = original_ins_fields.filter((m)->return m.type==field.type&&m.code==field.code)
+			if exists_field && exists_field.length>0
+				# console.log "exists_field",exists_field
 				common_fields.push field
 		
 		common_fields.forEach (field)->
 			if forward_ins_values[field.code] && !original_ins_values[field.code]
 				original_ins_values[field.code] = forward_ins_values[field.code]
+
+		console.log "=============="
+		# console.log common_fields
 		
-		db.instances.update(original_ins_id,{$set:{'values':original_ins_values}})
+		# 更新步骤的值
+		traces = original_ins?.traces
+		trace = traces[traces.length-1]
+		approves = trace?.approves
+		
+		approves?.forEach (approve) ->
+			values = approve?.values || {}
+			console.log "原始的值",values
+			common_fields.forEach (field)->
+				if !values.hasOwnProperty(field.code)
+					values[field.code] = forward_ins_values[field.code]
+		
+		trace.approves = approves
+
+		traces[traces.length-1] = trace
+				
+		console.log "========最新approves========"
+		console.log traces[traces.length-1]?.approves
+
+		db.instances.update(original_ins_id,{
+			$set:{
+				'traces':traces
+				}
+			})
 
 		JsonRoutes.sendResult res, {
 			code: 200,
