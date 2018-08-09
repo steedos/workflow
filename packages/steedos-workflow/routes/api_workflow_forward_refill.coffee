@@ -1,90 +1,105 @@
 JsonRoutes.add("post", "/api/workflow/forward_refill", (req, res, next) ->
-	console.log "=========分发回填=========="
-	# console.log "req",req?.body?.instance
+	console.log "=========回填子表=========="
+	console.log "req?.query?.subTable",req?.query?.subTable
+	console.log "=========分发回填的列=========="
+	console.log "req?.query?.column",req?.query?.column
+
+	columns = req?.query?.column.split(';')
+	console.log "columns",columns
+
 
 	# 分发的申请单
 	forward_ins = req?.body?.instance
 
-	if forward_ins?.state == "completed" && forward_ins?.distribute_from_instances?.length>0
-		# 原申请单 
+	subTable = req?.query?.subTable
+
+	if forward_ins?.state == "completed" && forward_ins?.distribute_from_instances?.length>0 && subTable && columns
+		
+		# 分发回来的值
+		forward_ins_values = forward_ins?.values
+
+		# # 原申请单字段
 		original_ins_id = _.last forward_ins?.distribute_from_instances
 		original_ins = db.instances.findOne(original_ins_id)
-
-		# values
-		forward_ins_values = forward_ins?.values
-		original_ins_values = original_ins?.values
-		
-		# 分发的申请单字段
-		forward_ins_fields = []
-		forward_ins_form = db.forms.findOne(forward_ins?.form)
-		# 根据forms表找到对应的版本，赋值fields
-		if forward_ins?.form_version == forward_ins_form?.current?._id
-			forward_ins_fields = forward_ins_form?.current?.fields
-		else
-			if forward_ins_form?.historys?.length > 0
-				forward_ins_form.historys.forEach (fh)->
-					if forward_ins?.form_version == fh._id
-						forward_ins_fields = fh.fields
-
-		# 原申请单字段
-		original_ins_fields = []
 		original_ins_form = db.forms.findOne(original_ins?.form)
-		# 根据forms表找到对应的版本，赋值fields
-		if original_ins?.form_version == original_ins_form.current._id
-			original_ins_fields = original_ins_form?.current?.fields
+
+		original_ins_fields = []
+		original_subtable_fields = []
+
+		console.log "original_ins_form?.current?._id",original_ins_form?.current?._id
+		console.log "original_ins?.form_version",original_ins?.form_version
+
+		# 查看原申请单是否有对应的子表
+		if original_ins?.form_version == original_ins_form?.current?._id
+			original_ins_fields = original_ins_form.current?.fields
+			original_ins_fields.forEach (original_ins_field)->
+				console.log "original_ins_field",original_ins_field?.code
+				if original_ins_field?.code == subTable && original_ins_field?.type == 'table'
+					original_subtable_fields = original_ins_field?.fields
 		else
 			if original_ins_form?.historys?.length > 0
 				original_ins_form.historys.forEach (oh)->
 					if original_ins?.form_version == oh._id
-						original_ins_fields = oh.fields
-		
-		# 共有字段
-		common_fields = []
+						original_ins_fields = oh?.fields
+						original_ins_fields.forEach (original_ins_field)->
+							if original_ins_field?.code == subTable && original_ins_field?.type == 'table'
+								original_subtable_fields = original_ins_field?.fields
 
-		forward_ins_fields.forEach (field)->
-			exists_field = original_ins_fields.filter((m)->return m.type==field.type&&m.code==field.code)
-			if exists_field && exists_field.length>0
-				# console.log "exists_field",exists_field
-				common_fields.push field
-		
-		common_fields.forEach (field)->
-			if forward_ins_values[field.code] && !original_ins_values[field.code]
-				original_ins_values[field.code] = forward_ins_values[field.code]
+		console.log "original_subtable_fields",original_subtable_fields?.length
 
-		console.log "=============="
-		# console.log common_fields
-		
-		# 更新步骤的值
-		traces = original_ins?.traces
-		trace = traces[traces.length-1]
-		approves = trace?.approves
-		
-		approves?.forEach (approve) ->
-			values = approve?.values || {}
-			console.log "原始的值",values
-			common_fields.forEach (field)->
-				if !values.hasOwnProperty(field.code)
-					values[field.code] = forward_ins_values[field.code]
-		
-		trace.approves = approves
+		if original_subtable_fields
+			# # 更新步骤的值
+			# 1.找到当前的步骤
+			# 2.当前步骤中approves中的values
+			# 3.在values中找到表格
+			# 4.根据表格的fields属性，一个个的赋值
+			# 5.把复制的push到表格数组的后面
+			traces = original_ins?.traces
 
-		traces[traces.length-1] = trace
-				
-		console.log "========最新approves========"
-		console.log traces[traces.length-1]?.approves
+			trace = traces[traces.length-1]
 
-		db.instances.update(original_ins_id,{
-			$set:{
-				'traces':traces
+			approve = trace?.approves[0]
+
+			table_data = approve?.values[subTable] || []
+
+			row_data = {}
+
+			columns.forEach (column)->
+				row_data[column] = forward_ins_values[column] || ""
+			
+			
+			if row_data && row_data != {}
+				table_data.push row_data
+				traces[traces.length-1].approves[0].values[subTable] = table_data
+
+				console.log traces[traces.length-1].approves[0].values[subTable]
+
+				db.instances.update(original_ins_id,{
+					$set:{
+						'traces':traces
+						}
+					})
+				JsonRoutes.sendResult res, {
+					code: 200,
+					data: {
+						'success': '回填成功'
+					}
 				}
-			})
+			else
+				JsonRoutes.sendResult res, {
+					code: 200,
+					data: {
+						'info': '回填数据为空'
+					}
+				}
 
-		JsonRoutes.sendResult res, {
-			code: 200,
-			data: {
-				'success': '成功'
+		else
+			JsonRoutes.sendResult res, {
+				code: 200,
+				data: {
+					'error': '原申请单无相关子表'
+				}
 			}
-		}
 	else
 		JsonRoutes.sendResult res, {
 			code: 200,
