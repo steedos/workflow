@@ -49,19 +49,56 @@ JsonRoutes.add("post", "/api/workflow/sub_table_sort", (req, res, next) ->
                     if !isNaN(num)
                         sum = sum + num
 
-                obj[sum_col] = sum.toString()
-            
-            length = sub_table_values?.length
+                obj[sum_col] = sum
             
             # # 根据 sub_table_values 进行排序
             # ======================
+            # 排序字段，关键字，正序(true)/倒序(false)
+            `function JsonSort(jsonArr, key, asc){
+                for(var j=1,jl=jsonArr.length;j < jl;j++){
+                    var temp = jsonArr[j],
+                        val  = temp[key],
+                        i    = j-1;
+                    if(asc==true){
+                        while(i >=0 && jsonArr[i][key]>val){
+                            jsonArr[i+1] = jsonArr[i];
+                            i = i-1;    
+                        }
+                    }else{
+                        while(i >=0 && jsonArr[i][key]<val){
+                            jsonArr[i+1] = jsonArr[i];
+                            i = i-1;    
+                        }
+                    }
+                    jsonArr[i+1] = temp;
+                }
+                return jsonArr;
+            }`
             
+            new_table_values = JsonSort(sub_table_values,sum_col,false)
+
+            console.log "new_table_values",new_table_values
+
+            new_table_values.forEach (obj, index)->
+                obj[sum_col] = obj[sum_col].toString()
+                if sort_col
+                    obj[sort_col] = (index+1).toString()
+            
+            console.log "new_table_values",new_table_values
+
+            ins.values[sub_table] = new_table_values
+
+            db.instances.update(ins._id,{
+                $set:{
+                    'values':ins.values
+                    }
+                })
 
         console.log "success"
         JsonRoutes.sendResult res, {
             code: 200,
             data: {
-                'success': '计算成功'
+                'success': '计算排序成功'
             }
         }
 
