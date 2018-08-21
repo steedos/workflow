@@ -94,14 +94,15 @@ JsonRoutes.add("post", "/api/workflow/sub_table_sort", (req, res, next) ->
                     }
                 })
 
-        console.log "success"
-        JsonRoutes.sendResult res, {
-            code: 200,
-            data: {
-                'success': '计算排序成功'
+            console.log "success"
+            JsonRoutes.sendResult res, {
+                code: 200,
+                data: {
+                    'success': '计算排序成功'
+                }
             }
-        }
-
+        else
+            throw new Meteor.Error('table sort error!', '子表数据为空');
     catch e
         JsonRoutes.sendResult res, {
             code: 200,
