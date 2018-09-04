@@ -146,11 +146,14 @@ Meteor.methods
 
 				organization = item.organization
 				organization_depts = organization.split("/");
-				fullname = root_org.name
+				fullname = ""
 				parent_org_id = root_org._id
 				organization_depts.forEach (dept_name, j) ->
 					if j > 0
-						fullname = fullname + "/" + dept_name
+						if j == 1
+							fullname = dept_name
+						else
+							fullname = fullname + "/" + dept_name
 
 						org = db.organizations.findOne({space: space_id, fullname: fullname})
 
@@ -214,7 +217,7 @@ Meteor.methods
 
 				space_user = db.space_users.findOne({space: space_id, user: user_id})
 
-				space_user_org = db.organizations.findOne({space: space_id, fullname: item.organization})
+				space_user_org = db.organizations.findOne({space: space_id, fullname: fullname})
 
 				if space_user
 					if space_user_org
