@@ -59,10 +59,15 @@ Meteor.methods({
         cfs.instances.find({
             'metadata.space': spaceId
         }).forEach(function (c) {
-            var fileName = store + '-' + c._id + '-' + c.name();
-            var filePath = path.join(absolutePath, fileName);
-            console.log('filePath: ', filePath);
-            c.createReadStream(store).pipe(fs.createWriteStream(filePath));
+            try {
+                var fileName = store + '-' + c._id + '-' + c.name();
+                var filePath = path.join(absolutePath, fileName);
+                c.createReadStream(store).pipe(fs.createWriteStream(filePath));
+            } catch (error) {
+                console.error('download_space_instance_attachments_to_disk: ', c._id);
+                console.error(error.stack);
+            }
+
         })
     }
 })
