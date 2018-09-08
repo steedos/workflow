@@ -364,7 +364,7 @@ Template.instance_button.helpers
 		if ins.state isnt 'completed'
 			return false
 
-		if ins.is_hidden is false
+		if ins.is_hidden isnt true
 			return false
 
 		space = db.spaces.findOne(ins.space);
