@@ -43,7 +43,7 @@ Meteor.methods({
         return true;
     },
 
-    download_space_instance_attachments_to_disk: function (spaceId) {
+    download_space_instance_attachments_to_disk: function (spaceId, cfsRecordIds) {
         check(spaceId, String);
 
         var store = "instances";
@@ -56,18 +56,59 @@ Meteor.methods({
         // Ensure the path exists
         mkdirp.sync(absolutePath);
         console.log('absolutePath: ', absolutePath);
-        cfs.instances.find({
+        console.time('download_space_instance_attachments_to_disk');
+        var query = {
             'metadata.space': spaceId
-        }).forEach(function (c) {
+        }
+        if (cfsRecordIds) {
+            query._id = {
+                $in: cfsRecordIds
+            };
+        }
+        var downloadFailedRecordIds = [];
+        cfs.instances.find(query).forEach(function (c) {
             try {
                 var fileName = store + '-' + c._id + '-' + c.name();
                 var filePath = path.join(absolutePath, fileName);
-                c.createReadStream(store).pipe(fs.createWriteStream(filePath));
+                Meteor.wrapAsync(function (callback) {
+                    try {
+                        var writer = fs.createWriteStream(filePath);
+                        writer.on('finish', function () {
+                            if (callback && _.isFunction(callback))
+                                callback()
+                            return
+                        });
+                        var reader = c.createReadStream(store);
+                        reader.on('error', function (error) {
+                            downloadFailedRecordIds.push(c._id);
+                            console.error('download_space_instance_attachments_to_disk: ', c._id);
+                            console.error(error.stack);
+                            if (callback && _.isFunction(callback))
+                                callback()
+                            return
+                        });
+                        reader.pipe(writer);
+                    } catch (error) {
+                        console.error('download_space_instance_attachments_to_disk: ', c._id);
+                        console.error(error.stack);
+                        if (callback && _.isFunction(callback))
+                            callback()
+                        return
+                    }
+                })()
+
             } catch (error) {
                 console.error('download_space_instance_attachments_to_disk: ', c._id);
                 console.error(error.stack);
             }
 
         })
+
+        if (downloadFailedRecordIds.length > 0){
+            console.error('downloadFailedRecordIds: ');
+            console.error(downloadFailedRecordIds);
+        }
+
+        console.timeEnd('download_space_instance_attachments_to_disk');
     }
 })
