@@ -44,6 +44,15 @@ Meteor.methods({
     },
 
     download_space_instance_attachments_to_disk: function (spaceId, cfsRecordIds) {
+        if (!this.userId)
+            return "不符合执行条件"
+
+        if (Meteor.users.find({
+                _id: this.userId,
+                is_cloudadmin: true
+            }).count() < 1)
+            return "不符合执行条件"
+
         check(spaceId, String);
 
         var store = "instances";
@@ -104,11 +113,13 @@ Meteor.methods({
 
         })
 
-        if (downloadFailedRecordIds.length > 0){
+        if (downloadFailedRecordIds.length > 0) {
             console.error('downloadFailedRecordIds: ');
             console.error(downloadFailedRecordIds);
         }
 
         console.timeEnd('download_space_instance_attachments_to_disk');
+
+        return downloadFailedRecordIds;
     }
 })
