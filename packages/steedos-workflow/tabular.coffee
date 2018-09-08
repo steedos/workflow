@@ -37,7 +37,7 @@ instancesListTableTabular = (flowId, fields)->
 					$(".instance-list").perfectScrollbar("update")
 			else
 				$(".instance-list").scrollTop(0)
-			
+
 			title = t "pager_input_hint"
 			ellipsisLink = settings.oInstance.parent().find('.paging_numbers .pagination .disabled a')
 			ellipsisLink.attr("title", title).css("cursor", "pointer").click ->
@@ -108,6 +108,8 @@ instancesListTableTabular = (flowId, fields)->
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
 						unread = '<i class="ion ion-record unread"></i>'
+					else if Session.get("box") == 'monitor' && doc.is_hidden == true
+						unread = '<i class="fa fa-lock"></i>'
 
 					priorityIcon = ""
 					priorityIconClass = ""
@@ -151,6 +153,8 @@ instancesListTableTabular = (flowId, fields)->
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
 						unread = '<i class="ion ion-record unread"></i>'
+					else if Session.get("box") == 'monitor' && doc.is_hidden == true
+						unread = '<i class="fa fa-lock"></i>'
 
 					priorityIconClass = ""
 					priorityValue = doc.values?.priority
@@ -267,7 +271,7 @@ instancesListTableTabular = (flowId, fields)->
 				'tpl'
 		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name"],
+			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name", "is_hidden"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,

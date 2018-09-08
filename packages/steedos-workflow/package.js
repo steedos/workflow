@@ -367,6 +367,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/flow_copy.coffee', 'server');
 	api.addFiles('server/methods/flow.coffee', 'server');
 	api.addFiles('server/methods/distribute.coffee', 'server');
+	api.addFiles('server/methods/hide_instance.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
@@ -404,9 +405,9 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_workflow_open_save.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_get_by_stepname.coffee', 'server');
 	api.addFiles('routes/api_workflow_open_cfs.coffee', 'server');
-	
+
 	api.addFiles('routes/api_workflow_forward_refill.coffee', 'server');
-	
+
 	api.addFiles('routes/api_workflow_forward_table_refill.coffee', 'server');
 	api.addFiles('routes/api_sub_table_sort.coffee', 'server');
 

@@ -91,6 +91,9 @@ Template.instance_list.helpers
 
 #		Template.instance_list._tableColumns()
 
+		if box isnt "monitor"
+			query.is_hidden = { $ne: true }
+
 		return query
 	enabled_export: ->
 		spaceId = Session.get("spaceId");
