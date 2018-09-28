@@ -19,14 +19,14 @@ Meteor.startup ->
 			res.end()
 			return
 
-		if user.profile?.avatar
-			res.setHeader "Location", user.profile.avatar
+		if user.avatar
+			res.setHeader "Location", Steedos.absoluteUrl("api/files/avatars/" + user.avatar)
 			res.writeHead 302
 			res.end()
 			return
 
-		if user.avatar
-			res.setHeader "Location", Steedos.absoluteUrl("api/files/avatars/" + user.avatar)
+		if user.profile?.avatar
+			res.setHeader "Location", user.profile.avatar
 			res.writeHead 302
 			res.end()
 			return
