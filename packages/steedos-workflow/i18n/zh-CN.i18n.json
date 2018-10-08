@@ -688,5 +688,7 @@
 	"instance_hide_title": "隐藏",
 	"instance_hide_success": "隐藏成功",
 	"instance_reopen_title": "取消隐藏",
-	"instance_reopen_success": "取消隐藏成功"
+	"instance_reopen_success": "取消隐藏成功",
+
+	"workflow_design_flow": "设计流程"
 }

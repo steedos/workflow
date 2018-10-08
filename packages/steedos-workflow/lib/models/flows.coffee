@@ -194,7 +194,7 @@ db.flows._simpleSchema = new SimpleSchema
 		optional: true
 		autoform:
 			omit: true
-	
+
 	distribute_end_notification:
 		type: Boolean
 		optional: true
@@ -399,6 +399,7 @@ new Tabular.Table
 								<li class="divider"></li>
 								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
 								<li><a href="#" id="copyFlow" data-id="#{doc._id}">#{t("workflow_copy_flow")}</a></li>
+								<li><a href="#" id="designFlow" data-id="#{doc._id}">#{t("workflow_design_flow")}</a></li>
 								<li class="divider"></li>
 								<li><a href="#" id="editFlow_template" data-id="#{doc._id}">#{t('flow_list_title_set_template')}</a></li>
 								<li><a href="#" id="editFlow_events" data-id="#{doc._id}">#{t('flow_list_title_set_script')}</a></li>
@@ -413,7 +414,7 @@ new Tabular.Table
 	order: [[2, "desc"]]
 	dom: "tp"
 	extraFields: ["form","print_template","instance_template",
-				"events","field_map","space", "description", 
+				"events","field_map","space", "description",
 				"current", "state", "distribute_optional_users",
 				"distribute_to_self","distribute_end_notification"]
 	lengthChange: false

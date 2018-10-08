@@ -669,5 +669,7 @@
 	"instance_hide_title": "Hide",
 	"instance_hide_success": "Hide Success",
 	"instance_reopen_title": "Unhide",
-	"instance_reopen_success": "Unhide Success"
+	"instance_reopen_success": "Unhide Success",
+
+	"workflow_design_flow": "Design flow"
 }

@@ -157,5 +157,9 @@ Template.admin_flows.events
 			event.currentTarget.checked = false
 			Steedos.spaceUpgradedModal()
 
+	'click #designFlow': (event)->
+		_id = event.currentTarget.dataset.id
+		Steedos.openWindow Steedos.absoluteUrl("/packages/steedos_admin/assets/designer/index.html?locale=#{Steedos.locale()}&space=#{Steedos.spaceId()}&flow=#{_id}")
+
 Template.admin_flows.onDestroyed ->
 	Session.set("filter_state", null)
