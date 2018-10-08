@@ -3,13 +3,12 @@ Cookies = Npm.require("cookies")
 
 Meteor.startup ->
 	JsonRoutes.add 'get', '/api/cas/sso', (req, res, next) ->
-		console.log "enter"
 
-		cookies = new Cookies( req, res );
+		cookies = new Cookies( req, res )
 
 		ticket = req?.query?.ticket
 
-		service_url = Meteor.absoluteUrl('api/cas/sso/')
+		service_url = Meteor.absoluteUrl('api/cas/sso')
 
 		cas_url = Meteor.settings?.public?.webservices?.cas?.url
 
@@ -20,24 +19,25 @@ Meteor.startup ->
 		netError = result.statusCode
 
 		if netError!=200
-			logger.error "cas network is disconnected"
+			console.error "cas network is disconnected"
 			return
 
 		parser = new xml2js.Parser()
 
 		parser.parseString result.content, (err, result) ->
 			failure = result?["cas:serviceResponse"]?["cas:authenticationFailure"]
-			
+
 			success = result?["cas:serviceResponse"]?["cas:authenticationSuccess"]
-			
+
 			if failure
-				logger.error "cas authentication failure"
+				console.error "cas authentication failure"
+				console.error failure
 				return
 
 			username = success?[0]?["cas:user"]?[0]
 
 			# 验证成功了，取到了username的值，怎么登陆steedos?
-			
+
 			user = Meteor.users.findOne "username": username
 
 			authToken = Accounts._generateStampedLoginToken()

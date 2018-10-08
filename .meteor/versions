@@ -160,6 +160,7 @@ steedos:autoform-modals@0.3.9_9
 steedos:base@0.0.85
 steedos:calendar@0.1.26
 steedos:calendar-i18n@0.0.16
+steedos:cas@0.0.1
 steedos:cfs-access-point@0.1.50
 steedos:cfs-aliyun@0.1.0
 steedos:cfs-base-package@0.0.30
