@@ -2345,7 +2345,7 @@ uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
 	return
 
 uuflowManager.distributedInstancesRemind = (instance) ->
-	# 确定是分发过来的 
+	# 确定是分发过来的
 	if instance?.distribute_from_instances?.length>0
 		flow = db.flows.findOne( { _id: instance?.flow } )
 		current_trace = instance["traces"].pop()
@@ -2358,12 +2358,10 @@ uuflowManager.distributedInstancesRemind = (instance) ->
 			next_step_id = current_trace?.step
 		if next_step_id
 			next_step = uuflowManager.getStep(instance, flow, next_step_id)
-			console.log "下一步骤", next_step.step_type
 			if next_step?.step_type == "end"
 				# 查原申请单
 				original_instacne_id = instance?.distribute_from_instances?.pop()
 				# original_instacne_id = "X6whjGMLNvxDnFwSe" # 定死
-				console.log "老表单ID",original_instacne_id
 				original_instacne = db.instances.findOne(
 					{ _id: original_instacne_id },
 					{ fields: { flow: 1, name: 1,space: 1,created_by: 1 } }
@@ -2373,13 +2371,12 @@ uuflowManager.distributedInstancesRemind = (instance) ->
 					{ _id: original_instacne?.flow },
 					{ fields: { distribute_end_notification: 1 } }
 					)
-				
+
 				if original_flow?.distribute_end_notification==true
-					try 
-						console.log "要提醒通知"
+					try
 						# 分发提醒，这个表单的created_by
-						original_user = db.users.findOne({_id:original_instacne?.created_by})
-						
+						original_user = db.users.findOne({_id: instance?.created_by})
+
 						#设置当前语言环境
 						lang = 'en'
 						if original_user?.locale is 'zh-cn'
@@ -2400,7 +2397,6 @@ uuflowManager.distributedInstancesRemind = (instance) ->
 						notification["payload"] = payload
 						notification['query'] = { userId: original_user._id, appName: 'workflow' }
 
-						console.log "notification",notification
 
 						Push.send(notification)
 					catch e
