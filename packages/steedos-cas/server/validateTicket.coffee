@@ -18,9 +18,8 @@ Meteor.startup ->
 
 		netError = result.statusCode
 
-		if netError!=200
-			console.error "cas network is disconnected"
-			return
+		if netError != 200
+			throw new Meteor.Error "cas network is disconnected"
 
 		parser = new xml2js.Parser()
 
@@ -30,15 +29,17 @@ Meteor.startup ->
 			success = result?["cas:serviceResponse"]?["cas:authenticationSuccess"]
 
 			if failure
-				console.error "cas authentication failure"
 				console.error failure
-				return
+				throw new Meteor.Error 'cas authentication failure'
 
 			username = success?[0]?["cas:user"]?[0]
 
 			# 验证成功了，取到了username的值，怎么登陆steedos?
 
 			user = Meteor.users.findOne "username": username
+
+			if not user
+				throw new Meteor.Error "user(#{username}) not found"
 
 			authToken = Accounts._generateStampedLoginToken()
 
@@ -50,7 +51,7 @@ Meteor.startup ->
 
 			Setup.setAuthCookies(req, res, user._id, token)
 
-			res.writeHead(301, {'Location': '/'});
+			res.writeHead(301, {'Location': '/'})
 
-			res.end();
+			res.end()
 		return
