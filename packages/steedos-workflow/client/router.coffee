@@ -148,3 +148,9 @@ FlowRouter.route '/admin/workflow/flow_roles',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_flow_roles"
+
+FlowRouter.route '/admin/workflow/process_delegation_rules',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "admin_process_delegation_rules"

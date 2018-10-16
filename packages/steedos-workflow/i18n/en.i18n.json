@@ -671,5 +671,14 @@
 	"instance_reopen_title": "Unhide",
 	"instance_reopen_success": "Unhide Success",
 
-	"workflow_design_flow": "Design flow"
+	"workflow_design_flow": "Design flow",
+
+	"process_delegation_rules": "Process Delegation",
+	"process_delegation_rules_from": "From",
+	"process_delegation_rules_to": "To",
+	"process_delegation_rules_enabled": "Enabled",
+	"process_delegation_rules_start_time": "Strat Time",
+	"process_delegation_rules_end_time": "End Time",
+	"process_delegation_rules_from_name": "From",
+	"process_delegation_rules_to_name": "To"
 }

@@ -94,6 +94,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
 	api.addFiles('lib/models/space_users.coffee');
+	api.addFiles('lib/models/process_delegation_rules.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
@@ -339,6 +340,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/list/webhooks.html', 'client');
 	api.addFiles('client/views/list/webhooks.coffee', 'client');
+
+	api.addFiles('client/views/list/admin_process_delegation_rules.html', 'client');
+	api.addFiles('client/views/list/admin_process_delegation_rules.coffee', 'client');
 
 	// app-workflow plugins
 	// api.addFiles('plugins/flow_import_action.coffee', 'client');
