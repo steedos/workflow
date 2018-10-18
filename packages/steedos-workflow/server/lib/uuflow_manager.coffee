@@ -2443,6 +2443,9 @@ uuflowManager.cancelProcessDelegation = (spaceId, toId)->
 					setObj.inbox_users = ins.inbox_users
 
 					db.instances.update({ _id: ins._id, inbox_users: toId, 'traces._id': a.trace }, { $set: setObj })
+
+					pushManager.send_message_to_specifyUser('current_user', a.user)
+					pushManager.send_message_to_specifyUser('current_user', toId)
 				else if a.user is toId
 					db.instances.update({ _id: ins._id }, { $addToSet: { inbox_users: toId } })
 
