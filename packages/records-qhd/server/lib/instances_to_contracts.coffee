@@ -37,12 +37,12 @@ InstancesToContracts = (spaces, contracts_server, contract_flows, submit_date_st
 	return
 
 InstancesToContracts.success = (instance)->
-	logger.info("success, name is #{instance.name}, id is #{instance._id}")
+	console.info("success, name is #{instance.name}, id is #{instance._id}")
 	db.instances.direct.update({_id: instance._id}, {$set: {is_contract_archived: true}})
 
 InstancesToContracts.failed = (instance, error)->
-	logger.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
-	logger.error error
+	console.error("failed, name is #{instance.name}, id is #{instance._id}. error: ")
+	console.error error
 
 InstancesToContracts::getContractInstances = ()->
 	query = {
