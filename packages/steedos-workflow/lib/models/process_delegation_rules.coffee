@@ -40,11 +40,6 @@ db.process_delegation_rules._simpleSchema = new SimpleSchema
 
 	to:
 		type: String,
-		# foreign_key: true,
-		# references:
-		# 	collection: 'space_users'
-		# 	key: 'user'
-		# 	search_keys: ['name', 'email']
 		autoform:
 			type: "selectuser"
 			multiple: false
@@ -101,22 +96,15 @@ if Meteor.isServer
 if Meteor.isServer
 	db.process_delegation_rules.allow
 		insert: (userId, doc) ->
-			if (!Steedos.isSpaceAdmin(doc.space, userId))
-				return false
-			else
-				return true
+			return userId and db.space_users.find({space: doc.space, user: userId}).count() > 0 and db.process_delegation_rules.find({space: doc.space, from: userId}).count() is 0
 
-		update: (userId, doc) ->
-			if (!Steedos.isSpaceAdmin(doc.space, userId))
-				return false
-			else
-				return true
+		update: (userId, doc, fieldNames, modifier) ->
+			return userId and doc.from is userId
 
 		remove: (userId, doc) ->
-			if (!Steedos.isSpaceAdmin(doc.space, userId))
-				return false
-			else
-				return true
+			return userId and doc.from is userId
+
+		fetch: ['from']
 
 	db.process_delegation_rules.before.insert (userId, doc) ->
 		doc.created_by = userId
@@ -160,13 +148,13 @@ new Tabular.Table
 				return moment(doc.end_time).format('YYYY-MM-DD')
 		}
 	]
-	# dom: "tp"
+	dom: "tp"
 	lengthChange: false
 	ordering: false
 	pageLength: 10
 	info: false
 	extraFields: ["space","from","to"]
-	searching: false
+	searching: true
 	autoWidth: false
 	changeSelector: (selector, userId) ->
 		unless userId

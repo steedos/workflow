@@ -3,6 +3,7 @@ Template.admin_process_delegation_rules.helpers
 		spaceId = Steedos.spaceId()
 		selector = {
 			space: spaceId
+			from: Meteor.userId()
 		}
 		return selector
 

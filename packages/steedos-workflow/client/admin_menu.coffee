@@ -60,13 +60,12 @@ if Meteor.isClient
 					confirmButtonText: t("OK")
 				})
 
-	# 流程委托
-	Steedos.addAdminMenu
-		_id: "process_delegation_rules"
-		title: "process_delegation_rules"
-		icon: "ion ion-ios-americanfootball-outline"
-		sort: 3000
-		roles: []
-		url: "/admin/workflow/process_delegation_rules"
-		parent: "workflow"
-		appversion:"workflow_pro"
+	# # 流程委托
+	# Steedos.addAdminMenu
+	# 	_id: "process_delegation_rules"
+	# 	title: "process_delegation_rules"
+	# 	icon: "ion ion-ios-americanfootball-outline"
+	# 	sort: 3000
+	# 	roles: []
+	# 	url: "/admin/workflow/process_delegation_rules"
+	# 	parent: "workflow"
