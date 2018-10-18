@@ -107,6 +107,9 @@ if Meteor.isServer
 		fetch: ['from']
 
 	db.process_delegation_rules.before.insert (userId, doc) ->
+		if doc.start_time >= doc.end_time
+			throw new Meteor.Error(400, "process_delegation_rules_start_must_lt_end")
+
 		doc.created_by = userId
 		doc.created = new Date()
 		doc.from = userId
@@ -116,11 +119,23 @@ if Meteor.isServer
 
 		modifier.$set = modifier.$set || {}
 
+		if modifier.$set.start_time >= modifier.$set.end_time
+			throw new Meteor.Error(400, "process_delegation_rules_start_must_lt_end")
+
 		modifier.$set.modified_by = userId
 		modifier.$set.modified = new Date()
 
 		modifier.$set.from_name = db.space_users.findOne({space: doc.space, user: userId}, {fields: {name: 1}})?.name
 		modifier.$set.to_name = db.space_users.findOne({space: doc.space, user: modifier.$set.to}, {fields: {name: 1}})?.name
+
+	db.process_delegation_rules.after.update (userId, doc, fieldNames, modifier, options) ->
+		# 撤销委托
+		if (this.previous.enabled is true and doc.enabled is false) or doc.end_time <= new Date()
+			uuflowManager.cancelProcessDelegation(this.previous.space, this.previous.to)
+
+	db.process_delegation_rules.after.remove (userId, doc) ->
+		if doc.enabled
+			uuflowManager.cancelProcessDelegation(doc.space, doc.to)
 
 new Tabular.Table
 	name: "process_delegation_rules",

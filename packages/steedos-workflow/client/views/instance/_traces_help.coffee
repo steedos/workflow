@@ -153,7 +153,7 @@ TracesTemplate.helpers =
 			if ins and ins.flow and ins.space
 				if WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, Meteor.userId())
 					return true
-			
+
 			if approve.from_user == Meteor.userId()
 				return true
 
@@ -276,6 +276,9 @@ TracesTemplate.helpers =
 
 	instanceExists: (instance_id)->
 		return !!db.instances.find(instance_id).count()
+
+	handlerName: (handlerName, userName, agent)->
+		return if agent then "#{handlerName}(#{userName})" else handlerName
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->

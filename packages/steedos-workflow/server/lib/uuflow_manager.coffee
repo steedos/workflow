@@ -90,7 +90,7 @@ uuflowManager.isInstancePending = (instance, lang = "zh-CN") ->
 	return
 
 uuflowManager.isHandlerOrAgent = (approve, user_id) ->
-	if approve.user isnt user_id
+	if approve.user isnt user_id and approve.agent isnt user_id
 		throw new Meteor.Error('error!', "不是当前步骤对应的处理人或其代理人，不能进行此操作")
 
 uuflowManager.isInstanceDraft = (instance, lang = "zh-CN") ->
@@ -1920,18 +1920,28 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 
 					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
 					# 插入下一步trace.approve记录
-					_.each(next_step_users, (next_step_user_id) ->
+					_.each(next_step_users, (next_step_user_id, idx) ->
 						nextApprove = new Object
 						nextApprove._id = new Mongo.ObjectID()._str
+
+						user_info = uuflowManager.getUser(next_step_user_id)
+						handler_id = next_step_user_id
+						handler_info = user_info
+						agent = uuflowManager.getAgent(space_id, next_step_user_id)
+						if agent
+							next_step_users[idx] = agent
+							handler_id = agent
+							handler_info = uuflowManager.getUser(agent)
+							nextApprove.agent = agent
+
 						nextApprove.instance = instance_id
 						nextApprove.trace = nextTrace._id
 						nextApprove.is_finished = false
 						nextApprove.user = next_step_user_id
-						handler_info = uuflowManager.getUser(next_step_user_id)
-						nextApprove.user_name = handler_info.name
-						nextApprove.handler = next_step_user_id
+						nextApprove.user_name = user_info.name
+						nextApprove.handler = handler_id
 						nextApprove.handler_name = handler_info.name
-						next_step_space_user = uuflowManager.getSpaceUser(space_id, next_step_user_id)
+						next_step_space_user = uuflowManager.getSpaceUser(space_id, handler_id)
 						# 获取next_step_user所在的部门信息
 						next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
 						nextApprove.handler_organization = next_step_user_org_info["organization"]
@@ -2402,4 +2412,38 @@ uuflowManager.distributedInstancesRemind = (instance) ->
 					catch e
 						console.error e.stack
 	return
+
+uuflowManager.getAgent = (spaceId, fromId)->
+	now = new Date()
+	r = db.process_delegation_rules.findOne({ space: spaceId, from: fromId, enabled: true, start_time: { $lte: now }, end_time: { $gte: now } })
+	return r?.to
+
+uuflowManager.cancelProcessDelegation = (spaceId, toId)->
+	query = { space: spaceId, state: 'pending', inbox_users: toId }
+	query.traces = { $elemMatch: { is_finished: false, approves: { $elemMatch: { is_finished: false, agent: toId } } } }
+	db.instances.find(query, { fields: { inbox_users: 1, traces: 1 } }).forEach (ins)->
+		trace = _.find ins.traces, (t)->
+			return t.is_finished is false
+
+		_.each trace.approves, (a, idx)->
+			if a.is_finished is false
+				if a.agent is toId
+					next_step_space_user = uuflowManager.getSpaceUser(spaceId, a.user)
+					# 获取next_step_user所在的部门信息
+					next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
+					idxStr = "traces.$.approves.#{idx}."
+					setObj = {}
+					setObj[idxStr + 'handler'] = a.user
+					setObj[idxStr + 'handler_name'] = a.user_name
+					setObj[idxStr + 'handler_organization'] = next_step_user_org_info["organization"]
+					setObj[idxStr + 'handler_organization_name'] = next_step_user_org_info["organization_name"]
+					setObj[idxStr + 'handler_organization_fullname'] = next_step_user_org_info["organization_fullname"]
+					setObj[idxStr + 'agent'] = null
+					ins.inbox_users.splice(ins.inbox_users.indexOf(toId), 1, a.user)
+					setObj.inbox_users = ins.inbox_users
+
+					db.instances.update({ _id: ins._id, inbox_users: toId, 'traces._id': a.trace }, { $set: setObj })
+				else if a.user is toId
+					db.instances.update({ _id: ins._id }, { $addToSet: { inbox_users: toId } })
+
 
