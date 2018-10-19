@@ -118,6 +118,12 @@ Template.instancePrint.events
 		else
 			localStorage.removeItem "print_is_show_traces"
 
+	"change input[name='printWidthA4']": (event, template)->
+		$('#printWidth').val(event.target.value).trigger('change')
+
+	"change #printWidth": (event, template)->
+		$(".instance-print .content-wrapper").width(event.target.value + 'mm')
+
 Template.instancePrint.onCreated ->
 	Form_formula.initFormScripts()
 	this.isShowAttachments = new ReactiveVar(false)
