@@ -1427,16 +1427,10 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			trace_approve = _.find(instance_trace.approves, (approve) ->
 				return approve._id is approve_id
 			)
-			outbox_users = instance.outbox_users
-			outbox_users.unshift(trace_approve.handler)
-			outbox_users.unshift(trace_approve.user)
-			setObj.outbox_users = _.uniq(outbox_users)
-			for_remove = new Array
-			for_remove.push trace_approve.handler
-			for_remove.push trace_approve.user
-			for_remove = _.uniq(for_remove)
+			instance.outbox_users.unshift(trace_approve.handler)
+			setObj.outbox_users = instance.outbox_users
 
-			instance.inbox_users.splice(instance.inbox_users.indexOf(for_remove), 1)
+			instance.inbox_users.splice(instance.inbox_users.indexOf(trace_approve.handler), 1)
 
 			setObj.inbox_users = instance.inbox_users
 			setObj.modified = new Date
