@@ -2455,9 +2455,9 @@ uuflowManager.getAgent = (spaceId, fromId)->
 	return r?.to
 
 uuflowManager.cancelProcessDelegation = (spaceId, toId)->
-	query = { space: spaceId, state: 'pending', inbox_users: toId }
+	query = { space: spaceId, inbox_users: toId }
 	query.traces = { $elemMatch: { is_finished: false, approves: { $elemMatch: { is_finished: false, agent: toId } } } }
-	db.instances.find(query, { fields: { inbox_users: 1, traces: 1 } }).forEach (ins)->
+	db.instances.find(query, { fields: { inbox_users: 1, traces: 1, state: 1 } }).forEach (ins)->
 		trace = _.find ins.traces, (t)->
 			return t.is_finished is false
 
@@ -2477,6 +2477,11 @@ uuflowManager.cancelProcessDelegation = (spaceId, toId)->
 					setObj[idxStr + 'agent'] = null
 					ins.inbox_users.splice(ins.inbox_users.indexOf(toId), 1, a.user)
 					setObj.inbox_users = ins.inbox_users
+
+					# 如果是分发还需要修改提交人信息
+					if ins.state is 'draft'
+						setObj.submitter = a.user
+						setObj.submitter_name = a.user_name
 
 					db.instances.update({ _id: ins._id, inbox_users: toId, 'traces._id': a.trace }, { $set: setObj })
 
