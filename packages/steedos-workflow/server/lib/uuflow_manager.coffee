@@ -766,7 +766,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.approves = new Array
 
 					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
-					_.each next_step_users, (next_step_user_id) ->
+					_.each next_step_users, (next_step_user_id, idx) ->
 						# 插入下一步trace.approve记录
 						newApprove = new Object
 						newApprove._id = new Mongo.ObjectID()._str
@@ -775,12 +775,22 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newApprove.is_finished = false
 						newApprove.user = next_step_user_id
 
-						handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
-						newApprove.user_name = handler_info.name
-						newApprove.handler = next_step_user_id
+						user_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
+						newApprove.user_name = user_info.name
+
+						handler_id = next_step_user_id
+						handler_info = user_info
+						agent = uuflowManager.getAgent(space_id, next_step_user_id)
+						if agent
+							next_step_users[idx] = agent
+							handler_id = agent
+							handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+							newApprove.agent = agent
+
+						newApprove.handler = handler_id
 						newApprove.handler_name = handler_info.name
 
-						next_step_space_user = db.space_users.findOne({ space: space_id, user: next_step_user_id })
+						next_step_space_user = db.space_users.findOne({ space: space_id, user: handler_id })
 						# 获取next_step_user所在的部门信息
 						next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
 						newApprove.handler_organization = next_step_user_org_info["organization"]
@@ -958,7 +968,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.approves = new Array
 
 							updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
-							_.each next_step_users, (next_step_user_id) ->
+							_.each next_step_users, (next_step_user_id, idx) ->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
@@ -967,14 +977,24 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newApprove.is_finished = false
 								newApprove.user = next_step_user_id
 
-								handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
-								newApprove.user_name = handler_info.name
-								newApprove.handler = next_step_user_id
+								user_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
+								newApprove.user_name = user_info.name
+
+								handler_id = next_step_user_id
+								handler_info = user_info
+								agent = uuflowManager.getAgent(space_id, next_step_user_id)
+								if agent
+									next_step_users[idx] = agent
+									handler_id = agent
+									handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+									newApprove.agent = agent
+
+								newApprove.handler = handler_id
 								newApprove.handler_name = handler_info.name
 
 								next_step_space_user = db.space_users.findOne({
 									space: space_id,
-									user: next_step_user_id
+									user: handler_id
 								})
 								# 获取next_step_user所在的部门信息
 								next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
@@ -1147,7 +1167,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.approves = new Array
 
 								updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
-								_.each next_step_users, (next_step_user_id) ->
+								_.each next_step_users, (next_step_user_id, idx) ->
 									# 插入下一步trace.approve记录
 									newApprove = new Object
 									newApprove._id = new Mongo.ObjectID()._str
@@ -1156,14 +1176,24 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									newApprove.is_finished = false
 									newApprove.user = next_step_user_id
 
-									handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
-									newApprove.user_name = handler_info.name
-									newApprove.handler = next_step_user_id
+									user_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
+									newApprove.user_name = user_info.name
+
+									handler_id = next_step_user_id
+									handler_info = user_info
+									agent = uuflowManager.getAgent(space_id, next_step_user_id)
+									if agent
+										next_step_users[idx] = agent
+										handler_id = agent
+										handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+										newApprove.agent = agent
+
+									newApprove.handler = handler_id
 									newApprove.handler_name = handler_info.name
 
 									next_step_space_user = db.space_users.findOne({
 										space: space_id,
-										user: next_step_user_id
+										user: handler_id
 									})
 									# 获取next_step_user所在的部门信息
 									next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
@@ -1326,7 +1356,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
-							_.each next_step_users, (next_step_user_id) ->
+							_.each next_step_users, (next_step_user_id, idx) ->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
 								newApprove._id = new Mongo.ObjectID()._str
@@ -1335,14 +1365,24 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								newApprove.is_finished = false
 								newApprove.user = next_step_user_id
 
-								handler_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
-								newApprove.user_name = handler_info.name
-								newApprove.handler = next_step_user_id
+								user_info = db.users.findOne({ _id: next_step_user_id }, { fields: { name: 1 } })
+								newApprove.user_name = user_info.name
+
+								handler_id = next_step_user_id
+								handler_info = user_info
+								agent = uuflowManager.getAgent(space_id, next_step_user_id)
+								if agent
+									next_step_users[idx] = agent
+									handler_id = agent
+									handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+									newApprove.agent = agent
+
+								newApprove.handler = handler_id
 								newApprove.handler_name = handler_info.name
 
 								next_step_space_user = db.space_users.findOne({
 									space: space_id,
-									user: next_step_user_id
+									user: handler_id
 								})
 								# 获取next_step_user所在的部门信息
 								next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
@@ -1396,7 +1436,9 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			for_remove.push trace_approve.user
 			for_remove = _.uniq(for_remove)
 
-			setObj.inbox_users = _.difference(instance.inbox_users, for_remove)
+			instance.inbox_users.splice(instance.inbox_users.indexOf(for_remove), 1)
+
+			setObj.inbox_users = instance.inbox_users
 			setObj.modified = new Date
 			setObj.modified_by = current_user
 
