@@ -27,7 +27,7 @@
                     </tr>
                     {{#each this.approves}}
                             <tr class="approve-item">
-                                <td class="name">{{this.handler_name}}
+                                <td class="name">{{ handlerName this.handler_name this.user_name this.agent }}
                                     {{#if isCC this}}
                                         <label class='cc-label'>
                                             <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
