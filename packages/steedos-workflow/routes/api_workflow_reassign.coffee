@@ -30,7 +30,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			not_in_inbox_users = _.difference(inbox_users, inbox_users_from_client)
 			new_inbox_users = _.difference(inbox_users_from_client, inbox_users)
 			# 若assignee=原inbox_users，说明不需要执行转签核，系统什么都不做
-			return if not_in_inbox_users is new_inbox_users
+			return if not_in_inbox_users.length is 0 and new_inbox_users.length is 0
 			setObj = new Object
 			now = new Date
 			i = 0
@@ -81,8 +81,18 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				new_appr.is_finished = false
 				new_appr.user = user_id
 				new_appr.user_name = new_user.name
-				new_appr.handler = user_id
-				new_appr.handler_name = new_user.name
+
+				handler_id = user_id
+				handler_info = new_user
+				agent = uuflowManager.getAgent(space_id, user_id)
+				if agent
+					inbox_users_from_client[inbox_users_from_client.indexOf(user_id)] = agent
+					handler_id = agent
+					handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+					new_appr.agent = agent
+
+				new_appr.handler = handler_id
+				new_appr.handler_name = handler_info.name
 				new_appr.handler_organization = space_user.organization
 				new_appr.handler_organization_name = user_organization.name
 				new_appr.handler_organization_fullname = user_organization.fullname

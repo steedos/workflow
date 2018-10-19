@@ -126,7 +126,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
 					newTrace.due_date = new Date(due_time)
 				newTrace.approves = []
-				_.each(relocate_inbox_users, (next_step_user_id)->
+				_.each(relocate_inbox_users, (next_step_user_id, idx)->
 					# 插入下一步trace.approve记录
 					newApprove = new Object
 					newApprove._id = new Mongo.ObjectID()._str
@@ -135,12 +135,22 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.is_finished = false
 					newApprove.user = next_step_user_id
 
-					handler_info = db.users.findOne(next_step_user_id, { fields: { name: 1 } })
-					newApprove.user_name = handler_info.name
-					newApprove.handler = next_step_user_id
+					user_info = db.users.findOne(next_step_user_id, { fields: { name: 1 } })
+					newApprove.user_name = user_info.name
+
+					handler_id = next_step_user_id
+					handler_info = user_info
+					agent = uuflowManager.getAgent(space_id, next_step_user_id)
+					if agent
+						relocate_inbox_users[idx] = agent
+						handler_id = agent
+						handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+						newApprove.agent = agent
+
+					newApprove.handler = handler_id
 					newApprove.handler_name = handler_info.name
 
-					next_step_space_user = uuflowManager.getSpaceUser(space_id, next_step_user_id)
+					next_step_space_user = uuflowManager.getSpaceUser(space_id, handler_id)
 					# 获取next_step_user所在的部门信息
 					next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
 					newApprove.handler_organization = next_step_user_org_info["organization"]
