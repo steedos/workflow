@@ -12,7 +12,8 @@ Npm.depends({
 	"eval": "0.1.2",
 	mkdirp: "0.3.5",
 	mime: "2.0.2",
-	busboy: "0.2.13"
+	busboy: "0.2.13",
+	"node-schedule": "1.2.1"
 });
 
 Package.onUse(function(api) {
@@ -485,6 +486,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/startup.coffee', 'server');
 
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
+
+	api.addFiles('server/schedule/auto_finish_process_delegation.coffee', 'server');
 
 	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 

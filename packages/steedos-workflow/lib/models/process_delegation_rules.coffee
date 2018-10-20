@@ -91,6 +91,10 @@ if Meteor.isServer
 	db.process_delegation_rules._ensureIndex({
 		"space": 1
 	},{background: true})
+	db.process_delegation_rules._ensureIndex({
+		"enabled": 1
+		"end_time": 1
+	},{background: true})
 
 
 if Meteor.isServer
@@ -122,11 +126,14 @@ if Meteor.isServer
 		if modifier.$set.start_time >= modifier.$set.end_time
 			throw new Meteor.Error(400, "process_delegation_rules_start_must_lt_end")
 
-		modifier.$set.modified_by = userId
 		modifier.$set.modified = new Date()
 
-		modifier.$set.from_name = db.space_users.findOne({space: doc.space, user: userId}, {fields: {name: 1}})?.name
-		modifier.$set.to_name = db.space_users.findOne({space: doc.space, user: modifier.$set.to}, {fields: {name: 1}})?.name
+		if userId
+			modifier.$set.modified_by = userId
+			modifier.$set.from_name = db.space_users.findOne({space: doc.space, user: userId}, {fields: {name: 1}})?.name
+
+		if modifier.$set.to
+			modifier.$set.to_name = db.space_users.findOne({space: doc.space, user: modifier.$set.to}, {fields: {name: 1}})?.name
 
 	db.process_delegation_rules.after.update (userId, doc, fieldNames, modifier, options) ->
 		# 撤销委托
