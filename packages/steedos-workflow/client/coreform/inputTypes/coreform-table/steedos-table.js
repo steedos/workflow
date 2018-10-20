@@ -286,7 +286,7 @@ SteedosTable.getThead = function(field, editable) {
 
         label = (sf.name != null && sf.name.length > 0) ? sf.name : sf.code;
 
-        trs = trs + "<td nowrap='nowrap' ";
+        trs = trs + "<td "; // nowrap='nowrap'
 
         trs = trs + " class='title " + sf.type + "'";
 
