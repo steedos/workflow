@@ -18,7 +18,7 @@
 
 	.box-tools{
 		button{
-			display: none	
+			display: none
 		}
 	}
 	.instance-traces{
@@ -53,9 +53,14 @@
 			position: static !important;
 		}
 
+		table{
+			border-bottom: none !important;
+		}
+
 		.table{
 			border-left: 0px !important;
 			border-right: 0px !important;
+			border-collapse: separate !important;
 		}
 	}
 
@@ -118,6 +123,11 @@
 		.instance-template{
 			transition: all .3s;
 			max-width: none;
+		}
+
+		.steedos-table table thead .title{
+			min-width: auto;
+			white-space: normal;
 		}
 	}
 
