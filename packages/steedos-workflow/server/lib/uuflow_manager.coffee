@@ -2490,4 +2490,32 @@ uuflowManager.cancelProcessDelegation = (spaceId, toId)->
 				else if a.user is toId
 					db.instances.update({ _id: ins._id }, { $addToSet: { inbox_users: toId } })
 
+	ccQuery = { space: spaceId, cc_users: toId }
+	ccQuery['traces.approves'] = { $elemMatch: { is_finished: false, agent: toId, type: 'cc' } }
+	db.instances.find(ccQuery, { fields: { cc_users: 1, traces: 1 } }).forEach (ins)->
+		_.each ins.traces, (t)->
+			_.each t.approves, (a, idx)->
+				if a.is_finished is false and a.type is 'cc'
+					if a.agent is toId
+						next_step_space_user = uuflowManager.getSpaceUser(spaceId, a.user)
+						# 获取next_step_user所在的部门信息
+						next_step_user_org_info = uuflowManager.getSpaceUserOrgInfo(next_step_space_user)
+						idxStr = "traces.$.approves.#{idx}."
+						setObj = {}
+						setObj[idxStr + 'handler'] = a.user
+						setObj[idxStr + 'handler_name'] = a.user_name
+						setObj[idxStr + 'handler_organization'] = next_step_user_org_info["organization"]
+						setObj[idxStr + 'handler_organization_name'] = next_step_user_org_info["organization_name"]
+						setObj[idxStr + 'handler_organization_fullname'] = next_step_user_org_info["organization_fullname"]
+						setObj[idxStr + 'agent'] = null
+						ins.cc_users.splice(ins.cc_users.indexOf(toId), 1, a.user)
+						setObj.cc_users = ins.cc_users
+
+						db.instances.update({ _id: ins._id, cc_users: toId, 'traces._id': a.trace }, { $set: setObj })
+
+						pushManager.send_message_to_specifyUser('current_user', a.user)
+						pushManager.send_message_to_specifyUser('current_user', toId)
+					else if a.user is toId
+						db.instances.update({ _id: ins._id }, { $addToSet: { cc_users: toId } })
+
 
