@@ -62,7 +62,7 @@ db.process_delegation_rules._simpleSchema = new SimpleSchema
 		autoform:
 			type: "bootstrap-datetimepicker"
 			dateTimePickerOptions: ()->
-				opt = { format: "YYYY-MM-DD" }
+				opt = { format: "YYYY-MM-DD HH" }
 				if Meteor.isClient
 					opt.locale = Session.get("TAPi18n::loaded_lang")
 				return opt
@@ -71,7 +71,7 @@ db.process_delegation_rules._simpleSchema = new SimpleSchema
 		autoform:
 			type: "bootstrap-datetimepicker"
 			dateTimePickerOptions: ()->
-				opt = { format: "YYYY-MM-DD" }
+				opt = { format: "YYYY-MM-DD HH" }
 				if Meteor.isClient
 					opt.locale = Session.get("TAPi18n::loaded_lang")
 				return opt
@@ -157,17 +157,17 @@ new Tabular.Table
 		{
 			data: "enabled"
 			render: (val, type, doc) ->
-				return if doc.enabled then TAPi18n.__("workflow_enabled") else TAPi18n.__("workflow_disabled")
+				return if doc.enabled then TAPi18n.__("instance_approve_read_yes") else TAPi18n.__("instance_approve_read_no")
 		}
 		{
 			data: "start_time"
 			render: (val, type, doc) ->
-				return moment(doc.start_time).format('YYYY-MM-DD')
+				return moment(doc.start_time).format('YYYY-MM-DD HH')
 		}
 		{
 			data: "end_time"
 			render: (val, type, doc) ->
-				return moment(doc.end_time).format('YYYY-MM-DD')
+				return moment(doc.end_time).format('YYYY-MM-DD HH')
 		}
 	]
 	dom: "tp"
