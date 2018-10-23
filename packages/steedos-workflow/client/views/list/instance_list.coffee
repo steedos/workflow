@@ -448,4 +448,7 @@ Template.instance_list.events
 		Modal.show('flow_list_modal')
 
 	'click .set-process-delegation-rules': ()->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
 		FlowRouter.go('/admin/workflow/process_delegation_rules')

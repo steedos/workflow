@@ -10,3 +10,10 @@ Template.admin_home.helpers
 Template.admin_home.events
 	'click .weui-cell-help':() ->
 		Steedos.showHelp();
+
+	'click .admin-menu-col-process_delegation_rules': (event) ->
+		console.log "admin-menu-col-process_delegation_rules"
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
+		FlowRouter.go('/admin/workflow/process_delegation_rules')

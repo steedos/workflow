@@ -53,7 +53,7 @@ Template.adminSidebar.events
 			# 手机上可能菜单展开了，需要额外收起来
 			$("body").removeClass("sidebar-open")
 
-Admin.menuTemplate = 
+Admin.menuTemplate =
 
 	getSidebarMenuTemplate: ()->
 		reTemplates = db.admin_menus.find({parent:null}, {sort: {sort: 1}}).map (rootMenu, rootIndex) ->
@@ -66,7 +66,7 @@ Admin.menuTemplate =
 						return ""
 					$("body").off "click", ".admin-menu-#{menu._id}"
 					$("body").on "click", ".admin-menu-#{menu._id}", (e)->
-						if menu.paid && !Steedos.isPaidSpace() 
+						if menu.paid && !Steedos.isPaidSpace()
 							e.preventDefault()
 							Steedos.spaceUpgradedModal()
 							return;
@@ -166,7 +166,7 @@ Admin.menuTemplate =
 						</div>
 					</div>
 				"""
-		
+
 		if !Steedos.isSpaceAdmin()
 			reTemplates.push """
 				<div class="row admin-grids admin-grids-workflow">
@@ -183,6 +183,21 @@ Admin.menuTemplate =
 				</div>
 			"""
 
+		reTemplates.push """
+			<div class="row admin-grids admin-grids-workflow">
+				<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-process_delegation_rules">
+					<a href="javascript:void(0)" class="admin-grid-item btn btn-block">
+						<div class="admin-grid-icon">
+							<i class="ion ion-ios-americanfootball-outline"></i>
+						</div>
+						<div class="admin-grid-label">
+							#{t("process_delegation_rules")}
+						</div>
+					</a>
+				</div>
+			</div>
+		"""
+
 		if Steedos.isMobile()
 			reTemplates.push """
 				<div class="row admin-grids admin-grids-logout">
@@ -198,7 +213,7 @@ Admin.menuTemplate =
 					</div>
 				</div>
 			"""
-		
+
 		return reTemplates.join("")
 
 	getHomeTemplateMobile: ()->
@@ -283,6 +298,16 @@ Admin.menuTemplate =
 				"""
 
 		extraFields = [{
+			_id: "process_delegation_rules",
+			url: "javascript:void(0)",
+			icon: "ion ion-ios-americanfootball-outline",
+			title: "process_delegation_rules",
+			onclick: ->
+				if !Steedos.isLegalVersion('',"workflow.professional")
+					Steedos.spaceUpgradedModal()
+					return
+				FlowRouter.go('/admin/workflow/process_delegation_rules')
+		},{
 			_id: "help",
 			url: "javascript:;",
 			icon: "ion-ios-help-outline",
@@ -300,7 +325,7 @@ Admin.menuTemplate =
 		}]
 
 		if !Steedos.isSpaceAdmin()
-			extraFields.splice 0, 0, 
+			extraFields.splice 0, 0,
 				_id: "steedos_tableau"
 				url: "javascript:void(0)"
 				icon: "ion-ios-pie-outline"
@@ -311,7 +336,7 @@ Admin.menuTemplate =
 							title: t("workflow_designer_use_pc"),
 							confirmButtonText: t("OK")
 						})
-		
+
 
 		extraTemplates = extraFields.map (menu, index) ->
 			if menu.onclick
@@ -370,7 +395,7 @@ Admin.menuTemplate =
 						unless Steedos.isCloudAdmin()
 							isChecked = false
 				unless isChecked
-					break 
+					break
 			return isChecked
 		return isChecked
 
