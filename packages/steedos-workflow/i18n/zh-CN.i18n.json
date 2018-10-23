@@ -695,11 +695,12 @@
 	"process_delegation_rules": "流程委托",
 	"process_delegation_rules_from": "委托人",
 	"process_delegation_rules_to": "被委托人",
-	"process_delegation_rules_enabled": "委托状态",
+	"process_delegation_rules_enabled": "启用",
 	"process_delegation_rules_start_time": "委托开始",
 	"process_delegation_rules_end_time": "委托结束",
 	"process_delegation_rules_from_name": "委托人",
 	"process_delegation_rules_to_name": "被委托人",
-	"process_delegation_rules_start_must_lt_end": "开始时间应小于结束时间"
+	"process_delegation_rules_start_must_lt_end": "开始时间应小于结束时间",
+	"process_delegation_rules_description": "__handlerName__委托"
 
 }

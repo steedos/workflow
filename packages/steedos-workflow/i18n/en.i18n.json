@@ -681,5 +681,6 @@
 	"process_delegation_rules_end_time": "End Time",
 	"process_delegation_rules_from_name": "From",
 	"process_delegation_rules_to_name": "To",
-	"process_delegation_rules_start_must_lt_end": "Strat time must less than end time"
+	"process_delegation_rules_start_must_lt_end": "Strat time must less than end time",
+	"process_delegation_rules_description": "__handlerName__ delegated"
 }

@@ -27,7 +27,7 @@
                     </tr>
                     {{#each this.approves}}
                             <tr class="approve-item">
-                                <td class="name">{{ handlerName this.handler_name this.user_name this.agent }}
+                                <td class="name">{{this.handler_name}}
                                     {{#if isCC this}}
                                         <label class='cc-label'>
                                             <span class="cc-label-title">({{_t "instance_cc_title"}})</span>
@@ -87,6 +87,11 @@
                                         <td class="description" colspan="3">{{{markDownToHtml (myApproveDescription this._id)}}}</td>
                                     </tr>
                                 {{/if}}
+                            {{/if}}
+                            {{#if this.agent}}
+                                <tr class="approve-description">
+                                    <td class="description" colspan="3">{{{agentDescription this.user_name}}}</td>
+                                </tr>
                             {{/if}}
                     {{/each}}
                 {{/each}}
