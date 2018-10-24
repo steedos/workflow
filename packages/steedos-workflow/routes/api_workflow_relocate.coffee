@@ -24,6 +24,8 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 			not_in_inbox_users = _.difference(inbox_users, relocate_inbox_users)
 			new_inbox_users = _.difference(relocate_inbox_users, inbox_users)
 
+			approve_users = []
+
 			# 获取一个flow
 			flow = uuflowManager.getFlow(instance.flow)
 			next_step = uuflowManager.getStep(instance, flow, relocate_next_step)
@@ -54,6 +56,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 							traces[i].approves[h].is_finished = true
 							traces[i].approves[h].judge = "terminated"
 							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
+							approve_users.push(traces[i].approves[h].user)
 
 						h++
 
@@ -169,7 +172,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				setObj.current_step_name = next_step_name
 
 			instance.outbox_users.push(current_user)
-			instance.outbox_users = instance.outbox_users.concat(inbox_users)
+			instance.outbox_users = instance.outbox_users.concat(inbox_users).concat(approve_users)
 			setObj.outbox_users = _.uniq(instance.outbox_users)
 			setObj.modified = now
 			setObj.modified_by = current_user

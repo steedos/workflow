@@ -224,7 +224,9 @@ Meteor.methods({
 					cc_users: current_user_id
 				},
 				$addToSet: {
-					outbox_users: current_user_id
+					outbox_users: {
+						$each: [current_user_id, current_approve.user]
+					}
 				}
 			});
 

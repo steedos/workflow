@@ -34,14 +34,17 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			setObj = new Object
 			now = new Date
 			i = 0
+			approve_users_handlers = []
 			while i < last_trace.approves.length
-				if not_in_inbox_users.includes(last_trace.approves[i].user)
+				if not_in_inbox_users.includes(last_trace.approves[i].handler)
 					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc" and last_trace.approves[i].type isnt "distribute"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
 						last_trace.approves[i].judge = "terminated"
 						last_trace.approves[i].description = ""
 						last_trace.approves[i].cost_time = last_trace.approves[i].finish_date - last_trace.approves[i].start_date
+						approve_users_handlers.push(last_trace.approves[i].user)
+						approve_users_handlers.push(last_trace.approves[i].handler)
 				i++
 			# 在同一trace下插入转签核操作者的approve记录
 			current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
@@ -109,6 +112,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			)
 
 			instance.outbox_users.push(current_user)
+			instance.outbox_users = instance.outbox_users.concat(approve_users_handlers)
 			setObj.outbox_users = _.uniq(instance.outbox_users)
 			setObj.inbox_users = inbox_users_from_client
 			setObj.modified = now

@@ -457,7 +457,7 @@ _get_outbox_instances_tabular_options = (flowId, fields)->
 			{
 				$match: {
 					'_approve.is_finished': true
-					'_approve.handler': userId,
+					$or: [{'_approve.handler': userId},{'_approve.user': userId}]
 				}
 			}
 		]

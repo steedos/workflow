@@ -1908,7 +1908,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 		upObj.modified = new Date
 		upObj.modified_by = current_user
 		upObj.inbox_users = []
-		upObj.outbox_users = [current_user]
+		upObj.outbox_users = _.uniq [current_user, traces[0]["approves"][0]["user"]]
 		# 调整approves 的values 删除values中在当前步骤中没有编辑权限的字段值
 		# traces[0]["approves"][0].values = uuflowManager.getApproveValues(traces[0]["approves"][0].values, step.permissions, instance.form, instance.form_version)
 		traces.push(newTrace)

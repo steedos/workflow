@@ -4,7 +4,7 @@ lastFinishedApproveAggregate = (instanceid, userId, dataMap, callback)->
 			"_id": instanceid
 		}
 	}, {"$project": {"name": 1, "_approve": "$traces.approves"}}, {"$unwind": "$_approve"}, {"$unwind": "$_approve"},
-		{"$match": {"_approve.is_finished": true, "_approve.handler": userId}},
+		{"$match": {"_approve.is_finished": true, $or:[{"_approve.handler": userId},{"_approve.user": userId}]}},
 		{"$group": {"_id": "$_id", "finish_date": {"$last": "$_approve.finish_date"}}}
 	]
 
