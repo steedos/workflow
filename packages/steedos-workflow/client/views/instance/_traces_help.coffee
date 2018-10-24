@@ -277,7 +277,7 @@ TracesTemplate.helpers =
 	instanceExists: (instance_id)->
 		return !!db.instances.find(instance_id).count()
 
-	agentDescription: (handlerName)->
+	agentDescription: (userName)->
 		if Meteor.isServer
 			locale = Template.instance().view.template.steedosData.locale
 			if locale.toLocaleLowerCase() == 'zh-cn'
@@ -285,7 +285,7 @@ TracesTemplate.helpers =
 		else
 			locale = Session.get("TAPi18n::loaded_lang")
 
-		return TAPi18n.__('process_delegation_rules_description', {handlerName: handlerName}, locale)
+		return TAPi18n.__('process_delegation_rules_description', {userName: userName}, locale)
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->
