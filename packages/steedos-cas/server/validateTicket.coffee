@@ -4,14 +4,19 @@ Cookies = Npm.require("cookies")
 Meteor.startup ->
 	JsonRoutes.add 'get', '/api/cas/sso', (req, res, next) ->
 		try
+		
+			cas_url = Meteor.settings?.public?.webservices?.cas?.url
 
 			cookies = new Cookies( req, res )
 
 			ticket = req?.query?.ticket
 
+			redirect_url = req?.query?.redirect_url
+
 			service_url = Meteor.absoluteUrl('api/cas/sso')
 
-			cas_url = Meteor.settings?.public?.webservices?.cas?.url
+			if redirect_url
+				service_url = service_url + "?redirect_url=" + redirect_url
 
 			validate_url = cas_url + "/serviceValidate?service=" + service_url + "&ticket=" + ticket
 
@@ -35,6 +40,8 @@ Meteor.startup ->
 
 				username = success?[0]?["cas:user"]?[0]
 
+				console.log "username",username
+
 				# 验证成功了，取到了username的值，怎么登陆steedos?
 
 				user = Meteor.users.findOne "username": username
@@ -52,7 +59,10 @@ Meteor.startup ->
 
 				Setup.setAuthCookies(req, res, user._id, token)
 
-				res.writeHead(301, {'Location': '/'})
+				if redirect_url
+					res.writeHead(301, {'Location': redirect_url})
+				else
+					res.writeHead(301, {'Location': '/'})
 
 				res.end()
 			return
