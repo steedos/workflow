@@ -18,54 +18,39 @@ JsonRoutes.add("post", "/api/workflow/sub_table_sort", (req, res, next) ->
         sum_col = req?.query?.sumCol
         if !sum_col
             console.log "=====sum_col======"
-
             throw new Meteor.Error('table sort error!', 'webhook 未配置 sumCol 字段' );
         
         sort_col = req?.query?.sortCol
         if !sort_col
             console.log "=====sort_col======"
-
             throw new Meteor.Error('table sort error!', 'webhook 未配置 sortCol 字段' );
         
-        single_cols = req?.query?.singleCols
-        if !single_cols
-            console.log "=====single_cols======"
+        # single_cols = req?.query?.singleCols
+        # if !single_cols
+        #     console.log "=====single_cols======"
 
-            throw new Meteor.Error('table sort error!', 'webhook 未配置 singleCols 字段' );
+        #     throw new Meteor.Error('table sort error!', 'webhook 未配置 singleCols 字段' );
         
         ins = req?.body?.instance
         
         sub_table_values = ins.values[sub_table]
         
-        if sub_table_values?.length > 0
-            # 循环每一行，加上
-            columns = single_cols.split(';') || []
-            
-            sub_table_values.forEach (obj)->
-                sum = 0
-                columns.forEach (col)->
-
-                    num = parseInt(obj[col])
-                    if !isNaN(num)
-                        sum = sum + num
-
-                obj[sum_col] = sum
-            
+        if sub_table_values?.length > 0 
             # # 根据 sub_table_values 进行排序
             # ======================
             # 排序字段，关键字，正序(true)/倒序(false)
             `function JsonSort(jsonArr, key, asc){
                 for(var j=1,jl=jsonArr.length;j < jl;j++){
                     var temp = jsonArr[j],
-                        val  = temp[key],
+                        val  = Number(temp[key]),
                         i    = j-1;
                     if(asc==true){
-                        while(i >=0 && jsonArr[i][key]>val){
+                        while(i >=0 && Number(jsonArr[i][key])>val){
                             jsonArr[i+1] = jsonArr[i];
                             i = i-1;    
                         }
                     }else{
-                        while(i >=0 && jsonArr[i][key]<val){
+                        while(i >=0 && Number(jsonArr[i][key])<val){
                             jsonArr[i+1] = jsonArr[i];
                             i = i-1;    
                         }
@@ -80,7 +65,6 @@ JsonRoutes.add("post", "/api/workflow/sub_table_sort", (req, res, next) ->
             console.log "new_table_values",new_table_values
 
             new_table_values.forEach (obj, index)->
-                obj[sum_col] = obj[sum_col].toString()
                 if sort_col
                     obj[sort_col] = (index+1).toString()
             
