@@ -65,7 +65,7 @@ JsonRoutes.add("post", "/api/workflow/sub_table_sort", (req, res, next) ->
             console.log "new_table_values",new_table_values
 
             new_table_values.forEach (obj, index)->
-                if sort_col
+                if sort_col and obj[sum_col]
                     obj[sort_col] = (index+1).toString()
             
             console.log "new_table_values",new_table_values
