@@ -1,11 +1,7 @@
-npm install --global --production windows-build-tools
-npm install -g node-gyp
-
-meteor build --server https://cn.steedos.com/workflow --directory ../apps-build/
-cd ../apps-build/bundle/programs/server
+meteor build --server https://cn.steedos.com/workflow --directory C:/Code/Build/apps-build/
+cd C:/Code/Build/apps-build/bundle/programs/server
 rm -rf node_modules
-npm install
+npm install --registry https://registry.npm.taobao.org -d
 
-cd ../../
-node main.js
-#pm2 restart workflow.0
+cd C:/Code/Build/apps-build/
+pm2 restart pm2.json
