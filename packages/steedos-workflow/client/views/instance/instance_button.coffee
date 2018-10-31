@@ -321,6 +321,70 @@ Template.instance_button.helpers
 	isMobile: ()->
 		return Steedos.isMobile()
 
+	enabled_hide: ()->
+		if Session.get('box') isnt "monitor"
+			return false
+
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+
+		if ins.state isnt 'completed'
+			return false
+
+		if ins.is_hidden is true
+			return false
+
+		space = db.spaces.findOne(ins.space);
+		if !space
+			return false
+		fl = db.flows.findOne({'_id': ins.flow});
+		if !fl
+			return false
+		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
+		if !curSpaceUser
+			return false
+		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		if !organizations
+			return false
+
+		if space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
+			return true
+
+		return false
+
+	enabled_reopen: ()->
+		if Session.get('box') isnt "monitor"
+			return false
+
+		ins = WorkflowManager.getInstance();
+		if !ins
+			return false
+
+		if ins.state isnt 'completed'
+			return false
+
+		if ins.is_hidden isnt true
+			return false
+
+		space = db.spaces.findOne(ins.space);
+		if !space
+			return false
+		fl = db.flows.findOne({'_id': ins.flow});
+		if !fl
+			return false
+		curSpaceUser = db.space_users.findOne({space: ins.space, 'user': Meteor.userId()});
+		if !curSpaceUser
+			return false
+		organizations = db.organizations.find({_id: {$in: curSpaceUser.organizations}}).fetch();
+		if !organizations
+			return false
+
+		if space.admins.contains(Meteor.userId()) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
+			return true
+
+		return false
+
 Template.instance_button.onRendered ->
 	$('[data-toggle="tooltip"]').tooltip();
 	copyUrlClipboard = new Clipboard('.btn-instance-readonly-view-url-copy');
@@ -573,3 +637,19 @@ Template.instance_button.events
 					return
 
 		$('#instance_submit').trigger('click')
+
+	'click .btn-instance-hide, ': (event, template) ->
+		instance = WorkflowManager.getInstance()
+		is_hidden = !instance.is_hidden
+		$("body").addClass("loading")
+		Meteor.call 'hide_instance', instance._id, is_hidden, (err, result)->
+			$("body").removeClass("loading")
+			if err
+				toastr.error TAPi18n.__(err.reason)
+			if result == true
+				if is_hidden
+					toastr.success(TAPi18n.__('instance_hide_success'));
+				else
+					toastr.success(TAPi18n.__('instance_reopen_success'));
+			return
+

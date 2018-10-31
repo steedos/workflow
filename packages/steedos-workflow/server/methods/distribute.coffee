@@ -32,11 +32,12 @@ Meteor.methods
 
 		return opts
 
-	update_distribute_settings: (flow_id, distribute_optional_users_id, step_flows, distribute_to_self) ->
+	update_distribute_settings: (flow_id, distribute_optional_users_id, step_flows, distribute_to_self, distribute_end_notification) ->
 		check flow_id, String
 		check distribute_optional_users_id, Array
 		check step_flows, Array
 		check distribute_to_self, Boolean
+		check distribute_end_notification, Boolean
 
 		flow = db.flows.findOne(flow_id)
 		if not flow
@@ -58,8 +59,9 @@ Meteor.methods
 		if not _.isEmpty(step_flows)
 			setObj['current.steps'] = flow.current.steps
 
-		if distribute_to_self
-			setObj['distribute_to_self'] = distribute_to_self
+		setObj['distribute_to_self'] = distribute_to_self
+
+		setObj['distribute_end_notification'] = distribute_end_notification
 
 		db.flows.update({ _id: flow_id }, { $set: setObj })
 

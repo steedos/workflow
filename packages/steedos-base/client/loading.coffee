@@ -24,6 +24,10 @@ Meteor.startup ->
 	Tracker.autorun (c) ->
 		if Steedos.isLoading()
 			$("body").addClass("loading")
-		else
-			$("body").removeClass("loading")
 
+		#为保险解决loading有时一直不消失的问题延时清除loading
+		if !Steedos.isLoading()  
+			setTimeout ->
+				if !Steedos.isLoading() 
+					$("body").removeClass("loading")
+			, 500

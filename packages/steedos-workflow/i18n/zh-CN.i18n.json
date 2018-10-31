@@ -316,7 +316,8 @@
 				"reassign_new_inbox_users": "__instance_name__",
 				"trace_approve_cc": "__instance_name__",
 				"remind": "催办通知：__instance_name__，办结时限：__deadline__。",
-				"trace_approve_cc_submit": "我已提交了传阅的申请单__instance_name__"
+				"trace_approve_cc_submit": "我已提交了传阅的申请单__instance_name__",
+				"distribute_remind": "您分发的__instance_name__申请单已结束。"
 			}
 		},
 		"email": {
@@ -669,6 +670,7 @@
 	"distribute_edit_flow_select_flows": "搜索此步骤可分发流程",
 	"flow_list_title_set_distribute": "设置分发",
 	"distribute_to_self": "分发时可分发给自己",
+	"distribute_end_notification": "分发结束后提醒发起人",
 
 	"instance_deleted": "已删除",
 
@@ -678,7 +680,15 @@
 	"instance_approve_distribute_date_label": "分发时间",
 
 	"flows_auto_remind": "自动催办",
+	"flows_upload_after_being_distributed": "被分发后是否允许上传附件",
 
 	"instances_my_finish_date": "处理时间",
-	"pager_input_hint": "点击输入页码，然后按回车可跳转到指定页"
+	"pager_input_hint": "点击输入页码，然后按回车可跳转到指定页",
+
+	"instance_hide_title": "隐藏",
+	"instance_hide_success": "隐藏成功",
+	"instance_reopen_title": "取消隐藏",
+	"instance_reopen_success": "取消隐藏成功",
+
+	"workflow_design_flow": "设计流程"
 }

@@ -72,8 +72,13 @@ InstanceAttachmentTemplate.helpers = {
 		if (Session && Session.get("instancePrint"))
 			return false
 
-		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件
-		if (ins.distribute_from_instance)
+		var flow = WorkflowManager.getFlow(ins.flow);
+		if (!flow)
+			return false
+
+
+		// 分发后的 附件，不可以编辑/删除，也不让上传新的附件, 流程列表：添加属性 ‘被分发后是否允许上传附件’ #1837
+		if (ins.distribute_from_instance && !flow.upload_after_being_distributed)
 			return false
 
 		if (Session.get("box") != "draft" && Session.get("box") != "inbox") {

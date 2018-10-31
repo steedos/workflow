@@ -9,6 +9,10 @@ Steedos =
 	numberToString: (number, locale)->
 		if typeof number == "number"
 			number = number.toString()
+
+		if !number
+			return '';
+
 		if number != "NaN"
 			unless locale
 				locale = Steedos.locale()

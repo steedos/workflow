@@ -283,6 +283,8 @@ Template.instance_suggestion.helpers
 
 		if Session.get("instance_my_approve_description") != null && Session.get("instance_my_approve_description") != undefined
 			return Session.get("instance_my_approve_description")
+		else if Meteor.settings.public.workflow?.hideLastSignApproveDescription
+			return InstanceManager.getCurrentApprove()?.description || ""
 		else
 			return InstanceManager.getCurrentApprove()?.description || InstanceSignText.helpers.getLastSignApprove()?.description || ""
 
@@ -341,7 +343,7 @@ Template.instance_suggestion.events
 			InstanceManager.checkFormValue();
 		if($(".has-error").length == 0)
 			c = InstanceManager.getCurrentStep();
-			if c && c.cc_alert == true 
+			if c && c.cc_alert == true
 				swal {
 					title: TAPi18n.__('instance_cc_alert'),
 					type: "warning",
@@ -354,7 +356,7 @@ Template.instance_suggestion.events
 					if (!isConfirm)
 						Session.set("instance_change", false);
 						InstanceManager.submitIns();
-			else 
+			else
 				Session.set("instance_change", false);
 				InstanceManager.submitIns();
 		InstanceManager.fixInstancePosition()

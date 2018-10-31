@@ -46,7 +46,7 @@ Template.selectFlowModal.events
 
 		if template.data?.onSelectFlow
 			if typeof(template.data.onSelectFlow) == 'function'
-				template.data?.onSelectFlow(db.flows.findOne({_id:flow} ,{fields: {_id: 1, name: 1, space: 1, distribute_optional_users: 1, distribute_to_self: 1}}));
+				template.data?.onSelectFlow(db.flows.findOne({_id:flow} ,{fields: {_id: 1, name: 1, space: 1, distribute_optional_users: 1, distribute_to_self: 1,distribute_end_notification:1}}));
 
 		Modal.hide 'selectFlow'
 		Modal.allowMultiple = false;

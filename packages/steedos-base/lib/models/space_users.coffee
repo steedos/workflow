@@ -238,8 +238,6 @@ Meteor.startup ()->
 			if modifier.$set?.user_accepted != undefined and !modifier.$set.user_accepted
 				if space.admins.indexOf(doc.user) > 0 || doc.user == space.owner
 					throw new Meteor.Error(400,"organizations_error_can_not_set_checkbox_true")
-				# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
-				db.space_users.vaildateUserUsedByOther(doc)
 
 			if modifier.$set?.space
 				if modifier.$set.space != doc.space
@@ -274,23 +272,6 @@ Meteor.startup ()->
 				if repeatNumberUser and repeatNumberUser._id != doc.user
 					throw new Meteor.Error(400, "space_users_error_phone_already_existed")
 
-		db.space_users.vaildateUserUsedByOther = (doc)->
-			roleNames = []
-			_.each db.flow_positions.find({space: doc.space, users: doc.user},{fields: {users: 1, role: 1}}).fetch(), (p)->
-				if p.users.includes(doc.user)
-					role = db.flow_roles.findOne({_id: p.role},{fields: {name: 1}})
-					if role
-						roleNames.push role.name
-			if not _.isEmpty(roleNames)
-				throw new Meteor.Error 400, "space_users_error_roles_used", {names: roleNames.join(',')}
-
-			flowNames = []
-			_.each db.flows.find({space: doc.space}, {fields: {name: 1, 'current.steps': 1}}).fetch(), (f)->
-				_.each f.current.steps, (s)->
-					if s.deal_type is 'specifyUser' and s.approver_users.includes(doc.user)
-						flowNames.push f.name
-			if not _.isEmpty(flowNames)
-				throw new Meteor.Error 400, "space_users_error_flows_used", {names: _.uniq(flowNames).join(',')}
 
 		db.space_users.before.insert (userId, doc) ->
 			doc.created_by = userId;
@@ -396,7 +377,6 @@ Meteor.startup ()->
 					unset.mobile = ""
 				if !user.mobile and user.phone
 					user.mobile = user.phone.mobile
-
 				unless user.emails
 					unset.email = ""
 				if !user.email and user.emails
@@ -404,6 +384,7 @@ Meteor.startup ()->
 
 				delete user._id
 				delete user.emails
+				delete user.phone
 				if _.isEmpty unset
 					db.space_users.direct.update({_id: doc._id}, {$set: user})
 				else
@@ -580,8 +561,6 @@ Meteor.startup ()->
 			if space.admins.indexOf(doc.user) > 0
 				throw new Meteor.Error(400,"space_users_error_remove_space_admins");
 
-			# 禁用、从工作区移除用户时，检查用户是否被指定为角色成员或者步骤指定处理人 #1288
-			db.space_users.vaildateUserUsedByOther(doc)
 
 
 		db.space_users.after.remove (userId, doc) ->

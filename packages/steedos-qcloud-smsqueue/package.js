@@ -1,7 +1,8 @@
 Package.describe({
 	name: 'steedos:qcloud-smsqueue',
-	version: '0.0.1',
-	summary: '',
+	version: '0.0.2',
+	summary: 'qcloud smsqueue',
+	documentation: null,
 	git: ''
 });
 
@@ -25,7 +26,7 @@ Package.onUse(function(api) {
 
 	api.use('mongo', 'server');
 
-	api.use('steedos:smsqueue');
+	api.use('steedos:smsqueue@0.0.1');
 
 	// Common api
 	api.addFiles([

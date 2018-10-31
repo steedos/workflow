@@ -50,11 +50,14 @@ Template.distribute_edit_flow_modal.helpers
 	to_self: ->
 		return this.flow?.distribute_to_self
 
+	end_notification: ->
+		return this.flow?.distribute_end_notification
+
 Template.distribute_edit_flow_modal.events
 	'click #distribute_edit_flow_modal_ok': (event, template)->
 		selected_values = $("#distribute_edit_flow_select_users")[0].dataset.values
 		selected_users_id = if selected_values then selected_values.split(",") else []
-		debugger;
+		# debugger;
 		flow_id = template.data.flow._id
 		allow_distribute_steps = _.where template.data.flow.current.steps, {allowDistribute: true}
 		step_flows = new Array
@@ -68,7 +71,7 @@ Template.distribute_edit_flow_modal.events
 			return
 
 		$("body").addClass("loading")
-		Meteor.call 'update_distribute_settings', flow_id, selected_users_id, step_flows, $('#distribute_to_self')[0].checked, (err, result)->
+		Meteor.call 'update_distribute_settings', flow_id, selected_users_id, step_flows, $('#distribute_to_self')[0].checked,$('#distribute_end_notification')[0].checked, (err, result)->
 			$("body").removeClass("loading")
 			if err
 				toastr.error TAPi18n.__(err.reason)

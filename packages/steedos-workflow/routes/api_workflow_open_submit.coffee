@@ -86,10 +86,7 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 		next_step_id = nextSteps[0]
 
 		# 计算下一步处理人选项
-		next_user_ids = getHandlersManager.getHandlers(ins_id, next_step_id)
-
-		if next_user_ids.length < 1
-			throw new Meteor.Error('error', 'can not find next step handler')
+		next_user_ids = getHandlersManager.getHandlers(ins_id, next_step_id) || []
 
 		if next_user_ids.length > 1
 			throw new Meteor.Error('error', 'next step handler not uniq')
@@ -98,7 +95,12 @@ JsonRoutes.add 'put', '/api/workflow/open/submit/:ins_id', (req, res, next) ->
 
 		result = new Object
 
-		r = uuflowManager.submit_instance(instance, current_user_info)
+		submitter = db.users.findOne(instance.submitter)
+
+		if not submitter
+			throw new Meteor.Error('error', 'can not find submitter')
+
+		r = uuflowManager.submit_instance(instance, submitter)
 
 		if r.alerts
 			result = r

@@ -2343,3 +2343,63 @@ uuflowManager.triggerRecordInstanceQueue = (ins_id, record_ids, step_name) ->
 		db.instance_record_queue.insert(newObj)
 
 	return
+
+uuflowManager.distributedInstancesRemind = (instance) ->
+	# 确定是分发过来的
+	if instance?.distribute_from_instances?.length>0
+		flow = db.flows.findOne( { _id: instance?.flow } )
+		current_trace = instance["traces"].pop()
+		if instance?.state == "draft"
+			next_approves = current_trace?.approves
+			if next_approves?.length == 1
+				next_step = next_approves[0]?.next_steps[0]
+				next_step_id = next_step?.step
+		else
+			next_step_id = current_trace?.step
+		if next_step_id
+			next_step = uuflowManager.getStep(instance, flow, next_step_id)
+			if next_step?.step_type == "end"
+				# 查原申请单
+				original_instacne_id = instance?.distribute_from_instances?.pop()
+				# original_instacne_id = "X6whjGMLNvxDnFwSe" # 定死
+				original_instacne = db.instances.findOne(
+					{ _id: original_instacne_id },
+					{ fields: { flow: 1, name: 1,space: 1,created_by: 1 } }
+					)
+				# 根据原申请单查流程
+				original_flow = db.flows.findOne(
+					{ _id: original_instacne?.flow },
+					{ fields: { distribute_end_notification: 1 } }
+					)
+
+				if original_flow?.distribute_end_notification==true
+					try
+						# 分发提醒，这个表单的created_by
+						original_user = db.users.findOne({_id: instance?.created_by})
+
+						#设置当前语言环境
+						lang = 'en'
+						if original_user?.locale is 'zh-cn'
+							lang = 'zh-CN'
+						# 发推送消息
+						notification = new Object
+						notification["createdAt"] = new Date
+						notification["createdBy"] = '<SERVER>'
+						notification["from"] = 'workflow'
+						notification['title'] = original_user.name
+						notification['text'] = TAPi18n.__('instance.push.body.distribute_remind', {instance_name: instance?.name}, lang)
+
+						payload = new Object
+						payload["space"] = original_instacne?.space
+						payload["instance"] = original_instacne?._id
+						payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length - 1)
+						payload["requireInteraction"] = true
+						notification["payload"] = payload
+						notification['query'] = { userId: original_user._id, appName: 'workflow' }
+
+
+						Push.send(notification)
+					catch e
+						console.error e.stack
+	return
+
