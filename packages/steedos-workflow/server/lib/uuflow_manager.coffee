@@ -1265,15 +1265,10 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			if instance_traces[i]._id is trace_id
 				h = 0
 				while h < instance_traces[i].approves.length
-					if instance_traces[i].approves[h]._id is approve_id
+					if instance_traces[i].approves[h]._id is approve_id or (step.oneClickApproval and judge is 'approved')
 						# 更新当前trace.approve记录
 						instance_traces[i].approves[h].is_finished = true
-						instance_traces[i].approves[h].handler = current_user
-						instance_traces[i].approves[h].handler_name = current_user_info.name
 						instance_traces[i].approves[h].finish_date = new Date
-						instance_traces[i].approves[h].handler_organization = space_user_org_info["organization"]
-						instance_traces[i].approves[h].handler_organization_name = space_user_org_info["organization_name"]
-						instance_traces[i].approves[h].handler_organization_fullname = space_user_org_info["organization_fullname"]
 						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
 
 					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
