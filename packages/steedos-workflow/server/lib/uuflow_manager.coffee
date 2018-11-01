@@ -1265,7 +1265,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			if instance_traces[i]._id is trace_id
 				h = 0
 				while h < instance_traces[i].approves.length
-					if instance_traces[i].approves[h]._id is approve_id or (step.oneClickApproval and judge is 'approved')
+					if instance_traces[i].approves[h]._id is approve_id or (step.oneClickApproval and ['approved','readed'].includes(judge))
 						# 更新当前trace.approve记录
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].finish_date = new Date
