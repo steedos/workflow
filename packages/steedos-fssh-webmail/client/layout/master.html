@@ -1,0 +1,16 @@
+<template name="fsshWebLayout">
+	{{#if subsReady}}
+		<div class="steedos app-wrapper emailjs">
+			{{# AdminLTE skin=skinName sidebarMini="true" }}
+				{{> steedosHeader}}
+				{{> Template.dynamic template=main}}
+			{{/ AdminLTE}}
+			{{> steedosLoading}}
+		</div>
+	{{else}}
+		<div class="loading">
+			{{> steedosLoading}}
+		</div>
+	{{/if}}
+</template>
+
