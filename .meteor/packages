@@ -133,6 +133,7 @@ tomwasd:history-polyfill
 steedos:mailqueue
 steedos:smsqueue
 steedos:webhookqueue
+steedos:fssh-webmail
 steedos:qcloud-smsqueue
 
 steedos:autoform-modals
