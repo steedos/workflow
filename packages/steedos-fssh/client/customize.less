@@ -17,6 +17,8 @@
     .main-header {
         .navbar {
             .navbar-nav-apps {
+                //fssh这边右上角额外加了“设置”按钮，这会造成宽度计算异常，因那边左上角只要求最多显示两个app，所以没有宽度计算需求，直接去掉就好了
+                width: auto!important;
                 //加上以下这段定制的css，目的是为fssh只显示顶部首页及active项
                 //加上后所有li会莫名的加上display: list-item的行样式，估计是编译器或浏览器的bug，不过不影响实际效果
                 li {
