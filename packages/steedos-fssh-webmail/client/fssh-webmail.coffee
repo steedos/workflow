@@ -1,22 +1,28 @@
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
 	auth = AccountManager.getAuth();
-	ifr = $("#fssh-webmail-iframe")
-	ifr.hide()
+	webmailIframe = $("#fssh-webmail-iframe")
+	webmailIframe.hide()
 	count = 0
-	ifr.load ()->
+	webmailIframe.load ()->
 		count += 1
 		console.log('fssh-webmail-iframe load....')
-		if ifr.contents().find("#user").length > 0
-			ifr.contents().find("#user")?.val(auth.user)
-			ifr.contents().find("#password")?.val(auth.pass)
+		if webmailIframe.contents().find("#user").length > 0
+			webmailIframe.contents().find("#user")?.val(auth.user)
+			webmailIframe.contents().find("#password")?.val(auth.pass)
 			if count <= 1
-				ifr.contents().find(".btn")?.click()
+				webmailIframe.contents().find(".btn")?.click()
 				setTimeout ->
-					if ifr.contents().find(".btn")?.length
-						ifr.show()
+					if webmailIframe.contents().find(".btn")?.length
+						webmailIframe.show()
 				, 1000
 		else
-			ifr.show()
-			ifr.contents().find("#container").on 'click', '.recipients', (event)->
+			webmailIframe.show()
+			webmailIframe.contents().find("#container").on 'click', '.recipients', (event)->
 				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
+
+Template.fsshWebmaill.helpers
+	webMailURL: ()->
+		if !Meteor.settings.public?.fsshWebMailURL
+			throw new Meteor.Error('缺少settings配置 public.fsshWebMailURL')
+		return Meteor.settings.public?.fsshWebMailURL
