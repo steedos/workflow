@@ -1,0 +1,19 @@
+<template name="webMailAccount">
+	<section class="admin webmail-account">
+		<div class="navigation-bar">
+
+			<a class="btn btn-default" href="/admin">
+				<i class="ion ion-android-arrow-back"></i>
+			</a>
+
+			<span class="navigation-title">
+				邮件账户
+			</span>
+		</div>
+		<div class="admin-content">
+			<div class="box-body" style="display: block;">
+				{{> quickForm collection="db.mail_accounts" doc=doc id="updateMailAccount" schema=schema type=type fields="email,password,space,owner" buttonContent=btn_submit_i18n}}
+			</div>
+		</div>
+	</section>
+</template>
