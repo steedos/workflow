@@ -1245,12 +1245,13 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 	if not judge
 		throw new Meteor.Error('error!', "请选择核准或驳回。")
 	else
-		# 验证next_steps.step是否合法,判断next_steps.step是否在其中
-		nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
-		# 判断next_steps.step是否在nextSteps中,若不在则不合法
-		_.each next_steps, (approve_next_step) ->
-			if not nextSteps.includes(approve_next_step["step"])
-				throw new Meteor.Error('error!', "指定的下一步有误")
+		if step.oneClickApproval and ['approved','readed'].includes(judge)
+			# 验证next_steps.step是否合法,判断next_steps.step是否在其中
+			nextSteps = uuflowManager.getNextSteps(instance, flow, step, "approved")
+			# 判断next_steps.step是否在nextSteps中,若不在则不合法
+			_.each next_steps, (approve_next_step) ->
+				if not nextSteps.includes(approve_next_step["step"])
+					throw new Meteor.Error('error!', "指定的下一步有误")
 
 		# 若合法,执行流转
 		next_step_id = next_steps[0]["step"]
@@ -1265,7 +1266,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 			if instance_traces[i]._id is trace_id
 				h = 0
 				while h < instance_traces[i].approves.length
-					if instance_traces[i].approves[h]._id is approve_id or (step.oneClickApproval and ['approved','readed'].includes(judge))
+					if instance_traces[i].approves[h]._id is approve_id or step.oneClickApproval
 						# 更新当前trace.approve记录
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].finish_date = new Date

@@ -114,7 +114,7 @@ InstanceManager.getNextStepOptions = function() {
 				}else if (current_next_steps && current_next_steps.length > 0) {
 					//选中已暂存的值
 					var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
-					if (_.isObject(db_next_step) && !isValidSessionStepId) {
+					if (_.isObject(db_next_step)) {
 						next_step_id = db_next_step.id
 						Session.set("next_step_id", next_step_id);
 					}
