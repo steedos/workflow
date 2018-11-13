@@ -123,7 +123,7 @@ comerc:autoform-selectize
 # steedos:qhd
 # steedos:theme-qhd
 steedos:theme
-steedos:emailjs
+# steedos:emailjs
 steedos:contacts
 # steedos:portal
 steedos:desktop
