@@ -1,3 +1,17 @@
+Template.fsshWebmaill._readmailCount = 0;
+
+readmail  = (uid)->
+	console.log('readmail.....');
+	if $("#fssh-webmail-iframe")[0].contentWindow.O && $("#fssh-webmail-iframe")[0].contentWindow.O('listmail_1').readMail
+		Template.fsshWebmaill._readmailCount = 0;
+		$("#fssh-webmail-iframe")[0].contentWindow.O('listmail_1').readMail(uid,'readmail', 'time.1',1)
+	else 
+		if Template.fsshWebmaill._readmailCount < 200
+			Meteor.setTimeout ()->
+				readmail(uid)
+			, 300
+		Template.fsshWebmaill._readmailCount++
+
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
 	auth = AccountManager.getAuth();
@@ -18,6 +32,12 @@ Template.fsshWebmaill.onRendered ->
 				, 1000
 		else
 			webmailIframe.show()
+
+			uid = FlowRouter.current()?.queryParams?.uid;
+			if uid
+				readmail(uid)
+				
+
 			webmailIframe.contents().find("#container").on 'click', '.recipients', (event)->
 				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
 
