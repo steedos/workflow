@@ -298,6 +298,14 @@ Template.instance_suggestion.events
 		Session.set("next_step_id", null);
 		Session.set("judge", judge);
 
+		currentStep = InstanceManager.getCurrentStep();
+		# 当前步骤为会签时，不显示下一步步骤、处理人
+		if currentStep && currentStep.step_type == 'counterSign'
+			if currentStep.oneClickRejection && judge == 'rejected'
+				$(".instance-suggestion #instance_next").show();
+			else
+				$(".instance-suggestion #instance_next").hide();
+
 		InstanceManager.checkSuggestion(0);
 
 	# 'change .nextSteps': (event) ->
@@ -389,7 +397,11 @@ Template.instance_suggestion.onRendered ->
 	currentStep = InstanceManager.getCurrentStep();
 	# 当前步骤为会签时，不显示下一步步骤、处理人
 	if currentStep && currentStep.step_type == 'counterSign'
-		$(".instance-suggestion #instance_next").hide();
+		myApprove = InstanceManager.getCurrentApprove()
+		if currentStep.oneClickRejection && myApprove.judge == 'rejected'
+			$(".instance-suggestion #instance_next").show();
+		else
+			$(".instance-suggestion #instance_next").hide();
 
 
 	next_step_id = Session.get("next_step_id");

@@ -88,6 +88,11 @@
                                     </tr>
                                 {{/if}}
                             {{/if}}
+                            {{#if this.agent}}
+                                <tr class="approve-description">
+                                    <td class="description" colspan="3">{{{agentDescription this.user_name}}}</td>
+                                </tr>
+                            {{/if}}
                     {{/each}}
                 {{/each}}
                 </tbody>

@@ -23,7 +23,7 @@ Meteor.publish 'instance_data', (instanceId, box)->
 		"traces.approves.cost_time": 0,
 #		"traces.approves.read_date": 0,
 		"traces.approves.is_error": 0,
-		"traces.approves.user_name": 0,
+		# "traces.approves.user_name": 0,
 		"traces.approves.deadline": 0,
 		"traces.approves.remind_date": 0,
 		"traces.approves.reminded_count": 0,

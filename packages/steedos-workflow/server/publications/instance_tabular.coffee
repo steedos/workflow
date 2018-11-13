@@ -4,7 +4,7 @@ lastFinishedApproveAggregate = (instanceid, userId, dataMap, callback)->
 			"_id": instanceid
 		}
 	}, {"$project": {"name": 1, "_approve": "$traces.approves"}}, {"$unwind": "$_approve"}, {"$unwind": "$_approve"},
-		{"$match": {"_approve.is_finished": true, "_approve.handler": userId}},
+		{"$match": {"_approve.is_finished": true, $or:[{"_approve.handler": userId},{"_approve.user": userId}]}},
 		{"$group": {"_id": "$_id", "finish_date": {"$last": "$_approve.finish_date"}}}
 	]
 
@@ -65,6 +65,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 					trace: approve.trace,
 					is_read: approve.is_read,
 					start_date: approve.start_date
+					agent: approve.agent
+					user_name: approve.user_name
 				}
 
 		if !myApprove
@@ -74,7 +76,7 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 					if approve.type == 'cc' and approve.user == userId and approve.is_finished == false
 						if approve.is_read
 							is_read = true
-						myApprove = {id: approve._id, is_read: is_read, start_date: approve.start_date}
+						myApprove = {id: approve._id, is_read: is_read, start_date: approve.start_date, agent: approve.agent, user_name: approve.user_name}
 
 		return myApprove
 
@@ -94,6 +96,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 			if myApprove
 				instance.is_read = myApprove.is_read
 				instance.start_date = myApprove.start_date
+				if myApprove.agent
+					instance.agent_user_name = myApprove.user_name
 			else
 				instance.is_read = true
 
@@ -116,6 +120,8 @@ Meteor.publish "instance_tabular", (tableName, ids, fields)->
 		if myApprove
 			instance.is_read = myApprove.is_read
 			instance.start_date = myApprove.start_date
+			if myApprove.agent
+					instance.agent_user_name = myApprove.user_name
 		else
 			instance.is_read = true
 
