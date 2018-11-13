@@ -104,6 +104,10 @@ instancesListTableTabular = (flowId, fields)->
 						else
 							step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
 
+					agent_view = "";
+					if doc.agent_user_name && Session.get("box") == 'inbox'
+						agent_view = "<label class='cc-label'>(" + TAPi18n.__('process_delegation_rules_description', {userName: doc.agent_user_name}) + ")</label>"
+
 					unread = ''
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
@@ -126,7 +130,7 @@ instancesListTableTabular = (flowId, fields)->
 
 					return """
 								<div class='instance-read-bar'>#{unread}</div>
-								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}
+								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}#{agent_view}
 									<span>#{doc.applicant_name}</span>
 								</div>
 								<div class='instance-detail'>#{step_current_name_view}
@@ -149,6 +153,10 @@ instancesListTableTabular = (flowId, fields)->
 					if doc.is_cc && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 						cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
+					agent_view = "";
+					if doc.agent_user_name
+						agent_view = "<label class='cc-label'>(" + TAPi18n.__('process_delegation_rules_description', {userName: doc.agent_user_name}) + ")</label>"
+
 					unread = ''
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
@@ -169,7 +177,7 @@ instancesListTableTabular = (flowId, fields)->
 						instanceNamePriorityClass = "color-priority color-priority-#{priorityIconClass}"
 					return """
 							<div class='instance-read-bar'>#{unread}</div>
-							<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}</div>
+							<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}#{agent_view}</div>
 						"""
 				visible: false,
 				orderable: false
@@ -271,7 +279,7 @@ instancesListTableTabular = (flowId, fields)->
 				'tpl'
 		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name", "is_hidden"],
+			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name", "is_hidden", "agent_user_name"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
@@ -457,7 +465,7 @@ _get_outbox_instances_tabular_options = (flowId, fields)->
 			{
 				$match: {
 					'_approve.is_finished': true
-					'_approve.handler': userId,
+					$or: [{'_approve.handler': userId},{'_approve.user': userId}]
 				}
 			}
 		]

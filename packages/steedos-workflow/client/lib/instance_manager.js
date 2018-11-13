@@ -114,7 +114,7 @@ InstanceManager.getNextStepOptions = function() {
 				}else if (current_next_steps && current_next_steps.length > 0) {
 					//选中已暂存的值
 					var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
-					if (_.isObject(db_next_step) && !isValidSessionStepId) {
+					if (_.isObject(db_next_step)) {
 						next_step_id = db_next_step.id
 						Session.set("next_step_id", next_step_id);
 					}
@@ -682,7 +682,7 @@ InstanceManager.getCurrentApprove = function() {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
-				if (a.type == 'cc' && a.user == Meteor.userId() && a.is_finished == false) {
+				if (a.type == 'cc' && a.handler == Meteor.userId() && a.is_finished == false) {
 					currentApprove = a;
 				}
 			})
@@ -1299,7 +1299,7 @@ InstanceManager.getCCApprove = function(userId, is_finished) {
 	traces.forEach(function(t) {
 		if (t.approves) {
 			t.approves.forEach(function(approve) {
-				if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+				if (approve.handler == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
 					rev = approve
 				}
 			});
@@ -1621,7 +1621,7 @@ InstanceManager.getLastCCApprove = function(traces) {
 		if (!currentApprove && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!currentApprove) {
-					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
+					if (ap.is_finished && ap.handler === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						currentApprove = ap;
 					}
 				}

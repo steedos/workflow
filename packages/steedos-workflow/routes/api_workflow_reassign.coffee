@@ -30,18 +30,21 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			not_in_inbox_users = _.difference(inbox_users, inbox_users_from_client)
 			new_inbox_users = _.difference(inbox_users_from_client, inbox_users)
 			# 若assignee=原inbox_users，说明不需要执行转签核，系统什么都不做
-			return if not_in_inbox_users is new_inbox_users
+			return if not_in_inbox_users.length is 0 and new_inbox_users.length is 0
 			setObj = new Object
 			now = new Date
 			i = 0
+			approve_users_handlers = []
 			while i < last_trace.approves.length
-				if not_in_inbox_users.includes(last_trace.approves[i].user)
+				if not_in_inbox_users.includes(last_trace.approves[i].handler)
 					if last_trace.approves[i].is_finished is false and last_trace.approves[i].type isnt "cc" and last_trace.approves[i].type isnt "distribute"
 						last_trace.approves[i].is_finished = true
 						last_trace.approves[i].finish_date = now
 						last_trace.approves[i].judge = "terminated"
 						last_trace.approves[i].description = ""
 						last_trace.approves[i].cost_time = last_trace.approves[i].finish_date - last_trace.approves[i].start_date
+						approve_users_handlers.push(last_trace.approves[i].user)
+						approve_users_handlers.push(last_trace.approves[i].handler)
 				i++
 			# 在同一trace下插入转签核操作者的approve记录
 			current_space_user = uuflowManager.getSpaceUser(space_id, current_user)
@@ -81,8 +84,18 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 				new_appr.is_finished = false
 				new_appr.user = user_id
 				new_appr.user_name = new_user.name
-				new_appr.handler = user_id
-				new_appr.handler_name = new_user.name
+
+				handler_id = user_id
+				handler_info = new_user
+				agent = uuflowManager.getAgent(space_id, user_id)
+				if agent
+					inbox_users_from_client[inbox_users_from_client.indexOf(user_id)] = agent
+					handler_id = agent
+					handler_info = db.users.findOne({ _id: agent }, { fields: { name: 1 } })
+					new_appr.agent = agent
+
+				new_appr.handler = handler_id
+				new_appr.handler_name = handler_info.name
 				new_appr.handler_organization = space_user.organization
 				new_appr.handler_organization_name = user_organization.name
 				new_appr.handler_organization_fullname = user_organization.fullname
@@ -99,6 +112,7 @@ JsonRoutes.add 'post', '/api/workflow/reassign', (req, res, next) ->
 			)
 
 			instance.outbox_users.push(current_user)
+			instance.outbox_users = instance.outbox_users.concat(approve_users_handlers)
 			setObj.outbox_users = _.uniq(instance.outbox_users)
 			setObj.inbox_users = inbox_users_from_client
 			setObj.modified = now

@@ -12,7 +12,8 @@ Npm.depends({
 	"eval": "0.1.2",
 	mkdirp: "0.3.5",
 	mime: "2.0.2",
-	busboy: "0.2.13"
+	busboy: "0.2.13",
+	"node-schedule": "1.2.1"
 });
 
 Package.onUse(function(api) {
@@ -94,6 +95,7 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
 	api.addFiles('lib/models/space_users.coffee');
+	api.addFiles('lib/models/process_delegation_rules.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
@@ -340,6 +342,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/webhooks.html', 'client');
 	api.addFiles('client/views/list/webhooks.coffee', 'client');
 
+	api.addFiles('client/views/list/admin_process_delegation_rules.html', 'client');
+	api.addFiles('client/views/list/admin_process_delegation_rules.coffee', 'client');
+
 	// app-workflow plugins
 	// api.addFiles('plugins/flow_import_action.coffee', 'client');
 	// api.addFiles('plugins/flow_state_action.coffee', 'client');
@@ -481,6 +486,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/startup.coffee', 'server');
 
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
+
+	api.addFiles('server/schedule/auto_finish_process_delegation.coffee', 'server');
 
 	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 
