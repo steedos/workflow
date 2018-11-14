@@ -3,14 +3,14 @@ db.spaces = new Meteor.Collection('spaces')
 db.spaces.allow
 	update: (userId, doc, fields, modifier) ->
 		return doc.owner == userId;
- 
+
 
 db.spaces._simpleSchema = new SimpleSchema
-	name: 
+	name:
 		type: String,
 		# unique: true,
 		max: 200
-	owner: 
+	owner:
 		type: String,
 		optional: true,
 		autoform:
@@ -18,7 +18,7 @@ db.spaces._simpleSchema = new SimpleSchema
 			defaultValue: ->
 				return Meteor.userId()
 
-	admins: 
+	admins:
 		type: [String],
 		optional: true,
 		autoform:
@@ -39,7 +39,7 @@ db.spaces._simpleSchema = new SimpleSchema
 			type: 'fileUpload'
 			collection: 'avatars'
 			accept: 'image/*'
-			
+
 	# apps_enabled:
 	# 	type: [String],
 	# 	optional: true,
@@ -61,17 +61,17 @@ db.spaces._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
-	hostname: 
+	hostname:
 		type: String,
 		optional: true,
 
-	balance: 
+	balance:
 		type: Number,
 		decimal: true
 		optional: true,
 		autoform:
 			omit: true
-	is_paid: 
+	is_paid:
 		type: Boolean,
 		label: t("Spaces_isPaid"),
 		optional: true,
@@ -136,7 +136,7 @@ db.spaces._simpleSchema = new SimpleSchema
 		type: Boolean,
 		defaultValue:false,
 		optional: true
-	
+
 if Meteor.isClient
 	db.spaces._simpleSchema.i18n("spaces")
 
@@ -148,7 +148,7 @@ db.spaces.helpers
 	owner_name: ->
 		owner = db.space_users.findOne({user: this.owner});
 		return owner && owner.name;
-	
+
 	admins_name: ->
 		if (!this.admins)
 			return ""
@@ -161,7 +161,7 @@ db.spaces.helpers
 
 
 if Meteor.isServer
-	
+
 	db.spaces.before.insert (userId, doc) ->
 		if !userId and doc.owner
 			userId = doc.owner
@@ -171,7 +171,7 @@ if Meteor.isServer
 		doc.modified_by = userId
 		doc.modified = new Date()
 		doc.is_deleted = false;
-		
+
 		if !userId
 			throw new Meteor.Error(400, "spaces_error_login_required");
 
@@ -187,14 +187,14 @@ if Meteor.isServer
 		db.spaces.createTemplateOrganizations(doc._id)
 		_.each doc.admins, (admin) ->
 			db.spaces.space_add_user(doc._id, admin, true)
-			
+
 
 	db.spaces.before.update (userId, doc, fieldNames, modifier, options) ->
-		modifier.$set = modifier.$set || {}; 
+		modifier.$set = modifier.$set || {};
 		if doc.owner != userId
 			throw new Meteor.Error(400, "spaces_error_space_owner_only");
 		if (!Steedos.isLegalVersion(doc._id,"workflow.professional")) and modifier.$set.avatar
-			throw new Meteor.Error(400, "space_paid_info_title");	
+			throw new Meteor.Error(400, "space_paid_info_title");
 		modifier.$set.modified_by = userId;
 		modifier.$set.modified = new Date();
 
@@ -206,7 +206,7 @@ if Meteor.isServer
 					delete modifier.$set.admins
 			else if (modifier.$set.admins.indexOf(modifier.$set.owner) <0)
 				modifier.$set.admins.push(modifier.$set.owner)
-		
+
 		# 管理员不能为空
 		if (!modifier.$set.admins)
 			throw new Meteor.Error(400, "spaces_error_space_admins_required");
@@ -222,8 +222,8 @@ if Meteor.isServer
 		# 工作区修改后，该工作区的根部门的name也要修改，根部门和子部门的fullname也要修改
 		if modifier.$set.name
 			# 直接修改根部门名字，跳过验证
-			db.organizations.direct.update({space: doc._id,is_company: true},{$set:{name: doc.name,fullname:doc.name}})
-			rootOrg = db.organizations.findOne({space: doc._id,is_company: true})
+			db.organizations.direct.update({space: doc._id,is_company: true, parent: null},{$set:{name: doc.name,fullname:doc.name}})
+			rootOrg = db.organizations.findOne({space: doc._id,is_company: true, parent: null})
 			children = db.organizations.find({parents: rootOrg._id});
 			children.forEach (child) ->
 		    db.organizations.direct.update(child._id, {$set: {fullname: child.calculateFullname()}})
@@ -248,7 +248,7 @@ if Meteor.isServer
 			return;
 		now = new Date
 		if (spaceUserObj)
-			db.space_users.direct.update spaceUserObj._id, 
+			db.space_users.direct.update spaceUserObj._id,
 				$set:
 					name: userObj.name
 					email: userObj.emails?[0]?.address
@@ -258,8 +258,8 @@ if Meteor.isServer
 					invite_state: "accepted"
 					modified: now
 					modified_by: userId
-		else 
-			root_org = db.organizations.findOne({space: spaceId, is_company:true})
+		else
+			root_org = db.organizations.findOne({space: spaceId, is_company:true, parent: null})
 			db.space_users.direct.insert
 				name: userObj.name
 				email: userObj.emails?[0]?.address
@@ -272,7 +272,7 @@ if Meteor.isServer
 				created: now
 				created_by: userId
 			root_org.updateUsers()
-		
+
 	db.spaces.createTemplateOrganizations = (space_id)->
 		space = db.spaces.findOne(space_id)
 		if !space

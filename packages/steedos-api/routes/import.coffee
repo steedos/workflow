@@ -60,7 +60,7 @@ JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 				console.log data.length
 				console.time('import')
 				# 辽河区域中心/中国石油抚顺石化公司/石油三厂/分子筛车间,aicfscfzs@petrochina.com.cn,艾长飞,3
-				root_org = db.organizations.findOne({space: space_id, is_company: true})
+				root_org = db.organizations.findOne({space: space_id, is_company: true, parent: null})
 				root_org_name = root_org.name
 				root_org_id = root_org._id
 				now = new Date()

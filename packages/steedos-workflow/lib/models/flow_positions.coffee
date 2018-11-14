@@ -51,6 +51,7 @@ Meteor.startup ()->
 				defaultValue: ()->
 					return SteedosDataManager.organizationRemote.findOne({
 						is_company: true
+						parent: null
 					}, {
 						fields: {
 							_id: 1,

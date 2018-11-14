@@ -13,7 +13,7 @@ Meteor.methods
 		if !this.userId
 			throw new Meteor.Error(401, "请先登录")
 
-		root_org = db.organizations.findOne({space: space_id, is_company: true})
+		root_org = db.organizations.findOne({space: space_id, is_company: true, parent: null})
 
 		space = db.spaces.findOne(space_id)
 		if !space || !space?.admins.includes(this.userId)

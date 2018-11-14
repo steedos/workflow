@@ -117,7 +117,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 					users_can_add: []
 					orgs_can_add: db.organizations.find({
 						space: spaceId,
-						is_company: true
+						is_company: true,
+						parent: null
 					}, {fields: {_id: 1}}).fetch().getProperty("_id")
 					users_can_monitor: []
 					orgs_can_monitor: []

@@ -5,9 +5,9 @@ config = ServiceConfiguration.configurations.findOne({service: 'bqq'});
 BQQ.loginCheckGet = (oauth)->
   try
     response = HTTP.get(
-      "https://openapi.b.qq.com/api/login/check", 
+      "https://openapi.b.qq.com/api/login/check",
       {
-        params: 
+        params:
           app_id: config.clientId,
           company_id: oauth.company_id,
           company_token: oauth.company_token,
@@ -16,7 +16,7 @@ BQQ.loginCheckGet = (oauth)->
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
     return response.data
@@ -28,19 +28,19 @@ BQQ.loginCheckGet = (oauth)->
 BQQ.companyRefreshGet = (oauth)->
   try
     response = HTTP.get(
-      "https://openapi.b.qq.com/oauth2/companyRefresh", 
+      "https://openapi.b.qq.com/oauth2/companyRefresh",
       {
-        params: 
+        params:
           app_id: config.clientId,
           app_secret: OAuth.openSecret(config.secret),
           refresh_token: oauth.refresh_token
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.ret > 0 
+    if response.data.ret > 0
       throw response.data.msg
 
     return response.data.data
@@ -51,23 +51,23 @@ BQQ.companyRefreshGet = (oauth)->
 BQQ.corporationGet = (oauth)->
   try
     response = HTTP.get(
-      "https://openapi.b.qq.com/api/corporation/get", 
+      "https://openapi.b.qq.com/api/corporation/get",
       {
-        params: 
+        params:
           app_id: config.clientId,
           app_secret: OAuth.openSecret(config.secret),
           company_id: oauth.company_id,
           company_token: oauth.company_token,
           client_ip: "0.0.0.0",
           oauth_version: 2
-        
+
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.ret > 0 
+    if response.data.ret > 0
       throw response.data.msg
 
     return response.data.data
@@ -79,23 +79,23 @@ BQQ.corporationGet = (oauth)->
 BQQ.deptGet = (oauth, timestamp)->
   try
     response = HTTP.get(
-      "https://openapi.b.qq.com/api/dept/list", 
+      "https://openapi.b.qq.com/api/dept/list",
       {
-        params: 
+        params:
           app_id: config.clientId,
           company_id: oauth.company_id,
           company_token: oauth.company_token,
           client_ip: "0.0.0.0",
           oauth_version: 2,
           timestamp: if timestamp then timestamp else 0
-        
+
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.ret > 0 
+    if response.data.ret > 0
       throw response.data.msg
 
     return response.data.data
@@ -107,23 +107,23 @@ BQQ.deptGet = (oauth, timestamp)->
 BQQ.userGet = (oauth, timestamp)->
   try
     response = HTTP.get(
-      "https://openapi.b.qq.com/api/user/list", 
+      "https://openapi.b.qq.com/api/user/list",
       {
-        params: 
+        params:
           app_id: config.clientId,
           company_id: oauth.company_id,
           company_token: oauth.company_token,
           client_ip: "0.0.0.0",
           oauth_version: 2,
           timestamp: if timestamp then timestamp else 0
-        
+
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.ret > 0 
+    if response.data.ret > 0
       throw response.data.msg
 
     return response.data.data
@@ -197,7 +197,7 @@ BQQ.syncCompany = (oauth) ->
     user_id = null
     uq = db.users.find({"services.bqq.id": u.open_id})
     if uq.count() > 0
-      
+
       user = uq.fetch()[0]
       user_id = user._id
       doc = {}
@@ -205,7 +205,7 @@ BQQ.syncCompany = (oauth) ->
         doc.name = u.realname
 
       if doc.hasOwnProperty('name')
-      
+
         doc.modified = now
         db.users.direct.update(user_id, {$set: doc})
     else
@@ -225,7 +225,7 @@ BQQ.syncCompany = (oauth) ->
       admin_ids.push(user_id)
     else if u.role_id == 1
       admin_ids.push(user_id)
-    
+
     u.user_id = user_id
 
   # 企业管理员可以有多个
@@ -378,7 +378,7 @@ BQQ.syncCompany = (oauth) ->
         p_dept_id = u.p_dept_id[0]
       if p_dept_id
         new_org_id = "bqq-" + space_data.company_id + "-" + p_dept_id
-        
+
         if su.organization != new_org_id
           su_doc.organization = new_org_id
 
@@ -422,7 +422,7 @@ BQQ.syncCompany = (oauth) ->
   # 模板表单和流程
   forms_count = db.forms.find({space: space_id}).count()
   if forms_count == 0
-    root_org_query = db.organizations.find({space: space_id, is_company: true}, {fields: {_id: 1}})
+    root_org_query = db.organizations.find({space: space_id, is_company: true, parent: null}, {fields: {_id: 1}})
     root_org = root_org_query.fetch()[0]
     if root_org
       db.spaces.createTemplateFormAndFlow(space_id)
@@ -430,7 +430,7 @@ BQQ.syncCompany = (oauth) ->
 
 BQQ.createOrg = (depts, p_dept_id, space_id, company_id, owner_id) ->
   now = new Date
-  orgs = depts.filter((d) -> 
+  orgs = depts.filter((d) ->
             if d.p_dept_id == p_dept_id
               return true
           )
