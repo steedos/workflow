@@ -90,7 +90,7 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 			node.children = true;
 		}
 
-		if (!org.is_company && !org.parent) {
+		if (!org.is_company && org.parent) {
 			node.parent = org.parent;
 			node.icon = 'fa fa-sitemap';
 		} else {
