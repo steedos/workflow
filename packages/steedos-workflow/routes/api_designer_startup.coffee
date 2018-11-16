@@ -18,25 +18,28 @@ JsonRoutes.add 'get', '/api/designer/startup', (req, res, next) ->
 
 		spaceIds = _.pluck spaces, '_id'
 
-		spaceUsers = db.space_users.find({ space: { $in: spaceIds } }).fetch()
+		query = { space: { $in: spaceIds } }
+		if companyId
+			query.company_id = companyId
 
-		userIds = _.pluck spaceUsers, 'user'
+		spaceUsers = db.space_users.find(query).fetch()
 
-		users = db.users.find({ _id: { $in: userIds } }, { fields: { name: 1 } }).fetch()
+		forms = db.forms.find(query, { fields: { name:1, state:1, is_deleted:1, is_valid:1, space:1, description:1, help_text:1,
+		created:1, created_by:1, current:1, category:1, instance_style:1, company_id:1 } }).fetch()
 
-		forms = db.forms.find({ space: { $in: spaceIds } }, { fields: { name:1, state:1, is_deleted:1, is_valid:1, space:1, description:1, help_text:1,
-		created:1, created_by:1, current:1, category:1, instance_style:1 } }).fetch()
+		flows = db.flows.find(query, { fields: { name:1, name_formula:1, code_formula:1, space:1, description:1, is_valid:1, form:1,
+		flowtype:1, state:1, is_deleted:1, created:1, created_by:1, help_text:1, current_no:1, current:1, perms:1, error_message:1, distribute_optional_users:1, company_id:1 } }).fetch()
 
-		flows = db.flows.find({ space: { $in: spaceIds } }, { fields: { name:1, name_formula:1, code_formula:1, space:1, description:1, is_valid:1, form:1,
-		flowtype:1, state:1, is_deleted:1, created:1, created_by:1, help_text:1, current_no:1, current:1, perms:1, error_message:1, distribute_optional_users:1 } }).fetch()
+		roles = db.flow_roles.find(query).fetch()
 
-		roles = db.flow_roles.find({ space: { $in: spaceIds } }).fetch()
+		organizations = db.organizations.find(query).fetch()
 
-		organizations = db.organizations.find({ space: { $in: spaceIds } }).fetch()
-
-		positions = db.flow_positions.find({ space: { $in: spaceIds } }).fetch()
+		positions = db.flow_positions.find(query).fetch()
 
 		categories = db.categories.find({ space: { $in: spaceIds } }).fetch()
+
+		userIds = _.pluck spaceUsers, 'user'
+		users = db.users.find({ _id: { $in: userIds } }, { fields: { name: 1 } }).fetch()
 
 		result = {}
 		result.SpaceUsers = spaceUsers
