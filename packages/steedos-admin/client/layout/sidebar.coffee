@@ -183,20 +183,20 @@ Admin.menuTemplate =
 				</div>
 			"""
 
-		reTemplates.push """
-			<div class="row admin-grids admin-grids-workflow">
-				<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-process_delegation_rules">
-					<a href="javascript:void(0)" class="admin-grid-item btn btn-block">
-						<div class="admin-grid-icon">
-							<i class="ion ion-ios-americanfootball-outline"></i>
-						</div>
-						<div class="admin-grid-label">
-							#{t("process_delegation_rules")}
-						</div>
-					</a>
-				</div>
-			</div>
-		"""
+		# reTemplates.push """
+		# 	<div class="row admin-grids admin-grids-workflow">
+		# 		<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 admin-menu-col-process_delegation_rules">
+		# 			<a href="javascript:void(0)" class="admin-grid-item btn btn-block">
+		# 				<div class="admin-grid-icon">
+		# 					<i class="ion ion-ios-americanfootball-outline"></i>
+		# 				</div>
+		# 				<div class="admin-grid-label">
+		# 					#{t("process_delegation_rules")}
+		# 				</div>
+		# 			</a>
+		# 		</div>
+		# 	</div>
+		# """
 
 		if Steedos.isMobile()
 			reTemplates.push """
@@ -298,16 +298,6 @@ Admin.menuTemplate =
 				"""
 
 		extraFields = [{
-			_id: "process_delegation_rules",
-			url: "javascript:void(0)",
-			icon: "ion ion-ios-americanfootball-outline",
-			title: "process_delegation_rules",
-			onclick: ->
-				if !Steedos.isLegalVersion('',"workflow.professional")
-					Steedos.spaceUpgradedModal()
-					return
-				FlowRouter.go('/admin/workflow/process_delegation_rules')
-		},{
 			_id: "help",
 			url: "javascript:;",
 			icon: "ion-ios-help-outline",
