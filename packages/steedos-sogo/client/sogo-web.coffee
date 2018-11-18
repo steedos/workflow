@@ -39,6 +39,7 @@ Template.sogoWeb.onRendered ->
 			else
 				console.error "未找到sogo web的loginController，请确认sogo版本是否正确！"
 		else
+			webIframe[0].contentWindow.isSteedosNode = Steedos.isNode()
 			webIframe.show()
 			# uid = FlowRouter.current()?.queryParams?.uid;
 			# if uid
