@@ -1,0 +1,18 @@
+<template name="sogoLayout">
+	<div class="sogo-layout">
+		{{#if subsReady}}
+			<div class="steedos app-wrapper sogo" style="height: 100%">
+				{{# AdminLTE skin=skinName sidebarMini="true" }}
+					{{> steedosHeader}}
+					{{> Template.dynamic template=main}}
+				{{/ AdminLTE}}
+				{{> steedosLoading}}
+			</div>
+		{{else}}
+			<div class="loading">
+				{{> steedosLoading}}
+			</div>
+		{{/if}}
+	</div>
+</template>
+
