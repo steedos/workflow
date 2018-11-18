@@ -21,26 +21,30 @@ Template.sogoWeb.onRendered ->
 	webIframe.load ()->
 		count += 1
 		console.log('sogo-web-iframe load....')
-		# if webIframe.contents().find("#user").length > 0
-		# 	webIframe.contents().find("#user")?.val(auth.user)
-		# 	webIframe.contents().find("#password")?.val(auth.pass)
-		# 	if count <= 1
-		# 		webIframe.contents().find(".btn")?.click()
-		# 		setTimeout ->
-		# 			if webIframe.contents().find(".btn")?.length
-		# 				webIframe.show()
-		# 		, 1000
-		# else
-		
-		webIframe.show()
-
-		# uid = FlowRouter.current()?.queryParams?.uid;
-		# if uid
-		# 	readmail(uid)
-			
-
-		webIframe.contents().find("body").on 'click', '.btn-open-contacts', (event)->
-			Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
+		loginForm = webIframe.contents().find("form[name=loginForm]")
+		if loginForm.length > 0
+			# loginForm.find("input[ng-model*='username']")?.val(auth.user)
+			# loginForm.find("input[ng-model*='password']")?.val(auth.pass)
+			loginController = webIframe[0].contentWindow.loginController
+			if loginController
+				loginController.creds.username = "postmaster@czpmail.com"
+				loginController.creds.password = "adminhotoa"
+				loginController.creds.language = "ChineseChina"
+				if count <= 1
+					loginController.login()
+					setTimeout ->
+						if webIframe.contents().find("form[name=loginForm]")?.length
+							webIframe.show()
+					, 1500
+			else
+				console.error "未找到sogo web的loginController，请确认sogo版本是否正确！"
+		else
+			webIframe.show()
+			# uid = FlowRouter.current()?.queryParams?.uid;
+			# if uid
+			# 	readmail(uid)
+			webIframe.contents().find("body").on 'click', '.btn-open-contacts', (event)->
+				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
 
 Template.sogoWeb.helpers
 	webURL: ()->
