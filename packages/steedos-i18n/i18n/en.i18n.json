@@ -518,5 +518,7 @@
 	"customize_apps": "Apps",
 
 	"space_users_error_roles_used": "User has been used by roles：__names__",
-	"space_users_error_flows_used": "User has been used by flows：__names__"
+	"space_users_error_flows_used": "User has been used by flows：__names__",
+	"Steedos Sogo": "Hot Mail",
+	"sogo_mail_account": "Hot mail account"
 }

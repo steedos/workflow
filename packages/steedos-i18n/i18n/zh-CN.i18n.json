@@ -536,5 +536,7 @@
 	"customize_apps": "企业应用",
 
 	"space_users_error_roles_used": "已有角色指定该用户：__names__",
-	"space_users_error_flows_used": "已有流程指定该用户为处理人：__names__"
+	"space_users_error_flows_used": "已有流程指定该用户为处理人：__names__",
+	"Steedos Sogo": "华邮",
+	"sogo_mail_account": "邮件账户"
 }
