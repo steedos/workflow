@@ -7,32 +7,32 @@ db.users.allow
 			return true
 
 db.users._simpleSchema = new SimpleSchema
-	name: 
+	name:
 		type: String,
-	username: 
+	username:
 		type: String,
 		unique: true,
 		optional: true
-	steedos_id: 
+	steedos_id:
 		type: String,
 		optional: true
 		unique: true,
-		autoform: 
+		autoform:
 			type: "text"
 			readonly: true
-	mobile: 
+	mobile:
 		type: String,
 		optional: true,
 		autoform:
 			readonly: true
-	locale: 
+	locale:
 		type: String,
 		optional: true,
 		allowedValues: [
 			"en-us",
 			"zh-cn"
 		],
-		autoform: 
+		autoform:
 			type: "select",
 			options: [{
 				label: "简体中文",
@@ -42,7 +42,7 @@ db.users._simpleSchema = new SimpleSchema
 				label: "English",
 				value: "en-us"
 			}]
-	
+
 	email_notification:
 		type: Boolean
 		optional: true
@@ -50,24 +50,24 @@ db.users._simpleSchema = new SimpleSchema
 	primary_email_verified:
 		type: Boolean
 		optional: true
-		autoform: 
+		autoform:
 			omit: true
 	last_logon:
 		type: Date
 		optional: true
-		autoform: 
+		autoform:
 			omit: true
 	is_cloudadmin:
 		type: Boolean
 		optional: true
-		autoform: 
+		autoform:
 			omit: true
 	is_deleted:
 		type: Boolean
 		optional: true,
 		autoform:
 			omit: true
-	avatar: 
+	avatar:
 		type: String
 		optional: true
 
@@ -83,7 +83,7 @@ db.users.helpers
 		return spaces;
 
 	displayName: ->
-		if this.name 
+		if this.name
 			return this.name
 		else if this.username
 			return this.username
@@ -108,15 +108,15 @@ if Meteor.isServer
 
 		if !u
 			db.users.update({_id: userId}, {$push: {secrets: secretToken}})
-		
+
 	db.users.checkEmailValid = (email) ->
-		existed = db.users.find 
+		existed = db.users.find
 			"emails.address": email
 		if existed.count()>0
 			throw new Meteor.Error(400, "users_error_email_exists");
 
 	db.users.checkUsernameValid = (username) ->
-		existed = db.users.find 
+		existed = db.users.find
 			"username": username
 		if existed.count()>0
 			throw new Meteor.Error(400, "users_error_username_exists");
@@ -189,7 +189,7 @@ if Meteor.isServer
 			doc.mobile = doc.profile.mobile
 
 		if !doc.steedos_id && doc.username
-			doc.steedos_id = doc.username 
+			doc.steedos_id = doc.username
 
 		if !doc.name
 			doc.name = doc.steedos_id.split('@')[0]
@@ -217,7 +217,7 @@ if Meteor.isServer
 		if space_registered
 			# 从工作区特定的注册界面注册的用户，需要自动加入到工作区中
 			user_email = doc.emails[0].address
-			rootOrg = db.organizations.findOne({space:space_registered, is_company:true},{fields: {_id:1}})
+			rootOrg = db.organizations.findOne({space:space_registered, is_company:true, parent: null},{fields: {_id:1}})
 			db.space_users.insert
 				email: user_email
 				user: doc._id
@@ -249,7 +249,7 @@ if Meteor.isServer
 					tokenRecord = {
 						token: token,
 						email: email,
-						when: now        
+						when: now
 					};
 					db.users.update(doc._id, {$set: {"services.password.reset":tokenRecord}});
 					Meteor._ensure(doc, 'services', 'password').reset = tokenRecord;
@@ -326,7 +326,7 @@ if Meteor.isServer
 		throw new Meteor.Error(400, "users_error_cloud_admin_required");
 
 
-			
+
 	Meteor.publish 'userData', ->
 		unless this.userId
 			return this.ready()

@@ -57,7 +57,7 @@ steedosExport.form = (formId, flowId, is_copy) ->
 			form.category_name = category.name
 
 	_getNumberRuleName = (str)->
-		if str?.indexOf("auto_number(") > -1
+		if _.isString(str) && str?.indexOf("auto_number(") > -1
 			str = str.replace("auto_number(", "").replace(")", "").replace("\"", "").replace("\"", "").replace("\'", "").replace("\'", "")
 			return str
 		return ;

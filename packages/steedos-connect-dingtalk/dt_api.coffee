@@ -3,24 +3,24 @@ Dingtalk.suiteAccessTokenGet = (suite_key, suite_secret, suite_ticket) ->
 
   try
     response = HTTP.post(
-      "https://oapi.dingtalk.com/service/get_suite_token", 
+      "https://oapi.dingtalk.com/service/get_suite_token",
       {
-        data: 
+        data:
           suite_key: suite_key,
           suite_secret: suite_secret,
           suite_ticket: suite_ticket
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
-    #     "suite_access_token":"61W3mEpU66027wgNZ_MhGHNQDHnFATkDa9-2llqrMBjUwxRSNPbVsMmyD-yq8wZETSoE5NQgecigDrSHkPtIYA",  
+    #     "suite_access_token":"61W3mEpU66027wgNZ_MhGHNQDHnFATkDa9-2llqrMBjUwxRSNPbVsMmyD-yq8wZETSoE5NQgecigDrSHkPtIYA",
     #     "expires_in":7200
     # }
     return response.data
@@ -34,19 +34,19 @@ Dingtalk.permanentCodeGet = (suite_access_token, tmp_auth_code) ->
 
   try
     response = HTTP.post(
-      "https://oapi.dingtalk.com/service/get_permanent_code?suite_access_token="+suite_access_token, 
+      "https://oapi.dingtalk.com/service/get_permanent_code?suite_access_token="+suite_access_token,
       {
-        data: 
+        data:
           tmp_auth_code: tmp_auth_code
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     )
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "permanent_code": "xxxx",
@@ -67,20 +67,20 @@ Dingtalk.corpTokenGet = (suite_access_token, auth_corpid, permanent_code) ->
 
   try
     response = HTTP.post(
-      "https://oapi.dingtalk.com/service/get_corp_token?suite_access_token="+suite_access_token, 
+      "https://oapi.dingtalk.com/service/get_corp_token?suite_access_token="+suite_access_token,
       {
-        data: 
+        data:
           auth_corpid: auth_corpid,
           permanent_code: permanent_code
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "access_token": "xxxxxx",
@@ -98,21 +98,21 @@ Dingtalk.activateSuitePost = (suite_access_token, suite_key, auth_corpid, perman
 
   try
     response = HTTP.post(
-      "https://oapi.dingtalk.com/service/activate_suite?suite_access_token="+suite_access_token, 
+      "https://oapi.dingtalk.com/service/activate_suite?suite_access_token="+suite_access_token,
       {
-        data: 
+        data:
           suite_key: suite_key,
           auth_corpid: auth_corpid,
           permanent_code: permanent_code
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "errcode":0,
@@ -130,18 +130,18 @@ Dingtalk.departmentGet = (access_token, department_id) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/department/get", 
+      "https://oapi.dingtalk.com/department/get",
       {
-        params: 
+        params:
           access_token: access_token,
           id: department_id
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
 
     return response.data
@@ -155,17 +155,17 @@ Dingtalk.departmentListGet = (access_token) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/department/list", 
+      "https://oapi.dingtalk.com/department/list",
       {
-        params: 
+        params:
           access_token: access_token
       }
     );
-    if (response.error_code) 
+    if (response.error_code)
       console.error err
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
 
     return response.data.department
@@ -179,18 +179,18 @@ Dingtalk.userListGet = (access_token, department_id) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/user/list", 
+      "https://oapi.dingtalk.com/user/list",
       {
-        params: 
+        params:
           access_token: access_token,
           department_id: department_id
       }
     );
-    if (response.error_code) 
+    if (response.error_code)
       console.error err
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
 
     return response.data.userlist
@@ -204,18 +204,18 @@ Dingtalk.getToken = (corpid, corpsecret) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/gettoken", 
+      "https://oapi.dingtalk.com/gettoken",
       {
-        params: 
+        params:
           corpid: corpid,
           corpsecret: corpsecret
       }
     );
-    if (response.error_code) 
+    if (response.error_code)
       console.error err
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
 
     return response.data.access_token
@@ -229,20 +229,20 @@ Dingtalk.jsapiTicketGet = (access_token) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/get_jsapi_ticket?access_token="+access_token, 
+      "https://oapi.dingtalk.com/get_jsapi_ticket?access_token="+access_token,
       {
-        data: 
+        data:
           access_token: access_token,
           type: 'jsapi'
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "errcode": 0,
@@ -261,21 +261,21 @@ Dingtalk.authInfoGet = (suite_access_token, suite_key, auth_corpid, permanent_co
 
   try
     response = HTTP.post(
-      "https://oapi.dingtalk.com/service/get_auth_info?suite_access_token="+suite_access_token, 
+      "https://oapi.dingtalk.com/service/get_auth_info?suite_access_token="+suite_access_token,
       {
-        data: 
+        data:
           suite_key: suite_key,
           auth_corpid: auth_corpid,
           permanent_code: permanent_code
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #    "auth_corp_info":{
@@ -339,20 +339,20 @@ Dingtalk.userInfoGet = (access_token, code) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/user/getuserinfo?access_token="+access_token+"&code="+code, 
+      "https://oapi.dingtalk.com/user/getuserinfo?access_token="+access_token+"&code="+code,
       {
-        data: 
+        data:
           access_token: access_token,
           code: code
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "errcode": 40029,
@@ -373,20 +373,20 @@ Dingtalk.userGet = (access_token, userid) ->
 
   try
     response = HTTP.get(
-      "https://oapi.dingtalk.com/user/get?access_token="+access_token+"&userid="+userid, 
+      "https://oapi.dingtalk.com/user/get?access_token="+access_token+"&userid="+userid,
       {
-        data: 
+        data:
           access_token: access_token,
           userid: userid
-        headers: 
+        headers:
           "Content-Type": "application/json"
       }
     );
 
-    if (response.error_code) 
+    if (response.error_code)
       throw response.msg
 
-    if response.data.errcode > 0 
+    if response.data.errcode > 0
       throw response.data.errmsg
     # {
     #     "errcode": 0,
@@ -468,7 +468,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     else
       uq = db.users.find({"services.dingtalk.id": u.dingId})
       if uq.count() > 0
-        
+
         user = uq.fetch()[0]
         user_id = user._id
         doc = {}
@@ -506,7 +506,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
     else if u.isAdmin
       if !admin_ids.includes(user_id)
         admin_ids.push(user_id)
-    
+
     u.user_id = user_id
 
   if !owner_id
@@ -659,7 +659,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
         p_dept_id = u.department[0]
       if p_dept_id
         new_org_id = "dt-" + space_data.corpid + "-" + p_dept_id
-        
+
         if su.organization != new_org_id
           su_doc.organization = new_org_id
 
@@ -695,7 +695,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
   # 模板表单和流程
   forms_count = db.forms.find({space: space_id}).count()
   if forms_count == 0
-    root_org_query = db.organizations.find({space: space_id, is_company: true}, {fields: {_id: 1}})
+    root_org_query = db.organizations.find({space: space_id, is_company: true, parent: null}, {fields: {_id: 1}})
     root_org = root_org_query.fetch()[0]
     if root_org
       db.spaces.createTemplateFormAndFlow(space_id)
@@ -703,7 +703,7 @@ Dingtalk.syncCompany = (access_token, auth_corp_info, permanent_code) ->
 
 Dingtalk.createOrg = (depts, parentid, space_id, company_id, owner_id) ->
   now = new Date
-  orgs = depts.filter((d) -> 
+  orgs = depts.filter((d) ->
             if d.parentid == parentid
               return true
           )

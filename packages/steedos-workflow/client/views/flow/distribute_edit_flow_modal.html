@@ -18,6 +18,9 @@
 						<div class="checkbox">
 							<label><input type="checkbox" id="distribute_to_self" checked="{{#if to_self}}checked{{/if}}">&nbsp;{{_ 'distribute_to_self'}}</label>
 						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id="distribute_end_notification" checked="{{#if end_notification}}checked{{/if}}">&nbsp;{{_ 'distribute_end_notification'}}</label>
+						</div>
 					</div>
 					{{#each allow_distribute_steps}}
 						<div class="form-group">

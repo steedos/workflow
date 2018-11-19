@@ -195,7 +195,19 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	distribute_end_notification:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
 	auto_remind:
+		type: Boolean
+		optional: true
+		autoform:
+			omit: true
+
+	upload_after_being_distributed:
 		type: Boolean
 		optional: true
 		autoform:
@@ -233,7 +245,7 @@ if Meteor.isServer
 		modifier.$set = modifier.$set || {};
 
 		if !modifier.$set.current
-			if _.keys(modifier.$set).toString() isnt 'auto_remind' # 为了启用自动催办的时候流程在列表位置不变
+			if _.keys(modifier.$set).toString() isnt 'auto_remind' and _.keys(modifier.$set).toString() isnt 'upload_after_being_distributed' # 为了启用自动催办的时候流程在列表位置不变
 				modifier.$set['current.modified_by'] = userId;
 				modifier.$set['current.modified'] = new Date();
 
@@ -350,6 +362,26 @@ new Tabular.Table
 						"""
 		},
 		{
+			data: "upload_after_being_distributed",
+			width: "150px",
+			orderable: false,
+			render: (val, type, doc)->
+
+				checked = "";
+
+				if doc.upload_after_being_distributed is true
+					checked = "checked"
+
+				return """
+							<div class="flow-list-switch">
+								<label for="switch_upload_after_being_distributed_#{doc._id}" class="weui-switch-cp">
+									<input id="switch_upload_after_being_distributed_#{doc._id}" data-id="#{doc._id}" class="weui-switch-cp__input flow-switch-input-upload-after-being-distributed" type="checkbox" #{checked}>
+									<div class="weui-switch-cp__box"></div>
+								</label>
+							</div>
+						"""
+		},
+		{
 			data: "",
 			title: "",
 			orderable: false,
@@ -367,6 +399,7 @@ new Tabular.Table
 								<li class="divider"></li>
 								<li><a target="_blank" id="exportFlow" href="/api/workflow/export/form?form=#{doc.form}">#{t("flows_btn_export_title")}</a></li>
 								<li><a href="#" id="copyFlow" data-id="#{doc._id}">#{t("workflow_copy_flow")}</a></li>
+								<li><a href="#" id="designFlow" data-id="#{doc._id}">#{t("workflow_design_flow")}</a></li>
 								<li class="divider"></li>
 								<li><a href="#" id="editFlow_template" data-id="#{doc._id}">#{t('flow_list_title_set_template')}</a></li>
 								<li><a href="#" id="editFlow_events" data-id="#{doc._id}">#{t('flow_list_title_set_script')}</a></li>
@@ -380,7 +413,10 @@ new Tabular.Table
 	]
 	order: [[2, "desc"]]
 	dom: "tp"
-	extraFields: ["form","print_template","instance_template","events","field_map","space", "description", "current", "state", "distribute_optional_users"]
+	extraFields: ["form","print_template","instance_template",
+				"events","field_map","space", "description",
+				"current", "state", "distribute_optional_users",
+				"distribute_to_self","distribute_end_notification"]
 	lengthChange: false
 	pageLength: 10
 	info: false

@@ -9,7 +9,7 @@
 #	routerAdmin: "/admin"
 
 
-# db.flow_roles.adminConfig = 
+# db.flow_roles.adminConfig =
 # 	icon: "users"
 # 	color: "green"
 # 	label: ->
@@ -24,7 +24,7 @@
 
 
 
-# db.flow_positions.adminConfig = 
+# db.flow_positions.adminConfig =
 # 	icon: "users"
 # 	color: "green"
 # 	label: ->
@@ -37,21 +37,21 @@
 # 	extraFields: ["space", "role", "org", "users"]
 # 	newFormFields: "space,role,org,users"
 # 	pageLength: 100
-# 	selector: Selector.selectorCheckSpaceAdmin 
+# 	selector: Selector.selectorCheckSpaceAdmin
 # 	children: [
-# 		{ 
+# 		{
 # 			find: (position) ->
 # 				@unblock()
 # 				# Publish the related flow_roles
 # 				db.flow_roles.find { _id: position.role }, fields: name: 1
 # 		}
-# 		{ 
+# 		{
 # 			find: (position) ->
 # 				@unblock()
 # 				# Publish the related organizations
 # 				db.organizations.find { _id: position.org }, fields: fullname: 1
 # 		}
-# 		{ 
+# 		{
 # 			find: (position) ->
 # 				@unblock()
 # 				# Publish the related user
@@ -65,7 +65,7 @@
 # 		}
 # 	]
 
-db.webhooks.adminConfig = 
+db.webhooks.adminConfig =
 	icon: "globe"
 	color: "blue"
 	tableColumns: [

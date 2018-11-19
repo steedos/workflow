@@ -91,6 +91,9 @@ Template.instance_list.helpers
 
 #		Template.instance_list._tableColumns()
 
+		if box isnt "monitor"
+			query.is_hidden = { $ne: true }
+
 		return query
 	enabled_export: ->
 		spaceId = Session.get("spaceId");
@@ -444,3 +447,8 @@ Template.instance_list.events
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
 		Modal.show('flow_list_modal')
 
+	'click .set-process-delegation-rules': ()->
+		if !Steedos.isLegalVersion('',"workflow.professional")
+			Steedos.spaceUpgradedModal()
+			return;
+		FlowRouter.go('/admin/workflow/process_delegation_rules')

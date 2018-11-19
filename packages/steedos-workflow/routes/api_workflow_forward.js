@@ -289,6 +289,17 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			var now = new Date();
 			var ins_obj = {};
 
+			var agent = uuflowManager.getAgent(space_id, user_id);
+			var handler_id = user_id;
+			var handler_info = user_info;
+			var handler_space_user = space_user;
+			var handler_org_info = space_user_org_info;
+			if (agent) {
+				handler_id = agent;
+				handler_info = db.users.findOne(agent);
+				handler_space_user = uuflowManager.getSpaceUser(space_id, agent);
+				handler_org_info = uuflowManager.getSpaceUserOrgInfo(handler_space_user);
+			}
 			ins_obj._id = db.instances._makeNewID();
 			ins_obj.space = space_id;
 			ins_obj.flow = flow_id;
@@ -296,8 +307,8 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			ins_obj.form = flow.form;
 			ins_obj.form_version = flow.current.form_version;
 			ins_obj.name = instance_name;
-			ins_obj.submitter = user_id;
-			ins_obj.submitter_name = user_info.name;
+			ins_obj.submitter = handler_id;
+			ins_obj.submitter_name = handler_info.name;
 			ins_obj.applicant = user_id;
 			ins_obj.applicant_name = user_info.name;
 			ins_obj.applicant_organization = space_user.organization;
@@ -311,7 +322,7 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			ins_obj.created_by = current_user_id;
 			ins_obj.modified = now;
 			ins_obj.modified_by = current_user_id;
-			ins_obj.inbox_users = [user_id];
+			ins_obj.inbox_users = [handler_id];
 			ins_obj.values = new_values;
 			if (action_type == 'distribute') {
 				// 解决多次分发看不到正文、附件问题
@@ -359,11 +370,11 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			appr_obj.is_finished = false;
 			appr_obj.user = user_id;
 			appr_obj.user_name = user_info.name;
-			appr_obj.handler = user_id;
-			appr_obj.handler_name = user_info.name;
-			appr_obj.handler_organization = space_user.organization;
-			appr_obj.handler_organization_name = space_user_org_info.name;
-			appr_obj.handler_organization_fullname = space_user_org_info.fullname;
+			appr_obj.handler = handler_id;
+			appr_obj.handler_name = handler_info.name;
+			appr_obj.handler_organization = handler_space_user.organization;
+			appr_obj.handler_organization_name = handler_org_info.name;
+			appr_obj.handler_organization_fullname = handler_org_info.fullname;
 			appr_obj.type = "draft";
 			appr_obj.start_date = now;
 			appr_obj.read_date = now;
@@ -371,6 +382,10 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			appr_obj.is_error = false;
 
 			appr_obj.values = new_values;
+
+			if (agent) {
+				appr_obj.agent = agent;
+			}
 
 			trace_obj.approves = [appr_obj];
 			ins_obj.traces = [trace_obj];

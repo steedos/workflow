@@ -314,7 +314,8 @@
 				"reassign_new_inbox_users": "My __instance_name__ request needs your __approve_type__",
 				"trace_approve_cc": "My __instance_name__ request needs your __approve_type__",
 				"remind": "Remind：__instance_name__, Deadline：__deadline__",
-				"trace_approve_cc_submit": "I have submitted a cc __instance_name__"
+				"trace_approve_cc_submit": "I have submitted a cc __instance_name__",
+				"distribute_remind": "My __instance_name__ has been end"
 			}
 		},
 		"email": {
@@ -650,6 +651,7 @@
 	"distribute_edit_flow_select_flows": "flows options",
 	"flow_list_title_set_distribute": "Set Distribute",
 	"distribute_to_self": "can distribute to self",
+	"distribute_end_notification": "notificate user after distributed end",
 
 	"instance_deleted": "Deleted",
 
@@ -659,6 +661,26 @@
 	"instance_approve_distribute_date_label": "Distribute date",
 
 	"flows_auto_remind": "Auto remind",
+	"flows_upload_after_being_distributed": "Allow upload after being distributed",
+
 	"instances_my_finish_date": "Modified",
-	"pager_input_hint": "Click and input page number, then press Enter to jump to the specified page"
+	"pager_input_hint": "Click and input page number, then press Enter to jump to the specified page",
+
+	"instance_hide_title": "Hide",
+	"instance_hide_success": "Hide Success",
+	"instance_reopen_title": "Unhide",
+	"instance_reopen_success": "Unhide Success",
+
+	"workflow_design_flow": "Design flow",
+
+	"process_delegation_rules": "Process Delegation",
+	"process_delegation_rules_from": "From",
+	"process_delegation_rules_to": "To",
+	"process_delegation_rules_enabled": "Enabled",
+	"process_delegation_rules_start_time": "Strat Time",
+	"process_delegation_rules_end_time": "End Time",
+	"process_delegation_rules_from_name": "From",
+	"process_delegation_rules_to_name": "To",
+	"process_delegation_rules_start_must_lt_end": "Strat time must less than end time",
+	"process_delegation_rules_description": "__userName__ delegated"
 }

@@ -86,13 +86,42 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
             }
             break;
         default: //start：开始、submit：填写、counterSign：会签
-            lines.forEach(function(line) {
-                if (line.state == "submitted") {
-                    var submitted_step = WorkflowManager.getInstanceStep(line.to_step);
-                    if (submitted_step)
-                        nextSteps.push(submitted_step);
-                }
-            });
+            if (currentStep.step_type === 'counterSign' && currentStep.oneClickRejection && judge === "rejected"){
+                lines.forEach(function(line) {
+                    if (line.state == "rejected") {
+                        var rejected_step = WorkflowManager.getInstanceStep(line.to_step);
+                        // 驳回时去除掉条件节点
+                        if (rejected_step && rejected_step.step_type != "condition")
+                            nextSteps.push(rejected_step);
+                    }
+                })
+
+                var traces = instance.traces;
+
+                traces.forEach(function(trace) {
+                    if (trace.is_finished == true) {
+                        var finished_step = WorkflowManager.getInstanceStep(trace.step);
+                        if (finished_step.step_type != 'condition' && currentStep.id != finished_step.id)
+                            nextSteps.push(finished_step);
+                    }
+                });
+
+
+                //驳回时支持结束步骤
+                var flow_steps = WorkflowManager.getInstanceSteps();
+                var end_step = flow_steps.findPropertyByPK("step_type", "end");
+
+                nextSteps.push(end_step);
+            } else {
+                lines.forEach(function(line) {
+                    if (line.state == "submitted") {
+                        var submitted_step = WorkflowManager.getInstanceStep(line.to_step);
+                        if (submitted_step)
+                            nextSteps.push(submitted_step);
+                    }
+                });
+            }
+
             break;
     }
 
@@ -125,7 +154,7 @@ ApproveManager.getNextSteps = function(instance, currentStep, judge, autoFormDoc
     rev_nextSteps = rev_nextSteps.uniqById();
 
     // 会签节点，如果下一步有多个 则清空下一步
-    if (currentStep.step_type == "counterSign" && rev_nextSteps.length > 1) {
+    if (currentStep.step_type == "counterSign" && rev_nextSteps.length > 1 && !currentStep.oneClickRejection) {
         rev_nextSteps = [];
     }
     return rev_nextSteps;

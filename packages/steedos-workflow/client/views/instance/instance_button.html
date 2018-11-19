@@ -120,6 +120,20 @@
 				<span>{{_ 'instance_remind_title'}}</span>
 			</button>
 		{{/if}}
+		{{#if enabled_hide}}
+			<button type="button" class="btn btn-default btn-instance-hide" data-for="btn-instance-hide" data-toggle="tooltip"
+					data-placement="bottom">
+				<i class="fa fa-lock"></i>
+				<span>{{_ 'instance_hide_title'}}</span>
+			</button>
+		{{/if}}
+		{{#if enabled_reopen}}
+			<button type="button" class="btn btn-default btn-instance-hide" data-for="btn-instance-hide" data-toggle="tooltip"
+					data-placement="bottom">
+				<i class="fa fa-unlock"></i>
+				<span>{{_ 'instance_reopen_title'}}</span>
+			</button>
+		{{/if}}
 		<button type="button" class="btn btn-default btn-workflow-chart" data-for="btn-workflow-chart" data-toggle="tooltip" data-placement="bottom">
 			<i class="ion ion-network"></i>
 			<span>{{_ 'workflow_chart'}}</span>
@@ -182,6 +196,12 @@
 				{{/if}}
 				{{#if enabled_remind}}
 					<li><a class="btn-instance-remind"><i class="ion ion-ios-bell"></i>{{_ 'instance_remind_title'}}</a></li>
+				{{/if}}
+				{{#if enabled_hide}}
+					<li><a class="btn-instance-hide"><i class="fa fa-lock"></i>{{_ 'instance_hide_title'}}</a></li>
+				{{/if}}
+				{{#if enabled_reopen}}
+					<li><a class="btn-instance-hide"><i class="fa fa-unlock"></i>{{_ 'instance_reopen_title'}}</a></li>
 				{{/if}}
 				<li><a class="btn-workflow-chart"><i class="ion ion-network"></i>{{_ 'workflow_chart'}}</a></li>
 			</ul>

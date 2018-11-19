@@ -84,13 +84,13 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 
 		node.id = org._id;
 
-		node.li_attr = {}; 
+		node.li_attr = {};
 
 		if (org.children && org.children.length > 0) {
 			node.children = true;
 		}
 
-		if (!org.is_company) {
+		if (!org.is_company && org.parent) {
 			node.parent = org.parent;
 			node.icon = 'fa fa-sitemap';
 		} else {
@@ -144,7 +144,8 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 
 ContactsManager.getRoot = function() {
 	return SteedosDataManager.organizationRemote.find({
-		is_company: true
+		is_company: true,
+		parent: null
 	}, {
 		fields: {
 			_id: 1,

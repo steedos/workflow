@@ -110,7 +110,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 				old_cc_users = instance.cc_users
 				old_outbox_users = instance.outbox_users
 				tempUsers = new Array
-				_.each(instance_trace, (nft_approve)->
+				_.each(instance_trace.approves, (nft_approve)->
 					tempUsers.push(nft_approve.user)
 					tempUsers.push(nft_approve.handler)
 				)

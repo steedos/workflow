@@ -13,7 +13,7 @@ Meteor.methods
 		if !this.userId
 			throw new Meteor.Error(401, "请先登录")
 
-		root_org = db.organizations.findOne({space: space_id, is_company: true})
+		root_org = db.organizations.findOne({space: space_id, is_company: true, parent: null})
 
 		space = db.spaces.findOne(space_id)
 		if !space || !space?.admins.includes(this.userId)
@@ -145,43 +145,53 @@ Meteor.methods
 				now = new Date()
 
 				organization = item.organization
-				organization_depts = organization.split("/");
-				fullname = root_org.name
-				parent_org_id = root_org._id
-				organization_depts.forEach (dept_name, j) ->
-					if j > 0
-						fullname = fullname + "/" + dept_name
+				multiOrgs = organization.split(",")
+				belongOrgids = []
+				multiOrgs.forEach (orgFullname) ->
+					organization_depts = orgFullname.trim().split("/")
+					fullname = ""
+					parent_org_id = root_org._id
+					organization_depts.forEach (dept_name, j) ->
+						if j > 0
+							if j == 1
+								fullname = dept_name
+							else
+								fullname = fullname + "/" + dept_name
 
-						org = db.organizations.findOne({space: space_id, fullname: fullname})
+							org = db.organizations.findOne({space: space_id, fullname: fullname})
 
-						if org
-							parent_org_id = org._id
-						else
-							org_doc = {}
-							org_doc._id = db.organizations._makeNewID()
-							org_doc.space = space_id
-							org_doc.name = dept_name
-							org_doc.parent = parent_org_id
-							org_doc.created = now
-							org_doc.created_by = owner_id
-							org_doc.modified = now
-							org_doc.modified_by = owner_id
-							org_id = db.organizations.direct.insert(org_doc)
+							if org
+								parent_org_id = org._id
+								belongOrgids.push org._id
+							else
+								org_doc = {}
+								org_doc._id = db.organizations._makeNewID()
+								org_doc.space = space_id
+								org_doc.name = dept_name
+								org_doc.parent = parent_org_id
+								org_doc.created = now
+								org_doc.created_by = owner_id
+								org_doc.modified = now
+								org_doc.modified_by = owner_id
+								org_id = db.organizations.direct.insert(org_doc)
 
-							if org_id
-								org = db.organizations.findOne(org_id)
-								updateFields = {}
-								updateFields.parents = org.calculateParents()
-								updateFields.fullname = org.calculateFullname()
+								if org_id
+									org = db.organizations.findOne(org_id)
+									updateFields = {}
+									updateFields.parents = org.calculateParents()
+									updateFields.fullname = org.calculateFullname()
 
-								if !_.isEmpty(updateFields)
-									db.organizations.direct.update(org._id, {$set: updateFields})
+									if !_.isEmpty(updateFields)
+										db.organizations.direct.update(org._id, {$set: updateFields})
 
-								if org.parent
-									parent = db.organizations.findOne(org.parent)
-									db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
+									if org.parent
+										parent = db.organizations.findOne(org.parent)
+										db.organizations.direct.update(parent._id, {$set: {children: parent.calculateChildren()}})
 
-								parent_org_id = org_id
+									parent_org_id = org_id
+									belongOrgids.push org._id
+
+
 				user_id = null
 				if user
 					user_id = user._id
@@ -214,17 +224,14 @@ Meteor.methods
 
 				space_user = db.space_users.findOne({space: space_id, user: user_id})
 
-				space_user_org = db.organizations.findOne({space: space_id, fullname: item.organization})
-
 				if space_user
-					if space_user_org
+					if belongOrgids.length > 0
 						if !space_user.organizations
 							space_user.organizations = []
-						space_user.organizations.push(space_user_org._id)
 
 						space_user_update_doc = {}
 
-						space_user_update_doc.organizations = _.uniq(space_user.organizations)
+						space_user_update_doc.organizations = _.uniq(space_user.organizations.concat(belongOrgids))
 
 						if item.email
 							space_user_update_doc.email = item.email
@@ -259,8 +266,7 @@ Meteor.methods
 								Accounts.setPassword(user_id, item.password, {logout: false})
 
 				else
-					if space_user_org
-						space_user_org_id = space_user_org._id
+					if belongOrgids.length > 0
 						su_doc = {}
 						su_doc._id = db.space_users._makeNewID()
 						su_doc.space = space_id
@@ -275,8 +281,8 @@ Meteor.methods
 						su_doc.name = item.name
 						if item.email
 							su_doc.email = item.email
-						su_doc.organization = space_user_org_id
-						su_doc.organizations = [su_doc.organization]
+						su_doc.organization = belongOrgids[0]
+						su_doc.organizations = belongOrgids
 
 						if item.position
 							su_doc.position = item.position

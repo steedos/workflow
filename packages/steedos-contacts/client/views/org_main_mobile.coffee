@@ -70,7 +70,7 @@ organizationsSelector = ->
 				orgIds = _.union(orgIds, outsideOrganizations)
 			selector = { space: spaceId, _id: { $in: orgIds }, hidden: { $ne: true } }
 		else
-			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true, parent: null })
 			selector = {
 				space: spaceId
 				parent: rootOrg?._id
@@ -114,7 +114,7 @@ Template.org_main_mobile.helpers
 			return false
 		currentOrg = db.organizations.findOne({ _id: currentOrgId })
 		if currentOrg
-			return !currentOrg.is_company
+			return !currentOrg.is_company and !!currentOrg.parent
 		else
 			return false
 
@@ -127,7 +127,7 @@ Template.org_main_mobile.helpers
 	tabular_users_class: ->
 		className = "table table-striped datatable-mobile-users"
 		unless isShowContactsUsers()
-			className += " hidden" 
+			className += " hidden"
 		return className
 
 	tabular_organizations_class: ->
@@ -173,12 +173,12 @@ Template.org_main_mobile.onCreated ->
 			organizationsCount = orgs.count()
 			if organizationsCount == 1
 				org = orgs.fetch()[0]
-				if org.is_company
+				if org.is_company && !org.parent
 					Session.set('contacts_org_mobile', org._id)
 					Session.set('contacts_org_mobile_root', org._id)
 		else
 			Steedos.subs["Organization"].subscribe("root_organization", spaceId)
-			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true })
+			rootOrg = db.organizations.findOne({ space: spaceId, is_company: true, parent: null })
 			if rootOrg
 				Session.set('contacts_org_mobile', rootOrg._id)
 				Session.set('contacts_org_mobile_root', rootOrg._id)
@@ -327,5 +327,5 @@ Template.org_main_mobile.events
 
 	'click .contacts-option-actionsheet .actionsheet-cancel': (event, template)->
 		$(".contacts-option-mask").css({"opacity": "0", "display": "none"})
-		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")		
+		$(".contacts-option-actionsheet").removeClass("weui-actionsheet_toggle")
 

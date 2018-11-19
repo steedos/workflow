@@ -6,9 +6,6 @@ if Meteor.isClient
 		Theme.icon_en = Theme.icon
 		Theme.is_customized = true
 		
-		# 重置客户端版本号和下载网址
-		Desktop.version = "3.1.9"
-		Desktop.url = "http://192.1.1.238/digi/show.asp?infoid=42054"
 	# qhd密码规则为至少6位
 	Steedos.validatePassword = (pwd)->
 		reason = t "password_invalid"

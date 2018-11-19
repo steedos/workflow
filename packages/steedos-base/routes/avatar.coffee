@@ -25,6 +25,12 @@ Meteor.startup ->
 			res.end()
 			return
 
+		if user.profile?.avatar
+			res.setHeader "Location", user.profile.avatar
+			res.writeHead 302
+			res.end()
+			return
+
 		if user.avatarUrl
 			res.setHeader "Location", user.avatarUrl
 			res.writeHead 302

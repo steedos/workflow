@@ -37,7 +37,7 @@ instancesListTableTabular = (flowId, fields)->
 					$(".instance-list").perfectScrollbar("update")
 			else
 				$(".instance-list").scrollTop(0)
-			
+
 			title = t "pager_input_hint"
 			ellipsisLink = settings.oInstance.parent().find('.paging_numbers .pagination .disabled a')
 			ellipsisLink.attr("title", title).css("cursor", "pointer").click ->
@@ -104,10 +104,16 @@ instancesListTableTabular = (flowId, fields)->
 						else
 							step_current_name_view = "<div class='flow-name'>#{flow_name}</div>"
 
+					agent_view = "";
+					if doc.agent_user_name && Session.get("box") == 'inbox'
+						agent_view = "<label class='cc-label'>(" + TAPi18n.__('process_delegation_rules_description', {userName: doc.agent_user_name}) + ")</label>"
+
 					unread = ''
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
 						unread = '<i class="ion ion-record unread"></i>'
+					else if Session.get("box") == 'monitor' && doc.is_hidden == true
+						unread = '<i class="fa fa-lock"></i>'
 
 					priorityIcon = ""
 					priorityIconClass = ""
@@ -124,7 +130,7 @@ instancesListTableTabular = (flowId, fields)->
 
 					return """
 								<div class='instance-read-bar'>#{unread}</div>
-								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}
+								<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}#{agent_view}
 									<span>#{doc.applicant_name}</span>
 								</div>
 								<div class='instance-detail'>#{step_current_name_view}
@@ -147,10 +153,16 @@ instancesListTableTabular = (flowId, fields)->
 					if doc.is_cc && !doc.inbox_users?.includes(Meteor.userId()) && Session.get("box") == 'inbox'
 						cc_view = "<label class='cc-label'>(" + TAPi18n.__("instance_cc_title") + ")</label> "
 
+					agent_view = "";
+					if doc.agent_user_name
+						agent_view = "<label class='cc-label'>(" + TAPi18n.__('process_delegation_rules_description', {userName: doc.agent_user_name}) + ")</label>"
+
 					unread = ''
 
 					if Session.get("box") == 'inbox' && doc.is_read == false
 						unread = '<i class="ion ion-record unread"></i>'
+					else if Session.get("box") == 'monitor' && doc.is_hidden == true
+						unread = '<i class="fa fa-lock"></i>'
 
 					priorityIconClass = ""
 					priorityValue = doc.values?.priority
@@ -165,7 +177,7 @@ instancesListTableTabular = (flowId, fields)->
 						instanceNamePriorityClass = "color-priority color-priority-#{priorityIconClass}"
 					return """
 							<div class='instance-read-bar'>#{unread}</div>
-							<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}</div>
+							<div class='instance-name #{instanceNamePriorityClass}'>#{doc.name}#{cc_view}#{agent_view}</div>
 						"""
 				visible: false,
 				orderable: false
@@ -267,7 +279,7 @@ instancesListTableTabular = (flowId, fields)->
 				'tpl'
 		order: [[4, "desc"]],
 		extraFields: ["form", "flow", "inbox_users", "state", "space", "applicant", "form_version",
-			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name"],
+			"flow_version", "is_cc", "cc_count", "is_read", "current_step_name", "values", "keywords", "final_decision", "flow_name", "is_hidden", "agent_user_name"],
 		lengthChange: true,
 		lengthMenu: [10,15,20,25,50,100],
 		pageLength: 10,
@@ -342,9 +354,14 @@ TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
 GetBoxInstancesTabularOptions = (box, flowId, fields)->
 	if box == "inbox"
-		return _get_inbox_instances_tabular_options(box, flowId, fields)
+		return _get_inbox_instances_tabular_options(flowId, fields)
 	else if box == "outbox"
-		return _get_outbox_instances_tabular_options(box, flowId, fields)
+		return _get_outbox_instances_tabular_options(flowId, fields)
+	else
+		options = instancesListTableTabular(flowId, fields)
+		if !flowId
+			options.name = "inbox_instances"
+		return options
 
 
 
@@ -448,7 +465,7 @@ _get_outbox_instances_tabular_options = (flowId, fields)->
 			{
 				$match: {
 					'_approve.is_finished': true
-					'_approve.handler': userId,
+					$or: [{'_approve.handler': userId},{'_approve.user': userId}]
 				}
 			}
 		]
@@ -500,7 +517,7 @@ Tracker.autorun (c) ->
 	console.log "TabularTables autorun..."
 
 	if Meteor.isClient && !Steedos.isMobile()
-		if Session.get("flowId")
+		if Session.get("flowId") && Session.get("box") != 'draft'
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
 				newInstancesListTabular Session.get("box"), Session.get("flowId"), result
 

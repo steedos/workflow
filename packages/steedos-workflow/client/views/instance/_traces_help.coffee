@@ -153,7 +153,7 @@ TracesTemplate.helpers =
 			if ins and ins.flow and ins.space
 				if WorkflowManager.hasFlowAdminPermission(ins.flow, ins.space, Meteor.userId())
 					return true
-			
+
 			if approve.from_user == Meteor.userId()
 				return true
 
@@ -276,6 +276,16 @@ TracesTemplate.helpers =
 
 	instanceExists: (instance_id)->
 		return !!db.instances.find(instance_id).count()
+
+	agentDescription: (userName)->
+		if Meteor.isServer
+			locale = Template.instance().view.template.steedosData.locale
+			if locale.toLocaleLowerCase() == 'zh-cn'
+				locale = "zh-CN"
+		else
+			locale = Session.get("TAPi18n::loaded_lang")
+
+		return TAPi18n.__('process_delegation_rules_description', {userName: userName}, locale)
 
 if Meteor.isServer
 	TracesTemplate.helpers.dateFormat = (date)->

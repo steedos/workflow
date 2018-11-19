@@ -151,14 +151,15 @@ steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
-steedos:autoform@0.0.12
+steedos:autoform@0.0.14
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
 steedos:autoform-modals@0.3.9_9
-steedos:base@0.0.82
+steedos:base@0.0.85
 steedos:calendar@0.1.26
 steedos:calendar-i18n@0.0.16
+steedos:cas@0.0.1
 steedos:cfs-access-point@0.1.50
 steedos:cfs-aliyun@0.1.0
 steedos:cfs-base-package@0.0.30

@@ -1,6 +1,6 @@
 Meteor.methods({
 	// ??? 能否传阅给当前步骤处理人 如果当前步骤是会签。
-	cc_do: function(approve, cc_user_ids, description) {
+	cc_do: function (approve, cc_user_ids, description) {
 
 		var setObj = {};
 		var ins_id = approve.instance;
@@ -14,8 +14,6 @@ Meteor.methods({
 				values: 1
 			}
 		});
-		var ins_cc_users = instance.cc_users ? instance.cc_users : [];
-		var traces = instance.traces;
 		var current_user_id = this.userId;
 		var space_id = instance.space;
 		var new_approves = [];
@@ -26,7 +24,7 @@ Meteor.methods({
 			}
 		}).name
 
-		cc_user_ids.forEach(function(userId) {
+		cc_user_ids.forEach(function (userId, idx) {
 			var user = db.users.findOne(userId, {
 				fields: {
 					name: 1
@@ -47,6 +45,22 @@ Meteor.methods({
 					fullname: 1
 				}
 			});
+			var agent = uuflowManager.getAgent(space_id, userId);
+			var handler_id = userId;
+			var handler_info = user;
+			var handler_space_user = space_user;
+			var handler_org_info = organization;
+			if (agent) {
+				handler_id = agent;
+				handler_info = db.users.findOne(agent, {
+					fileds: {
+						name: 1
+					}
+				});
+				handler_space_user = uuflowManager.getSpaceUser(space_id, agent);
+				handler_org_info = uuflowManager.getSpaceUserOrgInfo(handler_space_user);
+				cc_user_ids[idx] = agent;
+			}
 			var appr = {
 				'_id': new Mongo.ObjectID()._str,
 				'instance': ins_id,
@@ -54,11 +68,11 @@ Meteor.methods({
 				'is_finished': false,
 				'user': userId,
 				'user_name': user.name,
-				'handler': userId,
-				'handler_name': user.name,
-				'handler_organization': org_id,
-				'handler_organization_name': organization.name,
-				'handler_organization_fullname': organization.fullname,
+				'handler': handler_id,
+				'handler_name': handler_info.name,
+				'handler_organization': handler_space_user.organization,
+				'handler_organization_name': handler_org_info.name,
+				'handler_organization_fullname': handler_org_info.fullname,
 				'type': 'cc',
 				'start_date': new Date(),
 				'is_read': false,
@@ -69,6 +83,9 @@ Meteor.methods({
 				'from_approve_id': approve_id,
 				'cc_description': description
 			};
+			if (agent) {
+				appr.agent = agent;
+			}
 			uuflowManager.setRemindInfo(instance.values, appr)
 			new_approves.push(appr);
 		})
@@ -105,7 +122,7 @@ Meteor.methods({
 		return true;
 	},
 
-	cc_read: function(approve) {
+	cc_read: function (approve) {
 		var setObj = {};
 		var ins_id = approve.instance;
 		var trace_id = approve.trace;
@@ -115,14 +132,14 @@ Meteor.methods({
 			}
 		});
 		var current_user_id = this.userId;
-		var current_trace = _.find(instance.traces, function(t) {
+		var current_trace = _.find(instance.traces, function (t) {
 			return t._id == trace_id;
 		})
 
 		var index = 0;
 
-		current_trace.approves.forEach(function(a, idx) {
-			if (a.type == 'cc' && a.user == current_user_id && !a.is_read) {
+		current_trace.approves.forEach(function (a, idx) {
+			if (a.type == 'cc' && a.handler == current_user_id && !a.is_read) {
 				index = idx;
 			}
 		});
@@ -141,7 +158,7 @@ Meteor.methods({
 		return true;
 	},
 
-	cc_submit: function(ins_id, description) {
+	cc_submit: function (ins_id, description) {
 		var setObj = {};
 
 		var instance = db.instances.findOne(ins_id, {
@@ -155,10 +172,10 @@ Meteor.methods({
 		var current_user_id = this.userId;
 		var current_approve;
 
-		traces.forEach(function(t) {
+		traces.forEach(function (t) {
 			if (t.approves) {
-				t.approves.forEach(function(a, idx) {
-					if (a.type == 'cc' && a.user == current_user_id && a.is_finished == false) {
+				t.approves.forEach(function (a, idx) {
+					if (a.type == 'cc' && a.handler == current_user_id && a.is_finished == false) {
 						current_approve = a;
 						var upobj = {};
 						upobj['traces.$.approves.' + idx + '.is_finished'] = true;
@@ -181,10 +198,10 @@ Meteor.methods({
 			var index = 0;
 
 			//设置意见，意见只添加到最后一条approve中
-			traces.forEach(function(t) {
+			traces.forEach(function (t) {
 				if (current_approve && t._id === current_approve.trace) {
 					if (t.approves) {
-						t.approves.forEach(function(a, idx) {
+						t.approves.forEach(function (a, idx) {
 							if (a._id === current_approve._id) {
 								a.description = description;
 								index = idx;
@@ -207,7 +224,9 @@ Meteor.methods({
 					cc_users: current_user_id
 				},
 				$addToSet: {
-					outbox_users: current_user_id
+					outbox_users: {
+						$each: [current_user_id, current_approve.user]
+					}
 				}
 			});
 
@@ -229,7 +248,7 @@ Meteor.methods({
 		return true;
 	},
 
-	cc_remove: function(instanceId, approveId) {
+	cc_remove: function (instanceId, approveId) {
 		var setObj = {};
 
 		var instance = db.instances.findOne(instanceId, {
@@ -239,17 +258,14 @@ Meteor.methods({
 			}
 		});
 		var traces = instance.traces;
-		var new_approves = [];
-		var ins_cc_users = instance.cc_users;
-		var new_cc_users = [];
 		var trace_id, remove_user_id, multi = false;
 
-		traces.forEach(function(t) {
+		traces.forEach(function (t) {
 			if (t.approves) {
-				t.approves.forEach(function(a, idx) {
+				t.approves.forEach(function (a, idx) {
 					if (a._id == approveId) {
 						trace_id = a.trace;
-						remove_user_id = a.user;
+						remove_user_id = a.handler;
 						setObj['traces.$.approves.' + idx + '.judge'] = 'terminated';
 						setObj['traces.$.approves.' + idx + '.is_finished'] = true;
 						setObj['traces.$.approves.' + idx + '.finish_date'] = new Date();
@@ -264,10 +280,10 @@ Meteor.methods({
 			return;
 
 		var multi = 0;
-		traces.forEach(function(t) {
+		traces.forEach(function (t) {
 			if (t.approves) {
-				t.approves.forEach(function(a) {
-					if (a.user == remove_user_id && a.type == 'cc' && a.is_finished == false) {
+				t.approves.forEach(function (a) {
+					if (a.handler == remove_user_id && a.type == 'cc' && a.is_finished == false) {
 						multi++;
 					}
 				});
@@ -301,7 +317,7 @@ Meteor.methods({
 		return true;
 	},
 
-	cc_save: function(ins_id, description) {
+	cc_save: function (ins_id, description) {
 		var setObj = {};
 
 		var instance = db.instances.findOne(ins_id, {
@@ -314,10 +330,10 @@ Meteor.methods({
 
 		var current_approve;
 
-		traces.forEach(function(t) {
+		traces.forEach(function (t) {
 			if (t.approves) {
-				t.approves.forEach(function(a, idx) {
-					if (a.user == current_user_id && a.type == 'cc' && a.is_finished == false) {
+				t.approves.forEach(function (a, idx) {
+					if (a.handler == current_user_id && a.type == 'cc' && a.is_finished == false) {
 						current_approve = a;
 						var upobj = {};
 						upobj['traces.$.approves.' + idx + '.judge'] = "submitted";
@@ -337,10 +353,10 @@ Meteor.methods({
 		var index = 0;
 
 		//设置意见，意见只添加到最后一条approve中
-		traces.forEach(function(t) {
+		traces.forEach(function (t) {
 			if (current_approve && t._id === current_approve.trace) {
 				if (t.approves) {
-					t.approves.forEach(function(a, idx) {
+					t.approves.forEach(function (a, idx) {
 						if (a._id === current_approve._id) {
 							index = idx;
 						}

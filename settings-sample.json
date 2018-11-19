@@ -71,7 +71,9 @@
     //企业微信前端授权登录
     "qiyeweixin":{
       "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize"
-    }
+    },
+    // SOGO网站地址
+    "sogoWebURL": "https://192.168.0.92/SOGo/"
   },
   "push": {
     "aliyun": {
@@ -130,7 +132,8 @@
     "push_interval": 1000,
     "webhookqueue_interval": 1000,
     "calendar_remind":60000, //控制按提醒时间发送推送，配置此参数的服务会发推送
-    "instancerecordqueue_interval": 10000 //creator同步instance到record队列执行间隔
+    "instancerecordqueue_interval": 10000, //creator同步instance到record队列执行间隔
+    "auto_finish_process_delegation": "0 0 * * * *"//委托到期自动结束委托
   },
   "email": {
     "from": "Steedos <xxx@xxxxxx>"

@@ -1,4 +1,7 @@
 # Options
+sendVerificationEmail = true
+if !process.env.MAIL_URL || ! Package["email"]
+  sendVerificationEmail = false
 AccountsTemplates.configure
   defaultLayout: 'loginLayout',
   defaultLayoutRegions: 
@@ -9,7 +12,7 @@ AccountsTemplates.configure
   overrideLoginErrors: true,
   enablePasswordChange: true,
 
-  sendVerificationEmail: true,
+  sendVerificationEmail: sendVerificationEmail,
   # enforceEmailVerification: true,
   # confirmPassword: true,
   # continuousValidation: false,

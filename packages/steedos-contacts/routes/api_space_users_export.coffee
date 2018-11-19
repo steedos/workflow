@@ -58,6 +58,11 @@ Meteor.startup ->
 					title: TAPi18n.__('space_users_work_phone',{},lang)
 				},{
 					type: 'String',
+					name:'email',
+					width: 100,
+					title: TAPi18n.__('space_users_email',{},lang)
+				},{
+					type: 'String',
 					name:'company',
 					width: 100,
 					title: TAPi18n.__('space_users_company',{},lang)
