@@ -14,3 +14,9 @@ sogoRoutes.route '/',
 	action: (params, queryParams)->
 		BlazeLayout.render 'sogoLayout',
 			main: "sogoWeb"
+
+FlowRouter.route '/admin/mail_account',
+	triggersEnter: [ checkUserSigned],
+	action: (params, queryParams)->
+		BlazeLayout.render 'adminLayout',
+			main: "webMailAccount"

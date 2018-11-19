@@ -12,4 +12,4 @@ if Meteor.isClient
 		parent: "sogo"
 		icon: "ion ion-ios-email-outline"
 		sort: 130
-		url: "/fssh/mail_account"
+		url: "/admin/mail_account"

@@ -20,8 +20,3 @@ fsshWebMailRoutes.route '/webmail',
 	action: (params, queryParams)->
 		BlazeLayout.render 'fsshWebLayout',
 			main: "fsshWebmaill"
-
-fsshWebMailRoutes.route '/mail_account',
-	action: (params, queryParams)->
-		BlazeLayout.render 'adminLayout',
-			main: "webMailAccount"

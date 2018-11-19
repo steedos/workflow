@@ -66,6 +66,9 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/sogo-web.html', 'client');
 	api.addFiles('client/sogo-web.coffee', 'client');
+
+	api.addFiles('client/mail_account.html', 'client');
+	api.addFiles('client/mail_account.coffee', 'client');
 	
 	api.addFiles('client/admin_menu.coffee', 'client');
 });
