@@ -26,7 +26,6 @@ if Steedos.isNode()
 		percentage = (receivedBytes * 100) / totalBytes;
 		$(".sweet-alert #progressReceived").html(parseInt(percentage))
 		$(".sweet-alert .progress-bar").width(percentage + '%')
-		console.log(percentage);
 
 	Steedos.downLoadFile = (url, name, cb)->
 		filePath = path.join(path.normalize(Steedos.fileDirname), name);
@@ -71,7 +70,9 @@ if Steedos.isNode()
 				).on("end", () ->
 					file.end();
 					console.log("保存成功");
-					Steedos.openFile Steedos.fileDirname, name
+					Meteor.setTimeout ()->
+						Steedos.openFile Steedos.fileDirname, name
+					, 300
 					if _.isFunction(cb)
 						cb()
 				);
