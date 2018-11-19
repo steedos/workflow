@@ -45,7 +45,7 @@ Template.sogoWeb.onRendered ->
 			# if uid
 			# 	readmail(uid)
 			webIframe.contents().find("body").on 'click', '.btn-open-contacts', (event)->
-				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
+				Modal.show("contacts_modal", { target: event.target });
 
 Template.sogoWeb.helpers
 	webURL: ()->
