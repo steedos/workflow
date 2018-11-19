@@ -86,12 +86,28 @@ Template.fsshWebmaill.onRendered ->
 						console.log('点击了另存为');
 						chrome.downloads.download {url: url.toString()}
 					else
+#						swal({
+#							title: "数据读取中，请稍后！",
+#							text: "数据读取完成后，将自动打开"
+#							showConfirmButton: false
+#						});
 						swal({
-							title: "数据读取中，请稍后！",
-							text: "数据读取完成后，将自动打开"
+							title: "正在下载",
+							text: '''
+								<div class="progress-group" style="text-align:left">
+									<span class="progress-text">进度</span>
+									<span class="progress-number"><b id="progressReceived">0</b>%</span>
+
+									<div class="progress sm">
+									  <div class="progress-bar progress-bar-aqua" style="width: 0%"></div>
+									</div>
+								</div>
+							''',
+							html: true,
 							showConfirmButton: false
 						});
 						Steedos.downLoadFile url, fileName, ()->
+#							console.log('close')
 							sweetAlert.close();
 				)
 

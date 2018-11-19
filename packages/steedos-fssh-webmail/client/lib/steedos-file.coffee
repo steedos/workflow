@@ -22,6 +22,12 @@ if Steedos.isNode()
 
 	console.log('web mail domain', domain);
 
+	showProgress = (receivedBytes, totalBytes)->
+		percentage = (receivedBytes * 100) / totalBytes;
+		$(".sweet-alert #progressReceived").html(parseInt(percentage))
+		$(".sweet-alert .progress-bar").width(percentage + '%')
+		console.log(percentage);
+
 	Steedos.downLoadFile = (url, name, cb)->
 		filePath = path.join(path.normalize(Steedos.fileDirname), name);
 		console.log('filePath', filePath);
@@ -43,7 +49,8 @@ if Steedos.isNode()
 			}
 
 			file = fs.createWriteStream(filePath)
-
+			totalBytes = 0;
+			receivedBytes = 0;
 			req = https.request {
 				host: url.hostname()
 				path: url.pathname() + url.search()
@@ -51,8 +58,16 @@ if Steedos.isNode()
 				method: 'GET'
 				headers: headers
 			}, (res)->
+				totalBytes = parseInt(res.headers['content-length'], 10);
+#				console.log('totalBytes', totalBytes);
 				res.on("data", (chunk)->
 					file.write(chunk);
+					receivedBytes += chunk.length;
+#					console.log('进度...', receivedBytes, totalBytes);
+					try
+						showProgress(receivedBytes, totalBytes);
+					catch e
+						console.log('progress error', e)
 				).on("end", () ->
 					file.end();
 					console.log("保存成功");
