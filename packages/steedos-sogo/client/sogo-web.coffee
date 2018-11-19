@@ -23,12 +23,10 @@ Template.sogoWeb.onRendered ->
 		console.log('sogo-web-iframe load....')
 		loginForm = webIframe.contents().find("form[name=loginForm]")
 		if loginForm.length > 0
-			# loginForm.find("input[ng-model*='username']")?.val(auth.user)
-			# loginForm.find("input[ng-model*='password']")?.val(auth.pass)
 			loginController = webIframe[0].contentWindow.loginController
 			if loginController
-				loginController.creds.username = "postmaster@czpmail.com"
-				loginController.creds.password = "adminhotoa"
+				loginController.creds.username = auth.user
+				loginController.creds.password = auth.pass
 				loginController.creds.language = "ChineseChina"
 				if count <= 1
 					loginController.login()
