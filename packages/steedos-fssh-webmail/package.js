@@ -67,6 +67,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/fssh-webmail.html', 'client');
 	api.addFiles('client/fssh-webmail.coffee', 'client');
+
+	api.addFiles('client/lib/steedos-file.coffee', 'client');
 });
 
 Package.onTest(function(api) {
