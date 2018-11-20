@@ -1,7 +1,10 @@
-Template.contacts_tree.helpers 
+Template.contacts_tree.helpers
 
 
 Template.contacts_tree.onRendered ->
+
+  showUserMainOrg = true
+
   $(document.body).addClass('loading');
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
@@ -10,14 +13,18 @@ Template.contacts_tree.onRendered ->
   $("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
           Session.set("contact_showBooks", false)
-          Session.set("contacts_orgId", data.selected[0]);
+          contacts_orgId = data.selected[0]
+          if showUserMainOrg
+            if contacts_orgId.split("userMainOrg_").length > 1
+              contacts_orgId = contacts_orgId.split("userMainOrg_")[1]
+          Session.set("contacts_orgId", contacts_orgId);
         return
       ).jstree
             core: 
                 themes: { "stripes" : true, "variant" : "large" },
                 data:  (node, cb) ->
                   Session.set("contacts_orgId", node.id);
-                  cb(ContactsManager.getOrgNode(node));
+                  cb(ContactsManager.getOrgNode(node, '', showUserMainOrg));
                       
             plugins: ["wholerow", "search"]
   this.autorun ()->

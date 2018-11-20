@@ -1,5 +1,7 @@
 Template.fsshWebmaill._readmailCount = 0;
 
+Template.fsshWebmaill._overriedDownloadCount = 0;
+
 readmail  = (uid)->
 	console.log('readmail.....');
 	if $("#fssh-webmail-iframe")[0].contentWindow.O && $("#fssh-webmail-iframe")[0].contentWindow.O('listmail_1').readMail
@@ -11,6 +13,21 @@ readmail  = (uid)->
 				readmail(uid)
 			, 300
 		Template.fsshWebmaill._readmailCount++
+
+download = ()->
+	return false;
+
+overriedDownload = ()->
+	console.log('overriedDownload', Template.fsshWebmaill._overriedDownloadCount);
+	if $("#fssh-webmail-iframe")[0].contentWindow.download
+		if $("#fssh-webmail-iframe")[0].contentWindow.download.toString() != download.toString()
+			$("#fssh-webmail-iframe")[0].contentWindow.download = download
+	else
+		if Template.fsshWebmaill._overriedDownloadCount < 500
+			Meteor.setTimeout ()->
+				overriedDownload()
+			, 300
+		Template.fsshWebmaill._overriedDownloadCount++
 
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
@@ -36,10 +53,63 @@ Template.fsshWebmaill.onRendered ->
 			uid = FlowRouter.current()?.queryParams?.uid;
 			if uid
 				readmail(uid)
-				
+
+			overriedDownload()
 
 			webmailIframe.contents().find("#container").on 'click', '.recipients', (event)->
 				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
+
+			console.log('添加附件事件');
+			webmailIframe.contents().find('#container').on 'click', '.fjlist a', (event, t)->
+
+
+#				event.preventDefault();
+#				event.stopPropagation();
+#				event.stopImmediatePropagation()
+				console.log('fujian......');
+				console.log(event, t);
+				title = event.target.parentNode.parentNode.childNodes[1].title.toString()
+				fileName = title.substr(0 , title.lastIndexOf('(') - 1)
+				clickStr = event.target.onclick.toString()
+				url = clickStr.substring(clickStr.indexOf('\'') + 3, clickStr.lastIndexOf('\''))
+				console.log('url----', url);
+				url = new URI(url, event.target.baseURI)
+				swal({
+					title: fileName,
+					type: "info",
+					showCancelButton: true,
+					cancelButtonText: "另存为",
+					confirmButtonText: "打开",
+					closeOnConfirm: false
+				},(reason) ->
+					if (reason == false)
+						console.log('点击了另存为');
+						chrome.downloads.download {url: url.toString()}
+					else
+#						swal({
+#							title: "数据读取中，请稍后！",
+#							text: "数据读取完成后，将自动打开"
+#							showConfirmButton: false
+#						});
+						swal({
+							title: "正在下载",
+							text: '''
+								<div class="progress-group" style="text-align:left">
+									<span class="progress-text">进度</span>
+									<span class="progress-number"><b id="progressReceived">0</b>%</span>
+
+									<div class="progress sm">
+									  <div class="progress-bar progress-bar-aqua" style="width: 0%"></div>
+									</div>
+								</div>
+							''',
+							html: true,
+							showConfirmButton: false
+						});
+						Steedos.downLoadFile url, fileName, ()->
+#							console.log('close')
+							sweetAlert.close();
+				)
 
 Template.fsshWebmaill.helpers
 	webMailURL: ()->

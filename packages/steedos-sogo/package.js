@@ -1,7 +1,7 @@
 Package.describe({
-	name: 'steedos:fssh-webmail',
+	name: 'steedos:sogo',
 	version: '0.0.1',
-	summary: 'Steedos fssh webMail',
+	summary: 'Steedos sogo',
 	git: ''
 });
 
@@ -58,17 +58,19 @@ Package.onUse(function(api) {
 	// tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	// api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.addFiles('client/subcribe.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
 	api.addFiles('client/layout/master.less', 'client');
 
-	api.addFiles('client/fssh-webmail.html', 'client');
-	api.addFiles('client/fssh-webmail.coffee', 'client');
+	api.addFiles('client/sogo-web.html', 'client');
+	api.addFiles('client/sogo-web.coffee', 'client');
 
-	api.addFiles('client/lib/steedos-file.coffee', 'client');
+	api.addFiles('client/mail_account.html', 'client');
+	api.addFiles('client/mail_account.coffee', 'client');
+	
+	api.addFiles('client/admin_menu.coffee', 'client');
 });
 
 Package.onTest(function(api) {
