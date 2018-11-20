@@ -14,6 +14,8 @@ readmail  = (uid)->
 
 Template.sogoWeb.onRendered ->
 	console.log('sogoWeb.onRendered');
+	unless Steedos.isNode()
+		return
 	auth = AccountManager.getAuth();
 	webIframe = $("#sogo-web-iframe")
 	webIframe.hide()
