@@ -14,7 +14,7 @@ ContactsManager.is_within_user_organizations = function () {
 	return is_within_user_organizations
 }
 
-ContactsManager.getOrgNode = function(node, showHiddenOrg) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg) {
 	var orgs,
 		myContactsLimit = Steedos.my_contacts_limit;
 	if (node.id == '#')
@@ -40,10 +40,32 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg) {
 			}
 		}else{
 			orgs = ContactsManager.getRoot();
+
+			if(showUserMainOrg){
+                // orgs = []
+                var userMainOrg = db.organizations.findOne({space: Session.get("spaceId"), _id: db.space_users.findOne({user: Meteor.userId()}).organization}, {
+                    fields: {
+                        _id: 1,
+                        name: 1,
+                        fullname: 1,
+                        parent: 1,
+                        children: 1,
+                        childrens: 1,
+                        is_company: 1,
+                        admins: 1
+                    }
+                });
+				if(userMainOrg){
+                    userMainOrg._mainorg = true;
+					orgs.unshift(userMainOrg)
+				}
+			}
+
+			console.log('orgs', orgs);
 		}
 	else
 		orgs = ContactsManager.getChild(node.id);
-	return handerOrg(orgs, node.id, showHiddenOrg);
+	return handerOrg(orgs, node.id, showHiddenOrg, showUserMainOrg);
 }
 
 ContactsManager.getBookNode = function(node) {
@@ -72,7 +94,7 @@ ContactsManager.getBookNode = function(node) {
 	return nodes;
 }
 
-function handerOrg(orgs, parentId, showHiddenOrg) {
+function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 
 	var nodes = new Array();
 
@@ -94,11 +116,23 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 			node.parent = org.parent;
 			node.icon = 'fa fa-sitemap';
 		} else {
-			node.state = {
-				opened: true
-			};
-			node.icon = 'fa fa-sitemap';
+			if(!showUserMainOrg){
+                node.state = {
+                    opened: true
+                };
+			}
+            node.icon = 'fa fa-sitemap';
 		}
+
+		if(org._mainorg){
+            node.state = {
+                opened: true
+            };
+            node.icon = 'fa fa-sitemap';
+            Session.set("contacts_orgId", org._id);
+            node.id = 'userMainOrg_' + node.id
+		}
+
 		if(org.hidden){
 			node.li_attr = {
 				class:"text-muted"
@@ -137,6 +171,8 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 			}
 		}
 	});
+
+	console.log('nodes', nodes);
 
 	return nodes;
 }
