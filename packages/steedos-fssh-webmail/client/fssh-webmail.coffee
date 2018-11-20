@@ -7,7 +7,7 @@ readmail  = (uid)->
 	if $("#fssh-webmail-iframe")[0].contentWindow.O && $("#fssh-webmail-iframe")[0].contentWindow.O('listmail_1').readMail
 		Template.fsshWebmaill._readmailCount = 0;
 		$("#fssh-webmail-iframe")[0].contentWindow.O('listmail_1').readMail(uid,'readmail', 'time.1',1)
-	else 
+	else
 		if Template.fsshWebmaill._readmailCount < 200
 			Meteor.setTimeout ()->
 				readmail(uid)
@@ -61,55 +61,14 @@ Template.fsshWebmaill.onRendered ->
 
 			console.log('添加附件事件');
 			webmailIframe.contents().find('#container').on 'click', '.fjlist a', (event, t)->
-
-
-#				event.preventDefault();
-#				event.stopPropagation();
-#				event.stopImmediatePropagation()
-				console.log('fujian......');
-				console.log(event, t);
 				title = event.target.parentNode.parentNode.childNodes[1].title.toString()
 				fileName = title.substr(0 , title.lastIndexOf('(') - 1)
 				clickStr = event.target.onclick.toString()
 				url = clickStr.substring(clickStr.indexOf('\'') + 3, clickStr.lastIndexOf('\''))
 				console.log('url----', url);
 				url = new URI(url, event.target.baseURI)
-				swal({
-					title: fileName,
-					type: "info",
-					showCancelButton: true,
-					cancelButtonText: "另存为",
-					confirmButtonText: "打开",
-					closeOnConfirm: false
-				},(reason) ->
-					if (reason == false)
-						console.log('点击了另存为');
-						chrome.downloads.download {url: url.toString()}
-					else
-#						swal({
-#							title: "数据读取中，请稍后！",
-#							text: "数据读取完成后，将自动打开"
-#							showConfirmButton: false
-#						});
-						swal({
-							title: "正在下载",
-							text: '''
-								<div class="progress-group" style="text-align:left">
-									<span class="progress-text">进度</span>
-									<span class="progress-number"><b id="progressReceived">0</b>%</span>
+				Steedos.downLoadConfirm(url, fileName)
 
-									<div class="progress sm">
-									  <div class="progress-bar progress-bar-aqua" style="width: 0%"></div>
-									</div>
-								</div>
-							''',
-							html: true,
-							showConfirmButton: false
-						});
-						Steedos.downLoadFile url, fileName, ()->
-#							console.log('close')
-							sweetAlert.close();
-				)
 
 Template.fsshWebmaill.helpers
 	webMailURL: ()->
