@@ -56,6 +56,7 @@ if Steedos.isNode()
 				port: url.port(),
 				method: 'GET'
 				headers: headers
+				rejectUnauthorized: false
 			}, (res)->
 				totalBytes = parseInt(res.headers['content-length'], 10);
 #				console.log('totalBytes', totalBytes);
@@ -80,7 +81,7 @@ if Steedos.isNode()
 					console.log("请求失败");
 				);
 			req.on 'error', (e) ->
-				console.error(e);
+				console.error('req.on error', e);
 			req.end();
 
 	Steedos.openFile = (attachPath, name)->
