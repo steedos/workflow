@@ -1,7 +1,7 @@
 Package.describe({
-	name: 'steedos:sogo',
+	name: 'steedos:mailbase',
 	version: '0.0.1',
-	summary: 'Steedos sogo',
+	summary: 'Steedos mailbase',
 	git: ''
 });
 
@@ -58,21 +58,13 @@ Package.onUse(function(api) {
 	// tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	// api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.use('steedos:mailbase@0.0.1');
+	api.addFiles('lib/core.coffee', ['client', 'server']);
+	api.addFiles('lib/models/mail_accounts.coffee', ['client', 'server']);
+	api.addFiles('lib/models/mail_domains.coffee', ['client', 'server']);
 
-	api.addFiles('client/router.coffee', 'client');
-
-	api.addFiles('client/layout/master.html', 'client');
-	api.addFiles('client/layout/master.coffee', 'client');
-	api.addFiles('client/layout/master.less', 'client');
-
-	api.addFiles('client/sogo-web.html', 'client');
-	api.addFiles('client/sogo-web.coffee', 'client');
-
-	api.addFiles('client/mail_account.html', 'client');
-	api.addFiles('client/mail_account.coffee', 'client');
+	api.addFiles('lib/admin.coffee', ['client', 'server']);
 	
-	api.addFiles('client/admin_menu.coffee', 'client');
+	api.export('Mail');
 });
 
 Package.onTest(function(api) {
