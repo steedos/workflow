@@ -60,8 +60,6 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg) {
 					orgs.unshift(userMainOrg)
 				}
 			}
-
-			console.log('orgs', orgs);
 		}
 	else
 		orgs = ContactsManager.getChild(node.id);
@@ -171,8 +169,6 @@ function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 			}
 		}
 	});
-
-	console.log('nodes', nodes);
 
 	return nodes;
 }
