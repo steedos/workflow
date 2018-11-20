@@ -27,6 +27,40 @@ if Steedos.isNode()
 		$(".sweet-alert #progressReceived").html(parseInt(percentage))
 		$(".sweet-alert .progress-bar").width(percentage + '%')
 
+
+	Steedos.downLoadConfirm = (url, fileName)->
+		swal({
+				title: fileName,
+				type: "info",
+				showCancelButton: true,
+				cancelButtonText: "另存为",
+				confirmButtonText: "打开",
+				closeOnConfirm: false
+			},(reason) ->
+			if (reason == false)
+				console.log('点击了另存为');
+				chrome.downloads.download {url: url.toString()}
+			else
+				swal({
+					title: "正在下载",
+					text: '''
+								<div class="progress-group" style="text-align:left">
+									<span class="progress-text">进度</span>
+									<span class="progress-number"><b id="progressReceived">0</b>%</span>
+
+									<div class="progress sm">
+									  <div class="progress-bar progress-bar-aqua" style="width: 0%"></div>
+									</div>
+								</div>
+							''',
+					html: true,
+					showConfirmButton: false
+				});
+				Steedos.downLoadFile url, fileName, ()->
+#							console.log('close')
+					sweetAlert.close();
+		)
+
 	Steedos.downLoadFile = (url, name, cb)->
 		filePath = path.join(path.normalize(Steedos.fileDirname), name);
 		console.log('filePath', filePath);
