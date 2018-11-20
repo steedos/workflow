@@ -69,11 +69,9 @@ if Steedos.isNode()
 					catch e
 						console.log('progress error', e)
 				).on("end", () ->
-					file.end();
-					console.log("保存成功");
-					Meteor.setTimeout ()->
+					file.end ()->
 						Steedos.openFile Steedos.fileDirname, name
-					, 300
+					console.log("保存成功");
 					if _.isFunction(cb)
 						cb()
 				);
