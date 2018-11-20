@@ -15,8 +15,11 @@ if Steedos.isNode()
 
 	temp = LocalhostData.mkdirFolder('temp')
 	LocalhostData.mkdirFolder('files', temp)
+	LocalhostData.mkdirFolder('cache', temp)
 
 	Steedos.fileDirname = path.join(dirname, 'temp', 'files')
+
+	Steedos.fileCacheDirname = path.join(dirname, 'temp', 'cache')
 
 	domain = new URL(Meteor.settings.public.fsshWebMailURL).hostname;
 
@@ -62,6 +65,7 @@ if Steedos.isNode()
 		)
 
 	Steedos.downLoadFile = (url, name, cb)->
+		fileCachePath = path.join(path.normalize(Steedos.fileCacheDirname), name);
 		filePath = path.join(path.normalize(Steedos.fileDirname), name);
 		console.log('filePath', filePath);
 		if(LocalhostData.exists(name, Steedos.fileDirname))
@@ -81,7 +85,7 @@ if Steedos.isNode()
 				'Cookie': _cookiesValue
 			}
 
-			file = fs.createWriteStream(filePath)
+			file = fs.createWriteStream(fileCachePath)
 			totalBytes = 0;
 			receivedBytes = 0;
 			req = https.request {
@@ -103,11 +107,15 @@ if Steedos.isNode()
 					catch e
 						console.log('progress error', e)
 				).on("end", () ->
-					file.end ()->
+					file.end()
+					file.on 'finish', ()->
+						console.log("下载完成");
+						console.log('开始转移文件', fileCachePath, filePath);
+						fs.renameSync fileCachePath, filePath
+						console.log("文件已转移到files文件夹")
 						Steedos.openFile Steedos.fileDirname, name
-					console.log("保存成功");
-					if _.isFunction(cb)
-						cb()
+						if _.isFunction(cb)
+							cb()
 				);
 				res.on("error", (err)->
 					console.log("请求失败");
