@@ -11,4 +11,4 @@ FlowRouter.route '/',
 
 Meteor.startup ->
 	if Meteor.isClient
-		db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/calendar", "/emailjs", "/admin", "/portal", "/contacts", "/dashboard", "/records_search"]
+		db.apps.INTERNAL_APPS = ["/workflow", "/cms", "/calendar", "/emailjs", "/admin", "/portal", "/contacts", "/dashboard", "/records_search", "/fssh/webmail"]
