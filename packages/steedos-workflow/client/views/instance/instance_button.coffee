@@ -534,17 +534,22 @@ Template.instance_button.events
 			previous_trace = _.find(traces, (t)->
 				return t._id is previous_trace_id
 			)
-			# 校验当前步骤是否已读
-			is_read = false
-			_.each last_trace.approves, (ap)->
-				if ap.is_read is true
-					is_read = true
-			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
-			previous_trace_approves = _.filter previous_trace.approves, (a)->
-				return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
 
-			if previous_trace_approves.length is 1 and (previous_trace_approves[0].user is current_user or previous_trace_approves[0].handler is current_user) and not is_read
-				can_retrieve = true
+			previous_step = WorkflowManager.getInstanceStep(previous_trace.step)
+			if previous_step.step_type is "counterSign"
+				can_retrieve = false
+			else
+				# 校验当前步骤是否已读
+				is_read = false
+				_.each last_trace.approves, (ap)->
+					if ap.is_read is true
+						is_read = true
+				# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
+				previous_trace_approves = _.filter previous_trace.approves, (a)->
+					return a.type isnt 'cc' and a.type isnt 'distribute' and ['approved','submitted','rejected'].includes(a.judge)
+
+				if previous_trace_approves.length is 1 and (previous_trace_approves[0].user is current_user or previous_trace_approves[0].handler is current_user) and not is_read
+					can_retrieve = true
 
 		i = traces.length
 		while i > 0
