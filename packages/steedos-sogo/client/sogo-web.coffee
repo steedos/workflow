@@ -67,7 +67,7 @@ Template.sogoWeb.onRendered ->
 				console.log "sogo open file fileName=", fileName
 				console.log "sogo open file url=", url
 				domainUrl = Meteor.settings.public.sogoWebURL
-				Steedos.downLoadFile url, fileName, domainUrl
+				Steedos.downLoadFileWithProgress url, fileName, domainUrl
 				return false
 Template.sogoWeb.helpers
 	webURL: ()->
