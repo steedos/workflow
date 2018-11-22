@@ -1271,8 +1271,6 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].finish_date = new Date
 						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
-						if (step.oneClickApproval and ['approved','readed'].includes(judge)) or (step.oneClickRejection and 'rejected' is judge)
-							instance_traces[i].approves[h].judge = judge
 
 					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
 						isAllApproveFinished = false

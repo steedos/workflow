@@ -27,6 +27,11 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 			)
 			previous_trace_step_id = previous_trace.step
 			previous_trace_name = previous_trace.name
+			flow = uuflowManager.getFlow(instance.flow)
+			previous_step = uuflowManager.getStep(instance, flow, previous_trace_step_id)
+			if previous_step.step_type is "counterSign"
+				throw new Meteor.Error('error', '会签不能取回')
+
 			# 取回步骤的前一个步骤处理人唯一（即排除掉传阅和转发的approve后，剩余的approve只有一个）并且是当前用户
 			previous_trace_approves = _.filter previous_trace.approves, (a)->
 				return a.type isnt 'cc' and a.type isnt 'distribute' and a.type isnt 'forward' and ['approved','submitted','rejected'].includes(a.judge)

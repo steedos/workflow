@@ -39,6 +39,9 @@ Template.fsshWebmaill.onRendered ->
 		count += 1
 		console.log('fssh-webmail-iframe load....')
 		if webmailIframe.contents().find("#user").length > 0
+			unless auth
+				webmailIframe.show()
+				return
 			webmailIframe.contents().find("#user")?.val(auth.user)
 			webmailIframe.contents().find("#password")?.val(auth.pass)
 			if count <= 1

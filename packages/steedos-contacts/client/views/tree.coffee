@@ -23,7 +23,11 @@ Template.contacts_tree.onRendered ->
             core: 
                 themes: { "stripes" : true, "variant" : "large" },
                 data:  (node, cb) ->
-                  Session.set("contacts_orgId", node.id);
+                  contacts_orgId = node.id
+                  if showUserMainOrg
+                    if contacts_orgId.split("userMainOrg_").length > 1
+                      contacts_orgId = contacts_orgId.split("userMainOrg_")[1]
+                  Session.set("contacts_orgId", contacts_orgId);
                   cb(ContactsManager.getOrgNode(node, '', showUserMainOrg));
                       
             plugins: ["wholerow", "search"]

@@ -21,10 +21,16 @@ Template.sogoWeb.onRendered ->
 	webIframe.hide()
 	count = 0
 	webIframe.load ()->
+		if count == 0 and Steedos.isNode()
+			chrome.cookies.remove({name:'0xHIGHFLYxSOGo',url:'https://mail.steedos.cn/SOGo/'})
+			chrome.cookies.remove({name:'XSRF-TOKEN',url:'https://mail.steedos.cn/SOGo/'})
 		count += 1
 		console.log('sogo-web-iframe load....count...', count)
 		loginForm = webIframe.contents().find("form[name=loginForm]")
 		if loginForm.length > 0
+			unless auth
+				webIframe.show()
+				return
 			if count <= 2
 				webIframe.hide()
 			loginController = webIframe[0].contentWindow.loginController
