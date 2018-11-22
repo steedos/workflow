@@ -28,6 +28,9 @@ Template.sogoWeb.onRendered ->
 		console.log('sogo-web-iframe load....count...', count)
 		loginForm = webIframe.contents().find("form[name=loginForm]")
 		if loginForm.length > 0
+			unless auth
+				webIframe.show()
+				return
 			if count <= 2
 				webIframe.hide()
 			loginController = webIframe[0].contentWindow.loginController
