@@ -53,9 +53,22 @@ Template.sogoWeb.onRendered ->
 			# uid = FlowRouter.current()?.queryParams?.uid;
 			# if uid
 			# 	readmail(uid)
+
+			# 弹出选人控件
 			webIframe.contents().find("body").on 'click', '.btn-open-contacts', (event)->
 				Modal.show("contacts_modal", { target: event.target });
-
+			
+			# 打开邮件附件
+			webIframe.contents().find("body").on 'click', '.msg-attachment-link md-dialog-actions a.md-ink-ripple[target=_blank]', (event)->
+				target = $(event.currentTarget)
+				url = target.attr("href")
+				fileName = target.parent().prev().find("p").attr("title")
+				url = new URI(url, event.target.baseURI)
+				console.log "sogo open file fileName=", fileName
+				console.log "sogo open file url=", url
+				domainUrl = Meteor.settings.public.sogoWebURL
+				Steedos.downLoadFile url, fileName, domainUrl
+				return false
 Template.sogoWeb.helpers
 	webURL: ()->
 		if !Meteor.settings.public?.sogoWebURL
