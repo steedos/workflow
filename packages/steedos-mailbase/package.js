@@ -50,7 +50,9 @@ Package.onUse(function(api) {
 	
 	api.addFiles('client/subcribe.coffee', 'client');
 	
-	api.addFiles('client/libs/account_manager.js', 'client')
+	api.addFiles('client/libs/account_manager.js', 'client');
+	api.addFiles('client/libs/localhost_data.coffee', 'client');
+	api.addFiles('client/libs/steedos-file.coffee', 'client');
 
 	api.addFiles('lib/core.coffee', ['client', 'server']);
 	api.addFiles('lib/models/mail_accounts.coffee', ['client', 'server']);
