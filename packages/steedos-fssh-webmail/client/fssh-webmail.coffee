@@ -70,7 +70,8 @@ Template.fsshWebmaill.onRendered ->
 				url = clickStr.substring(clickStr.indexOf('\'') + 3, clickStr.lastIndexOf('\''))
 				console.log('url----', url);
 				url = new URI(url, event.target.baseURI)
-				Steedos.downLoadConfirm(url, fileName)
+				domainUrl = Meteor.settings.public.fsshWebMailURL
+				Steedos.downLoadConfirm(url, fileName, domainUrl)
 
 
 Template.fsshWebmaill.helpers

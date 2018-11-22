@@ -21,17 +21,13 @@ if Steedos.isNode()
 
 	Steedos.fileCacheDirname = path.join(dirname, 'temp', 'cache')
 
-	domain = new URL(Meteor.settings.public.fsshWebMailURL).hostname;
-
-	console.log('web mail domain', domain);
-
 	showProgress = (receivedBytes, totalBytes)->
 		percentage = (receivedBytes * 100) / totalBytes;
 		$(".sweet-alert #progressReceived").html(parseInt(percentage))
 		$(".sweet-alert .progress-bar").width(percentage + '%')
 
 
-	Steedos.downLoadConfirm = (url, fileName)->
+	Steedos.downLoadConfirm = (url, fileName, domainUrl)->
 		swal({
 				title: fileName,
 				type: "info",
@@ -59,12 +55,14 @@ if Steedos.isNode()
 					html: true,
 					showConfirmButton: false
 				});
-				Steedos.downLoadFile url, fileName, ()->
+				Steedos.downLoadFile url, fileName, domainUrl, ()->
 #							console.log('close')
 					sweetAlert.close();
 		)
 
-	Steedos.downLoadFile = (url, name, cb)->
+	Steedos.downLoadFile = (url, name, domainUrl, cb)->
+		domain = new URL(domainUrl).hostname;
+		console.log('downLoadFile domain', domain);
 		fileCachePath = path.join(path.normalize(Steedos.fileCacheDirname), name);
 		filePath = path.join(path.normalize(Steedos.fileDirname), name);
 		console.log('filePath', filePath);
