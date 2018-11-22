@@ -32,28 +32,31 @@ JsonRoutes.add 'post', '/api/webhook/notification/wenshu', (req, res, next) ->
 		if steps_name.includes(trace_name)
 			if current_approve.description and current_approve.description isnt "已阅" and current_approve.description isnt "已阅。" and current_approve.description isnt "同意" and current_approve.description isnt "同意。"
 				flow = db.flows.findOne({_id:instance.flow},{fields: {name: 1}})
+				users = []
 				if flow.name.indexOf('集团') > -1
-					user = db.users.findOne({"username": "jbws"}, {fields: {name: 1}})
+					users.push db.users.findOne({"username": "jbws"}, {fields: {name: 1}})
+					users.push db.users.findOne({"username": "gfgsws"}, {fields: {name: 1}})
 				else if flow.name.indexOf('股份') > -1
-					user = db.users.findOne({"username": "gfgsws"}, {fields: {name: 1}})
+					users.push db.users.findOne({"username": "gfgsws"}, {fields: {name: 1}})
 
-				notification = new Object
-				notification["createdAt"] = new Date
-				notification["createdBy"] = '<SERVER>'
-				notification["from"] = 'workflow'
-				notification['title'] = user.name
-				notification['text'] = "#{current_approve.handler_name}在#{ins_name}中的批示意见为：#{current_approve.description}"
+				_.each users, (user)->
+					notification = new Object
+					notification["createdAt"] = new Date
+					notification["createdBy"] = '<SERVER>'
+					notification["from"] = 'workflow'
+					notification['title'] = user.name
+					notification['text'] = "#{current_approve.handler_name}在#{ins_name}中的批示意见为：#{current_approve.description}"
 
-				payload = new Object
-				payload["space"] = space_id
-				payload["instance"] = ins_id
-				payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
-				payload["requireInteraction"] = true
-				payload["box"] = "monitor"
-				notification["payload"] = payload
-				notification['query'] = {userId: user._id, appName: 'workflow'}
+					payload = new Object
+					payload["space"] = space_id
+					payload["instance"] = ins_id
+					payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
+					payload["requireInteraction"] = true
+					payload["box"] = "monitor"
+					notification["payload"] = payload
+					notification['query'] = {userId: user._id, appName: 'workflow'}
 
-				Push.send(notification)
+					Push.send(notification)
 
 		JsonRoutes.sendResult res,
 				code: 200
