@@ -28,7 +28,6 @@ Package.onUse(function(api) {
     api.use('templating');
     api.use('modules');
     api.use('npm-bcrypt');
-    api.use('steedos:lib');
     api.use('steedos:base');
     api.use('steedos:ui');
     api.use('steedos:contacts');
