@@ -122,24 +122,37 @@ Template.fsshWebmaill.onRendered ->
 			webmailIframe.contents().find('#container').on 'click', (event, t)->
 				removeSearchDiv()
 
-#			webmailIframe.contents().find('#container').on 'click', 'iframe', (event, t)->
-#				removeSearchDiv()
+			webmailIframe.contents().find('body').on 'blur', (event, t)->
+				console.log('blur........................');
+				removeSearchDiv()
 
 			webmailIframe.contents().find('#container').on 'click', '.cur', (event, t)->
 				event.stopPropagation();
 				removeSearchDiv()
 				searchDiv = document.createElement("div")
 				searchDiv.id = 'steedosSearchDiv'
-				searchDiv.textContent = "按收件人搜索"
-				searchDiv.style = "cursor: pointer;border: 1px solid #828282;color:#333333;top: 53px;position: absolute; z-index: 999999999; left: #{event.offsetX + 70}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 11px 20px;"
-				event.target.parentElement.appendChild(searchDiv)
+
+				searchDivA = document.createElement("a")
+				searchDivA.textContent = "按发件人搜索"
+
+				firstElementChild = $(event.target.parentNode.firstElementChild)
+
+				searchDiv.style = "width:#{firstElementChild.width() - 44 - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 11px 22px;"
+
+				searchDiv.appendChild(searchDivA)
+
+#				event.target.parentElement.appendChild(searchDiv)
+				event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(searchDiv)
 
 			webmailIframe.contents().find('#container').on 'click', '#steedosSearchDiv', (event, t)->
 				event.stopPropagation();
-				senderText = event.target.parentElement.firstElementChild.textContent
+				s = event.target.parentElement
+				if event.target.tagName == 'A'
+					s = event.target.parentElement.parentElement
+
+				senderText = $(".cur", s)[0].parentElement.firstElementChild.textContent
 				senderMail = senderText.substring(senderText.lastIndexOf("<") + 1, senderText.lastIndexOf(">"))
 				console.log('搜索', senderMail)
-
 				$("#fssh-webmail-iframe")[0].contentWindow.steedosCallSearch '/user/',
 					"area_subject=&area_content=&area_from=#{encodeURIComponent(senderMail)}&area_to=&area_attach=&folder=0&duration_date=90&is_mail_scope=0"
 
