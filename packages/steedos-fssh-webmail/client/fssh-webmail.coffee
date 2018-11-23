@@ -119,11 +119,7 @@ Template.fsshWebmaill.onRendered ->
 			console.log('添加发件人事件');
 
 
-			webmailIframe.contents().find('#container').on 'click', (event, t)->
-				removeSearchDiv()
-
-			webmailIframe.contents().find('body').on 'blur', (event, t)->
-				console.log('blur........................');
+			webmailIframe.contents().on 'click', (event, t)->
 				removeSearchDiv()
 
 			webmailIframe.contents().find('#container').on 'click', '.cur', (event, t)->
