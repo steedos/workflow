@@ -128,6 +128,7 @@ steedos:contacts
 # steedos:portal
 steedos:desktop
 # steedos:fssh
+# steedos:fssh-webmail
 
 
 
@@ -196,3 +197,6 @@ steedos:oauth2-server@0.0.6
 # steedos:app-workflow
 # meteorhacks:kadira-profiler
 # kadira:debug
+
+steedos:mailbase
+steedos:sogo
