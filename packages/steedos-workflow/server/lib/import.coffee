@@ -3,7 +3,12 @@ steedosImport = {}
 steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 	if _.isEmpty(form)
-		throw  new Exception('无效的json data')
+		throw new Meteor.Error('error', "无效的json data")
+
+	company_id = form.company_id
+	if company_id
+		if db.organizations.find({ _id: company_id, space: spaceId }).count() == 0
+			throw new Meteor.Error('error', "无效的字段: company_id")
 
 	new_form_ids = new Array()
 
@@ -79,6 +84,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 
 		form.current.modified_by = uid
 
+		form.company_id = company_id
+
 		form.import = true
 
 		db.forms.direct.insert(form)
@@ -108,6 +115,8 @@ steedosImport.workflow = (uid, spaceId, form, enabled)->
 			flow.created = new Date()
 
 			flow.created_by = uid
+
+			flow.company_id = company_id
 
 			#跨工作区导入时，重置流程权限perms
 			if !flow.perms || flow.space !=  spaceId

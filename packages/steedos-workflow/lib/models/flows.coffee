@@ -213,6 +213,12 @@ db.flows._simpleSchema = new SimpleSchema
 		autoform:
 			omit: true
 
+	company_id:
+		type: String
+		optional: true
+		autoform:
+			omit: true
+
 if Meteor.isClient
 	db.flows._simpleSchema.i18n("flows")
 
