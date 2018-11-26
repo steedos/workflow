@@ -67,7 +67,10 @@ searchEamil = (url, transferData)->
 			false
 
 removeSearchDiv = ()->
-	$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
+	setTimeout ()->
+		console.log('removeSearchDiv...');
+		$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
+	, 150
 
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
@@ -118,13 +121,9 @@ Template.fsshWebmaill.onRendered ->
 
 			console.log('添加发件人事件');
 
-
-			webmailIframe.contents().on 'click', (event, t)->
-				removeSearchDiv()
-
 			webmailIframe.contents().find('#container').on 'click', '.cur', (event, t)->
 				event.stopPropagation();
-				removeSearchDiv()
+#				removeSearchDiv()
 				searchDiv = document.createElement("div")
 				searchDiv.id = 'steedosSearchDiv'
 
@@ -133,11 +132,13 @@ Template.fsshWebmaill.onRendered ->
 
 				firstElementChild = $(event.target.parentNode.firstElementChild)
 
-				searchDiv.style = "width:#{firstElementChild.width() - 44 - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 11px 22px;"
-
+				searchDiv.style = "width:#{firstElementChild.width() - 44 - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 11px 22px;font-family: Verdana,Arial,Helvetica,sans-serif;"
+				searchDivA.style = "color: #333;"
 				searchDiv.appendChild(searchDivA)
 
-#				event.target.parentElement.appendChild(searchDiv)
+				lxrIframe = $("iframe", event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)[2].contentWindow
+				lxrIframe.removeEventListener('blur', removeSearchDiv)
+				lxrIframe.addEventListener('blur', removeSearchDiv)
 				event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(searchDiv)
 
 			webmailIframe.contents().find('#container').on 'click', '#steedosSearchDiv', (event, t)->
