@@ -44,6 +44,8 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailbase@0.0.1');
 
+	api.addFiles('client/core.coffee', 'client');
+	api.addFiles('client/notification.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 
 	api.addFiles('client/layout/master.html', 'client');
