@@ -20,3 +20,16 @@ FlowRouter.route '/admin/mail_account',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "webMailAccount"
+
+
+Meteor.startup ->
+	AutoForm.hooks
+		updateMailAccount:
+			onSuccess: (formType, result) ->
+				toastr.success t('saved_successfully');
+				AccountManager._auth = null;
+			onError: (formType, error) ->
+				if error.reason
+					toastr.error error.reason
+				else
+					toastr.error error
