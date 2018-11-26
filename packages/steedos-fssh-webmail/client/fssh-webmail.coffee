@@ -67,7 +67,10 @@ searchEamil = (url, transferData)->
 			false
 
 removeSearchDiv = ()->
-	$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
+	setTimeout ()->
+		console.log('removeSearchDiv...');
+		$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
+	, 150
 
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
@@ -92,6 +95,11 @@ Template.fsshWebmaill.onRendered ->
 				, 1000
 		else
 			webmailIframe.show()
+
+			style = document.createElement('style');
+			style.type = 'text/css';
+			style.innerHTML="#steedosSearchDiv a{color:#333} #steedosSearchDiv a:hover{ background: #d54a4a; color: #fff;}";
+			webmailIframe.contents().find("HEAD")[0].appendChild(style);
 
 			uid = FlowRouter.current()?.queryParams?.uid;
 			if uid
@@ -118,13 +126,9 @@ Template.fsshWebmaill.onRendered ->
 
 			console.log('添加发件人事件');
 
-
-			webmailIframe.contents().on 'click', (event, t)->
-				removeSearchDiv()
-
 			webmailIframe.contents().find('#container').on 'click', '.cur', (event, t)->
 				event.stopPropagation();
-				removeSearchDiv()
+#				removeSearchDiv()
 				searchDiv = document.createElement("div")
 				searchDiv.id = 'steedosSearchDiv'
 
@@ -133,11 +137,13 @@ Template.fsshWebmaill.onRendered ->
 
 				firstElementChild = $(event.target.parentNode.firstElementChild)
 
-				searchDiv.style = "width:#{firstElementChild.width() - 44 - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 11px 22px;"
-
+				searchDiv.style = "width:#{firstElementChild.width() - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 6px 0px;font-family: Verdana,Arial,Helvetica,sans-serif;"
+				searchDivA.style = "white-space: nowrap;display: block;height: 26px;line-height: 26px;text-decoration: none;padding: 0 22px;font-size: 12px;"
 				searchDiv.appendChild(searchDivA)
 
-#				event.target.parentElement.appendChild(searchDiv)
+				lxrIframe = $("iframe", event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)[2].contentWindow
+				lxrIframe.removeEventListener('blur', removeSearchDiv)
+				lxrIframe.addEventListener('blur', removeSearchDiv)
 				event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(searchDiv)
 
 			webmailIframe.contents().find('#container').on 'click', '#steedosSearchDiv', (event, t)->
