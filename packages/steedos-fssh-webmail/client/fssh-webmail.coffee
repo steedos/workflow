@@ -29,6 +29,49 @@ overriedDownload = ()->
 			, 300
 		Template.fsshWebmaill._overriedDownloadCount++
 
+
+searchEamil = (url, transferData)->
+	contentWindow = $("#fssh-webmail-iframe")[0].contentWindow
+	is_report = 0;
+	menuId = contentWindow.gModule.getActiveModuleInfo().menuId;
+	contentWindow.$.ajax
+		url: url + '?q=search.mail.do'
+		type: 'post'
+		data: transferData + '&is_report=' + is_report
+		dataType: 'json'
+		cache: false
+		success: (resp) ->
+			if 0 == resp._login
+				alert contentWindow.gCheck.getRestrictMessage(type: 'notLogin')
+				contentWindow.gModule.logout()
+			else if 0 == resp.res
+				if '' != resp.error
+					contentWindow.gMessage.showMessageMain resp.error, 'fail'
+				else
+					contentWindow.gMessage.showMessageMain L('search email error') + contentWindow.gCheck.getRestrictMessage(
+						type: 'dataError'
+						name: contentWindow.L('search email')), 'fail'
+				return false
+			data = resp.data
+			urlObj = new contentWindow.UrlControl
+			urlObj.setUrl '?fid=search&is_report=' + is_report
+			urlObj.addReplaceParam 'resid', data
+			contentWindow.gModule.loadModule
+				moduleName: 'listmail'
+				dk: listmail: urlObj.getUrl()
+				menuId: menuId
+			true
+		error: ->
+			contentWindow.gMessage.hideMessageTop()
+			contentWindow.gMessage.showMessageMain L('search email fail') + contentWindow.gCheck.getRestrictMessage(type: 'systemError'), 'fail'
+			false
+
+removeSearchDiv = ()->
+	setTimeout ()->
+		console.log('removeSearchDiv...');
+		$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
+	, 150
+
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
 	auth = AccountManager.getAuth();
@@ -53,6 +96,11 @@ Template.fsshWebmaill.onRendered ->
 		else
 			webmailIframe.show()
 
+			style = document.createElement('style');
+			style.type = 'text/css';
+			style.innerHTML="#steedosSearchDiv a{color:#333} #steedosSearchDiv a:hover{ background: #d54a4a; color: #fff;}";
+			webmailIframe.contents().find("HEAD")[0].appendChild(style);
+
 			uid = FlowRouter.current()?.queryParams?.uid;
 			if uid
 				readmail(uid)
@@ -70,8 +118,47 @@ Template.fsshWebmaill.onRendered ->
 				url = clickStr.substring(clickStr.indexOf('\'') + 3, clickStr.lastIndexOf('\''))
 				console.log('url----', url);
 				url = new URI(url, event.target.baseURI)
-				Steedos.downLoadConfirm(url, fileName)
+				domainUrl = Meteor.settings.public.fsshWebMailURL
+				Steedos.downLoadConfirm(url, fileName, domainUrl)
 
+			#添加搜索函数
+			$("#fssh-webmail-iframe")[0].contentWindow.steedosCallSearch = searchEamil
+
+			console.log('添加发件人事件');
+
+			webmailIframe.contents().find('#container').on 'click', '.cur', (event, t)->
+				event.stopPropagation();
+#				removeSearchDiv()
+				searchDiv = document.createElement("div")
+				searchDiv.id = 'steedosSearchDiv'
+
+				searchDivA = document.createElement("a")
+				searchDivA.textContent = "按发件人搜索"
+
+				firstElementChild = $(event.target.parentNode.firstElementChild)
+
+				searchDiv.style = "width:#{firstElementChild.width() - 2}px;cursor: pointer;border: 1px solid #828282;border-top:0px;color:#333333;top: #{firstElementChild.offset().top + 16 + 40}px;position: absolute; z-index: 999999999; left: #{firstElementChild.offset().left}px;background:#ffffff;box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px;padding: 6px 0px;font-family: Verdana,Arial,Helvetica,sans-serif;"
+				searchDivA.style = "white-space: nowrap;display: block;height: 26px;line-height: 26px;text-decoration: none;padding: 0 22px;font-size: 12px;"
+				searchDiv.appendChild(searchDivA)
+
+				lxrIframe = $("iframe", event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode)[2].contentWindow
+				lxrIframe.removeEventListener('blur', removeSearchDiv)
+				lxrIframe.addEventListener('blur', removeSearchDiv)
+				event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(searchDiv)
+
+			webmailIframe.contents().find('#container').on 'click', '#steedosSearchDiv', (event, t)->
+				event.stopPropagation();
+				s = event.target.parentElement
+				if event.target.tagName == 'A'
+					s = event.target.parentElement.parentElement
+
+				senderText = $(".cur", s)[0].parentElement.firstElementChild.textContent
+				senderMail = senderText.substring(senderText.lastIndexOf("<") + 1, senderText.lastIndexOf(">"))
+				console.log('搜索', senderMail)
+				$("#fssh-webmail-iframe")[0].contentWindow.steedosCallSearch '/user/',
+					"area_subject=&area_content=&area_from=#{encodeURIComponent(senderMail)}&area_to=&area_attach=&folder=0&duration_date=90&is_mail_scope=0"
+
+				removeSearchDiv()
 
 Template.fsshWebmaill.helpers
 	webMailURL: ()->
