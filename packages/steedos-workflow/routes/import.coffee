@@ -56,7 +56,7 @@ JsonRoutes.add "post", "/api/workflow/import/form", (req, res, next) ->
 						res.statusCode = 200;
 					catch e
 						console.error e
-						msg = e
+						msg = e.reason
 						res.statusCode = 500;
 					res.end(msg)
 					return
