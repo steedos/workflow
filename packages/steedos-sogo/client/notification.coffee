@@ -35,12 +35,10 @@ SogoNotification.send = (data) ->
 	unseenCount = data.unseenCount
 	unless unseenCount
 		return
-	account = AccountManager._auth
-	unless account
+	auth = AccountManager.getAuth()
+	unless auth
 		return
-	# https://mail.steedos.cn/SOGo/so/yinlianghui@steedos.cn/Mail/view#!/Mail/0/INBOX/5
-	sogoWebURL = Meteor.settings.public?.sogoWebURL
-	inboxPath = "#{sogoWebURL}/so/#{account.user}/Mail/view#!/Mail/0/INBOX/"
+	inboxPath = "/sogo?uid="
 	if unseenCount > 1
 		title = '新邮件'
 		body = '您有' + unseenCount + '封新邮件'
@@ -62,8 +60,7 @@ SogoNotification.send = (data) ->
 		timeout: SogoNotification._timeout
 
 	options.onclick = ->
-		# var domainsArr = FlowRouter._current.path.split("/");
-		# FlowRouter.go openUrl
+		FlowRouter.go openUrl
 
 	$.notification options
 	# 任务栏高亮显示

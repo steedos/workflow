@@ -1,17 +1,3 @@
-Template.sogoWeb._readmailCount = 0;
-
-readmail  = (uid)->
-	console.log('readmail.....');
-	if $("#sogo-web-iframe")[0].contentWindow.O && $("#sogo-web-iframe")[0].contentWindow.O('listmail_1').readMail
-		Template.sogoWeb._readmailCount = 0;
-		$("#sogo-web-iframe")[0].contentWindow.O('listmail_1').readMail(uid,'readmail', 'time.1',1)
-	else 
-		if Template.sogoWeb._readmailCount < 200
-			Meteor.setTimeout ()->
-				readmail(uid)
-			, 300
-		Template.sogoWeb._readmailCount++
-
 Template.sogoWeb.onRendered ->
 	console.log('sogoWeb.onRendered');
 	unless Steedos.isNode()
@@ -51,10 +37,14 @@ Template.sogoWeb.onRendered ->
 		else
 			webIframe[0].contentWindow.isSteedosNode = Steedos.isNode()
 			webIframe.show()
-			# uid = FlowRouter.current()?.queryParams?.uid;
-			# if uid
-			# 	readmail(uid)
-
+			
+			uid = FlowRouter.current()?.queryParams?.uid
+			if uid
+				# https://mail.steedos.cn/SOGo/so/yinlianghui@steedos.cn/Mail/view#!/Mail/0/INBOX/5
+				sogoWebURL = Meteor.settings.public?.sogoWebURL
+				inboxPath = "#{sogoWebURL}/so/#{auth.user}/Mail/view#!/Mail/0/INBOX/"
+				webIframe.attr "src", inboxPath
+			
 			# 弹出选人控件
 			webIframe.contents().find("body").on 'click', '.btn-open-contacts', (event)->
 				Modal.show("contacts_modal", { target: event.target });
