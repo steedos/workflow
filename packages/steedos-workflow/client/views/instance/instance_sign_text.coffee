@@ -22,3 +22,7 @@ Template.instanceSignText.onCreated ()->
 	self = this
 	myApprove = InstanceManager.getCurrentApprove()
 	self.myApprove = new ReactiveVar(myApprove)
+
+	self.autorun ->
+		myApprove = InstanceManager.getCurrentApprove()
+		self.myApprove.set(myApprove)
