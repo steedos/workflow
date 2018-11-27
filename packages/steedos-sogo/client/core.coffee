@@ -14,7 +14,7 @@ Meteor.startup ->
 		if Steedos.isNode()
 			sogoWebURL = Meteor.settings.public?.sogoWebURL
 			tokenKey = 'XSRF-TOKEN'
-			intervalSeconds = 10 * 1 * 1000 
+			intervalSeconds = 10 * 60 * 1000 
 			Meteor.setInterval ()->
 				console.log "========Meteor.setInterval=======sogo=fetch=mails===="
 				chrome.cookies.get {name:tokenKey, url:sogoWebURL}, (token)->
