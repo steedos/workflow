@@ -59,6 +59,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/mail_account.coffee', 'client');
 	
 	api.addFiles('client/admin_menu.coffee', 'client');
+	
+	api.addFiles('server/routes/notification.coffee', 'server');
 });
 
 Package.onTest(function(api) {
