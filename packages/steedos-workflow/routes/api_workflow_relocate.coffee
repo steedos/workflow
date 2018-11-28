@@ -55,6 +55,33 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 							traces[i].approves[h].judge = "terminated"
 							traces[i].approves[h].cost_time = traces[i].approves[h].finish_date - traces[i].approves[h].start_date
 
+							# begin 被重定位给A，再被重定位走，之前A的意见在意见栏中显示不出来了。 #1921
+							if traces[i].approves[h].sign_show == true
+								ta = traces[i].approves[h]
+								sameTraces = _.filter traces, (t)->
+									return t.step == traces[i].step
+
+								l = sameTraces.length - 1
+								signShowApproveId = null
+
+								while l > -1
+									_.each sameTraces[l].approves, (a)->
+										if a.user == ta.user && a.judge != "terminated" && a.description && !signShowApproveId
+											signShowApproveId = a._id
+									l--
+
+								if signShowApproveId
+									ti = 0
+									while ti < traces.length
+										ah = 0
+										while ah < traces[ti].approves.length
+											if traces[ti].approves[ah]._id == signShowApproveId
+												traces[ti].approves[ah].sign_show = true
+												traces[i].approves[h].sign_show = false
+											ah++
+										ti++
+							# end 被重定位给A，再被重定位走，之前A的意见在意见栏中显示不出来了。 #1921
+
 						h++
 
 					# 在同一trace下插入重定位操作者的approve记录
