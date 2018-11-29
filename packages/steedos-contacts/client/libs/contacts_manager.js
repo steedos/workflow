@@ -14,9 +14,12 @@ ContactsManager.is_within_user_organizations = function () {
 	return is_within_user_organizations
 }
 
-ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disableContactsLimit) {
 	var orgs,
 		myContactsLimit = Steedos.my_contacts_limit;
+	if(disableContactsLimit){
+		myContactsLimit = null;
+	}
 	if (node.id == '#')
 		if(myContactsLimit && myContactsLimit.isLimit){
 			var uOrgs = db.organizations.find({space: Session.get("spaceId"), users: Meteor.userId()}).fetch();
