@@ -24,7 +24,7 @@ db.mail_accounts._simpleSchema = new SimpleSchema
 		type: String,
 		autoform:
 			defaultValue: ->
-				return Meteor.user().emails[0]?.address
+				return Meteor.user().emails?[0]?.address
 	password:
 		type: String,
 		autoform:

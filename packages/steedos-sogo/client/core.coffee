@@ -10,6 +10,7 @@ Meteor.startup ->
 				else
 					toastr.error error
 
+	# 邮件通知，定时请求接口后弹出通知，后面改为邮件服务器主动推送方案了，如果不能成功再还原下面的代码
 	# if Meteor.isClient
 	# 	if Steedos.isNode()
 	# 		sogoWebURL = Meteor.settings.public?.sogoWebURL
