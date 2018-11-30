@@ -42,7 +42,7 @@ Template.sogoWeb.onRendered ->
 			if uid
 				# https://mail.steedos.cn/SOGo/so/yinlianghui@steedos.cn/Mail/view#!/Mail/0/INBOX/5
 				sogoWebURL = Meteor.settings.public?.sogoWebURL
-				inboxPath = "#{sogoWebURL}/so/#{auth.user}/Mail/view#!/Mail/0/INBOX/"
+				inboxPath = "#{sogoWebURL}/so/#{auth.user}/Mail/view#!/Mail/0/INBOX/#{uid}"
 				webIframe.attr "src", inboxPath
 			
 			# 弹出选人控件
