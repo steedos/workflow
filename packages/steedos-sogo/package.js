@@ -6,8 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
+	"emailjs-mime-codec": "2.0.8"
 });
-
 
 Package.onUse(function(api) {
 
