@@ -2,6 +2,7 @@ MimeCodec = require('emailjs-mime-codec');
 
 JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 	try
+		console.log "/api/sogo/notify==", req.body
 		userMail = req.body.user
 		unless userMail
 			return
@@ -34,6 +35,11 @@ JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 		notification['text'] = text
 
 		payload = new Object
+		payload["app"] = "sogo"
+		payload["event"] = mailBody.event
+		payload["folder"] = mailBody.folder
+		payload["imap-uidvalidity"] = mailBody["imap-uidvalidity"]
+		payload["imap-uid"] = mailBody["imap-uid"]
 		payload["host"] = Meteor.absoluteUrl().substr(0, Meteor.absoluteUrl().length-1)
 		notification["payload"] = payload
 
@@ -41,6 +47,7 @@ JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 			notification['badge'] = req.body.unseen
 			
 		notification['query'] = {userId: mailAccount.owner, appName: appName}
+		console.log "/api/sogo/notify=notification=", notification
 		Push.send(notification)
 	catch e
 		console.error e.stack
