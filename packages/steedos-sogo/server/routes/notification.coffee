@@ -2,7 +2,6 @@ MimeCodec = require('emailjs-mime-codec');
 
 JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 	try
-		console.log "/api/sogo/notify==", req.body
 		userMail = req.body.user
 		unless userMail
 			return
@@ -47,7 +46,6 @@ JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 			notification['badge'] = req.body.unseen
 			
 		notification['query'] = {userId: mailAccount.owner, appName: appName}
-		console.log "/api/sogo/notify=notification=", notification
 		Push.send(notification)
 	catch e
 		console.error e.stack
