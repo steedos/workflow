@@ -222,6 +222,11 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/history_sign_approve.coffee', 'client');
 	api.addFiles('client/views/instance/history_sign_approve.less', 'client');
 
+
+	api.addFiles('client/views/instance/pick_approve_users.less', 'client');
+	api.addFiles('client/views/instance/pick_approve_users.html', 'client');
+	api.addFiles('client/views/instance/pick_approve_users.coffee', 'client');
+
 	api.addFiles('client/views/list/flow_list_box.html', 'client');
 	api.addFiles('client/views/list/flow_list_box.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_box.less', 'client');
@@ -352,6 +357,7 @@ Package.onUse(function(api) {
 	// api.addFiles('plugins/flow_copy_action.coffee', 'client');
 	// api.addFiles('plugins/flow_export_template_action.coffee', 'client');
 
+	api.addFiles('server/methods/set_instance_step_approve.coffee', 'server');
 	//add server file
 	api.addFiles('server/methods/get_instance_data.js', 'server');
 	api.addFiles('server/methods/save_instance.js', 'server');
