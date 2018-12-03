@@ -163,6 +163,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/admin/settings_no_force_phone_modal.html', 'client');
 	api.addFiles('client/admin/settings_no_force_phone_modal.coffee', 'client');
 
+	api.addFiles('client/views/contact_modal.html', 'client');
+	api.addFiles('client/views/contact_modal.coffee', 'client');
+	api.addFiles('client/views/contact_modal.less', 'client');
+
 	api.addFiles('client/admin-menu.coffee', 'client');
 
 	api.addFiles('steedos_books_tabular.coffee');

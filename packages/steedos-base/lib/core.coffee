@@ -172,9 +172,13 @@ if Meteor.isClient
 		app = db.apps.findOne(app_id)
 
 		if !app.is_new_window && !Steedos.isMobile() && !Steedos.isCordova()
-			window.location = url
+			reg = /^http(s?):\/\/\w+/;
+			if reg.test(app.url)
+				window.location = url
+			else
+				FlowRouter.go(app.url)
 		else
-			Steedos.openWindow(url);
+			Steedos.openWindow(url)
 
 	Steedos.openUrlWithIE = (url)->
 		if url

@@ -1680,3 +1680,14 @@ InstanceManager.getDistributeStep = function() {
 	}
 	return step;
 }
+InstanceManager.pickApproveSteps = function () {
+	var steps = WorkflowManager.getInstanceSteps()
+
+	var apporve_stesp = _.filter(steps, function(s){
+			return s.allow_pick_approve_users && ["sign", "submit", "counterSign"].includes(s.step_type)
+		}
+	);
+
+	return apporve_stesp;
+}
+

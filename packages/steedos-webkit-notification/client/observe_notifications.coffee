@@ -43,6 +43,19 @@ Meteor.startup ->
                             Steedos.openWindow(event_url,"_self");    
                         else
                             Steedos.openWindow(event_url,"_self"); 
+                    else if event.target.payload.app == "sogo"
+                        uid = event.target.payload["imap-uid"]
+                        sogo_url = "/sogo?uid="
+                        if uid
+                            sogo_url += uid
+                        if Steedos.isNode() 
+                            win = nw.Window.get();
+                            if win
+                                win.restore();
+                                win.focus();
+                            FlowRouter.go(sogo_url); 
+                        else
+                            FlowRouter.go(sogo_url); 
                     else
                         # box = event.target.payload.box || "inbox"
                         # inbox、outbox、draft、pending、completed、monitor

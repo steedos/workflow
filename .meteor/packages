@@ -129,6 +129,7 @@ steedos:contacts
 # steedos:portal
 steedos:desktop
 # steedos:fssh
+# steedos:fssh-webmail
 
 
 
@@ -197,3 +198,6 @@ steedos:heapdump
 # steedos:app-workflow
 # meteorhacks:kadira-profiler
 # kadira:debug
+
+steedos:mailbase
+steedos:sogo

@@ -1271,8 +1271,6 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 						instance_traces[i].approves[h].is_finished = true
 						instance_traces[i].approves[h].finish_date = new Date
 						instance_traces[i].approves[h].cost_time = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
-						if (step.oneClickApproval and ['approved','readed'].includes(judge)) or (step.oneClickRejection and 'rejected' is judge)
-							instance_traces[i].approves[h].judge = judge
 
 					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
 						isAllApproveFinished = false
@@ -1592,6 +1590,9 @@ uuflowManager.ins_html = (current_user_info, ins) ->
 
 	return instanceHtml
 
+uuflowManager.getFlowCompanyId = (flowId)->
+	return db.flows.findOne(flowId, { fields: { company_id: 1 } })?.company_id
+
 uuflowManager.create_instance = (instance_from_client, user_info) ->
 	space_id = instance_from_client["space"]
 	flow_id = instance_from_client["flow"]
@@ -1651,6 +1652,10 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
 	ins_obj.values = new Object
+
+	companyId = uuflowManager.getFlowCompanyId(flow_id)
+	if companyId
+		ins_obj.company_id = companyId
 
 	# 新建Trace
 	trace_obj = {}
