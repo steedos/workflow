@@ -2,6 +2,7 @@ MimeCodec = require('emailjs-mime-codec');
 
 JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 	try
+		# console.log '/api/sogo/notify==req.body===', req.body
 		userMail = req.body.user
 		unless userMail
 			return
@@ -18,7 +19,14 @@ JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 		fromName = strFroms[0]
 		fromName = MimeCodec.mimeWordDecode strFroms[0]
 		fromEmail = strFroms[1]
-		title = fromName + " " + fromEmail
+		title = ""
+		if fromName
+			title += fromName
+		if fromEmail
+			if fromName
+				title += " " + fromEmail
+			else
+				title += fromEmail
 
 		text = MimeCodec.mimeWordDecode mailBody.subject
 		unless text
@@ -46,6 +54,7 @@ JsonRoutes.add 'put', '/api/sogo/notify', (req, res, next) ->
 			notification['badge'] = req.body.unseen
 			
 		notification['query'] = {userId: mailAccount.owner, appName: appName}
+		# console.log '/api/sogo/notify==req.body==send=', notification
 		Push.send(notification)
 	catch e
 		console.error e.stack
