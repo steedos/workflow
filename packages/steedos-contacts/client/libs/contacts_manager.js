@@ -43,6 +43,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disa
 			orgs = ContactsManager.getOrganizationsByIds(_ids);
 			if (orgs.length > 0) {
 				orgs[0].open = true
+				orgs[0].select = true;
 			}
 		}else{
 			orgs = ContactsManager.getRoot();
@@ -66,6 +67,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disa
 					orgs.unshift(userMainOrg)
 				}
 			}
+			orgs[0].select = true;
 		}
 	else
 		orgs = ContactsManager.getChild(node.id, showCompanyOnly);
@@ -123,7 +125,10 @@ function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 			if(!showUserMainOrg){
                 node.state = {
                     opened: true
-                };
+				};
+                if (org.select) {
+                	node.state.selected = true;
+                }
 			}
             node.icon = 'fa fa-sitemap';
 		}
@@ -131,7 +136,10 @@ function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 		if(org._mainorg){
             node.state = {
                 opened: true
-            };
+			};
+            if (org.select) {
+            	node.state.selected = true;
+            }
             node.icon = 'fa fa-sitemap';
             Session.set("contacts_orgId", org._id);
             node.id = 'userMainOrg_' + node.id
