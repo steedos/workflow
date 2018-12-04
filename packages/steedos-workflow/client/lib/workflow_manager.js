@@ -974,3 +974,12 @@ WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
 	return hasPermission;
 
 }
+
+WorkflowManager.alertFlowListModel = function(){
+	if (Meteor.settings.public && Meteor.settings.public.is_group_company){
+		Modal.show("flow_list_box_org_modal")
+	}
+	else{
+		Modal.show("flow_list_box_modal")
+	}
+}

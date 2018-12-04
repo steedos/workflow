@@ -395,7 +395,7 @@ Template.instance_list.events
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
 
-		Modal.show("flow_list_box_modal")
+		WorkflowManager.alertFlowListModel()
 
 	'click [name="show_flows_btn"]': (event) ->
 		Modal.show('flow_list_modal')
