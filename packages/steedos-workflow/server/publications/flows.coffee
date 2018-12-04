@@ -15,7 +15,8 @@ Meteor.publish 'flows', (spaceId)->
 			form: 1,
 			state: 1,
 			perms: 1,
-			space: 1
+			space: 1,
+			company_id: 1
 		}
 	})
 
@@ -74,7 +75,8 @@ Meteor.publish 'distribute_optional_flows', (flow_ids)->
 			space: 1,
 			distribute_optional_users: 1,
 			distribute_to_self: 1,
-			distribute_end_notification: 1
+			distribute_end_notification: 1,
+			company_id: 1
 		}
 	})
 
@@ -97,7 +99,8 @@ Meteor.publish 'flow', (spaceId, flowId)->
 			distribute_optional_users: 1,
 			distribute_to_self: 1,
 			upload_after_being_distributed: 1,
-			distribute_end_notification: 1
+			distribute_end_notification: 1,
+			company_id: 1
 		}
 	})
 

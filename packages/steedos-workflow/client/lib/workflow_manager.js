@@ -552,6 +552,16 @@ WorkflowManager.getFormFlows = function(formId) {
 	}).fetch();
 };
 
+WorkflowManager.getCompanyFlows = function (companyId, space_id) {
+	var spaceId = space_id ? space_id : Session.get('spaceId');
+
+	return db.flows.find({
+		space: spaceId,
+		company_id: companyId,
+		state: "enabled"
+	}).fetch();
+};
+
 WorkflowManager.getSpaceFlows = function(spaceId) {
 
 	return db.flows.find({
@@ -668,6 +678,66 @@ WorkflowManager.getMyCanAddFlows = function() {
 		}
 	})
 	return flow_ids;
+};
+
+WorkflowManager.getCompanyFlowListData = function (company_id, show_type, space_id) {
+	if(!company_id){
+		console.error("WorkflowManager.getCompanyFlowListData 未传入company_id");
+		return [];
+	}
+	var spaceId = space_id ? space_id : Session.get('spaceId');
+
+	var curUserId = Meteor.userId();
+	var curSpaceUser = db.space_users.findOne({
+		space: spaceId,
+		'user': curUserId
+	});
+	var organizations = db.organizations.find({
+		_id: {
+			$in: curSpaceUser.organizations
+		}
+	}).fetch();
+
+	var re = {};
+	var distribute_optional_flows = [];
+	if (show_type == "distribute") {
+		// 如果设置了当前步骤可以分发的流程范围则使用此范围
+		var current_step = InstanceManager.getDistributeStep();
+		if (current_step && current_step.allowDistribute == true) {
+			distribute_optional_flows = current_step.distribute_optional_flows || [];
+		}
+	}
+
+	if (distribute_optional_flows.length > 0) {
+		re.distribute_optional_flows = db.flows.find({
+			_id: {
+				$in: distribute_optional_flows
+			},
+			company_id: company_id,
+			state: "enabled"
+		}).fetch();
+	} else {
+		var isSpaceAdmin = Steedos.isSpaceAdmin();
+		var flows = WorkflowManager.getCompanyFlows(company_id, space_id);
+		debugger
+		// flows.sortByName();
+		re.flows = new Array();
+		flows.forEach(function (fl) {
+			if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
+				re.flows.push(fl);
+			} else if (show_type == 'show') {
+				if (isSpaceAdmin) {
+					re.flows.push(fl);
+				} else if (WorkflowManager.canMonitor(fl, curSpaceUser, organizations)) {
+					re.flows.push(fl);
+				} else if (WorkflowManager.canAdmin(fl, curSpaceUser, organizations)) {
+					re.flows.push(fl);
+				}
+			}
+		});
+	}
+
+	return re;
 };
 
 WorkflowManager.getFlowListData = function(show_type, space_id) {

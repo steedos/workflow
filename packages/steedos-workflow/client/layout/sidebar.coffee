@@ -118,7 +118,8 @@ Template.workflowSidebar.events
 			toastr.error(t("spaces_isarrearageSpace"))
 			return;
 
-		Modal.show("flow_list_box_modal")
+		# Modal.show("flow_list_box_modal")
+		Modal.show("flow_list_box_org_modal")
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"

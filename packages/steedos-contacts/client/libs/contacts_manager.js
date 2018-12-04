@@ -14,9 +14,12 @@ ContactsManager.is_within_user_organizations = function () {
 	return is_within_user_organizations
 }
 
-ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disableContactsLimit) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disableContactsLimit, showCompanyOnly) {
 	var orgs,
 		myContactsLimit = Steedos.my_contacts_limit;
+	if(showCompanyOnly){
+		myContactsLimit = null;
+	}
 	if(disableContactsLimit){
 		myContactsLimit = null;
 	}
@@ -65,7 +68,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disa
 			}
 		}
 	else
-		orgs = ContactsManager.getChild(node.id);
+		orgs = ContactsManager.getChild(node.id, showCompanyOnly);
 	return handerOrg(orgs, node.id, showHiddenOrg, showUserMainOrg);
 }
 
@@ -220,9 +223,12 @@ ContactsManager.getOrganizationsByIds = function(ids) {
 	return childs;
 }
 
-ContactsManager.getChild = function(parentId) {
+ContactsManager.getChild = function(parentId, showCompanyOnly) {
 	var query = {
 		parent: parentId
+	}
+	if (showCompanyOnly){
+		query.is_company = true
 	}
 
 	var childs = SteedosDataManager.organizationRemote.find(query, {

@@ -1,0 +1,27 @@
+<template name="flow_list_box_org_modal">
+<div class="modal fade flow-list-box-org-modal cf_contact_modal" id="flow_list_box_org_modal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content ins-modal">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">填写表单</h4>
+				</div>
+				<div class="modal-body contacts-main contacts-show">
+					{{#if subsReady}}
+						<div class="contacts-list-wrapper">
+							{{>Template.dynamic template="contacts_tree" data=contactsTreeData}}
+						</div>
+						<div class="contacts-wrapper" style='overflow-y:auto'>
+							{{> flow_list_box_org}}
+						</div>
+					{{else}}
+						<div class="loading">
+							{{> steedosLoading}}
+						</div>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

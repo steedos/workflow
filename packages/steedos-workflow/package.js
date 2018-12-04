@@ -234,6 +234,14 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_box_modal.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_modal.coffee', 'client');
 
+	api.addFiles('client/views/list/flow_list_box_org.html', 'client');
+	api.addFiles('client/views/list/flow_list_box_org.coffee', 'client');
+	api.addFiles('client/views/list/flow_list_box_org.less', 'client');
+
+	api.addFiles('client/views/list/flow_list_box_org_modal.html', 'client');
+	api.addFiles('client/views/list/flow_list_box_org_modal.coffee', 'client');
+	api.addFiles('client/views/list/flow_list_box_org_modal.less', 'client');
+
 	api.addFiles('client/views/list/forward_select_flow_modal.less', 'client');
 	api.addFiles('client/views/list/forward_select_flow_modal.html', 'client');
 	api.addFiles('client/views/list/forward_select_flow_modal.js', 'client');

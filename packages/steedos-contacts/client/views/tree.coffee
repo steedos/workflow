@@ -4,7 +4,9 @@ Template.contacts_tree.helpers
 Template.contacts_tree.onRendered ->
 
   showUserMainOrg = true
-
+  showCompanyOnly = this.data?.showCompanyOnly
+  if showCompanyOnly
+    showUserMainOrg = false
   $(document.body).addClass('loading');
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
@@ -28,24 +30,25 @@ Template.contacts_tree.onRendered ->
                     if contacts_orgId.split("userMainOrg_").length > 1
                       contacts_orgId = contacts_orgId.split("userMainOrg_")[1]
                   Session.set("contacts_orgId", contacts_orgId);
-                  cb(ContactsManager.getOrgNode(node, '', showUserMainOrg, true));
+                  cb(ContactsManager.getOrgNode(node, '', showUserMainOrg, true, showCompanyOnly));
                       
             plugins: ["wholerow", "search"]
-  this.autorun ()->
-    if Steedos.subsSpace.ready("address_groups")
-      $("#books_tree").on('changed.jstree', (e, data) ->
-            if data.selected.length
-              Session.set("contact_showBooks", true)
-              Session.set("contacts_groupId", data.selected[0]);
-            return
-          ).jstree
-                core: 
-                    themes: { "stripes" : true },
-                    data:  (node, cb) ->
-                      Session.set("contacts_groupId", node.id);
-                      cb(ContactsManager.getBookNode(node));
-                          
-                plugins: ["wholerow", "search"]
+  unless showCompanyOnly
+    this.autorun ()->
+      if Steedos.subsSpace.ready("address_groups")
+        $("#books_tree").on('changed.jstree', (e, data) ->
+              if data.selected.length
+                Session.set("contact_showBooks", true)
+                Session.set("contacts_groupId", data.selected[0]);
+              return
+            ).jstree
+                  core: 
+                      themes: { "stripes" : true },
+                      data:  (node, cb) ->
+                        Session.set("contacts_groupId", node.id);
+                        cb(ContactsManager.getBookNode(node));
+                            
+                  plugins: ["wholerow", "search"]
 
   $(document.body).removeClass('loading');
 
