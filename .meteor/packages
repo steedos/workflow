@@ -121,7 +121,6 @@ steedos:portal
 steedos:desktop
 steedos:fssh
 
-
 # must place at last
 matb33:collection-hooks
 
@@ -164,3 +163,4 @@ steedos:huaweipush
 steedos:e164-phones-countries
 steedos:i18n-iso-countries
 
+steedos:mailbase

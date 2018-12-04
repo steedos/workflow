@@ -28,7 +28,6 @@ Package.onUse(function(api) {
 	api.use('templating');
 	api.use('modules');
 	api.use('npm-bcrypt');
-	api.use('steedos:lib');
 	api.use('steedos:base');
 	api.use('steedos:ui');
 	api.use('steedos:contacts');
@@ -50,7 +49,9 @@ Package.onUse(function(api) {
 	
 	api.addFiles('client/subcribe.coffee', 'client');
 	
-	api.addFiles('client/libs/account_manager.js', 'client')
+	api.addFiles('client/libs/account_manager.js', 'client');
+	api.addFiles('client/libs/localhost_data.coffee', 'client');
+	api.addFiles('client/libs/steedos-file.coffee', 'client');
 
 	api.addFiles('lib/core.coffee', ['client', 'server']);
 	api.addFiles('lib/models/mail_accounts.coffee', ['client', 'server']);

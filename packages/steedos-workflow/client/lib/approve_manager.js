@@ -175,6 +175,11 @@ ApproveManager.getNextStepUsers = function(instance, nextStepId) {
     if (!nextStep)
         return;
 
+    if(instance.step_approve && instance.step_approve[nextStepId]){
+		Session.set("next_step_users_showOrg", false); //如果有指定处理人,则不能选择其他人
+        return WorkflowManager.getUsers(instance.step_approve[nextStepId])
+    }
+
     var applicantId = InstanceManager.getApplicantUserId();
 
     Session.set("next_step_users_showOrg", false);

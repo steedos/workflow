@@ -111,6 +111,10 @@ Template.instance_view.helpers
 
 		return true
 
+	showPickApproveUsers: ()->
+		steps = InstanceManager.pickApproveSteps();
+		return steps.length > 0
+
 Template.instance_view.onCreated ->
 	Form_formula.initFormScripts()
 	Session.set("instance_submitting", false);

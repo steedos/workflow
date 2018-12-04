@@ -6,8 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
+	"emailjs-mime-codec": "2.0.8"
 });
-
 
 Package.onUse(function(api) {
 
@@ -28,7 +28,6 @@ Package.onUse(function(api) {
     api.use('templating');
     api.use('modules');
     api.use('npm-bcrypt');
-    api.use('steedos:lib');
     api.use('steedos:base');
     api.use('steedos:ui');
     api.use('steedos:contacts');
@@ -45,6 +44,8 @@ Package.onUse(function(api) {
 
 	api.use('steedos:mailbase@0.0.1');
 
+	api.addFiles('client/core.coffee', 'client');
+	api.addFiles('client/notification.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');
 
 	api.addFiles('client/layout/master.html', 'client');
@@ -58,6 +59,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/mail_account.coffee', 'client');
 	
 	api.addFiles('client/admin_menu.coffee', 'client');
+	
+	api.addFiles('server/routes/notification.coffee', 'server');
 });
 
 Package.onTest(function(api) {

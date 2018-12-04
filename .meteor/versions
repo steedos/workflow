@@ -151,7 +151,7 @@ steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
-steedos:autoform@0.0.14
+steedos:autoform@0.0.16
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
@@ -197,12 +197,14 @@ steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
+steedos:mailbase@0.0.1
 steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:portal@0.0.2
 steedos:qcloud-smsqueue@0.0.2
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.2
+steedos:sogo@0.0.1
 steedos:sso@0.0.4
 steedos:tableau@0.0.10
 steedos:theme@0.0.30

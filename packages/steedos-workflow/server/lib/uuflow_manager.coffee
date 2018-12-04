@@ -1590,6 +1590,9 @@ uuflowManager.ins_html = (current_user_info, ins) ->
 
 	return instanceHtml
 
+uuflowManager.getFlowCompanyId = (flowId)->
+	return db.flows.findOne(flowId, { fields: { company_id: 1 } })?.company_id
+
 uuflowManager.create_instance = (instance_from_client, user_info) ->
 	space_id = instance_from_client["space"]
 	flow_id = instance_from_client["flow"]
@@ -1649,6 +1652,10 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.modified = now
 	ins_obj.modified_by = user_id
 	ins_obj.values = new Object
+
+	companyId = uuflowManager.getFlowCompanyId(flow_id)
+	if companyId
+		ins_obj.company_id = companyId
 
 	# 新建Trace
 	trace_obj = {}

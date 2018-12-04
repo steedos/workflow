@@ -20,3 +20,4 @@ FlowRouter.route '/admin/mail_account',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "webMailAccount"
+
