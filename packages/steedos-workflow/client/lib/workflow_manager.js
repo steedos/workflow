@@ -681,6 +681,7 @@ WorkflowManager.getMyCanAddFlows = function() {
 };
 
 WorkflowManager.getCompanyFlowListData = function (company_id, show_type, space_id) {
+	console.log("WorkflowManager.getCompanyFlowListData =====");
 	if(!company_id){
 		console.error("WorkflowManager.getCompanyFlowListData 未传入company_id");
 		return [];
@@ -719,8 +720,7 @@ WorkflowManager.getCompanyFlowListData = function (company_id, show_type, space_
 	} else {
 		var isSpaceAdmin = Steedos.isSpaceAdmin();
 		var flows = WorkflowManager.getCompanyFlows(company_id, space_id);
-		debugger
-		// flows.sortByName();
+		flows.sortByName();
 		re.flows = new Array();
 		flows.forEach(function (fl) {
 			if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
