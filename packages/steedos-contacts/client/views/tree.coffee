@@ -29,7 +29,6 @@ Template.contacts_tree.onRendered ->
                   if showUserMainOrg
                     if contacts_orgId.split("userMainOrg_").length > 1
                       contacts_orgId = contacts_orgId.split("userMainOrg_")[1]
-                  Session.set("contacts_orgId", contacts_orgId);
                   cb(ContactsManager.getOrgNode(node, '', showUserMainOrg, true, showCompanyOnly));
                       
             plugins: ["wholerow", "search"]

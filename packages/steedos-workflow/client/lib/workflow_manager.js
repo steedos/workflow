@@ -681,7 +681,6 @@ WorkflowManager.getMyCanAddFlows = function() {
 };
 
 WorkflowManager.getCompanyFlowListData = function (company_id, show_type, space_id) {
-	console.log("WorkflowManager.getCompanyFlowListData =====");
 	if(!company_id){
 		console.error("WorkflowManager.getCompanyFlowListData 未传入company_id");
 		return [];
