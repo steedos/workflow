@@ -5,7 +5,7 @@ JsonRoutes.add 'get', '/api/workflow/instance/:instanceId', (req, res, next) ->
 
 		insId = req.params.instanceId
 
-		ins = db.instances.findOne(insId, { fields: { space: 1, flow: 1, state: 1, inbox_users: 1, cc_users: 1, outbox_users: 1 } })
+		ins = db.instances.findOne(insId, { fields: { space: 1, flow: 1, state: 1, inbox_users: 1, cc_users: 1, outbox_users: 1, submitter: 1, applicant: 1 } })
 
 		if not ins
 			throw new Meteor.Error('error', 'instanceId is wrong or instance not exists.')
@@ -22,8 +22,12 @@ JsonRoutes.add 'get', '/api/workflow/instance/:instanceId', (req, res, next) ->
 			box = 'inbox'
 		else if ins.outbox_users?.includes current_user_id
 			box = 'outbox'
-		else if ins.state is 'draft'
+		else if ins.state is 'draft' and ins.submitter is current_user_id
 			box = 'draft'
+		else if ins.state is 'pending' and (ins.submitter is current_user_id or ins.applicant is current_user_id)
+			box = 'pending'
+		else if ins.state is 'completed' and ins.submitter is current_user_id
+			box = 'completed'
 		else
 			# 验证login user_id对该流程有管理申请单的权限
 			permissions = permissionManager.getFlowPermissions(flowId, current_user_id)
