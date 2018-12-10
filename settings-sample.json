@@ -73,7 +73,9 @@
       "authorize_uri":"https://open.weixin.qq.com/connect/oauth2/authorize"
     },
     // SOGO网站地址，需要带后缀SOGo，否则切换用户时清除cookie功能会失效
-    "sogoWebURL": "https://192.168.0.92/SOGo/"
+    "sogoWebURL": "https://192.168.0.92/SOGo/",
+    // 集团版本，开放集团版本特有功能
+    "is_group_company": true
   },
   "push": {
     "aliyun": {
