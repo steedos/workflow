@@ -1,8 +1,8 @@
 Template.flow_list_box_org.helpers
 	flow_list_data: ->
-		contacts_orgId = Session.get("contacts_orgId")
-		if contacts_orgId
-			return WorkflowManager.getCompanyFlowListData(contacts_orgId)
+		flow_list_box_org_id = Session.get("flow_list_box_org_id")
+		if flow_list_box_org_id
+			return WorkflowManager.getCompanyFlowListData(flow_list_box_org_id)
 		else
 			return {}
 
