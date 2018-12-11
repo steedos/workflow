@@ -35,6 +35,7 @@ Package.onUse(function(api) {
     api.use('meteorhacks:ssr@2.2.0');
     api.use('meteorhacks:subs-manager');
 
+    api.use('steedos:mailbase@0.0.1');
 
 	api.addFiles('client/subcribe.coffee', 'client');
 	api.addFiles('client/router.coffee', 'client');

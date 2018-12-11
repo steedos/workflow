@@ -1,0 +1,193 @@
+.steedos-mail.steedos-contacts {
+    .modal-header {
+        border-bottom: 1px solid #d2d6de;
+    }
+    .modal-footer {
+        border-top: 1px solid #d2d6de;
+    }
+    .contacts-list-wrapper {
+        //width: 350px;
+        height: 100%;
+        right: 0;
+        left: 0;
+        float: left;
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow-y: hidden;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        border-right: 1px solid #d2d6de;
+        background: white;
+        .contacts-tree {
+            background-color: #fff;
+            overflow-y: auto;
+            height: 100% !important;
+            .box-solid {
+                height: 100%;
+                margin-bottom: 0px;
+            }
+            .box-body {
+                height: calc(~"100% - 0px");
+                overflow: auto;
+                padding: 0px;
+            }
+        }
+        .contacts-list {
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            top: 51px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            position: absolute;
+            background-color: white;
+            .contacts-name {
+                font-weight: bold
+            }
+            .contacts-modified {
+                padding-right: 10px;
+                float: right;
+            }
+            .contacts-applicant {
+                padding-left: 10px;
+            }
+        }
+        .navigation-title {
+            overflow: visible !important;
+        }
+        .dataTables_wrapper {
+            //border-top: 1px solid #d2d6de;
+            .dataTable {
+                background: white;
+                border-top: 0px;
+                margin-top: 0px !important;
+                thead {
+                    display: none
+                }
+            }
+            .dataTables_paginate {
+                padding-right: 10px;
+            }
+            .table>tbody>tr>td {
+                border-bottom: 1px solid #E8E8E8;
+                border-top: 0px;
+            }
+        }
+    }
+    .contacts-wrapper {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        width: 65%;
+        overflow: hidden; // overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        background-color: white;
+        .pull-right {
+            width: 250px;
+        }
+        .contacts-name {
+            font-weight: bold
+        }
+        .contacts-modified {
+            padding-right: 10px;
+            float: right;
+        }
+        .contacts-applicant {
+            padding-left: 10px;
+        }
+        .contacts {
+            //overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            padding: 0px;
+            height: 100%;
+            background-color: white; // .box-body{
+            //     overflow-y: scroll;
+            // }
+            .row {
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+            .contacts-suggestion.box {
+                //border-top: 0px;
+            }
+            .box {
+                height: 100%;
+                .box-body {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    overflow-y: auto;
+                    height: calc(~"100% - 50px");
+                }
+            }
+            .contacts-form .box-body,
+            .contacts-suggestion .box-body {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+        .navigation-bar {
+            height: 51px;
+        }
+    }
+    @media (min-width: 768px) {
+        .contacts-main {
+            .contacts-list-wrapper {
+                display: block;
+                right: 65%; //transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                left: 100%;
+                width: 65%;
+                transform: translate(0, 0);
+            }
+        }
+        .contacts-main.contacts-show {
+            .contacts-list-wrapper {
+                right: 65%;
+                transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                width: 65%;
+                left: 35%;
+                transition: 0.3s ease-in-out, width 0.3s ease-in-out;
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        .contacts-main {
+            .contacts-list-wrapper {
+                display: block;
+                width: 100%;
+                left: 0;
+                border-right: 0px;
+                transition: 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                left: 100%;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }
+        }
+        .contacts-main.contacts-show {
+            .contacts-list-wrapper {
+                //display: none;
+                left: -100%;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }
+            .contacts-wrapper {
+                left: 0;
+                width: 100%;
+                transition: 0.3s ease-in-out;
+            }
+        }
+    }
+    .modal-body {
+        padding: 0px;
+    }
+}
