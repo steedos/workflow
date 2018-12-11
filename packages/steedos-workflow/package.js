@@ -237,6 +237,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_box_org.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_org.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_box_org.less', 'client');
+	
+	api.addFiles('client/views/list/flow_list_box_org_tree.html', 'client');
+	api.addFiles('client/views/list/flow_list_box_org_tree.coffee', 'client');
 
 	api.addFiles('client/views/list/flow_list_box_org_modal.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_org_modal.coffee', 'client');
