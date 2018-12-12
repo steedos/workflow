@@ -46,6 +46,7 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 	api.use('steedos:cfs-aliyun');
 	api.use('steedos:cfs-s3');
+	api.use('steedos:workflow-base');
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('tap:i18n@1.7.0');
@@ -298,9 +299,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/flow/admin_categories.html', 'client');
 	api.addFiles('client/views/flow/admin_categories.coffee', 'client');
 
-	api.addFiles('client/views/list/admin_import_flow_modal.html', 'client');
-	api.addFiles('client/views/list/admin_import_flow_modal.coffee', 'client');
-
 	api.addFiles('client/views/list/admin_flow_modal.html', 'client');
 	api.addFiles('client/views/list/admin_flow_modal.coffee', 'client');
 
@@ -465,10 +463,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
 	// api.addFiles('server/err_stack.coffee', 'server');
 
-	api.addFiles('server/lib/export.coffee', 'server');
-	api.addFiles('routes/export.coffee', 'server');
-	api.addFiles('server/lib/import.coffee', 'server');
-	api.addFiles('routes/import.coffee', 'server');
+	// api.addFiles('server/lib/export.coffee', 'server');
+	// api.addFiles('routes/export.coffee', 'server');
+	// api.addFiles('server/lib/import.coffee', 'server');
+	// api.addFiles('routes/import.coffee', 'server');
 	// EJS
 	api.addAssets('server/ejs/export_instances.ejs', 'server');
 
@@ -507,7 +505,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/schedule/auto_finish_process_delegation.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'steedosExport', 'steedosImport', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
+	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 
 });
 
