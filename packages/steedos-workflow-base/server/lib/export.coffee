@@ -70,7 +70,7 @@ steedosExport.form = (formId, flowId, is_copy) ->
 
 		c_fields = form.current.fields
 
-		c_fields.forEach (f)->
+		c_fields?.forEach (f)->
 			if f.type == 'table'
 				console.log 'ignore table field'
 			else if f.type == 'section'

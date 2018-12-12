@@ -35,6 +35,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/admin_import_flow_modal.html', 'client');
 	api.addFiles('client/admin_import_flow_modal.coffee', 'client');
 
+	api.addFiles('server/methods/flow_copy.coffee', 'server');
+
 	api.addFiles('server/lib/export.coffee', 'server');
 	api.addFiles('routes/export.coffee', 'server');
 	api.addFiles('server/lib/import.coffee', 'server');
