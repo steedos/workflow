@@ -46,7 +46,7 @@ Package.onUse(function(api) {
 	api.use('kadira:flow-router@2.10.1');
 	api.use('steedos:cfs-aliyun');
 	api.use('steedos:cfs-s3');
-	api.use('steedos:workflow-base');
+	api.use('steedos:app-workflow@0.0.1');
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('tap:i18n@1.7.0');
@@ -238,7 +238,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/flow_list_box_org.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_org.coffee', 'client');
 	api.addFiles('client/views/list/flow_list_box_org.less', 'client');
-	
+
 	api.addFiles('client/views/list/flow_list_box_org_tree.html', 'client');
 	api.addFiles('client/views/list/flow_list_box_org_tree.coffee', 'client');
 

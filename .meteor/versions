@@ -152,6 +152,7 @@ steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
+steedos:app-workflow@0.0.1
 steedos:autoform@0.0.16
 steedos:autoform-bs-datetimepicker@1.0.6
 steedos:autoform-bs-minicolors@1.0.0
@@ -221,7 +222,6 @@ steedos:version@1.0.5
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
-steedos:workflow-base@0.0.1
 steedos:workflow-chart@0.0.1
 summernote:standalone@0.7.3
 summernote:summernote@0.8.2
