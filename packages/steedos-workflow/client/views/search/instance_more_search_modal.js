@@ -181,6 +181,7 @@ Template.instance_more_search_modal.events({
 		Modal.allowMultiple = true;
 		WorkflowManager.alertFlowListModel("flow_list_modal", {
 			title: t("workflow_export_filter"),
+			showType: "show",
 			callBack: function (options) {
 				if (options != null ? options.flow : void 0) {
 					Session.set("flowId", options.flow);

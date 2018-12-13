@@ -1,6 +1,7 @@
 Template.flow_list_modal.helpers
 	flow_list_data: ->
-		return WorkflowManager.getFlowListData('show');
+		showType = Template.instance().data?.showType
+		return WorkflowManager.getFlowListData(showType);
 
 	empty: (categorie)->
 		if !categorie.forms || categorie.forms.length < 1

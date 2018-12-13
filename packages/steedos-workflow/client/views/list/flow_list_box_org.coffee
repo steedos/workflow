@@ -1,8 +1,9 @@
 Template.flow_list_box_org.helpers
 	flow_list_data: ->
+		showType = Template.instance().data?.showType
 		orgId = Session.get("flow_list_box_org_id")
 		if orgId
-			return WorkflowManager.getCompanyFlowListData(orgId)
+			return WorkflowManager.getCompanyFlowListData(orgId, showType)
 		else
 			return {}
 

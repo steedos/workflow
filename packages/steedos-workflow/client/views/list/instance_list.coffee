@@ -404,6 +404,7 @@ Template.instance_list.events
 	'click [name="show_flows_btn"]': (event) ->
 		WorkflowManager.alertFlowListModel "flow_list_modal",
 			title: t("workflow_export_filter")
+			showType: "show"
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)
@@ -462,6 +463,7 @@ Template.instance_list.events
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
 		WorkflowManager.alertFlowListModel "flow_list_modal",
 			title: t("workflow_export_filter")
+			showType: "show"
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)
