@@ -25,6 +25,13 @@ Template.flow_list_modal.helpers
 
 		return "";
 
+	title: ()->
+        title = Template.instance().data?.title
+        if title
+            return title
+        else
+            return t "workflow_export_filter"
+
 
 Template.flow_list_modal.events
 
@@ -34,18 +41,22 @@ Template.flow_list_modal.events
 		categorie = event.currentTarget.parentElement.parentElement.id;
 		Modal.hide('flow_list_modal');
 
-		if template.data?.onSelected && _.isFunction(template.data.onSelected)
-			template.data.onSelected(flow, categorie)
-		else
-			if !flow
-				Session.set("flowId", undefined);
-			else
-				Session.set("flowId", flow);
+		
+		if template.data?.callBack && _.isFunction(template.data.callBack)
+			template.data.callBack flow:flow, categorie: categorie
 
-			if !categorie
-				Session.set("categorie_id", undefined);
-			else
-				Session.set("categorie_id", categorie);
+		# if template.data?.onSelected && _.isFunction(template.data.onSelected)
+		# 	template.data.onSelected(flow, categorie)
+		# else
+		# 	if !flow
+		# 		Session.set("flowId", undefined);
+		# 	else
+		# 		Session.set("flowId", flow);
+
+		# 	if !categorie
+		# 		Session.set("categorie_id", undefined);
+		# 	else
+		# 		Session.set("categorie_id", categorie);
 
 	'hide.bs.modal #flow_list_box': (event, template) ->
 		Modal.allowMultiple = false;

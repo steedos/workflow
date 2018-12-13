@@ -118,7 +118,11 @@ Template.workflowSidebar.events
 			toastr.error(t("spaces_isarrearageSpace"))
 			return;
 		
-		WorkflowManager.alertFlowListModel()
+		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+			title: t("Fill in form")
+			callBack: (options)->
+				if options?.flow
+					InstanceManager.newIns(options.flow)
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
