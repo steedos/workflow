@@ -1,6 +1,7 @@
 Template.flow_list_box.helpers
 	flow_list_data: ->
-		return WorkflowManager.getFlowListData();
+		showType = Template.instance().data?.showType
+		return WorkflowManager.getFlowListData(showType);
 
 	empty: (categorie)->
 		if !categorie.forms || categorie.forms.length < 1
@@ -28,21 +29,27 @@ Template.flow_list_box.helpers
 		if start_flows?.count() > 0
 			return true
 		return false;
+	
+	subtitle: ->
+		return Template.instance().data?.subTitle
+	
+	clearable: ->
+		return Template.instance().data?.clearable
 
 
 Template.flow_list_box.events
-
-	'click .flow_list_box .weui-cell__bd': (event) ->
-
-		flow = event.currentTarget.dataset.flow;
-
-		if !flow
+	'click .flow_list_box .weui-cell__bd': (event, template) ->
+		flow = event.currentTarget.dataset.flow
+		clearable = template.data?.clearable
+		console.log "flow===============", flow
+		console.log "clearable===============", clearable
+		console.log "!flow and !clearable===============", !flow and !clearable
+		if !flow and !clearable
 			return;
-
 		Modal.hide('flow_list_box_modal');
-
-		InstanceManager.newIns(flow);
-
+		categorie = event.currentTarget.parentElement?.parentElement?.id;
+		if template.data?.callBack && _.isFunction(template.data.callBack)
+			template.data.callBack flow:flow, categorie: categorie
 		if Steedos.isMobile()
 			# 手机上可能菜单展开了，需要额外收起来
 			$("body").removeClass("sidebar-open")

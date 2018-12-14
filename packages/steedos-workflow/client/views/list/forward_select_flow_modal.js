@@ -128,17 +128,33 @@ Template.forward_select_flow_modal.events({
 
 	'click #forward_flow': function(event, template) {
 		Modal.allowMultiple = true;
-		Modal.show("selectFlowModal", {
-			onSelectFlow: function(flow) {
+		WorkflowManager.alertFlowListModel("flow_list_box_modal", {
+			title: t("Select a flow"),
+			showType: template.data.action_type,
+			callBack: function (options) {
+				var flow = options && options.flow;
+				var flow = db.flows.findOne({
+					_id: flow
+				}, {
+					fields: {
+						_id: 1,
+						name: 1,
+						space: 1,
+						distribute_optional_users: 1,
+						distribute_to_self: 1,
+						distribute_end_notification: 1
+					}
+				});
+				if (!flow) {
+					return
+				}
 				var forward_select_user = $("#forward_select_user")[0];
-
 				// 切换了space
 				if (Session.get('forward_space_id') != flow.space) {
 					Session.set('forward_space_id', flow.space);
 					if (forward_select_user)
 						forward_select_user.dataset.spaceId = flow.space;
 				}
-
 				// 切换了流程
 				if ($("#forward_flow")[0].dataset.flow != flow._id) {
 					$("#forward_flow")[0].dataset.flow = flow._id;
@@ -161,19 +177,16 @@ Template.forward_select_flow_modal.events({
 							delete forward_select_user.dataset.userOptions;
 							delete forward_select_user.dataset.showOrg;
 						}
-						$("#forward_select_user").trigger('change')
+						$("#forward_select_user").trigger('change');
 					}
 				}
-
 				// 是否可分发给自己
 				if (flow.distribute_to_self) {
 					Session.set('distribute_to_self', true);
 				} else {
 					Session.set('distribute_to_self', false);
 				}
-
-			},
-			action_type: template.data.action_type
+			}
 		});
 	}
 

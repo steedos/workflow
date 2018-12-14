@@ -397,14 +397,16 @@ Template.instance_list.events
 
 		WorkflowManager.alertFlowListModel "flow_list_box_modal",
 			title: t("Fill in form")
+			subTitle: t("Select a flow")
 			callBack: (options)->
 				if options?.flow
 					InstanceManager.newIns(options.flow)
 
 	'click [name="show_flows_btn"]': (event) ->
-		WorkflowManager.alertFlowListModel "flow_list_modal",
+		WorkflowManager.alertFlowListModel "flow_list_box_modal",
 			title: t("workflow_export_filter")
 			showType: "show"
+			clearable: true
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)
@@ -461,9 +463,10 @@ Template.instance_list.events
 		Modal.show("batch_instances_modal")
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
-		WorkflowManager.alertFlowListModel "flow_list_modal",
-			title: t("workflow_export_filter")
+		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+			title: t("workflow_export_filter")+"ssss"
 			showType: "show"
+			clearable: true
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)
