@@ -179,7 +179,7 @@ Template.instance_more_search_modal.events({
 
 	'click #instance_more_search_flow': function(event, template) {
 		Modal.allowMultiple = true;
-		WorkflowManager.alertFlowListModel("flow_list_box_modal", {
+		WorkflowManager.alertFlowListModel({
 			title: t("workflow_export_filter"),
 			showType: "show",
 			helpUrl: t("export_filter_help"),

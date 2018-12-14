@@ -45,7 +45,7 @@ Template.related_instances_list.events
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
 		Modal.allowMultiple = true
-		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+		WorkflowManager.alertFlowListModel
 			title: t("workflow_export_filter")
 			showType: "show"
 			helpUrl: t("export_filter_help")

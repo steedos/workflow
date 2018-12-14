@@ -118,7 +118,7 @@ Template.workflowSidebar.events
 			toastr.error(t("spaces_isarrearageSpace"))
 			return;
 		
-		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+		WorkflowManager.alertFlowListModel
 			title: t("Fill in form")
 			subTitle: t("Select a flow")
 			helpUrl: t("new_help")

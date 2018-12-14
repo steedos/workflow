@@ -395,7 +395,7 @@ Template.instance_list.events
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
 
-		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+		WorkflowManager.alertFlowListModel
 			title: t("Fill in form")
 			subTitle: t("Select a flow")
 			helpUrl: t("new_help")
@@ -404,7 +404,7 @@ Template.instance_list.events
 					InstanceManager.newIns(options.flow)
 
 	'click [name="show_flows_btn"]': (event) ->
-		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+		WorkflowManager.alertFlowListModel
 			title: t("workflow_export_filter")
 			showType: "show"
 			clearable: true
@@ -464,7 +464,7 @@ Template.instance_list.events
 		Modal.show("batch_instances_modal")
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
-		WorkflowManager.alertFlowListModel "flow_list_box_modal",
+		WorkflowManager.alertFlowListModel
 			title: t("workflow_export_filter")
 			showType: "show"
 			clearable: true

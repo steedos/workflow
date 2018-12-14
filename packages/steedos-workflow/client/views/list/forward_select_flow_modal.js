@@ -128,7 +128,7 @@ Template.forward_select_flow_modal.events({
 
 	'click #forward_flow': function(event, template) {
 		Modal.allowMultiple = true;
-		WorkflowManager.alertFlowListModel("flow_list_box_modal", {
+		WorkflowManager.alertFlowListModel({
 			title: t("Select a flow"),
 			showType: template.data.action_type,
 			callBack: function (options) {
