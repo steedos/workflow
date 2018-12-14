@@ -182,6 +182,7 @@ Template.instance_more_search_modal.events({
 		WorkflowManager.alertFlowListModel("flow_list_box_modal", {
 			title: t("workflow_export_filter"),
 			showType: "show",
+			helpUrl: t("export_filter_help"),
 			clearable: true,
 			callBack: function (options) {
 				if (options != null ? options.flow : void 0) {

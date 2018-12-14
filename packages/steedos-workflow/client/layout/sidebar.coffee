@@ -121,6 +121,7 @@ Template.workflowSidebar.events
 		WorkflowManager.alertFlowListModel "flow_list_box_modal",
 			title: t("Fill in form")
 			subTitle: t("Select a flow")
+			helpUrl: t("new_help")
 			callBack: (options)->
 				if options?.flow
 					InstanceManager.newIns(options.flow)

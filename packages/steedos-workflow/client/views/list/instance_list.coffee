@@ -398,6 +398,7 @@ Template.instance_list.events
 		WorkflowManager.alertFlowListModel "flow_list_box_modal",
 			title: t("Fill in form")
 			subTitle: t("Select a flow")
+			helpUrl: t("new_help")
 			callBack: (options)->
 				if options?.flow
 					InstanceManager.newIns(options.flow)
@@ -464,9 +465,10 @@ Template.instance_list.events
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
 		WorkflowManager.alertFlowListModel "flow_list_box_modal",
-			title: t("workflow_export_filter")+"ssss"
+			title: t("workflow_export_filter")
 			showType: "show"
 			clearable: true
+			helpUrl: t("export_filter_help")
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)

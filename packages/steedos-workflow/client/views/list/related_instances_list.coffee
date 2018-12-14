@@ -48,6 +48,7 @@ Template.related_instances_list.events
 		WorkflowManager.alertFlowListModel "flow_list_box_modal",
 			title: t("workflow_export_filter")
 			showType: "show"
+			helpUrl: t("export_filter_help")
 			flowId: Session.get("related_instances_filter_flow"),
 			callBack: (options)->
 				Session.set("related_instances_filter_flow", options.flow)
