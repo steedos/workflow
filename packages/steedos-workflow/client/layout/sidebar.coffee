@@ -117,8 +117,8 @@ Template.workflowSidebar.events
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"))
 			return;
-		
-		WorkflowManager.alertFlowListModel()
+
+		Modal.show "flow_list_box_modal"
 
 	'click .main-header .logo': (event) ->
 		Modal.show "app_list_box_modal"
