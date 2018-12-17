@@ -49,7 +49,8 @@ Template.related_instances_list.events
 			title: t("workflow_export_filter")
 			showType: "show"
 			helpUrl: t("export_filter_help")
-			flowId: Session.get("related_instances_filter_flow"),
+			categorie: Session.get("related_instances_filter_categorie")
+			flow: Session.get("related_instances_filter_flow")
 			callBack: (options)->
 				Session.set("related_instances_filter_flow", options.flow)
 				Session.set("related_instances_filter_categorie", options.categorie)

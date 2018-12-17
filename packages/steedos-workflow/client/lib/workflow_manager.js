@@ -975,6 +975,19 @@ WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
 
 }
 
+
+/***
+ * options:
+ * 	title: 标题
+ * 	subTitle: 子标题
+ * 	helpUrl: 帮助链接
+ * 	clearable: 允许清除选项
+ * 	callBack(args): 回调函数
+ *		args:
+ *			flow:选中流程id
+ *			categorie:选中流程的分类id
+ *			organization:选中流程的公司id
+ */
 WorkflowManager.alertFlowListModel = function(options){
 	var template_name = "flow_list_box_modal";
 	if (Meteor.settings.public && Meteor.settings.public.is_group_company){

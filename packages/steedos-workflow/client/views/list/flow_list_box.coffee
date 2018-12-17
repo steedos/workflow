@@ -35,7 +35,16 @@ Template.flow_list_box.helpers
 	
 	clearable: ->
 		return Template.instance().data?.clearable
+		
+	isCategorieChecked: (id)->
+		if Template.instance().data?.categorie == id
+			return true
+		return false; 
 
+	isFlowChecked: (id, isStar)->
+		if Template.instance().data?.flow == id
+			return true
+		return false; 
 
 Template.flow_list_box.events
 	'click .flow_list_box .weui-cell__bd': (event, template) ->
@@ -44,7 +53,7 @@ Template.flow_list_box.events
 		if !flow and !clearable
 			return;
 		Modal.hide('flow_list_box_modal');
-		categorie = event.currentTarget.parentElement?.parentElement?.id;
+		categorie = $(event.currentTarget).closest(".collapse").data("categorie")
 		if template.data?.callBack && _.isFunction(template.data.callBack)
 			template.data.callBack flow:flow, categorie: categorie
 		if Steedos.isMobile()

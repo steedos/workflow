@@ -35,7 +35,7 @@
 						</a>
 						<div class="weui-cells panel-collapse collapse in" id="categories_start" aria-expanded="true">
 							{{#each start_flows}}
-								<div class='weui-cell flow-item'>
+								<div class='weui-cell flow-item {{#if isFlowChecked _id}}checked{{/if}}'>
 									<div class='weui-cell__bd' data-flow='{{_id}}'>
 										<i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
 									</div>
@@ -58,11 +58,11 @@
 									</h4>
 								</div>
 							</a>
-							<div class='panel-collapse collapse' id="categories_{{_id}}">
+							<div class='panel-collapse collapse {{#if isCategorieChecked _id}}in{{/if}}' data-categorie='{{_id}}' id="categories_{{_id}}">
 								<div class="weui-cells">
 									{{#each forms}}
 										{{#each flows}}
-											<div class='weui-cell flow-item'>
+											<div class='weui-cell flow-item {{#if isFlowChecked _id}}checked{{/if}}'>
 												<div class='weui-cell__bd' data-flow='{{_id}}'>
 													<i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
 												</div>

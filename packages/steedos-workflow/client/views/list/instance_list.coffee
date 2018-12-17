@@ -469,6 +469,8 @@ Template.instance_list.events
 			showType: "show"
 			clearable: true
 			helpUrl: t("export_filter_help")
+			categorie: Session.get("categorie_id")
+			flow: Session.get("flowId")
 			callBack: (options)->
 				if options?.flow
 					Session.set("flowId", options.flow)
