@@ -17,16 +17,22 @@ Template.flow_list_box.helpers
 		return start_flows.includes(flowId)
 
 	start_flows: ()->
+		showType = Template.instance().data?.showType
+		listData = WorkflowManager.getFlowListData(showType)
+		if listData.distribute_optional_flows
+			# 分发时不显示星标流程
+			return []
+		else
+			# 把流程分类的数据结构转成流程id值列表
+			all_flows = _.pluck(_.flatten(_.pluck(_.flatten(_.pluck(listData.categories,"forms"), true),"flows"),true),"_id")
+			unless all_flows?.length
+				return []
 		start_flows = db.steedos_keyvalues.findOne({space: Session.get("spaceId"), user: Meteor.userId(), key: 'start_flows'})?.value || []
-
-		can_add_flows = WorkflowManager.getMyCanAddFlows() || []
-
-		flows = db.flows.find({_id: {$in: _.intersection(start_flows, can_add_flows)}})
-
+		flows = db.flows.find({_id: {$in: _.intersection(start_flows, all_flows)}}).fetch()
 		return flows
 
 	show_start_flows: (start_flows)->
-		if start_flows?.count() > 0
+		if start_flows?.length > 0
 			return true
 		return false;
 	
