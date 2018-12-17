@@ -7,6 +7,11 @@ Template.flow_list_box_org.helpers
 		else
 			return {}
 
+	isFlowChecked: (id)->
+		if Template.instance().data?.flow == id
+			return true
+		return false; 
+
 
 Template.flow_list_box_org.events
 

@@ -41,7 +41,7 @@ Template.flow_list_box.helpers
 			return true
 		return false; 
 
-	isFlowChecked: (id, isStar)->
+	isFlowChecked: (id)->
 		if Template.instance().data?.flow == id
 			return true
 		return false; 
