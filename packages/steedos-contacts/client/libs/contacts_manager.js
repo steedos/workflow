@@ -14,9 +14,12 @@ ContactsManager.is_within_user_organizations = function () {
 	return is_within_user_organizations
 }
 
-ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disableContactsLimit) {
+ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disableContactsLimit, showCompanyOnly) {
 	var orgs,
 		myContactsLimit = Steedos.my_contacts_limit;
+	if(showCompanyOnly){
+		myContactsLimit = null;
+	}
 	if(disableContactsLimit){
 		myContactsLimit = null;
 	}
@@ -40,6 +43,7 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disa
 			orgs = ContactsManager.getOrganizationsByIds(_ids);
 			if (orgs.length > 0) {
 				orgs[0].open = true
+				orgs[0].select = true;
 			}
 		}else{
 			orgs = ContactsManager.getRoot();
@@ -63,9 +67,10 @@ ContactsManager.getOrgNode = function(node, showHiddenOrg, showUserMainOrg, disa
 					orgs.unshift(userMainOrg)
 				}
 			}
+			orgs[0].select = true;
 		}
 	else
-		orgs = ContactsManager.getChild(node.id);
+		orgs = ContactsManager.getChild(node.id, showCompanyOnly);
 	return handerOrg(orgs, node.id, showHiddenOrg, showUserMainOrg);
 }
 
@@ -120,7 +125,10 @@ function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 			if(!showUserMainOrg){
                 node.state = {
                     opened: true
-                };
+				};
+                if (org.select) {
+                	node.state.selected = true;
+                }
 			}
             node.icon = 'fa fa-sitemap';
 		}
@@ -128,7 +136,10 @@ function handerOrg(orgs, parentId, showHiddenOrg, showUserMainOrg) {
 		if(org._mainorg){
             node.state = {
                 opened: true
-            };
+			};
+            if (org.select) {
+            	node.state.selected = true;
+            }
             node.icon = 'fa fa-sitemap';
             Session.set("contacts_orgId", org._id);
             node.id = 'userMainOrg_' + node.id
@@ -220,9 +231,12 @@ ContactsManager.getOrganizationsByIds = function(ids) {
 	return childs;
 }
 
-ContactsManager.getChild = function(parentId) {
+ContactsManager.getChild = function(parentId, showCompanyOnly) {
 	var query = {
 		parent: parentId
+	}
+	if (showCompanyOnly){
+		query.is_company = true
 	}
 
 	var childs = SteedosDataManager.organizationRemote.find(query, {

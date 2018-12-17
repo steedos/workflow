@@ -49,7 +49,7 @@ TabularTables.contacts = new Tabular.Table({
 	order:[[3,"desc"],[4,"asc"]],
 	extraFields: ["_id", "name", "email", "sort_no", "organizations", "user"],
 	lengthChange: false,
-	pageLength: 100,
+	pageLength: 50,
 	info: false,
 	searching: true,
 	responsive:

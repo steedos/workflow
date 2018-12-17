@@ -1,10 +1,11 @@
+# 该文件在邮件模块被调用，建议专属邮件模块，不要在其他地方调用
 Template.contacts_tree.helpers
 
 
 Template.contacts_tree.onRendered ->
 
   showUserMainOrg = true
-
+  showCompanyOnly = false
   $(document.body).addClass('loading');
   # 防止首次加载时，获得不到node数据。
   # Steedos.subsSpace.subscribe 'organizations', Session.get("spaceId"), onReady: ->
@@ -27,8 +28,7 @@ Template.contacts_tree.onRendered ->
                   if showUserMainOrg
                     if contacts_orgId.split("userMainOrg_").length > 1
                       contacts_orgId = contacts_orgId.split("userMainOrg_")[1]
-                  Session.set("contacts_orgId", contacts_orgId);
-                  cb(ContactsManager.getOrgNode(node, '', showUserMainOrg, true));
+                  cb(ContactsManager.getOrgNode(node, '', showUserMainOrg, true, showCompanyOnly));
                       
             plugins: ["wholerow", "search"]
   this.autorun ()->

@@ -58,6 +58,8 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/mail_domains.coffee', ['client', 'server']);
 
 	api.addFiles('lib/admin.coffee', ['client', 'server']);
+	
+	api.addFiles('client/mail.less', 'client');
 
 	api.export('Mail');
 	api.export('AccountManager');
