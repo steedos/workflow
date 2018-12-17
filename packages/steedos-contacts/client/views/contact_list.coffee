@@ -8,9 +8,7 @@ Template.contacts_list.helpers
 
         orgId = Session.get("contacts_orgId");
 
-        childrens = ContactsManager.getOrgAndChild(orgId);
-
-        query.organizations = {$in: childrens};
+        query.organizations_parents = orgId
         
         return query;
 
