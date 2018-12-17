@@ -51,6 +51,7 @@ Template.related_instances_list.events
 			helpUrl: t("export_filter_help")
 			categorie: Session.get("related_instances_filter_categorie")
 			flow: Session.get("related_instances_filter_flow")
+			clearable: true
 			callBack: (options)->
 				Session.set("related_instances_filter_flow", options.flow)
 				Session.set("related_instances_filter_categorie", options.categorie)

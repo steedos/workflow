@@ -21,6 +21,18 @@
 						</div>
 					{{/if}}
 				</div>
+				{{#if clearable}}
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-2 pull-left">
+								<button type="button" class="btn btn-default" id="remove" title='{{_ "remove"}}' style="width:100%">{{_ "remove"}}</button>
+							</div>
+							<div class="col-md-2 pull-right">
+								<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" title='{{_ "close"}}' style="width:100%">{{_ "close"}}</button>
+							</div>
+						</div>
+					</div>
+				{{/if}}
 			</div>
 		</div>
 	</div>
