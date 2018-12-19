@@ -179,7 +179,26 @@ Template.instance_more_search_modal.events({
 
 	'click #instance_more_search_flow': function(event, template) {
 		Modal.allowMultiple = true;
-		Modal.show('flow_list_modal');
+		WorkflowManager.alertFlowListModel({
+			title: t("workflow_export_filter"),
+			showType: "show",
+			helpUrl: t("export_filter_help"),
+			categorie: Session.get("categorie_id"),
+			flow: Session.get("flowId"),
+			clearable: true,
+			callBack: function (options) {
+				if (options != null ? options.flow : void 0) {
+					Session.set("flowId", options.flow);
+				} else {
+					Session.set("flowId", void 0);
+				}
+				if (options != null ? options.categorie : void 0) {
+					return Session.set("categorie_id", options.categorie);
+				} else {
+					return Session.set("categorie_id", void 0);
+				}
+			}
+		});
 	},
 
 	'hide.bs.modal #instance_more_search_modal': function(event, template) {

@@ -45,12 +45,16 @@ Template.related_instances_list.events
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
 		Modal.allowMultiple = true
-		Modal.show 'flow_list_modal', {
-			flowId: Session.get("related_instances_filter_flow"),
-			onSelected: (flow, categorie)->
-				Session.set("related_instances_filter_flow", flow)
-				Session.set("related_instances_filter_categorie", categorie)
-		}
+		WorkflowManager.alertFlowListModel
+			title: t("workflow_export_filter")
+			showType: "show"
+			helpUrl: t("export_filter_help")
+			categorie: Session.get("related_instances_filter_categorie")
+			flow: Session.get("related_instances_filter_flow")
+			clearable: true
+			callBack: (options)->
+				Session.set("related_instances_filter_flow", options.flow)
+				Session.set("related_instances_filter_categorie", options.categorie)
 
 	'click .instance-state': (event, template)->
 		console.log "click instance-state"

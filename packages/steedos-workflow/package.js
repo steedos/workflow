@@ -170,10 +170,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/instance/_instance_attachments.js', ['client', 'server']);
 	api.addFiles('client/views/instance/_instance_sign_text.coffee', ['client', 'server']);
 
-	api.addFiles('client/views/instance/select_flow_modal.less', 'client')
-	api.addFiles('client/views/instance/select_flow_modal.html', 'client')
-	api.addFiles('client/views/instance/select_flow_modal.coffee', 'client')
-
 	api.addFiles('client/views/instance/attachments.html', 'client');
 	api.addFiles('client/views/instance/attachments.js', 'client');
 	api.addFiles('client/views/instance/force_end_modal.html', 'client');
@@ -254,10 +250,6 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/attachments_upload_modal.coffee', 'client');
 	api.addFiles('client/views/list/attachments_sign_modal.html', 'client');
 	api.addFiles('client/views/list/attachments_sign_modal.coffee', 'client');
-
-	api.addFiles('client/views/list/flow_list_modal.html', 'client');
-	api.addFiles('client/views/list/flow_list_modal.coffee', 'client');
-	api.addFiles('client/views/list/flow_list_modal.less', 'client');
 
 	api.addFiles('client/views/list/instance_list.less', 'client');
 	api.addFiles('client/views/list/instance_list.html', 'client');

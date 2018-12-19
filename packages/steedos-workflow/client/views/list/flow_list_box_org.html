@@ -3,9 +3,16 @@
 		<div class='box box-solid '>
 			<div class='box-group' id='flow_accordion'>
 				{{#each flow_list_data.flows}}
-					<div class='weui-cell flow-item'>
+					<div class='weui-cell flow-item {{#if isFlowChecked _id}}checked{{/if}}'>
 						<div class='weui-cell__bd' data-flow='{{_id}}'>
-							<i class='ion ion-ios-compose-outline'></i>&nbsp;&nbsp;{{name}}
+							{{name}}
+						</div>
+					</div>
+				{{/each}}
+				{{#each flow_list_data.distribute_optional_flows}}
+					<div class='weui-cell flow-item {{#if isFlowChecked _id}}checked{{/if}}'>
+						<div class='weui-cell__bd' data-flow='{{_id}}'>
+							{{name}}
 						</div>
 					</div>
 				{{/each}}

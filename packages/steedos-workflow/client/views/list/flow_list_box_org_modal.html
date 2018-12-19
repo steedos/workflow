@@ -5,7 +5,7 @@
 			<div class="modal-content ins-modal">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">{{_ "Fill in form"}}</h4>
+					<h4 class="modal-title" id="myModalLabel">{{title}}</h4>
 				</div>
 				<div class="modal-body contacts-main contacts-show">
 					{{#if subsReady}}
@@ -13,7 +13,7 @@
 							{{>Template.dynamic template="flow_list_box_org_tree" data=contactsTreeData}}
 						</div>
 						<div class="contacts-wrapper" style='overflow-y:auto'>
-							{{> flow_list_box_org}}
+							{{>Template.dynamic template="flow_list_box_org" data=flowListData}}
 						</div>
 					{{else}}
 						<div class="loading">
@@ -21,6 +21,18 @@
 						</div>
 					{{/if}}
 				</div>
+				{{#if clearable}}
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-2 pull-left">
+								<button type="button" class="btn btn-default" id="remove" title='{{_ "remove"}}' style="width:100%">{{_ "remove"}}</button>
+							</div>
+							<div class="col-md-2 pull-right">
+								<button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" title='{{_ "close"}}' style="width:100%">{{_ "close"}}</button>
+							</div>
+						</div>
+					</div>
+				{{/if}}
 			</div>
 		</div>
 	</div>

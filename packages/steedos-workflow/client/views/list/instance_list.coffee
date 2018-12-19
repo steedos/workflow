@@ -390,15 +390,34 @@ Template.instance_list.events
 		Session.set("flowId", undefined);
 
 	'click [name="create_ins_btn"]': (event) ->
-#判断是否为欠费工作区
+		#判断是否为欠费工作区
 		if WorkflowManager.isArrearageSpace()
 			toastr.error(t("spaces_isarrearageSpace"));
 			return;
 
-		Modal.show "flow_list_box_modal"
+		WorkflowManager.alertFlowListModel
+			title: t("Fill in form")
+			subTitle: t("Select a flow")
+			helpUrl: t("new_help")
+			callBack: (options)->
+				if options?.flow
+					InstanceManager.newIns(options.flow)
 
 	'click [name="show_flows_btn"]': (event) ->
-		Modal.show('flow_list_modal')
+		WorkflowManager.alertFlowListModel
+			title: t("workflow_export_filter")
+			showType: "show"
+			clearable: true
+			callBack: (options)->
+				if options?.flow
+					Session.set("flowId", options.flow)
+				else
+					Session.set("flowId", undefined)
+				
+				if options?.categorie
+					Session.set("categorie_id", options.categorie)
+				else
+					Session.set("categorie_id", undefined)
 
 	'click #instance_more_search': (event, template) ->
 		Modal.show("instance_more_search_modal")
@@ -445,7 +464,24 @@ Template.instance_list.events
 		Modal.show("batch_instances_modal")
 
 	'click th.flow-filter,.tabular-filter-by-flow': ()->
-		Modal.show('flow_list_modal')
+		WorkflowManager.alertFlowListModel
+			title: t("workflow_export_filter")
+			showType: "show"
+			clearable: true
+			helpUrl: t("export_filter_help")
+			categorie: Session.get("categorie_id")
+			flow: Session.get("flowId")
+			callBack: (options)->
+				if options?.flow
+					Session.set("flowId", options.flow)
+				else
+					Session.set("flowId", undefined)
+				
+				if options?.categorie
+					Session.set("categorie_id", options.categorie)
+				else
+					Session.set("categorie_id", undefined)
+
 
 	'click .set-process-delegation-rules': ()->
 		if !Steedos.isLegalVersion('',"workflow.professional")

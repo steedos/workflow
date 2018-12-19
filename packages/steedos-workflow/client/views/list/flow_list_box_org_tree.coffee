@@ -9,7 +9,6 @@ Template.flow_list_box_org_tree.onRendered ->
 
   $("#steedos_contacts_org_tree").on('changed.jstree', (e, data) ->
         if data.selected.length
-          Session.set("contact_showBooks", false)
           flow_list_box_org_id = data.selected[0]
           if showUserMainOrg
             if flow_list_box_org_id.split("userMainOrg_").length > 1

@@ -975,11 +975,27 @@ WorkflowManager.hasFlowAdminPermission = function(flow_id, space_id, user_id) {
 
 }
 
-WorkflowManager.alertFlowListModel = function(){
-	if (Meteor.settings.public && Meteor.settings.public.is_group_company){
-		Modal.show("flow_list_box_org_modal")
+/***
+ * options:
+ *  title: 标题
+ *  subTitle: 子标题
+ *  helpUrl: 帮助链接
+ *  clearable: 允许清除选项
+ *  categorie: 打开窗口时自动展开该分类栏
+ *  flow: 打开窗口时自动高亮显示该流程项为选中状态
+ *  callBack(args): 回调函数
+ *    args:
+ *      flow:选中流程id
+ *      categorie:选中流程的分类id
+ *      organization:选中流程的公司id
+ */
+WorkflowManager.alertFlowListModel = function (options) {
+	var template_name = "flow_list_box_modal";
+	if (Meteor.settings.public && Meteor.settings.public.is_group_company) {
+		// 集团直接调用新的带组织机构的流程列表窗口
+		// template_name = "flow_list_box_org_modal";
+		// 流程不多，暂时先显示合并后的非集团模式的弹窗
+		template_name = "flow_list_box_modal";
 	}
-	else{
-		Modal.show("flow_list_box_modal")
-	}
+	Modal.show(template_name, options)
 }
