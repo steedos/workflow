@@ -993,7 +993,9 @@ WorkflowManager.alertFlowListModel = function (options) {
 	var template_name = "flow_list_box_modal";
 	if (Meteor.settings.public && Meteor.settings.public.is_group_company) {
 		// 集团直接调用新的带组织机构的流程列表窗口
-		template_name = "flow_list_box_org_modal";
+		// template_name = "flow_list_box_org_modal";
+		// 流程不多，暂时先显示合并后的非集团模式的弹窗
+		template_name = "flow_list_box_modal";
 	}
 	Modal.show(template_name, options)
 }
