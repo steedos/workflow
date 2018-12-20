@@ -379,6 +379,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/flow.coffee', 'server');
 	api.addFiles('server/methods/distribute.coffee', 'server');
 	api.addFiles('server/methods/hide_instance.coffee', 'server');
+	api.addFiles('server/methods/instance_value.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
