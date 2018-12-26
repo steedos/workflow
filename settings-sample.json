@@ -16,6 +16,10 @@
       "cas": {
         "status": "active",
         "url": "http://192.168.0.21:8086/cas"
+      },
+      "creator": {
+        "status": "active",
+        "url": "http://192.168.0.195:5000/creator"
       }
     },
     "cfs": {
