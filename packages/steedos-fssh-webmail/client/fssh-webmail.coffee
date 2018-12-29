@@ -14,13 +14,16 @@ readmail  = (uid)->
 			, 300
 		Template.fsshWebmaill._readmailCount++
 
-download = ()->
+download = (url, a)->
+	if url && url.indexOf("q=compose.output&action=mail.attach.compress") > -1
+		$("#fssh-webmail-iframe")[0].contentWindow.downloadCompress(url, a)
 	return false;
 
 overriedDownload = ()->
 	console.log('overriedDownload', Template.fsshWebmaill._overriedDownloadCount);
 	if $("#fssh-webmail-iframe")[0].contentWindow.download
 		if $("#fssh-webmail-iframe")[0].contentWindow.download.toString() != download.toString()
+			$("#fssh-webmail-iframe")[0].contentWindow.downloadCompress = $("#fssh-webmail-iframe")[0].contentWindow.download
 			$("#fssh-webmail-iframe")[0].contentWindow.download = download
 	else
 		if Template.fsshWebmaill._overriedDownloadCount < 500
