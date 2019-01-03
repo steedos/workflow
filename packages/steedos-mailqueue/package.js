@@ -1,7 +1,8 @@
 Package.describe({
 	name: 'steedos:mailqueue',
 	version: '0.0.1',
-	summary: '',
+	summary: 'A MailQueue for nodejs',
+	documentation: null,
 	git: ''
 });
 

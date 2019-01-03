@@ -16,6 +16,10 @@
       "cas": {
         "status": "active",
         "url": "http://192.168.0.21:8086/cas"
+      },
+      "creator": {
+        "status": "active",
+        "url": "http://192.168.0.195:5000/creator"
       }
     },
     "cfs": {
@@ -63,6 +67,7 @@
     // 日历相关
     "calendar": {
       "user_selection_within_user_organizations": false, //限制订阅他人日历人员和新建事件邀请的人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
+      "timezoneId": "Asia/Shanghai" //支持指定timezone, 防止部分用户时区设置错误,导致其他人看到的日程事件事件异常
     },
     // 门户
     "dashboard": {

@@ -593,17 +593,25 @@ InstanceformTemplate.onRendered = ()->
 		instanceNumberFields = $("[data-formula]", $("#instanceform"))
 
 		instanceNumberFields.each ()->
-			if !$(this).val()
+			schemaKey = this.dataset.schemaKey
+			element = $(this)
+			if !$(this).val() && schemaKey && Session.get("instanceId")
+				Meteor.call 'getInstanceValues', Session.get("instanceId"), (error, result)->
+					if error
+						toastr.error(error.reason)
 
-				key = $(this).data("formula")?.replace("auto_number(", "").replace(")", "")
+					if !result[schemaKey]
+						key = element.data("formula")?.replace("auto_number(", "").replace(")", "")
 
-				key = key.replace(/\"/g, "").replace(/\'/g, "")
+						key = key.replace(/\"/g, "").replace(/\'/g, "")
 
-				if key.indexOf("{") > -1
-					key = key.replace("{","").replace("}","")
-					key = key.trim()
-					key = AutoForm.getFieldValue(key, 'instanceform')
-				InstanceNumberRules.instanceNumberBuilder $(this), key
+						if key.indexOf("{") > -1
+							key = key.replace("{","").replace("}","")
+							key = key.trim()
+							key = AutoForm.getFieldValue(key, 'instanceform')
+						InstanceNumberRules.instanceNumberBuilder element, key
+					else
+						element?.val(result[schemaKey]).trigger("change")
 
 		judge = currentApprove.judge
 		currentStep = InstanceManager.getCurrentStep();

@@ -92,7 +92,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/deleted_instances.coffee');
 	api.addFiles('lib/models/auth_tokens.coffee');
 	api.addFiles('lib/models/webhooks.coffee');
-	api.addFiles('lib/models/instance_number_rules.coffee');
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
 	api.addFiles('lib/models/space_users.coffee');
@@ -379,6 +378,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/flow.coffee', 'server');
 	api.addFiles('server/methods/distribute.coffee', 'server');
 	api.addFiles('server/methods/hide_instance.coffee', 'server');
+	api.addFiles('server/methods/instance_value.coffee', 'server');
 
 	api.addFiles('server/routes/instance.coffee', 'server');
 	api.addFiles('server/routes/steedos_css.coffee', 'server');
