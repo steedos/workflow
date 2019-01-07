@@ -1,7 +1,7 @@
 Package.describe({
   name: 'steedos:autoform-bs-datetimepicker',
   summary: 'Custom bootstrap-datetimepicker input type with timezone support for AutoForm',
-  version: '1.0.7',
+  version: '1.0.8',
   git: 'https://github.com/aldeed/meteor-autoform-bs-datetimepicker.git'
 });
 

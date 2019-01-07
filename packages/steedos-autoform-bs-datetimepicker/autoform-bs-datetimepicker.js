@@ -87,8 +87,7 @@ AutoForm.addInputType("bootstrap-datetimepicker", {
     "date": function (val) {
       var format = this.data("format");
       if(format){
-        debugger;
-        return (val instanceof Date) ? new Date($.format.date(val,format)) : val
+        return (val instanceof Date) ? new Date(moment.utc(val).format(format.toUpperCase())) : val
       }else{
         return val;
       }
