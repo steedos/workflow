@@ -27,7 +27,7 @@ if Steedos.isNode()
 		$(".sweet-alert .progress-bar").width(percentage + '%')
 
 
-	Steedos.downLoadConfirm = (url, fileName, domainUrl)->
+	Steedos.downLoadConfirm = (url, fileName, domainUrl, mid)->
 		swal({
 				title: fileName,
 				type: "info",
@@ -40,10 +40,10 @@ if Steedos.isNode()
 				console.log('点击了另存为');
 				chrome.downloads.download {url: url.toString()}
 			else
-				Steedos.downLoadFileWithProgress url, fileName, domainUrl
+				Steedos.downLoadFileWithProgress url, fileName, domainUrl, mid
 		)
 
-	Steedos.downLoadFileWithProgress = (url, fileName, domainUrl)->
+	Steedos.downLoadFileWithProgress = (url, fileName, domainUrl, mid)->
 		swal({
 			title: t("downloading"),
 			text: '''
@@ -59,18 +59,25 @@ if Steedos.isNode()
 			html: true,
 			showConfirmButton: false
 		});
-		Steedos.downLoadFile url, fileName, domainUrl, ()->
+		Steedos.downLoadFile url, fileName, domainUrl, mid, ()->
 			sweetAlert.close();
 
-	Steedos.downLoadFile = (url, name, domainUrl, cb)->
+	Steedos.downLoadFile = (url, name, domainUrl, mid, cb)->
 		domain = new URL(domainUrl).hostname;
-		console.log('downLoadFile domain', domain);
 		fileCachePath = path.join(path.normalize(Steedos.fileCacheDirname), name);
-		filePath = path.join(path.normalize(Steedos.fileDirname), name);
+
+		fileDir = Steedos.fileDirname
+
+		if mid && _.isString(mid)
+			LocalhostData.mkdirFolder mid, path.normalize(fileDir)
+			fileDir = path.join(path.normalize(fileDir), mid)
+
+		filePath = path.join(path.normalize(fileDir), name);
+
 		console.log('filePath', filePath);
-		if(LocalhostData.exists(name, Steedos.fileDirname))
+		if(LocalhostData.exists(name, fileDir))
 			console.log('文件已存在，从临时文件读取');
-			Steedos.openFile Steedos.fileDirname, name
+			Steedos.openFile fileDir, name
 			if _.isFunction(cb)
 				cb()
 			return ;
@@ -113,7 +120,7 @@ if Steedos.isNode()
 						console.log('开始转移文件', fileCachePath, filePath);
 						fs.renameSync fileCachePath, filePath
 						console.log("文件已转移到files文件夹")
-						Steedos.openFile Steedos.fileDirname, name
+						Steedos.openFile fileDir, name
 						if _.isFunction(cb)
 							cb()
 				);

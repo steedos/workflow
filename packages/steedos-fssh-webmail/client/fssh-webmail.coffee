@@ -75,6 +75,18 @@ removeSearchDiv = ()->
 		$("#steedosSearchDiv", $("#fssh-webmail-iframe").contents().find("#container")).remove()
 	, 150
 
+parseQueryString = (url) ->
+	obj = {}
+	start = url.indexOf('?') + 1
+	str = url.substr(start)
+	arr = str.split('&')
+	i = 0
+	while i < arr.length
+		arr2 = arr[i].split('=')
+		obj[arr2[0]] = arr2[1]
+		i++
+	obj
+
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
 	auth = AccountManager.getAuth();
@@ -120,9 +132,10 @@ Template.fsshWebmaill.onRendered ->
 				clickStr = event.target.onclick.toString()
 				url = clickStr.substring(clickStr.indexOf('\'') + 3, clickStr.lastIndexOf('\''))
 				console.log('url----', url);
+				mid = parseQueryString(url)?.mid
 				url = new URI(url, event.target.baseURI)
 				domainUrl = Meteor.settings.public.fsshWebMailURL
-				Steedos.downLoadConfirm(url, fileName, domainUrl)
+				Steedos.downLoadConfirm(url, fileName, domainUrl, mid)
 
 			#添加搜索函数
 			$("#fssh-webmail-iframe")[0].contentWindow.steedosCallSearch = searchEamil
