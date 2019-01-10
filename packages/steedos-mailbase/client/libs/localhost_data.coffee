@@ -82,10 +82,13 @@ LocalhostData.rmdir = (folderPath) ->
 					if(_files.length > 0)
 						_files.forEach (_file,index) ->
 							cPath = path.join curPath, _file;
-							folderDate = fs.statSync(cPath).mtime;
-							cDate = (curDate - folderDate) / 86400000;
-							if (cDate > 7)
-								fs.unlinkSync(cPath);
+							if fs.statSync(cPath).isDirectory()
+								LocalhostData.rmdir(curPath)
+							else
+								folderDate = fs.statSync(cPath).mtime;
+								cDate = (curDate - folderDate) / 86400000;
+								if (cDate > 7)
+									fs.unlinkSync(cPath);
 					else
 						fs.rmdirSync(curPath);
 
