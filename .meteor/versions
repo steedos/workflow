@@ -154,7 +154,7 @@ steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
 steedos:app-workflow@0.0.5
 steedos:autoform@0.0.17
-steedos:autoform-bs-datetimepicker@1.0.6
+steedos:autoform-bs-datetimepicker@1.0.8
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
 steedos:autoform-modals@0.3.9_9

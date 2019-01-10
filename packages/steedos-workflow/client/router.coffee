@@ -50,6 +50,9 @@ workflowSpaceRoutes.route '/print/:instanceId',
 		Session.set("box", queryParams.box);
 		Session.set("instance_change", false);
 
+		localStorage.setItem "print_is_show_attachments", !!queryParams.show_attachments
+		localStorage.setItem "print_is_show_traces", !!queryParams.show_traces
+
 		BlazeLayout.render 'printLayout',
 			main: "instancePrint"
 	triggersExit: [(context, redirect) ->
