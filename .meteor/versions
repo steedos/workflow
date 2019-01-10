@@ -188,12 +188,11 @@ steedos:connect-bqq@0.0.1
 steedos:connect-dingtalk@0.0.1
 steedos:contacts@0.0.1
 steedos:cors@0.0.3
+steedos:dashboard@0.0.2
 steedos:datatables-extensions@0.0.1
 steedos:desktop@0.0.1
 steedos:e164-phones-countries@1.0.3
-steedos:emailjs@0.0.1
-steedos:fssh@0.0.1
-steedos:fssh-webmail@0.0.1
+steedos:freeboard@1.1.3_28
 steedos:fullcalendar@3.4.0_3
 steedos:huaweipush@0.0.1
 steedos:i18n@0.0.11
@@ -207,7 +206,6 @@ steedos:mailqueue@0.0.1
 steedos:meteor-cookie-login@0.0.5
 steedos:oauth2-server@0.0.6
 steedos:objects@0.0.7
-steedos:portal@0.0.2
 steedos:qcloud-smsqueue@0.0.2
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.2
