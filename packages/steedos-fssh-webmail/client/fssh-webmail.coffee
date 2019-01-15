@@ -15,7 +15,7 @@ readmail  = (uid)->
 		Template.fsshWebmaill._readmailCount++
 
 download = (url, a)->
-	if url && (url.indexOf("q=compose.output&action=mail.attach.compress") > -1 || url.indexOf("is_report=0") < 0)
+	if url && url.indexOf("q=compose.output&action=mail.attach.compress") > -1
 		$("#fssh-webmail-iframe")[0].contentWindow.downloadCompress(url, a)
 	return false;
 
