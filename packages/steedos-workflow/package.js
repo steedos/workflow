@@ -320,6 +320,9 @@ Package.onUse(function(api) {
 	api.addAssets('client/views/instance/related_instances.html', 'server');
 	api.addFiles('client/views/instance/related_instances.coffee', 'client');
 
+	api.addFiles('client/views/instance/related_records.html', 'client');
+	api.addFiles('client/views/instance/related_records.coffee', 'client');
+
 	api.addFiles('client/views/instance/remind_modal.html', 'client');
 	api.addFiles('client/views/instance/remind_modal.coffee', 'client');
 
