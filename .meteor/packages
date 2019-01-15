@@ -84,6 +84,7 @@ raix:push
 alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
+tmeasday:check-npm-versions
 
 steedos:sso
 steedos:adminlte
