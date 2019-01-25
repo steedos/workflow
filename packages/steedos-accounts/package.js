@@ -6,16 +6,11 @@ Package.describe({
 	documentation: null
 });
 
-Npm.depends({
-	cookies: "0.6.1",
-	phone: "1.0.3",
-	sha256: "0.2.0"
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom("1.2.1");
 
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('check');
 	api.use('tracker');
 	api.use('session');
@@ -49,7 +44,9 @@ Package.onUse(function(api) {
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
-	api.addFiles('lib/URI.js');
+	api.addFiles('checkNpm.js');
+
+	// api.addFiles('lib/URI.js');
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/force_bind_phone.coffee');
 	api.addFiles('lib/accounts.coffee');

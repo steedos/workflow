@@ -1,3 +1,4 @@
+URI = require('urijs');
 @Setup = {}
 Steedos.uri = new URI(Meteor.absoluteUrl());
 
