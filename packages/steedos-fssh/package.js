@@ -25,17 +25,14 @@ Package.onUse(function(api) {
 	api.use('kadira:blaze-layout@2.3.0');
 	api.use('kadira:flow-router@2.10.1');
 
-	api.use('tap:i18n@1.7.0');
-
 	api.use('steedos:base');
 	api.use('steedos:admin');
 	api.use('steedos:emailjs');
 	api.use('steedos:portal');
 
 
-
-	//api.add_files("package-tap.i18n", ["client", "server"]);
-	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
+	api.use('universe:i18n@1.13.0');
+	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	api.addFiles('lib/core.coffee');

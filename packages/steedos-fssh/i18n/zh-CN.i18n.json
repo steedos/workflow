@@ -1,4 +1,6 @@
 {
+	"_namespace": "",
+
 	"Steedos": "工作平台",
 	"users_steedos_id": "平台账户",
 	"users_error_steedos_id_required": "平台账户为必填项",

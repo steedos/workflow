@@ -1,4 +1,6 @@
 {
+	"_namespace": "",
+
 	"Steedos": "Steedos",
 	"users_steedos_id": "Steedos ID",
 	"users_error_steedos_id_required": "Steedos ID is required",
