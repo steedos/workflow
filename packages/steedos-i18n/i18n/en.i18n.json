@@ -1,4 +1,6 @@
 {
+	"_namespace": "",
+
 	"accounts-sign-in": "Sign In",
 	"accounts-sign-out": "Sign Out",
 	"accounts-sign-up": "Sign Up",
@@ -349,7 +351,7 @@
 	"users_email_verify_account": "To verify your account email,simply click the link below.",
 	"users_email_verify_email": "How to verify email address on Steedos",
 	"users_email_reset_password": "How to reset your password on Steedos",
-	"users_email_reset_password_body": "Your token code is __token_code__\r\nTo reset your password, input the token code above at the password reset page or simply click the link below.",
+	"users_email_reset_password_body": "Your token code is {$token_code}\r\nTo reset your password, input the token code above at the password reset page or simply click the link below.",
 	"users_email_hello": "Hello",
 	"users_email_thanks": "Thanks.",
 
@@ -460,7 +462,7 @@
 	"meteor_status_try_now_waiting": "Retry",
 	"btn_back_title": "Back",
 	"space_users_remove_mail_subject": "Your account has been deleted from the workspace by the administrator",
-	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"__steedos_id__\" has been removed from the workspace \"__space_name__\" by the administrator. <br/><br/>Thank you!",
+	"space_users_remove_mail_content": "Hello, <br/><br/>Your account \"{$steedos_id}\" has been removed from the workspace \"{$space_name}\" by the administrator. <br/><br/>Thank you!",
 	"steedos_i18n_404_not_found": "The page you requested could not be found.",
 	"Steedos Records": "Full Text Search",
 	"Client download": "Download client",
@@ -517,8 +519,8 @@
 
 	"customize_apps": "Apps",
 
-	"space_users_error_roles_used": "User has been used by roles：__names__",
-	"space_users_error_flows_used": "User has been used by flows：__names__",
+	"space_users_error_roles_used": "User has been used by roles：{$names}",
+	"space_users_error_flows_used": "User has been used by flows：{$names}",
 	"Steedos Sogo": "Hot Mail",
 	"sogo_mail_account": "Hot mail account",
 

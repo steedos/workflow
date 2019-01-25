@@ -49,7 +49,6 @@ Package.onUse(function(api) {
 	api.use('steedos:app-workflow');
 
 	api.use('meteorhacks:ssr@2.2.0');
-	api.use('tap:i18n@1.7.0');
 	api.use('meteorhacks:subs-manager');
 
 	api.use(['webapp'], 'server');
@@ -68,9 +67,8 @@ Package.onUse(function(api) {
 	api.use('steedos:webhookqueue');
 	api.use('steedos:api-authenticate-user');
 
-	api.use('tap:i18n', ['client', 'server']);
-	//api.add_files("package-tap.i18n", ["client", "server"]);
-	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
+	api.use('universe:i18n@1.13.0');
+	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
 	api.addFiles(tapi18nFiles, ['client', 'server']);
 
 	// api.addFiles('server/routes_middleware_config.coffee', 'server');

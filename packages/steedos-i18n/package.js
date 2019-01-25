@@ -15,9 +15,9 @@ Package.onUse(function(api) {
   api.use('tracker');
   api.use('templating', 'client');
 
-  api.use('tap:i18n@1.8.2');
-  tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
-  api.addFiles(tapi18nFiles);
+  api.use('universe:i18n@1.13.0');
+  tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
+  api.addFiles(tapi18nFiles, ['client', 'server']);
 
 });
 
