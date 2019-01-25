@@ -365,7 +365,7 @@
 	"users_email_verify_account": "您已注册华炎云账号,请点击以下链接进行验证。",
 	"users_email_verify_email": "验证您的登录邮箱",
 	"users_email_reset_password": "重新设置您的密码",
-	"users_email_reset_password_body": "您的验证码为：__token_code__\r\n请在密码重置界面输入上面的验证码，或点击以下链接，重新设置您的登录密码。",
+	"users_email_reset_password_body": "您的验证码为：{$token_code}\r\n请在密码重置界面输入上面的验证码，或点击以下链接，重新设置您的登录密码。",
 	"users_email_hello": "您好",
 	"users_email_thanks": "谢谢！",
 
@@ -475,12 +475,12 @@
 	"Secret": "API Token",
 	"meteor_status_waiting": "网络故障,",
 	"meteor_status_reconnect_in": "一分钟后重连...",
-	"meteor_status_reconnect_in_plural": "__count__秒后重连...",
+	"meteor_status_reconnect_in_plural": "{$count}秒后重连...",
 	"meteor_status_connecting": "连接中...",
 	"meteor_status_try_now_waiting": "重试",
 	"btn_back_title": "返回",
 	"space_users_remove_mail_subject": "您的帐户已被管理员从工作区中删除",
-	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"__steedos_id__\"已被管理员从工作区\"__space_name__\"中删除。<br/><br/>谢谢！",
+	"space_users_remove_mail_content": "您好,<br/><br/>您的帐户\"{$steedos_id}\"已被管理员从工作区\"{$space_name}\"中删除。<br/><br/>谢谢！",
 	"steedos_i18n_404_not_found": "很抱歉，您要访问的网页不存在",
 	"Steedos Records": "全文检索",
 	"Client download": "下载客户端",
@@ -537,8 +537,8 @@
 
 	"customize_apps": "企业应用",
 
-	"space_users_error_roles_used": "已有角色指定该用户：__names__",
-	"space_users_error_flows_used": "已有流程指定该用户为处理人：__names__",
+	"space_users_error_roles_used": "已有角色指定该用户：{$names}",
+	"space_users_error_flows_used": "已有流程指定该用户为处理人：{$names}",
 	"Steedos Sogo": "华邮",
 	"sogo_mail_account": "邮件账户",
 	
