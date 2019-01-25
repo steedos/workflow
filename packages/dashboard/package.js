@@ -5,18 +5,13 @@ Package.describe({
 	git: "https://github.com/steedos/dashboard"
 });
 
-Npm.depends({
-	'request'  : '2.81.0',
-	'node-schedule' : '1.2.1',
-	cookies: "0.6.1",
-});
-
 Package.onUse(function(api) { 
 	api.versionsFrom("1.2.1");
 
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
@@ -54,6 +49,8 @@ Package.onUse(function(api) {
 	//api.add_files("package-tap.i18n", ["client", "server"]);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
+
+	api.addFiles('checkNpm.js', 'server');
 	
 	api.addFiles('lib/core.coffee');
 	api.addFiles('lib/modals/dashboards.coffee');

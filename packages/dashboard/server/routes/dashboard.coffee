@@ -1,4 +1,4 @@
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 JsonRoutes.add "get", "/api/dashboard/:dashboard_id", (req, res, next) ->
 	user = Steedos.getAPILoginUser(req, res)
