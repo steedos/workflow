@@ -1,4 +1,4 @@
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 Meteor.startup ->
 	WebApp.connectHandlers.use "/api/workflow/export/talbe_template", (req, res, next)->

@@ -56,9 +56,9 @@ Meteor.methods({
         check(spaceId, String);
 
         var store = "instances";
-        var fs = Npm.require('fs');
-        var path = Npm.require('path');
-        var mkdirp = Npm.require('mkdirp');
+        var fs = require('fs');
+        var path = require('path');
+        var mkdirp = require('mkdirp');
         var pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/spaceInstanceAttachments');
         // Set absolute path
         var absolutePath = path.resolve(pathname);

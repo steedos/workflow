@@ -16,8 +16,8 @@ if (isMainAttach) {
 }
 ###
 
-Busboy = Npm.require('busboy');
-Fiber = Npm.require('fibers');
+Busboy = require('busboy');
+Fiber = require('fibers');
 
 JsonRoutes.parseFiles = (req, res, next) ->
 	files = []; # Store files in an array and then pass them to request.

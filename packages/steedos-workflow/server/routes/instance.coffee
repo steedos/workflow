@@ -1,4 +1,4 @@
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 getInstanceReadOnly = (req, res, next, options) ->
 

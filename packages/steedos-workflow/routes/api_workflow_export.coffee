@@ -68,11 +68,11 @@ Meteor.startup ->
 					sort: { submit_date: 1 }
 				}).fetch()
 
-			ejs = Npm.require('ejs')
+			ejs = require('ejs')
 			str = Assets.getText('server/ejs/export_instances.ejs')
 
 			# 检测是否有语法错误
-			ejsLint = Npm.require('ejs-lint')
+			ejsLint = require('ejs-lint')
 			error_obj = ejsLint.lint(str, {})
 			if error_obj
 				console.error "===/api/workflow/export:"

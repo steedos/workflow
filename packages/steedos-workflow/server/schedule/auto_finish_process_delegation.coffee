@@ -11,7 +11,7 @@
 ###
 Meteor.startup ->
 	if Meteor.settings.cron?.auto_finish_process_delegation
-		schedule = Npm.require('node-schedule')
+		schedule = require('node-schedule')
 		# 定时执行同步
 		rule = Meteor.settings.cron.auto_finish_process_delegation
 		go_next = true

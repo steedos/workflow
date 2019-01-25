@@ -1,4 +1,4 @@
-_eval = Npm.require('eval')
+_eval = require('eval')
 
 Meteor.methods
 	instanceNumberBuilder: (spaceId, name)->
