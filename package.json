@@ -30,6 +30,13 @@
     "emailjs-imap-client": "git+https://github.com/steedos/emailjs-imap-client.git",
     "emailjs-smtp-client": "1.0.0",
     "emailjs-tcp-socket": "git+https://github.com/steedos/emailjs-tcp-socket.git",
-    "regenerator-runtime": "0.9.5"
+    "regenerator-runtime": "0.9.5",
+    "aliyun-sdk": "1.9.2",
+    "csv": "1.1.0",
+    "url": "0.11.0",
+    "request": "2.40.0",
+    "xinge": "1.1.3",
+    "huawei-push": "0.0.6-0",
+    "xiaomi-push": "0.4.5"
   }
 }

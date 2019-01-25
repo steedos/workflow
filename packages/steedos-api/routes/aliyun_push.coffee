@@ -1,7 +1,7 @@
-ALY = Npm.require('aliyun-sdk');
-Xinge = Npm.require('xinge');
-HwPush = Npm.require('huawei-push');
-MiPush = Npm.require('xiaomi-push');
+ALY = require('aliyun-sdk');
+Xinge = require('xinge');
+HwPush = require('huawei-push');
+MiPush = require('xiaomi-push');
 
 Aliyun_push = {};
 
@@ -143,7 +143,7 @@ Meteor.startup ->
 			if Push.debug
 				console.log 'sendAliyun', userTokens, notification
 
-			Fiber = Npm.require('fibers')
+			Fiber = require('fibers')
 	  
 			userToken = if userTokens.length == 1 then userTokens[0] else null
 			Aliyun_push.sendMessage userTokens, notification, (err, result) ->
