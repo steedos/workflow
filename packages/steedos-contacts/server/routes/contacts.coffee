@@ -1,6 +1,6 @@
-vCard = Npm.require('vcf')
+vCard = require('vcf')
 
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 Meteor.startup ->
 	WebApp.connectHandlers.use "/contacts/books/export/cvf", (req, res, next)->
