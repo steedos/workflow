@@ -43,6 +43,7 @@
     "stream-buffers": "0.2.5",
     "wechat-crypto": "0.0.2",
     "heapdump": "0.3.9",
-    "requestretry": "1.12.2"
+    "requestretry": "1.12.2",
+    "chalk": "1.1.3"
   }
 }

@@ -1,4 +1,4 @@
-chalk = Npm.require("chalk")
+chalk = require("chalk")
 chalk.enabled = true;
 
 @LoggerManager = new class extends EventEmitter
