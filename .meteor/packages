@@ -42,6 +42,7 @@ tracker@1.1.0
 dburles:collection-helpers
 aldeed:collection2
 
+tmeasday:check-npm-versions
 
 steedos:loaders-css
 
@@ -84,7 +85,6 @@ raix:push
 alanning:roles
 sach:flow-db-admin
 reywood:publish-composite
-tmeasday:check-npm-versions
 
 steedos:sso
 steedos:adminlte

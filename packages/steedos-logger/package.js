@@ -1,10 +1,14 @@
 Package.describe({
 	name: 'steedos:logger',
 	version: '0.0.2',
-	summary: 'Logger for Steedos'
+	summary: 'Logger for Steedos',
+	documentation: null,
+	git: ''
 });
 
 Package.onUse(function(api) {
+	api.versionsFrom('1.0');
+
 	api.use('coffeescript@1.11.1_4');
 	api.use('ecmascript');
 	api.use('underscore@1.0.10');
@@ -15,7 +19,6 @@ Package.onUse(function(api) {
 	api.use('templating@1.2.15', 'client');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router@2.12.1', 'client');
-	api.use('tmeasday:check-npm-versions@0.3.2');
 
 	api.addFiles('checkNpm.js', 'server');
 
