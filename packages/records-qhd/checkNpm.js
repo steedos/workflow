@@ -3,4 +3,4 @@ checkNpmVersions({
 	'request': '2.40.0',
 	'node-schedule': '1.2.1',
 	cookies: "0.6.1"
-}, 'Steedos libraries');
+}, 'steedos:records-qhd');
