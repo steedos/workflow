@@ -1,6 +1,6 @@
-request = Npm.require('request')
+request = require('request')
 
-path = Npm.require('path');
+path = require('path');
 
 pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/instances');
 
@@ -65,7 +65,7 @@ _minxiInstanceData = (formData, instance) ->
 
 	console.log("_minxiInstanceData", instance._id)
 
-	fs = Npm.require('fs');
+	fs = require('fs');
 
 	if !formData || !instance
 		return

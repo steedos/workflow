@@ -1,5 +1,5 @@
-request = Npm.require('request')
-path = Npm.require('path');
+request = require('request')
+path = require('path');
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
 
@@ -95,7 +95,7 @@ _minxiAttachmentInfo = (formData, instance, attach) ->
 _minxiInstanceData = (formData, instance) ->
 	console.log("_minxiInstanceData", instance._id)
 
-	fs = Npm.require('fs');
+	fs = require('fs');
 
 	if !formData || !instance
 		return

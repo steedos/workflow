@@ -1,4 +1,4 @@
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 JsonRoutes.add "post", "/api/records/sync_contracts", (req, res, next) ->
 
