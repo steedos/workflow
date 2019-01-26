@@ -5,15 +5,9 @@ Package.describe({
   git: 'https://github.com/raix/push.git'
 });
 
-// Server-side push deps
-Npm.depends({
-  'requestretry': '1.12.2'
-});
-
-
 Package.onUse(function(api) {
   api.versionsFrom("1.2.1");
-  api.use(['ecmascript']);
+	api.use('ecmascript');
 
   api.use([
     'check',
@@ -21,6 +15,8 @@ Package.onUse(function(api) {
     'momentjs:moment',
     'mrt:moment-timezone'
   ], ['client', 'server']);
+
+	api.addFiles('checkNpm.js', 'server');
 
   api.addFiles('server/huaweiProvider.js', 'server');
 

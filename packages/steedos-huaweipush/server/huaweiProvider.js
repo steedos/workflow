@@ -1,4 +1,4 @@
-const request = Npm.require('requestretry');
+const request = require('requestretry');
 const tokenUrl = "https://login.vmall.com/oauth2/token";
 const apiUrl = "https://api.push.hicloud.com/pushsend.do";
 const timeout = 5000;
