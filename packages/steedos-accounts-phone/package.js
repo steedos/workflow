@@ -5,14 +5,9 @@ Package.describe({
     git          : 'https://github.com/okland/accounts-phone'
 });
 
-Npm.depends({
-    "phone"         : "1.0.3",
-    "twilio"        : "1.10.0",
-    "stream-buffers": "0.2.5"
-});
-
 Package.onUse(function (api) {
     api.use('npm-bcrypt@0.7.8_2', 'server');
+	api.use('ecmascript');
 
     api.use('accounts-base@1.0.2', ['client', 'server']);
     // Export Accounts (etc) to packages using this one.
@@ -26,6 +21,9 @@ Package.onUse(function (api) {
     api.use('check@1.0.4');
     api.use('underscore@1.0.2');
     api.use('ddp@1.0.14', ['client', 'server']);
+
+	api.addFiles('checkNpm.js', 'server');
+
     api.addFiles('sms_server.js', 'server');
     api.addFiles('phone_server.js', 'server');
     api.addFiles('phone_client.js', 'client');

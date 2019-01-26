@@ -38,6 +38,8 @@
     "xinge": "1.1.3",
     "huawei-push": "0.0.6-0",
     "xiaomi-push": "0.4.5",
-    "vcf": "1.1.2"
+    "vcf": "1.1.2",
+    "twilio": "1.10.0",
+    "stream-buffers": "0.2.5"
   }
 }
