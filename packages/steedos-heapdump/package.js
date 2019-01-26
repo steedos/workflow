@@ -5,15 +5,14 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	heapdump: "0.3.9"
-});
-
 Package.onUse(function (api) {
+	api.use('ecmascript');
 	api.versionsFrom("1.2.1");
 
 	api.use('coffeescript');
 	api.use('check');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('server/dump.coffee', 'server');
 

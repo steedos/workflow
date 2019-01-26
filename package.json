@@ -41,6 +41,7 @@
     "vcf": "1.1.2",
     "twilio": "1.10.0",
     "stream-buffers": "0.2.5",
-    "wechat-crypto": "0.0.2"
+    "wechat-crypto": "0.0.2",
+    "heapdump": "0.3.9"
   }
 }
