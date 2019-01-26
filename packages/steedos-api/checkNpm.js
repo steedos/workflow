@@ -6,7 +6,7 @@ checkNpmVersions({
 	mime: "2.0.2",
 	'csv': "1.1.0",
 	'url': '0.11.0',
-	'request': '2.40.0',
+	'request': '2.65.x',
 	'xinge': '1.1.3',
 	'huawei-push': '0.0.6-0',
 	'xiaomi-push': '0.4.5'
