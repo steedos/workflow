@@ -5,20 +5,13 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	'request'  : '2.81.0',
-	'node-schedule' : '1.2.1',
-	"eval": "0.1.2",
-	cookies: "0.6.1",
-	mkdirp: "0.3.5"
-});
-
 Package.onUse(function (api) {
 	api.versionsFrom('1.0');
 
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
@@ -58,6 +51,8 @@ Package.onUse(function (api) {
 	api.use('steedos:logger@0.0.2');
 	api.use('steedos:workflow');
 	api.use('steedos:creator@0.0.3');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('lib/models/archives.coffee', 'server');
 	// api.addFiles('lib/models/instances.coffee', 'server');

@@ -1,4 +1,4 @@
-_eval = Npm.require('eval')
+_eval = require('eval')
 @db = {}
 
 # cfs.instances = new Mongo.Collection("cfs.instances.filerecord")
