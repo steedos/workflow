@@ -1,4 +1,4 @@
-Fiber = Npm.require('fibers');
+Fiber = require('fibers');
 
 JsonRoutes.Middleware.authenticateMeteorUser = (req, res, next)->
 
