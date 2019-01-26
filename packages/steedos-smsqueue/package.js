@@ -6,13 +6,9 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	"aliyun-sms-node": "1.1.2"
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
-
+	api.use('ecmascript');
 	api.use([
 		'raix:eventstate@0.0.2',
 		'check',
@@ -30,6 +26,8 @@ Package.onUse(function(api) {
 	api.use('tap:i18n', ['client', 'server']);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
+	
+	api.addFiles('checkNpm.js', 'server');
 
 	// Common api
 	api.addFiles([

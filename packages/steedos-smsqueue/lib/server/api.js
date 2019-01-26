@@ -16,7 +16,7 @@ var sendWorker = function(task, interval) {
 	}, interval);
 };
 
-var SMS = Npm.require('aliyun-sms-node'),
+var SMS = require('aliyun-sms-node'),
 	smsSender;
 
 /*
