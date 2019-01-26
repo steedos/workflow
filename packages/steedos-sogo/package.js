@@ -5,10 +5,6 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	"emailjs-mime-codec": "2.0.8"
-});
-
 Package.onUse(function(api) {
 
 	api.versionsFrom('1.0');
@@ -43,6 +39,8 @@ Package.onUse(function(api) {
     api.use('kadira:flow-router@2.10.1');
 
 	api.use('steedos:mailbase@0.0.1');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('client/core.coffee', 'client');
 	api.addFiles('client/notification.coffee', 'client');

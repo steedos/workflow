@@ -24,7 +24,7 @@
     "sha256": "0.2.x",
     "urijs": "1.19.x",
     "emailjs-mime-builder": "git+https://github.com/steedos/emailjs-mime-builder.git",
-    "emailjs-mime-codec": "1.0.2",
+    "emailjs-mime-codec": "2.0.8",
     "emailjs-stringencoding": "1.0.1",
     "emailjs-mime-parser": "1.0.0",
     "emailjs-imap-client": "git+https://github.com/steedos/emailjs-imap-client.git",
