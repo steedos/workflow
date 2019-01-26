@@ -1,4 +1,4 @@
-var crypto = Npm.require('crypto');
+var crypto = require('crypto');
 
 
 Dingtalk.sign = function(ticket, nonceStr, timeStamp, url) {

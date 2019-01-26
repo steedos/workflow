@@ -5,13 +5,8 @@ Package.describe({
   "name": "steedos:connect-dingtalk"
 });
 
-Npm.depends({
-  "wechat-crypto": "0.0.2",
-  "request": "2.65.0",
-  'node-schedule': '1.1.1'
-});
-
 Package.onUse(function(api) {
+  api.use('ecmascript');
   api.versionsFrom("METEOR@1.0.3");
   api.use('accounts-base', ['client', 'server']);
   api.imply('accounts-base', ['client', 'server']);
@@ -28,6 +23,8 @@ Package.onUse(function(api) {
   api.use('random', 'client');
   api.use('underscore', 'server');
   api.use('service-configuration', ['client', 'server']);
+
+  api.addFiles('checkNpm.js', 'server');
 
   api.addFiles('dt.js', ['client', 'server']);
 
