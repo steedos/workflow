@@ -1,6 +1,6 @@
-request = Npm.require('request')
-path = Npm.require('path')
-fs = Npm.require('fs')
+request = require('request')
+path = require('path')
+fs = require('fs')
 
 logger = new Logger 'Records_QHD -> InstancesToArchive'
 

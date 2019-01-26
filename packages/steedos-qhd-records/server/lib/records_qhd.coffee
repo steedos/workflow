@@ -1,4 +1,4 @@
-schedule = Npm.require('node-schedule')
+schedule = require('node-schedule')
 
 RecordsQHD = {}
 
