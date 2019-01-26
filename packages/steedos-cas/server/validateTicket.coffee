@@ -1,5 +1,5 @@
 xml2js = require 'xml2js'
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 Meteor.startup ->
 	JsonRoutes.add 'get', '/api/cas/sso', (req, res, next) ->
@@ -63,7 +63,7 @@ Meteor.startup ->
 
 				if redirect_url
 					if redirect_url.indexOf('web/login') > -1 # odoo系统
-						crypto = Npm.require('crypto')
+						crypto = require('crypto')
 
 						if username.toLowerCase() == 'administrator'
 							username = 'admin'
