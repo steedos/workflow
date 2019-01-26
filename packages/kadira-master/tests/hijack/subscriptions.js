@@ -1,4 +1,4 @@
-var Future = Npm.require('fibers/future');
+var Future = require('fibers/future');
 
 Tinytest.add(
   'Subscriptions - Sub/Unsub - subscribe only',
@@ -46,7 +46,7 @@ Tinytest.add(
   function (test) {
     CleanTestData();
     var client = GetMeteorClient();
-    var Future = Npm.require('fibers/future');
+    var Future = require('fibers/future');
     var pubName = "pub-" + Random.id();
     Meteor.publish(pubName, function() {
       Wait(200);
@@ -65,7 +65,7 @@ Tinytest.add(
 //   function (test) {
 //     EnableTrackingMethods();
 //     var client = GetMeteorClient();
-//     var Future = Npm.require('fibers/future');
+//     var Future = require('fibers/future');
 //     var f = new Future();
 //     var h1, h2;
 //     h1 = client.subscribe('tinytest-data-multi', function() {
@@ -95,7 +95,7 @@ Tinytest.add(
     CleanTestData();
     EnableTrackingMethods();
     var client = GetMeteorClient();
-    var Future = Npm.require('fibers/future');
+    var Future = require('fibers/future');
     var f = new Future();
     var h1 = SubscribeAndWait(client, 'tinytest-data');
     Wait(100);
@@ -113,7 +113,7 @@ Tinytest.add(
 // //     // test.fail('no pubs for null(autopublish)');
 // //     // EnableTrackingMethods();
 // //     // var client = GetMeteorClient();
-// //     // var Future = Npm.require('fibers/future');
+// //     // var Future = require('fibers/future');
 // //     // var f = new Future();
 // //     // var interval = setInterval(function () {
 // //     //   if (client.status().connected) {
@@ -136,7 +136,7 @@ Tinytest.add(
     CleanTestData();
     EnableTrackingMethods();
     var client = GetMeteorClient();
-    var Future = Npm.require('fibers/future');
+    var Future = require('fibers/future');
     var f = new Future();
     var h1 = SubscribeAndWait(client, 'tinytest-data');
     Wait(100);
@@ -156,7 +156,7 @@ Tinytest.add(
     CleanTestData();
     EnableTrackingMethods();
     var client = GetMeteorClient();
-    var Future = Npm.require('fibers/future');
+    var Future = require('fibers/future');
     var f = new Future();
     var h1 = SubscribeAndWait(client, 'tinytest-data');
     var h2 = SubscribeAndWait(client, 'tinytest-data');

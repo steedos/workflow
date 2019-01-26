@@ -5,18 +5,6 @@ Package.describe({
   "name": "meteorhacks:kadira"
 });
 
-var npmModules = {
-  "debug": "0.7.4",
-  "kadira-core": "1.3.2",
-  "pidusage": "1.0.1",
-  "evloop-monitor": "0.1.0",
-  "pidusage": "0.1.1",
-  "lru-cache": "4.0.0",
-  "json-stringify-safe": "5.0.1"
-};
-
-Npm.depends(npmModules);
-
 Package.on_use(function(api) {
   configurePackage(api);
   api.export(['Kadira']);
@@ -85,6 +73,8 @@ Package.on_test(function(api) {
 });
 
 function configurePackage(api) {
+  api.use('ecmascript');
+
   if(api.versionsFrom) {
     api.versionsFrom('METEOR@1.2');
     api.use('meteorhacks:meteorx@1.4.1', ['server']);
@@ -96,6 +86,8 @@ function configurePackage(api) {
     'underscore', 'http', 'email', 'random'
   ], ['server']);
   api.use(['underscore', 'random', 'jquery', 'localstorage'], ['client']);
+  
+  api.addFiles('checkNpm.js', 'server');
 
   // common before
   api.add_files([

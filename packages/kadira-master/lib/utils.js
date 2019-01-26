@@ -1,4 +1,4 @@
-var Fiber = Npm.require('fibers');
+var Fiber = require('fibers');
 
 HaveAsyncCallback = function(args) {
   var lastArg = args[args.length -1];

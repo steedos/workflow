@@ -1,8 +1,8 @@
-var hostname = Npm.require('os').hostname();
-var logger = Npm.require('debug')('kadira:apm');
-var Fibers = Npm.require('fibers');
+var hostname = require('os').hostname();
+var logger = require('debug')('kadira:apm');
+var Fibers = require('fibers');
 
-var KadiraCore = Npm.require('kadira-core').Kadira;
+var KadiraCore = require('kadira-core').Kadira;
 
 Kadira.models = {};
 Kadira.options = {};

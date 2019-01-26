@@ -1,6 +1,6 @@
 Kadira.connect('foo', 'bar', {enableErrorTracking: true});
-var http = Npm.require('http');
-var Future = Npm.require('fibers/future');
+var http = require('http');
+var Future = require('fibers/future');
 
 var server3301 = new Future();
 var server8808 = new Future();

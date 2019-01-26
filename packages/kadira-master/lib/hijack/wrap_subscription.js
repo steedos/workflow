@@ -1,4 +1,4 @@
-var Fiber = Npm.require('fibers');
+var Fiber = require('fibers');
 
 wrapSubscription = function(subscriptionProto) {
   // If the ready event runs outside the Fiber, Kadira._getInfo() doesn't work.

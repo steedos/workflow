@@ -1,6 +1,6 @@
-var os = Npm.require('os');
-var usage = Npm.require('pidusage');
-var EventLoopMonitor = Npm.require('evloop-monitor');
+var os = require('os');
+var usage = require('pidusage');
+var EventLoopMonitor = require('evloop-monitor');
 
 SystemModel = function () {
   var self = this;

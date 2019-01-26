@@ -1,4 +1,4 @@
-var Fibers = Npm.require('fibers');
+var Fibers = require('fibers');
 
 var originalYield = Fibers.yield;
 Fibers.yield = function() {

@@ -59,7 +59,7 @@ Kadira._clientSend = function (endpoint, payload, callback) {
 
 Kadira._serverSend = function (endpoint, payload, callback) {
   callback = callback || function() {};
-  var Fiber = Npm.require('fibers');
+  var Fiber = require('fibers');
   new Fiber(function() {
     var httpOptions = {
       data: payload,

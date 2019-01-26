@@ -1,4 +1,4 @@
-var Future = Npm.require('fibers/future');
+var Future = require('fibers/future');
 
 GetMeteorClient = function (_url) {
   var url = _url || Meteor.absoluteUrl();
