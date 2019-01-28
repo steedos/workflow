@@ -7,7 +7,7 @@
 
 	"dataTables": {
 		"none": "None",
-		"emptyTable": "",
+		"emptyTable": "&nbsp;",
 		"info": "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
 		"infoEmpty": "显示第 0 至 0 项记录，共 0 项",
 		"infoFiltered": "(由 _MAX_ 项记录过滤)",
