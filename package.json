@@ -52,6 +52,11 @@
     "pidusage": "1.0.1",
     "evloop-monitor": "0.1.0",
     "lru-cache": "4.0.0",
-    "json-stringify-safe": "5.0.1"
+    "json-stringify-safe": "5.0.1",
+    "basic-auth": "^2.0.1",
+    "odata-v4-mongodb": "^0.1.12",
+    "odata-v4-parser": "^0.1.29",
+    "odata-v4-service-document": "0.0.3",
+    "odata-v4-service-metadata": "^0.1.6"
   }
 }

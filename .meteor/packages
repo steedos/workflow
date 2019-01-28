@@ -46,6 +46,8 @@ tmeasday:check-npm-versions
 
 steedos:loaders-css
 
+steedos:odata
+
 steedos:logger
 
 
