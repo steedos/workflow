@@ -1,8 +1,9 @@
 {
-    "steedos_system": "Space Settings",
-    "steedos_admin_home": "Home",
-    "advanced_setting": "Advanced Settings",
-    "business_settings": "Business Settings",
-    "business_info": "Business Info",
-    "business_applications": "Business Applications"
+	"_namespace": "",
+	"steedos_system": "Space Settings",
+	"steedos_admin_home": "Home",
+	"advanced_setting": "Advanced Settings",
+	"business_settings": "Business Settings",
+	"business_info": "Business Info",
+	"business_applications": "Business Applications"
 }
