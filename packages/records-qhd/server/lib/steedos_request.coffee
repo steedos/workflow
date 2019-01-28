@@ -1,14 +1,14 @@
-request = Npm.require('request')
+request = require('request')
 
-#DelayedStream = Npm.require('delayed-stream');
+#DelayedStream = require('delayed-stream');
 #
-#FormData = Npm.require('form-data')
+#FormData = require('form-data')
 #
-#CombinedStream = Npm.require('combined-stream');
+#CombinedStream = require('combined-stream');
 #
-#Stream = Npm.require('stream').Stream;
+#Stream = require('stream').Stream;
 #
-#asynckit = Npm.require('asynckit');
+#asynckit = require('asynckit');
 #
 #request.Request.prototype.form = (form)->
 #	self = this

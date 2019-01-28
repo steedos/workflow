@@ -1,4 +1,4 @@
-fs = Npm.require('fs')
+fs = require('fs')
 
 logger = new Logger 'Records_QHD -> AttachmentsToArchive'
 

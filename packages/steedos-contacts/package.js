@@ -5,13 +5,6 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	cookies: "0.6.1",
-	'vcf':'1.1.2',
-	ejs: "2.5.5",
-	"ejs-lint": "0.2.0"
-});
-
 Package.onUse(function(api) {
 
 	api.versionsFrom('1.0');
@@ -19,6 +12,7 @@ Package.onUse(function(api) {
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
@@ -48,14 +42,14 @@ Package.onUse(function(api) {
 
 	api.use('meteorhacks:ssr@2.2.0');
 	api.use('meteorhacks:subs-manager');
-	api.use('tap:i18n@1.7.0');
 	api.use('momentjs:moment', 'client');
 	api.use('mrt:moment-timezone', 'client');
-
-
-	api.use('tap:i18n', ['client', 'server']);
+	
+	api.use('universe:i18n');
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
-	api.addFiles(tapi18nFiles, ['client', 'server']);
+	api.addFiles(tapi18nFiles);
+
+	api.addFiles('checkNpm.js', 'server');
 
 	//api.addFiles('client/libs/xlsx.full.min.js', ['client']);
 

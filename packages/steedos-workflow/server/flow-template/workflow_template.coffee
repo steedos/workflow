@@ -11,9 +11,9 @@ workflowTemplate["en"] =[]
 workflowTemplate["zh-CN"] =[]
 
 Meteor.startup ()->
-	fs = Npm.require('fs')
-	path = Npm.require('path')
-	mime = Npm.require('mime')
+	fs = require('fs')
+	path = require('path')
+	mime = require('mime')
 	readFileList = (pathDir, filesList)->
 		files = fs.readdirSync(pathDir)
 		files.forEach (name, index)->

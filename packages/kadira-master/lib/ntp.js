@@ -102,7 +102,7 @@ Ntp.prototype.getServerTime = function(callback) {
   var self = this;
 
   if(Meteor.isServer) {
-    var Fiber = Npm.require('fibers');
+    var Fiber = require('fibers');
     new Fiber(function() {
       HTTP.get(self.endpoint, function (err, res) {
         if(err) {
@@ -129,7 +129,7 @@ Ntp.prototype.getServerTime = function(callback) {
 
 function getLogger() {
   if(Meteor.isServer) {
-    return Npm.require('debug')("kadira:ntp");
+    return require('debug')("kadira:ntp");
   } else {
     return function(message) {
       var canLogKadira =

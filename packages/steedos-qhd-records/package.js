@@ -5,18 +5,12 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	'request'  : '2.81.0',
-	'node-schedule' : '1.2.1',
-	cookies: "0.6.1",
-	"eval": "0.1.2",
-});
-
 Package.onUse(function (api) {
 	api.versionsFrom('1.0');
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
@@ -53,7 +47,7 @@ Package.onUse(function (api) {
 	api.use('steedos:base');
 	api.use('steedos:logger');
 
-
+	api.addFiles('checkNpm.js', 'server');
 	
 	api.addFiles('lib/models/records.coffee', 'server');
 	api.addFiles('lib/models/cms_files_cfs.coffee', 'server');

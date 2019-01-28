@@ -5,14 +5,10 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-    'request':'2.40.0',
-    'node-schedule' : '1.2.1'
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('blaze@2.1.9');
 	api.use('templating@1.2.15');
@@ -35,6 +31,8 @@ Package.onUse(function(api) {
 
 	api.use('steedos:logger');
 	api.use('steedos:base');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('server/lib/instances_stat.coffee', 'server');
 	api.addFiles('server/methods/user_cost_time.coffee', 'server');

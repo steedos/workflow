@@ -1,5 +1,5 @@
-var Future = Npm.require('fibers/future');
-var Twilio = Npm.require('twilio');
+var Future = require('fibers/future');
+var Twilio = require('twilio');
 
 SMS = {};
 SMSTest = {};

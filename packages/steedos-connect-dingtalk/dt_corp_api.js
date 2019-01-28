@@ -1,4 +1,4 @@
-var request = Npm.require('request');
+var request = require('request');
 
 /**
  * 日志封装，方便后期日志多样化处理

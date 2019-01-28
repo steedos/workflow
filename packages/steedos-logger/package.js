@@ -1,15 +1,16 @@
 Package.describe({
 	name: 'steedos:logger',
 	version: '0.0.2',
-	summary: 'Logger for Steedos'
-});
-
-Npm.depends({
-	'chalk'  : '1.1.3'
+	summary: 'Logger for Steedos',
+	documentation: null,
+	git: ''
 });
 
 Package.onUse(function(api) {
+	api.versionsFrom('1.0');
+
 	api.use('coffeescript@1.11.1_4');
+	api.use('ecmascript');
 	api.use('underscore@1.0.10');
 	api.use('random@1.0.10');
 	api.use('logging@1.1.15');
@@ -18,6 +19,8 @@ Package.onUse(function(api) {
 	api.use('templating@1.2.15', 'client');
 	api.use('flemay:less-autoprefixer@1.2.0');
 	api.use('kadira:flow-router@2.12.1', 'client');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('ansispan.js', 'client');
 	api.addFiles('logger.coffee', 'client');

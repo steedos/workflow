@@ -1,4 +1,4 @@
-var logger = Npm.require('debug')('kadira:pubsub');
+var logger = require('debug')('kadira:pubsub');
 
 PubsubModel = function() {
   this.metricsByMinute = {};

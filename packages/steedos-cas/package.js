@@ -5,17 +5,15 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	'cookies': "0.6.1",
-	'xml2js':"0.4.17"
-});
-
 Package.onUse(function (api) {
+	api.use('ecmascript');
 	api.versionsFrom('METEOR@1.3');
 	
 	api.use('session');
 	api.use('coffeescript');
 	api.use('ecmascript');
+	
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('server/validateTicket.coffee','server');
 

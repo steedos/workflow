@@ -5,24 +5,13 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	cookies: "0.6.1",
-	ejs: "2.5.5",
-	"ejs-lint": "0.2.0",
-	"eval": "0.1.2",
-	mkdirp: "0.3.5",
-	mime: "2.0.2",
-	busboy: "0.2.13",
-	"node-schedule": "1.2.1"
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
-
 
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('ddp');
 	api.use('check');
@@ -70,6 +59,8 @@ Package.onUse(function(api) {
 	api.use('universe:i18n@1.13.0');
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
 	api.addFiles(tapi18nFiles, ['client', 'server']);
+	
+	api.addFiles('checkNpm.js', 'server');
 
 	// api.addFiles('server/routes_middleware_config.coffee', 'server');
 

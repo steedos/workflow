@@ -5,12 +5,6 @@ Package.describe({
 	git: ''
 });
 
-
-Npm.depends({
-    'request':'2.40.0',
-    'mkdirp': "0.3.5"
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
 
@@ -59,6 +53,8 @@ Package.onUse(function(api) {
     api.use('simple:json-routes@2.1.0');
     api.use('steedos:records-i18n');
     api.use('http');
+    
+    api.addFiles('checkNpm.js', 'server');
 
     api.addFiles('client/layout/layout.html', 'client');
     api.addFiles('client/layout/layout.less', 'client');

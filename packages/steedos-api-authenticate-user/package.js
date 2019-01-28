@@ -16,11 +16,14 @@ Package.describe({
 Package.onUse(function (api) {
 
 	api.use('coffeescript');
+	api.use('ecmascript');
 
 	api.use([
 		'accounts-base',
 		'simple:json-routes@2.1.0',
 	], 'server');
+	
+	api.addFiles('checkNpm.js', 'server');
 
 	api.addFiles('auth_user.coffee', 'server');
 	api.addFiles('routes_middleware_config.coffee', 'server');

@@ -2,8 +2,8 @@
 # 需要将csv文件 用notepad++ 转为utf-8无bom编码格式
 # 在列名行（第一行）前增加符号 井号 用于注释掉列名行
 # 需要参数space_id
-csv = Npm.require('csv')
-Cookies = Npm.require("cookies")
+csv = require('csv')
+Cookies = require("cookies")
 JsonRoutes.add "post", "/api/import/space_org_users", (req, res, next) ->
 	console.log '====api/import'
 	console.log req.query

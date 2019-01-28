@@ -27,7 +27,7 @@ Tinytest.add(
   function (test) {
     EnableTrackingMethods();
     var methodId = RegisterMethod(function () {
-      var Future = Npm.require('fibers/future');
+      var Future = require('fibers/future');
       var f = new Future();
       var result;
       HTTP.get('http://localhost:3301', function(err, res) {

@@ -5,11 +5,8 @@ Package.describe({
   "name": "steedos:connect-bqq"
 });
 
-Npm.depends({
-  'node-schedule':'1.1.1',
-});
-
 Package.onUse(function(api) {
+  api.use('ecmascript');
   api.versionsFrom("METEOR@1.0.3");
   api.use('accounts-base', ['client', 'server']);
   api.imply('accounts-base', ['client', 'server']);
@@ -18,6 +15,7 @@ Package.onUse(function(api) {
   api.use('coffeescript');
   api.use('steedos:api');
 
+  api.addFiles('checkNpm.js', 'server');
 
   api.use('oauth', ['client', 'server']);
   api.use('oauth2', ['client', 'server']);

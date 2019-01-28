@@ -1,4 +1,4 @@
-Cookies = Npm.require("cookies")
+Cookies = require("cookies")
 
 uuflowManager = {}
 
@@ -1643,6 +1643,7 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 	ins_obj.applicant_organization = if instance_from_client["applicant_organization"] then instance_from_client["applicant_organization"] else space_user.organization
 	ins_obj.applicant_organization_name = if instance_from_client["applicant_organization_name"] then instance_from_client["applicant_organization_name"] else space_user_org_info.organization_name
 	ins_obj.applicant_organization_fullname = if instance_from_client["applicant_organization_fullname"] then instance_from_client["applicant_organization_fullname"] else  space_user_org_info.organization_fullname
+	ins_obj.applicant_company = if instance_from_client["applicant_company"] then instance_from_client["applicant_company"] else space_user.company_id
 	ins_obj.state = 'draft'
 	ins_obj.code = ''
 	ins_obj.is_archived = false

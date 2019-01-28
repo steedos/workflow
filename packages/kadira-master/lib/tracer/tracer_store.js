@@ -1,4 +1,4 @@
-var logger = Npm.require('debug')('kadira:ts');
+var logger = require('debug')('kadira:ts');
 
 TracerStore = function TracerStore(options) {
   options = options || {};

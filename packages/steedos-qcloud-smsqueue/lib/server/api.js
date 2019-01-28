@@ -16,13 +16,13 @@ var sendWorker = function(task, interval) {
 	}, interval);
 };
 
-// var SMS = Npm.require('aliyun-sms-node'),
+// var SMS = require('aliyun-sms-node'),
 // 	smsSender;
 
 var sdkappid, appkey;
 
-var request = Npm.require('superagent'),
-	sha256 = Npm.require('sha256');
+var request = require('superagent'),
+	sha256 = require('sha256');
 
 function getRand(bit) {
 

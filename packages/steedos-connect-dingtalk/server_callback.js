@@ -1,4 +1,4 @@
-var WXBizMsgCrypt = Npm.require('wechat-crypto');
+var WXBizMsgCrypt = require('wechat-crypto');
 //钉钉文档：http://ddtalk.github.io/dingTalkDoc/?spm=a3140.7785475.0.0.p5bAUd#2-回调接口（分为五个回调类型）
 
 var config = {

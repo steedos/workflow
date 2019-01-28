@@ -1,4 +1,4 @@
-var logger = Npm.require('debug')('kadira:hijack:instrument');
+var logger = require('debug')('kadira:hijack:instrument');
 
 var instrumented = false;
 Kadira._startInstrumenting = function(callback) {

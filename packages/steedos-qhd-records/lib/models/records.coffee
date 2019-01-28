@@ -1,5 +1,5 @@
 db.cms_files = new Meteor.Collection('cms_files')
-_eval = Npm.require('eval')
+_eval = require('eval')
 
 db.archive_classification = new Meteor.Collection('archive_classification')
 db.archive_fonds = new Meteor.Collection('archive_fonds')

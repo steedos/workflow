@@ -1,6 +1,6 @@
-var LRU = Npm.require('lru-cache');
-var crypto = Npm.require('crypto');
-var jsonStringify = Npm.require('json-stringify-safe');
+var LRU = require('lru-cache');
+var crypto = require('crypto');
+var jsonStringify = require('json-stringify-safe');
 
 DocSzCache = function (maxItems, maxValues) {
   this.items = new LRU({max: maxItems});

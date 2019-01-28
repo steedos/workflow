@@ -24,11 +24,11 @@ Meteor.startup ->
 					org_ids = _.union(org_ids,org_obj?.children)
 				_.uniq(org_ids)
 				users_to_xls = db.space_users.find({space:space_id,organizations:{$in:org_ids}},{sort: {sort_no: -1,name:1}}).fetch()
-			ejs = Npm.require('ejs')
+			ejs = require('ejs')
 			str = Assets.getText('server/ejs/export_space_users.ejs')
 			
 			# 检测是否有语法错误
-			ejsLint = Npm.require('ejs-lint')
+			ejsLint = require('ejs-lint')
 			error_obj = ejsLint.lint(str, {})
 			if error_obj
 				console.error "===/api/contacts/export/space_users:"

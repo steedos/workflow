@@ -5,7 +5,7 @@
 //
 var interceptedSMS = {}; // (phone) -> (array of options)
 
-var streamBuffers = Npm.require('stream-buffers');
+var streamBuffers = require('stream-buffers');
 var stream = new streamBuffers.WritableStreamBuffer;
 SMSTest.overrideOutputStream(stream);
 

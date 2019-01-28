@@ -1,5 +1,5 @@
-Busboy = Npm.require('busboy');
-Fiber = Npm.require('fibers');
+Busboy = require('busboy');
+Fiber = require('fibers');
 
 JsonRoutes.parseFiles = (req, res, next) ->
     files = []; # Store files in an array and then pass them to request.
@@ -162,8 +162,8 @@ JsonRoutes.add "get", "/s3/",  (req, res, next) ->
 #   s3_upgrade: (min, max) ->
 #     console.log("/s3/upgrade")
 
-#     fs = Npm.require('fs')
-#     mime = Npm.require('mime')
+#     fs = require('fs')
+#     mime = require('mime')
 
 #     root_path = "/mnt/fakes3/10"
 #     console.log(root_path)

@@ -1,4 +1,4 @@
-var LRU = Npm.require('lru-cache');
+var LRU = require('lru-cache');
 
 Tinytest.add(
   'DocSize Cache - DocSzCache - constructor',

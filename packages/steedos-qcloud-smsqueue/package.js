@@ -6,13 +6,9 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	"superagent": "3.5.2",
-	"sha256": "0.2.0"
-});
-
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
+	api.use('ecmascript');
 
 	api.use([
 		'raix:eventstate@0.0.2',
@@ -27,6 +23,8 @@ Package.onUse(function(api) {
 	api.use('mongo', 'server');
 
 	api.use('steedos:smsqueue@0.0.1');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	// Common api
 	api.addFiles([

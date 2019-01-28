@@ -11,7 +11,7 @@
 ###
 Meteor.startup ->
 	if Meteor.settings.remind and Meteor.settings.remind.cron
-		schedule = Npm.require('node-schedule')
+		schedule = require('node-schedule')
 		# 定时执行同步
 		rule = Meteor.settings.remind.cron
 		go_next = true

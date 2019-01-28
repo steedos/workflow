@@ -8,7 +8,7 @@ if(Meteor.wrapAsync) {
 }
 
 if(Meteor.isServer) {
-  var EventEmitter = Npm.require('events').EventEmitter;
+  var EventEmitter = require('events').EventEmitter;
   var eventBus = new EventEmitter();
   eventBus.setMaxListeners(0);
 

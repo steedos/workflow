@@ -39,8 +39,8 @@ else
               now = new Date
               year = now.getFullYear()
               month = now.getMonth() + 1
-              path = Npm.require('path')
-              mkdirp = Npm.require('mkdirp')
+              path = require('path')
+              mkdirp = require('mkdirp')
               pathname = path.join(__meteor_bootstrap__.serverDir, '../../../cfs/files/files/' + year + '/' + month)
               # Set absolute path
               absolutePath = path.resolve(pathname)

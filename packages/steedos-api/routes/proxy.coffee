@@ -1,5 +1,5 @@
-URL = Npm.require('url')
-REQUEST = Npm.require('request')
+URL = require('url')
+REQUEST = require('request')
 
 
 Meteor.startup ->

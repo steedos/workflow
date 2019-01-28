@@ -1,5 +1,5 @@
-var Fibers = Npm.require('fibers');
-var eventLogger = Npm.require('debug')('kadira:tracer');
+var Fibers = require('fibers');
+var eventLogger = require('debug')('kadira:tracer');
 var REPITITIVE_EVENTS = {'db': true, 'http': true, 'email': true, 'wait': true, 'async': true};
 
 Tracer = function Tracer() {

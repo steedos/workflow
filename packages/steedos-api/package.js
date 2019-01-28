@@ -5,19 +5,6 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	'aliyun-sdk': '1.9.2',
-	busboy: "0.2.13",
-	cookies: "0.6.1",
-	mime: "1.3.4",
-	'csv': "1.1.0",
-	'url': '0.11.0',
-	'request': '2.40.0',
-	'xinge': '1.1.3',
-	'huawei-push': '0.0.6-0',
-	'xiaomi-push': '0.4.5'
-});
-
 
 Package.onUse(function(api) {
 	api.versionsFrom("1.2.1");
@@ -25,6 +12,7 @@ Package.onUse(function(api) {
 	api.use('reactive-var');
 	api.use('reactive-dict');
 	api.use('coffeescript');
+	api.use('ecmascript');
 	api.use('random');
 	api.use('check');
 	api.use('ddp');
@@ -45,6 +33,8 @@ Package.onUse(function(api) {
 	api.use('aldeed:tabular@1.6.1');
 	api.use('steedos:base');
 	api.use('steedos:api-authenticate-user');
+
+	api.addFiles('checkNpm.js', 'server');
 
 	// api.addFiles('routes_middleware_config.coffee', 'server');
 
