@@ -1823,6 +1823,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 		setObj.applicant_organization = applicant_org_info["organization"]
 		setObj.applicant_organization_name = applicant_org_info["organization_name"]
 		setObj.applicant_organization_fullname = applicant_org_info["organization_fullname"]
+		setObj.applicant_company = applicant["company_id"]
 		instance_traces[0]["approves"][0].user = applicant_id
 		instance_traces[0]["approves"][0].user_name = user.name
 		instance_traces[0]["approves"][0].judge = "submitted"
