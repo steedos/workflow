@@ -16,7 +16,8 @@ Meteor.publish 'flows', (spaceId)->
 			state: 1,
 			perms: 1,
 			space: 1,
-			company_id: 1
+			company_id: 1,
+			sort_no: 1
 		}
 	})
 
