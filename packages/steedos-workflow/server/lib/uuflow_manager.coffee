@@ -634,8 +634,6 @@ uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_ver
 	return approve_values
 
 uuflowManager.workflow_engine = (approve_from_client, current_user_info, current_user)->
-	console.log '===>uuflowManager.workflow_engine'
-	console.log approve_from_client
 	instance_id = approve_from_client["instance"]
 	trace_id = approve_from_client["trace"]
 	approve_id = approve_from_client["_id"]
