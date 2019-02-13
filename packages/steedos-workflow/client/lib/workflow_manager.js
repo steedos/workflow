@@ -782,13 +782,12 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 
 		categories.forEach(function(c) {
 			var forms = WorkflowManager.getCategoriesForms(c._id);
-			forms.sortByName();
-
 			forms.forEach(function(f) {
 				var flows = WorkflowManager.getFormFlows(f._id);
 				flows.sortByName();
 				f.flows = new Array();
 				flows.forEach(function(fl) {
+					f.sort_no = fl.sort_no
 					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
 					} else if (show_type == 'show') {
@@ -802,7 +801,7 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 					}
 				});
 			});
-
+			forms.sortByName();
 			c.forms = forms;
 		});
 

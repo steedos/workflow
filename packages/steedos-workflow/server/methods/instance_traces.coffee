@@ -19,6 +19,7 @@ Meteor.methods
 				"traces.approves.user": 1,
 				"traces.approves.handler": 1,
 				"traces.approves.handler_name": 1,
+				"traces.approves.handler_organization_fullname": 1,
 				"traces.approves.type": 1,
 				"traces.approves.start_date": 1,
 				"traces.approves.description": 1,

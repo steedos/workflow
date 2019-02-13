@@ -152,13 +152,13 @@ steedos:admin@0.0.1
 steedos:adminlte@2.3.12_3
 steedos:api@0.0.1
 steedos:api-authenticate-user@1.0.0
-steedos:app-workflow@0.0.7
+steedos:app-workflow@0.0.8
 steedos:autoform@0.0.19
 steedos:autoform-bs-datetimepicker@1.0.8
 steedos:autoform-bs-minicolors@1.0.0
 steedos:autoform-file@0.4.2_1
 steedos:autoform-modals@0.3.9_9
-steedos:base@0.1.6
+steedos:base@0.1.7
 steedos:calendar@0.1.27
 steedos:calendar-i18n@0.0.16
 steedos:cas@0.0.1

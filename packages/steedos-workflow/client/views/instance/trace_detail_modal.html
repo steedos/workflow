@@ -3,9 +3,25 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content ins-modal">
 				<div class="modal-header">
-					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{_t "instance_approve_title_label"}} {{this.handler_name}}</h4>
+					<h4 class="modal-title" id="instance_trace_detail_modal_label">{{traceName this.instance this.trace}}</h4>
 				</div>
 				<div class="modal-body modal-zoom weui-cells weui-cells_form">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<span class="weui-label">{{_t "instance_handler_name"}}</span>
+						</div>
+						<div class="weui-cell__bd weui-cell_primary text-muted">
+							<span class="weui-input">{{this.handler_name}}</span>
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<span class="weui-label">{{_t "instance_handler_organization_fullname"}}</span>
+						</div>
+						<div class="weui-cell__bd weui-cell_primary text-muted">
+							<span class="weui-input">{{this.handler_organization_fullname}}</span>
+						</div>
+					</div>
 					{{#if this.cc_description}}
 						<div class="weui-cell">
 							<div class="weui-cell__hd">
