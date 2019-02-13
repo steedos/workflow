@@ -6,7 +6,7 @@ pushManager = {
 	imo_push_app_key: Meteor.settings.imo?.push_app_key
 }
 
-pushManager.get_to_users = (send_from, instance, cc_user_ids) ->
+pushManager.get_to_users = (send_from, instance, cc_user_ids, current_user_info) ->
 	to_users = new Array
 	if ['first_submit_applicant'].includes(send_from)
 		# 申请人
@@ -33,6 +33,8 @@ pushManager.get_to_users = (send_from, instance, cc_user_ids) ->
 		to_users = db.users.find({ _id: { $in: cc_user_ids } }).fetch()
 	else if ['trace_approve_cc_submit'].includes(send_from) && cc_user_ids
 		to_users = db.users.find({ _id: { $in: cc_user_ids } }).fetch()
+	else if ['auto_submit_pending_inbox'].includes(send_from)
+		to_users = [current_user_info]
 
 	return to_users
 
@@ -180,6 +182,9 @@ pushManager.get_body = (parameters, lang = "zh-CN") ->
 		body["email"] = TAPi18n.__ 'instance.email.body.trace_approve_cc', {instance_name: instance_name,to_username: to_username,href: href,applicant_name: applicant_name,final_decision: email_final_decision,description: email_description,approve_type: email_approve_type,url_approve_type: url_approve_type}, lang
 	else if "trace_approve_cc_submit" is send_from
 		body["push"] = TAPi18n.__ 'instance.push.body.trace_approve_cc_submit', {instance_name: instance_name,from_username: from_username,applicant_name: applicant_name,final_decision: push_final_decision,approve_type: push_approve_type, current_user_name: current_user_name}, lang
+	else if "auto_submit_pending_inbox" is send_from
+		body["push"] = TAPi18n.__ 'instance.push.body.auto_submit_pending_inbox', {instance_name: instance_name, current_step_name: current_step_name}, lang
+		body["email"] = TAPi18n.__ 'instance.email.body.auto_submit_pending_inbox', {instance_name: instance_name, current_step_name: current_step_name, to_username: to_username}, lang
 	return body
 
 pushManager.get_title = (parameters, lang="zh-CN")->
@@ -255,10 +260,13 @@ pushManager.get_title = (parameters, lang="zh-CN")->
 		title["email"] = TAPi18n.__ 'instance.email.title.trace_approve_cc', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
 	else if "trace_approve_cc_submit" is send_from
 		title["push"] = TAPi18n.__ 'instance.push.title.trace_approve_cc_submit', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
+	else if "auto_submit_pending_inbox" is send_from
+		title["push"] = TAPi18n.__ 'instance.push.title.auto_submit_pending_inbox', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name}, lang
+		title["email"] = TAPi18n.__ 'instance.email.title.auto_submit_pending_inbox', {from_username: from_username,instance_name: instance_name,applicant_name: applicant_name,approve_type: approve_type}, lang
 	return title
 
 pushManager.get_badge = (send_from, user_id)->
-	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc', 'trace_approve_cc_submit'].includes(send_from)
+	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc', 'trace_approve_cc_submit', 'auto_submit_pending_inbox'].includes(send_from)
 		return null
 
 	badge = 0
@@ -489,13 +497,13 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 				instance_id = instance._id
 				flow_version = instance.flow_version
 				flow = uuflowManager.getFlow(instance.flow)
-				to_users = pushManager.get_to_users(send_from, instance, cc_user_ids)
+				to_users = pushManager.get_to_users(send_from, instance, cc_user_ids, current_user_info)
 
 				href = Meteor.absoluteUrl() + "workflow/space/#{space_id}/inbox/#{instance_id}"
 				body_style_start = "<div style='border:1px solid #bbb;padding:10px;'>"
 				body_style_end = "</div>"
 
-				current_step_name = null
+				current_step_name = instance.current_step_name
 				nextApprove_usersname = null
 
 				if ['submit_pending_rejected_approve', 'submit_pending_rejected_applicant'].includes(send_from)
@@ -505,21 +513,8 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 					approve = _.find(trace.approves, (a) ->
 						return a.is_finished is false
 					)
-					current_step_name = null
 					nextApprove_usersname = approve.user_name
-					if flow.current._id is flow_version
-						current_step = _.find(flow.current.steps, (s) ->
-							return s._id is trace.step
-						)
-						current_step_name = current_step.name
-					else
-						flow_history_version = _.find(flow.historys, (h) ->
-							return h._id is flow_version
-						)
-						current_step = _.find(flow_history_version.steps, (s) ->
-							return s._id is trace.step
-						)
-						current_step_name = current_step.name
+
 
 				#得到下一步步骤类型
 				nextStep_type = uuflowManager.getStep(instance, flow, instance.traces[instance.traces.length-1].step).step_type
@@ -599,7 +594,7 @@ pushManager.send_instance_notification = (send_from, instance, description, curr
 
 					ins_html = ''
 
-					if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users', 'trace_approve_cc'].includes(send_from)
+					if ['first_submit_inbox', 'submit_pending_inbox', 'submit_pending_rejected_inbox', 'submit_pending_rejected_applicant_inbox', 'reassign_new_inbox_users', 'trace_approve_cc', 'auto_submit_pending_inbox'].includes(send_from)
 						if current_user_info.email && current_user_info.email_notification
 							try
 								console.time("push-2-1-ins_html")
@@ -656,7 +651,7 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 		console.error e.stack
 
 pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user_id, to_user_ids)->
-	
+
 	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
 
 	# 增加from_user和to_users的username、email、mobile
@@ -664,7 +659,7 @@ pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_u
 	from_space_user = db.space_users.findOne({"user": from_user_id},{fields: {mobile:1, email:1}})
 	from_user?.mobile = from_space_user?.mobile || ""
 	from_user?.email = from_space_user?.email || ""
-	
+
 	if(to_user_ids.length>0)
 		to_users = db.users.find({"_id": {$in: to_user_ids}},{fields: {_id:1, username:1}}).fetch()
 		to_users.forEach (to_user)->

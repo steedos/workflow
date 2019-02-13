@@ -132,9 +132,6 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				newTrace.name = next_step_name
 				newTrace.start_date = now
 				newTrace.finish_date = now
-				if next_step.timeout_hours
-					due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
-					newTrace.due_date = new Date(due_time)
 				newTrace.approves = []
 				# 更新instance记录
 				setObj.state = "completed"
@@ -142,6 +139,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				setObj.final_decision = "terminated"
 				setObj.finish_date = new Date
 				setObj.current_step_name = next_step_name
+				setObj.current_step_auto_submit = false
 			else
 				# 插入下一步trace记录
 				newTrace = new Object
@@ -152,9 +150,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				newTrace.step = relocate_next_step
 				newTrace.name = next_step_name
 				newTrace.start_date = now
-				if next_step.timeout_hours
-					due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
-					newTrace.due_date = new Date(due_time)
+				newTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 				newTrace.approves = []
 				_.each(relocate_inbox_users, (next_step_user_id, idx)->
 					# 插入下一步trace.approve记录
@@ -188,6 +184,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 					newApprove.handler_organization_fullname = next_step_user_org_info["organization_fullname"]
 
 					newApprove.start_date = now
+					newApprove.due_date = newTrace.due_date
 					newApprove.is_read = false
 					newApprove.is_error = false
 					newApprove.values = new Object
@@ -197,6 +194,7 @@ JsonRoutes.add 'post', '/api/workflow/relocate', (req, res, next) ->
 				setObj.inbox_users = relocate_inbox_users
 				setObj.state = "pending"
 				setObj.current_step_name = next_step_name
+				setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 
 			instance.outbox_users.push(current_user)
 			instance.outbox_users = instance.outbox_users.concat(inbox_users).concat(approve_users)

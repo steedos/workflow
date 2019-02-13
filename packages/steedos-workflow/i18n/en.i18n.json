@@ -292,7 +292,8 @@
 				"rejected_completed_approve": "{$from_username}",
 				"reassign_new_inbox_users": "{$from_username}",
 				"trace_approve_cc": "{$from_username}",
-				"trace_approve_cc_submit": "{$from_username}"
+				"trace_approve_cc_submit": "{$from_username}",
+				"auto_submit_pending_inbox": "{$from_username}"
 			},
 			"body": {
 				"input": "input",
@@ -317,7 +318,8 @@
 				"trace_approve_cc": "My {$instance_name} request needs your {$approve_type}",
 				"remind": "Remind：{$instance_name}, Deadline：{$deadline}",
 				"trace_approve_cc_submit": "I have submitted a cc {$instance_name}",
-				"distribute_remind": "My {$instance_name} has been end"
+				"distribute_remind": "My {$instance_name} has been end",
+				"auto_submit_pending_inbox": "Your {$instance_name} auto submitted to {$current_step_name}"
 			}
 		},
 		"email": {
@@ -346,7 +348,8 @@
 				"rejected_completed_applicant": "I have rejected your request for {$instance_name}",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "My {$instance_name} request needs your {$approve_type}",
-				"trace_approve_cc": "My {$instance_name} request needs your {$approve_type}"
+				"trace_approve_cc": "My {$instance_name} request needs your {$approve_type}",
+				"auto_submit_pending_inbox": "Your {$instance_name} has been submitted automatically"
 			},
 			"body": {
 				"url_input": "input",
@@ -380,7 +383,8 @@
 				"rejected_completed_applicant": "Hi {$to_username},<br/><br/>Your request for {$instance_name} has been final rejected by {$lastApprove_usersname}. He / She has attached the following comments with the request.<br/>{$description}<br/><a href = {$href}>Please click here to view this request.</a>",
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "Hi {$to_username},<br/><br/>{$current_user_name} has transferred {$applicant_name}'s {$instance_name} to you with the following comments. <br/>Comments : {$description}<br/><a href = {$href}>Please click here to view this request.</a>。",
-				"trace_approve_cc": "Hi {$to_username},<br/><br/>{$applicant_name} has cc a {$instance_name} request, which needs your {$approve_type}.<br/><a href = {$href}>Please click here to view this request.</a>"
+				"trace_approve_cc": "Hi {$to_username},<br/><br/>{$applicant_name} has cc a {$instance_name} request, which needs your {$approve_type}.<br/><a href = {$href}>Please click here to view this request.</a>",
+				"auto_submit_pending_inbox": "Hi {$to_username},<br/><br/>Your {$instance_name} has been submitted to {$current_step_name} automatically."
 			}
 		},
 		"remindMessage": {

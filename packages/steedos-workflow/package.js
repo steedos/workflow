@@ -59,7 +59,7 @@ Package.onUse(function(api) {
 	api.use('universe:i18n@1.13.0');
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
 	api.addFiles(tapi18nFiles, ['client', 'server']);
-	
+
 	api.addFiles('checkNpm.js', 'server');
 
 	// api.addFiles('server/routes_middleware_config.coffee', 'server');
@@ -487,6 +487,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
 
 	api.addFiles('server/schedule/auto_finish_process_delegation.coffee', 'server');
+	api.addFiles('server/schedule/timeout_auto_submit.coffee', 'server');
 
 	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 

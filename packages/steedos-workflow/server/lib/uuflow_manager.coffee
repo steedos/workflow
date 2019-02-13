@@ -633,6 +633,188 @@ uuflowManager.getApproveValues = (approve_values, permissions, form_id, form_ver
 		)
 	return approve_values
 
+uuflowManager.workflow_engine = (approve_from_client, current_user_info, current_user)->
+	console.log '===>uuflowManager.workflow_engine'
+	console.log approve_from_client
+	instance_id = approve_from_client["instance"]
+	trace_id = approve_from_client["trace"]
+	approve_id = approve_from_client["_id"]
+	values = approve_from_client["values"]
+	if not values then values = new Object
+	next_steps = approve_from_client["next_steps"]
+	judge = approve_from_client["judge"]
+	description = approve_from_client["description"]
+	geolocation = approve_from_client["geolocation"]
+
+	setObj = new Object
+
+	# 获取一个instance
+	instance = uuflowManager.getInstance(instance_id)
+	space_id = instance.space
+	flow_id = instance.flow
+	# 获取一个space
+	space = uuflowManager.getSpace(space_id)
+	applicant_id = instance.applicant
+	# 校验申请人user_accepted = true
+	checkApplicant = uuflowManager.getSpaceUser(space_id, applicant_id)
+	# 获取一个flow
+	flow = uuflowManager.getFlow(flow_id)
+	# 获取一个space下的一个user
+	space_user = uuflowManager.getSpaceUser(space_id, current_user)
+	# 获取space_user所在的部门信息
+	space_user_org_info = uuflowManager.getSpaceUserOrgInfo(space_user)
+	# 获取一个trace
+	trace = uuflowManager.getTrace(instance, trace_id)
+	# 获取一个approve
+	approve = uuflowManager.getApprove(trace, approve_id)
+	# 判断一个trace是否为未完成状态
+	uuflowManager.isTraceNotFinished(trace)
+	# 判断一个approve是否为未完成状态
+	uuflowManager.isApproveNotFinished(approve)
+	# 判断一个instance是否为审核中状态
+	uuflowManager.isInstancePending(instance)
+	# 判断当前用户是否approve 对应的处理人或代理人
+	uuflowManager.isHandlerOrAgent(approve, current_user)
+
+	# 先执行审核状态暂存的操作
+	# ================begin================
+	step = uuflowManager.getStep(instance, flow, trace.step)
+	step_type = step.step_type
+	instance_trace = _.find(instance.traces, (trace)->
+		return trace._id is trace_id
+	)
+
+	trace_approves = instance_trace.approves
+
+	i = 0
+	while i < trace_approves.length
+		if trace_approves[i]._id is approve_id
+			key_str = "traces.$.approves." + i + "."
+			setObj[key_str + "geolocation"] = geolocation
+			if step_type is "condition"
+			else if step_type is "start" or step_type is "submit"
+				setObj[key_str + "judge"] = "submitted"
+				setObj[key_str + "description"] = description
+			else if step_type is "sign" or step_type is "counterSign"
+				# 如果是会签并且前台没有显示核准驳回已阅的radio则给judge默认submitted
+				if step_type is "counterSign" and not judge
+					judge = 'submitted'
+				# 判断前台传的judge是否合法
+				uuflowManager.isJudgeLegal(judge)
+				setObj[key_str + "judge"] = judge
+				setObj[key_str + "description"] = description
+
+			setObj[key_str + "next_steps"] = next_steps
+			setObj[key_str + "is_read"] = true
+			if not trace_approves[i].read_date
+				setObj[key_str + "read_date"] = new Date
+			# 调整approves 的values 。删除values中在当前步骤中没有编辑权限的字段值
+			setObj[key_str + "values"] = uuflowManager.getApproveValues(values, step["permissions"], instance.form, instance.form_version)
+
+			# 更新instance记录
+			setObj.modified = new Date
+			setObj.modified_by = current_user
+
+			db.instances.update({_id: instance_id, "traces._id": trace_id}, {$set: setObj})
+		i++
+
+
+	# ================end================
+	instance = uuflowManager.getInstance(instance_id)
+	# 防止此时的instance已经被处理
+	# 获取一个trace
+	trace = uuflowManager.getTrace(instance, trace_id)
+	# 获取一个approve
+	approve = uuflowManager.getApprove(trace, approve_id)
+	# 判断一个trace是否为未完成状态
+	uuflowManager.isTraceNotFinished(trace)
+	# 判断一个approve是否为未完成状态
+	uuflowManager.isApproveNotFinished(approve)
+	# 判断一个instance是否为审核中状态
+	uuflowManager.isInstancePending(instance)
+	# 判断当前用户是否approve 对应的处理人或代理人
+	uuflowManager.isHandlerOrAgent(approve, current_user)
+	updateObj = new Object
+
+	if next_steps is null or next_steps.length is 0
+		throw new Meteor.Error('error!', '还未指定下一步和处理人，操作失败')
+	else
+		# 验证next_steps里面是否只有一个step
+		if next_steps.length > 1
+			throw new Meteor.Error('error!', '不能指定多个后续步骤')
+		else
+			# 校验下一步处理人user_accepted = true
+			_.each next_steps[0]["users"], (next_step_user) ->
+				checkSpaceUser = uuflowManager.getSpaceUser(space_id, next_step_user)
+
+		if step_type is "start" or step_type is "submit" or step_type is "condition"
+			updateObj = uuflowManager.engine_step_type_is_start_or_submit_or_condition(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info)
+		else if step_type is "sign"
+			updateObj = uuflowManager.engine_step_type_is_sign(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info, description)
+		else if step_type is "counterSign"
+			updateObj = uuflowManager.engine_step_type_is_counterSign(instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info)
+		else if step_type is "end"
+			throw new Meteor.Error('error!', 'end结点出现approve，服务器错误')
+
+		form = db.forms.findOne(instance.form)
+		updateObj.keywords = uuflowManager.caculateKeywords(updateObj.values, form, instance.form_version)
+		db.instances.update({_id: instance_id}, {$set: updateObj})
+
+	instance = uuflowManager.getInstance(instance_id)
+	instance_trace = _.find(instance.traces, (trace)->
+		return trace._id is trace_id
+	)
+	next_step_id = next_steps[0]["step"]
+	next_step = uuflowManager.getStep(instance, flow, next_step_id)
+	next_step_type = next_step.step_type
+	#发送消息开始
+	if "completed" is instance.state
+		if "approved" is instance.final_decision
+			#通知填单人、申请人
+			pushManager.send_instance_notification("approved_completed_applicant", instance, description, current_user_info)
+		else if "rejected" is instance.final_decision
+			#通知填单人、申请人
+			pushManager.send_instance_notification("rejected_completed_applicant", instance, description, current_user_info)
+		else
+			#通知填单人、申请人
+			pushManager.send_instance_notification("submit_completed_applicant", instance, description, current_user_info)
+
+	else if "pending" is instance.state
+		if "rejected" is instance_trace.judge and instance_trace.is_finished is true
+			if 'start' is next_step_type
+				#驳回给申请人时，发送短消息
+				pushManager.send_instance_notification("submit_pending_rejected_applicant_inbox", instance, description, current_user_info)
+			else
+				#通知填单人、申请人
+				pushManager.send_instance_notification("submit_pending_rejected_applicant", instance, description, current_user_info)
+				# 发送消息给下一步处理人
+				pushManager.send_instance_notification("submit_pending_rejected_inbox", instance, description, current_user_info)
+		else if instance_trace.is_finished is false
+			# 会签 并且当前trace未结束
+			# 发送push消息 给 inbox_users
+
+		else
+			# 发送消息给下一步处理人
+			pushManager.send_instance_notification("submit_pending_inbox", instance, description, current_user_info)
+	#发送消息给当前用户
+	pushManager.send_message_current_user(current_user_info)
+
+	# 如果已经配置webhook并已激活则触发
+	to_users = instance.inbox_users
+	last_trace = _.last(instance.traces)
+	last_step = uuflowManager.getStep(instance, flow, last_trace.step)
+	last_step_type = last_step.step_type
+	if last_step_type is "counterSign" and _.where(last_trace.approves, {is_finished: true}).length > 0
+		to_users = []
+
+	pushManager.triggerWebhook(flow_id, instance, approve_from_client, 'engine_submit', current_user, to_users)
+
+	# 判断申请单是否分发，分发文件结束提醒发起人
+	uuflowManager.distributedInstancesRemind(instance)
+
+	return instance
+
+
 uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info) ->
 	setObj = new Object
 	space_id = instance.space
@@ -686,7 +868,6 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		newTrace.name = next_step_name
 		newTrace.start_date = new Date
 		newTrace.finish_date = new Date
-		newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
 
 		# 更新instance记录
 		setObj.state = "completed"
@@ -713,6 +894,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.finish_date = new Date
 		setObj.current_step_name = next_step_name
 		setObj.final_decision = 'approved'
+		setObj.current_step_auto_submit = false
 	else
 		# 若不是结束结点
 		# 先判断nextsteps.step.users是否为空
@@ -763,6 +945,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.step = next_step_id
 					newTrace.name = next_step_name
 					newTrace.start_date = new Date
+					newTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 					newTrace.approves = new Array
 
 					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
@@ -797,6 +980,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 						newApprove.handler_organization_name = next_step_user_org_info["organization_name"]
 						newApprove.handler_organization_fullname = next_step_user_org_info["organization_fullname"]
 						newApprove.start_date = new Date
+						newApprove.due_date = newTrace.due_date
 						newApprove.is_read = false
 						newApprove.is_error = false
 						newApprove.values = new Object
@@ -826,6 +1010,8 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					instance_traces.push(newTrace)
 					setObj.traces = instance_traces
 					setObj.current_step_name = next_step_name
+
+					setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 
 	return setObj
 
@@ -887,7 +1073,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				newTrace.name = next_step_name
 				newTrace.start_date = new Date
 				newTrace.finish_date = new Date
-				newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
 
 				# 更新instance记录
 				setObj.state = "completed"
@@ -917,6 +1102,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					setObj.cc_users = instance.cc_users
 
 				setObj.current_step_name = next_step_name
+				setObj.current_step_auto_submit = false
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -965,6 +1151,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.step = next_step_id
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
+							newTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 							newTrace.approves = new Array
 
 							updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
@@ -1002,6 +1189,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newApprove.handler_organization_name = next_step_user_org_info["organization_name"]
 								newApprove.handler_organization_fullname = next_step_user_org_info["organization_fullname"]
 								newApprove.start_date = new Date
+								newApprove.due_date = newTrace.due_date
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
@@ -1035,6 +1223,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								setObj.cc_users = instance.cc_users
 
 							setObj.current_step_name = next_step_name
+
+							setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 		else if judge is "rejected"
 			if not description
 				throw new Meteor.Error('error!', "请填写驳回理由")
@@ -1086,7 +1276,6 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					newTrace.name = next_step_name
 					newTrace.start_date = new Date
 					newTrace.finish_date = new Date
-					newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
 
 					# 更新instance记录
 					setObj.state = "completed"
@@ -1116,6 +1305,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 						setObj.cc_users = instance.cc_users
 
 					setObj.current_step_name = next_step_name
+					setObj.current_step_auto_submit = false
 				else
 					# 若不是结束结点
 					# 先判断nextsteps.step.users是否为空
@@ -1164,6 +1354,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.step = next_step_id
 								newTrace.name = next_step_name
 								newTrace.start_date = new Date
+								newTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 								newTrace.approves = new Array
 
 								updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
@@ -1201,6 +1392,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									newApprove.handler_organization_name = next_step_user_org_info["organization_name"]
 									newApprove.handler_organization_fullname = next_step_user_org_info["organization_fullname"]
 									newApprove.start_date = new Date
+									newApprove.due_date = newTrace.due_date
 									newApprove.is_read = false
 									newApprove.is_error = false
 									newApprove.values = new Object
@@ -1234,6 +1426,8 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									setObj.cc_users = instance.cc_users
 
 								setObj.current_step_name = next_step_name
+
+								setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 
 
 	return setObj
@@ -1300,7 +1494,6 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				newTrace.name = next_step_name
 				newTrace.start_date = new Date
 				newTrace.finish_date = new Date
-				newTrace.due_date = if next_step.timeout_hours then (new Date + (60 * 60 * next_step.timeout_hours))
 				# 更新instance记录
 				setObj.state = "completed"
 				setObj.modified = new Date
@@ -1327,6 +1520,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 
 				setObj.current_step_name = next_step_name
 				setObj.final_decision = 'approved'
+				setObj.current_step_auto_submit = false
 			else
 				# 若不是结束结点
 				# 先判断nextsteps.step.users是否为空
@@ -1351,6 +1545,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 							newTrace.step = next_step_id
 							newTrace.name = next_step_name
 							newTrace.start_date = new Date
+							newTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 							newTrace.approves = new Array
 							_.each next_step_users, (next_step_user_id, idx) ->
 								# 插入下一步trace.approve记录
@@ -1386,6 +1581,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								newApprove.handler_organization_name = next_step_user_org_info["organization_name"]
 								newApprove.handler_organization_fullname = next_step_user_org_info["organization_fullname"]
 								newApprove.start_date = new Date
+								newApprove.due_date = newTrace.due_date
 								newApprove.is_read = false
 								newApprove.is_error = false
 								newApprove.values = new Object
@@ -1415,6 +1611,7 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 								setObj.cc_users = instance.cc_users
 
 							setObj.current_step_name = next_step_name
+							setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 		else
 			# 当前trace未结束
 			instance_trace = _.find(instance_traces, (trace) ->
@@ -1720,6 +1917,23 @@ uuflowManager.create_instance = (instance_from_client, user_info) ->
 
 	return new_ins_id
 
+uuflowManager.getCurrentStepAutoSubmit = (timeout_auto_submit, lines)->
+	if timeout_auto_submit && lines
+		timeout_line = _.find lines, (l)->
+			return l.timeout_line == true
+		if timeout_line
+			return true
+
+	return false
+
+uuflowManager.getDueDate = (hours)->
+	if hours
+		due_time = new Date().getTime() + (1000 * 60 * 60 * hours)
+		return new Date(due_time)
+
+	return undefined
+
+
 uuflowManager.submit_instance = (instance_from_client, user_info) ->
 	current_user = user_info._id
 	lang = "en"
@@ -1921,6 +2135,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 		upObj.finish_date = new Date
 		upObj.current_step_name = next_step.name
 		upObj.final_decision = "approved"
+		upObj.current_step_auto_submit = false
 	else # next_step不为结束节点
 		# 取得下一步处理人
 		next_step_users = approve["next_steps"][0]["users"]
@@ -1954,9 +2169,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 					nextTrace.step = next_step._id
 					nextTrace.name = next_step.name
 					nextTrace.start_date = new Date
-					if next_step.timeout_hours
-						due_time = new Date().getTime() + (1000 * 60 * 60 * next_step.timeout_hours)
-						nextTrace.due_date = new Date(due_time)
+					nextTrace.due_date = uuflowManager.getDueDate(next_step.timeout_hours)
 					nextTrace.approves = new Array
 
 					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
@@ -2016,6 +2229,7 @@ uuflowManager.submit_instance = (instance_from_client, user_info) ->
 					upObj.traces = traces
 					upObj.outbox_users = []
 					upObj.current_step_name = next_step.name
+					upObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, next_step.lines)
 
 	upObj.keywords = uuflowManager.caculateKeywords(upObj.values, form, instance.form_version)
 	db.instances.update({ _id: instance_id }, { $set: upObj })
@@ -2524,3 +2738,50 @@ uuflowManager.cancelProcessDelegation = (spaceId, toId)->
 						db.instances.update({ _id: ins._id }, { $addToSet: { cc_users: toId } })
 
 
+uuflowManager.timeoutAutoSubmit = (ins_id)->
+	query = {}
+	if ins_id
+		check ins_id, String
+		query._id = ins_id
+
+	query.state = 'pending'
+	query.current_step_auto_submit = true
+	query.traces = { $elemMatch: { is_finished: false, due_date: { $lte: new Date } } }
+
+	db.instances.find(query).forEach (ins)->
+		try
+			flow_id = ins.flow
+			instance_id = ins._id
+			trace = _.last ins.traces
+			flow = uuflowManager.getFlow(flow_id)
+			step = uuflowManager.getStep(ins, flow, trace.step)
+			step_type = step.step_type
+			toLine = _.find step.lines, (l)->
+				return l.timeout_line == true
+			nextStepId = toLine.to_step
+			nextUserIds = getHandlersManager.getHandlers(instance_id, nextStepId)
+
+			judge = "submitted"
+			if step_type is "sign"
+				judge = "approved"
+
+			approve_from_client = {
+				'instance': instance_id
+				'trace': trace._id
+				'judge': judge
+				'next_steps': [{ 'step': nextStepId, 'users': nextUserIds }]
+			}
+			_.each trace.approves, (a)->
+				approve_from_client._id = a._id
+				current_user_info = db.users.findOne(a.handler, { services: 0 })
+				updatedInstance = uuflowManager.workflow_engine(approve_from_client, current_user_info, current_user_info._id)
+
+				# 满足超时自动提交条件后，则将申请单提交至下一步骤，并发送提示给当前步骤处理人
+				pushManager.send_instance_notification("auto_submit_pending_inbox", updatedInstance, "", current_user_info)
+
+		catch e
+			console.error 'AUTO TIMEOUT_AUTO_SUBMIT ERROR: '
+			console.error e.stack
+
+
+	return true
