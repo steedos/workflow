@@ -812,7 +812,7 @@ uuflowManager.workflow_engine = (approve_from_client, current_user_info, current
 	# 判断申请单是否分发，分发文件结束提醒发起人
 	uuflowManager.distributedInstancesRemind(instance)
 
-	return
+	return instance
 
 
 uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, trace_id, approve_id, next_steps, space_user_org_info, judge, instance, flow, step, current_user, current_user_info) ->
@@ -2738,3 +2738,50 @@ uuflowManager.cancelProcessDelegation = (spaceId, toId)->
 						db.instances.update({ _id: ins._id }, { $addToSet: { cc_users: toId } })
 
 
+uuflowManager.timeoutAutoSubmit = (ins_id)->
+	query = {}
+	if ins_id
+		check ins_id, String
+		query._id = ins_id
+
+	query.state = 'pending'
+	query.current_step_auto_submit = true
+	query.traces = { $elemMatch: { is_finished: false, due_date: { $lte: new Date } } }
+
+	db.instances.find(query).forEach (ins)->
+		try
+			flow_id = ins.flow
+			instance_id = ins._id
+			trace = _.last ins.traces
+			flow = uuflowManager.getFlow(flow_id)
+			step = uuflowManager.getStep(ins, flow, trace.step)
+			step_type = step.step_type
+			toLine = _.find step.lines, (l)->
+				return l.timeout_line == true
+			nextStepId = toLine.to_step
+			nextUserIds = getHandlersManager.getHandlers(instance_id, nextStepId)
+
+			judge = "submitted"
+			if step_type is "sign"
+				judge = "approved"
+
+			approve_from_client = {
+				'instance': instance_id
+				'trace': trace._id
+				'judge': judge
+				'next_steps': [{ 'step': nextStepId, 'users': nextUserIds }]
+			}
+			_.each trace.approves, (a)->
+				approve_from_client._id = a._id
+				current_user_info = db.users.findOne(a.handler, { services: 0 })
+				updatedInstance = uuflowManager.workflow_engine(approve_from_client, current_user_info, current_user_info._id)
+
+				# 满足超时自动提交条件后，则将申请单提交至下一步骤，并发送提示给当前步骤处理人
+				pushManager.send_instance_notification("auto_submit_pending_inbox", updatedInstance, "", current_user_info)
+
+		catch e
+			console.error 'AUTO TIMEOUT_AUTO_SUBMIT ERROR: '
+			console.error e.stack
+
+
+	return true
