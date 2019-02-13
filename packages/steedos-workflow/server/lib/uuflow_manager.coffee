@@ -340,17 +340,15 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		current_approve = null
 		# 获取当前Approve
 		traces = instance.traces
-		_.each(traces, (trace) ->
-			if trace.step is step._id and trace.is_finished is false
+		_.each traces, (trace) ->
+			if trace.is_finished is false
 				current_approve = trace.approves[0]
-		)
 
 		start_approve = null
 		# 获取开始节点Approve
-		_.each(traces, (trace) ->
+		_.each traces, (trace) ->
 			if not trace.previous_trace_ids or trace.previous_trace_ids.length is 0
 				start_approve = trace.approves[0]
-		)
 
 		# 申请人所在组织全名称
 		applicant_organization_fullname = instance.applicant_organization_fullname
@@ -414,14 +412,12 @@ uuflowManager.getNextSteps = (instance, flow, step, judge) ->
 		# 匹配包括花括号自身在内的所有符号
 		reg = /(\{[^{}]*\})/
 		prefix = "__values"
-		_.each(step.lines, (step_line) ->
-			step_line_condition = step_line.condition.replace(reg, (vowel) ->
+		_.each step.lines, (step_line) ->
+			step_line_condition = step_line.condition.replace reg, (vowel) ->
 				return prefix + vowel.replace(/\{\s*/, "[\"").replace(/\s*\}/, "\"]").replace(/\s*\.\s*/g, "\"][\"")
-				if step_line.state is "submitted" and uuflowManager.calculateCondition(__values, step_line_condition)
-					if step_line.state is "submitted"
-						nextSteps.push(step_line.to_step)
-			)
-		)
+			if step_line.state is "submitted" and uuflowManager.calculateCondition(__values, step_line_condition)
+				if step_line.state is "submitted"
+					nextSteps.push(step_line.to_step)
 
 	else if step_type is "end"
 		return new Array
@@ -2757,6 +2753,12 @@ uuflowManager.timeoutAutoSubmit = (ins_id)->
 			toLine = _.find step.lines, (l)->
 				return l.timeout_line == true
 			nextStepId = toLine.to_step
+			nextStep = uuflowManager.getStep(ins, flow, nextStepId)
+			if nextStep.step_type == 'condition'
+				nextSteps = uuflowManager.getNextSteps(ins, flow, nextStep, "")
+				console.error nextSteps
+				nextStepId = nextSteps[0]
+
 			nextUserIds = getHandlersManager.getHandlers(instance_id, nextStepId)
 
 			judge = "submitted"
