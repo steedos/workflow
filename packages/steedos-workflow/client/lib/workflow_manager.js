@@ -787,7 +787,8 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 				flows.sortByName();
 				f.flows = new Array();
 				flows.forEach(function(fl) {
-					f.sort_no = fl.sort_no
+					f.sort_no = fl.sort_no;
+					f.name = fl.name;
 					if (WorkflowManager.canAdd(fl, curSpaceUser, organizations)) {
 						f.flows.push(fl);
 					} else if (show_type == 'show') {
