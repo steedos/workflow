@@ -632,7 +632,31 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 #	if options?.editable
 #		submit_btn = '<a class="btn btn-block btn-social btn-steedos-workflow" onclick="wc.submit()"><i class="fa fa-facebook"></i> 提交到审批王</a>'
+	showTracesBtn = """
+		<div class="print-tool">
+			<label class="cbx-label"><input type="checkbox" checked class="cbx-print cbx-print-traces" id="cbx-print-traces"/><span>#{t('instance_approval_history')}</span></label>
+		</div>
+		"""
 
+	showTracesScript = """
+		$( document ).ready(function(){
+			var b = document.getElementById('cbx-print-traces');
+			var t = document.getElementsByClassName('instance-traces')[0];
+			if (b.checked){
+				t.style = 'display: block;'
+			} else {
+				t.style = 'display: none;'
+			}
+			b.addEventListener('change', function(e){
+				if (e.target.checked){
+					t.style = 'display: block;'
+				} else {
+					t.style = 'display: none;'
+				}
+			});
+		});
+
+	"""
 
 	if options?.styles
 		allCssLink = ""
@@ -693,6 +717,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 			<body>
 				<div class="steedos">
 					#{submit_btn}
+					#{showTracesBtn}
 					<div class="instance-view">
 						<div class="instance #{instance_style}">
 							<form name="instanceForm">
@@ -712,7 +737,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					</div>
 				</div>
 			</body>
-			<script>#{openFileScript};#{onLoadScript}</script>
+			<script>#{openFileScript};#{onLoadScript};#{showTracesScript}</script>
 		</html>
 	"""
 
