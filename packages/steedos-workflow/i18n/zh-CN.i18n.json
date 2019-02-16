@@ -295,7 +295,8 @@
 				"reassign_new_inbox_users": "{$from_username}",
 				"trace_approve_cc": "{$from_username}",
 				"trace_approve_cc_submit": "{$from_username}",
-				"auto_submit_pending_inbox": "{$from_username}"
+				"auto_submit_pending_inbox": "{$from_username}",
+				"return_pending_inbox": "{$from_username}"
 			},
 			"body": {
 				"input": "确认",
@@ -321,7 +322,8 @@
 				"remind": "催办通知：{$instance_name}，办结时限：{$deadline}。",
 				"trace_approve_cc_submit": "我已提交了传阅的申请单{$instance_name}",
 				"distribute_remind": "您分发的{$instance_name}申请单已结束。",
-				"auto_submit_pending_inbox": "您的申请单{$instance_name}处理已超时，现已自动发送至{$current_step_name}"
+				"auto_submit_pending_inbox": "您的申请单{$instance_name}处理已超时，现已自动发送至{$current_step_name}",
+				"return_pending_inbox": "您的{$instance_name}已被退回"
 			}
 		},
 		"email": {
@@ -351,7 +353,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "请{$approve_type}:{$instance_name}",
 				"trace_approve_cc": "请{$approve_type}:{$instance_name}",
-				"auto_submit_pending_inbox": "您的{$instance_name}已超时自动流转"
+				"auto_submit_pending_inbox": "您的{$instance_name}已超时自动流转",
+				"return_pending_inbox": "退回了您的{$instance_name}"
 			},
 			"body": {
 				"url_input": "查看并确认",
@@ -386,7 +389,8 @@
 				"rejected_completed_approve": "",
 				"reassign_new_inbox_users": "{$to_username}:<br/><br/>您好！<br/><br/>{$current_user_name}将{$applicant_name}的{$instance_name}转发给您{$approve_type}。<br/>转发的理由是：{$description}<br/><a href = {$href}>请点击{$url_approve_type}</a>。",
 				"trace_approve_cc": "{$to_username}:<br/><br/>您好！<br/><br/>{$applicant_name}传阅了{$instance_name}。<br/><a href = {$href}>请点击{$url_approve_type}</a>。",
-				"auto_submit_pending_inbox": "您的申请单{$instance_name}处理已超时，现已自动发送至{$current_step_name}"
+				"auto_submit_pending_inbox": "您的申请单{$instance_name}处理已超时，现已自动发送至{$current_step_name}",
+				"return_pending_inbox": "{$to_username}:<br/><br/>您好！<br/><br/>您的{$instance_name}被退回。<br/>退回的理由是：{$description}。"
 			}
 		},
 		"remindMessage": {

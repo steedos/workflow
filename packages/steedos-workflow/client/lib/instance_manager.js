@@ -1691,3 +1691,7 @@ InstanceManager.pickApproveSteps = function () {
 	return apporve_stesp;
 }
 
+InstanceManager.ccHasEditPermission = function () {
+	var ccStep = InstanceManager.getCCStep();
+	return ccStep.cc_has_edit_permission;
+}
