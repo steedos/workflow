@@ -33,11 +33,12 @@ Package.onUse(function(api) {
     'momentjs:moment@2.10.6',
     'aldeed:tabular@1.6.1',
     'steedos:adminlte',
-    'check'
+    'check',
+    'ecmascript'
     ],
     both);
 
-  
+
   api.use(['less@1.0.0 || 2.5.0','session','jquery','templating'],'client');
 
   api.use(['email'],'server');
