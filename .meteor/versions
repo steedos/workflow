@@ -221,7 +221,7 @@ steedos:ui@0.0.1
 steedos:useraccounts-bootstrap@1.14.2_8
 steedos:useraccounts-core@1.14.2_6
 steedos:useraccounts-flow-routing@1.14.2_4
-steedos:version@1.0.5
+steedos:version@1.0.6
 steedos:webhookqueue@0.0.1
 steedos:webkit-notification@0.0.1
 steedos:workflow@0.0.1
