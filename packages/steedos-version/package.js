@@ -7,7 +7,7 @@ Package.describe({
 
 Package.registerBuildPlugin({
 	name: 'compileVersion',
-	use: ['coffeescript@1.11.1_4'],
+	use: ['coffeescript@1.11.1_4','ecmascript'],
 	sources: ['plugin/compile-version.coffee']
 });
 
