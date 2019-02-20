@@ -7,11 +7,6 @@ Package.describe({
   git: 'https://github.com/aldeed/meteor-tabular.git'
 });
 
-Npm.depends({
-  datatables: '1.10.9',
-  clone: '2.1.1'
-});
-
 Package.onUse(function(api) {
   api.versionsFrom(['METEOR@0.9.4', 'METEOR@1.0']);
   api.use([
@@ -21,7 +16,8 @@ Package.onUse(function(api) {
     'blaze',
     'templating',
     'reactive-var',
-    'tracker'
+    'tracker',
+    'ecmascript'
   ]);
 
   // jquery is a weak reference in case you want to use a different package or
@@ -33,10 +29,13 @@ Package.onUse(function(api) {
 
   api.export('Tabular');
 
+  api.addFiles('checkNpm.js', 'server');
+
   api.addFiles('common.js');
   api.addFiles('server/tabular.js', 'server');
+
   api.addFiles([
-    '.npm/package/node_modules/datatables/media/js/jquery.dataTables.js',
+    'client/lib/jquery.dataTables.js',
     'client/lib/dataTables.bootstrap.js',
     'client/lib/dataTables.bootstrap.css',
     'client/tabular.html',
@@ -64,5 +63,5 @@ Package.onUse(function(api) {
       'images/sort_desc.png',
       'images/sort_desc_disabled.png'
     ], 'client');
-  }
+  };
 });
