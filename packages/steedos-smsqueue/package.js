@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:smsqueue',
-	version: '0.0.2',
+	version: '0.0.3',
 	summary: 'steedos smsqueue',
 	documentation: null,
 	git: ''
@@ -8,7 +8,7 @@ Package.describe({
 
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
-	api.use('ecmascript');
+	api.use('ecmascript@0.1.6');
 	api.use([
 		'raix:eventstate@0.0.2',
 		'check',
@@ -26,7 +26,7 @@ Package.onUse(function(api) {
 	api.use('tap:i18n', ['client', 'server']);
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json']
 	api.addFiles(tapi18nFiles, ['client', 'server']);
-	
+
 	api.addFiles('checkNpm.js', 'server');
 
 	// Common api
