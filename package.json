@@ -35,7 +35,6 @@
     "evloop-monitor": "0.1.0",
     "gm": "^1.17.0",
     "gridfs-stream": "^1.1.1",
-    "heapdump": "0.3.9",
     "huawei-push": "0.0.6-0",
     "jquery": "^2.2.4",
     "json-stringify-safe": "5.0.1",
