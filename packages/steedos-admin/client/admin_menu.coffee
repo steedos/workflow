@@ -102,70 +102,83 @@ if Meteor.isClient
 	# 	parent: "spaces"
 
 	# 自定义应用
-	Steedos.addAdminMenu
-		_id: "steedos_customize_apps"
-		title: "business_applications"
-		icon: "ion ion-ios-keypad-outline"
-		url: "/admin/customize_apps"
-		roles:["space_admin"]
-		sort: 40
-		parent: "spaces"
+	# Steedos.addAdminMenu
+	# 	_id: "steedos_customize_apps"
+	# 	title: "business_applications"
+	# 	icon: "ion ion-ios-keypad-outline"
+	# 	url: "/admin/customize_apps"
+	# 	roles:["space_admin"]
+	# 	sort: 40
+	# 	parent: "spaces"
 
-	# 高级设置
-	Steedos.addAdminMenu
-		_id: "advanced_setting"
-		title: "advanced_setting"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-gear-outline"
-		roles: ["space_admin"]
-		sort: 40
+	# 需配置webservices.creator
+	creatorSettings = Meteor.settings.public?.webservices?.creator
+	if creatorSettings?.status == "active"
+		# 高级设置
+		Steedos.addAdminMenu
+			_id: "advanced_setting"
+			title: "advanced_setting"
+			mobile: false
+			app: "workflow"
+			icon: "ion ion-ios-gear-outline"
+			roles: ["space_admin"]
+			url: "#"
+			onclick: ->
+				creatorSettings = Meteor.settings.public?.webservices?.creator
+				if creatorSettings?.status == "active"
+					url = creatorSettings.url
+					reg = /\/$/
+					unless reg.test url
+						url += "/"
+					url = "#{url}app/admin"
+					Steedos.openWindow(url)
+			sort: 80
 
 	# 通讯录权限
-	Steedos.addAdminMenu
-		_id: "steedos_contacts_settings"
-		title: "steedos_contacts_settings"
-		mobile: false
-		icon: "ion ion-ios-people-outline"
-		sort: 10
-		roles: ["space_admin"]
-		url: "/admin/contacts/settings"
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "steedos_contacts_settings"
+	# 	title: "steedos_contacts_settings"
+	# 	mobile: false
+	# 	icon: "ion ion-ios-people-outline"
+	# 	sort: 10
+	# 	roles: ["space_admin"]
+	# 	url: "/admin/contacts/settings"
+	# 	parent: "advanced_setting"
 
 	# 岗位成员
-	Steedos.addAdminMenu
-		_id: "flow_positions"
-		title: "flow_positions"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-at-outline"
-		url: "/admin/workflow/flow_positions"
-		sort: 15
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "flow_positions"
+	# 	title: "flow_positions"
+	# 	mobile: false
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-at-outline"
+	# 	url: "/admin/workflow/flow_positions"
+	# 	sort: 15
+	# 	parent: "advanced_setting"
 
 	# 流程分类
-	Steedos.addAdminMenu
-		_id: "categories"
-		mobile: false
-		title: "categories"
-		app: "workflow"
-		icon: "ion ion-ios-folder-outline"
-		url: "/admin/categories"
-		sort: 20
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "categories"
+	# 	mobile: false
+	# 	title: "categories"
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-folder-outline"
+	# 	url: "/admin/categories"
+	# 	sort: 20
+	# 	parent: "advanced_setting"
 
 	# 流程脚本
-	Steedos.addAdminMenu
-		_id: "workflow_form_edit"
-		title: "workflow_form_edit"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-paper-outline"
-		url: "/admin/flows"
-		paid: "true"
-		appversion:"workflow_pro"
-		sort: 30
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "workflow_form_edit"
+	# 	title: "workflow_form_edit"
+	# 	mobile: false
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-paper-outline"
+	# 	url: "/admin/flows"
+	# 	paid: "true"
+	# 	appversion:"workflow_pro"
+	# 	sort: 30
+	# 	parent: "advanced_setting"
 
 #	# 流程导入导出
 #	Steedos.addAdminMenu
@@ -181,48 +194,48 @@ if Meteor.isClient
 #		parent: "advanced_setting"
 
 	# 流程编号规则
-	Steedos.addAdminMenu
-		_id: "instance_number_rules"
-		title: "instance_number_rules"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-refresh-outline"
-		url: "/admin/instance_number_rules"
-		paid: "true"
-		sort: 50
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "instance_number_rules"
+	# 	title: "instance_number_rules"
+	# 	mobile: false
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-refresh-outline"
+	# 	url: "/admin/instance_number_rules"
+	# 	paid: "true"
+	# 	sort: 50
+	# 	parent: "advanced_setting"
 
 	# 图片签名
-	Steedos.addAdminMenu
-		_id: "space_user_signs"
-		title: "space_user_signs"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-pulse"
-		url: "/admin/space_user_signs"
-		paid: "true"
-		appversion:"workflow_pro"
-		sort: 60
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "space_user_signs"
+	# 	title: "space_user_signs"
+	# 	mobile: false
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-pulse"
+	# 	url: "/admin/space_user_signs"
+	# 	paid: "true"
+	# 	appversion:"workflow_pro"
+	# 	sort: 60
+	# 	parent: "advanced_setting"
 
-	Steedos.addAdminMenu
-		_id: "secrets"
-		title: "API Token"
-		mobile: false
-		icon:"ion ion-ios-unlocked-outline"
-		url: "/admin/api/secrets"
-		sort: 70
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "secrets"
+	# 	title: "API Token"
+	# 	mobile: false
+	# 	icon:"ion ion-ios-unlocked-outline"
+	# 	url: "/admin/api/secrets"
+	# 	sort: 70
+	# 	parent: "advanced_setting"
 
 	# webhook
-	Steedos.addAdminMenu
-		_id: "webhooks"
-		title: "webhooks"
-		mobile: false
-		app: "workflow"
-		icon: "ion ion-ios-paperplane-outline"
-		url: "/admin/webhooks"
-		paid: "true"
-		appversion:"workflow_pro"
-		sort: 80
-		parent: "advanced_setting"
+	# Steedos.addAdminMenu
+	# 	_id: "webhooks"
+	# 	title: "webhooks"
+	# 	mobile: false
+	# 	app: "workflow"
+	# 	icon: "ion ion-ios-paperplane-outline"
+	# 	url: "/admin/webhooks"
+	# 	paid: "true"
+	# 	appversion:"workflow_pro"
+	# 	sort: 80
+	# 	parent: "advanced_setting"

@@ -61,8 +61,12 @@ TabularTables.related_instances_tabular = new Tabular.Table
 		unless userId
 			return {_id: -1}
 		#可关联的文件可以跨工作区
-		_.extend selector, {
-			$or: [{submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
+		# _.extend selector, {
+		# 	$or: [{submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
+		# 		{cc_users: userId}]
+		# }
+		space = selector.space
+		delete selector.space
+		selector.$or = [{ space: space }, {submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
 				{cc_users: userId}]
-		}
 		return selector

@@ -7,4 +7,4 @@ Template.related_instances.events
 
 	'click #related_instace': (event, template)->
 		event.preventDefault();
-		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/"+this.space+"/view/readonly/" + this._id + '?hide_traces=1'))
+		Steedos.openWindow(Steedos.absoluteUrl("workflow/space/"+this.space+"/view/readonly/" + this._id + '?hide_traces=0'))

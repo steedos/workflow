@@ -59,7 +59,7 @@ Package.onUse(function(api) {
 	api.use('universe:i18n@1.13.0');
 	tapi18nFiles = ['i18n/en.i18n.json', 'i18n/zh-CN.i18n.json'];
 	api.addFiles(tapi18nFiles, ['client', 'server']);
-	
+
 	api.addFiles('checkNpm.js', 'server');
 
 	// api.addFiles('server/routes_middleware_config.coffee', 'server');
@@ -84,7 +84,6 @@ Package.onUse(function(api) {
 	api.addFiles('lib/models/space_user_signs.coffee');
 	api.addFiles('lib/models/instance_record_queue.coffee');
 	api.addFiles('lib/models/space_users.coffee');
-	api.addFiles('lib/models/process_delegation_rules.coffee');
 
 	api.addFiles('lib/cfs/instances.coffee');
 
@@ -98,7 +97,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/approve_manager.js', 'client');
 	api.addFiles('client/lib/instance_manager.js', 'client');
 	api.addFiles('client/lib/uuflow_api.js', 'client');
-	api.addFiles('client/lib/workflow_manager.js', ['client', 'server']);
+	api.addFiles('client/lib/workflow_manager.js', ['client']);
 	api.addFiles('client/lib/node_manager.js', 'client');
 	api.addFiles('client/lib/instance_readonly_template.coffee', ['client', 'server']);
 	api.addFiles('client/lib/template_manager.coffee', ['client', 'server']);
@@ -417,11 +416,8 @@ Package.onUse(function(api) {
 
 	api.addFiles('routes/test_webhook.coffee', 'server');
 
-	api.addFiles('server/lib/workflow_manager.js', 'server');
 	api.addFiles('server/lib/1_form_formula.js', 'server');
 	api.addFiles('server/lib/get_handlers_manager.coffee', 'server');
-	api.addFiles('server/lib/uuflow_manager.coffee', 'server');
-	api.addFiles('server/lib/push_manager.coffee', 'server');
 	api.addFiles('server/lib/permission_manager.coffee', 'server');
 	api.addFiles('server/lib/approve_manager.coffee', 'server');
 	api.addFiles('server/lib/flow_manager.coffee', 'server');
@@ -467,7 +463,7 @@ Package.onUse(function(api) {
 	api.addFiles('routes/api_formula_users.coffee', 'server');
 	api.addFiles('routes/api_formula_organizations.coffee', 'server');
 
-	api.export("WorkflowManager");
+	api.export("WorkflowManager", ['client']);
 	api.export("InstanceManager");
 	api.export("WorkflowManager_format");
 	// EXPORT
@@ -487,8 +483,10 @@ Package.onUse(function(api) {
 	api.addFiles('server/lib/instance_manager.coffee', 'server');
 
 	api.addFiles('server/schedule/auto_finish_process_delegation.coffee', 'server');
+	api.addFiles('server/schedule/timeout_auto_submit.coffee', 'server');
 
-	api.export(['uuflowManager', 'getHandlersManager', 'pushManager', 'permissionManager', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
+	api.export(['getHandlersManager', 'permissionManager', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
+	// api.export(['uuflowManager', 'getHandlersManager', 'permissionManager', 'workflowTemplate', 'InstanceManager', 'approveManager', 'stepManager', 'flowManager', 'formManager'], ['server']);
 
 });
 

@@ -17,7 +17,7 @@
  * reactivity on the client.
  */
 
-var clone = Npm.require('clone');
+var clone = require('clone');
 
 Meteor.publish("tabular_genericPub", function (tableName, ids, fields) {
 	var self = this;

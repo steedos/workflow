@@ -1,8 +1,9 @@
 Package.describe({
 	name: 'steedos:webhookqueue',
 	version: '0.0.1',
-	summary: '',
-	git: ''
+	summary: 'Queue for webhook',
+	git: '',
+	documentation: null
 });
 
 
@@ -22,8 +23,8 @@ Package.onUse(function(api) {
 	api.use('mongo', 'server');
 
 
-	api.use('steedos:base');
-	api.use('steedos:smsqueue');
+	api.use('steedos:base@0.1.8');
+	api.use('steedos:smsqueue@0.0.2');
 
 	// Common api
 	api.addFiles([

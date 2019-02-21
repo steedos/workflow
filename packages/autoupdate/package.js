@@ -4,6 +4,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
+	api.use('ecmascript');
 	api.use([
 		'webapp',
 		'check'

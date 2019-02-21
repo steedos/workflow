@@ -118,9 +118,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				newTrace.step = previous_trace_step_id
 				newTrace.name = previous_trace_name
 				newTrace.start_date = now
-				if previous_step.timeout_hours
-					due_time = new Date().getTime() + (1000 * 60 * 60 * previous_step.timeout_hours)
-					newTrace.due_date = new Date(due_time)
+				newTrace.due_date = uuflowManager.getDueDate(previous_step.timeout_hours)
 				newTrace.approves = []
 				# 插入下一步trace.approve记录
 				newApprove = new Object
@@ -143,6 +141,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				newApprove.handler_organization_fullname = org_info["organization_fullname"]
 
 				newApprove.start_date = now
+				newApprove.due_date = newTrace.due_date
 				newApprove.is_read = false
 				newApprove.is_error = false
 				newApprove.values = new Object
@@ -160,6 +159,7 @@ JsonRoutes.add 'post', '/api/workflow/retrieve', (req, res, next) ->
 				setObj.is_archived = false
 
 				setObj.current_step_name = previous_trace_name
+				setObj.current_step_auto_submit = uuflowManager.getCurrentStepAutoSubmit(flow.timeout_auto_submit, previous_step.lines)
 
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 				if r

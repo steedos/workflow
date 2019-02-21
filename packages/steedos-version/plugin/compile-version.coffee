@@ -1,7 +1,7 @@
-exec = Npm.require('child_process').exec
-os = Npm.require('os')
-Future = Npm.require('fibers/future')
-async = Npm.require('async')
+exec = require('child_process').exec
+os = require('os')
+Future = require('fibers/future')
+async = require('async')
 
 Plugin.registerCompiler
 	extensions: ['info']

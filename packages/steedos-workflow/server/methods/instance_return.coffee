@@ -85,9 +85,7 @@ Meteor.methods
 		newTrace.step = pre_trace.step
 		newTrace.name = pre_trace.name
 		newTrace.start_date = now
-		if pre_step.timeout_hours
-			due_time = new Date().getTime() + (1000 * 60 * 60 * pre_step.timeout_hours)
-			newTrace.due_date = new Date(due_time)
+		newTrace.due_date = uuflowManager.getDueDate(pre_step.timeout_hours)
 		newTrace.approves = []
 		_.each new_inbox_users, (next_step_user_id, idx)->
 			# 插入下一步trace.approve记录
@@ -143,9 +141,9 @@ Meteor.methods
 		if r && b
 			# 新inbox_users 和 当前用户 发送push
 			pushManager.send_message_to_specifyUser("current_user", current_user)
-			_.each new_inbox_users, (user_id)->
-				if user_id isnt current_user
-					pushManager.send_message_to_specifyUser("current_user", user_id)
+			instance = uuflowManager.getInstance(instance_id)
+			current_user_info = db.users.findOne(current_user)
+			pushManager.send_instance_notification("return_pending_inbox", instance, reason, current_user_info)
 			# 如果是会签则给会签未提交的人发送push
 			_.each rest_counter_users, (user_id)->
 				pushManager.send_message_to_specifyUser("current_user", user_id)

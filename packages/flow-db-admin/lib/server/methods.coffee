@@ -2,7 +2,7 @@ Meteor.methods
 	adminInsertDoc: (doc,collection)->
 		check arguments, [Match.Any]
 		if true #Roles.userIsInRole this.userId, ['admin']
-			Future = Npm.require('fibers/future');
+			Future = require('fibers/future');
 			fut = new Future();
 
 			adminCollectionObject(collection).insert doc, (e,_id)->
@@ -12,7 +12,7 @@ Meteor.methods
 	adminUpdateDoc: (modifier,collection,_id)->
 		check arguments, [Match.Any]
 		if true #Roles.userIsInRole this.userId, ['admin']
-			Future = Npm.require('fibers/future');
+			Future = require('fibers/future');
 			fut = new Future();
 			adminCollectionObject(collection).update {_id:_id},modifier,(e,r)->
 				fut['return']( {e:e,r:r} )
@@ -54,7 +54,7 @@ Meteor.methods
 	adminUpdateUser: (modifier,_id)->
 		check arguments, [Match.Any]
 		if Roles.userIsInRole this.userId, ['admin']
-			Future = Npm.require('fibers/future');
+			Future = require('fibers/future');
 			fut = new Future();
 			Meteor.users.update {_id:_id},modifier,(e,r)->
 				fut['return']( {e:e,r:r} )

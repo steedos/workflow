@@ -123,6 +123,7 @@ JsonRoutes.add 'post', '/api/workflow/terminate', (req, res, next) ->
 				setObj.traces = traces
 
 				setObj.current_step_name = flow_ver_end_step.name
+				setObj.current_step_auto_submit = false
 
 				r = db.instances.update({_id: instance_id}, {$set: setObj})
 				if r
