@@ -3,7 +3,6 @@ checkNpmVersions({
 	'aliyun-sdk': '1.9.x',
 	busboy: "0.2.x",
 	cookies: "0.6.x",
-	mime: "2.0.x",
 	'csv': "1.1.x",
 	'url': '0.11.x',
 	'request': '2.81.x',
