@@ -583,7 +583,7 @@
 	"instance_sign_agree": "同意",
 	"instance_sign_period": "。",
 
-	"instance_cc_alert": "请确认是否需传阅",
+	"instance_cc_alert": "还需传阅给其他人员吗？",
 	"instance_cc_must_finished": "当前步骤被传阅人员：{$not_finished_users_name} 还未处理，故不能提交至下一步",
 	"instance_number_rules": "流程编号规则",
 	"instance_number_rules_name": "名称",
