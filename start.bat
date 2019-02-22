@@ -5,4 +5,5 @@ set MULTIPLE_INSTANCES_COLLECTION_NAME=workflow_instances
 set ROOT_URL=http://127.0.0.1:3000/
 set METEOR_DOWN_KEY=down_key
 set KADIRA_PROFILE_LOCALLY=1
+set UNIVERSE_I18N_LOCALES=zh-CN
 meteor run --settings settings.json
