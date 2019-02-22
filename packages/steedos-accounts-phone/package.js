@@ -9,7 +9,6 @@ Package.onUse(function (api) {
     api.versionsFrom('1.0');
     api.use('ecmascript@0.1.6');
     api.use('npm-bcrypt@0.7.8_2', 'server');
-    api.use('ecmascript');
 
     api.use('accounts-base@1.0.2', ['client', 'server']);
     // Export Accounts (etc) to packages using this one.
@@ -38,6 +37,7 @@ Package.onTest(function (api) {
     api.use(['steedos:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
+    api.addFiles('checkNpmTest.js', 'server');
     api.addFiles('phone_tests_setup.js', 'server');
     api.addFiles('phone_tests.js', ['client', 'server']);
     api.addFiles('sms_tests_setup.js', 'server');
