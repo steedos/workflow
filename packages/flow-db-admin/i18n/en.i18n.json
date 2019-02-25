@@ -1,4 +1,5 @@
 {
+	"_namespace": "",
 
 	"flow_db_admin_confirm_delete": "Confirm delete",
 	"flow_db_admin_confirm_delete_document": "Are you sure you want to delete this document ?",
