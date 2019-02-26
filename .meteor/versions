@@ -175,7 +175,7 @@ steedos:cfs-http-publish@0.0.13_1
 steedos:cfs-power-queue@0.9.11
 steedos:cfs-reactive-list@0.0.9
 steedos:cfs-reactive-property@0.0.4
-steedos:cfs-s3@0.1.4_1
+steedos:cfs-s3@0.1.4_2
 steedos:cfs-standard-packages@0.5.10_5
 steedos:cfs-storage-adapter@0.2.3_1
 steedos:cfs-tempstore@0.1.6_1

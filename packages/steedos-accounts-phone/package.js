@@ -37,7 +37,6 @@ Package.onTest(function (api) {
     api.use(['steedos:accounts-phone', 'tinytest', 'test-helpers', 'tracker',
         'accounts-base', 'random', 'underscore', 'check',
         'ddp']);
-    api.addFiles('checkNpmTest.js', 'server');
     api.addFiles('phone_tests_setup.js', 'server');
     api.addFiles('phone_tests.js', ['client', 'server']);
     api.addFiles('sms_tests_setup.js', 'server');

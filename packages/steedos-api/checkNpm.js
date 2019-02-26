@@ -1,3 +1,6 @@
+// fix warning: xxx not installed
+require("url/package.json");
+
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 checkNpmVersions({
 	'aliyun-sdk': '1.9.x',
