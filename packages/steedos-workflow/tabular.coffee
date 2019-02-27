@@ -514,8 +514,6 @@ if Meteor.isClient
 	TabularTables.flowInstances = new ReactiveVar()
 
 Tracker.autorun (c) ->
-	console.log "TabularTables autorun..."
-
 	if Meteor.isClient && !Steedos.isMobile()
 		if Session.get("flowId") && Session.get("box") != 'draft'
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
