@@ -5,13 +5,13 @@ Package.describe({
 	git: ''
 });
 
-Npm.depends({
-	"node-schedule": "1.1.1",
-	cookies: "0.6.1",
-	"weixin-pay": "1.1.7",
-	"xml2js": "0.4.17",
-	mkdirp: "0.3.5"
-});
+// Npm.depends({
+// 	"node-schedule": "1.1.1",
+// 	cookies: "0.6.1",
+// 	"weixin-pay": "1.1.7",
+// 	"xml2js": "0.4.17",
+// 	mkdirp: "0.3.5"
+// });
 
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
@@ -59,11 +59,11 @@ Package.onUse(function(api) {
 	api.use('tap:i18n@1.8.2', ['client', 'server']);
 
 	// EXPORT
-	api.export('Steedos');
-	api.export('db');
-	api.export('SteedosOffice');
+	// api.export('Steedos');
+	// api.export('db');
+	// api.export('SteedosOffice');
 
-	api.export(['billingManager'], ['server']);
+	// api.export(['billingManager'], ['server']);
 });
 
 Package.onTest(function(api) {

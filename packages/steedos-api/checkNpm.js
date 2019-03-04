@@ -1,12 +1,15 @@
+// fix warning: xxx not installed
+require("url/package.json");
+
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 checkNpmVersions({
-	'aliyun-sdk': '1.9.x',
-	busboy: "0.2.x",
-	cookies: "0.6.x",
-	'csv': "1.1.x",
-	'url': '0.11.x',
-	'request': '2.81.x',
-	'xinge': '1.1.x',
-	'huawei-push': '0.0.6-0',
-	'xiaomi-push': '0.4.5'
+	'aliyun-sdk': '^1.9.2',
+	busboy: "^0.2.13",
+	cookies: "^0.6.2",
+	'csv': "^1.1.0",
+	'url': '^0.11.0',
+	'request': '^2.81.0',
+	'xinge': '^1.1.3',
+	'huawei-push': '^0.0.6-0',
+	'xiaomi-push': '^0.4.5'
 }, 'steedos:api');

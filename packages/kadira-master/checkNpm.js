@@ -1,10 +1,9 @@
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 checkNpmVersions({
-	"debug": "0.7.x",
-	"kadira-core": "1.3.x",
-	"pidusage": "1.0.x",
-	"evloop-monitor": "0.1.x",
-	"pidusage": "0.1.x",
-	"lru-cache": "4.0.x",
-	"json-stringify-safe": "5.0.x"
+	"debug": "^0.7.4",
+	"kadira-core": "^1.3.2",
+	"pidusage": "^1.0.1",
+	"evloop-monitor": "^0.1.0",
+	"lru-cache": "^4.0.0",
+	"json-stringify-safe": "^5.0.1"
 }, 'meteorhacks:kadira');

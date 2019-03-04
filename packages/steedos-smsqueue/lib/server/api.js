@@ -16,8 +16,7 @@ var sendWorker = function(task, interval) {
 	}, interval);
 };
 
-var SMS = require('aliyun-sms-node'),
-	smsSender;
+
 
 /*
 	options: {
@@ -46,6 +45,9 @@ SMSQueue.Configure = function(options) {
 	if (SMSQueue.debug) {
 		console.log('SMSQueue.Configure', options);
 	}
+
+	var SMS = require('aliyun-sms-node'),
+	smsSender;
 
 	smsSender = new SMS({
 		AccessKeyId: options.accessKeyId,

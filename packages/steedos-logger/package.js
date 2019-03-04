@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:logger',
-	version: '0.0.3',
+	version: '0.0.4',
 	summary: 'Logger for Steedos',
 	documentation: null,
 	git: ''

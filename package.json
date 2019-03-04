@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "aliyun-sdk": "1.9.2",
-    "aliyun-sms-node": "1.1.2",
     "aws-sdk": "^2.0.23",
     "azure-storage": "^0.7.0",
     "babel-runtime": "^6.26.0",
@@ -56,7 +55,7 @@
     "requestretry": "1.12.2",
     "sha256": "0.2.0",
     "sprintf-js": "^1.0.3",
-    "stream-buffers": "0.2.5",
+    "stream-buffers": "^0.2.5",
     "superagent": "3.5.2",
     "temp": "^0.7.0",
     "twilio": "1.10.0",
