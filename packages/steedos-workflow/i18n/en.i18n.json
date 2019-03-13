@@ -696,5 +696,7 @@
 	"instance_handler_name": "Handler",
 	"instance_handler_organization_fullname": "Organization",
 
-	"url_invalid": "Invalid link"
+	"url_invalid": "Invalid link",
+
+	"instance_approve_timeout_auto_submitted": "Timeout auto submitted"
 }

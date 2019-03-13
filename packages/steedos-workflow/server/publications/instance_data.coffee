@@ -8,7 +8,7 @@ Meteor.publish 'instance_data', (instanceId, box)->
 	self = this;
 
 	miniApproveFields = ['_id', 'is_finished', 'user', 'handler', 'handler_name', 'type', 'start_date', 'description',
-		'is_read', 'judge', 'finish_date', 'from_user_name', 'from_user', 'cc_description']
+		'is_read', 'judge', 'finish_date', 'from_user_name', 'from_user', 'cc_description', 'auto_submitted']
 
 	triggerChangeFields = ['form_version', 'flow_version', 'related_instances', '_my_approve_read_dates']
 

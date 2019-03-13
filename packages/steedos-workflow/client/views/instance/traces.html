@@ -93,6 +93,11 @@
                                     <td class="description" colspan="3">{{{agentDescription this.user_name}}}</td>
                                 </tr>
                             {{/if}}
+                            {{#if this.auto_submitted}}
+                                <tr class="approve-description">
+                                    <td class="description red" colspan="3">{{_t "instance_approve_timeout_auto_submitted"}}</td>
+                                </tr>
+                            {{/if}}
                     {{/each}}
                 {{/each}}
                 </tbody>

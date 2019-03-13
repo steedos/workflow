@@ -714,6 +714,8 @@
 	"process_delegation_rules_description": "{$userName}委托",
   	"instance_handler_name": "处理人",
 	"instance_handler_organization_fullname": "部门",
-	
-	"url_invalid": "无效的链接"
+
+	"url_invalid": "无效的链接",
+
+	"instance_approve_timeout_auto_submitted": "超时跳过"
 }
