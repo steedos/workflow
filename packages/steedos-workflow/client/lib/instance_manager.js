@@ -114,7 +114,7 @@ InstanceManager.getNextStepOptions = function() {
 				}else if (current_next_steps && current_next_steps.length > 0) {
 					//选中已暂存的值
 					var db_next_step = next_step_options.findPropertyByPK("id", current_next_steps[0].step)
-					if (_.isObject(db_next_step)) {
+					if (_.isObject(db_next_step) && !isValidSessionStepId) {
 						next_step_id = db_next_step.id
 						Session.set("next_step_id", next_step_id);
 					}
@@ -682,7 +682,7 @@ InstanceManager.getCurrentApprove = function() {
 		// 当前是传阅
 		_.each(instance.traces, function(t) {
 			_.each(t.approves, function(a) {
-				if (a.type == 'cc' && a.handler == Meteor.userId() && a.is_finished == false) {
+				if (a.type == 'cc' && a.user == Meteor.userId() && a.is_finished == false) {
 					currentApprove = a;
 				}
 			})
@@ -1150,7 +1150,14 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 	$('.loading-text').text(TAPi18n.__("workflow_attachment_uploading"));
 
 	// 专业版文件大小不能超过100M
+	// 读取settings中附件最大限制,默认100M
+	var ref, ref1, ref2;
 	var maximumFileSize = 100 * 1024 * 1024;
+	var attachment_size_limit = ((ref = Meteor.settings) != null ? (ref1 = ref["public"]) != null ? (ref2 = ref1.workflow) != null ? ref2.attachment_size_limit : void 0 : void 0 : void 0) || 100;
+	
+	if (attachment_size_limit)
+		maximumFileSize = attachment_size_limit * 1024 * 1024;
+	
 	// 免费版大小不能超过1M
 	var freeMaximumFileSize = 1024 * 1024;
 
@@ -1299,7 +1306,7 @@ InstanceManager.getCCApprove = function(userId, is_finished) {
 	traces.forEach(function(t) {
 		if (t.approves) {
 			t.approves.forEach(function(approve) {
-				if (approve.handler == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
+				if (approve.user == userId && approve.type == 'cc' && approve.is_finished == is_finished) {
 					rev = approve
 				}
 			});
@@ -1621,7 +1628,7 @@ InstanceManager.getLastCCApprove = function(traces) {
 		if (!currentApprove && traces[i].is_finished) {
 			_.each(traces[i].approves, function(ap) {
 				if (!currentApprove) {
-					if (ap.is_finished && ap.handler === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
+					if (ap.is_finished && ap.user === user_id && (!ap.type || ap.type == 'cc') && ['approved', 'submitted', 'rejected'].includes(ap.judge)) {
 						currentApprove = ap;
 					}
 				}
@@ -1679,19 +1686,4 @@ InstanceManager.getDistributeStep = function() {
 		}
 	}
 	return step;
-}
-InstanceManager.pickApproveSteps = function () {
-	var steps = WorkflowManager.getInstanceSteps()
-
-	var apporve_stesp = _.filter(steps, function(s){
-			return s.allow_pick_approve_users && ["sign", "submit", "counterSign"].includes(s.step_type)
-		}
-	);
-
-	return apporve_stesp;
-}
-
-InstanceManager.ccHasEditPermission = function () {
-	var ccStep = InstanceManager.getCCStep();
-	return ccStep.cc_has_edit_permission;
 }
