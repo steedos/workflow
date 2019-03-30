@@ -154,29 +154,30 @@ _minxiInstanceData = (formData, instance) ->
 		catch e
 			logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#		正文附件历史版本
-		mainFileHistory = cfs.instances.find({
-			'metadata.instance': f.metadata.instance,
-			'metadata.current': {$ne: true},
-			"metadata.main": true,
-			"metadata.parent": f.metadata.parent
-		}, {sort: {uploadedAt: -1}}).fetch()
+		if f.metadata.instance == instance._id
+			mainFileHistory = cfs.instances.find({
+				'metadata.instance': f.metadata.instance,
+				'metadata.current': {$ne: true},
+				"metadata.main": true,
+				"metadata.parent": f.metadata.parent
+			}, {sort: {uploadedAt: -1}}).fetch()
 
-		mainFileHistoryLength = mainFileHistory.length
+			mainFileHistoryLength = mainFileHistory.length
 
-		mainFileHistory.forEach (fh, i) ->
-			fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
-			try
-				filepath = path.join(absolutePath, fh.copies.instances.key);
-				if fs.existsSync(filepath)
-					formData.attach.push {
-						value: fs.createReadStream(filepath),
-						options: {filename: fName}
-					}
-					_minxiAttachmentInfo formData, instance, f
-				else
-					logger.error "附件不存在：#{filepath}"
-			catch e
-				logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
+			mainFileHistory.forEach (fh, i) ->
+				fName = getFileHistoryName f.name(), fh.name(), mainFileHistoryLength - i
+				try
+					filepath = path.join(absolutePath, fh.copies.instances.key);
+					if fs.existsSync(filepath)
+						formData.attach.push {
+							value: fs.createReadStream(filepath),
+							options: {filename: fName}
+						}
+						_minxiAttachmentInfo formData, instance, f
+					else
+						logger.error "附件不存在：#{filepath}"
+				catch e
+					logger.error "正文附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 
 	nonMainFileHandle = (f)->
@@ -193,29 +194,30 @@ _minxiInstanceData = (formData, instance) ->
 		catch e
 			logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 		#	非正文附件历史版本
-		nonMainFileHistory = cfs.instances.find({
-			'metadata.instance': f.metadata.instance,
-			'metadata.current': {$ne: true},
-			"metadata.main": {$ne: true},
-			"metadata.parent": f.metadata.parent
-		}, {sort: {uploadedAt: -1}}).fetch()
+		if f.metadata.instance == instance._id
+			nonMainFileHistory = cfs.instances.find({
+				'metadata.instance': f.metadata.instance,
+				'metadata.current': {$ne: true},
+				"metadata.main": {$ne: true},
+				"metadata.parent": f.metadata.parent
+			}, {sort: {uploadedAt: -1}}).fetch()
 
-		nonMainFileHistoryLength = nonMainFileHistory.length
+			nonMainFileHistoryLength = nonMainFileHistory.length
 
-		nonMainFileHistory.forEach (fh, i) ->
-			fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
-			try
-				filepath = path.join(absolutePath, fh.copies.instances.key);
-				if fs.existsSync(filepath)
-					formData.attach.push {
-						value: fs.createReadStream(filepath),
-						options: {filename: fName}
-					}
-					_minxiAttachmentInfo formData, instance, f
-				else
-					logger.error "附件不存在：#{filepath}"
-			catch e
-				logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
+			nonMainFileHistory.forEach (fh, i) ->
+				fName = getFileHistoryName f.name(), fh.name(), nonMainFileHistoryLength - i
+				try
+					filepath = path.join(absolutePath, fh.copies.instances.key);
+					if fs.existsSync(filepath)
+						formData.attach.push {
+							value: fs.createReadStream(filepath),
+							options: {filename: fName}
+						}
+						_minxiAttachmentInfo formData, instance, f
+					else
+						logger.error "附件不存在：#{filepath}"
+				catch e
+					logger.error "附件下载失败：#{f._id},#{f.name()}. error: " + e
 
 	#	正文附件
 	mainFile = cfs.instances.find({
