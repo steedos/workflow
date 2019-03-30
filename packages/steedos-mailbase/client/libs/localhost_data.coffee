@@ -77,20 +77,22 @@ LocalhostData.rmdir = (folderPath) ->
 			_folders = fs.readdirSync(folderPath);
 			_folders.forEach (_folder,index) ->
 				curPath = path.join folderPath, _folder;
-				if fs.statSync(curPath).isDirectory()
-					_files = fs.readdirSync(curPath);
-					if(_files.length > 0)
-						_files.forEach (_file,index) ->
-							cPath = path.join curPath, _file;
-							if fs.statSync(cPath).isDirectory()
-								LocalhostData.rmdir(curPath)
-							else
-								folderDate = fs.statSync(cPath).mtime;
-								cDate = (curDate - folderDate) / 86400000;
-								if (cDate > 7)
-									fs.unlinkSync(cPath);
-					else
-						fs.rmdirSync(curPath);
+				if fs.existsSync(curPath)
+					if fs.statSync(curPath).isDirectory()
+						_files = fs.readdirSync(curPath);
+						if(_files.length > 0)
+							_files.forEach (_file,index) ->
+								cPath = path.join curPath, _file;
+								if fs.existsSync(cPath)
+									if fs.statSync(cPath).isDirectory()
+										LocalhostData.rmdir(curPath)
+									else
+										folderDate = fs.statSync(cPath).mtime;
+										cDate = (curDate - folderDate) / 86400000;
+										if (cDate > 7)
+											fs.unlinkSync(cPath);
+						else
+							fs.rmdirSync(curPath);
 
 LocalhostData.getFolderFileNames = (folderPath)->
 	files = []
