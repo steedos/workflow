@@ -82,31 +82,31 @@ if (Steedos.isNode()){
 
 	var gui = nw.require("nw.gui");
 	var cutMenu = new gui.MenuItem({
-		label: "nw_menu_cut",
+		label: t("nw_menu_cut"),
 		click: function() {
 			document.execCommand("cut");
 		}
 	});
 	var copyMenu = new gui.MenuItem({
-		label: "nw_menu_copy",
+		label: t("nw_menu_copy"),
 		click: function() {
 			document.execCommand("copy");
 		}
 	});
 	var pasteMenu = new gui.MenuItem({
-		label: "nw_menu_paste",
+		label: t("nw_menu_paste"),
 		click: function() {
 			document.execCommand("paste");
 		}
 	});
 	var selectallMenu = new gui.MenuItem({
-		label: "nw_menu_selectall",
+		label: t("nw_menu_selectall"),
 		click: function() {
 			document.execCommand("selectall");
 		}
 	});
 	var reloadMenu = new gui.MenuItem({
-		label: "nw_menu_reload",
+		label: t("nw_menu_reload"),
 		click: function() {
 			window.location.reload(true);
 		}
