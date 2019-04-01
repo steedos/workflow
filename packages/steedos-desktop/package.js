@@ -33,6 +33,8 @@ Package.onUse(function(api) {
 	api.use('steedos:cfs-standard-packages');
 	api.use('steedos:cfs-aliyun')
 	api.use('steedos:cfs-s3');
+	api.use('steedos:i18n');
+	
 
 	api.use('kadira:flow-router@2.10.1');
 	api.use('meteorhacks:subs-manager');
@@ -42,11 +44,6 @@ Package.onUse(function(api) {
 	api.use(['webapp'], 'server');
 
 	api.use('momentjs:moment', 'client');
-
-	// TAPi18n
-	api.use('templating', 'client');
-
-	api.use('tap:i18n', ['client', 'server']);
 
 	// COMMON
 	api.addFiles('desktop_manager.js', 'client');
