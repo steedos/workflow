@@ -82,31 +82,31 @@ if (Steedos.isNode()){
 
 	var gui = nw.require("nw.gui");
 	var cutMenu = new gui.MenuItem({
-		label: t("nw_menu_cut"),
+		label: "剪切",
 		click: function() {
 			document.execCommand("cut");
 		}
 	});
 	var copyMenu = new gui.MenuItem({
-		label: t("nw_menu_copy"),
+		label: "复制",
 		click: function() {
 			document.execCommand("copy");
 		}
 	});
 	var pasteMenu = new gui.MenuItem({
-		label: t("nw_menu_paste"),
+		label: "粘贴",
 		click: function() {
 			document.execCommand("paste");
 		}
 	});
 	var selectallMenu = new gui.MenuItem({
-		label: t("nw_menu_selectall"),
+		label: "全选",
 		click: function() {
 			document.execCommand("selectall");
 		}
 	});
 	var reloadMenu = new gui.MenuItem({
-		label: t("nw_menu_reload"),
+		label: "刷新",
 		click: function() {
 			window.location.reload(true);
 		}
