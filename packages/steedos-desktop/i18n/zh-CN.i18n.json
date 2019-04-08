@@ -1,0 +1,9 @@
+{
+	"_namespace": "",
+	
+	"nw_menu_cut": "剪切",
+	"nw_menu_copy": "复制",
+	"nw_menu_paste": "粘贴",
+	"nw_menu_selectall": "全选",
+	"nw_menu_reload": "刷新"
+}
