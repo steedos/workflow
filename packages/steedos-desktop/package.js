@@ -45,6 +45,8 @@ Package.onUse(function(api) {
 
 	api.use('momentjs:moment', 'client');
 
+	api.use('universe:i18n@1.13.0');
+
 	// COMMON
 	api.addFiles('desktop_manager.js', 'client');
 	api.export('Desktop');
