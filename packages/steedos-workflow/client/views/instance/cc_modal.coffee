@@ -101,6 +101,10 @@ Template.instance_cc_modal.events
 		Steedos.openWindow t('cc_help')
 		return
 	'click #cc_modal_ok': (event, template) ->
+
+		if !InstanceEvent.run($("#instance_cc_modal"), "before-confirm")
+			return ;
+
 		val = AutoForm.getFieldValue('cc_users', 'instanceCCForm')
 		description = AutoForm.getFieldValue('cc_description', 'instanceCCForm') || ""
 		if !val or val.length < 1
@@ -145,3 +149,7 @@ Template.instance_cc_modal.events
 			Session.set("instance_submitting", false);
 			return
 		return
+
+Template.instance_cc_modal.onRendered ->
+	InstanceEvent.initEvents(WorkflowManager.getInstance().flow);
+	InstanceEvent.run($("#instance_cc_modal"), "onload")

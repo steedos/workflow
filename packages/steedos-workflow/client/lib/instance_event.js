@@ -20,7 +20,9 @@ InstanceEvent.initEvents = function(flowId) {
 	$("#ins_upload_normal_attach").unbind('instance-before-upload')
 	$("#ins_attach_version").unbind('instance-before-upload')
 	$(".instance-forward-modal").unbind('onload')
-	$(".instance-distribute-modal").unbind('onload')
+	$(".instance-distribute-modal").unbind('onload');
+	$("#instance_cc_modal").unbind('onload');
+	$("#instance_cc_modal").unbind('before-confirm');
 	$("body").unbind('after-save')
 
 
