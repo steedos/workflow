@@ -80,7 +80,7 @@
 	"Versions": "版本",
 	"Current Version": "（最新版本）",
 	"workflow_attachment_free_size_limit": "抱歉，免费版工作区只能上传1M以内的文件。",
-	"workflow_attachment_paid_size_limit": "您上传的文件大小不得超过100M",
+	"workflow_attachment_paid_size_limit": "您上传的文件大小不得超过",
 	"workflow_attachment_download": "下载",
 	"workflow_attachment_view": "查看",
 	"workflow_attachment_isReadOnly": "只读-",
