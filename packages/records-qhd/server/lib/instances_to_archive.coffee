@@ -280,7 +280,7 @@ _minxiInstanceData = (formData, instance) ->
 
 	user = db.users.findOne({_id: space.owner})
 
-	options = {showTrace: true, showAttachments: true, absolute: true}
+	options = {showTrace: false, showAttachments: false, absolute: true, add_styles: '.box-success{border-top: 0px !important;}'}
 
 	html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
 

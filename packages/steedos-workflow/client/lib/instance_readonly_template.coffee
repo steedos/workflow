@@ -688,6 +688,8 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					}
 
 					#{options?.styles || ""}
+
+					#{options?.add_styles || ""}
 				</style>
 			</head>
 			<body>
