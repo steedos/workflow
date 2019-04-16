@@ -3,7 +3,6 @@ Steedos.subs["InstanceTabular"] = new SubsManager()
 
 _handleListFields = (fields) ->
 	ins_fields = new Array();
-
 	fields?.forEach (f)->
 		if f.type == 'table'
 			console.log 'ignore opinion field in table'
@@ -342,9 +341,9 @@ TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
 GetBoxInstancesTabularOptions = (box, flowId, fields)->
 	if box == "inbox"
-		return _get_inbox_instances_tabular_options(box, flowId, fields)
+		return _get_inbox_instances_tabular_options(flowId, fields)
 	else if box == "outbox"
-		return _get_outbox_instances_tabular_options(box, flowId, fields)
+		return _get_outbox_instances_tabular_options(flowId, fields)
 
 
 
@@ -509,9 +508,7 @@ newInstancesListTabular = (box, flowId, fields)->
 	if !fields
 		flow = db.flows.findOne({_id: flowId}, {fields: {form: 1}})
 		fields = db.forms.findOne({ _id: flow?.form }, { fields: { 'current.fields': 1 } })?.current?.fields
-
 	fields = _handleListFields fields
-
 	if fields?.filterProperty("is_list_display", true)?.length > 0
 		key = "instanceFlow" + flowId
 		if Meteor.isClient
