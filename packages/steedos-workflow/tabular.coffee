@@ -344,6 +344,11 @@ GetBoxInstancesTabularOptions = (box, flowId, fields)->
 		return _get_inbox_instances_tabular_options(flowId, fields)
 	else if box == "outbox"
 		return _get_outbox_instances_tabular_options(flowId, fields)
+	else
+		options = instancesListTableTabular(flowId, fields)
+		if !flowId
+			options.name = "inbox_instances"
+		return options
 
 
 
