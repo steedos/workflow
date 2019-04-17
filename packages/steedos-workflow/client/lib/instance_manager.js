@@ -1167,7 +1167,7 @@ InstanceManager.uploadAttach = function(files, isAddVersion, isMainAttach) {
 
 	if (is_paid) {
 		limitSize = maximumFileSize;
-		warnStr = t("workflow_attachment_paid_size_limit");
+		warnStr = t("workflow_attachment_paid_size_limit") + attachment_size_limit + "MB";
 	} else {
 		limitSize = freeMaximumFileSize;
 		warnStr = t("workflow_attachment_free_size_limit");
