@@ -1,19 +1,19 @@
 JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 	try {
-		current_user_info = uuflowManager.check_authorization(req);
-		current_user_id = current_user_info._id;
+		var current_user_info = uuflowManager.check_authorization(req);
+		var current_user_id = current_user_info._id;
 
-		hashData = req.body;
-		instance_id = hashData.instance_id;
-		space_id = hashData.space_id;
-		flow_id = hashData.flow_id;
-		hasSaveInstanceToAttachment = hashData.hasSaveInstanceToAttachment;
-		description = hashData.description;
-		isForwardAttachments = hashData.isForwardAttachments;
-		selectedUsers = hashData.selectedUsers;
-		action_type = hashData.action_type;
-		related = hashData.related;
-		from_approve_id = hashData.from_approve_id;
+		var hashData = req.body;
+		var instance_id = hashData.instance_id;
+		var space_id = hashData.space_id;
+		var flow_id = hashData.flow_id;
+		var hasSaveInstanceToAttachment = hashData.hasSaveInstanceToAttachment;
+		var description = hashData.description;
+		var isForwardAttachments = hashData.isForwardAttachments;
+		var selectedUsers = hashData.selectedUsers;
+		var action_type = hashData.action_type;
+		var related = hashData.related;
+		var from_approve_id = hashData.from_approve_id;
 
 		check(instance_id, String);
 		check(space_id, String);
