@@ -9,6 +9,8 @@
 - 降低沟通成本：有了审批王，员工不再到处找领导各种签字，帮您大幅节省纸张、传真、电话、沟通、查询等各种成本。
 - 随时随地访问：有了审批王，打开手机就可以处理和查询业务流程，全世界都是你的办公室。
 
+![审批王界面效果图](https://www.steedos.com/cn/libs/img/workflow/int.png)
+
 ### 相关资料
 - 功能介绍 https://www.steedos.com/cn/workflow/ 
 - 帮助中心 https://www.steedos.com/cn/help/workflow/
