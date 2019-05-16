@@ -341,15 +341,18 @@ TabularTables.instances = new Tabular.Table instancesListTableTabular()
 
 
 GetBoxInstancesTabularOptions = (box, flowId, fields)->
+	key = "instanceFlow" + box + flowId
 	if box == "inbox"
-		return _get_inbox_instances_tabular_options(flowId, fields)
+		options = _get_inbox_instances_tabular_options(flowId, fields)
 	else if box == "outbox"
-		return _get_outbox_instances_tabular_options(flowId, fields)
+		options = _get_outbox_instances_tabular_options(flowId, fields)
 	else
 		options = instancesListTableTabular(flowId, fields)
 		if !flowId
 			options.name = "inbox_instances"
-		return options
+	if flowId
+		options.name = key
+	return options
 
 
 
@@ -420,7 +423,6 @@ _get_inbox_instances_tabular_options = (flowId, fields)->
 				return filteredRecordIds.uniq()
 			else
 				return old_filteredRecordIds
-
 	return options
 
 TabularTables.inbox_instances = new Tabular.Table GetBoxInstancesTabularOptions("inbox")
@@ -508,6 +510,7 @@ Tracker.autorun (c) ->
 		if Session.get("flowId")
 			Meteor.call "newInstancesListTabular", Session.get("box"), Session.get("flowId"), (error, result) ->
 				newInstancesListTabular Session.get("box"), Session.get("flowId"), result
+				Template.instance_list._changeOrder()
 
 
 newInstancesListTabular = (box, flowId, fields)->
@@ -516,7 +519,7 @@ newInstancesListTabular = (box, flowId, fields)->
 		fields = db.forms.findOne({ _id: flow?.form }, { fields: { 'current.fields': 1 } })?.current?.fields
 	fields = _handleListFields fields
 	if fields?.filterProperty("is_list_display", true)?.length > 0
-		key = "instanceFlow" + flowId
+		key = "instanceFlow" + box + flowId
 		if Meteor.isClient
 			TabularTables.flowInstances.set(new Tabular.Table GetBoxInstancesTabularOptions(box, flowId, fields))
 		else
