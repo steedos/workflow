@@ -656,7 +656,7 @@ pushManager.send_message_to_specifyUser = (send_from, to_user)->
 		console.error e.stack
 
 pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_user_id, to_user_ids)->
-	
+
 	instance.attachments = cfs.instances.find({'metadata.instance': instance._id}).fetch()
 
 	# 增加from_user和to_users的username、email、mobile
@@ -664,7 +664,7 @@ pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_u
 	from_space_user = db.space_users.findOne({"user": from_user_id},{fields: {mobile:1, email:1}})
 	from_user?.mobile = from_space_user?.mobile || ""
 	from_user?.email = from_space_user?.email || ""
-	
+
 	if(to_user_ids.length>0)
 		to_users = db.users.find({"_id": {$in: to_user_ids}},{fields: {_id:1, username:1}}).fetch()
 		to_users.forEach (to_user)->
@@ -672,6 +672,7 @@ pushManager.triggerWebhook = (flow_id, instance, current_approve, action, from_u
 			to_user?.mobile = to_space_user?.mobile || ""
 			to_user?.email = to_space_user?.email || ""
 
+	instance.redirectUrl = Meteor.absoluteUrl "workflow/redirect/#{instance._id}"
 	db.webhooks.find({flow: flow_id, active: true}).forEach (w)->
 		WebhookQueue.send({
 				instance: instance,

@@ -4,7 +4,7 @@ if !process.env.MAIL_URL || ! Package["email"]
   sendVerificationEmail = false
 AccountsTemplates.configure
   defaultLayout: 'loginLayout',
-  defaultLayoutRegions: 
+  defaultLayoutRegions:
     nav: 'loginNav',
   defaultContentRegion: 'main',
 
@@ -53,7 +53,7 @@ AccountsTemplates.configureRoute 'signIn',
     if /^\/oauth2\b/.test(path)
       location.reload()
     else
-       FlowRouter.go("/");
+       FlowRouter.go(FlowRouter.current().queryParams?.redirect || "/");
 AccountsTemplates.configureRoute 'signUp',
   path: '/steedos/sign-up'
 AccountsTemplates.configureRoute 'verifyEmail',

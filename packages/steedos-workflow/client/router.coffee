@@ -148,3 +148,13 @@ FlowRouter.route '/admin/workflow/flow_roles',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_flow_roles"
+
+FlowRouter.route '/workflow/redirect/:instanceId',
+	triggersEnter: [checkUserSigned],
+	action: (params, queryParams)->
+		Meteor.call "calculateRedirectBox", params.instanceId, (error, result) ->
+			if error
+				console.log error
+				return
+			else
+				FlowRouter.go(result)

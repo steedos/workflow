@@ -3,7 +3,7 @@ Setup.validate = (cb)->
 	loginToken = Accounts._storedLoginToken()
 	requestData = {}
 	if userId and loginToken
-		requestData = 
+		requestData =
 			"X-User-Id": userId
 			"X-Auth-Token": loginToken
 
@@ -13,7 +13,7 @@ Setup.validate = (cb)->
 		contentType: "application/json",
 		dataType: 'json',
 		data: JSON.stringify(requestData),
-		xhrFields: 
+		xhrFields:
 			withCredentials: true
 		crossDomain: true
 	.done ( data ) ->
@@ -36,7 +36,7 @@ Setup.logout = () ->
 		type: "POST",
 		url: Steedos.absoluteUrl("api/setup/logout"),
 		dataType: 'json',
-		xhrFields: 
+		xhrFields:
 		   withCredentials: true
 		crossDomain: true,
 	.always ( data ) ->
@@ -44,6 +44,7 @@ Setup.logout = () ->
 
 Meteor.startup ->
 	Setup.validate ()->
+		console.log(1111)
 		if FlowRouter.current()?.context?.pathname == "/steedos/sign-in"
 			if FlowRouter.current()?.queryParams?.redirect
 				FlowRouter.go FlowRouter.current().queryParams.redirect
@@ -57,5 +58,8 @@ Meteor.startup ->
 			if Steedos.subsSpaceBase.ready()
 				c.stop()
 				Steedos.subs["SpaceAvatar"]?.clear()
+		console.log(2222)
+		console.log('FlowRouter.current()?.context?.pathname: ', FlowRouter.current()?.context?.pathname)
+		console.log('FlowRouter.current()?.queryParams?.redirect: ', FlowRouter.current()?.queryParams?.redirect)
 
 		Setup.validate()
