@@ -1,44 +1,17 @@
-# Steedos Apps
+# 审批王
 
-Steedos Apps is a cloud-based productivity suite that helps you and your team connect and get work done from anywhere on any device.
+审批王是全新的企业级在线审批系统，可以快速的将公司的各类审批业务转换为可严格执行的电子流程。出差申请、差旅报销、请假销假、物品采购、付款申请、固定资产报废、会议室预约、退库管理、客服投诉、工作报告等均可通过审批王处理。
 
-- https://us.steedos.com/ 
+- 规范业务过程：审批王帮助您将各项规章制度转化为可严格执行的电子流程。避免工作人员办事随心所欲。
+- 减少出错机会：每月月底通过程序自动计算汇总生成报表，避免人工计算、誊抄等环节中的错误。
+- 提升工作效率：像微信一样即时通知，领导打开手机就能处理，大幅提升业务流程运行效率。
+- 记录随时可查：审批王永久保存您的申请单，您可以像百度一样随时调阅已审批的记录，资料不再遗失。
+- 降低沟通成本：有了审批王，员工不再到处找领导各种签字，帮您大幅节省纸张、传真、电话、沟通、查询等各种成本。
+- 随时随地访问：有了审批王，打开手机就可以处理和查询业务流程，全世界都是你的办公室。
 
-## Springboard
-!["Springboard"](.meteor/screen/springboard.png)
+![审批王界面效果图](https://www.steedos.com/cn/libs/img/workflow/int.png)
 
-## Steedos Workflow
-!["Steedos Workflow"](.meteor/screen/workflow_instance.png)
-
-## Settings
-!["Steedos Settings"](.meteor/screen/settings.png)
-
-## Developer Reference
-
-##### [Meteor](http://docs.meteor.com/#/full/)
-> Meteor is an ultra-simple environment for building modern websites. What once took weeks, even with the best tools, now takes hours with Meteor.
-
-##### [Meteor User Accounts](https://github.com/meteor-useraccounts/core)
-> User Accounts is a suite of packages for the Meteor.js platform. At the moment it includes forms for sign in, sign up, forgot password, reset password, change password, enroll account, and link or remove of many 3rd party services.
-
-##### [Aldeed SimpleSchema](https://github.com/aldeed/meteor-simple-schema)
-> A simple, reactive schema validation smart package for Meteor.
-
-##### [Aldeed Collection2](https://github.com/aldeed/meteor-collection2)
-> A Meteor package that extends Mongo.Collection to provide support for specifying a SimpleSchema and then validating against SimpleSchema when inserting and updating.
-
-##### [Aldeed Tabular](https://github.com/aldeed/meteor-tabular)
-> A Meteor package that creates reactive [DataTables](http://datatables.net/) in an efficient way, allowing you to display the contents of enormous collections without impacting app performance.
-
-##### [Aldeed AutoForm](https://github.com/aldeed/meteor-autoform)
-> AutoForm is a Meteor package that adds UI components and helpers to easily create basic forms with automatic insert and update events, and automatic reactive validation. 
-
-##### [Meteor Collection Hooks](https://github.com/matb33/meteor-collection-hooks)
-> Extends Mongo.Collection with before/after hooks for insert, update, remove, find, and findOne.
-
-##### [Meteor Collection Helpers](https://github.com/dburles/meteor-collection-helpers)
-> Meteor package that allows you to define helpers on your collections
-
-##### [TAP i18n](https://github.com/TAPevents/tap-i18n)
-> tap-i18n is a Meteor package that provides a comprehensive i18n solution for Meteor apps and packages
-
+### 相关资料
+- 功能介绍 https://www.steedos.com/cn/workflow/ 
+- 帮助中心 https://www.steedos.com/cn/help/workflow/
+- 应用下载 https://www.steedos.com/cn/workflow/downloads/
