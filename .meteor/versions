@@ -205,7 +205,7 @@ steedos:objects@0.0.15
 steedos:objects-billing@0.0.1
 steedos:objects-core@0.0.9
 steedos:odata@0.0.7
-steedos:portal@0.0.2
+steedos:portal@0.0.3
 steedos:qcloud-smsqueue@0.0.5
 steedos:slipjs@2.1.0
 steedos:smsqueue@0.0.4
