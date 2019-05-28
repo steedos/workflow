@@ -82,7 +82,7 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 
 		attach = req.query?.attach
 
-		category = req.query?.category
+		workflow_categories = req.query?.workflow_categories
 
 		# 校验space是否存在
 		space = uuflowManager.getSpace(space_id)
@@ -120,8 +120,8 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				$or: [{ inbox_users: special_user_id }, { cc_users: special_user_id }]
 			}
 
-		if category
-			query.category = category
+		if workflow_categories
+			query.category = { $in: workflow_categories.split(',') }
 
 		space_names = {}
 		space_names[space._id] = space.name
@@ -166,9 +166,11 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 
 			result_instances.push(h)
 
+		no_limit_count = db.instances.find(query).count()
+
 		JsonRoutes.sendResult res, {
 			code: 200
-			data: { status: "success", data: result_instances }
+			data: { status: "success", data: result_instances, no_limit_count: no_limit_count }
 		}
 	catch e
 		console.error e.stack
