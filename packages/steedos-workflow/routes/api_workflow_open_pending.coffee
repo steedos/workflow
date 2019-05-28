@@ -82,6 +82,8 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 
 		attach = req.query?.attach
 
+		category = req.query?.category
+
 		# 校验space是否存在
 		space = uuflowManager.getSpace(space_id)
 
@@ -117,6 +119,9 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				space: space_id,
 				$or: [{ inbox_users: special_user_id }, { cc_users: special_user_id }]
 			}
+
+		if category
+			query.category = category
 
 		space_names = {}
 		space_names[space._id] = space.name
