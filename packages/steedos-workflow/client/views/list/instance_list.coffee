@@ -20,7 +20,8 @@ Template.instance_list.helpers
 		unless Meteor.user()
 			return {_id: -1}
 		query = {space: Session.get("spaceId")}
-
+		if !_.isEmpty Session.get('workflow_categories')
+			query.category = {$in: Session.get('workflow_categories')}
 		if Session.get("flowId")
 			query.flow = Session.get("flowId")
 		box = Session.get("box")

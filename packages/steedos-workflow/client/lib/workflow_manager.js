@@ -514,11 +514,17 @@ WorkflowManager.getFormulaOrgObject = function(orgId) {
 
 }
 
-WorkflowManager.getSpaceCategories = function(spaceId) {
+WorkflowManager.getSpaceCategories = function(spaceId, _ids) {
 
-	return db.categories.find({
+	var query = {
 		space: spaceId
-	}, {
+	};
+
+	if(!_.isEmpty(_ids)){
+		query._id = {$in: _ids}
+	}
+
+	return db.categories.find(query, {
 		sort: {
 			sort_no: -1
 		}
@@ -535,13 +541,16 @@ WorkflowManager.getCategoriesForms = function(categorieId) {
 };
 
 WorkflowManager.getUnCategoriesForms = function() {
-
-	return forms = db.forms.find({
-		category: {
-			$in: [null, ""]
-		},
-		state: "enabled"
-	}).fetch();
+	if(!Session.get("workflow_categories")){
+		return forms = db.forms.find({
+			category: {
+				$in: [null, ""]
+			},
+			state: "enabled"
+		}).fetch();
+	}else{
+		return []
+	}
 };
 
 WorkflowManager.getFormFlows = function(formId) {
@@ -774,7 +783,7 @@ WorkflowManager.getFlowListData = function(show_type, space_id) {
 	} else {
 		re.categories = new Array();
 
-		var categories = WorkflowManager.getSpaceCategories(spaceId);
+		var categories = WorkflowManager.getSpaceCategories(spaceId, Session.get("workflow_categories"));
 
 		// categories.sortByName();
 

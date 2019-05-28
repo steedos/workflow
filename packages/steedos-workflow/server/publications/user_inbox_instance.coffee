@@ -93,7 +93,7 @@ _get_flow_instances_aggregate = (spaceId, userId, _items, callback)->
 		},
 		{
 			$group: {
-				_id: "$flow", count: {$sum: 1}
+				_id: {flow: "$flow", category: "$category"}, count: {$sum: 1}
 			}
 		}
 	], (err, data)->
@@ -122,10 +122,16 @@ Meteor.publish 'my_inbox_flow_instances_count', (spaceId)->
 
 	data = []  #数据格式：[{_id:flowId, count: 待办数量}, {_id:flowId2, count: 待办数量2}]
 	_async_get_flow_instances_aggregate(spaceId, self.userId, data)
-	self.added("flow_instances", spaceId, {flows: data});
+
+	_flowsData = []
+
+	_.each data, (dataItem)->
+		_flowsData.push({_id: dataItem._id.flow, category: dataItem._id.category, count: dataItem.count})
+
+	self.added("flow_instances", spaceId, {flows: _flowsData});
 
 	_changeData = (doc, action)->
-		flow_instance = _.find data, (f)->
+		flow_instance = _.find _flowsData, (f)->
 			return f._id == doc.flow
 		if flow_instance
 			if action == "added"
@@ -133,12 +139,12 @@ Meteor.publish 'my_inbox_flow_instances_count', (spaceId)->
 			else if action == "removed"
 				flow_instance.count--
 		else if action == "added"
-			data.push {_id: doc.flow, count: 1}
+			_flowsData.push {_id: doc.flow, category: doc.category, count: 1}
 
-		self.changed("flow_instances", spaceId, {flows: data});
+		self.changed("flow_instances", spaceId, {flows: _flowsData});
 
 	_init = true
-	handle = db.instances.find(query, {fields: {_id: 1, inbox_users: 1, cc_users: 1, flow: 1}}).observe {
+	handle = db.instances.find(query, {fields: {_id: 1, inbox_users: 1, cc_users: 1, flow: 1, category: 1}}).observe {
 		added: (doc)->
 			if !_init
 				_changeData(doc, "added")

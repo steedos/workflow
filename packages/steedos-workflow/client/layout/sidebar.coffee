@@ -1,3 +1,14 @@
+getInboxCount = (categoryIds)->
+	count = 0
+	flow_instances = db.flow_instances.findOne(Steedos.getSpaceId())
+	categoryIds.forEach (categoryId)->
+		_.each flow_instances?.flows, (_f)->
+			if _f.category == categoryId
+				count += _f?.count || 0
+	return count
+
+
+
 Template.workflowSidebar.helpers
 
 	spaceId: ->
@@ -100,13 +111,21 @@ Template.workflowSidebar.helpers
 		return inboxSpaces.length > 0
 
 	categorys: ()->
-		return WorkflowManager.getSpaceCategories(Session.get("spaceId"))
+		return WorkflowManager.getSpaceCategories(Session.get("spaceId"), Session.get("workflow_categories"))
 
 	hasInstances: (inbox_count)->
 		return inbox_count > 0
 
 	Session_category: ()->
 		return Session.get("workflowCategory")
+	_getBadge: (appId, spaceId)->
+		if _.isEmpty(Session.get("workflow_categories"))
+			return Steedos.getBadge(appId, spaceId)
+		else
+			count = getInboxCount(Session.get("workflow_categories"))
+			if count
+				return count
+
 
 Template.workflowSidebar.events
 
