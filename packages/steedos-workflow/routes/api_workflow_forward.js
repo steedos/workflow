@@ -398,6 +398,7 @@ JsonRoutes.add('post', '/api/workflow/forward', function (req, res, next) {
 			ins_obj.flow_name = flow.name;
 			if (category_name)
 				ins_obj.category_name = category.name;
+				ins_obj.category = category._id;
 
 			new_ins_id = db.instances.insert(ins_obj);
 
