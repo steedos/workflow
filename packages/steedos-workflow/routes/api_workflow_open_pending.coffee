@@ -82,6 +82,8 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 
 		attach = req.query?.attach
 
+		workflow_categories = req.query?.workflow_categories
+
 		# 校验space是否存在
 		space = uuflowManager.getSpace(space_id)
 
@@ -118,52 +120,58 @@ JsonRoutes.add 'get', '/api/workflow/open/pending', (req, res, next) ->
 				$or: [{ inbox_users: special_user_id }, { cc_users: special_user_id }]
 			}
 
+		if workflow_categories
+			query.category = { $in: workflow_categories.split(',') }
+
 		space_names = {}
 		space_names[space._id] = space.name
 
-		db.instances.find(query, { sort: { modified: -1 }, limit: limit }).forEach (i) ->
+		if limit > 0
+			db.instances.find(query, { sort: { modified: -1 }, limit: limit }).forEach (i) ->
 
-			if i.inbox_users?.includes(uid)
-				_.each i.traces, (t) ->
-					if t.is_finished is false
-						_.each t.approves, (a) ->
-							if a.user is uid and a.type isnt 'cc' and not a.is_finished
-								is_read = a.is_read
-								start_date = a.start_date
-			else
-				_.each i.traces, (t) ->
-					if not start_date and t.approves
-						_.each t.approves, (a) ->
-							if not start_date and a.user is uid and a.type is 'cc' and not a.is_finished
-								is_read = a.is_read
-								start_date = a.start_date
+				if i.inbox_users?.includes(uid)
+					_.each i.traces, (t) ->
+						if t.is_finished is false
+							_.each t.approves, (a) ->
+								if a.user is uid and a.type isnt 'cc' and not a.is_finished
+									is_read = a.is_read
+									start_date = a.start_date
+				else
+					_.each i.traces, (t) ->
+						if not start_date and t.approves
+							_.each t.approves, (a) ->
+								if not start_date and a.user is uid and a.type is 'cc' and not a.is_finished
+									is_read = a.is_read
+									start_date = a.start_date
 
-			if not space_names[i.space]
-				space_names[i.space] = db.spaces.findOne(i.space, { fields: { name: 1 } })?.name
+				if not space_names[i.space]
+					space_names[i.space] = db.spaces.findOne(i.space, { fields: { name: 1 } })?.name
 
-			h = new Object
-			h["id"] = i["_id"]
-			h["start_date"] = start_date
-			h["flow_name"] = i.flow_name
-			h["space_name"] = space_names[i.space]
-			h["name"] = i["name"]
-			h["applicant_name"] = i["applicant_name"]
-			h["applicant_organization_name"] = i["applicant_organization_name"]
-			h["submit_date"] = i["submit_date"]
-			h["step_name"] = i.current_step_name
-			h["space_id"] = i.space
-			h["modified"] = i["modified"]
-			h["is_read"] = is_read
-			h["values"] = i["values"]
+				h = new Object
+				h["id"] = i["_id"]
+				h["start_date"] = start_date
+				h["flow_name"] = i.flow_name
+				h["space_name"] = space_names[i.space]
+				h["name"] = i["name"]
+				h["applicant_name"] = i["applicant_name"]
+				h["applicant_organization_name"] = i["applicant_organization_name"]
+				h["submit_date"] = i["submit_date"]
+				h["step_name"] = i.current_step_name
+				h["space_id"] = i.space
+				h["modified"] = i["modified"]
+				h["is_read"] = is_read
+				h["values"] = i["values"]
 
-			if attach is 'true'
-				h.attachments = cfs.instances.find({ 'metadata.instance': i._id, 'metadata.current': true, "metadata.is_private": { $ne: true } }, { fields: { copies: 0 } }).fetch()
+				if attach is 'true'
+					h.attachments = cfs.instances.find({ 'metadata.instance': i._id, 'metadata.current': true, "metadata.is_private": { $ne: true } }, { fields: { copies: 0 } }).fetch()
 
-			result_instances.push(h)
+				result_instances.push(h)
+
+		no_limit_count = db.instances.find(query).count()
 
 		JsonRoutes.sendResult res, {
 			code: 200
-			data: { status: "success", data: result_instances }
+			data: { status: "success", data: result_instances, count: no_limit_count }
 		}
 	catch e
 		console.error e.stack

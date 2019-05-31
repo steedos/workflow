@@ -2,6 +2,12 @@ checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
 		Steedos.redirectToSignIn(context.path)
 
+Tracker.autorun ()->
+	workflow_categories = null
+	appId = Steedos.getCurrentAppId()
+	if appId
+		workflow_categories = _.pluck(db.categories.find({app: appId}).fetch(), '_id')
+	Session.set('workflow_categories', workflow_categories)
 
 FlowRouter.route '/workflow',
 	triggersEnter: [checkUserSigned],
