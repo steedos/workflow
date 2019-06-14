@@ -167,6 +167,15 @@ Steedos.Helpers =
 			return db.organizations.findOne(query)
 		else
 			return null
+	
+	getRelativeUrl: (url)->
+		if url
+			# url开头没有"/"，需要添加"/"
+			if !/^\//.test(url)
+				url = "/" + url
+			return __meteor_runtime_config__.ROOT_URL_PATH_PREFIX + url
+		else
+			return __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
 
 _.extend Steedos, Steedos.Helpers
 

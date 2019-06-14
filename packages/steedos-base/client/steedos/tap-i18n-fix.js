@@ -1,6 +1,6 @@
 $.ajax({
     type: 'GET',
-    url: Steedos.absoluteUrl("tap-i18n/multi/en,zh-CN.json"),
+    url: Steedos.getRelativeUrl("tap-i18n/multi/en,zh-CN.json"),
     dataType: 'json',
     success: function(data) {
       for (lang_tag in data) {
