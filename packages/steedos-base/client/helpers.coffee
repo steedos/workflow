@@ -169,6 +169,9 @@ Steedos.Helpers =
 			return null
 	
 	getRelativeUrl: (url)->
+		if Meteor.isCordova
+			return Steedos.absoluteUrl(url) 
+		
 		if url
 			# url开头没有"/"，需要添加"/"
 			if !/^\//.test(url)
