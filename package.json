@@ -44,6 +44,7 @@
     "mkdirp": "^0.3.5",
     "mongodb": "^2.2.4",
     "node-schedule": "^1.3.1",
+    "odata-client": "^0.6.12",
     "odata-v4-mongodb": "^0.1.12",
     "odata-v4-parser": "^0.1.29",
     "odata-v4-service-document": "0.0.3",

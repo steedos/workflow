@@ -208,7 +208,18 @@ var s_autoform = function (schema, field) {
             autoform.type = "selectorg";
 
             break;
-
+        case 'odata':
+			schema.type = Object;
+			schema.blackbox = true;
+			autoform.type = "steedos-selectize";
+			// autoform.readonly = (permission == 'readonly'); TODO
+			// autoform.disabled = (permission == 'readonly'); TODO
+			autoform.related_object = field.related_object;
+			autoform.url = field.url;
+			autoform.filters = field.filters;
+			autoform.formula = field.formula;
+			console.log('steedosData autoform', autoform);
+			break;
         default:
             schema.type = String;
             autoform.readonly = (permission == 'readonly');

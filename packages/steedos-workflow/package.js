@@ -137,6 +137,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.html', 'client');
 	api.addFiles('client/coreform/inputTypes/coreform-textarea/coreform-textarea.js', 'client');
 
+	api.addFiles('client/coreform/inputTypes/coreform-selectize/coreform-selectize.html', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-selectize/coreform-selectize.less', 'client');
+	api.addFiles('client/coreform/inputTypes/coreform-selectize/coreform-selectize.coffee', 'client');
+
 	api.addFiles('client/layout/master.html', 'client');
 	api.addFiles('client/layout/master.coffee', 'client');
 	api.addFiles('client/layout/master.less', 'client');
