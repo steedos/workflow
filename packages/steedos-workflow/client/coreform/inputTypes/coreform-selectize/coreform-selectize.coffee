@@ -38,7 +38,7 @@ onFocus = ()->
 onChange = ()->
 	console.log('onChange');
 
-dataFunc = (service, objectName, cb)->
+dataFunc = (service, objectName, code, formula, cb)->
 	Steedos.OdataClient({
 		service: service,
 		resources: objectName,
@@ -48,7 +48,8 @@ dataFunc = (service, objectName, cb)->
 		},
 		format: 'json'
 	}).top(getTop()).get().then (response)->
-		cb(JSON.parse(response.body).value)
+		data = SelectizeManager.formatLabel(code, JSON.parse(response.body).value, formula);
+		cb(data)
 #		console.log('response.body', response.body);
 #		cb(response.body.value)
 
@@ -60,14 +61,14 @@ Template.afSteedosSelectize.onCreated ()->
 
 Template.afSteedosSelectize.onRendered ()->
 	console.log('Template.afSteedosSelectize.onRendered', this);
-	key = 'name'
+	key = '@label' || 'name'
 
 	objectName = this.data.atts.related_object
 	service = getService(this.data.atts)
+	formula = this.data.atts.formula
+	code = this.data.atts.name
 
 	value = this.data.value
-
-	debugger;
 
 	console.log('value', value);
 
@@ -95,7 +96,7 @@ Template.afSteedosSelectize.onRendered ()->
 		load: (query, callback) ->
 			if !this.loaded
 				this.loaded = true;
-				dataFunc(service, objectName, callback);
+				dataFunc(service, objectName, code, formula, callback);
 		,
 		onFocus: onFocus,
 		onChange: onChange,
