@@ -1,5 +1,7 @@
 getLabel = (code, doc, formula)->
 	console.log('run code', code);
+	if code.indexOf('.') > -1
+		code = code.split('.')[1]
 	try
 		SelectizeManagerDoc = {}
 		SelectizeManagerDoc[code] = _.clone(doc)

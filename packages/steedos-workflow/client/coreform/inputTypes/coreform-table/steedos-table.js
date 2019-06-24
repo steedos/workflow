@@ -513,6 +513,11 @@ SteedosTable.getTDValue = function(field, value) {
                     td_value = Steedos.numberToString(td_value);
                 }
                 break;
+            case 'odata':
+                if(value){
+					td_value = value['@label']
+                }
+                break;
             default:
                 td_value = value ? value : '';
                 break;

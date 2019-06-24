@@ -290,6 +290,8 @@ InstanceReadOnlyTemplate.getValue = (value, field, locale, utcOffset) ->
 					value = parseFloat(value)
 				value = value.toFixed(field.digits)
 				value = Steedos.numberToString value, locale
+		when 'odata'
+			value = value['@label']
 
 	return value;
 
