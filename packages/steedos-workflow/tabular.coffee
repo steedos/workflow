@@ -343,6 +343,9 @@ instancesListTableTabular = (flowId, fields)->
 									value = TAPi18n.__("form_field_checkbox_yes");
 								else
 									value = TAPi18n.__("form_field_checkbox_no");
+							when 'odata'
+								if value
+									value = value['@label']
 
 						return value
 
