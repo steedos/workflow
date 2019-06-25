@@ -218,7 +218,7 @@ var s_autoform = function (schema, field) {
 			autoform.url = field.url;
 			autoform.filters = field.filters;
 			autoform.formula = field.formula;
-			console.log('steedosData autoform', autoform);
+			autoform.search_field = field.search_field;
 			break;
         default:
             schema.type = String;

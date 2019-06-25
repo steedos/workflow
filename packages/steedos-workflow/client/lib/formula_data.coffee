@@ -215,6 +215,8 @@ Formula_data.getInstanceValues = (fields, autoFormDoc, approver, applicant, spac
 					__values[field.code] = Formula_data.getUsers(spaceId, autoFormDoc[field.code])
 				else if type == 'group'
 					__values[field.code] = Formula_data.getOrgs(spaceId, autoFormDoc[field.code])
+				else if type == 'odata'
+					__values[field.code] = autoFormDoc[field.code] || {}
 				else
 					__values[field.code] = autoFormDoc[field.code]
 			return

@@ -143,7 +143,10 @@ Form_formula.init_formula_values = function(fields, autoFormDoc, approver, appli
                 } else if (type == 'group'){
                     __values[field.code] = Form_formula.handerOrgObject(WorkflowManager.getFormulaOrgObjects(autoFormDoc[field.code]));
 
-                } else {
+                } else if (type == 'odata'){
+					__values[field.code] = autoFormDoc[field.code] || {}
+
+				} else {
                     //此处传spaceId给选人控件的旧数据计算roles和organization
                     __values[field.code] = autoFormDoc[field.code];
                 }

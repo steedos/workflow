@@ -234,7 +234,6 @@ Form_formula.run = function(code, field_prefix, formula_fields, autoFormDoc, fie
         }
         if(run){
             try{
-                console.log('formula_field.formula', formula_field.formula);
                 var fileValue = eval(formula_field.formula.replace(/[\r\n]+/g, '\\n'));
                 if('digits' in formula_field){
                     var value = Form_formula.field_values[formula_field.code];

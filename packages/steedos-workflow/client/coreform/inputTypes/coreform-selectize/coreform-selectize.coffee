@@ -1,76 +1,35 @@
 Steedos.OdataClient = require('odata-client');
-valueOutformat = (val)->
-	if val
-		_.each _.keys(val), (key)->
-			if key.indexOf('.') > -1 || key.startsWith('$')
-				delete val[key]
-	return val
+
 AutoForm.addInputType "steedos-selectize", {
 	template: "afSteedosSelectize"
 	valueOut: ()->
-		console.log('valueOut', valueOutformat this[0].selectize?.options[this.val()]);
-		debugger;
-		return valueOutformat this[0].selectize?.options[this.val()]
+		return SelectizeManager.valueOutformat this[0].selectize?.options[this.val()]
 	valueIn: (val,a,b)->
-		console.log('valueIn....', val)
 		return val
 	contextAdjust:  (context) ->
 		context.atts.class = "form-control";
 		return context;
 }
 
-getCreatorService = (data)->
-	return data.url || Meteor.settings.public?.webservices?.creator?.url
-
-getService = (data)->
-	spaceId = Steedos.getSpaceId()
-	if data.url
-		return data.url
-	creatorService = getCreatorService(data)
-	return Meteor.absoluteUrl("api/odata/v4/#{spaceId}", {rootUrl :creatorService})
-
-getTop = ()->
-	return 10
-
-onFocus = ()->
-	console.log('onFocus...');
-
-onChange = ()->
-	console.log('onChange');
-
-dataFunc = (service, objectName, code, formula, cb)->
-	Steedos.OdataClient({
-		service: service,
-		resources: objectName,
-		headers: {
-			'X-Auth-Token': Accounts._storedLoginToken(),
-			'X-User-Id': Meteor.userId()
-		},
-		format: 'json'
-	}).top(getTop()).get().then (response)->
-		data = SelectizeManager.formatLabel(code, JSON.parse(response.body).value, formula);
-		cb(data)
-#		console.log('response.body', response.body);
-#		cb(response.body.value)
-
 Template.afSteedosSelectize.onCreated ()->
-	if !getCreatorService(this.data.atts)
+	if !SelectizeManager.getCreatorService(this.data.atts)
 		toastr.error('settings.public.webservices.creator.url', 'Missing configuration')
 		throw new Meteor.Error("Not find settings.public.webservices.creator.url")
 	this.data.atts.class = 'form-control'
 
 Template.afSteedosSelectize.onRendered ()->
-	console.log('Template.afSteedosSelectize.onRendered', this);
 	key = '@label' || 'name'
 
+	service = SelectizeManager.getService(this.data.atts)
 	objectName = this.data.atts.related_object
-	service = getService(this.data.atts)
 	formula = this.data.atts.formula
 	code = this.data.atts.name
+	search_field = this.data.atts.search_field
+	filters = this.data.atts.filters
 
 	value = this.data.value
 
-	console.log('value', value);
+	self = this
 
 	this.selectize = $("##{this.data.atts.id}").selectize {
 		valueField: '_id',
@@ -94,12 +53,27 @@ Template.afSteedosSelectize.onRendered ()->
 				return score(item);
 		,
 		load: (query, callback) ->
-			if !this.loaded
-				this.loaded = true;
-				dataFunc(service, objectName, code, formula, callback);
+			if this.lastquery != query
+				this.lastquery = query;
+				if self.st
+					clearTimeout(self.st)
+				self.st = setTimeout ()->
+					SelectizeManager.dataFunc(self.selectize, service, objectName, {code: code, formula: formula, query: query, search_field: search_field, filters: filters}, callback);
+				, 100
 		,
-		onFocus: onFocus,
-		onChange: onChange,
+		onFocus: SelectizeManager.onFocus,
+		onBlur: SelectizeManager.onBlur,
+		onItemAdd: SelectizeManager.onItemAdd,
+		onItemRemove: SelectizeManager.onItemAdd,
+		onChange: SelectizeManager.onChange,
+		onClear: SelectizeManager.onClear,
+		onDelete: SelectizeManager.onDelete,
+		onOptionAdd: SelectizeManager.onOptionAdd,
+		onOptionRemove: SelectizeManager.onOptionRemove,
+		onDropdownOpen: SelectizeManager.onDropdownOpen,
+		onDropdownClose: SelectizeManager.onDropdownClose,
+		onType: SelectizeManager.onType,
+		onLoad: SelectizeManager.onLoad,
 	}
 
 	if value
