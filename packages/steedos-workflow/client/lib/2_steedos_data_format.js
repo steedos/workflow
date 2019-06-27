@@ -75,7 +75,7 @@ var s_autoform = function (schema, field) {
 
     var is_multiselect = field.is_multiselect;
 
-    if (field["formula"])
+    if (field.type != 'odata' && field["formula"])
         permission = "readonly";
 
     var autoform = {};
@@ -212,8 +212,8 @@ var s_autoform = function (schema, field) {
 			schema.type = Object;
 			schema.blackbox = true;
 			autoform.type = "steedos-selectize";
-			// autoform.readonly = (permission == 'readonly'); TODO
-			// autoform.disabled = (permission == 'readonly'); TODO
+			autoform.readonly = (permission === 'readonly');
+			autoform.disabled = (permission === 'readonly');
 			autoform.related_object = field.related_object;
 			autoform.url = field.url;
 			autoform.filters = field.filters;
