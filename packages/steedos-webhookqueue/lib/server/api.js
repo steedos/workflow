@@ -64,6 +64,15 @@ WebhookQueue.Configure = function(options) {
 		}, function(error, result) {
 			if (error) {
 				console.error(error);
+				console.log('WebhookQueue: Could not send doc id: "' + webhook._id + '", Error: ' + error);
+				WebhookQueue.collection.update({
+					_id: webhook._id
+				}, {
+					$set: {
+						// error message
+						errMsg: error
+					}
+				});
 			}
 		});
 
@@ -201,6 +210,12 @@ WebhookQueue.Configure = function(options) {
 						sending: {
 							$lt: now
 						}
+					},
+					// And no error
+					{
+						errMsg: {
+							$exists: false
+						}
 					}
 				]
 			}, {
@@ -215,10 +230,16 @@ WebhookQueue.Configure = function(options) {
 				try {
 					sendWebhook(webhook);
 				} catch (error) {
-
-					if (WebhookQueue.debug) {
-						console.log('WebhookQueue: Could not send webhook id: "' + webhook._id + '", Error: ' + error.message);
-					}
+					console.error(error.stack);
+					console.log('WebhookQueue: Could not send doc id: "' + webhook._id + '", Error: ' + error.message);
+					WebhookQueue.collection.update({
+						_id: webhook._id
+					}, {
+						$set: {
+							// error message
+							errMsg: error.message
+						}
+					});
 				}
 			}); // EO forEach
 
