@@ -64,7 +64,6 @@ WebhookQueue.Configure = function(options) {
 		}, function(error, result) {
 			if (error) {
 				console.error(error);
-				console.log('WebhookQueue: Could not send doc id: "' + webhook._id + '", Error: ' + error);
 				WebhookQueue.collection.update({
 					_id: webhook._id
 				}, {
@@ -73,6 +72,32 @@ WebhookQueue.Configure = function(options) {
 						errMsg: error
 					}
 				});
+				return
+			}
+
+			if (!options.keepWebhooks) {
+				// Pr. Default we will remove webhooks
+				WebhookQueue.collection.remove({
+					_id: webhook._id,
+					errMsg: {
+						$exists: false
+					}
+				});
+			} else {
+				// Update the webhook
+				WebhookQueue.collection.update({
+					_id: webhook._id
+				}, {
+					$set: {
+						// Mark as sent
+						sent: true,
+						// Set the sent date
+						sentAt: new Date(),
+						// Not being sent anymore
+						sending: 0
+					}
+				});
+
 			}
 		});
 
@@ -152,36 +177,7 @@ WebhookQueue.Configure = function(options) {
 			if (reserved) {
 
 				// Send the webhook
-				var result = WebhookQueue.serverSend(webhook);
-
-				if (!options.keepWebhooks) {
-					// Pr. Default we will remove webhooks
-					WebhookQueue.collection.remove({
-						_id: webhook._id
-					});
-				} else {
-
-					// Update the webhook
-					WebhookQueue.collection.update({
-						_id: webhook._id
-					}, {
-						$set: {
-							// Mark as sent
-							sent: true,
-							// Set the sent date
-							sentAt: new Date(),
-							// Not being sent anymore
-							sending: 0
-						}
-					});
-
-				}
-
-				// Emit the send
-				self.emit('send', {
-					webhook: webhook._id,
-					result: result
-				});
+				WebhookQueue.serverSend(webhook);
 
 			} // Else could not reserve
 		}; // EO sendWebhook
