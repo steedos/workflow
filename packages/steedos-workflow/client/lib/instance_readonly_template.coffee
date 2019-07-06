@@ -567,7 +567,7 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 	onLoadScript = InstanceReadOnlyTemplate.getOnLoadScript(instance);
 
 	openFileScript = """
-			if(isNode()){
+			if(window.isNode && isNode()){
 				attachs = document.getElementsByClassName("ins_attach_href");
 				for(var i = 0; i < attachs.length; i++){
 					attach = attachs[i];
