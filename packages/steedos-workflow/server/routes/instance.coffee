@@ -4,6 +4,11 @@ getInstanceReadOnly = (req, res, next, options) ->
 
 	user = Steedos.getAPILoginUser(req, res)
 
+	if req?.query?.access_token
+		userId = Steedos.getUserIdFromAccessToken(req.query.access_token)
+		if userId
+			user = Meteor.users.findOne({_id: userId})
+
 	spaceId = req.params.space
 
 	instanceId = req.params.instance_id
