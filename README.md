@@ -17,6 +17,5 @@
 - 应用下载 https://www.steedos.com/cn/workflow/downloads/
 
 ### QQ群
-华炎开发人员QQ群：797469729
-QQ扫码加入
+开发人员QQ群：797469729 ， 使用QQ扫码加入
 ![QQ群](https://steedos.github.io/docs/assets/support_qq.jpg)
