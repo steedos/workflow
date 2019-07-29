@@ -16,6 +16,8 @@
 - 帮助中心 https://www.steedos.com/cn/help/workflow/
 - 应用下载 https://www.steedos.com/cn/workflow/downloads/
 
-### QQ群
+### 技术支持
 开发人员QQ群：797469729 ， 使用QQ扫码加入
 ![QQ群](https://steedos.github.io/docs/assets/support_qq.jpg)
+
+商务热线：400-820-1612
