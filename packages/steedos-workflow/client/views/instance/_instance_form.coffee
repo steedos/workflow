@@ -195,7 +195,7 @@ InstanceformTemplate.helpers =
 				if CoreForm?.pageTitleFieldName == field.code
 					field.is_wide = true
 
-				if field.formula
+				if field.formula && field.type != 'odata'
 					field.permission = "readonly";
 
 				if Steedos.isMobile()
