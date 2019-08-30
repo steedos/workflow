@@ -58,7 +58,7 @@ JsonRoutes.add 'post', '/api/workflow/remove', (req, res, next) ->
 									"modified": now
 								}
 							})
-						pushManager.send_message_to_specifyUser("terminate_approval", current_user)
+						pushManager.send_message_to_specifyUser("terminate_approval", instance.submitter)
 
 			if delete_obj.state isnt "draft"
 				#发送给待处理人, #发送给被传阅人

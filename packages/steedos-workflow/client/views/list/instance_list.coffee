@@ -43,7 +43,9 @@ Template.instance_list.helpers
 			query.submitter = Meteor.userId()
 			query.state = "completed"
 		else if box == "monitor"
-			query.state = {$in: ["pending", "completed"]}
+			# query.state = {$in: ["pending", "completed"]}
+			# 被转发的文件在待审核箱中为草稿状态，此时需要在监控箱可管理此文件 https://github.com/steedos/workflow/issues/2046
+			query.$or = [{ state: {$in: ["pending", "completed"] } }, { state: 'draft', forward_from_instance: { $exists: true } }] 
 			uid = Meteor.userId()
 			space = db.spaces.findOne(Session.get("spaceId"))
 			if !space
