@@ -37,6 +37,29 @@ JsonRoutes.add 'post', '/api/workflow/remove', (req, res, next) ->
 			# 删除instance
 			db.instances.remove(instance_from_client["_id"])
 
+			# 如果删除的是转发过来的草稿则需要修改源申请单的approve信息
+			ffInsId = instance.forward_from_instance
+			if ffInsId && instance.state == 'draft'
+				insId = instance_from_client["_id"]
+				forwardFromInstance = uuflowManager.getInstance(ffInsId)
+				_.each forwardFromInstance.traces, (t, i) ->
+					_.each t.approves, (appr, j) ->
+						if appr.forward_instance == insId
+							now = new Date()
+							db.instances.update({
+								_id: ffInsId,
+								'traces._id': t._id
+							}, {
+								$set: {
+									"traces.$.approves.#{j}.judge": 'terminated',
+									"traces.$.approves.#{j}.is_finished": true,
+									"traces.$.approves.#{j}.is_read": true,
+									"traces.$.approves.#{j}.read_date": now,
+									"modified": now
+								}
+							})
+						pushManager.send_message_to_specifyUser("terminate_approval", current_user)
+
 			if delete_obj.state isnt "draft"
 				#发送给待处理人, #发送给被传阅人
 				inbox_users = if delete_obj.inbox_users then delete_obj.inbox_users else []
