@@ -144,7 +144,8 @@ function handerOrg(orgs, parentId, showHiddenOrg) {
 
 ContactsManager.getRoot = function() {
 	return SteedosDataManager.organizationRemote.find({
-		is_company: true
+		is_company: true,
+		parent: null
 	}, {
 		fields: {
 			_id: 1,
