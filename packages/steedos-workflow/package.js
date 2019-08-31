@@ -445,6 +445,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('server/publications/space_user_signs.coffee', 'server');
 	api.addFiles('server/publications/user_inbox_instance.coffee', 'server');
+	api.addFiles('server/publications/flow_main_attach_template.coffee', 'server');
 	// api.addFiles('server/err_stack.coffee', 'server');
 
 	// api.addFiles('server/lib/export.coffee', 'server');

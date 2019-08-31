@@ -13,6 +13,8 @@ Steedos.subs["instances_draft"] = new SubsManager
 
 Steedos.subs["distributed_instances"] = new SubsManager
 
+Steedos.subs["flow_main_attach_template"] = new SubsManager
+
 db.form_versions = new Mongo.Collection("form_versions");
 db.flow_versions = new Mongo.Collection("flow_versions");
 
@@ -66,6 +68,10 @@ Tracker.autorun (c) ->
 #				订阅相关文件
 				if instance.related_instances && _.isArray(instance.related_instances)
 					Steedos.subs["related_instances"].subscribe("related_instaces", instance._id, instance.related_instances)
+				# 订阅流程正文模板
+				if instance.state == 'draft'
+					Steedos.subs["flow_main_attach_template"].subscribe("flow_main_attach_template", instance.space, instance.flow)
+					
 
 #	切换工作区时，清空按流程过滤
 #Tracker.autorun (c)->

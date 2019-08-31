@@ -261,9 +261,17 @@ Template.instance_view.events
 		arg = "Steedos.User.isNewFile"
 
 		# 默认文件名为文件标题
-		newFileName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"") + '.doc'
+		formattedInsName = WorkflowManager.getInstance().name.replace(/\r/g,"").replace(/\n/g,"")
+		newFileName = formattedInsName + '.doc'
 
 		downloadUrl = window.location.origin + "/word/demo.doc"
+
+		# 如果设置了正文模板则使用流程正文模板
+		ins = WorkflowManager.getInstance()
+		flow_main_attach_template = Creator.getCollection('cms_files').findOne({ space: ins.space, 'parent.o': 'flows', 'parent.ids': ins.flow, name: '正文.docx' })
+		if flow_main_attach_template
+			newFileName = formattedInsName + '.docx'
+			downloadUrl = window.location.origin + "/api/files/files/#{flow_main_attach_template.versions[0]}"
 
 		NodeManager.downloadFile(downloadUrl, newFileName, arg)
 
