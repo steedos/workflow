@@ -2,15 +2,26 @@
   "name": "steedos-apps",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "clear": "rd /s /q node_modules\\@steedos\\auth\\node_modules\\@steedos node_modules\\@steedos\\core\\node_modules\\@steedos node_modules\\@steedos\\objectql\\node_modules\\@steedos node_modules\\@steedos\\plugin-jsreport\\node_modules\\@steedos",
+    "tos": "cd ../object-server/ && yarn tsc",
+    "os": "npm run tos && cp -r ../object-server/packages/* node_modules/@steedos/",
+    "os2": "cp -r ../object-server/packages/standard-objects/* node_modules/@steedos/standard-objects/",
+    "oss": "npm run os2 && npm run start"
   },
   "dependencies": {
+    "@babel/runtime": "7.0.0-beta.55",
+    "@steedos/auth": "^1.5.0-beta.1",
+    "@steedos/core": "^1.5.0-beta.1",
+    "@steedos/filters": "^1.0.0",
+    "@steedos/objectql": "^1.5.0-beta.1",
+    "@steedos/standard-objects": "^1.5.0-beta.0",
     "aliyun-sdk": "1.9.2",
     "aws-sdk": "^2.0.23",
     "azure-storage": "^0.7.0",
     "babel-runtime": "^6.26.0",
     "basic-auth": "^2.0.1",
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^3.0.6",
     "buffer-stream-reader": "^0.1.1",
     "busboy": "0.2.13",
     "chalk": "1.1.3",
