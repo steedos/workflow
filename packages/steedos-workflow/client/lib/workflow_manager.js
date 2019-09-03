@@ -647,7 +647,7 @@ WorkflowManager.canMonitor = function(fl, curSpaceUser, organizations) {
 
 WorkflowManager.getMyAdminOrMonitorFlows = function() {
 	var flows, flow_ids = [],
-		curSpaceUser, organization;
+		curSpaceUser, organizations;
 	curSpaceUser = db.space_users.findOne({
 		space: Session.get('spaceId'),
 		'user': Meteor.userId()
