@@ -104,7 +104,7 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 			uuflowManager.isInstancePending(instance)
 			# 判断当前用户是否approve 对应的处理人或代理人
 			uuflowManager.isHandlerOrAgent(approve, current_user)
-			updateObj = new Object
+			updateObj = {}
 
 			if next_steps is null or next_steps.length is 0
 				throw new Meteor.Error('error!', '还未指定下一步和处理人，操作失败')
@@ -127,8 +127,9 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 					throw new Meteor.Error('error!', 'end结点出现approve，服务器错误')
 
 				form = db.forms.findOne(instance.form)
-				updateObj.keywords = uuflowManager.caculateKeywords(updateObj.values, form, instance.form_version)
-				db.instances.update({_id: instance_id}, {$set: updateObj})
+				updateObj.$set.keywords = uuflowManager.caculateKeywords(updateObj.$set.values, form, instance.form_version)
+
+				db.instances.update(instance_id, updateObj)
 
 			instance = uuflowManager.getInstance(instance_id)
 			instance_trace = _.find(instance.traces, (trace)->
