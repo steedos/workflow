@@ -93,7 +93,7 @@ if Meteor.isServer
 
 	if Meteor.settings.cron?.instancerecordqueue_interval
 		db.instances.after.update (userId, doc, fieldNames, modifier, options) ->
-			if doc.state is 'completed'
+			if doc.state is 'completed' && this.previous.state != 'completed'
 				uuflowManager.triggerRecordInstanceQueue doc._id, doc.record_ids, doc.current_step_name
 
 if Meteor.isServer
