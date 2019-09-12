@@ -693,7 +693,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 		setObj.state = "completed"
 		setObj.modified = new Date
 		setObj.modified_by = current_user
-		setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+		setObj.values = uuflowManager.getUpdatedValues(instance)
 		instance.values = setObj.values
 		setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -763,7 +763,7 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 					newTrace.start_date = new Date
 					newTrace.approves = new Array
 
-					updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					updated_values = uuflowManager.getUpdatedValues(instance)
 					_.each next_step_users, (next_step_user_id) ->
 						# 插入下一步trace.approve记录
 						newApprove = new Object
@@ -884,7 +884,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 				setObj.final_decision = judge
 				setObj.modified = new Date
 				setObj.modified_by = current_user
-				setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+				setObj.values = uuflowManager.getUpdatedValues(instance)
 				instance.values = setObj.values
 				setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -954,7 +954,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							newTrace.start_date = new Date
 							newTrace.approves = new Array
 
-							updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+							updated_values = uuflowManager.getUpdatedValues(instance)
 							_.each next_step_users, (next_step_user_id) ->
 								# 插入下一步trace.approve记录
 								newApprove = new Object
@@ -1068,7 +1068,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 					setObj.final_decision = judge
 					setObj.modified = new Date
 					setObj.modified_by = current_user
-					setObj.values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+					setObj.values = uuflowManager.getUpdatedValues(instance)
 					instance.values = setObj.values
 					setObj.name = uuflowManager.getInstanceName(instance)
 
@@ -1137,7 +1137,7 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 								newTrace.start_date = new Date
 								newTrace.approves = new Array
 
-								updated_values = uuflowManager.getUpdatedValues(uuflowManager.getInstance(instance_id))
+								updated_values = uuflowManager.getUpdatedValues(instance)
 								_.each next_step_users, (next_step_user_id) ->
 									# 插入下一步trace.approve记录
 									newApprove = new Object
