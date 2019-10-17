@@ -514,9 +514,13 @@ SteedosTable.getTDValue = function(field, value) {
                 }
                 break;
             case 'odata':
-                if(value){
-					td_value = value['@label']
-                }
+				if(value){
+					if (field.is_multiselect){
+						td_value = _.pluck(value, '@label').toString()
+					}else{
+						td_value = value['@label']
+					}
+				}
                 break;
             default:
                 td_value = value ? value : '';

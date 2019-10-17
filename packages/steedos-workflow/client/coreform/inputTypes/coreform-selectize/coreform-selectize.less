@@ -18,4 +18,54 @@
 		max-height: initial !important;
 		height: auto !important;
 	}
+
+	.selectize-control.multi .selectize-input.has-items{
+		padding: 0px 0px 0px 0px !important;
+	}
+
+	.selectize-control .selectize-input.disabled{
+		opacity: 1 !important;
+	}
+
+	.selectize-control.multi .selectize-input.disabled [data-value]{
+		color: inherit !important;
+	}
+
+	.disabled{
+		.slds-pill__remove{
+			display: none;
+		}
+	}
+
+	.slds-pill__remove{
+		position: absolute;
+		top: 50%;
+		right: .125rem;
+		transform: translateY(-50%);
+		width: 16px;
+		height: 16px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: .25rem;
+		border-radius: .125rem;
+		line-height: 1;
+		vertical-align: middle;
+		color: #706e6b;
+		padding: 0;
+		background: 0 0;
+		background-clip: border-box;
+		border: 1px solid transparent;
+		text-decoration: none;
+		white-space: normal;
+		user-select: none;
+
+		.slds-button__icon{
+			width: 14px;
+			height: 14px;
+			overflow: hidden;
+			fill: currentColor;
+			vertical-align: middle;
+		}
+	}
 }

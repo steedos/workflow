@@ -13,6 +13,16 @@ getElementData = ($element)->
 	if $element && $element.length > 0
 		return $element[0].odata
 
+valOutformat = (val)->
+	if val
+		_.each _.keys(val), (key)->
+			if key.indexOf('.') > -1 || key.startsWith('$')
+				delete val[key]
+	return val || {}
+
+convertSpecialCharacter = (str)->
+	return str.replace(/([\^\$\(\)\*\+\?\.\\\|\[\]\{\}])/g, "\\$1")
+
 @SelectizeManager =
 	formatLabel: (code, data, formula)->
 		formula = '{_formatLabel} = ' +  formula
@@ -22,11 +32,13 @@ getElementData = ($element)->
 			item['@label'] = label
 		return data;
 	valueOutformat: (val)->
-		if val
-			_.each _.keys(val), (key)->
-				if key.indexOf('.') > -1 || key.startsWith('$')
-					delete val[key]
-		return val || {}
+		vals = []
+		if _.isArray(val)
+			_.each val, (item)->
+				vals.push valOutformat(item)
+			return vals
+		else
+			return valOutformat(val)
 	getCreatorService: (data)->
 		return data.url || Meteor.settings.public?.webservices?.creator?.url
 	getService: (data)->
@@ -143,9 +155,9 @@ getElementData = ($element)->
 					_.each search_field.split(','), (field)->
 						if !_.isEmpty(field)
 							if _.isEmpty(filtersOrStr)
-								filtersOrStr = "(contains(tolower(#{field}), '#{encodeURIComponent(Creator.convertSpecialCharacter(text))}'))"
+								filtersOrStr = "(contains(tolower(#{field}), '#{encodeURIComponent(convertSpecialCharacter(text))}'))"
 							else
-								filtersOrStr = "#{filtersOrStr} or " + "(contains(tolower(#{field}), '#{encodeURIComponent(Creator.convertSpecialCharacter(text))}'))"
+								filtersOrStr = "#{filtersOrStr} or " + "(contains(tolower(#{field}), '#{encodeURIComponent(convertSpecialCharacter(text))}'))"
 
 					if !_.isEmpty(filtersOrStr)
 						if _.isEmpty(filtersStr)
@@ -174,7 +186,6 @@ getElementData = ($element)->
 				request.setRequestHeader('X-Auth-Token', Accounts._storedLoginToken())
 				request.setRequestHeader('X-Space-Id', Steedos.spaceId())
 			success: (data) ->
-				console.log('data', data);
 				result = SelectizeManager.formatLabel(options.code, data.value, options.formula);
 				if _.isEmpty($element[0].selectize.getValue())
 					$element[0].selectize.clearOptions()
