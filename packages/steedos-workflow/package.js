@@ -309,6 +309,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/views/list/related_instances_modal.coffee', 'client');
 
 	api.addFiles('client/views/instance/_related_instances.coffee', ['client', 'server']);
+	api.addFiles('client/views/instance/_related_records.coffee', ['client', 'server']);
 
 	api.addFiles('client/views/instance/related_instances.html', 'client');
 	api.addAssets('client/views/instance/related_instances.html', 'server');
@@ -316,6 +317,7 @@ Package.onUse(function(api) {
 
 	api.addFiles('client/views/instance/related_records.html', 'client');
 	api.addFiles('client/views/instance/related_records.coffee', 'client');
+	api.addAssets('client/views/instance/related_records.html', 'server');
 
 	api.addFiles('client/views/instance/remind_modal.html', 'client');
 	api.addFiles('client/views/instance/remind_modal.coffee', 'client');

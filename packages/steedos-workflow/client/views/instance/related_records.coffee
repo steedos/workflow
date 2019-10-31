@@ -1,9 +1,4 @@
-Template.related_records.helpers
-	showRelatedRecords: ()->
-		ins = WorkflowManager.getInstance()
-		if !ins
-			return false
-		return !_.isEmpty(ins.record_ids)
+Template.related_records.helpers RelatedRecords.helpers
 
 Template.related_records.events
 	'click .ins-related-records': (event, template)->
@@ -15,5 +10,5 @@ Template.related_records.events
 			uobj = {}
 			uobj["X-User-Id"] = Meteor.userId()
 			uobj["X-Auth-Token"] = Accounts._storedLoginToken()
-			redirectUrl = creatorService + "app/default/#{objcetName}/view/#{id}?" + $.param(uobj)
+			redirectUrl = creatorService + "app/-/#{objcetName}/view/#{id}?" + $.param(uobj)
 			Steedos.openWindow redirectUrl
