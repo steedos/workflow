@@ -62,14 +62,16 @@ TabularTables.related_instances_tabular = new Tabular.Table
 			return {_id: -1}
 
 		spaceId = selector.space
+		unless spaceId
+			if selector?.$and?.length > 0
+				spaceId = selector.$and.getProperty('space')[0]
+		unless spaceId
+			return {_id: -1}
 		space = db.spaces.findOne(spaceId)
 		if !space
 			selector.state = "none"
 		if !space.admins.includes(userId)
-			_.extend selector, {
-				$or: [{submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
-					{cc_users: userId}]
-			}
+
 			flow_ids = []
 			curSpaceUser = db.space_users.findOne({
 				space: spaceId,
@@ -85,6 +87,14 @@ TabularTables.related_instances_tabular = new Tabular.Table
 				flows.forEach (fl)->
 					if WorkflowManager.canMonitor(fl, curSpaceUser, organizations) || WorkflowManager.canAdmin(fl, curSpaceUser, organizations)
 						flow_ids.push(fl._id)
-				
-			selector.$or.push({ flow: { $in: flow_ids } })
+
+			if selector?.$and?.length > 0
+				selector.$and[0].$or = [{submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
+						{cc_users: userId}, { flow: { $in: flow_ids } }]
+			else
+				_.extend selector, {
+					$or: [{submitter: userId}, {applicant: userId}, {inbox_users: userId}, {outbox_users: userId},
+						{cc_users: userId}, { flow: { $in: flow_ids } }]
+				}
+
 		return selector
