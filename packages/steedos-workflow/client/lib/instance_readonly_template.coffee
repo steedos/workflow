@@ -672,12 +672,12 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 			instanceBoxStyle = "box-danger"
 	if !options || options.showAttachments == true
 		attachment = InstanceReadOnlyTemplate.getAttachmentView(user, space, instance)
+		related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance, options)
+		related_records = InstanceReadOnlyTemplate.getRelatedRecordsView(user, space, instance, options)
 	else
 		attachment = ""
-
-	related_instances = InstanceReadOnlyTemplate.getRelatedInstancesView(user, space, instance, options)
-
-	related_records = InstanceReadOnlyTemplate.getRelatedRecordsView(user, space, instance, options)
+		related_instances = ""
+		related_records = ""
 
 	absoluteUrl = Meteor.absoluteUrl()
 
@@ -690,15 +690,20 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 
 	allCssLink = """<link rel="stylesheet" type="text/css" class="__meteor-css__" href="#{cssHref}">"""
 
-	submit_btn = ""
-
-#	if options?.editable
-#		submit_btn = '<a class="btn btn-block btn-social btn-steedos-workflow" onclick="wc.submit()"><i class="fa fa-facebook"></i> 提交到审批王</a>'
-	showTracesBtn = """
-		<div class="print-tool">
-			<label class="cbx-label"><input type="checkbox" checked class="cbx-print cbx-print-traces" id="cbx-print-traces"/><span>#{t('instance_approval_history')}</span></label>
-		</div>
-		"""
+	traceCheck = ""
+	if !_.isEmpty(trace)
+		traceCheck = "checked"
+	if options?.tagger == 'email'
+		showTracesBtn = ""
+	else
+		showTracesBtn = """
+			<div class="navigation-bar btn-group no-print" style="min-width: 600px; z-index: 999">
+				<div class="print-tool">
+					<label class="cbx-label"><input type="checkbox" class="cbx-print cbx-print-attachments" id="cbx-print-attachments" checked="checked"><span>附件</span></label>
+					<label class="cbx-label"><input type="checkbox" class="cbx-print cbx-print-traces" id="cbx-print-traces" checked="#{traceCheck}"><span>#{t('instance_approval_history')}</span></label>
+				</div>
+			</div>
+			"""
 
 	showTracesScript = """
 		$( document ).ready(function(){
@@ -714,6 +719,21 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 					t.style = 'display: block;'
 				} else {
 					t.style = 'display: none;'
+				}
+			});
+
+			var attachmentsCheckbox = document.getElementById('cbx-print-attachments');
+			var attachmentsView = document.getElementsByClassName('attachments-section')[0];
+			if (attachmentsCheckbox.checked){
+				attachmentsView.style = 'display: block;'
+			} else {
+				attachmentsView.style = 'display: none;'
+			}
+			attachmentsCheckbox.addEventListener('change', function(e){
+				if (e.target.checked){
+					attachmentsView.style = 'display: block;'
+				} else {
+					attachmentsView.style = 'display: none;'
 				}
 			});
 		});
@@ -777,25 +797,33 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				</style>
 			</head>
 			<body>
-				<div class="steedos">
-					#{submit_btn}
-					#{showTracesBtn}
-					<div class="instance-view">
-						<div class="instance #{instance_style}">
-							<form name="instanceForm">
-								<div class="instance-form box #{instanceBoxStyle}">
-									#{formDescriptionHtml}
-									<div class="box-body">
-										<div class="col-md-12">
-											#{body}
-											#{attachment}
-											#{related_instances}
-											#{related_records}
-										</div>
+				<div class="steedos workflow instance-print">
+					<div class="skin-green skin-admin-lte">
+						<div class="wrapper">
+							<div class="content-wrapper">
+								#{showTracesBtn}
+								<div class="instance-print">
+									<div class="instance #{instance_style}">
+										<form name="instanceForm">
+											<div class="instance-form box #{instanceBoxStyle}">
+												#{formDescriptionHtml}
+												<div class="box-body">
+													<div class="col-md-12">
+														<div class='attachments-section'>
+															#{attachment}
+															#{related_instances}
+															#{related_records}
+														</div>
+														#{body}
+													</div>
+												</div>
+											</div>
+										</form>
+										#{trace}
 									</div>
+
 								</div>
-							</form>
-							#{trace}
+							</div>
 						</div>
 					</div>
 				</div>
