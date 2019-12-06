@@ -693,23 +693,30 @@ InstanceReadOnlyTemplate.getInstanceHtml = (user, space, instance, options)->
 				</style>
 			</head>
 			<body>
-				<div class="steedos">
-					#{submit_btn}
-					<div class="instance-view">
-						<div class="instance #{instance_style}">
-							<form name="instanceForm">
-								<div class="instance-form box #{instanceBoxStyle}">
-									#{formDescriptionHtml}
-									<div class="box-body">
-										<div class="col-md-12">
-											#{body}
-											#{attachment}
-											#{related_instances}
-										</div>
+				<div class="steedos workflow instance-print">
+					<div class="skin-green skin-admin-lte">
+						<div class="wrapper">
+							<div class="content-wrapper">
+								<div class="instance-print">
+									<div class="instance #{instance_style}">
+										<form name="instanceForm">
+											<div class="instance-form box #{instanceBoxStyle}">
+												#{formDescriptionHtml}
+												<div class="box-body">
+													<div class="col-md-12">
+														<div class='attachments-section'>
+															#{attachment}
+															#{related_instances}
+														</div>
+														#{body}
+													</div>
+												</div>
+											</div>
+										</form>
+										#{trace}
 									</div>
 								</div>
-							</form>
-							#{trace}
+							</div>
 						</div>
 					</div>
 				</div>

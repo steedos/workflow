@@ -13,6 +13,7 @@ getInstanceReadOnly = (req, res, next, options) ->
 	space = db.spaces.findOne({_id: spaceId});
 
 	hide_traces = req.query?.hide_traces
+	hide_atts = req.query?.hide_attachments
 
 	if !options
 		options = {showTrace: true}
@@ -25,8 +26,10 @@ getInstanceReadOnly = (req, res, next, options) ->
 		else
 			options = {showTrace: false}
 
-	if !options.showAttachments
+	if !_.has(options,"showAttachments")
 		options.showAttachments = true
+	if hide_atts is "1"
+		options.showAttachments = false
 
 	if !space
 		JsonRoutes.sendResult res,
