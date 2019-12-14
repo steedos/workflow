@@ -51,6 +51,7 @@
     "odata-v4-service-metadata": "^0.1.6",
     "phone": "1.0.12",
     "pidusage": "1.0.1",
+    "push.js": "^1.0.12",
     "regenerator-runtime": "0.9.5",
     "request": "2.81.0",
     "requestretry": "1.12.2",

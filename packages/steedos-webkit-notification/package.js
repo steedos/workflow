@@ -6,11 +6,12 @@ Package.describe({
 });
 
 Package.onUse(function(api) { 
-    api.versionsFrom('1.0');
+    api.versionsFrom('1.2.1');
 
     api.use('coffeescript');
     api.use('raix:push');
     api.use('tracker');
+    api.use('ecmascript');
     api.use('meteorhacks:subs-manager');
 
     api.use('steedos:base');
@@ -19,7 +20,6 @@ Package.onUse(function(api) {
 
     api.addFiles('server/methods/calculate_box.coffee');
 
-    api.addFiles('lib/jquery.notification.js', 'client');
     api.addFiles('client/observe_notifications.coffee', 'client');
 });
 
