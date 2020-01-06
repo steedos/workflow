@@ -9,7 +9,7 @@ Package.describe({
 
 Package.onUse(function(api) { 
         api.use('coffeescript@1.11.1_4');
-        api.use('tap:i18n@1.8.2', ['client', 'server']);
+        api.use('universe:i18n@1.13.0', ['client', 'server']);
 
         tapi18nFiles = [
                 'i18n/en.i18n.json', 
