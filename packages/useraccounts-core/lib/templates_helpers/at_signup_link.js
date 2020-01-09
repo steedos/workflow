@@ -4,8 +4,8 @@ AT.prototype.atSignupLinkHelpers = {
     },
     signUpLink: function(){
         // return AccountsTemplates.getRoutePath("signUp");
-        // 注册界面重写
-        return "/steedos/admin/register";
+        // 注册界面调用creator的accounts注册页面
+        return "/accounts/a/login";
     },
     preText: function(){
         return T9n.get(AccountsTemplates.texts.signUpLink_pre, markIfMissing=false);
@@ -27,14 +27,14 @@ AT.prototype.atSignupLinkEvents = {
     "click #at-signUp": function(event, t) {
         event.preventDefault();
         // AccountsTemplates.linkClick('signUp');
-        // 注册界面重写
-        if (Steedos.getSpaceId()){
-            path = "/steedos/sign-up" + "?spaceId=@%".replace("@%",Steedos.getSpaceId());
-            FlowRouter.go(path);
-        }    
-        else{          
-            FlowRouter.go("/steedos/admin/register");
-        }
-
+        // // 注册界面重写
+        // if (Steedos.getSpaceId()){
+        //     path = "/steedos/sign-up" + "?spaceId=@%".replace("@%",Steedos.getSpaceId());
+        //     FlowRouter.go(path);
+        // }    
+        // else{          
+        //     FlowRouter.go("/steedos/admin/register");
+        // }
+        window.location.href = "/accounts/a/login";
     },
 };
