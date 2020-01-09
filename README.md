@@ -13,11 +13,10 @@
 
 ### 相关资料
 - 功能介绍 https://www.steedos.com/cn/workflow/ 
-- 帮助中心 https://www.steedos.com/cn/help/workflow/
+- 开发人员 https://developer.steedos.com/
 - 应用下载 https://www.steedos.com/cn/workflow/downloads/
 
 ### 技术支持
-开发人员QQ群：797469729 ， 使用QQ扫码加入
-![QQ群](https://steedos.github.io/docs/assets/support_qq.jpg)
+开发人员社区：https://messenger.steedos.cn/
 
 商务热线：400-820-1612
