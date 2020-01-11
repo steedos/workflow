@@ -5,7 +5,7 @@ AT.prototype.atSignupLinkHelpers = {
     signUpLink: function(){
         // return AccountsTemplates.getRoutePath("signUp");
         // 注册界面调用creator的accounts注册页面
-        return "/accounts/a/login";
+        return "/accounts/a/signup";
     },
     preText: function(){
         return T9n.get(AccountsTemplates.texts.signUpLink_pre, markIfMissing=false);
@@ -35,6 +35,6 @@ AT.prototype.atSignupLinkEvents = {
         // else{          
         //     FlowRouter.go("/steedos/admin/register");
         // }
-        window.location.href = "/accounts/a/login";
+        window.location.href = "/accounts/a/signup";
     },
 };
