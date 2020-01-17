@@ -131,7 +131,8 @@ if Meteor.isClient
 					unless reg.test url
 						url += "/"
 					url = "#{url}app/admin"
-					Steedos.openWindow(url)
+					ooptions = "width=800, height=600, left=50, top= 50, toolbar=no, status=no, menubar=no, resizable=yes, scrollbars=yes;"
+					Steedos.openWindow(url, null, ooptions)
 			sort: 80
 
 	# 通讯录权限
