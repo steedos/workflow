@@ -1,6 +1,3 @@
-[submodule "packages/steedos-cms"]
-	path = packages/steedos-cms
-	url = https://github.com/steedos/steedos-cms/
 [submodule "packages/steedos-emailjs"]
 	path = packages/steedos-emailjs
 	url = https://github.com/steedos/steedos-emailjs/
