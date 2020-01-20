@@ -13,8 +13,8 @@ Meteor.methods
 				throw new Meteor.Error("文件不需要归档[#{i.name}(#{i._id})]");
 			if i.state != 'completed'
 				throw new Meteor.Error("未结束的文件不能归档[#{i.name}(#{i._id})]");
-			if i.final_decision && i.final_decision != 'approved'
-				throw new Meteor.Error("未正常结束的文件不能归档[#{i.name}(#{i._id})]");
+#			if i.final_decision && i.final_decision != 'approved'
+#				throw new Meteor.Error("未正常结束的文件不能归档[#{i.name}(#{i._id})]");
 
 		db.instances.update({_id: {$in: ins_ids}}, {$set: {is_archived: false}}, {multi:true})
 
