@@ -11,6 +11,6 @@ if Meteor.isServer
 
         # appName = "workflow"
         
-        query = {query: {$regex:"{\"userId\":\"" + this.userId + "\","},createdAt:{$gt: new Date()}}
+        query = {query: {$regex:"{\"userId\":\"" + this.userId + "\","},createdAt:{$gt: new Date() }}
 
         return db.raix_push_notifications.find(query, {fields: {badge:1, from:1, title: 1, text:1, payload:1}, sort:{createdAt:-1},limit:5})

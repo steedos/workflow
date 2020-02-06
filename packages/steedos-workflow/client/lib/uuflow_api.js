@@ -657,6 +657,7 @@ UUflow_api.post_forward = function (instance_id, space_id, flow_id, hasSaveInsta
 		contentType: "application/json",
 
 		success: function (responseText, status) {
+			Session.set("instance_submitting", false);
 			$(document.body).removeClass("loading");
 
 			if (responseText.errors) {
@@ -687,12 +688,11 @@ UUflow_api.post_forward = function (instance_id, space_id, flow_id, hasSaveInsta
 				toastr.success(TAPi18n.__("instance_distribute_success"));
 			}
 
-			Session.set("instance_submitting", false);
 		},
 		error: function (xhr, msg, ex) {
+			Session.set("instance_submitting", false);
 			$(document.body).removeClass("loading");
 			toastr.error(msg);
-			Session.set("instance_submitting", false);
 		}
 	})
 };

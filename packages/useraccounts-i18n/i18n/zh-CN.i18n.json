@@ -1,4 +1,6 @@
 {
+  "_namespace": "",
+
   "atTitle": "Steedos",
 
   "add": "添加",
@@ -137,5 +139,6 @@
   "loginWithPhone": "手机验证码登录",
   "email_input_placeholder": "请输入邮件地址",
   "signUpFree": "免费注册",
-  "signUpEnt": "企业注册"
+  "signUpEnt": "企业注册",
+  "Invalid email": "不合法的电子邮件地址"
 }

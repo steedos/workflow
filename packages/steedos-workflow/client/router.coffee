@@ -163,3 +163,12 @@ FlowRouter.route '/admin/workflow/process_delegation_rules',
 	action: (params, queryParams)->
 		BlazeLayout.render 'adminLayout',
 			main: "admin_process_delegation_rules"
+
+FlowRouter.triggers.enter [
+	()->
+		appName = Steedos.getAppName()
+		if appName
+			Steedos.setAppTitle t(appName)
+		else
+			Steedos.setAppTitle "Steedos"
+]

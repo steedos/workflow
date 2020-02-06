@@ -61,35 +61,35 @@ if Meteor.isClient
 		sort: 60
 		parent: "account"
 
-	# 企业设置
-	Steedos.addAdminMenu
-		_id: "spaces"
-		title: "business_settings"
-		icon: "ion ion-ios-cloud-outline"
-		roles:["space_admin"]
-		sort: 20
+	# # 企业设置
+	# Steedos.addAdminMenu
+	# 	_id: "spaces"
+	# 	title: "business_settings"
+	# 	icon: "ion ion-ios-cloud-outline"
+	# 	roles:["space_admin"]
+	# 	sort: 20
 
-	# 组织架构
-	Steedos.addAdminMenu
-		_id: "contacts_organizations"
-		title: "contacts_organizations"
-		# mobile: false
-		icon: "ion ion-ios-people-outline"
-		url: "/admin/organizations"
-		roles:["space_admin"]
-		sort: 10
-		parent: "spaces"
+	# # 组织架构
+	# Steedos.addAdminMenu
+	# 	_id: "contacts_organizations"
+	# 	title: "contacts_organizations"
+	# 	# mobile: false
+	# 	icon: "ion ion-ios-people-outline"
+	# 	url: "/admin/organizations"
+	# 	roles:["space_admin"]
+	# 	sort: 10
+	# 	parent: "spaces"
 
 
-	# 企业信息
-	Steedos.addAdminMenu
-		_id: "space_info"
-		title: "business_info"
-		icon: "ion ion-ios-world-outline"
-		url: "/admin/space/info"
-		roles:["space_admin"]
-		sort: 20
-		parent: "spaces"
+	# # 企业信息
+	# Steedos.addAdminMenu
+	# 	_id: "space_info"
+	# 	title: "business_info"
+	# 	icon: "ion ion-ios-world-outline"
+	# 	url: "/admin/space/info"
+	# 	roles:["space_admin"]
+	# 	sort: 20
+	# 	parent: "spaces"
 
 	# 订单
 	# Steedos.addAdminMenu
@@ -131,7 +131,8 @@ if Meteor.isClient
 					unless reg.test url
 						url += "/"
 					url = "#{url}app/admin"
-					Steedos.openWindow(url)
+					ooptions = "width=800, height=600, left=50, top= 50, toolbar=no, status=no, menubar=no, resizable=yes, scrollbars=yes;"
+					Steedos.openWindow(url, null, ooptions)
 			sort: 80
 
 	# 通讯录权限
