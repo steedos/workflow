@@ -46,12 +46,9 @@ JsonRoutes.parseFiles = (req, res, next) ->
 #JsonRoutes.Middleware.use(JsonRoutes.parseFiles);
 
 JsonRoutes.add "post", "/s3/",  (req, res, next) ->
-
+  collection = cfs.instances
   JsonRoutes.parseFiles req, res, ()->
-    collection = cfs.instances
-
     if req.files and req.files[0]
-
       newFile = new FS.File();
       newFile.attachData req.files[0].data, {type: req.files[0].mimeType}, (err) ->
         filename = req.files[0].filename
@@ -111,22 +108,21 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         # 兼容老版本
         else
           fileObj = collection.insert newFile
-
-
-        size = fileObj.original.size
-        if !size
-          size = 1024
-
-        resp =
-          version_id: fileObj._id,
-          size: size
-
-        res.setHeader("x-amz-version-id",fileObj._id);
-        res.end(JSON.stringify(resp));
         return
     else
       res.statusCode = 500;
       res.end();
+      return
+  collection.on 'stored', (fileObj, storeName)->
+    size = fileObj.original.size
+    if !size
+      size = 1024
+    resp =
+      version_id: fileObj._id,
+      size: size
+    res.setHeader("x-amz-version-id",fileObj._id);
+    res.end(JSON.stringify(resp));
+    return
 
 
 JsonRoutes.add "delete", "/s3/",  (req, res, next) ->
