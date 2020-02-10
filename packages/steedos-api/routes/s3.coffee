@@ -109,20 +109,21 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         else
           fileObj = collection.insert newFile
         return
+
+      newFile.on 'stored', (storeName)->
+        size = newFile.original.size
+        if !size
+          size = 1024
+        resp =
+          version_id: newFile._id,
+          size: size
+        res.end(JSON.stringify(resp));
+        return
     else
       res.statusCode = 500;
       res.end();
       return
-  collection.on 'stored', (fileObj, storeName)->
-    size = fileObj.original.size
-    if !size
-      size = 1024
-    resp =
-      version_id: fileObj._id,
-      size: size
-    res.setHeader("x-amz-version-id",fileObj._id);
-    res.end(JSON.stringify(resp));
-    return
+
 
 
 JsonRoutes.add "delete", "/s3/",  (req, res, next) ->
