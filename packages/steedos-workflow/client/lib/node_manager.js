@@ -11,6 +11,7 @@ if (Steedos.isNode()) {
 	crypto = nw.require('crypto');
 	globalWin = nw.Window.get();
 	child_process = nw.require('child_process');
+	Buffer = require('buffer').Buffer;
 	if (child_process)
 		exec = child_process.exec;
 
@@ -67,7 +68,7 @@ NodeManager.uploadAttach = function(fileDataInfo, fileKeyValue, req) {
 
 	var fileindex = 0;
 	var doOneFile = function() {
-		req.write(files[fileindex].contentBinary);
+		req.write(files[fileindex].contentBinary.toString());
 		var currentFilePath = files[fileindex].filePath;
 		if (fs.existsSync(currentFilePath)) {
 			var fileStream = fs.createReadStream(currentFilePath, {
