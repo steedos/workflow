@@ -87,12 +87,26 @@ parseQueryString = (url) ->
 		i++
 	obj
 
+webmailIframeReload = (iframeId) ->
+	webmailIframe = $("#{iframeId}");
+	if !Meteor.settings.public?.fsshBaseMail
+		throw new Meteor.Error('缺少settings配置 public.fsshBaseMail')
+	
+	url = Meteor.settings.public?.fsshBaseMail;
+	if webmailIframe
+		setTimeout ()->
+			document.getElementById(iframeId).src=url;
+		,3600000
+
+
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
 	auth = AccountManager.getAuth();
 	webmailIframe = $("#fssh-webmail-iframe")
 	webmailIframe.hide()
 	count = 0
+	webmailIframeHidden = $("#fssh-webmail-iframe-hidden")
+
 	webmailIframe.load ()->
 		count += 1
 		console.log('fssh-webmail-iframe load....')
@@ -175,9 +189,17 @@ Template.fsshWebmaill.onRendered ->
 					"area_subject=&area_content=&area_from=#{encodeURIComponent(senderMail)}&area_to=&area_attach=&folder=0&duration_date=90&is_mail_scope=0"
 
 				removeSearchDiv()
+	webmailIframeHidden.load () ->
+		webmailIframeReload('fssh-webmail-iframe-hidden');
+		console.log('------------fssh-webmail-iframe-hidden load----------------');
 
 Template.fsshWebmaill.helpers
 	webMailURL: ()->
 		if !Meteor.settings.public?.fsshWebMailURL
 			throw new Meteor.Error('缺少settings配置 public.fsshWebMailURL')
 		return Meteor.settings.public?.fsshWebMailURL
+	
+	webBaseURL: ()->
+		if !Meteor.settings.public?.fsshBaseMail
+			throw new Meteor.Error('缺少settings配置 public.fsshBaseMail')
+		return Meteor.settings.public?.fsshBaseMail
