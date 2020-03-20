@@ -54,6 +54,7 @@
   "enterUsername": "Enter username",
   "enterUsernameOrEmail": "Enter username or email",
   "orUse": "Or use",
+  "login_title": "Login",
 
   "info": {
     "emailSent": "Email sent",

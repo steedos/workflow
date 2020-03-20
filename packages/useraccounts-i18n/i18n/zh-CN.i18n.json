@@ -54,6 +54,7 @@
   "enterUsername": "输入用户名",
   "enterUsernameOrEmail": "输入用户名或电子邮件",
   "orUse": "或是使用",
+  "login_title": "登录",
 
   "info": {
     "emailSent": "邮件已发出",
