@@ -260,7 +260,9 @@ pushManager.get_title = (parameters, lang="zh-CN")->
 pushManager.get_badge = (send_from, user_id)->
 	if not ['first_submit_inbox', 'submit_pending_rejected_inbox', 'submit_pending_inbox', 'current_user', 'terminate_approval', 'reassign_new_inbox_users', 'trace_approve_cc', 'trace_approve_cc_submit'].includes(send_from)
 		return null
-
+	if !user_id
+		console.log('pushManager.get_badge: send_from is ', send_from)
+		return null
 	badge = 0
 	user_spaces = db.space_users.find(
 		user: user_id
