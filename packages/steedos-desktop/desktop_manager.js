@@ -3,7 +3,7 @@ Desktop = {
 	"url": "https://www.steedos.com/cn/workflow/downloads/"
 }
 
-if (nw && nw.require){
+if (typeof(nw) != 'undefined' && nw && nw.require){
 	var globalWin = nw.Window.get();
 	var path = nw.require("path");
 	if (nw.App){
