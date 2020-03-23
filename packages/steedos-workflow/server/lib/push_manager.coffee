@@ -270,11 +270,6 @@ pushManager.get_badge = (send_from, user_id)->
 	user_spaces.forEach (user_space) ->
 		c = db.instances.find(
 			space: user_space.space
-			state: $in: [
-				'pending'
-				'completed'
-				'draft'
-			]
 			$or: [
 				{ inbox_users: user_id }
 				{ cc_users: user_id }
