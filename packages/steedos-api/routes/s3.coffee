@@ -110,7 +110,7 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
           fileObj = collection.insert newFile
         return
 
-      newFile.on 'stored', (storeName)->
+      newFile.once 'stored', (storeName)->
         size = newFile.original.size
         if !size
           size = 1024
