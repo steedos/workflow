@@ -5,7 +5,7 @@ NodeManager.fileSHA1;
 
 var globalWin, path, fs, crypto, exec, child_process;
 
-if (nw && nw.require) {
+if (Steedos.isNode()) {
 	path = nw.require('path');
 	fs = nw.require('fs');
 	crypto = nw.require('crypto');
