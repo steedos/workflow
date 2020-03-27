@@ -70,15 +70,15 @@ if Meteor.isClient
 		sort: 20
 
 	# 组织架构
-	Steedos.addAdminMenu
-		_id: "contacts_organizations"
-		title: "contacts_organizations"
-		# mobile: false
-		icon: "ion ion-ios-people-outline"
-		url: "/admin/organizations"
-		roles:["space_admin"]
-		sort: 10
-		parent: "spaces"
+	# Steedos.addAdminMenu
+	# 	_id: "contacts_organizations"
+	# 	title: "contacts_organizations"
+	# 	# mobile: false
+	# 	icon: "ion ion-ios-people-outline"
+	# 	url: "/admin/organizations"
+	# 	roles:["space_admin"]
+	# 	sort: 10
+	# 	parent: "spaces"
 
 
 	# 企业信息
