@@ -1,6 +1,6 @@
 # 华炎魔方
 
-审批王所有代码已经合并入[华炎魔方项目](https://github.com/steedos/object-server/)。
+审批王所有代码已经合并入[华炎魔方](https://www.steedos.com/platform/)项目 [https://github.com/steedos/object-server/](https://github.com/steedos/object-server/)。
 
 # 审批王
 
