@@ -16,7 +16,7 @@
 ![审批王界面效果图](https://www.steedos.com/assets/products/workflow.png)
 
 ### 相关资料
-- 功能介绍 https://www.steedos.com/cn/workflow/ 
+- 功能介绍 https://www.steedos.com/solutions/workflow/ 
 - 开发人员 https://www.steedos.com/platform/
 - 应用下载 https://www.steedos.com/help/download/
 
