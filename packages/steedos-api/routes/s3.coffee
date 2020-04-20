@@ -109,8 +109,8 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
         else
           fileObj = collection.insert newFile
         return
-
-      newFile.once 'stored', (storeName)->
+      callback = (storeName)->
+        newFile.removeListener('stored', callback)
         size = newFile.original.size
         if !size
           size = 1024
@@ -119,6 +119,7 @@ JsonRoutes.add "post", "/s3/",  (req, res, next) ->
           size: size
         res.end(JSON.stringify(resp));
         return
+      newFile.on 'stored', callback
     else
       res.statusCode = 500;
       res.end();
