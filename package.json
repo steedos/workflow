@@ -34,7 +34,7 @@
     "gm": "^1.17.0",
     "gridfs-stream": "^1.1.1",
     "huawei-push": "0.0.6-0",
-    "jquery": "^2.2.4",
+    "jquery": "^3.5.0",
     "json-stringify-safe": "5.0.1",
     "kadira-core": "1.3.2",
     "length-stream": "^0.1.1",
