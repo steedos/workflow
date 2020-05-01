@@ -18,7 +18,7 @@
     "combined-stream": "0.0.4",
     "cookies": "^0.6.2",
     "csv": "1.1.0",
-    "debug": "0.7.4",
+    "debug": "2.6.9",
     "dropbox": "^0.10.3",
     "ejs": "2.5.5",
     "ejs-lint": "0.2.0",
