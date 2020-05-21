@@ -40,8 +40,8 @@ FlowversionAPI =
 				break
 		return stepHandlerName
 
-	getStepName: (stepName, stepHandlerName)->
-		# 返回step节点名称
+	getStepLabel: (stepName, stepHandlerName)->
+		# 返回sstepName与stepHandlerName结合的步骤显示名称
 		if stepName
 			stepName = "<div class='graph-node'>
 				<div class='step-name'>#{stepName}</div>
@@ -53,17 +53,19 @@ FlowversionAPI =
 			stepName = ""
 		return stepName
 
-	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString)->
-		# 该函数返回以下格式的graph脚本
-		# graphSyntax = '''
-		# 	graph LR
-		# 		A-->B
-		# 		A-->C
-		# 		B-->C
-		# 		C-->A
-		# 		D-->C
-		# 	'''
-		nodes = ["graph TB"]
+	getStepName: (step, cachedStepNames)->
+		# 返回step节点名称，优先从缓存cachedStepNames中取，否则调用getStepLabel生成
+		cachedStepName = cachedStepNames[step._id]
+		if cachedStepName
+			return cachedStepName
+		stepHandlerName = FlowversionAPI.getStepHandlerName(step)
+		stepName = FlowversionAPI.getStepLabel(step.name, stepHandlerName)
+		cachedStepNames[step._id] = stepName
+		return stepName
+
+	generateStepsGraphSyntax: (steps, currentStepId, isConvertToString, direction)->
+		nodes = ["graph #{direction}"]
+		cachedStepNames = {}
 		steps.forEach (step)->
 			lines = step.lines
 			if lines?.length
@@ -72,12 +74,11 @@ FlowversionAPI =
 						# 标记条件节点
 						if step.step_type == "condition"
 							nodes.push "	class #{step._id} condition;"
-						stepHandlerName = FlowversionAPI.getStepHandlerName(step)
-						stepName = FlowversionAPI.getStepName(step.name, stepHandlerName)
+						stepName = FlowversionAPI.getStepName(step, cachedStepNames)
 					else
 						stepName = ""
-					toStepName = steps.findPropertyByPK("_id",line.to_step).name
-					toStepName = FlowversionAPI.getStepName(toStepName, "")
+					toStep = steps.findPropertyByPK("_id",line.to_step)
+					toStepName = FlowversionAPI.getStepName(toStep, cachedStepNames)
 					nodes.push "	#{step._id}(\"#{stepName}\")-->#{line.to_step}(\"#{toStepName}\")"
 
 		if currentStepId
@@ -378,7 +379,7 @@ FlowversionAPI =
 					flowversion = WorkflowManager.getInstanceFlowVersion(instance)
 					steps = flowversion?.steps
 					if steps?.length
-						graphSyntax = this.generateStepsGraphSyntax steps,currentStepId
+						graphSyntax = this.generateStepsGraphSyntax steps, currentStepId, false, 'TB'
 					else
 						error_msg = "没有找到当前申请单的流程步骤数据"
 				else
