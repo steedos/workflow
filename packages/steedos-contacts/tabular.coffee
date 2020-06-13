@@ -67,6 +67,8 @@ TabularTables.contacts = new Tabular.Table({
 		space_user = db.space_users.findOne({user: userId,space:space}, {fields: {_id: 1}})
 		unless space_user
 			return {_id: -1}
+		
+		selector.email = {$ne:"",$exists:true}
 		return selector
 
 #scrollY:        '400px',
