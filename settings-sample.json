@@ -52,7 +52,8 @@
       "hideTerminateButton": true, // 隐藏取消申请按钮
       "disableInstanceForward": true, //禁用转发按钮
       "attachment_size_limit": 100, //设置上传附件大小限制，默认100MB
-      "hideLastSignApproveDescription": true //同一个步骤同一个人多次审批时，上次签批意见是否作为默认意见，true： 上次意见不作为本次意见默认值. 默认值false.
+      "hideLastSignApproveDescription": true, //同一个步骤同一个人多次审批时，上次签批意见是否作为默认意见，true： 上次意见不作为本次意见默认值. 默认值false.
+      "keepLastSignApproveDescription": false // 不保留上次意见，默认保留
     },
     //通讯录相关
     "contacts": {
