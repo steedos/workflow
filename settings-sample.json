@@ -46,7 +46,9 @@
       "user_selection_within_user_organizations": false, //限制下一步处理人、可传阅人员的选择范围：如果不存在或者为false，则可选择整个工作区。如果为true，则可选择当前用户所属的部门
       "onlyFlowAdminsShowMonitorBox": true, // 监控箱只有管理员（工作区管理员、流程管理员）才有
       "hideTerminateButton": true, // 隐藏取消申请按钮
-      "disableInstanceForward": true //禁用转发按钮
+      "disableInstanceForward": true, //禁用转发按钮
+      "hideLastSignApproveDescription": true, //不需要默认上次意见
+      "keepLastSignApproveDescription": false // 不保留上次意见，默认保留
     },
     //通讯录相关
     "contacts": {
