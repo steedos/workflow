@@ -1687,3 +1687,22 @@ InstanceManager.getDistributeStep = function() {
 	}
 	return step;
 }
+
+InstanceManager.getOpinionFieldsCode = function () {
+	let sign_field_code = '';
+	let opinion_fields_codes = $('[name=opinion_fields_code]');
+	if (opinion_fields_codes && opinion_fields_codes.length > 0) {
+		let i = 0;
+		let l = opinion_fields_codes.length;
+		while (i < l) {
+			let ofc = opinion_fields_codes[i];
+			if (ofc.checked && ofc.value) {
+				sign_field_code = ofc.value;
+				break
+			}
+			i++;
+		}
+	}
+
+	return sign_field_code;
+}
