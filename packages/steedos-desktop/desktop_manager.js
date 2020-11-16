@@ -14,6 +14,9 @@ if (Steedos.isNode()){
 		
 		var ticket = nw.App.argv[0].replace(/fsshgrgzptcs:\/\//, '').replace(/\//, '');
 		var url = Meteor.settings.public.webservices.iam.url;
+		if (!url)
+			return;
+		
 		url = url + ticket;
 		iamssomanager.iam_sso(url);
 	} catch (error) {
