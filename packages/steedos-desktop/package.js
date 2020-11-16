@@ -5,6 +5,12 @@ Package.describe({
 	git: ''
 });
 
+Npm.depends({
+	'xml2json':'0.11.0',
+  	'cookies': '0.6.1',
+	'express': '4.17.1'
+});
+
 Package.onUse(function(api) {
 	api.versionsFrom('1.0');
 
@@ -34,6 +40,7 @@ Package.onUse(function(api) {
 	api.use('steedos:cfs-aliyun')
 	api.use('steedos:cfs-s3');
 	api.use('steedos:i18n');
+	api.use('steedos:accounts');
 	
 
 	api.use('kadira:flow-router@2.10.1');
@@ -43,12 +50,16 @@ Package.onUse(function(api) {
 
 	api.use(['webapp'], 'server');
 
+	api.use('http', ['client','server']);
+
 	api.use('momentjs:moment', 'client');
 
 	api.use('universe:i18n@1.13.0');
 
 	// COMMON
+	api.addFiles('server/iam.coffee', 'client');
+	api.addFiles('server/api.coffee', 'server');
 	api.addFiles('desktop_manager.js', 'client');
 	api.export('Desktop');
-
+	api.export('iamssomanager');
 })

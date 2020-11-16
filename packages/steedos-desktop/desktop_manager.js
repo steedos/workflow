@@ -7,7 +7,20 @@ if (Steedos.isNode()){
 
 	var globalWin = nw.Window.get();
 	var path = nw.require("path");
-
+	try {
+		// iam c/s单点登录
+		if (!nw.App.argv[0])
+			return;
+		
+		var ticket = nw.App.argv[0].replace(/fsshgrgzptcs:\/\//, '').replace(/\//, '');
+		var url = Meteor.settings.public.webservices.iam.url;
+		url = url + ticket;
+		iamssomanager.iam_sso(url);
+	} catch (error) {
+		if (error)
+			console.error("error.mess: ",error);
+	}
+	
 
 	// 获取package.json文件信息
 	var manifest = nw.App.manifest;

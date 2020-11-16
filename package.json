@@ -66,6 +66,7 @@
     "weixin-pay": "^1.1.7",
     "xiaomi-push": "0.4.5",
     "xinge": "1.1.3",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "express": "4.17.1"
   }
 }
