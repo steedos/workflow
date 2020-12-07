@@ -7,18 +7,17 @@ if (Steedos.isNode()){
 
 	var globalWin = nw.Window.get();
 	var path = nw.require("path");
+	var webservices = Meteor.settings.public.webservices;
 	try {
 		// iam c/s单点登录
-		if (!nw.App.argv[0])
-			return;
-		
-		var ticket = nw.App.argv[0].replace(/fsshgrgzptcs:\/\//, '').replace(/\//, '');
-		var url = Meteor.settings.public.webservices.iam.url;
-		if (!url)
-			return;
-		
-		url = url + ticket;
-		iamssomanager.iam_sso(url);
+		if (nw.App.argv[0] && webservices){
+			var ticket = nw.App.argv[0].replace(/fsshgrgzptcs:\/\//, '').replace(/\//, '');
+			var url = webservices.iam.url;
+			if (url){
+				url = url + ticket;
+				iamssomanager.iam_sso(url);
+			}
+		}
 	} catch (error) {
 		if (error)
 			console.error("error.mess: ",error);
@@ -199,6 +198,7 @@ if (Steedos.isNode()){
 
 	if(process.platform == 'win32'){
 		// 客户端最小化后任务栏有图标
+		console.log("process.platform == 'win32'");
 		var desktopTitle = process.cwd().split("\\")[2];
 
 		var tray = new nw.Tray({
