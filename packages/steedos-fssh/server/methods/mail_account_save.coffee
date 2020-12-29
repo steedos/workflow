@@ -31,8 +31,10 @@ Meteor.methods saveMailAccount: (options) ->
 			db.users.update {
 				_id: currentUserId
 				"emails.address": email
-			}, $set: "emails.$.verified": true
-
+			}, $set: 
+					"emails.$.verified": true,
+					"email": email,
+					"steedos_id": email
 
 
 	return true
