@@ -101,21 +101,24 @@ webmailIframeReload = (iframeId) ->
 
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
+	# debugger;
 	auth = AccountManager.getAuth();
 	webmailIframe = $("#fssh-webmail-iframe")
 	webmailIframe.hide()
 	count = 0
 	webmailIframeHidden = $("#fssh-webmail-iframe-hidden")
-
 	webmailIframe.load ()->
 		count += 1
 		console.log('fssh-webmail-iframe load....')
-		if webmailIframe.contents().find("#user").length > 0
+		# debugger;
+		if webmailIframe.contents().find("#user1").length > 0
 			unless auth
 				webmailIframe.show()
 				return
-			webmailIframe.contents().find("#user")?.val(auth.user)
-			webmailIframe.contents().find("#password")?.val(auth.pass)
+			# console.log("auth.user1: ",auth.user.split('@')[0]);
+			# console.log("auth.pass1: ",auth.pass);
+			webmailIframe.contents().find("#user1")?.val(auth.user.split('@')[0])
+			webmailIframe.contents().find("#common_password")?.val(auth.pass)
 			if count <= 1
 				webmailIframe.contents().find(".btn")?.click()
 				setTimeout ->
@@ -137,7 +140,17 @@ Template.fsshWebmaill.onRendered ->
 			overriedDownload()
 
 			webmailIframe.contents().find("#container").on 'click', '.recipients', (event)->
+				try
+					setTimeout(
+						()->
+							$($('.address_dialog_btn',$("#fssh-webmail-iframe").contents().find(".address_dialog_main"))[3]).trigger('click');
+						,100);
+				catch err
+					console.error(err);
 				Modal.show("contacts_modal", {targetId: event.currentTarget.id.substring(event.currentTarget.id.indexOf('_') + 1), target: event.target});
+				return false;
+				
+				
 
 			console.log('添加附件事件');
 			webmailIframe.contents().find('#container').on 'click', '.fjlist a', (event, t)->
