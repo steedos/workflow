@@ -6,7 +6,6 @@ Package.describe({
 });
 
 Npm.depends({
-	'xml2json':'0.11.0',
   	'cookies': '0.6.1',
 	'express': '4.17.1'
 });

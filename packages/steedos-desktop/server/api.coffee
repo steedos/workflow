@@ -1,5 +1,5 @@
 Cookies = Npm.require("cookies")
-parser = Npm.require('xml2json')
+# parser = Npm.require('xml2json')
 
 JsonRoutes.add "get", "/api/iam/desktop_sso", (req, res, next) ->
     user_id = req?.query?.userId;
