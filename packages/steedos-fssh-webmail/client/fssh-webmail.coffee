@@ -101,7 +101,6 @@ webmailIframeReload = (iframeId) ->
 
 Template.fsshWebmaill.onRendered ->
 	console.log('fsshWebmaill.onRendered');
-	# debugger;
 	auth = AccountManager.getAuth();
 	webmailIframe = $("#fssh-webmail-iframe")
 	webmailIframe.hide()
@@ -110,13 +109,10 @@ Template.fsshWebmaill.onRendered ->
 	webmailIframe.load ()->
 		count += 1
 		console.log('fssh-webmail-iframe load....')
-		# debugger;
 		if webmailIframe.contents().find("#user1").length > 0
 			unless auth
 				webmailIframe.show()
 				return
-			# console.log("auth.user1: ",auth.user.split('@')[0]);
-			# console.log("auth.pass1: ",auth.pass);
 			webmailIframe.contents().find("#user1")?.val(auth.user.split('@')[0])
 			webmailIframe.contents().find("#common_password")?.val(auth.pass)
 			if count <= 1

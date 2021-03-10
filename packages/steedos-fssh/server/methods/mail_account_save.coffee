@@ -26,17 +26,17 @@ Meteor.methods saveMailAccount: (options) ->
 	currentUser = Accounts.user()
 	if currentUser.emails?.length > 0
 		currentEmail = currentUser.emails.findPropertyByPK("address",email)
-		unless currentEmail.verified
-			# 把当前邮件地址对应的邮件verified设置为true
-			db.users.update {
-				_id: currentUserId
-				"emails.address": email
-			}, $set: 
-					"emails.$.verified": true,
-					"email": email,
-					"steedos_id": email
+		# unless currentEmail.verified
+		# 把当前邮件地址对应的邮件verified设置为true
+		db.users.direct.update {
+			_id: currentUserId
+			"emails.address": email
+		}, $set: 
+			"emails.$.verified": true
+			"email": email
+			"steedos_id": email
+			"email_verified": true
 
-
-	return true
+		return true
 
 
