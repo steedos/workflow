@@ -12,7 +12,6 @@ Template.workflow_main.helpers
 	isNeedToShowInstance: ->
 		if Steedos.subs["Instance"].ready() && Steedos.subs["instance_data"].ready()
 			Session.set("instance_loading", false);
-			$("body").removeClass("loading")
 			instance = WorkflowManager.getInstance()
 
 			if !instance || !instance.traces
