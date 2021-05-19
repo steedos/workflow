@@ -129,7 +129,10 @@ JsonRoutes.add 'post', '/api/workflow/engine', (req, res, next) ->
 				form = db.forms.findOne(instance.form)
 				updateObj.$set.keywords = uuflowManager.caculateKeywords(updateObj.$set.values, form, instance.form_version)
 
-				db.instances.update(instance_id, updateObj)
+				if updateObj.$push && updateObj.$push.traces
+					db.instances.update({ _id: instance_id, 'traces.is_finished': { $ne: false } }, updateObj)
+				else
+					db.instances.update(instance_id, updateObj)
 
 			instance = uuflowManager.getInstance(instance_id)
 			instance_trace = _.find(instance.traces, (trace)->
