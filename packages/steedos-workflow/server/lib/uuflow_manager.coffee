@@ -665,14 +665,15 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 				while h < instance_traces[i].approves.length
 					if instance_traces[i].approves[h]._id is approve_id
 						# 更新当前trace.approve记录
+						approveFinishDate = new Date
 						setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 						setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 						setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-						setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+						setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-						setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+						setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 					h++
 			i++
 
@@ -738,14 +739,15 @@ uuflowManager.engine_step_type_is_start_or_submit_or_condition = (instance_id, t
 							while h < instance_traces[i].approves.length
 								if instance_traces[i].approves[h]._id is approve_id
 									# 更新当前trace.approve记录
+									approveFinishDate = new Date
 									setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 									setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 									setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-									setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+									setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-									setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+									setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -853,14 +855,15 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 						while h < instance_traces[i].approves.length
 							if instance_traces[i].approves[h]._id is approve_id
 								# 更新当前trace.approve记录
+								approveFinishDate = new Date
 								setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 								setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 								setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-								setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+								setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 								setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 								setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 								setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-								setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+								setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 							h++
 					i++
 
@@ -927,14 +930,15 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 									while h < instance_traces[i].approves.length
 										if instance_traces[i].approves[h]._id is approve_id
 											# 更新当前trace.approve记录
+											approveFinishDate = new Date
 											setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 											setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 											setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-											setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+											setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 											setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 											setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 											setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-											setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+											setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 										h++
 								i++
 
@@ -1033,14 +1037,15 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 							while h < instance_traces[i].approves.length
 								if instance_traces[i].approves[h]._id is approve_id
 									# 更新当前trace.approve记录
+									approveFinishDate = new Date
 									setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 									setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 									setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-									setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+									setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 									setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-									setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+									setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 								h++
 						i++
 
@@ -1106,14 +1111,15 @@ uuflowManager.engine_step_type_is_sign = (instance_id, trace_id, approve_id, nex
 										while h < instance_traces[i].approves.length
 											if instance_traces[i].approves[h]._id is approve_id
 												# 更新当前trace.approve记录
+												approveFinishDate = new Date
 												setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 												setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 												setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-												setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+												setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 												setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 												setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 												setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-												setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+												setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 											h++
 									i++
 
@@ -1218,14 +1224,15 @@ uuflowManager.engine_step_type_is_counterSign = (instance_id, trace_id, approve_
 				while h < instance_traces[i].approves.length
 					if instance_traces[i].approves[h]._id is approve_id
 						# 更新当前trace.approve记录
+						approveFinishDate = new Date
 						setTraceObj["traces.#{i}.approves.#{h}.is_finished"] = true
 						setTraceObj["traces.#{i}.approves.#{h}.handler"] = current_user
 						setTraceObj["traces.#{i}.approves.#{h}.handler_name"] = current_user_info.name
-						setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = new Date
+						setTraceObj["traces.#{i}.approves.#{h}.finish_date"] = approveFinishDate
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization"] = space_user_org_info["organization"]
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization_name"] = space_user_org_info["organization_name"]
 						setTraceObj["traces.#{i}.approves.#{h}.handler_organization_fullname"] = space_user_org_info["organization_fullname"]
-						setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = instance_traces[i].approves[h].finish_date - instance_traces[i].approves[h].start_date
+						setTraceObj["traces.#{i}.approves.#{h}.cost_time"] = approveFinishDate - instance_traces[i].approves[h].start_date
 						instance_traces[i].approves[h].is_finished = true
 
 					if instance_traces[i].approves[h].is_finished is false and instance_traces[i].approves[h].type isnt 'cc' and instance_traces[i].approves[h].type isnt 'distribute'
