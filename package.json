@@ -60,7 +60,7 @@
     "superagent": "3.5.2",
     "temp": "^0.7.0",
     "twilio": "1.10.0",
-    "urijs": "1.19.1",
+    "urijs": "1.19.7",
     "url": "0.11.0",
     "vcf": "1.1.2",
     "wechat-crypto": "0.0.2",
